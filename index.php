@@ -131,7 +131,8 @@
  * For example, the alistapart layout displays one single full-page, while slashdot summarizes several articles.
  * To override this number set the parameter [code]root_articles_count_at_home[/code] in the configuration panel for page factory.
  *
- * This front page is also able to display the content of one single section, if its id is specified in the parameter ##root_sections_at_home##.
+ * This front page is also able to display the content of one single section, if its id
+ * or nick name is specified in the parameter ##root_sections_at_home##.
  * In this case, the list of recent pages may be affected by any overlay that has been activated for the target section.
  * For example, if a section has been overlaid with ##day##, and if its id has been set in ##root_sections_at_home##, then a pretty calendar of coming events will
  * be displayed at the front page.
@@ -448,21 +449,23 @@ if(!$text = Cache::get($cache_id)) {
 
 	}
 
-	// show content of only one section
-	$target_section = NULL;
-	if(isset($context['root_sections_at_home']) && ((int)$context['root_sections_at_home'] > 0)) {
+	// no section should be featured at the home page
+	if(!isset($context['root_sections_at_home']) || ($context['root_sections_at_home'] == 'none'))
+		;
 
-		// get the item from the database --do not cast to int, because of following UTF-8 to unicode conversion
-		$target_section = Sections::get($context['root_sections_at_home']);
+	// look at only one section
+	elseif(($target_section = Sections::get($context['root_sections_at_home'])) && isset($target_section['id'])) {
 
-	}
+		// re-use the existing script to render this specific section
+		$context['arguments'][0] = $target_section['id'];
+		include_once $context['path_to_root'].'sections/view.php';
 
 	// display sections as a freemind map
-	if(isset($context['root_sections_at_home']) && ($context['root_sections_at_home'] != 'none') && isset($context['root_sections_layout']) && ($context['root_sections_layout'] == 'freemind'))
+	} elseif(isset($context['root_sections_layout']) && ($context['root_sections_layout'] == 'freemind'))
 		$text .= Codes::render_freemind('sections');
 
-	// sections at the front page
-	elseif(isset($context['root_sections_at_home']) && ($context['root_sections_at_home'] != 'none')) {
+	// section(s) at the front page
+	else {
 
 		// load the layout to use
 		switch($context['root_sections_layout']) {
@@ -502,17 +505,10 @@ if(!$text = Cache::get($cache_id)) {
 		else
 			$items_per_page = SECTIONS_PER_PAGE;
 
-		// list top sections
-		$anchor = NULL;
-
-		// look at only one section
-		if(isset($target_section['id']))
-			$anchor = 'section:'.$target_section['id'];
-
 		// query the database and layout that stuff
 		$items = '';
 		if($context['root_sections_layout'] != 'menu')
-			$items = Sections::list_by_title_for_anchor($anchor, 0, $items_per_page, $layout);
+			$items = Sections::list_by_title_for_anchor(NULL, 0, $items_per_page, $layout);
 
 		// we have an array to format
 		if(is_array($items)) {
@@ -578,25 +574,8 @@ if(!$text = Cache::get($cache_id)) {
 	else
 		$items_per_page = ARTICLES_PER_PAGE;
 
-	// look for articles in only one section
-	if(isset($target_section['id'])) {
-
-		// get the overlay for content of this section, if any
-		$content_overlay = NULL;
-		if(isset($target_section['content_overlay']))
-			$content_overlay = Overlay::bind($target_section['content_overlay']);
-
-		// delegate rendering to the overlay, where applicable
-		if(is_object($content_overlay) && ($overlaid = $content_overlay->render('articles', 'section:'.$target_section['id']))) {
-			$text .= $overlaid;
-			$items = '';
-
-		// else use the regular layout
-		} else
-			$items =& Articles::list_for_anchor('section:'.(int)$context['root_sections_at_home'], 0, $items_per_page, $layout);
-
 	// no layout
-	} elseif($layout === NULL)
+	if($layout === NULL)
 		$items = '';
 
 	// look for recent articles across all sections
