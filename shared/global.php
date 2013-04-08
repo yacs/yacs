@@ -333,12 +333,8 @@ $context['host_name'] = strip_tags($context['host_name']);
 if($here = strrpos($context['host_name'], ':'))
 	$context['host_name'] = substr($context['host_name'], 0, $here);
 
-// normalize virtual name and strip leading 'www.'
-$virtual = 'virtual_'.preg_replace('/^www\./', '', $context['host_name']);
-
-// load parameters specific to this virtual host, if any, and create specific path for files and images
-if(Safe::load('parameters/'.$virtual.'.include.php'))
-	$context['virtual_path'] = $virtual.'/';
+// load parameters specific to this virtual host or sub-domain, if any
+Safe::load('parameters/virtual_'.$context['host_name'].'.include.php');
 
 // ensure we have a site name
 if(!isset($context['site_name']))
