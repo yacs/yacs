@@ -94,8 +94,6 @@
  * - &#91;article=&lt;id>] - use article title as link label
  * - &#91;article=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;article.description=&lt;id>] - insert article description
- * - &#91;form=&lt;id>] - use form title as link label
- * - &#91;form=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;next=&lt;id>] - shortcut to next article
  * - &#91;next=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;previous=&lt;id>] - shortcut to previous article
@@ -2905,36 +2903,6 @@ Class Codes {
 
 				}
 			}
-			return $output;
-
-		// link to a form
-		case 'form':
-			include_once $context['path_to_root'].'forms/forms.php';
-
-			// maybe an alternate title has been provided
-			$attributes = preg_split("/\s*,\s*/", $id, 2);
-			$id = $attributes[0];
-
-			// load the record from the database
-			if(!$item = Forms::get($id))
-				$output = '[form='.$id.']';
-
-			else {
-
-				// ensure we have a label for this link
-				if(isset($attributes[1])) {
-					$text = $attributes[1];
-					$type = 'basic';
-				} else
-					$text = Skin::strip($item['title']);
-
-				// make a link to the target page
-				$url = $context['url_to_home'].$context['url_to_root'].Forms::get_url($item['id']);
-
-				// return a complete anchor
-				$output =& Skin::build_link($url, $text, $type);
-			}
-
 			return $output;
 
 		// invoke the selector

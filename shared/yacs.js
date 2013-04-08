@@ -657,7 +657,6 @@ var Yacs = {
 	 *
 	 * @param mixed id of the object to equip, or a reference to it
 	 *
-	 * @see forms/forms.js
 	 * @see tools/ajax.php
 	 */
 	addOnDemandTools: function(handle) {

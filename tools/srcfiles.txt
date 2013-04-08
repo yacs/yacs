@@ -9,7 +9,6 @@ control     control/*.php	control/htaccess/*.php	control/htaccess/basic/*.php	co
 dates       dates/*.php
 feeds       feeds/*.php       feeds/flash/*.php
 files       files/*.php
-forms       forms/*.php
 help        help/*.php
 i18n        i18n/*.php
 images      images/*.php

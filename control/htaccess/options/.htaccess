@@ -67,14 +67,6 @@ Options -Indexes
 	RewriteRule ^file-([0-9]+)$	files/view.php?id=$1  [QSA]
 	RewriteRule ^files/([0-9]+)$	files/index.php?page=$1  [QSA]
 
-	# forms
-	#
-	RewriteRule ^form-([a-zA-Z_]+)/([0-9]+)-([^/]+)$  forms/$1.php?id=$2&action=$3  [QSA]
-	RewriteRule ^form-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$	forms/$1.php?id=$2	[QSA]
-	RewriteRule ^form-([0-9]+)-([^/]+)$	forms/view.php?id=$1  [QSA]
-	RewriteRule ^form-([0-9]+)$	forms/view.php?id=$1  [QSA]
-	RewriteRule ^forms/([0-9]+)$	forms/index.php?page=$1  [QSA]
-
 	# images
 	#
 	RewriteRule ^image-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$  images/$1.php?id=$2  [QSA]
