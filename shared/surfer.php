@@ -328,6 +328,9 @@ Class Surfer {
 
 			// the password
 			$content .= i18n::s('Password').BR.'<input type="password" name="login_password" size="10" maxlength="255" />'.BR;
+			
+			// Remember me ?
+			$content .= '<span class="details"><input type="checkbox" name="remember" value="Y" '.EOT.'&nbsp;'.i18n::s('Stay connected').'</span>'.BR;
 
 			// the button
 			$content .= Skin::build_submit_button(i18n::s('Login'));

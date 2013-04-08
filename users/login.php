@@ -293,6 +293,10 @@ if(Surfer::is_crawler()) {
 
 	// the surfer has been authenticated
 	if($user = Users::login($name, $_REQUEST['login_password'])) {
+	    
+		// surfer request long validity authentication
+		if(isset($_REQUEST['remember']) && $_REQUEST['remember'] =='Y')
+			$context['users_with_permanent_authentication'] = 'Y';
 
 		// set permanent name shown from top level
 		Safe::setcookie('surfer_name', $user['nick_name'], time()+60*60*24*500, '/');
@@ -461,6 +465,11 @@ if(Surfer::is_crawler()) {
 	$label = i18n::s('Password');
 	$input = '<input type="password" name="login_password" size="45" maxlength="255" />'."\n";
 	$main_column .= '<p>'.$label.BR.$input.'</p>';
+	
+	// remember me ?
+	$label = i18n::s('Stay connected');
+	$input = '<input type="checkbox" name="remember" value="Y" '.EOT."\n";
+	$main_column .= '<p>'.$input.'&nbsp;'.$label.'</p>';
 
 	// bottom commands
 	$menu = array();
