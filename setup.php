@@ -185,7 +185,6 @@ if(Surfer::is_crawler()) {
 	// actual attempt to write to representative files
 	$files = array();
 	$files[] = './parameters/agents.include.php';
-	$files[] = './parameters/collections.include.php';
 	$files[] = './parameters/control.include.php';
 	$files[] = './parameters/feeds.include.php';
 	$files[] = './parameters/files.include.php';

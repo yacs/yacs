@@ -61,15 +61,6 @@ msgfmt i18n/locale/%CODE%/%MODULE%.po --output=i18n/locale/%CODE%/%MODULE%.mo --
 
 rem ----------------------------------------------------------------------------
 
-SET MODULE=collections
-echo --- %MODULE% module
-echo --- locale/%CODE%/%MODULE%.po update
-msgmerge i18n/locale/%CODE%/%MODULE%.po i18n/templates/%MODULE%.pot --update --backup=none
-echo --- locale/%CODE%/%MODULE%.mo generation
-msgfmt i18n/locale/%CODE%/%MODULE%.po --output=i18n/locale/%CODE%/%MODULE%.mo --statistics
-
-rem ----------------------------------------------------------------------------
-
 SET MODULE=comments
 echo --- %MODULE% module
 echo --- locale/%CODE%/%MODULE%.po update

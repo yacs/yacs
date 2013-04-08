@@ -29,7 +29,6 @@
  * - &#91;voted=section:&lt;id>] - articles of fame in the given section
  * - &#91;voted=self] - personal hits
  * - &#91;voted=user:&lt;id>] - personal hits
- * - &#91;collections] - list available collections
  * - &#91;users=present] - list of users present on site
  *
  * @see codes/index.php
@@ -163,15 +162,6 @@ $context['text'] .= '[title]'.i18n::s('Personal hits').' [escape][voted=self] [v
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][voted=self][/escape]</td>'
 	.'<td>[voted=self]</td></tr>'
-	.Skin::table_suffix();
-
-// [collections]
-$context['text'] .= '[title]'.i18n::s('Collections').' [escape][collections][/escape][/title]'
-	.'<p>'.i18n::s('Use the configuration panel for collections to create new collections of files.').'</p>'
-	.Skin::table_prefix('wide')
-	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][collections][/escape]</td>'
-	.'<td>[collections]</td></tr>'
 	.Skin::table_suffix();
 
 // [users=present]

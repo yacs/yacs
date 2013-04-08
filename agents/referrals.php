@@ -176,7 +176,6 @@ class Referrals {
 	 * @see categories/index.php
 	 * @see categories/view.php
 	 * @see codes/index.php
-	 * @see collections/index.php
 	 * @see comments/index.php
 	 * @see comments/view.php
 	 * @see feeds/index.php

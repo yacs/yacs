@@ -2039,37 +2039,6 @@ div.follow_up { /* comments from page author */
 }
 
 /**
- * files in a collection
- *
- * @see collections/browse.php
- * @see shared/codes.php
- */
-
-table.collections { /* content of a directory */
-	border-spacing: 0;
-	border: none;
-}
-
-table.collections a img {
-	border: none;
-}
-
-table.collections td {
-	border: none;
-	margin: 0;
-	padding: 0.3em 8px 0.3em 8px;
-}
-
-table.collections th {
-	border: none;
-	margin: 0;
-	padding: 0.3em 8px 0.3em 8px;
-}
-
-ul.collections { /* a list of collections, in [collections] */
-}
-
-/**
  * comments in a blog
  *
  * @see comments/layout_comments_as_daily.php

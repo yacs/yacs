@@ -16,7 +16,6 @@
  * Sample elements for the front page:
  * - 'extra_box' - a sample extra box at the front page
  * - 'gadget_cloud' - a sample gadget box featuring the cloud at the front page
- * - 'gadget_collections' - a sample gadget box featuring available collections at the front page
  * - 'navigation_box' - a sample navigation box
  *
  * Sample global pages:
@@ -372,24 +371,6 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Tags cloud');
 		$fields['introduction'] = '';
 		$fields['description'] = '[cloud]';
-		$fields['locked'] = 'Y'; // only associates can change this page
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-		if(Articles::post($fields))
-			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
-		else
-			$text .= Logger::error_pop().BR."\n";
-	}
-
-	// 'gadget_collections' article
-	if(Articles::get('gadget_collections'))
-		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'gadget_collections').BR."\n";
-	elseif($anchor = Sections::lookup('gadget_boxes')) {
-		$fields = array();
-		$fields['anchor'] = $anchor;
-		$fields['nick_name'] = 'gadget_collections';
-		$fields['title'] = i18n::c('Collections');
-		$fields['introduction'] = '';
-		$fields['description'] = '[collections]';
 		$fields['locked'] = 'Y'; // only associates can change this page
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))

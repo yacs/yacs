@@ -247,9 +247,6 @@ if(!file_exists('../parameters/control.include.php')) {
 				$commands[] = sprintf(i18n::s('%s - enhance information provided through RSS'), Skin::build_link('feeds/configure.php', i18n::s('Information channels'), 'basic'));
 
 				if(Surfer::has_all())
-					$commands[] = sprintf(i18n::s('%s - to share and stream existing directories and files'), Skin::build_link('collections/configure.php', i18n::s('File collections'), 'basic'));
-
-				if(Surfer::has_all())
 					$commands[] = sprintf(i18n::s('%s - to extend accepted types and to make uploaded files available from FTP'), Skin::build_link('files/configure.php', i18n::s('Files'), 'basic'));
 
 				if(isset($context['with_email']) && ($context['with_email'] == 'Y'))
@@ -699,9 +696,6 @@ if(!file_exists('../parameters/control.include.php')) {
 					Skin::build_link(Articles::get_url('about'), i18n::s('About this site')),
 					Skin::build_link(Articles::get_url('privacy'), i18n::s('Privacy statement')));
 
-			// collections
-			$commands[] = sprintf(i18n::s('%s - shared directories and files'), Skin::build_link('collections/', i18n::s('File collections'), 'basic'));
-
 			// import some content
 			if(Surfer::is_associate())
 				$commands[] = sprintf(i18n::s('%s - exported from another server'), Skin::build_link('control/import.php', i18n::s('Import XML content'), 'basic'));
@@ -945,7 +939,6 @@ if(!file_exists('../parameters/control.include.php')) {
 					$links[] = Skin::build_link('behaviors/', 'behaviors', 'shortcut');
 				$links[] = Skin::build_link('categories/', 'categories', 'shortcut');
 				$links[] = Skin::build_link('codes/', 'codes', 'shortcut');
-				$links[] = Skin::build_link('collections/', 'collections', 'shortcut');
 				if(Surfer::is_associate())
 					$links[] = Skin::build_link('comments/', 'comments', 'shortcut');
 				$links[] = Skin::build_link('dates/', 'dates', 'shortcut');

@@ -181,7 +181,6 @@
  * - &#91;voted=section:&lt;id>] - articles of fame in the given section
  * - &#91;voted=self] - personal hits
  * - &#91;voted=user:&lt;id>] - personal hits
- * - &#91;collections] - list available collections
  * - &#91;users=present] - list of users present on site
  *
  * @see codes/live.php
@@ -954,7 +953,6 @@ Class Codes {
 				'/\[search\]/ise',						// [search]
 				'/\[cloud=(\d+?)\]/ise',				// [cloud=12]
 				'/\[cloud\]/ise',						// [cloud]
-				'/\[collections\]/ise', 				// [collections]
 				'/\[login=([^\]]+?)\]/is',				// [login=words] --obsoleted
 				'/\[login\]/is',						// [login] --obsoleted
 				'/\[center\](.*?)\[\/center\]/ise', 	// [center]...[/center]
@@ -1155,7 +1153,6 @@ Class Codes {
 				"Skin::build_block(NULL, 'search')",								// [search]
 				"Codes::render_cloud('$1')",										// [cloud=12]
 				"Codes::render_cloud(20)",											// [cloud]
-				"Codes::render_collections()",										// [collections]
 				'', 																// [login=<words>] --obsoleted
 				'', 																// [login] --obsoleted
 				"Skin::build_block(Codes::fix_tags('$1'), 'center')", 				// [center]...[/center]
@@ -1541,70 +1538,6 @@ Class Codes {
 		// we have an array to format
 		if(is_array($text))
 			$text =& Skin::build_list($text, '2-columns');
-
-		// job done
-		return $text;
-
-	}
-
-	/**
-	 * list available collections
-	 *
-	 * @return string the rendered text
-	**/
-	public static function &render_collections() {
-		global $context;
-
-		// has one collection been defined?
-		Safe::load('parameters/collections.include.php');
-		if(!isset($context['collections']) || !is_array($context['collections'])) {
-			$output = NULL;
-			return $output;
-		}
-
-		// use attributes set for each collection
-		$text = '';
-		foreach($context['collections'] as $name => $attributes) {
-
-			// retrieve collection information
-			list($title, $path, $url, $introduction, $description, $prefix, $suffix, $visibility) = $attributes;
-
-			// skip protected collections
-			if(($visibility == 'N') && !Surfer::is_associate())
-				continue;
-			if(($visibility == 'R') && !Surfer::is_member())
-				continue;
-
-			// ensure we have a title for this collection
-			if(!trim($title))
-				$title = str_replace(array('.', '_', '%20'), ' ', $name);
-
-			// build some hovering title
-			$hover = ' title="'.encode_field(i18n::s('Access collection')." '".strip_tags($title)."'").'"';
-
-			// signal restricted and private collections
-			if($visibility == 'N')
-				$title = PRIVATE_FLAG.$title;
-			elseif($visibility == 'R')
-				$title = RESTRICTED_FLAG.$title;
-
-			// link to collection index page
-			if($context['with_friendly_urls'] == 'Y')
-				$link = 'collections/browse.php/'.rawurlencode($name);
-			else
-				$link = 'collections/browse.php?path='.urlencode($name);
-			$text .= '<li><a href="'.$context['url_to_root'].$link.'"'.$hover.'>'.$title.'</a>';
-
-			// add introduction text, if any
-			if($introduction)
-				$text .= ' - '.Codes::beautify($introduction);
-
-			$text .= "</li>\n";
-		}
-
-		// finalize the list
-		if($text)
-			$text = '<ul class="collections">'."\n".$text."</ul>\n";
 
 		// job done
 		return $text;

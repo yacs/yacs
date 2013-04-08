@@ -8,7 +8,6 @@
  * - 'blog' -- create a blog
  * - 'book' -- create a book
  * - 'build' -- create default items, like for first installation
- * - 'collection' -- create a collection to share files
  * - 'composite' -- with scrolling news, plus gadget and extra boxes
  * - 'forum' -- create several structured discussion boards using the yabb layout
  * - 'links' -- create a Yahoo-like directory of links
@@ -393,165 +392,6 @@ if(!$permitted) {
 
 	// redo the basic steps of data creation
 	include_once '../control/populate.php';
-
-// create a collection
-} elseif($action == 'collection') {
-
-	// page title
-	$context['page_title'] = i18n::s('Add a collection');
-
-	// get collection parameters
-	if(!isset($_REQUEST['name']) || !$_REQUEST['name']) {
-
-		// splash
-		$context['text'] .= '<p>'.i18n::s('YACS may turn your web site to a straightforward media server.').'</p>'
-			.'<p>'.i18n::s('Define a collection to publicly share some directory of the server hard drive. Then YACS will build nice index pages to list available files, and allow for immediate download. Where applicable, files will also be streamed to workstations through automatic playlists.').'</p>';
-
-		// if some collections has already been defined, use the dedicated configuration panel
-		Safe::load('parameters/collections.include.php');
-		if(@count($context['collections'])) {
-
-			$context['text'] .= '<p>'.sprintf(i18n::s('This assistant is aiming to help you create your very first collection. Since some collection has already been defined, please use %s and add a new definition.'), Skin::build_link('collections/configure.php', i18n::s('the dedicated configuration panel'), 'shortcut')).'</p>';
-
-		// or create a configuration file from scratch
-		} else {
-
-			// a form to get collection parameters
-			$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
-				.'<input type="hidden" name="action" value="collection" />';
-			$fields = array();
-
-			// the name
-			$label = i18n::s('Collection nick name');
-			$input = '<input type="text" id="name" name="name" size="32" value="'.encode_field(i18n::c('my_collection')).'" maxlength="32" />';
-			$hint = i18n::s('Prepended to the path of each file of the collection. Short and meaningful');
-			$fields[] = array($label, $input, $hint);
-
-			// the title
-			$label = i18n::s('Label');
-			$input = '<input type="text" name="title" size="45" value="'.encode_field(i18n::c('My Collection')).'" maxlength="255" />';
-			$hint = i18n::s('Used at index pages, and at the top of each page generated for this collection');
-			$fields[] = array($label, $input, $hint);
-
-			// the path
-			$label = i18n::s('Path prefix');
-			$input = '<input type="text" name="path" size="45" value="c:" maxlength="255" />';
-			$hint = sprintf(i18n::s('Local access to files; YACS installation directory is at "%s"'), $context['path_to_root']);
-			$fields[] = array($label, $input, $hint);
-
-			// the url
-			$label = i18n::s('URL prefix');
-			$input = '<input type="text" name="url" size="45" value="'.encode_field($context['url_to_home']).'" maxlength="255" />';
-			$hint = i18n::s('The ftp:// or http:// address used to access the collection, pointing to the same place than the path prefix');
-			$fields[] = array($label, $input, $hint);
-
-			// introduction
-			$label = i18n::s('Introduction');
-			$input = '<textarea name="introduction" cols="40" rows="5">'.encode_field(i18n::c('Public files to download')).'</textarea>';
-			$hint = i18n::s('To be used at the front page and on the collections index page');
-			$fields[] = array($label, $input, $hint);
-
-			// description
-			$label = i18n::s('Description');
-			$input = '<textarea name="description" cols="40" rows="3">'.encode_field(i18n::c('Click on file names to transfer them to your workstation, or to start a Video-on-demand session.')).'</textarea>';
-			$hint = i18n::s('To be inserted in the index page of this collection');
-			$fields[] = array($label, $input, $hint);
-
-			// build the form
-			$context['text'] .= Skin::build_form($fields);
-			$fields = array();
-
-			// the submit button
-			$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Add content'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
-
-			// end of the form
-			$context['text'] .= '</div></form>';
-
-			// append the script used for data checking on the browser
-			$context['text'] .= JS_PREFIX
-				.'// check that main fields are not empty'."\n"
-				.'func'.'tion validateDocumentPost(container) {'."\n"
-				."\n"
-				.'	// name is mandatory'."\n"
-				.'	if(!container.name.value) {'."\n"
-				.'		alert("'.i18n::s('You must name this collection.').'");'."\n"
-				.'		Yacs.stopWorking();'."\n"
-				.'		return false;'."\n"
-				.'	}'."\n"
-				.'	// title is mandatory'."\n"
-				.'	if(!container.title.value) {'."\n"
-				.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
-				.'		Yacs.stopWorking();'."\n"
-				.'		return false;'."\n"
-				.'	}'."\n"
-				."\n"
-				.'	// successful check'."\n"
-				.'	return true;'."\n"
-				.'}'."\n"
-				."\n"
-				.'// set the focus on first form field'."\n"
-				.'$("#name").focus();'."\n"
-				.JS_SUFFIX."\n";
-
-		}
-
-	// create a collection
-	} else {
-
-		// build the new configuration file
-		$content = '<?php'."\n"
-			.'// This file has been created by the configuration script help/populate.php'."\n"
-			.'// on '.gmdate("F j, Y, g:i a").' GMT, for '.Surfer::get_name().'. Please do not modify it manually.'."\n"
-			.'global $context;'."\n";
-		$name	= addcslashes($_REQUEST['name'], "\\'");
-		$title	= addcslashes($_REQUEST['title'], "\\'");
-		$path	= addcslashes($_REQUEST['path'], "\\'");
-		$url	= addcslashes($_REQUEST['url'], "\\'");
-		$introduction	= addcslashes($_REQUEST['introduction'], "\\'");
-		$description	= addcslashes($_REQUEST['description'], "\\'");
-		if($name && $path && $url) {
-			$content .= '$context[\'collections\'][\''.$name.'\']=array(\''.$title.'\', \''
-				.$path.'\', \''.$url.'\', \''
-				.$introduction.'\', \''.$description.'\', \'\', \'\', \'Y\');'."\n";
-		}
-		$content .= '?>'."\n";
-
-		// update the parameters file
-		if(!Safe::file_put_contents('parameters/collections.include.php', $content)) {
-
-			Logger::error(sprintf(i18n::s('ERROR: Impossible to write to the file %s. The configuration has not been saved.'), 'parameters/collections.include.php'));
-
-			// allow for a manual update
-			$context['text'] .= '<p style="text-decoration: blink;">'.sprintf(i18n::s('To actually change the configuration, please copy and paste following lines by yourself in file %s.'), 'parameters/collections.include.php')."</p>\n";
-
-			// display updated parameters
-			$context['text'] .= Skin::build_box(i18n::s('Configuration parameters'), Safe::highlight_string($content), 'folded');
-
-		// job done
-		} else {
-
-			// purge the cache
-			Cache::clear();
-
-			// remember the change
-			$label = sprintf(i18n::c('%s has been updated'), 'parameters/collections.include.php');
-			Logger::remember('help/populate.php: '.$label);
-
-			// splash
-			$context['text'] .= '<p>'.i18n::s('Congratulations, you have shared new content.').'</p>';
-
-			// follow-up commands
-			$follow_up = i18n::s('What do you want to do now?');
-			$menu = array();
-			$menu = array_merge($menu, array('collections/browse.php?path='.urlencode($_REQUEST['name']) => i18n::s('Access the new collection')));
-			$menu = array_merge($menu, array('collections/' => i18n::s('File collections')));
-			$menu = array_merge($menu, array('help/populate.php' => i18n::s('Launch the Content Assistant again')));
-			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-			$follow_up .= Skin::build_list($menu, 'menu_bar');
-			$context['text'] .= Skin::build_block($follow_up, 'bottom');
-
-		}
-	}
 
 // create a composite section
 } elseif($action == 'composite') {
@@ -1890,9 +1730,6 @@ if(!$permitted) {
 
 	// create a directory of links
 	$context['text'] .= '<p><input type="radio" name="action" value="links" /> '.i18n::s('Add a directory of links -- a small version of Yahoo!, or of DMOZ').'</p>'."\n";
-
-	// create a collection
-	$context['text'] .= '<p><input type="radio" name="action" value="collection" /> '.i18n::s('Add a collection -- and share available files, enable audio and video on-demand, and slideshows').'</p>'."\n";
 
 	// create sample server profiles
 	$context['text'] .= '<p><input type="radio" name="action" value="servers" /> '.i18n::s('Add sample server profiles -- ping well-known news aggregator and become famous').'</p>'."\n";
