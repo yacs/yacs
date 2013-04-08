@@ -770,9 +770,6 @@ if(!file_exists('../parameters/control.include.php')) {
 					.'}'."\n"
 					.JS_SUFFIX;
 
-				// the command to install a bookmaklet into internet explorer
-				$box .= '<p>'.sprintf(i18n::s('If you are running Internet Explorer under Windows, click on the following link to %s triggered on right-click. Accept registry updates, and restart the browser afterwards.'), Skin::build_link('articles/ie_bookmarklet.php', i18n::s('add a contextual bookmarklet'))).'</p>'."\n";
-
 				// make a nice box out of it
 				$text .= Skin::build_box(i18n::s('Blogging tools'), $box);
 			}

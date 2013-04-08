@@ -48,10 +48,8 @@
  * If no anchor data is provided, the new page will be posted in the section named 'theads'.
  *
  * There is also a special invocation format to be used for direct blogging from bookmarklets,
- * such as the one provided by YACS for each section (see [script]sections/view.php[/script]),
- * or the one dedicated to users of Internet Explorer (see [script]articles/ie_bookmarklet.php[/script]).
+ * such as the one provided by YACS for each section (see [script]sections/view.php[/script]).
  *
- * @see articles/ie_bookmarklet.php
  * @see sections/view.php
  *
  * This format is aiming to provide to YACS every necessary parameters, but through a single GET or POST call.
