@@ -360,7 +360,6 @@ Class Surfer {
 	 *
 	 * @param array attributes to check
 	 *
-	 * @see actions/actions.php
 	 * @see articles/articles.php
 	 * @see categories/categories.php
 	 * @see comments/comments.php

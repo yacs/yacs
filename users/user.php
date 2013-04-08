@@ -61,24 +61,8 @@ Class User extends Anchor {
 		// initialize components
 		$previous_url = $previous_label = $next_url = $next_label = $option_url = $option_label ='';
 
-		// previous and next actions
-		if($type == 'action') {
-
-			// load the adequate library
-			include_once $context['path_to_root'].'actions/actions.php';
-
-			$order = 'date';
-
-			// get previous url
-			if($previous_url = Actions::get_previous_url($item, 'user:'.$this->item['id'], $order))
-				$previous_label = i18n::s('Previous action');
-
-			// get next url
-			if($next_url = Actions::get_next_url($item, 'user:'.$this->item['id'], $order))
-				$next_label = i18n::s('Next action');
-
 		// previous and next comments
-		} elseif($type == 'comment') {
+		if($type == 'comment') {
 
 			// load the adequate library
 			include_once $context['path_to_root'].'comments/comments.php';

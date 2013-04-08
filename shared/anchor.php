@@ -317,8 +317,6 @@ class Anchor {
 	 * In this case, the surfer has not been authenticated to the form,
 	 * but if the handle is provided he will be granted access to it.
 	 *
-	 * @see actions/accept.php
-	 *
 	 * @return a secret handle, or NULL
 	 */
 	function get_handle() {

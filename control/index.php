@@ -292,17 +292,6 @@ if(!file_exists('../parameters/control.include.php')) {
 			$text .= Skin::table_row(array(i18n::s('Table'), 'center='.i18n::s('Records'), 'center='.i18n::s('First record'), 'center='.i18n::s('Last record')), 'header');
 			$lines = 2;
 
-			// actions
-			if($row = SQL::table_stat('actions')) {
-				$cells = array();
-				$cells[] = Skin::build_link('actions/', SQL::table_name('actions'), 'basic');
-				$cells[] = 'center='.$row[0];
-				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
-				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
-				$text .= Skin::table_row($cells, $lines++);
-			} else
-				$text .= Skin::table_row(array(SQL::table_name('actions'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
-
 			// activities
 			if($row = SQL::table_stat('activities')) {
 				$cells = array();
@@ -949,8 +938,6 @@ if(!file_exists('../parameters/control.include.php')) {
 			if(class_exists('Skin') && Surfer::has_all()) {
 				$links = array();
 
-				if(Surfer::is_associate())
-					$links[] = Skin::build_link('actions/', 'actions', 'shortcut');
 				if(Surfer::is_associate())
 					$links[] = Skin::build_link('agents/', 'agents', 'shortcut');
 				$links[] = Skin::build_link('articles/', 'articles', 'shortcut');

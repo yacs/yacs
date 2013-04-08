@@ -741,7 +741,6 @@ Class Users {
 	 *
 	 * @param the id of the user to update
 	 *
-	 * @see actions/edit.php
 	 * @see articles/edit.php
 	 * @see categories/edit.php
 	 * @see comments/edit.php

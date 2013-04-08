@@ -54,8 +54,6 @@
  * - view.php (show my profile if I am logged)
  * - view.php/12 (view the first page of the user profile)
  * - view.php?id=12 (view the first page of the user profile)
- * - view.php/12/actions/2 (view the page 2 of the list of actions given to this user)
- * - view.php?id=12&actions=2 (view the page 2 of the list of actions given to this user)
  * - view.php/12/articles/2 (view the page 2 of the list of articles contributed by this user)
  * - view.php?id=12&articles=2 (view the page 2 of the list of articles contributed by this user)
  * - view.php/12/files/2 (view the page 2 of the list of files sent by this user)
@@ -76,7 +74,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../actions/actions.php';
 include_once '../links/links.php';
 include_once '../locations/locations.php';
 include_once 'visits.php';
@@ -98,12 +95,8 @@ $id = strip_tags($id);
 $zoom_type = '';
 $zoom_index = 1;
 
-// view.php?id=12&actions=2
-if(isset($_REQUEST['actions']) && ($zoom_index = $_REQUEST['actions']))
-	$zoom_type = 'actions';
-
 // view.php?id=12&articles=2
-elseif(isset($_REQUEST['articles']) && ($zoom_index = $_REQUEST['articles']))
+if(isset($_REQUEST['articles']) && ($zoom_index = $_REQUEST['articles']))
 	$zoom_type = 'articles';
 
 // view.php?id=12&files=2
@@ -731,8 +724,6 @@ if(!isset($item['id'])) {
 	//
 	if(!$zoom_type)
 		$panels[] = array('followers', i18n::s('Followers'), 'followers_panel', NULL, Users::get_url($item['id'], 'element', 'watch'));
-	if(!$zoom_type && Surfer::is_member())
-		$panels[] = array('actions', i18n::s('Actions'), 'actions_panel', NULL, Users::get_url($item['id'], 'element', 'actions'));
 
 	// let YACS do the hard job
 	$context['text'] .= Skin::build_tabs($panels);

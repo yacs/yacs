@@ -1608,11 +1608,6 @@ Class Skin_Skeleton {
 			if(!strncmp($url, '/', 1))
 				$variant = 'basic';
 
-			elseif(!strncmp($url, 'actions/view.php', 16))
-				$variant = 'action';
-			elseif(!strncmp($url, 'action-', 7))
-				$variant = 'action';
-
 			elseif(!strncmp($url, 'articles/view.php', 17))
 				$variant = 'article';
 			elseif(!strncmp($url, 'article-', 8))
@@ -4083,10 +4078,6 @@ Class Skin_Skeleton {
 	public static function initialize() {
 		global $context;
 
-		// the maximum number of actions per page
-		if(!defined('ACTIONS_PER_PAGE'))
-			define('ACTIONS_PER_PAGE', 10);
-
 		// the maximum number of articles per page
 		if(!defined('ARTICLES_PER_PAGE'))
 			define('ARTICLES_PER_PAGE', 50);
@@ -4664,8 +4655,6 @@ Class Skin_Skeleton {
 	 * @param string to be appended to each link created by the script
 	 * @return an array of ( $url => $label )
 	 *
-	 * @see actions/index.php
-	 * @see actions/list.php
 	 * @see articles/index.php
 	 * @see articles/view.php
 	 * @see categories/index.php
@@ -4803,7 +4792,6 @@ Class Skin_Skeleton {
 	 * @param string describing the intended layout (ie, 'sidebar', 'manual', 'slideshow')
 	 * @result some text to be inserted in the page
 	 *
-	 * @see actions/view.php
 	 * @see articles/view.php
 	 * @see comments/view.php
 	 * @see files/view.php
