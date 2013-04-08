@@ -287,16 +287,6 @@ if(isset($cover_page['title']) && (!isset($context['root_cover_at_home']) || ($c
 	$context['page_title'] = $cover_page['title'];
 
 
-// define this constant in theme's skin.php to bypass mobile version
-if(!defined('MOBILES_USE_IUI'))
-	define('MOBILES_USE_IUI', true);
-
-// use mobile version
-if(!Surfer::is_desktop() && MOBILES_USE_IUI) {
-	include 'index_on_mobile.php';
-	return;
-}
-
 //
 // compute main panel -- $context['text']
 //
