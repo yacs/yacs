@@ -698,7 +698,7 @@ Class Comments {
 	public static function &get_layout($anchor, $item=NULL) {
 		global $context;
 
-		include_once '../comments/layout_comments_as_updates.php';
+		include_once $context['path_to_root'].'comments/layout_comments_as_updates.php';
 		$layout = new Layout_comments_as_updates();
 		return $layout;
 	}

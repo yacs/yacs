@@ -145,16 +145,25 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
+// this script can be included into another one, i.e., /index.hp
+if(is_readable('../shared/global.php')) {
+	include_once '../shared/global.php';
+	define('NOT_INCLUDED', true);
+
+// override page title in including page
+} else {
+	$context['page_title'] = '';
+}
+
 // common definitions and initial processing
-include_once '../shared/global.php';
-include_once '../behaviors/behaviors.php';
-include_once '../comments/comments.php';		// attached comments and notes
-include_once '../images/images.php';			// attached images
-include_once '../links/links.php';				// related pages
-include_once '../files/files.php';				// attached files
-include_once '../servers/servers.php';
-include_once '../versions/versions.php';		// back in history
-include_once '../sections/section.php';
+include_once $context['path_to_root'].'behaviors/behaviors.php';
+include_once $context['path_to_root'].'comments/comments.php';		// attached comments and notes
+include_once $context['path_to_root'].'images/images.php';			// attached images
+include_once $context['path_to_root'].'links/links.php';			// related pages
+include_once $context['path_to_root'].'files/files.php';			// attached files
+include_once $context['path_to_root'].'servers/servers.php';
+include_once $context['path_to_root'].'versions/versions.php';		// back in history
+include_once $context['path_to_root'].'sections/section.php';
 
 // look for the id
 $id = NULL;
@@ -411,7 +420,7 @@ if(!isset($item['id'])) {
 	}
 
 // re-enforce the canonical link
-} elseif(!$zoom_type && ($page == 1) && $context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item)) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
+} elseif(defined('NOT_INCLUDED') && !$zoom_type && ($page == 1) && $context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item)) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
 	Safe::header('Status: 301 Moved Permanently', TRUE, 301);
 	Safe::header('Location: '.$canonical);
 	Logger::error(Skin::build_link($canonical));
