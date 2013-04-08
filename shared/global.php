@@ -255,9 +255,6 @@ $context['users_allowed_tags']	= '<a><abbr><acronym><b><big><br><code><dd><del><
 // default editor -- see users/configure.php
 $context['users_default_editor'] = 'tinymce';
 
-// path to files and images, for supported virtual hosts --see files/edit.php and images/edit.php
-$context['virtual_path'] = '';
-
 // use titles in address -- see control/configure.php
 $context['with_alternate_urls'] = 'N';
 
