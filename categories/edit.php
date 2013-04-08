@@ -949,10 +949,6 @@ if($with_form) {
 		$selected = ' selected="selected"';
 	$help .= '<option value="tinymce"'.$selected.'>'.i18n::s('TinyMCE')."</option>\n";
 	$selected = '';
-	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
-		$selected = ' selected="selected"';
-	$help .= '<option value="fckeditor"'.$selected.'>'.i18n::s('FCKEditor')."</option>\n";
-	$selected = '';
 	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'yacs'))
 		$selected = ' selected="selected"';
 	$help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";

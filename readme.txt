@@ -34,7 +34,7 @@ such as polls or cooking recipes
 - File upload to articles , sections or categories
 - Attach links to articles, sections or categories
 - A comprehensive set of UBB-like codes are available to beautify your posts
-- Integrated support of TinyMCE and of FCKEditor
+- Integrated support of TinyMCE
 - Fully customizable skins
 - Easy integration of Google Maps
 - Support audio-on demand and video-on demand

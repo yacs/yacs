@@ -534,10 +534,8 @@ Class Surfer {
 	 *
 	 * Curently YACS supports following choices:
 	 * - 'yacs' - the default, plain, code-based textarea
-	 * - 'fckeditor' - WYSIWYG editor
 	 * - 'tinymce' - WYSIWYG editor
 	 *
-	 * @link http://www.fckeditor.net/ FCKEditor
 	 * @link http://tinymce.moxiecode.com/ TinyMCE
 	 *
 	 * @param string the name of the editing field
@@ -555,22 +553,8 @@ Class Surfer {
 		if(!isset($_SESSION['surfer_editor']) && isset($context['users_default_editor']))
 			$_SESSION['surfer_editor'] = $context['users_default_editor'];
 
-		// fckeditor
-		if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor') && is_readable($context['path_to_root'].'included/fckeditor/fckeditor.php') && !$spring) {
-
-			include_once($context['path_to_root'].'included/fckeditor/fckeditor.php');
-			$handle = new FCKeditor($name);
-			$handle->BasePath = $context['url_to_root'].'included/fckeditor/';
-			$handle->Value = $value;
-			$handle->Height = '400' ;
-			$handle->ToolbarSet = 'YACS'; // see fckconfig.js
-			$text .= $handle->CreateHtml() ;
-
-			// signal an advanced editor
-			$text .= '<input type="hidden" name="editor" value="fckeditor" />';
-
 		// tinymce
-		} elseif(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce') && is_readable($context['path_to_root'].'included/tiny_mce/tiny_mce.js') && !$spring) {
+		if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce') && is_readable($context['path_to_root'].'included/tiny_mce/tiny_mce.js') && !$spring) {
 
 			// load the TinyMCE script -- see shared/global.php
 			$context['javascript']['tinymce'] = TRUE;
@@ -1708,8 +1692,8 @@ if(@count($_REQUEST) && (!isset($context['allow_html_input']) || ($context['allo
 	if(Surfer::is_associate())
 		;
 
-	// from fckeditor or tinymce
-	elseif(isset($_REQUEST['editor']) && (($_REQUEST['editor'] == 'fckeditor') || ($_REQUEST['editor'] == 'tinymce')))
+	// from tinymce
+	elseif(isset($_REQUEST['editor']) && ($_REQUEST['editor'] == 'tinymce'))
 		;
 
 	// strip most tags, except those that have been explicitly allowed

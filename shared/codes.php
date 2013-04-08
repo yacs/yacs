@@ -753,7 +753,7 @@ Class Codes {
 	}
 
 	/**
-	 * fix line breaks introduced by FCKEditor
+	 * fix line breaks
 	 *
 	 * This function moves unclosed tags to the beginning of content.
 	 *
@@ -1314,9 +1314,6 @@ Class Codes {
 
 		// do it globally
 		$text = preg_replace($pattern, $replace, $text);
-
-		// FCKEditor optimisation
-		$text = str_replace("</pre>\n<pre>", "\n", $text);
 
 		// done
 		return $text;
