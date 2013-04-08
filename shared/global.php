@@ -681,12 +681,8 @@ if(file_exists($context['path_to_root'].'parameters/switch.off') && !Surfer::is_
 // Skin and rendering -- see skins/index.php for more information
 //
 
-// use special skin for handhelds
-if(!Surfer::is_desktop())
-	$context['skin'] = 'skins/_mobile';
-
 // start with a default skin
-elseif(!isset($context['skin']) && is_dir($context['path_to_root'].'skins/digital'))
+if(!isset($context['skin']) && is_dir($context['path_to_root'].'skins/digital'))
 	$context['skin'] = 'skins/digital';
 
 // load the layout interface, if we have access to some data
