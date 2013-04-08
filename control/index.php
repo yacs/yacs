@@ -381,17 +381,6 @@ if(!file_exists('../parameters/control.include.php')) {
 			} else
 				$text .= Skin::table_row(array(SQL::table_name('files'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
-			// forms
-			if($row = SQL::table_stat('forms')) {
-				$cells = array();
-				$cells[] = Skin::build_link('forms/', SQL::table_name('forms'), 'basic');
-				$cells[] = 'center='.$row[0];
-				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
-				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
-				$text .= Skin::table_row($cells, $lines++);
-			} else
-				$text .= Skin::table_row(array(SQL::table_name('forms'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
-
 			// images
 			include_once '../images/images.php';
 			if($stats = Images::stat()) {
@@ -667,7 +656,6 @@ if(!file_exists('../parameters/control.include.php')) {
 				|| (Surfer::is_member() && (!isset($context['users_without_submission']) || ($context['users_without_submission'] != 'Y'))) ) {
 
 				$commands[] = sprintf(i18n::s('%s - select a section and type some text, then add images, files and links'), Skin::build_link('articles/edit.php', i18n::s('Add a page'), 'basic'));
-				$commands[] = sprintf(i18n::s('%s - fill pre-defined fields, then add images, files and links'), Skin::build_link('forms/', i18n::s('Use a form'), 'basic'));
 
 			}
 
@@ -944,7 +932,6 @@ if(!file_exists('../parameters/control.include.php')) {
 				$links[] = Skin::build_link('dates/', 'dates', 'shortcut');
 				$links[] = Skin::build_link('feeds/', 'feeds', 'shortcut');
 				$links[] = Skin::build_link('files/', 'files', 'shortcut');
-				$links[] = Skin::build_link('forms/', 'forms', 'shortcut');
 				if(Surfer::is_associate())
 					$links[] = Skin::build_link('images/', 'images', 'shortcut');
 				$links[] = Skin::build_link('letters/', 'letters', 'shortcut');

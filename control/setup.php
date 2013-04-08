@@ -16,7 +16,6 @@
  * - [script]comments/comments.php[/script]
  * - [script]dates/dates.php[/script]
  * - [script]files/files.php[/script]
- * - [script]forms/forms.php[/script]
  * - [script]images/images.php[/script]
  * - [script]links/links.php[/script]
  * - [script]locations/locations.php[/script]
@@ -208,10 +207,6 @@ function send_body() {
 		// create tables for dates
 		include_once '../dates/dates.php';
 		echo Dates::setup();
-
-		// create tables for forms
-		include_once '../forms/forms.php';
-		echo Forms::setup();
 
 		// create tables for servers
 		include_once '../servers/servers.php';
