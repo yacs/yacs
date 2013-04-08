@@ -652,9 +652,7 @@ if(!isset($item['id'])) {
 			}
 
 			// preferred editor
-			if(isset($item['editor']) && ($item['editor'] == 'fckeditor'))
-				$label = Skin::build_link('http://www.fckeditor.net/', i18n::s('FCKEditor'), 'external');
-			elseif(isset($item['editor']) && ($item['editor'] == 'tinymce'))
+			if(isset($item['editor']) && ($item['editor'] == 'tinymce'))
 				$label = Skin::build_link('http://tinymce.moxiecode.com/', i18n::s('TinyMCE'), 'external');
 			else
 				$label = i18n::s('Textarea');
