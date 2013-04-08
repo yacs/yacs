@@ -198,8 +198,6 @@ if(Surfer::is_crawler()) {
 	$files[] = './parameters/switch.on';
 	$files[] = './parameters/users.include.php';
 	$files[] = './temporary/debug.txt';
-	$files[] = './temporary/ie_bookmarklet.html';
-	$files[] = './temporary/ie_bookmarklet.reg';
 	$files[] = './temporary/log.txt';
 	foreach($files as $file) {
 
