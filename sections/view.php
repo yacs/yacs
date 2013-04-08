@@ -315,6 +315,16 @@ if(isset($item['family']) && $item['family'])
 if(isset($item['language']) && $item['language'] && ($item['language'] != 'none'))
 	$context['page_language'] = $item['language'];
 
+// page canonical link
+if(isset($item['vhost'])) {
+	if(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == 443))
+		$context['page_link'] = 'https://';
+	else
+		$context['page_link'] = 'http://';
+	$context['page_link'] .= $item['vhost'].$context['url_to_root'].Sections::get_permalink($item);
+} elseif(isset($item['id']))
+	$context['page_link'] = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
+
 // is the page on user watch list?
 $in_watch_list = 'N';
 if(Surfer::is_logged() && isset($item['id'])) {
@@ -420,10 +430,10 @@ if(!isset($item['id'])) {
 	}
 
 // re-enforce the canonical link
-} elseif(defined('NOT_INCLUDED') && !$zoom_type && ($page == 1) && $context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item)) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
+} elseif(defined('NOT_INCLUDED') && !$zoom_type && ($page == 1) && $context['self_url'] && strncmp($context['self_url'], $context['page_link'], strlen($context['page_link']))) {
 	Safe::header('Status: 301 Moved Permanently', TRUE, 301);
-	Safe::header('Location: '.$canonical);
-	Logger::error(Skin::build_link($canonical));
+	Safe::header('Location: '.$context['page_link']);
+	Logger::error(Skin::build_link($context['page_link']));
 
 // display the section
 } else {
