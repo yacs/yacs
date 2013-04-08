@@ -33,35 +33,6 @@ msgfmt i18n/locale/fr/%MODULE%.po --output=i18n/locale/fr/%MODULE%.mo --statisti
 
 rem ----------------------------------------------------------------------------
 
-SET MODULE=actions
-echo --- %MODULE% module
-echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
-
-if exist i18n/locale/en/%MODULE%.po goto update_actions_en
-echo --- locale/en/%MODULE%.po generation
-msginit --input=i18n/templates/%MODULE%.pot --output=i18n/locale/en/%MODULE%.po --locale=en --no-translator
-goto compile_actions_en
-:update_actions_en
-echo --- locale/en/%MODULE%.po update
-msgmerge i18n/locale/en/%MODULE%.po i18n/templates/%MODULE%.pot --update --backup=none
-echo --- locale/en/%MODULE%.mo generation
-:compile_actions_en
-msgfmt i18n/locale/en/%MODULE%.po --output=i18n/locale/en/%MODULE%.mo --statistics
-
-if exist i18n/locale/fr/%MODULE%.po goto update_actions_fr
-echo --- locale/fr/%MODULE%.po generation
-msginit --input=i18n/templates/%MODULE%.pot --output=i18n/locale/fr/%MODULE%.po --locale=fr --no-translator
-goto compile_actions_fr
-:update_actions_fr
-echo --- locale/fr/%MODULE%.po update
-msgmerge i18n/locale/fr/%MODULE%.po i18n/templates/%MODULE%.pot --update --backup=none
-echo --- locale/fr/%MODULE%.mo generation
-:compile_actions_fr
-msgfmt i18n/locale/fr/%MODULE%.po --output=i18n/locale/fr/%MODULE%.mo --statistics
-
-rem ----------------------------------------------------------------------------
-
 SET MODULE=agents
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation

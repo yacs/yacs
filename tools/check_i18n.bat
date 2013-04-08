@@ -14,13 +14,6 @@ msgmerge i18n/locale/%CODE%/%MODULE%.po i18n/templates/%MODULE%.pot --output-fil
 
 rem ----------------------------------------------------------------------------
 
-SET MODULE=actions
-echo --- %MODULE% module
-echo --- locale/%CODE%/%MODULE%.po update
-msgmerge i18n/locale/%CODE%/%MODULE%.po i18n/templates/%MODULE%.pot --output-file=i18n/locale/%CODE%/%MODULE%.po_s --sort-output
-
-rem ----------------------------------------------------------------------------
-
 SET MODULE=agents
 echo --- %MODULE% module
 echo --- locale/%CODE%/%MODULE%.po update

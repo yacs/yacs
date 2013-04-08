@@ -120,8 +120,6 @@
  * - &#91;script]&lt;path/script.php&gt;[/script] - to the phpDoc page for script 'path/script.php'
  * - &#91;search] - a search form
  * - &#91;search=&lt;word&gt;] - hit Enter to search for 'word'
- * - &#91;action=&lt;id>] - use action title as link label
- * - &#91;action=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;wikipedia=&lt;keyword] - search Wikipedia
  * - &#91;wikipedia=&lt;keyword, foo bar] - search Wikipedia, with label 'foo bar'
  * - &#91;proxy]&lt;url&gt;[/proxy] - proxy a remote address
@@ -1013,7 +1011,6 @@ Class Codes {
 				'/\[server=([^\]]+?)\]/ie', 				// [server=<id>]
 				'/\[file=([^\]]+?)\]/ie',					// [file=<id>] or [file=<id>, title]
 				'/\[download=([^\]]+?)\]/ie',				// [download=<id>] or [download=<id>, title]
-				'/\[action=([^\]]+?)\]/ie', 				// [action=<id>]
 				'/\[comment=([^\]]+?)\]/ie',				// [comment=<id>] or [comment=<id>, title]
 				'/\[url=([^\]]+?)\](.*?)\[\/url\]/ise', 	// [url=url]label[/url] (deprecated by [link])
 				'/\[url\](.*?)\[\/url\]/ise',				// [url]url[/url] (deprecated by [link])
@@ -1215,7 +1212,6 @@ Class Codes {
 				"Codes::render_object('server', Codes::fix_tags('$1'))",			// [server=<id>]
 				"Codes::render_object('file', Codes::fix_tags('$1'))",				// [file=<id>] or [file=<id>, title]
 				"Codes::render_object('download', Codes::fix_tags('$1'))",			// [download=<id>] or [download=<id>, title]
-				"Codes::render_object('action', Codes::fix_tags('$1'))",			// [action=<id>]
 				"Codes::render_object('comment', Codes::fix_tags('$1'))",			// [comment=<id>] or [comment=<id>, title]
 				"Skin::build_link(encode_link('$1'), Codes::fix_tags('$2'))",		// [url=url]label[/link] (deprecated by [link])
 				"Skin::build_link(encode_link('$1'), NULL)",						// [url]url[/url] (deprecated by [link])
@@ -2658,7 +2654,6 @@ Class Codes {
 	 * render a link to an object
 	 *
 	 * Following types are supported:
-	 * - action - link to an action page
 	 * - article - link to an article page
 	 * - category - link to a category page
 	 * - comment - link to a comment page
@@ -2683,35 +2678,6 @@ Class Codes {
 
 		// depending on type
 		switch($type) {
-
-		// link to an action
-		case 'action':
-			include_once $context['path_to_root'].'actions/actions.php';
-
-			// maybe an alternate title has been provided
-			$attributes = preg_split("/\s*,\s*/", $id, 2);
-			$id = $attributes[0];
-
-			// load the record from the database
-			if(!$item = Actions::get($id))
-				$output = '[action='.$id.']';
-
-			else {
-
-				// ensure we have a label for this link
-				if(isset($attributes[1]))
-					$text = $attributes[1];
-				else
-					$text =& Skin::strip($item['title']);
-
-				// make a link to the target page
-				$url = $context['url_to_home'].$context['url_to_root'].Actions::get_url($item['id']);
-
-				// return a complete anchor
-				$output =& Skin::build_link($url, $text, 'basic');
-			}
-
-			return $output;
 
 		// link to an article
 		case 'article':

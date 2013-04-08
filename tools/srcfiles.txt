@@ -1,5 +1,4 @@
 root        ./*.php
-actions     actions/*.php
 agents      agents/*.php
 articles    articles/*.php
 behaviors   behaviors/*.php    behaviors/agreements/*.php

@@ -9,7 +9,6 @@
  *
  * The structure of each table in described into related database abstractions.
  * Look for the [code]setup()[/code] function in following scripts:
- * - [script]actions/actions.php[/script]
  * - [script]agents/profiles.php[/script]
  * - [script]agents/referrals.php[/script]
  * - [script]articles/articles.php[/script]
@@ -205,10 +204,6 @@ function send_body() {
 		// create tables for members
 		include_once '../shared/members.php';
 		echo Members::setup();
-
-		// create tables for actions
-		include_once '../actions/actions.php';
-		echo Actions::setup();
 
 		// create tables for dates
 		include_once '../dates/dates.php';
