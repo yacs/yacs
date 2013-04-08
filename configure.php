@@ -171,7 +171,7 @@ elseif(!Surfer::is_associate()) {
 	$label = i18n::s('Sections');
 
 	// root_sections_at_home - which sections should be displayed
-	if(!isset($context['root_sections_at_home']) || !preg_match('/([0-9]+|none|root)/', $context['root_sections_at_home']))
+	if(!isset($context['root_sections_at_home']))
 		$context['root_sections_at_home'] = 'root';
 	if(!isset($context['root_sections_count_at_home']) || ($context['root_sections_count_at_home'] < 1))
 		$context['root_sections_count_at_home'] = 5;
@@ -181,7 +181,7 @@ elseif(!Surfer::is_associate()) {
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('List top-level sections.')
 		.BR.'<input type="radio" name="root_sections_at_home" value="id"';
-	if((int)$context['root_sections_at_home'] > 0) {
+	if(!preg_match('/(none|root)/', $context['root_sections_at_home'])) {
 		$input .= ' checked="checked"';
 		$value = $context['root_sections_at_home'];
 	} else {
