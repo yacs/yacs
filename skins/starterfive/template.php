@@ -121,10 +121,10 @@ if($context['skin_variant'] != 'home')
 	Page::bread_crumbs(2);
 
 // wrap the 3 colums
-echo '<div class="row">'."\n";
+echo '<div class="row medium-col tiny-box">'."\n";
 
 // navigation information
-echo '<nav id="side_panel" class="col w20 t33 s100 mod item">'."\n";
+echo '<nav id="side_panel" class="col w20 medium-w25 tiny-inbl mod item">'."\n";
 
 // display side content
 Page::side();
@@ -137,7 +137,7 @@ if(($context['skin_variant'] == 'home') && is_callable(array('i18n', 's')))
 echo '</nav>'."\n";
 
 // main content
-echo '<div id="main_panel" role="main" class="col w60 t44 s100 mod item">'."\n";
+echo '<div id="main_panel" role="main" class="col w60 medium-w75 tiny-inbl mod item">'."\n";
 
 //  anchor to main content accesskey = 1
 echo '<a name="main_panel"></a>'."\n";
@@ -145,14 +145,11 @@ echo '<a name="main_panel"></a>'."\n";
 // display main content
 Page::content();
 
-// ensure we have some content
-echo '<br style="clear: left;" />&nbsp;'."\n";
-
 // end of main div
 echo '</div>'."\n";
 
 // display complementary information, if any
-echo '<aside id="extra_panel" class="col w20 t33 s100 mod item">'."\n";
+echo '<aside id="extra_panel" class="col w20 medium-row tiny-inbl mod item">'."\n";
 Page::extra_panel(NULL, FALSE);
 echo '</aside>'."\n";
 
