@@ -255,183 +255,98 @@ if(isset($context['root_sections_at_home']) && ($context['root_sections_at_home'
 		$context['page_menu'] = $items;
 }
 
-//
 // load the cover page
-//
-
-// lookup a named page
-if($cover_page = Articles::get('cover'))
-	;
-elseif($anchor = Sections::lookup('covers'))
-	$cover_page =& Articles::get_newest_for_anchor($anchor);
-
-//
-// compute page title -- $context['page_title']
-//
-
-if(isset($cover_page['title']) && (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] == 'full')))
-	$context['page_title'] = $cover_page['title'];
-
-
-//
-// compute main panel -- $context['text']
-//
-
-// the cover article is not displayed on a mobile device
 if((!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] != 'none'))) {
 
-	// load the cover page --  may be changed in skin.php if necessary
+	// look for a named page
+	if($cover_page = Articles::get('cover'))
+		;
+
+	// else take newest page from section of covers
+	elseif($anchor = Sections::lookup('covers'))
+		$cover_page =& Articles::get_newest_for_anchor($anchor);
+
+	// compute page title -- $context['page_title']
+	if(isset($cover_page['title']) && (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] == 'full')))
+		$context['page_title'] = $cover_page['title'];
+
+	// layout content of cover page -- may be changed in skin.php if necessary
 	if(isset($cover_page['id']))
 		$context['text'] .= Skin::layout_cover_article($cover_page);
 
 }
 
-// save some database requests
-$cache_id = 'index.php#text';
-if(!$text = Cache::get($cache_id)) {
+// the prefix hook
+if(is_callable(array('Hooks', 'include_scripts')))
+	$context['text'] .= Hooks::include_scripts('index.php#prefix');
 
-	// the prefix hook
-	if(is_callable(array('Hooks', 'include_scripts')))
-		$text .= Hooks::include_scripts('index.php#prefix');
+// most recent articles listed in flash, if ming module is available
+if(isset($context['root_flash_at_home']) && ($context['root_flash_at_home'] == 'Y'))
+	$context['text'] .= Codes::beautify('[news=flash]');
 
-	// most recent articles listed in flash, if ming module is available
-	if(isset($context['root_flash_at_home']) && ($context['root_flash_at_home'] == 'Y'))
-		$text .= Codes::beautify('[news=flash]');
+// gadget boxes
+if((!isset($context['root_gadget_boxes_at_home']) || ($context['root_gadget_boxes_at_home'] == 'Y'))) {
 
-	// gadget boxes
-	if((!isset($context['root_gadget_boxes_at_home']) || ($context['root_gadget_boxes_at_home'] == 'Y'))) {
+	// build an array of boxes
+	$gadget_boxes = array();
 
-		// build an array of boxes
-		$gadget_boxes = array();
+	// articles to be displayed as gadget boxes
+	if($anchor = Sections::lookup('gadget_boxes')) {
 
-		// articles to be displayed as gadget boxes
-		if($anchors =& Sections::get_anchors_for_anchor(NULL, 'gadget_boxes')) {
-
-			// up to 6 articles to be displayed as gadget boxes
-			if($items =& Articles::list_for_anchor_by('publication', $anchors, 0, 6, 'boxes')) {
-				foreach($items as $title => $attributes)
-					$gadget_boxes[] = array($title, $attributes['content'], $attributes['id']);
-			}
-
-		}
-
-		// we do have some boxes to display
-		if(count($gadget_boxes)) {
-
-			// limit the number of boxes displayed
-			@array_splice($gadget_boxes, 6);
-
-			// gadget box rendering
-			$text .= "\n".'<p id="gadgets_prefix"> </p>'."\n";
-			foreach($gadget_boxes as $gadget_box)
-				$text .= Skin::build_box($gadget_box[0], $gadget_box[1], 'gadget', isset($gadget_box[2])?$gadget_box[2]:NULL);
-			$text .= '<p id="gadgets_suffix"> </p>'."\n";
+		// up to 6 articles to be displayed as gadget boxes
+		if($items =& Articles::list_for_anchor_by('publication', $anchor, 0, 6, 'boxes')) {
+			foreach($items as $title => $attributes)
+				$gadget_boxes[] = array($title, $attributes['content'], $attributes['id']);
 		}
 
 	}
 
-	// no section should be featured at the home page
-	if(!isset($context['root_sections_at_home']) || ($context['root_sections_at_home'] == 'none'))
-		;
+	// we do have some boxes to display
+	if(count($gadget_boxes)) {
 
-	// look at only one section
-	elseif(($target_section = Sections::get($context['root_sections_at_home'])) && isset($target_section['id'])) {
+		// limit the number of boxes displayed
+		@array_splice($gadget_boxes, 6);
 
-		// re-use the existing script to render this specific section
-		$context['arguments'][0] = $target_section['id'];
-		include_once $context['path_to_root'].'sections/view.php';
-
-	// display sections as a freemind map
-	} elseif(isset($context['root_sections_layout']) && ($context['root_sections_layout'] == 'freemind'))
-		$text .= Codes::render_freemind('sections');
-
-	// section(s) at the front page
-	else {
-
-		// load the layout to use
-		switch($context['root_sections_layout']) {
-		case 'decorated':
-			include_once $context['path_to_root'].'sections/layout_sections.php';
-			$layout = new Layout_sections();
-			break;
-		case 'map':
-			include_once $context['path_to_root'].'sections/layout_sections_as_yahoo.php';
-			$layout = new Layout_sections_as_yahoo();
-			$layout->set_variant(20); // show more elements at the front page
-			break;
-		default:
-
-			// load layout, if one exists
-			if(is_readable($context['path_to_root'].'sections/layout_sections_as_'.$context['root_sections_layout'].'.php')) {
-				$name = 'layout_sections_as_'.$context['root_sections_layout'];
-				include_once $context['path_to_root'].'sections/'.$name.'.php';
-				$layout = new $name;
-
-			// no layout to use
-			} else {
-
-				// useful warning for associates
-				if(Surfer::is_associate())
-					Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $context['root_sections_layout']));
-
-				// load default layout
-				include_once $context['path_to_root'].'sections/layout_sections_as_yahoo.php';
-				$layout = new Layout_sections_as_yahoo();
-			}
-		}
-
-		// the maximum number of sections
-		if(is_object($layout))
-			$items_per_page = $layout->items_per_page();
-		else
-			$items_per_page = SECTIONS_PER_PAGE;
-
-		// query the database and layout that stuff
-		$items = '';
-		if($context['root_sections_layout'] != 'menu')
-			$items = Sections::list_by_title_for_anchor(NULL, 0, $items_per_page, $layout);
-
-		// we have an array to format
-		if(is_array($items)) {
-
-			// two columns
-			if($context['root_sections_layout'] == 'map')
-				$items =& Skin::build_list($items, '2-columns');
-
-			// decorated
-			else
-				$items =& Skin::build_list($items, 'decorated');
-		}
-
-		// make a box
-		if($items)
-			$text .= $items;
-
+		// gadget box rendering
+		$context['text'] .= "\n".'<p id="gadgets_prefix"> </p>'."\n";
+		foreach($gadget_boxes as $gadget_box)
+			$context['text'] .= Skin::build_box($gadget_box[0], $gadget_box[1], 'gadget', isset($gadget_box[2])?$gadget_box[2]:NULL);
+		$context['text'] .= '<p id="gadgets_suffix"> </p>'."\n";
 	}
 
-	// the main hook
-	if(is_callable(array('Hooks', 'include_scripts')))
-		$text .= Hooks::include_scripts('index.php');
+}
 
-	// the list of most recent articles
-	switch($context['root_articles_layout']) {
-	case 'compact':
-		include_once $context['path_to_root'].'articles/layout_articles_as_compact.php';
-		$layout = new Layout_articles_as_compact();
-		break;
+// no section should be featured at the home page
+if(!isset($context['root_sections_at_home']) || ($context['root_sections_at_home'] == 'none'))
+	;
+
+// look at only one section
+elseif(($target_section = Sections::get($context['root_sections_at_home'])) && isset($target_section['id'])) {
+
+	// re-use the existing script to render this specific section
+	$context['arguments'][0] = $target_section['id'];
+	include_once $context['path_to_root'].'sections/view.php';
+
+// section(s) at the front page
+} else {
+
+	// load the layout to use
+	switch($context['root_sections_layout']) {
 	case 'decorated':
-		include_once $context['path_to_root'].'articles/layout_articles.php';
-		$layout = new Layout_articles();
+		include_once $context['path_to_root'].'sections/layout_sections.php';
+		$layout = new Layout_sections();
 		break;
-	case 'no_articles':
-		$layout = NULL;
+	case 'map':
+		include_once $context['path_to_root'].'sections/layout_sections_as_yahoo.php';
+		$layout = new Layout_sections_as_yahoo();
+		$layout->set_variant(20); // show more elements at the front page
 		break;
 	default:
 
-		// load layout, if one exists, for the home page
-		if(is_readable($context['path_to_root'].'skins/layout_home_articles_as_'.$context['root_articles_layout'].'.php')) {
-			$name = 'layout_home_articles_as_'.$context['root_articles_layout'];
-			include_once $context['path_to_root'].'skins/'.$name.'.php';
+		// load layout, if one exists
+		if(is_readable($context['path_to_root'].'sections/layout_sections_as_'.$context['root_sections_layout'].'.php')) {
+			$name = 'layout_sections_as_'.$context['root_sections_layout'];
+			include_once $context['path_to_root'].'sections/'.$name.'.php';
 			$layout = new $name;
 
 		// no layout to use
@@ -439,85 +354,134 @@ if(!$text = Cache::get($cache_id)) {
 
 			// useful warning for associates
 			if(Surfer::is_associate())
-				Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $context['root_articles_layout']));
+				Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $context['root_sections_layout']));
 
 			// load default layout
-			include_once $context['path_to_root'].'skins/layout_home_articles_as_daily.php';
-			$layout = new Layout_home_articles_as_daily();
+			include_once $context['path_to_root'].'sections/layout_sections_as_yahoo.php';
+			$layout = new Layout_sections_as_yahoo();
 		}
 	}
 
-	// the maximum number of articles
-	if(isset($context['root_articles_count_at_home']) && ($context['root_articles_count_at_home'] > 0))
-		$items_per_page = $context['root_articles_count_at_home'];
-	elseif(is_object($layout))
+	// the maximum number of sections
+	if(is_object($layout))
 		$items_per_page = $layout->items_per_page();
 	else
-		$items_per_page = ARTICLES_PER_PAGE;
+		$items_per_page = SECTIONS_PER_PAGE;
 
-	// no layout
-	if($layout === NULL)
-		$items = '';
-
-	// look for recent articles across all sections
-	elseif(!$items =& Articles::list_(0, $items_per_page, $layout)) {
-
-		// no article yet
-		$items = '<p>'.i18n::s('No page to display.');
-		if(Surfer::is_associate())
-			$items .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut'));
-		$items .= '</p>';
-
-	}
+	// query the database and layout that stuff
+	$items = '';
+	if($context['root_sections_layout'] != 'menu')
+		$items = Sections::list_by_title_for_anchor(NULL, 0, $items_per_page, $layout);
 
 	// we have an array to format
 	if(is_array($items)) {
 
-		// add a link to articles index
-		$items['articles/'] = array('', i18n::s('All pages'), '', 'shortcut');
+		// two columns
+		if($context['root_sections_layout'] == 'map')
+			$items =& Skin::build_list($items, '2-columns');
 
-		// make a string out of the array
-		if(isset($context['root_articles_layout']) && ($context['root_articles_layout'] == 'compact'))
-			$items =& Skin::build_list($items, 'compact');
+		// decorated
 		else
 			$items =& Skin::build_list($items, 'decorated');
-
-		// add a title in case of complex page
-		$title = '';
-		if(preg_match('/<h2>|<h3>/', $context['text'].$text)) {
-			$title = i18n::s('Recent Pages');
-		}
-
-		// make a box
-		if($items)
-			$items =& Skin::build_box($title, $items, 'header1', 'recent_articles');
-
-	}
-	$text .= $items;
-
-
-
-
-
-
-
-
-
-
 	}
 
-	// the suffix hook
-	if(is_callable(array('Hooks', 'include_scripts')))
-		$text .= Hooks::include_scripts('index.php#suffix');
+	// make a box
+	if($items)
+		$context['text'] .= $items;
 
-	// save in cache, whatever change, for 1 minute
-	Cache::put($cache_id, $text, 'stable', 60);
 }
 
-// page content
-$context['text'] .= $text;
+// the main hook
+if(is_callable(array('Hooks', 'include_scripts')))
+	$context['text'] .= Hooks::include_scripts('index.php');
 
-// the cover article
+// the list of most recent articles
+switch($context['root_articles_layout']) {
+case 'compact':
+	include_once $context['path_to_root'].'articles/layout_articles_as_compact.php';
+	$layout = new Layout_articles_as_compact();
+	break;
+case 'decorated':
+	include_once $context['path_to_root'].'articles/layout_articles.php';
+	$layout = new Layout_articles();
+	break;
+case 'no_articles':
+	$layout = NULL;
+	break;
+default:
+
+	// load layout, if one exists, for the home page
+	if(is_readable($context['path_to_root'].'skins/layout_home_articles_as_'.$context['root_articles_layout'].'.php')) {
+		$name = 'layout_home_articles_as_'.$context['root_articles_layout'];
+		include_once $context['path_to_root'].'skins/'.$name.'.php';
+		$layout = new $name;
+
+	// no layout to use
+	} else {
+
+		// useful warning for associates
+		if(Surfer::is_associate())
+			Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $context['root_articles_layout']));
+
+		// load default layout
+		include_once $context['path_to_root'].'skins/layout_home_articles_as_daily.php';
+		$layout = new Layout_home_articles_as_daily();
+	}
+}
+
+// the maximum number of articles
+if(isset($context['root_articles_count_at_home']) && ($context['root_articles_count_at_home'] > 0))
+	$items_per_page = $context['root_articles_count_at_home'];
+elseif(is_object($layout))
+	$items_per_page = $layout->items_per_page();
+else
+	$items_per_page = ARTICLES_PER_PAGE;
+
+// no layout
+if($layout === NULL)
+	$items = '';
+
+// look for recent articles across all sections
+elseif(!$items =& Articles::list_(0, $items_per_page, $layout)) {
+
+	// no article yet
+	$items = '<p>'.i18n::s('No page to display.');
+	if(Surfer::is_associate())
+		$items .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut'));
+	$items .= '</p>';
+
+}
+
+// we have an array to format
+if(is_array($items)) {
+
+	// add a link to articles index
+	$items['articles/'] = array('', i18n::s('All pages'), '', 'shortcut');
+
+	// make a string out of the array
+	if(isset($context['root_articles_layout']) && ($context['root_articles_layout'] == 'compact'))
+		$items =& Skin::build_list($items, 'compact');
+	else
+		$items =& Skin::build_list($items, 'decorated');
+
+	// add a title in case of complex page
+	$title = '';
+	if(preg_match('/<h2>|<h3>/', $context['text'].$text)) {
+		$title = i18n::s('Recent Pages');
+	}
+
+	// make a box
+	if($items)
+		$items =& Skin::build_box($title, $items, 'header1', 'recent_articles');
+
+}
+$context['text'] .= $items;
+
+// the suffix hook
+if(is_callable(array('Hooks', 'include_scripts')))
+	$context['text'] .= Hooks::include_scripts('index.php#suffix');
+
+// the trail of the cover article
 if((!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] != 'none'))) {
 
 	// may be changed in skin.php if necessary
