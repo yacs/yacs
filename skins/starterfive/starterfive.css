@@ -1,0 +1,346 @@
+
+/*
+ * ==|== base stylesheets ==========================================================
+ */
+
+/* html5boilerplate normalization */
+@import url("css/normalize.css");
+
+/* yacs base rules */
+@import url("../_reference/yacs.css");
+
+/* html5boilerplate base rules */
+@import url("css/main-top.css");
+
+/* knacss rules */
+@import url("css/knacss-garni.css");
+
+
+/* ==|== Author's custom styles================================================
+   Put your rules here
+   ========================================================================== */
+
+/**
+ * fix conflict or cancel cascading rules
+ */
+
+/* avoid cascade between knacss center and yacss center */
+.center div, .center nav, .center header { text-align : left;}
+
+/* no floating anchor in tabs */
+div.tabs li a, div.tabs li a span {
+	float : none;
+	display : inline-block;
+	padding : 0;
+	}
+
+/* given as table-cell in yacss, don't know why */
+dl.floating_box { display : block; }
+
+/* don't want menu list as blocks */
+dl dd a.menu_2 { display : inline;}
+
+/* not enought room either */
+div.digg div.votes {
+	 padding: 4px 0.7em 0;
+	}
+
+h1 {margin-top : 0; padding-top:0;}
+
+/* allow floating boxes to resize */
+dl.floating_box {max-width : 45%;}
+
+/**
+ * general style
+ */
+
+/* add a embed font for tabs */
+@font-face {
+	font-family: kenyancoffee;
+	src : url("fonts/kenyancoffee.eot");  /* IE */
+	src : local("☺"), url("fonts/kenyancoffee.ttf") format("truetype") ; /* others */
+	}
+
+body {
+	font-family : 'Open Sans', sans-serif; /* main font from google CDN*/
+	background : #212;
+	}
+
+/* links */
+a {
+	color : #E44D26;
+	text-decoration : none;
+	}
+
+a:visited {
+	color : coral;
+	}
+
+a:hover {
+	color : #C42C05;
+	text-decoration : underline;
+	}
+
+
+/**
+* customize main blocks
+*
+
+/* main background with two gradients */
+#upperbody {
+background: snow; /* Old browsers */
+background: -moz-linear-gradient(top, rgba(106,90,205,.3) 0%, rgba(106,90,205,.1) 200px,rgba(0,0,0,0) 200px), -moz-linear-gradient(45deg, snow 25%, rgba(234,225,175,1) 95%); /* FF3.6+ */
+background: -webkit-gradient(linear, left bottom, right top, color-stop(35%,rgba(252,252,252,1)), color-stop(100%,rgba(234,225,175,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, rgba(106,90,205,.3) 0%, rgba(106,90,205,.1) 200px,rgba(0,0,0,0) 200px), -webkit-linear-gradient(45deg, snow 35%,rgba(234,225,175,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, rgba(106,90,205,.3) 0%, rgba(106,90,205,.1) 200px,rgba(0,0,0,0) 200px), -o-linear-gradient(45deg, snow 35%,rgba(234,225,175,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, rgba(106,90,205,.3) 0%, rgba(106,90,205,.1) 200px,rgba(0,0,0,0) 200px), -ms-linear-gradient(45deg, snow 35%,rgba(234,225,175,1) 100%); /* IE10+ */
+background: linear-gradient(top, rgba(106,90,205,.3) 0%, rgba(106,90,205,.1) 200px,rgba(0,0,0,0) 200px), linear-gradient(45deg, snow 35%,rgba(234,225,175,1) 100%); /* W3C */
+-pie-background : linear-gradient(top, rgba(106,90,205,.3) 0%, rgba(106,90,205,.1) 200px,rgba(0,0,0,0) 200px), linear-gradient(45deg, snow 35%,rgba(234,225,175,1) 100%); /* IE with PIE.js */
+
+border-bottom : 1em solid #444;
+
+-moz-box-shadow : 0 0 4px black;
+-webkit-box-shadow : 0 0 4px black;
+box-shadow : 0 0 4px black;
+}
+
+/* container background and shadow borders */
+#container {
+	background:floralwhite;
+	-moz-box-shadow: 0 0 5px #888;
+	-webkit-box-shadow: 0 0 5px #888;
+	box-shadow: 0 0 5px #888;
+	}
+
+/* margin for blocks with content */
+.mod {padding : 1em;}
+
+/* leave some space after text in footer_panel */
+#footer_panel {padding-bottom : 1em;}
+
+/* header */
+#header_panel {
+	background:#F16529;
+	border-bottom : 1em solid #E44D26;
+	padding-bottom : 0;
+	color:white;
+	}
+
+/* header title and slogan styles */
+#header_title {font-size : 2em;}
+#header_title a {text-decoration:none;color:floralwhite;}
+#header_title a:hover {color:#FF9843;}
+
+#header_slogan {font-style : italic;text-align:right;margin:0;}
+
+/* footer panel is transparent, body is dark */
+#footer_panel {
+	color : whitesmoke;
+	text-align : center;
+	}
+
+#side_panel .navigation_box {
+	background : oldlace; /* old nav */
+	-moz-border-radius : 20px;
+	-webkit-border-radius : 20px;
+	border-radius : 20px;
+
+	background : -moz-linear-gradient(left, floralwhite 0%, #FAF1E3 100%);
+	background : -webkit-linear-gradient(left, floralwhite 0%, #FAF1E3 100%);
+	background : -o-linear-gradient(left, floralwhite 0%, #FAF1E3 100%);
+	background : -ms-linear-gradient(left, floralwhite 0%, #FAF1E3 100%);
+	background : linear-gradient(left, floralwhite 0%, #FAF1E3 100%);
+	-pie-background : linear-gradient(left, floralwhite 0%, #FAF1E3 100%);
+	}
+
+#extra_panel .extra_box {
+	background : oldlace;
+	border-radius : 20px;
+
+	background : -moz-linear-gradient(right, floralwhite 0%, #FAF1E3 100%);
+	background : -webkit-linear-gradient(right, floralwhite 0%, #FAF1E3 100%);
+	background : -o-linear-gradient(right, floralwhite 0%, #FAF1E3 100%);
+	background : -ms-linear-gradient(right, floralwhite 0%, #FAF1E3 100%);
+	background : linear-gradient(right, floralwhite 0%, #FAF1E3 100%);
+	-pie-background : linear-gradient(right, floralwhite 0%, #FAF1E3 100%);
+
+	padding-left : 1em;
+	}
+
+p#crumbs {
+	text-align : left;
+	padding : 0 1em;
+	}
+
+/**
+* customize tabs
+*/
+
+/* header must allow overflow for drop down menu */
+#header_panel {overflow : visible;}
+
+/* tabs are justified */
+nav.tabs {
+	text-align : justify;
+	padding : 1.5em 0 .5em 0;
+	}
+
+.tabs ul {
+	display : inline;
+	padding:0;
+	}
+
+.tabs ul li {
+	display: inline-block;
+	float : none;
+	}
+
+.tabs li a, .tabs li a span {
+	display: inline-block;
+	float: none;
+	padding: 0;
+	text-transform : uppercase;
+	font-size : 1.34em;
+	color : inherit;
+	font-family : kenyancoffee;
+}
+
+.tabs .dropmenu a {font-size : 1.2em;text-transform:none;}
+.tabs .dropmenu span {color:floralwhite;text-transform:none;}
+
+/* last dropmenu is align to the right not to overflow main container*/
+.tabs li:last-child .dropmenu {right:0;left:auto;}
+
+.tabs ul li .dropmenu {
+	background :#F16529;
+	/*border-radius : 0 0 12px 12px;*/
+	border : none;
+	padding : 0;
+	}
+
+.dropmenu .smartlist {
+	border : 5px solid #E44D26;
+	border-top : none;
+	display : block;
+	}
+
+.tabs .dropmenu li {background:transparent;}
+.dropmenu p.details {color: gainsboro;}
+
+.tabs .dropmenu li:hover {background: #E44D26;}
+
+
+/* last empty span that makes justification applyied */
+.finish-tabs {
+	display: inline-block;
+	height: 0;
+	position: relative;
+	width: 100%;
+}
+
+/**
+* adapt standard layouts to elastic width
+*/
+
+/* layout as map (yahoo) */
+dl.column_1, dl.column_2 { width : 46%;}
+dl.column_1 {margin-right : 2em;}
+dl.column_2 {margin-right : 0;}
+
+/* gadget boxes */
+dl.gadget_box {width : 45%;}
+
+
+/* ==|== media queries ======================================================
+   EXAMPLE Media Query for Responsive Design.
+   This example overrides the primary ('mobile first') styles
+   Modify as content requires.
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  /* tablets */
+	 
+  
+	 /* extra panel move to the bottom, each blocks try to fit on a line */   
+	 #extra_panel {	
+	     border-top : 1px solid lightgray;
+	 }
+	   
+	 #extra_panel .extra_box {
+	     display : inline-block;
+	     vertical-align : top;	     
+	     margin-right : 1em;
+	     padding-right : 1em;
+	     background : oldlace;
+	     margin-bottom : 0.5em;
+	     max-width : 50%;
+	 }    
+}
+
+@media (max-width: 640px), (max-width: 768px) and (orientation:portrait) {
+    /* smartphone or vertical oriented tablet */
+    
+    /* the three columns become lines, switch to boxes model bring main content at first position */
+    .tiny-box {
+	display:-moz-box !important; 
+	display:-webkit-box !important; 
+	display:box !important; 
+	-moz-box-orient : vertical;
+	-webkit-box-orient : vertical;
+	box-orient : vertical;
+    }
+    .tiny-box > * {
+	-moz-box-ordinal-group:2;
+	-webkit-box-ordinal-group:2;
+	box-ordinal-group:2;
+    }
+    #main_panel {
+	-moz-box-ordinal-group:1;
+	-webkit-box-ordinal-group:1;
+	box-ordinal-group:1;
+    }
+    
+    /* display navigation boxes on a line */
+    #side_panel .navigation_box {
+	     display : inline-block;
+	     vertical-align : top;	     
+	     margin-right : 1em;
+	     padding : 0 1em;
+	     background : oldlace;
+	     margin-bottom : 0.5em;
+	     max-width : 50%;
+	 }  
+	
+}
+
+@media (max-width:640px) and (orientation:portrait), (max-width:610px) {
+    /* narrow device or portrait oriented */
+    
+    /* display the tabs as list of blocks, hide drop menu */
+    .tabs ul li {display: block;}
+    .tabs ul li a {display:block;}
+    .tabs ul li .dropmenu {display:none!important;}
+    
+    /*floating box may take all width*/
+    dl.floating_box {max-width:100%;}
+    
+}
+
+
+
+@media only screen and (min-width: 35em) {
+  /* Style adjustments for viewports that meet the condition */
+
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+       only screen and (min-resolution: 144dpi) {
+    /* Style adjustments for high resolution devices */
+}
+
+/* ==|== non-semantic helper classes ========================================
+   Please define your styles before this section.
+   ========================================================================== */
+
+@import url("css/main-bottom.css");
+

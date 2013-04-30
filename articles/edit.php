@@ -963,7 +963,7 @@ if($with_form) {
 	}
 
 	// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
-	if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+	if( !isset($item['id']) || Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
 		$label = i18n::s('Access');
 		$input = Skin::build_active_set_input($item);
 		$hint = Skin::build_active_set_hint($anchor);

@@ -2,6 +2,7 @@ root        ./*.php
 agents      agents/*.php
 articles    articles/*.php
 behaviors   behaviors/*.php    behaviors/agreements/*.php
+canvas      canvas/*.php
 categories  categories/*.php
 codes       codes/*.php
 comments    comments/*.php
@@ -21,7 +22,7 @@ sections    sections/*.php
 servers     servers/*.php
 services    services/*.php
 shared      shared/*.php
-skins       skins/*.php       skins/_reference/avatars/*.php       skins/boxesandarrows/*.php       skins/digital/*.php       skins/flexible/*.php       skins/joi/*.php       skins/skeleton/*.php
+skins       skins/*.php       skins/_reference/avatars/*.php       skins/boxesandarrows/*.php       skins/digital/*.php       skins/flexible/*.php       skins/joi/*.php       skins/starterfive/*.php
 smileys     smileys/*.php
 tools       tools/*.php
 tables      tables/*.php
