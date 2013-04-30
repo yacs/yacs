@@ -128,12 +128,6 @@
  * For example, if a section has been overlaid with ##day##, and if its id has been set in ##root_sections_at_home##, then a pretty calendar of coming events will
  * be displayed at the front page.
  *
- * The list of most recent public files can be added as well,
- * by changing explicitly parameter [code]home_with_recent_files[/code].
- *
- * The list of most recent public links can be added as well,
- * by changing explicitly parameter [code]home_with_recent_links[/code].
- *
  * Bottom and trailing icons are clickable images linked to related articles.
  * For example, you would use this to show logos of your partners at the front page,
  * and create one page to introduce each partner.
@@ -501,33 +495,14 @@ if(!$text = Cache::get($cache_id)) {
 	}
 	$text .= $items;
 
-	// list recent files
-	if(isset($context['home_with_recent_files']) && ($context['home_with_recent_files'] == 'Y')){
 
-		// box title
-		$title = i18n::s('Recent files');
 
-		// link to the index page from the box title
-		$title =& Skin::build_box_title($title, 'files/', i18n::s('Files'));
 
-		// list most recent files
-		if($items = Files::list_by_date(0, COMPACT_LIST_SIZE, 'dates'))
-			$text .= Skin::build_box($title, Skin::build_list($items, 'compact'), 'header1', 'recent_files');
 
-	}
 
-	// list recent links
-	if(isset($context['home_with_recent_links']) && ($context['home_with_recent_links'] == 'Y')){
 
-		// box title
-		$title = i18n::s('Recent links');
 
-		// link to the index page from the box title
-		$title =& Skin::build_box_title($title, 'links/', i18n::s('More links'));
 
-		// list most recent links
-		if($items = Links::list_by_date(0, COMPACT_LIST_SIZE, 'dates'))
-			$text .= Skin::build_box($title, Skin::build_list($items, 'compact'), 'header1', 'recent_links');
 
 	}
 
@@ -792,43 +767,6 @@ if(!$text = Cache::get($cache_id)) {
 		}
 	}
 
-	// show last poll, if any
-	if(isset($context['home_with_recent_poll']) && ($context['home_with_recent_poll'] == 'Y')) {
-
-		$anchor = Anchors::get('section:polls');
-		if(is_object($anchor) && ($item =& Articles::get_newest_for_anchor($anchor->get_reference()))) {
-
-			// build a box
-			$box = array();
-			$box['text'] = '';
-
-			// get a title
-			$box['title'] = Codes::beautify_title($item['title']);
-
-			// link to the index page for polls
-			$box['title'] =& Skin::build_box_title($box['title'], $anchor->get_url(), i18n::s('Polls'));
-
-			// the introductory text
-			if($item['introduction'])
-				$box['text'] .= Codes::beautify($item['introduction']);
-
-			// get the related overlay, if any
-			$overlay = NULL;
-			if(isset($item['overlay']))
-				$overlay = Overlay::load($item, 'article:'.$item['id']);
-
-			// insert overlay data, if any
-			if(is_object($overlay))
-				$box['text'] .= $overlay->get_text('box', $item);
-
-			if($content)
-				$text .= Skin::build_box($box['title'], $box['text'], 'boxes', 'extra_poll');
-		}
-	}
-
-	// list recent pages
-	if(isset($context['home_with_older_articles']) && ($context['home_with_older_articles'] == 'Y')) {
-
 		if($items =& Articles::list_by('publication', $items_per_page, COMPACT_LIST_SIZE+1, 'compact')) {
 
 			// more at the index page
@@ -856,49 +794,6 @@ if(Surfer::is_associate() || (isset($context['with_referrals']) && ($context['wi
 //
 // compute navigation information -- $context['navigation']
 //
-
-// save some database requests
-$cache_id = 'index.php#navigation';
-if(!$text = Cache::get($cache_id)) {
-
-	// list most recent peering servers
-	if(isset($context['home_with_peering_servers']) && ($context['home_with_peering_servers'] == 'Y')) {
-		include_once $context['path_to_root'].'servers/servers.php';
-		if($items = Servers::list_by_date(0, COMPACT_LIST_SIZE, 'compact'))
-			$text .= Skin::build_box(i18n::s('Peers'), Skin::build_list($items, 'compact'), 'navigation', 'recent_servers');
-	}
-
-	// list most popular articles
-	if(isset($context['home_with_top_articles']) && ($context['home_with_top_articles'] == 'Y')) {
-		if($items =& Articles::list_by('hits', 0, COMPACT_LIST_SIZE, 'compact'))
-			$text .= Skin::build_box(i18n::s('Popular Pages'), Skin::build_list($items, 'compact'), 'navigation', 'popular_articles');
-	}
-
-	// list most popular files
-	if(isset($context['home_with_top_files']) && ($context['home_with_top_files'] == 'Y')) {
-		if($items = Files::list_by_hits(0, COMPACT_LIST_SIZE, 'compact'))
-			$text .= Skin::build_box(i18n::s('Popular Files'), Skin::build_list($items, 'compact'), 'navigation', 'popular_files');
-	}
-
-	// list most popular links
-	if(isset($context['home_with_top_links']) && ($context['home_with_top_links'] == 'Y')) {
-		include_once $context['path_to_root'].'links/links.php';
-		if($items = Links::list_by_hits(0, COMPACT_LIST_SIZE, 'compact'))
-			$text .= Skin::build_box(i18n::s('Popular Links'), Skin::build_list($items, 'compact'), 'navigation', 'popular_links');
-	}
-
-	// list random articles
-	if(isset($context['home_with_random_articles']) && ($context['home_with_random_articles'] == 'Y')) {
-		if($items =& Articles::list_by('random', 0, COMPACT_LIST_SIZE, 'compact'))
-			$text .= Skin::build_box(i18n::s('Random Pages'), Skin::build_list($items, 'compact'), 'navigation', 'random_articles');
-	}
-
-	// save in cache, whatever change, for 5 minutes
-	Cache::put($cache_id, $text, 'stable', 300);
-}
-
-// page navigation content
-$context['navigation'] .= $text;
 
 // a meta link to a feeding page
 $context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_root'].Feeds::get_url('rss').'" title="RSS" type="application/rss+xml" />';
