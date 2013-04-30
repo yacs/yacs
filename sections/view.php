@@ -59,7 +59,6 @@
  * 'compact'|[script]sections/layout_sections_as_compact.php[/script]
  * 'decorated'|[script]sections/layout_sections.php[/script]
  * 'folded'|[script]sections/layout_sections_as_folded.php[/script]
- * 'freemind'|[script]shared/codes.php[/script]
  * 'inline'|[script]sections/layout_sections_as_inline.php[/script]
  * 'jive'|[script]sections/layout_sections_as_jive.php[/script]
  * 'map' (also default value)|[script]sections/layout_sections_as_yahoo.php[/script]
@@ -994,17 +993,6 @@ if(!isset($item['id'])) {
 		}
 	}
 
-	// download content
-	if(Surfer::is_empowered() && !$zoom_type && (!isset($context['pages_without_freemind']) || ($context['pages_without_freemind'] != 'Y')) ) {
-
-		// box content
-		$content = Skin::build_link(Sections::get_url($item['id'], 'freemind', utf8::to_ascii($context['site_name'].' - '.strip_tags(Codes::beautify_title(trim($item['title']))).'.mm')), i18n::s('Freemind map'), 'basic');
-
-		// in a sidebar box
-		$context['components']['download'] = Skin::build_box(i18n::s('Download'), $content, 'download');
-
-	}
-
 	// referrals, if any
 	$context['components']['referrals'] =& Skin::build_referrals(Sections::get_permalink($item));
 
@@ -1608,15 +1596,10 @@ if(!isset($item['id'])) {
 	// associates may list special sections as well
 	if(!$zoom_type && Surfer::is_empowered()) {
 
-		// no special item yet
-		$items = array();
+		// inactive sections, if any
+		$items = Sections::list_inactive_by_title_for_anchor('section:'.$item['id'], 0, 50, 'compact');
 
-		// if sub-sections are rendered by Freemind applet, also provide regular links to empowered surfers
-		if(isset($item['sections_layout']) && ($item['sections_layout'] == 'freemind'))
-			$items = Sections::list_by_title_for_anchor('section:'.$item['id'], 0, 50, 'compact');
-
-		// append inactive sections, if any
-		$items = array_merge($items, Sections::list_inactive_by_title_for_anchor('section:'.$item['id'], 0, 50, 'compact'));
+		// we have an array to format
 		if(count($items))
 			$items =& Skin::build_list($items, 'compact');
 
