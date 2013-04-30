@@ -61,10 +61,6 @@
  * [*] [code]root_articles_count_at_home[/code] - Specify explicitly the number of articles to list at the front page.
  * By default YACS uses the value related to the selected layout.
  *
- * [*] [code]home_with_recent_files[/code] - List most recent files at the front page
- *
- * [*] [code]home_with_recent_links[/code] - List most recent links at the front page
- *
  *
  * Parameters for the extra panel of the front page:
  *
@@ -79,21 +75,6 @@
  * Use 'scroll' to animate the news.
  *
  * [*] [code]root_news_count[/code] - Specify explicitly the number of news to list at the front page.
- *
- * [*] [code]home_with_older_articles[/code] - List in a side box articles older that those featured in the
- * main area.
- *
- * [*] [code]home_with_peering_servers[/code] - Display a list of servers that have pinged us recently.
- *
- * [*] [code]home_with_random_articles[/code] - Display a list of random pages.
- *
- * [*] [code]home_with_recent_poll[/code] - List the current poll at the front page
- *
- * [*] [code]home_with_top_articles[/code] - List most read articles at the front page
- *
- * [*] [code]home_with_top_files[/code] - List most fetched files at the front page
- *
- * [*] [code]home_with_top_links[/code] - List most clicked links at the front page
  *
  *
  * Access to this page is reserved to associates.
@@ -364,26 +345,6 @@ elseif(!Surfer::is_associate()) {
 
 	$fields[] = array($label, $input);
 
-	// options
-	$label = i18n::s('Options');
-
-	// optional components for the main panel of the front page
-	$input = i18n::s('Following elements can be added to the main panel:').BR;
-
-	// with recent files
-	$checked = '';
-	if(isset($context['home_with_recent_files']) && ($context['home_with_recent_files'] == 'Y'))
-		$checked .= ' checked="checked"';
-	$input .= '<input type="checkbox" name="home_with_recent_files" value="Y" '.$checked.'/> '.i18n::s('Include the list of recent files').BR;
-
-	// with recent links
-	$checked = '';
-	if(isset($context['home_with_recent_links']) && ($context['home_with_recent_links'] == 'Y'))
-		$checked .= ' checked="checked"';
-	$input .= '<input type="checkbox" name="home_with_recent_links" value="Y" '.$checked.'/> '.i18n::s('Include the list of recent links').BR;
-
-	$fields[] = array($label, $input);
-
 	// build the form
 	$main .= Skin::build_form($fields);
 	$fields = array();
@@ -434,54 +395,6 @@ elseif(!Surfer::is_associate()) {
 	if(isset($context['root_news_layout']) && ($context['root_news_layout'] == 'none'))
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Do not list news.');
-	$fields[] = array($label, $input);
-
-	// optional components in the extra panel
-	$label = i18n::s('Extra');
-	$input = i18n::s('Following elements can be added to the extra panel:');
-
-	// with recent poll
-	$checked = '';
-	if(isset($context['home_with_recent_poll']) && ($context['home_with_recent_poll'] == 'Y'))
-		$checked = 'checked="checked" ';
-	$input .= BR.'<input type="checkbox" name="home_with_recent_poll" value="Y" '.$checked.'/> '.i18n::s('Include the last recent poll');
-
-	// with peering servers
-	$checked = '';
-	if(isset($context['home_with_peering_servers']) && ($context['home_with_peering_servers'] == 'Y'))
-		$checked = 'checked="checked" ';
-	$input .= BR.'<input type="checkbox" name="home_with_peering_servers" value="Y" '.$checked.'/> '.i18n::s('Include the list of servers that ping us');
-
-	// with older articles
-	$checked = '';
-	if(isset($context['home_with_older_articles']) && ($context['home_with_older_articles'] == 'Y'))
-		$checked = 'checked="checked" ';
-	$input .= BR.'<input type="checkbox" name="home_with_older_articles" value="Y" '.$checked.'/> '.i18n::s('List older articles as well');
-
-	// with top articles
-	$checked = '';
-	if(isset($context['home_with_top_articles']) && ($context['home_with_top_articles'] == 'Y'))
-		$checked = 'checked="checked" ';
-	$input .= BR.'<input type="checkbox" name="home_with_top_articles" value="Y" '.$checked.'/> '.i18n::s('Include the list of most read articles');
-
-	// with top files
-	$checked = '';
-	if(isset($context['home_with_top_files']) && ($context['home_with_top_files'] == 'Y'))
-		$checked = 'checked="checked" ';
-	$input .= BR.'<input type="checkbox" name="home_with_top_files" value="Y" '.$checked.'/> '.i18n::s('Include the list of most popular files');
-
-	// with top links
-	$checked = '';
-	if(isset($context['home_with_top_links']) && ($context['home_with_top_links'] == 'Y'))
-		$checked = 'checked="checked" ';
-	$input .= BR.'<input type="checkbox" name="home_with_top_links" value="Y" '.$checked.'/> '.i18n::s('Include the list of most popular links');
-
-	// with random articles
-	$checked = '';
-	if(isset($context['home_with_random_articles']) && ($context['home_with_random_articles'] == 'Y'))
-		$checked = 'checked="checked" ';
-	$input .= BR.'<input type="checkbox" name="home_with_random_articles" value="Y" '.$checked.'/> '.i18n::s('Include a sample of random articles');
-
 	$fields[] = array($label, $input);
 
 	// build the form
@@ -567,24 +480,6 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'root_flash_at_home\']=\''.addcslashes($_REQUEST['root_flash_at_home'], "\\'")."';\n";
 	if(isset($_REQUEST['root_gadget_boxes_at_home']))
 		$content .= '$context[\'root_gadget_boxes_at_home\']=\''.addcslashes($_REQUEST['root_gadget_boxes_at_home'], "\\'")."';\n";
-	if(isset($_REQUEST['home_with_older_articles']))
-		$content .= '$context[\'home_with_older_articles\']=\''.addcslashes($_REQUEST['home_with_older_articles'], "\\'")."';\n";
-	if(isset($_REQUEST['home_with_peering_servers']))
-		$content .= '$context[\'home_with_peering_servers\']=\''.addcslashes($_REQUEST['home_with_peering_servers'], "\\'")."';\n";
-	if(isset($_REQUEST['home_with_random_articles']))
-		$content .= '$context[\'home_with_random_articles\']=\''.addcslashes($_REQUEST['home_with_random_articles'], "\\'")."';\n";
-	if(isset($_REQUEST['home_with_recent_files']))
-		$content .= '$context[\'home_with_recent_files\']=\''.addcslashes($_REQUEST['home_with_recent_files'], "\\'")."';\n";
-	if(isset($_REQUEST['home_with_recent_links']))
-		$content .= '$context[\'home_with_recent_links\']=\''.addcslashes($_REQUEST['home_with_recent_links'], "\\'")."';\n";
-	if(isset($_REQUEST['home_with_recent_poll']))
-		$content .= '$context[\'home_with_recent_poll\']=\''.addcslashes($_REQUEST['home_with_recent_poll'], "\\'")."';\n";
-	if(isset($_REQUEST['home_with_top_articles']))
-		$content .= '$context[\'home_with_top_articles\']=\''.addcslashes($_REQUEST['home_with_top_articles'], "\\'")."';\n";
-	if(isset($_REQUEST['home_with_top_files']))
-		$content .= '$context[\'home_with_top_files\']=\''.addcslashes($_REQUEST['home_with_top_files'], "\\'")."';\n";
-	if(isset($_REQUEST['home_with_top_links']))
-		$content .= '$context[\'home_with_top_links\']=\''.addcslashes($_REQUEST['home_with_top_links'], "\\'")."';\n";
 	if(isset($_REQUEST['root_featured_layout']))
 		$content .= '$context[\'root_featured_layout\']=\''.addcslashes($_REQUEST['root_featured_layout'], "\\'")."';\n";
 	if(isset($_REQUEST['root_featured_count']))
