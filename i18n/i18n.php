@@ -1181,7 +1181,6 @@ Class i18n {
 				.' * cache localized strings'."\n"
 				.' *'."\n"
 				.' * This file has been created by the script i18n/i18n.php. Please do not modify it manually.'."\n"
-				.' * @reference'."\n"
 				.' */'."\n";
 
 		}
