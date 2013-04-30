@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-06 21:24+0100\n"
+"POT-Creation-Date: 2013-04-02 11:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,7 +39,7 @@ msgid "Control Panel"
 msgstr ""
 
 #: control/backup.php:98 control/backup.php:365 control/backup.php:473
-#: control/backup.php:577 control/index.php:888
+#: control/backup.php:577 control/index.php:889
 msgid "Backup/Restore"
 msgstr ""
 
@@ -449,8 +449,8 @@ msgstr ""
 msgid "Compute all page elements."
 msgstr ""
 
-#: control/configure.php:396 control/index.php:265 control/index.php:737
-#: control/index.php:882
+#: control/configure.php:396 control/index.php:265 control/index.php:738
+#: control/index.php:883
 msgid "Background processing"
 msgstr ""
 
@@ -712,7 +712,7 @@ msgstr ""
 msgid "Database"
 msgstr ""
 
-#: control/configure.php:717 control/index.php:917
+#: control/configure.php:717 control/index.php:918
 msgid "System"
 msgstr ""
 
@@ -797,7 +797,7 @@ msgstr ""
 msgid "Configure again"
 msgstr ""
 
-#: control/import.php:23 control/index.php:714
+#: control/import.php:23 control/index.php:715
 msgid "Import XML content"
 msgstr ""
 
@@ -945,7 +945,7 @@ msgstr ""
 msgid "%s - define permissions given to people"
 msgstr ""
 
-#: control/index.php:235 control/index.php:933
+#: control/index.php:235 control/index.php:934
 msgid "People"
 msgstr ""
 
@@ -982,7 +982,7 @@ msgstr ""
 msgid "%s - enhance information provided through RSS"
 msgstr ""
 
-#: control/index.php:247 control/index.php:721 control/populate.php:646
+#: control/index.php:247 control/index.php:722 control/populate.php:646
 #: control/populate.php:649
 msgid "Information channels"
 msgstr ""
@@ -992,7 +992,7 @@ msgstr ""
 msgid "%s - to share and stream existing directories and files"
 msgstr ""
 
-#: control/index.php:250 control/index.php:710
+#: control/index.php:250 control/index.php:711
 msgid "File collections"
 msgstr ""
 
@@ -1011,7 +1011,7 @@ msgstr ""
 msgid "%s - change the template used for newsletters"
 msgstr ""
 
-#: control/index.php:256 control/index.php:673
+#: control/index.php:256 control/index.php:674
 msgid "Newsletters"
 msgstr ""
 
@@ -1020,7 +1020,7 @@ msgstr ""
 msgid "%s - change parameters for back-end services"
 msgstr ""
 
-#: control/index.php:259 control/index.php:724
+#: control/index.php:259 control/index.php:725
 msgid "Web services"
 msgstr ""
 
@@ -1071,251 +1071,251 @@ msgstr ""
 
 #: control/index.php:301 control/index.php:312 control/index.php:323
 #: control/index.php:334 control/index.php:345 control/index.php:356
-#: control/index.php:367 control/index.php:378 control/index.php:392
-#: control/index.php:403 control/index.php:418 control/index.php:429
-#: control/index.php:440 control/index.php:451 control/index.php:462
-#: control/index.php:473 control/index.php:484 control/index.php:495
-#: control/index.php:507 control/index.php:519 control/index.php:530
-#: control/index.php:541 control/index.php:552 control/index.php:563
-#: control/index.php:574 control/index.php:585 control/index.php:596
+#: control/index.php:367 control/index.php:378 control/index.php:393
+#: control/index.php:404 control/index.php:419 control/index.php:430
+#: control/index.php:441 control/index.php:452 control/index.php:463
+#: control/index.php:474 control/index.php:485 control/index.php:496
+#: control/index.php:508 control/index.php:520 control/index.php:531
+#: control/index.php:542 control/index.php:553 control/index.php:564
+#: control/index.php:575 control/index.php:586 control/index.php:597
 msgid "unknown or empty table"
-msgstr ""
-
-#: control/index.php:638
-#, php-format
-msgid "%d tables and %d records in %sbytes"
 msgstr ""
 
 #: control/index.php:639
 #, php-format
+msgid "%d tables and %d records in %sbytes"
+msgstr ""
+
+#: control/index.php:640
+#, php-format
 msgid "(%sbytes data, %sbytes index, %sbytes unused)"
 msgstr ""
 
-#: control/index.php:643
+#: control/index.php:644
 msgid "Overview"
 msgstr ""
 
-#: control/index.php:653
+#: control/index.php:654
 #, php-format
 msgid "Please %s to benefit from all contribution tools provided by this site."
 msgstr ""
 
-#: control/index.php:653
+#: control/index.php:654
 msgid "authenticate"
 msgstr ""
 
-#: control/index.php:657
+#: control/index.php:658
 #, php-format
 msgid "%s if you have not yet a profile for yourself at %s."
 msgstr ""
 
-#: control/index.php:657
+#: control/index.php:658
 msgid "Click here to register"
 msgstr ""
 
-#: control/index.php:660
+#: control/index.php:661
 msgid "Express yourself"
 msgstr ""
 
-#: control/index.php:669
+#: control/index.php:670
 #, php-format
 msgid "%s - articles waiting for publication, pending requests"
 msgstr ""
 
-#: control/index.php:669
+#: control/index.php:670
 msgid "Review queue"
 msgstr ""
 
-#: control/index.php:673
+#: control/index.php:674
 #, php-format
 msgid "%s - broadcast digests and announcements by e-mail"
 msgstr ""
 
-#: control/index.php:679
+#: control/index.php:680
 #, php-format
 msgid ""
 "%s - select a section and type some text, then add images, files and links"
 msgstr ""
 
-#: control/index.php:679 control/populate.php:776
+#: control/index.php:680 control/populate.php:776
 msgid "Add a page"
 msgstr ""
 
-#: control/index.php:680
+#: control/index.php:681
 #, php-format
 msgid "%s - fill pre-defined fields, then add images, files and links"
 msgstr ""
 
-#: control/index.php:680
+#: control/index.php:681
 msgid "Use a form"
 msgstr ""
 
-#: control/index.php:686
+#: control/index.php:687
 #, php-format
 msgid "%s - create blogs, wikis, forums, and more"
 msgstr ""
 
-#: control/index.php:686 control/populate.php:108
+#: control/index.php:687 control/populate.php:108
 msgid "Content Assistant"
 msgstr ""
 
-#: control/index.php:690
+#: control/index.php:691
 #, php-format
 msgid "%s - you may enhance %s of some sections"
 msgstr ""
 
-#: control/index.php:691 control/index.php:931 control/populate.php:731
+#: control/index.php:692 control/index.php:932 control/populate.php:731
 msgid "Site map"
 msgstr ""
 
-#: control/index.php:692
+#: control/index.php:693
 msgid "behaviors"
 msgstr ""
 
-#: control/index.php:696
+#: control/index.php:697
 #, php-format
 msgid "%s - some have %s"
 msgstr ""
 
-#: control/index.php:697
+#: control/index.php:698
 msgid "Template pages"
 msgstr ""
 
-#: control/index.php:698
+#: control/index.php:699
 msgid "overlays"
 msgstr ""
 
-#: control/index.php:702
+#: control/index.php:703
 #, php-format
 msgid "%s, including: %s, %s, %s and %s"
 msgstr ""
 
-#: control/index.php:703 control/populate.php:322
+#: control/index.php:704 control/populate.php:322
 msgid "Global pages"
 msgstr ""
 
-#: control/index.php:704
+#: control/index.php:705
 msgid "the cover page"
 msgstr ""
 
-#: control/index.php:705 control/populate.php:726
+#: control/index.php:706 control/populate.php:726
 msgid "Menu"
 msgstr ""
 
-#: control/index.php:706 control/populate.php:487
+#: control/index.php:707 control/populate.php:487
 msgid "About this site"
 msgstr ""
 
-#: control/index.php:707 control/populate.php:747
+#: control/index.php:708 control/populate.php:747
 msgid "Privacy statement"
 msgstr ""
 
-#: control/index.php:710
+#: control/index.php:711
 #, php-format
 msgid "%s - shared directories and files"
 msgstr ""
 
-#: control/index.php:714
+#: control/index.php:715
 #, php-format
 msgid "%s - exported from another server"
 msgstr ""
 
-#: control/index.php:718
+#: control/index.php:719
 #, php-format
 msgid "%s - update the database"
 msgstr ""
 
-#: control/index.php:718
+#: control/index.php:719
 msgid "Upload a .CSV file"
 msgstr ""
 
-#: control/index.php:721
+#: control/index.php:722
 #, php-format
 msgid "%s - all feeds available (RSS, ATOM)"
 msgstr ""
 
-#: control/index.php:724
+#: control/index.php:725
 #, php-format
 msgid "%s - connect remote computers through XML-RPC or REST"
 msgstr ""
 
-#: control/index.php:727
+#: control/index.php:728
 #, php-format
 msgid "%s - codes you can use to beautify your pages"
 msgstr ""
 
-#: control/index.php:727
+#: control/index.php:728
 msgid "Codes"
 msgstr ""
 
-#: control/index.php:730
+#: control/index.php:731
 #, php-format
 msgid "%s - smileys available for your posts"
 msgstr ""
 
-#: control/index.php:730
+#: control/index.php:731
 msgid "Smileys"
 msgstr ""
 
-#: control/index.php:733
+#: control/index.php:734
 #, php-format
 msgid "%s - some pictures you may choose for your profile"
 msgstr ""
 
-#: control/index.php:733
+#: control/index.php:734
 msgid "Avatars"
 msgstr ""
 
-#: control/index.php:737
+#: control/index.php:738
 #, php-format
 msgid "%s - learn about your visitors"
 msgstr ""
 
-#: control/index.php:740
+#: control/index.php:741
 msgid "Content management"
 msgstr ""
 
-#: control/index.php:746
+#: control/index.php:747
 msgid ""
 "To install following bookmarklets, right-click over them and add them to "
 "your bookmarks or favorites. Then recall them at any time while browsing the "
 "Internet, to add content to this site."
 msgstr ""
 
-#: control/index.php:757
+#: control/index.php:758
 #, php-format
 msgid "Blog at %s"
 msgstr ""
 
-#: control/index.php:768
+#: control/index.php:769
 #, php-format
 msgid "Bookmark at %s"
 msgstr ""
 
-#: control/index.php:774
+#: control/index.php:775
 #, php-format
 msgid ""
 "If your browser supports side panels and javascript, click on the following "
 "link to %s."
 msgstr ""
 
-#: control/index.php:774
+#: control/index.php:775
 msgid "add a blogging panel"
 msgstr ""
 
-#: control/index.php:783
+#: control/index.php:784
 msgid ""
 "The panel has been added. You may have to ask your browser to make it "
 "visible (Ctrl-B for Firefox)."
 msgstr ""
 
-#: control/index.php:790
+#: control/index.php:791
 msgid ""
 "Your browser does not support side panels. Have you considered to upgrade to "
 "Mozilla Firefox?"
 msgstr ""
 
-#: control/index.php:799
+#: control/index.php:800
 #, php-format
 msgid ""
 "If you are running Internet Explorer under Windows, click on the following "
@@ -1323,151 +1323,151 @@ msgid ""
 "the browser afterwards."
 msgstr ""
 
-#: control/index.php:799
+#: control/index.php:800
 msgid "add a contextual bookmarklet"
 msgstr ""
 
-#: control/index.php:802
+#: control/index.php:803
 msgid "Blogging tools"
 msgstr ""
 
-#: control/index.php:806
+#: control/index.php:807
 msgid "Content"
 msgstr ""
 
-#: control/index.php:855
+#: control/index.php:856
 msgid "Server time zone"
 msgstr ""
 
-#: control/index.php:856
+#: control/index.php:857
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: control/index.php:862 control/info.php:107
+#: control/index.php:863 control/info.php:107
 msgid "Memory"
 msgstr ""
 
-#: control/index.php:871
+#: control/index.php:872
 msgid "System overview"
 msgstr ""
 
-#: control/index.php:877
+#: control/index.php:878
 #, php-format
 msgid "%s - basic view of the system"
 msgstr ""
 
-#: control/index.php:877
+#: control/index.php:878
 msgid "Test"
-msgstr ""
-
-#: control/index.php:881
-#, php-format
-msgid "%s - phpinfo() and more"
-msgstr ""
-
-#: control/index.php:881 control/info.php:45
-msgid "Run-time information"
 msgstr ""
 
 #: control/index.php:882
 #, php-format
+msgid "%s - phpinfo() and more"
+msgstr ""
+
+#: control/index.php:882 control/info.php:45
+msgid "Run-time information"
+msgstr ""
+
+#: control/index.php:883
+#, php-format
 msgid "%s - operation summary"
 msgstr ""
 
-#: control/index.php:888
+#: control/index.php:889
 #, php-format
 msgid "%s - the safety tool; also useful to submit bulk SQL statements"
 msgstr ""
 
-#: control/index.php:890
+#: control/index.php:891
 #, php-format
 msgid ""
 "%s - check the database structure; also optimize data tables and update index"
 msgstr ""
 
-#: control/index.php:890 control/scan.php:783 control/scan.php:802
+#: control/index.php:891 control/scan.php:783 control/scan.php:802
 #: control/setup.php:102
 msgid "Database maintenance"
 msgstr ""
 
-#: control/index.php:892
+#: control/index.php:893
 #, php-format
 msgid "%s - clear the cache or delete what can be safely deleted"
 msgstr ""
 
-#: control/index.php:892 control/purge.php:70
+#: control/index.php:893 control/purge.php:70
 msgid "Purge"
 msgstr ""
 
-#: control/index.php:894
+#: control/index.php:895
 #, php-format
 msgid "%s - shut the server down, or fire it up again"
 msgstr ""
 
-#: control/index.php:894
+#: control/index.php:895
 msgid "Switch"
 msgstr ""
 
-#: control/index.php:898
+#: control/index.php:899
 #, php-format
 msgid "%s - some upgrades are waiting for execution"
 msgstr ""
 
-#: control/index.php:898
+#: control/index.php:899
 msgid "Run once"
 msgstr ""
 
-#: control/index.php:901
+#: control/index.php:902
 #, php-format
 msgid "%s - server software"
 msgstr ""
 
-#: control/index.php:903
+#: control/index.php:904
 #, php-format
 msgid "%s - plugins and other pieces of software hooked into yacs"
 msgstr ""
 
-#: control/index.php:903 control/populate.php:850
+#: control/index.php:904 control/populate.php:850
 msgid "Extensions"
 msgstr ""
 
-#: control/index.php:905
+#: control/index.php:906
 #, php-format
 msgid "%s - change permissions of files"
 msgstr ""
 
-#: control/index.php:905
+#: control/index.php:906
 msgid "Permissions"
 msgstr ""
 
-#: control/index.php:907
+#: control/index.php:908
 #, php-format
 msgid "%s - other commands"
 msgstr ""
 
-#: control/index.php:907
+#: control/index.php:908
 msgid "Tools"
 msgstr ""
 
-#: control/index.php:913
+#: control/index.php:914
 msgid "System management"
 msgstr ""
 
-#: control/index.php:932 control/populate.php:477 control/populate.php:732
+#: control/index.php:933 control/populate.php:477 control/populate.php:732
 msgid "Categories"
 msgstr ""
 
-#: control/index.php:939 control/populate.php:733
+#: control/index.php:940 control/populate.php:733
 msgid "Help"
 msgstr ""
 
-#: control/index.php:942
+#: control/index.php:943
 msgid "See also"
 msgstr ""
 
-#: control/index.php:989
+#: control/index.php:990
 msgid "Modules"
 msgstr ""
 
