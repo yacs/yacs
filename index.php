@@ -52,8 +52,6 @@
  * - A list of sections. Several layouts are available?
  * - Text produced by hooks included on id 'index.php'
  * - The list of most recent articles. Several layouts are available, as explained below.
- * - The list of most recent files
- * - The list of most recent links
  * - Bottom icons
  * - Text produced by hooks included on id 'index.php#suffix'
  *
@@ -146,23 +144,11 @@
  *
  * Following components are displayed as boxes in the extra panel:
  * - The list of featured articles, if any
- * - News
  * - Articles featured as extra boxes (one box per article) -- see the '[code]extra_boxes[/code]' section
- * - Sections featured as extra boxes (one box per section), if any
- * - Categories configured to appear here, if any - one box per category, with a list of related articles
- * - A list of older pages
  *
  * Featured pages are those articles that have been assigned to the category dedicated to that purpose.
  * To feature one particular article, display it, then use side links to change assigned categories.
  * Select the category named Featured in the drop list and click on the button.
- *
- * [title]The navigation panel[/title]
- * Following items are put in the navigation panel:
- * - The list of most popular pages, if configured in [script]configure.php[/script]
- * - The list of most popular files, if configured in [script]configure.php[/script]
- * - The list of most popular links, if configured in [script]configure.php[/script]
- * - A list of articles selected randomly, if configured in [script]configure.php[/script]
- *
  *
  * [title]Customized templates[/title]
  *
@@ -582,7 +568,7 @@ if($anchor = Sections::lookup('extra_boxes')) {
 
 }
 
-// page extra content
+// boxes
 $context['components']['boxes'] = $text;
 
 // referrals, if any
