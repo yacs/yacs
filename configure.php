@@ -271,7 +271,7 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="root_gadget_boxes_at_home" value="Y"';
 	if(!isset($context['root_gadget_boxes_at_home']) || ($context['root_gadget_boxes_at_home'] != 'N'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Display up to 6 gadget boxes. Post articles in %s to add more boxes. You can also flag some sections or some categories to list their content in gadget boxes.'), Skin::build_link(Sections::get_url('gadget_boxes'), i18n::s('the section dedicated to gadget boxes'), 'shortcut'));
+	$input .= '/> '.sprintf(i18n::s('Display up to 6 gadget boxes. Post articles in %s to add more boxes.'), Skin::build_link(Sections::get_url('gadget_boxes'), i18n::s('the section dedicated to gadget boxes'), 'shortcut'));
 	$input .= BR.'<input type="radio" name="root_gadget_boxes_at_home" value="N"';
 	if(isset($context['root_gadget_boxes_at_home']) && ($context['root_gadget_boxes_at_home'] == 'N'))
 		$input .= ' checked="checked"';

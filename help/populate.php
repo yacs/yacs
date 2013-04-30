@@ -8,7 +8,7 @@
  * - 'blog' -- create a blog
  * - 'book' -- create a book
  * - 'build' -- create default items, like for first installation
- * - 'composite' -- with scrolling news, plus gadget and extra boxes
+ * - 'composite' -- with scrolling news
  * - 'forum' -- create several structured discussion boards using the yabb layout
  * - 'links' -- create a Yahoo-like directory of links
  * - 'original' -- post original articles
@@ -147,7 +147,6 @@ if(!$permitted) {
 		$label = i18n::s('Front page');
 		$input = i18n::s('Content of this section should be:').BR;
 		$input .= '<input type="radio" name="home_panel" value="main" checked="checked" /> '.i18n::s('displayed in the main panel').BR;
-		$input .= '<input type="radio" name="home_panel" value="gadget" /> '.i18n::s('listed in the main panel, in a gadget box').BR;
 		$input .= '<input type="radio" name="home_panel" value="extra" /> '.i18n::s('listed on page side, in an extra box').BR;
 		$input .= '<input type="radio" name="home_panel" value="none" /> '.i18n::s('not displayed at the front page');
 		$fields[] = array($label, $input);
@@ -465,24 +464,6 @@ if(!$permitted) {
 		$context['text'] .= Skin::build_form($fields);
 		$fields = array();
 
-		// gadget boxes
-		$context['text'] .= Skin::build_block(i18n::s('Gadget boxes'), 'subtitle');
-
-		$input = '<input type="checkbox" name="gadget_check" checked="checked" /> '.i18n::s('Add a companion section to post articles that will appear in individual gadget boxes');
-		$context['text'] .= '<p>'.$input.'</p>';
-
-		$label = i18n::s('Title');
-		$input = '<input type="text" name="gadget_title" size="50" value="'.encode_field(i18n::c('Gadget boxes')).'" />';
-		$fields[] = array($label, $input);
-
-		$label = i18n::s('Introduction');
-		$input = '<textarea name="gadget_introduction" rows="2" cols="50">'.encode_field(i18n::c('Post here articles that will appear in individual gadget boxes, in the middle of the index page of the parent section')).'</textarea>';
-		$fields[] = array($label, $input);
-
-		// update the form
-		$context['text'] .= Skin::build_form($fields);
-		$fields = array();
-
 		// extra boxes
 		$context['text'] .= Skin::build_block(i18n::s('Extra boxes'), 'subtitle');
 
@@ -560,30 +541,6 @@ if(!$permitted) {
 				$article['anchor'] = 'section:'.$section['id'];
 				$article['title'] = i18n::c('sample');
 				$article['description'] = i18n::c('This is a sample scrolling news.');
-				$article['id'] = Articles::post($article);
-			}
-
-		}
-
-		// gadget section
-		if($_REQUEST['gadget_check']) {
-
-			$section = array();
-			$section['anchor'] = 'section:'.$item['id'];
-			$section['title'] = $_REQUEST['gadget_title'];
-			$section['introduction'] = $_REQUEST['gadget_introduction'];
-			$section['index_panel'] = 'gadget_boxes';
-			$section['home_panel'] = 'none';	// new pages are not pushed at the front page
-			$section['content_options'] = 'without_rating';
-			if($section['title'])
-				$section['id'] = Sections::post($section, FALSE);
-
-			// add one sample article
-			if($section['id']) {
-				$article = array();
-				$article['anchor'] = 'section:'.$section['id'];
-				$article['title'] = i18n::c('Gadget box');
-				$article['description'] = i18n::c('This is a sample gadget box.');
 				$article['id'] = Articles::post($article);
 			}
 
@@ -997,7 +954,6 @@ if(!$permitted) {
 		$label = i18n::s('Front page');
 		$input = i18n::s('Content of this section should be:').BR;
 		$input .= '<input type="radio" name="home_panel" value="main" checked="checked" /> '.i18n::s('displayed in the main panel').BR;
-		$input .= '<input type="radio" name="home_panel" value="gadget" /> '.i18n::s('listed in the main panel, in a gadget box').BR;
 		$input .= '<input type="radio" name="home_panel" value="extra" /> '.i18n::s('listed on page side, in an extra box').BR;
 		$input .= '<input type="radio" name="home_panel" value="none" /> '.i18n::s('not displayed at the front page');
 		$fields[] = array($label, $input);
@@ -1231,7 +1187,6 @@ if(!$permitted) {
 		$label = i18n::s('Front page');
 		$input = i18n::s('Content of this section should be:').BR;
 		$input .= '<input type="radio" name="home_panel" value="main" checked="checked" /> '.i18n::s('displayed in the main panel').BR;
-		$input .= '<input type="radio" name="home_panel" value="gadget" /> '.i18n::s('listed in the main panel, in a gadget box').BR;
 		$input .= '<input type="radio" name="home_panel" value="extra" /> '.i18n::s('listed on page side, in an extra box').BR;
 		$input .= '<input type="radio" name="home_panel" value="none" /> '.i18n::s('not displayed at the front page');
 		$fields[] = array($label, $input);
@@ -1350,7 +1305,6 @@ if(!$permitted) {
 		$label = i18n::s('Front page');
 		$input = i18n::s('Content of this section should be:').BR;
 		$input .= '<input type="radio" name="home_panel" value="main" checked="checked" /> '.i18n::s('displayed in the main panel').BR;
-		$input .= '<input type="radio" name="home_panel" value="gadget" /> '.i18n::s('listed in the main panel, in a gadget box').BR;
 		$input .= '<input type="radio" name="home_panel" value="extra" /> '.i18n::s('listed on page side, in an extra box').BR;
 		$input .= '<input type="radio" name="home_panel" value="none" /> '.i18n::s('not displayed at the front page');
 		$fields[] = array($label, $input);
@@ -1592,7 +1546,6 @@ if(!$permitted) {
 		$label = i18n::s('Front page');
 		$input = i18n::s('Content of this section should be:').BR;
 		$input .= '<input type="radio" name="home_panel" value="main" checked="checked" /> '.i18n::s('displayed in the main panel').BR;
-		$input .= '<input type="radio" name="home_panel" value="gadget" /> '.i18n::s('listed in the main panel, in a gadget box').BR;
 		$input .= '<input type="radio" name="home_panel" value="extra" /> '.i18n::s('listed on page side, in an extra box').BR;
 		$input .= '<input type="radio" name="home_panel" value="none" /> '.i18n::s('not displayed at the front page');
 		$fields[] = array($label, $input);
@@ -1716,7 +1669,7 @@ if(!$permitted) {
 	$context['text'] .= '<p><input type="radio" name="action" value="book" /> '.i18n::s('Add an electronic book, or a manual -- actually, a structured set of pages').'</p>'."\n";
 
 	// create a composite section
-	$context['text'] .= '<p><input type="radio" name="action" value="composite" /> '.i18n::s('Add a composite section -- with scrolling news, plus gadget and extra boxes').'</p>'."\n";
+	$context['text'] .= '<p><input type="radio" name="action" value="composite" /> '.i18n::s('Add a composite section -- with scrolling news').'</p>'."\n";
 
 	// create a section for polls
 	$context['text'] .= '<p><input type="radio" name="action" value="polls" /> '.i18n::s('Add a section for polls -- the most recent is active; previous polls are still listed').'</p>'."\n";

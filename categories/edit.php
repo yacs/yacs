@@ -725,10 +725,6 @@ if($with_form) {
 		if(isset($item['display']) && ($item['display'] == 'site:all'))
 			$input .= ' checked="checked"';
 		$input .= '/> '.i18n::s('at all pages, among other navigation boxes')
-			.BR.'<input type="radio" name="display" value="home:gadget"';
-		if(isset($item['display']) && ($item['display'] == 'home:gadget'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('in the middle of the front page, among other gadget boxes')
 			.BR.'<input type="radio" name="display" value="home:extra"';
 		if(isset($item['display']) && ($item['display'] == 'home:extra'))
 			$input .= ' checked="checked"';

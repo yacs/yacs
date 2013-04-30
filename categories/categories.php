@@ -81,7 +81,6 @@
  * Following anchors are recognized for categories:
  * - 'site:all' - build one navigation box for the category, in skins/your_skin/template.php
  * - 'home:extra' - build one extra box for the category at the front page, in index.php
- * - 'home:gadget' - build one gadget box in the middle of the front page, in index.php
  * - 'article:index' - a sidebar at articles/index.php
  * - 'file:index' - a sidebar at files/index.php
  * - 'link:index' - a sidebar at links/index.php
