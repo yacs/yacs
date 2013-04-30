@@ -536,15 +536,8 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 	// associates may list special sections as well
 	if(!$zoom_type && Surfer::is_empowered()) {
 
-		// no special item yet
-		$items = array();
-
-		// if sub-sections are rendered by Freemind applet, also provide regular links to empowered surfers
-		if(isset($item['sections_layout']) && ($item['sections_layout'] == 'freemind'))
-			$items = Sections::list_by_title_for_anchor('section:'.$item['id'], 0, 50, 'compact');
-
-		// append inactive sections, if any
-		$items = array_merge($items, Sections::list_inactive_by_title_for_anchor('section:'.$item['id'], 0, 50, 'compact'));
+		// inactive sections, if any
+		$items = Sections::list_inactive_by_title_for_anchor('section:'.$item['id'], 0, 50, 'compact');
 
 		// we have an array to format
 		if(count($items))
