@@ -316,7 +316,7 @@ if(isset($item['language']) && $item['language'] && ($item['language'] != 'none'
 	$context['page_language'] = $item['language'];
 
 // page canonical link
-if(isset($item['vhost'])) {
+if(isset($item['vhost']) && $item['vhost']) {
 	if(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == 443))
 		$context['page_link'] = 'https://';
 	else
