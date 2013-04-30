@@ -1046,8 +1046,8 @@ class Anchor {
 		}
 
 		// not at the front page
-		if(isset($this->item['home_panel']) && ($this->item['home_panel'] == 'none'))
-			return FALSE;
+//		if(isset($this->item['index_map']) && ($this->item['index_map'] == 'N'))
+//			return FALSE;
 
 		// the anchor is public
 		if(isset($this->item['active']) && ($this->item['active'] == 'Y'))

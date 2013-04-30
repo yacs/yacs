@@ -269,7 +269,6 @@ Class Links {
 				$fields['description'] = i18n::c('YACS ties automatically external links to this section on use. Therefore, you will have below a global picture of external sites that are referenced through your site.');
 				$fields['active_set'] = 'N'; // for associates only
 				$fields['locked'] = 'Y'; // no direct contributions
-				$fields['home_panel'] = 'none'; // content is not pushed at the front page
 				$fields['index_map'] = 'N'; // listd only to associates
 				$fields['rank'] = 20000; // towards the end of the list
 

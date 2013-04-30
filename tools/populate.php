@@ -430,7 +430,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Events');
 		$fields['introduction'] = i18n::c('A calendar of planned activities');
 		$fields['description'] = i18n::c('Every page in this section is featured in a nice-looking calendar.');
-		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
+		$fields['index_map'] = 'N'; // special processing at the front page -- see index.php
 		$fields['content_options'] = 'auto_publish'; // ease the job
 		$fields['content_overlay'] = 'event'; // calendar layout
 		$fields['articles_templates'] = 'event_template';
@@ -474,7 +474,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Channels');
 		$fields['introduction'] = i18n::c('Real-time collaboration');
 		$fields['description'] = i18n::c('Every page in this section supports interactive discussion and file sharing.');
-		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
+		$fields['index_map'] = 'N'; // special processing at the front page -- see index.php
 		$fields['content_overlay'] = 'event layout_as_list'; // list threads appropriately
 		$fields['articles_templates'] = 'chat_template';
 		$fields['maximum_items'] = 1000; // limit the overall number of threads
@@ -732,7 +732,7 @@ if(Surfer::is_crawler()) {
 		$fields['articles_layout'] = 'yabb'; // list threads appropriately
 		$fields['articles_templates'] = 'information_template, question_template, chat_template';
 		$fields['content_options'] = 'with_extra_profile'; // put poster profile aside
-		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
+		$fields['index_map'] = 'N'; // special processing at the front page -- see index.php
 		$fields['introduction'] = i18n::c('For project members only');
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";

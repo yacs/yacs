@@ -104,7 +104,7 @@ if(Surfer::is_crawler()) {
 		$fields['articles_templates'] = 'information_template, question_template, chat_template, event_template, wiki_template';
 		$fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
 		$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
-		$fields['home_panel'] = 'none'; // not mentioned at the home page
+		$fields['index_map'] = 'N'; // not mentioned at the home page
 		$fields['locked'] = 'Y'; // no direct contributions
 		$fields['options'] = 'no_contextual_menu';
 		$fields['rank'] = 40000; // at the end of the list
@@ -152,7 +152,7 @@ if(Surfer::is_crawler()) {
 	$_REQUEST['active_set'] = $_REQUEST['active'];
 
 	// do not break home page layout
-	$_REQUEST['home_panel'] = 'none';
+	$_REQUEST['index_map'] = 'N';
 
 	// display the form on error
 	if(!$_REQUEST['id'] = Sections::post($_REQUEST)) {
@@ -180,7 +180,7 @@ if(Surfer::is_crawler()) {
 			$fields['anchor'] = 'section:'.$_REQUEST['id'];
 			$fields['description'] = i18n::c('This is the right place to describe ways of working in this group.');
 			$fields['locked'] = 'Y'; // no direct contributions
-			$fields['home_panel'] = 'none'; // not mentioned at the home page
+			$fields['index_map'] = 'N'; // not mentioned at the home page
 			$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 			$fields['rank'] = 1000; // sticky page
 			$fields['title'] = i18n::c('Group policy');
@@ -189,7 +189,7 @@ if(Surfer::is_crawler()) {
 			// a welcome thread
 			$fields = array();
 			$fields['anchor'] = 'section:'.$_REQUEST['id'];
-			$fields['home_panel'] = 'none'; // not mentioned at the home page
+			$fields['index_map'] = 'N'; // not mentioned at the home page
 			$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 			$fields['title'] = sprintf(i18n::c('Welcome to "%s"'), $_REQUEST['title']);
 			Articles::post($fields);
@@ -205,7 +205,7 @@ if(Surfer::is_crawler()) {
 			$fields['articles_layout'] = 'daily';
 			$fields['articles_templates'] = 'simple_template';
 			$fields['content_options'] = 'with_neighbours';
-			$fields['home_panel'] = 'none'; // not mentioned at the home page
+			$fields['index_map'] = 'N'; // not mentioned at the home page
 			$fields['options'] = 'forward_notifications articles_by_publication';
 			$fields['rank'] = 1000;
 			$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/news.gif';
@@ -215,7 +215,7 @@ if(Surfer::is_crawler()) {
 				// a welcome thread
 				$fields = array();
 				$fields['anchor'] = 'section:'.$id;
-				$fields['home_panel'] = 'none'; // not mentioned at the home page
+				$fields['index_map'] = 'N'; // not mentioned at the home page
 				$fields['options'] = 'edit_as_simple';
 				$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 				$fields['title'] = sprintf(i18n::c('Welcome to "%s"'), $_REQUEST['title']);
@@ -228,7 +228,7 @@ if(Surfer::is_crawler()) {
 			$fields['anchor'] = 'section:'.$_REQUEST['id'];
 			$fields['articles_layout'] = 'yabb';
 			$fields['content_options'] = 'auto_publish with_neighbours';
-			$fields['home_panel'] = 'none'; // not mentioned at the home page
+			$fields['index_map'] = 'N'; // not mentioned at the home page
 			$fields['introduction'] = i18n::c('Working together');
 			$fields['options'] = 'forward_notifications';
 			$fields['rank'] = 2000;
@@ -242,7 +242,7 @@ if(Surfer::is_crawler()) {
 			$fields['articles_layout'] = 'tagged';
 			$fields['articles_templates'] = 'simple_template';
 			$fields['content_options'] = 'articles_by_title auto_publish members_edit view_as_wiki with_neighbours';
-			$fields['home_panel'] = 'none'; // not mentioned at the home page
+			$fields['index_map'] = 'N'; // not mentioned at the home page
 			$fields['introduction'] = i18n::c('Information pages');
 			$fields['options'] = 'forward_notifications';
 			$fields['rank'] = 3000;
@@ -258,7 +258,7 @@ if(Surfer::is_crawler()) {
 				$fields['articles_layout'] = 'yabb';
 				$fields['content_options'] = 'auto_publish with_neighbours members_edit';
 				$fields['introduction'] = i18n::c('Reserved to project members');
-				$fields['home_panel'] = 'none'; // not mentioned at the home page
+				$fields['index_map'] = 'N'; // not mentioned at the home page
 				$fields['options'] = 'forward_notifications view_as_tabs'; // to list editors and watchers explicitly
 				$fields['rank'] = 4000;
 				$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';

@@ -579,7 +579,7 @@ if($with_form) {
 
 		// preserve attributes coming from template duplication
 		if(!isset($item['id'])) {
-			$hidden = array('behaviors', 'extra', 'icon_url', 'home_panel', 'prefix', 'suffix', 'trailer');
+			$hidden = array('behaviors', 'extra', 'icon_url', 'index_map', 'prefix', 'suffix', 'trailer');
 			foreach($hidden as $name) {
 				if(isset($item[ $name ]))
 					$context['text'] .= '<input type="hidden" name="'.$name.'" value="'.$item[ $name ].'" />';
@@ -595,7 +595,7 @@ if($with_form) {
 
 		// preserve attributes coming from template duplication
 		if(!isset($item['id'])) {
-			$hidden = array('behaviors', 'extra', 'icon_url', 'home_panel', 'locked', 'meta', 'options', 'prefix', 'rank', 'source', 'suffix', 'thumbnail_url', 'trailer');
+			$hidden = array('behaviors', 'extra', 'icon_url', 'index_map', 'locked', 'meta', 'options', 'prefix', 'rank', 'source', 'suffix', 'thumbnail_url', 'trailer');
 			foreach($hidden as $name) {
 				if(isset($item[ $name ]))
 					$context['text'] .= '<input type="hidden" name="'.$name.'" value="'.$item[ $name ].'" />';
