@@ -3461,38 +3461,7 @@ Class Articles {
 		if($section_id) {
 
 			// look for children
-			$anchors = array();
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor('section:'.$section_id, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// also include the top level, of course
-			$anchors[] = 'section:'.$section_id;
+			$anchors = Sections::get_branch_at_anchor('section:'.$section_id);
 
 			// the full set of sections searched
 			$where .= " AND (anchor IN ('".join("', '", $anchors)."'))";

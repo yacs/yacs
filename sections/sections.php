@@ -1019,128 +1019,68 @@ Class Sections {
 	}
 
 	/**
-	 * list sections as anchors
+	 * get containers of one branch of the content tree
 	 *
-	 * This function is mainly used to build the front page and section index pages.
-	 * It is call to list sections and, in a second time, articles related to these
-	 * sections are actually listed.
+	 * This function provides references to the target section, and also of sub-sections.
+	 * It looks iteratively into up to 5 levels of sub-sections.
 	 *
-	 * If the anchor parameter is null, this function will locate sections having the given variant
-	 * in the field 'home_panel'.
-	 * Else it will locate sections having the given variant in the field 'index_panel'.
-	 *
-	 * It accepts following variants:
-	 * - 'extra' - one extra box per section
-	 * - 'extra_boxes' - one extra box per article
-	 * - 'main' - the main part of the index page
-	 * - 'news' - flashy news
-	 * - 'none' - sections are not displayed at all
-	 *
-	 * Normally this function is used before listing related articles. Ths is why we are not checking 'index_map' here.
-	 *
-	 * @param string the main anchor (e.g., 'section:123')
-	 * @param string the target area (e.g., 'main')
-	 * @return an array of anchors (e.g., array('section:456', 'section:789'))
-	 *
-	 * @see index.php
-	 * @see sections/view.php
+	 * @param string the reference of the target section (e.g., 'section:123')
+	 * @return an array of references (e.g., array('section:123', 'section:456', 'section:789'))
 	 */
-	public static function &get_anchors_for_anchor($anchor=NULL, $variant='main') {
+	public static function get_branch_at_anchor($anchor=NULL) {
 		global $context;
 
-		$criteria = array();
-
-		// we are targeting a section index page
-		if($anchor) {
-			$criteria[] = "sections.anchor LIKE '".SQL::escape($anchor)."'";
-			$target = 'index_panel';
-
-		// we are targeting the front page
-		} else {
-			$target = 'home_panel';
-		}
-
-		// target a index area
-		switch($variant) {
-		case 'extra':
-			$criteria[] = "(sections.".$target." = 'extra')";
-			break;
-
-		case 'extra_boxes':
-			$criteria[] = "(sections.".$target." = 'extra_boxes')";
-			break;
-
-		case 'main':
-		default:
-			$criteria[] = "((sections.".$target." IS NULL) OR (sections.".$target." = '') OR (sections.".$target." = 'main'))";
-			break;
-
-		case 'news':
-			$criteria[] = "(sections.".$target." = 'news')";
-			break;
-
-		case 'none':
-			$criteria[] = "(sections.".$target." = 'none')";
-			break;
-
-		}
-
-		// display active items
-		$active = "(sections.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$active .= " OR sections.active='R'";
-
-		// include hidden sections for associates, or if teasers are allowed
-		if(Surfer::is_associate() || Surfer::is_teased())
-			$active .= " OR sections.active='N'";
-
-		// end of filter on active field
-		$criteria[] = $active.")";
-
-		// use only live sections
-		$criteria[] = "((sections.activation_date is NULL)"
-			." OR (sections.activation_date <= '".$context['now']."'))"
-			." AND ((sections.expiry_date is NULL)"
-			." OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
-
-		// limit the number of results
-		$query = "SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE ".implode(' AND', $criteria)
-			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
-		if(!$result = SQL::query($query)) {
-			$output = NULL;
-			return $output;
-		}
-
-		// process all matching sections
+		// look for children
 		$anchors = array();
-		while($item = SQL::fetch($result))
-			$anchors[] = 'section:'.$item['id'];
 
-		// return a list of anchors
+		// first level of depth
+		$children = Sections::get_children_of_anchor($anchor);
+		$anchors = array_merge($anchors, $children);
+
+		// second level of depth
+		if(count($children) && (count($anchors) < 2000)) {
+			$children = Sections::get_children_of_anchor($children);
+			$anchors = array_merge($anchors, $children);
+		}
+
+		// third level of depth
+		if(count($children) && (count($anchors) < 2000)) {
+			$children = Sections::get_children_of_anchor($children);
+			$anchors = array_merge($anchors, $children);
+		}
+
+		// fourth level of depth
+		if(count($children) && (count($anchors) < 2000)) {
+			$children = Sections::get_children_of_anchor($children);
+			$anchors = array_merge($anchors, $children);
+		}
+
+		// fifth level of depth
+		if(count($children) && (count($anchors) < 2000)) {
+			$children = Sections::get_children_of_anchor($children);
+			$anchors = array_merge($anchors, $children);
+		}
+
+		// also include the top level, of course
+		$anchors[] = $anchor;
+
+		// all children included, from several levels
 		return $anchors;
 	}
 
 	/**
-	 * list anchors that are part of the content tree
+	 * list children of a given section
 	 *
-	 * This function is mainly used to list all containers of the content tree at once.
+	 * This function is mainly used to locate sub-sections with visible content.
 	 * It is called to list sections and, in a second time, articles related to these
 	 * sections are actually listed.
 	 *
-	 * The variant is used to filter sections, as follows:
-	 * - 'main' - list sections that send articles in main panel
-	 * - 'index' - list sections that are listed in the main panel
-	 *
-	 * @param string the main anchor (e.g., 'section:123')
-	 * @param string filter to apply
-	 * @return an array of anchors (e.g., array('section:456', 'section:789'))
+	 * @param mixed one or several references of sections to look at (e.g., 'section:123')
+	 * @return an array of references (e.g., array('section:456', 'section:789'))
 	 *
 	 * @see sections/feed.php
 	 */
-	public static function &get_children_of_anchor($anchor=NULL, $variant='main') {
+	public static function get_children_of_anchor($anchor=NULL) {
 		global $context;
 
 		$criteria = array();
@@ -2240,7 +2180,7 @@ Class Sections {
 	}
 
 	/**
-	 * list sections by title at a given level of the hierarchy
+	 * list sections by title at a given level of the content tree
 	 *
 	 * Actually list sections by rank, then by title, then by edition date.
 	 * If you select to not use the ranking system, sections will be ordered by title only.
@@ -3348,39 +3288,8 @@ Class Sections {
 		$sections_where = '';
 		if($section_id) {
 
-			// look for children
-			$anchors = array();
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor('section:'.$section_id, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// also include the top level, of course
-			$anchors[] = $section_id;
+			// look within this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor('section:'.$section_id);
 
 			// the full set of sections searched
 			$where .= " AND (sections.id IN (".str_replace('section:', '', join(", ", $anchors))."))";
