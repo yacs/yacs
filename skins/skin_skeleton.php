@@ -3548,7 +3548,7 @@ Class Skin_Skeleton {
 		if(defined($name))
 			return;
 
-		// make an absolute path to image, in case of export (freemind, etc.)
+		// make an absolute path to image, in case of export
 		if(file_exists($context['path_to_root'].$context['skin'].'/'.$file))
 			define($name, $context['url_to_home'].$context['url_to_root'].$context['skin'].'/'.$file);
 		elseif(file_exists($context['path_to_root'].'skins/_reference/'.$file))

@@ -640,7 +640,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['sections_layout']))
 		$item['sections_layout'] = 'none';
-	elseif(!preg_match('/^(accordion|carrousel|compact|decorated|directory|folded|freemind|inline|jive|map|slashdot|tabs|titles|yabb|none)$/', $item['sections_layout'])) {
+	elseif(!preg_match('/^(accordion|carrousel|compact|decorated|directory|folded|inline|jive|map|slashdot|tabs|titles|yabb|none)$/', $item['sections_layout'])) {
 		$custom_layout = $item['sections_layout'];
 		$item['sections_layout'] = 'custom';
 	}
@@ -668,10 +668,6 @@ if($with_form) {
 	if($item['sections_layout'] == 'titles')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('titles - Use only titles and thumbnails')
-		.BR.'<input type="radio" name="sections_layout" value="freemind"';
-	if($item['sections_layout'] == 'freemind')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('freemind - Build an interactive mind map')
 		.BR.'<input type="radio" name="sections_layout" value="jive"';
 	if($item['sections_layout'] == 'jive')
 		$input .= ' checked="checked"';

@@ -200,7 +200,7 @@ elseif(!Surfer::is_associate()) {
 	$custom_layout = '';
 	if(!isset($context['root_sections_layout']))
 		$context['root_sections_layout'] = 'map';
-	elseif(!preg_match('/(compact|decorated|freemind|folded|inline|jive|map|menu|titles|yabb)/', $context['root_sections_layout'])) {
+	elseif(!preg_match('/(compact|decorated|folded|inline|jive|map|menu|titles|yabb)/', $context['root_sections_layout'])) {
 		$custom_layout = $context['root_sections_layout'];
 		$context['root_sections_layout'] = 'custom';
 	}
@@ -218,10 +218,6 @@ elseif(!Surfer::is_associate()) {
 	if($context['root_sections_layout'] == 'map')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('map - Map in two columns, like Yahoo!')
-		.BR.'<input type="radio" name="root_sections_layout" value="freemind"';
-	if($context['root_sections_layout'] == 'freemind')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('freemind - Build an interactive mind map')
 		.BR.'<input type="radio" name="root_sections_layout" value="jive"';
 	if($context['root_sections_layout'] == 'jive')
 		$input .= ' checked="checked"';
@@ -534,7 +530,7 @@ elseif(!Surfer::is_associate()) {
 } else {
 
 	// ensure we have a valid layout for sections
-	if(!isset($_REQUEST['root_sections_layout']) || !$_REQUEST['root_sections_layout'] || !preg_match('/(compact|custom|decorated|freemind|folded|inline|jive|map|menu|titles|yabb)/', $_REQUEST['root_sections_layout']))
+	if(!isset($_REQUEST['root_sections_layout']) || !$_REQUEST['root_sections_layout'] || !preg_match('/(compact|custom|decorated|folded|inline|jive|map|menu|titles|yabb)/', $_REQUEST['root_sections_layout']))
 		$_REQUEST['root_sections_layout'] = 'map';
 	elseif($_REQUEST['root_sections_layout'] == 'custom') {
 		if(isset($_REQUEST['sections_custom_layout']) && $_REQUEST['sections_custom_layout'])
