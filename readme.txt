@@ -19,7 +19,6 @@ A short summary of most important features is given below:
 etc, or even a plain list of articles
 - Overlay interface for PHP developers, to add extra functionality to articles,
 such as polls or cooking recipes
-- Display the content tree in Freemind
 - Comments, with quoting
 - Archives per week and per month
 - The home page is updated automatically on article publishing
