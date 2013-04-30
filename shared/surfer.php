@@ -1651,7 +1651,7 @@ if(isset($_SERVER['REMOTE_ADDR'])) {
 	Safe::ini_set('url_rewriter.tags', '');
 }
 
-// set the permanent cookie on the transaction that folows the login, in case a redirection would have happened
+// set the permanent cookie on the transaction that follows the login, in case a redirection would have happened
 if(isset($_SESSION['surfer_token'])) {
 
 	// set it
@@ -1664,12 +1664,8 @@ if(isset($_SESSION['surfer_token'])) {
 // retrieve session data, but not if run from the command line, and not from robot nor spider
 if(isset($_SERVER['REMOTE_ADDR']) && !Surfer::is_crawler() && !headers_sent()) {
 
-	// we have moved to another instance on the same host
-	if(isset($_SESSION['server_id']) && isset($_SESSION['url_to_root']) && strcmp($_SESSION['server_id'], $context['url_to_root']))
-		Surfer::reset();
-
 	// permanent identification has been selected
-	elseif(isset($context['users_with_permanent_authentication']) && ($context['users_with_permanent_authentication'] == 'Y')) {
+	if(isset($context['users_with_permanent_authentication']) && ($context['users_with_permanent_authentication'] == 'Y')) {
 
 		// use cookie to identify user -- user id, time of login, gmt offset, salt
 		if(!Surfer::is_logged() && isset($_COOKIE['screening']) && ($nouns = explode('|', $_COOKIE['screening'], 4)) && (count($nouns) == 4)) {
