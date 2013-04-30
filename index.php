@@ -595,48 +595,6 @@ if(!$text = Cache::get($cache_id)) {
 		}
 	}
 
-	// show news -- set in configure.php
-	if(isset($context['root_news_layout']) && ($context['root_news_layout'] != 'none')) {
-
-		// list news from sections where home_map == 'news'
-		if($anchors =& Sections::get_anchors_for_anchor(NULL, 'news')) {
-
-			// build a complete box
-			$box['bar'] = array();
-			$box['text'] = '';
-
-			// set in configure.php
-			if(!isset($context['root_news_count']) || ($context['root_news_count'] < 1))
-				$context['root_news_count'] = 7;
-
-			// list articles by date
-			$items =& Articles::list_for_anchor_by('publication', $anchors, 0, $context['root_news_count'], 'news');
-
-			// render html
-			if(is_array($items))
-				$box['text'] .= Skin::build_list($items, 'news');
-			elseif(is_string($items))
-				$box['text'] .= $items;
-
-			// we do have something to display
-			if($box['text']) {
-
-				// animate the text if required to do so
-				if($context['root_news_layout'] == 'scroll') {
-					$box['text'] = Skin::scroll($box['text']);
-					$box['id'] = 'scrolling_news';
-				} elseif($context['root_news_layout'] == 'rotate') {
-					$box['text'] = Skin::rotate($box['text']);
-					$box['id'] = 'rotating_news';
-				} else
-					$box['id'] = 'news';
-
-				// make an extra box -- the css id is either #news, #scrolling_news or #rotating_news
-				$text .= Skin::build_box(i18n::s('News'), $box['text'], 'news', $box['id']);
-			}
-		}
-	}
-
 	// save in cache, whatever change, for 5 minutes
 	Cache::put($cache_id, $text, 'stable', 300);
 }
@@ -644,144 +602,20 @@ if(!$text = Cache::get($cache_id)) {
 // news
 $context['components']['news'] = $text;
 
-// save some database requests
-$cache_id = 'index.php#extra';
-if(!$text = Cache::get($cache_id)) {
+// list extra boxes
+$text = '';
+if($anchor = Sections::lookup('extra_boxes')) {
 
-	// list extra boxes
-	if($anchors =& Sections::get_anchors_for_anchor(NULL, 'extra_boxes')) {
+	// the maximum number of boxes is a global parameter
+	if(!isset($context['site_extra_maximum']) || !$context['site_extra_maximum'])
+		$context['site_extra_maximum'] = 7;
 
-		// the maximum number of boxes is a global parameter
-		if(!isset($context['site_extra_maximum']) || !$context['site_extra_maximum'])
-			$context['site_extra_maximum'] = 7;
-
-		// articles to be displayed as extra boxes
-		if($items =& Articles::list_for_anchor_by('publication', $anchors, 0, $context['site_extra_maximum'], 'boxes')) {
-			foreach($items as $title => $attributes)
-				$text .= Skin::build_box($title, $attributes['content'], 'boxes', $attributes['id'])."\n";
-		}
-
+	// articles to be displayed as extra boxes
+	if($items =& Articles::list_for_anchor_by('publication', $anchor, 0, $context['site_extra_maximum'], 'boxes')) {
+		foreach($items as $title => $attributes)
+			$text .= Skin::build_box($title, $attributes['content'], 'boxes', $attributes['id'])."\n";
 	}
 
-	// one extra box per section, from sub-sections
-	if($anchors =& Sections::get_anchors_for_anchor(NULL, 'extra')) {
-
-		// one box per section
-		foreach($anchors as $anchor) {
-			$box = array();
-
-			// sanity check
-			if(!$section = Anchors::get($anchor))
-				continue;
-
-			// link to the section page from box title
-			$box['title'] =& Skin::build_box_title($section->get_title(), $section->get_url(), i18n::s('View the section'));
-
-			// build a compact list
-			$box['list'] = array();
-
-			// list matching sections, if any
-			if($items = Sections::list_by_title_for_anchor($anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact'))
-				$box['list'] = array_merge($box['list'], $items);
-
-			// add matching articles
-			if(COMPACT_LIST_SIZE >= count($box['list'])) {
-
-				// use ordering options set for the section
-				if($section->has_option('articles_by_title'))
-					$items =& Articles::list_for_anchor_by('title', $anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact');
-				elseif($section->has_option('articles_by_publication'))
-					$items =& Articles::list_for_anchor_by('publication', $anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact');
-				elseif($section->has_option('articles_by_rating'))
-					$items =& Articles::list_for_anchor_by('rating', $anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact');
-				else
-					$items =& Articles::list_for_anchor($anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact');
-
-				if($items)
-					$box['list'] = array_merge($box['list'], $items);
-
-			}
-
-			// add matching links, if any
-			if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items = Links::list_by_date_for_anchor($anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
-				$box['list'] = array_merge($box['list'], $items);
-
-			// more at the section page
-			if(count($box['list']) > COMPACT_LIST_SIZE) {
-				@array_splice($box['list'], COMPACT_LIST_SIZE);
-
-				// link to the section page
-				$box['list'] = array_merge($box['list'], array($section->get_url() => i18n::s('More pages').MORE_IMG));
-			}
-
-			// render the html for the box
-			$box['text'] = '';
-			if(count($box['list']))
-				$box['text'] =& Skin::build_list($box['list'], 'compact');
-
-			// give a chance to associates to populate empty sections
-			elseif(Surfer::is_associate())
-				$box['text'] = Skin::build_link($section->get_url(), i18n::s('View the section'), 'shortcut');
-
-			// append a box
-			if($box['text'])
-				$text .= Skin::build_box($box['title'], $box['text'], 'boxes');
-
-		}
-	}
-
-	// list categories to display among extra boxes
-	if($categories = Categories::list_by_date_for_display('home:extra', 0, 7, 'raw')) {
-
-		// one box per category
-		foreach($categories as $id => $attributes) {
-
-			// link to the category page from the box title
-			$label =& Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_permalink($attributes), i18n::s('View the category'));
-
-			// build a compact list
-			$box['list'] = array();
-
-			// list matching categories, if any
-			if($items = Categories::list_by_title_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact'))
-				$box['list'] = array_merge($box['list'], $items);
-
-			// add matching articles, if any
-			if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
-				$box['list'] = array_merge($box['list'], $items);
-
-			// add matching links, if any
-			if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items = Links::list_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
-				$box['list'] = array_merge($box['list'], $items);
-
-			// more at the category page
-			if(count($box['list']) > COMPACT_LIST_SIZE) {
-				@array_splice($box['list'], COMPACT_LIST_SIZE);
-
-				// link to the category page
-				$box['list'] = array_merge($box['list'], array(Categories::get_permalink($attributes) => i18n::s('More pages').MORE_IMG));
-			}
-
-			$text .= Skin::build_box($label, Skin::build_list($box['list'], 'compact'), 'boxes')."\n";
-
-		}
-	}
-
-		if($items =& Articles::list_by('publication', $items_per_page, COMPACT_LIST_SIZE+1, 'compact')) {
-
-			// more at the index page
-			if(count($items) > COMPACT_LIST_SIZE) {
-				@array_splice($items, COMPACT_LIST_SIZE);
-
-				$items['articles/'] = i18n::s('All pages').MORE_IMG;
-			}
-
-			$text .= Skin::build_box(i18n::s('Recent Pages'), Skin::build_list($items, 'compact'), 'boxes');
-		}
-	}
-
-	// save in cache, whatever change, for 5 minutes
-	Cache::put($cache_id, $text, 'stable', 300);
 }
 
 // page extra content

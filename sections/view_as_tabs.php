@@ -53,33 +53,19 @@ if(!$zoom_type && !Surfer::is_crawler()) {
 	// index panel
 	if(Surfer::is_empowered() && Surfer::is_logged()) {
 
-		// at the parent index page
-		if($item['anchor']) {
+		// content of this section is not pushed upwards
+		if(isset($item['index_map']) && ($item['index_map'] != 'Y')) {
 
-			if(isset($item['index_panel']) && ($item['index_panel'] == 'extra'))
-				$details[] = i18n::s('Is displayed at the parent section page among other extra boxes.');
-			elseif(isset($item['index_panel']) && ($item['index_panel'] == 'extra_boxes'))
-				$details[] = i18n::s('Topmost articles are displayed at the parent section page in distinct extra boxes.');
-			elseif(isset($item['index_panel']) && ($item['index_panel'] == 'news'))
-				$details[] = i18n::s('Articles are listed at the parent section page, in the area reserved to flashy news.');
+			// at the parent index page
+			if($item['anchor'])
+				$details[] = i18n::s('Content does not flow to parent section. Is listed with special sections, but only to associates.');
 
-		// at the site map
-		} else {
-
-			if(isset($item['index_map']) && ($item['index_map'] != 'Y'))
+			// at the site map
+			else
 				$details[] = i18n::s('Is not publicly listed at the Site Map. Is listed with special sections, but only to associates.');
+
 		}
 
-	}
-
-	// home panel
-	if(Surfer::is_empowered() && Surfer::is_logged()) {
-		if(isset($item['home_panel']) && ($item['home_panel'] == 'extra'))
-			$details[] = i18n::s('Is displayed at the front page, among other extra boxes.');
-		elseif(isset($item['home_panel']) && ($item['home_panel'] == 'extra_boxes'))
-			$details[] = i18n::s('First articles are displayed at the front page in distinct extra boxes.');
-		elseif(isset($item['home_panel']) && ($item['home_panel'] == 'news'))
-			$details[] = i18n::s('Articles are listed at the front page, in the area reserved to recent news.');
 	}
 
 	// signal sections to be activated

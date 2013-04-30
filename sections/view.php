@@ -551,33 +551,19 @@ if(!isset($item['id'])) {
 		// index panel
 		if(Surfer::is_empowered() && Surfer::is_logged()) {
 
-			// at the parent index page
-			if($item['anchor']) {
+			// content of this section is not pushed upwards
+			if(isset($item['index_map']) && ($item['index_map'] != 'Y')) {
 
-				if(isset($item['index_panel']) && ($item['index_panel'] == 'extra'))
-					$details[] = i18n::s('Is displayed at the parent section page among other extra boxes.');
-				elseif(isset($item['index_panel']) && ($item['index_panel'] == 'extra_boxes'))
-					$details[] = i18n::s('Topmost articles are displayed at the parent section page in distinct extra boxes.');
-				elseif(isset($item['index_panel']) && ($item['index_panel'] == 'news'))
-					$details[] = i18n::s('Articles are listed at the parent section page, in the area reserved to flashy news.');
+				// at the parent index page
+				if($item['anchor'])
+					$details[] = i18n::s('Content does not flow to parent section. Is listed with special sections, but only to associates.');
 
-			// at the site map
-			} else {
-
-				if(isset($item['index_map']) && ($item['index_map'] != 'Y'))
+				// at the site map
+				else
 					$details[] = i18n::s('Is not publicly listed at the Site Map. Is listed with special sections, but only to associates.');
+
 			}
 
-		}
-
-		// home panel
-		if(Surfer::is_empowered() && Surfer::is_logged()) {
-			if(isset($item['home_panel']) && ($item['home_panel'] == 'extra'))
-				$details[] = i18n::s('Is displayed at the front page, among other extra boxes.');
-			elseif(isset($item['home_panel']) && ($item['home_panel'] == 'extra_boxes'))
-				$details[] = i18n::s('First articles are displayed at the front page in distinct extra boxes.');
-			elseif(isset($item['home_panel']) && ($item['home_panel'] == 'news'))
-				$details[] = i18n::s('Articles are listed at the front page, in the area reserved to recent news.');
 		}
 
 		// signal sections to be activated
@@ -662,48 +648,6 @@ if(!isset($item['id'])) {
 	if(preg_match('/\bwith_extra_profile\b/', $item['options']) && ($owner = Users::get($item['owner_id'])) && ($section = Anchors::get('section:'.$item['id'])))
 		$context['components']['profile'] = $section->get_user_profile($owner, 'extra', Skin::build_date($item['create_date']));
 
-	// show news -- set in sections/edit.php
-	if($item['index_news'] != 'none') {
-
-		// news from sub-sections where index_panel == 'news'
-		if($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'news')) {
-
-			// build a complete box
-			$box['bar'] = array();
-			$box['text'] = '';
-
-			// set in sections/edit.php
-			if($item['index_news_count'] < 1)
-				$item['index_news_count'] = 7;
-
-			// list articles by date
-			$items =& Articles::list_for_anchor_by('publication', $anchors, 0, $item['index_news_count'], 'news');
-
-			// render html
-			if(is_array($items))
-				$box['text'] .= Skin::build_list($items, 'news');
-			elseif(is_string($items))
-				$box['text'] .= $items;
-
-			// we do have something to display
-			if($box['text']) {
-
-				// animate the text if required to do so
-				if($item['index_news'] == 'scroll') {
-					$box['text'] = Skin::scroll($box['text']);
-					$box['id'] = 'scrolling_news';
-				} elseif($item['index_news'] == 'rotate') {
-					$box['text'] = Skin::rotate($box['text']);
-					$box['id'] = 'rotating_news';
-				} else
-					$box['id'] = 'news';
-
-				// make an extra box -- the css id is either #news, #scrolling_news or #rotating_news
-				$context['components']['news'] = Skin::build_box(i18n::s('In the news'), $box['text'], 'news', $box['id']);
-			}
-		}
-	}
-
 	// add extra information from the overlay, if any
 	if(is_object($overlay))
 		$context['components']['overlay'] = $overlay->get_text('extra', $item);
@@ -711,73 +655,6 @@ if(!isset($item['id'])) {
 	// add extra information from this item, if any
 	if(isset($item['extra']) && $item['extra'])
 		$context['components']['boxes'] .= Codes::beautify_extra($item['extra']);
-
-	// one extra box per article, from sub-sections
-	if($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'extra_boxes')) {
-
-		// the maximum number of boxes is a global parameter
-		if(!isset($context['site_extra_maximum']) || !$context['site_extra_maximum'])
-			$context['site_extra_maximum'] = 7;
-
-		// articles to be displayed as extra boxes
-		if($items =& Articles::list_for_anchor_by('publication', $anchors, 0, $context['site_extra_maximum'], 'boxes')) {
-			foreach($items as $title => $attributes)
-				$context['components']['boxes'] .= Skin::build_box($title, $attributes['content'], 'boxes', $attributes['id'])."\n";
-		}
-
-	}
-
-	// one extra box per section, from sub-sections
-	if($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'extra')) {
-
-		// one box per section
-		foreach($anchors as $anchor) {
-			$box = array('title' => '', 'text' => '');
-
-			// sanity check
-			if(!$section = Anchors::get($anchor))
-				continue;
-
-			// link to the section page from box title
-			$box['title'] =& Skin::build_box_title($section->get_title(), $section->get_url(), i18n::s('View the section'));
-
-			// build a compact list
-			$box['list'] = array();
-
-			// list matching articles
-			if($items =& Articles::list_for_anchor_by('edition', $anchor, 0, COMPACT_LIST_SIZE+1, 'compact'))
-				$box['list'] = array_merge($box['list'], $items);
-
-			// add matching links, if any
-			if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items = Links::list_by_date_for_anchor($anchor, 0, COMPACT_LIST_SIZE - count($box['list']), 'compact')))
-				$box['list'] = array_merge($box['list'], $items);
-
-			// add matching sections, if any
-			if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items = Sections::list_by_title_for_anchor($anchor, 0, COMPACT_LIST_SIZE - count($box['list']), 'compact')))
-				$box['list'] = array_merge($box['list'], $items);
-
-			// more at the section page
-			if(count($box['list']) > COMPACT_LIST_SIZE) {
-				@array_splice($box['list'], COMPACT_LIST_SIZE);
-
-				// link to the section page
-				$box['list'] = array_merge($box['list'], array($section->get_url() => i18n::s('More pages').MORE_IMG));
-			}
-
-			// render the html for the box
-			if(count($box['list']))
-				$box['text'] =& Skin::build_list($box['list'], 'compact');
-
-			// give a chance to associates to populate empty sections
-			elseif(Surfer::is_empowered())
-				$box['text'] = Skin::build_link($section->get_url(), i18n::s('View the section'), 'shortcut');
-
-			// append a box
-			if($box['text'])
-				$context['components']['boxes'] .= Skin::build_box($box['title'], $box['text'], 'boxes');
-
-		}
-	}
 
 	// 'Share' box
 	//

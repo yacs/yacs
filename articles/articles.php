@@ -23,7 +23,6 @@
  * while others can be used with related items as well.
  *
  * Specific options to be processed by advanced overlays are not described hereafter.
- * One example of this is the optional keyword '[code]home_with_results[/code]' for the rendering of polls.
  * Please check documentation pages for any overlay you use, like [script]overlays/poll.php[/script].
  *
  * You can combine any of following keywords in the field for options, with the separator (spaces, tabs, commas) of your choice:
@@ -2182,7 +2181,7 @@ Class Articles {
 		// avoid articles pushed away from the front page
 		$sections_where = '';
 		if(isset($context['skin_variant']) && ($context['skin_variant'] == 'home')) {
-			$sections_where .= " AND (sections.home_panel LIKE 'main')";
+			$sections_where .= " AND (sections.index_map != 'N')";
 		}
 
 		// composite fields
@@ -3740,7 +3739,7 @@ Class Articles {
 				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// avoid articles pushed away from the front page
-		$where .= ' AND ((sections.home_panel = "main") OR (sections.home_panel = "none"))';
+		$where .= ' AND (sections.index_map != "N")';
 
 
 		// select among available items

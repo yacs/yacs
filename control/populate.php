@@ -260,7 +260,6 @@ if(!$permitted) {
 		$fields['nick_name'] = 'covers';
 		$fields['title'] = i18n::c('Covers');
 		$fields['introduction'] = i18n::c('The top page here is also displayed at the front page');
-		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
 		$fields['content_options'] = 'auto_publish'; // ease the job of newbies
@@ -290,7 +289,6 @@ if(!$permitted) {
 		$fields['title'] = i18n::c('Extra boxes');
 		$fields['introduction'] = i18n::c('Boxes displayed aside the front page');
 		$fields['description'] = i18n::c('All [link=codes]codes/[/link] are available to format boxes. Keep the content as compact as possible because of the small size of any single box. When ready, publish pages to actually show boxes to everybody.');
-		$fields['home_panel'] = 'extra_boxes'; // one extra box per article at the front page
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
 		if(Sections::post($fields))
@@ -306,7 +304,6 @@ if(!$permitted) {
 		$fields['title'] = i18n::c('Gadget boxes');
 		$fields['introduction'] = i18n::c('Boxes displayed in the middle of the front page');
 		$fields['description'] = i18n::c('All [link=codes]codes/[/link] are available to format boxes. Keep the content as compact as possible because of the small size of any single box. When ready, publish pages to actually show boxes to everybody.');
-		$fields['home_panel'] = 'gadget_boxes'; // one gadget box per article at the front page
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
 		if(Sections::post($fields))
@@ -320,7 +317,6 @@ if(!$permitted) {
 		$fields = array();
 		$fields['nick_name'] = 'global';
 		$fields['title'] = i18n::c('Global pages');
-		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
 		$fields['rank'] = '1000'; // before other special sections
@@ -338,7 +334,6 @@ if(!$permitted) {
 		$fields['title'] = i18n::c('Navigation boxes');
 		$fields['introduction'] = i18n::c('Boxes displayed aside all pages');
 		$fields['description'] = i18n::c('All [link=codes]codes/[/link] are available to format boxes. Keep the content as compact as possible because of the small size of any single box. When ready, publish pages to actually show boxes to everybody.');
-		$fields['home_panel'] = 'none'; // special processing everywhere -- see skins/<skin>/template.php
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
 		if(Sections::post($fields))
@@ -356,7 +351,6 @@ if(!$permitted) {
 		$fields['title'] = i18n::c('Processed queries');
 		$fields['introduction'] =& i18n::c('Saved for history');
 		$fields['active_set'] = 'N'; // only associates can access these pages
-		$fields['home_panel'] = 'none'; // special processing everywhere -- see skins/<skin>/template.php
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
 		$fields['rank'] = '20000'; // pushed at the end
@@ -374,7 +368,6 @@ if(!$permitted) {
 		$fields['introduction'] =& i18n::c('Submitted by any surfer');
 		$fields['description'] =& i18n::c('Add comments to provide support.');
 		$fields['active_set'] = 'N'; // only associates can access these pages
-		$fields['home_panel'] = 'none'; // special processing everywhere -- see skins/<skin>/template.php
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
 		if($processed_id)
@@ -392,7 +385,6 @@ if(!$permitted) {
 		$fields['nick_name'] = 'templates';
 		$fields['articles_layout'] = 'yahoo'; // show thumbnails
 		$fields['content_options'] = 'auto_publish'; // these will be reviewed anyway
-		$fields['home_panel'] = 'none'; // special processing everywhere -- see skins/<skin>/template.php
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['introduction'] = i18n::c('Models to be duplicated');
 		$fields['locked'] = 'Y'; // only associates can contribute
@@ -410,7 +402,6 @@ if(!$permitted) {
 		$fields['articles_layout'] = 'yabb'; // these are threads
 		$fields['articles_templates'] = 'information_template, question_template, chat_template, event_template';
 		$fields['content_options'] = 'auto_publish with_export_tools with_neighbours';
-		$fields['home_panel'] = 'none'; // content is not pushed at the front page
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['introduction'] =& i18n::c('For standalone pages');
 		$fields['maximum_items'] = 20000; // limit the overall number of threads

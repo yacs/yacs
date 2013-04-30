@@ -919,36 +919,13 @@ if($with_form) {
 		// define how this section appears
 		$input = i18n::s('This section should be:').BR
 			.'<input type="radio" name="index_map" value="Y"';
-		if(!isset($item['index_map']) || ($item['index_map'] == 'Y'))
+		if(!isset($item['index_map']) || ($item['index_map'] != 'N'))
 			$input .= ' checked="checked"';
 		$input .= '/> '.sprintf(i18n::s('listed in the main panel, with the rank %s (default value is 10000).'), '<input type="text" name="rank" size="5" value="'.encode_field(isset($item['rank']) ? $item['rank'] : '10000').'" maxlength="5" />');
 		$input .= BR.'<input type="radio" name="index_map" value="N"';
-		if(isset($item['index_map']) && ($item['index_map'] != 'Y'))
+		if(isset($item['index_map']) && ($item['index_map'] == 'N'))
 			$input .= ' checked="checked"';
 		$input .= '/> '.i18n::s('listed only to associates and editors, with other special sections').BR;
-		$parent .= '<p>'.$input.'</p>';
-
-		$input = i18n::s('Content of this section should be:').BR;
-		$input .= '<input type="radio" name="index_panel" value="main"';
-		if(!isset($item['index_panel']) || ($item['index_panel'] == '') || ($item['index_panel'] == 'main'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('displayed in the main panel')
-			.BR.'<input type="radio" name="index_panel" value="news"';
-		if(isset($item['index_panel']) && ($item['index_panel'] == 'news'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('displayed in the area reserved to news')
-			.BR.'<input type="radio" name="index_panel" value="extra"';
-		if(isset($item['index_panel']) && ($item['index_panel'] == 'extra'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('listed on page side, in an extra box')
-			.BR.'<input type="radio" name="index_panel" value="extra_boxes"';
-		if(isset($item['index_panel']) && ($item['index_panel'] == 'extra_boxes'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('displayed in distinct extra boxes')
-			.BR.'<input type="radio" name="index_panel" value="none"';
-		if(isset($item['index_panel']) && ($item['index_panel'] == 'none'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('not displayed at the parent index page');
 		$parent .= '<p>'.$input.'</p>';
 
 	// layout options related to the site map
@@ -961,11 +938,11 @@ if($with_form) {
 			$label= '';
 			$input = i18n::s('This section should be:').BR
 				.'<input type="radio" name="index_map" value="Y"';
-			if(!isset($item['index_map']) || ($item['index_map'] == 'Y'))
+			if(!isset($item['index_map']) || ($item['index_map'] != 'N'))
 				$input .= ' checked="checked"';
 			$input .= '/> '.sprintf(i18n::s('listed in the main panel, with the rank %s (default value is 10000).'), '<input type="text" name="rank" size="5" value="'.encode_field(isset($item['rank']) ? $item['rank'] : '10000').'" maxlength="5" />');
 			$input .= BR.'<input type="radio" name="index_map" value="N"';
-			if(isset($item['index_map']) && ($item['index_map'] != 'Y'))
+			if(isset($item['index_map']) && ($item['index_map'] == 'N'))
 				$input .= ' checked="checked"';
 			$input .= '/> '.i18n::s('listed only to associates, with other special sections, and never appears at the site front page').BR;
 			$parent .= '<p>'.$label.BR.$input.'</p>';
@@ -1059,38 +1036,6 @@ if($with_form) {
 	else
 		$label = i18n::s('Appearance at the site map');
 	$text .= Skin::build_box($label, $parent, 'folded');
-
-	// contribution to the front page
-	//
-	if(Surfer::is_associate()) {
-
-		// options for recent pages of this section
-		$input = i18n::s('Content of this section should be:').BR;
-		$input .= '<input type="radio" name="home_panel" value="main"';
-		if(isset($item['home_panel']) && ($item['home_panel'] == 'main'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('displayed in the main panel')
-			.BR.'<input type="radio" name="home_panel" value="news"';
-		if(isset($item['home_panel']) && ($item['home_panel'] == 'news'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('displayed in the area reserved to news')
-			.BR.'<input type="radio" name="home_panel" value="extra"';
-		if(isset($item['home_panel']) && ($item['home_panel'] == 'extra'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('listed on page side, in an extra box')
-			.BR.'<input type="radio" name="home_panel" value="extra_boxes"';
-		if(isset($item['home_panel']) && ($item['home_panel'] == 'extra_boxes'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('displayed in distinct extra boxes')
-			.BR.'<input type="radio" name="home_panel" value="none"';
-		if(!isset($item['home_panel']) || !preg_match('/^(extra|extra_boxes|main|news)$/', $item['home_panel']))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('not displayed at the front page');
-
-		// one folded box for layout options
-		$text .= Skin::build_box(i18n::s('Contribution to the site front page'), $input, 'folded');
-
-	}
 
 	// the nick name
 	$label = i18n::s('Nick name');

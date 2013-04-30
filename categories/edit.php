@@ -321,7 +321,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['sections_layout']) || !$item['sections_layout'])
 		$item['sections_layout'] = 'map';
-	elseif(!preg_match('/(compact|decorated|folded|freemind|inline|jive|map|slashdot|titles|yabb|none)/', $item['sections_layout'])) {
+	elseif(!preg_match('/(compact|decorated|folded|inline|jive|map|slashdot|titles|yabb|none)/', $item['sections_layout'])) {
 		$custom_layout = $item['sections_layout'];
 		$item['sections_layout'] = 'custom';
 	}
@@ -337,10 +337,6 @@ if($with_form) {
 	if($item['sections_layout'] == 'map')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('map - Map in two columns, like Yahoo!')
-		.BR.'<input type="radio" name="sections_layout" value="freemind"';
-	if($item['sections_layout'] == 'freemind')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('freemind - Build an interactive mind map')
 		.BR.'<input type="radio" name="sections_layout" value="jive"';
 	if($item['sections_layout'] == 'jive')
 		$input .= ' checked="checked"';
@@ -725,10 +721,6 @@ if($with_form) {
 		if(isset($item['display']) && ($item['display'] == 'site:all'))
 			$input .= ' checked="checked"';
 		$input .= '/> '.i18n::s('at all pages, among other navigation boxes')
-			.BR.'<input type="radio" name="display" value="home:extra"';
-		if(isset($item['display']) && ($item['display'] == 'home:extra'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('at the front page, among other extra boxes')
 			.BR.'<input type="radio" name="display" value="section:index"';
 		if(isset($item['display']) && ($item['display'] == 'section:index'))
 			$input .= ' checked="checked"';
