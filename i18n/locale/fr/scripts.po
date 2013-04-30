@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-22 09:33+0100\n"
+"POT-Creation-Date: 2012-11-20 23:52+0100\n"
 "PO-Revision-Date: 2010-05-12 16:29+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -724,10 +724,6 @@ msgstr ""
 msgid "update process"
 msgstr "la mise à jour"
 
-#: scripts/update_header.php:26
-msgid "This script will change running scripts at your server."
-msgstr "Ce script va modifier les scripts courants sur votre serveur."
-
 #: scripts/update.php:79
 msgid ""
 "Scripts of your server are now updated from the staging store. Please do not "
@@ -831,6 +827,10 @@ msgid ""
 msgstr ""
 "Oui, j'ai vérifié chaque élément, et souhaite mettre à jour les scripts de "
 "ce serveur"
+
+#: scripts/update_header.php:26
+msgid "This script will change running scripts at your server."
+msgstr "Ce script va modifier les scripts courants sur votre serveur."
 
 #: scripts/upload.php:105
 #, php-format
