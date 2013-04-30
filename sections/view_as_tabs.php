@@ -451,12 +451,8 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 	// if not at another follow-up page
 	if(!$zoom_type || ($zoom_type == 'sections')) {
 
-		// display sub-sections as a Freemind map, except to search engines
-		if(isset($item['sections_layout']) && ($item['sections_layout'] == 'freemind') && !Surfer::is_crawler()) {
-			$text .= Codes::render_freemind('section:'.$item['id'].', 100%, 400px');
-
-		// use a regular layout
-		} elseif(!isset($item['sections_layout']) || ($item['sections_layout'] != 'none')) {
+		// layout sub-sections
+		if(!isset($item['sections_layout']) || ($item['sections_layout'] != 'none')) {
 
 			// select a layout
 			if(!isset($item['sections_layout']) || !$item['sections_layout']) {

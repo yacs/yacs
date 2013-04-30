@@ -1919,7 +1919,7 @@ Class Sections {
 		}
 
 		// check the target action
-		if(!preg_match('/^(delete|describe|duplicate|edit|export|feed|freemind|import|invite|lock|mail|navigate|own|print|view|view_as_freemind)$/', $action))
+		if(!preg_match('/^(delete|describe|duplicate|edit|export|feed|import|invite|lock|mail|navigate|own|print|view)$/', $action))
 			return 'sections/'.$action.'.php?id='.urlencode($id).'&action='.urlencode($name);
 
 		// normalize the link
@@ -2778,7 +2778,7 @@ Class Sections {
 			$fields['rank'] = 10000;
 
 		// set layout for sections
-		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/^(accordion|carrousel|compact|custom|decorated|directory|folded|freemind|inline|jive|map|slashdot|tabs|titles|yabb|none)$/', $fields['sections_layout']))
+		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/^(accordion|carrousel|compact|custom|decorated|directory|folded|inline|jive|map|slashdot|tabs|titles|yabb|none)$/', $fields['sections_layout']))
 			$fields['sections_layout'] = 'none';
 		elseif($fields['sections_layout'] == 'custom') {
 			if(isset($fields['sections_custom_layout']) && $fields['sections_custom_layout'])
@@ -2995,7 +2995,7 @@ Class Sections {
 			$fields['rank'] = 10000;
 
 		// set layout for sections
-		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/^(accordion|carrousel|compact|custom|decorated|directory|folded|freemind|inline|jive|map|slashdot|tabs|titles|yabb|none)$/', $fields['sections_layout']))
+		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/^(accordion|carrousel|compact|custom|decorated|directory|folded|inline|jive|map|slashdot|tabs|titles|yabb|none)$/', $fields['sections_layout']))
 			$fields['sections_layout'] = 'map';
 		elseif($fields['sections_layout'] == 'custom') {
 			if(isset($fields['sections_custom_layout']) && $fields['sections_custom_layout'])

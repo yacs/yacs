@@ -7,9 +7,6 @@
  * - &#91;twitter=id] - twitter updates of one person
  * - &#91;tsearch=token] - twitter search on a given topic
  * - &#91;iframe=&lt;width&gt;, &lt;height&gt;]&lt;url&gt;[/iframe] - include some external page
- * - &#91;freemind] - a Freemind map of site content
- * - &#91;freemind=section:&lt;id>] - a Freemind map of a section and its content
- * - &#91;freemind=section:&lt;id>, width, height] - a Freemind map of a section and its content
  * - &#91;cloud] - the tags used at this site
  * - &#91;cloud=12] - maximum count of tags used at this site
  * - &#91;calendar] - events for this month
@@ -89,15 +86,6 @@ $context['text'] .= '[title]'.i18n::s('External page').' [escape][iframe=&lt;wid
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][iframe=500, 320]http://www.cisco.com/[/iframe][/escape]</td>'
 	.'<td>[iframe=500, 320]http://www.cisco.com/[/iframe]</td></tr>'
-	.Skin::table_suffix();
-
-// [freemind]
-$context['text'] .= '[title]'.i18n::s('A dynamic Freemind map').' [escape][freemind] [freemind=section:&lt;id&gt;][/escape][/title]'
-	.'<p>'.i18n::s('Use the simplest form to navigate site content is a mind map, or limit the scope to one section and related sub-sections.').'</p>'
-	.Skin::table_prefix('wide')
-	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][freemind=section:default, 100%, 300px][/escape]</td>'
-	.'<td>[freemind=section:default, 100%, 300px]</td></tr>'
 	.Skin::table_suffix();
 
 // [cloud]

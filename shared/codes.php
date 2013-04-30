@@ -189,9 +189,6 @@
  * - &#91;twitter=id] - twitter updates of one person
  * - &#91;tsearch=token] - twitter search on a given topic
  * - &#91;iframe=&lt;width&gt;, &lt;height&gt;]&lt;url&gt;[/iframe] - include some external page
- * - &#91;freemind] - a Freemind map of site content
- * - &#91;freemind=section:&lt;id>] - a Freemind map of a section and its content
- * - &#91;freemind=section:&lt;id>, width, height] - a Freemind map of a section and its content
  * - &#91;cloud] - the tags used at this site
  * - &#91;cloud=12] - maximum count of tags used at this site
  * - &#91;calendar] - events for this month
@@ -235,7 +232,6 @@
  * In-line elements:
  * - &#91;embed=&lt;id>, &lt;width>, &lt;height>, &lt;flashparams>] - embed a multimedia file
  * - &#91;embed=&lt;id>, window] - render a multimedia file in a separate window
- * - &#91;freemind=&lt;id>] - a Freemind map out of given file
  * - &#91;sound=&lt;id>] - play a sound
  * - &#91;image=&lt;id>] - an inline image
  * - &#91;image=&lt;id>,left] - a left-aligned image
@@ -1067,8 +1063,6 @@ Class Codes {
 				'/\[voted\.([^\]]+?)\]\n*/ise',				// [voted.decorated]
 				'/\[voted=([^\]]+?)\]\n*/ise',				// [voted=section:4029]
 				'/\[voted\]\n*/ise', 						// [voted]
-				'/\[freemind\]\n*/ise', 					// [freemind] (a mind map of site content)
-				'/\[freemind=([^\]]+?)\]\n*/ise',			// [freemind=section:4029] (a mind map of section content)
 				'/\[sections\]\n*/ise',						// [sections] (site map)
 				'/\[sections\.([^\]=]+?)\]\n*/ise',			// [sections.folded] (site map)
 				'/\[sections=([^\]]+?)\]\n*/ise',			// [sections=section:4029] (sub-sections)
@@ -1267,8 +1261,6 @@ Class Codes {
 				"Codes::render_voted('', '$1')",									// [voted.decorated]
 				"Codes::render_voted('$1', 'simple')",								// [voted=section:4029]
 				"Codes::render_voted('', 'simple')",								// [voted]
-				"Codes::render_freemind('sections')",								// [freemind]
-				"Codes::render_freemind('$1')", 									// [freemind=section:4029] or [freemind=123]
 				"Codes::render_sections()", 										// [sections] (site map)
 				"Codes::render_sections('', '$1')",									// [sections.folded] (site map)
 				"Codes::render_sections('$1')", 									// [sections=section:4029] (sub-sections)
@@ -2066,139 +2058,6 @@ Class Codes {
 
 		// display the text where the script was included
 		return $output;
-	}
-
-	/**
-	 * render an interactive Freemind map
-	 *
-	 * The id can be:
-	 * - 'sections' - the entire content tree
-	 * - 'section:123' - some branch of the content tree
-	 * - '123' - the file with the provided id, if it is a Freemind map
-	 * - 'http://link/to/a/map.mm' - has to reference this server
-	 *
-	 * The id can also include width and height of the target canvas, as in
-	 * following examples:
-	 * - '100%, 250px' - actual id is assumed to be 'sections'
-	 * - 'section:4059, 100%, 250px'
-	 *
-	 * The Flash viewer is available at http://evamoraga.net/efectokiwano/mm/index.mm
-	 *
-	 * @link http://evamoraga.net/efectokiwano/mm/index.mm
-	 *
-	 * @param string id of the target map
-	 * @return string the rendered string
-	**/
-	public static function &render_freemind($id) {
-		global $context;
-
-		// process parameters
-		$attributes = preg_split("/\s*,\s*/", $id, 3);
-		switch(count($attributes)) {
-		case 3: // id, width, height
-			$id = $attributes[0];
-			$width = $attributes[1];
-			$height = $attributes[2];
-			break;
-		case 2: // width, height
-			$id = 'sections';
-			$width = $attributes[0];
-			$height = $attributes[1];
-			break;
-		case 1: // id
-			$id = $attributes[0];
-			$width = isset($context['skins_freemind_canvas_width']) ? $context['skins_freemind_canvas_width'] : '100%';
-			$height = isset($context['skins_freemind_canvas_height']) ? $context['skins_freemind_canvas_height'] : '500px';
-			break;
-		}
-
-		// additional commands
-		$menu = array();
-
-		// web reference to site full content
-		if($id == 'sections') {
-			$target_href = $context['url_to_home'].$context['url_to_root'].Sections::get_url('all', 'freemind', utf8::to_ascii($context['site_name'].'.mm'));
-			$menu = array_merge($menu, array(Sections::get_url('all', 'view_as_freemind', utf8::to_ascii($context['site_name'].'.mm')) => i18n::s('Full-size')));
-
-		// content of one section
-		} elseif(($position = strpos($id, 'section:')) !== FALSE) {
-
-			if(!$item = Sections::get(substr($id, $position + strlen('section:')))) {
-				$text = '[freemind='.$id.']';
-				return $text;
-			}
-
-			$target_href = $context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'freemind', utf8::to_ascii($context['site_name'].' - '.strip_tags(Codes::beautify(trim($item['title']))).'.mm'));
-
-			$menu = array_merge($menu, array(Sections::get_url($item['id'], 'view_as_freemind', utf8::to_ascii($context['site_name'].' - '.strip_tags(Codes::beautify(trim($item['title']))).'.mm')) => i18n::s('Full-size')));
-
-		// direct reference to the target file
-		} elseif(strpos($id, $context['url_to_home']) === 0) {
-			$target_href = $id;
-
-		// one file, as a freemind map
-		} elseif(($item = Files::get($id)) && isset($item['id'])) {
-
-			// if we have an external reference, use it
-			if(isset($item['file_href']) && $item['file_href']) {
-				$target_href = $item['file_href'];
-
-			// else redirect to ourself
-			} else {
-
-				// ensure a valid file name
-				$file_name = utf8::to_ascii($item['file_name']);
-
-				// where the file is
-				$path = Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']);
-
-				// map the file on the regular web space
-				$url_prefix = $context['url_to_home'].$context['url_to_root'];
-
-				// redirect to the actual file
-				$target_href = $url_prefix.$path;
-			}
-
-		// no way to render this id
-		} else {
-			$text = '[freemind='.$id.']';
-			return $text;
-		}
-
-		// allow several viewers to co-exist in the same page
-		static $freemind_viewer_index;
-		if(!isset($freemind_viewer_index))
-			$freemind_viewer_index = 1;
-		else
-			$freemind_viewer_index++;
-
-		// load flash player
-		$url = $context['url_to_home'].$context['url_to_root'].'included/browser/visorFreemind.swf';
-
-		// variables
-		$flashvars = 'initLoadFile='.$target_href.'&openUrl=_self';
-
-		$text = '<div id="freemind_viewer_'.$freemind_viewer_index.'">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-			.JS_PREFIX
-			.'var params = {};'."\n"
-			.'params.base = "'.dirname($url).'/";'."\n"
-			.'params.quality = "high";'."\n"
-			.'params.wmode = "transparent";'."\n"
-			.'params.menu = "false";'."\n"
-			.'params.flashvars = "'.$flashvars.'";'."\n"
-			.'swfobject.embedSWF("'.$url.'", "freemind_viewer_'.$freemind_viewer_index.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-			.JS_SUFFIX."\n";
-
-		// offer to download a copy of the map
-		$menu = array_merge($menu, array($target_href => i18n::s('Browse this map with Freemind')));
-
-		// display menu commands below the viewer
-		if(count($menu))
-			$text .= Skin::build_list($menu, 'menu_bar');
-
-		// job done
-		return $text;
-
 	}
 
 	/**
