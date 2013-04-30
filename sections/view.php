@@ -1253,7 +1253,7 @@ if(!isset($item['id'])) {
 					$items_per_page = ARTICLES_PER_PAGE;
 
 				// sub-sections targeting the main area
-				if($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'main')) {
+				if($anchors = Sections::get_branch_at_anchor('section:'.$item['id'])) {
 
 					// use ordering options set for the section
 					if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))

@@ -134,14 +134,8 @@ Class Layout_sections_as_yabb extends Layout_interface {
 			if($details)
 				$details = BR.'<span class="details">'.$details."</span>\n";
 
-			// count posts here, and in children sections --up to three level of depth
-			if($anchors =& Sections::get_children_of_anchor('section:'.$item['id'])) {
-				if($anchors2 =& Sections::get_children_of_anchor($anchors))
-					$anchors2 = array_merge($anchors2, Sections::get_children_of_anchor($anchors2));
-
-				$anchors = array_merge($anchors, $anchors2);
-			}
-			$anchors[] = 'section:'.$item['id'];
+			// count posts here, and in children sections
+			$anchors = Sections::get_branch_at_anchor('section:'.$item['id']);
 			if(!$count = Articles::count_for_anchor($anchors))
 				$count = 0;
 

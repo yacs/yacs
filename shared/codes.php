@@ -3307,36 +3307,8 @@ Class Codes {
 		// scope is limited to one section
 		if(strpos($anchor, 'section:') === 0) {
 
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
+			// look at this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
 			$text =& Articles::list_for_anchor_by('publication', $anchors, 0, $count, $layout);
@@ -3355,25 +3327,25 @@ Class Codes {
 
 			// second level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// third level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// fourth level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// fifth level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
@@ -3441,36 +3413,8 @@ Class Codes {
 		// scope is limited to one section
 		if(!strncmp($anchor, 'section:', 8)) {
 
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
+			// look at this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
 			$items =& Articles::list_for_anchor_by('random', $anchors, 0, 1, 'raw');
@@ -3557,36 +3501,8 @@ Class Codes {
 		// scope is limited to one section
 		if(strpos($anchor, 'section:') === 0) {
 
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
+			// look at this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
 			$text =& Articles::list_for_anchor_by('hits', $anchors, 0, $count, $layout);
@@ -4092,36 +4008,8 @@ Class Codes {
 		// scope is limited to one section
 		if(strpos($anchor, 'section:') === 0) {
 
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
+			// look at this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
 			$text =& Articles::list_for_anchor_by('edition', $anchors, 0, $count, $layout);
@@ -4140,25 +4028,25 @@ Class Codes {
 
 			// second level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// third level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// fourth level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// fifth level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
@@ -4260,36 +4148,8 @@ Class Codes {
 		// scope is limited to one section
 		if(strpos($anchor, 'section:') === 0) {
 
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
+			// look at this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
 			$text =& Articles::list_for_anchor_by('rating', $anchors, 0, $count, $layout);

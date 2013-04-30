@@ -586,7 +586,7 @@ Class Skin_Skeleton {
 		$tree = array();
 
 		// list underneath level
-		if($children =& Sections::get_children_of_anchor($anchors[count($anchors)-1], 'index')) {
+		if($children = Sections::get_children_of_anchor($anchors[count($anchors)-1])) {
 
 			// place children
 			foreach($children as $child) {
@@ -611,7 +611,7 @@ Class Skin_Skeleton {
 		for($index=count($anchors)-2; $index >= 0; $index--) {
 
 			// get nibbles
-			if($nibbles =& Sections::get_children_of_anchor($anchors[$index], 'index')) {
+			if($nibbles = Sections::get_children_of_anchor($anchors[$index])) {
 
 				// list nibbles
 				$insert = TRUE;
