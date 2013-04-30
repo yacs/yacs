@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-22 09:33+0100\n"
+"POT-Creation-Date: 2012-11-20 23:52+0100\n"
 "PO-Revision-Date: 2010-08-11 17:27+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -234,8 +234,8 @@ msgstr "The date has been saved."
 msgid "What do you want to do now?"
 msgstr "What do you want to do now?"
 
-#: dates/edit.php:141 dates/layout_dates_as_family.php:83
-#: dates/layout_dates.php:61
+#: dates/edit.php:141 dates/layout_dates.php:61
+#: dates/layout_dates_as_family.php:83
 msgid "View the page"
 msgstr "View the page"
 

@@ -1,0 +1,67 @@
+# English translations for PACKAGE package.
+# Copyright (C) 2013 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-04-30 23:53+0200\n"
+"PO-Revision-Date: 2013-04-30 23:53+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ASCII\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: canvas/index.php:23
+msgid "Canvas"
+msgstr "Canvas"
+
+#: canvas/index.php:27
+msgid ""
+"Canvas listed below can be used to customise articles display attached to "
+"some sections."
+msgstr ""
+"Canvas listed below can be used to customise articles display attached to "
+"some sections."
+
+#: canvas/index.php:58
+#, php-format
+msgid ""
+"For example, if you want to apply the canvas <code>foo</code>, go to the %s, "
+"and select a target section, or add one."
+msgstr ""
+"For example, if you want to apply the canvas <code>foo</code>, go to the %s, "
+"and select a target section, or add one."
+
+#: canvas/index.php:58
+msgid "site map"
+msgstr "site map"
+
+#: canvas/index.php:59
+msgid ""
+"In the form used to edit the section, select <code>foo</code> in the canvas "
+"field, then save changes."
+msgstr ""
+"In the form used to edit the section, select <code>foo</code> in the canvas "
+"field, then save changes."
+
+#: canvas/one_panel.php:73
+msgid "Comments"
+msgstr "Comments"
+
+#: canvas/one_panel.php:93
+msgid "Information"
+msgstr "Information"
+
+#: canvas/standard.php:75
+msgid "Discussion"
+msgstr "Discussion"
+
+#: canvas/standard.php:105
+msgid "Attachments"
+msgstr "Attachments"
