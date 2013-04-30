@@ -166,11 +166,6 @@
  *
  * [*] '[code]extra_boxes[/code]' - Same as the previous one, except that YACS creates one extra box per article.
  *
- * [*] '[code]gadget[/code]' - Summarize most recent entries in a gadget box at the index page.
- * May prove to be useful with discussion boards for example.
- *
- * [*] '[code]gadget_boxes[/code]' - Same as the previous one, except that YACS creates one gadget box per article.
- *
  * [*] '[code]news[/code]' - List articles in the area dedicated to flashy news
  *
  * [*] '[code]none[/code]' - Do not list section content at the front page.
@@ -1037,8 +1032,6 @@ Class Sections {
 	 * It accepts following variants:
 	 * - 'extra' - one extra box per section
 	 * - 'extra_boxes' - one extra box per article
-	 * - 'gadget' - one gadget box per section
-	 * - 'gadget_boxes' - one gadget box per article
 	 * - 'main' - the main part of the index page
 	 * - 'news' - flashy news
 	 * - 'none' - sections are not displayed at all
@@ -1075,14 +1068,6 @@ Class Sections {
 
 		case 'extra_boxes':
 			$criteria[] = "(sections.".$target." = 'extra_boxes')";
-			break;
-
-		case 'gadget':
-			$criteria[] = "(sections.".$target." = 'gadget')";
-			break;
-
-		case 'gadget_boxes':
-			$criteria[] = "(sections.".$target." = 'gadget_boxes')";
 			break;
 
 		case 'main':

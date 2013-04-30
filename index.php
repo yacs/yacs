@@ -81,17 +81,8 @@
  * Change parameter [code]root_gadget_boxes_at_home[/code] to disable the display of
  * gadget boxes. Up to 6 gadget boxes can be displayed at the front page.
  *
- * - The most straightforward way to create gadget boxes is to post articles
- * in the section dedicated to gadget boxes. Each article will be put in a
- * separate box.
- *
- * - Moreover, categories can also be configured to list their content in
- * gadget boxes. In this case each category will have its own box,
- * and up to 5 pages and 5 links will be listed per box.
- *
- * - Configure some sections to list their content in gadget boxes. You can
- * select to have either one box per section, with up to 7 pages or links will
- * be listed per box, or to have every article in its own separate box.
+ * To create gadget boxes, just post articles in the section dedicated to gadget boxes.
+ * Each article will be put in a separate box.
  *
  * Activate the display of the Site Map (actually, a downsize version of it) to introduce
  * top-level sections of your site.
@@ -328,100 +319,6 @@ if(!$text = Cache::get($cache_id)) {
 					$gadget_boxes[] = array($title, $attributes['content'], $attributes['id']);
 			}
 
-		}
-
-		// up to 6 categories to be displayed as gadget boxes
-		if($categories = Categories::list_by_date_for_display('home:gadget', 0, 6, 'raw')) {
-
-			// one box per category
-			foreach($categories as $id => $attributes) {
-
-				// link to the category page from the box title
-				$label =& Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_permalink($attributes), i18n::s('View the category'));
-
-				// articles for this category
-				if($items =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE+1, 'compact')) {
-
-					// more at the category page
-					if(count($items) > COMPACT_LIST_SIZE) {
-						@array_splice($items, COMPACT_LIST_SIZE);
-
-						// link to the category page
-						$url = Categories::get_permalink($attributes);
-						$items[$url] = i18n::s('More pages').MORE_IMG;
-					}
-
-					// one box per category
-					$gadget_boxes[] = array($label, Skin::build_list($items, 'compact'), '');
-
-				// else links for this category
-				} elseif($items = Links::list_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE+1, 'compact')) {
-
-					// limit to five pages only
-					if(count($items) > COMPACT_LIST_SIZE) {
-						@array_splice($items, COMPACT_LIST_SIZE);
-
-						// link to the category page
-						$url = Categories::get_permalink($attributes);
-						$items[$url] = i18n::s('More links').MORE_IMG;
-					}
-
-					$gadget_boxes[] = array($label, Skin::build_list($items, 'compact'), '');
-
-				}
-			}
-		}
-
-		// sections to be displayed as gadget boxes
-		if($anchors =& Sections::get_anchors_for_anchor(NULL, 'gadget')) {
-
-			// one box per section
-			foreach($anchors as $anchor) {
-				$box = array();
-
-				// sanity check
-				if(!$section = Anchors::get($anchor))
-					continue;
-
-				// link to the section page from box title
-				$box['title'] =& Skin::build_box_title($section->get_title(), $section->get_url(), i18n::s('View the section'));
-
-				// build a compact list
-				$box['list'] = array();
-
-				// add matching sections, if any
-				if($items = Sections::list_by_title_for_anchor($anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact'))
-					$box['list'] = array_merge($box['list'], $items);
-
-				// add matching articles
-				if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items =& Articles::list_for_anchor_by('publication', $anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
-					$box['list'] = array_merge($box['list'], $items);
-
-				// add matching links, if any
-				if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items = Links::list_by_date_for_anchor($anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
-					$box['list'] = array_merge($box['list'], $items);
-
-				// more at the section page
-				if(count($box['list']) > COMPACT_LIST_SIZE) {
-					@array_splice($box['list'], COMPACT_LIST_SIZE);
-
-					// link to the section page
-					$box['list'] = array_merge($box['list'], array($section->get_url() => i18n::s('More pages').MORE_IMG));
-				}
-
-				// render the html for the box
-				if(count($box['list']))
-					$box['text'] =& Skin::build_list($box['list'], 'compact');
-
-				// give a chance to associates to populate empty sections
-				elseif(Surfer::is_associate())
-					$box['text'] = Skin::build_link($section->get_url(), i18n::s('View the section'), 'shortcut');
-
-				// append a box
-				if(isset($box['text']) && $box['text'])
-					$gadget_boxes[] = array($box['title'], $box['text'], $section->get_nick_name());
-
-			}
 		}
 
 		// we do have some boxes to display

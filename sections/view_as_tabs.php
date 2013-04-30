@@ -7,7 +7,7 @@
  *
  * It handles the same building blocks than [script]sections/view.php[/script],
  * except that they are featured in tabbed panels:
- * - Information - with details, introduction, main text and gadget boxes.
+ * - Information - with details, introduction, main text
  * - Pages - for contained articles
  * - Attachments - with files and links
  * - Discussion - A thread of contributions, not in real-time
@@ -60,10 +60,6 @@ if(!$zoom_type && !Surfer::is_crawler()) {
 				$details[] = i18n::s('Is displayed at the parent section page among other extra boxes.');
 			elseif(isset($item['index_panel']) && ($item['index_panel'] == 'extra_boxes'))
 				$details[] = i18n::s('Topmost articles are displayed at the parent section page in distinct extra boxes.');
-			elseif(isset($item['index_panel']) && ($item['index_panel'] == 'gadget'))
-				$details[] = i18n::s('Is displayed in the middle of the parent section page, among other gadget boxes.');
-			elseif(isset($item['index_panel']) && ($item['index_panel'] == 'gadget_boxes'))
-				$details[] = i18n::s('First articles are displayed at the parent section page in distinct gadget boxes.');
 			elseif(isset($item['index_panel']) && ($item['index_panel'] == 'news'))
 				$details[] = i18n::s('Articles are listed at the parent section page, in the area reserved to flashy news.');
 
@@ -82,10 +78,6 @@ if(!$zoom_type && !Surfer::is_crawler()) {
 			$details[] = i18n::s('Is displayed at the front page, among other extra boxes.');
 		elseif(isset($item['home_panel']) && ($item['home_panel'] == 'extra_boxes'))
 			$details[] = i18n::s('First articles are displayed at the front page in distinct extra boxes.');
-		elseif(isset($item['home_panel']) && ($item['home_panel'] == 'gadget'))
-			$details[] = i18n::s('Is displayed in the middle of the front page, among other gadget boxes.');
-		elseif(isset($item['home_panel']) && ($item['home_panel'] == 'gadget_boxes'))
-			$details[] = i18n::s('First articles are displayed at the front page in distinct gadget boxes.');
 		elseif(isset($item['home_panel']) && ($item['home_panel'] == 'news'))
 			$details[] = i18n::s('Articles are listed at the front page, in the area reserved to recent news.');
 	}
@@ -226,82 +218,6 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 			$text .= Skin::build_list($page_menu, 'menu_bar');
 		}
 	}
-
-	// gadget boxes
-	$content = '';
-
-	// one gadget box per article, from sub-sections
-	if($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'gadget_boxes')) {
-
-		// up to 6 articles to be displayed as gadget boxes
-		if($items =& Articles::list_for_anchor_by('edition', $anchors, 0, 7, 'boxes')) {
-			foreach($items as $title => $attributes)
-				$content .= Skin::build_box($title, $attributes['content'], 'gadget', $attributes['id'])."\n";
-		}
-	}
-
-	// one gadget box per section, from sub-sections
-	if($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'gadget')) {
-
-		// one box per section
-		foreach($anchors as $anchor) {
-			// sanity check
-			if(!$section = Anchors::get($anchor))
-				continue;
-
-			$box = array( 'title' => '', 'list' => array(), 'text' => '');
-
-			// link to the section page from box title
-			$box['title'] =& Skin::build_box_title($section->get_title(), $section->get_url(), i18n::s('View the section'));
-
-			// add sub-sections, if any
-			if($related = Sections::list_by_title_for_anchor($anchor, 0, COMPACT_LIST_SIZE+1, 'compact')) {
-				foreach($related as $url => $label) {
-					if(is_array($label))
-						$label = $label[0].' '.$label[1];
-					$box['list'] = array_merge($box['list'], array($url => array('', $label, '', 'basic')));
-				}
-			}
-
-			// list matching articles
-			if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items =& Articles::list_for_anchor_by('edition', $anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
-				$box['list'] = array_merge($box['list'], $items);
-
-			// add matching links, if any
-			if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items = Links::list_by_date_for_anchor($anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
-				$box['list'] = array_merge($box['list'], $items);
-
-			// more at the section page
-			if(count($box['list']) > COMPACT_LIST_SIZE) {
-				@array_splice($box['list'], COMPACT_LIST_SIZE);
-
-				// link to the section page
-				$box['list'] = array_merge($box['list'], array($section->get_url() => i18n::s('More pages').MORE_IMG));
-			}
-
-			// render the html for the box
-			if(count($box['list']))
-				$box['text'] =& Skin::build_list($box['list'], 'compact');
-
-			// display content of the section itself
-			elseif($description = $section->get_value('description')) {
-				$box['text'] .= Skin::build_block($description, 'description', '', $item['options']);
-
-			// give a chance to associates to populate empty sections
-			 } elseif(Surfer::is_empowered())
-				$box['text'] = Skin::build_link($section->get_url(), i18n::s('View the section'), 'shortcut');
-
-			// append a box
-			if($box['text'])
-				$content .= Skin::build_box($box['title'], $box['text'], 'gadget');
-
-		}
-
-	}
-
-	// leverage CSS
-	if($content)
-		$text .= '<p id="gadgets_prefix"> </p>'."\n".$content.'<p id="gadgets_suffix"> </p>'."\n";
 
 	// the list of related articles if not at another follow-up page
 	if(!$zoom_type || ($zoom_type == 'articles')) {

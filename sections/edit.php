@@ -941,14 +941,6 @@ if($with_form) {
 		if(isset($item['index_panel']) && ($item['index_panel'] == 'news'))
 			$input .= ' checked="checked"';
 		$input .= '/> '.i18n::s('displayed in the area reserved to news')
-			.BR.'<input type="radio" name="index_panel" value="gadget"';
-		if(isset($item['index_panel']) && ($item['index_panel'] == 'gadget'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('listed in the main panel, in a gadget box')
-			.BR.'<input type="radio" name="index_panel" value="gadget_boxes"';
-		if(isset($item['index_panel']) && ($item['index_panel'] == 'gadget_boxes'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('displayed in distinct gadget boxes')
 			.BR.'<input type="radio" name="index_panel" value="extra"';
 		if(isset($item['index_panel']) && ($item['index_panel'] == 'extra'))
 			$input .= ' checked="checked"';
@@ -1086,14 +1078,6 @@ if($with_form) {
 		if(isset($item['home_panel']) && ($item['home_panel'] == 'news'))
 			$input .= ' checked="checked"';
 		$input .= '/> '.i18n::s('displayed in the area reserved to news')
-			.BR.'<input type="radio" name="home_panel" value="gadget"';
-		if(isset($item['home_panel']) && ($item['home_panel'] == 'gadget'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('listed in the main panel, in a gadget box')
-			.BR.'<input type="radio" name="home_panel" value="gadget_boxes"';
-		if(isset($item['home_panel']) && ($item['home_panel'] == 'gadget_boxes'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('displayed in distinct gadget boxes')
 			.BR.'<input type="radio" name="home_panel" value="extra"';
 		if(isset($item['home_panel']) && ($item['home_panel'] == 'extra'))
 			$input .= ' checked="checked"';
@@ -1103,7 +1087,7 @@ if($with_form) {
 			$input .= ' checked="checked"';
 		$input .= '/> '.i18n::s('displayed in distinct extra boxes')
 			.BR.'<input type="radio" name="home_panel" value="none"';
-		if(!isset($item['home_panel']) || !preg_match('/^(extra|extra_boxes|gadget|gadget_boxes|main|news)$/', $item['home_panel']))
+		if(!isset($item['home_panel']) || !preg_match('/^(extra|extra_boxes|main|news)$/', $item['home_panel']))
 			$input .= ' checked="checked"';
 		$input .= '/> '.i18n::s('not displayed at the front page');
 
