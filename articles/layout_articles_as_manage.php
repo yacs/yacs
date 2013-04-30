@@ -160,7 +160,7 @@ Class Layout_articles_as_manage extends Layout_interface {
 			if(count($details))
 				$suffix .= ucfirst(trim(implode(', ', $details)));
 
-			// list up to three categories by title, if any, and if not on a mobile
+			// list up to three categories by title, if any
 			$anchors = array();
 			if($members =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 7, 'raw')) {
 				foreach($members as $id => $attributes) {

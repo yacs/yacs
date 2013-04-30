@@ -197,7 +197,7 @@ if($with_form) {
 			$fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
 			$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
 			$fields['locked'] = 'Y'; // no direct contributions
-			$fields['home_panel'] = 'extra'; // in a side box at the front page
+			$fields['index_map'] = 'N'; // in a side box at the front page
 			$fields['rank'] = 40000; // at the end of the list
 			$fields['title'] = i18n::c('External News');
 			$fields['description'] = i18n::s('Received from feeding servers');

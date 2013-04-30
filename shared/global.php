@@ -255,9 +255,6 @@ $context['users_allowed_tags']	= '<a><abbr><acronym><b><big><br><code><dd><del><
 // default editor -- see users/configure.php
 $context['users_default_editor'] = 'tinymce';
 
-// path to files and images, for supported virtual hosts --see files/edit.php and images/edit.php
-$context['virtual_path'] = '';
-
 // use titles in address -- see control/configure.php
 $context['with_alternate_urls'] = 'N';
 
@@ -336,12 +333,8 @@ $context['host_name'] = strip_tags($context['host_name']);
 if($here = strrpos($context['host_name'], ':'))
 	$context['host_name'] = substr($context['host_name'], 0, $here);
 
-// normalize virtual name and strip leading 'www.'
-$virtual = 'virtual_'.preg_replace('/^www\./', '', $context['host_name']);
-
-// load parameters specific to this virtual host, if any, and create specific path for files and images
-if(Safe::load('parameters/'.$virtual.'.include.php'))
-	$context['virtual_path'] = $virtual.'/';
+// load parameters specific to this virtual host or sub-domain, if any
+Safe::load('parameters/virtual_'.$context['host_name'].'.include.php');
 
 // ensure we have a site name
 if(!isset($context['site_name']))
@@ -689,7 +682,7 @@ if(file_exists($context['path_to_root'].'parameters/switch.off') && !Surfer::is_
 //
 
 // start with a default skin
-elseif(!isset($context['skin']) && is_dir($context['path_to_root'].'skins/digital'))
+if(!isset($context['skin']) && is_dir($context['path_to_root'].'skins/digital'))
 	$context['skin'] = 'skins/digital';
 
 // load the layout interface, if we have access to some data

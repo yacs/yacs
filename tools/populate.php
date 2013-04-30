@@ -16,7 +16,6 @@
  * Sample elements for the front page:
  * - 'extra_box' - a sample extra box at the front page
  * - 'gadget_cloud' - a sample gadget box featuring the cloud at the front page
- * - 'gadget_collections' - a sample gadget box featuring available collections at the front page
  * - 'navigation_box' - a sample navigation box
  *
  * Sample global pages:
@@ -380,24 +379,6 @@ if(Surfer::is_crawler()) {
 			$text .= Logger::error_pop().BR."\n";
 	}
 
-	// 'gadget_collections' article
-	if(Articles::get('gadget_collections'))
-		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'gadget_collections').BR."\n";
-	elseif($anchor = Sections::lookup('gadget_boxes')) {
-		$fields = array();
-		$fields['anchor'] = $anchor;
-		$fields['nick_name'] = 'gadget_collections';
-		$fields['title'] = i18n::c('Collections');
-		$fields['introduction'] = '';
-		$fields['description'] = '[collections]';
-		$fields['locked'] = 'Y'; // only associates can change this page
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-		if(Articles::post($fields))
-			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
-		else
-			$text .= Logger::error_pop().BR."\n";
-	}
-
 	// 'navigation_box' article
 	if(Articles::get('navigation_box'))
 		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'navigation_box').BR."\n";
@@ -449,7 +430,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Events');
 		$fields['introduction'] = i18n::c('A calendar of planned activities');
 		$fields['description'] = i18n::c('Every page in this section is featured in a nice-looking calendar.');
-		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
+		$fields['index_map'] = 'N'; // special processing at the front page -- see index.php
 		$fields['content_options'] = 'auto_publish'; // ease the job
 		$fields['content_overlay'] = 'event'; // calendar layout
 		$fields['articles_templates'] = 'event_template';
@@ -493,7 +474,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Channels');
 		$fields['introduction'] = i18n::c('Real-time collaboration');
 		$fields['description'] = i18n::c('Every page in this section supports interactive discussion and file sharing.');
-		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
+		$fields['index_map'] = 'N'; // special processing at the front page -- see index.php
 		$fields['content_overlay'] = 'event layout_as_list'; // list threads appropriately
 		$fields['articles_templates'] = 'chat_template';
 		$fields['maximum_items'] = 1000; // limit the overall number of threads
@@ -751,7 +732,7 @@ if(Surfer::is_crawler()) {
 		$fields['articles_layout'] = 'yabb'; // list threads appropriately
 		$fields['articles_templates'] = 'information_template, question_template, chat_template';
 		$fields['content_options'] = 'with_extra_profile'; // put poster profile aside
-		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
+		$fields['index_map'] = 'N'; // special processing at the front page -- see index.php
 		$fields['introduction'] = i18n::c('For project members only');
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";

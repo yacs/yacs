@@ -310,10 +310,6 @@ if(!isset($item['id'])) {
 		// appears in navigation boxes
 		if($item['display'] == 'site:all')
 			$details[] = i18n::s('Is displayed on all pages, among other navigation boxes');
-		elseif($item['display'] == 'home:gadget')
-			$details[] = i18n::s('Is displayed in the middle of the front page, among other gadget boxes');
-		elseif($item['display'] == 'home:extra')
-			$details[] = i18n::s('Is displayed at the front page, among other extra boxes');
 
 		// expired category
 		if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))

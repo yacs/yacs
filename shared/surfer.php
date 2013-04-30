@@ -363,7 +363,6 @@ Class Surfer {
 	 *
 	 * @param array attributes to check
 	 *
-	 * @see actions/actions.php
 	 * @see articles/articles.php
 	 * @see categories/categories.php
 	 * @see comments/comments.php
@@ -538,10 +537,8 @@ Class Surfer {
 	 *
 	 * Curently YACS supports following choices:
 	 * - 'yacs' - the default, plain, code-based textarea
-	 * - 'fckeditor' - WYSIWYG editor
 	 * - 'tinymce' - WYSIWYG editor
 	 *
-	 * @link http://www.fckeditor.net/ FCKEditor
 	 * @link http://tinymce.moxiecode.com/ TinyMCE
 	 *
 	 * @param string the name of the editing field
@@ -559,22 +556,8 @@ Class Surfer {
 		if(!isset($_SESSION['surfer_editor']) && isset($context['users_default_editor']))
 			$_SESSION['surfer_editor'] = $context['users_default_editor'];
 
-		// fckeditor
-		if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor') && is_readable($context['path_to_root'].'included/fckeditor/fckeditor.php') && !$spring) {
-
-			include_once($context['path_to_root'].'included/fckeditor/fckeditor.php');
-			$handle = new FCKeditor($name);
-			$handle->BasePath = $context['url_to_root'].'included/fckeditor/';
-			$handle->Value = $value;
-			$handle->Height = '400' ;
-			$handle->ToolbarSet = 'YACS'; // see fckconfig.js
-			$text .= $handle->CreateHtml() ;
-
-			// signal an advanced editor
-			$text .= '<input type="hidden" name="editor" value="fckeditor" />';
-
 		// tinymce
-		} elseif(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce') && is_readable($context['path_to_root'].'included/tiny_mce/tiny_mce.js') && !$spring) {
+		if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce') && is_readable($context['path_to_root'].'included/tiny_mce/tiny_mce.js') && !$spring) {
 
 			// load the TinyMCE script -- see shared/global.php
 			$context['javascript']['tinymce'] = TRUE;
@@ -1651,7 +1634,7 @@ if(isset($_SERVER['REMOTE_ADDR'])) {
 	Safe::ini_set('url_rewriter.tags', '');
 }
 
-// set the permanent cookie on the transaction that folows the login, in case a redirection would have happened
+// set the permanent cookie on the transaction that follows the login, in case a redirection would have happened
 if(isset($_SESSION['surfer_token'])) {
 
 	// set it
@@ -1664,12 +1647,8 @@ if(isset($_SESSION['surfer_token'])) {
 // retrieve session data, but not if run from the command line, and not from robot nor spider
 if(isset($_SERVER['REMOTE_ADDR']) && !Surfer::is_crawler() && !headers_sent()) {
 
-	// we have moved to another instance on the same host
-	if(isset($_SESSION['server_id']) && isset($_SESSION['url_to_root']) && strcmp($_SESSION['server_id'], $context['url_to_root']))
-		Surfer::reset();
-
 	// permanent identification has been selected
-	elseif(isset($context['users_with_permanent_authentication']) && ($context['users_with_permanent_authentication'] == 'Y')) {
+	if(isset($context['users_with_permanent_authentication']) && ($context['users_with_permanent_authentication'] == 'Y')) {
 
 		// use cookie to identify user -- user id, time of login, gmt offset, salt
 		if(!Surfer::is_logged() && isset($_COOKIE['screening']) && ($nouns = explode('|', $_COOKIE['screening'], 4)) && (count($nouns) == 4)) {
@@ -1712,8 +1691,8 @@ if(@count($_REQUEST) && (!isset($context['allow_html_input']) || ($context['allo
 	if(Surfer::is_associate())
 		;
 
-	// from fckeditor or tinymce
-	elseif(isset($_REQUEST['editor']) && (($_REQUEST['editor'] == 'fckeditor') || ($_REQUEST['editor'] == 'tinymce')))
+	// from tinymce
+	elseif(isset($_REQUEST['editor']) && ($_REQUEST['editor'] == 'tinymce'))
 		;
 
 	// strip most tags, except those that have been explicitly allowed

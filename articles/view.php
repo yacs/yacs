@@ -11,7 +11,7 @@
  * - The list of related links
  *
  * There are several options to display author's information, depending of option set in section.
- * Owner's avatar is displayed if the layout is a forum and if we are not building the page for a mobile device.
+ * Owner's avatar is displayed if the layout is a forum.
  *
  * If the main description field of the article has been split into pages with the keyword [code]&#91;page][/code],
  * a navigation menu is added at the bottom of the page to move around.
@@ -76,7 +76,6 @@
  * - view.php/12 (view the first page of the article document)
  * - view.php/12/nick_name (add nick name to regular id, for URL rewriting)
  * - view.php?id=12 (view the first page of the article document)
- * - view.php?id=12&variant=mobile (mobile edition)
  * - view.php/12/articles/1 (view the page 1 of the main content)
  * - view.php?id=12&articles=1 (view the page 1 of the main content)
  * - view.php/12/categories/1 (view the page 1 of the list of related categories)
@@ -264,6 +263,16 @@ if(isset($item['locked']) && ($item['locked'] == 'Y') && Articles::is_owned($ite
 if(isset($item['language']) && $item['language'] && ($item['language'] != 'none'))
 	$context['page_language'] = $item['language'];
 
+// page canonical link
+if(isset($item['vhost']) && $item['vhost']) {
+	if(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == 443))
+		$context['page_link'] = 'https://';
+	else
+		$context['page_link'] = 'http://';
+	$context['page_link'] .= $item['vhost'].$context['url_to_root'].Articles::get_permalink($item);
+} elseif(isset($item['id']))
+	$context['page_link'] = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
+
 // not found -- help web crawlers
 if(!isset($item['id'])) {
 	include '../error.php';
@@ -345,10 +354,10 @@ if(!isset($item['id'])) {
 	}
 
 // re-enforce the canonical link
-} elseif(!$zoom_type && ($page == 1) && $context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item)) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
+} elseif(!$zoom_type && ($page == 1) && $context['self_url'] && strncmp($context['self_url'], $context['page_link'], strlen($context['page_link']))) {
 	Safe::header('Status: 301 Moved Permanently', TRUE, 301);
-	Safe::header('Location: '.$canonical);
-	Logger::error(Skin::build_link($canonical));
+	Safe::header('Location: '.$context['page_link']);
+	Logger::error(Skin::build_link($context['page_link']));
 
 // display the article
 } else {
@@ -835,10 +844,7 @@ if(!isset($item['id'])) {
 		$context['tabs'] = $tabs;
 
 	// branch to another script
-	if(!Surfer::is_desktop()) {
-		include 'view_on_mobile.php';
-		return;
-	} elseif(isset($item['options']) && preg_match('/\bview_as_[a-zA-Z0-9_\.]+?\b/i', $item['options'], $matches) && is_readable($matches[0].'.php')) {
+	if(isset($item['options']) && preg_match('/\bview_as_[a-zA-Z0-9_\.]+?\b/i', $item['options'], $matches) && is_readable($matches[0].'.php')) {
 		include $matches[0].'.php';
 		return;
 	} elseif(is_object($anchor) && ($viewer = $anchor->has_option('view_as')) && is_readable('view_as_'.$viewer.'.php')) {

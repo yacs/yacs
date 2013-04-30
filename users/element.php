@@ -10,9 +10,7 @@
  * - permission denied is the default
  *
  * Accept following invocations:
- * - element.php/12/actions
  * - element.php/12/watch
- * - element.php?id=12&action=actions
  * - element.php?id=12&action=watch
  *
  * @author Bernard Paques
@@ -108,38 +106,6 @@ if(!isset($item['id'])) {
 } elseif(!$permitted) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	die(i18n::s('You are not allowed to perform this operation.'));
-
-// list actions
-} elseif($action == 'actions') {
-	render_raw();
-
-	// we return some HTML
-	$output = '';
-
-	// offer to add a new action
-	if(Surfer::is_member()) {
-		$menu = array( 'actions/edit.php?anchor=user:'.$item['id'] => i18n::s('Add an action') );
-		$output .= Skin::build_list($menu, 'menu_bar');
-	}
-
-	// query the database
-	include_once '../actions/actions.php';
-	$items = Actions::list_by_date_for_anchor('user:'.$item['id'], 0, ACTIONS_PER_PAGE);
-	if(is_array($items))
-		$items = Skin::build_list($items, 'decorated');
-
-	// display the list of pending actions
-	if($items)
-		$output .= $items;
-	elseif(Surfer::get_id() != $item['id'])
-		$output .= i18n::s('No action has been assigned to this person.');
-
-	// actual transmission except on a HEAD request
-	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
-		echo $output;
-
-	// the post-processing hook, then exit
-	finalize_page(TRUE);
 
 // the watch list
 } elseif($action == 'watch') {

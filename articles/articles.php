@@ -23,7 +23,6 @@
  * while others can be used with related items as well.
  *
  * Specific options to be processed by advanced overlays are not described hereafter.
- * One example of this is the optional keyword '[code]home_with_results[/code]' for the rendering of polls.
  * Please check documentation pages for any overlay you use, like [script]overlays/poll.php[/script].
  *
  * You can combine any of following keywords in the field for options, with the separator (spaces, tabs, commas) of your choice:
@@ -147,14 +146,14 @@ Class Articles {
 			break;
 
 		case 'reverse_overlay' : // Same but DESC for overlay_id, then by number of points
-		    
+
 		        // avoid side effects of ranking across several sections
 			if($multiple_anchor)
 				$order = 'overlay_id DESC, rating_sum DESC, publish_date DESC';
 			else
 				$order = 'overlay_id DESC, rank, rating_sum DESC, publish_date DESC';
 			break;
-			
+
 		case 'publication': // order by rank, then by reverse date of publication
 		case 'future': // obsoleted?
 
@@ -2182,7 +2181,7 @@ Class Articles {
 		// avoid articles pushed away from the front page
 		$sections_where = '';
 		if(isset($context['skin_variant']) && ($context['skin_variant'] == 'home')) {
-			$sections_where .= " AND (sections.home_panel LIKE 'main')";
+			$sections_where .= " AND (sections.index_map != 'N')";
 		}
 
 		// composite fields
@@ -3007,6 +3006,10 @@ Class Articles {
 		if(!Surfer::get_id())
 			Surfer::add_handle($fields['handle']);
 
+		// remember that this item is bound to a specific virtual host name
+		if(file_exists($context['path_to_root'].'parameters/virtual_'.$context['host_name'].'.include.php'))
+			$query[] = "vhost='".SQL::escape($context['host_name'])."'";
+
 		// insert a new record
 		$query = "INSERT INTO ".SQL::table_name('articles')." SET ".implode(', ', $query);
 
@@ -3203,6 +3206,10 @@ Class Articles {
 			$query[] = "publish_date='".SQL::escape($fields['publish_date'])."'";
 		}
 
+		// remember that this item is bound to a specific virtual host name
+		if(file_exists($context['path_to_root'].'parameters/virtual_'.$context['host_name'].'.include.php'))
+			$query[] = "vhost='".SQL::escape($context['host_name'])."'";
+
 		// maybe a silent update
 		if(!isset($fields['silent']) || ($fields['silent'] != 'Y') || !Surfer::is_empowered()) {
 			$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
@@ -3347,6 +3354,10 @@ Class Articles {
 		if(!count($query))
 			return TRUE;
 
+		// remember that this item is bound to a specific virtual host name
+		if(file_exists($context['path_to_root'].'parameters/virtual_'.$context['host_name'].'.include.php'))
+			$query[] = "vhost='".SQL::escape($context['host_name'])."'";
+
 		// maybe a silent update
 		if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
 			$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
@@ -3449,38 +3460,7 @@ Class Articles {
 		if($section_id) {
 
 			// look for children
-			$anchors = array();
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor('section:'.$section_id, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// also include the top level, of course
-			$anchors[] = 'section:'.$section_id;
+			$anchors = Sections::get_branch_at_anchor('section:'.$section_id);
 
 			// the full set of sections searched
 			$where .= " AND (anchor IN ('".join("', '", $anchors)."'))";
@@ -3569,6 +3549,7 @@ Class Articles {
 		$fields['thumbnail_url']= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['trailer']		= "TEXT NOT NULL";
+		$fields['vhost']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 		= "(id)";
@@ -3758,7 +3739,7 @@ Class Articles {
 				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// avoid articles pushed away from the front page
-		$where .= ' AND ((sections.home_panel = "main") OR (sections.home_panel = "none"))';
+		$where .= ' AND (sections.index_map != "N")';
 
 
 		// select among available items

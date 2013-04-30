@@ -958,10 +958,27 @@ Class i18n {
 		elseif(!file_exists($context['path_to_root'].'i18n/locale/'.$context['language'].'/i18n.mo'))
 			$context['language'] = 'en';
 
+		// set the continent, if known
+		if(isset($_SERVER['GEOIP_CONTINENT_CODE'])) {
+			$context['continent_code'] = $_SERVER['GEOIP_CONTINENT_CODE'];
+			$context['continent'] = i18n::get_country_label($_SERVER['GEOIP_CONTINENT_CODE']);
+		}
+
 		// set the country, if known
 		if(isset($_SERVER['GEOIP_COUNTRY_CODE'])) {
 			$context['country_code'] = $_SERVER['GEOIP_COUNTRY_CODE'];
 			$context['country'] = i18n::get_country_label($_SERVER['GEOIP_COUNTRY_CODE']);
+		}
+
+		// set the city, if known
+		if(isset($_SERVER['GEOIP_CITY'])) {
+			$context['city'] = $_SERVER['GEOIP_CITY'];
+		}
+
+		// set latitude and longitude, if known
+		if(isset($_SERVER['GEOIP_LATITUDE'])) {
+			$context['latitude'] = $_SERVER['GEOIP_LATITUDE'];
+			$context['longitude'] = $_SERVER['GEOIP_LONGITUDE'];
 		}
 
 	}
@@ -1164,7 +1181,6 @@ Class i18n {
 				.' * cache localized strings'."\n"
 				.' *'."\n"
 				.' * This file has been created by the script i18n/i18n.php. Please do not modify it manually.'."\n"
-				.' * @reference'."\n"
 				.' */'."\n";
 
 		}

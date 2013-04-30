@@ -220,17 +220,6 @@ if(!$text = Cache::get($cache_id)) {
 }
 $context['components']['boxes'] = $text;
 
-// download content
-if(Surfer::is_associate() && (!isset($context['pages_without_freemind']) || ($context['pages_without_freemind'] != 'Y')) ) {
-
-	// box content
-	$content = Skin::build_link(Sections::get_url('all', 'freemind', utf8::to_ascii($context['site_name']).'.mm'), i18n::s('Freemind map'), 'basic');
-
-	// in a sidebar box
-	$context['components']['download'] .= Skin::build_box(i18n::s('Download'), $content, 'download');
-
-}
-
 // referrals, if any
 $context['components']['referrals'] = Skin::build_referrals('sections/index.php');
 
