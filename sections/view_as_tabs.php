@@ -315,13 +315,13 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 
 			// select a layout
 			if(!isset($item['articles_layout']) || !$item['articles_layout']) {
-				include_once '../articles/layout_articles.php';
+				include_once $context['path_to_root'].'articles/layout_articles.php';
 				$layout = new Layout_articles();
 			} elseif($item['articles_layout'] == 'decorated') {
-				include_once '../articles/layout_articles.php';
+				include_once $context['path_to_root'].'articles/layout_articles.php';
 				$layout = new Layout_articles();
 			} elseif($item['articles_layout'] == 'map') {
-				include_once '../articles/layout_articles_as_yahoo.php';
+				include_once $context['path_to_root'].'articles/layout_articles_as_yahoo.php';
 				$layout = new Layout_articles_as_yahoo();
 			} elseif(is_readable($context['path_to_root'].'articles/layout_articles_as_'.$item['articles_layout'].'.php')) {
 				$name = 'layout_articles_as_'.$item['articles_layout'];
@@ -333,7 +333,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 				if(Surfer::is_associate())
 					Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $item['articles_layout']));
 
-				include_once '../articles/layout_articles.php';
+				include_once $context['path_to_root'].'articles/layout_articles.php';
 				$layout = new Layout_articles();
 			}
 
@@ -427,7 +427,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 		&& Surfer::is_empowered() ) {
 
 		// make a compact list
-		include_once '../articles/layout_articles_as_compact.php';
+		include_once $context['path_to_root'].'articles/layout_articles_as_compact.php';
 		$layout = new Layout_articles_as_compact();
 
 		// avoid links to this page
@@ -544,17 +544,17 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 
 			// select a layout
 			if(!isset($item['sections_layout']) || !$item['sections_layout']) {
-				include_once 'layout_sections.php';
+				include_once $context['path_to_root'].'sections/layout_sections.php';
 				$layout = new Layout_sections();
 			} elseif($item['sections_layout'] == 'decorated') {
-				include_once 'layout_sections.php';
+				include_once $context['path_to_root'].'sections/layout_sections.php';
 				$layout = new Layout_sections();
 			} elseif($item['sections_layout'] == 'map') {
-				include_once 'layout_sections_as_yahoo.php';
+				include_once $context['path_to_root'].'sections/layout_sections_as_yahoo.php';
 				$layout = new Layout_sections_as_yahoo();
 			} elseif(is_readable($context['path_to_root'].'sections/layout_sections_as_'.$item['sections_layout'].'.php')) {
 				$name = 'layout_sections_as_'.$item['sections_layout'];
-				include_once $name.'.php';
+				include_once $context['path_to_root'].'sections/'.$name.'.php';
 				$layout = new $name;
 			} else {
 
@@ -562,7 +562,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 				if(Surfer::is_associate())
 					Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $item['sections_layout']));
 
-				include_once '../sections/layout_sections.php';
+				include_once $context['path_to_root'].'sections/layout_sections.php';
 				$layout = new Layout_sections();
 			}
 
