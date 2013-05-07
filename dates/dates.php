@@ -11,6 +11,19 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
+/** 
+ * different first day of week among countries, 
+ * @see i18n/i18n.php
+ */
+
+if(!defined('WEEK_START_MONDAY'))
+    define('WEEK_START_MONDAY',TRUE);
+
+define('W_START_DAY',((WEEK_START_MONDAY)?1:0));
+define('W_END_DAY',((WEEK_START_MONDAY)?8:7));
+define('STRFTIME_FORMAT',((WEEK_START_MONDAY)?'%u':'%w'));
+
+
 Class Dates {
 
 	/**
@@ -30,7 +43,12 @@ Class Dates {
 			$days[4] = i18n::s('thursday');
 			$days[5] = i18n::s('friday');
 			$days[6] = i18n::s('saturday');
+			
+			// change day order according to ISO-8601 if required
+			if(WEEK_START_MONDAY) 
+			    $days[] = array_shift($days);  
 		}
+		
 
 		// one table per month
 		$text = '<table class="'.$style.'">';
@@ -54,10 +72,10 @@ Class Dates {
 		$first_of_month = gmmktime(0, 0, 0, $month, 1, $year);
 
 		// day in week for the first day of the month
-		$day = (int)gmstrftime('%w', $first_of_month);
+		$day = (int)gmstrftime(STRFTIME_FORMAT, $first_of_month);
 
 		// draw empty cells at the beginning of the month
-		for($index = 0; $index < $day; $index++)
+		for($index = W_START_DAY; $index < $day; $index++)
 			$text .= '<td>&nbsp;</td>';
 
 		// job done
@@ -76,10 +94,10 @@ Class Dates {
 		$days_in_month = (int)gmdate('t', gmmktime(0, 0, 0, $month, 1, $year));
 
 		// day in week for the current date
-		$day_in_week = (int)gmstrftime('%w', gmmktime(0, 0, 0, $month, $day, $year));
+		$day_in_week = (int)gmstrftime(STRFTIME_FORMAT, gmmktime(0, 0, 0, $month, $day, $year));
 
 		// start a new week on next row
-		if(($day_in_week == 0) && ($day <= $days_in_month))
+		if(($day_in_week == W_START_DAY) && ($day <= $days_in_month))
 			$text .= '</tr><tr>';
 
 		// complement empty days for this month
@@ -87,16 +105,16 @@ Class Dates {
 			$text .= '<td>'.$day.'</td>';
 
 			// start a new week on next row
-			if(++$day_in_week >= 7) {
-				$day_in_week = 0;
+			if(++$day_in_week >= W_END_DAY) {
+				$day_in_week = W_START_DAY;
 				$text .= '</tr><tr>';
 			}
 
 		}
 
 		// draw empty cells at the end of the month
-		if($day_in_week > 0) {
-			while($day_in_week++ < 7)
+		if($day_in_week > W_START_DAY) {
+			while($day_in_week++ < W_END_DAY)
 				$text .= '<td>&nbsp;</td>';
 		}
 
@@ -175,8 +193,8 @@ Class Dates {
 
 				$text .= '<td class="spot">'.Dates::build_day($current_day, $day_content, $day_panel_id, $compact).'</td>';
 				$current_day++;
-				if(++$day_in_week >= 7) {
-					$day_in_week = 0;
+				if(++$day_in_week >= W_END_DAY) {
+					$day_in_week = W_START_DAY;
 					$text .= '</tr><tr>';
 				}
 				$day_content = array();
@@ -231,7 +249,7 @@ Class Dates {
 				$first_of_month = gmmktime(0, 0, 0, $month, 1, $year);
 
 				// day in week for the first day of the month
-				$day_in_week = (int)gmstrftime('%w', $first_of_month);
+				$day_in_week = (int)gmstrftime(STRFTIME_FORMAT, $first_of_month);
 
 				// start a new month
 				$current_day = 1;
@@ -248,8 +266,8 @@ Class Dates {
 				$text .= '<td>'.$current_day++.'</td>';
 
 				// start a new week on next row
-				if(++$day_in_week >= 7) {
-					$day_in_week = 0;
+				if(++$day_in_week >= W_END_DAY) {
+					$day_in_week = W_START_DAY;
 					$text .= '</tr><tr>';
 				}
 			}
