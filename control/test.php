@@ -160,10 +160,20 @@ if(isset($generation['version'])) {
 
 // YACS variables
 echo '<p>'.i18n::s('Global YACS variables:').BR."\n";
+if($context['continent'])
+	echo '$context[\'continent\']='.$context['continent'].BR."\n";
+if($context['continent_code'])
+	echo '$context[\'continent_code\']='.$context['continent_code'].BR."\n";
 if($context['country'])
 	echo '$context[\'country\']='.$context['country'].BR."\n";
 if($context['country_code'])
 	echo '$context[\'country_code\']='.$context['country_code'].BR."\n";
+if($context['city'])
+	echo '$context[\'city\']='.$context['city'].BR."\n";
+if($context['latitude'])
+	echo '$context[\'latitude\']='.$context['latitude'].BR."\n";
+if($context['longitude'])
+	echo '$context[\'longitude\']='.$context['longitude'].BR."\n";
 echo '$context[\'language\']='.$context['language'].BR."\n"
 	.'$context[\'host_name\']='.$context['host_name'].BR."\n"
 	.'$context[\'url_to_home\']='.$context['url_to_home'].BR."\n"

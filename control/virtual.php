@@ -2,9 +2,8 @@
 /**
  * manage virtual hosts
  *
- * @todo on-going work
- *
- * This script allows the configuration of virtual hosts.
+ * This script allows the addition of specific configuration parameters for some
+ * host names or sub-domains.
  *
  * Accept following invocations:
  * - virtual.php
@@ -111,6 +110,8 @@ elseif(!Surfer::is_associate()) {
 	else {
 		$context['text'] .= '<p>'.sprintf(i18n::s('The target file %s has been successfully updated.'), 'parameters/virtual_'.$id.'.included.php').'</p>';
 
+		$context['text'] .= Skin::build_box(i18n::s('Configuration'), Safe::highlight_string($content), 'unfolded');
+
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
@@ -139,26 +140,57 @@ elseif(!Surfer::is_associate()) {
 		// textarea to edit the file
 		$context['text'] .= '<textarea name="content" rows="25" cols="50" accesskey="c">'.encode_field($content).'</textarea>';
 
-		// button to upload changes
-		$context['text'] .= BR.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</div></form>'."\n";
+		// available commands
+		$menu = array();
+
+		// submit button
+		$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+
+		// cancel button
+		$menu[] = Skin::build_link('control/virtual.php', i18n::s('Cancel'), 'span');
+
+		// insert the menu in the page
+		$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
+
+		// end of the form
+		$context['text'] .= '</div></form>'."\n";
 
 	}
 
 // create a new configuration file
 } elseif($id && ($action == 'new')) {
 
-	// baseline file has to exist
-	$source = 'parameters/control.include.php';
+	// additional configuration file for this id
 	$target = 'parameters/virtual_'.$id.'.include.php';
-	if(!file_exists($context['path_to_root'].$source))
-		Logger::error(i18n::s('No configuration file has been found for this virtual host.'));
 
-	// can not create a new file
-	elseif(!Safe::copy($source, $target))
-		Logger::error(i18n::s('The configuration file cannot be created.'));
+	// build the new configuration file
+	$content = '<?php'."\n"
+		.'// This file has been created by the configuration script control/virtual.php'."\n"
+		.'// on '.gmdate("F j, Y, g:i a").' GMT, for '.Surfer::get_name().' and for host '.$id."\n"
+		.'global $context;'."\n";
 
-	// confirmation
-	else {
+	// bind it to the section corresponding to the new virtual host name
+	$content .= '$context[\'root_sections_at_home\']=\''.addcslashes($id, "\\'")."';\n";
+
+	// other parameters for this virtual host
+	$content .= '$context[\'main_host\']=\''.addcslashes($id, "\\'")."';\n";
+
+	// end of the new configuration file
+	$content .= '?>'."\n";
+
+	// update the parameters file
+	if(!Safe::file_put_contents($target, $content)) {
+
+		Logger::error(sprintf(i18n::s('ERROR: Impossible to write to the file %s. The configuration has not been saved.'), $target));
+
+		// allow for a manual update
+		$context['text'] .= '<p style="text-decoration: blink;">'.sprintf(i18n::s('To actually change the configuration, please copy and paste following lines by yourself in file %s.'), $target)."</p>\n";
+
+	// job done
+	} else {
+
+
+		// provide positive feed-back to end-user
 		$context['text'] .= '<p>'.sprintf(i18n::s('The configuration file for virtual host %s has been created.'), $id).'</p>';
 
 		// remember the change
@@ -167,10 +199,11 @@ elseif(!Surfer::is_associate()) {
 
 	}
 
+	$context['text'] .= Skin::build_box(i18n::s('Configuration'), Safe::highlight_string($content), 'unfolded');
+
 	// follow-up commands
 	$follow_up = i18n::s('What do you want to do now?');
 	$menu = array();
-	$menu = array_merge($menu, array('control/virtual.php?id='.urlencode($id) => i18n::s('View the configuration file')));
 	$menu = array_merge($menu, array('control/virtual.php' => i18n::s('Manage virtual hosts')));
 	$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 	$follow_up .= Skin::build_list($menu, 'menu_bar');
@@ -186,43 +219,68 @@ elseif(!Surfer::is_associate()) {
 
 	// display its content
 	elseif(file_exists('../parameters/switch.on') || file_exists('../parameters/switch.off'))
-		$context['text'] .= Skin::build_box(i18n::s('Configuration'), Safe::highlight_string($content), 'folded');
+		$context['text'] .= Skin::build_box(i18n::s('Configuration'), Safe::highlight_string($content), 'unfolded');
 	else
 		$context['text'] .= Safe::highlight_string($content);
 
 	// follow-up commands
 	$follow_up = i18n::s('What do you want to do now?');
 	$menu = array();
-	$menu = array_merge($menu, array('control/virtual.php?id='.urlencode($id).'&action=edit' => i18n::s('Configure again')));
+	$menu = array_merge($menu, array('control/virtual.php?id='.urlencode($id).'&action=edit' => i18n::s('Edit configuration')));
 	$menu = array_merge($menu, array('control/virtual.php' => i18n::s('Manage virtual hosts')));
 	$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 	$follow_up .= Skin::build_list($menu, 'menu_bar');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
-// no action has been
+// no action has been triggered so far
 } else {
+
+	// the splash label
+	$context['text'] .= '<p>'.i18n::s('This script allows to create, modify or delete configuration files for virtual hosts.')."</p>\n";
+
+	// form to configure a new virtual host
+	$content = '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>';
+
+	// name of the new virtual host
+	$content .= '<p>'.i18n::s('Virtual host to be created').' <input type="text" name="id" size="30" />';
+
+	// the submit button
+	$content .= '<input type="hidden" name="action" value="new" />'
+		.Skin::build_submit_button(i18n::s('Create'), NULL, NULL, 'go', 'no_spin_on_click');
+
+	// end of this form
+	$content .= '</p></div></form>';
+
+	// insert a box
+	$context['text'] .= Skin::build_box(i18n::s('Add a new virtual host'), $content);
+
+	// set the focus on the backup button
+	$content .= JS_PREFIX
+		.'$("#id").focus();'."\n"
+		.JS_SUFFIX;
 
 	// list available configuration files
 	if($items = Safe::glob($context['path_to_root'].'parameters/virtual_*.include.php')) {
 
 		$rows = array();
 		foreach($items as $item) {
-			if(preg_match('/parameters\/virtual_(.+).include.php/', $item, $matches))
-				$rows[] = array($matches[1], $matches[0]);
+			if(preg_match('/parameters\/virtual_(.+).include.php/', $item, $matches)) {
+				$link = 'control/virtual.php?id='.urlencode($matches[1]);
+				$menu = array();
+				$menu[] = '<a href="'.$context['url_to_root'].$link.'">'.i18n::s('view').'</a>';
+				$menu[] = '<a href="'.$context['url_to_root'].$link.'&action=edit">'.i18n::s('edit').'</a>';
+				$menu[] = '<a href="'.$context['url_to_root'].$link.'&action=delete">'.i18n::s('delete').'</a>';
+				$rows[] = array($matches[1],
+					'<a href="'.$context['url_to_root'].$link.'">'.$matches[0].'</a>',
+					Skin::build_list($menu, 'menu')	);
+			}
 		}
 
-		$context['text'] .= Skin::build_box(i18n::s('Configured virtual hosts'), Skin::table(NULL, $rows));
+		// insert a box
+		$row_headers = array(i18n::s('Host'), i18n::s('Configuration file'), i18n::s('Commands'));
+		$context['text'] .= Skin::build_box(i18n::s('Configured virtual hosts'), Skin::table($row_headers, $rows));
 
 	}
-
-	// follow-up commands
-	$follow_up = i18n::s('What do you want to do now?');
-	$menu = array();
-	$menu = array_merge($menu, array('control/virtual.php?id='.urlencode($id).'&action=edit' => i18n::s('Configure again')));
-	$menu = array_merge($menu, array('control/virtual.php' => i18n::s('Manage virtual hosts')));
-	$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-	$follow_up .= Skin::build_list($menu, 'menu_bar');
-	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 }
 
