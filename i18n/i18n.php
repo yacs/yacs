@@ -963,7 +963,43 @@ Class i18n {
 			$context['country_code'] = $_SERVER['GEOIP_COUNTRY_CODE'];
 			$context['country'] = i18n::get_country_label($_SERVER['GEOIP_COUNTRY_CODE']);
 		}
+		
+		// initialize first day of week to display calendar
+		i18n::initialize_Fdof_Week ();
 
+	}
+	
+	/**
+	 * initialize the first day of week from surfer's origin
+	 * the function define a constant that could be use by other's script
+	 */
+	
+	static function initialize_Fdof_Week () {
+	    global $context;
+	    
+	    // choice has been manualy setted for the server somewhere
+	    if(defined('WEEK_START_MONDAY'))
+		return;
+	    
+	    if(isset($_SERVER['GEOIP_COUNTRY_CODE'])) {
+		// deduce first day of week from country, if provided
+		$start_sunday_countries = 'AS AZ BW CA CN FO GE GL GU HK IE IL IN IS JM JP KG KR LA MH MN MO MP MT NZ PH PK SG SY TH TT TW UM US UZ VI ZW ET MW NG TJ';
+		if(preg_match('/'.$_SERVER['GEOIP_COUNTRY_CODE'].'/', $start_sunday_countries))
+			define('WEEK_START_MONDAY',FALSE);
+		else	
+			define('WEEK_START_MONDAY',TRUE);
+		
+	    } elseif(isset($context['language'])) {
+		// deduce it from language
+		$start_sunday_lang = 'az en fo mo th vi';
+		if(preg_match('/'.$context['language'].'/', $start_sunday_lang))
+			define('WEEK_START_MONDAY',FALSE);
+		else
+			define('WEEK_START_MONDAY',TRUE);	
+	    } else
+		// default is french standard, due to yacs'users
+		define('WEEK_START_MONDAY',TRUE);	
+		
 	}
 
 	/**
