@@ -1402,7 +1402,7 @@ Class Files {
 	public static function get_path($reference, $space='files') {
 		global $context;
 
-		return $space.'/'.$context['virtual_path'].str_replace(':', '/', $reference);
+		return $space.'/'.str_replace(':', '/', $reference);
 	}
 
 	/**

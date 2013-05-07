@@ -256,6 +256,9 @@ if(!file_exists('../parameters/control.include.php')) {
 					$commands[] = sprintf(i18n::s('%s - change the template used for newsletters'), Skin::build_link('letters/configure.php', i18n::s('Newsletters'), 'basic'));
 
 				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - add specific configuration details for some host names or sub-domains'), Skin::build_link('control/virtual.php', i18n::s('Virtual hosts'), 'basic'));
+
+				if(Surfer::has_all())
 					$commands[] = sprintf(i18n::s('%s - change parameters for back-end services'), Skin::build_link('services/configure.php', i18n::s('Web services'), 'basic'));
 
 				if(Surfer::has_all())

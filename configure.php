@@ -171,7 +171,7 @@ elseif(!Surfer::is_associate()) {
 	$label = i18n::s('Sections');
 
 	// root_sections_at_home - which sections should be displayed
-	if(!isset($context['root_sections_at_home']) || !preg_match('/([0-9]+|none|root)/', $context['root_sections_at_home']))
+	if(!isset($context['root_sections_at_home']))
 		$context['root_sections_at_home'] = 'root';
 	if(!isset($context['root_sections_count_at_home']) || ($context['root_sections_count_at_home'] < 1))
 		$context['root_sections_count_at_home'] = 5;
@@ -181,13 +181,13 @@ elseif(!Surfer::is_associate()) {
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('List top-level sections.')
 		.BR.'<input type="radio" name="root_sections_at_home" value="id"';
-	if((int)$context['root_sections_at_home'] > 0) {
+	if(!preg_match('/(none|root)/', $context['root_sections_at_home'])) {
 		$input .= ' checked="checked"';
 		$value = $context['root_sections_at_home'];
 	} else {
 		$value = 0;
 	}
-	$input .= '/> '.i18n::s('List only section with the following id').' <input type="text" name="section_id_at_home" value="'.encode_field($value).'" size="2" />'
+	$input .= '/> '.i18n::s('List only section with the following id or nick name').' <input type="text" name="section_id_at_home" value="'.encode_field($value).'" size="20" />'
 		.BR.'<input type="radio" name="root_sections_at_home" value="none"';
 	if($context['root_sections_at_home'] == 'none')
 		$input .= ' checked="checked"';
@@ -599,7 +599,7 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'root_news_count\']=\''.addcslashes($_REQUEST['root_news_count'], "\\'")."';\n";
 	if(isset($_REQUEST['root_sections_at_home'])) {
 		if($_REQUEST['root_sections_at_home'] == 'id') {
-			if(isset($_REQUEST['section_id_at_home']) && ((int)$_REQUEST['section_id_at_home'] > 0))
+			if(isset($_REQUEST['section_id_at_home']))
 				$_REQUEST['root_sections_at_home'] = $_REQUEST['section_id_at_home'];
 			else
 				$_REQUEST['root_sections_at_home'] = 'none';

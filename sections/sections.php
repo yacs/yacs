@@ -2832,6 +2832,10 @@ Class Sections {
 			$fields['handle'] = md5(mt_rand());
 		$handle = "handle='".SQL::escape($fields['handle'])."',";
 
+		// remember that this item is bound to a specific virtual host name
+		if(file_exists($context['path_to_root'].'parameters/virtual_'.$context['host_name'].'.include.php'))
+			$fields['vhost'] = $context['host_name'];
+
 		// allow anonymous surfer to access this section during his session
 		if(!Surfer::get_id())
 			Surfer::add_handle($fields['handle']);
@@ -2894,7 +2898,8 @@ Class Sections {
 			."template='".SQL::escape(isset($fields['template']) ? $fields['template'] : '')."',"
 			."thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."',"
 			."title='".SQL::escape(isset($fields['title']) ? $fields['title'] : '')."',"
-			."trailer='".SQL::escape(isset($fields['trailer']) ? $fields['trailer'] : '')."'";
+			."trailer='".SQL::escape(isset($fields['trailer']) ? $fields['trailer'] : '')."',"
+			."vhost='".SQL::escape(isset($fields['vhost']) ? $fields['vhost'] : '')."'";
 
 		// actual insert
 		if(SQL::query($query) === FALSE)
@@ -3038,6 +3043,10 @@ Class Sections {
 		else
 			$fields['active'] = $fields['active_set'];
 
+		// remember that this item is bound to a specific virtual host name
+		if(file_exists($context['path_to_root'].'parameters/virtual_'.$context['host_name'].'.include.php'))
+			$fields['vhost'] = $context['host_name'];
+
 		// fields to update
 		$query = array();
 
@@ -3074,6 +3083,7 @@ Class Sections {
 		$query[] = "tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."'";
 		$query[] = "thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."'";
 		$query[] = "trailer='".SQL::escape(isset($fields['trailer']) ? $fields['trailer'] : '')."'";
+		$query[] = "vhost='".SQL::escape(isset($fields['vhost']) ? $fields['vhost'] : '')."'";
 
 		// fields visible only to associates
 		if(Surfer::is_associate()) {
@@ -3210,6 +3220,10 @@ Class Sections {
 		}
 		if(isset($fields['trailer']))
 			$query[] = "trailer='".SQL::escape($fields['trailer'])."'";
+
+		// remember that this item is bound to a specific virtual host name
+		if(file_exists($context['path_to_root'].'parameters/virtual_'.$context['host_name'].'.include.php'))
+			$query[] = "vhost='".SQL::escape($context['host_name'])."'";
 
 		// nothing to update
 		if(!count($query))
@@ -3482,6 +3496,7 @@ Class Sections {
 		$fields['thumbnail_url']= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['trailer']		= "TEXT NOT NULL";											// up to 64k chars
+		$fields['vhost']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 		= "(id)";
