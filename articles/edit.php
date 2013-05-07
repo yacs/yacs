@@ -48,10 +48,8 @@
  * If no anchor data is provided, the new page will be posted in the section named 'theads'.
  *
  * There is also a special invocation format to be used for direct blogging from bookmarklets,
- * such as the one provided by YACS for each section (see [script]sections/view.php[/script]),
- * or the one dedicated to users of Internet Explorer (see [script]articles/ie_bookmarklet.php[/script]).
+ * such as the one provided by YACS for each section (see [script]sections/view.php[/script]).
  *
- * @see articles/ie_bookmarklet.php
  * @see sections/view.php
  *
  * This format is aiming to provide to YACS every necessary parameters, but through a single GET or POST call.
@@ -665,10 +663,6 @@ if($with_form) {
 	if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'tinymce'))
 		$selected = ' selected="selected"';
 	$help .= '<option value="tinymce"'.$selected.'>'.i18n::s('TinyMCE')."</option>\n";
-	$selected = '';
-	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
-		$selected = ' selected="selected"';
-	$help .= '<option value="fckeditor"'.$selected.'>'.i18n::s('FCKEditor')."</option>\n";
 	$selected = '';
 	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'yacs'))
 		$selected = ' selected="selected"';

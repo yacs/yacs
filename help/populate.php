@@ -8,8 +8,6 @@
  * - 'blog' -- create a blog
  * - 'book' -- create a book
  * - 'build' -- create default items, like for first installation
- * - 'collection' -- create a collection to share files
- * - 'composite' -- with scrolling news, plus gadget and extra boxes
  * - 'forum' -- create several structured discussion boards using the yabb layout
  * - 'links' -- create a Yahoo-like directory of links
  * - 'original' -- post original articles
@@ -146,11 +144,9 @@ if(!$permitted) {
 
 		// home panel
 		$label = i18n::s('Front page');
-		$input = i18n::s('Content of this section should be:').BR;
-		$input .= '<input type="radio" name="home_panel" value="main" checked="checked" /> '.i18n::s('displayed in the main panel').BR;
-		$input .= '<input type="radio" name="home_panel" value="gadget" /> '.i18n::s('listed in the main panel, in a gadget box').BR;
-		$input .= '<input type="radio" name="home_panel" value="extra" /> '.i18n::s('listed on page side, in an extra box').BR;
-		$input .= '<input type="radio" name="home_panel" value="none" /> '.i18n::s('not displayed at the front page');
+		$input = i18n::s('Should content of this section be displayed at the front page?').BR;
+		$input .= '<input type="radio" name="index_map" value="Y" checked="checked" /> '.i18n::s('Yes').BR;
+		$input .= '<input type="radio" name="index_map" value="N" /> '.i18n::s('No');
 		$fields[] = array($label, $input);
 
 		// build the form
@@ -192,7 +188,7 @@ if(!$permitted) {
 		$fields['introduction'] = $_REQUEST['introduction'];
 		$fields['description'] = $_REQUEST['description'];
 		$fields['active_set'] = $_REQUEST['active'];
-		$fields['home_panel'] = $_REQUEST['home_panel'];
+		$fields['index_map'] = $_REQUEST['index_map'];
 		$fields['options'] = 'with_extra_profile articles_by_publication';
 		$fields['articles_layout'] = 'daily'; // the preferred layout for blogs
 		$fields['content_options'] = 'with_extra_profile'; // show user profiles in a side panel
@@ -393,405 +389,6 @@ if(!$permitted) {
 
 	// redo the basic steps of data creation
 	include_once '../control/populate.php';
-
-// create a collection
-} elseif($action == 'collection') {
-
-	// page title
-	$context['page_title'] = i18n::s('Add a collection');
-
-	// get collection parameters
-	if(!isset($_REQUEST['name']) || !$_REQUEST['name']) {
-
-		// splash
-		$context['text'] .= '<p>'.i18n::s('YACS may turn your web site to a straightforward media server.').'</p>'
-			.'<p>'.i18n::s('Define a collection to publicly share some directory of the server hard drive. Then YACS will build nice index pages to list available files, and allow for immediate download. Where applicable, files will also be streamed to workstations through automatic playlists.').'</p>';
-
-		// if some collections has already been defined, use the dedicated configuration panel
-		Safe::load('parameters/collections.include.php');
-		if(@count($context['collections'])) {
-
-			$context['text'] .= '<p>'.sprintf(i18n::s('This assistant is aiming to help you create your very first collection. Since some collection has already been defined, please use %s and add a new definition.'), Skin::build_link('collections/configure.php', i18n::s('the dedicated configuration panel'), 'shortcut')).'</p>';
-
-		// or create a configuration file from scratch
-		} else {
-
-			// a form to get collection parameters
-			$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
-				.'<input type="hidden" name="action" value="collection" />';
-			$fields = array();
-
-			// the name
-			$label = i18n::s('Collection nick name');
-			$input = '<input type="text" id="name" name="name" size="32" value="'.encode_field(i18n::c('my_collection')).'" maxlength="32" />';
-			$hint = i18n::s('Prepended to the path of each file of the collection. Short and meaningful');
-			$fields[] = array($label, $input, $hint);
-
-			// the title
-			$label = i18n::s('Label');
-			$input = '<input type="text" name="title" size="45" value="'.encode_field(i18n::c('My Collection')).'" maxlength="255" />';
-			$hint = i18n::s('Used at index pages, and at the top of each page generated for this collection');
-			$fields[] = array($label, $input, $hint);
-
-			// the path
-			$label = i18n::s('Path prefix');
-			$input = '<input type="text" name="path" size="45" value="c:" maxlength="255" />';
-			$hint = sprintf(i18n::s('Local access to files; YACS installation directory is at "%s"'), $context['path_to_root']);
-			$fields[] = array($label, $input, $hint);
-
-			// the url
-			$label = i18n::s('URL prefix');
-			$input = '<input type="text" name="url" size="45" value="'.encode_field($context['url_to_home']).'" maxlength="255" />';
-			$hint = i18n::s('The ftp:// or http:// address used to access the collection, pointing to the same place than the path prefix');
-			$fields[] = array($label, $input, $hint);
-
-			// introduction
-			$label = i18n::s('Introduction');
-			$input = '<textarea name="introduction" cols="40" rows="5">'.encode_field(i18n::c('Public files to download')).'</textarea>';
-			$hint = i18n::s('To be used at the front page and on the collections index page');
-			$fields[] = array($label, $input, $hint);
-
-			// description
-			$label = i18n::s('Description');
-			$input = '<textarea name="description" cols="40" rows="3">'.encode_field(i18n::c('Click on file names to transfer them to your workstation, or to start a Video-on-demand session.')).'</textarea>';
-			$hint = i18n::s('To be inserted in the index page of this collection');
-			$fields[] = array($label, $input, $hint);
-
-			// build the form
-			$context['text'] .= Skin::build_form($fields);
-			$fields = array();
-
-			// the submit button
-			$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Add content'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
-
-			// end of the form
-			$context['text'] .= '</div></form>';
-
-			// append the script used for data checking on the browser
-			$context['text'] .= JS_PREFIX
-				.'// check that main fields are not empty'."\n"
-				.'func'.'tion validateDocumentPost(container) {'."\n"
-				."\n"
-				.'	// name is mandatory'."\n"
-				.'	if(!container.name.value) {'."\n"
-				.'		alert("'.i18n::s('You must name this collection.').'");'."\n"
-				.'		Yacs.stopWorking();'."\n"
-				.'		return false;'."\n"
-				.'	}'."\n"
-				.'	// title is mandatory'."\n"
-				.'	if(!container.title.value) {'."\n"
-				.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
-				.'		Yacs.stopWorking();'."\n"
-				.'		return false;'."\n"
-				.'	}'."\n"
-				."\n"
-				.'	// successful check'."\n"
-				.'	return true;'."\n"
-				.'}'."\n"
-				."\n"
-				.'// set the focus on first form field'."\n"
-				.'$("#name").focus();'."\n"
-				.JS_SUFFIX."\n";
-
-		}
-
-	// create a collection
-	} else {
-
-		// build the new configuration file
-		$content = '<?php'."\n"
-			.'// This file has been created by the configuration script help/populate.php'."\n"
-			.'// on '.gmdate("F j, Y, g:i a").' GMT, for '.Surfer::get_name().'. Please do not modify it manually.'."\n"
-			.'global $context;'."\n";
-		$name	= addcslashes($_REQUEST['name'], "\\'");
-		$title	= addcslashes($_REQUEST['title'], "\\'");
-		$path	= addcslashes($_REQUEST['path'], "\\'");
-		$url	= addcslashes($_REQUEST['url'], "\\'");
-		$introduction	= addcslashes($_REQUEST['introduction'], "\\'");
-		$description	= addcslashes($_REQUEST['description'], "\\'");
-		if($name && $path && $url) {
-			$content .= '$context[\'collections\'][\''.$name.'\']=array(\''.$title.'\', \''
-				.$path.'\', \''.$url.'\', \''
-				.$introduction.'\', \''.$description.'\', \'\', \'\', \'Y\');'."\n";
-		}
-		$content .= '?>'."\n";
-
-		// update the parameters file
-		if(!Safe::file_put_contents('parameters/collections.include.php', $content)) {
-
-			Logger::error(sprintf(i18n::s('ERROR: Impossible to write to the file %s. The configuration has not been saved.'), 'parameters/collections.include.php'));
-
-			// allow for a manual update
-			$context['text'] .= '<p style="text-decoration: blink;">'.sprintf(i18n::s('To actually change the configuration, please copy and paste following lines by yourself in file %s.'), 'parameters/collections.include.php')."</p>\n";
-
-			// display updated parameters
-			$context['text'] .= Skin::build_box(i18n::s('Configuration parameters'), Safe::highlight_string($content), 'folded');
-
-		// job done
-		} else {
-
-			// purge the cache
-			Cache::clear();
-
-			// remember the change
-			$label = sprintf(i18n::c('%s has been updated'), 'parameters/collections.include.php');
-			Logger::remember('help/populate.php: '.$label);
-
-			// splash
-			$context['text'] .= '<p>'.i18n::s('Congratulations, you have shared new content.').'</p>';
-
-			// follow-up commands
-			$follow_up = i18n::s('What do you want to do now?');
-			$menu = array();
-			$menu = array_merge($menu, array('collections/browse.php?path='.urlencode($_REQUEST['name']) => i18n::s('Access the new collection')));
-			$menu = array_merge($menu, array('collections/' => i18n::s('File collections')));
-			$menu = array_merge($menu, array('help/populate.php' => i18n::s('Launch the Content Assistant again')));
-			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-			$follow_up .= Skin::build_list($menu, 'menu_bar');
-			$context['text'] .= Skin::build_block($follow_up, 'bottom');
-
-		}
-	}
-
-// create a composite section
-} elseif($action == 'composite') {
-
-	// page title
-	$context['page_title'] = i18n::s('Add a section');
-
-	// get parameters
-	if(!isset($_REQUEST['main_title']) || !$_REQUEST['main_title']) {
-
-		// splash
-		$context['text'] .= '<p>'.i18n::s('YACS allows for composite section index pages.').'</p>'
-			.'<p>'.i18n::s('Use this assistant to create one main section, plus companion components, to better suit your needs. Of course, sections can be changed, deleted or added individually afterwards.').'</p>';
-
-		// a form to get section parameters
-		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
-			.'<input type="hidden" name="action" value="composite" />';
-		$fields = array();
-
-		// section title
-		$context['text'] .= Skin::build_block(i18n::s('Section'), 'title');
-
-		// the anchor
-		$label = i18n::s('Section anchor');
-		$input = '<select name="anchor"><option value="">'.i18n::s('-- Root level')."</option>\n".Sections::get_options('none', NULL).'</select>';
-		$hint = i18n::s('Please carefully select a parent section, if any');
-		$fields[] = array($label, $input, $hint);
-
-		// the title
-		$label = i18n::s('Section title');
-		$input = '<input type="text" id="main_title" name="main_title" size="50" accesskey="t" value="'.encode_field($item['title']).'" />';
-		$hint = i18n::s('Please provide a meaningful title.');
-		$fields[] = array($label, $input, $hint);
-
-		// the introduction
-		$label = i18n::s('Introduction');
-		$input = '<textarea name="main_introduction" rows="2" cols="50" accesskey="i">'.encode_field($item['introduction']).'</textarea>';
-		$hint = i18n::s('Appears at site map, near section title');
-		$fields[] = array($label, $input, $hint);
-
-		// the description
-		$label = i18n::s('Description');
-		$input = '<textarea name="main_description" rows="4" cols="50" >'.encode_field($item['description']).'</textarea>';
-		$hint = i18n::s('Appears at the section index page');
-		$fields[] = array($label, $input, $hint);
-
-		// update the form
-		$context['text'] .= Skin::build_form($fields);
-		$fields = array();
-
-		// companions sections
-		$context['text'] .= Skin::build_block(i18n::s('Companion sections'), 'title');
-
-		$context['text'] .= '<p>'.i18n::s('Add one or several specialized sub-sections, depending of your requirements. It is safe to create all suggested sections, even if you do not need them right now.')."</p>\n";
-
-		// scrolling news
-		$context['text'] .= Skin::build_block(i18n::s('Side news'), 'subtitle');
-
-		$input = '<input type="checkbox" name="news_check" checked="checked" /> '.i18n::s('Add a companion section to post articles that will appear in the news panel of the parent section');
-		$context['text'] .= '<p>'.$input.'</p>';
-
-		$label = i18n::s('Title');
-		$input = '<input type="text" name="news_title" size="50" value="'.encode_field(i18n::c('Flashy news')).'" />';
-		$fields[] = array($label, $input);
-
-		$label = i18n::s('Introduction');
-		$input = '<textarea name="news_introduction" rows="2" cols="50">'.encode_field(i18n::c('Post here articles that will appear in the news panel of the parent section')).'</textarea>';
-		$fields[] = array($label, $input);
-
-		// update the form
-		$context['text'] .= Skin::build_form($fields);
-		$fields = array();
-
-		// gadget boxes
-		$context['text'] .= Skin::build_block(i18n::s('Gadget boxes'), 'subtitle');
-
-		$input = '<input type="checkbox" name="gadget_check" checked="checked" /> '.i18n::s('Add a companion section to post articles that will appear in individual gadget boxes');
-		$context['text'] .= '<p>'.$input.'</p>';
-
-		$label = i18n::s('Title');
-		$input = '<input type="text" name="gadget_title" size="50" value="'.encode_field(i18n::c('Gadget boxes')).'" />';
-		$fields[] = array($label, $input);
-
-		$label = i18n::s('Introduction');
-		$input = '<textarea name="gadget_introduction" rows="2" cols="50">'.encode_field(i18n::c('Post here articles that will appear in individual gadget boxes, in the middle of the index page of the parent section')).'</textarea>';
-		$fields[] = array($label, $input);
-
-		// update the form
-		$context['text'] .= Skin::build_form($fields);
-		$fields = array();
-
-		// extra boxes
-		$context['text'] .= Skin::build_block(i18n::s('Extra boxes'), 'subtitle');
-
-		$input = '<input type="checkbox" name="extra_check" checked="checked" /> '.i18n::s('Add a companion section to post articles that will appear in individual extra boxes');
-		$context['text'] .= '<p>'.$input.'</p>';
-
-		$label = i18n::s('Title');
-		$input = '<input type="text" name="extra_title" size="50" value="'.encode_field(i18n::c('Extra boxes')).'" />';
-		$fields[] = array($label, $input);
-
-		$label = i18n::s('Introduction');
-		$input = '<textarea name="extra_introduction" rows="2" cols="50">'.encode_field(i18n::c('Post here articles that will appear in individual extra boxes, aside the index of the parent section')).'</textarea>';
-		$fields[] = array($label, $input);
-
-		// update the form
-		$context['text'] .= Skin::build_form($fields);
-		$fields = array();
-
-		// next step
-		$context['text'] .= Skin::build_block(i18n::s('Next step'), 'title');
-
-		// the submit button
-		$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Add content'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
-
-		// end of the form
-		$context['text'] .= '</div></form>';
-
-		// append the script used for data checking on the browser
-		$context['text'] .= JS_PREFIX
-			.'// check that main fields are not empty'."\n"
-			.'func'.'tion validateDocumentPost(container) {'."\n"
-			."\n"
-			.'	// title is mandatory'."\n"
-			.'	if(!container.main_title.value) {'."\n"
-			.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
-			.'		Yacs.stopWorking();'."\n"
-			.'		return false;'."\n"
-			.'	}'."\n"
-			."\n"
-			.'	// successful check'."\n"
-			.'	return true;'."\n"
-			.'}'."\n"
-			."\n"
-			.'// set the focus on first form field'."\n"
-			.'$("#main_title").focus();'."\n"
-			.JS_SUFFIX."\n";
-
-	// create the stuff
-	} else {
-
-		// update the main section
-		$item = array();
-		$item['anchor'] = $_REQUEST['anchor'];
-		$item['title'] = $_REQUEST['main_title'];
-		$item['introduction'] = $_REQUEST['main_introduction'];
-		$item['description'] = $_REQUEST['main_description'];
-		$item['id'] = Sections::post($item);
-
-		// news section
-		if($_REQUEST['news_check']) {
-
-			$section = array();
-			$section['anchor'] = 'section:'.$item['id'];
-			$section['title'] = $_REQUEST['news_title'];
-			$section['introduction'] = $_REQUEST['news_introduction'];
-			$section['index_panel'] = 'scroller';
-			$section['home_panel'] = 'none';	// new pages are not pushed at the front page
-			$section['content_options'] = 'without_rating'; // show user profiles in a side panel
-			if($section['title'])
-				$section['id'] = Sections::post($section, FALSE);
-
-			// add one sample article
-			if(isset($section['id'])) {
-				$article = array();
-				$article['anchor'] = 'section:'.$section['id'];
-				$article['title'] = i18n::c('sample');
-				$article['description'] = i18n::c('This is a sample scrolling news.');
-				$article['id'] = Articles::post($article);
-			}
-
-		}
-
-		// gadget section
-		if($_REQUEST['gadget_check']) {
-
-			$section = array();
-			$section['anchor'] = 'section:'.$item['id'];
-			$section['title'] = $_REQUEST['gadget_title'];
-			$section['introduction'] = $_REQUEST['gadget_introduction'];
-			$section['index_panel'] = 'gadget_boxes';
-			$section['home_panel'] = 'none';	// new pages are not pushed at the front page
-			$section['content_options'] = 'without_rating';
-			if($section['title'])
-				$section['id'] = Sections::post($section, FALSE);
-
-			// add one sample article
-			if($section['id']) {
-				$article = array();
-				$article['anchor'] = 'section:'.$section['id'];
-				$article['title'] = i18n::c('Gadget box');
-				$article['description'] = i18n::c('This is a sample gadget box.');
-				$article['id'] = Articles::post($article);
-			}
-
-		}
-
-		// extra section
-		if($_REQUEST['extra_check']) {
-
-			$section = array();
-			$section['anchor'] = 'section:'.$item['id'];
-			$section['title'] = $_REQUEST['extra_title'];
-			$section['introduction'] = $_REQUEST['extra_introduction'];
-			$section['index_panel'] = 'extra_boxes';
-			$section['home_panel'] = 'none';	// new pages are not pushed at the front page
-			$section['content_options'] = 'without_rating';
-			if($section['title'])
-				$section['id'] = Sections::post($section, FALSE);
-
-			// add one sample article
-			if($section['id']) {
-				$article = array();
-				$article['anchor'] = 'section:'.$section['id'];
-				$article['title'] = i18n::c('Sample box');
-				$article['description'] = i18n::c('This is a sample extra box.');
-				$article['id'] = Articles::post($article);
-			}
-
-		}
-
-		// increment the post counter of the surfer
-		Users::increment_posts(Surfer::get_id());
-
-		// splash
-		$context['text'] .= '<p>'.i18n::s('Congratulations, you have shared new content.').'</p>';
-
-		// follow-up commands
-		$follow_up = i18n::s('What do you want to do now?');
-		$menu = array();
-		$menu = array_merge($menu, array(Sections::get_permalink($item) => i18n::s('Access the new section')));
-		$menu = array_merge($menu, array('help/populate.php' => i18n::s('Launch the Content Assistant again')));
-		$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-		$follow_up .= Skin::build_list($menu, 'menu_bar');
-		$context['text'] .= Skin::build_block($follow_up, 'bottom');
-
-		// new content has been created
-		Logger::remember('help/populate.php: content assistant has created new content');
-
-	}
 
 // create a forum
 } elseif($action == 'forum') {
@@ -1155,11 +752,9 @@ if(!$permitted) {
 
 		// home panel
 		$label = i18n::s('Front page');
-		$input = i18n::s('Content of this section should be:').BR;
-		$input .= '<input type="radio" name="home_panel" value="main" checked="checked" /> '.i18n::s('displayed in the main panel').BR;
-		$input .= '<input type="radio" name="home_panel" value="gadget" /> '.i18n::s('listed in the main panel, in a gadget box').BR;
-		$input .= '<input type="radio" name="home_panel" value="extra" /> '.i18n::s('listed on page side, in an extra box').BR;
-		$input .= '<input type="radio" name="home_panel" value="none" /> '.i18n::s('not displayed at the front page');
+		$input = i18n::s('Should content of this section be displayed at the front page?').BR;
+		$input .= '<input type="radio" name="index_map" value="Y" checked="checked" /> '.i18n::s('Yes').BR;
+		$input .= '<input type="radio" name="index_map" value="N" /> '.i18n::s('No');
 		$fields[] = array($label, $input);
 
 		// build the form
@@ -1201,7 +796,7 @@ if(!$permitted) {
 		$fields['introduction'] = $_REQUEST['introduction'];
 		$fields['description'] = $_REQUEST['description'];
 		$fields['active_set'] = $_REQUEST['active'];
-		$fields['home_panel'] = $_REQUEST['home_panel'];
+		$fields['index_map'] = $_REQUEST['index_map'];
 		if($_REQUEST['profile'] == 'extra')
 			$fields['content_options'] = 'with_extra_profil with_export_tools';
 		elseif($_REQUEST['profile'] == 'prefix')
@@ -1316,7 +911,7 @@ if(!$permitted) {
 		$fields['nick_name'] = 'partners';
 		$fields['title'] = $_REQUEST['title'];
 		$fields['introduction'] = $_REQUEST['introduction'];
-		$fields['home_panel'] = 'none'; // new pages are not pushed at the front page
+		$fields['index_map'] = 'N'; // new pages are not pushed at the front page
 		$fields['rank'] = 50000; // towards the end of the list
 		$fields['content_options'] = 'without_rating';
 		if($fields['id'] = Sections::post($fields)) {
@@ -1389,11 +984,9 @@ if(!$permitted) {
 
 		// home panel
 		$label = i18n::s('Front page');
-		$input = i18n::s('Content of this section should be:').BR;
-		$input .= '<input type="radio" name="home_panel" value="main" checked="checked" /> '.i18n::s('displayed in the main panel').BR;
-		$input .= '<input type="radio" name="home_panel" value="gadget" /> '.i18n::s('listed in the main panel, in a gadget box').BR;
-		$input .= '<input type="radio" name="home_panel" value="extra" /> '.i18n::s('listed on page side, in an extra box').BR;
-		$input .= '<input type="radio" name="home_panel" value="none" /> '.i18n::s('not displayed at the front page');
+		$input = i18n::s('Should content of this section be displayed at the front page?').BR;
+		$input .= '<input type="radio" name="index_map" value="Y" checked="checked" /> '.i18n::s('Yes').BR;
+		$input .= '<input type="radio" name="index_map" value="N" /> '.i18n::s('No');
 		$fields[] = array($label, $input);
 
 		// build the form
@@ -1434,7 +1027,7 @@ if(!$permitted) {
 		$fields['title'] = $_REQUEST['title'];
 		$fields['introduction'] = $_REQUEST['introduction'];
 		$fields['active_set'] = $_REQUEST['active'];
-		$fields['home_panel'] = $_REQUEST['home_panel'];
+		$fields['index_map'] = $_REQUEST['index_map'];
 		$fields['overlay'] = 'poll'; // poll management
 		$fields['rank'] = 10000; // default value
 		$fields['content_options'] = 'without_rating';
@@ -1508,11 +1101,9 @@ if(!$permitted) {
 
 		// home panel
 		$label = i18n::s('Front page');
-		$input = i18n::s('Content of this section should be:').BR;
-		$input .= '<input type="radio" name="home_panel" value="main" checked="checked" /> '.i18n::s('displayed in the main panel').BR;
-		$input .= '<input type="radio" name="home_panel" value="gadget" /> '.i18n::s('listed in the main panel, in a gadget box').BR;
-		$input .= '<input type="radio" name="home_panel" value="extra" /> '.i18n::s('listed on page side, in an extra box').BR;
-		$input .= '<input type="radio" name="home_panel" value="none" /> '.i18n::s('not displayed at the front page');
+		$input = i18n::s('Should content of this section be displayed at the front page?').BR;
+		$input .= '<input type="radio" name="index_map" value="Y" checked="checked" /> '.i18n::s('Yes').BR;
+		$input .= '<input type="radio" name="index_map" value="N" /> '.i18n::s('No');
 		$fields[] = array($label, $input);
 
 		// build the form
@@ -1553,7 +1144,7 @@ if(!$permitted) {
 		$fields['title'] = $_REQUEST['title'];
 		$fields['introduction'] = $_REQUEST['introduction'];
 		$fields['active_set'] = $_REQUEST['active'];
-		$fields['home_panel'] = $_REQUEST['home_panel'];
+		$fields['index_map'] = $_REQUEST['index_map'];
 		$fields['content_options'] = 'with_export_tools';
 		$fields['overlay'] = 'recipe'; // recipe management
 		$fields['rank'] = 10000; // default value
@@ -1750,11 +1341,9 @@ if(!$permitted) {
 
 		// home panel
 		$label = i18n::s('Front page');
-		$input = i18n::s('Content of this section should be:').BR;
-		$input .= '<input type="radio" name="home_panel" value="main" checked="checked" /> '.i18n::s('displayed in the main panel').BR;
-		$input .= '<input type="radio" name="home_panel" value="gadget" /> '.i18n::s('listed in the main panel, in a gadget box').BR;
-		$input .= '<input type="radio" name="home_panel" value="extra" /> '.i18n::s('listed on page side, in an extra box').BR;
-		$input .= '<input type="radio" name="home_panel" value="none" /> '.i18n::s('not displayed at the front page');
+		$input = i18n::s('Should content of this section be displayed at the front page?').BR;
+		$input .= '<input type="radio" name="index_map" value="Y" checked="checked" /> '.i18n::s('Yes').BR;
+		$input .= '<input type="radio" name="index_map" value="N" /> '.i18n::s('No');
 		$fields[] = array($label, $input);
 
 		// build the form
@@ -1796,7 +1385,7 @@ if(!$permitted) {
 		$fields['introduction'] = $_REQUEST['introduction'];
 		$fields['description'] = $_REQUEST['description'];
 		$fields['active_set'] = $_REQUEST['active'];
-		$fields['home_panel'] = $_REQUEST['home_panel'];
+		$fields['index_map'] = $_REQUEST['index_map'];
 		$fields['articles_layout'] = 'tagged'; // the preferred layout for wikis
 		$fields['options'] = 'articles_by_title'; // alphabetical order
 		$fields['content_options'] = 'view_as_wiki auto_publish edit_as_simple with_export_tools';
@@ -1875,9 +1464,6 @@ if(!$permitted) {
 	// create a book
 	$context['text'] .= '<p><input type="radio" name="action" value="book" /> '.i18n::s('Add an electronic book, or a manual -- actually, a structured set of pages').'</p>'."\n";
 
-	// create a composite section
-	$context['text'] .= '<p><input type="radio" name="action" value="composite" /> '.i18n::s('Add a composite section -- with scrolling news, plus gadget and extra boxes').'</p>'."\n";
-
 	// create a section for polls
 	$context['text'] .= '<p><input type="radio" name="action" value="polls" /> '.i18n::s('Add a section for polls -- the most recent is active; previous polls are still listed').'</p>'."\n";
 
@@ -1890,9 +1476,6 @@ if(!$permitted) {
 
 	// create a directory of links
 	$context['text'] .= '<p><input type="radio" name="action" value="links" /> '.i18n::s('Add a directory of links -- a small version of Yahoo!, or of DMOZ').'</p>'."\n";
-
-	// create a collection
-	$context['text'] .= '<p><input type="radio" name="action" value="collection" /> '.i18n::s('Add a collection -- and share available files, enable audio and video on-demand, and slideshows').'</p>'."\n";
 
 	// create sample server profiles
 	$context['text'] .= '<p><input type="radio" name="action" value="servers" /> '.i18n::s('Add sample server profiles -- ping well-known news aggregator and become famous').'</p>'."\n";

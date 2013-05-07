@@ -1703,55 +1703,6 @@ div.autocomplete ul li,
 }
 
 /**
- * forms with Ajax -- see forms/edit.php
- */
-
-div.captured { /* some text provided in the form */
-	border: 1px dotted #ddd;
-	margin: 1em auto 1em 0;
-	padding: 0.5em;
-}
-
-div.dropmarker { /* the horizontal line to track position during drag */
-	height: 6px;
-	width: 100px;
-	border-top: 3px solid #666;
-	color: #fff;
-	z-index: 1000;
-	margin: 0 0 30px 20px;
-}
-
-.sortable {
-	position: relative;
-/*	border: 1px solid #ccc; */
-	margin: 0.3em 0 0 0;
-	padding: 0.5em 0 0.5em 0;
-	width: 500px;
-}
-
-.sortable:hover {background-color: #edf6dd;}
-
-div#form_input_panel {
-	margin-top: 2em;
-	padding-top: 1em;
-}
-
-div#form_panel {
-	position: relative;
-}
-
-div#form_panel h2,
-div#form_panel h3 { /* align title with dragging handle */
-	clear: none;
-}
-
-div#form_wrapper { /* the panel where fields are handled */
-	margin-bottom: 2em;
-	padding-bottom: 0.5em;
-	min-height: 5em;
-}
-
-/**
  * on-demand toolbox
  */
 
@@ -2036,37 +1987,6 @@ div#thread_text_panel dl dt.thread_other { /* details about other contributor */
 div.follow_up { /* comments from page author */
 	border: none;
 	background-color: #ffffe5;
-}
-
-/**
- * files in a collection
- *
- * @see collections/browse.php
- * @see shared/codes.php
- */
-
-table.collections { /* content of a directory */
-	border-spacing: 0;
-	border: none;
-}
-
-table.collections a img {
-	border: none;
-}
-
-table.collections td {
-	border: none;
-	margin: 0;
-	padding: 0.3em 8px 0.3em 8px;
-}
-
-table.collections th {
-	border: none;
-	margin: 0;
-	padding: 0.3em 8px 0.3em 8px;
-}
-
-ul.collections { /* a list of collections, in [collections] */
 }
 
 /**

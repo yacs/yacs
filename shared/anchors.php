@@ -128,10 +128,6 @@ class Anchors {
 	public static function delete_related_to($anchor) {
 		global $context;
 
-		// delete related actions
-		include_once $context['path_to_root'].'actions/actions.php';
-		Actions::delete_for_anchor($anchor);
-
 		// delete related articles
 		Articles::delete_for_anchor($anchor);
 
@@ -199,10 +195,6 @@ class Anchors {
 	 */
 	public static function duplicate_related_to($from_anchor, $to_anchor) {
 		global $context;
-
-		// duplicate related actions
-		include_once $context['path_to_root'].'actions/actions.php';
-		Actions::duplicate_for_anchor($from_anchor, $to_anchor);
 
 		// duplicate related articles
 		Articles::duplicate_for_anchor($from_anchor, $to_anchor);
@@ -525,17 +517,6 @@ class Anchors {
 		if(($stats = Files::stat_for_anchor($anchor)) && $stats['count']) {
 			$cells = array();
 			$cells[] = i18n::s('Files');
-			$cells[] = 'center='.$stats['count'];
-			$cells[] = 'center='.Skin::build_date($stats['oldest_date']);
-			$cells[] = 'center='.Skin::build_date($stats['newest_date']);
-			$related .= Skin::table_row($cells, $lines++);
-		}
-
-		// stats for related actions
-		include_once $context['path_to_root'].'actions/actions.php';
-		if(($stats = Actions::stat_for_anchor($anchor)) && $stats['count']) {
-			$cells = array();
-			$cells[] = i18n::s('Actions');
 			$cells[] = 'center='.$stats['count'];
 			$cells[] = 'center='.Skin::build_date($stats['oldest_date']);
 			$cells[] = 'center='.Skin::build_date($stats['newest_date']);

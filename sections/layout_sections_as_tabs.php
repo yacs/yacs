@@ -204,12 +204,8 @@ Class Layout_sections_as_tabs extends Layout_interface {
 
 			}
 
-			// display sub-sections as a Freemind map, except to search engines
-			if(isset($item['sections_layout']) && ($item['sections_layout'] == 'freemind') && !Surfer::is_crawler()) {
-				$text .= Codes::render_freemind('section:'.$item['id'].', 100%, 400px');
-
-			// use a regular layout
-			} elseif(!isset($item['sections_layout']) || ($item['sections_layout'] != 'none')) {
+			// layout sub-sections
+			if(!isset($item['sections_layout']) || ($item['sections_layout'] != 'none')) {
 
 				// select a layout
 				if(!isset($item['sections_layout']) || !$item['sections_layout']) {

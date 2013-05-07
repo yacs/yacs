@@ -207,8 +207,8 @@ if(Surfer::is_crawler()) {
 	if($box['text'])
 		$context['text'] .=  Skin::build_box('', $box['text']);
 
-	// sub-sections targeting the main area
-	if($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'main')) {
+	// newest articles posted in this branch of the content tree
+	if($anchors = Sections::get_branch_at_anchor('section:'.$item['id'])) {
 
 		// build a complete box
 		$box['bar'] = array();

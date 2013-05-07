@@ -1,18 +1,15 @@
 root        ./*.php
-actions     actions/*.php
 agents      agents/*.php
 articles    articles/*.php
 behaviors   behaviors/*.php    behaviors/agreements/*.php
 canvas      canvas/*.php
 categories  categories/*.php
 codes       codes/*.php
-collections collections/*.php
 comments    comments/*.php
 control     control/*.php	control/htaccess/*.php	control/htaccess/basic/*.php	control/htaccess/options/*.php	control/htaccess/indexes/*.php
 dates       dates/*.php
 feeds       feeds/*.php       feeds/flash/*.php
 files       files/*.php
-forms       forms/*.php
 help        help/*.php
 i18n        i18n/*.php
 images      images/*.php

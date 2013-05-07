@@ -94,8 +94,6 @@
  * - &#91;article=&lt;id>] - use article title as link label
  * - &#91;article=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;article.description=&lt;id>] - insert article description
- * - &#91;form=&lt;id>] - use form title as link label
- * - &#91;form=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;next=&lt;id>] - shortcut to next article
  * - &#91;next=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;previous=&lt;id>] - shortcut to previous article
@@ -120,8 +118,6 @@
  * - &#91;script]&lt;path/script.php&gt;[/script] - to the phpDoc page for script 'path/script.php'
  * - &#91;search] - a search form
  * - &#91;search=&lt;word&gt;] - hit Enter to search for 'word'
- * - &#91;action=&lt;id>] - use action title as link label
- * - &#91;action=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;wikipedia=&lt;keyword] - search Wikipedia
  * - &#91;wikipedia=&lt;keyword, foo bar] - search Wikipedia, with label 'foo bar'
  * - &#91;proxy]&lt;url&gt;[/proxy] - proxy a remote address
@@ -183,7 +179,6 @@
  * - &#91;voted=section:&lt;id>] - articles of fame in the given section
  * - &#91;voted=self] - personal hits
  * - &#91;voted=user:&lt;id>] - personal hits
- * - &#91;collections] - list available collections
  * - &#91;users=present] - list of users present on site
  *
  * @see codes/live.php
@@ -194,9 +189,6 @@
  * - &#91;twitter=id] - twitter updates of one person
  * - &#91;tsearch=token] - twitter search on a given topic
  * - &#91;iframe=&lt;width&gt;, &lt;height&gt;]&lt;url&gt;[/iframe] - include some external page
- * - &#91;freemind] - a Freemind map of site content
- * - &#91;freemind=section:&lt;id>] - a Freemind map of a section and its content
- * - &#91;freemind=section:&lt;id>, width, height] - a Freemind map of a section and its content
  * - &#91;cloud] - the tags used at this site
  * - &#91;cloud=12] - maximum count of tags used at this site
  * - &#91;calendar] - events for this month
@@ -240,7 +232,6 @@
  * In-line elements:
  * - &#91;embed=&lt;id>, &lt;width>, &lt;height>, &lt;flashparams>] - embed a multimedia file
  * - &#91;embed=&lt;id>, window] - render a multimedia file in a separate window
- * - &#91;freemind=&lt;id>] - a Freemind map out of given file
  * - &#91;sound=&lt;id>] - play a sound
  * - &#91;image=&lt;id>] - an inline image
  * - &#91;image=&lt;id>,left] - a left-aligned image
@@ -758,7 +749,7 @@ Class Codes {
 	}
 
 	/**
-	 * fix line breaks introduced by FCKEditor
+	 * fix line breaks
 	 *
 	 * This function moves unclosed tags to the beginning of content.
 	 *
@@ -956,7 +947,6 @@ Class Codes {
 				'/\[search\]/ise',						// [search]
 				'/\[cloud=(\d+?)\]/ise',				// [cloud=12]
 				'/\[cloud\]/ise',						// [cloud]
-				'/\[collections\]/ise', 				// [collections]
 				'/\[login=([^\]]+?)\]/is',				// [login=words] --obsoleted
 				'/\[login\]/is',						// [login] --obsoleted
 				'/\[center\](.*?)\[\/center\]/ise', 	// [center]...[/center]
@@ -1013,7 +1003,6 @@ Class Codes {
 				'/\[server=([^\]]+?)\]/ie', 				// [server=<id>]
 				'/\[file=([^\]]+?)\]/ie',					// [file=<id>] or [file=<id>, title]
 				'/\[download=([^\]]+?)\]/ie',				// [download=<id>] or [download=<id>, title]
-				'/\[action=([^\]]+?)\]/ie', 				// [action=<id>]
 				'/\[comment=([^\]]+?)\]/ie',				// [comment=<id>] or [comment=<id>, title]
 				'/\[url=([^\]]+?)\](.*?)\[\/url\]/ise', 	// [url=url]label[/url] (deprecated by [link])
 				'/\[url\](.*?)\[\/url\]/ise',				// [url]url[/url] (deprecated by [link])
@@ -1074,8 +1063,6 @@ Class Codes {
 				'/\[voted\.([^\]]+?)\]\n*/ise',				// [voted.decorated]
 				'/\[voted=([^\]]+?)\]\n*/ise',				// [voted=section:4029]
 				'/\[voted\]\n*/ise', 						// [voted]
-				'/\[freemind\]\n*/ise', 					// [freemind] (a mind map of site content)
-				'/\[freemind=([^\]]+?)\]\n*/ise',			// [freemind=section:4029] (a mind map of section content)
 				'/\[sections\]\n*/ise',						// [sections] (site map)
 				'/\[sections\.([^\]=]+?)\]\n*/ise',			// [sections.folded] (site map)
 				'/\[sections=([^\]]+?)\]\n*/ise',			// [sections=section:4029] (sub-sections)
@@ -1158,7 +1145,6 @@ Class Codes {
 				"Skin::build_block(NULL, 'search')",								// [search]
 				"Codes::render_cloud('$1')",										// [cloud=12]
 				"Codes::render_cloud(20)",											// [cloud]
-				"Codes::render_collections()",										// [collections]
 				'', 																// [login=<words>] --obsoleted
 				'', 																// [login] --obsoleted
 				"Skin::build_block(Codes::fix_tags('$1'), 'center')", 				// [center]...[/center]
@@ -1215,7 +1201,6 @@ Class Codes {
 				"Codes::render_object('server', Codes::fix_tags('$1'))",			// [server=<id>]
 				"Codes::render_object('file', Codes::fix_tags('$1'))",				// [file=<id>] or [file=<id>, title]
 				"Codes::render_object('download', Codes::fix_tags('$1'))",			// [download=<id>] or [download=<id>, title]
-				"Codes::render_object('action', Codes::fix_tags('$1'))",			// [action=<id>]
 				"Codes::render_object('comment', Codes::fix_tags('$1'))",			// [comment=<id>] or [comment=<id>, title]
 				"Skin::build_link(encode_link('$1'), Codes::fix_tags('$2'))",		// [url=url]label[/link] (deprecated by [link])
 				"Skin::build_link(encode_link('$1'), NULL)",						// [url]url[/url] (deprecated by [link])
@@ -1276,8 +1261,6 @@ Class Codes {
 				"Codes::render_voted('', '$1')",									// [voted.decorated]
 				"Codes::render_voted('$1', 'simple')",								// [voted=section:4029]
 				"Codes::render_voted('', 'simple')",								// [voted]
-				"Codes::render_freemind('sections')",								// [freemind]
-				"Codes::render_freemind('$1')", 									// [freemind=section:4029] or [freemind=123]
 				"Codes::render_sections()", 										// [sections] (site map)
 				"Codes::render_sections('', '$1')",									// [sections.folded] (site map)
 				"Codes::render_sections('$1')", 									// [sections=section:4029] (sub-sections)
@@ -1323,9 +1306,6 @@ Class Codes {
 
 		// do it globally
 		$text = preg_replace($pattern, $replace, $text);
-
-		// FCKEditor optimisation
-		$text = str_replace("</pre>\n<pre>", "\n", $text);
 
 		// done
 		return $text;
@@ -1545,70 +1525,6 @@ Class Codes {
 		// we have an array to format
 		if(is_array($text))
 			$text =& Skin::build_list($text, '2-columns');
-
-		// job done
-		return $text;
-
-	}
-
-	/**
-	 * list available collections
-	 *
-	 * @return string the rendered text
-	**/
-	public static function &render_collections() {
-		global $context;
-
-		// has one collection been defined?
-		Safe::load('parameters/collections.include.php');
-		if(!isset($context['collections']) || !is_array($context['collections'])) {
-			$output = NULL;
-			return $output;
-		}
-
-		// use attributes set for each collection
-		$text = '';
-		foreach($context['collections'] as $name => $attributes) {
-
-			// retrieve collection information
-			list($title, $path, $url, $introduction, $description, $prefix, $suffix, $visibility) = $attributes;
-
-			// skip protected collections
-			if(($visibility == 'N') && !Surfer::is_associate())
-				continue;
-			if(($visibility == 'R') && !Surfer::is_member())
-				continue;
-
-			// ensure we have a title for this collection
-			if(!trim($title))
-				$title = str_replace(array('.', '_', '%20'), ' ', $name);
-
-			// build some hovering title
-			$hover = ' title="'.encode_field(i18n::s('Access collection')." '".strip_tags($title)."'").'"';
-
-			// signal restricted and private collections
-			if($visibility == 'N')
-				$title = PRIVATE_FLAG.$title;
-			elseif($visibility == 'R')
-				$title = RESTRICTED_FLAG.$title;
-
-			// link to collection index page
-			if($context['with_friendly_urls'] == 'Y')
-				$link = 'collections/browse.php/'.rawurlencode($name);
-			else
-				$link = 'collections/browse.php?path='.urlencode($name);
-			$text .= '<li><a href="'.$context['url_to_root'].$link.'"'.$hover.'>'.$title.'</a>';
-
-			// add introduction text, if any
-			if($introduction)
-				$text .= ' - '.Codes::beautify($introduction);
-
-			$text .= "</li>\n";
-		}
-
-		// finalize the list
-		if($text)
-			$text = '<ul class="collections">'."\n".$text."</ul>\n";
 
 		// job done
 		return $text;
@@ -2145,139 +2061,6 @@ Class Codes {
 	}
 
 	/**
-	 * render an interactive Freemind map
-	 *
-	 * The id can be:
-	 * - 'sections' - the entire content tree
-	 * - 'section:123' - some branch of the content tree
-	 * - '123' - the file with the provided id, if it is a Freemind map
-	 * - 'http://link/to/a/map.mm' - has to reference this server
-	 *
-	 * The id can also include width and height of the target canvas, as in
-	 * following examples:
-	 * - '100%, 250px' - actual id is assumed to be 'sections'
-	 * - 'section:4059, 100%, 250px'
-	 *
-	 * The Flash viewer is available at http://evamoraga.net/efectokiwano/mm/index.mm
-	 *
-	 * @link http://evamoraga.net/efectokiwano/mm/index.mm
-	 *
-	 * @param string id of the target map
-	 * @return string the rendered string
-	**/
-	public static function &render_freemind($id) {
-		global $context;
-
-		// process parameters
-		$attributes = preg_split("/\s*,\s*/", $id, 3);
-		switch(count($attributes)) {
-		case 3: // id, width, height
-			$id = $attributes[0];
-			$width = $attributes[1];
-			$height = $attributes[2];
-			break;
-		case 2: // width, height
-			$id = 'sections';
-			$width = $attributes[0];
-			$height = $attributes[1];
-			break;
-		case 1: // id
-			$id = $attributes[0];
-			$width = isset($context['skins_freemind_canvas_width']) ? $context['skins_freemind_canvas_width'] : '100%';
-			$height = isset($context['skins_freemind_canvas_height']) ? $context['skins_freemind_canvas_height'] : '500px';
-			break;
-		}
-
-		// additional commands
-		$menu = array();
-
-		// web reference to site full content
-		if($id == 'sections') {
-			$target_href = $context['url_to_home'].$context['url_to_root'].Sections::get_url('all', 'freemind', utf8::to_ascii($context['site_name'].'.mm'));
-			$menu = array_merge($menu, array(Sections::get_url('all', 'view_as_freemind', utf8::to_ascii($context['site_name'].'.mm')) => i18n::s('Full-size')));
-
-		// content of one section
-		} elseif(($position = strpos($id, 'section:')) !== FALSE) {
-
-			if(!$item = Sections::get(substr($id, $position + strlen('section:')))) {
-				$text = '[freemind='.$id.']';
-				return $text;
-			}
-
-			$target_href = $context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'freemind', utf8::to_ascii($context['site_name'].' - '.strip_tags(Codes::beautify(trim($item['title']))).'.mm'));
-
-			$menu = array_merge($menu, array(Sections::get_url($item['id'], 'view_as_freemind', utf8::to_ascii($context['site_name'].' - '.strip_tags(Codes::beautify(trim($item['title']))).'.mm')) => i18n::s('Full-size')));
-
-		// direct reference to the target file
-		} elseif(strpos($id, $context['url_to_home']) === 0) {
-			$target_href = $id;
-
-		// one file, as a freemind map
-		} elseif(($item = Files::get($id)) && isset($item['id'])) {
-
-			// if we have an external reference, use it
-			if(isset($item['file_href']) && $item['file_href']) {
-				$target_href = $item['file_href'];
-
-			// else redirect to ourself
-			} else {
-
-				// ensure a valid file name
-				$file_name = utf8::to_ascii($item['file_name']);
-
-				// where the file is
-				$path = Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']);
-
-				// map the file on the regular web space
-				$url_prefix = $context['url_to_home'].$context['url_to_root'];
-
-				// redirect to the actual file
-				$target_href = $url_prefix.$path;
-			}
-
-		// no way to render this id
-		} else {
-			$text = '[freemind='.$id.']';
-			return $text;
-		}
-
-		// allow several viewers to co-exist in the same page
-		static $freemind_viewer_index;
-		if(!isset($freemind_viewer_index))
-			$freemind_viewer_index = 1;
-		else
-			$freemind_viewer_index++;
-
-		// load flash player
-		$url = $context['url_to_home'].$context['url_to_root'].'included/browser/visorFreemind.swf';
-
-		// variables
-		$flashvars = 'initLoadFile='.$target_href.'&openUrl=_self';
-
-		$text = '<div id="freemind_viewer_'.$freemind_viewer_index.'">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-			.JS_PREFIX
-			.'var params = {};'."\n"
-			.'params.base = "'.dirname($url).'/";'."\n"
-			.'params.quality = "high";'."\n"
-			.'params.wmode = "transparent";'."\n"
-			.'params.menu = "false";'."\n"
-			.'params.flashvars = "'.$flashvars.'";'."\n"
-			.'swfobject.embedSWF("'.$url.'", "freemind_viewer_'.$freemind_viewer_index.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-			.JS_SUFFIX."\n";
-
-		// offer to download a copy of the map
-		$menu = array_merge($menu, array($target_href => i18n::s('Browse this map with Freemind')));
-
-		// display menu commands below the viewer
-		if(count($menu))
-			$text .= Skin::build_list($menu, 'menu_bar');
-
-		// job done
-		return $text;
-
-	}
-
-	/**
 	 * render a graphviz
 	 *
 	 * @param string the text
@@ -2658,7 +2441,6 @@ Class Codes {
 	 * render a link to an object
 	 *
 	 * Following types are supported:
-	 * - action - link to an action page
 	 * - article - link to an article page
 	 * - category - link to a category page
 	 * - comment - link to a comment page
@@ -2683,35 +2465,6 @@ Class Codes {
 
 		// depending on type
 		switch($type) {
-
-		// link to an action
-		case 'action':
-			include_once $context['path_to_root'].'actions/actions.php';
-
-			// maybe an alternate title has been provided
-			$attributes = preg_split("/\s*,\s*/", $id, 2);
-			$id = $attributes[0];
-
-			// load the record from the database
-			if(!$item = Actions::get($id))
-				$output = '[action='.$id.']';
-
-			else {
-
-				// ensure we have a label for this link
-				if(isset($attributes[1]))
-					$text = $attributes[1];
-				else
-					$text =& Skin::strip($item['title']);
-
-				// make a link to the target page
-				$url = $context['url_to_home'].$context['url_to_root'].Actions::get_url($item['id']);
-
-				// return a complete anchor
-				$output =& Skin::build_link($url, $text, 'basic');
-			}
-
-			return $output;
 
 		// link to an article
 		case 'article':
@@ -3006,36 +2759,6 @@ Class Codes {
 
 				}
 			}
-			return $output;
-
-		// link to a form
-		case 'form':
-			include_once $context['path_to_root'].'forms/forms.php';
-
-			// maybe an alternate title has been provided
-			$attributes = preg_split("/\s*,\s*/", $id, 2);
-			$id = $attributes[0];
-
-			// load the record from the database
-			if(!$item = Forms::get($id))
-				$output = '[form='.$id.']';
-
-			else {
-
-				// ensure we have a label for this link
-				if(isset($attributes[1])) {
-					$text = $attributes[1];
-					$type = 'basic';
-				} else
-					$text = Skin::strip($item['title']);
-
-				// make a link to the target page
-				$url = $context['url_to_home'].$context['url_to_root'].Forms::get_url($item['id']);
-
-				// return a complete anchor
-				$output =& Skin::build_link($url, $text, $type);
-			}
-
 			return $output;
 
 		// invoke the selector
@@ -3584,36 +3307,8 @@ Class Codes {
 		// scope is limited to one section
 		if(strpos($anchor, 'section:') === 0) {
 
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
+			// look at this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
 			$text =& Articles::list_for_anchor_by('publication', $anchors, 0, $count, $layout);
@@ -3632,25 +3327,25 @@ Class Codes {
 
 			// second level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// third level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// fourth level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// fifth level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
@@ -3718,36 +3413,8 @@ Class Codes {
 		// scope is limited to one section
 		if(!strncmp($anchor, 'section:', 8)) {
 
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
+			// look at this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
 			$items =& Articles::list_for_anchor_by('random', $anchors, 0, 1, 'raw');
@@ -3834,36 +3501,8 @@ Class Codes {
 		// scope is limited to one section
 		if(strpos($anchor, 'section:') === 0) {
 
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
+			// look at this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
 			$text =& Articles::list_for_anchor_by('hits', $anchors, 0, $count, $layout);
@@ -4369,36 +4008,8 @@ Class Codes {
 		// scope is limited to one section
 		if(strpos($anchor, 'section:') === 0) {
 
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
+			// look at this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
 			$text =& Articles::list_for_anchor_by('edition', $anchors, 0, $count, $layout);
@@ -4417,25 +4028,25 @@ Class Codes {
 
 			// second level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// third level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// fourth level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// fifth level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
@@ -4537,36 +4148,8 @@ Class Codes {
 		// scope is limited to one section
 		if(strpos($anchor, 'section:') === 0) {
 
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
+			// look at this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
 			$text =& Articles::list_for_anchor_by('rating', $anchors, 0, $count, $layout);

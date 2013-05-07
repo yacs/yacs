@@ -741,7 +741,6 @@ Class Users {
 	 *
 	 * @param the id of the user to update
 	 *
-	 * @see actions/edit.php
 	 * @see articles/edit.php
 	 * @see categories/edit.php
 	 * @see comments/edit.php
@@ -1609,7 +1608,7 @@ Class Users {
 		$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
 
 		if(isset($fields['selected_editor']))
-			$fields['editor'] = $fields['selected_editor'];	// hack because of FCKEditor already uses 'editor'
+			$fields['editor'] = $fields['selected_editor'];
 		elseif(isset($context['users_default_editor']))
 			$fields['editor'] = $context['users_default_editor'];
 		else
@@ -1824,7 +1823,7 @@ Class Users {
 			if(!isset($fields['active']) || !$fields['active'])
 				$fields['active'] = 'Y';
 			if(isset($fields['selected_editor']))
-				$fields['editor'] = $fields['selected_editor'];	// hack because of FCKEditor already uses 'editor'
+				$fields['editor'] = $fields['selected_editor'];
 			elseif(isset($context['users_default_editor']))
 				$fields['editor'] = $context['users_default_editor'];
 			else

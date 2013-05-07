@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-07 10:39+0200\n"
+"POT-Creation-Date: 2013-05-01 00:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,7 +33,7 @@ msgstr ""
 
 #: letters/configure.php:48 letters/configure.php:125
 #: letters/configure.php:195 letters/index.php:21 letters/new.php:74
-#: letters/new.php:640
+#: letters/new.php:639
 msgid "Newsletters"
 msgstr ""
 
@@ -229,81 +229,81 @@ msgstr ""
 msgid "YACS puts automatically sent letters into this section."
 msgstr ""
 
-#: letters/new.php:478
+#: letters/new.php:477
 msgid "Archiving the new letter"
 msgstr ""
 
-#: letters/new.php:487
+#: letters/new.php:486
 #, php-format
 msgid "Sent %s to&nbsp;\"%s\""
 msgstr ""
 
-#: letters/new.php:535
+#: letters/new.php:534
 msgid "Error: Invalid address skipped"
 msgstr ""
 
-#: letters/new.php:570 letters/new.php:576
+#: letters/new.php:569 letters/new.php:575
 msgid "A message has been sent to:"
 msgstr ""
 
-#: letters/new.php:579
+#: letters/new.php:578
 msgid "No recipient has been defined."
 msgstr ""
 
-#: letters/new.php:595
+#: letters/new.php:594
 msgid "Error has been encountered while sending the letter."
 msgstr ""
 
-#: letters/new.php:604
+#: letters/new.php:603
 msgid "No recipient has been processed."
 msgstr ""
 
-#: letters/new.php:606
+#: letters/new.php:605
 msgid "One recipient has been processed."
 msgstr ""
 
-#: letters/new.php:608
+#: letters/new.php:607
 #, php-format
 msgid "%d recipients have been processed"
 msgstr ""
 
-#: letters/new.php:612
+#: letters/new.php:611
 msgid "One invalid address has been skipped."
 msgstr ""
 
-#: letters/new.php:614
+#: letters/new.php:613
 #, php-format
 msgid "%d invalid addresses have been skipped"
 msgstr ""
 
-#: letters/new.php:618
+#: letters/new.php:617
 msgid "No letter has been transmitted."
 msgstr ""
 
-#: letters/new.php:620
+#: letters/new.php:619
 msgid "One letter has been transmitted."
 msgstr ""
 
-#: letters/new.php:622
+#: letters/new.php:621
 #, php-format
 msgid "%d letters have been transmitted."
 msgstr ""
 
-#: letters/new.php:626
+#: letters/new.php:625
 msgid "One transmission error has been encountered."
 msgstr ""
 
-#: letters/new.php:628
+#: letters/new.php:627
 #, php-format
 msgid "%d transmission errors have been encountered."
 msgstr ""
 
-#: letters/new.php:637
+#: letters/new.php:636
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr ""
 
-#: letters/new.php:647
+#: letters/new.php:646
 msgid ""
 "This script will help you to prepare and to send a electronic message to "
 "community members. Please select below the action you would like to perform. "
@@ -311,22 +311,22 @@ msgid ""
 "successive panels."
 msgstr ""
 
-#: letters/new.php:653
+#: letters/new.php:652
 msgid "Send a digest of articles published recently"
 msgstr ""
 
-#: letters/new.php:656
+#: letters/new.php:655
 msgid "List featured pages"
 msgstr ""
 
-#: letters/new.php:659
+#: letters/new.php:658
 msgid "Send one announcement to community members"
 msgstr ""
 
-#: letters/new.php:662
+#: letters/new.php:661
 msgid "Next step"
 msgstr ""
 
-#: letters/new.php:662
+#: letters/new.php:661
 msgid "Press [s] to continue"
 msgstr ""

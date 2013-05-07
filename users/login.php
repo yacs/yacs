@@ -28,8 +28,6 @@
  *
  * @link http://www.olate.com/articles/254 Use PHP and JavaScript to Display Local Time
  *
- * [*] List of on-going actions, if any. See [script]actions/index.php[/script] for more information on actions.
- *
  * [*] Shortcuts are displayed in the extra section to streamline navigation and contribution efforts.
  *
  *
@@ -363,14 +361,6 @@ if(Surfer::is_crawler()) {
 
 		// display in a separate panel
 		$panels[] = array('information', i18n::s('You'), 'information_panel', $information);
-
-		// on-going actions, if any
-		include_once '../actions/actions.php';
-		if($items = Actions::list_by_date_for_anchor('user:'.Surfer::get_id(), 0, ACTIONS_PER_PAGE)) {
-			if(is_array($items) && @count($items))
-				$items = Skin::build_list($items, 'decorated');
-			$panels[] = array('actions', i18n::s('Actions'), 'actions', $items);
-		}
 
 		//
 		// assemble all tabs

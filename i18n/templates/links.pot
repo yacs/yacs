@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-07 10:39+0200\n"
+"POT-Creation-Date: 2013-05-01 00:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -142,7 +142,7 @@ msgstr ""
 msgid "Start"
 msgstr ""
 
-#: links/click.php:101 links/links.php:1126 links/links.php:1235
+#: links/click.php:101 links/links.php:1125 links/links.php:1234
 msgid "No link URL has been provided."
 msgstr ""
 
@@ -166,8 +166,8 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: links/delete.php:154 links/edit.php:552 links/layout_links_as_daily.php:95
-#: links/layout_links.php:76
+#: links/delete.php:154 links/edit.php:552 links/layout_links.php:76
+#: links/layout_links_as_daily.php:95
 #, php-format
 msgid "edited by %s %s"
 msgstr ""
@@ -184,7 +184,7 @@ msgstr ""
 msgid "Add a link"
 msgstr ""
 
-#: links/edit.php:286 links/links.php:1132 links/links.php:1241
+#: links/edit.php:286 links/links.php:1131 links/links.php:1240
 msgid "No anchor has been found."
 msgstr ""
 
@@ -382,16 +382,8 @@ msgstr ""
 msgid "View the category"
 msgstr ""
 
-#: links/layout_links_as_daily.php:81
-msgid "Edit"
-msgstr ""
-
-#: links/layout_links_as_daily.php:82
-msgid "Delete"
-msgstr ""
-
-#: links/layout_links_as_daily.php:104 links/layout_links_as_simple.php:54
-#: links/layout_links.php:83
+#: links/layout_links.php:83 links/layout_links_as_daily.php:104
+#: links/layout_links_as_simple.php:54
 #, php-format
 msgid "in %s"
 msgstr ""
@@ -402,6 +394,14 @@ msgstr ""
 
 #: links/layout_links.php:89
 msgid "delete"
+msgstr ""
+
+#: links/layout_links_as_daily.php:81
+msgid "Edit"
+msgstr ""
+
+#: links/layout_links_as_daily.php:82
+msgid "Delete"
 msgstr ""
 
 #: links/links.php:267
@@ -419,7 +419,7 @@ msgid ""
 "through your site."
 msgstr ""
 
-#: links/links.php:1229
+#: links/links.php:1228
 msgid "No item has the provided id."
 msgstr ""
 
