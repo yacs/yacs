@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-30 23:53+0200\n"
+"POT-Creation-Date: 2013-05-07 10:32+0200\n"
 "PO-Revision-Date: 2010-08-11 17:28+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -154,7 +154,7 @@ msgstr "Look for orphan records"
 msgid "Start"
 msgstr "Start"
 
-#: links/click.php:101 links/links.php:1125 links/links.php:1234
+#: links/click.php:101 links/links.php:1126 links/links.php:1235
 msgid "No link URL has been provided."
 msgstr "No link URL has been provided."
 
@@ -178,8 +178,8 @@ msgstr "Yes, I want to delete this link"
 msgid "Cancel"
 msgstr "Cancel"
 
-#: links/delete.php:154 links/edit.php:552 links/layout_links.php:76
-#: links/layout_links_as_daily.php:95
+#: links/delete.php:154 links/edit.php:552 links/layout_links_as_daily.php:95
+#: links/layout_links.php:76
 #, php-format
 msgid "edited by %s %s"
 msgstr "edited by %s %s"
@@ -196,7 +196,7 @@ msgstr "Edit a link"
 msgid "Add a link"
 msgstr "Add a link"
 
-#: links/edit.php:286 links/links.php:1131 links/links.php:1240
+#: links/edit.php:286 links/links.php:1132 links/links.php:1241
 msgid "No anchor has been found."
 msgstr "No anchor has been found."
 
@@ -404,8 +404,16 @@ msgstr "Popular"
 msgid "View the category"
 msgstr "View the category"
 
-#: links/layout_links.php:83 links/layout_links_as_daily.php:104
-#: links/layout_links_as_simple.php:54
+#: links/layout_links_as_daily.php:81
+msgid "Edit"
+msgstr "Edit"
+
+#: links/layout_links_as_daily.php:82
+msgid "Delete"
+msgstr "Delete"
+
+#: links/layout_links_as_daily.php:104 links/layout_links_as_simple.php:54
+#: links/layout_links.php:83
 #, php-format
 msgid "in %s"
 msgstr "in %s"
@@ -417,14 +425,6 @@ msgstr "edit"
 #: links/layout_links.php:89
 msgid "delete"
 msgstr "delete"
-
-#: links/layout_links_as_daily.php:81
-msgid "Edit"
-msgstr "Edit"
-
-#: links/layout_links_as_daily.php:82
-msgid "Delete"
-msgstr "Delete"
 
 #: links/links.php:267
 msgid "Clicks"
@@ -444,7 +444,7 @@ msgstr ""
 "you will have below a global picture of external sites that are referenced "
 "through your site."
 
-#: links/links.php:1228
+#: links/links.php:1229
 msgid "No item has the provided id."
 msgstr "No item has the provided id."
 

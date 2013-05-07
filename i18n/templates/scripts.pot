@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-01 00:19+0200\n"
+"POT-Creation-Date: 2013-05-07 10:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -678,6 +678,10 @@ msgstr ""
 msgid "update process"
 msgstr ""
 
+#: scripts/update_header.php:26
+msgid "This script will change running scripts at your server."
+msgstr ""
+
 #: scripts/update.php:79
 msgid ""
 "Scripts of your server are now updated from the staging store. Please do not "
@@ -768,10 +772,6 @@ msgstr ""
 #: scripts/update.php:335
 msgid ""
 "Yes, I have checked every item and want to update scripts on this server"
-msgstr ""
-
-#: scripts/update_header.php:26
-msgid "This script will change running scripts at your server."
 msgstr ""
 
 #: scripts/upload.php:105

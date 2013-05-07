@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-01 00:19+0200\n"
+"POT-Creation-Date: 2013-05-07 10:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -389,10 +389,14 @@ msgid "TinyMCE"
 msgstr ""
 
 #: comments/edit.php:665
-msgid "Textarea"
+msgid "FCKEditor"
 msgstr ""
 
 #: comments/edit.php:669
+msgid "Textarea"
+msgstr ""
+
+#: comments/edit.php:673
 msgid "Help"
 msgstr ""
 
@@ -425,18 +429,6 @@ msgstr[1] ""
 msgid "Recent pages"
 msgstr ""
 
-#: comments/layout_comments.php:54 comments/layout_comments_as_updates.php:83
-msgid "View this comment"
-msgstr ""
-
-#: comments/layout_comments.php:72 comments/layout_comments_as_replies.php:65
-msgid "edit"
-msgstr ""
-
-#: comments/layout_comments.php:73 comments/layout_comments_as_replies.php:66
-msgid "delete"
-msgstr ""
-
 #: comments/layout_comments_as_excerpt.php:47
 msgid "anonymous"
 msgstr ""
@@ -444,6 +436,14 @@ msgstr ""
 #: comments/layout_comments_as_feed.php:54
 #, php-format
 msgid "on %s"
+msgstr ""
+
+#: comments/layout_comments_as_replies.php:65 comments/layout_comments.php:72
+msgid "edit"
+msgstr ""
+
+#: comments/layout_comments_as_replies.php:66 comments/layout_comments.php:73
+msgid "delete"
 msgstr ""
 
 #: comments/layout_comments_as_replies.php:81
@@ -456,6 +456,10 @@ msgstr ""
 #: comments/layout_comments_as_updates.php:121 comments/view.php:178
 #: comments/view.php:208 comments/view.php:221
 msgid "Edit"
+msgstr ""
+
+#: comments/layout_comments_as_updates.php:83 comments/layout_comments.php:54
+msgid "View this comment"
 msgstr ""
 
 #: comments/layout_comments_as_updates.php:112
