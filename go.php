@@ -60,7 +60,6 @@
 
 // common definitions and initial processing
 include_once 'shared/global.php';
-include_once 'forms/forms.php';
 
 // look for the id
 $id = NULL;
@@ -112,21 +111,6 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 
 // look in articles
 } elseif($items =& Articles::list_for_name($id, NULL, 'full')) {
-
-		// only one page has this name
-		if(count($items) == 1) {
-			list($url, $attributes) = each($items);
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$url);
-		}
-
-		// splash
-		$context['text'] .= '<p>'.i18n::s('Select below among available pages.').'</p>';
-
-		// several pages
-		$context['text'] .= Skin::build_list($items, 'decorated');
-
-// look in forms
-} elseif($items = Forms::list_for_name($id, NULL, 'full')) {
 
 		// only one page has this name
 		if(count($items) == 1) {

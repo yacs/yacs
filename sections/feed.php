@@ -126,35 +126,7 @@ if(!isset($item['id']) || !$item['id']) {
 			$values['channel']['image'] = $context['url_to_home'].$context['url_to_root'].$context['powered_by_image'];
 
 		// all anchors to consider
-		$anchors = array('section:'.$item['id']);
-
-		// first level of depth
-		$topics =& Sections::get_children_of_anchor('section:'.$item['id'], 'main');
-		$anchors = array_merge($anchors, $topics);
-
-		// second level of depth
-		if(count($topics) && (count($anchors) < 2000)) {
-			$topics =& Sections::get_children_of_anchor($topics, 'main');
-			$anchors = array_merge($anchors, $topics);
-		}
-
-		// third level of depth
-		if(count($topics) && (count($anchors) < 2000)) {
-			$topics =& Sections::get_children_of_anchor($topics, 'main');
-			$anchors = array_merge($anchors, $topics);
-		}
-
-		// fourth level of depth
-		if(count($topics) && (count($anchors) < 2000)) {
-			$topics =& Sections::get_children_of_anchor($topics, 'main');
-			$anchors = array_merge($anchors, $topics);
-		}
-
-		// fifth level of depth
-		if(count($topics) && (count($anchors) < 2000)) {
-			$topics =& Sections::get_children_of_anchor($topics, 'main');
-			$anchors = array_merge($anchors, $topics);
-		}
+		$anchors = Sections::get_branch_at_anchor('section:'.$item['id']);
 
 		// the list of newest pages
 		$values['items'] =& Articles::list_for_anchor_by('edition', $anchors, 0, 20, 'feed');

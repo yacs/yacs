@@ -308,8 +308,8 @@ class Feeds {
 					$fields['nick_name'] = 'external_news';
 					$fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
 					$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
+					$fields['index_map'] = 'N';
 					$fields['locked'] = 'Y'; // no direct contributions
-					$fields['home_panel'] = 'extra'; // in a side box at the front page
 					$fields['rank'] = 40000; // at the end of the list
 					$fields['title'] = i18n::c('External News');
 					$fields['description'] = i18n::c('Received from feeding servers');

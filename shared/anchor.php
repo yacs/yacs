@@ -317,8 +317,6 @@ class Anchor {
 	 * In this case, the surfer has not been authenticated to the form,
 	 * but if the handle is provided he will be granted access to it.
 	 *
-	 * @see actions/accept.php
-	 *
 	 * @return a secret handle, or NULL
 	 */
 	function get_handle() {
@@ -1048,8 +1046,8 @@ class Anchor {
 		}
 
 		// not at the front page
-		if(isset($this->item['home_panel']) && ($this->item['home_panel'] == 'none'))
-			return FALSE;
+//		if(isset($this->item['index_map']) && ($this->item['index_map'] == 'N'))
+//			return FALSE;
 
 		// the anchor is public
 		if(isset($this->item['active']) && ($this->item['active'] == 'Y'))

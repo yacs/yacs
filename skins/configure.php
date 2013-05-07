@@ -155,9 +155,6 @@
  *
  * Parameters for freemind:
  *
- * [*] [code]pages_without_freemind[/code] - Do not feature links to download
- * section content as Freemind maps.
- *
  * [*] [code]skins_freemind_canvas_size[/code] - Width and height of embedded
  * mind maps. Default is "100%, 500px".
  *
@@ -382,7 +379,6 @@ elseif(!Surfer::is_associate()) {
 	$keywords[] = 'categories - '.i18n::s('Assign categories, for associates');
 	$keywords[] = 'bookmarklets - '.i18n::s('Links to contribute, if any');
 	$keywords[] = 'servers - '.i18n::s('Feeding servers, for associates');
-	$keywords[] = 'download - '.i18n::s('Get section content as a Freemind map');
 	$keywords[] = 'referrals - '.i18n::s('Links to this page, if any');
 	$keywords[] = 'visited - '.i18n::s('Visited pages, if any');
 	$hint = i18n::s('Recommended components:').Skin::finalize_list($keywords, 'compact');
@@ -687,18 +683,6 @@ elseif(!Surfer::is_associate()) {
 	//
 	$freemind = '';
 
-	// without freemind
-// 	$label = i18n::s('Download');
-// 	$input = '<input type="radio" name="pages_without_freemind" value="N"';
-// 	if(!isset($context['pages_without_freemind']) || ($context['pages_without_freemind'] != 'Y'))
-// 		$input .= ' checked="checked"';
-// 	$input .= '/> '.i18n::s('Content of sections can be downloaded as Freemind maps');
-// 	$input .= BR.'<input type="radio" name="pages_without_freemind" value="Y"';
-// 	if(isset($context['pages_without_freemind']) && ($context['pages_without_freemind'] == 'Y'))
-// 		$input .= ' checked="checked"';
-// 	$input .= '/> '.i18n::s('Do not offer links to get Freemind maps');
-// 	$fields[] = array($label, $input);
-
 	// freemind canvas
 	if(!isset($context['skins_freemind_canvas_height']))
 		$context['skins_freemind_canvas_height'] = '500px';
@@ -850,8 +834,6 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'content_without_details\']=\''.addcslashes($_REQUEST['content_without_details'], "\\'")."';\n";
 	if(isset($_REQUEST['pages_without_bookmarklets']))
 		$content .= '$context[\'pages_without_bookmarklets\']=\''.addcslashes($_REQUEST['pages_without_bookmarklets'], "\\'")."';\n";
-// 	if(isset($_REQUEST['pages_without_freemind']))
-// 		$content .= '$context[\'pages_without_freemind\']=\''.addcslashes($_REQUEST['pages_without_freemind'], "\\'")."';\n";
 	if(isset($_REQUEST['pages_without_history']))
 		$content .= '$context[\'pages_without_history\']=\''.addcslashes($_REQUEST['pages_without_history'], "\\'")."';\n";
 	if(isset($_REQUEST['site_extra_maximum']) && intval($_REQUEST['site_extra_maximum']))

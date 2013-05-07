@@ -84,7 +84,7 @@ elseif(!Surfer::is_associate()) {
 		elseif(!strncmp(substr($key, -4), '.php', 4)) {
 
 			// one of the parameter files created by yacs
-			if(preg_match('/parameters\/(agents|collections|control|feeds|files|hooks|letters|root|scripts|services|skins|users)\.include\.php$/i', $key))
+			if(preg_match('/parameters\/(agents|control|feeds|files|hooks|letters|root|scripts|services|skins|users|virtual_.+)\.include\.php$/i', $key))
 				;
 
 			elseif(isset($footprints[$key])) {

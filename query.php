@@ -52,7 +52,6 @@ if(!$anchor = Anchors::get('section:queries')) {
 	$fields['description'] =& i18n::c('<p>This section has been created automatically on query submission. It\'s aiming to capture feedback directly from surfers. It is highly recommended to delete pages below after their processing. Of course you can edit submitted queries to assign them to other sections if necessary.</p>');
 	$fields['locked'] = 'Y'; // no direct contributions
 	$fields['active_set'] = 'N'; // for associates only
-	$fields['home_panel'] = 'none'; // content is not pushed at the front page
 	$fields['index_map'] = 'N'; // listed only to associates
 
 	// reference the new section

@@ -95,8 +95,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 			$menu = array();
 
 			// branches of this tree
-			$anchors =& Sections::get_children_of_anchor('section:'.$item['id']);
-			$anchors[] = 'section:'.$item['id'];
+			$anchors = Sections::get_branch_at_anchor('section:'.$item['id']);
 
 			// get last post
 			$article =& Articles::get_newest_for_anchor($anchors, TRUE);

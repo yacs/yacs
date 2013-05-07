@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-07 10:32+0200\n"
+"POT-Creation-Date: 2013-04-30 23:53+0200\n"
 "PO-Revision-Date: 2010-08-11 17:31+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -150,7 +150,7 @@ msgstr "Détecter les enregistrements orphelins"
 msgid "Start"
 msgstr "Commencer"
 
-#: links/click.php:101 links/links.php:1126 links/links.php:1235
+#: links/click.php:101 links/links.php:1125 links/links.php:1234
 msgid "No link URL has been provided."
 msgstr "Aucun lien URL n'a été fourni."
 
@@ -174,8 +174,8 @@ msgstr "Oui, je veux supprimer ce lien"
 msgid "Cancel"
 msgstr "Annuler"
 
-#: links/delete.php:154 links/edit.php:552 links/layout_links_as_daily.php:95
-#: links/layout_links.php:76
+#: links/delete.php:154 links/edit.php:552 links/layout_links.php:76
+#: links/layout_links_as_daily.php:95
 #, php-format
 msgid "edited by %s %s"
 msgstr "modifié par %s %s"
@@ -192,7 +192,7 @@ msgstr "Modifier un lien"
 msgid "Add a link"
 msgstr "Ajouter un lien"
 
-#: links/edit.php:286 links/links.php:1132 links/links.php:1241
+#: links/edit.php:286 links/links.php:1131 links/links.php:1240
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
@@ -404,16 +404,8 @@ msgstr "Hit-Parade"
 msgid "View the category"
 msgstr "Voir la catégorie"
 
-#: links/layout_links_as_daily.php:81
-msgid "Edit"
-msgstr "Modifier"
-
-#: links/layout_links_as_daily.php:82
-msgid "Delete"
-msgstr "Supprimer"
-
-#: links/layout_links_as_daily.php:104 links/layout_links_as_simple.php:54
-#: links/layout_links.php:83
+#: links/layout_links.php:83 links/layout_links_as_daily.php:104
+#: links/layout_links_as_simple.php:54
 #, php-format
 msgid "in %s"
 msgstr "dans %s"
@@ -425,6 +417,14 @@ msgstr "modifier"
 #: links/layout_links.php:89
 msgid "delete"
 msgstr "supprimer"
+
+#: links/layout_links_as_daily.php:81
+msgid "Edit"
+msgstr "Modifier"
+
+#: links/layout_links_as_daily.php:82
+msgid "Delete"
+msgstr "Supprimer"
 
 #: links/links.php:267
 msgid "Clicks"
@@ -444,7 +444,7 @@ msgstr ""
 "Vous avez ainsi ci-dessous une bonne visibilité des sites externes accèdés à "
 "travers votre site."
 
-#: links/links.php:1229
+#: links/links.php:1228
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 
