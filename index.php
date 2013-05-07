@@ -409,16 +409,11 @@ default:
 		if(Surfer::is_associate())
 			Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $context['root_articles_layout']));
 
-<<<<<<< HEAD
-	// list recent files
-	if(isset($context['home_with_recent_files']) && ($context['home_with_recent_files'] == 'Y')){
-=======
 		// load default layout
 		include_once $context['path_to_root'].'skins/layout_home_articles_as_daily.php';
 		$layout = new Layout_home_articles_as_daily();
 	}
 }
->>>>>>> bernard357/master
 
 // the maximum number of articles
 if(isset($context['root_articles_count_at_home']) && ($context['root_articles_count_at_home'] > 0))
@@ -441,12 +436,7 @@ elseif(!$items =& Articles::list_(0, $items_per_page, $layout)) {
 		$items .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut'));
 	$items .= '</p>';
 
-<<<<<<< HEAD
-	// list recent links
-	if(isset($context['home_with_recent_links']) && ($context['home_with_recent_links'] == 'Y')){
-=======
 }
->>>>>>> bernard357/master
 
 // we have an array to format
 if(is_array($items)) {
@@ -477,11 +467,7 @@ $context['text'] .= $items;
 if(is_callable(array('Hooks', 'include_scripts')))
 	$context['text'] .= Hooks::include_scripts('index.php#suffix');
 
-<<<<<<< HEAD
-// the cover article
-=======
 // the trail of the cover article
->>>>>>> bernard357/master
 if((!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] != 'none'))) {
 
 	// may be changed in skin.php if necessary
