@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-30 23:53+0200\n"
+"POT-Creation-Date: 2013-05-07 10:32+0200\n"
 "PO-Revision-Date: 2013-05-01 00:13+0100\n"
 "Last-Translator: Bernard Paques <bernard.paques@gmail.com>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -534,6 +534,18 @@ msgstr "La réunion a commencé"
 #: overlays/event.php:2345
 msgid "Stop the meeting"
 msgstr "Finir la réunion"
+
+#: overlays/form.php:53
+msgid "CSV"
+msgstr "CSV"
+
+#: overlays/form.php:54
+msgid "Export to XML"
+msgstr "Convertir en XML"
+
+#: overlays/form.php:55
+msgid "Export data"
+msgstr "Exporter les données"
 
 #: overlays/index.php:178
 msgid "Overlays"
@@ -1530,15 +1542,6 @@ msgstr "Voir les résultats"
 #: overlays/polls/vote.php:195
 msgid "Front page"
 msgstr "Page d'accueil"
-
-#~ msgid "CSV"
-#~ msgstr "CSV"
-
-#~ msgid "Export to XML"
-#~ msgstr "Convertir en XML"
-
-#~ msgid "Export data"
-#~ msgstr "Exporter les données"
 
 #~ msgid "Vote is not open"
 #~ msgstr "Le vote n'est pas ouvert"

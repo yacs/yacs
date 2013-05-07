@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-30 23:53+0200\n"
+"POT-Creation-Date: 2013-05-07 10:32+0200\n"
 "PO-Revision-Date: 2012-11-20 23:58+0100\n"
 "Last-Translator: Bernard Paques <bernard.paques@gmail.com>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -396,10 +396,14 @@ msgid "TinyMCE"
 msgstr "TinyMCE"
 
 #: comments/edit.php:665
+msgid "FCKEditor"
+msgstr "FCKEditor"
+
+#: comments/edit.php:669
 msgid "Textarea"
 msgstr "Textarea"
 
-#: comments/edit.php:669
+#: comments/edit.php:673
 msgid "Help"
 msgstr "Aide"
 
@@ -432,18 +436,6 @@ msgstr[1] "%d discussions"
 msgid "Recent pages"
 msgstr "Pages récentes"
 
-#: comments/layout_comments.php:54 comments/layout_comments_as_updates.php:83
-msgid "View this comment"
-msgstr "Voir ce commentaire"
-
-#: comments/layout_comments.php:72 comments/layout_comments_as_replies.php:65
-msgid "edit"
-msgstr "modifier"
-
-#: comments/layout_comments.php:73 comments/layout_comments_as_replies.php:66
-msgid "delete"
-msgstr "supprimer"
-
 #: comments/layout_comments_as_excerpt.php:47
 msgid "anonymous"
 msgstr "anonyme"
@@ -452,6 +444,14 @@ msgstr "anonyme"
 #, php-format
 msgid "on %s"
 msgstr "sur %s"
+
+#: comments/layout_comments_as_replies.php:65 comments/layout_comments.php:72
+msgid "edit"
+msgstr "modifier"
+
+#: comments/layout_comments_as_replies.php:66 comments/layout_comments.php:73
+msgid "delete"
+msgstr "supprimer"
 
 #: comments/layout_comments_as_replies.php:81
 #, php-format
@@ -464,6 +464,10 @@ msgstr "modifié par %s"
 #: comments/view.php:208 comments/view.php:221
 msgid "Edit"
 msgstr "Modifier"
+
+#: comments/layout_comments_as_updates.php:83 comments/layout_comments.php:54
+msgid "View this comment"
+msgstr "Voir ce commentaire"
 
 #: comments/layout_comments_as_updates.php:112
 #: comments/layout_comments_as_updates.php:124 comments/view.php:230
@@ -543,9 +547,6 @@ msgstr "Appuyer sur [e] pour modifier"
 #: comments/view.php:236
 msgid "Promote"
 msgstr "Promouvoir"
-
-#~ msgid "FCKEditor"
-#~ msgstr "FCKEditor"
 
 #~ msgid "reply"
 #~ msgstr "répondre"

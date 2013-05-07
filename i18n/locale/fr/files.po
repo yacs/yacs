@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-20 23:52+0100\n"
+"POT-Creation-Date: 2013-05-07 10:32+0200\n"
 "PO-Revision-Date: 2012-11-20 23:59+0100\n"
 "Last-Translator: Bernard Paques <bernard.paques@gmail.com>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -16,7 +16,7 @@ msgstr ""
 #: files/check.php:23 files/check.php:34 files/check.php:90
 #: files/configure.php:44 files/configure.php:150 files/configure.php:224
 #: files/delete.php:68 files/edit.php:130 files/feed.php:108
-#: files/fetch.php:114 files/fetch_all.php:99 files/index.php:58
+#: files/fetch_all.php:99 files/fetch.php:114 files/index.php:58
 #: files/list.php:66 files/list.php:72 files/review.php:30 files/review.php:36
 #: files/stream.php:112 files/thread.php:60 files/thread.php:63
 #: files/view.php:113
@@ -29,7 +29,7 @@ msgstr "Maintenance"
 
 #: files/check.php:31 files/configure.php:53 files/delete.php:81
 #: files/edit.php:149 files/edit.php:179 files/feed.php:124
-#: files/fetch.php:147 files/fetch_all.php:116 files/files.php:3013
+#: files/fetch_all.php:116 files/fetch.php:147 files/files.php:3013
 #: files/index.php:68 files/list.php:88 files/list.php:93 files/stream.php:139
 #: files/thread.php:68 files/view.php:146
 msgid "You are not allowed to perform this operation."
@@ -297,8 +297,8 @@ msgstr "%d  octets"
 msgid "Downloads"
 msgstr "Téléchargements"
 
-#: files/delete.php:185 files/edit.php:490 files/layout_files.php:128
-#: files/layout_files_as_hits.php:60 files/layout_files_as_search.php:100
+#: files/delete.php:185 files/edit.php:490 files/layout_files_as_hits.php:60
+#: files/layout_files_as_search.php:100 files/layout_files.php:128
 #: files/view.php:220
 msgid "downloads"
 msgstr "téléchargements"
@@ -358,8 +358,8 @@ msgstr "Ce type de fichier n'est pas autorisé."
 
 #: files/edit.php:235 files/edit.php:444 files/edit.php:462 files/edit.php:476
 #: files/edit.php:492 files/edit.php:512 files/edit.php:523
-#: files/files.php:3175 files/layout_files.php:132
-#: files/layout_files_as_search.php:104 files/view.php:222
+#: files/files.php:3175 files/layout_files_as_search.php:104
+#: files/layout_files.php:132 files/view.php:222
 msgid "bytes"
 msgstr "octets"
 
@@ -550,6 +550,10 @@ msgstr "Fichiers à %s"
 msgid "Most recent public files"
 msgstr "Les fichiers publics partagés récemment"
 
+#: files/fetch_all.php:182 files/fetch.php:245 files/fetch.php:265
+msgid "Operation has failed."
+msgstr "L'opération a échoué."
+
 #: files/fetch.php:129
 msgid "No item has been found."
 msgstr "Aucun élément n'a été trouvé."
@@ -560,10 +564,6 @@ msgid ""
 msgstr ""
 "Vous avez annulé la réservation de ce fichier, et les autres surfeurs "
 "peuvent le réserver à leur tour."
-
-#: files/fetch.php:245 files/fetch.php:265 files/fetch_all.php:182
-msgid "Operation has failed."
-msgstr "L'opération a échoué."
 
 #: files/fetch.php:254
 msgid "Reserve"
@@ -718,32 +718,50 @@ msgstr "Hit-Parade"
 msgid "View the category"
 msgstr "Voir la catégorie"
 
-#: files/layout_files.php:88 files/layout_files_as_search.php:65
+#: files/layout_files_as_dates.php:52
+#, php-format
+msgid "By %s"
+msgstr "Par %s"
+
+#: files/layout_files_as_embeddable.php:89 files/view.php:180
+#, php-format
+msgid "edited by %s %s"
+msgstr "modifié par %s %s"
+
+#: files/layout_files_as_embeddable.php:94 files/layout_files.php:147
+msgid "details"
+msgstr "détails"
+
+#: files/layout_files_as_embeddable.php:95
+msgid "edit"
+msgstr "modifier"
+
+#: files/layout_files_as_embeddable.php:96 files/layout_files.php:176
+msgid "delete"
+msgstr "supprimer"
+
+#: files/layout_files_as_feed.php:73 files/layout_files_as_search.php:118
+#: files/layout_files_as_simple.php:68 files/layout_files.php:138
+#, php-format
+msgid "in %s"
+msgstr "dans %s"
+
+#: files/layout_files_as_search.php:65 files/layout_files.php:88
 msgid "Get the file"
 msgstr "Obtenir une copie de ce fichier"
 
-#: files/layout_files.php:122 files/layout_files_as_search.php:96
+#: files/layout_files_as_search.php:96 files/layout_files.php:122
 #: files/view.php:260
 #, php-format
 msgid "shared by %s %s"
 msgstr "partagé par %s %s"
 
-#: files/layout_files.php:138 files/layout_files_as_feed.php:73
-#: files/layout_files_as_search.php:118 files/layout_files_as_simple.php:68
-#, php-format
-msgid "in %s"
-msgstr "dans %s"
-
-#: files/layout_files.php:147 files/layout_files_as_embeddable.php:94
-msgid "details"
-msgstr "détails"
-
-#: files/layout_files.php:154 files/layout_files_as_search.php:111
+#: files/layout_files_as_search.php:111 files/layout_files.php:154
 #, php-format
 msgid "reserved by you %s"
 msgstr "réservé par vous %s"
 
-#: files/layout_files.php:156 files/layout_files_as_search.php:113
+#: files/layout_files_as_search.php:113 files/layout_files.php:156
 #: files/view.php:251
 #, php-format
 msgid "reserved by %s %s"
@@ -770,24 +788,6 @@ msgstr "modifier"
 #: files/layout_files.php:170
 msgid "Share a new version of this file, or change details"
 msgstr "Partager une nouvelle version de ce fichier, ou modifier les détails"
-
-#: files/layout_files.php:176 files/layout_files_as_embeddable.php:96
-msgid "delete"
-msgstr "supprimer"
-
-#: files/layout_files_as_dates.php:52
-#, php-format
-msgid "By %s"
-msgstr "Par %s"
-
-#: files/layout_files_as_embeddable.php:89 files/view.php:180
-#, php-format
-msgid "edited by %s %s"
-msgstr "modifié par %s %s"
-
-#: files/layout_files_as_embeddable.php:95
-msgid "edit"
-msgstr "modifier"
 
 #: files/list.php:70
 #, php-format

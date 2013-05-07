@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-20 23:52+0100\n"
+"POT-Creation-Date: 2013-05-07 10:32+0200\n"
 "PO-Revision-Date: 2010-08-11 17:27+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -83,91 +83,91 @@ msgstr "Look for orphan records"
 msgid "Start"
 msgstr "Start"
 
-#: dates/dates.php:26
+#: dates/dates.php:39
 msgid "sunday"
 msgstr "sunday"
 
-#: dates/dates.php:27
+#: dates/dates.php:40
 msgid "monday"
 msgstr "monday"
 
-#: dates/dates.php:28
+#: dates/dates.php:41
 msgid "tuesday"
 msgstr "tuesday"
 
-#: dates/dates.php:29
+#: dates/dates.php:42
 msgid "wednesday"
 msgstr "wednesday"
 
-#: dates/dates.php:30
+#: dates/dates.php:43
 msgid "thursday"
 msgstr "thursday"
 
-#: dates/dates.php:31
+#: dates/dates.php:44
 msgid "friday"
 msgstr "friday"
 
-#: dates/dates.php:32
+#: dates/dates.php:45
 msgid "saturday"
 msgstr "saturday"
 
-#: dates/dates.php:493
+#: dates/dates.php:511
 msgid "January"
 msgstr "January"
 
-#: dates/dates.php:494
+#: dates/dates.php:512
 msgid "February"
 msgstr "February"
 
-#: dates/dates.php:495
+#: dates/dates.php:513
 msgid "March"
 msgstr "March"
 
-#: dates/dates.php:496
+#: dates/dates.php:514
 msgid "April"
 msgstr "April"
 
-#: dates/dates.php:497
+#: dates/dates.php:515
 msgid "May"
 msgstr "May"
 
-#: dates/dates.php:498
+#: dates/dates.php:516
 msgid "June"
 msgstr "June"
 
-#: dates/dates.php:499
+#: dates/dates.php:517
 msgid "July"
 msgstr "July"
 
-#: dates/dates.php:500
+#: dates/dates.php:518
 msgid "August"
 msgstr "August"
 
-#: dates/dates.php:501
+#: dates/dates.php:519
 msgid "September"
 msgstr "September"
 
-#: dates/dates.php:502
+#: dates/dates.php:520
 msgid "October"
 msgstr "October"
 
-#: dates/dates.php:503
+#: dates/dates.php:521
 msgid "November"
 msgstr "November"
 
-#: dates/dates.php:504
+#: dates/dates.php:522
 msgid "December"
 msgstr "December"
 
-#: dates/dates.php:1013 dates/edit.php:226
+#: dates/dates.php:1031 dates/edit.php:226
 msgid "Please provide a date."
 msgstr "Please provide a date."
 
-#: dates/dates.php:1019 dates/edit.php:91
+#: dates/dates.php:1037 dates/edit.php:91
 msgid "No anchor has been found."
 msgstr "No anchor has been found."
 
-#: dates/dates.php:1031
+#: dates/dates.php:1049
 msgid "No item has the provided id."
 msgstr "No item has the provided id."
 
@@ -234,8 +234,8 @@ msgstr "The date has been saved."
 msgid "What do you want to do now?"
 msgstr "What do you want to do now?"
 
-#: dates/edit.php:141 dates/layout_dates.php:61
-#: dates/layout_dates_as_family.php:83
+#: dates/edit.php:141 dates/layout_dates_as_family.php:83
+#: dates/layout_dates.php:61
 msgid "View the page"
 msgstr "View the page"
 
