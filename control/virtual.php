@@ -99,16 +99,16 @@ elseif(!Surfer::is_associate()) {
 } elseif($id && isset($_REQUEST['content']) && $_REQUEST['content']) {
 
 	// backup the old version, if any
-	Safe::unlink($context['path_to_root'].'parameters/virtual_'.$id.'.included.php.bak');
-	Safe::rename($context['path_to_root'].'parameters/virtual_'.$id.'.included.php', $context['path_to_root'].'parameters/virtual_'.$id.'.included.php.bak');
+	Safe::unlink($context['path_to_root'].'parameters/virtual_'.$id.'.include.php.bak');
+	Safe::rename($context['path_to_root'].'parameters/virtual_'.$id.'.include.php', $context['path_to_root'].'parameters/virtual_'.$id.'.include.php.bak');
 
 	// actual save
-	if(Safe::file_put_contents('parameters/virtual_'.$id.'.included.php', $_REQUEST['content']) != strlen($_REQUEST['content']))
-		Logger::error(sprintf(i18n::s('The target file %s may have been corrupted. Please check file content manually, and revert to the backup file, with the extension .bak, if necessary.'), 'parameters/virtual_'.$id.'.included.php'));
+	if(Safe::file_put_contents('parameters/virtual_'.$id.'.include.php', $_REQUEST['content']) != strlen($_REQUEST['content']))
+		Logger::error(sprintf(i18n::s('The target file %s may have been corrupted. Please check file content manually, and revert to the backup file, with the extension .bak, if necessary.'), 'parameters/virtual_'.$id.'.include.php'));
 
 	// congratulations
 	else {
-		$context['text'] .= '<p>'.sprintf(i18n::s('The target file %s has been successfully updated.'), 'parameters/virtual_'.$id.'.included.php').'</p>';
+		$context['text'] .= '<p>'.sprintf(i18n::s('The target file %s has been successfully updated.'), 'parameters/virtual_'.$id.'.include.php').'</p>';
 
 		$context['text'] .= Skin::build_box(i18n::s('Configuration'), Safe::highlight_string($content), 'unfolded');
 
