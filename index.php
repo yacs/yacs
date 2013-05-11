@@ -452,7 +452,7 @@ if(is_array($items)) {
 
 	// add a title in case of complex page
 	$title = '';
-	if(preg_match('/<h2>|<h3>/', $context['text'].$text)) {
+	if(preg_match('/<h2>|<h3>/', $context['text'].$items)) {
 		$title = i18n::s('Recent Pages');
 	}
 
