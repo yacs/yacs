@@ -38,7 +38,7 @@ scripts/staging/
 *~
 *.swp
 *.svn
-.DS_Store?
+.DS_Store
 ehthumbs.db
 Icon?
 Thumbs.db
