@@ -2,16 +2,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-<<<<<<< HEAD
 "POT-Creation-Date: 2013-05-07 10:32+0200\n"
 "PO-Revision-Date: 2013-05-07 10:37+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
-=======
-"POT-Creation-Date: 2013-04-30 23:53+0200\n"
-"PO-Revision-Date: 2013-05-01 00:12+0100\n"
-"Last-Translator: Bernard Paques <bernard.paques@gmail.com>\n"
->>>>>>> bernard357/master
-"Language-Team: Agnès Rambaud, Bernard Paques\n"
+"Language-Team: Agnès Rambaud, Alexis Raimbault, Bernard Paques\n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -19,12 +13,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharsu: utf-8\n"
 
-<<<<<<< HEAD
 #: help/index.php:253
 #: help/populate.php:1916
-=======
-#: help/index.php:253 help/populate.php:1499
->>>>>>> bernard357/master
 msgid "Help"
 msgstr "Aide"
 
@@ -190,7 +180,6 @@ msgstr "%s (graphiques, ...)"
 msgid "Miscellaneous codes"
 msgstr "Codes divers"
 
-<<<<<<< HEAD
 #: help/populate.php:72
 #: help/populate.php:89
 #: help/populate.php:229
@@ -206,13 +195,6 @@ msgstr "Codes divers"
 #: help/populate.php:1575
 #: help/populate.php:1641
 #: help/populate.php:1841
-=======
-#: help/populate.php:70 help/populate.php:87 help/populate.php:225
-#: help/populate.php:377 help/populate.php:538 help/populate.php:689
-#: help/populate.php:822 help/populate.php:849 help/populate.php:932
-#: help/populate.php:1049 help/populate.php:1166 help/populate.php:1232
-#: help/populate.php:1430
->>>>>>> bernard357/master
 msgid "Control Panel"
 msgstr "Panneau de contrôle"
 
@@ -228,7 +210,6 @@ msgstr "Vous n'êtes pas autorisé à faire cette opération."
 msgid "Add a blog"
 msgstr "Ajouter un blog"
 
-<<<<<<< HEAD
 #: help/populate.php:102
 msgid "With YACS, each blog is an independant section, usually featuring one main contributor on some topic. Each post in a blog may include images, photos, files, comments, trackbacks and related links."
 msgstr "Avec YACS, chaque blog est une section indépendante, généralement alimentée par un contributeur principal. Chaque page postée sur un blog peut comporter des images, des photos, des fichiers, des commentaires ou des liens web."
@@ -236,31 +217,11 @@ msgstr "Avec YACS, chaque blog est une section indépendante, généralement ali
 #: help/populate.php:103
 msgid "You can either create one general-purpose blog, or run this script several time and create a set of more specialised blogs."
 msgstr "Vous pouvez créer un blog plutôt généraliste, ou bien, en exécutant ce script plusieurs fois, créer plusieurs blogs plus spécialisés."
-=======
-#: help/populate.php:100
-msgid ""
-"With YACS, each blog is an independant section, usually featuring one main "
-"contributor on some topic. Each post in a blog may include images, photos, "
-"files, comments, trackbacks and related links."
-msgstr ""
-"Avec YACS, chaque blog est une section indépendante, généralement alimentée "
-"par un contributeur principal. Chaque page postée sur un blog peut comporter "
-"des images, des photos, des fichiers, des commentaires ou des liens web."
-
-#: help/populate.php:101
-msgid ""
-"You can either create one general-purpose blog, or run this script several "
-"time and create a set of more specialised blogs."
-msgstr ""
-"Vous pouvez créer un blog plutôt généraliste, ou bien, en exécutant ce "
-"script plusieurs fois, créer plusieurs blogs plus spécialisés."
->>>>>>> bernard357/master
 
 #: help/populate.php:109
 msgid "Blog anchor"
 msgstr "Point d'ancrage"
 
-<<<<<<< HEAD
 #: help/populate.php:112
 #: help/populate.php:258
 #: help/populate.php:579
@@ -280,17 +241,6 @@ msgstr "-- Niveau de base"
 #: help/populate.php:1368
 #: help/populate.php:1487
 #: help/populate.php:1716
-=======
-#: help/populate.php:110 help/populate.php:254 help/populate.php:413
-#: help/populate.php:717 help/populate.php:962 help/populate.php:1079
-#: help/populate.php:1306
-msgid "-- Root level"
-msgstr "-- Niveau de base"
-
-#: help/populate.php:111 help/populate.php:255 help/populate.php:414
-#: help/populate.php:718 help/populate.php:963 help/populate.php:1080
-#: help/populate.php:1307
->>>>>>> bernard357/master
 msgid "Please carefully select a parent section, if any"
 msgstr "Choisissez une section de niveau supérieur, si besoin"
 
@@ -302,7 +252,6 @@ msgstr "Titre du blog"
 msgid "My Blog"
 msgstr "Mon blog"
 
-<<<<<<< HEAD
 #: help/populate.php:119
 #: help/populate.php:173
 #: help/populate.php:265
@@ -341,20 +290,6 @@ msgstr "Merci d'indiquer un titre significatif."
 #: help/populate.php:1378
 #: help/populate.php:1497
 #: help/populate.php:1726
-=======
-#: help/populate.php:117 help/populate.php:169 help/populate.php:261
-#: help/populate.php:319 help/populate.php:420 help/populate.php:482
-#: help/populate.php:588 help/populate.php:643 help/populate.php:724
-#: help/populate.php:777 help/populate.php:894 help/populate.php:1009
-#: help/populate.php:1126 help/populate.php:1313 help/populate.php:1366
-msgid "Please provide a meaningful title."
-msgstr "Merci d'indiquer un titre significatif."
-
-#: help/populate.php:121 help/populate.php:265 help/populate.php:293
-#: help/populate.php:424 help/populate.php:456 help/populate.php:592
-#: help/populate.php:618 help/populate.php:728 help/populate.php:872
-#: help/populate.php:973 help/populate.php:1090 help/populate.php:1317
->>>>>>> bernard357/master
 msgid "Introduction"
 msgstr "Introduction"
 
@@ -362,7 +297,6 @@ msgstr "Introduction"
 msgid "The best place to express myself"
 msgstr "La meilleure place pour m'exprimer"
 
-<<<<<<< HEAD
 #: help/populate.php:125
 #: help/populate.php:592
 #: help/populate.php:829
@@ -383,16 +317,6 @@ msgstr "Apparaît sur la carte du site, près du titre de la section"
 #: help/populate.php:1001
 #: help/populate.php:1137
 #: help/populate.php:1732
-=======
-#: help/populate.php:123 help/populate.php:426 help/populate.php:594
-#: help/populate.php:730 help/populate.php:874 help/populate.php:975
-#: help/populate.php:1092 help/populate.php:1319
-msgid "Appears at site map, near section title"
-msgstr "Apparaît sur la carte du site, près du titre de la section"
-
-#: help/populate.php:127 help/populate.php:271 help/populate.php:430
-#: help/populate.php:598 help/populate.php:734 help/populate.php:1323
->>>>>>> bernard357/master
 msgid "Description"
 msgstr "Description"
 
@@ -400,7 +324,6 @@ msgstr "Description"
 msgid "A description of what this blog is about."
 msgstr "Une description du sujet de ce blog"
 
-<<<<<<< HEAD
 #: help/populate.php:131
 #: help/populate.php:277
 #: help/populate.php:835
@@ -569,108 +492,6 @@ msgstr "Tout membre authentifié de la communauté est autorisé à contribuer l
 #: help/populate.php:1569
 #: help/populate.php:1635
 #: help/populate.php:1835
-=======
-#: help/populate.php:129 help/populate.php:273 help/populate.php:432
-#: help/populate.php:736 help/populate.php:1325
-msgid "Give a hint to interested people"
-msgstr "Pour guider les surfeurs intéressés"
-
-#: help/populate.php:133 help/populate.php:1329
-msgid "Contribution"
-msgstr "Contributeurs"
-
-#: help/populate.php:134 help/populate.php:1332
-msgid "Only associates and owners can contribute."
-msgstr "Contribution restreinte aux associés et aux propriétaires."
-
-#: help/populate.php:135 help/populate.php:1331
-msgid "Any authenticated member can contribute."
-msgstr "Tout membre authentifié peut contribuer."
-
-#: help/populate.php:139 help/populate.php:747 help/populate.php:979
-#: help/populate.php:1096 help/populate.php:1336
-msgid "Access"
-msgstr "Accès"
-
-#: help/populate.php:140 help/populate.php:748 help/populate.php:980
-#: help/populate.php:1097 help/populate.php:1337
-msgid "Public - Everybody, including anonymous surfers"
-msgstr "Public - Tout le monde, y compris les surfeurs anonymes"
-
-#: help/populate.php:141 help/populate.php:749 help/populate.php:981
-#: help/populate.php:1098 help/populate.php:1338
-msgid "Community - Access is granted to any identified surfer"
-msgstr "Communauté - Accès autorisé à toute personne identifiée"
-
-#: help/populate.php:142 help/populate.php:750 help/populate.php:982
-#: help/populate.php:1099 help/populate.php:1339
-msgid "Private - Access is restricted to selected persons"
-msgstr "Privé - Accès limité à quelques personnes"
-
-#: help/populate.php:146 help/populate.php:754 help/populate.php:986
-#: help/populate.php:1103 help/populate.php:1343
-msgid "Front page"
-msgstr "Page d'accueil"
-
-#: help/populate.php:147 help/populate.php:755 help/populate.php:987
-#: help/populate.php:1104 help/populate.php:1344
-msgid "Should content of this section be displayed at the front page?"
-msgstr ""
-"Le contenu de cette section devrait-il être affiché sur la page d'accueil ?"
-
-#: help/populate.php:148 help/populate.php:756 help/populate.php:988
-#: help/populate.php:1105 help/populate.php:1345
-msgid "Yes"
-msgstr "Oui"
-
-#: help/populate.php:149 help/populate.php:757 help/populate.php:989
-#: help/populate.php:1106 help/populate.php:1346
-msgid "No"
-msgstr "Non"
-
-#: help/populate.php:157 help/populate.php:307 help/populate.php:470
-#: help/populate.php:631 help/populate.php:765 help/populate.php:882
-#: help/populate.php:997 help/populate.php:1114 help/populate.php:1354
-msgid "Add content"
-msgstr "Ajouter du contenu"
-
-#: help/populate.php:157 help/populate.php:307 help/populate.php:470
-#: help/populate.php:631 help/populate.php:765 help/populate.php:882
-#: help/populate.php:997 help/populate.php:1114 help/populate.php:1277
-#: help/populate.php:1354 help/populate.php:1491
-msgid "Press [s] to submit data"
-msgstr "Appuyer sur [s] pour envoyer les informations"
-
-#: help/populate.php:204 help/populate.php:368 help/populate.php:529
-#: help/populate.php:682 help/populate.php:813 help/populate.php:923
-#: help/populate.php:1040 help/populate.php:1157 help/populate.php:1405
-msgid "Congratulations, you have shared new content."
-msgstr "Félicitations, votre contribution a bien été enregistrée."
-
-#: help/populate.php:209
-msgid ""
-"Assign at least one member as editor of this blog to enable contributions. "
-"Please remind that associates can always contribute at any place."
-msgstr ""
-"Assignez individuellement comme éditeur le (ou les) membre(s) autorisé(s) à "
-"contribuer à ce blog. Rappelez-vous que les associés peuvent toujours "
-"contribuer à tout endroit."
-
-#: help/populate.php:213
-msgid ""
-"Any authenticated member of the community is allowed to contribute to this "
-"blog. You should control community membership to avoid unappropriate "
-"material."
-msgstr ""
-"Tout membre authentifié de la communauté est autorisé à contribuer "
-"librement. Contrôlez soigneusement les nouveaux membres pour éviter tout "
-"contenu inapproprié."
-
-#: help/populate.php:219 help/populate.php:371 help/populate.php:532
-#: help/populate.php:685 help/populate.php:816 help/populate.php:845
-#: help/populate.php:926 help/populate.php:1043 help/populate.php:1160
-#: help/populate.php:1226 help/populate.php:1424
->>>>>>> bernard357/master
 msgid "What do you want to do now?"
 msgstr "Que voulez-vous faire à présent ?"
 
@@ -678,7 +499,6 @@ msgstr "Que voulez-vous faire à présent ?"
 msgid "Access the new blog"
 msgstr "Accéder au nouveau blog"
 
-<<<<<<< HEAD
 #: help/populate.php:227
 #: help/populate.php:379
 #: help/populate.php:939
@@ -703,18 +523,6 @@ msgstr "Ajouter une image"
 #: help/populate.php:1574
 #: help/populate.php:1640
 #: help/populate.php:1840
-=======
-#: help/populate.php:223 help/populate.php:375 help/populate.php:536
-#: help/populate.php:820 help/populate.php:930 help/populate.php:1047
-#: help/populate.php:1164 help/populate.php:1428
-msgid "Add an image"
-msgstr "Ajouter une image"
-
-#: help/populate.php:224 help/populate.php:376 help/populate.php:537
-#: help/populate.php:688 help/populate.php:821 help/populate.php:848
-#: help/populate.php:931 help/populate.php:1048 help/populate.php:1165
-#: help/populate.php:1231 help/populate.php:1429
->>>>>>> bernard357/master
 msgid "Launch the Content Assistant again"
 msgstr "Relancer l'Assistant de Contenu"
 
@@ -746,7 +554,6 @@ msgstr "Avec les notes des lecteurs"
 msgid "Appears at site map, near book title"
 msgstr "Apparaît sur la carte du site, près du titre du livre"
 
-<<<<<<< HEAD
 #: help/populate.php:276
 msgid "This book is electronic, meaning its content dynamically evolves over time. Moreover, notes may be added to each page by readers."
 msgstr "Ce livre est électronique, et donc son contenu évolue dynamiquement. De plus, il est interactif, puisque chacun peut partager ses notes de lecture."
@@ -762,34 +569,10 @@ msgstr "Ajoutez autant de rubriques que de besoin. Vous pourrez ajouter de nouve
 
 #: help/populate.php:291
 #: help/populate.php:1017
-=======
-#: help/populate.php:272
-msgid ""
-"This book is electronic, meaning its content dynamically evolves over time. "
-"Moreover, notes may be added to each page by readers."
-msgstr ""
-"Ce livre est électronique, et donc son contenu évolue dynamiquement. De "
-"plus, il est interactif, puisque chacun peut partager ses notes de lecture."
-
-#: help/populate.php:281 help/populate.php:608
-msgid "Up to 8 sections"
-msgstr "Jusqu'à 8 sections"
-
-#: help/populate.php:283
-msgid ""
-"Add as many sections you need. You will be able to add new sections "
-"afterwards."
-msgstr ""
-"Ajoutez autant de rubriques que de besoin. Vous pourrez ajouter de nouvelles "
-"rubriques ultérieurement."
-
-#: help/populate.php:287 help/populate.php:614
->>>>>>> bernard357/master
 #, php-format
 msgid "Section #%d"
 msgstr "section n°%d"
 
-<<<<<<< HEAD
 #: help/populate.php:293
 #: help/populate.php:616
 #: help/populate.php:634
@@ -803,14 +586,6 @@ msgstr "Titre"
 #: help/populate.php:1031
 #: help/populate.php:1603
 #: help/populate.php:1686
-=======
-#: help/populate.php:289 help/populate.php:452
-msgid "Title"
-msgstr "Titre"
-
-#: help/populate.php:304 help/populate.php:467 help/populate.php:628
-#: help/populate.php:1194 help/populate.php:1277
->>>>>>> bernard357/master
 msgid "Start"
 msgstr "Démarrer"
 
@@ -818,7 +593,6 @@ msgstr "Démarrer"
 msgid "Access the new book"
 msgstr "Accéder au nouveau livre"
 
-<<<<<<< HEAD
 #: help/populate.php:401
 msgid "Add a collection"
 msgstr "Ajouter une collection"
@@ -1067,30 +841,6 @@ msgstr "Un forum de discussion est constitué d'une ou plusieurs rubriques desti
 #: help/populate.php:807
 msgid "You can either create one general-purpose discussion board, or a set of more specialised boards."
 msgstr "Vous pouvez créer un forum à usage général, ou bien un jeu de rubriques spécialisées."
-=======
-#: help/populate.php:397
-msgid "Add a forum"
-msgstr "Ajouter un forum"
-
-#: help/populate.php:403
-msgid ""
-"A forum is made of one or several discussion boards, which are aiming to "
-"support threads of interaction between community members. Each topic started "
-"in a discussion board may feature images, photos, files, and related links."
-msgstr ""
-"Un forum de discussion est constitué d'une ou plusieurs rubriques destinées "
-"à l'interaction rapide entre les membres d'une communauté. Chaque sujet "
-"démarré sur le forum peut être associé à des images, des photos, des "
-"fichiers ou des liens web."
-
-#: help/populate.php:404
-msgid ""
-"You can either create one general-purpose discussion board, or a set of more "
-"specialised boards."
-msgstr ""
-"Vous pouvez créer un forum à usage général, ou bien un jeu de rubriques "
-"spécialisées."
->>>>>>> bernard357/master
 
 #: help/populate.php:412
 msgid "Forum anchor"
@@ -1108,42 +858,17 @@ msgstr "Forum"
 msgid "Post your brand new ideas here!"
 msgstr "La meilleure place pour exprimer vos idées"
 
-<<<<<<< HEAD
 #: help/populate.php:834
 msgid "Registered members of this site may start a thread on any subject here. Use this forum either to ask for support, or to share new ideas with other members of the community. Pages posted in the forum benefit from the full power of YACS, including the ability to create polls, to upload files and to attach links."
 msgstr "Les membres enregistrés peuvent démarrer un fil de discussion ici. Utilisez ce forum pour demander du support ou pour partager vos nouvelles idées avec les autres membres de cette communauté. Les pages postées dans le forum bénéficient de la puissance de YACS, y compris l'envoi de sondages, le téléchargement de fichiers ou encore l'attachement de liens web."
-=======
-#: help/populate.php:431
-msgid ""
-"Registered members of this site may start a thread on any subject here. Use "
-"this forum either to ask for support, or to share new ideas with other "
-"members of the community. Pages posted in the forum benefit from the full "
-"power of YACS, including the ability to create polls, to upload files and to "
-"attach links."
-msgstr ""
-"Les membres enregistrés peuvent démarrer un fil de discussion ici. Utilisez "
-"ce forum pour demander du support ou pour partager vos nouvelles idées avec "
-"les autres membres de cette communauté. Les pages postées dans le forum "
-"bénéficient de la puissance de YACS, y compris l'envoi de sondages, le "
-"téléchargement de fichiers ou encore l'attachement de liens web."
->>>>>>> bernard357/master
 
 #: help/populate.php:440
 msgid "Up to 8 boards"
 msgstr "Jusqu'à 8 rubriques"
 
-<<<<<<< HEAD
 #: help/populate.php:845
 msgid "You will be able to enhance these boards, or to add new boards, afterwards."
 msgstr "Vous pourrez améliorer l'aspect de ces rubriques, ou ajouter de nouvelles rubriques, ultérieurement."
-=======
-#: help/populate.php:442
-msgid ""
-"You will be able to enhance these boards, or to add new boards, afterwards."
-msgstr ""
-"Vous pourrez améliorer l'aspect de ces rubriques, ou ajouter de nouvelles "
-"rubriques, ultérieurement."
->>>>>>> bernard357/master
 
 #: help/populate.php:446
 #, php-format
@@ -1154,15 +879,8 @@ msgstr "Rubrique n°%d"
 msgid "Family"
 msgstr "Famille"
 
-<<<<<<< HEAD
 #: help/populate.php:853
 msgid "Repeat the same string in successive boards that have to be grouped in the forum."
-=======
-#: help/populate.php:450
-msgid ""
-"Repeat the same string in successive boards that have to be grouped in the "
-"forum."
->>>>>>> bernard357/master
 msgstr "Répéter la même chaîne dans les rubriques à regrouper sur le forum"
 
 #: help/populate.php:534
@@ -1181,39 +899,17 @@ msgstr "Signets"
 msgid "Shared links of interest"
 msgstr "Liens partagés"
 
-<<<<<<< HEAD
 #: help/populate.php:966
 msgid "This section, and related sub-sections, lists links submitted by authenticated persons."
 msgstr "Cette section, et ses sous-sections, présente les liens envoyés par les personnes authentifiées."
-=======
-#: help/populate.php:563
-msgid ""
-"This section, and related sub-sections, lists links submitted by "
-"authenticated persons."
-msgstr ""
-"Cette section, et ses sous-sections, présente les liens envoyés par les "
-"personnes authentifiées."
->>>>>>> bernard357/master
 
 #: help/populate.php:574
 msgid "YACS lets people share bookmarks and favorites quite easily."
 msgstr "YACS facilite autant que possible le partage de signets ou autres favoris."
 
-<<<<<<< HEAD
 #: help/populate.php:978
 msgid "Use this assistant to initialize the tree of sections used to classify links at your site. Of course, sections can be changed, deleted or added individually afterwards."
 msgstr "Utilisez cet assistant pour créer la structure des sections utilisées pour le classement des liens sur votre serveur. Bien entendu, ceci peut être changé après coup en cas de besoin."
-=======
-#: help/populate.php:575
-msgid ""
-"Use this assistant to initialize the tree of sections used to classify links "
-"at your site. Of course, sections can be changed, deleted or added "
-"individually afterwards."
-msgstr ""
-"Utilisez cet assistant pour créer la structure des sections utilisées pour "
-"le classement des liens sur votre serveur. Bien entendu, ceci peut être "
-"changé après coup en cas de besoin."
->>>>>>> bernard357/master
 
 #: help/populate.php:583
 msgid "Top section"
@@ -1228,44 +924,17 @@ msgstr "Titre de section"
 msgid "To introduce the list of sections below"
 msgstr "Pour introduire la liste des sections  qui suivent"
 
-<<<<<<< HEAD
 #: help/populate.php:1013
 msgid "Add as many sections you need. We suggest to declare an even number of sections."
 msgstr "Ajoutez autant de sections que de besoin. Nous vous suggérons de définir un nombre pair de sections."
-=======
-#: help/populate.php:610
-msgid ""
-"Add as many sections you need. We suggest to declare an even number of "
-"sections."
-msgstr ""
-"Ajoutez autant de sections que de besoin. Nous vous suggérons de définir un "
-"nombre pair de sections."
->>>>>>> bernard357/master
 
 #: help/populate.php:687
 msgid "Access the directory"
 msgstr "Accéder au répertoire"
 
-<<<<<<< HEAD
 #: help/populate.php:1111
 msgid "Use YACS to publish pages you have carefully crafted, and look at your name proudly listed on your work. Each page may feature images, photos, files, comments and related links."
 msgstr "Utilisez YACS pour publier le résultat de votre travail, et laissez-le afficher votre profil à chaque page. Chaque article peut être associé à des images, des photos, des fichiers, des commentaires ou des liens web."
-=======
-#: help/populate.php:702 help/populate.php:836 help/populate.php:946
-#: help/populate.php:1063 help/populate.php:1508
-msgid "Add a section"
-msgstr "Ajouter une section"
-
-#: help/populate.php:708
-msgid ""
-"Use YACS to publish pages you have carefully crafted, and look at your name "
-"proudly listed on your work. Each page may feature images, photos, files, "
-"comments and related links."
-msgstr ""
-"Utilisez YACS pour publier le résultat de votre travail, et laissez-le "
-"afficher votre profil à chaque page. Chaque article peut être associé à des "
-"images, des photos, des fichiers, des commentaires ou des liens web."
->>>>>>> bernard357/master
 
 #: help/populate.php:716 help/populate.php:961 help/populate.php:1078
 msgid "Section anchor"
@@ -1328,7 +997,6 @@ msgstr "Ajuster le titre au type de partenariat que vous cherchez à mettre en o
 msgid "They are trusting us"
 msgstr "Ils nous font confiance"
 
-<<<<<<< HEAD
 #: help/populate.php:1357
 msgid "With YACS, polls are ordinary articles that have extended attributes to handle votes and to display bar graphs."
 msgstr "Pour YACS les sondages sont des articles ordinaires, complétés par quelques attributs complémentaires pour gérer les votes, afficher graphiquement les résultats, etc."
@@ -1336,48 +1004,19 @@ msgstr "Pour YACS les sondages sont des articles ordinaires, complétés par que
 #: help/populate.php:1358
 msgid "You can either create a single polling section, or run this script several time and create a set of more specialised sections."
 msgstr "Vous pouvez créer une section unique pour l'ensemble des sondages, ou bien, en exécutant ce script plusieurs fois, créer un jeu de sections spécialisées."
-=======
-#: help/populate.php:952
-msgid ""
-"With YACS, polls are ordinary articles that have extended attributes to "
-"handle votes and to display bar graphs."
-msgstr ""
-"Pour YACS les sondages sont des articles ordinaires, complétés par quelques "
-"attributs complémentaires pour gérer les votes, afficher graphiquement les "
-"résultats, etc."
-
-#: help/populate.php:953
-msgid ""
-"You can either create a single polling section, or run this script several "
-"time and create a set of more specialised sections."
-msgstr ""
-"Vous pouvez créer une section unique pour l'ensemble des sondages, ou bien, "
-"en exécutant ce script plusieurs fois, créer un jeu de sections spécialisées."
->>>>>>> bernard357/master
 
 #: help/populate.php:968
 msgid "Polls"
 msgstr "Sondages"
 
-<<<<<<< HEAD
 #: help/populate.php:1374
 msgid "Use either a global name (eg, \"the voting machine\") or, narrow it and create multiple sections"
 msgstr "Indiquez un titre général (\"La machine à voter\"), ou bien créez plusieurs sections"
-=======
-#: help/populate.php:969
-msgid ""
-"Use either a global name (eg, \"the voting machine\") or, narrow it and "
-"create multiple sections"
-msgstr ""
-"Indiquez un titre général (\"La machine à voter\"), ou bien créez plusieurs "
-"sections"
->>>>>>> bernard357/master
 
 #: help/populate.php:974
 msgid "The current active poll, plus previous ones"
 msgstr "Le sondage courant, plus les précédants"
 
-<<<<<<< HEAD
 #: help/populate.php:1476
 msgid "With YACS, recipes are ordinary articles that have some extended attributes such as the list of ingredients, or the number of people to serve, etc."
 msgstr "Pour YACS les recettes sont des articles ordinaires, complétés par quelques attributs complémentaires comme la liste des ingrédients, le nombre de convives, etc."
@@ -1389,60 +1028,19 @@ msgstr "Vous pouvez créer une seule section pour publier toutes vos recettes de
 #: help/populate.php:1493
 msgid "Use either a global name (eg, \"the family cookbook\") or, narrow it and create multiple sections (eg, \"Famous starters\", \"Main dishes\", ...)"
 msgstr "Indiquez un titre général (\"Les recettes de la famille\"), ou bien créez plusieurs sections (\"Entrées\", \"Desserts\" ...)"
-=======
-#: help/populate.php:1069
-msgid ""
-"With YACS, recipes are ordinary articles that have some extended attributes "
-"such as the list of ingredients, or the number of people to serve, etc."
-msgstr ""
-"Pour YACS les recettes sont des articles ordinaires, complétés par quelques "
-"attributs complémentaires comme la liste des ingrédients, le nombre de "
-"convives, etc."
-
-#: help/populate.php:1070
-msgid ""
-"You can either create only one section to host every cooking recipe posted "
-"at your site, or run this script several time and create a set of more "
-"specialised sections."
-msgstr ""
-"Vous pouvez créer une seule section pour publier toutes vos recettes de "
-"cuisine, ou bien, en exécutant ce script plusieurs fois, créer un jeu de "
-"sections spécialisées."
-
-#: help/populate.php:1086
-msgid ""
-"Use either a global name (eg, \"the family cookbook\") or, narrow it and "
-"create multiple sections (eg, \"Famous starters\", \"Main dishes\", ...)"
-msgstr ""
-"Indiquez un titre général (\"Les recettes de la famille\"), ou bien créez "
-"plusieurs sections (\"Entrées\", \"Desserts\" ...)"
->>>>>>> bernard357/master
 
 #: help/populate.php:1180
 msgid "Add server profiles"
 msgstr "Ajouter des serveurs"
 
-<<<<<<< HEAD
 #: help/populate.php:1595
 msgid "This script adds some public servers to be pinged when content is added to your server. Do not trigger this if your host is not visible from the Internet."
 msgstr "Ce script ajoute quelques serveurs publics à prévenir lorsque le contenu de votre serveur évolue. Ne cliquez pas sur le bouton ci-dessous si votre machine n'est pas visible depuis l'Internet."
-=======
-#: help/populate.php:1186
-msgid ""
-"This script adds some public servers to be pinged when content is added to "
-"your server. Do not trigger this if your host is not visible from the "
-"Internet."
-msgstr ""
-"Ce script ajoute quelques serveurs publics à prévenir lorsque le contenu de "
-"votre serveur évolue. Ne cliquez pas sur le bouton ci-dessous si votre "
-"machine n'est pas visible depuis l'Internet."
->>>>>>> bernard357/master
 
 #: help/populate.php:1230
 msgid "Servers"
 msgstr "Serveurs"
 
-<<<<<<< HEAD
 #: help/populate.php:1658
 #: help/populate.php:1928
 msgid "Add a page"
@@ -1451,61 +1049,27 @@ msgstr "Ajouter une page"
 #: help/populate.php:1664
 msgid "This script will create one single page to capture collective feed-back. What kind of support are you looking for?"
 msgstr "Ce script va créer une page spécialisée. Quel type de support recherchez-vous ?"
-=======
-#: help/populate.php:1249 help/populate.php:1511
-msgid "Add a page"
-msgstr "Ajouter une page"
-
-#: help/populate.php:1255
-msgid ""
-"This script will create one single page to capture collective feed-back. "
-"What kind of support are you looking for?"
-msgstr ""
-"Ce script va créer une page spécialisée. Quel type de support recherchez-"
-"vous ?"
->>>>>>> bernard357/master
 
 #: help/populate.php:1263
 msgid "Petition"
 msgstr "Pétition"
 
-<<<<<<< HEAD
 #: help/populate.php:1673
 msgid "Ideal to express a broad support of some idea. Every signature can be commented."
 msgstr "Idéal pour faire exprimer un consensus large sur une idée. Chaque signature peut-être commentée."
-=======
-#: help/populate.php:1264
-msgid ""
-"Ideal to express a broad support of some idea. Every signature can be "
-"commented."
-msgstr ""
-"Idéal pour faire exprimer un consensus large sur une idée. Chaque signature "
-"peut-être commentée."
->>>>>>> bernard357/master
 
 #: help/populate.php:1268
 msgid "Poll"
 msgstr "Sondage"
 
-<<<<<<< HEAD
 #: help/populate.php:1678
 msgid "The quickest way to identify trends. Any surfer can select among offered options, and YACS will sum up all clicks."
 msgstr "La façon la plus rapide pour dégager des tendances. Les surfeurs choisissent l'une des options proposées, et YACS comptabilise les clics."
-=======
-#: help/populate.php:1269
-msgid ""
-"The quickest way to identify trends. Any surfer can select among offered "
-"options, and YACS will sum up all clicks."
-msgstr ""
-"La façon la plus rapide pour dégager des tendances. Les surfeurs choisissent "
-"l'une des options proposées, et YACS comptabilise les clics."
->>>>>>> bernard357/master
 
 #: help/populate.php:1290
 msgid "Add a wiki"
 msgstr "Ajouter un wiki"
 
-<<<<<<< HEAD
 #: help/populate.php:1705
 msgid "With YACS, each wiki is an independant section, with options to limit the number of contributors or readers. Each post in a wiki may feature images, photos, files, comments, trackbacks and related links."
 msgstr "Avec YACS, chaque wiki est une section indépendante, avec des options pour limiter le nombre de contributeurs ou de lecteurs. Chaque page postée sur un wiki peut comporter des images, des photos, des fichiers, des commentaires ou des liens web."
@@ -1513,26 +1077,6 @@ msgstr "Avec YACS, chaque wiki est une section indépendante, avec des options p
 #: help/populate.php:1706
 msgid "You can either create one general-purpose wiki, or run this script several time and create a set of more specialised wikis."
 msgstr "Vous pouvez créer un wiki plutôt généraliste, ou bien, en exécutant ce script plusieurs fois, créer plusieurs wikis plus spécialisés."
-=======
-#: help/populate.php:1296
-msgid ""
-"With YACS, each wiki is an independant section, with options to limit the "
-"number of contributors or readers. Each post in a wiki may feature images, "
-"photos, files, comments, trackbacks and related links."
-msgstr ""
-"Avec YACS, chaque wiki est une section indépendante, avec des options pour "
-"limiter le nombre de contributeurs ou de lecteurs. Chaque page postée sur un "
-"wiki peut comporter des images, des photos, des fichiers, des commentaires "
-"ou des liens web."
-
-#: help/populate.php:1297
-msgid ""
-"You can either create one general-purpose wiki, or run this script several "
-"time and create a set of more specialised wikis."
-msgstr ""
-"Vous pouvez créer un wiki plutôt généraliste, ou bien, en exécutant ce "
-"script plusieurs fois, créer plusieurs wikis plus spécialisés."
->>>>>>> bernard357/master
 
 #: help/populate.php:1305
 msgid "Wiki anchor"
@@ -1558,7 +1102,6 @@ msgstr "Une description du sujet développé sur ce wiki."
 msgid "Anyone, including anonymous surfer, may contribute to this wiki."
 msgstr "Tout le monde, y compris les surfeurs anonymes, peut contribuer à ce wiki."
 
-<<<<<<< HEAD
 #: help/populate.php:1821
 msgid "Any surfer is allowed to contribute anonymously to this wiki. Internet robots are prevented to submit new posts, however you should continuously review content to avoid unappropriate material."
 msgstr "Tout surfeurs, même anonyme, est autorisé à contribuer librement. Vous devriez surveiller le contenu de votre wiki régulièrement pour éviter tout contenu inapproprié."
@@ -1570,55 +1113,14 @@ msgstr "Tout membre authentifié est autorisé à contribuer librement. Contrôl
 #: help/populate.php:1829
 msgid "You have selected to implement a private wiki. Assign individual members as editors of this wiki to enable contributions beyond associates."
 msgstr "Vous avez mis en place un wiki privé. Assignez individuellement les membres comme éditeurs de ce wiki pour élargir les contributions au-delà des associés."
-=======
-#: help/populate.php:1410
-msgid ""
-"Any surfer is allowed to contribute anonymously to this wiki. Internet "
-"robots are prevented to submit new posts, however you should continuously "
-"review content to avoid unappropriate material."
-msgstr ""
-"Tout surfeurs, même anonyme, est autorisé à contribuer librement. Vous "
-"devriez surveiller le contenu de votre wiki régulièrement pour éviter tout "
-"contenu inapproprié."
-
-#: help/populate.php:1414
-msgid ""
-"Any authenticated member of the community is allowed to contribute to this "
-"wiki. You should control community membership to avoid unappropriate "
-"material."
-msgstr ""
-"Tout membre authentifié est autorisé à contribuer librement. Contrôlez "
-"soigneusement les nouveaux membres pour éviter tout contenu inapproprié."
-
-#: help/populate.php:1418
-msgid ""
-"You have selected to implement a private wiki. Assign individual members as "
-"editors of this wiki to enable contributions beyond associates."
-msgstr ""
-"Vous avez mis en place un wiki privé. Assignez individuellement les membres "
-"comme éditeurs de ce wiki pour élargir les contributions au-delà des "
-"associés."
->>>>>>> bernard357/master
 
 #: help/populate.php:1426
 msgid "Access the new wiki"
 msgstr "Accéder au nouveau wiki"
 
-<<<<<<< HEAD
 #: help/populate.php:1855
 msgid "This script will help to structure content for your server. Please select below the action you would like to perform.Depending on your choice, the assistant may ask for additional parameters on successive panels."
 msgstr "Ce script va vous aider à étendre la structure de votre serveur. Choisissez ci-dessous l'action à effectuer. En fonction de votre choix, l'assistant pourra être amené à demander des paramètres complémentaires."
-=======
-#: help/populate.php:1444
-msgid ""
-"This script will help to structure content for your server. Please select "
-"below the action you would like to perform.Depending on your choice, the "
-"assistant may ask for additional parameters on successive panels."
-msgstr ""
-"Ce script va vous aider à étendre la structure de votre serveur. Choisissez "
-"ci-dessous l'action à effectuer. En fonction de votre choix, l'assistant "
-"pourra être amené à demander des paramètres complémentaires."
->>>>>>> bernard357/master
 
 #: help/populate.php:1450
 msgid "Sollicitate users input -- create a petition, or a poll"
@@ -1640,7 +1142,6 @@ msgstr "Ajouter un wiki -- et faciliter le travail en équipe sur un projet donn
 msgid "Post original work -- in a section that will feature author's profiles"
 msgstr "Publier des originaux -- dans une section qui présente les profils des auteurs."
 
-<<<<<<< HEAD
 #: help/populate.php:1876
 msgid "Add an electronic book, or a manual -- actually, a structured set of pages"
 msgstr "Ajouter un livre électronique -- en fait, une liste structurée de pages"
@@ -1656,29 +1157,6 @@ msgstr "Ajouter une section pour les sondages -- le plus récent est actif, les 
 #: help/populate.php:1886
 msgid "Add a section for partners -- the special people or sites that are supporting your site"
 msgstr "Ajouter une section pour les partenaires -- les serveurs et personnes qui sont favorables à votre site"
-=======
-#: help/populate.php:1465
-msgid ""
-"Add an electronic book, or a manual -- actually, a structured set of pages"
-msgstr ""
-"Ajouter un livre électronique -- en fait, une liste structurée de pages"
-
-#: help/populate.php:1468
-msgid ""
-"Add a section for polls -- the most recent is active; previous polls are "
-"still listed"
-msgstr ""
-"Ajouter une section pour les sondages -- le plus récent est actif, les "
-"précédents sont toujours listés"
-
-#: help/populate.php:1472
-msgid ""
-"Add a section for partners -- the special people or sites that are "
-"supporting your site"
-msgstr ""
-"Ajouter une section pour les partenaires -- les serveurs et personnes qui "
-"sont favorables à votre site"
->>>>>>> bernard357/master
 
 #: help/populate.php:1475
 msgid "Add a cookbook -- cooking recipes, the French secret to happiness"
@@ -1688,7 +1166,6 @@ msgstr "Ajouter un livre de recettes -- le secret du bonheur, au moins pour les 
 msgid "Add a directory of links -- a small version of Yahoo!, or of DMOZ"
 msgstr "Ajouter un répertoire de liens -- une version miniature de Yahoo! ou de DMOZ"
 
-<<<<<<< HEAD
 #: help/populate.php:1895
 msgid "Add a collection -- and share available files, enable audio and video on-demand, and slideshows"
 msgstr "Ajouter une collection -- et partager les fichiers disponibles, autoriser audio et vidéo à la demande, ainsi que les diaporamas"
@@ -1700,29 +1177,11 @@ msgstr "Ajouter quelques serveurs -- pour avertir les aggrégateurs les plus fam
 #: help/populate.php:1901
 msgid "Add basic items -- in case you would need to replay some steps of the setup process"
 msgstr "Ajouter les éléments de base -- pour répéter certaines étapes de l'installation initiale si besoin"
-=======
-#: help/populate.php:1481
-msgid ""
-"Add sample server profiles -- ping well-known news aggregator and become "
-"famous"
-msgstr ""
-"Ajouter quelques serveurs -- pour avertir les aggrégateurs les plus fameux "
-"de vos publications"
-
-#: help/populate.php:1484
-msgid ""
-"Add basic items -- in case you would need to replay some steps of the setup "
-"process"
-msgstr ""
-"Ajouter les éléments de base -- pour répéter certaines étapes de "
-"l'installation initiale si besoin"
->>>>>>> bernard357/master
 
 #: help/populate.php:1488
 msgid "Add sample items -- for test purpose"
 msgstr "Ajouter des exemples -- seulement pour faire des tests"
 
-<<<<<<< HEAD
 #: help/populate.php:1914
 msgid "Turn any regular section to a photo album by adding images to posted pages."
 msgstr "Transformez n'importe quelle section ordinaire en album photo en ajoutant des images aux pages qui y sont postées."
@@ -1730,26 +1189,6 @@ msgstr "Transformez n'importe quelle section ordinaire en album photo en ajoutan
 #: help/populate.php:1915
 msgid "YACS creates weekly and monthly archives automatically. No specific action is required to create these."
 msgstr "YACS crée les archives hebdomadaires et mensuelles automatiquement. Vous n'avez rien à faire de particulier pour cela."
-=======
-#: help/populate.php:1491
-msgid "Next step"
-msgstr "Etape suivante"
-
-#: help/populate.php:1497
-msgid ""
-"Turn any regular section to a photo album by adding images to posted pages."
-msgstr ""
-"Transformez n'importe quelle section ordinaire en album photo en ajoutant "
-"des images aux pages qui y sont postées."
-
-#: help/populate.php:1498
-msgid ""
-"YACS creates weekly and monthly archives automatically. No specific action "
-"is required to create these."
-msgstr ""
-"YACS crée les archives hebdomadaires et mensuelles automatiquement. Vous "
-"n'avez rien à faire de particulier pour cela."
->>>>>>> bernard357/master
 
 #: help/populate.php:1503
 msgid "Of course, you may also use regular editors to create simple items:"
@@ -1763,7 +1202,6 @@ msgstr "Ajouter une catégorie"
 msgid "Shortcuts"
 msgstr "Raccourcis"
 
-<<<<<<< HEAD
 #~ msgid "Should content of this section be displayed at the front page?"
 #~ msgstr ""
 #~ "Le contenu de cette section devrait-il être affiché sur la page "
@@ -1774,251 +1212,6 @@ msgstr "Raccourcis"
 
 #~ msgid "No"
 #~ msgstr "Non"
-=======
-#~ msgid "Content of this section should be:"
-#~ msgstr "Le contenu de cette section est :"
-
-#~ msgid "displayed in the main panel"
-#~ msgstr "affiché dans la zone principale"
-
-#~ msgid "listed in the main panel, in a gadget box"
-#~ msgstr "listé dans la zone principale, dans une boîte gadget"
-
-#~ msgid "listed on page side, in an extra box"
-#~ msgstr "listé sur le côté de la page, dans une boîte extra"
-
-#~ msgid "Add a collection"
-#~ msgstr "Ajouter une collection"
-
-#~ msgid "YACS may turn your web site to a straightforward media server."
-#~ msgstr "YACS peut transformer votre site web en serveur multimédia."
-
-#~ msgid ""
-#~ "Define a collection to publicly share some directory of the server hard "
-#~ "drive. Then YACS will build nice index pages to list available files, and "
-#~ "allow for immediate download. Where applicable, files will also be "
-#~ "streamed to workstations through automatic playlists."
-#~ msgstr ""
-#~ "Définissez une collection pour partager l'un des répertoires du disque "
-#~ "dur du serveur. YACS dressera automatiquement la liste des fichiers "
-#~ "disponibles, pour permettre le transfert instantané. Certains types de "
-#~ "fichiers seront envoyés en streaming au travers de playlists automatiques."
-
-#~ msgid ""
-#~ "This assistant is aiming to help you create your very first collection. "
-#~ "Since some collection has already been defined, please use %s and add a "
-#~ "new definition."
-#~ msgstr ""
-#~ "Cet assistant a été conçu pour votre première collection. Puisque quelque "
-#~ "collection a déjà été définie, merci d'utiliser plutôt %s pour ajouter "
-#~ "une nouvelle définition."
-
-#~ msgid "the dedicated configuration panel"
-#~ msgstr "le panneau de configuration dédié"
-
-#~ msgid "Collection nick name"
-#~ msgstr "Nom de la collection"
-
-#~ msgid "my_collection"
-#~ msgstr "ma_collection"
-
-#~ msgid ""
-#~ "Prepended to the path of each file of the collection. Short and meaningful"
-#~ msgstr ""
-#~ "Inséré devant le chemin d'accès aux fichiers de la collection. Court de "
-#~ "préférence"
-
-#~ msgid "Label"
-#~ msgstr "Label"
-
-#~ msgid "My Collection"
-#~ msgstr "Ma collection"
-
-#~ msgid ""
-#~ "Used at index pages, and at the top of each page generated for this "
-#~ "collection"
-#~ msgstr ""
-#~ "Utilisé sur les pages d'index, et en haut de chaque page de cette "
-#~ "collection"
-
-#~ msgid "Path prefix"
-#~ msgstr "Préfixe de chemin"
-
-#~ msgid "Local access to files; YACS installation directory is at \"%s\""
-#~ msgstr ""
-#~ "Accès local aux fichiers. Le répertoire d'installation de YACS est \"%s\""
-
-#~ msgid "URL prefix"
-#~ msgstr "Préfixe d'URL"
-
-#~ msgid ""
-#~ "The ftp:// or http:// address used to access the collection, pointing to "
-#~ "the same place than the path prefix"
-#~ msgstr ""
-#~ "L'adresse ftp:// ou http:// utilisée pour accèder à la collection, qui "
-#~ "pointe au même endroit que le préfixe de chemin"
-
-#~ msgid "Public files to download"
-#~ msgstr "Fichiers à télécharger"
-
-#~ msgid "To be used at the front page and on the collections index page"
-#~ msgstr "Pour la page d'accueil et pour l'index de toutes les collections"
-
-#~ msgid ""
-#~ "Click on file names to transfer them to your workstation, or to start a "
-#~ "Video-on-demand session."
-#~ msgstr ""
-#~ "Cliquez sur un nom de fichier pour le transférer vers votre machine, ou "
-#~ "pour déclencher une session de vidéo à la demande."
-
-#~ msgid "To be inserted in the index page of this collection"
-#~ msgstr "Inséré dans la page d'index de cette collection"
-
-#~ msgid "You must name this collection."
-#~ msgstr "Vous devez nommer cette section"
-
-#~ msgid ""
-#~ "ERROR: Impossible to write to the file %s. The configuration has not been "
-#~ "saved."
-#~ msgstr ""
-#~ "ERREUR : Impossible d'écrire dans le fichier %s. La configuration n'a pas "
-#~ "été sauvegardée."
-
-#~ msgid ""
-#~ "To actually change the configuration, please copy and paste following "
-#~ "lines by yourself in file %s."
-#~ msgstr ""
-#~ "Pour changer la configuration, merci de copier et de coller les lignes "
-#~ "suivantes dans le fichier %s :"
-
-#~ msgid "Configuration parameters"
-#~ msgstr "Paramètres de configuration"
-
-#~ msgid "%s has been updated"
-#~ msgstr "%s a été mis à jour"
-
-#~ msgid "Access the new collection"
-#~ msgstr "Accéder à la nouvelle collection"
-
-#~ msgid "File collections"
-#~ msgstr "Collections de fichiers"
-
-#~ msgid "YACS allows for composite section index pages."
-#~ msgstr "YACS sait gérer des index de section sophistiqués."
-
-#~ msgid ""
-#~ "Use this assistant to create one main section, plus companion components, "
-#~ "to better suit your needs. Of course, sections can be changed, deleted or "
-#~ "added individually afterwards."
-#~ msgstr ""
-#~ "Utilisez cet assistant pour créer conjointement une section principale, "
-#~ "plus des composants associés, répondant à vos besoins de mise en page. "
-#~ "Bien entendu, ceci peut être changé après coup en cas de besoin."
-
-#~ msgid "Section"
-#~ msgstr "Section"
-
-#~ msgid "Appears at the section index page"
-#~ msgstr "Apparaît sur la page d'index de la section"
-
-#~ msgid "Companion sections"
-#~ msgstr "Composants annexes"
-
-#~ msgid ""
-#~ "Add one or several specialized sub-sections, depending of your "
-#~ "requirements. It is safe to create all suggested sections, even if you do "
-#~ "not need them right now."
-#~ msgstr ""
-#~ "Ajoutez une ou plusieurs sous-sections spécialisées en fonction de vos "
-#~ "besoins. Il n'y a aucun danger à créer toutes les sections suggérées, "
-#~ "même si vous n'en avez pas encore l'utilité."
-
-#~ msgid "Side news"
-#~ msgstr "Nouvelles"
-
-#~ msgid ""
-#~ "Add a companion section to post articles that will appear in the news "
-#~ "panel of the parent section"
-#~ msgstr ""
-#~ "Ajouter une section annexe pour les articles dans la zone des nouvelles "
-#~ "de la section parente"
-
-#~ msgid "Flashy news"
-#~ msgstr "Dernières nouvelles"
-
-#~ msgid ""
-#~ "Post here articles that will appear in the news panel of the parent "
-#~ "section"
-#~ msgstr ""
-#~ "Poster ici les articles qui apparaîtront dans la zone des nouvelles de la "
-#~ "section parente"
-
-#~ msgid "Gadget boxes"
-#~ msgstr "Boîtes gadget"
-
-#~ msgid ""
-#~ "Add a companion section to post articles that will appear in individual "
-#~ "gadget boxes"
-#~ msgstr ""
-#~ "Ajouter une section annexe pour les articles affichés individuellement "
-#~ "dans des boîtes gadgets"
-
-#~ msgid ""
-#~ "Post here articles that will appear in individual gadget boxes, in the "
-#~ "middle of the index page of the parent section"
-#~ msgstr ""
-#~ "Poster ici les articles qui apparaîtront individuellement dans des boîtes "
-#~ "gadget, au milieu de l'index de la section parente"
-
-#~ msgid "Extra boxes"
-#~ msgstr "Boîtes extra"
-
-#~ msgid ""
-#~ "Add a companion section to post articles that will appear in individual "
-#~ "extra boxes"
-#~ msgstr ""
-#~ "Ajouter une section annexe pour les articles affichés individuellement "
-#~ "dans des boîtes extra"
-
-#~ msgid ""
-#~ "Post here articles that will appear in individual extra boxes, aside the "
-#~ "index of the parent section"
-#~ msgstr ""
-#~ "Poster ici les articles qui apparaîtront individuellement dans des boîtes "
-#~ "extra, sur le côté de l'index de la section parente"
-
-#~ msgid "sample"
-#~ msgstr "exemple"
-
-#~ msgid "This is a sample scrolling news."
-#~ msgstr "Ceci est un exemple de nouvelle défilante."
-
-#~ msgid "Gadget box"
-#~ msgstr "Boîte gadget"
-
-#~ msgid "This is a sample gadget box."
-#~ msgstr "Ceci est une boîte gadget d'exemple"
-
-#~ msgid "Sample box"
-#~ msgstr "Boîte d'exemple"
-
-#~ msgid "This is a sample extra box."
-#~ msgstr "Ceci est une boîte extra d'exemple"
-
-#~ msgid ""
-#~ "Add a composite section -- with scrolling news, plus gadget and extra "
-#~ "boxes"
-#~ msgstr ""
-#~ "Ajouter une section complexe -- avec des nouvelles défilantes, plus des "
-#~ "boîtes gadget et extra"
-
-#~ msgid ""
-#~ "Add a collection -- and share available files, enable audio and video on-"
-#~ "demand, and slideshows"
-#~ msgstr ""
-#~ "Ajouter une collection -- et partager les fichiers disponibles, autoriser "
-#~ "audio et vidéo à la demande, ainsi que les diaporamas"
->>>>>>> bernard357/master
 
 #~ msgid "Vote"
 #~ msgstr "Vote"
