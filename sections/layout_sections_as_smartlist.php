@@ -13,6 +13,7 @@
  * Yacs Lasares RC4 or more required
  *
  * @author Alexis Raimbault
+ * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 Class Layout_sections_as_smartlist extends Layout_interface {
