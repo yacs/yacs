@@ -2,14 +2,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-<<<<<<< HEAD
 "POT-Creation-Date: 2013-05-07 10:32+0200\n"
-=======
-"POT-Creation-Date: 2013-04-30 23:53+0200\n"
->>>>>>> bernard357/master
 "PO-Revision-Date: 2013-05-01 00:11+0100\n"
 "Last-Translator: Bernard Paques <bernard.paques@gmail.com>\n"
-"Language-Team: Agnès Rambaud, Bernard Paques\n"
+"Language-Team: Agnès Rambaud, Alexis Raimbault, Bernard Paques\n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -38,21 +34,13 @@ msgid "Control Panel"
 msgstr "Panneau de contrôle"
 
 #: control/backup.php:98 control/backup.php:365 control/backup.php:473
-<<<<<<< HEAD
 #: control/backup.php:577 control/index.php:892
-=======
-#: control/backup.php:577 control/index.php:860
->>>>>>> bernard357/master
 msgid "Backup/Restore"
 msgstr "Sauvegarde/Restauration"
 
 #: control/backup.php:107 control/chmod.php:39 control/configure.php:224
 #: control/import.php:32 control/info.php:58 control/populate.php:119
-<<<<<<< HEAD
 #: control/purge.php:201 control/scan.php:221 control/setup.php:116
-=======
-#: control/purge.php:201 control/scan.php:221 control/setup.php:114
->>>>>>> bernard357/master
 #: control/switch.php:50 control/test.php:66 control/virtual.php:66
 #: control/htaccess/index.php:29
 msgid "You are not allowed to perform this operation."
@@ -490,13 +478,8 @@ msgstr "Cacher les éléments calculés pour accélérer le rendu des pages."
 msgid "Compute all page elements."
 msgstr "Recalculer tous les éléments de pages."
 
-<<<<<<< HEAD
 #: control/configure.php:396 control/index.php:268 control/index.php:741
 #: control/index.php:886
-=======
-#: control/configure.php:396 control/index.php:265 control/index.php:712
-#: control/index.php:854
->>>>>>> bernard357/master
 msgid "Background processing"
 msgstr "Traitements d'arrière-plan"
 
@@ -783,11 +766,7 @@ msgstr "la page d'index des styles"
 msgid "Database"
 msgstr "Base de données"
 
-<<<<<<< HEAD
 #: control/configure.php:717 control/index.php:921
-=======
-#: control/configure.php:717 control/index.php:889
->>>>>>> bernard357/master
 msgid "System"
 msgstr "Système"
 
@@ -859,11 +838,7 @@ msgstr ""
 msgid "%s has been updated"
 msgstr "%s a été mis à jour"
 
-<<<<<<< HEAD
 #: control/configure.php:908 control/index.php:282 control/switch.php:114
-=======
-#: control/configure.php:908 control/index.php:279 control/switch.php:114
->>>>>>> bernard357/master
 #: control/virtual.php:113 control/virtual.php:202 control/virtual.php:222
 msgid "Configuration"
 msgstr "Configuration"
@@ -884,11 +859,7 @@ msgstr "Où voulez-vous aller à présent ?"
 msgid "Configure again"
 msgstr "Configurer de nouveau"
 
-<<<<<<< HEAD
 #: control/import.php:23 control/index.php:718
-=======
-#: control/import.php:23 control/index.php:689
->>>>>>> bernard357/master
 msgid "Import XML content"
 msgstr "Importer du contenu XML"
 
@@ -1057,11 +1028,7 @@ msgstr "Apache .htaccess"
 msgid "%s - define permissions given to people"
 msgstr "%s - définir les permissions des utilisateurs"
 
-<<<<<<< HEAD
 #: control/index.php:235 control/index.php:937
-=======
-#: control/index.php:235 control/index.php:905
->>>>>>> bernard357/master
 msgid "People"
 msgstr "Personnes"
 
@@ -1098,19 +1065,13 @@ msgstr "Flash"
 msgid "%s - enhance information provided through RSS"
 msgstr "%s - enrichir l'information transmise par RSS"
 
-<<<<<<< HEAD
 #: control/index.php:247 control/index.php:725 control/populate.php:646
 #: control/populate.php:649
-=======
-#: control/index.php:247 control/index.php:696 control/populate.php:637
-#: control/populate.php:640
->>>>>>> bernard357/master
 msgid "Information channels"
 msgstr "Fils d'information"
 
 #: control/index.php:250
 #, php-format
-<<<<<<< HEAD
 msgid "%s - to share and stream existing directories and files"
 msgstr "%s - pour partager des répertoires existants"
 
@@ -1120,8 +1081,6 @@ msgstr "Collections de fichiers"
 
 #: control/index.php:253
 #, php-format
-=======
->>>>>>> bernard357/master
 msgid ""
 "%s - to extend accepted types and to make uploaded files available from FTP"
 msgstr ""
@@ -1136,11 +1095,7 @@ msgstr "Fichiers"
 msgid "%s - change the template used for newsletters"
 msgstr "%s - modifier le modèle utilisé pour préparer les nouvelles lettres"
 
-<<<<<<< HEAD
 #: control/index.php:256 control/index.php:677
-=======
-#: control/index.php:253 control/index.php:652
->>>>>>> bernard357/master
 msgid "Newsletters"
 msgstr "Lettres d'information"
 
@@ -1173,11 +1128,7 @@ msgstr "Serveurs virtuels"
 msgid "%s - change parameters for back-end services"
 msgstr "%s - modifier le comportement des services web"
 
-<<<<<<< HEAD
 #: control/index.php:262 control/index.php:728
-=======
-#: control/index.php:259 control/index.php:699
->>>>>>> bernard357/master
 msgid "Web services"
 msgstr "Services web"
 
@@ -1230,7 +1181,6 @@ msgstr "Premier enregistrement"
 msgid "Last record"
 msgstr "Dernier enregistrement"
 
-<<<<<<< HEAD
 #: control/index.php:304 control/index.php:315 control/index.php:326
 #: control/index.php:337 control/index.php:348 control/index.php:359
 #: control/index.php:370 control/index.php:381 control/index.php:396
@@ -1244,69 +1194,33 @@ msgid "unknown or empty table"
 msgstr "table inexistante ou vide"
 
 #: control/index.php:642
-=======
-#: control/index.php:301 control/index.php:312 control/index.php:323
-#: control/index.php:334 control/index.php:345 control/index.php:356
-#: control/index.php:367 control/index.php:382 control/index.php:397
-#: control/index.php:408 control/index.php:419 control/index.php:430
-#: control/index.php:441 control/index.php:452 control/index.php:463
-#: control/index.php:474 control/index.php:486 control/index.php:498
-#: control/index.php:509 control/index.php:520 control/index.php:531
-#: control/index.php:542 control/index.php:553 control/index.php:564
-#: control/index.php:575
-msgid "unknown or empty table"
-msgstr "table inexistante ou vide"
-
-#: control/index.php:617
->>>>>>> bernard357/master
 #, php-format
 msgid "%d tables and %d records in %sbytes"
 msgstr "%d tables et %d enregistrements dans %soctets"
 
-<<<<<<< HEAD
 #: control/index.php:643
-=======
-#: control/index.php:618
->>>>>>> bernard357/master
 #, php-format
 msgid "(%sbytes data, %sbytes index, %sbytes unused)"
 msgstr "(%soctets de données, %soctets d'index, %soctets inutilisés)"
 
-<<<<<<< HEAD
 #: control/index.php:647
 msgid "Overview"
 msgstr "Aperçu"
 
 #: control/index.php:657
-=======
-#: control/index.php:622
-msgid "Overview"
-msgstr "Aperçu"
-
-#: control/index.php:632
->>>>>>> bernard357/master
 #, php-format
 msgid "Please %s to benefit from all contribution tools provided by this site."
 msgstr "Merci de vous %s pour accéder aux outils disponibles sur ce site."
 
-<<<<<<< HEAD
 #: control/index.php:657
 msgid "authenticate"
 msgstr "authentifier"
 
 #: control/index.php:661
-=======
-#: control/index.php:632
-msgid "authenticate"
-msgstr "authentifier"
-
-#: control/index.php:636
->>>>>>> bernard357/master
 #, php-format
 msgid "%s if you have not yet a profile for yourself at %s."
 msgstr "%s si vous n'êtes pas encore de profil sur %s."
 
-<<<<<<< HEAD
 #: control/index.php:661
 msgid "Click here to register"
 msgstr "Cliquez ici pour vous enregistrer"
@@ -1316,43 +1230,20 @@ msgid "Express yourself"
 msgstr "Exprimez-vous"
 
 #: control/index.php:673
-=======
-#: control/index.php:636
-msgid "Click here to register"
-msgstr "Cliquez ici pour vous enregistrer"
-
-#: control/index.php:639
-msgid "Express yourself"
-msgstr "Exprimez-vous"
-
-#: control/index.php:648
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - articles waiting for publication, pending requests"
 msgstr "%s - pages à publier, requêtes en attente"
 
-<<<<<<< HEAD
 #: control/index.php:673
 msgid "Review queue"
 msgstr "Pages en attente"
 
 #: control/index.php:677
-=======
-#: control/index.php:648
-msgid "Review queue"
-msgstr "Pages en attente"
-
-#: control/index.php:652
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - broadcast digests and announcements by e-mail"
 msgstr "%s - envoyer des résumés et des annonces par courrier électronique"
 
-<<<<<<< HEAD
 #: control/index.php:683
-=======
-#: control/index.php:658
->>>>>>> bernard357/master
 #, php-format
 msgid ""
 "%s - select a section and type some text, then add images, files and links"
@@ -1360,7 +1251,6 @@ msgstr ""
 "%s - selectionnez une section et tapez un peu de texte, puis ajoutez des "
 "images, des fichiers et des liens"
 
-<<<<<<< HEAD
 #: control/index.php:683 control/populate.php:776
 msgid "Add a page"
 msgstr "Ajouter une page"
@@ -1377,35 +1267,19 @@ msgid "Use a form"
 msgstr "Utiliser un formulaire"
 
 #: control/index.php:690
-=======
-#: control/index.php:658 control/populate.php:767
-msgid "Add a page"
-msgstr "Ajouter une page"
-
-#: control/index.php:664
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - create blogs, wikis, forums, and more"
 msgstr "%s - crée des blogs, des wikis, des forums, et bien d'autres choses"
 
-<<<<<<< HEAD
 #: control/index.php:690 control/populate.php:108
 msgid "Content Assistant"
 msgstr "Assistant de contenu"
 
 #: control/index.php:694
-=======
-#: control/index.php:664 control/populate.php:108
-msgid "Content Assistant"
-msgstr "Assistant de contenu"
-
-#: control/index.php:668
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - you may enhance %s of some sections"
 msgstr "%s - vous pouvez ajouter les %s pour certaines sections"
 
-<<<<<<< HEAD
 #: control/index.php:695 control/index.php:935 control/populate.php:731
 msgid "Site map"
 msgstr "Carte du site"
@@ -1415,22 +1289,10 @@ msgid "behaviors"
 msgstr "comportements"
 
 #: control/index.php:700
-=======
-#: control/index.php:669 control/index.php:903 control/populate.php:722
-msgid "Site map"
-msgstr "Carte du site"
-
-#: control/index.php:670
-msgid "behaviors"
-msgstr "comportements"
-
-#: control/index.php:674
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - some have %s"
 msgstr "%s - certaines ont des %s"
 
-<<<<<<< HEAD
 #: control/index.php:701
 msgid "Template pages"
 msgstr "Pages modèles"
@@ -1440,22 +1302,10 @@ msgid "overlays"
 msgstr "Overlays"
 
 #: control/index.php:706
-=======
-#: control/index.php:675
-msgid "Template pages"
-msgstr "Pages modèles"
-
-#: control/index.php:676
-msgid "overlays"
-msgstr "Overlays"
-
-#: control/index.php:680
->>>>>>> bernard357/master
 #, php-format
 msgid "%s, including: %s, %s, %s and %s"
 msgstr "%s, y compris %s, %s, %s et %s"
 
-<<<<<<< HEAD
 #: control/index.php:707 control/populate.php:322
 msgid "Global pages"
 msgstr "Pages globales"
@@ -1482,141 +1332,66 @@ msgid "%s - shared directories and files"
 msgstr "%s - répertoires et fichiers partagés"
 
 #: control/index.php:718
-=======
-#: control/index.php:681 control/populate.php:319
-msgid "Global pages"
-msgstr "Pages globales"
-
-#: control/index.php:682
-msgid "the cover page"
-msgstr "la page de couverture"
-
-#: control/index.php:683 control/populate.php:717
-msgid "Menu"
-msgstr "Menu"
-
-#: control/index.php:684 control/populate.php:478
-msgid "About this site"
-msgstr "A propos de ce site"
-
-#: control/index.php:685 control/populate.php:738
-msgid "Privacy statement"
-msgstr "Protection de la vie privée"
-
-#: control/index.php:689
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - exported from another server"
 msgstr "%s - exporté depuis un autre serveur"
 
-<<<<<<< HEAD
 #: control/index.php:722
-=======
-#: control/index.php:693
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - update the database"
 msgstr "%s - pour une table de la base de données"
 
-<<<<<<< HEAD
 #: control/index.php:722
 msgid "Upload a .CSV file"
 msgstr "Téléverser un fichier .CSV"
 
 #: control/index.php:725
-=======
-#: control/index.php:693
-msgid "Upload a .CSV file"
-msgstr "Téléverser un fichier .CSV"
-
-#: control/index.php:696
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - all feeds available (RSS, ATOM)"
 msgstr "%s - tous les flux d'information (RSS, ATOM)"
 
-<<<<<<< HEAD
 #: control/index.php:728
-=======
-#: control/index.php:699
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - connect remote computers through XML-RPC or REST"
 msgstr "%s - connecter les ordinateurs distants par XML-RPC ou REST"
 
-<<<<<<< HEAD
 #: control/index.php:731
-=======
-#: control/index.php:702
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - codes you can use to beautify your pages"
 msgstr "%s - les codes que vous pouvez utiliser dans vos pages"
 
-<<<<<<< HEAD
 #: control/index.php:731
 msgid "Codes"
 msgstr "Codes"
 
 #: control/index.php:734
-=======
-#: control/index.php:702
-msgid "Codes"
-msgstr "Codes"
-
-#: control/index.php:705
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - smileys available for your posts"
 msgstr "%s - les émoticons pour exprimer vos sentiments"
 
-<<<<<<< HEAD
 #: control/index.php:734
 msgid "Smileys"
 msgstr "Emoticons"
 
 #: control/index.php:737
-=======
-#: control/index.php:705
-msgid "Smileys"
-msgstr "Emoticons"
-
-#: control/index.php:708
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - some pictures you may choose for your profile"
 msgstr "%s - quelques images à utiliser sur votre profil"
 
-<<<<<<< HEAD
 #: control/index.php:737
 msgid "Avatars"
 msgstr "Avatars"
 
 #: control/index.php:741
-=======
-#: control/index.php:708
-msgid "Avatars"
-msgstr "Avatars"
-
-#: control/index.php:712
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - learn about your visitors"
 msgstr "%s - en savoir plus sur vos visiteurs"
 
-<<<<<<< HEAD
 #: control/index.php:744
 msgid "Content management"
 msgstr "Gestion de contenu"
 
 #: control/index.php:750
-=======
-#: control/index.php:715
-msgid "Content management"
-msgstr "Gestion de contenu"
-
-#: control/index.php:721
->>>>>>> bernard357/master
 msgid ""
 "To install following bookmarklets, right-click over them and add them to "
 "your bookmarks or favorites. Then recall them at any time while browsing the "
@@ -1626,29 +1401,17 @@ msgstr ""
 "et les ajouter à vos signets ou favoris. Ils seront ainsi disponibles à tout "
 "moment pour référencer une page trouvée sur Internet sur ce serveur."
 
-<<<<<<< HEAD
 #: control/index.php:761
-=======
-#: control/index.php:732
->>>>>>> bernard357/master
 #, php-format
 msgid "Blog at %s"
 msgstr "Blog à %s"
 
-<<<<<<< HEAD
 #: control/index.php:772
-=======
-#: control/index.php:743
->>>>>>> bernard357/master
 #, php-format
 msgid "Bookmark at %s"
 msgstr "Enregistrer le signet à %s"
 
-<<<<<<< HEAD
 #: control/index.php:778
-=======
-#: control/index.php:749
->>>>>>> bernard357/master
 #, php-format
 msgid ""
 "If your browser supports side panels and javascript, click on the following "
@@ -1657,19 +1420,11 @@ msgstr ""
 "Si votre navigateur supporte les panneaux de côté et javascript, vous pouvez "
 "cliquer sur le lien qui suit pour %s."
 
-<<<<<<< HEAD
 #: control/index.php:778
 msgid "add a blogging panel"
 msgstr "ajouter un panneau de blog"
 
 #: control/index.php:787
-=======
-#: control/index.php:749
-msgid "add a blogging panel"
-msgstr "ajouter un panneau de blog"
-
-#: control/index.php:758
->>>>>>> bernard357/master
 msgid ""
 "The panel has been added. You may have to ask your browser to make it "
 "visible (Ctrl-B for Firefox)."
@@ -1677,11 +1432,7 @@ msgstr ""
 "Le panneau a été ajouté. Vous pouvez avoir à le faire afficher (Ctrl-B pour "
 "Firefox)."
 
-<<<<<<< HEAD
 #: control/index.php:794
-=======
-#: control/index.php:765
->>>>>>> bernard357/master
 msgid ""
 "Your browser does not support side panels. Have you considered to upgrade to "
 "Mozilla Firefox?"
@@ -1689,7 +1440,6 @@ msgstr ""
 "Votre navigateur ne supporte pas les panneaux latéraux. Voulez-vous évoluer "
 "vers Mozilla Firefox ?"
 
-<<<<<<< HEAD
 #: control/index.php:803
 #, php-format
 msgid ""
@@ -1718,27 +1468,11 @@ msgid "Server time zone"
 msgstr "Fuseau horaire du serveur"
 
 #: control/index.php:860
-=======
-#: control/index.php:774
-msgid "Blogging tools"
-msgstr "Outils de blog"
-
-#: control/index.php:778
-msgid "Content"
-msgstr "Contenu"
-
-#: control/index.php:827
-msgid "Server time zone"
-msgstr "Fuseau horaire du serveur"
-
-#: control/index.php:828
->>>>>>> bernard357/master
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "heure"
 msgstr[1] "heure"
 
-<<<<<<< HEAD
 #: control/index.php:866 control/info.php:107
 msgid "Memory"
 msgstr "Mémoire"
@@ -1748,188 +1482,99 @@ msgid "System overview"
 msgstr "Aperçu du système"
 
 #: control/index.php:881
-=======
-#: control/index.php:834 control/info.php:107
-msgid "Memory"
-msgstr "Mémoire"
-
-#: control/index.php:843
-msgid "System overview"
-msgstr "Aperçu du système"
-
-#: control/index.php:849
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - basic view of the system"
 msgstr "%s - les éléments de base du système"
 
-<<<<<<< HEAD
 #: control/index.php:881
 msgid "Test"
 msgstr "Test"
 
 #: control/index.php:885
-=======
-#: control/index.php:849
-msgid "Test"
-msgstr "Test"
-
-#: control/index.php:853
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - phpinfo() and more"
 msgstr "%s - phpinfo() et autres"
 
-<<<<<<< HEAD
 #: control/index.php:885 control/info.php:45
 msgid "Run-time information"
 msgstr "Environnement d'exécution"
 
 #: control/index.php:886
-=======
-#: control/index.php:853 control/info.php:45
-msgid "Run-time information"
-msgstr "Environnement d'exécution"
-
-#: control/index.php:854
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - operation summary"
 msgstr "%s - résumé des actions effectuées"
 
-<<<<<<< HEAD
 #: control/index.php:892
-=======
-#: control/index.php:860
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - the safety tool; also useful to submit bulk SQL statements"
 msgstr "%s - l'outil de sécurité indispensable"
 
-<<<<<<< HEAD
 #: control/index.php:894
-=======
-#: control/index.php:862
->>>>>>> bernard357/master
 #, php-format
 msgid ""
 "%s - check the database structure; also optimize data tables and update index"
 msgstr "%s - vérifie et optimise la structure de la base de données"
 
-<<<<<<< HEAD
 #: control/index.php:894 control/scan.php:783 control/scan.php:802
 #: control/setup.php:102
 msgid "Database maintenance"
 msgstr "Maintenance de la base de données"
 
 #: control/index.php:896
-=======
-#: control/index.php:862 control/scan.php:783 control/scan.php:802
-#: control/setup.php:100
-msgid "Database maintenance"
-msgstr "Maintenance de la base de données"
-
-#: control/index.php:864
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - clear the cache or delete what can be safely deleted"
 msgstr "%s - vider le cache ou supprimer l'inutile"
 
-<<<<<<< HEAD
 #: control/index.php:896 control/purge.php:70
 msgid "Purge"
 msgstr "Purge"
 
 #: control/index.php:898
-=======
-#: control/index.php:864 control/purge.php:70
-msgid "Purge"
-msgstr "Purge"
-
-#: control/index.php:866
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - shut the server down, or fire it up again"
 msgstr "%s - stopper et redémarrer votre serveur"
 
-<<<<<<< HEAD
 #: control/index.php:898
 msgid "Switch"
 msgstr "Interrupteur"
 
 #: control/index.php:902
-=======
-#: control/index.php:866
-msgid "Switch"
-msgstr "Interrupteur"
-
-#: control/index.php:870
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - some upgrades are waiting for execution"
 msgstr "%s - il y a des mises à jour en attente"
 
-<<<<<<< HEAD
 #: control/index.php:902
 msgid "Run once"
 msgstr "Exécution unique"
 
 #: control/index.php:905
-=======
-#: control/index.php:870
-msgid "Run once"
-msgstr "Exécution unique"
-
-#: control/index.php:873
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - server software"
 msgstr "%s - gestionnaire du serveur"
 
-<<<<<<< HEAD
 #: control/index.php:907
-=======
-#: control/index.php:875
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - plugins and other pieces of software hooked into yacs"
 msgstr "%s - plugins et autres éléments intégrés dans Yacs"
 
-<<<<<<< HEAD
 #: control/index.php:907 control/populate.php:850
 msgid "Extensions"
 msgstr "Extensions"
 
 #: control/index.php:909
-=======
-#: control/index.php:875 control/populate.php:841
-msgid "Extensions"
-msgstr "Extensions"
-
-#: control/index.php:877
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - change permissions of files"
 msgstr "%s - changer les permissions des fichiers"
 
-<<<<<<< HEAD
 #: control/index.php:909
 msgid "Permissions"
 msgstr "Permissions"
 
 #: control/index.php:911
-=======
-#: control/index.php:877
-msgid "Permissions"
-msgstr "Permissions"
-
-#: control/index.php:879
->>>>>>> bernard357/master
 #, php-format
 msgid "%s - other commands"
 msgstr "%s - autres commandes"
 
-<<<<<<< HEAD
 #: control/index.php:911
 msgid "Tools"
 msgstr "Outils"
@@ -1951,29 +1596,6 @@ msgid "See also"
 msgstr "Voir aussi"
 
 #: control/index.php:993
-=======
-#: control/index.php:879
-msgid "Tools"
-msgstr "Outils"
-
-#: control/index.php:885
-msgid "System management"
-msgstr "Gestion du serveur"
-
-#: control/index.php:904 control/populate.php:468 control/populate.php:723
-msgid "Categories"
-msgstr "Catégories"
-
-#: control/index.php:911 control/populate.php:724
-msgid "Help"
-msgstr "Aide"
-
-#: control/index.php:914
-msgid "See also"
-msgstr "Voir aussi"
-
-#: control/index.php:957
->>>>>>> bernard357/master
 msgid "Modules"
 msgstr "Modules"
 
@@ -2779,11 +2401,7 @@ msgstr ""
 msgid "Configure the page factory"
 msgstr "Configurer la fabrication des pages"
 
-<<<<<<< HEAD
 #: control/populate.php:866 control/virtual.php:91 control/virtual.php:116
-=======
-#: control/populate.php:857 control/virtual.php:91 control/virtual.php:116
->>>>>>> bernard357/master
 #: control/virtual.php:205 control/virtual.php:227
 msgid "What do you want to do now?"
 msgstr "Que voulez-vous faire à présent ?"
@@ -3489,38 +3107,6 @@ msgstr ""
 msgid "The default handler will be set to index.php."
 msgstr "Par défaut, le traitement sera confié à index.php."
 
-<<<<<<< HEAD
-=======
-#~ msgid "%s - to share and stream existing directories and files"
-#~ msgstr "%s - pour partager des répertoires existants"
-
-#~ msgid "File collections"
-#~ msgstr "Collections de fichiers"
-
-#~ msgid "%s - fill pre-defined fields, then add images, files and links"
-#~ msgstr ""
-#~ "%s - remplissez les champs prédéfinis, puis ajoutez des images, des "
-#~ "fichiers ou des liens"
-
-#~ msgid "Use a form"
-#~ msgstr "Utiliser un formulaire"
-
-#~ msgid "%s - shared directories and files"
-#~ msgstr "%s - répertoires et fichiers partagés"
-
-#~ msgid ""
-#~ "If you are running Internet Explorer under Windows, click on the "
-#~ "following link to %s triggered on right-click. Accept registry updates, "
-#~ "and restart the browser afterwards."
-#~ msgstr ""
-#~ "Si vous utilisez Internet Explorer sous Windows, cliquez sur le lien "
-#~ "suivant pour %s accessible sur bouton droit. Acceptez les modifications "
-#~ "de la base de registres, puis redémarrer le navigateur."
-
-#~ msgid "add a contextual bookmarklet"
-#~ msgstr "ajouter un bookmarklet contextuel"
-
->>>>>>> bernard357/master
 #~ msgid "The configuration file cannot be created."
 #~ msgstr "Le fichier de configuration ne peut être créé."
 
