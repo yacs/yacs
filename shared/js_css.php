@@ -31,7 +31,7 @@ Class Js_Css {
 
 	public static function build_css_declaration($path,$media="all") {
 
-		$html = '<link rel="stylesheet" href="'.$path.'"type="text/css" media="'.$media.'" />'."\n";
+		$html = '<link rel="stylesheet" href="'.$path.'" type="text/css" media="'.$media.'" />'."\n";
 		return $html;
 	}
 
