@@ -300,6 +300,9 @@ include_once $context['path_to_root'].'shared/logger.php';
 // the cache library
 include_once $context['path_to_root'].'shared/cache.php';
 
+// tools for js and css declaration
+include_once 'js_css.php';
+
 // load general parameters -- see control/configure.php
 Safe::load('parameters/control.include.php');
 
@@ -849,9 +852,6 @@ function load_skin($variant='', $anchor=NULL, $options='') {
  */
 function render_skin($with_last_modified=TRUE) {
 	global $context, $local; // put here ALL global variables to be included in template, including $local
-
-	// tools for js and css declaration
-	include_once 'js_css.php';
 
 	// allow for only one call -- see scripts/validate.php
 	global $rendering_fuse;
