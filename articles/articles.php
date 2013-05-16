@@ -1220,6 +1220,10 @@ Class Articles {
 	public static function finalize_publication($anchor, $item, $overlay=NULL, $silently=FALSE, $with_followers=FALSE) {
 		global $context;
 
+		// sanity check
+		if(!isset($item['options']))
+			$item['options'] = '';
+
 		// notification to send by e-mail
 		$mail = array();
 		$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($item['title']));
