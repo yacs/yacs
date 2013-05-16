@@ -53,9 +53,10 @@
  * to be used for auto-generated text, such as background e-mail message, etc.
  * Default value is '[code]en[/code]'.
  *
- * [*] [code]without_language_detection[/code] - By default YACS attempts to localize its interface
+ * [*] [code]without_language_detection[/code] - By default yacs attempts to localize its interface
  * depending on browser data. In some situations you may prefer to turn this parameter to 'Y', and
  * to stick with the preferred language only.
+ * Default value is '[code]N[/code]'.
  *
  * [*] [code]with_compression[/code] - By default page content is transferred 'as-is' to user agents.
  * If this parameter is set explicitly to 'Y', YACS will attempt to compress every HTML and XML content.
