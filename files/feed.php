@@ -57,6 +57,9 @@
 include_once '../shared/global.php';
 include_once 'files.php';
 
+// ensure we only provide public content through newsfeeds
+$context['users_without_teasers'] = 'Y';
+
 // check network credentials, if any -- used by winamp and other media players
 if($user = Users::authenticate())
 	Surfer::empower($user['capability']);
