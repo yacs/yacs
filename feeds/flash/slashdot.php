@@ -28,6 +28,9 @@
 
 include_once '../../shared/global.php';
 
+// ensure we only provide public content through newsfeeds
+$context['users_without_teasers'] = 'Y';
+
 Safe::load('parameters/feeds.flash.include.php');
 
 // load a skin engine

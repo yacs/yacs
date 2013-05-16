@@ -34,6 +34,9 @@
 include_once '../shared/global.php';
 include_once 'comments.php';
 
+// ensure we only provide public content through newsfeeds
+$context['users_without_teasers'] = 'Y';
+
 // check network credentials, if any
 if($user = Users::authenticate())
 	Surfer::empower($user['capability']);
