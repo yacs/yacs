@@ -88,7 +88,7 @@ if(!isset($item['id'])) {
 
 		// log item deletion
 		$label = sprintf(i18n::c('Deletion: %s'), strip_tags($item['title']));
-		$description = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
+		$description = Articles::get_permalink($item);
 		Logger::remember('articles/delete.php: '.$label, $description);
 
 		// this can appear anywhere

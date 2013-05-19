@@ -208,7 +208,7 @@ if(Surfer::is_crawler()) {
 			Users::clear($_REQUEST);
 
 			// display the updated page
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_permalink($item));
+			Safe::redirect(Users::get_permalink($item));
 
 		}
 
@@ -268,7 +268,7 @@ if(Surfer::is_crawler()) {
 
 				// associates are redirected to the new user page
 				if(Surfer::is_associate())
-					Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_permalink($_REQUEST));
+					Safe::redirect(Users::get_permalink($_REQUEST));
 
 				// welcome message
 				else {
@@ -298,7 +298,7 @@ if(Surfer::is_crawler()) {
 						$follow_up .= '<ul><li>'.sprintf(i18n::s('%s, maybe with some images and/or files'), '<a href="'.$context['url_to_root'].'articles/edit.php">'.i18n::s('Add a page').'</a>').'</li></ul>';
 
 					// edit profile
-					$follow_up .= '<ul><li>'.sprintf(i18n::s('%s, to let others have a better understanding of who I am'), '<a href="'.$context['url_to_root'].Users::get_permalink($_REQUEST).'">'.i18n::s('Edit my profile').'</a>').'</li></ul>';
+					$follow_up .= '<ul><li>'.sprintf(i18n::s('%s, to let others have a better understanding of who I am'), '<a href="'.Users::get_permalink($_REQUEST).'">'.i18n::s('Edit my profile').'</a>').'</li></ul>';
 
 					// more help
 					$follow_up .= '<ul><li>'.sprintf(i18n::s('%s, and get basic directions'), '<a href="'.$context['url_to_root'].'help/">'.i18n::s('Go the main help page').'</a>').'</li></ul>';
@@ -318,8 +318,8 @@ if(Surfer::is_crawler()) {
 						$label = sprintf(i18n::c('New subscriber: %s'), $item['nick_name']);
 						break;
 					}
-					$link = $context['url_to_home'].$context['url_to_root'].Users::get_permalink($item);
-                                        $description = '<a href="'.$link.'">'.$link.'</a>';
+					$link = Users::get_permalink($item);
+                	$description = '<a href="'.$link.'">'.$link.'</a>';
 					Logger::notify('users/edit.php: '.$label, $description);
 				}
 			}

@@ -120,7 +120,7 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 
 				// fix relative path
 				if(!preg_match('/^(\/|http:|https:|ftp:)/', $image))
-					$image = $context['url_to_root'].$image;
+					$image = $context['url_to_home'].$context['url_to_root'].$image;
 
 				// build a title
 				if(is_object($overlay))
@@ -134,8 +134,8 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 				// add to the list
 				$content .= '	<photo>'."\n"
 					.'		<title>'.$title.'</title>'."\n"
-					.'		<src>'.$context['url_to_home'].$image.'</src>'."\n"
-					.'		<href>'.$context['url_to_home'].$context['url_to_root'].$url.'</href>'."\n"
+					.'		<src>'.$image.'</src>'."\n"
+					.'		<href>'.$url.'</href>'."\n"
 					.'		<target>_self</target>'."\n"
 					.'	</photo>'."\n";
 

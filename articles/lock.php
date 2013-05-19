@@ -66,7 +66,7 @@ elseif(Articles::lock($item['id'], $item['locked'])) {
 	Articles::clear($item);
 
 	// redirect to the page
-	Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
+	Safe::redirect(Articles::get_permalink($item));
 }
 
 // clear the tab we are in, if any

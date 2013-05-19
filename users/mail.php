@@ -154,7 +154,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 		$menu[] = Skin::build_mail_button($link, i18n::c('Reply'), TRUE);
 
 		// link to surfer profile
-		$link = $context['url_to_home'].$context['url_to_root'].Surfer::get_permalink();
+		$link = Surfer::get_permalink();
 		$menu[] = Skin::build_mail_button($link, Surfer::get_name(), FALSE);
 
 		// finalize links

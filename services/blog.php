@@ -935,7 +935,7 @@ else {
 					foreach($children as $assigned_id => $section) {
 						$response[] = array(
 							'isAdmin' => '<boolean>1</boolean>',
-							'url' => '<string>'.$codec->encode($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($section), 'string').'</string>',
+							'url' => '<string>'.$codec->encode(Sections::get_permalink($section), 'string').'</string>',
 							'blogid' => '<string>'.(string)$assigned_id.'</string>',
 							'blogName' => $codec->encode(strip_tags($section['title']), 'string')
 						);
@@ -946,7 +946,7 @@ else {
 				if(!$response && ($section= Sections::get($main_id))) {
 					$response[] = array(
 						'isAdmin' => '<boolean>1</boolean>',
-						'url' => '<string>'.$codec->encode($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($section), 'string').'</string>',
+						'url' => '<string>'.$codec->encode(Sections::get_permalink($section), 'string').'</string>',
 						'blogid' => '<string>'.(string)$main_id.'</string>',
 						'blogName' => $codec->encode(strip_tags($section['title']), 'string')
 					);
@@ -957,7 +957,7 @@ else {
 				foreach($assigned as $assigned_id => $section) {
 					$response[] = array(
 						'isAdmin' => '<boolean>1</boolean>',
-						'url' => '<string>'.$codec->encode($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($section), 'string').'</string>',
+						'url' => '<string>'.$codec->encode(Sections::get_permalink($section), 'string').'</string>',
 						'blogid' => '<string>'.(string)$assigned_id.'</string>',
 						'blogName' => $codec->encode(strip_tags($section['title']), 'string')
 					);
@@ -1241,7 +1241,7 @@ else {
 				foreach($items as $id => $attributes) {
 
 					// the category for a human being
-					$htmlUrl = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($attributes);
+					$htmlUrl = Categories::get_permalink($attributes);
 
 					// the category for a robot
 					$rssUrl = $context['url_to_home'].$context['url_to_root'].Categories::get_url($id, 'feed');
@@ -1317,8 +1317,8 @@ else {
 			else {
 				$response = array(
 					'title' =>	$codec->encode($item['title'], 'string'),
-					'link' =>  $codec->encode($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item), 'string'),
-					'permaLink' =>	$codec->encode($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item), 'string'),
+					'link' =>  $codec->encode(Articles::get_permalink($item), 'string'),
+					'permaLink' =>	$codec->encode(Articles::get_permalink($item), 'string'),
 					'description' => $codec->encode($item['description'], 'string'),
 					'author' => $codec->encode($item['create_address']),
 					'comments' =>  $codec->encode($context['url_to_home'].$context['url_to_root'].'comments/edit.php?anchor='.urlencode('article:'.$postid), 'string'),
@@ -1381,8 +1381,8 @@ else {
 					$entry['userid'] = (string)$item['edit_id'];
 					$entry['postid'] = (string)$id;
 					$entry['title'] = $codec->encode($item['title'], 'string');
-					$entry['link'] = $codec->encode($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item), 'string');
-					$entry['permaLink'] = $codec->encode($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item), 'string');
+					$entry['link'] = $codec->encode(Articles::get_permalink($item), 'string');
+					$entry['permaLink'] = $codec->encode(Articles::get_permalink($item), 'string');
 					$entry['description'] = $codec->encode($item['description'], 'string');
 					$entry['author'] = $codec->encode($item['create_address']);
 					$entry['comments'] = $codec->encode($context['url_to_home'].$context['url_to_root'].'comments/edit.php?anchor='.urlencode('article:'.$id), 'string');
@@ -1638,7 +1638,7 @@ else {
 				foreach($items as $id => $attributes) {
 
 					// the category for a human being
-					$htmlUrl = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($attributes);
+					$htmlUrl = Categories::get_permalink($attributes);
 
 					// the category for a robot
 					$rssUrl = $context['url_to_home'].$context['url_to_root'].Categories::get_url($id, 'feed');

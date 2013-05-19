@@ -64,7 +64,7 @@ if(Surfer::is_crawler()) {
 	include '../error.php';
 
 // permission denied
-} elseif(!Sections::is_owned($item, $anchor) && !Surfer::is_associate()) {  
+} elseif(!Sections::is_owned($item, $anchor) && !Surfer::is_associate()) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
@@ -85,7 +85,7 @@ elseif(Sections::lock($item['id'], $item['locked'])) {
 	Sections::clear($item);
 
 	// redirect to the page
-	Safe::redirect($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item));
+	Safe::redirect(Sections::get_permalink($item));
 
 // failed operation
 } else

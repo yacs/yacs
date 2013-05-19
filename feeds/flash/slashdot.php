@@ -65,9 +65,6 @@ foreach($items as $url => $label) {
 	// remove every html tag
 	$label = strip_tags(Safe::html_entity_decode($label));
 
-	// make an absolute reference
-	$url = $context['url_to_home'].$context['url_to_root'].$url;
-
 	// remember this
 	$titles[$count] = $label;
 	$links[$count] = $url;

@@ -115,7 +115,7 @@ if(Surfer::is_crawler()) {
 	// headline
 	$headline = sprintf(i18n::c('%s is notifying you from %s'),
 		Surfer::get_link(),
-		'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>');
+		'<a href="'.Articles::get_permalink($item).'">'.$item['title'].'</a>');
 
 	// enable yacs codes in messages
 	$content = Codes::beautify($_REQUEST['message']);
@@ -163,7 +163,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 
 		// call for action
-		$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
+		$link = Articles::get_permalink($item);
 		if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'articles', FALSE)))
 			$label = i18n::c('View the page');
 		$menu[] = Skin::build_mail_button($link, $label, TRUE);
@@ -229,7 +229,7 @@ if(Surfer::is_crawler()) {
 		$content = $overlay->get_invite_default_message();
 	if(!$content)
 		$content = '<p>'.i18n::c('Can you review the following page and contribute to it where applicable?').'</p>'
-			.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a></p>'
+			.'<p><a href="'.Articles::get_permalink($item).'">'.$item['title'].'</a></p>'
 			.'<p>'.i18n::c('Please let me thank you for your involvement.').'</p>'
 			.'<p>'.Surfer::get_name().'</p>';
 

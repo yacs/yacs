@@ -125,7 +125,7 @@ if(Surfer::is_crawler()) {
 	// delete the comment and jump to the new article
 	elseif(Comments::delete($item['id'])) {
 		Comments::clear($item);
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($fields));
+		Safe::redirect(Articles::get_permalink($fields));
 	}
 
 // promotion has to be confirmed

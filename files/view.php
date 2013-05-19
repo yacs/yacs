@@ -146,7 +146,7 @@ if(!isset($item['id'])) {
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // re-enforce the canonical link
-} elseif($context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($item)) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
+} elseif($context['self_url'] && ($canonical = Files::get_permalink($item)) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
 	Safe::header('Status: 301 Moved Permanently', TRUE, 301);
 	Safe::header('Location: '.$canonical);
 	Logger::error(Skin::build_link($canonical));
@@ -165,7 +165,7 @@ if(!isset($item['id'])) {
 		$context['page_header'] .= "\n".'<meta name="robots" content="noarchive" />';
 
 	// add canonical link
-	$context['page_header'] .= "\n".'<link rel="canonical" href="'.$context['url_to_home'].$context['url_to_root'].Files::get_permalink($item).'" />';
+	$context['page_header'] .= "\n".'<link rel="canonical" href="'.Files::get_permalink($item).'" />';
 
 	// do not mention details to crawlers
 	if(!Surfer::is_crawler()) {
