@@ -155,7 +155,7 @@ Class Layout_articles_as_simile extends Layout_interface {
 					$introduction = str_replace(array('<', '&'), array('&lt;', '&amp;'), $introduction);
 
 				// add to the list
-				$content .= '	<event start="'.$first.'"'.$last.' title="'.encode_field(str_replace(array("&nbsp;", '"'), ' ', $title)).'" link="'.$context['url_to_home'].$context['url_to_root'].$url.'"'.$image.'>'."\n"
+				$content .= '	<event start="'.$first.'"'.$last.' title="'.encode_field(str_replace(array("&nbsp;", '"'), ' ', $title)).'" link="'.$url.'"'.$image.'>'."\n"
 					.'		'.$introduction."\n"
 					.'	</event>'."\n";
 

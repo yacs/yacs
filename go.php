@@ -84,11 +84,11 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 
 // short link to some article
 } elseif(!strncmp($id, 'a~', 2) && ($item = Articles::get(restore_number(substr($id, 2))))) {
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
+		Safe::redirect(Articles::get_permalink($item));
 
 // short link to some section
 } elseif(!strncmp($id, 's~', 2) && ($item = Sections::get(restore_number(substr($id, 2))))) {
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item));
+		Safe::redirect(Sections::get_permalink($item));
 
 // look in sections
 } elseif($items =& Sections::list_for_name($id, NULL, 'full')) {
@@ -96,7 +96,7 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 		// only one section has this name
 		if(count($items) == 1) {
 			list($url, $attributes) = each($items);
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$url);
+			Safe::redirect($url);
 		}
 
 		// splash
@@ -107,7 +107,7 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 
 // look in categories
 } elseif(($item = Categories::get($id)) || ($item =& Categories::get_by_keyword($id))) {
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item));
+		Safe::redirect(Categories::get_permalink($item));
 
 // look in articles
 } elseif($items =& Articles::list_for_name($id, NULL, 'full')) {
@@ -115,7 +115,7 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 		// only one page has this name
 		if(count($items) == 1) {
 			list($url, $attributes) = each($items);
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$url);
+			Safe::redirect($url);
 		}
 
 		// splash
@@ -126,7 +126,7 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 
 // look in user profiles
 } elseif($item = Users::get($id)) {
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_permalink($item));
+		Safe::redirect(Users::get_permalink($item));
 
 // not found
 } else {

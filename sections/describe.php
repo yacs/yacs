@@ -93,7 +93,7 @@ if(!$item['id']) {
 } else {
 
 	// compute the url for this section
-	$url = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
+	$url = Sections::get_permalink($item);
 
 	// get a description
 	if($item['introduction'])
@@ -108,9 +108,10 @@ if(!$item['id']) {
 		.'		<dc:title>'.encode_field($item['title']).'</dc:title>'."\n"
 		.'		<dc:description>'.encode_field(Skin::strip($description)).'</dc:description>'."\n"
 		.'		<dc:date>'.gmdate('Y-m-d').'</dc:date>'."\n"
-		.'		<dc:format>text/html</dc:format>'."\n"
-		.'		<dc:language>'.$context['preferred_language'].'</dc:language>'."\n"
-		.'	</rdf:Description>'."\n"
+		.'		<dc:format>text/html</dc:format>'."\n";
+	if(isset($item['language']) && $item['language'] && ($item['language'] != 'none'))
+		$text .= '		<dc:language>'.$item['language'].'</dc:language>'."\n";
+	$text .= '	</rdf:Description>'."\n"
 		.'</rdf:RDF>';
 
 	//

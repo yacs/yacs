@@ -644,7 +644,7 @@ Class Articles {
 		switch($action) {
 		case 'apply':
 			$template = i18n::c('%s is requesting access to %s');
-			$headline_link = '<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$title.'</a>';
+			$headline_link = '<a href="'.Articles::get_permalink($item).'">'.$title.'</a>';
 			break;
 		case 'publish':
 			$template = i18n::c('%s has posted a page in %s');
@@ -818,7 +818,7 @@ Class Articles {
 			$menu[] = Skin::build_mail_button($link, $label, TRUE);
 
 			// link to user profile
-			$link = $context['url_to_home'].$context['url_to_root'].Surfer::get_permalink();
+			$link = Surfer::get_permalink();
 			$label = sprintf(i18n::c('View the profile of %s'), Surfer::get_name());
 			$menu[] = Skin::build_mail_button($link, $label, FALSE);
 
@@ -826,7 +826,7 @@ Class Articles {
 		} else {
 
 			// call for action
-			$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
+			$link = Articles::get_permalink($item);
 			if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'articles', FALSE)))
 				$label = i18n::c('View the page');
 			$menu[] = Skin::build_mail_button($link, $label, TRUE);
@@ -1219,6 +1219,10 @@ Class Articles {
 	public static function finalize_publication($anchor, $item, $overlay=NULL, $silently=FALSE, $with_followers=FALSE) {
 		global $context;
 
+		// sanity check
+		if(!isset($item['options']))
+			$item['options'] = '';
+
 		// notification to send by e-mail
 		$mail = array();
 		$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($item['title']));
@@ -1278,7 +1282,7 @@ Class Articles {
 			$description = sprintf(i18n::c('Sent by %s in %s'), $poster, $anchor->get_title());
 		else
 			$description = sprintf(i18n::c('Sent by %s'), $poster);
-		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
+		$description .= "\n\n".'<a href="'.Articles::get_permalink($item).'">'.$item['title'].'</a>';
 		Logger::notify('articles/articles.php: '.$label, $description);
 
 	}
@@ -1351,7 +1355,7 @@ Class Articles {
 			$description = sprintf(i18n::c('Sent by %s in %s'), $poster, $anchor->get_title());
 		else
 			$description = sprintf(i18n::c('Sent by %s'), $poster);
-		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
+		$description .= "\n\n".'<a href="'.Articles::get_permalink($item).'">'.$item['title'].'</a>';
 		Logger::notify('articles/articles.php: '.$label, $description);
 
 	}
@@ -1452,7 +1456,7 @@ Class Articles {
 		$label = sprintf(i18n::c('Update: %s'), strip_tags($item['title']));
 		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
 		$description = sprintf(i18n::c('Updated by %s in %s'), $poster, $anchor->get_title());
-		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
+		$description .= "\n\n".'<a href="'.Articles::get_permalink($item).'">'.$item['title'].'</a>';
 		Logger::notify('articles/articles.php: '.$label, $description);
 
 	}
@@ -1697,8 +1701,23 @@ Class Articles {
 	 * @return string the permanent web address to this item, relative to the installation path
 	 */
 	public static function get_permalink($item) {
-		$output = Articles::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
-		return $output;
+		global $context;
+
+		// sanity check
+		if(!isset($item['id']))
+			throw new Exception('bad input parameter');
+
+		// this page is bound to a virtual server
+		if(isset($item['vhost']) && $item['vhost']) {
+			if(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == 443))
+				$text = 'https://';
+			else
+				$text = 'http://';
+			return $text.$item['vhost'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
+		}
+
+		// absolute link
+		return $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
 	}
 
 	/**

@@ -500,7 +500,7 @@ Class Sections {
 		// headline
 		$headline = sprintf($template,
 			Surfer::get_link(),
-			'<a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$title.'</a>');
+			'<a href="'.Sections::get_permalink($item).'">'.$title.'</a>');
 
 		// panel content
 		$content = '';
@@ -606,7 +606,7 @@ Class Sections {
 			$menu[] = Skin::build_mail_button($link, $label, TRUE);
 
 			// link to user profile
-			$link = $context['url_to_home'].$context['url_to_root'].Surfer::get_permalink();
+			$link = Surfer::get_permalink();
 			$label = sprintf(i18n::c('View the profile of %s'), Surfer::get_name());
 			$menu[] = Skin::build_mail_button($link, $label, FALSE);
 
@@ -614,7 +614,7 @@ Class Sections {
 		} else {
 
 			// call for action
-			$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
+			$link = Sections::get_permalink($item);
 			if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'sections', FALSE)))
 				$label = i18n::c('View the section');
 			$menu[] = Skin::build_mail_button($link, $label, TRUE);
@@ -1418,9 +1418,23 @@ Class Sections {
 	 * @return string the permanent web address to this item, relative to the installation path
 	 */
 	public static function get_permalink($item) {
+		global $context;
+
+		// sanity check
 		if(!isset($item['id']))
 			throw new Exception('bad input parameter');
-		return Sections::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
+
+		// this top-level section is bound to a virtual server
+		if(isset($item['vhost']) && $item['vhost'] && (!isset($item['anchor']) || !$item['anchor'])) {
+			if(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == 443))
+				$text = 'https://';
+			else
+				$text = 'http://';
+			return $text.$item['vhost'].$context['url_to_root'];
+		}
+
+		// absolute link
+		return $context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
 	}
 
 	/**

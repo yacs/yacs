@@ -152,7 +152,7 @@ elseif(!Surfer::get_id()) {
 		$menu[] = Skin::build_mail_button($link, $title, TRUE);
 
 		// surfer profile
-		$link = $context['url_to_home'].$context['url_to_root'].Surfer::get_permalink();
+		$link = Surfer::get_permalink();
 		$menu[] = Skin::build_mail_button($link, Surfer::get_name(), FALSE);
 
 		// add the menu

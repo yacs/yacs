@@ -264,14 +264,7 @@ if(isset($item['language']) && $item['language'] && ($item['language'] != 'none'
 	$context['page_language'] = $item['language'];
 
 // page canonical link
-if(isset($item['vhost']) && $item['vhost']) {
-	if(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == 443))
-		$context['page_link'] = 'https://';
-	else
-		$context['page_link'] = 'http://';
-	$context['page_link'] .= $item['vhost'].$context['url_to_root'].Articles::get_permalink($item);
-} elseif(isset($item['id']))
-	$context['page_link'] = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
+$context['page_link'] = Articles::get_permalink($item);
 
 // not found -- help web crawlers
 if(!isset($item['id'])) {
@@ -411,7 +404,7 @@ if(!isset($item['id'])) {
 
 	// add canonical link
 	if(!$zoom_type)
-		$context['page_header'] .= "\n".'<link rel="canonical" href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'" />';
+		$context['page_header'] .= "\n".'<link rel="canonical" href="'.Articles::get_permalink($item).'" />';
 
 	// a meta link to prefetch the next page
 	if(isset($neighbours[2]) && $neighbours[2])
@@ -425,7 +418,7 @@ if(!isset($item['id'])) {
 	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml" />';
 
 	// implement the trackback interface
-	$permanent_link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
+	$permanent_link = Articles::get_permalink($item);
 	$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=article:'.$item['id'];
 	$context['page_header'] .= "\n".'<!--'
 		."\n".'<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'
@@ -612,7 +605,7 @@ if(!isset($item['id'])) {
 		if($context['with_friendly_urls'] == 'R')
 			$url = $context['url_to_home'].$context['url_to_root'].Articles::get_short_url($item);
 		else
-			$url = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 		// facebook
 		Skin::define_img('PAGERS_FACEBOOK_IMG', 'pagers/facebook.gif');

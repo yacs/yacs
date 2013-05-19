@@ -54,6 +54,9 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 
+// ensure we only provide public content through newsfeeds
+$context['users_without_teasers'] = 'Y';
+
 // check network credentials, if any -- used by winamp and other media players
 if($user = Users::authenticate())
 	Surfer::empower($user['capability']);
@@ -118,7 +121,7 @@ if(!isset($item['id']) || !$item['id']) {
 		$values = array();
 		$values['channel'] = array();
 		$values['channel']['title'] = $item['title'];
-		$values['channel']['link'] = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
+		$values['channel']['link'] = Sections::get_permalink($item);
 		$values['channel']['description'] = $item['introduction'];
 
 		// the image for this channel

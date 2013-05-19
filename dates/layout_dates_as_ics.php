@@ -49,7 +49,7 @@ Class Layout_dates_as_ics extends Layout_interface {
 			}
 
 			// url to view the date
-			$text .= 'URL:'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).CRLF;;
+			$text .= 'URL:'.Articles::get_permalink($item).CRLF;;
 
 			// organization, if any
 			if(isset($item['introduction']) && $item['introduction'])

@@ -66,7 +66,7 @@ if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path
 	if($items = Sections::list_by_title_for_anchor(NULL, 0, 25, 'raw'))
 		foreach($items as $id => $item)
 			$text .= '	<url>'."\n"
-				.'		<loc>'.encode_link($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item)).'</loc>'."\n"
+				.'		<loc>'.encode_link(Sections::get_permalink($item)).'</loc>'."\n"
 				.'		<changefreq>weekly</changefreq>'."\n"
 				.'	</url>'."\n\n";
 
@@ -81,7 +81,7 @@ if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path
 	if($items = Categories::list_by_date(0, 25, 'raw'))
 		foreach($items as $id => $item)
 			$text .= '	<url>'."\n"
-				.'		<loc>'.encode_link($context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item)).'</loc>'."\n"
+				.'		<loc>'.encode_link(Categories::get_permalink($item)).'</loc>'."\n"
 				.'		<changefreq>weekly</changefreq>'."\n"
 				.'	</url>'."\n\n";
 

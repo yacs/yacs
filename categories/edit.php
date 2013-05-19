@@ -195,7 +195,7 @@ if(Surfer::is_crawler()) {
 		// clear cache
 		Categories::clear($_REQUEST);
 
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item));
+		Safe::redirect(Categories::get_permalink($item));
 	}
 
 // post a new category

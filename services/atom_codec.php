@@ -269,27 +269,6 @@ Class Atom_Codec extends Codec {
 			.'	<title>'.atom_codec::clean($feed_title).'</title>'."\n"
 			.'	<link>'.encode_link($feed_link).'</link>'."\n";
 
-// 		if(isset($values['feed']['image']) && $values['feed']['image'] && ($size = Safe::GetImageSize($values['feed']['image']))) {
-//
-// 			$text .= '	<image>'."\n"
-// 				.'		<url>'.encode_link($values['feed']['image']).'</url>'."\n"
-// 				.'		<width>'.$size[0].'</width>'."\n"
-// 				.'		<height>'.$size[1].'</height>'."\n"
-// 				.'		<title>'.atom_codec::clean($feed_title).'</title>'."\n"
-// 				.'		<link>'.encode_link($feed_link).'</link>'."\n"
-// 				.'	</image>'."\n";
-//
-// 		}
-
-// 		if(isset($context['preferred_language']) && $context['preferred_language'])
-// 			$text .= '	<language>'.$context['preferred_language'].'</language>'."\n";
-// 		if(isset($context['site_copyright']) && $context['site_copyright'])
-// 			$text .= '	<copyright>'.atom_codec::clean($context['site_copyright']).'</copyright>'."\n";
-// 		if(isset($context['site_email']) && $context['site_email'])
-// 			$text .= '	<managingEditor>'.atom_codec::clean($context['site_email']).'</managingEditor>'."\n";
-// 		if(isset($context['webmaster_address']) && $context['webmaster_address'])
-// 			$text .= '	<webMaster>'.atom_codec::clean($context['site_email']).'</webMaster>'."\n";
-
 		// encode icbm position
 		if(isset($context['site_position']) && $context['site_position']) {
 			list($latitude, $longitude) = preg_split('/[ ,\t]+/', $context['site_position']);

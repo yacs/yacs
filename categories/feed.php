@@ -35,6 +35,9 @@
 include_once '../shared/global.php';
 include_once 'categories.php';
 
+// ensure we only provide public content through newsfeeds
+$context['users_without_teasers'] = 'Y';
+
 // check network credentials, if any
 if($user = Users::authenticate())
 	Surfer::empower($user['capability']);
@@ -118,7 +121,7 @@ if(!isset($item['id'])) {
 		$values = array();
 		$values['channel'] = array();
 		$values['channel']['title'] = $item['title'];
-		$values['channel']['link'] = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item);
+		$values['channel']['link'] = Categories::get_permalink($item);
 		$values['channel']['description'] = $item['introduction'];
 
 		// the image for this channel
