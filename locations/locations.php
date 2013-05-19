@@ -395,6 +395,11 @@ Class Locations {
 	/**
 	 * list nearest locations to one point
 	 *
+	 * This is based on complex mathematical computations, that have been documented
+	 * as best practice by many developers.
+	 *
+	 * @link http://www.movable-type.co.uk/scripts/latlong.html Latitude and longitude computations
+	 *
 	 * If you are looking for locations near another one, set the offset to one instead of zero.
 	 *
 	 * The maximum distance parameter is used to improve response times on a large set of points.
