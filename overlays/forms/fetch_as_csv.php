@@ -156,7 +156,7 @@ if(!isset($item['id'])) {
 		$text .= '"'.filter($item['title']).'"'."\n";
 
 	// add a link back to the web page
-	$text .= '"'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'"'."\n\n";
+	$text .= '"'.Articles::get_permalink($item).'"'."\n\n";
 
 	// one row per field
 	foreach($overlay->attributes as $name => $field) {

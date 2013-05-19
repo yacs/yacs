@@ -34,7 +34,7 @@ Class Layout_users_as_feed extends Layout_interface {
 		while($item = SQL::fetch($result)) {
 
 			// url to view the user profile
-			$url = $context['url_to_home'].$context['url_to_root'].Users::get_permalink($item);
+			$url = Users::get_permalink($item);
 
 			// time of last update
 			$time = SQL::strtotime($item['edit_date']);

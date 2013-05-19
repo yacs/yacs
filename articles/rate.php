@@ -176,7 +176,7 @@ if(Surfer::is_crawler()) {
 
 		// go page to rated page
 		else
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
+			Safe::redirect(Articles::get_permalink($item));
 
 	// ask for manual click
 	} else {

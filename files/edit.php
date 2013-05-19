@@ -294,7 +294,7 @@ if(Surfer::is_crawler()) {
 
 				// log single upload
 				$label = sprintf(i18n::c('New file in %s'), strip_tags($anchor->get_title()));
-				$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($item);
+				$link = Files::get_permalink($item);
 				$description = sprintf(i18n::c('%s at %s'), $item['file_name'], '<a href="'.$link.'">'.$link.'</a>');
 				Logger::notify('files/edit.php: '.$label, $description);
 

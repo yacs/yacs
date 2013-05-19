@@ -262,12 +262,12 @@ if(Surfer::is_crawler()) {
 
 				// log page modification
 				$label = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
-				$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($_REQUEST).'">'.$_REQUEST['title'].'</a>';
+				$description = '<a href="'.Sections::get_permalink($_REQUEST).'">'.$_REQUEST['title'].'</a>';
 				Logger::notify('sections/edit.php: '.$label, $description);
 
 			// display the updated page
 			} else
-				Safe::redirect($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item));
+				Safe::redirect(Sections::get_permalink($item));
 
 		}
 

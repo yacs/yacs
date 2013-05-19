@@ -92,7 +92,7 @@ if(!isset($item['id'])) {
 	Codes::initialize(Articles::get_permalink($item));
 
 	// compute the url for this article
-	$permanent_link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
+	$permanent_link = Articles::get_permalink($item);
 
 	// the trackback link
 	$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=article:'.$item['id'];

@@ -676,8 +676,14 @@ Class Categories {
 	 * @return string the permanent web address to this item, relative to the installation path
 	 */
 	public static function get_permalink($item) {
-		$output = Categories::get_url($item['id'], 'view', $item['title']);
-		return $output;
+		global $context;
+
+		// sanity check
+		if(!isset($item['id']))
+			throw new Exception('bad input parameter');
+
+		// absolute link
+		return $context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'view', $item['title']);
 	}
 
 	/**

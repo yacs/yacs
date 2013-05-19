@@ -48,7 +48,7 @@ Class Layout_articles_as_feed extends Layout_interface {
 			$anchor = Anchors::get($item['anchor']);
 
 			// provide an absolute link
-			$url = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// build a title
 			if(is_object($overlay))
@@ -71,7 +71,7 @@ Class Layout_articles_as_feed extends Layout_interface {
 			elseif($item['anchor'] && ($anchor = Anchors::get($item['anchor'])) && is_callable($anchor, 'get_bullet_url'))
 				$icon = $anchor->get_bullet_url();
 			if($icon)
-				$icon = $context['url_to_home'].$context['url_to_home'].$icon;
+				$icon = $context['url_to_home'].$context['url_to_root'].$icon;
 
 			// the author(s) is an e-mail address, according to rss 2.0 spec
 			$author = '';

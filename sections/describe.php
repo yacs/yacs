@@ -93,7 +93,7 @@ if(!$item['id']) {
 } else {
 
 	// compute the url for this section
-	$url = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
+	$url = Sections::get_permalink($item);
 
 	// get a description
 	if($item['introduction'])

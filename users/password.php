@@ -171,7 +171,7 @@ if(Surfer::is_crawler()) {
 
 	// save one click to associates
 	} elseif(Surfer::is_associate())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_permalink($item));
+		Safe::redirect(Users::get_permalink($item));
 
 	// follow-up
 	else {

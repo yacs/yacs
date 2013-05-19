@@ -537,7 +537,7 @@ Class Files {
 
 		// link to the file
 		if(isset($item['id'])) {
-			$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($item);
+			$link = Files::get_permalink($item);
 			$menu[] = Skin::build_mail_button($link, i18n::c('View file details'), TRUE);
 		}
 
@@ -1412,8 +1412,14 @@ Class Files {
 	 * @return string the permanent web address to this item, relative to the installation path
 	 */
 	public static function get_permalink($item) {
-		$output = Files::get_url($item['id'], 'view', $item['file_name']);
-		return $output;
+		global $context;
+
+		// sanity check
+		if(!isset($item['id']))
+			throw new Exception('bad input parameter');
+
+		// absolute link
+		return $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'view', $item['file_name']);
 	}
 
 	/**

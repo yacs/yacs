@@ -328,7 +328,7 @@ Class Surfer {
 
 			// the password
 			$content .= i18n::s('Password').BR.'<input type="password" name="login_password" size="10" maxlength="255" />'.BR;
-			
+
 			// Remember me ?
 			$content .= '<span class="details"><input type="checkbox" name="remember" value="Y" '.EOT.'&nbsp;'.i18n::s('Stay connected').'</span>'.BR;
 
@@ -753,8 +753,10 @@ Class Surfer {
 	 * @return string web link to the target user profile, or NULL
 	 */
 	public static function get_permalink() {
+		global $context;
+
 		if(Surfer::get_id() && is_callable(array('Users', 'get_url')))
-			return Users::get_url(Surfer::get_id(), 'view', Surfer::get_name());
+			return $context['url_to_home'].$context['url_to_root'].Users::get_url(Surfer::get_id(), 'view', Surfer::get_name());
 		return NULL;
 	}
 

@@ -87,7 +87,7 @@ elseif(isset($articles) && is_array($articles)) {
 
 	// redirect to the updated category, if no error has happened
 	if(!count($context['error']))
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Categories::get_permalink($category));
+		Safe::redirect(Categories::get_permalink($category));
 
 }
 

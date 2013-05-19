@@ -51,7 +51,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 
 			// display the updated page
 			if(!$recipients = Mailer::build_recipients('article:'.$item['id']))
-				Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
+				Safe::redirect(Articles::get_permalink($item));
 
 			// list persons that have been notified
 			$context['text'] .= $recipients;
