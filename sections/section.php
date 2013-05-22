@@ -680,7 +680,7 @@ Class Section extends Anchor {
 		case 'comments':
 			if($this->has_option('view_as_tabs', FALSE))
 				return $this->get_url().'#_discussion';
-			return Sections::get_permalink($this->item).'#comments';
+			return Sections::get_url($this->item['id'], 'view', $this->item['title'], $this->item['nick_name']).'#comments';
 
 		// list of files
 		case 'files':
@@ -689,10 +689,6 @@ Class Section extends Anchor {
 		// list of links
 		case 'links':
 			return $this->get_url().'#_attachments';
-
-		// the permalink page
-		case 'view':
-			return Sections::get_permalink($this->item);
 
 		// another action
 		default:
