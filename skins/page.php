@@ -688,8 +688,8 @@
 	public static function tabs($with_home=TRUE, $with_reverse=FALSE, $prefix=NULL, $suffix=NULL, $layout_subsections=NULL) {
 		global $context;
 
-		// only for live servers
-		if(!file_exists($context['path_to_root'].'parameters/switch.on'))
+		// only for live servers Or Associate
+		if(!file_exists($context['path_to_root'].'parameters/switch.on') && !Surfer::is_associate())
 			return;
 
 		// we have no database back-end
