@@ -12,6 +12,7 @@
  * @author Florent
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -419,16 +420,17 @@ Class Locations {
 		global $context;
 
 		// one degree means roughly 111 km = 2 * pi * 6371 / 360
-		$half_delta = ($max_distance / 222.00);
+		$half_delta_lat = $max_distance / 222.00;
+		$half_delta_lng = $max_distance / abs(cos(deg2rad($latitude))*222.00);
 
 		// select records by distance to the target point, with a limit to 5,000 km
 		$query = "SELECT id, anchor, geo_place_name, latitude, longitude, geo_country, description,"
 			." edit_name, edit_id, edit_address, edit_date,"
-			." abs( 3956 * acos( sin(radians(".$latitude.")) * sin(radians(latitude)) "
+			." abs( 6371 * acos( sin(radians(".$latitude.")) * sin(radians(latitude)) "
 			." + cos(radians(".$latitude.")) * cos(radians(latitude)) * cos(radians(longitude - ".$longitude.")) ) ) AS distance"
 			." FROM ".SQL::table_name('locations')." AS locations "
-			." WHERE latitude BETWEEN ".$latitude." - ".$half_delta." AND ".$latitude." + ".$half_delta
-			." AND longitude BETWEEN ".$longitude." - ".$half_delta." AND ".$longitude." + ".$half_delta
+			." WHERE latitude BETWEEN ".$latitude." - ".$half_delta_lat." AND ".$latitude." + ".$half_delta_lat
+			." AND longitude BETWEEN ".$longitude." - ".$half_delta_lng." AND ".$longitude." + ".$half_delta_lng
 			." ORDER BY distance, locations.edit_date DESC, locations.geo_place_name "
 			." LIMIT ".$offset.','.$count;
 
