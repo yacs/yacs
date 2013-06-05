@@ -7,51 +7,156 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 Class Js_Css {
+    
+    /**
+     * prepare a link to .js or .css file for declare in final template
+     * will search of a minified version in production mode
+     * 
+     * @global type $context
+     * @param type $path, relative from yacs root, or external url
+     * @param type $forced_type, if path does not end by .js or .css
+     * @return false if unsucceed 
+     */
+    public static function link_script($path, $forced_type='') {
+	global $context;
+
+	$path_parts = pathinfo($path);
+	
+	// just to avoid warnings
+	if(!isset($path_parts['extension'])) $path_parts['extension']=''; 
+	
+	// how the script will be considered ?
+	$ext = ($forced_type)?$forced_type:$path_parts['extension'];
+
+	// we need a extension	    
+	if(!isset($ext)) {
+	    // TODO : log error
+	    return false;
+	}
+
+	// if path is a local file 	    
+	if(strncmp($path, 'http', 4)!=0) {
+	    
+	    // check if file exists
+	    if(!file_exists($context['path_to_root'].$path)) return false;
+
+	    // and we are in production mode 
+	    // and file not already minified 	    
+	    if ( $context['with_debug']=='N' 
+		&& !preg_match('/\.min\./', $path_parts['filename'])) {					    		
+
+		// minified version path
+		$min_v = $path_parts['dirname'].'/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
+
+		if(file_exists($min_v)) $path = $min_v;		    		    		    			        
+
+	    // TODO : warning case exept if .core. ;
+	    }
+
+	    // add root url
+	    $path = $context['url_to_root'].$path;
+	}	    
+
+	// css ou js ?
+	switch($ext) {
+
+	    case 'css' :
+		Js_css::add_css(Js_css::build_css_declaration($path));
+		break;
+	    case 'js' :
+		// by default .js goes to page footer
+		$target = 'footer';
+		// target is header if .head. in filename
+		if(preg_match('/\.head\./', $path_parts['filename'])) $target = 'header';
+
+		Js_css::add_js(Js_css::build_js_declaration($path),$target);
+		break;
+	    default :
+		// error		    
+		return false;
+	}
+
+    }
+	
+	public static function insert_script($script, $type='js') {
+	    global $context;
+	    
+	    switch($type) {
+		case 'css' :
+		    		    
+		    Js_css::add_css('<style> '.$script.' </style>');		    
+		    break;
+		case 'js' :
+		    
+		    $type = (SKIN_HTML5)?'':' type="text/javascript" ';
+		    // minification lib
+		    //include_once $context['path_to_root'].'included/jsmin.php';		    
+		    
+		    Js_css::add_js('<script'.$type.'> '.$script.'</script>', 'footer');
+		    		    
+		    break;
+		default :
+		    break;
+	    }
+	}
+	
+	public static function include_script($path) {
+	    
+	}
+	
+	
+	private static function add_css($css) {
+	    global $context;
+	    
+	    if(!isset($context['page_header']))
+			$context['page_header'] = '';
+	    
+	    if(substr($css,-1)!="\n") $css .= "\n";
+	    	   
+	    $context['page_header'] .= $css;
+	    
+	}
 
 	/**
-	 * add declaration for occasionnal external javascript file
-	 * @see shared/global.php
-	 *
-	 * @param string relative path to local script file
-	 * @param string place in page to load the script, "footer" or "header"
-	 * @return <type>
 	 */
-	public static function add_external_js($path,$target='footer') {
-		global $context;
+	private static function add_js($js,$target='footer') {
+	    global $context;
 
-		if(!file_exists($context['path_to_root'].$path))
-			return;
+	    if(!isset($context['javascript'][$target]))
+		    $context['javascript'][$target] = '';
 
-		if(!isset($context['javascript'][$target]))
-			$context['javascript'][$target] = '';
+	    if(substr($js,-1)!="\n") $js .= "\n";
 
-		$html = Js_Css::build_js_declaration($context['url_to_root'].$path);
-		$context['javascript'][$target] .= $html;
+	    $context['javascript'][$target] .= $js;
 	}
 
 	public static function build_css_declaration($path,$media="all") {
+	    
+		$type = (SKIN_HTML5)?'':' type="text/css" ';
 
-		$html = '<link rel="stylesheet" href="'.$path.'" type="text/css" media="'.$media.'" />'."\n";
+		$html = '<link rel="stylesheet" href="'.$path.'"'.$type.' media="'.$media.'" />'."\n";
 		return $html;
 	}
 
 	/**
 	 * build html declaration to a js file
-	 *
-	 * @todo select XHTML or HTML5 format
+	 *	 
 	 *
 	 * @param string path to the file
 	 * @return string
 	 */
 	public static function build_js_declaration($path) {
+	    
+		$type = (SKIN_HTML5)?'':' type="text/javascript" ';
 
-		$html = '<script type="text/javascript" src="'.$path.'"></script>'."\n";
+		$html = '<script'.$type.' src="'.$path.'"></script>'."\n";
 		return $html;
 	}
 
 	/**
-	 * return <script> html tags to declare external js libraries
-	 * @see shared/global.php
+	 * return <script> html tags to declare external js libraries stored 
+	 * in a given folder
+	 * @see shared/global.php to see use with /included/browser
 	 *
 	 * @todo minify&merge files in production mode
 	 *
@@ -106,7 +211,7 @@ Class Js_Css {
 		}
 
 		return $html;
-	}
+	}	
 
 }
 ?>
