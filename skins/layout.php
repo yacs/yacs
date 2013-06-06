@@ -7,6 +7,7 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 Class Layout_interface {
+       
 
 	/**
 	 * the preferred order for items
@@ -65,6 +66,36 @@ Class Layout_interface {
 	 */
 	function set_variant($variant = '') {
 		$this->layout_variant = $variant;
+	}
+	
+	/**
+	 * Load in current page style sheets and javascript 
+	 * files binded with the layout. Called by the constructor
+	 * 
+	 * Filenames must be same as classname, plus extension. 
+	 * 
+	 * Note the function will also call dependancies of parent class.
+	 *
+	 * @param type $myclass, argument used by the recursive call.
+	 */
+	final protected function load_scripts($myclass='') {
+	    
+	    if(!$myclass)
+		$myclass = get_class($this);
+	    
+	    // guess layout folder (/articles, /sections, ...)
+	    $layout = preg_split("/_/", $myclass);
+	    $folder = $layout[1];
+	    
+	    $parent = get_parent_class($myclass);	    
+	    
+	    // load scripts (if exist)
+	    Js_css::link_script(strtolower($folder.'/'.$myclass.'/'.$myclass.'.css'));
+	    Js_css::link_script(strtolower($folder.'/'.$myclass.'/'.$myclass.'.js'));
+	    
+	    // recursive call to parent class, stop on "Overlay"
+	    if($parent!= '' && $parent!='Layout_interface')
+		$parent::load_scripts($parent);	    
 	}
 
 }
