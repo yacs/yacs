@@ -19,7 +19,15 @@ Class Js_Css {
      */
     public static function link_script($path, $forced_type='') {
 	global $context;
-
+	
+	// avoid linking twice the same file
+	$key = md5($path);
+	if(isset($context['linked_files'][$key]))
+	    return true;
+	else
+	    $context['linked_files'][$key] = $path;
+	
+	// gather info on file
 	$path_parts = pathinfo($path);
 	
 	// just to avoid warnings
@@ -75,6 +83,19 @@ Class Js_Css {
 		// error		    
 		return false;
 	}
+	
+	
+	// count files calls over time
+	if($context['with_debug']=='Y') {
+	    $query = 'INSERT INTO '.SQL::table_name('js_css_calls').' SET'
+		    .' id = "'.$key.'",'
+		    .' path = "'.$path.'",'
+		    .' calls = 1'
+		    .' ON DUPLICATE KEY UPDATE calls=calls+1';
+
+	    SQL::query($query, TRUE);
+	}
+	
 
     }
 	
@@ -99,119 +120,150 @@ Class Js_Css {
 		    break;
 	    }
 	}
-	
-	public static function include_script($path) {
-	    
-	}
-	
-	
-	private static function add_css($css) {
+
+    public static function include_script($path) {
+
+    }
+
+
+    private static function add_css($css) {
+	global $context;
+
+	if(!isset($context['page_header']))
+		    $context['page_header'] = '';
+
+	if(substr($css,-1)!="\n") $css .= "\n";
+
+	$context['page_header'] .= $css;
+
+    }
+
+    /**
+     */
+    private static function add_js($js,$target='footer') {
+	global $context;
+
+	if(!isset($context['javascript'][$target]))
+		$context['javascript'][$target] = '';
+
+	if(substr($js,-1)!="\n") $js .= "\n";
+
+	$context['javascript'][$target] .= $js;
+    }
+
+    public static function build_css_declaration($path,$media="all") {
+
+	    $type = (SKIN_HTML5)?'':' type="text/css" ';
+
+	    $html = '<link rel="stylesheet" href="'.$path.'"'.$type.' media="'.$media.'" />'."\n";
+	    return $html;
+    }
+
+    /**
+     * build html declaration to a js file
+     *	 
+     *
+     * @param string path to the file
+     * @return string
+     */
+    public static function build_js_declaration($path) {
+
+	    $type = (SKIN_HTML5)?'':' type="text/javascript" ';
+
+	    $html = '<script'.$type.' src="'.$path.'"></script>'."\n";
+	    return $html;
+    }
+
+    /**
+     * return <script> html tags to declare external js libraries stored 
+     * in a given folder
+     * @see shared/global.php to see use with /included/browser
+     *     
+     *
+     * @param string, folder where to search js file, from included/browsers
+     * @param string or array of strings, relative path to other libraries
+     * to deal with (e.g. shared/yacs.js)
+     * @return string in html format
+     */
+    /**
+     * return <script> html tags to declare external js libraries stored 
+     * in a given folder
+     * @see shared/global.php to see use with /included/browser
+     *     
+     *
+     * @param string, folder where to search js file, from included/browsers
+     * @param string or array of strings, relative path to other libraries
+     * to deal with (e.g. shared/yacs.js)
+     * @return string in html format
+     */
+    public static function get_js_libraries($folder='',$other_files='') {
 	    global $context;
-	    
-	    if(!isset($context['page_header']))
-			$context['page_header'] = '';
-	    
-	    if(substr($css,-1)!="\n") $css .= "\n";
-	    	   
-	    $context['page_header'] .= $css;
-	    
-	}
 
-	/**
-	 */
-	private static function add_js($js,$target='footer') {
-	    global $context;
+	    // we provide html tags links to scripts files
+	    $html = '';
 
-	    if(!isset($context['javascript'][$target]))
-		    $context['javascript'][$target] = '';
+	    // in production mode, provide link without scanning if compressed lib is present
+	    if($context['with_debug']=='N') {
+		    $path = 'included/browser/library_'.$folder.'.min.js';
+		    if(file_exists($context['path_to_root'].$path)) {
+			    $html = Js_Css::build_js_declaration($context['url_to_root'].$path);
+		    return $html;
+		    }
+	    }
 
-	    if(substr($js,-1)!="\n") $js .= "\n";
+	    // path to search for js file, default is "include/browser"
+	    $path = 'included/browser/'.(($folder)?$folder.'/':'');
 
-	    $context['javascript'][$target] .= $js;
-	}
+	    // scan for js files in folder
+	    $js_libs = array();
+	    foreach(Safe::glob($context['path_to_root'].$path.'*.js') as $file) {
+		    $js_libs[]= basename($file);
+	    }
 
-	public static function build_css_declaration($path,$media="all") {
-	    
-		$type = (SKIN_HTML5)?'':' type="text/css" ';
+	    if($js_libs) {
+		    // files can be renamed with a letter prefix to sort loading from browsers
+		    natsort($js_libs);
 
-		$html = '<link rel="stylesheet" href="'.$path.'"'.$type.' media="'.$media.'" />'."\n";
-		return $html;
-	}
+		    // build declarations file by file
+		    foreach ($js_libs as $js) {
+		    $html .= Js_Css::build_js_declaration($context['url_to_root'].$path.$js);
+		    }
+	    }
 
-	/**
-	 * build html declaration to a js file
-	 *	 
-	 *
-	 * @param string path to the file
-	 * @return string
-	 */
-	public static function build_js_declaration($path) {
-	    
-		$type = (SKIN_HTML5)?'':' type="text/javascript" ';
+	    if($other_files) {
+		    if(gettype($other_files)=='string')
+		    $other_files = (array) $other_files;
 
-		$html = '<script'.$type.' src="'.$path.'"></script>'."\n";
-		return $html;
-	}
+		    foreach ($other_files as $file) {
+		    if(file_exists($context['path_to_root'].$file))
+			    $html .= Js_Css::build_js_declaration($context['url_to_root'].$file);
+		    }
 
-	/**
-	 * return <script> html tags to declare external js libraries stored 
-	 * in a given folder
-	 * @see shared/global.php to see use with /included/browser
-	 *
-	 * @todo minify&merge files in production mode
-	 *
-	 * @param string, folder where to search js file, from included/browsers
-	 * @param string or array of strings, relative path to other libraries
-	 * to deal with (e.g. shared/yacs.js)
-	 * @return string in html format
-	 */
-	public static function get_js_libraries($folder='',$other_files='') {
-		global $context;
+	    }
 
-		// we provide html tags links to scripts files
-		$html = '';
+	    return $html;
+    }	
 
-		// in production mode, provide link without scanning if compressed lib is present
-		if($context['with_debug']=='N') {
-			$path = 'included/browser/library_'.$folder.'.min.js';
-			if(file_exists($context['path_to_root'].$path)) {
-				$html = Js_Css::build_js_declaration($context['url_to_root'].$path);
-			return $html;
-			}
-		}
+	   
+    /**
+     * create table for js_css
+     * to count js and css files calls over time
+     *
+     * @see control/setup.php
+     */
+    public static function setup() {
 
-		// path to search for js file, default is "include/browser"
-		$path = 'included/browser/'.(($folder)?$folder.'/':'');
+	$fields = array();
+	$fields['id']		= "VARCHAR(32) NOT NULL";
+	$fields['path']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+	$fields['calls']		= "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";	
 
-		// scan for js files in folder
-		$js_libs = array();
-		foreach(Safe::glob($context['path_to_root'].$path.'*.js') as $file) {
-			$js_libs[]= basename($file);
-		}
+	$indexes = array();
+	$indexes['PRIMARY KEY'] 	= "(id)";
 
-		if($js_libs) {
-			// files can be renamed with a letter prefix to sort loading from browsers
-			natsort($js_libs);
+	return SQL::setup_table('js_css_calls', $fields, $indexes);
 
-			// build declarations file by file
-			foreach ($js_libs as $js) {
-			$html .= Js_Css::build_js_declaration($context['url_to_root'].$path.$js);
-			}
-		}
-
-		if($other_files) {
-			if(gettype($other_files)=='string')
-			$other_files = (array) $other_files;
-
-			foreach ($other_files as $file) {
-			if(file_exists($context['path_to_root'].$file))
-				$html .= Js_Css::build_js_declaration($context['url_to_root'].$file);
-			}
-
-		}
-
-		return $html;
-	}	
+    }
 
 }
 ?>
