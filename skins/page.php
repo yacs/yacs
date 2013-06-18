@@ -318,7 +318,7 @@
 			if(isset($context['classes_for_icon_images']) && $context['classes_for_icon_images'])
 				$more_styles = ' '.encode_field($context['classes_for_icon_images']);
 
-			echo ICON_PREFIX.'<img src="'.$context['page_image'].'" style="margin: 0 0 2em 0;" class="icon'.$more_styles.'" alt="" '.EOT.ICON_SUFFIX;
+			echo ICON_PREFIX.'<img src="'.$context['page_image'].'" style="margin: 0 0 2em 0;" class="icon'.$more_styles.'" alt="" />'.ICON_SUFFIX;
 
 		}
 	}

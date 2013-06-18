@@ -333,7 +333,7 @@ elseif(!Surfer::is_associate()) {
 	$input .= '<p><input type="radio" name="root_articles_layout" value="no_articles"';
 	if($context['root_articles_layout'] == 'no_articles')
 		$input .= ' checked="checked"';
-	$input .= EOT.sprintf(i18n::s('Do not list recent pages. The layout of the front page is solely based on a %s, on %s, plus %s.'),
+	$input .= '/>'.sprintf(i18n::s('Do not list recent pages. The layout of the front page is solely based on a %s, on %s, plus %s.'),
 		Skin::build_link(Sections::get_url('covers'), i18n::s('cover article'), 'shortcut'),
 		Skin::build_link('sections/', i18n::s('the site map'), 'shortcut'),
 		Skin::build_link(Sections::get_url('gadget_boxes'), i18n::s('gadget boxes'), 'shortcut')).'</p>';

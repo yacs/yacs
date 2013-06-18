@@ -458,7 +458,7 @@ if(Surfer::is_crawler()) {
 	
 	// remember me ?
 	$label = i18n::s('Stay connected');
-	$input = '<input type="checkbox" name="remember" value="Y" '.EOT."\n";
+	$input = '<input type="checkbox" name="remember" value="Y" />'."\n";
 	$main_column .= '<p>'.$input.'&nbsp;'.$label.'</p>';
 
 	// bottom commands
