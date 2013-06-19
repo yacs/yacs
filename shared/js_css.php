@@ -13,11 +13,13 @@ Class Js_Css {
      * will search of a minified version in production mode
      * 
      * @global type $context
-     * @param type $path, relative from yacs root, or external url
-     * @param type $forced_type, if path does not end by .js or .css
+     * @param string $path, relative from yacs root, or external url
+     * @param string $forced_type = 'js' or 'css', if path does not end by .js or .css
+     * @param string $forced_position = 'header' of 'footer' to specify where to
+     * load a js file.
      * @return false if unsucceed 
      */
-    public static function link_script($path, $forced_type='') {
+    public static function link_file($path, $forced_type='',$forced_position='') {
 	global $context;
 	
 	// avoid linking twice the same file
@@ -72,11 +74,13 @@ Class Js_Css {
 		Js_css::add_css(Js_css::build_css_declaration($path));
 		break;
 	    case 'js' :
-		// by default .js goes to page footer
-		$target = 'footer';
-		// target is header if .head. in filename
-		if(preg_match('/\.head\./', $path_parts['filename'])) $target = 'header';
+		// target is header if .head. is part of filename
+		if(!$forced_position && preg_match('/\.head\./', $path_parts['filename'])) 
+			$forced_position = 'header';
 
+		// by default .js goes to page footer
+		$target = ($forced_position)?$forced_position:'footer';
+		
 		Js_css::add_js(Js_css::build_js_declaration($path),$target);
 		break;
 	    default :
@@ -99,29 +103,29 @@ Class Js_Css {
 
     }
 	
-	public static function insert_script($script, $type='js') {
-	    global $context;
-	    
-	    switch($type) {
-		case 'css' :
-		    		    
-		    Js_css::add_css('<style> '.$script.' </style>');		    
-		    break;
-		case 'js' :
-		    
-		    $type = (SKIN_HTML5)?'':' type="text/javascript" ';
-		    // minification lib
-		    //include_once $context['path_to_root'].'included/jsmin.php';		    
-		    
-		    Js_css::add_js('<script'.$type.'> '.$script.'</script>', 'footer');
-		    		    
-		    break;
-		default :
-		    break;
-	    }
-	}
+    public static function insert($script, $type='js') {
+	global $context;
 
-    public static function include_script($path) {
+	switch($type) {
+	    case 'css' :
+
+		Js_css::add_css('<style> '.$script.' </style>');		    
+		break;
+	    case 'js' :
+
+		$type = (SKIN_HTML5)?'':' type="text/javascript" ';
+		// minification lib
+		//include_once $context['path_to_root'].'included/jsmin.php';		    
+
+		Js_css::add_js('<script'.$type.'> '.$script.'</script>', 'footer');
+
+		break;
+	    default :
+		break;
+	}
+    }
+
+    public static function include_file($path) {
 
     }
 
@@ -185,17 +189,6 @@ Class Js_Css {
      * to deal with (e.g. shared/yacs.js)
      * @return string in html format
      */
-    /**
-     * return <script> html tags to declare external js libraries stored 
-     * in a given folder
-     * @see shared/global.php to see use with /included/browser
-     *     
-     *
-     * @param string, folder where to search js file, from included/browsers
-     * @param string or array of strings, relative path to other libraries
-     * to deal with (e.g. shared/yacs.js)
-     * @return string in html format
-     */
     public static function get_js_libraries($folder='',$other_files='') {
 	    global $context;
 
@@ -243,27 +236,27 @@ Class Js_Css {
 
 	    return $html;
     }	
-
-	   
-    /**
-     * create table for js_css
-     * to count js and css files calls over time
-     *
-     * @see control/setup.php
-     */
-    public static function setup() {
-
-	$fields = array();
-	$fields['id']		= "VARCHAR(32) NOT NULL";
-	$fields['path']		= "VARCHAR(255) DEFAULT '' NOT NULL";
-	$fields['calls']		= "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";	
-
-	$indexes = array();
-	$indexes['PRIMARY KEY'] 	= "(id)";
-
-	return SQL::setup_table('js_css_calls', $fields, $indexes);
-
-    }
+    
+    
+	/**
+	 * create table for js_css
+	 * to count js and css files calls over time
+	 *
+	 * @see control/setup.php
+	 */
+	public static function setup() {
+	    
+	    $fields = array();
+	    $fields['id']		= "VARCHAR(32) NOT NULL";
+	    $fields['path']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+	    $fields['calls']		= "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";	
+	    
+	    $indexes = array();
+	    $indexes['PRIMARY KEY'] 	= "(id)";
+	    
+	    return SQL::setup_table('js_css_calls', $fields, $indexes);
+	    
+	}
 
 }
 ?>

@@ -723,6 +723,12 @@ if(!isset($context['root_articles_layout']) || !$context['root_articles_layout']
  */
 function load_skin($variant='', $anchor=NULL, $options='') {
 	global $context;
+	
+	// allow for only one call
+	global $loading_fuse;
+	if(isset($loading_fuse))
+		return;
+	$loading_fuse = TRUE;
 
 	// use a specific skin, if any
 	if($options && preg_match('/\bskin_(.+?)\b/i', $options, $matches))
@@ -762,6 +768,9 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 
 	// the library of smileys
 	include_once $context['path_to_root'].'smileys/smileys.php';
+	
+	// load the page library
+	include_once $context['path_to_root'].'skins/page.php';
 
 	// variant is already set
 	if(isset($context['skin_variant']))
@@ -1331,9 +1340,6 @@ function render_skin($with_last_modified=TRUE) {
 //	else
 		$context['content_type'] = 'text/html';
 	Safe::header('Content-Type: '.$context['content_type'].'; charset='.$context['charset']);
-
-	// load the page library
-	include_once $context['path_to_root'].'skins/page.php';
 
 	// load a template for this module -- php version
 	if(isset($context['skin_variant']) && is_readable($context['path_to_root'].$context['skin'].'/template_'.$context['skin_variant'].'.php'))

@@ -74,11 +74,12 @@ Class Layout_interface {
 	 * 
 	 * Filenames must be same as classname, plus extension. 
 	 * 
-	 * Note the function will also call dependancies of parent class.
+	 * Note : the function will also call dependancies of parent class.
+	 * Note : skin must have been loaded (@see shared/global.php, load_skin() )
 	 *
 	 * @param type $myclass, argument used by the recursive call.
 	 */
-	final protected function load_scripts($myclass='') {
+	final protected function load_scripts_n_rules($myclass='') {
 	    
 	    if(!$myclass)
 		$myclass = get_class($this);
@@ -90,12 +91,12 @@ Class Layout_interface {
 	    $parent = get_parent_class($myclass);	    
 	    
 	    // load scripts (if exist)
-	    Js_css::link_script(strtolower($folder.'/'.$myclass.'/'.$myclass.'.css'));
-	    Js_css::link_script(strtolower($folder.'/'.$myclass.'/'.$myclass.'.js'));
+	    Page::load_style(strtolower($folder.'/'.$myclass.'/'.$myclass.'.css'));
+	    Page::defer_script(strtolower($folder.'/'.$myclass.'/'.$myclass.'.js'));
 	    
 	    // recursive call to parent class, stop on "Overlay"
 	    if($parent!= '' && $parent!='Layout_interface')
-		$parent::load_scripts($parent);	    
+		$parent::load_scripts_n_rules($parent);	    
 	}
 
 }
