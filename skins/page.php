@@ -174,6 +174,16 @@
 		// this component is unknown
 		return FALSE;
 	}
+	
+	/**
+	 * link a javascript file in the bottom of the page
+	 * 
+	 * @param string $path 
+	 */
+	public static function defer_script($path) {
+	    
+	    Js_css::link_file($path, 'js');
+	}
 
 	/**
 	 * send the main content of the page
@@ -638,6 +648,46 @@
 		// end of the header panel
 		echo '</'.$tag.'>'."\n";
 
+	}
+	
+	/**
+	 * insert javascript to the end of the page
+	 * 
+	 * @param string $js_script the javascript code without html tag around
+	 */
+	public static function insert_script($js_script) {
+	    
+	    Js_css::insert($js_script);
+	}
+	
+	/**
+	 * insert css rules into the header of the page
+	 * 
+	 * @param string $css_style without html tag around
+	 */
+	public static function insert_style($css_style) {
+	    
+	    Js_css::insert($css_style,'css');
+	}
+	
+	/**
+	 * link a javascript file in the header of the page
+	 * 
+	 * @param string $path 
+	 */
+	public static function load_script($path) {
+	    
+	    Js_css::link_file($path,'js','header');	    
+	}
+	
+	/**
+	 * link a cascading style sheet in the header of the page
+	 * 
+	 * @param string $path 
+	 */
+	public static function load_style($path) {
+	    
+	    js_css::link_file($path,'css');
 	}
 
 	/**
