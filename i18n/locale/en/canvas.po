@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-30 23:53+0200\n"
-"PO-Revision-Date: 2013-04-30 23:53+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2013-06-20 17:59+0100\n"
+"Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: none\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
@@ -22,33 +22,21 @@ msgid "Canvas"
 msgstr "Canvas"
 
 #: canvas/index.php:27
-msgid ""
-"Canvas listed below can be used to customise articles display attached to "
-"some sections."
-msgstr ""
-"Canvas listed below can be used to customise articles display attached to "
-"some sections."
+msgid "Canvas listed below can be used to customise articles display attached to some sections."
+msgstr "Canvas listed below can be used to customise articles display attached to some sections."
 
 #: canvas/index.php:58
 #, php-format
-msgid ""
-"For example, if you want to apply the canvas <code>foo</code>, go to the %s, "
-"and select a target section, or add one."
-msgstr ""
-"For example, if you want to apply the canvas <code>foo</code>, go to the %s, "
-"and select a target section, or add one."
+msgid "For example, if you want to apply the canvas <code>foo</code>, go to the %s, and select a target section, or add one."
+msgstr "For example, if you want to apply the canvas <code>foo</code>, go to the %s, and select a target section, or add one."
 
 #: canvas/index.php:58
 msgid "site map"
 msgstr "site map"
 
 #: canvas/index.php:59
-msgid ""
-"In the form used to edit the section, select <code>foo</code> in the canvas "
-"field, then save changes."
-msgstr ""
-"In the form used to edit the section, select <code>foo</code> in the canvas "
-"field, then save changes."
+msgid "In the form used to edit the section, select <code>foo</code> in the canvas field, then save changes."
+msgstr "In the form used to edit the section, select <code>foo</code> in the canvas field, then save changes."
 
 #: canvas/one_panel.php:73
 msgid "Comments"
@@ -65,3 +53,4 @@ msgstr "Discussion"
 #: canvas/standard.php:105
 msgid "Attachments"
 msgstr "Attachments"
+

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-20 23:52+0100\n"
+"POT-Creation-Date: 2013-06-19 17:24+0200\n"
 "PO-Revision-Date: 2010-03-30 18:35+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -200,15 +200,15 @@ msgstr "Où voulez-vous aller à présent ?"
 msgid "Configure again"
 msgstr "Configurer de nouveau"
 
-#: feeds/describe.php:69
+#: feeds/describe.php:72
 msgid "Pages with full content"
 msgstr "Pages avec contenu intégral"
 
-#: feeds/describe.php:72
+#: feeds/describe.php:75
 msgid "Comments"
 msgstr "Commentaires"
 
-#: feeds/describe.php:75
+#: feeds/describe.php:78
 msgid "Files and podcasts"
 msgstr "Fichiers et podcasts"
 
@@ -420,7 +420,7 @@ msgstr "Choisissez une source"
 msgid "Aggregate this site"
 msgstr "Agrégez les nouvelles"
 
-#: feeds/rss.php:110
+#: feeds/rss.php:113
 msgid "Latest Articles"
 msgstr "Les derniers articles parus"
 

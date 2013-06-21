@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-07 10:32+0200\n"
+"POT-Creation-Date: 2013-06-19 17:24+0200\n"
 "PO-Revision-Date: 2012-11-20 23:54+0100\n"
 "Last-Translator: Bernard Paques <bernard.paques@gmail.com>\n"
 "Language-Team: Bernard Paques\n"
@@ -71,7 +71,7 @@ msgstr ""
 
 #: categories/category.php:68 categories/check.php:27 categories/check.php:38
 #: categories/check.php:95 categories/check.php:151 categories/check.php:261
-#: categories/delete.php:61 categories/edit.php:100 categories/feed.php:85
+#: categories/delete.php:61 categories/edit.php:100 categories/feed.php:88
 #: categories/index.php:61 categories/mail.php:55 categories/print.php:70
 #: categories/select.php:58 categories/view.php:176 categories/view.php:782
 msgid "Categories"
@@ -83,7 +83,7 @@ msgstr "Maintenance"
 
 #: categories/check.php:35 categories/delete.php:76
 #: categories/describe.php:111 categories/edit.php:126 categories/edit.php:146
-#: categories/feed.php:105 categories/index.php:69 categories/mail.php:63
+#: categories/feed.php:108 categories/index.php:69 categories/mail.php:63
 #: categories/mail.php:83 categories/print.php:79 categories/print.php:94
 #: categories/select.php:69 categories/select.php:85
 #: categories/set_as_thumbnail.php:58 categories/set_as_thumbnail.php:73
@@ -728,7 +728,7 @@ msgstr "Textarea"
 msgid "Help"
 msgstr "Help"
 
-#: categories/feed.php:88
+#: categories/feed.php:91
 msgid "RSS feed"
 msgstr "RSS feed"
 

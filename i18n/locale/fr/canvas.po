@@ -1,21 +1,17 @@
-# French translations for PACKAGE package.
-# Copyright (C) 2013 THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# Automatically generated, 2013.
-#
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-30 23:53+0200\n"
-"PO-Revision-Date: 2013-05-01 00:07+0100\n"
-"Last-Translator: Bernard Paques <bernard.paques@gmail.com>\n"
-"Language-Team: none\n"
-"Language: fr\n"
+"PO-Revision-Date: 2013-06-20 18:26+0100\n"
+"Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
+"Language-Team: AgnÃ¨s Rambaud, Bernard Paques\n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ASCII\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: canvas/index.php:23
 msgid "Canvas"
@@ -28,7 +24,7 @@ msgstr "Les canevas suivants peuvent personnaliser les pages de certaines sectio
 #: canvas/index.php:58
 #, php-format
 msgid "For example, if you want to apply the canvas <code>foo</code>, go to the %s, and select a target section, or add one."
-msgstr "Par exemple, pour employer le canevas <code>foo</code>, aller à %s, et sélectionner une section cible, ou en ajouter une."
+msgstr "Par exemple, si vous voulez indiquer le canvas <code>foo</code>, allez Ã  %s, et selectionnez une section cible, ou ajoutez-en une."
 
 #: canvas/index.php:58
 msgid "site map"
@@ -52,5 +48,5 @@ msgstr "Discussion"
 
 #: canvas/standard.php:105
 msgid "Attachments"
-msgstr "Pièces jointes"
+msgstr "PiÃ¨ces jointes"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-07 10:39+0200\n"
+"POT-Creation-Date: 2013-06-20 18:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -193,15 +193,15 @@ msgstr ""
 msgid "Configure again"
 msgstr ""
 
-#: feeds/describe.php:69
+#: feeds/describe.php:72
 msgid "Pages with full content"
 msgstr ""
 
-#: feeds/describe.php:72
+#: feeds/describe.php:75
 msgid "Comments"
 msgstr ""
 
-#: feeds/describe.php:75
+#: feeds/describe.php:78
 msgid "Files and podcasts"
 msgstr ""
 
@@ -399,7 +399,7 @@ msgstr ""
 msgid "Aggregate this site"
 msgstr ""
 
-#: feeds/rss.php:110
+#: feeds/rss.php:113
 msgid "Latest Articles"
 msgstr ""
 
