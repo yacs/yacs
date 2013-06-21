@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-07 10:39+0200\n"
+"POT-Creation-Date: 2013-06-20 18:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,7 +36,7 @@ msgstr ""
 
 #: users/complete.php:43 users/configure.php:156 users/delete.php:78
 #: users/describe.php:115 users/edit.php:149 users/edit.php:161
-#: users/element.php:110 users/feed.php:87 users/fetch_vcard.php:97
+#: users/element.php:110 users/feed.php:90 users/fetch_vcard.php:97
 #: users/heartbit.php:40 users/index.php:98 users/index.php:103
 #: users/leave.php:51 users/login.php:156 users/mail.php:73 users/mail.php:92
 #: users/mail.php:103 users/notifications.php:158 users/password.php:69
@@ -67,7 +67,7 @@ msgstr ""
 
 #: users/configure.php:147 users/configure.php:526 users/configure.php:640
 #: users/delete.php:65 users/describe.php:92 users/edit.php:128
-#: users/element.php:94 users/feed.php:75 users/fetch_vcard.php:76
+#: users/element.php:94 users/feed.php:78 users/fetch_vcard.php:76
 #: users/index.php:84 users/leave.php:42 users/login.php:406 users/mail.php:61
 #: users/password.php:54 users/review.php:33 users/review.php:68
 #: users/select_avatar.php:67 users/select.php:61 users/track.php:46
@@ -1010,7 +1010,7 @@ msgstr ""
 msgid "Be notified of additions from this person"
 msgstr ""
 
-#: users/feed.php:78
+#: users/feed.php:81
 msgid "RSS feed"
 msgstr ""
 

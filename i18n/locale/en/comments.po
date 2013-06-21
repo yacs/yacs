@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-07 10:32+0200\n"
+"POT-Creation-Date: 2013-06-19 17:24+0200\n"
 "PO-Revision-Date: 2012-11-20 23:54+0100\n"
 "Last-Translator: Bernard Paques <bernard.paques@gmail.com>\n"
 "Language-Team: Bernard Paques\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: comments/check.php:21 comments/edit.php:165 comments/feed.php:73
+#: comments/check.php:21 comments/edit.php:165 comments/feed.php:76
 #: comments/list.php:98 comments/list.php:104 comments/list.php:170
 #: comments/post.php:178
 msgid "Comments"
@@ -29,7 +29,7 @@ msgid "Maintenance"
 msgstr "Maintenance"
 
 #: comments/check.php:29 comments/delete.php:72 comments/delete.php:81
-#: comments/edit.php:181 comments/edit.php:197 comments/feed.php:89
+#: comments/edit.php:181 comments/edit.php:197 comments/feed.php:92
 #: comments/index.php:51 comments/list.php:120 comments/list.php:125
 #: comments/post.php:186 comments/promote.php:77 comments/promote.php:92
 #: comments/thread.php:54 comments/thread.php:64 comments/thread.php:69
@@ -409,21 +409,21 @@ msgstr "Textarea"
 msgid "Help"
 msgstr "Help"
 
-#: comments/feed.php:76
+#: comments/feed.php:79
 msgid "RSS feed"
 msgstr "RSS feed"
 
-#: comments/feed.php:111
+#: comments/feed.php:114
 #, php-format
 msgid "Comments for: %s"
 msgstr "Comments for: %s"
 
-#: comments/feed.php:115
+#: comments/feed.php:118
 #, php-format
 msgid "Recent comments at %s"
 msgstr "Recent comments at %s"
 
-#: comments/feed.php:117
+#: comments/feed.php:120
 msgid "Each article also has its own newsfeed."
 msgstr "Each article also has its own newsfeed."
 

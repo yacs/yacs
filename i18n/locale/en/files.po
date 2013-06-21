@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-07 10:32+0200\n"
+"POT-Creation-Date: 2013-06-19 17:24+0200\n"
 "PO-Revision-Date: 2012-11-20 23:55+0100\n"
 "Last-Translator: Bernard Paques <bernard.paques@gmail.com>\n"
 "Language-Team: Bernard Paques\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: files/check.php:23 files/check.php:34 files/check.php:90
 #: files/configure.php:44 files/configure.php:150 files/configure.php:224
-#: files/delete.php:68 files/edit.php:130 files/feed.php:108
+#: files/delete.php:68 files/edit.php:130 files/feed.php:111
 #: files/fetch_all.php:99 files/fetch.php:114 files/index.php:58
 #: files/list.php:66 files/list.php:72 files/review.php:30 files/review.php:36
 #: files/stream.php:112 files/thread.php:60 files/thread.php:63
@@ -33,7 +33,7 @@ msgid "Maintenance"
 msgstr "Maintenance"
 
 #: files/check.php:31 files/configure.php:53 files/delete.php:81
-#: files/edit.php:149 files/edit.php:179 files/feed.php:124
+#: files/edit.php:149 files/edit.php:179 files/feed.php:127
 #: files/fetch_all.php:116 files/fetch.php:147 files/files.php:3013
 #: files/index.php:68 files/list.php:88 files/list.php:93 files/stream.php:139
 #: files/thread.php:68 files/view.php:146
@@ -539,16 +539,16 @@ msgstr "Do not change modification date of the main page."
 msgid "Ensure this post is valid XHTML."
 msgstr "Ensure this post is valid XHTML."
 
-#: files/feed.php:111
+#: files/feed.php:114
 msgid "RSS feed"
 msgstr "RSS feed"
 
-#: files/feed.php:145
+#: files/feed.php:148
 #, php-format
 msgid "Files at %s"
 msgstr "Files at %s"
 
-#: files/feed.php:147
+#: files/feed.php:150
 msgid "Most recent public files"
 msgstr "Most recent public files"
 
