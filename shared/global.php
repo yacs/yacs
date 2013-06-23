@@ -1188,15 +1188,14 @@ function render_skin($with_last_modified=TRUE) {
 		.JS_SUFFIX;
 
 	// activate tinyMCE, if available
-	if(isset($context['javascript']['tinymce']) && file_exists($context['path_to_root'].'included/tiny_mce/tiny_mce.js')) {
+	if(isset($context['javascript']['tinymce'])) {
 
-		$metas[] = '<script type="text/javascript" src="'.$context['url_to_root'].'included/tiny_mce/tiny_mce.js"></script>'."\n"
-			.JS_PREFIX
-			.'	tinyMCE.init({'."\n"
+		Page::defer_script('included/tiny_mce/tiny_mce.js');
+		Page::insert_script('	tinyMCE.init({'."\n"
 			.'		mode : "textareas",'."\n"
 			.'		theme : "advanced",'."\n"
 			.'		editor_selector : "tinymce",'."\n"
-			.'		language : "fr",'."\n"
+			.'		language : "'.$context['language'].'",'."\n"
 			.'		disk_cache : false,'."\n"
 			.'		relative_urls : false,'."\n"
 			.'		remove_script_host : false,'."\n"
@@ -1214,45 +1213,17 @@ function render_skin($with_last_modified=TRUE) {
 			.'		template_external_list_url : "example_template_list.js",'."\n"
 			.'		use_native_selects : true,'."\n"
 			.'		debug : false	});'."\n"
-			.JS_SUFFIX;
+			);
 
 	}
 
 	// javascript libraries files to declare in header of page
 	$context['page_header'] .= Js_Css::get_js_libraries('js_header');
-
-	// load occasional libraries declared through scripts
-	if(isset($context['javascript']['header']))
-	    $context['page_header'] .= $context['javascript']['header'];
-
-	// jquery-ui stylesheet
-	$context['page_header'] .= '<link rel="stylesheet" href="'.$context['url_to_root'].'included/browser/css/redmond/jquery-ui-1.10.3.custom.min.css" type="text/css" media="all" />'."\n";
-
-	// activate jscolor, if available
-	if(isset($context['javascript']['jscolor']) && file_exists($context['path_to_root'].'included/jscolor/jscolor.js'))
-		$metas[] = '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscolor/jscolor.js"></script>';
-
-	// activate SIMILE timeline, if required
-	if(isset($context['javascript']['timeline']))
-		$metas[] = '<script type="text/javascript" src="http://simile.mit.edu/timeline/api/timeline-api.js"></script>';
-
-	// activate SIMILE timeplot, if required
-	if(isset($context['javascript']['timeplot']))
-		$metas[] = '<script type="text/javascript" src="http://api.simile-widgets.org/timeplot/1.1/timeplot-api.js"></script>';
-
-	// activate SIMILE exhibit, if required
-	if(isset($context['javascript']['exhibit']))
-		$metas[] = '<script type="text/javascript" src="http://static.simile.mit.edu/exhibit/api-2.0/exhibit-api.js"></script>';
-
-	// activate OpenTok, if required
-	if(isset($context['javascript']['opentok']))
-//		$metas[] = '<script type="text/javascript" src="http://staging.tokbox.com/v0.91/js/TB.min.js"></script>';
-		$metas[] = '<script type="text/javascript" src="http://static.opentok.com/v0.91/js/TB.min.js"></script>';
-
-// 	// load the google library
-// 	if(isset($context['google_api_key']) && $context['google_api_key'])
-// 		$metas[] = '<script type="text/javascript" src="http://www.google.com/jsapi?key='.$context['google_api_key'].'"></script>';
-
+	
+		// insert headers (and maybe, include more javascript files)
+	if(isset($context['site_head']))
+		$metas[] = $context['site_head'];			
+	
 	// provide a page reference to Javascript --e.g., for reporting activity from this page
 	$context['page_footer'] .= JS_PREFIX;
 
@@ -1270,63 +1241,64 @@ function render_skin($with_last_modified=TRUE) {
 
 	$context['page_footer'] .= JS_SUFFIX;
 
-	// insert headers (and maybe, include more javascript files)
-	if(isset($context['site_head']))
-		$metas[] = $context['site_head'];
+	// jquery-ui stylesheet	
+	Page::load_style('included/browser/css/redmond/jquery-ui-1.10.3.custom.min.css');
 
-	// javascript libraries files to declare in footer of page, plus YACS ajax library
-	$context['page_footer'] = Js_Css::get_js_libraries('js_endpage','shared/yacs.js').$context['page_footer'];
+	// activate jscolor, if available
+	if(isset($context['javascript']['jscolor']))
+		Page::load_script('included/jscolor/jscolor.js');
 
+	// activate SIMILE timeline, if required
+	if(isset($context['javascript']['timeline']))		
+		Page::load_script('http://simile.mit.edu/timeline/api/timeline-api.js');
+		
+
+	// activate SIMILE timeplot, if required
+	if(isset($context['javascript']['timeplot']))		
+		Page::load_script('http://api.simile-widgets.org/timeplot/1.1/timeplot-api.js');
+
+	// activate SIMILE exhibit, if required
+	if(isset($context['javascript']['exhibit']))
+		Page::load_script('http://static.simile.mit.edu/exhibit/api-2.0/exhibit-api.js');
+
+	// activate OpenTok, if required
+	if(isset($context['javascript']['opentok']))		
+		Page::load_script('http://static.opentok.com/v0.91/js/TB.min.js');
+	
+	// activate jsCalendar, if required
+	if(isset($context['javascript']['calendar'])) {
+
+		// load the skin
+		Page::load_style('included/jscalendar/skins/aqua/theme.css');
+		Page::load_style('included/jscalendar/calendar-system.css');		
+
+		// use the compressed version if it's available
+		Page::defer_script('included/jscalendar/calendar.min.js');		
+
+		if(file_exists($context['path_to_root'].'included/jscalendar/lang/calendar-'.strtolower($context['language']).'.js'))
+		    Page::defer_script('included/jscalendar/lang/calendar-'.strtolower($context['language']).'.js');			
+		else 
+		    Page::defer_script ('included/jscalendar/lang/calendar-en.js');		    		
+
+		Page::defer_script('included/jscalendar/calendar-setup.min.js');		
+
+	}
+	
+	// load occasional libraries declared through scripts
+	if(isset($context['javascript']['header']))
+	    $context['page_header'] .= $context['javascript']['header'];
+	
+	
 	// load occasional libraries declared through scripts
 	if(isset($context['javascript']['footer']))
 		$context['page_footer'] .= $context['javascript']['footer'];
 
+	// javascript libraries files to declare in footer of page, plus YACS ajax library
+	$context['page_footer'] = Js_Css::get_js_libraries('js_endpage','shared/yacs.js').$context['page_footer'];	
+
 	// site trailer, if any
 	if(isset($context['site_trailer']) && $context['site_trailer'])
-		$context['page_footer'] .= $context['site_trailer']."\n";
-
-	// activate jsCalendar, if available
-	if(isset($context['javascript']['calendar']) && (file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js'))) {
-
-		// load the skin
-		$context['page_header'] .= '<link rel="stylesheet" type="text/css" media="all" href="'.$context['url_to_root'].'included/jscalendar/skins/aqua/theme.css" title="jsCalendar - Aqua" />'."\n";
-		$context['page_header'] .= '<link rel="alternate stylesheet" type="text/css" media="all" href="'.$context['url_to_root'].'included/jscalendar/calendar-system.css" title="jsCalendar - system" >'."\n";
-
-		// use the compressed version if it's available
-		if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js'.'.jsmin'))
-			$context['page_footer'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscalendar/calendar.js'.'.jsmin"></script>'."\n";
-		else
-			$context['page_footer'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscalendar/calendar.js"></script>'."\n";
-
-		if(file_exists($context['path_to_root'].'included/jscalendar/lang/calendar-'.strtolower($context['language']).'.js')) {
-			$context['page_footer'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscalendar/lang/calendar-'.strtolower($context['language']).'.js"></script>'."\n";
-		} else {
-			$context['page_footer'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscalendar/lang/calendar-en.js"></script>'."\n";
-		}
-
-		if(file_exists($context['path_to_root'].'included/jscalendar/calendar-setup.js'.'.jsmin'))
-			$context['page_footer'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscalendar/calendar-setup.js'.'.jsmin"></script>'."\n";
-		else
-			$context['page_footer'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscalendar/calendar-setup.js"></script>'."\n";
-
-
-	}
-
-	// activate google analytics, if configured
-	if(isset($context['google_analytics_account']) && $context['google_analytics_account']) {
-
-		$context['page_header'] .= '<script type="text/javascript">'."\n"
-			."\t".'var _gaq = _gaq || [];'."\n"
-			."\t".'_gaq.push([\'_setAccount\', \''.$context['google_analytics_account'].'\']);'."\n"
-			."\t".'_gaq.push([\'_trackPageview\']);'."\n"
-			."\t\n"
-			."\t".'(function() {'."\n"
-			."\t".'var ga = document.createElement(\'script\'); ga.type = \'text/javascript\'; ga.async = true;'."\n"
-			."\t".'ga.src = (\'https:\' == document.location.protocol ? \'https://ssl\' : \'http://www\') + \'.google-analytics.com/ga.js\';'."\n"
-			."\t".'var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(ga, s);'."\n"
-			."\t".'})();'."\n"
-			.'</script>'."\n";
-	}
+		$context['page_footer'] .= $context['site_trailer']."\n";		
 
 	// insert one tabulation before each header line
 	$context['page_header'] = "\t".str_replace("\n", "\n\t", join("\n", $metas)."\n".$context['page_header'])."\n";

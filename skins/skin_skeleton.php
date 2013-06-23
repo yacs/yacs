@@ -1444,22 +1444,21 @@ Class Skin_Skeleton {
 			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="15" maxlength="15" '.$onchange.'/>'
 				.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" alt="" >';
 
-			// these are enhanced with jsCalendar, if present
-			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
-				$text .= JS_PREFIX
-					.'$(function() { Calendar.setup({'."\n"
-					.'	inputField	:	"'.$name.'",'."\n"
-					.'	ifFormat	:	"%Y-%m-%d",'."\n"
-					.'	showsTime	:	false,'."\n"
-					.'	button		:	 "'.$name.'_trigger",'."\n"
-					.'	align		:	 "CC",'."\n"
-					.'	singleClick :	 true'."\n"
-					.'}); });'."\n"
-					.JS_SUFFIX."\n";
+			// these are enhanced with jsCalendar
+			Page::insert_script(
+				'$(function() { Calendar.setup({'."\n"
+				.'	inputField	:	"'.$name.'",'."\n"
+				.'	ifFormat	:	"%Y-%m-%d",'."\n"
+				.'	showsTime	:	false,'."\n"
+				.'	button		:	 "'.$name.'_trigger",'."\n"
+				.'	align		:	 "CC",'."\n"
+				.'	singleClick :	 true'."\n"
+				.'}); });'
+				);
 
-				// load the jscalendar library
-				$context['javascript']['calendar'] = TRUE;
-			}
+			// load the jscalendar library
+			$context['javascript']['calendar'] = TRUE;
+			
 
 			return $text;
 
@@ -1473,23 +1472,22 @@ Class Skin_Skeleton {
 			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="20" maxlength="255" '.$onchange.' />'
 				.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" alt="" />';
 
-			// these are enhanced with jsCalendar, if present
-			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
-				$text .= JS_PREFIX
-					.'$(function() { Calendar.setup({'."\n"
-					.'	inputField	:	"'.$name.'",'."\n"
-					.'	ifFormat	:	"%Y-%m-%d %H:%M",'."\n"
-					.'	showsTime	:	true,'."\n"
-					.'	timeFormat	:	"24",'."\n"
-					.'	button		:	 "'.$name.'_trigger",'."\n"
-					.'	align		:	 "CC",'."\n"
-					.'	singleClick :	 true'."\n"
-					.'}); });'."\n"
-					.JS_SUFFIX."\n";
+			// these are enhanced with jsCalendar
+			Page::insert_script(
+				'$(function() { Calendar.setup({'."\n"
+				.'	inputField	:	"'.$name.'",'."\n"
+				.'	ifFormat	:	"%Y-%m-%d %H:%M",'."\n"
+				.'	showsTime	:	true,'."\n"
+				.'	timeFormat	:	"24",'."\n"
+				.'	button		:	 "'.$name.'_trigger",'."\n"
+				.'	align		:	 "CC",'."\n"
+				.'	singleClick :	 true'."\n"
+				.'}); });'."\n"				
+				);
 
-				// load the jscalendar library
-				$context['javascript']['calendar'] = TRUE;
-			}
+			// load the jscalendar library
+			$context['javascript']['calendar'] = TRUE;
+			
 
 			return $text;
 
@@ -1519,19 +1517,17 @@ Class Skin_Skeleton {
 			.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\'; javascript:Calendar.setup({inputField:\''.$name.'\',ifFormat:\'%b-%Y\',showsTime:true,timeFormat:\'24\',button:\''.$name.'_trigger\',align:\'CC\',singleClick:true});"  onmouseout="this.style.background=\'\'" alt="" />';
 			;
 
-			// these are enhanced with jsCalendar, if present
-			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
-				$text .= JS_PREFIX
-					.'$(function() { Calendar.setup({'."\n"
-					.'	inputField	:	"'.$name.'",'."\n"
-					.'	displayArea :	"'.$name.'",'."\n"
-					.'	ifFormat	:	"%b-%Y"'."\n"
-					.'}); });'."\n"
-					.JS_SUFFIX."\n";
+			Page::insert_script(
+			    '$(function() { Calendar.setup({'."\n"
+			    .'	inputField	:	"'.$name.'",'."\n"
+			    .'	displayArea :	"'.$name.'",'."\n"
+			    .'	ifFormat	:	"%b-%Y"'."\n"
+			    .'}); });'."\n"
+			    );
 
-				// load the jscalendar library
-				$context['javascript']['calendar'] = TRUE;
-			}
+			// load the jscalendar library
+			$context['javascript']['calendar'] = TRUE;
+			
 
 			return $text;
 
