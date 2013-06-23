@@ -180,9 +180,9 @@ Class Layout_articles_as_simile extends Layout_interface {
 		$now = gmdate('M d Y H:i:s', time()-7*24*60*60);
 
 		// load the right file
-		$text = '<div id="articles_as_simile_'.$count.'" style="height: 300px; border: 1px solid #aaa; font-size: 10px"></div>'."\n"
-			.JS_PREFIX
-			.'var simile_handle_'.$count.';'."\n"
+		$text = '<div id="articles_as_simile_'.$count.'" style="height: 300px; border: 1px solid #aaa; font-size: 10px"></div>'."\n";
+		Page::insert_script(
+			'var simile_handle_'.$count.';'."\n"
 			.'function onLoad'.$count.'() {'."\n"
 			.'  var eventSource = new Timeline.DefaultEventSource();'."\n"
 			.'  var bandInfos = ['."\n"
@@ -224,7 +224,7 @@ Class Layout_articles_as_simile extends Layout_interface {
 			.'// observe page major events'."\n"
 			.'$(document).ready( onLoad'.$count.');'."\n"
 			.'$(window).resize(onResize'.$count.');'."\n"
-			.JS_SUFFIX;
+			);
 
 		// end of processing
 		SQL::free($result);
