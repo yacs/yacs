@@ -209,7 +209,8 @@ Class Js_Css {
 
 	    // scan for js files in folder
 	    $js_libs = array();
-	    foreach(Safe::glob($context['path_to_root'].$path.'*.js') as $file) {
+	    if(!$files = Safe::glob($context['path_to_root'].$path.'*.js')) return $html;
+	    foreach($files as $file) {
 		    $js_libs[]= basename($file);
 	    }
 

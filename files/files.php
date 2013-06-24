@@ -1684,7 +1684,7 @@ Class Files {
 					.'swfobject.embedSWF("'.$dewplayer_url.'", "interact_'.$counter.'", "200", "20", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
 					);
 				
-				return $ouput;
+				return $output;
 					
 				
 
