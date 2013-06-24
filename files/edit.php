@@ -695,10 +695,7 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#upload").focus();'."\n"
-		.JS_SUFFIX."\n";
+	Page::insert_script('$("#upload").focus();');
 
 }
 

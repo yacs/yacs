@@ -432,33 +432,29 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= '</div></form>';
 
 	// append the script used for data checking on the browser
-	$context['text'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// title is mandatory'."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'
+			// title is mandatory'."\n"
 		.'	if(!container.subject.value) {'."\n"
 		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// body is mandatory'."\n"
+			// body is mandatory
 		.'	if(!container.message.value) {'."\n"
 		.'		alert("'.i18n::s('Message content can not be empty.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
+			// successful check
 		.'	return true;'."\n"
 		.'}'."\n"
-		."\n"
 		.'$(function() {'."\n"
 		.'	$("#names").focus();'."\n" // set the focus on first form field
 		.'	Yacs.autocomplete_names("names");'."\n" // enable names autocompletion
 		.'});  '."\n"
-		.JS_SUFFIX;
+		);
 
 	// help message
 	$help = '<p>'.i18n::s('New e-mail addresses are converted to new user profiles. Because of this, you should not use e-mail addresses that have multiple recipients.').'</p>';

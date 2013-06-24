@@ -785,8 +785,8 @@ if($with_form) {
 	$hint = i18n::s('You may combine several keywords:').'<div id="options_list">'.Skin::finalize_list($keywords, 'compact').'</div>';
 	$fields[] = array($label, $input, $hint);
 
-	$context['page_footer'] .= JS_PREFIX
-		.'function append_to_options(keyword) {'."\n"
+	Page::insert_script(
+		'function append_to_options(keyword) {'."\n"
 		.'	var target = $("#options");'."\n"
 		.'	target.val(target.val() + " " + keyword);'."\n"
 		.'}'."\n"
@@ -795,7 +795,7 @@ if($with_form) {
 		.'		append_to_options($(this).text());'."\n"
 		.'	}).css("cursor","pointer");'."\n"
 		.'});'
-		.JS_SUFFIX;
+		);
 
 	// associates can change the overlay --complex interface
 	if(Surfer::is_associate() && Surfer::has_all()) {
@@ -897,29 +897,25 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// append the script used for data checking on the browser
-	$context['page_footer'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// title is mandatory'."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// title is mandatory
 		.'	if(!container.title.value) {'."\n"
 		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
+			// successful check
 		.'	return true;'."\n"
 		.'}'."\n"
-		."\n"
-		.'// disable editor selection on change in form'."\n"
+		// disable editor selection on change in form
                 .'$("#main_form textarea, #main_form input, #main_form select").change(function() {'."\n"
                 .'      $("#preferred_editor").attr("disabled",true);'."\n"
                 .'});'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'$("#title").focus();'."\n"
-		.JS_SUFFIX;
+		);
 
 	// content of the help box
 	$help = '';

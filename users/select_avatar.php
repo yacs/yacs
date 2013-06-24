@@ -130,10 +130,7 @@ if(!count($context['error']) && isset($item['id'])) {
 		$text .= '</div></form>';
 
 		// the script used for form handling at the browser
-		$text .= JS_PREFIX
-			.'// set the focus on first form field'."\n"
-			.'$("#upload").focus();'."\n"
-			.JS_SUFFIX."\n";
+		Page::insert_script('$("#upload").focus();');
 
 
 		$context['text'] .= Skin::build_content(NULL, i18n::s('Upload an image'), $text);

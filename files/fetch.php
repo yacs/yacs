@@ -289,10 +289,7 @@ if(!isset($item['id']) || !$item['id']) {
 		.'</div></form>'."\n";
 
 	// set the focus
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#confirmed").focus();'."\n"
-		.JS_SUFFIX."\n";
+	Page::insert_script('$("#confirmed").focus();');
 
 //actual transfer
 } elseif($item['id'] && $item['anchor']) {

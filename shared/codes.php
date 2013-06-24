@@ -1451,9 +1451,10 @@ Class Codes {
 			$chart_index++;
 
 		$url = $context['url_to_home'].$context['url_to_root'].'included/browser/open-flash-chart.swf';
-		$text = '<div id="open_flash_chart_'.$chart_index.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-			.JS_PREFIX
-			.'var params = {};'."\n"
+		$text = '<div id="open_flash_chart_'.$chart_index.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+			
+		Page::insert_script(
+			'var params = {};'."\n"
 			.'params.base = "'.dirname($url).'/";'."\n"
 			.'params.quality = "high";'."\n"
 			.'params.wmode = "opaque";'."\n"
@@ -1467,7 +1468,7 @@ Class Codes {
 			.'function get_open_flash_chart_'.$chart_index.'() {'."\n"
 			.'	return $.toJSON(chart_data_'.$chart_index.');'."\n"
 			.'}'."\n"
-			.JS_SUFFIX;
+			);
 
 		return $text;
 
@@ -1607,9 +1608,10 @@ Class Codes {
 
 			// load it through Javascript
 			$url = $context['url_to_home'].$context['url_to_root'].'included/browser/open-flash-chart.swf';
-			$text = '<div id="table_chart_'.$chart_index.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-				.JS_PREFIX
-				.'var params = {};'."\n"
+			$text = '<div id="table_chart_'.$chart_index.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+			
+			Page::insert_script(
+				'var params = {};'."\n"
 				.'params.base = "'.dirname($url).'/";'."\n"
 				.'params.quality = "high";'."\n"
 				.'params.wmode = "opaque";'."\n"
@@ -1623,7 +1625,7 @@ Class Codes {
 				.'function table_chart_'.$chart_index.'() {'."\n"
 				.'	return $.toJSON(chart_data_'.$chart_index.');'."\n"
 				.'}'."\n"
-				.JS_SUFFIX;
+				);
 
 		// build sparkline
 		} elseif($variant == 'line') {
@@ -1760,13 +1762,14 @@ Class Codes {
 			if(Surfer::has_flash()) {
 
 				// the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
-				$output = '<div id="flv_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-					.JS_PREFIX
-					.'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showfullscreen:1, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
+				$output = '<div id="flv_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+					
+				Page::insert_script(
+					'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showfullscreen:1, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
 					.'var params = { allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
 					.'var attributes = { id: "file_'.$item['id'].'", name: "file_'.$item['id'].'"}'."\n"
 					.'swfobject.embedSWF("'.$flvplayer_url.'", "flv_'.$item['id'].'", "'.$width.'", "'.$height.'", "9", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params);'."\n"
-					.JS_SUFFIX."\n";
+					);
 
 			// native support
  			} else {
@@ -1816,9 +1819,10 @@ Class Codes {
 			$now = gmdate('M d Y H:i:s', time()-7*24*60*60);
 
 			// load the right file
-			$output = '<div id="gantt" style="height: '.$height.'; width: '.$width.'; border: 1px solid #aaa; font-family: Trebuchet MS, Helvetica, Arial, sans serif; font-size: 8pt"></div>'."\n"
-				.JS_PREFIX
-				.'var simile_handle;'."\n"
+			$output = '<div id="gantt" style="height: '.$height.'; width: '.$width.'; border: 1px solid #aaa; font-family: Trebuchet MS, Helvetica, Arial, sans serif; font-size: 8pt"></div>'."\n";
+			
+			Page::insert_script(
+				'var simile_handle;'."\n"
 				.'function onLoad() {'."\n"
 				.'  var eventSource = new Timeline.DefaultEventSource();'."\n"
 				.'	var theme = Timeline.ClassicTheme.create();'."\n"
@@ -1867,7 +1871,7 @@ Class Codes {
 				.'// observe page major events'."\n"
 				.'$(document).ready( onLoad);'."\n"
 				.'$(window).resize(onResize);'."\n"
-				.JS_SUFFIX;
+				);
 
 			// job done
 			return $output;
@@ -1908,16 +1912,17 @@ Class Codes {
 			// variables
 			$flashvars = 'initLoadFile='.$target_href.'&openUrl=_self';
 
-			$output = '<div id="freemind_viewer_'.$freemind_viewer_index.'">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-				.JS_PREFIX
-				.'var params = {};'."\n"
+			$output = '<div id="freemind_viewer_'.$freemind_viewer_index.'">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+			
+			Page::insert_script(
+				'var params = {};'."\n"
 				.'params.base = "'.dirname($url).'/";'."\n"
 				.'params.quality = "high";'."\n"
 				.'params.wmode = "transparent";'."\n"
 				.'params.menu = "false";'."\n"
 				.'params.flashvars = "'.$flashvars.'";'."\n"
 				.'swfobject.embedSWF("'.$url.'", "freemind_viewer_'.$freemind_viewer_index.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-				.JS_SUFFIX."\n";
+				);
 
 			// offer to download a copy of the map
 			$menu = array($target_href => i18n::s('Browse this map with Freemind'));
@@ -1939,9 +1944,10 @@ Class Codes {
 			else
 				$url = $context['url_to_home'].$context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
 
-			$output = '<div id="swf_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-				.JS_PREFIX
-				.'var params = {};'."\n"
+			$output = '<div id="swf_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+				
+			Page::insert_script(
+				'var params = {};'."\n"
 				.'params.base = "'.dirname($url).'/";'."\n"
 				.'params.quality = "high";'."\n"
 				.'params.wmode = "transparent";'."\n"
@@ -1949,7 +1955,8 @@ Class Codes {
 				.'params.allowscriptaccess = "always";'."\n"
 				.'params.flashvars = "'.$flashvars.'";'."\n"
 				.'swfobject.embedSWF("'.$url.'", "swf_'.$item['id'].'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-				.JS_SUFFIX."\n";
+				);
+			
 			return $output;
 
 		// link to file page
@@ -2373,16 +2380,17 @@ Class Codes {
 			else {
 				$url = $context['url_to_home'].$context['url_to_root'].'feeds/flash/slashdot.php';
 				$flashvars = '';
-				$text = '<div id="local_news" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-					.JS_PREFIX
-					.'var params = {};'."\n"
+				$text = '<div id="local_news" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+					
+				Page::insert_script(
+					'var params = {};'."\n"
 					.'params.base = "'.dirname($url).'/";'."\n"
 					.'params.quality = "high";'."\n"
 					.'params.wmode = "transparent";'."\n"
 					.'params.menu = "false";'."\n"
 					.'params.flashvars = "'.$flashvars.'";'."\n"
 					.'swfobject.embedSWF("'.$url.'", "local_news", "80%", "50", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-					.JS_SUFFIX;
+					);
 			}
 
 			return $text;
@@ -2418,10 +2426,8 @@ Class Codes {
 		case 'ajax': // asynchronous loading
 		default:
 
-			$text = '<div id="newsfeed_'.$count.'" class="no_print"></div>'."\n"
-			.JS_PREFIX
-			.'$(function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\' }, id: 1 }, function(s) { if(s.text) { $("#newsfeed_'.$count.'").html(s.text.toString()); } else { $("#newsfeed_'.$count.'").html("***error***"); } } ) } );'."\n"
-			.JS_SUFFIX;
+			$text = '<div id="newsfeed_'.$count.'" class="no_print"></div>'."\n";
+			Page::insert_script('$(function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\' }, id: 1 }, function(s) { if(s.text) { $("#newsfeed_'.$count.'").html(s.text.toString()); } else { $("#newsfeed_'.$count.'").html("***error***"); } } ) } );');			
 
 			return $text;
 
@@ -3113,16 +3119,17 @@ Class Codes {
 				else
 					$flashvars = 'son='.$url;
 
-				$output = '<div id="sound_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-					.JS_PREFIX
-					.'var params = {};'."\n"
+				$output = '<div id="sound_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+				
+				Page::insert_script(
+					'var params = {};'."\n"
 					.'params.base = "'.dirname($url).'/";'."\n"
 					.'params.quality = "high";'."\n"
 					.'params.wmode = "transparent";'."\n"
 					.'params.menu = "false";'."\n"
 					.'params.flashvars = "'.$flashvars.'";'."\n"
 					.'swfobject.embedSWF("'.$dewplayer_url.'", "sound_'.$item['id'].'", "200", "20", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-					.JS_SUFFIX."\n";
+					);
 				return $output;
 
 			// link to file page
@@ -3584,10 +3591,8 @@ Class Codes {
 		global $context;
 
 		// we return some text --$context['self_url'] already has $context['url_to_root'] in it
-		$text = JS_PREFIX
-			.'tweetmeme_url = "'.$context['url_to_home'].$context['self_url'].'";'."\n"
-			.JS_SUFFIX
-			.'<script type="text/javascript" src="http://tweetmeme.com/i/scripts/button.js"></script>';
+		Page::insert_script('tweetmeme_url = "'.$context['url_to_home'].$context['self_url'].'";');			
+		Page::defer_script("http://tweetmeme.com/i/scripts/button.js");			
 
 		// job done
 		return $text;

@@ -542,8 +542,8 @@ if($with_form) {
 	$hint = i18n::s('You may combine several keywords:').'<div id="content_options_list">'.Skin::finalize_list($keywords, 'compact').'</div>';
 	$fields[] = array($label, $input, $hint);
 
-	$context['page_footer'] .= JS_PREFIX
-		.'function append_to_content_options(keyword) {'."\n"
+	Page::insert_script(
+		'function append_to_content_options(keyword) {'."\n"
 		.'	var target = $("#content_options");'."\n"
 		.'	target.val(target.val() + " " + keyword);'."\n"
 		.'}'."\n"
@@ -552,7 +552,7 @@ if($with_form) {
 		.'		append_to_content_options($(this).text());'."\n"
 		.'	}).css("cursor","pointer");'."\n"
 		.'});'
-		.JS_SUFFIX;
+		);
 
 	// content overlay
 	if(Surfer::is_associate()) {
@@ -1084,8 +1084,8 @@ if($with_form) {
 	$hint = i18n::s('You may combine several keywords:').'<div id="options_list">'.Skin::finalize_list($keywords, 'compact').'</div>';
 	$fields[] = array($label, $input, $hint);
 
-	$context['page_footer'] .= JS_PREFIX
-		.'function append_to_options(keyword) {'."\n"
+	Page::insert_script(
+		'function append_to_options(keyword) {'."\n"
 		.'	var target = $("#options");'."\n"
 		.'	target.val(target.val() + " " + keyword);'."\n"
 		.'}'."\n"
@@ -1094,7 +1094,7 @@ if($with_form) {
 		.'		append_to_options($(this).text());'."\n"
 		.'	}).css("cursor","pointer");'."\n"
 		.'});'
-		.JS_SUFFIX;
+		);
 
 	// language of this page
 	$label = i18n::s('Language');
@@ -1221,44 +1221,40 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// append the script used for data checking on the browser
-	$context['page_footer'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// title is mandatory'."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// title is mandatory
 		.'	if(!Yacs.trim(container.index_title.value)) {'."\n"
 		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
-		.'//	return true;'."\n"
+			// successful check
+		.'	return true;'."\n"
 		.'}'."\n"
-		."\n"
-		.'// if title is empty of equal to index_title'."\n"
+		// if title is empty of equal to index_title
 		.'if( $("#title").val()=="" || $("#title").val()==$("#index_title").val()) {'."\n"
-		.'      // then synchronise index_title and title'."\n"
+		      // then synchronise index_title and title
 		.'      $("#index_title").change(function() {'."\n"
 		.'              $("#title").val($("#index_title").val());'."\n"
 		.'      });'."\n"
 		.'}'."\n"
-		.'//stop updating title from index_title if edited by surfer'."\n"
+		//stop updating title from index_title if edited by surfer
 		.'$("#title").change( function() {'."\n"
 		.'      $("#index_title").unbind("change");'."\n"
 		.'});'."\n"
-		.'// disable editor selection on change in form'."\n"
+		// disable editor selection on change in form
 		.'$("#main_form textarea, #main_form input, #main_form select").change(function() {'."\n"
 		.'      $("#preferred_editor").attr("disabled",true);'."\n"
 		.'});'."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'$("#index_title").focus();'."\n"
-		."\n"
-		.'// enable tags autocompletion'."\n"
+		// enable tags autocompletion
 		.'$(function() {'."\n"
 		.'  Yacs.autocomplete_m("tags", "'.$context['url_to_root'].'categories/complete.php");'."\n"
-		.'});  '."\n"
-		.JS_SUFFIX;
+		.'});  '
+		);
 
 	// content of the help box
 	$help = '';

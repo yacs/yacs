@@ -610,13 +610,13 @@ Class Locations {
 		$longitude_middle = $longitudes / max(1, $index);
 
 		// create this map
-		$text .= JS_PREFIX
-			.'var mapOptions = {'."\n"
+		$js_script = 
+			'var mapOptions = {'."\n"
 			.'	zoom: 13,'."\n"
 			.'	center: new google.maps.LatLng(parseFloat("'.$latitude_middle.'"), parseFloat("'.$longitude_middle.'")),'."\n"
 			.'	mapTypeId: google.maps.MapTypeId.ROADMAP'."\n"
 			.'};'."\n"
-			.'var map = new google.maps.Map($("#'.$handle.'")[0], mapOptions);'."\n";
+			.'var map = new google.maps.Map($("#'.$handle.'")[0], mapOptions);';
 
 		// add all markers
 		$index = 1;
@@ -651,7 +651,7 @@ Class Locations {
 				$icon = 'iconBlue';
 
 			// add one marker for this item
-			$text .= '	var point = new google.maps.LatLng(parseFloat("'.$item['latitude'].'"), parseFloat("'.$item['longitude'].'"));'."\n"
+			$js_script .= '	var point = new google.maps.LatLng(parseFloat("'.$item['latitude'].'"), parseFloat("'.$item['longitude'].'"));'."\n"
 				.'	var marker'.$map_index.$index.' = new google.maps.Marker({ position: point, map: map });'."\n"
 				.'	var infoWindow = new google.maps.InfoWindow();'."\n"
 				.'google.maps.event.addDomListener(marker'.$map_index.$index.', "click", function() {'."\n"
@@ -669,7 +669,7 @@ Class Locations {
 		}
 
 		// the postamble
-		$text .= JS_SUFFIX;
+		Page::insert_script($js_script);
 
 		// job done
 		return $text;
@@ -696,8 +696,8 @@ Class Locations {
 		$text .= '<script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>'."\n";
 
 		// load some icons from Google
-		$text .= JS_PREFIX
-			.'if(typeof google.maps.Icon != "undefined") {'."\n"
+		Page::insert_script(
+			'if(typeof google.maps.Icon != "undefined") {'."\n"
 			.'	var iconBlue = new google.maps.Icon();'."\n"
 			.'	iconBlue.image = "http://labs.google.com/ridefinder/images/mm_20_blue.png";'."\n"
 			.'	iconBlue.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";'."\n"
@@ -714,7 +714,7 @@ Class Locations {
 			.'	iconRed.iconAnchor = new google.maps.Point(6, 20);'."\n"
 			.'	iconRed.infoWindowAnchor = new google.maps.Point(5, 1);'."\n"
 			.'}'
-			.JS_SUFFIX;
+			);
 
 		// done
 		return $text;

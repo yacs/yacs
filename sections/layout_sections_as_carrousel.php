@@ -157,9 +157,10 @@ Class Layout_sections_as_carrousel extends Layout_interface {
 			$count++;
 
 		// load the right file
-		$text = '<div id="sections_as_carrousel_'.$count.'"></div>'."\n"
-			.JS_PREFIX
-			.'swfobject.embedSWF("'.$context['url_to_home'].$context['url_to_root'].'included/browser/carrousel.swf",'."\n"  // flash file
+		$text = '<div id="sections_as_carrousel_'.$count.'"></div>'."\n";
+			
+		Page::insert_script(
+			'swfobject.embedSWF("'.$context['url_to_home'].$context['url_to_root'].'included/browser/carrousel.swf",'."\n"  // flash file
 			.'"sections_as_carrousel_'.$count.'",'."\n"		// div id
 			.'"100%",'."\n"			// width
 			.'"150",'."\n"			// height
@@ -168,7 +169,7 @@ Class Layout_sections_as_carrousel extends Layout_interface {
 			.'{xmlfile:"'.$context['url_to_home'].$context['url_to_root'].$cache_id.'", loaderColor:"0x666666"},'."\n"		// flashvars
 			.'{wmode: "transparent"},'."\n" // parameter
 			.'{});'."\n"			// attributes
-			.JS_SUFFIX;
+			);
 
 		// end of processing
 		SQL::free($result);

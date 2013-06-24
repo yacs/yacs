@@ -33,13 +33,13 @@ Class Layout_articles_as_manage extends Layout_interface {
 			return $text;
 
 		// the script used to check all pages at once
-		$text .= JS_PREFIX
-			.'function cascade_selection_to_all_article_rows(handle) {'."\n"
+		Page::insert_script(
+			'function cascade_selection_to_all_article_rows(handle) {'."\n"
 			.'	$("div#articles_panel input[type=\'checkbox\'].row_selector").each('."\n"
 			.'		function() { $(this).attr("checked", $(handle).is(":checked"));}'."\n"
 			.'	);'."\n"
 			.'}'."\n"
-			.JS_SUFFIX;
+			);
 
 		// table prefix
 		$text .= Skin::table_prefix('grid');

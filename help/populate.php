@@ -160,24 +160,22 @@ if(!$permitted) {
 		$context['text'] .= '</div></form>';
 
 		// append the script used for data checking on the browser
-		$context['text'] .= JS_PREFIX
-			.'// check that main fields are not empty'."\n"
-			.'func'.'tion validateDocumentPost(container) {'."\n"
-			."\n"
-			.'	// title is mandatory'."\n"
+		Page::insert_script(
+			// check that main fields are not empty
+			'func'.'tion validateDocumentPost(container) {'."\n"
+				// title is mandatory
 			.'	if(!container.title.value) {'."\n"
 			.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 			.'		Yacs.stopWorking();'."\n"
 			.'		return false;'."\n"
 			.'	}'."\n"
-			."\n"
-			.'	// successful check'."\n"
+				// successful check
 			.'	return true;'."\n"
 			.'}'."\n"
 			."\n"
-			.'// set the focus on first form field'."\n"
+			// set the focus on first form field
 			.'$("#title").focus();'."\n"
-			.JS_SUFFIX."\n";
+			);
 
 	// create a section
 	} else {
@@ -310,24 +308,22 @@ if(!$permitted) {
 		$context['text'] .= '</div></form>';
 
 		// append the script used for data checking on the browser
-		$context['text'] .= JS_PREFIX
-			.'// check that main fields are not empty'."\n"
-			.'func'.'tion validateDocumentPost(container) {'."\n"
-			."\n"
-			.'	// title is mandatory'."\n"
+		Page::insert_script(
+			// check that main fields are not empty
+			'func'.'tion validateDocumentPost(container) {'."\n"
+				// title is mandatory
 			.'	if(!container.title.value) {'."\n"
 			.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 			.'		Yacs.stopWorking();'."\n"
 			.'		return false;'."\n"
 			.'	}'."\n"
-			."\n"
-			.'	// successful check'."\n"
+				// successful check
 			.'	return true;'."\n"
 			.'}'."\n"
 			."\n"
-			.'// set the focus on first form field'."\n"
+			// set the focus on first form field
 			.'$("#title").focus();'."\n"
-			.JS_SUFFIX."\n";
+			);
 
 	// create a section
 	} else {
@@ -473,24 +469,22 @@ if(!$permitted) {
 		$context['text'] .= '</div></form>';
 
 		// append the script used for data checking on the browser
-		$context['text'] .= JS_PREFIX
-			.'// check that main fields are not empty'."\n"
-			.'func'.'tion validateDocumentPost(container) {'."\n"
-			."\n"
-			.'	// title is mandatory'."\n"
+		Page::insert_script(
+			// check that main fields are not empty
+			'func'.'tion validateDocumentPost(container) {'."\n"
+				// title is mandatory
 			.'	if(!container.title.value) {'."\n"
 			.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 			.'		Yacs.stopWorking();'."\n"
 			.'		return false;'."\n"
 			.'	}'."\n"
-			."\n"
-			.'	// successful check'."\n"
+				// successful check
 			.'	return true;'."\n"
 			.'}'."\n"
 			."\n"
-			.'// set the focus on first form field'."\n"
+			// set the focus on first form field
 			.'$("#title").focus();'."\n"
-			.JS_SUFFIX."\n";
+			);
 
 	// create a section
 	} else {
@@ -634,24 +628,22 @@ if(!$permitted) {
 		$context['text'] .= '</div></form>';
 
 		// append the script used for data checking on the browser
-		$context['text'] .= JS_PREFIX
-			.'// check that main fields are not empty'."\n"
-			.'func'.'tion validateDocumentPost(container) {'."\n"
-			."\n"
-			.'	// title is mandatory'."\n"
-			.'	if(!container.main_title.value) {'."\n"
+		Page::insert_script(
+			// check that main fields are not empty
+			'func'.'tion validateDocumentPost(container) {'."\n"
+				// title is mandatory
+			.'	if(!container.title.value) {'."\n"
 			.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 			.'		Yacs.stopWorking();'."\n"
 			.'		return false;'."\n"
 			.'	}'."\n"
-			."\n"
-			.'	// successful check'."\n"
+				// successful check
 			.'	return true;'."\n"
 			.'}'."\n"
 			."\n"
-			.'// set the focus on first form field'."\n"
+			// set the focus on first form field
 			.'$("#main_title").focus();'."\n"
-			.JS_SUFFIX."\n";
+			);
 
 	// create the stuff
 	} else {
@@ -768,24 +760,22 @@ if(!$permitted) {
 		$context['text'] .= '</div></form>';
 
 		// append the script used for data checking on the browser
-		$context['text'] .= JS_PREFIX
-			.'// check that main fields are not empty'."\n"
-			.'func'.'tion validateDocumentPost(container) {'."\n"
-			."\n"
-			.'	// title is mandatory'."\n"
+		Page::insert_script(
+			// check that main fields are not empty
+			'func'.'tion validateDocumentPost(container) {'."\n"
+				// title is mandatory
 			.'	if(!container.title.value) {'."\n"
 			.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 			.'		Yacs.stopWorking();'."\n"
 			.'		return false;'."\n"
 			.'	}'."\n"
-			."\n"
-			.'	// successful check'."\n"
+				// successful check
 			.'	return true;'."\n"
 			.'}'."\n"
 			."\n"
-			.'// set the focus on first form field'."\n"
+			// set the focus on first form field
 			.'$("#title").focus();'."\n"
-			.JS_SUFFIX."\n";
+			);
 
 	// create a section
 	} else {
@@ -885,24 +875,22 @@ if(!$permitted) {
 		$context['text'] .= '</div></form>';
 
 		// append the script used for data checking on the browser
-		$context['text'] .= JS_PREFIX
-			.'// check that main fields are not empty'."\n"
-			.'func'.'tion validateDocumentPost(container) {'."\n"
-			."\n"
-			.'	// title is mandatory'."\n"
+		Page::insert_script(
+			// check that main fields are not empty
+			'func'.'tion validateDocumentPost(container) {'."\n"
+				// title is mandatory
 			.'	if(!container.title.value) {'."\n"
 			.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 			.'		Yacs.stopWorking();'."\n"
 			.'		return false;'."\n"
 			.'	}'."\n"
-			."\n"
-			.'	// successful check'."\n"
+				// successful check
 			.'	return true;'."\n"
 			.'}'."\n"
 			."\n"
-			.'// set the focus on first form field'."\n"
+			// set the focus on first form field
 			.'$("#title").focus();'."\n"
-			.JS_SUFFIX."\n";
+			);
 
 	// create a section
 	} else {
@@ -1000,24 +988,22 @@ if(!$permitted) {
 		$context['text'] .= '</div></form>';
 
 		// append the script used for data checking on the browser
-		$context['text'] .= JS_PREFIX
-			.'// check that main fields are not empty'."\n"
-			.'func'.'tion validateDocumentPost(container) {'."\n"
-			."\n"
-			.'	// title is mandatory'."\n"
+		Page::insert_script(
+			// check that main fields are not empty
+			'func'.'tion validateDocumentPost(container) {'."\n"
+				// title is mandatory
 			.'	if(!container.title.value) {'."\n"
 			.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 			.'		Yacs.stopWorking();'."\n"
 			.'		return false;'."\n"
 			.'	}'."\n"
-			."\n"
-			.'	// successful check'."\n"
+				// successful check
 			.'	return true;'."\n"
 			.'}'."\n"
 			."\n"
-			.'// set the focus on first form field'."\n"
+			// set the focus on first form field
 			.'$("#title").focus();'."\n"
-			.JS_SUFFIX."\n";
+			);
 
 	// create a section
 	} else {
@@ -1117,24 +1103,22 @@ if(!$permitted) {
 		$context['text'] .= '</div></form>';
 
 		// append the script used for data checking on the browser
-		$context['text'] .= JS_PREFIX
-			.'// check that main fields are not empty'."\n"
-			.'func'.'tion validateDocumentPost(container) {'."\n"
-			."\n"
-			.'	// title is mandatory'."\n"
+		Page::insert_script(
+			// check that main fields are not empty
+			'func'.'tion validateDocumentPost(container) {'."\n"
+				// title is mandatory
 			.'	if(!container.title.value) {'."\n"
 			.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 			.'		Yacs.stopWorking();'."\n"
 			.'		return false;'."\n"
 			.'	}'."\n"
-			."\n"
-			.'	// successful check'."\n"
+				// successful check
 			.'	return true;'."\n"
 			.'}'."\n"
 			."\n"
-			.'// set the focus on first form field'."\n"
+			// set the focus on first form field
 			.'$("#title").focus();'."\n"
-			.JS_SUFFIX."\n";
+			);
 
 	// create a section
 	} else {
@@ -1197,15 +1181,14 @@ if(!$permitted) {
 		$context['text'] .= '</div></form>';
 
 		// append the script used for data checking on the browser
-		$context['text'] .= JS_PREFIX
-			.'// check that main fields are not empty'."\n"
-			.'func'.'tion validateDocumentPost(container) {'."\n"
+		Page::insert_script(
+			// check that main fields are not empty
+			'func'.'tion validateDocumentPost(container) {'."\n"
 			."\n"
-			.'	// successful check'."\n"
+				// successful check
 			.'	return true;'."\n"
 			.'}'."\n"
-			."\n"
-			.JS_SUFFIX;
+			);
 
 	// actual data creation
 	} else {
@@ -1357,24 +1340,22 @@ if(!$permitted) {
 		$context['text'] .= '</div></form>';
 
 		// append the script used for data checking on the browser
-		$context['text'] .= JS_PREFIX
-			.'// check that main fields are not empty'."\n"
-			.'func'.'tion validateDocumentPost(container) {'."\n"
-			."\n"
-			.'	// title is mandatory'."\n"
+		Page::insert_script(
+			// check that main fields are not empty
+			'func'.'tion validateDocumentPost(container) {'."\n"
+				// title is mandatory
 			.'	if(!container.title.value) {'."\n"
 			.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 			.'		Yacs.stopWorking();'."\n"
 			.'		return false;'."\n"
 			.'	}'."\n"
-			."\n"
-			.'	// successful check'."\n"
+				// successful check
 			.'	return true;'."\n"
 			.'}'."\n"
 			."\n"
-			.'// set the focus on first form field'."\n"
+			// set the focus on first form field
 			.'$("#title").focus();'."\n"
-			.JS_SUFFIX."\n";
+			);
 
 	// create a section
 	} else {

@@ -459,9 +459,7 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '</form>';
 
 	// set the focus on the button
-	$context['text'] .= JS_PREFIX
-		.'$("#action").focus();'."\n"
-		.JS_SUFFIX."\n";
+	Page::insert_script('$("#action").focus();');
 
 }
 

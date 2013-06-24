@@ -388,24 +388,20 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// append the script used for data checking on the browser
-	$context['page_footer'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// title is mandatory'."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// title is mandatory
 		.'	if(!container.title.value) {'."\n"
 		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
+			// successful check'
 		.'	return true;'."\n"
 		.'}'."\n"
-		."\n"
-		.'// detect changes in form'."\n"
+		// detect changes in form
 		.'func'.'tion detectChanges() {'."\n"
-		."\n"
 		.'	$("form#main_form input").each(function () {'."\n"
 		.'		$(this).change(function() { $("#preferred_editor").attr("disabled", true); });'."\n"
 		.'	});'."\n"
@@ -419,12 +415,12 @@ if($with_form) {
 		.'	});'."\n"
 		.'}'."\n"
 		."\n"
-		.'// observe changes in form'."\n"
+		// observe changes in form
 		.'$(document).ready( detectChanges);'."\n"
 		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'$("#title").focus();'."\n"
-		.JS_SUFFIX."\n";
+		);
 
 	// general help on this form
 	$help = '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', 'YACS codes', 'open'), Skin::build_link('smileys/', 'smileys', 'open')).'</p>';

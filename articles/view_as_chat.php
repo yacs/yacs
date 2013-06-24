@@ -263,9 +263,8 @@ default:
 	$context['text'] .= '</div>'."\n";
 
 	// the AJAX part
-	$context['page_footer'] .= JS_PREFIX
-		."\n"
-		.'var Comments = {'."\n"
+	$js_script = 
+		'var Comments = {'."\n"
 		."\n"
 		.'	url: "'.$context['url_to_home'].$context['url_to_root'].Comments::get_url($item['id'], 'thread').'",'."\n"
 		.'	timestamp: 0,'."\n"
@@ -357,24 +356,21 @@ default:
 		.	'$("#description").tipsy("show");'
 		.	'setTimeout("$(\'#description\').tipsy(\'hide\');", 10000);'
 		.	'$("textarea#description").autogrow();' // let the field grow progressively if needed
-		.'});'."\n"
-		."\n";
+		.'});'."\n";
 
 	// only authenticated surfers can contribute
 	if(Surfer::is_logged() && Comments::allow_creation($anchor, $item))
-		$context['page_footer'] .= "\n"
-			.'// load past contributions asynchronously'."\n"
-			.'$(function() {'
+		$js_script .=
+			// load past contributions asynchronously
+			'$(function() {'
 			.	'$("#description").focus();'
 			.'});'."\n"
-			."\n"
-			.'// send contribution on Enter'."\n"
+			// send contribution on Enter
 			.'$(\'#description\').keypress( Comments.keypress );'."\n";
 
-	// end of the AJAX part
-	$context['page_footer'] .= JS_SUFFIX;
-
 	break;
+	
+	Page::insert_script($js_script);
 
 case 'excluded': // surfer is not
 

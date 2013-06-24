@@ -483,9 +483,8 @@ if($with_form) {
 	$fields = array();
 
 	// append the script used for data checking on the browser
-	$text .= JS_PREFIX
-		.'$(function() { Yacs.autocomplete_names("vcard_agent",true); });'."\n" // enable autocompletion for user names
-		.JS_SUFFIX;
+	// enable autocompletion for user names
+	Page::insert_script('$(function() { Yacs.autocomplete_names("vcard_agent",true); });');
 
 	// instant messaging
 	//
@@ -807,55 +806,56 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// append the script used for data checking on the browser
-	$context['text'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// name is mandatory'."\n"
+	$js_script =
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// name is mandatory
 		.'	if(!container.nick_name.value) {'."\n"
 		.'		alert("'.i18n::s('You must provide a nick name.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n";
+	
 	if(!isset($item['id']))
-		$context['text'] .= "\n"
-			.'	// password is mandatory'."\n"
-			.'	if(!container.password.value) {'."\n"
+		$js_script .= 
+				// password is mandatory'
+			'	if(!container.password.value) {'."\n"
 			.'		alert("'.i18n::s('You must provide a password.').'");'."\n"
 			.'		Yacs.stopWorking();'."\n"
 			.'		return false;'."\n"
 			.'	}'."\n";
 	if(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
-		$context['text'] .= "\n"
-			.'	// email is mandatory'."\n"
-			.'	if(!container.email.value) {'."\n"
+		$js_script .= 
+				// email is mandatory'
+			'	if(!container.email.value) {'."\n"
 			.'		alert("'.i18n::s('You must provide a valid e-mail address.').'");'."\n"
 			.'		Yacs.stopWorking();'."\n"
 			.'		return false;'."\n"
 			.'	}'."\n";
-	$context['text'] .= "\n"
-		.'	// successful check'."\n"
-		.'	return true;'."\n"
+	$js_script .= 
+			// successful check
+		'	return true;'."\n"
 		.'}'."\n"
 		."\n"
-		.'// disable editor selection on change in form'."\n"
+		// disable editor selection on change in form
                 .'$("#main_form textarea, #main_form input, #main_form select").change(function() {'."\n"
                 .'      $("#preferred_editor").attr("disabled",true);'."\n"
                 .'});'."\n"
 		."\n";
 	if(isset($item['full_name']) && $item['full_name'])
-		$context['text'] .= '// set the focus on first form field'."\n"
-	 		.'$("#full_name").focus();'."\n"
+		$js_script .= // set the focus on first form field
+	 		'$("#full_name").focus();'."\n"
 	 		."\n";
 	else
-		$context['text'] .= '// set the focus on first form field'."\n"
-	 		.'$("#first_name").focus();'."\n"
+		$js_script .= // set the focus on first form field
+	 		'$("#first_name").focus();'."\n"
 	 		."\n";
-	$context['text'] .= '// enable tags autocompletion'."\n"
-		.'$(function() {'."\n"
+	$js_script .= // enable tags autocompletion'
+		'$(function() {'."\n"
 		.'  Yacs.autocomplete_m("tags", "'.$context['url_to_root'].'categories/complete.php");'."\n"
-		.'});  '."\n"
-		.JS_SUFFIX;
+		.'});  '."\n";
+	
+	Page::insert_script($js_script);
 
 	// the help panel
 	$help = '<p>'.i18n::s('The nick name has to be unique throughout the database of users.').'</p>';

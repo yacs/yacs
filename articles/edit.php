@@ -673,45 +673,45 @@ if($with_form) {
 	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 	// the script used for form handling at the browser
-	//
-	$context['page_footer'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// title is mandatory'."\n"
+	//	
+	$js_script = 	
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// title is mandatory
 		.'	if(!Yacs.trim(container.title.value)) {'."\n"
 		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		$("#title").focus();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		.'	// extend validation --used in overlays'."\n"
+			// extend validation --used in overlays
 		.'	if(typeof validateOnSubmit == "function") {'."\n"
 		.'		return validateOnSubmit(container);'."\n"
-		.'	}'."\n"
-		."\n";
+		.'	}'."\n";
 
 	// warning on jumbo size, but only on first post
 	if(!isset($item['id']))
-		$context['page_footer'] .= '	if(container.description.value.length > 64000){'."\n"
+		$js_script .= '	if(container.description.value.length > 64000){'."\n"
 			.'		return confirm("'.i18n::s('Page content exceeds 64,000 characters. Do you confirm you are intended to post a jumbo page?').'");'."\n"
 			.'	}'."\n"
 			."\n";
 
-	$context['page_footer'] .= '	// successful check'."\n"
-		.'	return true;'."\n"
+	$js_script .= 
+			// successful check
+		'	return true;'."\n"
 		.'}'."\n"
 		."\n"
-		.'// disable editor selection on change in form'."\n"
+		// disable editor selection on change in form
                 .'$("#main_form textarea, #main_form input, #main_form select").change(function() {'."\n"
                 .'      $("#preferred_editor").attr("disabled",true);'."\n"
                 .'});'."\n"
-		."\n"
 		.'$(function() {'."\n"
 		.'	$("#title").focus();'."\n" // set the focus on first form field
 		.'  Yacs.autocomplete_m("tags", "'.$context['url_to_root'].'categories/complete.php");'."\n" // enable autocompletion
-		.'});'."\n"
-		.JS_SUFFIX;
+		.'});';
+	
+	Page::insert_script($js_script);
+		
 
 	// branch to another script to display form fields, tabs, etc
 	//

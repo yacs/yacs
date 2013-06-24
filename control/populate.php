@@ -161,38 +161,34 @@ if(!$permitted) {
 	$context['text'] .= '</div></form>';
 
 	// append the script used for data checking on the browser
-	$context['text'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// name is mandatory'."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// name is mandatory
 		.'	if(!container.nick_name.value) {'."\n"
 		.'		alert("'.i18n::s('You must provide a nick name.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// password is mandatory'."\n"
+			// password is mandatory
 		.'	if(!container.password.value) {'."\n"
 		.'		alert("'.i18n::s('You must provide a password.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// password should be confirmed'."\n"
+			// password should be confirmed
 		.'	if(container.password.value != container.confirm.value) {'."\n"
 		.'		alert("'.i18n::s('You must confirm the password.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
+			// successful check
 		.'	return true;'."\n"
 		.'}'."\n"
 		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'$("#nick_name").focus();'."\n"
-		.JS_SUFFIX;
+		);
 
 	// this may take some time
 	$context['text'] .= '<p>'.i18n::s('When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.')."</p>\n";

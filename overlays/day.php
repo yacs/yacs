@@ -75,9 +75,8 @@ class Day extends Event {
 		$fields[] = array($label, $input, $hint);
 
 		// ensure that we do have a date
-		$context['page_footer'] .= JS_PREFIX
-			.'// ensure that some overlay fields are not empty'."\n"
-			.'func'.'tion validateOnSubmit(container) {'."\n"
+		Page::insert_script(			
+			'func'.'tion validateOnSubmit(container) {'."\n"
 			."\n"
 			.'	if(!Yacs.trim(container.date_stamp.value)) {'."\n"
 			.'		alert("'.i18n::s('Please provide a date.').'");'."\n"
@@ -86,9 +85,8 @@ class Day extends Event {
 			.'		return false;'."\n"
 			.'	}'."\n\n"
 			.'	return true;'."\n"
-			.'}'."\n"
-			."\n"
-			.JS_SUFFIX;
+			.'}'."\n"			
+			);
 
 		return $fields;
 	}
