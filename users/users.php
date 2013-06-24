@@ -464,10 +464,10 @@ Class Users {
 				.'</span>'
 				.'<span id="f_'.$id.'" style="display: none;">'
 				.	SPINNER_IMG.i18n::s('Stopping the call...')
-				.'</span>'
-				.JS_PREFIX
-				."\n"
-				.'var ClickToCall = {'."\n"
+				.'</span>';
+				
+			Page::insert_script(
+				'var ClickToCall = {'."\n"
 				."\n"
 				.'	start: function(id) {'."\n"
 
@@ -508,7 +508,7 @@ Class Users {
 				.'	}'."\n"
 				."\n"
 				.'}'."\n"
-				.JS_SUFFIX;
+				);
 		}
 
 		// job done

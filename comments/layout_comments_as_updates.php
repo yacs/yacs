@@ -185,15 +185,15 @@ Class Layout_comments_as_updates extends Layout_interface {
 						$fuse_id++;
 
 					// a textarea that grow on focus
-					$text .= '<script type="text/javascript">var reply'.$fuse_id.'=1;</script>'
-						.'<textarea name="description" id="reply'.$fuse_id.'"'
+					Page::insert_script('var reply'.$fuse_id.'=1;');
+					$text .= '<textarea name="description" id="reply'.$fuse_id.'"'
 						.	' rows="1" cols="50"'
 						.	' onfocus="if(reply'.$fuse_id.'){$(\'div#submit'.$fuse_id.'\').slideDown(600);reply'.$fuse_id.'=0;}">'
 						.	'</textarea>'."\n";
 
 					// fix number of rows in firefox
-					$text .= JS_PREFIX
-						.'$(function(){'
+					Page::insert_script(
+						'$(function(){'
 						.	'$("textarea#reply'.$fuse_id.'")'
 						.		'.each(function(){'
 						.			'var lineHeight = parseFloat($(this).css("line-height"));'
@@ -202,7 +202,7 @@ Class Layout_comments_as_updates extends Layout_interface {
 						.		'})'
 						.		'.autogrow();'
 						.'});'."\n"
-						.JS_SUFFIX;
+						);
 
 					// the submit button
 					$text .= '<div class="menu_bar" style="display: none;" id="submit'.$fuse_id.'">'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</div>';

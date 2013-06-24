@@ -3048,15 +3048,15 @@ Class Skin_Skeleton {
 		$panels_text = "\n".'<div id="tabs_panels">'."\n".$panels_text.'</div>'."\n";
 
 		// finalize javascript loader
-		$js_text .= "\n".JS_PREFIX
-			.'// use the YACS AJAX library to manage tabs'."\n"
-			."$(function() { Yacs.tabs({"."\n"
+		Page::insert_script(
+			// use the YACS AJAX library to manage tabs
+			"$(function() { Yacs.tabs({"."\n"
 			."\t".implode(",\n\t", $js_lines)."}, {})\n"
 			."\t});"."\n"
-			.JS_SUFFIX."\n";
+			);
 
 		// package all components together
-		$text = "\n".$tabs_text.$panels_text.$js_text."\n";
+		$text = "\n".$tabs_text.$panels_text."\n";
 		return $text;
 	}
 
@@ -5000,6 +5000,13 @@ Class Skin_Skeleton {
 	 */
 	public static function &rotate($text) {
 		global $context;
+		
+		
+		// temporarly by-pass this function
+		// - js script should be moved to end of page
+		// - does not work well togother with masonry.js
+		// - should use a nicer jquery plugin
+		return $text;
 
 		// list news ids
 		preg_match_all('/id="(.*?)"/', $text, $matches);
@@ -5055,6 +5062,11 @@ Class Skin_Skeleton {
 	 */
 	public static function &scroll($content, $direction='vertical', $class='scroller') {
 		global $context;
+		
+		// by pass this function
+		// TODO : find a way to move the js to the end of page
+		// use a jquery plugin
+		return '<div>'.$content.'</div>';
 
 		// horizontal
 		if($direction == 'horizontal') {

@@ -841,12 +841,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	$context['text'] .= BR.'<input type="checkbox" name="backup_avoid" value="cache notifications phpdoc versions visits" checked="checked" /> '.sprintf(i18n::s('Skip transient data and minimize size of backup file'));
 
 	// end of this form
-	$context['text'] .= '</p></div></form>';
-
-	// set the focus on the backup button
-	$context['text'] .= JS_PREFIX
-		.'$("#go").focus();'."\n"
-		.JS_SUFFIX;
+	$context['text'] .= '</p></div></form>';		
 
 	// this may take several minutes
 	$context['text'] .= '<p>'.i18n::s('When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.')."</p>\n";

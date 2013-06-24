@@ -262,14 +262,14 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<p id="ask_for_cookies" style="display: none; color: red; text-decoration: blink;"></p>';
 
 		// the script used to check that cookies are activated
-		$context['text'] .= JS_PREFIX
-			.'document.cookie = \'CookiesEnabled=1\';'."\n"
+		Page::insert_script(
+			'document.cookie = \'CookiesEnabled=1\';'."\n"
 			.'if((document.cookie == "") && document.getElementById) {'."\n"
 			.'	$("#ask_for_cookies").update("'.i18n::s('You must enable cookies to manage this server. Change settings of your browser accordingly, then revisit this page afterwards.').'");'."\n"
 			.'	$("#ask_for_cookies").style.display = "block";'."\n"
 			.'	$("#confirmed").disabled = true;'."\n"
 			.'}'."\n"
-			.JS_SUFFIX."\n";
+			);
 
 		// purge the scripts/run_once directory on first installation
 		include_once $context['path_to_root'].'scripts/scripts.php';

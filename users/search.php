@@ -97,24 +97,22 @@ $context['text'] .= '<form method="get" action="'.$context['script_url'].'" onsu
 	."</form>\n";
 
 // the script used for form handling at the browser
-$context['text'] .= JS_PREFIX
-	.'	// check that main fields are not empty'."\n"
-	.'	func'.'tion validateDocumentPost(container) {'."\n"
-	."\n"
-	.'		// search is mandatory'."\n"
+Page::insert_script(
+		// check that main fields are not empty
+	'	func'.'tion validateDocumentPost(container) {'."\n"
+			// search is mandatory'
 	.'		if(!container.search.value) {'."\n"
 	.'			alert("'.i18n::s('Please type something to search for.').'");'."\n"
 	.'			Yacs.stopWorking();'."\n"
 	.'			return false;'."\n"
 	.'		}'."\n"
-	."\n"
-	.'		// successful check'."\n"
+			// successful check
 	.'		return true;'."\n"
 	.'	}'."\n"
 	."\n"
-	.'// set the focus on first form field'."\n"
+	// set the focus on first form field
 	.'$("#search").focus();'."\n"
-	.JS_SUFFIX."\n";
+	);
 
 // nothing found yet
 $no_result = TRUE;

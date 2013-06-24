@@ -505,38 +505,35 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= $main_column;
 
 	// the script used for data checking on the browser
-	$context['text'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// email is mandatory'."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// email is mandatory
 		.'	if(!container.login_name.value) {'."\n"
 		.'		alert("'.i18n::s('You must provide a nick name or an email address.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
+			// successful check
 		.'	return true;'."\n"
 		.'}'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'$("#login_name").focus();'."\n"
 		."\n"
-		.JS_SUFFIX."\n";
+		);
 
 	// a place holder for cookies activation
 	$context['text'] .= '<p id="ask_for_cookies" style="display: none; color: red; text-decoration: blink;"></p>';
 
 	// the script used to check that cookies are activated
-	$context['text'] .= JS_PREFIX
-		.'document.cookie = \'CookiesEnabled=1\';'."\n"
+	Page::insert_script(
+		'document.cookie = \'CookiesEnabled=1\';'."\n"
 		.'if((document.cookie == "") && document.getElementById) {'."\n"
 		."\t".'$("#ask_for_cookies").html("'.i18n::s('Your browser must accept cookies in order to successfully register and log in.').'");'."\n"
 		."\t".'$("#ask_for_cookies").style.display = \'block\';'."\n"
 		."\t".'$("#login_button").disabled = true;'."\n"
 		.'}'."\n"
-		.JS_SUFFIX."\n";
+		);
 
 	// the help panel
 	$help = '<p>'.i18n::s('Your browser must accept cookies in order to successfully register and log in.').'</p>'

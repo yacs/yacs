@@ -156,10 +156,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= '</div></form>';
 
 	// set the focus
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#files_extensions").focus();'."\n"
-		.JS_SUFFIX."\n";
+	Page::insert_script('$("#files_extensions").focus();');
 
 	// general help on this form
 	$help = '<p>'.i18n::s('Shared files are not put in the database, but in the file system of the web server.').'</p>'

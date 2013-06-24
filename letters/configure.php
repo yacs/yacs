@@ -131,10 +131,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= '</div></form>';
 
 	// set the focus
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#letter_title").focus();'."\n"
-		.JS_SUFFIX."\n";
+	Page::insert_script('$("#letter_title").focus();');
 
 // no modifications in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {

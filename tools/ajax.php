@@ -83,10 +83,10 @@ $context['text'] .= '<p style="margin-bottom: 1em;"><b>'.i18n::s('Interactive fi
 	.'</form>'."\n";
 
 // some AJAX to make it work
-$context['page_footer'] .= JS_PREFIX
-	.'$("#sortables .sortable").each( function() { Yacs.addOnDemandTools($(this));}); '."\n"
-  .'$("#sortables").sortable({axis: "y", handle: ".drag_handle"});'."\n"
-	.JS_SUFFIX."\n";
+Page::insert_script('$("#sortables .sortable").each( function() { '
+		    .'Yacs.addOnDemandTools($(this));}); '."\n"
+		    .'$("#sortables").sortable({axis: "y", handle: ".drag_handle"});'
+	);
 
 // render the page according to the loaded skin
 render_skin();

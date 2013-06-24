@@ -143,10 +143,7 @@ elseif(!Surfer::is_associate()) {
 		$context['text'] .= '</div></form>';
 
 		// the script used for form handling at the browser
-		$context['text'] .= JS_PREFIX
-			.'// set the focus on first form field'."\n"
-			.'$("#focus").focus();'."\n"
-			.JS_SUFFIX."\n";
+		Page::insert_script('$("#focus").focus();');
 
 	}
 

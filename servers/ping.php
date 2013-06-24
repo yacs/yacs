@@ -87,9 +87,7 @@ elseif(!Surfer::is_associate()) {
 		.'</p></form>';
 
 	// set the focus on the backup button
-	$context['text'] .= JS_PREFIX
-		.'$("#go").focus();'."\n"
-		.JS_SUFFIX."\n";
+	Page::insert_script('$("#go").focus();');
 
 }
 

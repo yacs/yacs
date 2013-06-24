@@ -856,9 +856,8 @@ class Issue extends Overlay {
 			$hint = i18n::s('Type some letters of the name and select in the list');
 			$fields[] = array($label, $input, $hint);
 
-			$tracking .= JS_PREFIX
-				.'$(function() { Yacs.autocomplete_names("owner",true); });'."\n" // enable owner autocompletion
-				.JS_SUFFIX;
+			// enable owner autocompletion
+			Page::insert_script('$(function() { Yacs.autocomplete_names("owner",true); });'); 
 
 			// priority
 			$label = i18n::s('Priority');

@@ -749,18 +749,18 @@ if(!file_exists('../parameters/control.include.php')) {
 				$box .= '<p>'.sprintf(i18n::s('If your browser supports side panels and javascript, click on the following link to %s.'), '<a onclick="addSidePanel()">'.i18n::s('add a blogging panel').'</a>.').'</p>'."\n";
 
 				// the actual javascript code to add a panel
-				$context['page_footer'] .= JS_PREFIX
-					.'// add a side panel to the current browser instance'."\n"
-					.'function addSidePanel() {'."\n"
-					.'	// a gecko-based browser: netscape, mozilla, firefox'."\n"
+				Page::insert_script(
+					// add a side panel to the current browser instance
+					'function addSidePanel() {'."\n"
+						// a gecko-based browser: netscape, mozilla, firefox
 					.'	if((typeof window.sidebar == "object") && (typeof window.sidebar.addPanel == "function")) {'."\n"
 					.'		window.sidebar.addPanel("'.strip_tags($context['site_name']).'", "'.$context['url_to_home'].$context['url_to_root'].'panel.php", "");'."\n"
 					.'		alert("'.i18n::s('The panel has been added. You may have to ask your browser to make it visible (Ctrl-B for Firefox).').'");'."\n"
 					.'	} else {'."\n"
-					.'		// internet explorer'."\n"
+							// internet explorer
 					.'		if(document.all) {'."\n"
 					.'			window.open("'.$context['url_to_home'].$context['url_to_root'].'panel.php?target=_main" ,"_search");'."\n"
-					.'		// side panels are not supported'."\n"
+							// side panels are not supported
 					.'		} else {'."\n"
 					.'			var rv = alert("'.i18n::s('Your browser does not support side panels. Have you considered to upgrade to Mozilla Firefox?').'");'."\n"
 					.'			if(rv)'."\n"
@@ -768,7 +768,7 @@ if(!file_exists('../parameters/control.include.php')) {
 					.'		}'."\n"
 					.'	}'."\n"
 					.'}'."\n"
-					.JS_SUFFIX;
+					);
 
 				// make a nice box out of it
 				$text .= Skin::build_box(i18n::s('Blogging tools'), $box);

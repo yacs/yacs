@@ -29,13 +29,13 @@ Class Layout_sections_as_manage extends Layout_interface {
 			return $text;
 
 		// the script used to check all pages at once
-		$text .= JS_PREFIX
-			.'function cascade_selection_to_all_section_rows(handle) {'."\n"
+		Page::insert_script(
+			'function cascade_selection_to_all_section_rows(handle) {'."\n"
 			.'	$("div#sections_panel input[type=\'checkbox\'].row_selector").each('."\n"
 			.'		function() { $(this).attr("checked", $(handle).is(":checked"));}'."\n"
 			.'	);'."\n"
 			.'}'."\n"
-			.JS_SUFFIX."\n";
+			);
 
 		// table prefix
 		$text .= Skin::table_prefix('grid');

@@ -255,9 +255,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= Skin::build_box(i18n::s('Add a new virtual host'), $content);
 
 	// set the focus on the backup button
-	$content .= JS_PREFIX
-		.'$("#id").focus();'."\n"
-		.JS_SUFFIX;
+	Page::insert_script('$("#id").focus();');
 
 	// list available configuration files
 	if($items = Safe::glob($context['path_to_root'].'parameters/virtual_*.include.php')) {

@@ -578,9 +578,10 @@ Class Surfer {
 			$text .= '<script type="text/javascript">var fuse'.$name.'=1;</script>'
 				.'<textarea name="'.$name.'" id="'.$name.'"'
 				.	' rows="1" cols="50" class="tip" >'
-				.	'</textarea>'."\n"
-				.JS_PREFIX
-				.'$(function(){'
+				.	'</textarea>'."\n";
+				
+			Page::insert_script(
+				'$(function(){'
 				.	'$("textarea#'.$name.'").autogrow();'
 				.	'setTimeout(function() {'
 				.		'$("textarea#'.$name.'")'
@@ -588,7 +589,7 @@ Class Surfer {
 				.			'.tipsy("show");'
 				.	'}, 5000);'
 				.'});'."\n"
-				.JS_SUFFIX;
+				);
 
 		// default to plain editor -- BR after the Textarea is mandatory
 		} else {

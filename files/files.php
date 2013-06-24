@@ -1671,17 +1671,22 @@ Class Files {
 				$flashvars = 'son='.$mp3_url;
 
 				// combine the two in a single object
-				return '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-					.$title
-					.JS_PREFIX
-					.'var params = {};'."\n"
+				$output = '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
+					.$title;
+				
+				Page::insert_script(
+					'var params = {};'."\n"
 					.'params.base = "'.dirname($mp3_url).'/";'."\n"
 					.'params.quality = "high";'."\n"
 					.'params.wmode = "transparent";'."\n"
 					.'params.menu = "false";'."\n"
 					.'params.flashvars = "'.$flashvars.'";'."\n"
 					.'swfobject.embedSWF("'.$dewplayer_url.'", "interact_'.$counter.'", "200", "20", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-					.JS_SUFFIX."\n";
+					);
+				
+				return $ouput;
+					
+				
 
 			}
 
@@ -1697,9 +1702,10 @@ Class Files {
 				$url = $context['url_to_home'].$context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
 
 			$output = '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div><br />'."\n"
-				.$title
-				.JS_PREFIX
-				.'var params = {};'."\n"
+				.$title;
+				
+			Page::insert_script(
+				'var params = {};'."\n"
 				.'params.base = "'.dirname($url).'/";'."\n"
 				.'params.quality = "high";'."\n"
 				.'params.wmode = "transparent";'."\n"
@@ -1707,7 +1713,8 @@ Class Files {
 				.'params.allowscriptaccess = "always";'."\n"
 				.'params.flashvars = "'.$flashvars.'";'."\n"
 				.'swfobject.embedSWF("'.$url.'", "interact_'.$counter.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-				.JS_SUFFIX;
+				);
+			
 			return $output;
 
 		// stream a video
@@ -1738,13 +1745,14 @@ Class Files {
 
 				// the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
 				$output = '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-					.$title
-					.JS_PREFIX
-					.'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
+					.$title;
+					
+				Page::insert_script(
+					'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
 					.'var params = { allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
 					.'var attributes = { id: "interact_'.$counter.'", name: "file_'.$item['id'].'"}'."\n"
 					.'swfobject.embedSWF("'.$flvplayer_url.'", "interact_'.$counter.'", "'.$width.'", "'.$height.'", "9", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params);'."\n"
-					.JS_SUFFIX."\n";
+					);
 
 			// native support
 			} else {

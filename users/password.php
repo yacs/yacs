@@ -238,9 +238,7 @@ if($with_form) {
 		$fields[] = array($label, $input);
 
 		// append the script used for data checking on the browser
-		$context['page_footer'] .= JS_PREFIX
-			.'$("#password").focus();'."\n"
-			.JS_SUFFIX."\n";
+		Page::insert_script('$("#password").focus();');
 
 	}
 
