@@ -808,7 +808,6 @@ class Overlay {
 		// store this permanently
 		if(is_object($this->anchor)) {
 			$fields = array();
-			$fields['id'] = $this->anchor->item['id'];
 			$fields['overlay'] = $this->save();
 			$fields['overlay_id'] = $this->get_id();
 			return $this->anchor->set_values($fields);

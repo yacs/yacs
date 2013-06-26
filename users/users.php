@@ -31,6 +31,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Alexis Raimbault
  * @tester Jan Boen
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -1977,6 +1978,73 @@ Class Users {
 
 		// end of job
 		return TRUE;
+	}
+	
+	/** 
+	 * change only some (minor) attributes
+	 */
+	public static function put_attributes(&$fields) {
+	    global $context;
+	    
+	    // id cannot be empty
+	    if(!isset($fields['id']) || !is_numeric($fields['id'])) {
+		    Logger::error(i18n::s('No item has the provided id.'));
+		    return FALSE;
+	    }
+	    
+	    // following fields are forbidden with this function
+	    if(isset($fields['password']) 
+		    || isset($fields['nickname']) 
+		    || isset($field['editor'])
+		    ) {
+		Logger::error(i18n::s('This action is forbidden with users::put_attributes function.'));
+		return FALSE;		
+	    }
+	    
+	    // remember who is changing this record
+	    Surfer::check_default_editor($fields);
+	    
+	    // query components
+	    $query = array();
+	    
+	    // clean provided tags
+	    if(isset($fields['tags'])) {
+		    $fields['tags'] = trim($fields['tags'], " \t.:,!?");		    
+	    }
+	    
+	    // protect from hackers
+	    if(isset($fields['avatar_url'])) {
+		$fields['avatar_url'] = encode_link($fields['avatar_url']);
+	    }
+	    
+	    // build SET part of the query
+	    foreach($fields as $key => $field) {
+		if($key == 'id') continue;
+		
+		$query[] = $key."='".SQL::escape($field)."'";
+	    }
+	    
+	    // nothing to update
+	    if(!count($query))
+		return TRUE;
+	    
+	    // actual update query
+	    $query = "UPDATE ".SQL::table_name('users')
+		." SET ".implode(', ', $query)
+		." WHERE id = ".SQL::escape($fields['id']);
+	    
+	    if(!SQL::query($query))
+		return FALSE;
+	    
+	    // list the user in categories
+	    if(isset($fields['tags']) && $fields['tags'])
+		Categories::remember('user:'.$fields['id'], NULL_DATE, $fields['tags']);
+	    
+	    // clear the cache
+	    Articles::clear($fields);
+
+	    // end of job
+	    return TRUE;	    
 	}
 
 	/**

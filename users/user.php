@@ -19,6 +19,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Alexis Raimbault
  * @see shared/anchor.php
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -352,6 +353,23 @@ Class User extends Anchor {
 	function load_by_id($id, $mutable=FALSE) {
 		$this->item = Users::get($id, $mutable);
 	}
+	
+	/**
+	 * change some attributes of an anchor
+	 * 
+	 * @see shared/anchor.php
+	 *
+	 * @param array of (name, value)
+	 * @return TRUE on success, FALSE otherwise 
+	 */
+	function set_values($fields) {
+
+		// add our id
+		$fields['id'] = $this->item['id'];
+
+		// save in the database
+		return users::put_attributes($fields);
+	}
 
 	/**
 	 * remember the last action for this user
@@ -524,7 +542,7 @@ Class User extends Anchor {
 		// always clear the cache, even on no update
 		Users::clear($this->item);
 
-	}
+	}		
 
 }
 
