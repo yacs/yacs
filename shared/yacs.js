@@ -169,7 +169,7 @@ var Yacs = {
 			Yacs.autocomplete_m(target, source_url, callback);
 
 		// override rendering of items in menu list to show full name and email
-		$('#'+target).data( "autocomplete" )._renderItem = function( ul, item ) {
+		$('#'+target).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
 			return $( "<li></li>" )
 				.data( "item.autocomplete", item )
 				.append( "<a>" + item.value + "<span class='informal details'> -&nbsp;" + item.label + "</span></a>" )
