@@ -104,6 +104,11 @@ class Overlay {
 	 * previous version of attributes, when overlay content is updated
 	 */
 	var $snapshot = array();
+	
+	/**
+	 * the parent object
+	 */
+	var $anchor = NULL;
 
 	/**
 	 * allow or block operations
@@ -759,11 +764,11 @@ class Overlay {
 	 * @see articles/edit.php
 	 *
 	 * @param string the action 'insert', 'update' or 'delete'
-	 * @param array the hosting record
+	 * @param array the request containing data transmitted to the server through a web form
 	 * @param string reference of the hosting record (e.g., 'article:123')
 	 * @return FALSE on error, TRUE otherwise
 	 */
-	function remember($action, $host, $reference) {
+	function remember($action, $request, $reference) {
 		return TRUE;
 	}
 
@@ -803,7 +808,7 @@ class Overlay {
 		// store this permanently
 		if(is_object($this->anchor)) {
 			$fields = array();
-			$fields['id'] = $this->attributes['id'];
+			$fields['id'] = $this->anchor->item['id'];
 			$fields['overlay'] = $this->save();
 			$fields['overlay_id'] = $this->get_id();
 			return $this->anchor->set_values($fields);
