@@ -33,7 +33,7 @@ Class Layout_articles_as_daily extends Layout_interface {
 	 *
 	 * @return 10, to list the ten most recent entries
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 10;
@@ -45,7 +45,7 @@ Class Layout_articles_as_daily extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;

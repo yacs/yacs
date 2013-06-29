@@ -25,7 +25,7 @@ Class Layout_files extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string HTML text to be displayed, or NULL
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;

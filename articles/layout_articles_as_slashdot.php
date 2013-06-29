@@ -14,7 +14,7 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 	 *
 	 * @return 10
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 10;

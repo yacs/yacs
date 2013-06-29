@@ -13,7 +13,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 	 *
 	 * @return 50
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 50;
@@ -25,7 +25,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;

@@ -25,7 +25,7 @@ Class Layout_articles_as_yabb extends Layout_interface {
 	 *
 	 * @return 50
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 50;

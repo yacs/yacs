@@ -17,7 +17,7 @@ Class Layout_users_as_complete extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array of ($nick_name => $more)
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;

@@ -20,7 +20,7 @@ Class Layout_sections_as_menu extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return an array of $url => (NULL, $title, NULL, 'section_123', NULL, 'visit this section')
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;

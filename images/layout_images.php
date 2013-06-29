@@ -26,7 +26,7 @@ Class Layout_images extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array one item per image
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;

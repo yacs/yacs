@@ -18,7 +18,7 @@ Class Layout_articles_as_tabs extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return a string to be displayed
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;

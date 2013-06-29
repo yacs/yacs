@@ -18,7 +18,7 @@ Class Layout_dates_as_links extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array of $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
