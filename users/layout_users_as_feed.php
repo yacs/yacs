@@ -16,7 +16,7 @@ Class Layout_users_as_feed extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;

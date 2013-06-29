@@ -19,7 +19,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 	 *
 	 * @return 9 - two last articles first, plus 7 other pages
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 9;
@@ -31,7 +31,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;

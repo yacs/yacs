@@ -16,7 +16,7 @@ Class Layout_users_as_ids extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array a bare list of item ids
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;

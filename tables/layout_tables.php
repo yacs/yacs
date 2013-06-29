@@ -23,7 +23,7 @@ Class Layout_tables extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array one item per image
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;

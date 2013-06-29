@@ -17,7 +17,7 @@ Class Layout_sections_as_compact extends Layout_interface {
 	 *
 	 * @return int the optimised count of items for this layout
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return COMPACT_LIST_SIZE;
@@ -29,7 +29,7 @@ Class Layout_sections_as_compact extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;

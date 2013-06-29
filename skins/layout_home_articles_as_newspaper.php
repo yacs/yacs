@@ -18,7 +18,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 	 *
 	 * @return string to be used in requests to the database
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_order() {
 		return 'publication';
@@ -29,7 +29,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 	 *
 	 * @return 11 - One first article, then a row of three, plus 7 other links
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 11;
@@ -41,7 +41,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;

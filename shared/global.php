@@ -690,7 +690,7 @@ if(!isset($context['skin']) && is_dir($context['path_to_root'].'skins/digital'))
 
 // load the layout interface, if we have access to some data
 if(!defined('NO_MODEL_PRELOAD'))
-	include_once $context['path_to_root'].'skins/layout.php';
+	include_once $context['path_to_root'].'layouts/layout.php';
 
 // skin variant is asked for explicitly
 if(isset($_REQUEST['variant']) && $_REQUEST['variant'])

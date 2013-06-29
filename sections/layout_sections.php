@@ -25,7 +25,7 @@ Class Layout_sections extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array of resulting items, or NULL
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;

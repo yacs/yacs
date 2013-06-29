@@ -19,7 +19,7 @@ Class Layout_articles_as_select extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return an array of items
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;

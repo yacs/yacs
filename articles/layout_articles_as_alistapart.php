@@ -17,7 +17,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 	 *
 	 * @return int 100 - this layout has no navigation bar
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 100;
@@ -29,7 +29,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
