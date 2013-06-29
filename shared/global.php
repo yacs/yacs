@@ -36,28 +36,6 @@
 // yacs is loading
 define('YACS', TRUE);
 
-// we will manage the cache by ourself
-if(is_callable('session_cache_limiter'))
-	@session_cache_limiter('none');
-
-// manage session data, but not if run from the command line
-if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == '')) {
-
-	// retrieve current parameters for session cookie
-	$previous = session_get_cookie_params();
-
-	// enable sub-domains, using only last two name components: www.mydomain.com -> .mydomain.com
-	$domain = $previous['domain'];
-	if(($parent_domain = strstr($domain, '.')) && strpos($parent_domain, '.', 1))
-		$domain = $parent_domain;
-
-    // set the cookie to parent domain, to allow for sub-domains
-	session_set_cookie_params($previous['lifetime'], $previous['path'], $domain, $previous['secure'], $previous['httponly']);
-
-	// set or use the PHPSESSID cookie
-	session_start();
-}
-
 // used to end lines in many technical specifications
 if(!defined('CRLF'))
 	define('CRLF', "\x0D\x0A");
@@ -224,6 +202,20 @@ $context['page_tools'] = array();
 // page breadcrumbs
 $context['path_bar'] = array();
 
+// get our position from the environment --always end the string with a slash
+if($home = getenv('YACS_HOME'))
+	$context['path_to_root'] = str_replace('//', '/', $home.'/');
+
+// get our position from run-time
+else
+	$context['path_to_root'] = dirname(dirname(__FILE__)).'/';
+
+// fix windows backslashes
+$context['path_to_root'] = str_replace('\\', '/', $context['path_to_root']);
+
+// sanity checks - /foo/bar/.././ -> /foo/
+$context['path_to_root'] = preg_replace(array('|/([^/]*)/\.\./|', '|/\./|'), '/', $context['path_to_root']);
+
 // prefix for page main content
 $context['prefix'] = '';
 
@@ -282,22 +274,8 @@ $context['with_friendly_urls'] = 'N';
 $context['with_profile'] = 'N';
 
 //
-// System parameters
+// load core libraries
 //
-
-// get our position from the environment --always end the string with a slash
-if($home = getenv('YACS_HOME'))
-	$context['path_to_root'] = str_replace('//', '/', $home.'/');
-
-// get our position from run-time
-else
-	$context['path_to_root'] = dirname(dirname(__FILE__)).'/';
-
-// fix windows backslashes
-$context['path_to_root'] = str_replace('\\', '/', $context['path_to_root']);
-
-// sanity checks - /foo/bar/.././ -> /foo/
-$context['path_to_root'] = preg_replace(array('|/([^/]*)/\.\./|', '|/\./|'), '/', $context['path_to_root']);
 
 // the http library
 include_once $context['path_to_root'].'shared/http.php';
@@ -316,6 +294,10 @@ include_once $context['path_to_root'].'shared/cache.php';
 
 // tools for js and css declaration
 include_once 'js_css.php';
+
+//
+// set dynamic parameters
+//
 
 // load general parameters -- see control/configure.php
 Safe::load('parameters/control.include.php');
@@ -373,6 +355,54 @@ elseif(isset($_SERVER['SCRIPT_URI']))
 	$context['self_url'] = $_SERVER['SCRIPT_URI'];
 elseif(isset($_SERVER['REQUEST_URI'])) // this includes query string
 	$context['self_url'] = $context['url_to_home'].$_SERVER['REQUEST_URI'];
+
+//
+// session cookie
+//
+
+// we will manage the cache by ourself
+if(is_callable('session_cache_limiter'))
+	@session_cache_limiter('none');
+
+// manage session data, but not if run from the command line
+if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == '')) {
+
+	// enable sub-domains automatically, using only last two name components: www.mydomain.com -> .mydomain.com
+	$domain = $context['host_name'];
+	if(($parent_domain = strstr($domain, '.')) && strpos($parent_domain, '.', 1))
+		$domain = $parent_domain;
+
+    // set the cookie to parent domain, to allow for sub-domains
+	session_set_cookie_params(0, '/', $domain);
+
+	// set or use the PHPSESSID cookie
+	session_start();
+
+	// if several hosts or domains have been defined for this server, ensure all use same session data
+	if($hosts = Safe::file('parameters/hosts')) {
+
+		// ask user agent to call various hosts via javascript
+		$script = '<script type="text/javascript">'."\n";
+
+		// one host at a time
+		foreach($hosts as $index => $host) {
+			if($host = trim($host)) {
+
+			// start an ajax transaction
+			$script .= "\t".'$.ajax({url:"http://'.$host.$context['url_to_root'].'tools/session.php",type: "get",data:{"id": "'.session_id().'"} });'."\n";
+
+			}
+		}
+
+		// close this javascript snippet
+		$script .= '</script>'."\n";
+
+		// defer its execution in user agent
+		$context['page_footer'] .= $script;
+	}
+
+}
+
 
 // redirect to given host name, if required to do so
 if(isset($context['with_given_host']) && ($context['with_given_host'] == 'Y') && isset($context['main_host']) && ($context['main_host'] != $context['host_name']))
