@@ -40,9 +40,23 @@ define('YACS', TRUE);
 if(is_callable('session_cache_limiter'))
 	@session_cache_limiter('none');
 
-// retrieve session data, but not if run from the command line
-if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == ''))
+// manage session data, but not if run from the command line
+if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == '')) {
+
+	// retrieve current parameters for session cookie
+	$previous = session_get_cookie_params();
+
+	// enable sub-domains, using only last two name components: www.mydomain.com -> .mydomain.com
+	$domain = $previous['domain'];
+	if(($parent_domain = strstr($domain, '.')) && strpos($parent_domain, '.', 1))
+		$domain = $parent_domain;
+
+    // set the cookie to parent domain, to allow for sub-domains
+	session_set_cookie_params($previous['lifetime'], $previous['path'], $domain, $previous['secure'], $previous['httponly']);
+
+	// set or use the PHPSESSID cookie
 	session_start();
+}
 
 // used to end lines in many technical specifications
 if(!defined('CRLF'))
