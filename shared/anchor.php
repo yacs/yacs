@@ -306,7 +306,21 @@ class Anchor {
 	 * @return array of anchor references (e.g., array('section:123', 'article:456') )
 	 */
 	function get_focus() {
-		 return NULL;
+		 // get the parent
+		if(!isset($this->anchor))
+			$this->anchor = Anchors::get($this->item['anchor']);
+
+		// the parent level
+		if(is_object($this->anchor))
+			$focus = $this->anchor->get_focus();
+		else
+			$focus = array();
+
+		// append this level
+		if(isset($this->item['id']))
+			$focus[] = $this->get_reference();
+
+		return $focus;
 	}
 
 	/**
@@ -340,12 +354,13 @@ class Anchor {
 	 *	 $context['text'] .= '<img src="'.$icon.'" alt="" />';
 	 * [/php]
 	 *
-	 * To be overloaded into derived class
 	 *
 	 * @return a valid url to be used in an <img> tag
 	 */
-	function get_icon_url() {
-		 return NULL;
+	public function get_icon_url() {
+		if(isset($this->item['icon_url']) && $this->item['icon_url'])
+			return $this->item['icon_url'];
+		return $this->get_thumbnail_url();
 	}
 
 	/**
@@ -353,11 +368,12 @@ class Anchor {
 	 *
 	 * If the anchor as been named, this function returns the related url.
 	 *
-	 * To be overloaded into derived class
 	 *
 	 * @return an url to view the anchor page, or NULL
 	 */
 	function get_named_url() {
+		if(isset($this->item['nick_name']) && $this->item['nick_name'])
+			return normalize_shortcut($this->item['nick_name']);
 		return NULL;
 	}
 
@@ -441,7 +457,28 @@ class Anchor {
 	 * @return an array of $url => $label
 	 */
 	function get_path_bar() {
-		return array();
+		global $context;
+
+		// no item bound
+		if(!isset($this->item['id']))
+			return NULL;
+
+		// get the parent
+		if(!isset($this->anchor))
+			$this->anchor = Anchors::get($this->item['anchor']);
+
+		// the parent level
+		$parent = array();
+		if(is_object($this->anchor))
+			$parent = $this->anchor->get_path_bar();
+
+		// this item
+		$url = $this->get_url();
+		$label = Codes::beautify_title($this->get_title());
+		$path = array_merge($parent, array($url => $label));
+
+		// return the result
+		return $path;
 	}
 
 	/**
@@ -534,12 +571,15 @@ class Anchor {
 	 * $context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 	 * [/php]
 	 *
-	 * To be overloaded into derived class
 	 *
 	 * @return a string such as 'article:123', or 'section:456', etc.
 	 */
-	function get_reference() {
-		return NULL;
+	final public function get_reference() {
+	    $reference = NULL;
+	    if(isset($this->item['id']))
+		    $reference = $this->get_type().":".$this->item['id'];
+	    
+	    return $reference;
 	}
 
 	/**
@@ -638,11 +678,12 @@ class Anchor {
 	 * NOT display anchor thumbnails throughout the server. In this case, he/she
 	 * has just to suppress the thumbnail URL in each anchor and that's it.
 	 *
-	 * To be overloaded into derived class
 	 *
-	 * @return a valid url to be used in an &lt;img&gt; tag
+	 * @return a valid url to be used in an <img> tag
 	 */
-	function get_thumbnail_url() {
+	final public function get_thumbnail_url() {
+		if(isset($this->item['thumbnail_url']) && $this->item['thumbnail_url'])
+			return $this->item['thumbnail_url'];
 		return NULL;
 	}
 
@@ -673,10 +714,10 @@ class Anchor {
 	 *
 	 * @return string e.g., 'article', 'category', 'section'
 	 */
-	function get_type() {
-		if(($reference = $this->get_reference()) && ($position = strpos($reference, ':')))
-			return substr($reference, 0, $position);
-		 return NULL;
+	final public function get_type() {
+		
+		 $type = strtolower(get_class($this));
+		 return $type;		 
 	}
 
 	/**
@@ -908,7 +949,7 @@ class Anchor {
 			return FALSE;
 
 		// id of requesting user
-		if(!$user_id && Surfer::get_id())
+		if(!$user_id)
 			$user_id = Surfer::get_id();
 
 		// anonymous is allowed
@@ -929,6 +970,18 @@ class Anchor {
 
 		// surfer owns this item
 		if($user_id && isset($this->item['owner_id']) && ($user_id == $this->item['owner_id']))
+			return $this->is_assigned_cache[$user_id] = TRUE;
+		
+		// anchor has been assigned to this surfer
+		if($user_id && Members::check('user:'.$user_id, $this->get_reference()))
+			return $this->is_assigned_cache[$user_id] = TRUE;
+		
+		// anonymous edition is allowed
+		if(($this->item['active'] == 'Y') && $this->has_option('anonymous_edit'))
+			return $this->is_assigned_cache[$user_id] = TRUE;
+		
+		// members edition is allowed
+		if(($this->item['active'] == 'Y') && Surfer::is_empowered('M') && $this->has_option('members_edit'))
 			return $this->is_assigned_cache[$user_id] = TRUE;
 
 		// check parent container
@@ -1027,11 +1080,17 @@ class Anchor {
 	 *
 	 * @return TRUE or FALSE
 	 */
-	 function is_public() {
+	 function is_public() {	     
+
+		// cache the answer
+		if(isset($this->is_public_cache))
+			return $this->is_public_cache;    
+	     
 
 		// not set
 		if(!is_array($this->item))
-			return FALSE;
+			return $this->is_public_cache = FALSE;
+		
 
 		// ensure the container allows for public access
 		if(isset($this->item['anchor'])) {
@@ -1041,20 +1100,16 @@ class Anchor {
 				$this->anchor = Anchors::get($this->item['anchor']);
 
 			if(is_object($this->anchor) && !$this->anchor->is_public())
-				return FALSE;
+				return $this->is_public_cache = FALSE;
 
 		}
 
-		// not at the front page
-//		if(isset($this->item['index_map']) && ($this->item['index_map'] == 'N'))
-//			return FALSE;
-
 		// the anchor is public
 		if(isset($this->item['active']) && ($this->item['active'] == 'Y'))
-			return TRUE;
+			return $this->is_public_cache = TRUE;
 
 		// sorry
-		return FALSE;
+		return $this->is_public_cache = FALSE;
 	}
 
 	/**
@@ -1083,8 +1138,8 @@ class Anchor {
 			return TRUE;
 
 		// id of requesting user
-		if(!$user_id && Surfer::get_id())
-			$user_id = Surfer::get_id();
+		if(!$user_id )
+		    $user_id = Surfer::get_id();
 
 		// anonymous is allowed
 		if(!$user_id)

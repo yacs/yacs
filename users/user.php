@@ -211,19 +211,6 @@ Class User extends Anchor {
 	 }
 
 	/**
-	 * get the reference for this anchor
-	 *
-	 * @return 'user:&lt;id&gt;', or NULL
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_reference() {
-		if(isset($this->item['id']))
-			return 'user:'.$this->item['id'];
-		return NULL;
-	}
-
-	/**
 	 * get the title for this anchor
 	 *
 	 * @return a string

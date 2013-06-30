@@ -38,60 +38,7 @@ Class Article extends Anchor {
 
 		// blocked by default
 		return FALSE;
-	}
-
-	/**
-	 * get the focus for this anchor
-	 *
-	 * This function lists containers of the content tree,
-	 * from top level down to this item.
-	 *
-	 * @return array of anchor references
-	 */
-	function get_focus() {
-
-		// get the parent
-		if(!isset($this->anchor))
-			$this->anchor = Anchors::get($this->item['anchor']);
-
-		// the parent level
-		if(is_object($this->anchor))
-			$focus = $this->anchor->get_focus();
-		else
-			$focus = array();
-
-		// append this level
-		if(isset($this->item['id']))
-			$focus[] = 'article:'.$this->item['id'];
-
-		 return $focus;
-	 }
-
-	/**
-	 * get the url to display the icon for this anchor
-	 *
-	 * @see shared/anchor.php
-	 *
-	 * @return an anchor to the icon image
-	 */
-	function get_icon_url() {
-		if(isset($this->item['icon_url']) && $this->item['icon_url'])
-			return $this->item['icon_url'];
-		return $this->get_thumbnail_url();
-	}
-
-	/**
-	 * get the named url for this anchor
-	 *
-	 * If the anchor as been named, this function returns the related url.
-	 *
-	 * @return an url to view the anchor page, or NULL
-	 */
-	function get_named_url() {
-		if(isset($this->item['nick_name']) && $this->item['nick_name'])
-			return normalize_shortcut($this->item['nick_name']);
-		return NULL;
-	}
+	}			
 
 	/**
 	 * get next and previous items, if any
@@ -228,61 +175,7 @@ Class Article extends Anchor {
 		// return navigation info
 		return array($previous_url, $previous_label, $next_url, $next_label, $option_url, $option_label);
 	}
-
-	/**
-	 * get the path bar for this anchor
-	 *
-	 * For articles, the path bar is made of one stem for the section, then one stem for the article itself.
-	 *
-	 * @see shared/anchor.php
-	 *
-	 * @return an array of $url => $label, or NULL
-	 */
-	function get_path_bar() {
-		global $context;
-
-		// no item bound
-		if(!isset($this->item['id']))
-			return NULL;
-
-		// get the parent
-		if(!isset($this->anchor))
-			$this->anchor = Anchors::get($this->item['anchor']);
-
-		// the parent level
-		$parent = array();
-		if(is_object($this->anchor))
-			$parent = $this->anchor->get_path_bar();
-
-		// this item
-		$url = $this->get_url();
-		$label = $this->get_title();
-		$data = array_merge($parent, array($url => $label));
-
-		// return the result
-		return $data;
-
-	}
-
-	/**
-	 * get the reference for this anchor
-	 *
-	 * This function is used to retrieve a reference to be placed into the database.
-	 * For example:
-	 * [php]
-	 * $anchor = Anchors::get($article['anchor']);
-	 * $context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
-	 * [/php]
-	 *
-	 * @see shared/anchor.php
-	 *
-	 * @return 'article:&lt;id&gt;', or NULL on error
-	 */
-	function get_reference() {
-		if(isset($this->item['id']))
-			return 'article:'.$this->item['id'];
-		return NULL;
-	}
+	
 
 	/**
 	 * get the short url for this anchor
@@ -441,19 +334,6 @@ Class Article extends Anchor {
 	}
 
 	/**
-	 * get the url to display the thumbnail for this anchor
-	 *
-	 * @see shared/anchor.php
-	 *
-	 * @return an anchor to the thumbnail image
-	 */
-	function get_thumbnail_url() {
-		if(isset($this->item['thumbnail_url']))
-			return $this->item['thumbnail_url'];
-		return NULL;
-	}
-
-	/**
 	 * get the url to display the main page for this anchor
 	 *
 	 * @see shared/anchor.php
@@ -553,76 +433,7 @@ Class Article extends Anchor {
 
 		// by default, limit to direct watchers of this anchor
 		return $containers;
-	}
-
-	/**
-	 * check that the surfer is an editor of an article
-	 *
-	 * An anonymous surfer is considered as an editor if he has provided the secret handle.
-	 *
-	 * @param int optional reference to some user profile
-	 * @param boolean TRUE to climb the list of containers up to the top
-	 * @return TRUE or FALSE
-	 */
-	 function is_assigned($user_id=NULL, $cascade=TRUE) {
-		global $context;
-
-		// we need some data to proceed
-		if(!isset($this->item['id']))
-			return FALSE;
-
-		// id of requesting user
-		if(!$user_id && Surfer::get_id())
-			$user_id = Surfer::get_id();
-
-		// anonymous is allowed
-		if(!$user_id)
-			$user_id = 0;
-
-		// create the cache
-		if(!isset($this->is_assigned_cache))
-			$this->is_assigned_cache = array();
-
-		// cache the answer
-		if(isset($this->is_assigned_cache[$user_id]))
-			return $this->is_assigned_cache[$user_id];
-
-		// anonymous surfer has provided the secret handle
-		if(isset($this->item['handle']) && Surfer::may_handle($this->item['handle']))
-			return $this->is_assigned_cache[$user_id] = TRUE;
-
-		// surfer owns this item
-		if($user_id && isset($this->item['owner_id']) && ($user_id == $this->item['owner_id']))
-			return $this->is_assigned_cache[$user_id] = TRUE;
-
-		// article has been assigned to this surfer
-		if($user_id && Members::check('user:'.$user_id, 'article:'.$this->item['id']))
-			return $this->is_assigned_cache[$user_id] = TRUE;
-
-		// anonymous edition is allowed
-		if(($this->item['active'] == 'Y') && $this->has_option('anonymous_edit'))
-			return $this->is_assigned_cache[$user_id] = TRUE;
-
-		// members edition is allowed
-		if(($this->item['active'] == 'Y') && Surfer::is_empowered('M') && $this->has_option('members_edit'))
-			return $this->is_assigned_cache[$user_id] = TRUE;
-
-		// container may be edited
-		if($cascade && isset($this->item['anchor'])) {
-
-			// save requests
-			if(!isset($this->anchor) || !$this->anchor)
-				$this->anchor = Anchors::get($this->item['anchor']);
-
-			// check for ownership
-			if(is_object($this->anchor))
-				return $this->is_assigned_cache[$user_id] = $this->anchor->is_assigned($user_id);
-
-		}
-
-		// sorry
-		return $this->is_assigned_cache[$user_id] = FALSE;
-	 }
+	}	
 
 	/**
 	 * load the related item
