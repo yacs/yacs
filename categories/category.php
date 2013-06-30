@@ -24,19 +24,7 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 Class Category extends Anchor {
-
-	/**
-	 * get the url to display the icon for this anchor
-	 *
-	 * @return an anchor to the icon image
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_icon_url() {
-		if(isset($this->item['icon_url']) && $this->item['icon_url'])
-			return $this->item['icon_url'];
-		return $this->get_thumbnail_url();
-	}
+	
 
 	/**
 	 * get the path bar for this anchor
@@ -55,67 +43,20 @@ Class Category extends Anchor {
 	 * @see shared/anchor.php
 	 */
 	function get_path_bar() {
-
+	    	   		    
 		// no item bound
 		if(!isset($this->item['id']))
-			return NULL;
-
-		// the parent level
-		$anchor = Anchors::get($this->item['anchor']);
-		if(is_object($anchor))
-			$top_bar = $anchor->get_path_bar();
-		else
-			$top_bar = array( 'categories/' => i18n::s('Categories') );
-
-		// then the category title
-		$url = $this->get_url();
-		$label = $this->get_title();
-
-		// return an array of ($url => $label)
-		if(is_array($top_bar))
-			return array_merge($top_bar, array($url => $label));
-		return array($url => $label);
-	}
-
-	/**
-	 * get the reference for this anchor
-	 *
-	 * @return 'category:&lt;id&gt;', or NULL on error
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_reference() {
-		if(isset($this->item['id']))
-			return 'category:'.$this->item['id'];
-		return NULL;
-	}
-
-	/**
-	 * get the suffix text
-	 *
-	 * @param string a variant string transmitted by the caller
-	 * @return a string to be inserted in the final page
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_suffix($variant='') {
-		if(isset($this->item['suffix']))
-			return $this->item['suffix'];
-		return '';
-	}
-
-	/**
-	 * get the url to display the thumbnail for this anchor
-	 *
-	 * @return an anchor to the thumbnail image, or NULL
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_thumbnail_url() {
-		if(isset($this->item['thumbnail_url']))
-			return $this->item['thumbnail_url'];
-		return NULL;
-	}
+			return NULL;		
+		
+		// standard path
+		$path = Anchor::get_path_bar();
+		
+		// add categories root
+		if(!$this->item['anchor'])		
+		    $path = array_merge(array( 'categories/' => i18n::s('Categories') ), $path);
+		
+		return $path;		
+	}	
 
 	/**
 	 * get the url to display the main page for this anchor
@@ -333,7 +274,7 @@ Class Category extends Anchor {
 		$this->item['description'] = preg_replace($from, $to, $this->item['description']);
 
 		// update the database
-		$query = "UPDATE ".SQL::table_name('articles')." SET "
+		$query = "UPDATE ".SQL::table_name('categories')." SET "
 			." introduction = '".SQL::escape($this->item['introduction'])."',"
 			." description = '".SQL::escape($this->item['description'])."'"
 			." WHERE id = ".SQL::escape($this->item['id']);

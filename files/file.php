@@ -14,42 +14,6 @@
 Class File extends Anchor {
 
 	/**
-	 * get the focus for this anchor
-	 *
-	 * This function retrieve the id of the top anchor.
-	 *
-	 * To be overloaded into derived class
-	 *
-	 * @return a string
-	 */
-	 function get_focus() {
-
-		// get the parent
-		if(!isset($this->anchor))
-			$this->anchor = Anchors::get($this->item['anchor']);
-
-		// the parent level
-		if(is_object($this->anchor))
-			return $this->anchor->get_focus();
-
-		// this level
-		 return array();
-	 }
-
-	/**
-	 * get the url to display the icon for this anchor
-	 *
-	 * @return an anchor to the icon image
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_icon_url() {
-		if(isset($this->item['icon_url']) && $this->item['icon_url'])
-			return $this->item['icon_url'];
-		return $this->get_thumbnail_url();
-	}
-
-	/**
 	 * get next and previous items, if any
 	 *
 	 * @param string the item type (eg, 'image', 'file', etc.)
@@ -110,67 +74,6 @@ Class File extends Anchor {
 
 		// return navigation info
 		return array($previous_url, $previous_label, $next_url, $next_label, $option_url, $option_label);
-	}
-
-	/**
-	 * get the path bar for this anchor
-	 *
-	 * For files, the path bar is made of one stem for the section, then one stem for the file itself.
-	 *
-	 * @return an array of $url => $label, or NULL
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_path_bar() {
-		global $context;
-
-		// no item bound
-		if(!isset($this->item['id']))
-			return NULL;
-
-		// get the parent
-		if(!isset($this->anchor))
-			$this->anchor = Anchors::get($this->item['anchor']);
-
-		// the parent level
-		$parent = array();
-		if(is_object($this->anchor))
-			$parent = $this->anchor->get_path_bar();
-
-		// this item
-		$url = $this->get_url();
-		$label = $this->get_title();
-		$data = array_merge($parent, array($url => $label));
-
-		// return the result
-		return $data;
-
-	}
-
-	/**
-	 * get the reference for this anchor
-	 *
-	 * @return 'file:&lt;id&gt;'
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_reference() {
-		if(isset($this->item['id']))
-			return 'file:'.$this->item['id'];
-		return NULL;
-	}
-
-	/**
-	 * get the url to display the thumbnail for this anchor
-	 *
-	 * @return an anchor to the thumbnail image
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_thumbnail_url() {
-		if(isset($this->item['thumbnail_url']))
-			return $this->item['thumbnail_url'];
-		return NULL;
 	}
 
 	/**
