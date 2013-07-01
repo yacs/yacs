@@ -993,17 +993,26 @@ class Safe {
 	 * @return TRUE on success, FALSE otherwise
 	 */
 	public static function setcookie($name, $value, $expire, $path, $domain=NULL) {
+		global $context;
 
 		// no way to send something back
 		if(headers_sent())
 			return FALSE;
 
-		// ensure call is allowed
-		if(is_callable('setcookie'))
-			return setcookie($name, $value, $expire, $path, $domain);
-
 		// tough luck
-		return FALSE;
+		if(!is_callable('setcookie'))
+			return FALSE;
+
+		// sanity check
+		if(!$domain)
+			$domain = $context['host_name'];
+
+		// enable sub-domains, using only last two name components: www.mydomain.com -> .mydomain.com
+		if(($parent_domain = strstr($domain, '.')) && strpos($parent_domain, '.', 1))
+			$domain = $parent_domain;
+
+		// do the job
+		return setcookie($name, $value, $expire, $path, $domain);
 
 	}
 

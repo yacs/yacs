@@ -1513,7 +1513,7 @@ Class Surfer {
 			// attempt to set this cookie while answering the current request
 			Surfer::set_cookie('screening', $token);
 
-			// path to this instance			// we will do it again on next transaction, to take care of redirections, if any
+			// we will do it again on next transaction, to take care of redirections, if any
 			$_SESSION['surfer_token'] = $token;
 
 		}
