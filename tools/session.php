@@ -7,6 +7,11 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
+header('Access-Control-Allow-Origin: http://' . $_REQUEST["origin"]);
+header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+header('Access-Control-Allow-Headers: origin, content-type, accept');
+
 // use the id provided
 if($_REQUEST['id']) {
 

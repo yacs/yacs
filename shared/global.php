@@ -387,9 +387,17 @@ if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == '')) {
 		// one host at a time
 		foreach($hosts as $index => $host) {
 			if($host = trim($host)) {
+			    
+			if($host == $domain) continue;    			    
 
 			// start an ajax transaction
-			$script .= "\t".'$.ajax({url:"http://'.$host.$context['url_to_root'].'tools/session.php",type: "get",data:{"id": "'.session_id().'"} });'."\n";
+			$script .= "\t".'$.ajax({'
+				.'"url":"http://'.$host.$context['url_to_root'].'tools/session.php",'
+				.'"type": "GET",'
+				.'"data": {"id": "'.session_id().'","origin":"'.$domain.'"},'
+				.'"xhrFields": { "withCredentials": true}' 
+			    
+				.'});'."\n";
 
 			}
 		}
