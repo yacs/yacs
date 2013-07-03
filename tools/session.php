@@ -3,6 +3,12 @@
  * to set session cookie in a different host name
  *
  * @author Bernard Paques
+ * @author Alexis Raimbault
+ *
+ * this script is aimed to be called by a ajax transaction
+ * @see https://developer.mozilla.org/En/Server-Side_Access_Control
+ * @see shared/global.php
+ *
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
