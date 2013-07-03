@@ -681,7 +681,7 @@ class Anchor {
 	 *
 	 * @return a valid url to be used in an <img> tag
 	 */
-	final public function get_thumbnail_url() {
+	public function get_thumbnail_url() {
 		if(isset($this->item['thumbnail_url']) && $this->item['thumbnail_url'])
 			return $this->item['thumbnail_url'];
 		return NULL;
