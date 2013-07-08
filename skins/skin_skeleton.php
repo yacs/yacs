@@ -3522,9 +3522,9 @@ Class Skin_Skeleton {
 
 		// make an absolute path to image, in case of export (freemind, etc.)
 		if($size = Safe::GetImageSize($context['path_to_root'].$context['skin'].'/'.$file))
-			define($name, ' <img src="'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.' />');
+			define($name, ' <img src="'.$context['url_to_master'].$context['url_to_root'].$context['skin'].'/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.' />');
 		elseif($size = Safe::GetImageSize($context['path_to_root'].'skins/_reference/'.$file))
-			define($name, ' <img src="'.$context['url_to_home'].$context['url_to_root'].'skins/_reference/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.' />');
+			define($name, ' <img src="'.$context['url_to_master'].$context['url_to_root'].'skins/_reference/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.' />');
 		else
 			define($name, $default);
 	}
@@ -3546,9 +3546,9 @@ Class Skin_Skeleton {
 
 		// make an absolute path to image, in case of export
 		if(file_exists($context['path_to_root'].$context['skin'].'/'.$file))
-			define($name, $context['url_to_home'].$context['url_to_root'].$context['skin'].'/'.$file);
+			define($name, $context['url_to_master'].$context['url_to_root'].$context['skin'].'/'.$file);
 		elseif(file_exists($context['path_to_root'].'skins/_reference/'.$file))
-			define($name, $context['url_to_home'].$context['url_to_root'].'skins/_reference/'.$file);
+			define($name, $context['url_to_master'].$context['url_to_root'].'skins/_reference/'.$file);
 		else
 			define($name, $default);
 	}

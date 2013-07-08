@@ -64,7 +64,7 @@ Class Js_Css {
 	    }
 
 	    // add root url
-	    $path = $context['url_to_root'].$path;
+	    $path = $context['url_to_master'].$context['url_to_root'].$path;
 	}	    
 
 	// css ou js ?
