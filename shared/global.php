@@ -332,6 +332,10 @@ $context['host_name'] = strip_tags($context['host_name']);
 if($here = strrpos($context['host_name'], ':'))
 	$context['host_name'] = substr($context['host_name'], 0, $here);
 
+// load skins parameters, if any
+Safe::load('parameters/skins.include.php');
+Safe::load('parameters/root.include.php'); // to support Page::tabs()
+
 // load parameters specific to this virtual host or sub-domain, if any
 Safe::load('parameters/virtual_'.$context['host_name'].'.include.php');
 
@@ -789,10 +793,6 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 		$context['skin'] = 'skins/'.$matches[1];
 	elseif(is_object($anchor) && ($skin = $anchor->has_option('skin', FALSE)) && is_string($skin))
 		$context['skin'] = 'skins/'.$skin;
-
-	// load skins parameters, if any
-	Safe::load('parameters/skins.include.php');
-	Safe::load('parameters/root.include.php'); // to support Page::tabs()
 
 	// quite new
 	$context['fresh'] = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
