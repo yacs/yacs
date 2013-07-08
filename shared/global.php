@@ -332,6 +332,9 @@ $context['host_name'] = strip_tags($context['host_name']);
 if($here = strrpos($context['host_name'], ':'))
 	$context['host_name'] = substr($context['host_name'], 0, $here);
 
+// master host name, won't be override by vhost 
+$context['master_host'] = $context['host_name'];
+
 // load skins parameters, if any
 Safe::load('parameters/skins.include.php');
 Safe::load('parameters/root.include.php'); // to support Page::tabs()
@@ -344,12 +347,16 @@ if(!isset($context['site_name']))
 	$context['site_name'] = $context['host_name'];
 
 // the url to the front page -- to be used alone, or with an appended string starting with '/'
-if(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == 443))
+if(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == 443)) {
 	$context['url_to_home'] = 'https://'.$context['host_name'];
-elseif(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80))
+	$context['url_to_master'] = 'https://'.$context['master_host'];
+} elseif(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80)) {
 	$context['url_to_home'] = 'http://'.$context['host_name'].':'.$_SERVER['SERVER_PORT'];
-else
+	$context['url_to_master'] = 'https://'.$context['master_host'].':'.$_SERVER['SERVER_PORT'];
+} else {
 	$context['url_to_home'] = 'http://'.$context['host_name'];
+	$context['url_to_master'] = 'http://'.$context['master_host'];
+}
 
 // the url to reference ourself, including query string -- copy of the reference submitted by user agent (i.e., before rewritting)
 $context['self_url'] = '';
