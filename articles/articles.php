@@ -1707,17 +1707,11 @@ Class Articles {
 		if(!isset($item['id']))
 			throw new Exception('bad input parameter');
 
-		// this page is bound to a virtual server
-		if(isset($item['vhost']) && $item['vhost']) {
-			if(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == 443))
-				$text = 'https://';
-			else
-				$text = 'http://';
-			return $text.$item['vhost'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
-		}
+		// get host to this page
+		$vhost = Sections::get_vhost($item['anchor']);		
 
 		// absolute link
-		return $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
+		return $vhost.Articles::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
 	}
 
 	/**
