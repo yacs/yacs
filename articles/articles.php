@@ -3017,11 +3017,7 @@ Class Articles {
 
 		// allow anonymous surfer to access this page during his session
 		if(!Surfer::get_id())
-			Surfer::add_handle($fields['handle']);
-
-		// remember that this item is bound to a specific virtual host name
-		if(file_exists($context['path_to_root'].'parameters/virtual_'.$context['host_name'].'.include.php'))
-			$query[] = "vhost='".SQL::escape($context['host_name'])."'";
+			Surfer::add_handle($fields['handle']);		
 
 		// insert a new record
 		$query = "INSERT INTO ".SQL::table_name('articles')." SET ".implode(', ', $query);
@@ -3219,10 +3215,6 @@ Class Articles {
 			$query[] = "publish_date='".SQL::escape($fields['publish_date'])."'";
 		}
 
-		// remember that this item is bound to a specific virtual host name
-		if(file_exists($context['path_to_root'].'parameters/virtual_'.$context['host_name'].'.include.php'))
-			$query[] = "vhost='".SQL::escape($context['host_name'])."'";
-
 		// maybe a silent update
 		if(!isset($fields['silent']) || ($fields['silent'] != 'Y') || !Surfer::is_empowered()) {
 			$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
@@ -3366,10 +3358,6 @@ Class Articles {
 		// nothing to update
 		if(!count($query))
 			return TRUE;
-
-		// remember that this item is bound to a specific virtual host name
-		if(file_exists($context['path_to_root'].'parameters/virtual_'.$context['host_name'].'.include.php'))
-			$query[] = "vhost='".SQL::escape($context['host_name'])."'";
 
 		// maybe a silent update
 		if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
@@ -3562,7 +3550,6 @@ Class Articles {
 		$fields['thumbnail_url']= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['trailer']		= "TEXT NOT NULL";
-		$fields['vhost']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 		= "(id)";
