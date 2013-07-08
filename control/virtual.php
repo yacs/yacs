@@ -110,7 +110,7 @@ elseif(!Surfer::is_associate()) {
 	else {
 		$context['text'] .= '<p>'.sprintf(i18n::s('The target file %s has been successfully updated.'), 'parameters/virtual_'.$id.'.include.php').'</p>';
 
-		$context['text'] .= Skin::build_box(i18n::s('Configuration'), Safe::highlight_string($content), 'unfolded');
+		$context['text'] .= Skin::build_box(i18n::s('Configuration'), Safe::highlight_string($_REQUEST['content']), 'unfolded');
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
