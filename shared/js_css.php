@@ -199,7 +199,7 @@ Class Js_Css {
 	    if($context['with_debug']=='N') {
 		    $path = 'included/browser/library_'.$folder.'.min.js';
 		    if(file_exists($context['path_to_root'].$path)) {
-			    $html = Js_Css::build_js_declaration($context['url_to_root'].$path);
+			    $html = Js_Css::build_js_declaration($context['url_to_master'].$context['url_to_root'].$path);
 		    return $html;
 		    }
 	    }
@@ -220,7 +220,7 @@ Class Js_Css {
 
 		    // build declarations file by file
 		    foreach ($js_libs as $js) {
-		    $html .= Js_Css::build_js_declaration($context['url_to_root'].$path.$js);
+		    $html .= Js_Css::build_js_declaration($context['url_to_master'].$context['url_to_root'].$path.$js);
 		    }
 	    }
 
@@ -230,7 +230,7 @@ Class Js_Css {
 
 		    foreach ($other_files as $file) {
 		    if(file_exists($context['path_to_root'].$file))
-			    $html .= Js_Css::build_js_declaration($context['url_to_root'].$file);
+			    $html .= Js_Css::build_js_declaration($context['url_to_master'].$context['url_to_root'].$file);
 		    }
 
 	    }
