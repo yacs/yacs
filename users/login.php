@@ -467,9 +467,11 @@ if(Surfer::is_crawler()) {
 	$main_column .= '<p>'.$label.BR.$input.'</p>';
 	
 	// remember me ?
-	$label = i18n::s('Stay connected');
-	$input = '<input type="checkbox" name="remember" value="Y" '.EOT."\n";
-	$main_column .= '<p>'.$input.'&nbsp;'.$label.'</p>';
+	if($context['users_with_permanent_authentication'] == 'U') {
+	    $label = i18n::s('Stay connected');
+	    $input = '<input type="checkbox" name="remember" value="Y" '.EOT."\n";
+	    $main_column .= '<p>'.$input.'&nbsp;'.$label.'</p>';
+	}
 
 	// bottom commands
 	$menu = array();
