@@ -330,7 +330,8 @@ Class Surfer {
 			$content .= i18n::s('Password').BR.'<input type="password" name="login_password" size="10" maxlength="255" />'.BR;
 
 			// Remember me ?
-			$content .= '<span class="details"><input type="checkbox" name="remember" value="Y" />&nbsp;'.i18n::s('Stay connected').'</span>'.BR;
+			if($context['users_with_permanent_authentication'] == 'U')
+			    $content .= '<span class="details"><input type="checkbox" name="remember" value="Y" />&nbsp;'.i18n::s('Stay connected').'</span>'.BR;
 
 			// the button
 			$content .= Skin::build_submit_button(i18n::s('Login'));
@@ -1651,7 +1652,7 @@ if(isset($_SESSION['surfer_token'])) {
 if(isset($_SERVER['REMOTE_ADDR']) && !Surfer::is_crawler() && !headers_sent()) {
 
 	// permanent identification has been selected
-	if(isset($context['users_with_permanent_authentication']) && ($context['users_with_permanent_authentication'] == 'Y')) {
+	if(isset($context['users_with_permanent_authentication']) && ($context['users_with_permanent_authentication'] != 'N')) {
 
 		// use cookie to identify user -- user id, time of login, gmt offset, salt
 		if(!Surfer::is_logged() && isset($_COOKIE['screening']) && ($nouns = explode('|', $_COOKIE['screening'], 4)) && (count($nouns) == 4)) {
