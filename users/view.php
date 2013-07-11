@@ -337,9 +337,9 @@ if(!isset($item['id'])) {
 		$count = Articles::count_for_user($item['id']);
 		if($count)
 			$box['bottom'] += array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count));
-
-		include_once $context['path_to_root'].'articles/layout_articles_as_last.php';
-		$layout = new Layout_articles_as_last();
+		
+		// load the choosen layout
+		$layout = Anchors::new_layout('last', 'article');
 		$layout->set_variant($item['id']);
 
 		// navigation commands for articles
@@ -432,9 +432,8 @@ if(!isset($item['id'])) {
 		// compute offset from list beginning
 		$offset = ($zoom_index - 1) * SECTIONS_PER_PAGE;
 
-		// list assigned by title
-		include_once $context['path_to_root'].'sections/layout_sections_as_rights.php';
-		$layout = new Layout_sections_as_rights();
+		// list assigned by title		
+		$layout = Anchors::new_layout('rights', 'section');
 		$layout->set_variant($item['id']);
 		$items =& Sections::list_by_date_for_user($item['id'], $offset, SECTIONS_PER_PAGE, $layout);
 		if(is_array($items))

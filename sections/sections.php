@@ -1219,52 +1219,6 @@ Class Sections {
 	}
 
 	/**
-	 * get one section layout
-	 *
-	 * @param string name of the layout to load
-	 * @return object
-	 */
-	public static function &get_layout($variant='full') {
-		global $context;
-
-		// special layouts
-		if(is_object($variant)) {
-			$output = $variant;
-			return $output;
-		}
-
-		// no layout yet
-		$layout = NULL;
-
-		// separate options from layout name
-		$attributes = explode(' ', $variant, 2);
-
-		// instanciate the provided name
-		if($attributes[0]) {
-			$name = 'layout_sections_as_'.$attributes[0];
-			if(is_readable($context['path_to_root'].'sections/'.$name.'.php')) {
-				include_once $context['path_to_root'].'sections/'.$name.'.php';
-				$layout = new $name;
-
-				// provide parameters to the layout
-				if(isset($attributes[1]))
-					$layout->set_variant($attributes[1]);
-
-			}
-		}
-
-		// use default layout
-		if(!$layout) {
-			include_once $context['path_to_root'].'sections/layout_sections.php';
-			$layout = new Layout_sections();
-			$layout->set_variant($variant);
-		}
-
-		// do the job
-		return $layout;
-	}
-
-	/**
 	 * get sections as options of a &lt;SELECT&gt; field
 	 *
 	 * Only sections matching following criteria are returned:
@@ -2253,7 +2207,7 @@ Class Sections {
 			$silent = FALSE;
 
 		// provide context to layout
-		$layout =& Sections::get_layout($variant);
+		$layout = Anchors::new_layout($variant,'section',false,true);
 		if($anchor)
 			$layout->set_variant($anchor);
 
@@ -2403,7 +2357,7 @@ Class Sections {
 		}
 
 		// get a layout
-		$layout =& Sections::get_layout($variant);
+		$layout = Anchors::new_layout($variant,'section',false,true);
 
 		// do the job
 		$output = $layout->layout($result);

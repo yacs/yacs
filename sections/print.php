@@ -120,19 +120,8 @@ if(Surfer::is_crawler()) {
 	// select a layout
 	if(!isset($item['sections_layout']))
 		$layout = 'decorated';
-	elseif($item['sections_layout'] == 'compact')
-		$layout = 'compact';
-	elseif($item['sections_layout'] == 'inline') {
-		include_once '../sections/layout_sections_as_inline.php';
-		$layout = new Layout_sections_as_inline();
-	} elseif($item['sections_layout'] == 'map') {
-		include_once '../sections/layout_sections_as_yahoo.php';
-		$layout = new Layout_sections_as_yahoo();
-	} elseif($item['sections_layout'] == 'yabb') {
-		include_once '../sections/layout_sections_as_yabb.php';
-		$layout = new Layout_sections_as_yabb();
-	} else
-		$layout = 'decorated';
+	else
+		$layout = Anchors::new_layout($item['sections_layout'], 'section');	
 
 	// the maximum number of sections per page
 	if(is_object($layout))
@@ -165,25 +154,8 @@ if(Surfer::is_crawler()) {
 	// select a layout
 	if(!isset($item['articles_layout']))
 		$layout = NULL;
-	elseif($item['articles_layout'] == 'daily') {
-		include_once '../articles/layout_articles_as_daily.php';
-		$layout = new Layout_articles_as_daily();
-	} elseif($item['articles_layout'] == 'jive') {
-		include_once '../articles/layout_articles_as_jive.php';
-		$layout = new Layout_articles_as_jive();
-	} elseif($item['articles_layout'] == 'manual') {
-		include_once '../articles/layout_articles_as_manual.php';
-		$layout = new Layout_articles_as_manual();
-	} elseif($item['articles_layout'] == 'table') {
-		include_once '../articles/layout_articles_as_table.php';
-		$layout = new Layout_articles_as_table();
-	} elseif($item['articles_layout'] == 'yabb') {
-		include_once '../articles/layout_articles_as_yabb.php';
-		$layout = new Layout_articles_as_yabb();
-	} elseif($item['articles_layout'] == 'compact')
-		$layout = 'compact';
 	else
-		$layout = NULL;
+		$layout = Anchors::new_layout ($item['articles_layout'], 'article');
 
 	// the maximum number of articles per page
 	if(is_object($layout))

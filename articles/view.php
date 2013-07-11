@@ -1033,9 +1033,8 @@ if(!isset($item['id'])) {
 				$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
 			// compact list of files
-			if($compact = Articles::has_option('files_as_compact', $anchor, $item)) {
-				include_once $context['path_to_root'].'files/layout_files_as_compact.php';
-				$layout = new Layout_files_as_compact();
+			if($compact = Articles::has_option('files_as_compact', $anchor, $item)) {				
+				$layout = Anchors::new_layout('compact', 'file');
 				$layout->set_variant('article:'.$item['id']);
 
 			// standard list of files
