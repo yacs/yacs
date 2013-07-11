@@ -84,19 +84,17 @@ abstract Class Layout_interface {
 	 * @param type $myclass, argument used by the recursive call.
 	 */
 	final protected function load_scripts_n_rules($myclass='') {
+	    global $context;
 	    
 	    if(!$myclass)
 		$myclass = get_class($this);
-	    
-	    // guess layout folder (/articles, /sections, ...)
-	    $layout = preg_split("/_/", $myclass);
-	    $folder = $layout[1];
+	   
 	    
 	    $parent = get_parent_class($myclass);	    
 	    
 	    // load scripts (if exist)
-	    Page::load_style(strtolower($folder.'/'.$myclass.'/'.$myclass.'.css'));
-	    Page::defer_script(strtolower($folder.'/'.$myclass.'/'.$myclass.'.js'));
+	    Page::load_style(strtolower('layouts/'.$myclass.'/'.$myclass.'.css'));
+	    Page::defer_script(strtolower('layouts/'.$myclass.'/'.$myclass.'.js'));
 	    
 	    // recursive call to parent class, stop on "Overlay"
 	    if($parent!= '' && $parent!='Layout_interface')
