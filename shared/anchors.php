@@ -510,9 +510,9 @@ class Anchors {
 		$layout = new $name;
 	    } 
 	    // look for refactored layout files
-	    elseif (is_readable($context['path_to_root'].'layouts/'.$name.'/layout_as_'.$name.'.php')) {
+	    elseif (is_readable($context['path_to_root'].'layouts/layout_as_'.$name.'/layout_as_'.$name.'.php')) {
 		$name = 'layout_as_'.$name;
-		include_once $context['path_to_root'].'layouts/'.$name.'/'.$name;
+		include_once $context['path_to_root'].'layouts/'.$name.'/'.$name.'.php';
 		$layout = new $name;
 		$layout->listed_type = $item_type;
 		
