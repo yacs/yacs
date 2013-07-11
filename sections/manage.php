@@ -1048,8 +1048,7 @@ if(Surfer::is_crawler()) {
 	$text = '';
 
 	// managed articles
-	include_once '../articles/layout_articles_as_manage.php';
-	$layout = new Layout_articles_as_manage();
+	$layout = Anchors::new_layout('manage', 'article');
 
 	// avoid links to this page
 	if(is_object($layout) && is_callable(array($layout, 'set_variant')))
@@ -1159,8 +1158,7 @@ if(Surfer::is_crawler()) {
 	$text = '';
 
 	// managed sections
-	include_once '../sections/layout_sections_as_manage.php';
-	$layout = new Layout_sections_as_manage();
+	$layout = Anchors::new_layout('manage', 'section');
 
 	// avoid links to this page
 	if(is_object($layout) && is_callable(array($layout, 'set_variant')))

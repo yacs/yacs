@@ -1157,33 +1157,9 @@ Class Users {
 			$output = $variant->layout($result);
 			return $output;
 		}
-
-		// no layout yet
-		$layout = NULL;
-
-		// separate options from layout name
-		$attributes = explode(' ', $variant, 2);
-
+	
 		// instanciate the provided name
-		if($attributes[0]) {
-			$name = 'layout_users_as_'.$attributes[0];
-			if(is_readable($context['path_to_root'].'users/'.$name.'.php')) {
-				include_once $context['path_to_root'].'users/'.$name.'.php';
-				$layout = new $name;
-
-				// provide parameters to the layout
-				if(isset($attributes[1]))
-					$layout->set_variant($attributes[1]);
-
-			}
-		}
-
-		// use default layout
-		if(!$layout) {
-			include_once $context['path_to_root'].'users/layout_users.php';
-			$layout = new Layout_users();
-			$layout->set_variant($variant);
-		}
+		$layout = Anchors::new_layout($variant, 'user',false, true);		
 
 		// do the job
 		$output = $layout->layout($result);

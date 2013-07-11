@@ -317,36 +317,7 @@ elseif(($target_section = Sections::get($context['root_sections_at_home'])) && i
 } else {
 
 	// load the layout to use
-	switch($context['root_sections_layout']) {
-	case 'decorated':
-		include_once $context['path_to_root'].'sections/layout_sections.php';
-		$layout = new Layout_sections();
-		break;
-	case 'map':
-		include_once $context['path_to_root'].'sections/layout_sections_as_yahoo.php';
-		$layout = new Layout_sections_as_yahoo();
-		$layout->set_variant(20); // show more elements at the front page
-		break;
-	default:
-
-		// load layout, if one exists
-		if(is_readable($context['path_to_root'].'sections/layout_sections_as_'.$context['root_sections_layout'].'.php')) {
-			$name = 'layout_sections_as_'.$context['root_sections_layout'];
-			include_once $context['path_to_root'].'sections/'.$name.'.php';
-			$layout = new $name;
-
-		// no layout to use
-		} else {
-
-			// useful warning for associates
-			if(Surfer::is_associate())
-				Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $context['root_sections_layout']));
-
-			// load default layout
-			include_once $context['path_to_root'].'sections/layout_sections_as_yahoo.php';
-			$layout = new Layout_sections_as_yahoo();
-		}
-	}
+	$layout = Anchors::new_layout($context['root_sections_layout'], 'section');
 
 	// the maximum number of sections
 	if(is_object($layout))
@@ -384,12 +355,8 @@ if(is_callable(array('Hooks', 'include_scripts')))
 // the list of most recent articles
 switch($context['root_articles_layout']) {
 case 'compact':
-	include_once $context['path_to_root'].'articles/layout_articles_as_compact.php';
-	$layout = new Layout_articles_as_compact();
-	break;
 case 'decorated':
-	include_once $context['path_to_root'].'articles/layout_articles.php';
-	$layout = new Layout_articles();
+	$layout = Anchors::new_layout($context['root_articles_layout'], 'article');
 	break;
 case 'no_articles':
 	$layout = NULL;
@@ -397,7 +364,8 @@ case 'no_articles':
 default:
 
 	// load layout, if one exists, for the home page
-	if(is_readable($context['path_to_root'].'skins/layout_home_articles_as_'.$context['root_articles_layout'].'.php')) {
+        $layout = Anchors::new_layout($context['root_articles_layout'], 'article',true);
+	/*if(is_readable($context['path_to_root'].'skins/layout_home_articles_as_'.$context['root_articles_layout'].'.php')) {
 		$name = 'layout_home_articles_as_'.$context['root_articles_layout'];
 		include_once $context['path_to_root'].'skins/'.$name.'.php';
 		$layout = new $name;
@@ -412,7 +380,7 @@ default:
 		// load default layout
 		include_once $context['path_to_root'].'skins/layout_home_articles_as_daily.php';
 		$layout = new Layout_home_articles_as_daily();
-	}
+	}*/
 }
 
 // the maximum number of articles

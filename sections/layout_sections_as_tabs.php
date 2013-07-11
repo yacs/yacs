@@ -96,25 +96,8 @@ Class Layout_sections_as_tabs extends Layout_interface {
 				if(!isset($item['articles_layout']) || !$item['articles_layout']) {
 					include_once '../articles/layout_articles.php';
 					$layout = new Layout_articles();
-				} elseif($item['articles_layout'] == 'decorated') {
-					include_once '../articles/layout_articles.php';
-					$layout = new Layout_articles();
-				} elseif($item['articles_layout'] == 'map') {
-					include_once '../articles/layout_articles_as_yahoo.php';
-					$layout = new Layout_articles_as_yahoo();
-				} elseif(is_readable($context['path_to_root'].'articles/layout_articles_as_'.$item['articles_layout'].'.php')) {
-					$name = 'layout_articles_as_'.$item['articles_layout'];
-					include_once $context['path_to_root'].'articles/'.$name.'.php';
-					$layout = new $name;
-				} else {
-
-					// useful warning for associates
-					if(Surfer::is_associate())
-						Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $item['articles_layout']));
-
-					include_once '../articles/layout_articles.php';
-					$layout = new Layout_articles();
-				}
+				} else
+				    $layout = Anchors::new_layout ($item['articles_layout'], 'article');
 
 				// avoid links to this page
 				if(is_object($layout) && is_callable(array($layout, 'set_variant')))
@@ -211,25 +194,8 @@ Class Layout_sections_as_tabs extends Layout_interface {
 				if(!isset($item['sections_layout']) || !$item['sections_layout']) {
 					include_once 'layout_sections.php';
 					$layout = new Layout_sections();
-				} elseif($item['sections_layout'] == 'decorated') {
-					include_once 'layout_sections.php';
-					$layout = new Layout_sections();
-				} elseif($item['sections_layout'] == 'map') {
-					include_once 'layout_sections_as_yahoo.php';
-					$layout = new Layout_sections_as_yahoo();
-				} elseif(is_readable($context['path_to_root'].'sections/layout_sections_as_'.$item['sections_layout'].'.php')) {
-					$name = 'layout_sections_as_'.$item['sections_layout'];
-					include_once $name.'.php';
-					$layout = new $name;
-				} else {
-
-					// useful warning for associates
-					if(Surfer::is_associate())
-						Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $item['sections_layout']));
-
-					include_once '../sections/layout_sections.php';
-					$layout = new Layout_sections();
-				}
+				} else
+				    $layout = Anchors::new_layout ($item['sections_layout'], 'section');
 
 				// the maximum number of sections per page
 				if(is_object($layout))

@@ -3,11 +3,22 @@
  * layout interface definition
  *
  * @author Bernard Paques
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
-Class Layout_interface {
-       
+abstract Class Layout_interface {
+    
+	
+        /**
+	 * the variant for this layout, if any
+	 */
+	var $layout_variant;
+	
+	/**
+	 * type of listed objects
+	 */
+	var $listed_type;
 
 	/**
 	 * the preferred order for items
@@ -49,14 +60,7 @@ Class Layout_interface {
 	 * @param resource the SQL result of some query
 	 * @return mixed the rendered text, or an array to be further formatted
 	 */
-	function layout($result) {
-		return 'Obviously, this has not been overlaid';
-	}
-
-	/**
-	 * the variant for this layout, if any
-	 */
-	var $layout_variant;
+	abstract function layout($result);
 
 	/**
 	 * change the behaviour of this layout

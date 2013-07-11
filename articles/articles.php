@@ -2648,32 +2648,8 @@ Class Articles {
 			return $output;
 		}
 
-		// no layout yet
-		$layout = NULL;
-
-		// separate options from layout name
-		$attributes = explode(' ', $variant, 2);
-
 		// instanciate the provided name
-		if($attributes[0]) {
-			$name = 'layout_articles_as_'.$attributes[0];
-			if(is_readable($context['path_to_root'].'articles/'.$name.'.php')) {
-				include_once $context['path_to_root'].'articles/'.$name.'.php';
-				$layout = new $name;
-
-				// provide parameters to the layout
-				if(isset($attributes[1]))
-					$layout->set_variant($attributes[1]);
-
-			}
-		}
-
-		// use default layout
-		if(!$layout) {
-			include_once $context['path_to_root'].'articles/layout_articles.php';
-			$layout = new Layout_articles();
-			$layout->set_variant($variant);
-		}
+		$layout = Anchors::new_layout($variant, 'article',false, true);						
 
 		// do the job
 		$output = $layout->layout($result);

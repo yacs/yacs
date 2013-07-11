@@ -98,8 +98,7 @@ if(!is_object($anchor)) {
 	// insert anchor prefix and suffix, plus any available icon
 	$context['prefix'] .= $anchor->get_prefix();
 
-	include_once '../files/layout_files.php';
-	$layout = new Layout_files();
+	$layout = Anchors::new_layout('decorated', 'file');
 
 	// provide anthor information to layout
 	if(is_object($layout))

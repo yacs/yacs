@@ -2446,32 +2446,8 @@ Class Files {
 			return $output;
 		}
 
-		// no layout yet
-		$layout = NULL;
-
-		// separate options from layout name
-		$attributes = explode(' ', $variant, 2);
-
 		// instanciate the provided name
-		if($attributes[0]) {
-			$name = 'layout_files_as_'.$attributes[0];
-			if(is_readable($context['path_to_root'].'files/'.$name.'.php')) {
-				include_once $context['path_to_root'].'files/'.$name.'.php';
-				$layout = new $name;
-
-				// provide parameters to the layout
-				if(isset($attributes[1]))
-					$layout->set_variant($attributes[1]);
-
-			}
-		}
-
-		// use default layout
-		if(!$layout) {
-			include_once $context['path_to_root'].'files/layout_files.php';
-			$layout = new Layout_files();
-			$layout->set_variant($variant);
-		}
+		$layout = Anchors::new_layout($variant, 'file',false, true);
 
 		// do the job
 		$output = $layout->layout($result);
