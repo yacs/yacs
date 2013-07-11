@@ -1654,6 +1654,7 @@ if(isset($_SERVER['REMOTE_ADDR']) && !Surfer::is_crawler() && !headers_sent()) {
 	// permanent identification has been selected
 	if(isset($context['users_with_permanent_authentication']) && ($context['users_with_permanent_authentication'] != 'N')) {
 
+
 		// use cookie to identify user -- user id, time of login, gmt offset, salt
 		if(!Surfer::is_logged() && isset($_COOKIE['screening']) && ($nouns = explode('|', $_COOKIE['screening'], 4)) && (count($nouns) == 4)) {
 

@@ -349,7 +349,18 @@ Class Section extends Anchor {
 
 		// return navigation info
 		return array($previous_url, $previous_label, $next_url, $next_label, $option_url, $option_label);
-	}	
+	}
+	
+	/**
+	 * get permalink to item
+	 */
+	function get_permalink() {
+	    if(!isset($this->item['id']))
+		    return NULL;
+	    
+	    $link = Sections::get_permalink($this->item);
+	    return $link;
+	}
 
 	/**
 	 * get the short url for this anchor

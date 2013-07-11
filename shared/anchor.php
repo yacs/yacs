@@ -121,10 +121,11 @@
  * - [script]users/user.php[/script]
  *
  * @author Bernard Paques
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
-class Anchor {
+abstract class Anchor {
 
 	// the related item
 	var $item;
@@ -134,6 +135,20 @@ class Anchor {
 
 	// its related anchor, if any
 	var $anchor;
+	
+	/** 
+	 * class constructor 
+	 * 
+	 * may accept data
+	 */
+	function __construct($item=NULL) {
+	    
+	    if($item) {
+		$anchor = Anchors::get($item['anchor']);
+		// bound item, anchor and overlay data to object
+		$this->load_by_content($item, $anchor);
+	    }
+	}
 
 	/**
 	 * alert watchers of this anchor
@@ -479,6 +494,13 @@ class Anchor {
 
 		// return the result
 		return $path;
+	}
+	
+	/**
+	 * get permalink to anchor
+	 */
+	function get_permalink() {
+	    return NULL;
 	}
 
 	/**

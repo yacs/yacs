@@ -8,6 +8,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -116,6 +117,17 @@ Class File extends Anchor {
 	 */
 	function load_by_id($id, $mutable=FALSE) {
 		$this->item = Files::get($id, $mutable);
+	}
+	
+	/**
+	 * get permalink to item
+	 */
+	function get_permalink() {
+	    if(!isset($this->item['id']))
+		    return NULL;
+	    
+	    $link = Files::get_permalink($this->item);
+	    return $link;
 	}
 
 	/**
