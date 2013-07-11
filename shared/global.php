@@ -36,14 +36,6 @@
 // yacs is loading
 define('YACS', TRUE);
 
-// we will manage the cache by ourself
-if(is_callable('session_cache_limiter'))
-	@session_cache_limiter('none');
-
-// retrieve session data, but not if run from the command line
-if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == ''))
-	session_start();
-
 // used to end lines in many technical specifications
 if(!defined('CRLF'))
 	define('CRLF', "\x0D\x0A");
@@ -210,6 +202,20 @@ $context['page_tools'] = array();
 // page breadcrumbs
 $context['path_bar'] = array();
 
+// get our position from the environment --always end the string with a slash
+if($home = getenv('YACS_HOME'))
+	$context['path_to_root'] = str_replace('//', '/', $home.'/');
+
+// get our position from run-time
+else
+	$context['path_to_root'] = dirname(dirname(__FILE__)).'/';
+
+// fix windows backslashes
+$context['path_to_root'] = str_replace('\\', '/', $context['path_to_root']);
+
+// sanity checks - /foo/bar/.././ -> /foo/
+$context['path_to_root'] = preg_replace(array('|/([^/]*)/\.\./|', '|/\./|'), '/', $context['path_to_root']);
+
 // prefix for page main content
 $context['prefix'] = '';
 
@@ -268,22 +274,8 @@ $context['with_friendly_urls'] = 'N';
 $context['with_profile'] = 'N';
 
 //
-// System parameters
+// load core libraries
 //
-
-// get our position from the environment --always end the string with a slash
-if($home = getenv('YACS_HOME'))
-	$context['path_to_root'] = str_replace('//', '/', $home.'/');
-
-// get our position from run-time
-else
-	$context['path_to_root'] = dirname(dirname(__FILE__)).'/';
-
-// fix windows backslashes
-$context['path_to_root'] = str_replace('\\', '/', $context['path_to_root']);
-
-// sanity checks - /foo/bar/.././ -> /foo/
-$context['path_to_root'] = preg_replace(array('|/([^/]*)/\.\./|', '|/\./|'), '/', $context['path_to_root']);
 
 // the http library
 include_once $context['path_to_root'].'shared/http.php';
@@ -302,6 +294,10 @@ include_once $context['path_to_root'].'shared/cache.php';
 
 // tools for js and css declaration
 include_once 'js_css.php';
+
+//
+// set dynamic parameters
+//
 
 // load general parameters -- see control/configure.php
 Safe::load('parameters/control.include.php');
@@ -336,6 +332,13 @@ $context['host_name'] = strip_tags($context['host_name']);
 if($here = strrpos($context['host_name'], ':'))
 	$context['host_name'] = substr($context['host_name'], 0, $here);
 
+// master host name, won't be override by vhost 
+$context['master_host'] = $context['host_name'];
+
+// load skins parameters, if any
+Safe::load('parameters/skins.include.php');
+Safe::load('parameters/root.include.php'); // to support Page::tabs()
+
 // load parameters specific to this virtual host or sub-domain, if any
 Safe::load('parameters/virtual_'.$context['host_name'].'.include.php');
 
@@ -344,12 +347,16 @@ if(!isset($context['site_name']))
 	$context['site_name'] = $context['host_name'];
 
 // the url to the front page -- to be used alone, or with an appended string starting with '/'
-if(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == 443))
+if(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == 443)) {
 	$context['url_to_home'] = 'https://'.$context['host_name'];
-elseif(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80))
+	$context['url_to_master'] = 'https://'.$context['master_host'];
+} elseif(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80)) {
 	$context['url_to_home'] = 'http://'.$context['host_name'].':'.$_SERVER['SERVER_PORT'];
-else
+	$context['url_to_master'] = 'https://'.$context['master_host'].':'.$_SERVER['SERVER_PORT'];
+} else {
 	$context['url_to_home'] = 'http://'.$context['host_name'];
+	$context['url_to_master'] = 'http://'.$context['master_host'];
+}
 
 // the url to reference ourself, including query string -- copy of the reference submitted by user agent (i.e., before rewritting)
 $context['self_url'] = '';
@@ -359,6 +366,64 @@ elseif(isset($_SERVER['SCRIPT_URI']))
 	$context['self_url'] = $_SERVER['SCRIPT_URI'];
 elseif(isset($_SERVER['REQUEST_URI'])) // this includes query string
 	$context['self_url'] = $context['url_to_home'].$_SERVER['REQUEST_URI'];
+
+//
+// session cookie
+//
+
+// we will manage the cache by ourself
+if(is_callable('session_cache_limiter'))
+	@session_cache_limiter('none');
+
+// manage session data, but not if run from the command line
+if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == '')) {
+
+	// enable sub-domains automatically, using only last two name components: www.mydomain.com -> .mydomain.com
+	$domain = $context['host_name'];
+	if(($parent_domain = strstr($domain, '.')) && strpos($parent_domain, '.', 1))
+		$domain = $parent_domain;
+
+    // set the cookie to parent domain, to allow for sub-domains
+	session_set_cookie_params(0, '/', $domain);
+
+	// set or use the PHPSESSID cookie
+	session_start();
+
+	// if several hosts or domains have been defined for this server, ensure all use same session data
+	if(!isset($_COOKIE['PHPSESSID']) && ($hosts = Safe::file('parameters/hosts'))) {
+
+		// ask user agent to call various hosts via javascript
+		$script = '<script type="text/javascript">'."\n";
+
+		// one host at a time
+		foreach($hosts as $index => $host) {
+			if($host = trim($host)) {
+
+			if($host == $domain) continue;
+
+			// start an cross-domain ajax transaction
+			// @see https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS
+			// @see tools/session.php
+			$script .= "\t".'$.ajax({'
+				.'"url":"http://'.$host.$context['url_to_root'].'tools/session.php",'
+				.'"type": "GET",'
+				.'"data": {"id": "'.session_id().'","origin":"'.$domain.'"},'
+				.'"xhrFields": { "withCredentials": true}'
+
+				.'});'."\n";
+
+			}
+		}
+
+		// close this javascript snippet
+		$script .= '</script>'."\n";
+
+		// defer its execution in user agent
+		$context['page_footer'] .= $script;
+	}
+
+}
+
 
 // redirect to given host name, if required to do so
 if(isset($context['with_given_host']) && ($context['with_given_host'] == 'Y') && isset($context['main_host']) && ($context['main_host'] != $context['host_name']))
@@ -723,7 +788,7 @@ if(!isset($context['root_articles_layout']) || !$context['root_articles_layout']
  */
 function load_skin($variant='', $anchor=NULL, $options='') {
 	global $context;
-	
+
 	// allow for only one call
 	global $loading_fuse;
 	if(isset($loading_fuse))
@@ -735,10 +800,6 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 		$context['skin'] = 'skins/'.$matches[1];
 	elseif(is_object($anchor) && ($skin = $anchor->has_option('skin', FALSE)) && is_string($skin))
 		$context['skin'] = 'skins/'.$skin;
-
-	// load skins parameters, if any
-	Safe::load('parameters/skins.include.php');
-	Safe::load('parameters/root.include.php'); // to support Page::tabs()
 
 	// quite new
 	$context['fresh'] = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
@@ -768,7 +829,7 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 
 	// the library of smileys
 	include_once $context['path_to_root'].'smileys/smileys.php';
-	
+
 	// load the page library
 	include_once $context['path_to_root'].'skins/page.php';
 
@@ -1219,11 +1280,11 @@ function render_skin($with_last_modified=TRUE) {
 
 	// javascript libraries files to declare in header of page
 	$context['page_header'] .= Js_Css::get_js_libraries('js_header');
-	
+
 		// insert headers (and maybe, include more javascript files)
 	if(isset($context['site_head']))
-		$metas[] = $context['site_head'];			
-	
+		$metas[] = $context['site_head'];
+
 	// provide a page reference to Javascript --e.g., for reporting activity from this page
 	$context['page_footer'] .= JS_PREFIX;
 
@@ -1241,7 +1302,7 @@ function render_skin($with_last_modified=TRUE) {
 
 	$context['page_footer'] .= JS_SUFFIX;
 
-	// jquery-ui stylesheet	
+	// jquery-ui stylesheet
 	Page::load_style('included/browser/css/redmond/jquery-ui-1.10.3.custom.min.css');
 
 	// activate jscolor, if available
@@ -1249,12 +1310,12 @@ function render_skin($with_last_modified=TRUE) {
 		Page::load_script('included/jscolor/jscolor.js');
 
 	// activate SIMILE timeline, if required
-	if(isset($context['javascript']['timeline']))		
+	if(isset($context['javascript']['timeline']))
 		Page::load_script('http://simile.mit.edu/timeline/api/timeline-api.js');
-		
+
 
 	// activate SIMILE timeplot, if required
-	if(isset($context['javascript']['timeplot']))		
+	if(isset($context['javascript']['timeplot']))
 		Page::load_script('http://api.simile-widgets.org/timeplot/1.1/timeplot-api.js');
 
 	// activate SIMILE exhibit, if required
@@ -1262,43 +1323,43 @@ function render_skin($with_last_modified=TRUE) {
 		Page::load_script('http://static.simile.mit.edu/exhibit/api-2.0/exhibit-api.js');
 
 	// activate OpenTok, if required
-	if(isset($context['javascript']['opentok']))		
+	if(isset($context['javascript']['opentok']))
 		Page::load_script('http://static.opentok.com/v0.91/js/TB.min.js');
-	
+
 	// activate jsCalendar, if required
 	if(isset($context['javascript']['calendar'])) {
 
 		// load the skin
 		Page::load_style('included/jscalendar/skins/aqua/theme.css');
-		Page::load_style('included/jscalendar/calendar-system.css');		
+		Page::load_style('included/jscalendar/calendar-system.css');
 
 		// use the compressed version if it's available
-		Page::defer_script('included/jscalendar/calendar.min.js');		
+		Page::defer_script('included/jscalendar/calendar.min.js');
 
 		if(file_exists($context['path_to_root'].'included/jscalendar/lang/calendar-'.strtolower($context['language']).'.js'))
-		    Page::defer_script('included/jscalendar/lang/calendar-'.strtolower($context['language']).'.js');			
-		else 
-		    Page::defer_script ('included/jscalendar/lang/calendar-en.js');		    		
+		    Page::defer_script('included/jscalendar/lang/calendar-'.strtolower($context['language']).'.js');
+		else
+		    Page::defer_script ('included/jscalendar/lang/calendar-en.js');
 
-		Page::defer_script('included/jscalendar/calendar-setup.min.js');		
+		Page::defer_script('included/jscalendar/calendar-setup.min.js');
 
 	}
-	
+
 	// load occasional libraries declared through scripts
 	if(isset($context['javascript']['header']))
 	    $context['page_header'] .= $context['javascript']['header'];
-	
-	
+
+
 	// load occasional libraries declared through scripts
 	if(isset($context['javascript']['footer']))
 		$context['page_footer'] .= $context['javascript']['footer'];
 
 	// javascript libraries files to declare in footer of page, plus YACS ajax library
-	$context['page_footer'] = Js_Css::get_js_libraries('js_endpage','shared/yacs.js').$context['page_footer'];	
+	$context['page_footer'] = Js_Css::get_js_libraries('js_endpage','shared/yacs.js').$context['page_footer'];
 
 	// site trailer, if any
 	if(isset($context['site_trailer']) && $context['site_trailer'])
-		$context['page_footer'] .= $context['site_trailer']."\n";		
+		$context['page_footer'] .= $context['site_trailer']."\n";
 
 	// insert one tabulation before each header line
 	$context['page_header'] = "\t".str_replace("\n", "\n\t", join("\n", $metas)."\n".$context['page_header'])."\n";
