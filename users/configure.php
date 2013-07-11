@@ -308,13 +308,17 @@ elseif(!Surfer::is_associate()) {
 	// permanent authentication
 	$label = i18n::s('Identification');
 	$input = '<input type="radio" name="users_with_permanent_authentication" value="N"';
-	if(!isset($context['users_with_permanent_authentication']) || ($context['users_with_permanent_authentication'] != 'Y'))
+	if(!isset($context['users_with_permanent_authentication']) || ($context['users_with_permanent_authentication'] == 'N'))
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Ask for authentication on every web session (public site).');
 	$input .= BR.'<input type="radio" name="users_with_permanent_authentication" value="Y"';
 	if(isset($context['users_with_permanent_authentication']) && ($context['users_with_permanent_authentication'] == 'Y'))
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Set a long-lasting cookie on successful login and do not bother people afterwards (intranet site).');
+	$input .= BR.'<input type="radio" name="users_with_permanent_authentication" value="U"';
+	if(isset($context['users_with_permanent_authentication']) && ($context['users_with_permanent_authentication'] == 'U'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Let members decide for themselves to stay connected or not (checkbox on login form).');
 	$fields[] = array($label, $input);
 
 	// trusted hosts

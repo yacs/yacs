@@ -1423,18 +1423,20 @@ Class Sections {
 		// sanity check
 		if(!isset($item['id']))
 			throw new Exception('bad input parameter');
-
-		// this top-level section is bound to a virtual server
-		if(isset($item['vhost']) && $item['vhost'] && (!isset($item['anchor']) || !$item['anchor'])) {
-			if(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == 443))
-				$text = 'https://';
-			else
-				$text = 'http://';
-			return $text.$item['vhost'].$context['url_to_root'];
-		}
+		
+		// get host to this page
+		$vhost = Sections::get_vhost('section:'.$item['id']);	
+		
+		// if top-level section with bounded vhost, provide a root link
+		if((!isset($item['anchor']) || !$item['anchor'] ) 
+			&& file_exists($context['path_to_root'].'parameters/virtual_'.$item['nick_name'].'.include.php')) {
+		    
+		        return $vhost;	
+		    
+		}  
 
 		// absolute link
-		return $context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
+		return $vhost.Sections::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
 	}
 
 	/**
@@ -1817,6 +1819,60 @@ Class Sections {
 
 		// normalize the link
 		return normalize_url(array('sections', 'section'), $action, $id, $name);
+	}
+	
+	/**
+	 * get virtual host url from sections tree,
+	 * used to build permalink to items.
+	 * @see sections::get_permalinks()
+	 * @see articles::get_permalinks()
+	 * 
+	 * item may be child of a mother section bounded to a virtual host 
+	 * 
+	 * @global type $context
+	 * @staticvar type $cache
+	 * @param string $reference section:<id> where to start sections tree climbing
+	 * @return string, url to build permalinks
+	 */
+	public static function get_vhost($reference) {
+	    global $context;
+	    
+	    // cache previous answers
+	    static $cache;
+	    if(!is_array($cache))
+		    $cache = array();
+	    
+	    // cache hit
+	    if(isset($cache[$reference]))
+		return $cache[$reference];
+	    
+	    // get the section or return standard host
+	    if(!$reference || !$section = Anchors::get($reference))
+		return $context['url_to_home'].$context['url_to_root'];
+	    
+	    // find the mother section
+	    $focus = $section->get_focus();
+	    $top = Anchors::get($focus[0]);
+	    
+	    // check if mother section is bounded to a virtual host thru its nick_name
+	    if(file_exists($context['path_to_root'].'parameters/virtual_'.$top->item['nick_name'].'.include.php')) {
+		$vhost = $top->item['nick_name'].$context['url_to_root'];
+		
+		if(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == 443))
+				$protocol = 'https://';
+			else
+				$protocol = 'http://';
+			
+		$vhost = $protocol.$vhost;
+	    } else
+		// no virtual host, provide standard host
+		$vhost = $context['url_to_home'].$context['url_to_root'];
+	    	    	   
+	   // cache result
+	   $cache[$reference] = $vhost;
+	   
+	   // done
+	   return $vhost;
 	}
 
 	/**
@@ -2692,10 +2748,6 @@ Class Sections {
 			$fields['handle'] = md5(mt_rand());
 		$handle = "handle='".SQL::escape($fields['handle'])."',";
 
-		// remember that this item is bound to a specific virtual host name
-		if(file_exists($context['path_to_root'].'parameters/virtual_'.$context['host_name'].'.include.php'))
-			$fields['vhost'] = $context['host_name'];
-
 		// allow anonymous surfer to access this section during his session
 		if(!Surfer::get_id())
 			Surfer::add_handle($fields['handle']);
@@ -2897,10 +2949,6 @@ Class Sections {
 		else
 			$fields['active'] = $fields['active_set'];
 
-		// remember that this item is bound to a specific virtual host name
-		if(file_exists($context['path_to_root'].'parameters/virtual_'.$context['host_name'].'.include.php'))
-			$fields['vhost'] = $context['host_name'];
-
 		// fields to update
 		$query = array();
 
@@ -3072,10 +3120,6 @@ Class Sections {
 		}
 		if(isset($fields['trailer']))
 			$query[] = "trailer='".SQL::escape($fields['trailer'])."'";
-
-		// remember that this item is bound to a specific virtual host name
-		if(file_exists($context['path_to_root'].'parameters/virtual_'.$context['host_name'].'.include.php'))
-			$query[] = "vhost='".SQL::escape($context['host_name'])."'";
 
 		// nothing to update
 		if(!count($query))
@@ -3315,7 +3359,6 @@ Class Sections {
 		$fields['thumbnail_url']= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['trailer']		= "TEXT NOT NULL";											// up to 64k chars
-		$fields['vhost']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 		= "(id)";
