@@ -504,7 +504,7 @@ if(!isset($item['id'])) {
 	$context['page_header'] .= "\n".'<link rel="pingback" href="'.$context['url_to_home'].$context['url_to_root'].'services/ping.php" />';
 
 	// a meta link to our blogging interface
-	$context['page_header'] .= "\n".'<link rel="EditURI" href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'EditURI').'" title="RSD" type="application/rsd+xml" />';
+	$context['page_header'] .= "\n".'<link rel="EditURI" href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'EditURI').'" title="RSD" type="application/rsd+xml" />'."\n";
 
 	// set specific headers
 	if(isset($item['introduction']) && $item['introduction'])
