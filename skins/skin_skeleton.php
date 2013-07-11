@@ -23,64 +23,7 @@
  */
 Class Skin_Skeleton {
 
-	/**
-	 * build a box part of one accordion
-	 *
-	 * @param string the box title, if any
-	 * @param string the box content
-	 * @param string the accordion id, used as CSS class
-	 * @return the HTML to display
-	 */
-	public static function &build_accordion_box($title, $content, $id) {
-		global $context;
-
-		// we need a clickable title
-		if(!$title)
-			$title = i18n::s('Click to slide');
-
-		// maybe we have an image to enhance rendering
-		$img = '';
-
-		// the icon to close accordion boxes
-		Skin::define_img_href('ACCORDION_CLOSE_IMG_HREF', 'layouts/accordion_minus.jpg');
-
-		// the icon to open accordion boxes
-		Skin::define_img_href('ACCORDION_OPEN_IMG_HREF', 'layouts/accordion_plus.jpg');
-
-		// detect first box of the accordion
-		static $fused;
-		if(!isset($fused))
-			$fused = array();
-
-		// first box is always open
-		if(!isset($fused[ $id ])) {
-
-			$style = '';
-
-			if(ACCORDION_CLOSE_IMG_HREF)
-				$img = '<img src="'.ACCORDION_CLOSE_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" class="handle" />';
-
-			// close following boxes
-			$fused[ $id ] = TRUE;
-
-		// following boxes are closed
-		} else {
-
-			$style = ' style="display: none"';
-
-			if(ACCORDION_OPEN_IMG_HREF)
-				$img = '<img src="'.ACCORDION_OPEN_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" class="handle" />';
-
-		}
-
-		// Yacs.toggle_folder() is in shared/yacs.js -- div.accordion_content div is required for slide effect to work
-		$text = '<div class="accordion_handle '.$id.'"><a href="#" class="accordion_link" onclick="javascript:Yacs.toggle_accordion(this, \''.ACCORDION_OPEN_IMG_HREF.'\', \''.ACCORDION_CLOSE_IMG_HREF.'\', \''.$id.'\'); return false;">'.$img.$title.'</a>'
-			.'<div class="accordion_content"'.$style.'><div>'.$content."</div></div></div>\n";
-
-		// pass by reference
-		return $text;
-
-	}
+	
 
 	/**
 	 * build the field to restrict access
