@@ -209,6 +209,17 @@ Class User extends Anchor {
 		// return an array of ($url => $label)
 		 return $output;
 	 }
+	 
+	 /**
+	 * get permalink to item
+	 */
+	function get_permalink() {
+	    if(!isset($this->item['id']))
+		    return NULL;
+	    
+	    $link = Users::get_permalink($this->item);
+	    return $link;
+	}
 
 	/**
 	 * get the title for this anchor

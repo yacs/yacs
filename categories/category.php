@@ -20,6 +20,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -74,6 +75,17 @@ Class Category extends Anchor {
 				return Categories::get_url($this->item['id'], $action, $this->item['title']);
 		}
 		return NULL;
+	}
+	
+	/**
+	 * get permalink to item
+	 */
+	function get_permalink() {
+	    if(!isset($this->item['id']))
+		    return NULL;
+	    
+	    $link = Categories::get_permalink($this->item);
+	    return $link;
 	}
 
 	/**
