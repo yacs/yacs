@@ -352,7 +352,7 @@ if(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == 443)) {
 	$context['url_to_master'] = 'https://'.$context['master_host'];
 } elseif(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80)) {
 	$context['url_to_home'] = 'http://'.$context['host_name'].':'.$_SERVER['SERVER_PORT'];
-	$context['url_to_master'] = 'https://'.$context['master_host'].':'.$_SERVER['SERVER_PORT'];
+	$context['url_to_master'] = 'http://'.$context['master_host'].':'.$_SERVER['SERVER_PORT'];
 } else {
 	$context['url_to_home'] = 'http://'.$context['host_name'];
 	$context['url_to_master'] = 'http://'.$context['master_host'];
