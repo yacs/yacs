@@ -1388,8 +1388,14 @@ var Yacs = {
 				if(!Yacs.tabs_current) {
 					Yacs.tabs_current = id;
 				}
-			}
+			}									
 		}
+		
+		prev_next_buttons = $("#tabs_panels .step");
+		$.each(prev_next_buttons, function() {
+		    $(this).click(function() {Yacs.tabsDisplay($(this).data("target"));});
+		});
+		
 
 		// where are we?
 		if(window.location.hash.length > 1) {
