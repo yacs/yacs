@@ -103,7 +103,7 @@ if(isset($item['id']) && isset($item['title']))
 	$context['path_bar'] = array_merge($context['path_bar'], array(Categories::get_permalink($item) => $item['title']));
 
 // the title of the page
-if($item['title'])
+if(isset($item['title']))
 	$context['page_title'] = sprintf(i18n::s('Edit: %s'), $item['title']);
 else
 	$context['page_title'] = i18n::s('Add a category');
@@ -151,7 +151,7 @@ if(Surfer::is_crawler()) {
 	$with_form = TRUE;
 
 // update an existing category
-} elseif(($item['id']) && isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
+} elseif(isset($item['id']) && isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// limit access rights based on parent heritage, if any
 	if(is_object($anchor))
