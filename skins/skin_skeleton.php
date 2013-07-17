@@ -10,6 +10,7 @@
  *
  * @author Bernard Paques
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
+ * @author Alexis Raimbault
  * @tester Olivier
  * @tester Nuxwin
  * @tester ClaireFormatrice
@@ -17,7 +18,6 @@
  * @tester Mordread Wallas
  * @tester Ghjmora
  * @tester Thierry Pinelli (ThierryP)
- * @tester Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -2922,11 +2922,12 @@ Class Skin_Skeleton {
 	 * [/php]
 	 *
 	 * @param array the list of target tabs and panels
+	 * @param boolean true if you want to display tabs as a succession of steps (forms)
 	 * @return string the HTML snippet
 	 *
 	 * @see users/view.php
 	 */
-	public static function &build_tabs($tabs) {
+	public static function &build_tabs($tabs, $as_steps=FALSE) {
 		global $context;
 
 		// the generated text
@@ -2950,14 +2951,16 @@ Class Skin_Skeleton {
 		foreach($tabs as $tab) {
 
 			// populate tabs
-			$tabs_text .= '<li id="_'.$tab[0].'"';
+			if(!$as_steps) {
+			    $tabs_text .= '<li id="_'.$tab[0].'"';
 
-			if(!$index)
-				$tabs_text .= ' class="tab-foreground"';
-			else
-				$tabs_text .= ' class="tab-background"';
+			    if(!$index)
+				    $tabs_text .= ' class="tab-foreground"';
+			    else
+				    $tabs_text .= ' class="tab-background"';
 
-			$tabs_text .= '><a href="#_'.$tab[0].'">'.$tab[1].'</a></li>'."\n";
+			    $tabs_text .= '><a href="#_'.$tab[0].'">'.$tab[1].'</a></li>'."\n";
+			}
 
 			// populate panels
 			$panels_text .= '<div id="'.$tab[2].'"';
@@ -2965,12 +2968,32 @@ Class Skin_Skeleton {
 			if(!$index)
 				$panels_text .= ' class="panel-foreground"';
 			else
-				$panels_text .= ' class="panel-background"';
+				$panels_text .= ' class="panel-background"';						
 
 			$panels_text .= '>';
+			
+			// next and prev buttons (HTML5 only), if required
+			if($as_steps) {
+			    // next button but not on last step
+			    if($index < count($tabs)-1)
+				$panels_text .= '<a class="next step right" data-target="_'.$tabs[$index+1][0].'">'.i18n::s('Next').'</a>';
+			    
+			    // provide current step and total steps
+			    $panels_text .= '<p class="details">'.sprintf(i18n::s('Step %d of %d'),$index+1,count($tabs)).'</p>';
+			    
+			    // prev button but not on first step
+			    if($index)
+				$panels_text .= '<a class="previous step" data-target="_'.$tabs[$index-1][0].'">'.i18n::s('Previous').'</a>';
+				
+			}
 
+			// panel content
 			if(isset($tab[3]))
 				$panels_text .= $tab[3];
+			
+			// remind next button, if required
+			if($as_steps && ($index < count($tabs)-1)) 			    			 
+				$panels_text .= '<a class="next step right" data-target="_'.$tabs[$index+1][0].'">'.i18n::s('Next').'</a>';			    
 
 			$panels_text .= '</div>'."\n";
 
@@ -2985,6 +3008,7 @@ Class Skin_Skeleton {
 		}
 
 		// finalize tabs
+		if(!$as_steps)
 		$tabs_text = "\n".'<div id="tabs_bar"><ul>'."\n".$tabs_text.'</ul></div>'."\n";
 
 		// finalize panels
