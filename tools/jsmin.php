@@ -83,7 +83,10 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 		if($text = Safe::file_get_contents($name)) {
 
 			// actual compression
-			$minified .= JSMin::minify($text);
+			if(!preg_match('/\.min\./', basename($name)))
+			    $minified .= JSMin::minify($text);
+			else
+			    $minified .= $text;				
 
 			// one file has been compressed
 			$count++;
@@ -106,7 +109,11 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 		if($text = Safe::file_get_contents($name)) {
 
 			// actual compression
-			$minified .= JSMin::minify($text);
+			// actual compression
+			if(!preg_match('/\.min\./', basename($name)))
+			    $minified .= JSMin::minify($text);
+			else
+			    $minified .= $text;
 
 			// one file has been compressed
 			$count++;
