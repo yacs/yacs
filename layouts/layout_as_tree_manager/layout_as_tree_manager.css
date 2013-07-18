@@ -1,0 +1,25 @@
+/* 
+ * @author Alexis Raimbault
+ * @reference
+ */
+ 
+ .ddz {
+     overflow: hidden;
+ }
+ 
+ 
+ .drop {
+     float : left;
+     margin : 0.2em;
+     padding : 0.5em;
+     border : 1px solid grey;
+     border-radius : 3px;
+ }
+ 
+ .hoverdrop {
+     background : rgba(0,0,0,.2);
+ }
+ 
+
+
+
