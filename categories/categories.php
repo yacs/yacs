@@ -1550,6 +1550,118 @@ Class Categories {
 		// end of job
 		return NULL;
 	}
+	
+	/**
+	 * change only some attributes
+	 *
+	 * @param array an array of fields
+	 * @return TRUE on success, or FALSE on error
+	**/
+	public static function put_attributes(&$fields) {
+		global $context;
+
+		// id cannot be empty
+		if(!isset($fields['id']) || !is_numeric($fields['id'])) {
+			Logger::error(i18n::s('No item has the provided id.'));
+			return FALSE;
+		}
+
+		// set default values for this editor
+		Surfer::check_default_editor($fields);
+
+		// quey components
+		$query = array();
+
+		// change access rights
+		if(isset($fields['active_set'])) {
+
+			// cascade anchor access rights
+			Anchors::cascade('category:'.$fields['id'], $fields['active']);
+
+			// remember these in this record
+			$query[] = "active='".SQL::escape($fields['active'])."'";
+			$query[] = "active_set='".SQL::escape($fields['active_set'])."'";
+
+		}
+
+		// other fields
+		if(isset($fields['anchor']))
+			$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
+		if(isset($fields['articles_layout']))
+			$query[] = "articles_layout='".SQL::escape($fields['articles_layout'])."'";
+		if(isset($fields['description']))
+			$query[] = "description='".SQL::escape($fields['description'])."'";
+		if(isset($fields['extra']))
+			$query[] = "extra='".SQL::escape($fields['extra'])."'";		
+		if(isset($fields['icon_url']))
+			$query[] = "icon_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['icon_url']))."'";		
+		if(isset($fields['introduction']))
+			$query[] = "introduction='".SQL::escape($fields['introduction'])."'";				
+		if(isset($fields['options']))
+			$query[] = "options='".SQL::escape($fields['options'])."'";
+		if(isset($fields['overlay']))
+			$query[] = "overlay='".SQL::escape($fields['overlay'])."'";
+		if(isset($fields['overlay_id']))
+			$query[] = "overlay_id='".SQL::escape($fields['overlay_id'])."'";
+		if(isset($fields['prefix']) && Surfer::is_associate())
+			$query[] = "prefix='".SQL::escape($fields['prefix'])."'";
+		if(isset($fields['rank']))
+			$query[] = "rank='".SQL::escape($fields['rank'])."'";
+		if(isset($fields['sections_layout']))
+			$query[] = "sections_layout='".SQL::escape($fields['sections_layout'])."'";
+		if(isset($fields['suffix']) && Surfer::is_associate())
+			$query[] = "suffix='".SQL::escape($fields['suffix'])."'";
+		if(isset($fields['keywords']))
+			$query[] = "keywords='".SQL::escape($fields['keywords'])."'";
+		if(isset($fields['thumbnail_url']))
+			$query[] = "thumbnail_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['thumbnail_url']))."'";
+		if(isset($fields['title'])) {
+			$fields['title'] = strip_tags($fields['title'], '<br>');
+			$query[] = "title='".SQL::escape($fields['title'])."'";
+		}
+		if(isset($fields['trailer']))
+			$query[] = "trailer='".SQL::escape($fields['trailer'])."'";
+		if(isset($fields['users_layout']))
+			$query[] = "users_layout='".SQL::escape($fields['users_layout'])."'";
+		if(isset($fields['categories_layout']))
+			$query[] = "categories_layout='".SQL::escape($fields['categories_layout'])."'";
+		if(isset($fields['display']))
+			$query[] = "display='".SQL::escape($fields['display'])."'";
+		if(isset($fields['background_color']))
+			$query[] = "background_color='".SQL::escape($fields['background_color'])."'";
+		if(isset($fields['categories_overlay']))
+			$query[] = "categories_overlay='".SQL::escape($fields['categories_overlay'])."'";
+		if(isset($fields['expiry_date']))
+			$query[] = "expiry_date='".SQL::escape($fields['expiry_date'])."'";
+		if(isset($fields['path']))
+			$query[] = "path='".SQL::escape($fields['path'])."'";
+
+		// nothing to update
+		if(!count($query))
+			return TRUE;
+
+		// maybe a silent update
+		if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
+			$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
+			$query[] = "edit_id=".SQL::escape($fields['edit_id']);
+			$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
+			$query[] = "edit_action='category:update'";
+			$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
+		}
+
+		// actual update query
+		$query = "UPDATE ".SQL::table_name('categories')
+			." SET ".implode(', ', $query)
+			." WHERE id = ".SQL::escape($fields['id']);
+		if(!SQL::query($query))
+			return FALSE;
+
+		// clear the cache
+		Categories::clear($fields);
+
+		// end of job
+		return TRUE;
+	}
 
 	/**
 	 * remember publications and tags
