@@ -44,7 +44,7 @@ var TreeManager = {
     
     dropping: function (obj,tar) {
 	
-	// find <ul.sub_elems> the container of target
+	// find <ul.sub_elems> the sub-elements list of target
 	var list = tar.find(".sub_elems").first();		
 	
 	// append the dragged object to it
