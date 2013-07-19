@@ -48,12 +48,14 @@ class Layout_as_tree_manager extends Layout_interface {
 	    $text .= '<dt><span class="drag" data-ref="'.$entity->get_reference().'">'.$title.'</span></dt>'."\n";
 	    
 	    // content
-	    $text .= '<dt>'."\n";
-		
-	    // add sub-categories on index pages
+	    $text .= '<dd>'."\n";
+	
 	    $details = array();
-	    if($related = Categories::list_for_anchor($entity->get_reference(), 'raw')) {
-		    foreach($related as $sub_elem ) {
+	    
+	    // add sub-categories
+	    $subcat = $entity->get_childs('categories',0,200,'raw');
+	    if(isset($subcat['categories'])) {
+		    foreach($subcat['categories'] as $sub_elem ) {
 			    
 			    $sub_elem = new $items_type($sub_elem);
 			    $details[] = '<li class="drag" data-ref="'.$sub_elem->get_reference().'">'.$sub_elem->get_title().'</li>'; 
@@ -66,7 +68,7 @@ class Layout_as_tree_manager extends Layout_interface {
 	    else
 		$text .= '<ul class="sub_elems"></ul>'."\n";
 	    
-	    $text .= '</dt>'."\n";
+	    $text .= '</dd>'."\n";
 	    
 	    // end box
 	    $text .= '</dl>'."\n";	    	    
