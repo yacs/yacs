@@ -4030,7 +4030,7 @@ Class Skin_Skeleton {
 				}
 
 				$tag_tabs = (SKIN_HTML5)?'nav':'div';
-				$text = '<'.$tag_tabs.' class="tabs"'.$id.'>'.TABS_PREFIX.'<ul>'."\n".$text.'</ul>'.TABS_SUFFIX.'</'.$tag_tabs.">\n";
+				$text = '<'.$tag_tabs.' class="tabs">'.TABS_PREFIX.'<ul>'."\n".$text.'</ul>'.TABS_SUFFIX.'</'.$tag_tabs.">\n";
 				break;
 
 			// similar to compact
