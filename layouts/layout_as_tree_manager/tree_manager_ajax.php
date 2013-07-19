@@ -16,52 +16,63 @@ http::expire(0);
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 	return;
 
-// some input is mandatory
-if(!isset($_REQUEST['action']) || !$_REQUEST['action']) {
-    Safe::header('Status: 400 Bad Request', TRUE, 400);
-    die(i18n::s('Request is invalid.'));
-}
-
 // stop unauthorized
 if(!Surfer::is_logged()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	die(i18n::s('You are not allowed to perform this operation.'));
 }
 
-$output = FALSE;
+function die_on_invalid() {
+    Safe::header('Status: 400 Bad Request', TRUE, 400);
+    die(i18n::s('Request is invalid.'));    
+}
+
+// some input is mandatory
+if(!isset($_REQUEST['action']) || !$_REQUEST['action'])
+    die_on_invalid;
+
+$result = false;
 
 switch($_REQUEST['action']) {
     
     case 'move':
-	// object and target are mandatory
+	// reference to object and target are mandatory
 	if(!isset($_REQUEST['obj']) || !$_REQUEST['obj']
-		|| !isset($_REQUEST['tar']) || !$_REQUEST['tar'] ) {
-	    Safe::header('Status: 400 Bad Request', TRUE, 400);
-	    die(i18n::s('Request is invalid.'));
-	}
+		|| !isset($_REQUEST['tar']) || !$_REQUEST['tar'] )
+	    die_on_invalid ();
 	
-	// get the object
+	
+	// get the objects
 	$obj = Anchors::get($_REQUEST['obj']);
+	$tar = Anchors::get($_REQUEST['tar']);
 	
-	//TODO : anchor not founded
-	//TODO : check surfer permission
+	// anchors not founded
+	if(!is_object($obj) || !is_object($tar))
+	    die_on_invalid ();
 	
-	// set the new anchor (parent)
+	// wrong move : to itself or same parent
+	if($_REQUEST['obj'] == $_REQUEST['tar'] || $_REQUEST['tar'] == $obj->item['anchor'])
+	    break;
+
+	//TODO : check surfer permission	
+	
+	// set the new anchor (=parent)
 	$fields = array('anchor' => $_REQUEST['tar']);
 	
 	// save in database	
-	$output = $obj->set_values($fields); 
+	$result = $obj->set_values($fields); 
 	
 	break;
     default:
 	// unknown action
-	Safe::header('Status: 400 Bad Request', TRUE, 400);
-	die(i18n::s('Request is invalid.'));	    	
+	die_on_invalid ();	    	
     
 }
 
 // allow for data compression
-render_raw();
+render_raw('application/json');
+
+$output = json_encode(array('success' => $result));
 
 // actual transmission 
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))

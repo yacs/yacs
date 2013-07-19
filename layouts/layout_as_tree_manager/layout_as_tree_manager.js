@@ -5,7 +5,7 @@
 
 var ajaxUrl = url_to_root+"layouts/layout_as_tree_manager/tree_manager_ajax.php";
 
-var TreeManager = {
+var TreeManager = {        
     
     init: function() {
 	
@@ -15,7 +15,8 @@ var TreeManager = {
 	    $(".drag").draggable({
 		containment:".ddz",
 		cursor: 'move',
-		revert: true		
+		revert: true,
+		revertDuration: 700		
 	    });
 	    
 	    // droppable ones
@@ -33,9 +34,12 @@ var TreeManager = {
 	// get reference to target and moved objects
 	var tarRef = $(this).data("ref");
 	var movRef = ui.draggable.data("ref");
+	
+	TreeManager.dragItem = ui.draggable;
+	TreeManager.dropItem = $(this);
 		
-	TreeManager.postMove(movRef,tarRef);	
-	TreeManager.dropping(ui.draggable, $(this));
+	TreeManager.postMove(movRef,tarRef);
+	//TreeManager.dropping(ui.draggable, $(this));
     },
     
     dropping: function (obj,tar) {
@@ -45,14 +49,28 @@ var TreeManager = {
 	
 	// append the dragged object to it
 	obj.appendTo(list);
+	obj.animate({left:'0',top:'0'},100);
     },
     
     postMove: function (obj,tar) {
 	
+	// freeze object move
+	TreeManager.dragItem.draggable( 'option', 'revert', false );
+	
 	$.post(
 	    ajaxUrl,
 	    {action : 'move', obj : obj, tar : tar}
-	);
+	).done(function( data ) {
+		console.log(data.success);
+		
+		if(data.success) {		   
+		   TreeManager.dropping(TreeManager.dragItem, TreeManager.dropItem); 
+		}
+		else
+		   TreeManager.dragItem.animate({left:'0',top:'0'},100);
+		    
+	});
+	
     }
     
     
