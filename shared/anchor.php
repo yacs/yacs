@@ -311,6 +311,23 @@ abstract class Anchor {
 		// cache and return the result
 		return $this->get_behaviors_cache =& $text;
 	}
+	
+	/**
+	 * list childs of this anchor, with or without types filter
+	 * 
+	 * to be overloaded in child classes
+	 * 
+	 * @todo : add optional order parameter as this : "articles by_name, sections by_title, ..."
+	 * 
+	 * @param string set of desired childs (articles, sections...) separted by comma, or "all" keyword
+	 * @param int offset to start listing
+	 * @param int the maximum of items returned per type
+	 * @param mixed string or object the layout to use
+	 * @return an array of layouted items sorted by type
+	 */
+	function get_childs($filter = 'all',$offset, $max, $layout='raw') {
+	     return NULL;
+	 }
 
 	/**
 	 * get the focus for this anchor
@@ -376,6 +393,23 @@ abstract class Anchor {
 		if(isset($this->item['icon_url']) && $this->item['icon_url'])
 			return $this->item['icon_url'];
 		return $this->get_thumbnail_url();
+	}
+	
+	/**
+	 * get the introduction of this anchor
+	 * 
+	 * @return a string
+	 */
+	function get_introduction() {
+	    
+	    // use overlay if any
+	    if(is_object($this->overlay))
+		return $this->overlay->get_text('introduction', $this->item);
+	    elseif(isset($this->item['introduction']))
+		return trim($this->item['introduction']);
+	    
+	    return NULL;
+	    
 	}
 
 	/**
@@ -665,8 +699,8 @@ abstract class Anchor {
 			$text = NULL;
 
 		// use the introduction field, if any
-		elseif(isset($this->item['introduction']) && trim($this->item['introduction']))
-			$text = Codes::beautify($this->item['introduction'], $this->item['options']);
+		elseif($intro = $this->get_introduction ())
+			$text = Codes::beautify($intro, $this->item['options']);
 
 		// else use the description field
 		else
@@ -726,9 +760,14 @@ abstract class Anchor {
 	 * @return a string
 	 */
 	function get_title() {
-		if($this->item)
-			return trim(str_replace('& ', '&amp; ', $this->item['title']));
-		return $this->get_reference();
+	        
+	    // use overlay if any
+	    if(is_object($this->overlay))
+		return $this->overlay->get_text('title', $this->item);
+	    elseif(isset($this->item['title']))
+		return trim(str_replace('& ', '&amp; ', $this->item['title']));
+	    else
+		return $this->get_reference();	    
 	}
 
 	/**
@@ -1174,7 +1213,7 @@ abstract class Anchor {
 		// anchor has to be assigned
 		return ($this->is_assigned($user_id) || Surfer::is_associate());
 
-	 }
+	 }	 	
 
 	/**
 	 * load the related item
