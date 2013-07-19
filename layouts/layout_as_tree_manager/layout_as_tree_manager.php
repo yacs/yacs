@@ -24,15 +24,12 @@ class Layout_as_tree_manager extends Layout_interface {
 	$items_type = $this->listed_type;
 	
 	// drag&drop zone
-	$text .= '<div class="ddz">'."\n";
+	$text .= '<ul class="ddz root">'."\n";
 	
 	while($item = SQL::fetch($result)) {
 	    
 	    // get the object interface, this may load parent and overlay
-	    $entity = new $items_type($item);
-	    
-	    // one dl box per entity
-	    $text .= '<dl class="drop" data-ref="'.$entity->get_reference().'">'."\n";
+	    $entity = new $items_type($item);	   
 	    
 	    // title
 	    if(is_object($entity->overlay))
@@ -42,36 +39,35 @@ class Layout_as_tree_manager extends Layout_interface {
 	    
 	    // permalink
 	    $url = $entity->get_permalink();
-	    $title = Skin::build_link($url, $title, 'basic');
+	    $title = Skin::build_link($url, $title, 'basic');	    	        	       	    	    
 	    
-	    // box header
-	    $text .= '<dt><span class="drag" data-ref="'.$entity->get_reference().'">'.$title.'</span></dt>'."\n";
-	    
-	    // content
-	    $text .= '<dd>'."\n";
-	
+	    // data of subelements of this entity
+	    $data = array();
+	    // html formated sub elements 	
 	    $details = array();
+	    $sub = "\n".'<ul class="sub_elems">'."\n";
 	    
-	    // add sub-categories
-	    $subcat = $entity->get_childs('categories',0,200,'raw');
-	    if(isset($subcat['categories'])) {
-		    foreach($subcat['categories'] as $sub_elem ) {
-			    
-			    $sub_elem = new $items_type($sub_elem);
-			    $details[] = '<li class="drag" data-ref="'.$sub_elem->get_reference().'">'.$sub_elem->get_title().'</li>'; 
-			}		   
+	    // look for sub-categories
+	    $data = $entity->get_childs('categories',0,200,'raw');	    	   			
+		
+	    if(isset($data ['categories'])) {
+		foreach($data ['categories'] as $cat ) {
+			
+			// transform data to obj interface
+			$cat = new category($cat);
+			// layout sub category
+			$details[] = '<li class="drag" data-ref="'.$cat->get_reference().'">'.$cat->get_title().'</li>'; 
+		    }		   
 	    }
-	    
-	    // layout details
+			   	    
+	    // layout details	   	 
 	    if(count($details))
-		$text .= '<ul class="sub_elems">'.implode("\n",$details)."</ul>\n";
-	    else
-		$text .= '<ul class="sub_elems"></ul>'."\n";
+		$sub .= implode("\n",$details);
 	    
-	    $text .= '</dd>'."\n";
+	    $sub .= '</ul>'."\n";	
 	    
-	    // end box
-	    $text .= '</dl>'."\n";	    	    
+	    // one <li> per entity of this level of the three
+	    $text .= '<li class="main drag drop" data-ref="'.$entity->get_reference().'">'.$title.$sub.'</li>'."\n";		    	    	    
 	    
 	}
 	
@@ -82,7 +78,7 @@ class Layout_as_tree_manager extends Layout_interface {
 	Page::insert_script("TreeManager.init();");
 	
 	// end drag drop zone
-	$text .= '</div>';
+	$text .= '</ul>';
 	
 	// end of processing
 	SQL::free($result);
