@@ -1679,7 +1679,7 @@ Class Articles {
             return "unknown order '".$order."'";
 
 		// query the database
-		$query = "SELECT id, title, nick_name FROM ".SQL::table_name('articles')." AS articles "
+		$query = "SELECT id, title, nick_name, anchor FROM ".SQL::table_name('articles')." AS articles "
 			." WHERE (articles.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (".$where.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
 		if(!$result = SQL::query($query))
@@ -1705,7 +1705,7 @@ Class Articles {
 
 		// sanity check
 		if(!isset($item['id']))
-			throw new Exception('bad input parameter');
+			throw new Exception('bad input parameter');				
 
 		// get host to this page
 		$vhost = Sections::get_vhost($item['anchor']);		
@@ -1776,7 +1776,7 @@ Class Articles {
             return "unknown order '".$order."'";
 
 		// query the database
-		$query = "SELECT id, title, nick_name FROM ".SQL::table_name('articles')." AS articles "
+		$query = "SELECT id, title, nick_name, anchor FROM ".SQL::table_name('articles')." AS articles "
 			." WHERE (articles.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (".$where.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
 		if(!$result = SQL::query($query))
