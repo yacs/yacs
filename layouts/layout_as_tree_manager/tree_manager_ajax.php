@@ -44,10 +44,13 @@ switch($_REQUEST['action']) {
 	
 	// get the objects
 	$obj = Anchors::get($_REQUEST['obj']);
-	$tar = Anchors::get($_REQUEST['tar']);
+	if($_REQUEST['tar'] != 'index')	    
+	  $tar = Anchors::get($_REQUEST['tar']);
+	else
+	  $_REQUEST['tar'] = '';  // empty anchor means index
 	
 	// anchors not founded
-	if(!is_object($obj) || !is_object($tar))
+	if(!is_object($obj) || !isset($tar))
 	    die_on_invalid ();
 	
 	// wrong move : to itself or same parent

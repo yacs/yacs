@@ -10,7 +10,7 @@
  
  .root, .root ul{list-style: none;}
  
- .main {
+ .root > .drop {
      float : left;
      margin : 0.2em;
      padding : 0.5em;
