@@ -146,13 +146,13 @@ class Layout_as_tree_manager extends Layout_interface {
 	}
 	
 	// we have bounded styles and scripts
-	$this->load_scripts_n_rules();
+	$this->load_scripts_n_styles();
 	
 	// init js
 	Page::insert_script("TreeManager.init();");
 	
 	// end drag drop zone
-	$text .= '</ul></div>'."\n";
+	$text .= '</ul></div>'."\n";		
 	
 	// end of processing
 	SQL::free($result);

@@ -685,7 +685,7 @@ class Overlay {
 	 * 
 	 * Filenames must be same as classname, plus extension. 
 	 * 
-	 * Usage :  $this->load_scripts_n_rules();
+	 * Usage :  $this->load_scripts_n_styles();
 	 * within parts of your overlay witch need those dependancies.
 	 * (render(), get_view_text() ... )
 	 * 
@@ -693,7 +693,7 @@ class Overlay {
 	 *
 	 * @param type $myclass, argument used by the recursive call.
 	 */
-	final protected function load_scripts_n_rules($myclass='') {
+	final protected function load_scripts_n_styles($myclass='') {
 	    
 	    if(!$myclass)
 		$myclass = get_class($this);
@@ -706,7 +706,7 @@ class Overlay {
 	    
 	    // recursive call to parent class, stop on "Overlay"
 	    if($parent!= '' && $parent!='Overlay')
-		$parent::load_scripts_n_rules($parent);	    
+		$parent::load_scripts_n_styles($parent);	    
 	}
 
 	/**
