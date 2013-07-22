@@ -42,28 +42,28 @@ Class Category extends Anchor {
 	    $childs = array();
 	    
 	    // sub-categories
-	    if($filter == 'all' || preg_match('/\bcategories\b/i', $filter)) {
-		$childs['categories'] = Categories::list_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
+	    if($filter == 'all' || preg_match('/\bcategor(y|ies)\b/i', $filter)) {
+		$childs['category'] = Categories::list_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
 	    }
 	    
 	    // related articles
-	    if($filter == 'all' || preg_match('/\barticles\b/i', $filter)) {
-		$childs['articles'] = Members::list_articles_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
+	    if($filter == 'all' || preg_match('/\barticles?\b/i', $filter)) {
+		$childs['article'] = Members::list_articles_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
 	    }
 	    
 	    // related sections
-	    if($filter == 'all' || preg_match('/\bsections\b/i', $filter)) {
-		$childs['sections'] = Members::list_sections_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
+	    if($filter == 'all' || preg_match('/\bsections?\b/i', $filter)) {
+		$childs['section'] = Members::list_sections_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
 	    }	    	    
 	    
 	    // related users
-	    if($filter == 'all' || preg_match('/\busers\b/i', $filter)) {
-		$childs['users'] = Members::list_users_by_name_for_anchor($this->get_reference(), $offset, $max, $layout);
+	    if($filter == 'all' || preg_match('/\busers?\b/i', $filter)) {
+		$childs['user'] = Members::list_users_by_name_for_anchor($this->get_reference(), $offset, $max, $layout);
 	    }	
 	    
 	    // files
-	    if($filter == 'all' || preg_match('/\bfiles\b/i', $filter)) {
-		$childs['files'] = Files::list_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
+	    if($filter == 'all' || preg_match('/\bfiles?\b/i', $filter)) {
+		$childs['file'] = Files::list_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
 	    }	
 		    
 	    

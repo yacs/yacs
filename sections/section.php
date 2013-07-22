@@ -42,6 +42,39 @@ Class Section extends Anchor {
 		// do not transmit the thumbnail instead
 		return NULL;
 	}
+	
+	/**
+	 * list childs of this anchor, with or without type filters
+	 * 
+	 * @param string set of desired childs (articles, sections...) separted by comma, or "all" keyword
+	 * @param int offset to start listing
+	 * @param int the maximum of items returned per type
+	 * @param mixed string or object the layout to use
+	 * @return an array of array with raw items sorted by type
+	 */
+	function get_childs($filter = 'all',$offset = 0, $max= 50, $layout='raw') {
+	    
+	    // we return a array
+	    $childs = array();	
+	    
+	     // sub sections
+	    if($filter == 'all' || preg_match('/\bsections?\b/i', $filter)) {
+		$childs['section'] = Sections::list_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
+	    }
+	    
+	    // sub articles
+	    if($filter == 'all' || preg_match('/\barticles?\b/i', $filter)) {
+		$childs['article'] = Articles::list_for_anchor_by('title', $this->get_reference(), $offset, $max, $layout);
+	    }	    	   	    	    	  
+	    
+	    // files
+	    if($filter == 'all' || preg_match('/\bfiles?\b/i', $filter)) {
+		$childs['file'] = Files::list_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
+	    }	
+		    
+	    
+	    return $childs;
+	 }
 
 	 /**
 	  * provide a custom label
