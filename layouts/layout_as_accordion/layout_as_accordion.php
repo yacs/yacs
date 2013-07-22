@@ -263,7 +263,7 @@ Class Layout_as_accordion extends Layout_interface {
 		}
 		
 		// we have bounded styles and scripts
-		$this->load_scripts_n_rules();
+		$this->load_scripts_n_styles();
 
 		// end of processing
 		SQL::free($result);

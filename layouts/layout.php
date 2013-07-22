@@ -83,7 +83,7 @@ abstract Class Layout_interface {
 	 *
 	 * @param type $myclass, argument used by the recursive call.
 	 */
-	final protected function load_scripts_n_rules($myclass='') {
+	final protected function load_scripts_n_styles($myclass='') {
 	    global $context;
 	    
 	    if(!$myclass)
@@ -98,7 +98,7 @@ abstract Class Layout_interface {
 	    
 	    // recursive call to parent class, stop on "Overlay"
 	    if($parent!= '' && $parent!='Layout_interface')
-		$parent::load_scripts_n_rules($parent);	    
+		$parent::load_scripts_n_styles($parent);	    
 	}
 
 }
