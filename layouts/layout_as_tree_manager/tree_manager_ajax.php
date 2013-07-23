@@ -31,9 +31,32 @@ function die_on_invalid() {
 if(!isset($_REQUEST['action']) || !$_REQUEST['action'])
     die_on_invalid;
 
-$result = false;
-
 switch($_REQUEST['action']) {
+    
+    case 'create':
+	// reference to anchor and new title are mandatory
+	if(!isset($_REQUEST['anchor']) || !$_REQUEST['anchor'] 
+		|| !isset($_REQUEST['title']) || !$_REQUEST['title'])
+	    die_on_invalid ();
+	
+	list($type,$anchor_id) = explode(":", $_REQUEST['anchor']);
+	
+	if($anchor_id =='index')	    
+	    $_REQUEST['anchor'] = '';
+	    
+	// create obj interface
+	$newitem = new $type();
+	
+	// try to post 
+	if($output['success'] = $newitem->post($_REQUEST['anchor'],$_REQUEST['title'])) {				   
+	    
+		$output['title'] = $newitem->get_title();
+		$output['ref']	= $newitem->get_reference();	   
+	}
+	
+	$output = json_encode($output);
+	
+	break;
     
     case 'move':
 	// reference to object and target are mandatory
@@ -44,14 +67,14 @@ switch($_REQUEST['action']) {
 	
 	// get the objects
 	$obj = Anchors::get($_REQUEST['obj']);
-	if($_REQUEST['tar'] != 'index')	    
+	if(!preg_match('/index^/', $_REQUEST['tar']))	    
 	  $tar = Anchors::get($_REQUEST['tar']);
 	else
 	  $_REQUEST['tar'] = '';  // empty anchor means index
 	
 	// anchors not founded
 	if(!is_object($obj) || !isset($tar))
-	    die_on_invalid ();
+	    $output['success'] = false;
 	
 	// wrong move : to itself or same parent
 	if($_REQUEST['obj'] == $_REQUEST['tar'] || $_REQUEST['tar'] == $obj->item['anchor'])
@@ -63,7 +86,9 @@ switch($_REQUEST['action']) {
 	$fields = array('anchor' => $_REQUEST['tar']);
 	
 	// save in database	
-	$result = $obj->set_values($fields); 
+	$output['success'] = $obj->set_values($fields); 
+	
+	$output = json_encode($output);
 	
 	break;
     default:
@@ -74,8 +99,6 @@ switch($_REQUEST['action']) {
 
 // allow for data compression
 render_raw('application/json');
-
-$output = json_encode(array('success' => $result));
 
 // actual transmission 
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))

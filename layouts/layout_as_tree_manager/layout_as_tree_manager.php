@@ -10,7 +10,19 @@
 class Layout_as_tree_manager extends Layout_interface {
     
     /**
-     *
+     *      
+     * @return string the html code to build a "create" button related to a folder
+     */
+    private function btn_create() {
+	
+	$btn = '<a class="cmd create details" title="'.sprintf(i18n::s('Create a %s'),$this->listed_type).'">+</a>'."\n";	
+	
+	return $btn;
+    }
+    
+    /**
+     * layout sub-level of tree hierarchy
+     * 
      * @param object $entity an containning anchor (section or category)
      */
     private function get_sub_level($entity) {
@@ -36,8 +48,15 @@ class Layout_as_tree_manager extends Layout_interface {
 		    // go deeper in tree hierarchy		    
 		    $deeper = $this->get_sub_level($elem);
 		    
+		    // build commands menu
+		    $cmd = $this->btn_create();
+		    
 		    // layout sub container
-		    $details[] = '<li class="drag drop" data-ref="'.$elem->get_reference().'"><span class="folder">'.$elem->get_title().'</span>'.$deeper.'</li>'; 
+		    $details[] = '<li class="drag drop" data-ref="'.$elem->get_reference()
+			    .'"><span class="folder">'
+			    .$elem->get_title().'</span>'
+			    .$cmd
+			    .$deeper.'</li>'; 
 		}		
 	}
 	
@@ -100,6 +119,13 @@ class Layout_as_tree_manager extends Layout_interface {
 	return $sub;	
     }
 
+    /**
+     * main function
+     * 
+     * @global type $context
+     * @param type $result
+     * @return string 
+     */
     public function layout($result) {
 	global $context;
 	
@@ -117,7 +143,7 @@ class Layout_as_tree_manager extends Layout_interface {
 	if(isset($context['current_item']) && $context['current_item'])
 	    $root_ref = $context['current_item'];
 	else 
-	    $root_ref = 'index';
+	    $root_ref = $items_type.':index';
 	
 	// drag&drop zone
 	$text .= '<div class="ddz drop" data-ref='.$root_ref.'>'."\n".'<ul class="sub_elems root">'."\n";
@@ -140,8 +166,11 @@ class Layout_as_tree_manager extends Layout_interface {
 	    // sub elements of this entity	    	    
 	    $sub = $this->get_sub_level($entity);	
 	    
+	    // command related to this entity
+	    $cmd = $this->btn_create();
+	    
 	    // one <li> per entity of this level of the tree
-	    $text .= '<li class="drag drop" data-ref="'.$entity->get_reference().'">'.$title.$sub.'</li>'."\n";		    	    	    
+	    $text .= '<li class="drag drop" data-ref="'.$entity->get_reference().'">'.$title.$cmd.$sub.'</li>'."\n";		    	    	    
 	    
 	}
 	
