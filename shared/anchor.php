@@ -235,6 +235,30 @@ abstract class Anchor {
 
 		return $response;
 	}
+	
+	/**
+	 * delete this entry from database
+	 * 
+	 * @return boolean success of operation
+	 */
+	function delete() {
+	    
+	    // nothing to delete
+	    if(!isset($this->item['id']))
+		    return false;
+	    
+	    $group_class = $this->get_static_group_class();
+	    
+	    if($result =  $group_class::delete($this->item['id'])) {
+		
+		// be coherent with database
+		$this->item = NULL;
+		$this->anchor = NULL;
+		$this->overlay = NULL;
+	    }
+	    
+	    return $result;
+	}
 
 	/**
 	 * visualize differences for some attribute
