@@ -2762,8 +2762,7 @@ Class Sections {
 			."template='".SQL::escape(isset($fields['template']) ? $fields['template'] : '')."',"
 			."thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."',"
 			."title='".SQL::escape(isset($fields['title']) ? $fields['title'] : '')."',"
-			."trailer='".SQL::escape(isset($fields['trailer']) ? $fields['trailer'] : '')."',"
-			."vhost='".SQL::escape(isset($fields['vhost']) ? $fields['vhost'] : '')."'";
+			."trailer='".SQL::escape(isset($fields['trailer']) ? $fields['trailer'] : '')."'";
 
 		// actual insert
 		if(SQL::query($query) === FALSE)
@@ -2937,8 +2936,7 @@ Class Sections {
 		$query[] = "suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."'";
 		$query[] = "tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."'";
 		$query[] = "thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."'";
-		$query[] = "trailer='".SQL::escape(isset($fields['trailer']) ? $fields['trailer'] : '')."'";
-		$query[] = "vhost='".SQL::escape(isset($fields['vhost']) ? $fields['vhost'] : '')."'";
+		$query[] = "trailer='".SQL::escape(isset($fields['trailer']) ? $fields['trailer'] : '')."'";		
 
 		// fields visible only to associates
 		if(Surfer::is_associate()) {
