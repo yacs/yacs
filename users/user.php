@@ -220,6 +220,15 @@ Class User extends Anchor {
 	    $link = Users::get_permalink($this->item);
 	    return $link;
 	}
+	
+	/**
+	 * provide classe name with all static functions on this kind of anchor
+	 * 
+	 * @return a class name
+	 */
+	function get_static_group_class() {
+	    return 'Users';
+	}
 
 	/**
 	 * get the title for this anchor

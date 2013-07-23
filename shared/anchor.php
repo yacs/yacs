@@ -650,6 +650,15 @@ abstract class Anchor {
 	function get_short_url() {
 		return NULL;
 	}
+	
+	/**
+	 * provide classe name with all static functions on this kind of anchor
+	 * 
+	 * @return a class name
+	 */
+	function get_static_group_class() {
+	    return 'Anchors';
+	}
 
 	/**
 	 * get suffix text
@@ -708,7 +717,7 @@ abstract class Anchor {
 
 		// done
 		return $text;
-	}
+	}		
 
 	/**
 	 * get available templates
@@ -1250,6 +1259,58 @@ abstract class Anchor {
 	 */
 	function load_by_id($id, $mutable=FALSE) {
 		return NULL;
+	}
+	
+	/**
+	 * post a new item
+	 * 
+	 * @param mixed object or string the anchor where to post
+	 * @param string the title of the new item
+	 * @return boolean success of operation
+	 */
+	function post($anchor=NULL,$title='') {
+	    
+	    // we have already a id
+	    if(isset($this->item['id']))
+		    return false;
+	    
+	    // check the anchor ...
+	    
+	    // .. use provided object, will crush previous one if any
+	    if(is_object($anchor)) {
+		$this->anchor = $anchor;	
+	    }
+	    
+	    // .. use object
+	    if(isset($this->anchor))
+		$anchor = $this->anchor->get_reference();	 	    
+	    // .. nothing provided
+	    elseif(!isset($anchor))
+		return false;
+	    // .. checking given reference
+	    elseif($anchor && !is_object($anchor) && !$this->anchor = Anchors::get($anchor))
+		return false;	    
+	    
+	    $this->item['anchor'] = $anchor; // now a valid reference or empty string for root anchor
+	   
+	    // check the title
+	    if($title)
+		// use provided one
+		$this->item['title'] = $title;
+	    elseif(!isset($this->item['title']))
+		// make a defaut one    
+		$this->item['title'] = $this->get_type ();
+		   		    		
+	    
+	    $group_class = $this->get_static_group_class();	    
+	    if($id = $group_class::post($this->item)) {
+		// re-get all fields from database 
+		$this->load_by_id($id);			
+		return true;
+	    }
+	
+	    // bad luck
+	    return false;	   
 	}
 
 	/**

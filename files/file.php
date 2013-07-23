@@ -129,6 +129,15 @@ Class File extends Anchor {
 	    $link = Files::get_permalink($this->item);
 	    return $link;
 	}
+	
+	/**
+	 * provide classe name with all static functions on this kind of anchor
+	 * 
+	 * @return a class name
+	 */
+	function get_static_group_class() {
+	    return 'Files';
+	}
 
 	/**
 	 * remember the last action for this file
