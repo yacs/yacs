@@ -76,11 +76,12 @@ var TreeManager = {
 	var input = $('<input type="text" name="create"/>');
 	
 	// add to subelems list
-	input.wrap('<li></li>').prependTo(anchor.children('.sub_elems'));
+	input.prependTo(anchor.children('.sub_elems'));
+	input.wrap('<li class="drop"></li>');
 	
 	// remove on focus out
 	input.focusout(function() {
-	    input.remove();
+	    input.parent().remove();
 	});
 	
 	input.change(function() {
@@ -118,9 +119,9 @@ var TreeManager = {
 		    newli.droppable(TreeManager.dropOptions);
 		    
 		    // display <li>
-		    input.replaceWith(newli);
+		    input.parent().replaceWith(newli);
 		} else
-		    input.remove();
+		    input.parent().remove();
 		
 	});
 	
