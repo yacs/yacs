@@ -3,10 +3,8 @@
  * @reference
  */
  
- .ddz {
-     overflow: hidden;
-     padding : 1em;     
- }
+ 
+ .root {padding:2em; overflow: hidden;}
  
  .root, .root ul{list-style: none;}
  
@@ -19,8 +17,11 @@
  }
  
  .hoverdrop {
-     background : rgba(0,0,0,.2);
+     background : rgba(20,20,50,.1);
  }
+
+ li .cmd {visibility: hidden;}
+ li:hover > .cmd {visibility: visible;}
  
 
 

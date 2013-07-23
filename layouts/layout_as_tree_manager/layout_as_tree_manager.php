@@ -15,7 +15,7 @@ class Layout_as_tree_manager extends Layout_interface {
      */
     private function btn_create() {
 	
-	$btn = '<a class="cmd create details" title="'.sprintf(i18n::s('Create a %s'),$this->listed_type).'">+</a>'."\n";	
+	$btn = '<a class="cmd create details" title="'.sprintf(i18n::s('Add a %s'),$this->listed_type).'">+</a>'."\n";	
 	
 	return $btn;
     }
@@ -146,7 +146,13 @@ class Layout_as_tree_manager extends Layout_interface {
 	    $root_ref = $items_type.':index';
 	
 	// drag&drop zone
-	$text .= '<div class="ddz drop" data-ref='.$root_ref.'>'."\n".'<ul class="sub_elems root">'."\n";
+	$text .= '<div class="ddz drop" data-ref='.$root_ref.'>'."\n";
+	
+	// root create command
+	$text .= $this->btn_create();
+	
+	// root ul
+	$text .=  '<ul class="sub_elems root">'."\n";
 	
 	while($item = SQL::fetch($result)) {
 	    

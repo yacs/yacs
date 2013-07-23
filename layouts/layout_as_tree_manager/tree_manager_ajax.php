@@ -73,12 +73,18 @@ switch($_REQUEST['action']) {
 	  $_REQUEST['tar'] = '';  // empty anchor means index
 	
 	// anchors not founded
-	if(!is_object($obj) || !isset($tar))
+	if(!is_object($obj) || !isset($tar)) {
 	    $output['success'] = false;
+	    $output = json_encode($output);
+	    break;
+	}
 	
 	// wrong move : to itself or same parent
-	if($_REQUEST['obj'] == $_REQUEST['tar'] || $_REQUEST['tar'] == $obj->item['anchor'])
+	if($_REQUEST['obj'] == $_REQUEST['tar'] || $_REQUEST['tar'] == $obj->item['anchor']) {
+	    $output['success'] = false;
+	    $output = json_encode($output);
 	    break;
+	}
 
 	//TODO : check surfer permission	
 	
