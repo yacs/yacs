@@ -23,6 +23,9 @@
  li .cmd {visibility: hidden;}
  li:hover > .cmd {visibility: visible;}
  
-
+ .cmd {padding: 2px;} 
+ #main_panel .cmd:hover {color:black;}
+ #main_panel .create:hover {background: greenyellow;}
+ #main_panel .delete:hover {background: firebrick;}
 
 

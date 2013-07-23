@@ -37,13 +37,29 @@ var TreeManager = {
 	    
 	});	   	
 	
-    },                
+    },  
+    
+    confirmDelete: function (anchor) {
+	
+	// count nb of sub elements
+	var nbsub = anchor.find("li").length;
+	
+	if(!nbsub)
+	    TreeManager.postDelete(anchor)
+    },
     
     cmd: function (cmd) {			
 	
 	if(cmd.hasClass("create")) {	   
 	    var anchor = cmd.parents(".drop").first();	    
 	    TreeManager.inputCreate(anchor);
+	    return;
+	}
+	
+	if(cmd.hasClass("delete")) {
+	    var anchor = cmd.parents(".drop").first();
+	    TreeManager.confirmDelete(anchor);
+	    return;
 	}
 	
     },
@@ -94,6 +110,7 @@ var TreeManager = {
    
     postCreate:function (anchor,input) {
 	
+	Yacs.startWorking();
 	$.post(
 	    ajaxUrl,
 	    {action : 'create', anchor : anchor.data('ref'), title : input.val()}
@@ -123,8 +140,23 @@ var TreeManager = {
 		} else
 		    input.parent().remove();
 		
+		Yacs.stopWorking();  		
 	});
 	
+    },
+    
+    postDelete: function (anchor) {
+	
+	Yacs.startWorking();
+	$.post(
+	    ajaxUrl,
+	    {action : 'delete', anchor : anchor.data('ref')}
+	).done(function( data ) {
+		if(data.success)
+		    anchor.remove();
+		
+		Yacs.stopWorking();    
+	});
     },
    
     postMove: function (obj,tar) {
@@ -132,6 +164,7 @@ var TreeManager = {
 	// freeze object move
 	TreeManager.dragItem.draggable( 'option', 'revert', false );
 	
+	Yacs.startWorking();
 	$.post(
 	    ajaxUrl,
 	    {action : 'move', obj : obj, tar : tar}
@@ -142,7 +175,8 @@ var TreeManager = {
 		}
 		else
 		   TreeManager.dragItem.animate({left:'0',top:'0'},100);
-		    
+		
+		Yacs.stopWorking();    
 	});
 	
     }    

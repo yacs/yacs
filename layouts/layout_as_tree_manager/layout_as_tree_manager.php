@@ -21,6 +21,19 @@ class Layout_as_tree_manager extends Layout_interface {
     }
     
     /**
+     *      
+     * @return string the html code to build a "create" button related to a folder
+     */
+    private function btn_delete() {
+	
+	$btn = '<a class="cmd delete details" title="'.i18n::s('Delete').'">x</a>'."\n";	
+	
+	return $btn;
+    }
+    
+    
+    
+    /**
      * layout sub-level of tree hierarchy
      * 
      * @param object $entity an containning anchor (section or category)
@@ -49,7 +62,7 @@ class Layout_as_tree_manager extends Layout_interface {
 		    $deeper = $this->get_sub_level($elem);
 		    
 		    // build commands menu
-		    $cmd = $this->btn_create();
+		    $cmd = $this->btn_create().$this->btn_delete();
 		    
 		    // layout sub container
 		    $details[] = '<li class="drag drop" data-ref="'.$elem->get_reference()
@@ -173,7 +186,7 @@ class Layout_as_tree_manager extends Layout_interface {
 	    $sub = $this->get_sub_level($entity);	
 	    
 	    // command related to this entity
-	    $cmd = $this->btn_create();
+	    $cmd = $this->btn_create().$this->btn_delete();
 	    
 	    // one <li> per entity of this level of the tree
 	    $text .= '<li class="drag drop" data-ref="'.$entity->get_reference().'">'.$title.$cmd.$sub.'</li>'."\n";		    	    	    
