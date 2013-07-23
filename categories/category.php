@@ -130,6 +130,15 @@ Class Category extends Anchor {
 	    $link = Categories::get_permalink($this->item);
 	    return $link;
 	}
+	
+	/**
+	 * provide classe name with all static functions on this kind of anchor
+	 * 
+	 * @return a class name
+	 */
+	function get_static_group_class() {
+	    return 'Categories';
+	}
 
 	/**
 	 * load the related item

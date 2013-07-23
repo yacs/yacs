@@ -222,6 +222,15 @@ Class Article extends Anchor {
 			return 'a~'.reduce_number($this->item['id']);;
 		return NULL;
 	}
+	
+	/**
+	 * provide classe name with all static functions on this kind of anchor
+	 * 
+	 * @return a class name
+	 */
+	function get_static_group_class() {
+	    return 'Articles';
+	}
 
 	/**
 	 * get some introductory text from an article
