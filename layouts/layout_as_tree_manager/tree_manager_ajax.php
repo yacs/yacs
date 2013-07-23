@@ -57,7 +57,22 @@ switch($_REQUEST['action']) {
 	$output = json_encode($output);
 	
 	break;
-    
+    case 'delete':
+	// reference to anchor is mandatory
+	if(!isset($_REQUEST['anchor']) || !$_REQUEST['anchor'])
+	    die_on_invalid ();	
+	
+	// get obj interface
+	$to_delete = Anchors::get($_REQUEST['anchor']);
+	
+	if(!$to_delete)
+	    $output['success'] = false;
+	else
+	    $output['success'] = $to_delete->delete();
+	    
+	$output = json_encode($output);
+	
+        break;
     case 'move':
 	// reference to object and target are mandatory
 	if(!isset($_REQUEST['obj']) || !$_REQUEST['obj']
@@ -72,27 +87,24 @@ switch($_REQUEST['action']) {
 	else
 	  $_REQUEST['tar'] = '';  // empty anchor means index
 	
-	// anchors not founded
+	
 	if(!is_object($obj) || !isset($tar)) {
+	    // anchors not founded
+	    $output['success'] = false;	    	    
+	} elseif ($_REQUEST['obj'] == $_REQUEST['tar'] || $_REQUEST['tar'] == $obj->item['anchor']) {
+	    // wrong move : to itself or same parent
 	    $output['success'] = false;
-	    $output = json_encode($output);
-	    break;
-	}
-	
-	// wrong move : to itself or same parent
-	if($_REQUEST['obj'] == $_REQUEST['tar'] || $_REQUEST['tar'] == $obj->item['anchor']) {
-	    $output['success'] = false;
-	    $output = json_encode($output);
-	    break;
-	}
+	} else {
 
-	//TODO : check surfer permission	
+	    //TODO : check surfer permission	
+
+	    // set the new anchor (=parent)
+	    $fields = array('anchor' => $_REQUEST['tar']);
+
+	    // save in database	
+	    $output['success'] = $obj->set_values($fields); 
 	
-	// set the new anchor (=parent)
-	$fields = array('anchor' => $_REQUEST['tar']);
-	
-	// save in database	
-	$output['success'] = $obj->set_values($fields); 
+	}
 	
 	$output = json_encode($output);
 	
