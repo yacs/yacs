@@ -44,6 +44,9 @@ var TreeManager = {
 	    // rename content
 	    $(".page").dblclick( function() {TreeManager.inputRename($(this));});
 	    
+	    // hide menu bar ( we could override clic action on item creation link instead )
+	    $('.menu_bar').hide();
+	    
 	});	
 	
     },  
