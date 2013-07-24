@@ -103,6 +103,27 @@ switch($_REQUEST['action']) {
 	}		
 	
 	break;
+    case 'rename':
+	// reference to anchor and new title are mandatory
+	if(!isset($_REQUEST['anchor']) || !$_REQUEST['anchor'] 
+		|| !isset($_REQUEST['title']) || !$_REQUEST['title'])
+	    die_on_invalid ();
+	
+	// get obj interface
+	$to_rename = Anchors::get($_REQUEST['anchor']);
+	
+	if(!$to_rename) {
+	    $output['success'] = false;
+	    break;
+	}
+	
+	// set the new title
+	$fields = array('title' => $_REQUEST['title']);
+	    
+	// save in database	
+	$output['success'] = $to_rename->set_values($fields); 	
+	
+	break;
     case 'zoom' :
 	// reference to anchor is mandatory
 	if(!isset($_REQUEST['anchor']) || !$_REQUEST['anchor'])

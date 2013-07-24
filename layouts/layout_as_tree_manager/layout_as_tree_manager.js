@@ -38,8 +38,11 @@ var TreeManager = {
 	    // cmd buttons
 	    $(".cmd").click( function() {TreeManager.cmd($(this));});
 	    
-	    //zoom
-	    $(".zoom").click( function() {TreeManager.zoom($(this));});
+	    //zoom & rename folders	    
+	    $(".zoom").click_n_dblclick(TreeManager.zoom,TreeManager.inputRename);
+	    
+	    // rename content
+	    $(".page").dblclick( function() {TreeManager.inputRename($(this));});
 	    
 	});	
 	
@@ -118,11 +121,32 @@ var TreeManager = {
 	});
 	
 	input.change(function() {
-	    TreeManager.postCreate(anchor,input);
+	    TreeManager.postCreate(anchor,input);	   
 	});
 		
 	input.focus();
 	
+    },
+
+    inputRename: function(title) {	
+	
+	// display an input field instead of name
+	var input = $('<input type="text" name="rename"/>'); 
+	input.val(title.text());
+	input.insertBefore(title);
+	title.detach();
+	
+	// remove on focus out
+	input.focusout(function() {
+	    title.insertBefore(input);
+	    input.remove();
+	});
+	
+	input.change(function() {	    
+	    TreeManager.postRename(title,input);
+	});
+	
+	input.focus();	
     },
    
     postCreate:function (anchor,input) {
@@ -131,7 +155,8 @@ var TreeManager = {
 	$.post(
 	    ajaxUrl,
 	    {action : 'create', anchor : anchor.data('ref'), title : input.val()}
-	).done(function( data ) {
+	).done(function( data ) {				
+
 		if(data.success) {
 		    // create the new <li>
 		    var newli = $('<li class="drag drop"></li>');
@@ -164,13 +189,12 @@ var TreeManager = {
 		    newli.droppable(TreeManager.dropOptions);
 		    
 		    // display <li>
-		    input.parent().replaceWith(newli);
+		    input.parent().replaceWith(newli); 
 		} else
 		    input.parent().remove();
-		
-		Yacs.stopWorking();  		
-	});
-	
+				
+		Yacs.stopWorking();		
+	});	
     },
     
     postDelete: function (anchor) {
@@ -208,6 +232,29 @@ var TreeManager = {
 	});	
     },      
 
+    postRename: function(title,input) {
+    
+	var anchor = input.parents('li').first();
+    
+	Yacs.startWorking();
+	    $.post(
+		ajaxUrl,
+		{action : 'rename', anchor : anchor.data('ref'), title : input.val()}
+	    ).done(function( data ) {
+		    
+		    if(data.success) {
+			if(title.children('span').lenght)
+			    title.children('span').text(input.val());
+			else
+			    title.text(input.val());
+			
+			input.replaceWith(title);
+		    }
+		    Yacs.stopWorking();
+	    });
+	
+    },
+    
     zoom:function (title) {
 	
 	var anchor = title.parents(".drop").first();
