@@ -599,27 +599,31 @@ if(isset($_REQUEST['text']) && $_REQUEST['text']) {
 function core_autoload($class) {
     global $context;
     
-    switch($class) {
+    switch(strtolower($class)) {
 	case 'article':
-	    include_once($context['path_to_root'].'/articles/article.php');
+	    include_once $context['path_to_root'].'/articles/article.php';
 	    break;
 	case 'section':
-	    include_once($context['path_to_root'].'/sections/section.php');
+	    include_once $context['path_to_root'].'/sections/section.php';
 	    break;
 	case 'category':
-	    include_once($context['path_to_root'].'/categories/category.php');
+	    include_once $context['path_to_root'].'/categories/category.php';
 	    break;
 	case 'user':
-	    include_once($context['path_to_root'].'/users/user.php');
+	    include_once $context['path_to_root'].'/users/user.php';
 	    break;
 	case 'file':
-	    include_once($context['path_to_root'].'/files/file.php');
+	    include_once $context['path_to_root'].'/files/file.php';
 	    break;
 	case 'codes':
-	    include_once($context['path_to_root'].'/shared/codes.php');
-	    break;
+	    include_once $context['path_to_root'].'/shared/codes.php';
+	    break;	
+	default :
+	    // this is default architecture of Yacs
+	    include_once $context['path_to_root'].'/'.$class.'/'.$class.'.php';
     }
 }
+// declare upper function as a autoloader to php
 spl_autoload_register('core_autoload');
 
 /**
