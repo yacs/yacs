@@ -52,6 +52,16 @@ var TreeManager = {
 	
 	if(!nbsub)
 	    TreeManager.postDelete(anchor)
+	else
+	    Yacs.displayModalBox({
+		title : 'Suppress',
+		body : 'This will suppress '+nbsub+' sub-element(s).',
+		button_TRUE : 'Confirm',
+		button_FALSE : 'Cancel'		
+	    }, function(result) {
+		if(result == true)
+		    TreeManager.postDelete(anchor)
+	    });
     },
     
     cmd: function (cmd) {			
