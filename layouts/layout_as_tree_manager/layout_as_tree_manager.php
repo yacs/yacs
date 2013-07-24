@@ -66,14 +66,14 @@ class Layout_as_tree_manager extends Layout_interface {
 		    
 		    // layout sub container
 		    $details[] = '<li class="drag drop" data-ref="'.$elem->get_reference()
-			    .'"><span class="folder">'
-			    .$elem->get_title().'</span>'
+			    .'"><a class="zoom"><span class="folder">'
+			    .$elem->get_title().'</span></a>'."\n"
 			    .$cmd
 			    .$deeper.'</li>'; 
 		}		
 	}
 	
-	// look for section but ongly for categories browsing
+	// look for section but only for categories browsing
 	if($this->listed_type == 'category') {
 	    $data = $entity->get_childs('section', 0, 200, 'raw');
 	    
@@ -143,11 +143,7 @@ class Layout_as_tree_manager extends Layout_interface {
 	global $context;
 	
 	// we return some text
-	$text = '';		
-	
-	// empty list
-	if(!SQL::count($result))
-	    return $text;
+	$text = '';			
 	
 	// type of listed object
 	$items_type = $this->listed_type;
@@ -173,14 +169,8 @@ class Layout_as_tree_manager extends Layout_interface {
 	    $entity = new $items_type($item);	   
 	    
 	    // title
-	    if(is_object($entity->overlay))
-		$title = Codes::beautify_title($entity->overlay->get_text('title', $item));
-	    else
-		$title = Codes::beautify_title($item['title']);
-	    
-	    // permalink
-	    $url = $entity->get_permalink();
-	    $title = Skin::build_link($url, $title, 'basic');	    	        	       	    	    
+	    $title = Codes::beautify_title($entity->get_title());	    	    
+	    $title = '<a class="zoom"><span class="folder">'.$title.'</span></a>';
 	    
 	    // sub elements of this entity	    	    
 	    $sub = $this->get_sub_level($entity);	
@@ -193,11 +183,13 @@ class Layout_as_tree_manager extends Layout_interface {
 	    
 	}
 	
-	// we have bounded styles and scripts
-	$this->load_scripts_n_styles();
+	// we have bounded styles and scripts, do not provide on ajax requests
+	if(!isset($context['AJAX_REQUEST']) || !$context['AJAX_REQUEST']) {
+	    $this->load_scripts_n_styles();
 	
-	// init js
-	Page::insert_script("TreeManager.init();");
+	    // init js
+	    Page::insert_script("TreeManager.init();");
+	}
 	
 	// end drag drop zone
 	$text .= '</ul></div>'."\n";		
