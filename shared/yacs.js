@@ -1730,6 +1730,43 @@ var Yacs = {
 
 };
 
+// specific jquery extensions
+jQuery.fn.extend({
+    
+    // @see http://stackoverflow.com/questions/6330431/jquery-bind-double-click-and-single-click-separately
+    click_n_dblclick: function(call_on_click, call_on_dblclick) {
+	
+	var DELAY = 700, clicks = 0, timer = null;
+	
+	return this.each(function() {
+	    var obj = $(this);
+	    obj.on('click',function(e) {
+		clicks++;  //count clicks
+
+		if(clicks === 1) {
+
+		    timer = setTimeout(function() {
+
+			call_on_click(obj,e);    //perform single-click action    
+			clicks = 0;		     //after action performed, reset counter
+
+		    }, DELAY);
+
+		} else {
+
+		    clearTimeout(timer);	//prevent single-click action
+		    call_on_dblclick(obj,e);  //perform double-click action
+		    clicks = 0;			//after action performed, reset counter
+		}
+
+	   }).on("dblclick", function(e){
+		e.preventDefault();  //cancel system double-click event
+	   });
+		
+	});
+    }
+});
+
 // initialize yacs
 $(document).ready(Yacs.onWindowLoad);
 
