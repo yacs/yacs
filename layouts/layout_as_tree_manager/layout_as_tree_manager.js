@@ -14,7 +14,10 @@ var TreeManager = {
 		containment:".ddz",
 		cursor: 'move',
 		revert: true,
-		revertDuration: 700		
+		revertDuration: 700,
+		start: function(e, ui) {
+		    $(this).addClass('tm-nozoom'); // to prevent zooming after dragging
+		}
 	    };
 	    
 	TreeManager.dropOptions = {
@@ -35,7 +38,10 @@ var TreeManager = {
 	    // cmd buttons
 	    $(".cmd").click( function() {TreeManager.cmd($(this));});
 	    
-	});	   	
+	    //zoom
+	    $(".zoom").click( function() {TreeManager.zoom($(this));});
+	    
+	});	
 	
     },  
     
@@ -60,7 +66,7 @@ var TreeManager = {
 	    var anchor = cmd.parents(".drop").first();
 	    TreeManager.confirmDelete(anchor);
 	    return;
-	}
+	}	
 	
     },
     
@@ -83,7 +89,8 @@ var TreeManager = {
 	TreeManager.dragItem = ui.draggable;
 	TreeManager.dropItem = $(this);
 		
-	TreeManager.postMove(TreeManager.movRef,TreeManager.tarRef);			
+	TreeManager.postMove(TreeManager.movRef,TreeManager.tarRef);
+		
     },               
     
     inputCreate: function(anchor) {
@@ -117,16 +124,27 @@ var TreeManager = {
 	).done(function( data ) {
 		if(data.success) {
 		    // create the new <li>
-		    var newli = $('<li class="drag drop"><ul class="sub_elems"></ul></li>');
-		    
-		    // clone and append a create cmd
-		    var create = $('.ddz').find('.create').first().clone();
-		    create.click( function() {TreeManager.cmd($(this));});
-		    newli.prepend(create);
+		    var newli = $('<li class="drag drop"></li>');
 		    
 		    // set the title
-		    var title = $('<span class="folder"></span>').text(data.title);		    
-		    newli.prepend(title);
+		    var title = $('<span class="folder"></span>').text(data.title);
+		    var zoom = $('<a class="zoom"></a>').click(function() {TreeManager.zoom($(this));});
+		    zoom.append(title);
+		    newli.append(zoom);
+		    
+		    // clone and append a create cmd
+		    var cmd_create = $('.ddz').find('.create').first().clone();
+		    cmd_create.click( function() {TreeManager.cmd($(this));});
+		    newli.append(cmd_create);
+		    
+		    // clone add append a delete cmd
+		    var cmd_delete = $('.ddz').find('.delete').first().clone();
+		    cmd_delete.click( function() {TreeManager.cmd($(this));});
+		    newli.append(cmd_delete);
+		    
+		    // sub elements list
+		    var sub_list = $('<ul class="sub_elems"></ul>');
+		    newli.append(sub_list);
 		    
 		    // set binded reference
 		    newli.data('ref',data.ref);
@@ -177,9 +195,100 @@ var TreeManager = {
 		   TreeManager.dragItem.animate({left:'0',top:'0'},100);
 		
 		Yacs.stopWorking();    
-	});
+	});	
+    },      
+
+    zoom:function (title) {
 	
-    }    
+	var anchor = title.parents(".drop").first();
+	
+	if(anchor.hasClass('tm-nozoom')) {
+	    anchor.removeClass('tm-nozoom');
+	    return;
+	}
+	
+	Yacs.startWorking();
+	$.get(
+	    ajaxUrl,
+	    {action : 'zoom', anchor : anchor.data('ref')}
+	).done(function( data ) {
+		
+		if(data.success) {		    	    		  		    
+		    // building breadcrumbs complement ...
+			var more_crumbs = '';
+			// get hierarchy
+			var path_anchors = $(anchor.parents(".drop").get().reverse());
+			// build it			
+			$.each(path_anchors,function() {
+			    var link = $('<a class="tm-crumbs"></a>');
+			    link.attr('data-ref',$(this).data('ref'))
+			    // looking for label			    
+			    if(!$(this).hasClass("ddz")) {
+				var label = $(this).find(".folder").first();
+				link.text(label.text());
+			    } else
+				// root title
+				link.text($('#main_panel h1 span').text());
+			    
+			    // tricks : get link's outerHTML by appending it to a temporary <div> 
+			    // add also a <span> wrapped on separator to be able to remove it easily while zooming out
+			    more_crumbs += $('<div>').append(link).html() + '<span>'+data.crumbs_separator+'</span>';
+			});
+			// append to breadcrumbs
+			var crumbs = $("#crumbs"); 
+			crumbs.html(crumbs.html()+more_crumbs);
+			// bind click
+			$(".tm-crumbs").click(function() {TreeManager.zoomOut($(this))});
+		    
+		    // update title
+		    $('#main_panel h1 span').text(data.title);	
+		    
+		    // disable tools and share from original page
+		    var to_disable = $('#page_tools a, #share a');
+		    to_disable.click(function(e) {
+			e.preventDefault(); // disabled
+		    });
+		    to_disable.css('color','grey');
+		    $('#page_tools, #share').css('opacity','.5');
+		    
+		    // update content
+		    anchor.parents(".ddz").replaceWith(data.content);
+		    TreeManager.init();
+		}
+		Yacs.stopWorking()
+	});
+    
+    },
+    
+    zoomOut:function(title) {
+		
+	Yacs.startWorking();
+	$.get(
+	    ajaxUrl,
+	    {action : 'zoom', anchor : title.data('ref')}
+	).done(function( data ) {
+		
+		if(data.success) {
+		    // updating breadcrumbs
+		    title.nextAll().remove();
+		    title.remove();
+		    
+		    // re-enable tools
+		    if(Yacs.current_item == title.data('ref')) {
+			$('#page_tools a, #share a').unbind('click').removeAttr("style");
+			$('#page_tools, #share').css('opacity','1');
+		    }
+		    
+		    // update page title
+		    $('#main_panel h1 span').text(data.title);	
+		    
+		    // update content
+		    $(".ddz").replaceWith(data.content);
+		    TreeManager.init();		    
+		}
+		Yacs.stopWorking();
+	});
+    }
 }
 
 

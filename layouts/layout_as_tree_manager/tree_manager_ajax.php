@@ -52,9 +52,7 @@ switch($_REQUEST['action']) {
 	    
 		$output['title'] = $newitem->get_title();
 		$output['ref']	= $newitem->get_reference();	   
-	}
-	
-	$output = json_encode($output);
+	}		
 	
 	break;
     case 'delete':
@@ -68,9 +66,7 @@ switch($_REQUEST['action']) {
 	if(!$to_delete)
 	    $output['success'] = false;
 	else
-	    $output['success'] = $to_delete->delete();
-	    
-	$output = json_encode($output);
+	    $output['success'] = $to_delete->delete();	    
 	
         break;
     case 'move':
@@ -104,10 +100,38 @@ switch($_REQUEST['action']) {
 	    // save in database	
 	    $output['success'] = $obj->set_values($fields); 
 	
+	}		
+	
+	break;
+    case 'zoom' :
+	// reference to anchor is mandatory
+	if(!isset($_REQUEST['anchor']) || !$_REQUEST['anchor'])
+	    die_on_invalid ();
+	
+	if(!$anchor = Anchors::get($_REQUEST['anchor'])) {
+	    $output['success'] = false;
+	    break;
 	}
+	// warn other script this is a ajax request
+	$context['AJAX_REQUEST'] = true;		
 	
-	$output = json_encode($output);
+	// tell other scripts who we are viewing
+	$context['current_item'] = $anchor->get_reference();
 	
+	// this is rendering operation, we may need some constants & functions
+	load_skin();
+	
+	// get the content
+	$childs = $anchor->get_childs($anchor->get_type(), 0, 200, 'tree_manager');
+	if(isset($childs[$anchor->get_type()])) {		
+		$output['success'] = true;
+		$output['content'] = $childs[$anchor->get_type()];		
+		$output['title'] = $anchor->get_title();
+		$output['crumbs_separator'] = CRUMBS_SEPARATOR;
+		$output['crumbs_suffix'] = CRUMBS_SUFFIX;
+	} else 
+	    $output['success'] = false;
+	    	
 	break;
     default:
 	// unknown action
@@ -115,8 +139,8 @@ switch($_REQUEST['action']) {
     
 }
 
-// allow for data compression
 render_raw('application/json');
+$output = json_encode($output);
 
 // actual transmission 
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
