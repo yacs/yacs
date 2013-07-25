@@ -1,64 +1,79 @@
-/* 
+/** 
+ * javascript interface for layout_as_tree_manager
+ * uses jQuery and jQuery-ui for drag&drop operations and many more
+ * 
  * @author Alexis Raimbault
  * @reference
  */
 
-var ajaxUrl = url_to_root+"layouts/layout_as_tree_manager/tree_manager_ajax.php";
+// url to use for sending ajax requests
+var tm_ajaxUrl = url_to_root+"layouts/layout_as_tree_manager/tree_manager_ajax.php";
 
 
 var TreeManager = {        
     
+    /**
+     * called it for to start interactions on page
+     */
     init: function() {
 	
+	// options for dragged elements
 	TreeManager.dragOptions = {
-		containment:".ddz",
+		containment:".tm-ddz",
 		cursor: 'move',
-		revert: true,
+		revert: true,  // by defaut a dragged object will return to it's possition
 		revertDuration: 700,
 		start: function(e, ui) {
-		    $(this).addClass('tm-nozoom'); // to prevent zooming after dragging
+		    // to prevent zooming after dragging (click event)
+		    $(this).addClass('tm-nozoom'); 
 		}
 	    };
 	    
 	TreeManager.dropOptions = {
-		accept : ".drag",
-		greedy : true,	 // prevent drop event propagation on nested elements
-		hoverClass: "hoverdrop",
-		drop : TreeManager._elemDroped		
+		accept : ".tm-drag",
+		greedy : true,	 // prevent drop event propagation on nested drop elements
+		hoverClass: "tm-hoverdrop",
+		drop : TreeManager.elemDroped	// function to call when dropping is done	
 	    }	
 	
 	$().ready(function() {
 	    
 	    // draggable elements
-	    $(".drag").draggable(TreeManager.dragOptions);
+	    $(".tm-drag").draggable(TreeManager.dragOptions);
 	    
 	    // droppable ones
-	    $(".drop").droppable(TreeManager.dropOptions);
+	    $(".tm-drop").droppable(TreeManager.dropOptions);
 	    
-	    // cmd buttons
-	    $(".cmd").click( function() {TreeManager.cmd($(this));});
+	    // all cmd buttons
+	    $(".tm-cmd").click( function() {TreeManager.cmd($(this));});
 	    
 	    //zoom & rename folders	    
-	    $(".zoom").click_n_dblclick(TreeManager.zoom,TreeManager.inputRename);
+	    $(".tm-zoom").click_n_dblclick(TreeManager.zoom,TreeManager.inputRename);
 	    
 	    // rename content
-	    $(".page").dblclick( function() {TreeManager.inputRename($(this));});
+	    $(".tm-page").dblclick( function() {TreeManager.inputRename($(this));});
 	    
 	    // hide menu bar ( we could override clic action on item creation link instead )
-	    $('.menu_bar').hide();
+	    $('.tm-menu_bar').hide();
 	    
 	});	
 	
     },  
     
+    /**
+     * called after pressing on delete button of a anchor
+     * routed from cmd() function
+     */
     confirmDelete: function (anchor) {
 	
 	// count nb of sub elements
 	var nbsub = anchor.find("li").length;
 	
 	if(!nbsub)
+	    // no sub elements, delete it right now
 	    TreeManager.postDelete(anchor)
 	else
+	    // ask for a confirmation
 	    Yacs.displayModalBox({
 		title : 'Suppress',
 		body : 'This will suppress '+nbsub+' sub-element(s).',
@@ -70,33 +85,50 @@ var TreeManager = {
 	    });
     },
     
+    /**
+     * called after pressing any command buttons
+     * will route to dealing function depending on object class
+     */
     cmd: function (cmd) {			
 	
-	if(cmd.hasClass("create")) {	   
-	    var anchor = cmd.parents(".drop").first();	    
+	if(cmd.hasClass("tm-create")) {	   
+	    var anchor = cmd.parents(".tm-drop").first();	    
 	    TreeManager.inputCreate(anchor);
 	    return;
 	}
 	
-	if(cmd.hasClass("delete")) {
-	    var anchor = cmd.parents(".drop").first();
+	if(cmd.hasClass("tm-delete")) {
+	    var anchor = cmd.parents(".tm-drop").first();
 	    TreeManager.confirmDelete(anchor);
 	    return;
 	}	
 	
     },
     
+    /**
+     * called to finish the dropping animation, when
+     * reply to ajax request was a success
+     * 
+     * @param jquery obj dragged
+     * @param jquery obj drop target
+     */
     dropping: function (obj,tar) {		
 	
-	// find <ul.sub_elems> the sub-elements list of target
-	var list = tar.children(".sub_elems");		
+	// find <ul.tm-sub_elems> the sub-elements list of target
+	var list = tar.children(".tm-sub_elems");		
 	
 	// append the dragged object to it
 	obj.appendTo(list);
 	obj.animate({left:'0',top:'0'},100);
     },
     
-    _elemDroped: function (e,ui) {
+    /**
+     * called when a dragged element is dropped on a droppable one
+     * 
+     * @param e the event
+     * @param ui a jquery-ui object
+     */
+    elemDroped: function (e,ui) {
 	
 	// get reference to target and moved objects
 	TreeManager.tarRef = $(this).data("ref");
@@ -104,87 +136,115 @@ var TreeManager = {
 	
 	TreeManager.dragItem = ui.draggable;
 	TreeManager.dropItem = $(this);
-		
-	TreeManager.postMove(TreeManager.movRef,TreeManager.tarRef);
+	
+	// post a move
+	TreeManager.postMove(ui.draggable,$(this));
 		
     },               
     
+    /**
+     * called after pressing create button binded to a entry
+     * build a input to ask for new element title
+     * 
+     * @param jquery obj the anchor which will receive the new entry
+     */
     inputCreate: function(anchor) {
 	
 	// input html
 	var input = $('<input type="text" name="create"/>');
 	
 	// add to subelems list
-	input.prependTo(anchor.children('.sub_elems'));
-	input.wrap('<li class="drop"></li>');
+	input.prependTo(anchor.children('.tm-sub_elems'));
+	input.wrap('<li class="tm-drop"></li>');
 	
-	// remove on focus out
+	// remove input on focus out
 	input.focusout(function() {
 	    input.parent().remove();
 	});
 	
+	// post on input change
 	input.change(function() {
 	    TreeManager.postCreate(anchor,input);	   
 	});
 		
+	// input name right now !	
 	input.focus();
 	
     },
 
+    /**
+     * called after dblclicking on a entry name
+     * build a input to ask for renaming
+     * 
+     * @param jquery obj the double clicked element
+     * could be a <a><span> or a single <span>
+     */
     inputRename: function(title) {	
 	
 	// display an input field instead of name
 	var input = $('<input type="text" name="rename"/>'); 
-	input.val(title.text());
+	input.val(title.text());    // use former name
 	input.insertBefore(title);
-	title.detach();
+	title.detach();	// remove the original title but keep it in DOM
 	
-	// remove on focus out
+	// remove input on focus out
 	input.focusout(function() {
 	    title.insertBefore(input);
 	    input.remove();
 	});
 	
+	// post on input change
 	input.change(function() {	    
 	    TreeManager.postRename(title,input);
 	});
 	
+	// input new name right now !
 	input.focus();	
     },
    
+    /**
+     * this function perform the ajax request to create a new element
+     * if succeed, create DOM elements to represent the newly created entry
+     * @see layouts/layout_as_tree_manager/tree_manager_ajax.php
+     * 
+     * @param jquery object the anchor under which element is created ( <li> )
+     * @param jquery object the input containning the new element's name  
+     */
     postCreate:function (anchor,input) {
 	
 	Yacs.startWorking();
 	$.post(
-	    ajaxUrl,
+	    tm_ajaxUrl,
 	    {action : 'create', anchor : anchor.data('ref'), title : input.val()}
 	).done(function( data ) {				
 
 		if(data.success) {
 		    // create the new <li>
-		    var newli = $('<li class="drag drop"></li>');
+		    var newli = $('<li class="tm-drag tm-drop"></li>');
 		    
 		    // set the title
-		    var title = $('<span class="folder"></span>').text(data.title);
-		    var zoom = $('<a class="zoom"></a>').click(function() {TreeManager.zoom($(this));});
+		    var title = $('<span class="tm-folder"></span>').text(data.title);
+		    // single and double click events
+		    var zoom = $('<a class="tm-zoom"></a>').click_n_dblclick(TreeManager.zoom,TreeManager.inputRename);
+		    // nest elements
 		    zoom.append(title);
 		    newli.append(zoom);
 		    
-		    // clone and append a create cmd
-		    var cmd_create = $('.ddz').find('.create').first().clone();
+		    // clone and append a create cmd to entry
+		    var cmd_create = $('.tm-ddz').find('.tm-create').first().clone();
 		    cmd_create.click( function() {TreeManager.cmd($(this));});
 		    newli.append(cmd_create);
 		    
 		    // clone add append a delete cmd
-		    var cmd_delete = $('.ddz').find('.delete').first().clone();
+		    var cmd_delete = $('.tm-ddz').find('.tm-delete').first().clone();
 		    cmd_delete.click( function() {TreeManager.cmd($(this));});
 		    newli.append(cmd_delete);
 		    
-		    // sub elements list
-		    var sub_list = $('<ul class="sub_elems"></ul>');
+		    // append a empty sub-elements list
+		    var sub_list = $('<ul class="tm-sub_elems"></ul>');
 		    newli.append(sub_list);
 		    
-		    // set binded reference
+		    // set binded reference (won't appear as a tag attribute)
 		    newli.data('ref',data.ref);
 		    
 		    // make <li> draggable and droppable
@@ -194,17 +254,25 @@ var TreeManager = {
 		    // display <li>
 		    input.parent().replaceWith(newli); 
 		} else
+		    // remove input and leave everything as before
 		    input.parent().remove();
 				
 		Yacs.stopWorking();		
 	});	
     },
     
+    /**
+     * this function perform the ajax request to delete a entry
+     * if succeed it delete the binded tags
+     * @see layouts/layout_as_tree_manager/tree_manager_ajax.php
+     * 
+     * @param jquery object the anchor to delete ( <li> )
+     */
     postDelete: function (anchor) {
 	
 	Yacs.startWorking();
 	$.post(
-	    ajaxUrl,
+	    tm_ajaxUrl,
 	    {action : 'delete', anchor : anchor.data('ref')}
 	).done(function( data ) {
 		if(data.success)
@@ -214,54 +282,94 @@ var TreeManager = {
 	});
     },
    
+    /**
+     * this function perform the ajax request to move a anchor under another
+     * if succeed or not it animate the end of dropping or reverse movment back to former place
+     * @see layouts/layout_as_tree_manager/tree_manager_ajax.php
+     * 
+     * @param jquery object the dragged one ( <li> )
+     * @param jquery object the drop target ( <li> too, or root <ul> )
+     */
     postMove: function (obj,tar) {
 	
-	// freeze object move
-	TreeManager.dragItem.draggable( 'option', 'revert', false );
+	// freeze object move during request
+	obj.draggable( 'option', 'revert', false );
 	
 	Yacs.startWorking();
 	$.post(
-	    ajaxUrl,
-	    {action : 'move', obj : obj, tar : tar}
+	    tm_ajaxUrl,
+	    {action : 'move', obj : obj.data('ref'), tar : tar.data('ref')}
 	).done(function( data ) {
 				
-		if(data.success) {		   
-		   TreeManager.dropping(TreeManager.dragItem, TreeManager.dropItem); 
+		if(data.success) {	
+		   // finish the dropping
+		   TreeManager.dropping(obj, tar); 
 		}
 		else
-		   TreeManager.dragItem.animate({left:'0',top:'0'},100);
+		   // back to former place 
+		   obj.animate({left:'0',top:'0'},100);
 		
 		Yacs.stopWorking();    
 	});	
     },      
 
+    /**
+     * this function perform the ajax request to rename a given entry
+     * if succeed the new name is setted
+     * @see layouts/layout_as_tree_manager/tree_manager_ajax.php
+     * 
+     * @param jquery object the title to change ( <a><span> or <span> )
+     * @param jquery object the input containning the new name
+     */
     postRename: function(title,input) {
     
+	// get the anchor
 	var anchor = input.parents('li').first();
     
 	Yacs.startWorking();
-	    $.post(
-		ajaxUrl,
-		{action : 'rename', anchor : anchor.data('ref'), title : input.val()}
-	    ).done(function( data ) {
-		    
-		    if(data.success) {
-			if(title.children('span').lenght)
-			    title.children('span').text(input.val());
-			else
-			    title.text(input.val());
-			
-			input.replaceWith(title);
-		    }
-		    Yacs.stopWorking();
-	    });
+	$.post(
+	    tm_ajaxUrl,
+	    {action : 'rename', anchor : anchor.data('ref'), title : input.val()}
+	).done(function( data ) {
+
+		if(data.success) {
+		    // look for child span
+		    if(title.children('span').lenght)
+			title.children('span').text(input.val());
+		    else
+			// we are already a span :)
+			title.text(input.val());
+
+
+		} 
+
+		// remove input and display title with new or former name
+		input.replaceWith(title);
+
+		Yacs.stopWorking();
+	});
 	
     },
     
+    /**
+     * this function perform the ajax request to get 
+     * a new tree view from a given anchor
+     * @see layouts/layout_as_tree_manager/tree_manager_ajax.php
+     * 
+     * the rendering is all reseted and replace by the new received content
+     * Yacs tools and share interface are frozen because they do not interact with the represented anchor
+     * 
+     * The breadcrumbs is updated to enable zoomOut
+     * 
+     * @param jquery object that was clicked to ask for a zoom
+     */
     zoom:function (title) {
 	
-	var anchor = title.parents(".drop").first();
+	// get the anchor to zoom
+	var anchor = title.parents(".tm-drop").first();
 	
+	// maybe event was fired after dropping operation ?
+	// this is a fuse
 	if(anchor.hasClass('tm-nozoom')) {
 	    anchor.removeClass('tm-nozoom');
 	    return;
@@ -269,25 +377,25 @@ var TreeManager = {
 	
 	Yacs.startWorking();
 	$.get(
-	    ajaxUrl,
+	    tm_ajaxUrl,
 	    {action : 'zoom', anchor : anchor.data('ref')}
 	).done(function( data ) {
 		
 		if(data.success) {		    	    		  		    
 		    // building breadcrumbs complement ...
-			var more_crumbs = '';
+			var more_crumbs = ''; // string
 			// get hierarchy
-			var path_anchors = $(anchor.parents(".drop").get().reverse());
+			var path_anchors = $(anchor.parents(".tm-drop").get().reverse());
 			// build it			
 			$.each(path_anchors,function() {
 			    var link = $('<a class="tm-crumbs"></a>');
 			    link.attr('data-ref',$(this).data('ref'))
 			    // looking for label			    
-			    if(!$(this).hasClass("ddz")) {
-				var label = $(this).find(".folder").first();
+			    if(!$(this).hasClass("tm-ddz")) {
+				var label = $(this).find(".tm-folder").first();
 				link.text(label.text());
 			    } else
-				// root title
+				// take root title from page
 				link.text($('#main_panel h1 span').text());
 			    
 			    // tricks : get link's outerHTML by appending it to a temporary <div> 
@@ -312,7 +420,7 @@ var TreeManager = {
 		    $('#page_tools, #share').css('opacity','.5');
 		    
 		    // update content
-		    anchor.parents(".ddz").replaceWith(data.content);
+		    anchor.parents(".tm-ddz").replaceWith(data.content);
 		    TreeManager.init();
 		}
 		Yacs.stopWorking()
@@ -320,11 +428,21 @@ var TreeManager = {
     
     },
     
+    /**
+     * this function perform a zoomOut operation afer clicking on a built-in
+     * breadcrumbs link.
+     * If succeed the layout is completly redraw
+     * If we are back to root (the anchor where the rendering started) Yacs tools are
+     * re-enabled
+     * @see layouts/layout_as_tree_manager/tree_manager_ajax.php
+     * 
+     * @param jquery object the clicked link in breadcrumbs
+     */
     zoomOut:function(title) {
 		
 	Yacs.startWorking();
 	$.get(
-	    ajaxUrl,
+	    tm_ajaxUrl,
 	    {action : 'zoom', anchor : title.data('ref')}
 	).done(function( data ) {
 		
@@ -343,12 +461,10 @@ var TreeManager = {
 		    $('#main_panel h1 span').text(data.title);	
 		    
 		    // update content
-		    $(".ddz").replaceWith(data.content);
+		    $(".tm-ddz").replaceWith(data.content);
 		    TreeManager.init();		    
 		}
 		Yacs.stopWorking();
 	});
     }
 }
-
-
