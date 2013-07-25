@@ -9,32 +9,29 @@
  */
 class Layout_as_tree_manager extends Layout_interface {
     
-    /**
-     *      
+    /**      
      * @return string the html code to build a "create" button related to a folder
      */
     private function btn_create() {
 	
-	$btn = '<a class="cmd create details" title="'.sprintf(i18n::s('Add a %s'),$this->listed_type).'">+</a>'."\n";	
+	$btn = '<a class="tm-cmd tm-create details" title="'.sprintf(i18n::s('Add a %s'),$this->listed_type).'">+</a>'."\n";	
 	
 	return $btn;
     }
     
-    /**
-     *      
+    /**     
      * @return string the html code to build a "create" button related to a folder
      */
     private function btn_delete() {
 	
-	$btn = '<a class="cmd delete details" title="'.i18n::s('Delete').'">x</a>'."\n";	
+	$btn = '<a class="tm-cmd tm-delete details" title="'.i18n::s('Delete').'">x</a>'."\n";	
 	
 	return $btn;
     }
-    
-    
-    
+        
     /**
      * layout sub-level of tree hierarchy
+     * with a recursive search
      * 
      * @param object $entity an containning anchor (section or category)
      */
@@ -44,7 +41,7 @@ class Layout_as_tree_manager extends Layout_interface {
 	$data = array();
 	// html formated sub elements 	
 	$details = array();
-	$sub = "\n".'<ul class="sub_elems">'."\n";
+	$sub = "\n".'<ul class="tm-sub_elems">'."\n";
 	
 	$class = $this->listed_type;
 	
@@ -58,22 +55,22 @@ class Layout_as_tree_manager extends Layout_interface {
 		    // transform data to obj interface
 		    $elem = new $class($elem);
 		    
-		    // go deeper in tree hierarchy		    
+		    // go deeper in tree hierarchy with a recursive call
 		    $deeper = $this->get_sub_level($elem);
 		    
 		    // build commands menu
 		    $cmd = $this->btn_create().$this->btn_delete();
 		    
 		    // layout sub container
-		    $details[] = '<li class="drag drop" data-ref="'.$elem->get_reference()
-			    .'"><a class="zoom"><span class="folder">'
+		    $details[] = '<li class="tm-drag tm-drop" data-ref="'.$elem->get_reference()
+			    .'"><a class="tm-zoom"><span class="tm-folder">'
 			    .$elem->get_title().'</span></a>'."\n"
 			    .$cmd
 			    .$deeper.'</li>'; 
 		}		
 	}
 	
-	// look for section but only for categories browsing
+	// look for section as pages, but only for categories browsing
 	if($this->listed_type == 'category') {
 	    $data = $entity->get_childs('section', 0, 200, 'raw');
 	    
@@ -85,7 +82,7 @@ class Layout_as_tree_manager extends Layout_interface {
 		    $sec = new Section($sec);
 
 		    // layout articles
-		    $details[] = '<li class="drag" data-ref="'.$sec->get_reference().'"><span class="page details">'.$sec->get_title().'</span></li>';
+		    $details[] = '<li class="tm-drag" data-ref="'.$sec->get_reference().'"><span class="tm-page details">'.$sec->get_title().'</span></li>';
 
 		}
 	    }
@@ -104,7 +101,7 @@ class Layout_as_tree_manager extends Layout_interface {
 		$art = new Article($art);
 		
 		// layout articles
-		$details[] = '<li class="drag" data-ref="'.$art->get_reference().'"><span class="page details">'.$art->get_title().'</span></li>';
+		$details[] = '<li class="tm-drag" data-ref="'.$art->get_reference().'"><span class="tm-page details">'.$art->get_title().'</span></li>';
 		
 	    }
 	}
@@ -117,7 +114,7 @@ class Layout_as_tree_manager extends Layout_interface {
 		$usr = new User($usr);
 		
 		// layout articles
-		$details[] = '<li class="drag" data-ref="'.$usr->get_reference().'"><span class ="user details">'.$usr->get_title().'</span></li>';
+		$details[] = '<li class="tm-drag" data-ref="'.$usr->get_reference().'"><span class ="tm-user details">'.$usr->get_title().'</span></li>';
 		
 	    }
 	}
@@ -133,11 +130,10 @@ class Layout_as_tree_manager extends Layout_interface {
     }
 
     /**
-     * main function
+     * main function to render layout
      * 
-     * @global type $context
-     * @param type $result
-     * @return string 
+     * @param type $result MySQL object
+     * @return string the rendering
      */
     public function layout($result) {
 	global $context;
@@ -155,13 +151,13 @@ class Layout_as_tree_manager extends Layout_interface {
 	    $root_ref = $items_type.':index';
 	
 	// drag&drop zone
-	$text .= '<div class="ddz drop" data-ref='.$root_ref.'>'."\n";
+	$text .= '<div class="tm-ddz tm-drop" data-ref='.$root_ref.'>'."\n";
 	
 	// root create command
 	$text .= $this->btn_create();
 	
 	// root ul
-	$text .=  '<ul class="sub_elems root">'."\n";
+	$text .=  '<ul class="tm-sub_elems tm-root">'."\n";
 	
 	while($item = SQL::fetch($result)) {
 	    
@@ -170,7 +166,7 @@ class Layout_as_tree_manager extends Layout_interface {
 	    
 	    // title
 	    $title = Codes::beautify_title($entity->get_title());	    	    
-	    $title = '<a class="zoom"><span class="folder">'.$title.'</span></a>';
+	    $title = '<a class="tm-zoom"><span class="tm-folder">'.$title.'</span></a>';
 	    
 	    // sub elements of this entity	    	    
 	    $sub = $this->get_sub_level($entity);	
@@ -179,7 +175,7 @@ class Layout_as_tree_manager extends Layout_interface {
 	    $cmd = $this->btn_create().$this->btn_delete();
 	    
 	    // one <li> per entity of this level of the tree
-	    $text .= '<li class="drag drop" data-ref="'.$entity->get_reference().'">'.$title.$cmd.$sub.'</li>'."\n";		    	    	    
+	    $text .= '<li class="tm-drag tm-drop" data-ref="'.$entity->get_reference().'">'.$title.$cmd.$sub.'</li>'."\n";		    	    	    
 	    
 	}
 	

@@ -1,33 +1,46 @@
-/* 
+/** 
+ * stylesheet for layout_as_tree_manager
+ *
+ * tags consit mainly of <ul> and <li> 
+ *
+ * all classes and id begin with tm- (for tree manager)
+ *
  * @author Alexis Raimbault
  * @reference
  */
  
+ /* root contain floating elements, 
+ and let enought spaces arround them to drag elements */
+ .tm-root {padding:2em; overflow: hidden;}
  
- .root {padding:2em; overflow: hidden;}
+ /* no list decoration */ 
+ .tm-root, .tm-root ul{list-style: none;}
  
- .root, .root ul{list-style: none;}
- 
- .root > .drop {
+ /* main viewed elements are rendred as blocks */
+ .tm-root > .tm-drop {
      float : left;
      margin : 0.2em;
      padding : 0.5em;
      border : 1px solid grey;
-     border-radius : 3px;
+     border-radius : 3px;         
  }
  
- .hoverdrop {
+ /* hilight drop targets when hovered */
+ .tm-hoverdrop {
      background : rgba(20,20,50,.1);
  }
 
- li .cmd {visibility: hidden;}
- li:hover > .cmd {visibility: visible;}
+ /* show entry binded commands only when hovering them */
+ li .tm-cmd {visibility: hidden;}
+ li:hover > .tm-cmd {visibility: visible;}
  
- .cmd {padding: 2px;} 
- #main_panel .cmd:hover {color:black;cursor: pointer;}
- #main_panel .create:hover {background: greenyellow;}
- #main_panel .delete:hover {background: red;}
+ /* rules for command buttons */
+ .tm-cmd {padding: 2px;} 
+ #main_panel .tm-cmd:hover {color:black;cursor: pointer;}
+ #main_panel .tm-create:hover {background: greenyellow;}
+ #main_panel .tm-delete:hover {background: red;}
  
+ /* built-in crumbs while zooming */
  .tm-crumbs {text-transform: capitalize;}
 
 

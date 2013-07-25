@@ -1733,11 +1733,25 @@ var Yacs = {
 // specific jquery extensions
 jQuery.fn.extend({
     
-    // @see http://stackoverflow.com/questions/6330431/jquery-bind-double-click-and-single-click-separately
+    
+    /** 
+     * This function enable to bind single click and dblclick on same objects. 
+     * The problem without it is that .click() is taking priority over dblclick()
+     * This function works with a small timer to wait for second click
+     * @see http://stackoverflow.com/questions/6330431/jquery-bind-double-click-and-single-click-separately
+     * 
+     * @param callback function what to do on single click
+     * @param callback function what to do on double click
+     * 
+     * callbacks are receiving as parameters the 
+     * jquery object clicked and the event
+     */
     click_n_dblclick: function(call_on_click, call_on_dblclick) {
 	
+	// DELAY is max time between to clicks of a double one
 	var DELAY = 700, clicks = 0, timer = null;
 	
+	// return for all jquery objects selected by $()
 	return this.each(function() {
 	    var obj = $(this);
 	    obj.on('click',function(e) {
@@ -1747,25 +1761,24 @@ jQuery.fn.extend({
 
 		    timer = setTimeout(function() {
 
-			call_on_click(obj,e);    //perform single-click action    
-			clicks = 0;		     //after action performed, reset counter
+			call_on_click(obj,e);   //perform single-click action    
+			clicks = 0;		//after action performed, reset counter
 
 		    }, DELAY);
 
 		} else {
 
 		    clearTimeout(timer);	//prevent single-click action
-		    call_on_dblclick(obj,e);  //perform double-click action
+		    call_on_dblclick(obj,e);	//perform double-click action
 		    clicks = 0;			//after action performed, reset counter
 		}
 
 	   }).on("dblclick", function(e){
-		e.preventDefault();  //cancel system double-click event
-	   });
-		
+		e.preventDefault();		//cancel system double-click event
+	   });		
 	});
     }
-});
+}); //end jQuery extends
 
 // initialize yacs
 $(document).ready(Yacs.onWindowLoad);
@@ -1779,5 +1792,3 @@ Yacs.spinningImage.src = url_to_root + 'skins/_reference/ajax/ajax_spinner.gif';
 // pre-load the image used at the working overlay
 Yacs.workingImage = new Image();
 Yacs.workingImage.src = url_to_root + 'skins/_reference/ajax/ajax_working.gif';
-
-
