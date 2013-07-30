@@ -179,7 +179,7 @@ var TreeManager = {
      * @param jquery obj the double clicked element
      * could be a <a><span> or a single <span>
      */
-    inputRename: function(title) {	
+    inputRename: function(title,e) {
 	
 	// display an input field instead of name
 	var input = $('<input type="text" name="rename"/>'); 
@@ -363,7 +363,7 @@ var TreeManager = {
      * 
      * @param jquery object that was clicked to ask for a zoom
      */
-    zoom:function (title) {
+    zoom:function (title,e) {	
 	
 	// get the anchor to zoom
 	var anchor = title.parents(".tm-drop").first();
