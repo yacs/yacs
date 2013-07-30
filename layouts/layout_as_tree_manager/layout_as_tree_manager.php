@@ -63,8 +63,8 @@ class Layout_as_tree_manager extends Layout_interface {
 		    
 		    // layout sub container
 		    $details[] = '<li class="tm-drag tm-drop" data-ref="'.$elem->get_reference()
-			    .'"><a class="tm-zoom"><span class="tm-folder">'
-			    .$elem->get_title().'</span></a>'."\n"
+			    .'"><a class="tm-zoom" href="'.$elem->get_permalink().'">'
+			    .'<span class="tm-folder">'.$elem->get_title().'</span></a>'."\n"
 			    .$cmd
 			    .$deeper.'</li>'; 
 		}		
@@ -165,8 +165,9 @@ class Layout_as_tree_manager extends Layout_interface {
 	    $entity = new $items_type($item);	   
 	    
 	    // title
-	    $title = Codes::beautify_title($entity->get_title());	    	    
-	    $title = '<a class="tm-zoom"><span class="tm-folder">'.$title.'</span></a>';
+	    $title = Codes::beautify_title($entity->get_title());
+	    $perma = $entity->get_permalink();
+	    $title = '<a class="tm-zoom" href="'.$perma.'"><span class="tm-folder">'.$title.'</span></a>';
 	    
 	    // sub elements of this entity	    	    
 	    $sub = $this->get_sub_level($entity);	

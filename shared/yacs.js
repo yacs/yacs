@@ -1744,7 +1744,7 @@ jQuery.fn.extend({
      * @param callback function what to do on double click
      * 
      * callbacks are receiving as parameters the 
-     * jquery object clicked and the event
+     * jquery object clicked
      */
     click_n_dblclick: function(call_on_click, call_on_dblclick) {
 	
@@ -1756,12 +1756,15 @@ jQuery.fn.extend({
 	    var obj = $(this);
 	    obj.on('click',function(e) {
 		clicks++;  //count clicks
+		
+		// prevent default action on click (links, etc..)
+		e.preventDefault();
 
 		if(clicks === 1) {
 
 		    timer = setTimeout(function() {
 
-			call_on_click(obj,e);   //perform single-click action    
+			call_on_click(obj);     //perform single-click action    
 			clicks = 0;		//after action performed, reset counter
 
 		    }, DELAY);
@@ -1769,7 +1772,7 @@ jQuery.fn.extend({
 		} else {
 
 		    clearTimeout(timer);	//prevent single-click action
-		    call_on_dblclick(obj,e);	//perform double-click action
+		    call_on_dblclick(obj);	//perform double-click action
 		    clicks = 0;			//after action performed, reset counter
 		}
 
