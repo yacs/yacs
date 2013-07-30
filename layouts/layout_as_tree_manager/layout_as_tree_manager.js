@@ -54,7 +54,7 @@ var TreeManager = {
 	    $(".tm-page").dblclick( function() {TreeManager.inputRename($(this));});
 	    
 	    // hide menu bar ( we could override clic action on item creation link instead )
-	    $('.tm-menu_bar').hide();
+	    $('.menu_bar').hide();
 	    
 	});	
 	
@@ -92,13 +92,13 @@ var TreeManager = {
     cmd: function (cmd) {			
 	
 	if(cmd.hasClass("tm-create")) {	   
-	    var anchor = cmd.parents(".tm-drop").first();	    
+	    var anchor = cmd.parents(".tm-drop").first(); // consider only folders	    
 	    TreeManager.inputCreate(anchor);
 	    return;
 	}
 	
 	if(cmd.hasClass("tm-delete")) {
-	    var anchor = cmd.parents(".tm-drop").first();
+	    var anchor = cmd.parents(".tm-drag").first(); // consider any draggable element 
 	    TreeManager.confirmDelete(anchor);
 	    return;
 	}	

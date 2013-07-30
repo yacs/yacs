@@ -100,8 +100,12 @@ class Layout_as_tree_manager extends Layout_interface {
 		// transform data to obj interface
 		$art = new Article($art);
 		
+		// build commands menu
+		$cmd = $this->btn_delete();
+		
 		// layout articles
-		$details[] = '<li class="tm-drag" data-ref="'.$art->get_reference().'"><span class="tm-page details">'.$art->get_title().'</span></li>';
+		$details[] = '<li class="tm-drag" data-ref="'.$art->get_reference().'"><span class="tm-page details">'
+			.$art->get_title().'</span>'.$cmd.'</li>';
 		
 	    }
 	}
@@ -114,7 +118,8 @@ class Layout_as_tree_manager extends Layout_interface {
 		$usr = new User($usr);
 		
 		// layout articles
-		$details[] = '<li class="tm-drag" data-ref="'.$usr->get_reference().'"><span class ="tm-user details">'.$usr->get_title().'</span></li>';
+		$details[] = '<li class="tm-drag" data-ref="'.$usr->get_reference().'"><span class ="tm-user details">'
+			.$usr->get_title().'</span></li>';
 		
 	    }
 	}
@@ -165,9 +170,7 @@ class Layout_as_tree_manager extends Layout_interface {
 	    $entity = new $items_type($item);	   
 	    
 	    // title
-	    $title = Codes::beautify_title($entity->get_title());
-	    $perma = $entity->get_permalink();
-	    $title = '<a class="tm-zoom" href="'.$perma.'"><span class="tm-folder">'.$title.'</span></a>';
+	    $title = '<a class="tm-zoom" href="'.$entity->get_permalink().'"><span class="tm-folder">'.$entity->get_title().'</span></a>';
 	    
 	    // sub elements of this entity	    	    
 	    $sub = $this->get_sub_level($entity);	
