@@ -620,7 +620,7 @@ function core_autoload($class) {
 	    break;	
 	default :
 	    // this is default architecture of Yacs
-	    include_once $context['path_to_root'].'/'.$class.'/'.$class.'.php';
+	    include_once $context['path_to_root'].$class.'/'.$class.'.php';
     }
 }
 // declare upper function as a autoloader to php
