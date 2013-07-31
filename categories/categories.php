@@ -1714,10 +1714,9 @@ Class Categories {
 				}
 
 				// link the reference to this weekly category
-				if($category) {
-					if($error = Members::assign($category, $reference))
-						Logger::error($error);
-				}
+				if($category) 
+				    Members::assign($category, $reference);
+						
 
 				// months are starting on day 1
 				$month = mktime(0,0,0, $stamp['mon'], 1, $stamp['year']);
@@ -1738,10 +1737,8 @@ Class Categories {
 				}
 
 				// link the reference to this monthly category
-				if($category) {
-					if($error = Members::assign($category, $reference))
-						Logger::error($error);
-				}
+				if($category)
+				    Members::assign($category, $reference);									
 			}
 		}
 
