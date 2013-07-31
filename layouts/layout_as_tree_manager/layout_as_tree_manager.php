@@ -112,14 +112,17 @@ class Layout_as_tree_manager extends Layout_interface {
 	
 	// layout users
 	if(isset($data ['user'])) {
-	    foreach($data['article'] as $usr) {
+	    foreach($data['user'] as $usr) {
 		
 		// transform data to obj interface
 		$usr = new User($usr);
 		
+		// build commands menu
+		$cmd = $this->btn_delete();
+		
 		// layout articles
 		$details[] = '<li class="tm-drag" data-ref="'.$usr->get_reference().'"><span class ="tm-user details">'
-			.$usr->get_title().'</span></li>';
+			.$usr->get_title().'</span>'.$cmd.'</li>';
 		
 	    }
 	}
@@ -181,7 +184,7 @@ class Layout_as_tree_manager extends Layout_interface {
 	    // one <li> per entity of this level of the tree
 	    $text .= '<li class="tm-drag tm-drop" data-ref="'.$entity->get_reference().'">'.$title.$cmd.$sub.'</li>'."\n";		    	    	    
 	    
-	}
+	}		
 	
 	// we have bounded styles and scripts, do not provide on ajax requests
 	if(!isset($context['AJAX_REQUEST']) || !$context['AJAX_REQUEST']) {

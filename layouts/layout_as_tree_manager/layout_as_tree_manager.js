@@ -69,10 +69,20 @@ var TreeManager = {
 	// count nb of sub elements
 	var nbsub = anchor.find("li").length;
 	
-	if(!nbsub)
-	    // no sub elements, delete it right now
-	    TreeManager.postDelete(anchor)
-	else
+	if(!nbsub) {
+	    // is anchor a folder ?
+	    if(!anchor.hasClass("tm-drop")) {
+		// check if parent is a category
+		var parent = anchor.parents(".tm-drop").first();
+		if( TreeManager.is_cat(parent.data('ref')) )
+		    // free the category assignment
+		    TreeManager.postBind(anchor,parent,'free'); 
+		else
+		    TreeManager.postDelete(anchor);
+	    } else
+		// no sub elements, delete it right now
+		TreeManager.postDelete(anchor);
+	} else
 	    // ask for a confirmation
 	    Yacs.displayModalBox({
 		title : 'Suppress',
@@ -128,17 +138,14 @@ var TreeManager = {
      * @param e the event
      * @param ui a jquery-ui object
      */
-    elemDroped: function (e,ui) {
-	
-	// get reference to target and moved objects
-	TreeManager.tarRef = $(this).data("ref");
-	TreeManager.movRef = ui.draggable.data("ref");				
-	
-	TreeManager.dragItem = ui.draggable;
-	TreeManager.dropItem = $(this);
-	
-	// post a move
-	TreeManager.postMove(ui.draggable,$(this));
+    elemDroped: function (e,ui) {	
+			
+	if(!TreeManager.is_cat(ui.draggable.data("ref")) && TreeManager.is_cat($(this).data("ref")))
+	    // post a assignment
+	    TreeManager.postBind(ui.draggable, $(this), 'assign');
+	else
+	    // post a move
+	    TreeManager.postMove(ui.draggable, $(this));
 		
     },               
     
@@ -200,6 +207,39 @@ var TreeManager = {
 	
 	// input new name right now !
 	input.focus();	
+    },
+    
+    /**
+     * tells if reference is from a category or not
+     */
+    is_cat:function(ref) {
+	
+	ref = ref.split(":");
+	
+	if(ref[0]=='category')
+	    return true
+	else
+	    return false;	
+    },
+
+    postBind:function(anchor,cat,way) {
+	
+	Yacs.startWorking();
+	$.post(
+	    tm_ajaxUrl,
+	    {action : 'bind', anchor : anchor.data('ref'), cat : cat.data('ref'), way: way}
+	).done(function( data ) { 
+	    if( data.success ) {
+		if(way == 'free')
+		    // free element
+		    anchor.remove();
+		else if(way == 'assign') {
+		    var newanch = anchor.clone();
+		    TreeManager.dropping(newanch,cat);
+		}
+	    }
+	    Yacs.stopWorking();
+	});
     },
    
     /**
