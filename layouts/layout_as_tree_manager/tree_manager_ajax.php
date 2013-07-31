@@ -39,6 +39,34 @@ if(!isset($_REQUEST['action']) || !$_REQUEST['action'])
 // diffrent things to do depending on "action"
 switch($_REQUEST['action']) {
     
+    // assign or free a anchor to a category
+    case 'bind':
+	// reference to object and target are mandatory
+	if(!isset($_REQUEST['anchor']) || !$_REQUEST['anchor']
+		|| !isset($_REQUEST['cat']) || !$_REQUEST['cat'] )
+	    die_on_invalid ();
+	
+	// assign or free ? assign by default
+	$way = (isset($_REQUEST['way']))?$_REQUEST['way']:'assign';
+	
+	// get object interface
+	$anchor = Anchors::get($_REQUEST['anchor']);
+	$cat =Anchors::get($_REQUEST['cat']);
+	
+	// check
+	if(!is_object($anchor) && !is_object($cat) && $cat->get_type() != 'category') {
+	    $output['success'] = false;
+	    break;
+	}
+	
+	if($way == 'assign')
+	    Members::assign ($cat->get_reference(), $anchor->get_reference ());	    
+	else
+	    Members::free ($cat->get_reference(), $anchor->get_reference ());
+	
+	$output['success'] = true;
+	break;
+	    
     // create a new object under a given anchor, same kind as anchor
     // this means to build a hierarchy, eg sections or categories
     case 'create':
