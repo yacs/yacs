@@ -60,11 +60,10 @@ switch($_REQUEST['action']) {
 	}
 	
 	if($way == 'assign')
-	    Members::assign ($cat->get_reference(), $anchor->get_reference ());	    
+	    $output['success'] = Members::assign ($cat->get_reference(), $anchor->get_reference ());	    
 	else
-	    Members::free ($cat->get_reference(), $anchor->get_reference ());
-	
-	$output['success'] = true;
+	    $output['success'] = Members::free ($cat->get_reference(), $anchor->get_reference ());
+		
 	break;
 	    
     // create a new object under a given anchor, same kind as anchor
