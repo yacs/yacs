@@ -119,8 +119,8 @@ var TreeManager = {
      * called to finish the dropping animation, when
      * reply to ajax request was a success
      * 
-     * @param jquery obj dragged
-     * @param jquery obj drop target
+     * @param obj jquery obj dragged
+     * @param tar jquery obj drop target
      */
     dropping: function (obj,tar) {		
 	
@@ -153,7 +153,7 @@ var TreeManager = {
      * called after pressing create button binded to a entry
      * build a input to ask for new element title
      * 
-     * @param jquery obj the anchor which will receive the new entry
+     * @param anchor jquery obj the anchor which will receive the new entry
      */
     inputCreate: function(anchor) {
 	
@@ -183,10 +183,10 @@ var TreeManager = {
      * called after dblclicking on a entry name
      * build a input to ask for renaming
      * 
-     * @param jquery obj the double clicked element
+     * @param title jquery obj the double clicked element
      * could be a <a><span> or a single <span>
      */
-    inputRename: function(title,e) {
+    inputRename: function(title) {
 	
 	// display an input field instead of name
 	var input = $('<input type="text" name="rename"/>'); 
@@ -222,6 +222,16 @@ var TreeManager = {
 	    return false;	
     },
 
+    /**
+     * this function perform the ajax request to assign or free a element to a 
+     * category. If succeed the element is either clone and added under the target 
+     * category or removed from his parent category
+     * @see layouts/layout_as_tree_manager/tree_manager_ajax.php
+     * 
+     * @param anchor jquery object the dragged element or deleted element
+     * @param cat jquery object the target cat or the parent cat
+     * @param way string what to do : 'assign' or 'free'
+     */
     postBind:function(anchor,cat,way) {
 	
 	Yacs.startWorking();
@@ -247,8 +257,8 @@ var TreeManager = {
      * if succeed, create DOM elements to represent the newly created entry
      * @see layouts/layout_as_tree_manager/tree_manager_ajax.php
      * 
-     * @param jquery object the anchor under which element is created ( <li> )
-     * @param jquery object the input containning the new element's name  
+     * @param anchor jquery object the anchor under which element is created ( <li> )
+     * @param input jquery object the input containning the new element's name  
      */
     postCreate:function (anchor,input) {
 	
@@ -306,7 +316,7 @@ var TreeManager = {
      * if succeed it delete the binded tags
      * @see layouts/layout_as_tree_manager/tree_manager_ajax.php
      * 
-     * @param jquery object the anchor to delete ( <li> )
+     * @param anchor jquery object the anchor to delete ( <li> )
      */
     postDelete: function (anchor) {
 	
@@ -327,8 +337,8 @@ var TreeManager = {
      * if succeed or not it animate the end of dropping or reverse movment back to former place
      * @see layouts/layout_as_tree_manager/tree_manager_ajax.php
      * 
-     * @param jquery object the dragged one ( <li> )
-     * @param jquery object the drop target ( <li> too, or root <ul> )
+     * @param obj jquery object the dragged one ( <li> )
+     * @param tar jquery object the drop target ( <li> too, or root <ul> )
      */
     postMove: function (obj,tar) {
 	
@@ -338,7 +348,7 @@ var TreeManager = {
 	Yacs.startWorking();
 	$.post(
 	    tm_ajaxUrl,
-	    {action : 'move', obj : obj.data('ref'), tar : tar.data('ref')}
+	    {action : 'move', anchor : obj.data('ref'), tar : tar.data('ref')}
 	).done(function( data ) {
 				
 		if(data.success) {	
@@ -358,8 +368,8 @@ var TreeManager = {
      * if succeed the new name is setted
      * @see layouts/layout_as_tree_manager/tree_manager_ajax.php
      * 
-     * @param jquery object the title to change ( <a><span> or <span> )
-     * @param jquery object the input containning the new name
+     * @param title jquery object the title to change ( <a><span> or <span> )
+     * @param input jquery object the input containning the new name
      */
     postRename: function(title,input) {
     
@@ -401,9 +411,9 @@ var TreeManager = {
      * 
      * The breadcrumbs is updated to enable zoomOut
      * 
-     * @param jquery object that was clicked to ask for a zoom
+     * @param title jquery object that was clicked to ask for a zoom
      */
-    zoom:function (title,e) {	
+    zoom:function (title) {	
 	
 	// get the anchor to zoom
 	var anchor = title.parents(".tm-drop").first();
@@ -476,7 +486,7 @@ var TreeManager = {
      * re-enabled
      * @see layouts/layout_as_tree_manager/tree_manager_ajax.php
      * 
-     * @param jquery object the clicked link in breadcrumbs
+     * @param title jquery object the clicked link in breadcrumbs
      */
     zoomOut:function(title) {
 		
