@@ -285,7 +285,7 @@ if(Surfer::is_crawler()) {
 		// do the action, and clear the cache
 		$count = 0;
 		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
-			if(!$error = Members::assign($_REQUEST['associate_to'], 'article:'.$id))
+			if(Members::assign($_REQUEST['associate_to'], 'article:'.$id))
 				$count++;
 		}
 
@@ -307,7 +307,7 @@ if(Surfer::is_crawler()) {
 		// do it, and clear the cache
 		$count = 0;
 		foreach($_REQUEST['selected_sections'] as $dummy => $id) {
-			if(!$error = Members::assign($_REQUEST['associate_to'], 'section:'.$id))
+			if(Members::assign($_REQUEST['associate_to'], 'section:'.$id))
 				$count++;
 		}
 
