@@ -143,9 +143,12 @@ abstract class Anchor {
 	 */
 	function __construct($item=NULL) {
 	    
-	    if($item) {
-		$anchor = Anchors::get($item['anchor']);
-		// bound item, anchor and overlay data to object
+	    if($item) {		
+		if(isset($item['anchor']))
+		    $anchor = Anchors::get($item['anchor']);
+		else
+		    $anchor = NULL;
+		// bind item, anchor and overlay data to object
 		$this->load_by_content($item, $anchor);
 	    }
 	}
