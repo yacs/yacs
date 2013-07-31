@@ -35,39 +35,44 @@ class Layout_as_tree_manager extends Layout_interface {
      * 
      * @param object $entity an containning anchor (section or category)
      */
-    private function get_sub_level($entity) {
+    private function get_sub_level($entity, $no_folders = false) {
 	
+	// we return a string
+	$sub = '';
 	// data of subelements of this entity
 	$data = array();
 	// html formated sub elements 	
 	$details = array();
-	$sub = "\n".'<ul class="tm-sub_elems">'."\n";
+	if(!$no_folders)
+	    $sub .= "\n".'<ul class="tm-sub_elems">'."\n";
 	
 	$class = $this->listed_type;
 	
-	// look for sub-containers, should be either categories or sections
-	$data = $entity->get_childs($class,0,200,'raw');	    	   			
+	if(!$no_folders) {
+	    // look for sub-containers, should be either categories or sections
+	    $data = $entity->get_childs($class,0,200,'raw');	    	   			
 
-	// layout hierarchy
-	if(isset($data [$class])) {
-	    foreach($data [$class] as $elem ) {
+	    // layout hierarchy
+	    if(isset($data [$class])) {
+		foreach($data [$class] as $elem ) {
 
-		    // transform data to obj interface
-		    $elem = new $class($elem);
-		    
-		    // go deeper in tree hierarchy with a recursive call
-		    $deeper = $this->get_sub_level($elem);
-		    
-		    // build commands menu
-		    $cmd = $this->btn_create().$this->btn_delete();
-		    
-		    // layout sub container
-		    $details[] = '<li class="tm-drag tm-drop" data-ref="'.$elem->get_reference()
-			    .'"><a class="tm-zoom" href="'.$elem->get_permalink().'">'
-			    .'<span class="tm-folder">'.$elem->get_title().'</span></a>'."\n"
-			    .$cmd
-			    .$deeper.'</li>'; 
-		}		
+			// transform data to obj interface
+			$elem = new $class($elem);
+
+			// go deeper in tree hierarchy with a recursive call
+			$deeper = $this->get_sub_level($elem);
+
+			// build commands menu
+			$cmd = $this->btn_create().$this->btn_delete();
+
+			// layout sub container
+			$details[] = '<li class="tm-drag tm-drop" data-ref="'.$elem->get_reference()
+				.'"><a class="tm-zoom" href="'.$elem->get_permalink().'">'
+				.'<span class="tm-folder">'.$elem->get_title().'</span></a>'."\n"
+				.$cmd
+				.$deeper.'</li>'; 
+		    }		
+	    }
 	}
 	
 	// look for section as pages, but only for categories browsing
@@ -80,9 +85,13 @@ class Layout_as_tree_manager extends Layout_interface {
 
 		    // transform data to obj interface
 		    $sec = new Section($sec);
+		    
+		    // build commands menu
+		    $cmd = $this->btn_delete();
 
 		    // layout articles
-		    $details[] = '<li class="tm-drag" data-ref="'.$sec->get_reference().'"><span class="tm-page details">'.$sec->get_title().'</span></li>';
+		    $details[] = '<li class="tm-drag" data-ref="'.$sec->get_reference().'"><span class="tm-page details">'
+			    .$sec->get_title().'</span>'.$cmd.'</li>';
 
 		}
 	    }
@@ -132,7 +141,8 @@ class Layout_as_tree_manager extends Layout_interface {
 	if(count($details))
 	    $sub .= implode("\n",$details);
 
-	$sub .= '</ul>'."\n";
+	if(!$no_folders)
+	    $sub .= '</ul>'."\n";
 	
 	return $sub;	
     }
@@ -184,7 +194,13 @@ class Layout_as_tree_manager extends Layout_interface {
 	    // one <li> per entity of this level of the tree
 	    $text .= '<li class="tm-drag tm-drop" data-ref="'.$entity->get_reference().'">'.$title.$cmd.$sub.'</li>'."\n";		    	    	    
 	    
-	}		
+	}	
+	
+	// this level may have childs that are not folders
+	if(isset($context['current_item']) && $context['current_item']) {
+	    $thislevel = Anchors::get($context['current_item']);
+	    $text .= $this->get_sub_level($thislevel,true); // do not search for folders
+	}
 	
 	// we have bound styles and scripts, do not provide on ajax requests
 	if(!isset($context['AJAX_REQUEST']) || !$context['AJAX_REQUEST']) {

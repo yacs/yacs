@@ -17,14 +17,19 @@
  .tm-root, .tm-root ul{list-style: none;}
  
  /* main viewed elements are rendred as blocks */
+ .tm-root > .tm-drag {
+     float : left;
+     clear : left;
+ } 
  .tm-root > .tm-drop {
      float : left;
+     clear : none;
      margin : 0.2em;
      padding : 0.5em;
      border : 1px solid grey;
      border-radius : 3px;         
  }
- 
+
  /* hilight drop targets when hovered */
  .tm-hoverdrop {
      background : rgba(20,20,50,.1);
