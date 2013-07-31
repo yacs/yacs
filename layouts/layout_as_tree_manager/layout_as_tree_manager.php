@@ -186,7 +186,7 @@ class Layout_as_tree_manager extends Layout_interface {
 	    
 	}		
 	
-	// we have bounded styles and scripts, do not provide on ajax requests
+	// we have bound styles and scripts, do not provide on ajax requests
 	if(!isset($context['AJAX_REQUEST']) || !$context['AJAX_REQUEST']) {
 	    $this->load_scripts_n_styles();
 	

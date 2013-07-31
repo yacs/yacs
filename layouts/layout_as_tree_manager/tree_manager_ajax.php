@@ -114,13 +114,13 @@ switch($_REQUEST['action']) {
     // move an anchor under another	
     case 'move':
 	// reference to object and target are mandatory
-	if(!isset($_REQUEST['obj']) || !$_REQUEST['obj']
+	if(!isset($_REQUEST['anchor']) || !$_REQUEST['anchor']
 		|| !isset($_REQUEST['tar']) || !$_REQUEST['tar'] )
 	    die_on_invalid ();
 	
 	
 	// get the object to move
-	$obj = Anchors::get($_REQUEST['obj']);
+	$obj = Anchors::get($_REQUEST['anchor']);
 	// get the target object, exept if it is root
 	if(!preg_match('/index^/', $_REQUEST['tar']))	    
 	  $tar = Anchors::get($_REQUEST['tar']);
@@ -131,7 +131,7 @@ switch($_REQUEST['action']) {
 	if(!is_object($obj) || !isset($tar)) {
 	    // anchors not founded
 	    $output['success'] = false;	    	    
-	} elseif ($_REQUEST['obj'] == $_REQUEST['tar'] || $_REQUEST['tar'] == $obj->item['anchor']) {
+	} elseif ($_REQUEST['anchor'] == $_REQUEST['tar'] || $_REQUEST['tar'] == $obj->item['anchor']) {
 	    // wrong move : to itself or same parent, nothing to do
 	    $output['success'] = false;
 	} else {	    
