@@ -333,7 +333,7 @@ if($here = strrpos($context['host_name'], ':'))
 	$context['host_name'] = substr($context['host_name'], 0, $here);
 
 // master host name, won't be override by vhost 
-$context['master_host'] = $context['host_name'];
+$context['master_host'] = $context['main_host'];
 
 // load skins parameters, if any
 Safe::load('parameters/skins.include.php');
