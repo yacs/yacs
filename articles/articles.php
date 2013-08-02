@@ -495,12 +495,12 @@ Class Articles {
 	 *
 	 * This function returns TRUE if the page can be published,
 	 * and FALSE otherwise.
-	 *
-	 * @param object an instance of the Anchor interface
+	 *	 
 	 * @param array a set of item attributes, aka, the target article
+	 * @param object an instance of the Anchor interface
 	 * @return TRUE or FALSE
 	 */
-	public static function allow_publication($anchor, $item) {
+	public static function allow_publication($item,$anchor) {
 		global $context;
 
 		// sanity check

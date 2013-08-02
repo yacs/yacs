@@ -74,7 +74,7 @@ if(Surfer::is_crawler()) {
 	include '../error.php';
 
 // publication is restricted to some people
-} elseif(!Articles::allow_publication($anchor, $item)) {
+} elseif(!Articles::allow_publication($item,$anchor)) {
 
 	// anonymous users are invited to log in
 	if(!Surfer::is_logged())

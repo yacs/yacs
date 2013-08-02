@@ -102,11 +102,11 @@ if(is_object($anchor) && ($parent = $anchor->get_parent()))
 	$parent = Anchors::get($parent);
 
 // we are allowed to add a new file
-if(!isset($item['id']) && is_object($anchor) && Files::allow_creation($parent, $anchor->get_values(), $anchor->get_type()))
+if(!isset($item['id']) && is_object($anchor) && Files::allow_creation($anchor->get_values(), $parent, $anchor->get_type()))
 	$permitted = TRUE;
 
 // we are allowed to modify an existing file
-elseif(isset($item['id']) && Files::allow_modification($anchor, $item))
+elseif(isset($item['id']) && Files::allow_modification($item, $anchor))
 	$permitted = TRUE;
 
 // the default is to disallow access

@@ -159,12 +159,12 @@ Class Files {
 	 * This function returns TRUE if files can be added to some place,
 	 * and FALSE otherwise.
 	 *
-	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
+	 * @param object an instance of the Anchor interface, if any
 	 * @param string the type of item, e.g., 'article' or 'section'
 	 * @return boolean TRUE or FALSE
 	 */
-	public static function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
+	public static function allow_creation($item=NULL, $anchor=NULL, $variant=NULL) {
 		global $context;
 
 		// guess the variant
@@ -311,12 +311,12 @@ Class Files {
 	 *
 	 * This function returns TRUE if the file can be modified,
 	 * and FALSE otherwise.
-	 *
-	 * @param object an instance of the Anchor interface
+	 *	 
 	 * @param array a set of item attributes, aka, the target file
+	 * @param object an instance of the Anchor interface
 	 * @return TRUE or FALSE
 	 */
-	public static function allow_modification($anchor, $item) {
+	public static function allow_modification($item, $anchor) {
 		global $context;
 
 		// sanit check

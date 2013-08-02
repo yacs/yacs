@@ -157,7 +157,7 @@ Class Layout_files extends Layout_interface {
 			}
 
 			// detach or edit the file
-			if(Files::allow_modification($anchor, $item)) {
+			if(Files::allow_modification($item, $anchor)) {
 
 				if(!isset($item['assign_id']) || !$item['assign_id'])
 					$details[] = Skin::build_link(Files::get_url($item['id'], 'reserve'), i18n::s('reserve'), 'basic', i18n::s('Prevent other persons from changing this file until you update it'));

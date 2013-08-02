@@ -294,7 +294,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			$box['bar'] += Skin::navigate($url, $prefix, $count, FILES_PER_PAGE, 0);
 
 			// the command to post a new file, if allowed
-			if(Files::allow_creation($anchor, $item, 'article')) {
+			if(Files::allow_creation($item, $anchor, 'article')) {
 				$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
 				$box['bar'] += array( $link => i18n::s('Add a file') );
 			}
@@ -332,7 +332,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			 && !($anchor->has_option('no_files') || preg_match('/\bno_files\b/i', $item['options']))) {
 
 			// add a file
-			if(Files::allow_creation($anchor, $item, 'article')) {
+			if(Files::allow_creation($item, $anchor, 'article')) {
 				if($context['with_friendly_urls'] == 'Y')
 					$link = 'files/edit.php/article/'.$item['id'];
 				else

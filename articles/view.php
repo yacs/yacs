@@ -520,7 +520,7 @@ if(!isset($item['id'])) {
 
 		// signal articles to be published
 		if(($item['publish_date'] <= NULL_DATE)) {
-			if(Articles::allow_publication($anchor, $item))
+			if(Articles::allow_publication($item,$anchor))
 				$label = Skin::build_link(Articles::get_url($item['id'], 'publish'), i18n::s('not published'));
 			else
 				$label = i18n::s('not published');
@@ -763,7 +763,7 @@ if(!isset($item['id'])) {
 		$items =& Members::list_categories_by_title_for_member('article:'.$item['id'], $offset, CATEGORIES_PER_PAGE, 'sidebar');
 
 		// the command to change categories assignments
-		if(Categories::allow_creation($anchor, $item))
+		if(Categories::allow_creation($item,$anchor))
 			$items = array_merge($items, array( Categories::get_url('article:'.$item['id'], 'select') => i18n::s('Assign categories') ));
 
 		// actually render the html for the section
@@ -1056,7 +1056,7 @@ if(!isset($item['id'])) {
 				$box['text'] .= $items;
 
 			// the command to post a new file
-			if(!$compact && Files::allow_creation($anchor, $item, 'article')) {
+			if(!$compact && Files::allow_creation($item,$anchor, 'article')) {
 				Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 				$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Add a file'));
 			}
@@ -1186,7 +1186,7 @@ if(!isset($item['id'])) {
 	}
 
 	// attach a file, if upload is allowed
-	if(Files::allow_creation($anchor, $item, 'article')) {
+	if(Files::allow_creation($item, $anchor, 'article')) {
 		Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 		$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
 	}
@@ -1218,13 +1218,13 @@ if(!isset($item['id'])) {
 	}
 
 	// publish this page
-	if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Articles::allow_publication($anchor, $item)) {
+	if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Articles::allow_publication($item,$anchor)) {
 		Skin::define_img('ARTICLES_PUBLISH_IMG', 'articles/publish.gif');
 		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), ARTICLES_PUBLISH_IMG.i18n::s('Publish'));
 	}
 
 	// review various dates
-	if(Articles::allow_publication($anchor, $item)) {
+	if(Articles::allow_publication($item,$anchor)) {
 		Skin::define_img('ARTICLES_STAMP_IMG', 'articles/stamp.gif');
 		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'stamp'), ARTICLES_STAMP_IMG.i18n::s('Stamp'));
 	}

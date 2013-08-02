@@ -260,7 +260,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		if($count = Files::count_for_anchor('article:'.$item['id'])) {
 
 			// the command to post a new file, if allowed
-			if(Files::allow_creation($anchor, $item, 'article')) {
+			if(Files::allow_creation($item,$anchor, 'article')) {
 				$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
 				$box['top_bar'] += array( $link => i18n::s('Add a file') );
 			}
@@ -319,7 +319,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 			 && !($anchor->has_option('no_files') || preg_match('/\bno_files\b/i', $item['options']))) {
 
 			// attach a file
-			if(Files::allow_creation($anchor, $item, 'article')) {
+			if(Files::allow_creation($item,$anchor, 'article')) {
 				if($context['with_friendly_urls'] == 'Y')
 					$link = 'files/edit.php/article/'.$item['id'];
 				else

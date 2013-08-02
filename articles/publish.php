@@ -64,7 +64,7 @@ if(isset($item['anchor']))
 	$anchor = Anchors::get($item['anchor']);
 
 // surfer can proceed
-if(Articles::allow_publication($anchor, $item)) {
+if(Articles::allow_publication($item,$anchor)) {
 	Surfer::empower();
 	$permitted = TRUE;
 

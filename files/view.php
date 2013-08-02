@@ -498,7 +498,7 @@ if(!isset($item['id'])) {
 	$description = '';
 
 	// the list of people who have fetched this file, for owners and associates
-	if(Files::allow_modification($anchor, $item) && ($users = Activities::list_users_at('file:'.$item['id'], 'fetch', 30, 'comma'))) {
+	if(Files::allow_modification($item, $anchor) && ($users = Activities::list_users_at('file:'.$item['id'], 'fetch', 30, 'comma'))) {
 
 		$count = Activities::count_users_at('file:'.$item['id'], 'fetch');
 		if($count > 30)
@@ -832,7 +832,7 @@ if(!isset($item['id'])) {
 	$context['text'] .= '<p>'.i18n::s('While every care has been taken to ensure that files published on this server have not been infected by any known virus, please always use and activate specialized software on your computer to achieve an optimal protection.')."</p>\n";
 
 	// file is also available for detach
-	if(Files::allow_modification($anchor, $item) && Surfer::get_id() && (!isset($item['assign_id']) || ($item['assign_id'] < 1))) {
+	if(Files::allow_modification($item, $anchor) && Surfer::get_id() && (!isset($item['assign_id']) || ($item['assign_id'] < 1))) {
 
 		// the detach link
 		$link = $context['url_to_root'].Files::get_url($item['id'], 'reserve');
@@ -861,7 +861,7 @@ if(!isset($item['id'])) {
 	//
 
 	// update tools
-	if(Files::allow_modification($anchor, $item)) {
+	if(Files::allow_modification($item, $anchor)) {
 
 		// modify this page
 		Skin::define_img('FILES_EDIT_IMG', 'files/edit.gif');

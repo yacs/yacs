@@ -821,7 +821,7 @@ if($with_form) {
 
 		// files
 		$box = '';
-		if(Files::allow_creation($anchor, $item, 'section')) {
+		if(Files::allow_creation($item, $anchor, 'section')) {
 			$menu = array( 'files/edit.php?anchor='.urlencode('section:'.$item['id']) => i18n::s('Add a file') );
 			$box .= Skin::build_list($menu, 'menu_bar');
 		}

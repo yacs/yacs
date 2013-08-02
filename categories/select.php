@@ -43,7 +43,7 @@ if($member)
 	$anchor = Anchors::get($member);
 
 // do we have the permission to add new categories?
-if(Categories::allow_creation($anchor))
+if(Categories::allow_creation(NULL, $anchor))
 	$permitted = TRUE;
 else
 	$permitted = FALSE;

@@ -555,7 +555,7 @@ if(!isset($item['id'])) {
 
 		// the command to post a new file
 		$url = 'files/edit.php?anchor='.urlencode('category:'.$item['id']);
-		if(Files::allow_creation($anchor, $item, 'category')) {
+		if(Files::allow_creation($item, $anchor, 'category')) {
 			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 			$box['bar'] += array( $url => FILES_UPLOAD_IMG.i18n::s('Add a file') );
 		}
@@ -710,7 +710,7 @@ if(!isset($item['id'])) {
 			Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $zoom_index));
 
 		// the command to post a new category
-		if($stats['count'] && Categories::allow_creation($anchor, $item)) {
+		if($stats['count'] && Categories::allow_creation($item,$anchor)) {
 			$url = 'categories/edit.php?anchor='.urlencode('category:'.$item['id']);
 			$box['bar'] += array( $url => i18n::s('Add a category') );
 		}
@@ -818,7 +818,7 @@ if(!isset($item['id'])) {
 	if(!$zoom_type && Surfer::is_associate()) {
 
 		// add a category
-		if(Categories::allow_creation($anchor, $item)) {
+		if(Categories::allow_creation($item,$anchor)) {
 			Skin::define_img('CATEGORIES_ADD_IMG', 'categories/add.gif');
 			$context['page_tools'][] = Skin::build_link('categories/edit.php?anchor='.urlencode('category:'.$item['id']), CATEGORIES_ADD_IMG.i18n::s('Add a category'), 'basic');
 		}
@@ -830,7 +830,7 @@ if(!isset($item['id'])) {
 		}
 
 		// add a file, if upload is allowed
-		if(Files::allow_creation($anchor, $item, 'category')) {
+		if(Files::allow_creation($item, $anchor, 'category')) {
 			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
 		}
