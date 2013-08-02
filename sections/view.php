@@ -803,7 +803,7 @@ if(!isset($item['id'])) {
 		$items =& Members::list_categories_by_title_for_member('section:'.$item['id'], $offset, CATEGORIES_PER_PAGE, 'sidebar');
 
 		// the command to change categories assignments
-		if(Categories::allow_creation($anchor, $item))
+		if(Categories::allow_creation($item,$anchor))
 			$items = array_merge($items, array( Categories::get_url('section:'.$item['id'], 'select') => i18n::s('Assign categories') ));
 
 		// actually render the html for the section
@@ -1195,7 +1195,7 @@ if(!isset($item['id'])) {
 		}
 
 		// the command to post a new file -- check 'with_files' option
-		if(Files::allow_creation($anchor, $item, 'section')) {
+		if(Files::allow_creation($item, $anchor, 'section')) {
 			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 			$box['bar'] += array('files/edit.php?anchor='.urlencode('section:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Add a file') );
 		}
@@ -1492,7 +1492,7 @@ if(!isset($item['id'])) {
 	}
 
 	// add a file, if upload is allowed
-	if(Files::allow_creation($anchor, $item, 'section')) {
+	if(Files::allow_creation($item, $anchor, 'section')) {
 		Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 		$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
 	}

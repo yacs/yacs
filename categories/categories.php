@@ -127,13 +127,13 @@ Class Categories {
 	 * - global parameter 'users_without_submission' has been set to 'Y'
 	 *
 	 * Locked items can be further categorized.
-	 *
-	 * @param object an instance of the Anchor interface, if any
+	 *	 
 	 * @param array a set of item attributes, if any
+	 * @param object an instance of the Anchor interface, if any
 	 * @param string the type of item, e.g., 'section'
 	 * @return boolean TRUE or FALSE
 	 */
-	public static function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
+	public static function allow_creation($item=NULL, $anchor=NULL, $variant=NULL) {
 		global $context;
 
 		// surfer has to be an associate

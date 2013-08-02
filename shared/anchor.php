@@ -152,6 +152,34 @@ abstract class Anchor {
 		$this->load_by_content($item, $anchor);
 	    }
 	}
+	
+	/**
+	 * allow or block operations to current surfer
+	 *
+	 * @param string the kind of sub-item to handle
+	 * @param string the foreseen operation ('edit', 'new', ...)
+	 * @return TRUE if the operation is accepted, FALSE otherwise
+	 */
+	function allows($type, $action) {
+		global $context;
+
+		// cache the overlay, if any
+		if(!isset($this->overlay) && isset($this->item['overlay']))
+			$this->overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
+
+		// delegate the validation to the overlay
+		if(isset($this->overlay) && is_object($this->overlay) && is_callable(array($this->overlay, 'allows')))
+			return $this->overlay->allows($type, $action);
+		
+		// delegate validation to specific family class function, depending on 'action'
+		$group_class = $this->get_static_group_class();
+		$allow_func = 'allow_'.$action;
+		if(is_callable(array($group_class,$allow_func)))
+			return $group_class::$allow_func($this->item, $this->anchor, $type);
+
+		// blocked by default
+		return FALSE;
+	}
 
 	/**
 	 * alert watchers of this anchor

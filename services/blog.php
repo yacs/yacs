@@ -388,7 +388,7 @@
  * [subtitle]blogger.getUserInfo[/subtitle]
  *
  * If the user specified by the supplied username and password is found, then
- * the method returns information about that user, specifically: the user’s id,
+ * the method returns information about that user, specifically: the userï¿½s id,
  * first name, last name, nickname, e-mail address and URL. If the user is not
  * found, or their is an error processing the request then the method will
  * return a fault.
@@ -649,7 +649,7 @@ else {
 				// or if the surfer asks for it and add sufficient rights
 				if( ($context['users_with_auto_publish'] == 'Y')
 					|| (is_object($anchor) && $anchor->has_option('auto_publish'))
-					|| ($publish && Articles::allow_publication($anchor, $item)) ) {
+					|| ($publish && Articles::allow_publication($item,$anchor)) ) {
 					$fields['publish_name'] = $user['nick_name'];
 					$fields['publish_id'] = $user['id'];
 					$fields['publish_address'] = $user['email'];
@@ -1029,7 +1029,7 @@ else {
 			// or if the surfer asks for it and add sufficient rights
 			if( ($context['users_with_auto_publish'] == 'Y')
 				|| (is_object($section) && $section->has_option('auto_publish'))
-				|| ($publish && Articles::allow_publication($anchor, $item)) ) {
+				|| ($publish && Articles::allow_publication($item,$anchor)) ) {
 				$fields['publish_name'] = $user['nick_name'];
 				$fields['publish_id'] = $user['id'];
 				$fields['publish_address'] = $user['email'];
@@ -1175,7 +1175,7 @@ else {
 				// or if the surfer asks for it and add sufficient rights
 				if( ($context['users_with_auto_publish'] == 'Y')
 					|| (is_object($anchor) && $anchor->has_option('auto_publish'))
-					|| ($publish && Articles::allow_publication($anchor, $item)) ) {
+					|| ($publish && Articles::allow_publication($item,$anchor)) ) {
 					$fields['publish_name'] = $user['nick_name'];
 					$fields['publish_id'] = $user['id'];
 					$fields['publish_address'] = $user['email'];
@@ -1573,7 +1573,7 @@ else {
 			// or if the surfer asks for it and add sufficient rights
 			if( ($context['users_with_auto_publish'] == 'Y')
 				|| (is_object($section) && $section->has_option('auto_publish'))
-				|| ($publish && Articles::allow_publication($anchor, $item)) ) {
+				|| ($publish && Articles::allow_publication($item,$anchor)) ) {
 				$fields['publish_name'] = $user['nick_name'];
 				$fields['publish_id'] = $user['id'];
 				$fields['publish_address'] = $user['email'];

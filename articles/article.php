@@ -17,28 +17,7 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 Class Article extends Anchor {
-
-	/**
-	 * allow or block operations
-	 *
-	 * @param string the kind of item to handle
-	 * @param string the foreseen operation ('edit', 'new', ...)
-	 * @return TRUE if the operation is accepted, FALSE otherwise
-	 */
-	function allows($type, $action) {
-		global $context;
-
-		// cache the overlay, if any
-		if(!isset($this->overlay) && isset($this->item['overlay']))
-			$this->overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
-
-		// delegate the validation to the overlay
-		if(isset($this->overlay) && is_object($this->overlay) && is_callable(array($this->overlay, 'allows')))
-			return $this->overlay->allows($type, $action);
-
-		// blocked by default
-		return FALSE;
-	}
+	
 	
 	/**
 	 * list childs of this anchor, with or without type filters

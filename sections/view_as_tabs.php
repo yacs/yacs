@@ -573,7 +573,7 @@ if(!$zoom_type || ($zoom_type == 'files')) {
 	}
 
 	// the command to post a new file -- check 'with_files' option
-	if(Files::allow_creation($anchor, $item, 'section')) {
+	if(Files::allow_creation($item, $anchor, 'section')) {
 		Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 		$box['bar'] += array('files/edit.php?anchor='.urlencode('section:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Add a file') );
 	}
@@ -803,7 +803,7 @@ if(Comments::allow_creation($anchor, $item, 'section')) {
 }
 
 // add a file, if upload is allowed
-if(Files::allow_creation($anchor, $item, 'section')) {
+if(Files::allow_creation($item, $anchor, 'section')) {
 	Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 	$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
 }

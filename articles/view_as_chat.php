@@ -226,7 +226,7 @@ default:
 		$menu = array();
 
 		// option to add a file
-		if(Files::allow_creation($anchor, $item, 'article')) {
+		if(Files::allow_creation($item,$anchor, 'article')) {
 
 			// intput field to appear on demand
 			$context['text'] .= '<div id="comment_upload" style="display: none;">'
@@ -427,7 +427,7 @@ if($has_versions && Articles::is_owned($item, $anchor)) {
 }
 
 // publish this page
-if(Articles::allow_publication($anchor, $item)) {
+if(Articles::allow_publication($item,$anchor)) {
 
 	if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) {
 		Skin::define_img('ARTICLES_PUBLISH_IMG', 'articles/publish.gif');
@@ -483,7 +483,7 @@ if(!isset($item['locked']) || ($item['locked'] != 'Y'))
 
 // the command to post a new file -- do that in this window, since the surfer will be driven back here
 $invite = '';
-if(Files::allow_creation($anchor, $item, 'article')) {
+if(Files::allow_creation($item, $anchor, 'article')) {
 	Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 	$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
 	$invite = Skin::build_link($link, FILES_UPLOAD_IMG.i18n::s('Add a file'), 'basic').BR;

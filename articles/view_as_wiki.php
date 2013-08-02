@@ -141,7 +141,7 @@ if($count = Files::count_for_anchor('article:'.$item['id'], FALSE, $embedded)) {
 		$box['text'] .= $items;
 
 	// the command to post a new file
-	if(Files::allow_creation($anchor, $item, 'article')) {
+	if(Files::allow_creation($item, $anchor, 'article')) {
 		Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 		$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Add a file'));
 	}
@@ -309,7 +309,7 @@ if(Comments::allow_creation($anchor, $item)) {
 }
 
 // add a file, if upload is allowed
-if(Files::allow_creation($anchor, $item, 'article')) {
+if(Files::allow_creation($item, $anchor, 'article')) {
 	Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 	$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
 }
@@ -341,7 +341,7 @@ if($has_versions && Articles::is_owned($item, $anchor)) {
 }
 
 // publish this page
-if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Articles::allow_publication($anchor, $item)) {
+if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Articles::allow_publication($item,$anchor)) {
 	Skin::define_img('ARTICLES_PUBLISH_IMG', 'articles/publish.gif');
 	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), ARTICLES_PUBLISH_IMG.i18n::s('Publish'));
 }
