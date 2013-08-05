@@ -728,7 +728,7 @@ var Yacs = {
 
 		// show tips
 		$('a[title].tip').each(function() {
-			$(this).tipsy({fallback: $(this).attr('title'), gravity: $.fn.tipsy.autoNS, fade: true}).tipsy("show");
+			$(this).tipsy({title: 'title', gravity: $.fn.tipsy.autoNS, fade: true}).tipsy("show");
 		});
 
 		// close all tooltips on tabbing, etc
