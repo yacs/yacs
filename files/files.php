@@ -2447,7 +2447,7 @@ Class Files {
 		}
 
 		// instanciate the provided name
-		$layout = Anchors::new_layout($variant, 'file',false, true);
+		$layout = Layouts::new_($variant, 'file',false, true);
 
 		// do the job
 		$output = $layout->layout($result);

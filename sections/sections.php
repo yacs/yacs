@@ -2207,7 +2207,7 @@ Class Sections {
 			$silent = FALSE;
 
 		// provide context to layout
-		$layout = Anchors::new_layout($variant,'section',false,true);
+		$layout = Layouts::new_($variant,'section',false,true);
 		if($anchor)
 			$layout->set_variant($anchor);
 
@@ -2357,7 +2357,7 @@ Class Sections {
 		}
 
 		// get a layout
-		$layout = Anchors::new_layout($variant,'section',false,true);
+		$layout = Layouts::new_($variant,'section',false,true);
 
 		// do the job
 		$output = $layout->layout($result);

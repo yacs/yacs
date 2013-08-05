@@ -599,7 +599,9 @@ if(isset($_REQUEST['text']) && $_REQUEST['text']) {
 function core_autoload($class) {
     global $context;
     
-    switch(strtolower($class)) {
+    $class = strtolower($class);
+    
+    switch($class) {
 	case 'article':
 	    include_once $context['path_to_root'].'/articles/article.php';
 	    break;

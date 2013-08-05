@@ -121,7 +121,7 @@ if(Surfer::is_crawler()) {
 	if(!isset($item['sections_layout']))
 		$layout = 'decorated';
 	else
-		$layout = Anchors::new_layout($item['sections_layout'], 'section');	
+		$layout = Layouts::new_($item['sections_layout'], 'section');	
 
 	// the maximum number of sections per page
 	if(is_object($layout))
@@ -155,7 +155,7 @@ if(Surfer::is_crawler()) {
 	if(!isset($item['articles_layout']))
 		$layout = NULL;
 	else
-		$layout = Anchors::new_layout ($item['articles_layout'], 'article');
+		$layout = Layouts::new_ ($item['articles_layout'], 'article');
 
 	// the maximum number of articles per page
 	if(is_object($layout))

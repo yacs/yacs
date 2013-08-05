@@ -75,7 +75,7 @@ if(($page > 1) && (($page - 1) * CATEGORIES_PER_PAGE > $stats['count'])) {
 	if(!$text = Cache::get($cache_id)) {
 
 		// do it the Yahoo! style		
-		$layout = Anchors::new_layout('yahoo', 'category');
+		$layout = Layouts::new_('yahoo', 'category');
 
 		// the list of active categories
 		$offset = ($page - 1) * CATEGORIES_PER_PAGE;

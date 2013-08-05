@@ -339,7 +339,7 @@ if(!isset($item['id'])) {
 			$box['bottom'] += array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count));
 		
 		// load the choosen layout
-		$layout = Anchors::new_layout('last', 'article');
+		$layout = Layouts::new_('last', 'article');
 		$layout->set_variant($item['id']);
 
 		// navigation commands for articles
@@ -433,7 +433,7 @@ if(!isset($item['id'])) {
 		$offset = ($zoom_index - 1) * SECTIONS_PER_PAGE;
 
 		// list assigned by title		
-		$layout = Anchors::new_layout('rights', 'section');
+		$layout = Layouts::new_('rights', 'section');
 		$layout->set_variant($item['id']);
 		$items =& Sections::list_by_date_for_user($item['id'], $offset, SECTIONS_PER_PAGE, $layout);
 		if(is_array($items))

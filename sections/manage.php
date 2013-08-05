@@ -1048,7 +1048,7 @@ if(Surfer::is_crawler()) {
 	$text = '';
 
 	// managed articles
-	$layout = Anchors::new_layout('manage', 'article');
+	$layout = Layouts::new_('manage', 'article');
 
 	// avoid links to this page
 	if(is_object($layout) && is_callable(array($layout, 'set_variant')))
@@ -1158,7 +1158,7 @@ if(Surfer::is_crawler()) {
 	$text = '';
 
 	// managed sections
-	$layout = Anchors::new_layout('manage', 'section');
+	$layout = Layouts::new_('manage', 'section');
 
 	// avoid links to this page
 	if(is_object($layout) && is_callable(array($layout, 'set_variant')))

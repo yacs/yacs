@@ -2649,7 +2649,7 @@ Class Articles {
 		}
 
 		// instanciate the provided name
-		$layout = Anchors::new_layout($variant, 'article',false, true);						
+		$layout = Layouts::new_($variant, 'article',false, true);						
 
 		// do the job
 		$output = $layout->layout($result);
