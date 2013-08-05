@@ -109,7 +109,7 @@ if($page > 10) {
 	if(!$text = Cache::get($cache_id)) {
 
 		// load the layout to use
-		$layout = Anchors::new_layout('yahoo', 'section');
+		$layout = Layouts::new_('yahoo', 'section');
 		$layout->set_variant(20); // show more elements at the site map
 
 		// the list of active sections
@@ -148,7 +148,7 @@ if($page > 10) {
 		if(($page == 1) && Surfer::is_associate()) {
 
 			// load the layout to use
-			$layout = Anchors::new_layout('yahoo', 'section');
+			$layout = Layouts::new_('yahoo', 'section');
 			$layout->set_variant(20); // show more elements at the site map
 
 			// query the database and layout that stuff

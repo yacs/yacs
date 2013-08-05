@@ -980,7 +980,7 @@ if(!isset($item['id'])) {
 				include_once $context['path_to_root'].'articles/layout_articles.php';
 				$layout = new Layout_articles();
 			} else
-				$layout = Anchors::new_layout($item['articles_layout'], 'article');
+				$layout = Layouts::new_($item['articles_layout'], 'article');
 
 			// avoid links to this page
 			if(is_object($layout) && is_callable(array($layout, 'set_variant')))
@@ -1076,7 +1076,7 @@ if(!isset($item['id'])) {
 					include_once $context['path_to_root'].'articles/layout_articles.php';
 					$layout = new Layout_articles();
 				} else
-					$layout = Anchors::new_layout ($item['articles_layout'], 'article');
+					$layout = Layouts::new_ ($item['articles_layout'], 'article');
 
 				// avoid links to this page
 				if(is_object($layout) && is_callable(array($layout, 'set_variant')))
@@ -1120,7 +1120,7 @@ if(!isset($item['id'])) {
 		&& Surfer::is_empowered() ) {
 
 		// make a compact list		
-		$layout = Anchors::new_layout('compact', 'article');
+		$layout = Layouts::new_('compact', 'article');
 
 		// avoid links to this page
 		if(is_object($layout) && is_callable(array($layout, 'set_variant')))
@@ -1350,7 +1350,7 @@ if(!isset($item['id'])) {
 				include_once $context['path_to_root'].'sections/layout_sections.php';
 				$layout = new Layout_sections();
 			} else
-				$layout = Anchors::new_layout($item['sections_layout'], 'section');
+				$layout = Layouts::new_($item['sections_layout'], 'section');
 				
 
 			// the maximum number of sections per page

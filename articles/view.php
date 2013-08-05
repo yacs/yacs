@@ -1034,7 +1034,7 @@ if(!isset($item['id'])) {
 
 			// compact list of files
 			if($compact = Articles::has_option('files_as_compact', $anchor, $item)) {				
-				$layout = Anchors::new_layout('compact', 'file');
+				$layout = Layouts::new_('compact', 'file');
 				$layout->set_variant('article:'.$item['id']);
 
 			// standard list of files

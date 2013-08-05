@@ -339,7 +339,7 @@ if(Surfer::is_crawler()) {
 	}
 
 	// get a customized layout
-	$layout = Anchors::new_layout('mail', 'user');
+	$layout = Layouts::new_('mail', 'user');
 
 	// avoid links to this page
 	if(is_object($layout) && is_callable(array($layout, 'set_variant')))

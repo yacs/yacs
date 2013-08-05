@@ -317,7 +317,7 @@ elseif(($target_section = Sections::get($context['root_sections_at_home'])) && i
 } else {
 
 	// load the layout to use
-	$layout = Anchors::new_layout($context['root_sections_layout'], 'section');
+	$layout = Layouts::new_($context['root_sections_layout'], 'section');
 
 	// the maximum number of sections
 	if(is_object($layout))
@@ -356,7 +356,7 @@ if(is_callable(array('Hooks', 'include_scripts')))
 switch($context['root_articles_layout']) {
 case 'compact':
 case 'decorated':
-	$layout = Anchors::new_layout($context['root_articles_layout'], 'article');
+	$layout = Layouts::new_($context['root_articles_layout'], 'article');
 	break;
 case 'no_articles':
 	$layout = NULL;
@@ -364,7 +364,7 @@ case 'no_articles':
 default:
 
 	// load layout, if one exists, for the home page
-        $layout = Anchors::new_layout($context['root_articles_layout'], 'article',true);
+        $layout = Layouts::new_($context['root_articles_layout'], 'article',true);
 	/*if(is_readable($context['path_to_root'].'skins/layout_home_articles_as_'.$context['root_articles_layout'].'.php')) {
 		$name = 'layout_home_articles_as_'.$context['root_articles_layout'];
 		include_once $context['path_to_root'].'skins/'.$name.'.php';

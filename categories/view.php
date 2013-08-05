@@ -431,7 +431,7 @@ if(!isset($item['id'])) {
 			include_once '../sections/layout_sections.php';
 			$layout_sections = new Layout_sections();
 		} else
-			$layout_sections = Anchors::new_layout ($item['sections_layout'], 'section');
+			$layout_sections = Layouts::new_ ($item['sections_layout'], 'section');
 
 		// the maximum number of sections per page
 		if(is_object($layout_sections))
@@ -483,7 +483,7 @@ if(!isset($item['id'])) {
 			include_once '../articles/layout_articles.php';
 			$layout_articles = new Layout_articles();
 		} else
-			$layout_articles = Anchors::new_layout ($item['articles_layout'], 'article');
+			$layout_articles = Layouts::new_ ($item['articles_layout'], 'article');
 
 		// do not refer to this category
 		$layout_articles->set_variant('category:'.$item['id']);
@@ -682,7 +682,7 @@ if(!isset($item['id'])) {
 			include_once 'layout_categories.php';
 			$layout = new Layout_categories();
 		} else
-			$layout = Anchors::new_layout ($item['categories_layout'], 'category');
+			$layout = Layouts::new_ ($item['categories_layout'], 'category');
 		    
 
 		// the maximum number of categories per page
@@ -744,7 +744,7 @@ if(!isset($item['id'])) {
 			include_once '../users/layout_users.php';
 			$layout = new Layout_users();
 		} else
-			$layout = Anchors::new_layout ($item['users_layout'], 'user');
+			$layout = Layouts::new_ ($item['users_layout'], 'user');
 
 		// count the number of users in this category
 		$count = Members::count_users_for_anchor('category:'.$item['id']);

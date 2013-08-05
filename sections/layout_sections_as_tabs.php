@@ -97,7 +97,7 @@ Class Layout_sections_as_tabs extends Layout_interface {
 					include_once '../articles/layout_articles.php';
 					$layout = new Layout_articles();
 				} else
-				    $layout = Anchors::new_layout ($item['articles_layout'], 'article');
+				    $layout = Layouts::new_ ($item['articles_layout'], 'article');
 
 				// avoid links to this page
 				if(is_object($layout) && is_callable(array($layout, 'set_variant')))
@@ -195,7 +195,7 @@ Class Layout_sections_as_tabs extends Layout_interface {
 					include_once 'layout_sections.php';
 					$layout = new Layout_sections();
 				} else
-				    $layout = Anchors::new_layout ($item['sections_layout'], 'section');
+				    $layout = Layouts::new_ ($item['sections_layout'], 'section');
 
 				// the maximum number of sections per page
 				if(is_object($layout))

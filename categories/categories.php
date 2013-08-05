@@ -1229,7 +1229,7 @@ Class Categories {
 		}
 
 		// instanciate the provided name
-		$layout = Anchors::new_layout($variant, 'category',false, true);
+		$layout = Layouts::new_($variant, 'category',false, true);
 
 		// do the job
 		$output = $layout->layout($result);

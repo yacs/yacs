@@ -1159,7 +1159,7 @@ Class Users {
 		}
 	
 		// instanciate the provided name
-		$layout = Anchors::new_layout($variant, 'user',false, true);		
+		$layout = Layouts::new_($variant, 'user',false, true);		
 
 		// do the job
 		$output = $layout->layout($result);
