@@ -14,8 +14,10 @@ var TreeManager = {
     
     /**
      * called it for to start interactions on page
+     * 
+     * @param userlevel string, 'powered' to start interaction, empty for zoom only
      */
-    init: function() {
+    init: function(userlevel) {
 	
 	// options for dragged elements
 	TreeManager.dragOptions = {
@@ -38,20 +40,32 @@ var TreeManager = {
 	
 	$().ready(function() {
 	    
-	    // draggable elements
-	    $(".tm-drag").draggable(TreeManager.dragOptions);
+	    if(userlevel == 'powered') {
+		// draggable elements
+		$(".tm-drag").draggable(TreeManager.dragOptions);
+
+		// droppable ones
+		$(".tm-drop").droppable(TreeManager.dropOptions);
+
+		// all cmd buttons
+		$(".tm-cmd").click( function() {TreeManager.cmd($(this));});
+
+		//zoom & rename folders	    
+		$(".tm-zoom").click_n_dblclick(TreeManager.zoom,TreeManager.inputRename);
+
+		// rename content
+		$(".tm-page").dblclick( function() {TreeManager.inputRename($(this));});
 	    
-	    // droppable ones
-	    $(".tm-drop").droppable(TreeManager.dropOptions);
+	    } else {
+		// allow zoom only
+		$(".tm-zoom").click(function(e){
+		    e.preventDefault();
+		    TreeManager.zoom($(this));
+		});
+		// hide commands tags
+		$(".tm-cmd").hide();
+	    }
 	    
-	    // all cmd buttons
-	    $(".tm-cmd").click( function() {TreeManager.cmd($(this));});
-	    
-	    //zoom & rename folders	    
-	    $(".tm-zoom").click_n_dblclick(TreeManager.zoom,TreeManager.inputRename);
-	    
-	    // rename content
-	    $(".tm-page").dblclick( function() {TreeManager.inputRename($(this));});
 	    
 	    // hide menu bar ( we could override clic action on item creation link instead )
 	    $('.menu_bar').hide();
@@ -471,7 +485,7 @@ var TreeManager = {
 		    
 		    // update content
 		    anchor.parents(".tm-ddz").replaceWith(data.content);
-		    TreeManager.init();
+		    TreeManager.init(data.userlevel);
 		}
 		Yacs.stopWorking()
 	});
@@ -512,7 +526,7 @@ var TreeManager = {
 		    
 		    // update content
 		    $(".tm-ddz").replaceWith(data.content);
-		    TreeManager.init();		    
+		    TreeManager.init(data.userlevel);		    
 		}
 		Yacs.stopWorking();
 	});

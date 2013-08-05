@@ -198,16 +198,24 @@ class Layout_as_tree_manager extends Layout_interface {
 	
 	// this level may have childs that are not folders
 	if(isset($context['current_item']) && $context['current_item']) {
+	    
 	    $thislevel = Anchors::get($context['current_item']);
-	    $text .= $this->get_sub_level($thislevel,true); // do not search for folders
+	    $text .= $this->get_sub_level($thislevel,true); // do not search for folders	    	    
 	}
-	
-	// we have bound styles and scripts, do not provide on ajax requests
+	    	
+	// we have bound styles and scripts, but do not provide on ajax requests
 	if(!isset($context['AJAX_REQUEST']) || !$context['AJAX_REQUEST']) {
-	    $this->load_scripts_n_styles();
+	    $this->load_scripts_n_styles();	    
 	
-	    // init js
-	    Page::insert_script("TreeManager.init();");
+	    // init js depending on user privilege for this level
+	    if(isset($thislevel))
+		// get surfer privilege for this level
+		$powered = $thislevel->allows('creation');
+	    else
+		$powered = Surfer::is_associate ();
+		    
+	    $powered = ($powered)?'powered':''; // cast to string
+	    Page::insert_script('TreeManager.init("'.$powered.'");');
 	}
 	
 	// end drag drop zone
