@@ -21,7 +21,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 	return;
 
 // stop unauthorized
-if(!Surfer::is_logged()) {
+if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	die(i18n::s('You are not allowed to perform this operation.'));
 }
@@ -53,8 +53,14 @@ switch($_REQUEST['action']) {
 	$anchor = Anchors::get($_REQUEST['anchor']);
 	$cat =Anchors::get($_REQUEST['cat']);
 	
-	// check
+	// check existance
 	if(!is_object($anchor) && !is_object($cat) && $cat->get_type() != 'category') {
+	    $output['success'] = false;
+	    break;
+	}
+	
+	// check surfer's rights
+	if(!Categories::allow_creation($anchor->item,$anchor->anchor)) {
 	    $output['success'] = false;
 	    break;
 	}
@@ -81,6 +87,19 @@ switch($_REQUEST['action']) {
 	// witch is a empty string in database.
 	if($anchor_id =='index')	    
 	    $_REQUEST['anchor'] = '';
+	
+	// check anchor existence
+	if( $_REQUEST['anchor'] && !$anchor = Anchors::get($_REQUEST['anchor'])) {
+	    $output['success'] = 'false';
+	    break;
+	}
+	
+	// check surfer's rights
+	if((is_object($anchor) && !$anchor->allows('creation'))
+		|| ($anchor_id =='index' && !Surfer::is_associate()) ) {
+	    $output['success'] = 'false';
+	    break;
+	} 
 	    
 	// create obj interface
 	$newitem = new $type();
@@ -101,12 +120,18 @@ switch($_REQUEST['action']) {
 	    die_on_invalid ();	
 	
 	// get obj interface
-	$to_delete = Anchors::get($_REQUEST['anchor']);
-	
-	if(!$to_delete)
+	if(!$to_delete = Anchors::get($_REQUEST['anchor'])) {
 	    $output['success'] = false;
-	else
-	    $output['success'] = $to_delete->delete();	    
+	    break;
+	}
+	
+	// check surfer's rights
+	if(!$to_delete->allows('deletion')) {
+	    $output['success'] = false;
+	    break;
+	}	
+	
+	$output['success'] = $to_delete->delete();	    
 	
         break;
     
@@ -124,7 +149,7 @@ switch($_REQUEST['action']) {
 	if(!preg_match('/index^/', $_REQUEST['tar']))	    
 	  $tar = Anchors::get($_REQUEST['tar']);
 	else
-	  $_REQUEST['tar'] = '';  // empty anchor means root
+	  $tar = $_REQUEST['tar'] = '';  // empty anchor means root
 	
 	
 	if(!is_object($obj) || !isset($tar)) {
@@ -135,6 +160,14 @@ switch($_REQUEST['action']) {
 	    $output['success'] = false;
 	} else {	    
 
+	    // check surfer's rights
+	    if(!$obj->allows('modification') ||
+		  (is_object($tar) && !$tar->allows('creation',$obj->get_type())) ||
+		  ($tar == '' && !Surfer::is_associate())  ) {
+		    $output['success'] = false;
+		    break;
+	    }
+	    
 	    // set the new anchor (=parent)
 	    $fields = array('anchor' => $_REQUEST['tar']);
 
@@ -155,6 +188,12 @@ switch($_REQUEST['action']) {
 	$to_rename = Anchors::get($_REQUEST['anchor']);
 	
 	if(!$to_rename) {
+	    $output['success'] = false;
+	    break;
+	}
+	
+	// check surfer's rights
+	if(!$to_rename->allows('modification')) {
 	    $output['success'] = false;
 	    break;
 	}
@@ -185,6 +224,9 @@ switch($_REQUEST['action']) {
 	// tell other scripts what we are viewing
 	$context['current_item'] = $anchor->get_reference();
 	
+	// checking surfer's rights on anchor
+	$powered = $anchor->allows('creation');
+	
 	// this is a rendering operation, we may need some
 	// constants & functions defined in skin
 	load_skin();
@@ -200,6 +242,7 @@ switch($_REQUEST['action']) {
 		$output['title'] = $anchor->get_title();
 		$output['crumbs_separator'] = CRUMBS_SEPARATOR;
 		$output['crumbs_suffix'] = CRUMBS_SUFFIX;
+		$output['userlevel'] = ($powered)?'powered':'';
 	} else 
 	    $output['success'] = false;
 	    	
