@@ -114,12 +114,12 @@ class Overlay {
 	 * allow or block operations
 	 *
 	 * @see overlays/petition.php
-	 *
-	 * @param string the kind of item to handle ('approval', ...)
+	 *	 
 	 * @param string the foreseen operation ('edit', 'new', ...)
+	 * @param string the kind of item to handle ('approval', ...)
 	 * @return TRUE if the operation is accepted, FALSE otherwise
 	 */
-	function allows($type, $action) {
+	function allows($action, $type ='') {
 		return FALSE;
 	}
 

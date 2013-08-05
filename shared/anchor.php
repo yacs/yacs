@@ -155,12 +155,12 @@ abstract class Anchor {
 	
 	/**
 	 * allow or block operations to current surfer
-	 *
-	 * @param string the kind of sub-item to handle
-	 * @param string the foreseen operation ('edit', 'new', ...)
+	 *	 
+	 * @param string the foreseen operation ('modification', 'creation', 'your keyword'...)
+	 * @param string the kind of sub-item to handle, if needed
 	 * @return TRUE if the operation is accepted, FALSE otherwise
 	 */
-	function allows($type, $action) {
+	final function allows($action, $type ='') {
 		global $context;
 
 		// cache the overlay, if any
@@ -169,16 +169,59 @@ abstract class Anchor {
 
 		// delegate the validation to the overlay
 		if(isset($this->overlay) && is_object($this->overlay) && is_callable(array($this->overlay, 'allows')))
-			return $this->overlay->allows($type, $action);
-		
-		// delegate validation to specific family class function, depending on 'action'
-		$group_class = $this->get_static_group_class();
+			return $this->overlay->allows($action, $type);
+			
 		$allow_func = 'allow_'.$action;
+		// delegate validation to legacy group class function, depending on 'action'
+		$group_class = $this->get_static_group_class();		
 		if(is_callable(array($group_class,$allow_func)))
 			return $group_class::$allow_func($this->item, $this->anchor, $type);
+		
+		// delegate validation to class
+		if(is_callable(array($this,$allow_func)))
+			return $this->$allow_func($type);
 
 		// blocked by default
 		return FALSE;
+	}
+		
+	/**
+	 * creation rights on anchor. By default a associate can do everything on a anchor
+	 * To be derivated in child class for other rules
+	 *  
+	 */
+	function allow_creation($type='') {
+	    
+	    if(Surfer::is_associate())
+		return true;
+	    
+	    return false;
+	}
+	
+	/**
+	 * deletion rights on anchor. By default a associate can do everything on a anchor
+	 * To be derivated in child class for other rules
+	 *  
+	 */
+	function allow_deletion($type='') {
+	    
+	    if(Surfer::is_associate())
+		return true;
+	    
+	    return false;
+	}
+	
+	/**
+	 * modification rights on anchor. By default a associate can do everything on a anchor
+	 * To be derivated in child class for other rules
+	 *  
+	 */
+	function allow_modification($type='') {
+	    
+	    if(Surfer::is_associate())
+		return true;
+	    
+	    return false;
 	}
 
 	/**
