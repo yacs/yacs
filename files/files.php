@@ -118,7 +118,7 @@ Class Files {
 			return TRUE;
 
 		// the anchor or overlay-in-anchor allows for file download --see overlays/bbb_meeting.php for example
-		if(is_object($anchor) && is_callable(array($anchor, 'allows')) && $anchor->allows('file', 'fetch'))
+		if(is_object($anchor) && is_callable(array($anchor, 'allows')) && $anchor->allows('fetch','file'))
 			return TRUE;
 
 		// anonymous surfer has provided the secret handle
