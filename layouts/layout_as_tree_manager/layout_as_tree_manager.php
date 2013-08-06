@@ -6,6 +6,7 @@
  *
  * @author Alexis Raimbault
  * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 class Layout_as_tree_manager extends Layout_interface {
     
