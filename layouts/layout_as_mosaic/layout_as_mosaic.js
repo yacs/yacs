@@ -15,8 +15,7 @@ var Mosaic = {
     /**
      * this function initialize the tiling with masonry script
      */
-    init:function(){
-	//console.log('hey joe');
+    init:function(){	
 	
 	$().ready(function(){
 	    
@@ -36,6 +35,51 @@ var Mosaic = {
 	    	    
 	})
 	
+    },
+    
+    infiniteScroll:function() {
+	
+	$().ready(function(){
+	    
+	    // hide the page navigation menu because we use 
+	    // the scroll to fetch more content
+	    $(".mc-infinite + .menu_bar").hide();
+	
+	    $(".mc-infinite").infinitescroll({
+
+		navSelector  : ".mc-infinite + .menu_bar",            
+			       // selector for the paged navigation (it will be hidden)
+		nextSelector : ".mc-infinite + .menu_bar .more",    
+			       // selector for the NEXT link (to page 2, 3...)
+		itemSelector : ".mc-block, .mc-wrap + .menu_bar",          
+			       // selector for all items you'll retrieve
+		debug        : true
+			       // enable debug messaging ( to console.log )
+	    },
+	    function( newElements ) {
+				   
+		    // hide new items while they are loading
+		    var $newElems = $( newElements ).css({opacity: 0});		    		    
+		    var $blocks = $newElems.filter('.mc-block');
+		    var $nav = $newElems.filter('.menu_bar');
+		    
+		    // put blocks inside layout wrapper, not #main_panel 
+		    $blocks.appendTo(".mc-wrap");
+		    // update the page menu
+		    $(".mc-infinite + .menu_bar").replaceWith($nav);		    
+		    
+		    // ensure that images load before adding to masonry layout
+		    $blocks.imagesLoaded(function(){
+			// show elems now they're ready
+			$blocks.animate({opacity: 1});
+			Mosaic.control.appended($blocks); 
+		    });		    		    
+	    }
+	    );
+	
+	});
     }
+    
+ 
     
 }
