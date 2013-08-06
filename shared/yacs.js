@@ -786,8 +786,8 @@ var Yacs = {
 
 		// do the tiling
 		var $tiled = $('.tiler');
-
-		$tiled.imagesLoaded( function(){
+		
+		$().ready(function(){
 			$tiled.masonry({
 				itemSelector: '.tile'
 			});
