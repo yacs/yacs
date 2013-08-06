@@ -9,6 +9,11 @@
  */
 class Layout_as_mosaic extends Layout_interface {
     
+    
+    function items_per_page() {
+		return 10;
+	}
+    
     function layout($result) {
 	
 	global $context;
@@ -20,8 +25,8 @@ class Layout_as_mosaic extends Layout_interface {
 	if(!SQL::count($result))
 	    return $text;
 	
-	// wrapper
-	$text .= '<div class="mc-wrap" >'."\n";
+	// wrappers
+	$text .= '<div class="mc-infinite"><div class="mc-wrap" >'."\n";
 	
 	while($item = SQL::fetch($result)) {
 	    
@@ -87,14 +92,19 @@ class Layout_as_mosaic extends Layout_interface {
 	    
 	}
 	
-	// end wrapper
-	$text .= '</div>'."\n";
+	// end wrappers
+	$text .= '</div></div>'."\n";
 	
 	// we have bound styles and scripts
 	$this->load_scripts_n_styles();
 	
 	// initialize js
 	Page::insert_script('Mosaic.init()');
+	
+	// infinite scroll
+	Page::defer_script('layouts/layout_as_mosaic/jquery.infinitescroll.min.js');
+	Page::defer_script('layouts/layout_as_mosaic/imagesloaded.pkgd.min.js');
+	Page::insert_script('Mosaic.infiniteScroll()');
 	
 	// end of processing
 	SQL::free($result);

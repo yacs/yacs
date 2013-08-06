@@ -15,10 +15,20 @@
     padding: 3px;
     margin : 0 3px 3px 0;    
     /* total of width + 2x padding + 2x margin = a number multiple of masonry columnWidth */
-    /* by default columWith is 100 and total padding + margin is 9 */ 
+    /* by default columWith is 100 and total padding + margin is 9 */         
     
     border-radius : 3px;
     background : rgba(0,0,0,.15);    
+}
+
+.mc-block h3 {
+    text-align: center;
+    margin-top: -3px;
+    margin-left: -3px;
+    margin-right: -3px;
+    
+    border-radius : 3px 3px 0 0;
+    background : rgba(0,0,0,.15);
 }
 
 
