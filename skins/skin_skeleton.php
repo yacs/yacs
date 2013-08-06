@@ -1829,7 +1829,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('More')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.$attributes.'>'.$label.'</a>';
+			$text = '<a class="more" href="'.$url.'"'.$href_title.$attributes.'>'.$label.'</a>';
 			break;
 
 		case 'next':
@@ -4703,9 +4703,12 @@ Class Skin_Skeleton {
 
 			$count = 0;
 			while($range > $last) {
+				$link_type = 'basic';
 				$page_index++;
-				if(!$next_page)
+				if(!$next_page) {
 					$next_page = $prefix.$page_index;
+					$link_type = 'more';
+				}
 
 				$first = ($page_size * ($page_index-1)) + 1;
 				$last = $first + $page_size - 1;
@@ -4717,7 +4720,7 @@ Class Skin_Skeleton {
 				else
 					$label = $first;
 
-				$bar = array_merge($bar, array( $prefix.$page_index.$suffix => array('', $label, '', 'basic') ));
+				$bar = array_merge($bar, array( $prefix.$page_index.$suffix => array('', $label, '', $link_type) ));
 
 				if((++$count >= 2) && ($last + $page_size < $range)) {
 					$bar[] = '...';
@@ -4731,7 +4734,7 @@ Class Skin_Skeleton {
 			if(!$next_page)
 				$next_page = $prefix.$page_index;
 
-			$bar = array_merge($bar, array( $prefix.$page_index.$suffix => array('', i18n::s('More'), '', 'basic') ));
+			$bar = array_merge($bar, array( $prefix.$page_index.$suffix => array('', i18n::s('More'), '', 'more') ));
 
 		}
 
