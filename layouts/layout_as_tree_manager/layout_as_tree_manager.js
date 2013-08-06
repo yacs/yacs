@@ -4,6 +4,7 @@
  * 
  * @author Alexis Raimbault
  * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
 // url to use for sending ajax requests
