@@ -7,14 +7,16 @@
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
+
+// width in px for layout's grid 
+// blocks won't be smaller than that
+if(!defined('MC_GRID_DEFAULT'))
+    define('MC_GRID_DEFAULT',100);
+
 class Layout_as_mosaic extends Layout_interface {
     
     
-    function items_per_page() {
-		return 10;
-	}
-    
-    function layout($result) {
+     function layout($result) {
 	
 	global $context;
 	
@@ -23,10 +25,18 @@ class Layout_as_mosaic extends Layout_interface {
 	
 	// empty list
 	if(!SQL::count($result))
-	    return $text;
+	    return $text;		
 	
+	// infinite scroll is a option
+	$infinite = $this->has_variant('infinite');
+	
+	// column grid width may have been setted thru variant
+	if(!$grid_width = $this->has_variant('grid'))
+	    $grid_width = MC_GRID_DEFAULT;
+	    
 	// wrappers
-	$text .= '<div class="mc-infinite"><div class="mc-wrap" >'."\n";
+	if($infinite) $text .= '<div class="mc-infinite">';
+	$text .= '<div class="mc-wrap" >'."\n";
 	
 	while($item = SQL::fetch($result)) {
 	    
@@ -93,18 +103,21 @@ class Layout_as_mosaic extends Layout_interface {
 	}
 	
 	// end wrappers
-	$text .= '</div></div>'."\n";
+	if($infinite) $text .= '</div>';
+	$text .= '</div>'."\n";
 	
 	// we have bound styles and scripts
-	$this->load_scripts_n_styles();
+	$this->load_scripts_n_styles();	
 	
 	// initialize js
-	Page::insert_script('Mosaic.init()');
+	Page::insert_script('Mosaic.init('.$grid_width.')');
 	
-	// infinite scroll
-	Page::defer_script('layouts/layout_as_mosaic/jquery.infinitescroll.min.js');
-	Page::defer_script('layouts/layout_as_mosaic/imagesloaded.pkgd.min.js');
-	Page::insert_script('Mosaic.infiniteScroll()');
+	// infinite scroll js lib
+	if($infinite) {
+	    Page::defer_script('layouts/layout_as_mosaic/jquery.infinitescroll.min.js');
+	    Page::defer_script('layouts/layout_as_mosaic/imagesloaded.pkgd.min.js');
+	    Page::insert_script('Mosaic.infiniteScroll()');
+	}
 	
 	// end of processing
 	SQL::free($result);
