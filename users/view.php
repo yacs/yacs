@@ -340,7 +340,7 @@ if(!isset($item['id'])) {
 		
 		// load the choosen layout
 		$layout = Layouts::new_('last', 'article');
-		$layout->set_variant($item['id']);
+		$layout->set_focus($item['id']);
 
 		// navigation commands for articles
 		$home = Users::get_permalink($item);
@@ -434,7 +434,7 @@ if(!isset($item['id'])) {
 
 		// list assigned by title		
 		$layout = Layouts::new_('rights', 'section');
-		$layout->set_variant($item['id']);
+		$layout->set_focus($item['id']);
 		$items =& Sections::list_by_date_for_user($item['id'], $offset, SECTIONS_PER_PAGE, $layout);
 		if(is_array($items))
 			$box['text'] .= Skin::build_list($items, 'compact');

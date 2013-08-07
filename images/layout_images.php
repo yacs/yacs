@@ -62,7 +62,7 @@ Class Layout_images extends Layout_interface {
 			if($item['anchor'] && ($anchor = Anchors::get($item['anchor']))) {
 
 				// codes to embed this image
-				if($this->layout_variant == $anchor->get_reference()) {
+				if($this->focus == $anchor->get_reference()) {
 
 					// help to insert in textarea
 // 					if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))

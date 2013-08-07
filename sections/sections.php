@@ -2209,7 +2209,7 @@ Class Sections {
 		// provide context to layout
 		$layout = Layouts::new_($variant,'section',false,true);
 		if($anchor)
-			$layout->set_variant($anchor);
+			$layout->set_focus($anchor);
 
 		// do the job
 		$output =& Sections::list_selected(SQL::query($query, $silent), $layout);

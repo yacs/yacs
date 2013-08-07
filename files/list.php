@@ -102,7 +102,7 @@ if(!is_object($anchor)) {
 
 	// provide anthor information to layout
 	if(is_object($layout))
-		$layout->set_variant($anchor->get_reference());
+		$layout->set_focus($anchor->get_reference());
 
 	// the maximum number of files per page
 	if(is_object($layout))

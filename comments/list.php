@@ -142,7 +142,7 @@ if(!is_object($anchor)) {
 
 		// provide author information to layout
 		if(is_object($layout) && is_object($anchor) && isset($anchor->item['create_id']))
-			$layout->set_variant('user:'.$anchor->item['create_id']);
+			$layout->set_focus('user:'.$anchor->item['create_id']);
 
 		// the maximum number of comments per page
 		if(is_object($layout))

@@ -181,7 +181,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 				$details[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 			// link to the anchor page
-			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
+			if(is_object($anchor) && (!isset($this->focus) || ($item['anchor'] != $this->focus)))
 				$details[] = Skin::build_link($anchor->get_url(), $anchor->get_title(), 'basic');
 
 			// list categories by title, if any

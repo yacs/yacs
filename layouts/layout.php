@@ -10,6 +10,11 @@
 abstract Class Layout_interface {
     
 	
+	/**
+	 *  the reference focused by this layout, if any
+	 */
+	var $focus = '';	 
+    
         /**
 	 * the variant for this layout, if any
 	 */
@@ -62,6 +67,42 @@ abstract Class Layout_interface {
 	 */
 	abstract function layout($result);
 
+	
+	/**
+	 * help to retrieve a option in layout variant
+	 * 
+	 * @param string the search option
+	 * @return mixed, false or true if option is present or option value
+	 * if its a parameter
+	 */
+	function has_variant($option) {
+	    
+	    if(!isset($this->layout_variant))
+		    return FALSE;	    
+	    
+	    // 'per_page' matches with 'per_page_50', return '50'
+	    if(preg_match('/\b'.$option.'_(.+?)\b/i', $this->layout_variant, $matches))
+			return $matches[1];
+
+	    // exact match, return TRUE
+	    if(isset($option_set) && (strpos($this->layout_variant, $option) !== FALSE))
+			return TRUE;
+	    
+	    // bad luck
+	    return FALSE;
+	}
+	
+	/**
+	 *  set the focus of this layout
+	 *  @see sections/view.php
+	 * 
+	 *  @param string $reference eg section:<id>
+	 */
+	function set_focus($reference) {
+	    $this->focus = $reference;
+	}
+	
+	
 	/**
 	 * change the behaviour of this layout
 	 *

@@ -196,7 +196,7 @@ Class Layout_sections extends Layout_interface {
 				$suffix .= ' <span class="details">('.implode(', ', $details).')</span>';
 
 			// the main anchor link
-			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
+			if(is_object($anchor) && (!isset($this->focus) || ($item['anchor'] != $this->focus)))
 				$suffix .= ' <span class="details">'.sprintf(i18n::s('in %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'section'))."</span>\n";
 
 			// not if decorated

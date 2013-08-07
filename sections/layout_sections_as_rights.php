@@ -46,8 +46,8 @@ Class Layout_sections_as_rights extends Layout_interface {
 
 		// we list pages for one surfer
 		// sanity check
-		if(!isset($this->layout_variant))
-			$this->layout_variant = Surfer::get_id();
+		if(!isset($this->focus))
+			$this->focus = Surfer::get_id();
 
 		// build a list of sections
 		Skin::define_img('CHECKED_IMG', 'ajax/accept.png', '*');
@@ -133,7 +133,7 @@ Class Layout_sections_as_rights extends Layout_interface {
 				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 			// the main anchor link
-			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
+			if(is_object($anchor) && (!isset($this->focus) || ($item['anchor'] != $this->focus)))
 				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'basic'));
 
 			// combine in-line details
@@ -145,15 +145,15 @@ Class Layout_sections_as_rights extends Layout_interface {
 				$summary .= BR.'<span class="tags">'.Skin::build_tags($item['tags'], 'section:'.$item['id']).'</span>';
 
 			// watcher
-			if(Sections::is_watched($item['id'], $this->layout_variant))
+			if(Sections::is_watched($item['id'], $this->focus))
 				$watcher = CHECKED_IMG;
 
 			// editor
-			if(Sections::is_editable($anchor, $item, $this->layout_variant, TRUE))
+			if(Sections::is_editable($anchor, $item, $this->focus, TRUE))
 				$editor = CHECKED_IMG;
 
 			// owner
-			if(Sections::is_owned($item, NULL, TRUE, $this->layout_variant))
+			if(Sections::is_owned($item, NULL, TRUE, $this->focus))
 				$owner = CHECKED_IMG;
 
 			// this is another row of the output

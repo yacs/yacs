@@ -38,8 +38,8 @@ Class Layout_files extends Layout_interface {
 			return $text;
 
 		// sanity check
-		if(!isset($this->layout_variant))
-			$this->layout_variant = '';
+		if(!isset($this->focus))
+			$this->focus = '';
 
 		// process all items in the list
 		$items = array();
@@ -52,7 +52,7 @@ Class Layout_files extends Layout_interface {
 			$anchor = Anchors::get($item['anchor']);
 
 			// we feature only the head of the list, if we are at the origin page
-			if(!count($items) && $anchor && is_string($this->layout_variant) && ($this->layout_variant == $anchor->get_reference())) {
+			if(!count($items) && $anchor && is_string($this->focus) && ($this->focus == $anchor->get_reference())) {
 				$box .= Codes::render_object('file', $item['id']);
 
 				// no side icon
@@ -132,7 +132,7 @@ Class Layout_files extends Layout_interface {
 				$details[] = Skin::build_number($item['file_size'], i18n::s('bytes'));
 
 			// anchor link
-			if($anchor && is_string($this->layout_variant) && ($this->layout_variant != $anchor->get_reference())) {
+			if($anchor && is_string($this->focus) && ($this->focus != $anchor->get_reference())) {
 				$anchor_url = $anchor->get_url();
 				$anchor_label = ucfirst($anchor->get_title());
 				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor_url, $anchor_label, 'article'));
