@@ -62,6 +62,10 @@ abstract Class Layout_interface {
 	 * @return int the optimised count of items for this layout
 	 */
 	function items_per_page() {
+		// value may be setted by webmaster
+		if($nb_item = $this->has_variant('per_page'))
+		    return $nb_item;
+	    
 		return 50;
 	}
 
