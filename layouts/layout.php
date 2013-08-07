@@ -95,7 +95,7 @@ abstract Class Layout_interface {
 			return $matches[1];
 
 	    // exact match, return TRUE
-	    if(isset($option_set) && (strpos($this->layout_variant, $option) !== FALSE))
+	    if(strpos($this->layout_variant, $option) !== FALSE)
 			return TRUE;
 	    
 	    // bad luck
