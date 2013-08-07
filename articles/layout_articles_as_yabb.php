@@ -148,7 +148,7 @@ Class Layout_articles_as_yabb extends Layout_interface {
 			$anchors = array();
 
 			// the main anchor link
-			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
+			if(is_object($anchor) && (!isset($this->focus) || ($item['anchor'] != $this->focus)))
 				$anchors[] = Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'basic', i18n::s('In this section'));
 
 
@@ -160,7 +160,7 @@ Class Layout_articles_as_yabb extends Layout_interface {
 					if(isset($attributes['background_color']) && $attributes['background_color'])
 						$attributes['title'] = '<span style="background-color: '.$attributes['background_color'].'; padding: 0 3px 0 3px;">'.$attributes['title'].'</span>';
 
-					if(!isset($this->layout_variant) || ($this->layout_variant != 'category:'.$category_id))
+					if(!isset($this->focus) || ($this->focus != 'category:'.$category_id))
 						$anchors[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'basic', i18n::s('Related topics'));
 				}
 			}

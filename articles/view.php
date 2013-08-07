@@ -948,7 +948,7 @@ if(!isset($item['id'])) {
 
 		// provide author information to layout
 		if(is_object($layout) && isset($item['create_id']) && $item['create_id'])
-			$layout->set_variant('user:'.$item['create_id']);
+			$layout->set_focus('user:'.$item['create_id']);
 
 		// the maximum number of comments per page
 		if(is_object($layout))
@@ -1035,7 +1035,7 @@ if(!isset($item['id'])) {
 			// compact list of files
 			if($compact = Articles::has_option('files_as_compact', $anchor, $item)) {				
 				$layout = Layouts::new_('compact', 'file');
-				$layout->set_variant('article:'.$item['id']);
+				$layout->set_focus('article:'.$item['id']);
 
 			// standard list of files
 			} else

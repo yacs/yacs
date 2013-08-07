@@ -154,7 +154,7 @@ Class Layout_articles_as_tabs extends Layout_interface {
 
 			// provide author information to layout
 			if(is_object($layout) && isset($item['create_id']) && $item['create_id'])
-				$layout->set_variant('user:'.$item['create_id']);
+				$layout->set_focus('user:'.$item['create_id']);
 
 			// the maximum number of comments per page
 			if(is_object($layout))

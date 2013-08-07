@@ -29,11 +29,11 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 			return $text;
 
 		// sanity check
-		if(!isset($this->layout_variant))
-			$this->layout_variant = 'map';
+		if(!isset($this->focus))
+			$this->focus = 'map';
 
 		// put in cache
-		$cache_id = Cache::hash('articles/layout_articles_as_carrousel:'.$this->layout_variant).'.xml';
+		$cache_id = Cache::hash('articles/layout_articles_as_carrousel:'.$this->focus).'.xml';
 
 		// save for one minute
 		if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path_to_root'].$cache_id)+60 < time())) {

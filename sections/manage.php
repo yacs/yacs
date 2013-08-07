@@ -1052,7 +1052,7 @@ if(Surfer::is_crawler()) {
 
 	// avoid links to this page
 	if(is_object($layout) && is_callable(array($layout, 'set_variant')))
-		$layout->set_variant('section:'.$item['id']);
+		$layout->set_focus('section:'.$item['id']);
 
 	// the maximum number of articles per page
 	if(is_object($layout))
@@ -1162,7 +1162,7 @@ if(Surfer::is_crawler()) {
 
 	// avoid links to this page
 	if(is_object($layout) && is_callable(array($layout, 'set_variant')))
-		$layout->set_variant('section:'.$item['id']);
+		$layout->set_focus('section:'.$item['id']);
 
 	// the maximum number of articles per page
 	if(is_object($layout))

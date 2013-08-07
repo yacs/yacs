@@ -222,7 +222,7 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 						if(isset($attributes['background_color']) && $attributes['background_color'])
 							$attributes['title'] = '<span style="background-color: '.$attributes['background_color'].'; padding: 0 3px 0 3px;">'.$attributes['title'].'</span>';
 
-						if($this->layout_variant != 'category:'.$id)
+						if($this->focus != 'category:'.$id)
 							$anchors[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'category');
 					}
 				}

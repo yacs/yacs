@@ -272,7 +272,7 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 
 	// provide author information to layout
 	if(is_object($layout) && $item['create_id'])
-		$layout->set_variant('user:'.$item['create_id']);
+		$layout->set_focus('user:'.$item['create_id']);
 
 	// the maximum number of comments per page
 	if(is_object($layout))

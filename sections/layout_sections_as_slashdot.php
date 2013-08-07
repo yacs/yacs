@@ -164,7 +164,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 					$menu[] = Skin::build_link(Comments::get_url('article:'.$article['id'], 'comment'), i18n::s('Discuss'), 'span');
 
 				// the main anchor link
-				if(is_object($anchor) && (!isset($this->layout_variant) || ($article['anchor'] != $this->layout_variant)))
+				if(is_object($anchor) && (!isset($this->focus) || ($article['anchor'] != $this->focus)))
 					$menu[] = Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'span', i18n::s('View the section'));
 
 				// list up to three categories by title, if any

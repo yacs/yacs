@@ -486,7 +486,7 @@ if(!isset($item['id'])) {
 			$layout_articles = Layouts::new_ ($item['articles_layout'], 'article');
 
 		// do not refer to this category
-		$layout_articles->set_variant('category:'.$item['id']);
+		$layout_articles->set_focus('category:'.$item['id']);
 
 		// count the number of articles in this category
 		$count = Members::count_articles_for_anchor('category:'.$item['id']);

@@ -105,7 +105,7 @@ Class Layout_articles_as_simple extends Layout_interface {
 				$details[] = POPULAR_FLAG;
 
 			// the main anchor link
-			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
+			if(is_object($anchor) && (!isset($this->focus) || ($item['anchor'] != $this->focus)))
 				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'section'));
 
 			// combine in-line details

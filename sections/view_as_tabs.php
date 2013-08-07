@@ -223,8 +223,8 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 			    $layout = Layouts::new_ ($item['articles_layout'], 'article');
 
 			// avoid links to this page
-			if(is_object($layout) && is_callable(array($layout, 'set_variant')))
-				$layout->set_variant('section:'.$item['id']);
+			if(is_object($layout))
+				$layout->set_focus('section:'.$item['id']);
 
 			// the maximum number of articles per page
 			if(is_object($layout))
@@ -315,8 +315,8 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 		$layout = Layouts::new_('compact', 'article');
 
 		// avoid links to this page
-		if(is_object($layout) && is_callable(array($layout, 'set_variant')))
-			$layout->set_variant('section:'.$item['id']);
+		if(is_object($layout))
+			$layout->set_focus('section:'.$item['id']);
 
 		// the maximum number of articles per page
 		if(is_object($layout))

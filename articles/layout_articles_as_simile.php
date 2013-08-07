@@ -43,11 +43,11 @@ Class Layout_articles_as_simile extends Layout_interface {
 		$context['javascript']['timeline'] = TRUE;
 
 		// sanity check
-		if(!isset($this->layout_variant))
-			$this->layout_variant = 'default';
+		if(!isset($this->focus))
+			$this->focus = 'default';
 
 		// put in cache
-		$cache_id = Cache::hash('articles/layout_articles_as_simile:'.$this->layout_variant).'.xml';
+		$cache_id = Cache::hash('articles/layout_articles_as_simile:'.$this->focus).'.xml';
 
 		// save for one minute
 		if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path_to_root'].$cache_id)+60 < time())) {
