@@ -24,6 +24,12 @@ abstract Class Layout_interface {
 	 * type of listed objects
 	 */
 	var $listed_type;
+	
+	/**
+	 * array of complexe data used for the rendering
+	 * that you can provide thru the scripts, in required	 
+	 */
+	var $data = array();
 
 	/**
 	 * the preferred order for items
@@ -90,6 +96,21 @@ abstract Class Layout_interface {
 	    
 	    // bad luck
 	    return FALSE;
+	}
+	
+	/**
+	 * add data entries for the layout
+	 * 
+	 * @param mixed $data array build before or string a key for storing
+	 * @param mixed $value, what you want to store 
+	 */
+	function set_data($data,$value='') {
+	    
+	    if(is_array($data))
+		$this->data = array_merge($this->data,$data);
+	    elseif(is_string($data))
+		$this->data[$data] = $value;
+		
 	}
 	
 	/**
