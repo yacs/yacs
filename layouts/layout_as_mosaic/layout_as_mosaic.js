@@ -15,7 +15,7 @@ var Mosaic = {
     /**
      * this function initialize the tiling with masonry script
      */
-    init:function(){	
+    init:function($grid_width){	
 	
 	$().ready(function(){
 	    
@@ -23,7 +23,7 @@ var Mosaic = {
 	    
 	    // do the tiling
 	    Mosaic.wrap.masonry({
-		columnWidth : 100,
+		columnWidth : $grid_width,
 		itemSelector : '.mc-block'
 	    });
 	    
