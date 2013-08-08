@@ -960,13 +960,18 @@ function load_skin($variant='', $anchor=NULL, $options='') {
  *
  */
 function render_skin($with_last_modified=TRUE) {
-	global $context, $local; // put here ALL global variables to be included in template, including $local
+	global $context, $render_body_only, $local; // put here ALL global variables to be included in template, including $local
 
 	// allow for only one call -- see scripts/validate.php
 	global $rendering_fuse;
 	if(isset($rendering_fuse))
 		return;
 	$rendering_fuse = TRUE;
+	
+	if(!isset($render_body_only))
+	    $whole_rendering = true;
+	elseif($render_body_only)
+	    $whole_rendering = false;
 
 	// ensure we have a fake skin, at least
 	if(!is_callable(array('Skin', 'build_list'))) {
@@ -1010,7 +1015,7 @@ function render_skin($with_last_modified=TRUE) {
 	}
 
 	// navigation - navigation boxes
-	if(file_exists($context['path_to_root'].'parameters/switch.on')) {
+	if(file_exists($context['path_to_root'].'parameters/switch.on') && $whole_rendering) {
 
 		// cache dynamic boxes for performance, and if the database can be accessed
 		$cache_id = 'shared/global.php#render_skin#navigation';
@@ -1107,7 +1112,7 @@ function render_skin($with_last_modified=TRUE) {
 	}
 
 	// close pending connections
-	if(is_callable(array('Mailer', 'close')))
+	if(is_callable(array('Mailer', 'close')) && $whole_rendering)
 		Mailer::close();
 
 	// provide P3P compact policy, if any
@@ -1199,93 +1204,104 @@ function render_skin($with_last_modified=TRUE) {
 		return;
 
 	// more meta information
-	$metas = array();
+	if($whole_rendering) {
+	    $metas = array();
 
-	// we support Dublin Core too
-	$metas[] = '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />';
+	    // we support Dublin Core too
+	    $metas[] = '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />';
 
-	// page title
-	$page_title = ucfirst(strip_tags($context['page_title']));
-	$context['page_header'] .= '<title>'.$page_title;
-	if($context['site_name'] && !preg_match('/'.str_replace('/', ' ', strip_tags($context['site_name'])).'/', strip_tags($context['page_title']))) {
-		if($page_title)
-			$context['page_header'] .= ' - ';
-		$context['page_header'] .= strip_tags($context['site_name']);
+	    // page title
+	    $page_title = ucfirst(strip_tags($context['page_title']));
+	    $context['page_header'] .= '<title>'.$page_title;
+	    if($context['site_name'] && !preg_match('/'.str_replace('/', ' ', strip_tags($context['site_name'])).'/', strip_tags($context['page_title']))) {
+		    if($page_title)
+			    $context['page_header'] .= ' - ';
+		    $context['page_header'] .= strip_tags($context['site_name']);
+	    }
+	    $context['page_header'] .= "</title>\n";
+	    if($page_title)
+		    $metas[] = '<meta name="DC.title" content="'.encode_field($page_title).'" />';
+
+	    // set icons for this site
+	    if($context['site_icon']) {
+		    $metas[] = '<link rel="icon" href="'.$context['url_to_root'].$context['site_icon'].'" type="image/x-icon" />';
+		    $metas[] = '<link rel="shortcut icon" href="'.$context['url_to_root'].$context['site_icon'].'" type="image/x-icon" />';
+	    }
+
+	    // a meta-link to our help page
+	    $metas[] = '<link rel="help" href="'.$context['url_to_root'].'help/" type="text/html" />';
+
+	    // page meta description
+	    if(isset($context['page_meta']) && $context['page_meta']) {
+		    $metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['page_meta'])).'" />';
+		    $metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['page_meta'])).'" />';
+	    } elseif(isset($context['site_description']) && $context['site_description']) {
+		    $metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['site_description'])).'" />';
+		    $metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['site_description'])).'" />';
+	    }
+
+	    // page copyright
+	    if(isset($context['site_copyright']) && $context['site_copyright'])
+		    $metas[] = '<meta name="copyright" content="'.encode_field($context['site_copyright']).'" />';
+
+	    // page author
+	    if(isset($context['page_author']) && $context['page_author']) {
+		    $metas[] = '<meta name="author" content="'.encode_field($context['page_author']).'" />';
+		    $metas[] = '<meta name="DC.author" content="'.encode_field($context['page_author']).'" />';
+	    }
+
+	    // page publisher
+	    if(isset($context['page_publisher']) && $context['page_publisher']) {
+		    $metas[] = '<meta name="publisher" content="'.encode_field($context['page_publisher']).'" />';
+		    $metas[] = '<meta name="DC.publisher" content="'.encode_field($context['page_publisher']).'" />';
+	    }
+
+	    // page keywords
+	    if(isset($context['site_keywords']) && $context['site_keywords']) {
+		    $metas[] = '<meta name="keywords" content="'.encode_field($context['site_keywords']).'" />';
+		    $metas[] = '<meta name="DC.subject" content="'.encode_field($context['site_keywords']).'" />';
+	    }
+
+	    // page date
+	    if($context['page_date'])
+		    $metas[] = '<meta name="DC.date" content="'.encode_field(substr($context['page_date'], 0, 10)).'" />';
+
+	    // page language
+	    if($context['page_language'])
+		    $metas[] = '<meta name="DC.language" content="'.encode_field($context['page_language']).'" />';
+
+	    // revisit-after
+	    if(!isset($context['site_revisit_after']))
+		    ;
+	    elseif($context['site_revisit_after'] == 1)
+		    $metas[] = '<meta name="revisit-after" content="1 day" />';
+	    elseif($context['site_revisit_after'])
+		    $metas[] = '<meta name="revisit-after" content="'.encode_field($context['site_revisit_after']).' days" />';
+
+	    // no Microsoft irruption in our pages
+	    $metas[] = '<meta name="MSSmartTagsPreventParsing" content="TRUE" />';
+
+	    // suppress awful hovering toolbar on images in IE
+	    $metas[] = '<meta http-equiv="imagetoolbar" content="no" />';
+
+	    // lead robots
+	    $metas[] = '<meta name="robots" content="index,follow" />';
+
 	}
-	$context['page_header'] .= "</title>\n";
-	if($page_title)
-		$metas[] = '<meta name="DC.title" content="'.encode_field($page_title).'" />';
 
-	// set icons for this site
-	if($context['site_icon']) {
-		$metas[] = '<link rel="icon" href="'.$context['url_to_root'].$context['site_icon'].'" type="image/x-icon" />';
-		$metas[] = '<link rel="shortcut icon" href="'.$context['url_to_root'].$context['site_icon'].'" type="image/x-icon" />';
-	}
-
-	// a meta-link to our help page
-	$metas[] = '<link rel="help" href="'.$context['url_to_root'].'help/" type="text/html" />';
-
-	// page meta description
-	if(isset($context['page_meta']) && $context['page_meta']) {
-		$metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['page_meta'])).'" />';
-		$metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['page_meta'])).'" />';
-	} elseif(isset($context['site_description']) && $context['site_description']) {
-		$metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['site_description'])).'" />';
-		$metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['site_description'])).'" />';
-	}
-
-	// page copyright
-	if(isset($context['site_copyright']) && $context['site_copyright'])
-		$metas[] = '<meta name="copyright" content="'.encode_field($context['site_copyright']).'" />';
-
-	// page author
-	if(isset($context['page_author']) && $context['page_author']) {
-		$metas[] = '<meta name="author" content="'.encode_field($context['page_author']).'" />';
-		$metas[] = '<meta name="DC.author" content="'.encode_field($context['page_author']).'" />';
-	}
-
-	// page publisher
-	if(isset($context['page_publisher']) && $context['page_publisher']) {
-		$metas[] = '<meta name="publisher" content="'.encode_field($context['page_publisher']).'" />';
-		$metas[] = '<meta name="DC.publisher" content="'.encode_field($context['page_publisher']).'" />';
-	}
-
-	// page keywords
-	if(isset($context['site_keywords']) && $context['site_keywords']) {
-		$metas[] = '<meta name="keywords" content="'.encode_field($context['site_keywords']).'" />';
-		$metas[] = '<meta name="DC.subject" content="'.encode_field($context['site_keywords']).'" />';
-	}
-
-	// page date
-	if($context['page_date'])
-		$metas[] = '<meta name="DC.date" content="'.encode_field(substr($context['page_date'], 0, 10)).'" />';
-
-	// page language
-	if($context['page_language'])
-		$metas[] = '<meta name="DC.language" content="'.encode_field($context['page_language']).'" />';
-
-	// revisit-after
-	if(!isset($context['site_revisit_after']))
-		;
-	elseif($context['site_revisit_after'] == 1)
-		$metas[] = '<meta name="revisit-after" content="1 day" />';
-	elseif($context['site_revisit_after'])
-		$metas[] = '<meta name="revisit-after" content="'.encode_field($context['site_revisit_after']).' days" />';
-
-	// no Microsoft irruption in our pages
-	$metas[] = '<meta name="MSSmartTagsPreventParsing" content="TRUE" />';
-
-	// suppress awful hovering toolbar on images in IE
-	$metas[] = '<meta http-equiv="imagetoolbar" content="no" />';
-
-	// lead robots
-	$metas[] = '<meta name="robots" content="index,follow" />';
-
-	// help Javascript scripts to locate files --in header, because of potential use by in-the-middle javascript snippet
-	$metas[] = JS_PREFIX
+	// help Javascript scripts to locate files
+	$script = JS_PREFIX
 		.'	var url_to_root = "'.$context['url_to_home'].$context['url_to_root'].'";'."\n"
 		.'	var url_to_skin = "'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/"'."\n"
 		.JS_SUFFIX;
+	
+	if($whole_rendering) {
+	    // --in header, because of potential use by in-the-middle javascript snippet
+	    $metas[] = $script;
+	} else {
+	    // at the top of content
+	    $context['text'] = $script.$context['text'];
+	}
 
 	// activate tinyMCE, if available
 	if(isset($context['javascript']['tinymce'])) {
@@ -1318,7 +1334,8 @@ function render_skin($with_last_modified=TRUE) {
 	}
 
 	// javascript libraries files to declare in header of page
-	$context['page_header'] .= Js_Css::get_js_libraries('js_header');
+	if($whole_rendering)
+	    $context['page_header'] .= Js_Css::get_js_libraries('js_header');
 
 		// insert headers (and maybe, include more javascript files)
 	if(isset($context['site_head']))
@@ -1342,7 +1359,8 @@ function render_skin($with_last_modified=TRUE) {
 	$context['page_footer'] .= JS_SUFFIX;
 
 	// jquery-ui stylesheet
-	Page::load_style('included/browser/css/redmond/jquery-ui-1.10.3.custom.min.css');
+	if($whole_rendering)
+	    Page::load_style('included/browser/css/redmond/jquery-ui-1.10.3.custom.min.css');
 
 	// activate jscolor, if available
 	if(isset($context['javascript']['jscolor']))
@@ -1394,14 +1412,16 @@ function render_skin($with_last_modified=TRUE) {
 		$context['page_footer'] .= $context['javascript']['footer'];
 
 	// javascript libraries files to declare in footer of page, plus YACS ajax library
-	$context['page_footer'] = Js_Css::get_js_libraries('js_endpage','shared/yacs.js').$context['page_footer'];
+	if($whole_rendering)
+	    $context['page_footer'] = Js_Css::get_js_libraries('js_endpage','shared/yacs.js').$context['page_footer'];
 
 	// site trailer, if any
-	if(isset($context['site_trailer']) && $context['site_trailer'])
+	if(isset($context['site_trailer']) && $context['site_trailer'] && $whole_rendering)
 		$context['page_footer'] .= $context['site_trailer']."\n";
 
 	// insert one tabulation before each header line
-	$context['page_header'] = "\t".str_replace("\n", "\n\t", join("\n", $metas)."\n".$context['page_header'])."\n";
+	if($whole_rendering)
+	    $context['page_header'] = "\t".str_replace("\n", "\n\t", join("\n", $metas)."\n".$context['page_header'])."\n";
 
 	// handle the output correctly
 	Safe::ob_start('yacs_handler');
@@ -1412,6 +1432,14 @@ function render_skin($with_last_modified=TRUE) {
 //	else
 		$context['content_type'] = 'text/html';
 	Safe::header('Content-Type: '.$context['content_type'].'; charset='.$context['charset']);
+	
+	if(isset($render_body_only) && $render_body_only ) {
+	    echo '<h2>'.$context['page_header'].'</h2>';
+	    echo $context['page_title'];
+	    echo $context['text'];
+	    echo $context['page_footer'];
+	    return;
+	}	
 
 	// load a template for this module -- php version
 	if(isset($context['skin_variant']) && is_readable($context['path_to_root'].$context['skin'].'/template_'.$context['skin_variant'].'.php'))
@@ -1478,7 +1506,7 @@ function render_skin($with_last_modified=TRUE) {
 	}
 
 	// tick only during regular operation
-	if(!file_exists($context['path_to_root'].'parameters/switch.on'))
+	if(!file_exists($context['path_to_root'].'parameters/switch.on') || !$whole_rendering)
 		return;
 
 	// no tick on error
