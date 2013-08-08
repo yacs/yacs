@@ -1738,13 +1738,13 @@ div#modal_centered { /* the centered container */
 	position: absolute;
 	top: 30%;	/* top and left will be adjusted dynamically through javascript */
 	left: 30%;
-	display: block;
-	text-align: center;
+	display: block;	
 	color: #444;
 	background-color: #fff;
 	border: 2px solid #888;
 	margin: 0 auto;
 	padding: 4px;
+	overflow-y : scroll;
 	z-index: 2000;
 }
 
@@ -1762,6 +1762,7 @@ div#modal_content h2.boxTitle {
 
 div#modal_image_panel {
 	padding: 6px;
+	text-align: center;
 }
 
 div#modal_panel {	/* the grey overlay that sits behind the modal box */
@@ -1773,7 +1774,6 @@ div#modal_panel {	/* the grey overlay that sits behind the modal box */
 	height: 100%;
 	min-height: 100%;
 	background: transparent url('ajax/overlay_background.png') repeat; /* transparent image generated at http://apps.everamber.com/alpha/ */
-	text-align: center;
 	z-index: 1999; /* just below modal_centered */
 }
 
