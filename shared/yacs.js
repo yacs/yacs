@@ -24,8 +24,8 @@ var Yacs = {
 	 */
 	alert: function(message, callBack) {
 
-		Yacs.displayModalBox({ body: '<div style="text-align: left">'+message.replace(/\n/gi, '<br />')+'</div>',
-			button_TRUE: "OK" }, callBack);
+		Yacs.displayModalBox({body: '<div style="text-align: left">'+message.replace(/\n/gi, '<br />')+'</div>',
+			button_TRUE: "OK"}, callBack);
 
 	},
 
@@ -161,7 +161,7 @@ var Yacs = {
 	    // use the multiple entries autocomplete exept if unique user required
 	    if(unique) {
 	    	if(callback) {
-				$('#'+target).autocomplete({source:source_url, minLength:2, select: function(event, ui) { $('#'+target).val(ui.item.value); callback(ui.item.value); }});
+				$('#'+target).autocomplete({source:source_url, minLength:2, select: function(event, ui) {$('#'+target).val(ui.item.value);callback(ui.item.value);}});
 	    	} else {
 				$('#'+target).autocomplete({source:source_url, minLength:2});
 			}
@@ -258,8 +258,8 @@ var Yacs = {
 	 */
 	confirm: function(message, callBack) {
 
-		Yacs.displayModalBox({ body: '<div style="text-align: left">'+message.replace(/\n/gi, '<br />')+'</div>',
-			button_TRUE: "OK", button_FALSE: "Cancel" }, callBack);
+		Yacs.displayModalBox({body: '<div style="text-align: left">'+message.replace(/\n/gi, '<br />')+'</div>',
+			button_TRUE: "OK", button_FALSE: "Cancel"}, callBack);
 
 	},
 
@@ -371,7 +371,7 @@ var Yacs = {
 
 		// prepare box actual content
 		var boxContent = '';
-
+		
 		if(content.title) {
 			boxContent += '<h2 class="boxTitle">'+content.title+'</h2>';
 		}
@@ -416,7 +416,7 @@ var Yacs = {
 		// insert some html at the bottom of the page that looks similar to this:
 		//
 		// <div id="modal_panel">
-		//	<div id="modal_centered">
+		//	<div id="modal_centered"><a class="boxClose">x</a>
 		//		<div id="modal_content">
 		//			content, passed as parameter, goes here
 		//		</div>
@@ -425,15 +425,25 @@ var Yacs = {
 
 		// extend the DOM tree
 		if(!Yacs.modalOverlay) {
+		    
+		    // small cross for closing modal box on right corner
+		//'<a class="boxClose" onclick="if(typeof Yacs.modalCallBack == &quot;function&quot;) { (Yacs.modalCallBack)(false) }; Yacs.closeModalBox();">x</a>'
 
 			var objContent = document.createElement("div");
 			$(objContent).attr('id','modal_content');
 			$(objContent).html('<img src="'+Yacs.spinningImage.src+'" />');
 
+			
 			var objCentered = document.createElement("div");
 			$(objCentered).attr('id','modal_centered');
 //			objCentered.css({ visibility: 'hidden' });
 			$(objCentered).append(objContent);
+			
+			var objBoxClose = document.createElement("a");
+			$(objBoxClose).text('x');
+			$(objBoxClose).addClass("boxClose");
+			$(objBoxClose).click(function(){if(typeof Yacs.modalCallBack == 'function'){(Yacs.modalCallBack)(false);} Yacs.closeModalBox();});
+			$(objCentered).prepend(objBoxClose);
 
 			Yacs.modalOverlay = document.createElement("div");
 			$(Yacs.modalOverlay).attr('id','modal_panel');
@@ -533,9 +543,9 @@ var Yacs = {
 
 		var prefix = name + "=";
 		var begin = document.cookie.indexOf(prefix);
-		if(begin == -1) { return null; }
+		if(begin == -1) {return null;}
 		var end = document.cookie.indexOf(";", begin);
-		if(end == -1) { end = document.cookie.length; }
+		if(end == -1) {end = document.cookie.length;}
 		return unescape(document.cookie.substring(begin + prefix.length, end));
 
 	},
@@ -600,7 +610,7 @@ var Yacs = {
 
 		// switch to the offered address, if accepted by surfer
 		if(typeof response.address == 'string') {
-			Yacs.confirm(response.dialog_text, function(choice) { if(choice) {window.open(response.address);} });
+			Yacs.confirm(response.dialog_text, function(choice) {if(choice) {window.open(response.address);}});
 		}
 	},
 
@@ -621,7 +631,7 @@ var Yacs = {
 			if((window.name == 'yacs_tracker')) {
 				window.open(response.address, 'yacs_tracker');
 			} else {
-				Yacs.confirm(response.dialog_text, function(choice) { if(choice) {window.open(response.address, 'yacs_tracker');} });
+				Yacs.confirm(response.dialog_text, function(choice) {if(choice) {window.open(response.address, 'yacs_tracker');}});
 			}
 		}
 	},
@@ -648,7 +658,7 @@ var Yacs = {
 
 		// else switch to the offered address, if accepted by surfer
 		} else {
-			Yacs.confirm(response.dialog_text, function(choice) { if(choice) {window.open(response.address);} });
+			Yacs.confirm(response.dialog_text, function(choice) {if(choice) {window.open(response.address);}});
 		}
 	},
 
@@ -677,8 +687,8 @@ var Yacs = {
 
 		handle.prepend(suffix + prefix);
 
-		handle.mouseout(function () { Yacs.mouseOut('#'+ Yacs.identify($(this))); return false; });
-		handle.mouseover(function () { Yacs.mouseOver('#'+ Yacs.identify($(this))); return false; });
+		handle.mouseout(function () {Yacs.mouseOut('#'+ Yacs.identify($(this)));return false;});
+		handle.mouseover(function () {Yacs.mouseOver('#'+ Yacs.identify($(this)));return false;});
 	},
 
 	/**
@@ -733,7 +743,7 @@ var Yacs = {
 
 		// close all tooltips on tabbing, etc
 		$("body").bind("yacs", function(e) {
-			$('a.tip,input.tip,textarea.tip').each(function() { $(this).tipsy("hide"); });
+			$('a.tip,input.tip,textarea.tip').each(function() {$(this).tipsy("hide");});
 		});
 
 		// load the link in a scaled-down iframe
@@ -863,8 +873,8 @@ var Yacs = {
 		this.options.width = (this.options.width < screen.availWidth?this.options.width:screen.availWidth);
 		this.options.height= (this.options.height < screen.availHeight?this.options.height:screen.availHeight);
 		var openoptions = 'width='+this.options.width+',height='+this.options.height+',location='+this.options.location+',menubar='+this.options.menubar+',toolbar='+this.options.toolbar+',scrollbars='+this.options.scrollbars+',resizable='+this.options.resizable+',status='+this.options.status;
-		if(this.options.top !== '') { openoptions+=",top="+this.options.top; }
-		if(this.options.left !== '') { openoptions+=",left="+this.options.left; }
+		if(this.options.top !== '') {openoptions+=",top="+this.options.top;}
+		if(this.options.left !== '') {openoptions+=",left="+this.options.left;}
 
 		// open the popup
 		var window_handle;
@@ -1004,14 +1014,14 @@ var Yacs = {
 
 			// a neighbour on the left
 			if(anchor.previousAnchor) {
-				Yacs.modalCallPrevious = function() { Yacs.showImage(anchor.previousAnchor); };
+				Yacs.modalCallPrevious = function() {Yacs.showImage(anchor.previousAnchor);};
 			} else {
 				Yacs.modalCallPrevious = null;
 			}
 
 			// a neighbour on the right
 			if(anchor.nextAnchor) {
-				Yacs.modalCallNext = function() { Yacs.showImage(anchor.nextAnchor); };
+				Yacs.modalCallNext = function() {Yacs.showImage(anchor.nextAnchor);};
 
 				// do not wait for user click to load the image
 				var nextLoader = new Image();
@@ -1022,11 +1032,11 @@ var Yacs = {
 			}
 
 			// display the image on screen
-			Yacs.displayModalBox({ title: imageTitle,
+			Yacs.displayModalBox({title: imageTitle,
 				body: imageReference,
 				button_PREVIOUS: '<<',
 				button_TRUE: 'X',
-				button_NEXT: '>>' });
+				button_NEXT: '>>'});
 
 			//	clear onLoad, IE behaves erratically with animated gifs otherwise
 			loader.onload = function(){};
@@ -1129,7 +1139,7 @@ var Yacs = {
 	startWorking: function() {
 
 		if(Yacs.workingOverlay) {
-			$(Yacs.workingOverlay).css({ display: 'block' });
+			$(Yacs.workingOverlay).css({display: 'block'});
 			return true;
 		}
 
@@ -1145,13 +1155,13 @@ var Yacs = {
 		$(objWorkingImage).attr('src', url_to_root + 'skins/_reference/ajax/ajax_working.gif');
 
 		var objCentered = document.createElement("div");
-		$(objCentered).css({ position: 'absolute', top: '30%', left: '0%', height: '25%', width: '100%', textAlign: 'center', lineHeight: '0' });
+		$(objCentered).css({position: 'absolute', top: '30%', left: '0%', height: '25%', width: '100%', textAlign: 'center', lineHeight: '0'});
 		$(objCentered).append(objWorkingImage);
 
 		Yacs.workingOverlay = document.createElement("div");
 		$(Yacs.workingOverlay).attr('id','yacsWorkingOverlay');
-		$(Yacs.workingOverlay).css({ position: 'fixed', top: '0', left: '0', zIndex: '1000', width: '100%', height: '100%', minHeight: '100%', backgroundColor: '#000', filter: 'alpha(opacity=20)', opacity: '0.2', display: 'block' });
-		$(Yacs.workingOverlay).click(function() { $(Yacs.workingOverlay).css({ display: 'none' });});
+		$(Yacs.workingOverlay).css({position: 'fixed', top: '0', left: '0', zIndex: '1000', width: '100%', height: '100%', minHeight: '100%', backgroundColor: '#000', filter: 'alpha(opacity=20)', opacity: '0.2', display: 'block'});
+		$(Yacs.workingOverlay).click(function() {$(Yacs.workingOverlay).css({display: 'none'});});
 		$(Yacs.workingOverlay).append(objCentered);
 
 		var objBody = document.getElementsByTagName("body").item(0);
@@ -1167,7 +1177,7 @@ var Yacs = {
 
 		var handle = $('#yacsWorkingOverlay');
 		if(handle) {
-			$(handle).css({ display: 'none' });
+			$(handle).css({display: 'none'});
 		}
 
 	},
@@ -1340,7 +1350,7 @@ var Yacs = {
 			var win = window.open("", null, "width=400,height=200," +
 								  "scrollbars=yes,resizable=yes,status=no," +
 								  "location=no,menubar=no,toolbar=no");
-			if (!win) { return; }
+			if (!win) {return;}
 			var doc = win.document;
 			doc.write("<html><head><title>Debug Log</title></head>" +
 				  "<body></body></html>");
@@ -1521,8 +1531,8 @@ var Yacs = {
 
 		// change it
 		currentSize += increment;
-		if(currentSize < 0 ) { currentSize = 0; }
-		if(currentSize > 6 ) { currentSize = 6; }
+		if(currentSize < 0 ) {currentSize = 0;}
+		if(currentSize > 6 ) {currentSize = 6;}
 
 		// save it for 6 months = 6 * 30 = 180 days
 		Yacs.setCookie('TextSize', '{ handle: "' + handle + '", size: ' + currentSize + ' }', 180);
@@ -1671,7 +1681,7 @@ var Yacs = {
 		if($('#modal_centered').outerHeight() < $(window).height()) {
 		    
 		    // adjust box size
-		    $('#modal_content').css({ width: 'auto', height: 'auto' });
+		    $('#modal_content').css({width: 'auto', height: 'auto'});
 		    $('#modal_centered').css('bottom',''); // remove it
 
 		    // center the box
@@ -1686,7 +1696,7 @@ var Yacs = {
 		
 		} else {
 		    // adjust box size to max space
-		    $('#modal_content').css({ width: $('#modal_centered').outerWidth()+'px', height: '100%' });
+		    $('#modal_content').css({width: $('#modal_centered').outerWidth()+'px', height: '100%'});
 		    
 		    // center horizontaly
 		    var xShift;

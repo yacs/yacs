@@ -1743,9 +1743,12 @@ div#modal_centered { /* the centered container */
 	background-color: #fff;
 	border: 2px solid #888;
 	margin: 0 auto;
-	padding: 4px;
-	overflow-y : scroll;
+	padding: 4px;	
 	z-index: 2000;
+}
+
+#modal_content {
+    overflow-y : scroll;
 }
 
 div#modal_content div.boxButtons {
@@ -1758,6 +1761,21 @@ div#modal_content h2.boxTitle {
 	margin-top: 0;
 	padding-top: 0;
 	text-align: center;
+}
+
+#modal_centered .boxClose {
+    position : absolute;
+    top: -14px;
+    right: -10px;   
+    
+    background: #122;
+    color : #B99;
+    font-weight: bold;
+    
+    padding : 0 2px 1px;
+    border : 2px solid #B99;
+    border-radius : 5px;
+    
 }
 
 div#modal_image_panel {
