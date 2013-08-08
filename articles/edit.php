@@ -187,6 +187,16 @@ elseif(isset($item['id']) && Articles::allow_modification($item, $anchor))
 else
 	$permitted = FALSE;
 
+// request may ask for raw content only
+if(isset($_REQUEST['raw']) && $_REQUEST['raw'] == 'Y') {
+    $whole_rendering = false;   
+    // warn also render_skin() for limited output
+    // @see shared/global.php
+    global $render_body_only;
+    $render_body_only = true;
+} else
+    $whole_rendering = true;
+
 // cascade empowerment
 if(Articles::is_owned($item, $anchor) || Surfer::is_associate())
 	Surfer::empower();
@@ -205,16 +215,19 @@ if(is_object($anchor))
 if(isset($item['id']))
 	$context['current_item'] = 'article:'.$item['id'];
 
-// path to this page
-$context['path_bar'] = Surfer::get_path_bar($anchor);
-if(isset($item['id']) && isset($item['title']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_permalink($item) => $item['title']));
+if($whole_rendering) {
+    // path to this page
+    $context['path_bar'] = Surfer::get_path_bar($anchor);
+    if(isset($item['id']) && isset($item['title']))
+	    $context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_permalink($item) => $item['title']));
+}    
 
 // page title
 if(isset($item['id']))
 	$context['page_title'] = sprintf(i18n::s('Edit: %s'), $item['title']);
 elseif(!is_object($overlay) || (!$context['page_title'] = $overlay->get_label('new_command', 'articles')))
 	$context['page_title'] = i18n::s('Add a page');
+
 
 // save data in session, if any, to pass through login step or through section selection step
 if(!Surfer::is_logged() || !is_object($anchor)) {
@@ -638,39 +651,42 @@ if($with_form) {
 
 	// an assistant-like rendering at page bottom
 	$context['page_bottom'] = Skin::build_assistant_bottom('', $menu, $suffix, isset($item['tags'])?$item['tags']:'');
-
+		
 	// content of the help box
 	//
-	$help = '';
+	if($whole_rendering) {
+	    $help = '';
 
-	// capture help messages from the overlay, if any
-	if(is_object($overlay))
-		$help .= $overlay->get_label('help', isset($item['id'])?'edit':'new');
+	    // capture help messages from the overlay, if any
+	    if(is_object($overlay))
+		    $help .= $overlay->get_label('help', isset($item['id'])?'edit':'new');
 
-	// splash message for new pages
-	if(!isset($item['id']))
-		$help .= '<p>'.i18n::s('Please type the text of your new page and hit the submit button. You will then be able to post images, files and links on subsequent forms.').'</p>';
+	    // splash message for new pages
+	    if(!isset($item['id']))
+		    $help .= '<p>'.i18n::s('Please type the text of your new page and hit the submit button. You will then be able to post images, files and links on subsequent forms.').'</p>';
 
-	// html and codes
-	$help .= '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>';
+	    // html and codes
+	    $help .= '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>';
 
- 	// locate mandatory fields
- 	$help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
+	    // locate mandatory fields
+	    $help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
 
- 	// change to another editor
-	$help .= '<form action=""><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
-	$selected = '';
-	if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'tinymce'))
-		$selected = ' selected="selected"';
-	$help .= '<option value="tinymce"'.$selected.'>'.i18n::s('TinyMCE')."</option>\n";
-	$selected = '';
-	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'yacs'))
-		$selected = ' selected="selected"';
-	$help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
-	$help .= '</select></p></form>';
+	    // change to another editor
+	    $help .= '<form action=""><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
+	    $selected = '';
+	    if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'tinymce'))
+		    $selected = ' selected="selected"';
+	    $help .= '<option value="tinymce"'.$selected.'>'.i18n::s('TinyMCE')."</option>\n";
+	    $selected = '';
+	    if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'yacs'))
+		    $selected = ' selected="selected"';
+	    $help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
+	    $help .= '</select></p></form>';
 
-	// in a side box
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
+	    // in a side box
+	    $context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
+	
+	}
 
 	// the script used for form handling at the browser
 	//	
