@@ -82,10 +82,16 @@ $context['text'] .= '<p style="margin-bottom: 1em;"><b>'.i18n::s('Interactive fi
 	.'<p><input type="text" size="6" onkeypress="return Yacs.filterFloat(this, event)" /> - '.i18n::s('Enter a floating number').'</p>'
 	.'</form>'."\n";
 
+// calling raw content of a page
+$context['text'] .= '<a class="button" id="view_1"><span>Press to open article 1 viewing page</span></a>';
+$context['text'] .= '<a class="button" id="edit_1"><span>Press to open article 1 edition form</span></a>';
+
 // some AJAX to make it work
 Page::insert_script('$("#sortables .sortable").each( function() { '
 		    .'Yacs.addOnDemandTools($(this));}); '."\n"
-		    .'$("#sortables").sortable({axis: "y", handle: ".drag_handle"});'
+		    .'$("#sortables").sortable({axis: "y", handle: ".drag_handle"});'."\n"		    
+		    .'$("#edit_1").click(function(){$.get(url_to_root+"articles/edit.php",{id:1, raw:"Y"}).done(function(data){var content={body: data};Yacs.displayModalBox(content);});});'
+		    .'$("#view_1").click(function(){$.get(url_to_root+"articles/view.php",{id:1, raw:"Y"}).done(function(data){var content={body: data};Yacs.displayModalBox(content);});});'
 	);
 
 // render the page according to the loaded skin
