@@ -1666,19 +1666,33 @@ var Yacs = {
 	updateModalBox: function(content) {
 
 		// update box content
-		$('#modal_content').html(content);
+		$('#modal_content').html(content);				
+		
+		if($('#modal_centered').outerHeight() < $(window).height()) {
+		    
+		    // adjust box size
+		    $('#modal_content').css({ width: 'auto', height: 'auto' });
+		    $('#modal_centered').css('bottom',''); // remove it
 
-		// adjust box size
-		$('#modal_content').css({ width: 'auto', height: 'auto' });
+		    // center the box
+		    var yShift, xShift;
+		    yShift = Math.floor((($(window).height() - $('#modal_centered').outerHeight()) / 2) - $('#modal_centered').css('top').replace('px', ''));
+		    xShift = Math.floor((($(window).width() - $('#modal_centered').outerWidth()) / 2) - $('#modal_centered').css('left').replace('px', ''));
 
-		// center the box
-		var yShift, xShift;
-		yShift = Math.floor((($(window).height() - $('#modal_centered').outerHeight()) / 2) - $('#modal_centered').css('top').replace('px', ''));
-		xShift = Math.floor((($(window).width() - $('#modal_centered').outerWidth()) / 2) - $('#modal_centered').css('left').replace('px', ''));
-
-		// update box position
-		if((Math.abs(yShift) > 1) || (Math.abs(xShift) > 1)) {
-			$('#modal_centered').animate({top: '+=' + yShift, left: '+=' + xShift}, 0.2);
+		    // update box position
+		    if((Math.abs(yShift) > 1) || (Math.abs(xShift) > 1)) {
+			    $('#modal_centered').animate({top: '+=' + yShift, left: '+=' + xShift}, 0.2);
+		    }
+		
+		} else {
+		    // adjust box size to max space
+		    $('#modal_content').css({ width: $('#modal_centered').outerWidth()+'px', height: '100%' });
+		    
+		    // center horizontaly
+		    var xShift;
+		    xShift = Math.floor((($(window).width() - $('#modal_centered').outerWidth()) / 2) - $('#modal_centered').css('left').replace('px', ''));
+		    if(Math.abs(xShift) < 1) xShift = 0;
+		    $('#modal_centered').animate({top:'5%',bottom:'5%',left: '+=' + xShift}, 0.2);
 		}
 
 	},
