@@ -27,7 +27,7 @@ abstract Class Layout_interface {
 	
 	/**
 	 * array of complexe data used for the rendering
-	 * that you can provide thru the scripts, in required	 
+	 * that you can provide thru the scripts, if required	 
 	 */
 	var $data = array();
 
@@ -135,6 +135,9 @@ abstract Class Layout_interface {
 	 * @return void
 	 */
 	function set_variant($variant = '') {
+	    if(isset($this->layout_variant))
+		$this->layout_variant = $this->layout_variant.' '.$variant;
+	    else
 		$this->layout_variant = $variant;
 	}
 	
