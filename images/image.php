@@ -9,6 +9,11 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
+// default jpeg quality in %, the 
+// lower, the more compressed the image is.
+if(!defined('IMG_JPEG_QUALITY'))
+    define('IMG_JPEG_QUALITY', 70);
+
 Class Image {
 
 	/**
@@ -124,7 +129,7 @@ Class Image {
 		if(($image_information[2] == 1) && is_callable('ImageGIF'))
 			ImageGIF($adjusted, $original);
 		elseif(($image_information[2] == 2) && is_callable('ImageJPEG'))
-			ImageJPEG($adjusted, $original, 70);
+			ImageJPEG($adjusted, $original, IMG_JPEG_QUALITY);
 		elseif((($image_information[2] == 1) || ($image_information[2] == 3)) && is_callable('ImagePNG'))
 			ImagePNG($adjusted, $original);
 		else {
@@ -305,7 +310,7 @@ Class Image {
 		if(($image_information[2] == 1) && is_callable('ImageGIF'))
 			ImageGIF($thumbnail, $target);
 		elseif(($image_information[2] == 2) && is_callable('ImageJPEG'))
-			ImageJPEG($thumbnail, $target, 70);
+			ImageJPEG($thumbnail, $target, IMG_JPEG_QUALITY);
 		elseif((($image_information[2] == 1) || ($image_information[2] == 3)) && is_callable('ImagePNG'))
 			ImagePNG($thumbnail, $target);
 		else {
