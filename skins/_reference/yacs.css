@@ -1763,6 +1763,9 @@ div#modal_content h2.boxTitle {
 	text-align: center;
 }
 
+/* no menu bar in overlaid viewing, use modal box buttons instead */
+#modal_content .menu_bar {display :none;}
+
 #modal_centered .boxClose {
     position : absolute;
     top: -14px;
