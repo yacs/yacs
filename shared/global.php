@@ -1434,8 +1434,8 @@ function render_skin($with_last_modified=TRUE) {
 	Safe::header('Content-Type: '.$context['content_type'].'; charset='.$context['charset']);
 	
 	if(isset($render_body_only) && $render_body_only ) {
-	    echo '<h2>'.$context['page_header'].'</h2>';
-	    echo $context['page_title'];
+	    echo $context['page_header'];
+	    echo '<h2>'.$context['page_title'].'</h2>';
 	    echo $context['text'];
 	    echo $context['page_footer'];
 	    return;

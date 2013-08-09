@@ -1676,14 +1676,15 @@ var Yacs = {
 	updateModalBox: function(content) {
 
 		// update box content
-		$('#modal_content').html(content);				
+		$('#modal_content').html(content);
 		
-		if($('#modal_centered').outerHeight() < $(window).height()) {
-		    
-		    // adjust box size
-		    $('#modal_content').css({width: 'auto', height: 'auto'});
-		    $('#modal_centered').css('bottom',''); // remove it
-
+		// remove height limitation if it was set
+		$('#modal_centered').css('bottom','');
+		// free the box size
+		$('#modal_content').css({width: 'auto', height: 'auto'});
+		
+		if($('#modal_centered').outerHeight() < $(window).height()) {		  
+		    		        		   
 		    // center the box
 		    var yShift, xShift;
 		    yShift = Math.floor((($(window).height() - $('#modal_centered').outerHeight()) / 2) - $('#modal_centered').css('top').replace('px', ''));
@@ -1694,7 +1695,7 @@ var Yacs = {
 			    $('#modal_centered').animate({top: '+=' + yShift, left: '+=' + xShift}, 0.2);
 		    }
 		
-		} else {
+		} else {		    
 		    // adjust box size to max space
 		    $('#modal_content').css({width: $('#modal_centered').outerWidth()+'px', height: '100%'});
 		    
