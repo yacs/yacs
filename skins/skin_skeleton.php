@@ -1494,6 +1494,7 @@ Class Skin_Skeleton {
 	 * - 'comment' - jump to a comment page
 	 * - 'day' - a one day calendar
 	 * - 'email' - a mailto: link
+	 * - 'edit' - say this link edit a page, for eg. to call overlaid edition 
 	 * - 'external' - jump to the outside world
 	 * - 'file' - see file details
 	 * - 'internal' - jump to the outside world, but stay in this window
@@ -1619,6 +1620,12 @@ Class Skin_Skeleton {
 		// force tip display for this link
 		if($variant == 'tip') {
 			$attributes .= ' class="tip"';
+			$variant = 'basic';
+		}
+		
+		// edition link, set overlaid edition if required
+		if($variant == 'edit') {
+			$attributes .= ' class="edit"';
 			$variant = 'basic';
 		}
 

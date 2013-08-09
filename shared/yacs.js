@@ -237,6 +237,11 @@ var Yacs = {
 	 * close the modal box
 	 */
 	closeModalBox: function() {
+	    
+	        if(typeof Yacs.doNotCloseModal != 'undefined' && Yacs.doNotCloseModal == true) {
+		    Yacs.doNotCloseModal = false;
+		    return;
+		}
 
 		$('#modal_content').fadeTo(0.3, 0.3,
 			function() {
@@ -817,6 +822,19 @@ var Yacs = {
 
 			anchor = null; // no memory leak
 		}
+		
+		// prepare edition link to ajax call of overlaid edition
+		$("a.edit").click(function(e){
+		    e.preventDefault();
+		    $.get($(this).attr("href"),{raw:'Y'}).done(function(data){
+			var content={
+			    body: data,
+			    button_TRUE:'Send',
+			    button_FALSE:'Cancel'
+			};
+			Yacs.displayModalBox(content,Yacs.modalPost);
+		    });
+		});
 
 		// slow down notifications on window blur
 		$(window).blur(Yacs.looseFocus);
@@ -1045,6 +1063,50 @@ var Yacs = {
 		// actual pre-load
 		loader.src = $(anchor).attr('href');
 
+	},
+	
+	modalPost: function(valid) {
+	    
+	    // action canceled
+	    if(!valid)
+		return;
+	    
+	    // get the form
+	    var form = $("#main_form");
+	    
+	    // call page validation
+	    valid = validateDocumentPost(form.get(0));
+	    
+	    // not valid yet, but keep the modal box openned
+	    if(!valid) {
+		Yacs.doNotCloseModal = true;
+		return;	
+	    }
+	    
+	    // trigger submission
+	    form.submit();
+	    Yacs.startWorking();
+	   
+	    
+	    /**
+	     * For ajax post, we have to consider intermediate screens
+	     * (like list of recipients alerted of the update)
+	    // append a input to the form to tell this is a ajax post
+	    $('<input name="ajax_request" value="Y" />').appendTo(form);
+	    
+	    // we are ok, send a ajax request
+	    $.ajax({
+		url:form.attr('action'),
+		type:form.attr('method'),
+		data:form.serialize()		
+	    }).done(function(html){
+		var html = $(html);
+		// replace content element
+		$('h1').replaceWith(html.find('h1'));
+			
+	    });
+	    */	    
+	    
 	},
 
 	/**

@@ -1222,7 +1222,7 @@ if(!isset($item['id'])) {
 		    Skin::define_img('ARTICLES_EDIT_IMG', 'articles/edit.gif');
 		    if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command', 'articles')))
 			    $label = i18n::s('Edit this page');
-		    $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), ARTICLES_EDIT_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+		    $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), ARTICLES_EDIT_IMG.$label, 'edit', i18n::s('Press [e] to edit'), FALSE, 'e');
 	    }
 
 	    // access previous versions, if any
