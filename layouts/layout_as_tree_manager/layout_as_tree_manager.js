@@ -37,6 +37,7 @@ var TreeManager = {
 		accept : ".tm-drag",
 		greedy : true,	 // prevent drop event propagation on nested drop elements
 		hoverClass: "tm-hoverdrop",
+		tolerance: 'pointer',
 		drop : TreeManager.elemDroped	// function to call when dropping is done	
 	    }	
 	
