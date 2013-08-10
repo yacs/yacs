@@ -32,13 +32,13 @@
  }
 
  /* hilight drop targets when hovered */
- .tm-hoverdrop {
+ .tm-hoverdrop, .tm-hover {
      background : rgba(20,20,50,.1);
  }
 
  /* show entry binded commands only when hovering them */
- li .tm-cmd {visibility: hidden;}
- li:hover > .tm-cmd {visibility: visible;}
+ li .tm-cmd {display:none;}
+ .tm-hover > .tm-cmd {display: inline;}
  
  /* rules for command buttons */
  .tm-cmd {padding: 2px;} 
@@ -48,5 +48,8 @@
  
  /* built-in crumbs while zooming */
  .tm-crumbs {text-transform: capitalize;}
-
+ 
+ .tm-drag {padding: 1px;}
+ 
+ #main_panel .tm-sub_elems {margin : 2px 0;}
 

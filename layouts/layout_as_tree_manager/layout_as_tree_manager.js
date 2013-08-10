@@ -23,7 +23,8 @@ var TreeManager = {
 	// options for dragged elements
 	TreeManager.dragOptions = {
 		containment:".tm-ddz",
-		cursor: 'move',
+		cursor: 'move',		
+		distance: 20,
 		revert: true,  // by defaut a dragged object will return to it's possition
 		revertDuration: 700,
 		start: function(e, ui) {
@@ -49,31 +50,73 @@ var TreeManager = {
 		$(".tm-drop").droppable(TreeManager.dropOptions);
 
 		// all cmd buttons
-		$(".tm-cmd").click( function() {TreeManager.cmd($(this));});
+		$(".tm-cmd").click( function(e) {e.stopPropagation();TreeManager.cmd($(this));});
 
 		//zoom & rename folders	    
 		$(".tm-zoom").click_n_dblclick(TreeManager.zoom,TreeManager.inputRename);
 
 		// rename content
-		$(".tm-page").dblclick( function() {TreeManager.inputRename($(this));});
+		$(".tm-page").dblclick( function(e) {e.stopPropagation();TreeManager.inputRename($(this));});
 	    
 	    } else {
 		// allow zoom only
 		$(".tm-zoom").click(function(e){
 		    e.preventDefault();
+		    e.stopPropagation();
 		    TreeManager.zoom($(this));
-		});
+		});				
+		
 		// hide commands tags
 		$(".tm-cmd").hide();
 	    }
 	    
+	    // fold/unfold list
+	    TreeManager.animFold($("li.tm-drop"));	    
 	    
+	    // mouse over animation
+	    TreeManager.animOver($(".tm-drag"));
+	    	    
 	    // hide menu bar ( we could override clic action on item creation link instead )
 	    $('.menu_bar').hide();
 	    
 	});	
 	
     },  
+    
+    /**
+     * click on a block toggle fold sub elements if any
+     */
+    animFold:function(elems) {
+	elems.click(function(e){
+		e.stopPropagation();
+		var li = $(this);
+		var subul = li.children('.tm-sub_elems');
+		if(!subul.children().length)
+		    return;
+		subul.toggle('fold',function() {		    
+		    if(subul.is(":visible")) 	  
+			li.children('.tm-foldmark').remove();
+		    else			    			
+			li.append('<span class="tm-foldmark">...</span>');
+		});		
+	    });
+    },
+    
+    /**
+     * mouse overing a block hilight it, but do not hiligth parent
+     * if focus is on a child
+     */
+    animOver:function(elems) {
+	elems.mouseenter(function(){
+		$(this).addClass('tm-hover');
+		$(this).parents('.tm-drag').removeClass('tm-hover');
+		//e.stopPropagation();
+	    }).mouseleave(function(){
+		$(this).removeClass('tm-hover');
+		$(this).parents('.tm-drag').first().addClass('tm-hover');
+	    });
+	
+    },
     
     /**
      * called after pressing on delete button of a anchor
@@ -179,6 +222,9 @@ var TreeManager = {
 	input.prependTo(anchor.children('.tm-sub_elems'));
 	input.wrap('<li class="tm-drop"></li>');
 	
+	// stop propagation of clicking on input
+	input.click(function(e){e.stopPropagation();})
+	
 	// remove input on focus out
 	input.focusout(function() {
 	    input.parent().remove();
@@ -208,6 +254,9 @@ var TreeManager = {
 	input.val(title.text());    // use former name
 	input.insertBefore(title);
 	title.detach();	// remove the original title but keep it in DOM
+	
+	// stop propagation of clicking on input
+	input.click(function(e){e.stopPropagation();})
 	
 	// remove input on focus out
 	input.focusout(function() {
@@ -297,12 +346,12 @@ var TreeManager = {
 		    
 		    // clone and append a create cmd to entry
 		    var cmd_create = $('.tm-ddz').find('.tm-create').first().clone();
-		    cmd_create.click( function() {TreeManager.cmd($(this));});
+		    cmd_create.click( function(e) {e.stopPropagation();TreeManager.cmd($(this));});
 		    newli.append(cmd_create);
 		    
 		    // clone add append a delete cmd
 		    var cmd_delete = $('.tm-ddz').find('.tm-delete').first().clone();
-		    cmd_delete.click( function() {TreeManager.cmd($(this));});
+		    cmd_delete.click( function(e) {e.stopPropagation();TreeManager.cmd($(this));});
 		    newli.append(cmd_delete);
 		    
 		    // append a empty sub-elements list
@@ -315,6 +364,10 @@ var TreeManager = {
 		    // make <li> draggable and droppable
 		    newli.draggable(TreeManager.dragOptions);
 		    newli.droppable(TreeManager.dropOptions);
+		    
+		    // animate it
+		    TreeManager.animFold(newli);
+		    TreeManager.animOver(newli);
 		    
 		    // display <li>
 		    input.parent().replaceWith(newli); 
