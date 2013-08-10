@@ -1748,7 +1748,7 @@ div#modal_centered { /* the centered container */
 }
 
 #modal_content {
-    overflow-y : scroll;
+    overflow-y : auto;
 }
 
 div#modal_content div.boxButtons {
