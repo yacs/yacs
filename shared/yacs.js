@@ -1846,6 +1846,8 @@ jQuery.fn.extend({
 		
 		// prevent default action on click (links, etc..)
 		e.preventDefault();
+		// prevent also propagation to nested element
+		e.stopPropagation();
 
 		if(clicks === 1) {
 
