@@ -280,7 +280,7 @@ Class Layout_sections_as_titles extends Layout_interface {
 				$icon = MAP_IMG;
 
 			// use tipsy on hover
-			$content = '<a href="'.$context['url_to_root'].$url.'" id="titles_'.$item['id'].'">'.$icon.BR.$prefix.$title.'</a>';
+			$content = '<a href="'.$url.'" id="titles_'.$item['id'].'">'.$icon.BR.$prefix.$title.'</a>';
 				
 			Page::insert_script(
 				'$(function() {'."\n"
