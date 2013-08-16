@@ -69,57 +69,65 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 
 		);
 
-	// process all js files in included/browser/header
+	// process all js files in included/browser/js_header
 	$count = 0;
 	$minified = '';
-	foreach(Safe::glob($context['path_to_root'].'included/browser/js_header/*.js') as $name) {
+	$files = Safe::glob($context['path_to_root'].'included/browser/js_header/*.js');
+	if(is_array($files)  && count($files))
+	    foreach( $files as $name) {
 
-		if(in_array(basename($name), $to_avoid))
-			continue;
+		    if(in_array(basename($name), $to_avoid))
+			    continue;
 
-		$context['text'] .= 'included/browser/header/'.basename($name).BR."\n";
+		    $context['text'] .= 'included/browser/js_header/'.basename($name).BR."\n";
 
-		// we do have some content
-		if($text = Safe::file_get_contents($name)) {
+		    // we do have some content
+		    if($text = Safe::file_get_contents($name)) {
 
-			// actual compression
-			if(!preg_match('/\.min\./', basename($name)))
-			    $minified .= JSMin::minify($text);
-			else
-			    $minified .= $text;				
+			    // actual compression
+			    if(!preg_match('/\.min\./', basename($name)))
+				$minified .= JSMin::minify($text);
+			    else
+				$minified .= $text;				
 
-			// one file has been compressed
-			$count++;
+			    // one file has been compressed
+			    $count++;
 
-		}
-	}
+		    }
+	    }
 	// save the library to call in page header
-	Safe::file_put_contents($context['path_to_root'].'included/browser/library_js_header.min.js', $minified);
-
-	// do the same with included/browser/footer, including shared/yacs.js
-	$minified ='';
-	foreach(Safe::glob($context['path_to_root'].'included/browser/js_endpage/*.js') as $name) {
-
-		if(in_array(basename($name), $to_avoid))
-			continue;
-
-		$context['text'] .= 'included/browser/footer/'.basename($name).BR."\n";
-
-		// we do have some content
-		if($text = Safe::file_get_contents($name)) {
-
-			// actual compression
-			// actual compression
-			if(!preg_match('/\.min\./', basename($name)))
-			    $minified .= JSMin::minify($text);
-			else
-			    $minified .= $text;
-
-			// one file has been compressed
-			$count++;
-
-		}
+	$file_min = $context['path_to_root'].'included/browser/library_js_header.min.js';
+	if($minified) {
+	    Safe::file_put_contents($file_min, $minified);
+	} else {
+	   Safe::unlink ($file_min);
 	}
+
+	// do the same with included/browser/js_endpage, including shared/yacs.js
+	$minified ='';
+	$files = Safe::glob($context['path_to_root'].'included/browser/js_endpage/*.js');
+	if(is_array($files)  && count($files))
+	    foreach( $files as $name) {
+
+		    if(in_array(basename($name), $to_avoid))
+			    continue;
+
+		    $context['text'] .= 'included/browser/js_endpage/'.basename($name).BR."\n";
+
+		    // we do have some content
+		    if($text = Safe::file_get_contents($name)) {
+
+			    // actual compression			    
+			    if(!preg_match('/\.min\./', basename($name)))
+				$minified .= JSMin::minify($text);
+			    else
+				$minified .= $text;
+
+			    // one file has been compressed
+			    $count++;
+
+		    }
+	    }
 	// include shared/yacs.js library
 	if(file_exists($context['path_to_root'].'shared/yacs.js')) {
 	    $context['text'] .= 'shared/yacs.js'.BR."\n";
@@ -128,10 +136,15 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 	    $count++;
 	}
 	// save the library to call in page footer
-	Safe::file_put_contents($context['path_to_root'].'included/browser/library_js_endpage.min.js', $minified);
+	$file_min = $context['path_to_root'].'included/browser/library_js_endpage.min.js';
+	if($minified) {
+	    Safe::file_put_contents($file_min, $minified);
+	} else {
+	    Safe:unlink ($file_min);
+	}
 
 	// do the same in included/calendar
-	if($names = Safe::glob($context['path_to_root'].'included/jscalendar/*.js')) {
+	/* if($names = Safe::glob($context['path_to_root'].'included/jscalendar/*.js')) {
 		foreach($names as $name) {
 
 			$context['text'] .= 'included/calendar/'.basename($name).' -> .js.jsmin'.BR."\n";
@@ -150,7 +163,7 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 
 			}
 		}
-	}
+	}*/
 
 	// report to surfer
 	if($count)
