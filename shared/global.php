@@ -1306,30 +1306,14 @@ function render_skin($with_last_modified=TRUE) {
 	// activate tinyMCE, if available
 	if(isset($context['javascript']['tinymce'])) {
 
-		Page::defer_script('included/tiny_mce/tiny_mce.js');
-		Page::insert_script('	tinyMCE.init({'."\n"
-			.'		mode : "textareas",'."\n"
-			.'		theme : "advanced",'."\n"
-			.'		editor_selector : "tinymce",'."\n"
-			.'		language : "'.$context['language'].'",'."\n"
-			.'		disk_cache : false,'."\n"
-			.'		relative_urls : false,'."\n"
-			.'		remove_script_host : false,'."\n"
-			.'		document_base_url : "'.$context['url_to_home'].$context['url_to_root'].'",'."\n"
-			.'		plugins : "safari,table,advhr,advimage,advlink,emotions,insertdatetime,searchreplace,paste,directionality,fullscreen,visualchars",'."\n"
-			.'		theme_advanced_buttons1 : "cut,copy,paste,pastetext,pasteword,|,formatselect,fontselect,fontsizeselect",'."\n"
-			.'		theme_advanced_buttons2 : "bold,italic,underline,strikethrough,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,blockquote,|,removeformat",'."\n"
-			.'		theme_advanced_buttons3 : "charmap,emotions,advhr,|,sub,sup,|,insertdate,inserttime,|,link,unlink,anchor,image,|,ltr,rtl,|,undo,redo,|,fullscreen",'."\n"
-			.'		theme_advanced_buttons4 : "tablecontrols,|,search,replace,|,cleanup,code,help",'."\n"
-			.'		theme_advanced_toolbar_location : "top",'."\n"
-			.'		theme_advanced_toolbar_align : "left",'."\n"
-			.'		theme_advanced_statusbar_location : "bottom",'."\n"
-			.'		theme_advanced_resizing : true,'."\n"
-			.'		extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",'."\n"
-			.'		template_external_list_url : "example_template_list.js",'."\n"
-			.'		use_native_selects : true,'."\n"
-			.'		debug : false	});'."\n"
-			);
+		Page::defer_script('included/tiny_mce/tinymce.min.js');
+		Page::insert_script('tinymce.init({'."\n"
+					.'  selector: "textarea.tinymce",'."\n"
+					.'  menubar:false,'."\n"
+					.'  plugins: "charmap, textcolor, fullscreen, code",'."\n"
+					.'  toolbar: "undo redo | styleselect | charmap | bold italic | alignleft aligncenter alignright | bullist numlist | forecolor backcolor | fullscreen code",'."\n"					
+					.'  language : "'.$context['language'].'"'."\n"
+				    .'});');				
 
 	}
 
