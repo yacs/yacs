@@ -237,7 +237,7 @@ var Yacs = {
 	 * close the modal box
 	 */
 	closeModalBox: function() {
-	    
+
 	        if(typeof Yacs.doNotCloseModal != 'undefined' && Yacs.doNotCloseModal == true) {
 		    Yacs.doNotCloseModal = false;
 		    return;
@@ -376,7 +376,7 @@ var Yacs = {
 
 		// prepare box actual content
 		var boxContent = '';
-		
+
 		if(content.title) {
 			boxContent += '<h2 class="boxTitle">'+content.title+'</h2>';
 		}
@@ -430,7 +430,7 @@ var Yacs = {
 
 		// extend the DOM tree
 		if(!Yacs.modalOverlay) {
-		    
+
 		    // small cross for closing modal box on right corner
 		//'<a class="boxClose" onclick="if(typeof Yacs.modalCallBack == &quot;function&quot;) { (Yacs.modalCallBack)(false) }; Yacs.closeModalBox();">x</a>'
 
@@ -438,21 +438,28 @@ var Yacs = {
 			$(objContent).attr('id','modal_content');
 			$(objContent).html('<img src="'+Yacs.spinningImage.src+'" />');
 
-			
+
 			var objCentered = document.createElement("div");
 			$(objCentered).attr('id','modal_centered');
 //			objCentered.css({ visibility: 'hidden' });
 			$(objCentered).append(objContent);
-			
+			$(objCentered).click(function(e){e.stopPropagation();});
+
 			var objBoxClose = document.createElement("a");
 			$(objBoxClose).text('x');
 			$(objBoxClose).addClass("boxClose");
-			$(objBoxClose).click(function(){if(typeof Yacs.modalCallBack == 'function'){(Yacs.modalCallBack)(false);} Yacs.closeModalBox();});
+			$(objBoxClose).click(function(e){
+			    e.stopPropagation();
+			    if(typeof Yacs.modalCallBack == 'function'){(Yacs.modalCallBack)(false);}
+			    Yacs.closeModalBox();
+			});
 			$(objCentered).prepend(objBoxClose);
 
 			Yacs.modalOverlay = document.createElement("div");
 			$(Yacs.modalOverlay).attr('id','modal_panel');
-			$(Yacs.modalOverlay).click(function() {});	// you have to click in the box to close the modal box
+			$(Yacs.modalOverlay).click(function() {
+			    if(typeof Yacs.modalCallBack == 'function'){(Yacs.modalCallBack)(false);}
+			    Yacs.closeModalBox();});
 			$(Yacs.modalOverlay).append(objCentered);
 
 			var objBody = document.getElementsByTagName("body").item(0);
@@ -801,7 +808,7 @@ var Yacs = {
 
 		// do the tiling
 		var $tiled = $('.tiler');
-		
+
 		$().ready(function(){
 			$tiled.masonry({
 				itemSelector: '.tile'
@@ -822,7 +829,7 @@ var Yacs = {
 
 			anchor = null; // no memory leak
 		}
-		
+
 		// prepare edition link to ajax call of overlaid edition
 		$("a.edit").click(function(e){
 		    e.preventDefault();
@@ -1064,49 +1071,49 @@ var Yacs = {
 		loader.src = $(anchor).attr('href');
 
 	},
-	
+
 	modalPost: function(valid) {
-	    
+
 	    // action canceled
 	    if(!valid)
 		return;
-	    
+
 	    // get the form
 	    var form = $("#main_form");
-	    
+
 	    // call page validation
 	    valid = validateDocumentPost(form.get(0));
-	    
+
 	    // not valid yet, but keep the modal box openned
 	    if(!valid) {
 		Yacs.doNotCloseModal = true;
-		return;	
+		return;
 	    }
-	    
+
 	    // trigger submission
 	    form.submit();
 	    Yacs.startWorking();
-	   
-	    
+
+
 	    /**
 	     * For ajax post, we have to consider intermediate screens
 	     * (like list of recipients alerted of the update)
 	    // append a input to the form to tell this is a ajax post
 	    $('<input name="ajax_request" value="Y" />').appendTo(form);
-	    
+
 	    // we are ok, send a ajax request
 	    $.ajax({
 		url:form.attr('action'),
 		type:form.attr('method'),
-		data:form.serialize()		
+		data:form.serialize()
 	    }).done(function(html){
 		var html = $(html);
 		// replace content element
 		$('h1').replaceWith(html.find('h1'));
-			
+
 	    });
-	    */	    
-	    
+	    */
+
 	},
 
 	/**
@@ -1460,14 +1467,14 @@ var Yacs = {
 				if(!Yacs.tabs_current) {
 					Yacs.tabs_current = id;
 				}
-			}									
+			}
 		}
-		
+
 		prev_next_buttons = $("#tabs_panels .step");
 		$.each(prev_next_buttons, function() {
 		    $(this).click(function() {Yacs.tabsDisplay($(this).data("target"));});
 		});
-		
+
 
 		// where are we?
 		if(window.location.hash.length > 1) {
@@ -1639,7 +1646,7 @@ var Yacs = {
 		$(current.handle + ' tr').each(function () {
 		   $(this).css("fontSize", currentSize);
     	});
-	},	
+	},
 
 	/**
 	 * toggle a folded box
@@ -1739,14 +1746,14 @@ var Yacs = {
 
 		// update box content
 		$('#modal_content').html(content);
-		
+
 		// remove height limitation if it was set
 		$('#modal_centered').css('bottom','');
 		// free the box size
 		$('#modal_content').css({width: 'auto', height: 'auto'});
-		
-		if($('#modal_centered').outerHeight() < $(window).height()) {		  
-		    		        		   
+
+		if($('#modal_centered').outerHeight() < $(window).height()) {
+
 		    // center the box
 		    var yShift, xShift;
 		    yShift = Math.floor((($(window).height() - $('#modal_centered').outerHeight()) / 2) - $('#modal_centered').css('top').replace('px', ''));
@@ -1756,11 +1763,11 @@ var Yacs = {
 		    if((Math.abs(yShift) > 1) || (Math.abs(xShift) > 1)) {
 			    $('#modal_centered').animate({top: '+=' + yShift, left: '+=' + xShift}, 0.2);
 		    }
-		
-		} else {		    
+
+		} else {
 		    // adjust box size to max space
 		    $('#modal_content').css({width: $('#modal_centered').outerWidth()+'px', height: '100%'});
-		    
+
 		    // center horizontaly
 		    var xShift;
 		    xShift = Math.floor((($(window).width() - $('#modal_centered').outerWidth()) / 2) - $('#modal_centered').css('left').replace('px', ''));
@@ -1819,31 +1826,31 @@ var Yacs = {
 
 // specific jquery extensions
 jQuery.fn.extend({
-    
-    
-    /** 
-     * This function enable to bind single click and dblclick on same objects. 
+
+
+    /**
+     * This function enable to bind single click and dblclick on same objects.
      * The problem without it is that .click() is taking priority over dblclick()
      * This function works with a small timer to wait for second click
      * @see http://stackoverflow.com/questions/6330431/jquery-bind-double-click-and-single-click-separately
-     * 
+     *
      * @param callback function what to do on single click
      * @param callback function what to do on double click
-     * 
-     * callbacks are receiving as parameters the 
+     *
+     * callbacks are receiving as parameters the
      * jquery object clicked
      */
     click_n_dblclick: function(call_on_click, call_on_dblclick) {
-	
+
 	// DELAY is max time between to clicks of a double one
 	var DELAY = 700, clicks = 0, timer = null;
-	
+
 	// return for all jquery objects selected by $()
 	return this.each(function() {
 	    var obj = $(this);
 	    obj.on('click',function(e) {
 		clicks++;  //count clicks
-		
+
 		// prevent default action on click (links, etc..)
 		e.preventDefault();
 		// prevent also propagation to nested element
@@ -1853,7 +1860,7 @@ jQuery.fn.extend({
 
 		    timer = setTimeout(function() {
 
-			call_on_click(obj);     //perform single-click action    
+			call_on_click(obj);     //perform single-click action
 			clicks = 0;		//after action performed, reset counter
 
 		    }, DELAY);
@@ -1867,7 +1874,7 @@ jQuery.fn.extend({
 
 	   }).on("dblclick", function(e){
 		e.preventDefault();		//cancel system double-click event
-	   });		
+	   });
 	});
     }
 }); //end jQuery extends
