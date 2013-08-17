@@ -104,7 +104,7 @@ class Overlay {
 	 * previous version of attributes, when overlay content is updated
 	 */
 	var $snapshot = array();
-	
+
 	/**
 	 * the parent object
 	 */
@@ -114,7 +114,7 @@ class Overlay {
 	 * allow or block operations
 	 *
 	 * @see overlays/petition.php
-	 *	 
+	 *
 	 * @param string the foreseen operation ('edit', 'new', ...)
 	 * @param string the kind of item to handle ('approval', ...)
 	 * @return TRUE if the operation is accepted, FALSE otherwise
@@ -421,7 +421,9 @@ class Overlay {
 	 * @return some HTML to be inserted into the resulting page
 	 */
 	function &get_live_title($host=NULL) {
-		$text = $host['title'];
+
+		$text = $this->anchor->get_title();
+
 		return $text;
 	}
 
@@ -678,35 +680,35 @@ class Overlay {
 		// unknown overlay type or empty overlay
 		return NULL;
 	}
-	
+
 	/**
-	 * Load in current page style sheets and javascript 
+	 * Load in current page style sheets and javascript
 	 * files binded with the overlay.
-	 * 
-	 * Filenames must be same as classname, plus extension. 
-	 * 
+	 *
+	 * Filenames must be same as classname, plus extension.
+	 *
 	 * Usage :  $this->load_scripts_n_styles();
 	 * within parts of your overlay witch need those dependancies.
 	 * (render(), get_view_text() ... )
-	 * 
+	 *
 	 * Note the function will also call dependancies of parent class.
 	 *
 	 * @param type $myclass, argument used by the recursive call.
 	 */
 	final protected function load_scripts_n_styles($myclass='') {
-	    
+
 	    if(!$myclass)
 		$myclass = get_class($this);
-	    
+
 	    $parent = get_parent_class($myclass);
-	    
+
 	    // load scripts (if exist)
 	    Page::load_style(strtolower('overlays/'.$myclass.'/'.$myclass.'.css'));
 	    Page::defer_script(strtolower('overlays/'.$myclass.'/'.$myclass.'.js'));
-	    
+
 	    // recursive call to parent class, stop on "Overlay"
 	    if($parent!= '' && $parent!='Overlay')
-		$parent::load_scripts_n_styles($parent);	    
+		$parent::load_scripts_n_styles($parent);
 	}
 
 	/**
