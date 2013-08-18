@@ -1293,6 +1293,7 @@ function render_skin($with_last_modified=TRUE) {
 	$script = JS_PREFIX
 		.'	var url_to_root = "'.$context['url_to_home'].$context['url_to_root'].'";'."\n"
 		.'	var url_to_skin = "'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/"'."\n"
+		.'	var surfer_lang = "'.$context['language'].'"'."\n"
 		.JS_SUFFIX;
 	
 	if($whole_rendering) {
@@ -1304,16 +1305,10 @@ function render_skin($with_last_modified=TRUE) {
 	}
 
 	// activate tinyMCE, if available
-	if(isset($context['javascript']['tinymce'])) {
+	if($whole_rendering && isset($context['javascript']['tinymce'])) {
 
-		Page::defer_script('included/tiny_mce/tinymce.min.js');
-		Page::insert_script('tinymce.init({'."\n"
-					.'  selector: "textarea.tinymce",'."\n"
-					.'  menubar:false,'."\n"
-					.'  plugins: "charmap, textcolor, fullscreen, code",'."\n"
-					.'  toolbar: "undo redo | styleselect | charmap | bold italic | alignleft aligncenter alignright | bullist numlist | forecolor backcolor | fullscreen code",'."\n"					
-					.'  language : "'.$context['language'].'"'."\n"
-				    .'});');				
+		Page::defer_script('included/tiny_mce/tinymce.min.js');	
+		Page::insert_script('Yacs.tinymceInit()');				
 
 	}
 

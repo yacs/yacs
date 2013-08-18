@@ -718,6 +718,16 @@ var Yacs = {
 		$(handle + ' .onHoverLeft, ' + handle + ' .onHoverRight')
 			.css('visibility', 'visible');
 	},
+	
+	tinymceInit: function() {
+	    tinymce.init({
+		    selector: "textarea.tinymce",
+		    menubar:false,
+		    plugins: "charmap, textcolor, fullscreen, code",
+		    toolbar: "undo redo | styleselect | charmap | bold italic | alignleft aligncenter alignright | bullist numlist | forecolor backcolor | fullscreen code",
+		    language : surfer_lang
+		});
+	},
 
 	toggleProperties: function(handle) {
         $(handle).children('.properties').toggle('slide');
@@ -832,14 +842,31 @@ var Yacs = {
 
 		// prepare edition link to ajax call of overlaid edition
 		$("a.edit").click(function(e){
-		    e.preventDefault();
-		    $.get($(this).attr("href"),{raw:'Y'}).done(function(data){
+		    e.preventDefault();	
+		    // get edition page
+		    $.get($(this).attr("href"),{raw:'Y'})   
+		    .done(function(data){
 			var content={
 			    body: data,
 			    button_TRUE:'Send',
 			    button_FALSE:'Cancel'
 			};
 			Yacs.displayModalBox(content,Yacs.modalPost);
+			// preload instruction for tinymce
+			// @see https://gist.github.com/badsyntax/379244
+			window.tinyMCEPreInit = {
+			    base: url_to_root+'included/tiny_mce',
+			    suffix : '.min'	// to search for theme.min.js		
+			    }; 
+			// get tinymce editor    
+			$.getScript(url_to_root+'included/tiny_mce/tinymce.min.js')
+			.done(function(){
+			    // without this tinymce won't initialize
+			    tinymce.dom.Event.domLoaded = true; 
+			    // initialize tinymce
+			    Yacs.tinymceInit();
+			})
+			
 		    });
 		});
 
