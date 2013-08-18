@@ -83,14 +83,18 @@ $context['text'] .= '<p style="margin-bottom: 1em;"><b>'.i18n::s('Interactive fi
 	.'</form>'."\n";
 
 // calling raw content of a page
+$context['text'] .= '<p>';
 $context['text'] .= '<a class="button" id="view_1"><span>Press to open article 1 viewing page</span></a>';
-$context['text'] .= '<a class="button" id="edit_1"><span>Press to open article 1 edition form</span></a>';
+$context['text'] .= '<a class="button edit" id="edit_1" href="'.$context['url_to_root'].'articles/edit.php?id=1"><span>Press to open article 1 edition form</span></a>';
+$context['text'] .= '</p>';
+
+$context['text'] .= '<p><textarea size="3"></textarea>';
 
 // some AJAX to make it work
 Page::insert_script('$("#sortables .sortable").each( function() { '
 		    .'Yacs.addOnDemandTools($(this));}); '."\n"
 		    .'$("#sortables").sortable({axis: "y", handle: ".drag_handle"});'."\n"		    
-		    .'$("#edit_1").click(function(){$.get(url_to_root+"articles/edit.php",{id:1, raw:"Y"}).done(function(data){var content={body: data};Yacs.displayModalBox(content);});});'
+		    //.'$("#edit_1").click(function(){$.get(url_to_root+"articles/edit.php",{id:1, raw:"Y"}).done(function(data){var content={body: data};Yacs.displayModalBox(content);});});'
 		    .'$("#view_1").click(function(){$.get(url_to_root+"articles/view.php",{id:1, raw:"Y"}).done(function(data){var content={body: data};Yacs.displayModalBox(content);});});'
 	);
 
