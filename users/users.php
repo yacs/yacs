@@ -340,6 +340,10 @@ Class Users {
 		$query = "DELETE FROM ".SQL::table_name('users')." WHERE id = ".SQL::escape($item['id']);
 		if(SQL::query($query, FALSE, $context['users_connection']) === FALSE)
 			return FALSE;
+		
+		// remember overlay deletion
+		if(isset($item['overlay']) && ($overlay = Overlay::load($item, 'user:'.$item['id'])))
+			$overlay->remember('delete', $item, 'user:'.$item['id']);
 
 		// job done
 		return TRUE;
