@@ -442,6 +442,8 @@ if(!isset($context['url_to_root'])) {
 			$context['url_to_root'] = $matches[1];
 		elseif(preg_match('/(\/.*?\/)control/i', $items['path'], $matches))
 			$context['url_to_root'] = $matches[1];
+		elseif(preg_match('/^(\/.*?)\/?$/', $items['path'], $matches))
+			$context['url_to_root'] = $matches[1].'/';
 	}
 }
 
@@ -717,6 +719,7 @@ if(!defined('NO_VIEW_PRELOAD')) {
 // if no parameters file, jump to the control panel, if not in it already
 if(!is_readable($context['path_to_root'].'parameters/control.include.php') && !preg_match('/(\/control\/|\/included\/|setup\.php)/i', $context['script_url']))
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].'control/');
+
 
 // no need for data access
 if(!defined('NO_MODEL_PRELOAD')) {
