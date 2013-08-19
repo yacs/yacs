@@ -28,8 +28,6 @@
  *
  * @link http://www.olate.com/articles/254 Use PHP and JavaScript to Display Local Time
  *
- * [*] List of on-going actions, if any. See [script]actions/index.php[/script] for more information on actions.
- *
  * [*] Shortcuts are displayed in the extra section to streamline navigation and contribution efforts.
  *
  *
@@ -162,7 +160,7 @@ if(Surfer::is_crawler()) {
 	if(isset($credentials[0]) && ($credentials[0] == 'edit')) {
 
 		// get an anchor
-		if(!isset($credentials[1]) || (!$anchor =& Anchors::get($credentials[1])))
+		if(!isset($credentials[1]) || (!$anchor = Anchors::get($credentials[1])))
 			Logger::error(i18n::s('No anchor has been found.'));
 
 		// retrieve poster attributes
@@ -241,7 +239,7 @@ if(Surfer::is_crawler()) {
 	} elseif(isset($credentials[0]) && ($credentials[0] == 'visit')) {
 
 		// get an anchor
-		if(!isset($credentials[1]) || (!$anchor =& Anchors::get($credentials[1])))
+		if(!isset($credentials[1]) || (!$anchor = Anchors::get($credentials[1])))
 			Logger::error(i18n::s('No anchor has been found.'));
 
 		// visitor id or email address
@@ -293,6 +291,10 @@ if(Surfer::is_crawler()) {
 
 	// the surfer has been authenticated
 	if($user = Users::login($name, $_REQUEST['login_password'])) {
+	    
+		// surfer request long validity authentication
+		if(isset($_REQUEST['remember']) && $_REQUEST['remember'] =='Y')
+			$context['users_with_permanent_authentication'] = 'Y';
 
 		// set permanent name shown from top level
 		Safe::setcookie('surfer_name', $user['nick_name'], time()+60*60*24*500, '/');
@@ -331,8 +333,7 @@ if(Surfer::is_crawler()) {
 		// a link to the user profile
 		$cells = array();
 		$cells[] = i18n::s('Your profile');
-		$url = Surfer::get_permalink();
-		$cells[] = 'left='.Skin::build_link($url, Surfer::get_name(), 'user');
+		$cells[] = 'left='.Surfer::get_link();
 		$information .= Skin::table_row($cells, $lines++);
 
 		// the email field
@@ -360,14 +361,6 @@ if(Surfer::is_crawler()) {
 
 		// display in a separate panel
 		$panels[] = array('information', i18n::s('You'), 'information_panel', $information);
-
-		// on-going actions, if any
-		include_once '../actions/actions.php';
-		if($items = Actions::list_by_date_for_anchor('user:'.Surfer::get_id(), 0, ACTIONS_PER_PAGE)) {
-			if(is_array($items) && @count($items))
-				$items = Skin::build_list($items, 'decorated');
-			$panels[] = array('actions', i18n::s('Actions'), 'actions', $items);
-		}
 
 		//
 		// assemble all tabs
@@ -419,7 +412,7 @@ if(Surfer::is_crawler()) {
 		Logger::error(i18n::s('Failed authentication'), FALSE);
 
 		// help surfer to recover
-		if($items =& Users::search($name, 0, 7, 'password')) {
+		if($items =& Users::search($name, 1.0, 7, 'password')) {
 			// display candidate profiles
 			if(is_array($items))
 				$items =& Skin::build_list($items, 'decorated');
@@ -462,6 +455,13 @@ if(Surfer::is_crawler()) {
 	$label = i18n::s('Password');
 	$input = '<input type="password" name="login_password" size="45" maxlength="255" />'."\n";
 	$main_column .= '<p>'.$label.BR.$input.'</p>';
+	
+	// remember me ?
+	if($context['users_with_permanent_authentication'] == 'U') {
+	    $label = i18n::s('Stay connected');
+	    $input = '<input type="checkbox" name="remember" value="Y" />'."\n";
+	    $main_column .= '<p>'.$input.'&nbsp;'.$label.'</p>';
+	}
 
 	// bottom commands
 	$menu = array();
@@ -507,38 +507,35 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= $main_column;
 
 	// the script used for data checking on the browser
-	$context['text'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// email is mandatory'."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// email is mandatory
 		.'	if(!container.login_name.value) {'."\n"
 		.'		alert("'.i18n::s('You must provide a nick name or an email address.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
+			// successful check
 		.'	return true;'."\n"
 		.'}'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'$("#login_name").focus();'."\n"
 		."\n"
-		.JS_SUFFIX."\n";
+		);
 
 	// a place holder for cookies activation
 	$context['text'] .= '<p id="ask_for_cookies" style="display: none; color: red; text-decoration: blink;"></p>';
 
 	// the script used to check that cookies are activated
-	$context['text'] .= JS_PREFIX
-		.'document.cookie = \'CookiesEnabled=1\';'."\n"
+	Page::insert_script(
+		'document.cookie = \'CookiesEnabled=1\';'."\n"
 		.'if((document.cookie == "") && document.getElementById) {'."\n"
-		."\t".'$("#ask_for_cookies").update("'.i18n::s('Your browser must accept cookies in order to successfully register and log in.').'");'."\n"
+		."\t".'$("#ask_for_cookies").html("'.i18n::s('Your browser must accept cookies in order to successfully register and log in.').'");'."\n"
 		."\t".'$("#ask_for_cookies").style.display = \'block\';'."\n"
 		."\t".'$("#login_button").disabled = true;'."\n"
 		.'}'."\n"
-		.JS_SUFFIX."\n";
+		);
 
 	// the help panel
 	$help = '<p>'.i18n::s('Your browser must accept cookies in order to successfully register and log in.').'</p>'

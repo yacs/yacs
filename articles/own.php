@@ -27,12 +27,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
@@ -89,7 +89,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<p>'.sprintf(i18n::s('Current owner is %s'), Users::get_link($user['full_name'], $user['email'], $user['id'])).'</p>';
 
 	// name current owner
-	} elseif(isset($item['owner_id']) && ($owner =& Users::get($item['owner_id']))) {
+	} elseif(isset($item['owner_id']) && ($owner = Users::get($item['owner_id']))) {
 		$context['text'] .= '<p>'.sprintf(i18n::s('Current owner is %s'), Users::get_link($owner['full_name'], $owner['email'], $owner['id'])).'</p>';
 
 	}
@@ -99,22 +99,19 @@ if(Surfer::is_crawler()) {
 
 	// the form to link additional users
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'
-		.'<input type="text" name="assigned_name" id="name" size="45" maxlength="255" />'
-		.'<input type="hidden" name="id" value="'.encode_field($item['id']).'">'
-		.'<input type="hidden" name="action" value="set">'
+		.'<input type="text" name="assigned_name" id="assigned_name" size="45" maxlength="255" />'
+		.'<input type="hidden" name="id" value="'.encode_field($item['id']).'" />'
+		.'<input type="hidden" name="action" value="set" />'
+		.' <input type="submit" id="submit_button" value="'.i18n::s('Submit').'" style="display: none;" />'
 		.'</p></form>'."\n";
 
 	// enable autocompletion
-	$context['text'] .= JS_PREFIX
-		."\n"
-		.'// set the focus on first form field'."\n"
-		.'$(document).ready( function() { $("#name").focus() });'."\n"
-		."\n"
-		.'// enable name autocompletion'."\n"
-		.'$(document).ready( function() {'."\n"
-		.' Yacs.autocomplete_names("#name",true);'."\n"
-		.'});  '."\n"
-		.JS_SUFFIX;
+	Page::insert_script(
+		'$(function() {'."\n"
+		.'	$("#name").focus();'."\n" // set the focus on first form field
+		.'	Yacs.autocomplete_names("assigned_name",true, "", function(data) { $("#submit_button").show().click(); });'."\n" // enable name autocompletion
+		.'});'."\n"
+		);
 
 
 	// back to the anchor page

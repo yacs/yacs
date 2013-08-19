@@ -25,9 +25,9 @@ Class Layout_sections extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array of resulting items, or NULL
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -44,17 +44,16 @@ Class Layout_sections extends Layout_interface {
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay, if any
 			$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// use the title to label the link
 			if(is_object($overlay))
@@ -197,7 +196,7 @@ Class Layout_sections extends Layout_interface {
 				$suffix .= ' <span class="details">('.implode(', ', $details).')</span>';
 
 			// the main anchor link
-			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
+			if(is_object($anchor) && (!isset($this->focus) || ($item['anchor'] != $this->focus)))
 				$suffix .= ' <span class="details">'.sprintf(i18n::s('in %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'section'))."</span>\n";
 
 			// not if decorated
@@ -205,7 +204,7 @@ Class Layout_sections extends Layout_interface {
 
 				// one line per related item
 				if(count($content))
-					$suffix .= '<p class="details">'.Skin::build_list($content, 'compact')."</p>\n";
+					$suffix .= '<div class="details">'.Skin::build_list($content, 'compact')."</div>\n";
 
 			}
 

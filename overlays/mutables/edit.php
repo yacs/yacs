@@ -30,7 +30,6 @@ if(!Surfer::is_associate()) {
 
 // update targeted overlays
 } elseif(isset($_REQUEST['id']) && $_REQUEST['id']) {
-	include_once '../../overlays/overlay.php';
 
 	// change all named overlays
 	$count = 0;
@@ -41,7 +40,7 @@ if(!Surfer::is_associate()) {
 		foreach($ids as $id) {
 
 			// load the page and bind the related overlay
-			if(($item =& Articles::get($id)) && ($overlay = Overlay::load($item, 'article:'.$item['id'])) && is_callable(array($overlay, 'update'))) {
+			if(($item = Articles::get($id)) && ($overlay = Overlay::load($item, 'article:'.$item['id'])) && is_callable(array($overlay, 'update'))) {
 				$count++;
 
 				// update provided attributes
@@ -123,24 +122,21 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '</div></form>';
 
 	// append the script used for data checking on the browser
-	$context['page_footer'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// edit_name is mandatory'."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// edit_name is mandatory
 		.'	if(!container.id.value) {'."\n"
 		.'		alert("'.i18n::s('Please provide an overlay identifier').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
+			// successful check
 		.'	return true;'."\n"
 		.'}'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'$("#id").focus();'."\n"
-		.JS_SUFFIX."\n";
+		);
 
 }
 

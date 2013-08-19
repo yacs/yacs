@@ -48,12 +48,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Sections::get($id);
+$item = Sections::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // editors have associate-like capabilities
 if((isset($item['id']) && Sections::is_assigned($item['id'])) || (is_object($anchor) && $anchor->is_assigned()))
@@ -93,7 +93,7 @@ if(!$item['id']) {
 } else {
 
 	// compute the url for this section
-	$url = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
+	$url = Sections::get_permalink($item);
 
 	// get a description
 	if($item['introduction'])
@@ -108,9 +108,10 @@ if(!$item['id']) {
 		.'		<dc:title>'.encode_field($item['title']).'</dc:title>'."\n"
 		.'		<dc:description>'.encode_field(Skin::strip($description)).'</dc:description>'."\n"
 		.'		<dc:date>'.gmdate('Y-m-d').'</dc:date>'."\n"
-		.'		<dc:format>text/html</dc:format>'."\n"
-		.'		<dc:language>'.$context['preferred_language'].'</dc:language>'."\n"
-		.'	</rdf:Description>'."\n"
+		.'		<dc:format>text/html</dc:format>'."\n";
+	if(isset($item['language']) && $item['language'] && ($item['language'] != 'none'))
+		$text .= '		<dc:language>'.$item['language'].'</dc:language>'."\n";
+	$text .= '	</rdf:Description>'."\n"
 		.'</rdf:RDF>';
 
 	//
@@ -122,8 +123,8 @@ if(!$item['id']) {
 
 	// suggest a name on download
 	if(!headers_sent()) {
-		$file_name = utf8::to_ascii(Skin::strip($context['page_title'], 20).'.opml.xml');
-		Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+		$file_name = utf8::to_ascii(Skin::strip($context['page_title']).'.opml.xml');
+		Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

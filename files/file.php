@@ -8,46 +8,11 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 Class File extends Anchor {
-
-	/**
-	 * get the focus for this anchor
-	 *
-	 * This function retrieve the id of the top anchor.
-	 *
-	 * To be overloaded into derivated class
-	 *
-	 * @return a string
-	 */
-	 function get_focus() {
-
-		// get the parent
-		if(!isset($this->anchor))
-			$this->anchor =& Anchors::get($this->item['anchor']);
-
-		// the parent level
-		if(is_object($this->anchor))
-			return $this->anchor->get_focus();
-
-		// this level
-		 return array();
-	 }
-
-	/**
-	 * get the url to display the icon for this anchor
-	 *
-	 * @return an anchor to the icon image
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_icon_url() {
-		if(isset($this->item['icon_url']) && $this->item['icon_url'])
-			return $this->item['icon_url'];
-		return $this->get_thumbnail_url();
-	}
 
 	/**
 	 * get next and previous items, if any
@@ -113,67 +78,6 @@ Class File extends Anchor {
 	}
 
 	/**
-	 * get the path bar for this anchor
-	 *
-	 * For files, the path bar is made of one stem for the section, then one stem for the file itself.
-	 *
-	 * @return an array of $url => $label, or NULL
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_path_bar() {
-		global $context;
-
-		// no item bound
-		if(!isset($this->item['id']))
-			return NULL;
-
-		// get the parent
-		if(!isset($this->anchor))
-			$this->anchor =& Anchors::get($this->item['anchor']);
-
-		// the parent level
-		$parent = array();
-		if(is_object($this->anchor))
-			$parent = $this->anchor->get_path_bar();
-
-		// this item
-		$url = $this->get_url();
-		$label = $this->get_title();
-		$data = array_merge($parent, array($url => $label));
-
-		// return the result
-		return $data;
-
-	}
-
-	/**
-	 * get the reference for this anchor
-	 *
-	 * @return 'file:&lt;id&gt;'
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_reference() {
-		if(isset($this->item['id']))
-			return 'file:'.$this->item['id'];
-		return NULL;
-	}
-
-	/**
-	 * get the url to display the thumbnail for this anchor
-	 *
-	 * @return an anchor to the thumbnail image
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_thumbnail_url() {
-		if(isset($this->item['thumbnail_url']))
-			return $this->item['thumbnail_url'];
-		return NULL;
-	}
-
-	/**
 	 * get the title for this anchor
 	 *
 	 * @return a string, or NULL if no file is available
@@ -212,7 +116,27 @@ Class File extends Anchor {
 	 * @see shared/anchor.php
 	 */
 	function load_by_id($id, $mutable=FALSE) {
-		$this->item =& Files::get($id, $mutable);
+		$this->item = Files::get($id, $mutable);
+	}
+	
+	/**
+	 * get permalink to item
+	 */
+	function get_permalink() {
+	    if(!isset($this->item['id']))
+		    return NULL;
+	    
+	    $link = Files::get_permalink($this->item);
+	    return $link;
+	}
+	
+	/**
+	 * provide classe name with all static functions on this kind of anchor
+	 * 
+	 * @return a class name
+	 */
+	function get_static_group_class() {
+	    return 'Files';
 	}
 
 	/**
@@ -230,14 +154,12 @@ Class File extends Anchor {
 	 * @param string one of the pre-defined action code
 	 * @param string the id of the item related to this update
 	 * @param boolean TRUE to not change the edit date of this anchor, default is FALSE
-	 * @param boolean TRUE to notify section watchers, default is FALSE
-	 * @param boolean TRUE to notify poster followers, default is FALSE
 	 *
 	 * @see files/file.php
 	 * @see files/edit.php
 	 * @see shared/anchor.php
 	 */
-	function touch($action, $origin=NULL, $silently=FALSE, $to_watchers=FALSE, $to_followers=FALSE) {
+	function touch($action, $origin=NULL, $silently=FALSE) {
 		global $context;
 
 		// don't go further on import
@@ -250,7 +172,7 @@ Class File extends Anchor {
 
 		// sanity check
 		if(!$origin) {
-			logger::remember('files/file.php', 'unexpected NULL origin at touch()');
+			logger::remember('files/file.php: unexpected NULL origin at touch()');
 			return;
 		}
 
@@ -281,7 +203,7 @@ Class File extends Anchor {
 
 			// suppress references as icon and thumbnail as well
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 
 				if($url = Images::get_icon_href($image)) {
 					if($this->item['icon_url'] == $url)
@@ -301,7 +223,7 @@ Class File extends Anchor {
 		// set an existing image as the file icon
 		} elseif($action == 'image:set_as_icon') {
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_icon_href($image))
 					$query[] = "icon_url = '".SQL::escape($url)."'";
 
@@ -316,7 +238,7 @@ Class File extends Anchor {
 		// set an existing image as the file thumbnail
 		} elseif($action == 'image:set_as_thumbnail') {
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_thumbnail_href($image))
 					$query[] = "thumbnail_url = '".SQL::escape($url)."'";
 			} elseif($origin) {
@@ -332,7 +254,7 @@ Class File extends Anchor {
 				$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
 
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_thumbnail_href($image))
 					$query[] = "thumbnail_url = '".SQL::escape($url)."'";
 			} elseif($origin) {
@@ -367,11 +289,11 @@ Class File extends Anchor {
 
 		// get the parent
 		if(!$this->anchor)
-			$this->anchor =& Anchors::get($this->item['anchor']);
+			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// propagate the touch upwards silently -- we only want to purge the cache
 		if(is_object($this->anchor))
-			$this->anchor->touch('file:update', $this->item['id'], TRUE, $to_watchers, $to_followers);
+			$this->anchor->touch('file:update', $this->item['id'], TRUE);
 
 	}
 

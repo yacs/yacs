@@ -3,7 +3,7 @@
  * post a new comment or update an existing one
  *
  * A button-based editor is used for the description field.
- * It's aiming to introduce most common [link=codes]codes/index.php[/link] supported by YACS.
+ * It's aiming to introduce most common [link=codes]codes/[/link] supported by YACS.
  * Also, sample smilies are displayed, and may be used to introduce related codes into the description field.
  *
  * Surfers are given the opportunity to attach a file to new comments.
@@ -64,7 +64,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
 include_once 'comments.php';
 
 // what should we do?
@@ -128,14 +127,14 @@ $id = strip_tags($id);
 $target_anchor = strip_tags($target_anchor);
 
 // get the item from the database
-$item =& Comments::get($id);
+$item = Comments::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 elseif($target_anchor)
-	$anchor =& Anchors::get($target_anchor);
+	$anchor = Anchors::get($target_anchor);
 
 // associates and authenticated editors can modify any comment
 if(($action != 'edit') && Comments::allow_creation($anchor))
@@ -215,14 +214,59 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['edit_name']))
 		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['edit_name']);
 	if(isset($_REQUEST['edit_address']))
-		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
+		$_REQUEST['edit_address'] = encode_link($_REQUEST['edit_address']);
 
 	// track anonymous surfers
 	Surfer::track($_REQUEST);
 
+	// remove default string, if any
+	$_REQUEST['description'] = preg_replace('/^'.preg_quote(i18n::s('Contribute to this page!'), '/').'/', '', ltrim($_REQUEST['description']));
+
+	// hardcode line breaks if no WYSIWYG editor
+	if(!isset($_REQUEST['editor']))
+		$_REQUEST['description'] = str_replace("\n", BR, $_REQUEST['description']);
+
+	// append to previous comment during 10 secondes
+	if(!isset($item['id'])
+		&& ($newest = Comments::get_newest_for_anchor($anchor->get_reference()))
+		&& ($newest['type'] != 'notification')
+		&& Surfer::get_id() && (isset($newest['create_id']) && (Surfer::get_id() == $newest['create_id']))
+		&& ($newest['edit_date'] > gmstrftime('%Y-%m-%d %H:%M:%S', time() - 10))) {
+
+		// copy from previous comment record
+		$_REQUEST['id'] 			= $newest['id'];
+		$_REQUEST['create_address']	= $newest['create_address'];
+		$_REQUEST['create_date']	= $newest['create_date'];
+		$_REQUEST['create_id']		= $newest['create_id'];
+		$_REQUEST['create_name']	= $newest['create_name'];
+		$_REQUEST['description']	= $newest['description'].BR.$_REQUEST['description'];
+		$_REQUEST['previous_id']	= $newest['previous_id'];
+		$_REQUEST['type']			= $newest['type'];
+
+	}
+
 	// attach some file
-	if(isset($_FILES['upload']) && $file = Files::upload($_FILES['upload'], 'files/'.$context['virtual_path'].str_replace(':', '/', $anchor->get_reference()), $anchor->get_reference()))
-		$_REQUEST['description'] .= '<div>'.$file.'</div>';
+	$file_path = Files::get_path($anchor->get_reference());
+	if(isset($_FILES['upload']) && ($uploaded = Files::upload($_FILES['upload'], $file_path, $anchor->get_reference()))) {
+
+		// sanity check
+		if(!$_REQUEST['description'])
+			$_REQUEST['description'] = '';
+
+		// several files have been added
+		if(is_array($uploaded))
+			$_REQUEST['description'] .= '<div style="margin-top: 1em;">'.Skin::build_list(Files::list_for_anchor_and_name($anchor->get_reference(), $uploaded, 'compact'), 'compact').'</div>';
+
+		// one file has been added
+		elseif($file =& Files::get_by_anchor_and_name($anchor->get_reference(), $uploaded)) {
+			$_REQUEST['description'] .= '<div style="margin-top: 1em;">[file='.$file['id'].','.$file['file_name'].']</div>';
+
+			// silently delete the previous file if the name has changed
+			if(isset($file['file_name']) && ($file['file_name'] != $uploaded))
+				Safe::unlink($file_path.'/'.$file['file_name']);
+
+		}
+	}
 
 	// preview mode
 	if(isset($_REQUEST['preview']) && ($_REQUEST['preview'] == 'Y')) {
@@ -235,13 +279,27 @@ if(Surfer::is_crawler()) {
 		$with_form = TRUE;
 
 	// reward the poster for new posts
-	} elseif(!isset($item['id'])) {
+	} elseif(!isset($item['id']) || ($item['id'] != $_REQUEST['id'])) {
+
+		// notification to send by e-mail
+		$mail = array();
+		$mail['subject'] = sprintf(i18n::c('%s: %s'), ($_REQUEST['type'] == 'approval')?i18n::c('Approval'):i18n::c('Contribution'), strip_tags($anchor->get_title()));
+		$mail['notification'] = Comments::build_notification($_REQUEST);
+
+		// send to anchor watchers
+		if(isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'))
+			$anchor->alert_watchers($mail, $action);
+
+		// send to followers of this user
+		if(isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y')
+			&& Surfer::get_id() && !$anchor->is_hidden()) {
+				$mail['message'] = Mailer::build_notification($mail['notification'], 2);
+				Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+		}
 
 		// touch the related anchor
 		$anchor->touch('comment:create', $_REQUEST['id'],
-			isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
-			isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
-			isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
+			isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 		// clear cache
 		Comments::clear($_REQUEST);
@@ -252,21 +310,38 @@ if(Surfer::is_crawler()) {
 		// thanks
 		$context['page_title'] = i18n::s('Thank you for your contribution');
 
+		// state clearly that this is an approval
+		if($_REQUEST['type'] == 'approval')
+			$context['text'] .= Skin::build_block(i18n::s('You have provided your approval'), 'note');
+
 		// actual content
 		$context['text'] .= Codes::beautify($_REQUEST['description']);
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified'));
+		$context['text'] .= Mailer::build_recipients($anchor->get_reference());
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
+
+		$label = '';
+		if(is_object($anchor->overlay))
+			$label = $anchor->overlay->get_label('permalink_command', 'comments');
+		if(!$label)
+			$label = i18n::s('View the page');
 		if($anchor->has_layout('alistapart'))
-			$menu = array_merge($menu, array($anchor->get_url('parent') => $anchor->get_label('comments', 'thread_command')));
+			$menu = array_merge($menu, array($anchor->get_url('parent') => $label));
 		else
-			$menu = array_merge($menu, array($anchor->get_url('comments') => $anchor->get_label('comments', 'thread_command')));
+			$menu = array_merge($menu, array($anchor->get_url('comments') => $label));
+
+		$label = '';
+		if(is_object($anchor->overlay))
+			$label = $anchor->overlay->get_label('edit_command', 'comments');
+		if(!$label)
+			$label = i18n::s('Edit the comment');
 		if(Surfer::is_logged())
-			$menu = array_merge($menu, array(Comments::get_url($_REQUEST['id'], 'edit') => $anchor->get_label('comments', 'edit_command')));
+			$menu = array_merge($menu, array(Comments::get_url($_REQUEST['id'], 'edit') => $label));
+
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
@@ -278,11 +353,11 @@ if(Surfer::is_crawler()) {
 
 		// log the submission of a new comment
 		$label = sprintf(i18n::c('%s: %s'), $author, strip_tags($anchor->get_title()));
-                $link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($_REQUEST['id']);
+        $link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($_REQUEST['id']);
 		$description = '<a href="'.$link.'">'.$link.'</a>';
 
 		// notify sysops
-		Logger::notify('comments/edit.php', $label, $description);
+		Logger::notify('comments/edit.php: '.$label, $description);
 
 	// update of an existing comment
 	} else {
@@ -295,9 +370,7 @@ if(Surfer::is_crawler()) {
 
 		// touch the related anchor
 		$anchor->touch('comment:update', $item['id'],
-			isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
-			isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
-			isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
+			isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 		// clear cache
 		Comments::clear($_REQUEST);
@@ -314,6 +387,7 @@ if(Surfer::is_crawler()) {
 // display the form
 if($with_form) {
 
+	// a reaction from a previous item
 	$reference_item = array();
 
 	// preview a comment
@@ -335,10 +409,21 @@ if($with_form) {
 		$reference_item = $item;
 		$item['id'] = '';
 		$id = '';
+
+		// name of the person who is replied
+		$first_name = '';
 		if($item['create_name'])
-			$item['description'] = sprintf(i18n::s('%s:'), ucfirst($item['create_name']))."\n\n";
+			$first_name = $item['create_name'];
 		elseif($item['edit_name'])
-			$item['description'] = sprintf(i18n::s('%s:'), ucfirst($item['edit_name']))."\n\n";
+			$first_name = $item['edit_name'];
+
+		// extract first name
+		if($position = strpos($first_name, ' '))
+				$first_name = substr($first_name, 0, $position);
+
+		// insert it in this contribution
+		if($first_name)
+			$item['description'] = sprintf(i18n::s('%s:'), $first_name)."\n\n";
 		else
 			$item['description'] = '';
 
@@ -399,6 +484,7 @@ if($with_form) {
 
 	// the type
 	if(is_object($anchor)) {
+
 		$label = i18n::s('Your intent');
 		if(isset($item['type']))
 			$type = $item['type'];
@@ -406,8 +492,28 @@ if($with_form) {
 			$type = $_REQUEST['type'];
 		else
 			$type = '';
-		$input = Comments::get_radio_buttons('type', $type);
-		$hint = i18n::s('Please carefully select a type adequate for your comment.');
+
+		// this is an approval
+		if($type == 'approval') {
+			$input = Comments::get_img('approval').' '
+				.sprintf(i18n::s('You are approving %s'), Skin::build_link($anchor->get_url(), $anchor->get_title()))
+				.'<input type="hidden" name="type" value="approval" />';
+			$hint = '';
+
+			// warn in case of multiple approval
+			if(!isset($item['id']) && isset($_REQUEST['type']) && ($_REQUEST['type'] == 'approval')
+				&& Surfer::get_id() && Comments::count_approvals_for_anchor($anchor->get_reference(), Surfer::get_id()))
+				$input .= '<p class="details">'.i18n::s('It is not your first approval for this page.').'</p>';
+
+			// change page title too
+			$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Approval'), $anchor->get_title());
+
+		// else select a regular type
+		} else {
+			$input = Comments::get_radio_buttons('type', $type);
+			$hint = i18n::s('Please carefully select a type adequate for your comment.');
+		}
+
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -418,16 +524,19 @@ if($with_form) {
 	$input = Surfer::get_editor('description', isset($item['description']) ? $item['description'] : '');
 	$fields[] = array($label, $input);
 
-	// attach a file on first post, and if allowed
+	// add a file on first post, and if allowed
 	if(Surfer::may_upload() && (!isset($item['id']) || ($action == 'quote') || ($action == 'reply'))) {
 
 		// attachment label
-		$label = i18n::s('Upload a file');
+		$label = i18n::s('Add a file');
 
 		// an upload entry
 		$input = '<input type="hidden" name="file_type" value="upload" />'
-			.'<input type="file" name="upload" size="30" />'
-			.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')';
+			.'<input type="file" name="upload" id="upload" size="30" onchange="if(/\\.zip$/i.test($(this).val())){$(\'#upload_option\').slideDown();}else{$(\'#upload_option\').slideUp();}" />'
+			.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
+			.'<div id="upload_option" style="display: none;" >'
+			.'<input type="checkbox" name="explode_files" checked="checked" /> '.i18n::s('Extract files from the archive')
+			.'</div>';
 
 		$fields[] = array($label, $input);
 
@@ -439,7 +548,7 @@ if($with_form) {
 	// bottom commands
 	$menu = array();
 	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's', 'submit_button');
-	$menu[] = '<a href="#" onclick="$(\'#preview_flag\').setAttribute(\'value\', \'Y\'); $(\'#submit_button\').click(); return false;" accesskey="p" title="'.i18n::s('Press [p] for preview').'"><span>'.i18n::s('Preview').'</span></a>';
+	$menu[] = '<a href="#" onclick="$(\'#preview_flag\').attr(\'value\', \'Y\'); $(\'#submit_button\').click(); return false;" accesskey="p" title="'.i18n::s('Press [p] for preview').'"><span>'.i18n::s('Preview').'</span></a>';
 	if(is_object($anchor))
 		$menu[] = Skin::build_link($anchor->get_url('comments'), i18n::s('Cancel'), 'span');
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
@@ -486,27 +595,23 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// description is mandatory, but only if the field is visible'."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// description is mandatory, but only if the field is visible'
 		.'	if(!container.description.value && (container.description.style.display != \'none\')) {'."\n"
 		.'		alert("'.i18n::s('Please type a valid comment').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
+			// successful check'
 		.'	return true;'."\n"
 		.'}'."\n"
-		."\n"
-		.'// disable editor selection on change in form'."\n"
+		// disable editor selection on change in form
                 .'$("#main_form textarea, #main_form input, #main_form select").change(function() {'."\n"
                 .'      $("#preferred_editor").attr("disabled",true);'."\n"
                 .'});'."\n"
-		."\n"
-		.JS_SUFFIX;
+		);
 
 	// reply or quote
 	if(isset($reference_item['description']) && $reference_item['description'] && (($action == 'quote') || ($action == 'reply'))) {
@@ -542,7 +647,7 @@ if($with_form) {
 		$help .= '<p>'.i18n::s('Most HTML tags are removed.');
 	else
 		$help .= '<p>';
-	$help .= ' '.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+	$help .= ' '.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>';
 
  	// change to another editor
 	$help .= '<form action=""><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
@@ -550,10 +655,6 @@ if($with_form) {
 	if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'tinymce'))
 		$selected = ' selected="selected"';
 	$help .= '<option value="tinymce"'.$selected.'>'.i18n::s('TinyMCE')."</option>\n";
-	$selected = '';
-	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
-		$selected = ' selected="selected"';
-	$help .= '<option value="fckeditor"'.$selected.'>'.i18n::s('FCKEditor')."</option>\n";
 	$selected = '';
 	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'yacs'))
 		$selected = ' selected="selected"';

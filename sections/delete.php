@@ -32,7 +32,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../overlays/overlay.php';
 
 // look for the id
 $id = NULL;
@@ -43,7 +42,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Sections::get($id);
+$item = Sections::get($id);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -53,7 +52,7 @@ if(isset($item['overlay']))
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // owners associate-like capabilities
 if(Sections::is_owned($item, $anchor) || Surfer::is_associate())
@@ -104,8 +103,8 @@ if(!isset($item['id'])) {
 
 		// log item deletion
 		$label = sprintf(i18n::c('Deletion: %s'), strip_tags($item['title']));
-		$description = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
-		Logger::remember('sections/delete.php', $label, $description);
+		$description = Sections::get_permalink($item);
+		Logger::remember('sections/delete.php: '.$label, $description);
 
 		// this can appear anywhere
 		Cache::clear();
@@ -146,10 +145,7 @@ else {
 		.'</p></form>'."\n";
 
 	// set the focus
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#confirmed").focus();'."\n"
-		.JS_SUFFIX."\n";
+	Page::insert_script('$("#confirmed").focus();');
 
 	// the title of the section
 	if($item['title'])

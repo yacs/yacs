@@ -33,12 +33,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Versions::get($id);
+$item = Versions::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // you have to own the object to handle versions
 if(is_object($anchor) && $anchor->is_owned())

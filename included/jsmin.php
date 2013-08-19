@@ -43,6 +43,7 @@
  * @license http://opensource.org/licenses/mit-license.php MIT License
  * @version 1.1.1 (2008-03-02)
  * @link https://github.com/rgrove/jsmin-php/
+ * @reference
  */
 
 class JSMin {

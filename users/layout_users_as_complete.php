@@ -17,9 +17,9 @@ Class Layout_users_as_complete extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array of ($nick_name => $more)
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($nick_name => $more)
@@ -30,7 +30,7 @@ Class Layout_users_as_complete extends Layout_interface {
 			return $items;
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// unique identifier
 			$key = $item['nick_name'];

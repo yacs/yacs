@@ -56,7 +56,6 @@ class RPC_Activity {
 			return array('code' => -32602, 'message' => 'Invalid param "action"');
 
 		// save this in the database
-		include $context['path_to_root'].'users/activities.php';
 		Activities::post($parameters['anchor'], $parameters['action']);
 
 		// done

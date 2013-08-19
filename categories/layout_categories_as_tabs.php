@@ -16,9 +16,9 @@ Class Layout_categories_as_tabs extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return an array of $url => (NULL, $title, NULL, 'section_123', NULL, 'visit this section')
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -28,14 +28,14 @@ Class Layout_categories_as_tabs extends Layout_interface {
 		if(!SQL::count($result))
 			return $items;
 
-		// no hovering label, because nicetitle may kill the effect
+		// no hovering label
 		$href_title = '';
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// the url to view this item
-			$url =& Categories::get_permalink($item);
+			$url = Categories::get_permalink($item);
 
 			// initialize variables
 			$prefix = $suffix = '';

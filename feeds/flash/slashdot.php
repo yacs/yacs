@@ -28,6 +28,9 @@
 
 include_once '../../shared/global.php';
 
+// ensure we only provide public content through newsfeeds
+$context['users_without_teasers'] = 'Y';
+
 Safe::load('parameters/feeds.flash.include.php');
 
 // load a skin engine
@@ -61,9 +64,6 @@ foreach($items as $url => $label) {
 
 	// remove every html tag
 	$label = strip_tags(Safe::html_entity_decode($label));
-
-	// make an absolute reference
-	$url = $context['url_to_home'].$context['url_to_root'].$url;
 
 	// remember this
 	$titles[$count] = $label;

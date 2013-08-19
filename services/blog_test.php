@@ -33,7 +33,7 @@ $target = '';
 if(isset($_REQUEST['target']))
 	$target = $_REQUEST['target'];
 elseif(isset($context['host_name']))
-	$target = $context['host_name'].'/yacs';
+	$target = $context['host_name'].rtrim($context['url_to_root'], '/');
 $user_name = isset($_REQUEST['user_name']) ? $_REQUEST['user_name'] : '';
 $user_password = isset($_REQUEST['user_password']) ? $_REQUEST['user_password'] : '';
 
@@ -54,9 +54,7 @@ $context['text'] .= Skin::build_form($fields);
 $context['text'] .= '</div></form>';
 
 // set the focus at the first field
-$context['text'] .= JS_PREFIX
-	.'$("#target").focus();'."\n"
-	.JS_SUFFIX."\n";
+Page::insert_script('$("#target").focus();');	
 
 // do the test
 if(isset($_REQUEST['target'])) {

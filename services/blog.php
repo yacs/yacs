@@ -21,7 +21,7 @@
  *
  * Actually, all three of those API's build on each other.
  * Blogger is the most basic. MetaWeblog "embraces and extends" it. The
- * Movable Type API does the same to MetaWeblog.
+ * Movable Type API is the most advanced, and should be your preferred choice in most situation.
  *
  *
  * [title]Error codes[/title]
@@ -48,8 +48,7 @@
  *
  * [title]The Movable Type API[/title]
  *
- * @link http://msdn2.microsoft.com/en-us/library/bb259697.aspx MetaWeblog API Reference, according to Microsoft
- * @link http://blog.ustc.edu.cn/mts/docs/mtmanual_programmatic.html
+ * @link http://infinite-sushi.com/2005/12/programmatic-interfaces-the-movabletype-xmlrpc-api/
  *
  *
  * [subtitle]mt.getRecentPostTitles[/subtitle]
@@ -58,7 +57,7 @@
  *
  * Syntax: mt.getRecentPostTitles(blogid, username, password, numberOfPosts) returns struct
  *
- * Following components of the struct are correctly processed:
+ * Following components of the struct are provided:
  * - dateCreated - ISO 8601
  * - userid
  * - postid
@@ -72,9 +71,9 @@
  * Syntax: mt.getCategoryList(blogid, username, password) returns struct
  *
  * In YACS categories are shared at the system level, therefore the blogid parameter is not used.
- * Returns up to 30 YACS categories.
+ * Returns up to 50 YACS categories.
  *
- * Returns following components:
+ * Returns following attributes for each category:
  * - categoryId - id of the category
  * - categoryName - the name of the category
  *
@@ -157,7 +156,16 @@
  * - source (a sub-component of the 'description' field) - set the page source, usually, an originating URL
  * - introduction (a sub-component of the 'description' field) - set the page introduction
  * - description - set the actual page content
- * - category - link this page to listed categories
+ * - mt_excerpt - the introduction field
+ * - mt_keywords - actually, tags
+ * - mt_text_more - additional entry text, put in the trailer field
+ *
+ * Following attributes are ignored:
+ * - dateCreated - ISO.8601
+ * - mt_allow_comments - 0 or 1 - actually, lock or unlock the page
+ * - mt_allow_pings - 0 or 1
+ * - mt_convert_breaks - 0 or 1
+ * - mt_tb_ping_urls
  *
  * If the publish field is set to TRUE, the publication mechanism of YACS applies.
  *
@@ -196,15 +204,20 @@
  * - title - page title
  * - link - the web address to get the original page
  * - permaLink - the web address to get the original page
- * - description - the actual page content - with 'introduction' and 'source' sub components
+ * - description - the actual page content
  * - author - mail address of the page creator
  * - comments - the web address to comment the page
  * - dateCreated - date of last edition (ISO 8601)
  * - userid - id of last editor
  * - postid - page id
+ * - mt_excerpt - page introduction
+ * - mt_keywords - page tags
  *
- * Six Apart extensions:
- * String mt_excerpt, String mt_text_more, int mt_allow_comments, int mt_allow_pings, String mt_convert_breaks, String mt_keywords;
+ * Following extensions are not supported:
+ * - mt_text_more
+ * - mt_allow_comments
+ * - mt_allow_pings
+ * - mt_convert_breaks
  *
  * [subtitle]metaWeblog.getRecentPosts[/subtitle]
  *
@@ -219,11 +232,20 @@
  * - title - page title
  * - link - the web address to get the original page
  * - permaLink - the web address to get the original page
- * - description - the actual page content - with 'introduction' and 'source' sub components
+ * - description - the actual page content
  * - author - mail address of the page creator
  * - comments - the web address to comment the page
  * - pubDate - publication date, if any
- * - category - list of related categories, if any
+ * - categories - list of related categories, if any
+ * - mt_excerpt - page introduction
+ * - mt_keywords - page tags
+ *
+ * Following extensions are not supported:
+ * - mt_text_more
+ * - mt_allow_comments
+ * - mt_allow_pings
+ * - mt_convert_breaks
+ *
  *
  * Returns up to 30 posts from the target blog.
  *
@@ -266,12 +288,21 @@
  *
  * Syntax: metaWeblog.newPost(blogid, username, password, struct, publish) returns string
  *
- * Following components of the struct are processed:
+ * Following attributes of the struct are processed:
  * - title - set the page title
  * - source (a sub-component of the 'description' field) - set the page source, usually, an originating URL
  * - introduction (a sub-component of the 'description' field) - set the page introduction
  * - description - set the actual page content
- * - categories - link this page to listed categories
+ * - mt_excerpt - the introduction field
+ * - mt_keywords - actually, tags
+ * - mt_text_more - additional entry text, put in the trailer field
+ *
+ * Following attributes are ignored:
+ * - dateCreated - ISO.8601
+ * - mt_allow_comments - 0 or 1 - actually, lock or unlock the page
+ * - mt_allow_pings - 0 or 1
+ * - mt_convert_breaks - 0 or 1
+ * - mt_tb_ping_urls
  *
  * If the publish field is set to TRUE, the publication mechanism of YACS applies.
  *
@@ -357,7 +388,7 @@
  * [subtitle]blogger.getUserInfo[/subtitle]
  *
  * If the user specified by the supplied username and password is found, then
- * the method returns information about that user, specifically: the user’s id,
+ * the method returns information about that user, specifically: the userï¿½s id,
  * first name, last name, nickname, e-mail address and URL. If the user is not
  * found, or their is an error processing the request then the method will
  * return a fault.
@@ -411,8 +442,6 @@
  *
  * If the publish field is set to TRUE, the publication mechanism of YACS is correctly used.
  *
- * @link http://www.blogger.com/developers/api/1_docs/xmlrpc_newPost.html blogger.newPost, from Blogger API 1.0
- *
  *
  * [subtitle]blogger.setTemplate[/subtitle]
  *
@@ -433,6 +462,10 @@
  * @link http://www.blogger.com/developers/api/1_docs/xmlrpc_setTemplate.html blogger.setTemplate from Blogger API 1.0
  *
  *
+ * Accepted calls:
+ * - blog.php provide the list of sections for this surfer
+ * - blog.php?id=123 section with id 123 is the main blogging area
+ * - blog.php/123 section with id 123 is the main blogging area
  *
  * @author Bernard Paques
  * @tester Marcelo L. L. Cabral
@@ -450,8 +483,16 @@ include_once '../links/links.php';
 include_once '../sections/section.php';
 include_once '../versions/versions.php';
 
+// look for the main id
+$main_id = NULL;
+if(isset($_REQUEST['id']))
+	$main_id = $_REQUEST['id'];
+elseif(isset($context['arguments'][0]))
+	$main_id = $context['arguments'][0];
+$main_id = strip_tags($main_id);
+
 // at the moment, do not send utf-8 to w.bloggar -- keep unicode entities as-is
-if(preg_match('/w\.bloggar/', $_SERVER['HTTP_USER_AGENT']))
+if(isset($_SERVER['HTTP_USER_AGENT']) && preg_match('/w\.bloggar/', $_SERVER['HTTP_USER_AGENT']))
 	$context['charset'] = 'iso-8859-15';
 
 // load a skin engine
@@ -462,7 +503,7 @@ $raw_data = file_get_contents("php://input");
 
 // save the raw request if debug mode
 if(isset($context['debug_blog']) && ($context['debug_blog'] == 'Y'))
-	Logger::remember('services/blog.php', 'blog request', rawurldecode($raw_data), 'debug');
+	Logger::remember('services/blog.php: blog request', $raw_data, 'debug');
 
 // load the adequate codec
 include_once 'codec.php';
@@ -471,8 +512,13 @@ $codec = new xml_rpc_Codec();
 
 // regular decoding
 if(isset($raw_data) && $raw_data) {
-	// parse xml parameters -- use rawurldecode() instead urldecode(), else you will loose + signs
-	$result = $codec->import_request(rawurldecode($raw_data));
+
+	// fix malformed XML-RPC requests (i.e. missing tag <value> in each param)
+	if(strpos($raw_data, '<param><string>'))
+		$raw_data = str_replace(array('<param>', '</param>'), array('<param><value>', '</value></param>'), $raw_data);
+
+	// parse xml parameter
+	$result = $codec->import_request($raw_data);
 	$status = @$result[0];
 	$parameters = @$result[1];
 
@@ -489,7 +535,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 // nothing to parse
 if(!isset($parameters) || !is_array($parameters) || !count($parameters) || !isset($parameters['methodName']) || !$parameters['methodName']) {
 	if(isset($context['debug_blog']) && ($context['debug_blog'] == 'Y'))
-		Logger::remember('services/blog.php', 'blog request', 'nothing to process', 'debug');
+		Logger::remember('services/blog.php: blog request', 'nothing to process', 'debug');
 
 	$response = array('faultCode' => -32700, 'faultString' => 'Empty request, please retry');
 
@@ -502,7 +548,7 @@ else {
 
 	// remember parameters if debug mode
 	if(isset($context['debug_blog']) && ($context['debug_blog'] == 'Y'))
-		Logger::remember('services/blog.php', 'blog '.$parameters['methodName'], isset($parameters['params'])?$parameters['params']:'', 'debug');
+		Logger::remember('services/blog.php: blog '.$parameters['methodName'], isset($parameters['params'])?$parameters['params']:'', 'debug');
 
 	// depending on method name
 	switch($parameters['methodName']) {
@@ -513,8 +559,8 @@ else {
 		list($ignored_appkey, $postid, $username, $password) = $parameters['params'];
 
 		// get items from the database
-		if($item =& Articles::get($postid))
-			$anchor =& Anchors::get($item['anchor']);
+		if($item = Articles::get($postid))
+			$anchor = Anchors::get($item['anchor']);
 
 		// check user
 		$user = Users::login($username, $password);
@@ -558,8 +604,8 @@ else {
 		list($ignored_appkey, $postid, $username, $password, $content, $publish) = $parameters['params'];
 
 		// get items from the database
-		if($item =& Articles::get($postid))
-			$anchor =& Anchors::get($item['anchor']);
+		if($item = Articles::get($postid))
+			$anchor = Anchors::get($item['anchor']);
 
 		// check user
 		$user = Users::login($username, $password);
@@ -603,7 +649,7 @@ else {
 				// or if the surfer asks for it and add sufficient rights
 				if( ($context['users_with_auto_publish'] == 'Y')
 					|| (is_object($anchor) && $anchor->has_option('auto_publish'))
-					|| ($publish && Articles::allow_publication($anchor, $item)) ) {
+					|| ($publish && Articles::allow_publication($item,$anchor)) ) {
 					$fields['publish_name'] = $user['nick_name'];
 					$fields['publish_id'] = $user['id'];
 					$fields['publish_address'] = $user['email'];
@@ -621,22 +667,13 @@ else {
 				else {
 					$response = TRUE;
 
-					// if the page has been published
-					if($fields['publish_date'] > NULL_DATE) {
+					// do whatever is necessary on page publication
+					if(isset($fields['publish_date']) && ($fields['publish_date'] > NULL_DATE))
+						Articles::finalize_publication($anchor, $fields);
 
-						// advertise public pages
-						if(($section['active'] == 'Y') && ($item['active'] == 'Y')) {
-
-							// pingback, if any
-							Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$postid);
-
-						}
-
-						// 'publish' hook
-						if(is_callable(array('Hooks', 'include_scripts')))
-							Hooks::include_scripts('publish', $item['id']);
-
-					}
+					// else whatever is necessary on page update
+					else
+						Articles::finalize_update($anchor, $fields);
 
 					// list the article in categories
 					$keywords = '';
@@ -647,6 +684,13 @@ else {
 					$keywords = trim($keywords, ', ');
 					Categories::remember('article:'.$item['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, $keywords);
 
+					// categorize this page
+					if(isset($content['categories']) && is_array($content['categories'])) {
+						foreach($content['categories'] as $label) {
+							if($category = Categories::get_by_title($label))
+								Members::assign('category:'.$category['id'], 'article:'.$fields['id']);
+						}
+					}
 				}
 			}
 		}
@@ -657,8 +701,8 @@ else {
 		list($ignored_appkey, $postid, $username, $password) = $parameters['params'];
 
 		// get item from the database
-		if($item =& Articles::get($postid))
-			$anchor =& Anchors::get($item['anchor']);
+		if($item = Articles::get($postid))
+			$anchor = Anchors::get($item['anchor']);
 
 		// check user
 		$user = Users::login($username, $password);
@@ -738,7 +782,7 @@ else {
 		list($ignored_appkey, $blogid, $username, $password, $numberOfPosts) = $parameters['params'];
 
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -807,7 +851,7 @@ else {
 		list($ignored_appkey, $blogid, $username, $password, $type) = $parameters['params'];
 
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -849,15 +893,15 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		else {
-			$item =& Users::get($username);
+			$item = Users::get($username);
 			if($item['id'])
 				$response = array(
 					'userid' => (string)$item['id'],
-					'nickname' => $item['nick_name'],
-					'firstname' => $item['nick_name'],
-					'lastname' => $item['full_name'],
-					'email' => $item['email'],
-					'url' => ''.$context['url_to_home']
+					'nickname' => $codec->encode($item['nick_name'], 'string'),
+					'firstname' => $codec->encode($item['nick_name'], 'string'),
+					'lastname' => $codec->encode($item['full_name'], 'string'),
+					'email' => $codec->encode($item['email'], 'string'),
+					'url' => $codec->encode($context['url_to_home'], 'string')
 				);
 			else
 				$response = array( 'faultCode' => -32602, 'faultString' => i18n::s('Unknown user name'));
@@ -883,34 +927,52 @@ else {
 		else {
 			$response = array();
 
-			// prefix to ensure proper ordering
-			$index = 1;
+			// we are looking in one current section only
+			if($main_id) {
 
-			// list assigned sections, if any
-			if(($assigned = Surfer::assigned_sections($user['id'], 9)) && count($assigned)) {
-				foreach($assigned as $assigned_id) {
-					if($section =& Anchors::get('section:'.$assigned_id)) {
+				// there are sub-sections there
+				if(($children = Sections::list_by_title_for_anchor('section:'.$main_id, 0, 25, 'raw')) && count($assigned)) {
+					foreach($children as $assigned_id => $section) {
 						$response[] = array(
 							'isAdmin' => '<boolean>1</boolean>',
-							'url' => '<string>'.$context['url_to_home'].$context['url_to_root'].$section->get_url().'</string>',
+							'url' => '<string>'.$codec->encode(Sections::get_permalink($section), 'string').'</string>',
 							'blogid' => '<string>'.(string)$assigned_id.'</string>',
-							'blogName' => $codec->encode(strip_tags($section->get_title()), 'string')
+							'blogName' => $codec->encode(strip_tags($section['title']), 'string')
 						);
-						$index++;
 					}
+				}
+
+				// this section itself
+				if(!$response && ($section= Sections::get($main_id))) {
+					$response[] = array(
+						'isAdmin' => '<boolean>1</boolean>',
+						'url' => '<string>'.$codec->encode(Sections::get_permalink($section), 'string').'</string>',
+						'blogid' => '<string>'.(string)$main_id.'</string>',
+						'blogName' => $codec->encode(strip_tags($section['title']), 'string')
+					);
+				}
+
+			// list sections for this user, if any
+			} elseif(($assigned = Sections::list_by_date_for_user($user['id'], 0, 9, 'raw')) && count($assigned)) {
+				foreach($assigned as $assigned_id => $section) {
+					$response[] = array(
+						'isAdmin' => '<boolean>1</boolean>',
+						'url' => '<string>'.$codec->encode(Sections::get_permalink($section), 'string').'</string>',
+						'blogid' => '<string>'.(string)$assigned_id.'</string>',
+						'blogName' => $codec->encode(strip_tags($section['title']), 'string')
+					);
 				}
 			}
 
 			// provide default section
-			if($default_id = Sections::get_default()) {
-				if($section =& Anchors::get('section:'.$default_id)) {
+			if(!$response && ($default_id = Sections::get_default())) {
+				if($section = Anchors::get('section:'.$default_id)) {
 					$response[] = array(
 						'isAdmin' => '<boolean>0</boolean>',
-						'url' => '<string>'.$context['url_to_home'].$context['url_to_root'].$section->get_url().'</string>',
+						'url' => '<string>'.$codec->encode($context['url_to_home'].$context['url_to_root'].$section->get_url(), 'string').'</string>',
 						'blogid' => '<string>'.(string)$default_id.'</string>',
 						'blogName' => $codec->encode(strip_tags($section->get_title()), 'string')
 					);
-					$index++;
 				}
 			}
 
@@ -922,7 +984,7 @@ else {
 		list($ignored_appkey, $blogid, $username, $password, $content, $publish) = $parameters['params'];
 
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -967,7 +1029,7 @@ else {
 			// or if the surfer asks for it and add sufficient rights
 			if( ($context['users_with_auto_publish'] == 'Y')
 				|| (is_object($section) && $section->has_option('auto_publish'))
-				|| ($publish && Articles::allow_publication($anchor, $item)) ) {
+				|| ($publish && Articles::allow_publication($item,$anchor)) ) {
 				$fields['publish_name'] = $user['nick_name'];
 				$fields['publish_id'] = $user['id'];
 				$fields['publish_address'] = $user['email'];
@@ -988,22 +1050,9 @@ else {
 				// one post more for this user
 				Users::increment_posts($user['id']);
 
-				// if the page has been published
-				if($fields['publish_date'] > NULL_DATE) {
-
-					// advertise public pages
-					if($section->is_public()) {
-
-						// pingback, if any
-						Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$fields['id']);
-
-					}
-
-					// 'publish' hook
-					if(is_callable(array('Hooks', 'include_scripts')))
-						Hooks::include_scripts('publish', $fields['id']);
-
-				}
+				// do whatever is necessary on page publication
+				if(isset($fields['publish_date']) && ($fields['publish_date'] > NULL_DATE))
+					Articles::finalize_publication($section, $fields);
 
 				// list the article in categories
 				$keywords = '';
@@ -1013,6 +1062,14 @@ else {
 					$keywords .= ', '.$content['mt_keywords'];
 				$keywords = trim($keywords, ', ');
 				Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, $keywords);
+
+				// categorize this page
+				if(isset($content['categories']) && is_array($content['categories'])) {
+					foreach($content['categories'] as $label) {
+						if($category = Categories::get_by_title($label))
+							Members::assign('category:'.$category['id'], 'article:'.$fields['id']);
+					}
+				}
 
 			}
 		}
@@ -1024,7 +1081,7 @@ else {
 		list($ignored_appkey, $blogid, $username, $password, $template, $type) = $parameters['params'];
 
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -1058,8 +1115,8 @@ else {
 		list($postid, $username, $password, $content, $publish) = $parameters['params'];
 
 		// get items from the database
-		if($item =& Articles::get($postid))
-			$anchor =& Anchors::get($item['anchor']);
+		if($item = Articles::get($postid))
+			$anchor = Anchors::get($item['anchor']);
 
 		// check user
 		$user = Users::login($username, $password);
@@ -1098,14 +1155,27 @@ else {
 				$article = new Article();
 				$fields = $article->parse($content['description'], $item);
 
+				// change title
 				if($content['title'])
 					$fields['title'] = $content['title'];
+
+				// excerpt has been provided
+				if(isset($content['mt_excerpt']))
+					$fields['introduction'] = $content['mt_excerpt'];
+
+				// page has been tagged
+				if(isset($content['mt_keywords']))
+					$fields['tags'] = $content['mt_keywords'];
+
+				// extended content
+				if(isset($content['mt_text_more']))
+					$fields['trailer'] = $content['mt_text_more'];
 
 				// publish if in wiki mode, or if section is configured for auto-publishing,
 				// or if the surfer asks for it and add sufficient rights
 				if( ($context['users_with_auto_publish'] == 'Y')
 					|| (is_object($anchor) && $anchor->has_option('auto_publish'))
-					|| ($publish && Articles::allow_publication($anchor, $item)) ) {
+					|| ($publish && Articles::allow_publication($item,$anchor)) ) {
 					$fields['publish_name'] = $user['nick_name'];
 					$fields['publish_id'] = $user['id'];
 					$fields['publish_address'] = $user['email'];
@@ -1123,30 +1193,28 @@ else {
 				else {
 					$response = TRUE;
 
-					// if the page has been published
-					if($fields['publish_date'] > NULL_DATE) {
+					// do whatever is necessary on page publication
+					if(isset($fields['publish_date']) && ($fields['publish_date'] > NULL_DATE))
+						Articles::finalize_publication($anchor, $fields);
 
-						// advertise public pages
-						if($anchor->is_public() && ($item['active'] == 'Y')) {
-
-							// pingback, if any
-							Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$postid);
-						}
-
-						// 'publish' hook
-						if(is_callable(array('Hooks', 'include_scripts')))
-							Hooks::include_scripts('publish', $item['id']);
-
-					}
+					// else whatever is necessary on page update
+					else
+						Articles::finalize_update($anchor, $fields);
 
 					// list the article in categories
 					$keywords = '';
 					if(isset($fields['tags']))
 						$keywords = $fields['tags'];
-					if(isset($content['mt_keywords']))
-						$keywords .= ', '.$content['mt_keywords'];
 					$keywords = trim($keywords, ', ');
 					Categories::remember('article:'.$item['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, $keywords);
+
+					// categorize this page
+					if(isset($content['categories']) && is_array($content['categories'])) {
+						foreach($content['categories'] as $label) {
+							if($category = Categories::get_by_title($label))
+								Members::assign('category:'.$category['id'], 'article:'.$fields['id']);
+						}
+					}
 
 				}
 			}
@@ -1173,7 +1241,7 @@ else {
 				foreach($items as $id => $attributes) {
 
 					// the category for a human being
-					$htmlUrl = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($attributes);
+					$htmlUrl = Categories::get_permalink($attributes);
 
 					// the category for a robot
 					$rssUrl = $context['url_to_home'].$context['url_to_root'].Categories::get_url($id, 'feed');
@@ -1196,8 +1264,8 @@ else {
 		list($postid, $username, $password) = $parameters['params'];
 
 		// get items from the database
-		if($item =& Articles::get($postid))
-			$anchor =& Anchors::get($item['anchor']);
+		if($item = Articles::get($postid))
+			$anchor = Anchors::get($item['anchor']);
 
 		// check user
 		$user = Users::login($username, $password);
@@ -1249,16 +1317,17 @@ else {
 			else {
 				$response = array(
 					'title' =>	$codec->encode($item['title'], 'string'),
-					'link' =>  $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item),
-					'permaLink' =>	$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item),
-					'description' => $codec->encode('<introduction>'.$item['introduction']."</introduction>\n"
-							.'<source>'.$item['source']."</source>\n"
-							.$item['description'], 'string'),
+					'link' =>  $codec->encode(Articles::get_permalink($item), 'string'),
+					'permaLink' =>	$codec->encode(Articles::get_permalink($item), 'string'),
+					'description' => $codec->encode($item['description'], 'string'),
 					'author' => $codec->encode($item['create_address']),
-					'comments' =>  $context['url_to_home'].$context['url_to_root'].'comments/edit.php?anchor='.urlencode('article:'.$postid),
+					'comments' =>  $codec->encode($context['url_to_home'].$context['url_to_root'].'comments/edit.php?anchor='.urlencode('article:'.$postid), 'string'),
 					'dateCreated' => $codec->encode($item['edit_date'], 'date'),
 					'userid' => (string)$item['edit_id'],
-					'postid' => (string)$postid
+					'postid' => (string)$postid,
+					'mt_excerpt' => $codec->encode($item['introduction'], 'string'),
+					'mt_keywords' => $codec->encode($item['tags'], 'string'),
+					'mt_text_more' => $codec->encode($item['trailer'], 'string')
 					);
 			}
 		}
@@ -1269,7 +1338,7 @@ else {
 		list($blogid, $username, $password, $numberOfPosts) = $parameters['params'];
 
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -1312,25 +1381,22 @@ else {
 					$entry['userid'] = (string)$item['edit_id'];
 					$entry['postid'] = (string)$id;
 					$entry['title'] = $codec->encode($item['title'], 'string');
-					$entry['link'] = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
-					$entry['permaLink'] = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
-					$entry['description'] = '';
-					if(isset($item['introduction']))
-						$entry['description'] .= '<introduction>'.$item['introduction']."</introduction>\n";
-					if(isset($item['source']))
-						$entry['description'] .= '<source>'.$item['source']."</source>\n";
-					if(isset($item['description']))
-						$entry['description'] .= $item['description'];
-					$entry['description'] = $codec->encode($item['description'], 'string'); // various optimizations
+					$entry['link'] = $codec->encode(Articles::get_permalink($item), 'string');
+					$entry['permaLink'] = $codec->encode(Articles::get_permalink($item), 'string');
+					$entry['description'] = $codec->encode($item['description'], 'string');
 					$entry['author'] = $codec->encode($item['create_address']);
-					$entry['comments'] = $context['url_to_home'].$context['url_to_root'].'comments/edit.php?anchor='.urlencode('article:'.$id);
+					$entry['comments'] = $codec->encode($context['url_to_home'].$context['url_to_root'].'comments/edit.php?anchor='.urlencode('article:'.$id), 'string');
 					if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
 						$entry['pubDate'] = $codec->encode($item['publish_date'], 'date');
 
 					// attached categories
 					$categories =& Members::list_categories_by_title_for_member('article:'.$id, 0, 10, 'raw');
 					foreach($categories as $id => $attributes)
-						$entry['categories'][] = strip_tags($attributes['title']);
+						$entry['categories'][] = $codec->encode(strip_tags($attributes['title']), 'string');
+
+					$entry['mt_excerpt'] = $codec->encode($item['introduction'], 'string');
+					$entry['mt_keywords'] = $codec->encode($item['tags'], 'string');
+					$entry['mt_text_more'] = $codec->encode($item['trailer'], 'string');
 
 					// append to the list
 					$response[] = $entry;
@@ -1344,8 +1410,12 @@ else {
 	case 'metaWeblog.newMediaObject':
 		list($blogid, $username, $password, $content) = $parameters['params'];
 
+		// use default section for this post
+		if($blogid == 1)
+			$blogid = Sections::get_default();
+
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -1382,7 +1452,7 @@ else {
 		else {
 
 			// get a safe path
-			$file_path = 'files/'.$context['virtual_path'].'section/'.$item['id'];
+			$file_path = Files::get_path('section:'.$item['id']);
 
 			// get a safe file name
 			$file_name = utf8::to_ascii(basename($content['name']));
@@ -1415,9 +1485,9 @@ else {
 				// provide some file information in response
 				else {
 					$response = array(
-						'file' => $context['path_to_root'].$file_path.'/'.$file_name,
-						'url' => $context['url_to_home'].$context['url_to_root'].$file_path.'/'.$file_name,
-						'type' => Files::get_mime_type($file_name)
+//						'file' => $codec->encode($context['path_to_root'].$file_path.'/'.$file_name, 'string'),
+						'url' => $codec->encode($context['url_to_home'].$context['url_to_root'].$file_path.'/'.rawurlencode($file_name), 'string'),
+						'type' => $codec->encode(Files::get_mime_type($file_name), 'string')
 					);
 
 					// clear cache
@@ -1434,8 +1504,12 @@ else {
 	case 'metaWeblog.newPost':
 		list($blogid, $username, $password, $content, $publish) = $parameters['params'];
 
+		// use default section for this post
+		if($blogid == 1)
+			$blogid = Sections::get_default();
+
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -1483,20 +1557,23 @@ else {
 			$fields['create_address'] = $user['email'];
 			$fields['create_date'] = $stamp;
 
+			// excerpt has been provided
+			if(isset($content['mt_excerpt']))
+				$fields['introduction'] = $content['mt_excerpt'];
+
 			// article has been explicitly tagged (XML-RPC spec)
-			if(isset($content['category'])) {
-				if(!isset($fields['tags']))
-					$fields['tags'] = '';
-				if($fields['tags'])
-					$fields['tags'] .= ', ';
-				$fields['tags'] .= $content['category'];
-			}
+			if(isset($content['mt_keywords']))
+				$fields['tags'] = $content['mt_keywords'];
+
+			// extended content
+			if(isset($content['mt_text_more']))
+				$fields['trailer'] = $content['mt_text_more'];
 
 			// publish if in wiki mode, or if section is configured for auto-publishing,
 			// or if the surfer asks for it and add sufficient rights
 			if( ($context['users_with_auto_publish'] == 'Y')
 				|| (is_object($section) && $section->has_option('auto_publish'))
-				|| ($publish && Articles::allow_publication($anchor, $item)) ) {
+				|| ($publish && Articles::allow_publication($item,$anchor)) ) {
 				$fields['publish_name'] = $user['nick_name'];
 				$fields['publish_id'] = $user['id'];
 				$fields['publish_address'] = $user['email'];
@@ -1517,32 +1594,11 @@ else {
 				// increment the post counter of the surfer
 				Users::increment_posts($user['id']);
 
-				// if the page has been published
-				if($fields['publish_date'] > NULL_DATE) {
+				// do whatever is necessary on page publication
+				if(isset($fields['publish_date']) && ($fields['publish_date'] > NULL_DATE))
+					Articles::finalize_publication($section, $fields);
 
-					// advertise public pages
-					if($section->is_public()) {
-
-						// places to look for references
-						$to_be_parsed = '';
-						if(isset($fields['introduction']))
-							$to_be_parsed .= $fields['introduction'].' ';
-						if(isset($fields['source']))
-							$to_be_parsed .= $fields['source'].' ';
-						if(isset($fields['description']))
-							$to_be_parsed .= $fields['description'].' ';
-
-						// pingback, if any
-						Links::ping($to_be_parsed, 'article:'.$fields['id']);
-					}
-
-					// 'publish' hook
-					if(is_callable(array('Hooks', 'include_scripts')))
-						Hooks::include_scripts('publish', $fields['id']);
-
-				}
-
-				// list the article in categories
+				// add tags to this page
 				$keywords = '';
 				if(isset($fields['tags']))
 					$keywords = $fields['tags'];
@@ -1551,6 +1607,13 @@ else {
 				$keywords = trim($keywords, ', ');
 				Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, $keywords);
 
+				// categorize this page
+				if(isset($content['categories']) && is_array($content['categories'])) {
+					foreach($content['categories'] as $label) {
+						if($category = Categories::get_by_title($label))
+							Members::assign('category:'.$category['id'], 'article:'.$fields['id']);
+					}
+				}
 			}
 		}
 		break;
@@ -1575,7 +1638,7 @@ else {
 				foreach($items as $id => $attributes) {
 
 					// the category for a human being
-					$htmlUrl = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($attributes);
+					$htmlUrl = Categories::get_permalink($attributes);
 
 					// the category for a robot
 					$rssUrl = $context['url_to_home'].$context['url_to_root'].Categories::get_url($id, 'feed');
@@ -1603,7 +1666,7 @@ else {
 		else {
 			$response = array();
 
-			$items =& Members::list_categories_by_title_for_member('article:'.$postid, 0, 7, 'raw');
+			$items =& Members::list_categories_by_title_for_member('article:'.$postid, 0, 50, 'raw');
 			if(is_array($items)) {
 
 				// one entry per category
@@ -1628,7 +1691,7 @@ else {
 		list($blogid, $username, $password, $numberOfPosts) = $parameters['params'];
 
 		// get item from the database
-		if($item =& Sections::get($blogid)) {
+		if($item = Sections::get($blogid)) {
 			$section = new Section();
 			$section->load_by_content($item);
 		}
@@ -1744,7 +1807,7 @@ else {
 
 	default:
 		$response = array('faultCode' => -32601, 'faultString' => sprintf(i18n::s('Do not know how to process %s'), $parameters['methodName']));
-		Logger::remember('services/blog.php', 'unsupported methodName', $parameters['methodName'], 'debug');
+		Logger::remember('services/blog.php: unsupported methodName', $parameters['methodName'], 'debug');
 	}
 }
 
@@ -1766,7 +1829,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
 
 // save the response if debug mode
 if(isset($context['debug_blog']) && ($context['debug_blog'] == 'Y'))
-	Logger::remember('services/blog.php', 'blog response', $response, 'debug');
+	Logger::remember('services/blog.php: blog response', $response, 'debug');
 
 	// something has been buffered
 	if(is_callable('ob_get_length') && ob_get_length()) {

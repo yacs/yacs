@@ -1,0 +1,55 @@
+/** 
+ * stylesheet for layout_as_tree_manager
+ *
+ * tags consit mainly of <ul> and <li> 
+ *
+ * all classes and id begin with tm- (for tree manager)
+ *
+ * @author Alexis Raimbault
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+ */
+ 
+ /* root contain floating elements, 
+ and let enought spaces arround them to drag elements */
+ .tm-root {padding:2em; overflow: hidden;}
+ 
+ /* no list decoration */ 
+ .tm-root, .tm-root ul{list-style: none;}
+ 
+ /* main viewed elements are rendred as blocks */
+ .tm-root > .tm-drag {
+     float : left;
+     clear : left;
+ } 
+ .tm-root > .tm-drop {
+     float : left;
+     clear : none;
+     margin : 0.2em;
+     padding : 0.5em;
+     border : 1px solid grey;
+     border-radius : 3px;         
+ }
+
+ /* hilight drop targets when hovered */
+ .tm-hoverdrop, .tm-hover {
+     background : rgba(20,20,50,.1);
+ }
+
+ /* show entry binded commands only when hovering them */
+ li .tm-cmd {display:none;}
+ .tm-hover > .tm-cmd {display: inline;}
+ 
+ /* rules for command buttons */
+ .tm-cmd {padding: 2px;} 
+ #main_panel .tm-cmd:hover {color:black;cursor: pointer;}
+ #main_panel .tm-create:hover {background: greenyellow;}
+ #main_panel .tm-delete:hover {background: red;}
+ 
+ /* built-in crumbs while zooming */
+ .tm-crumbs {text-transform: capitalize;}
+ 
+ .tm-drag {padding: 1px;}
+ 
+ #main_panel .tm-sub_elems {margin : 2px 0;}
+

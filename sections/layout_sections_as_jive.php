@@ -32,7 +32,7 @@ Class Layout_sections_as_jive extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -52,7 +52,7 @@ Class Layout_sections_as_jive extends Layout_interface {
 		$family = '';
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// change the family
 			if($item['family'] != $family) {
@@ -69,16 +69,16 @@ Class Layout_sections_as_jive extends Layout_interface {
 			$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// reset everything
 			$prefix = $label = $suffix = $icon = '';
 
 			// signal restricted and private sections
 			if($item['active'] == 'N')
-				$prefix .= PRIVATE_FLAG.' ';
+				$prefix .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$prefix .= RESTRICTED_FLAG.' ';
+				$prefix .= RESTRICTED_FLAG;
 
 			// indicate the id in the hovering popup
 			$hover = i18n::s('View the section');
@@ -86,7 +86,7 @@ Class Layout_sections_as_jive extends Layout_interface {
 				$hover .= ' [section='.$item['id'].']';
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// use the title to label the link
 			if(is_object($overlay))
@@ -196,8 +196,8 @@ Class Layout_sections_as_jive extends Layout_interface {
 			$more = array();
 
 			// board moderators
-			if($moderators =& Members::list_editors_for_member('section:'.$item['id'], 0, COMPACT_LIST_SIZE, 'comma'))
-				$more[] = sprintf(i18n::ns('Moderator: %s', 'Moderators: %s', count($moderators)), Skin::build_list($moderators, 'comma'));
+			if($moderators = Sections::list_editors_by_name($item, 0, 7, 'comma5'))
+				$more[] = sprintf(i18n::ns('Moderator: %s', 'Moderators: %s', count($moderators)), $moderators);
 
 			// children boards
 			if($children =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, COMPACT_LIST_SIZE, 'compact'))

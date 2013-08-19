@@ -23,7 +23,7 @@ class http {
 	 * @param string received HTTP header
 	 * @return sizeof headers
 	 */
-	function callback_headers($dummy, $header) {
+	public static function callback_headers($dummy, $header) {
 
 		// remember this header
 		if(rtrim($header)) {
@@ -59,7 +59,7 @@ class http {
 	 *
 	 * @param int number of seconds to cache (default: 30 minutes)
 	 */
-	function expire($time=1800) {
+	public static function expire($time=1800) {
 
 		// ask for revalidation - 'no-cache' is mandatory for IE6 !!!
 		if(!$time || ($time < 1)) {
@@ -80,7 +80,7 @@ class http {
 	 *
 	 * @return string the base URI
 	 */
-	function get_base_uri() {
+	public static function get_base_uri() {
 		global $context, $_SERVER;
 
 		// host name
@@ -102,7 +102,7 @@ class http {
 	/**
 	 * returns the last error description, if any
 	 */
-	function get_error() {
+	public static function get_error() {
 		global $http_internal_error;
 		return $http_internal_error;
 	}
@@ -110,7 +110,7 @@ class http {
 	/**
 	 * returns headers of the last response, if any
 	 */
-	function get_headers() {
+	public static function get_headers() {
 		global $http_fetch_headers;
 		return implode("\n", $http_fetch_headers);
 	}
@@ -120,7 +120,7 @@ class http {
 	 *
 	 * Useful to AJAX responses when nothing has to be transmitted back to the browser.
 	 */
-	function no_content() {
+	public static function no_content() {
 		Safe::header('Status: 204 No Content', TRUE, 204);
 		Safe::header('Content-Length: 0',true);
 		Safe::header('Content-Type: text/html',true);
@@ -134,11 +134,10 @@ class http {
 	 * @param string the link to fetch
 	 * @param array of strings optional headers (eg, 'array("Content-Type: text/xml")')
 	 * @param string optional data to send
-	 * @param string the name of the calling script to be debugged (eg, 'scripts/stage.php')
 	 * @param string cookie, if any
 	 * @return the actual content, of FALSE on error
 	 */
-	function proceed($url, $headers='', $data='', $debug='', $cookie='') {
+	public static function proceed($url, $headers='', $data='', $cookie='') {
 		global $context;
 
 		// target content
@@ -146,15 +145,16 @@ class http {
 
 		// advanced and optimized download
 		if(is_callable('curl_init'))
-			$body = http::proceed_using_curl($url, $headers, $data, $debug, $cookie);
+			$body = http::proceed_using_curl($url, $headers, $data, $cookie);
 
 		// plan B, in case curl has not done the job properly
 		if(!$body)
-			$body = http::proceed_natively($url, $headers, $data, $debug, $cookie);
+			$body = http::proceed_natively($url, $headers, $data, $cookie);
 
 		// compensate for network time
 		Safe::set_time_limit(30);
 
+		// call http::get_headers() to get meta information returned by the server
 		return $body;
 
 	}
@@ -173,18 +173,17 @@ class http {
 	 * @param string the link to fetch
 	 * @param array of strings optional headers (eg, 'array("Content-Type: text/xml")')
 	 * @param mixed optional data to send
-	 * @param string the name of the calling script to be debugged (eg, 'scripts/stage.php')
 	 * @param string cookie, if any
 	 * @param int to manage a maximum number of redirections
 	 * @return the actual content, of FALSE on error
 	 */
-	function proceed_natively($url, $headers='', $data='', $debug='', $cookie='', $limit=3) {
+	public static function proceed_natively($url, $headers='', $data='', $cookie='', $limit=3) {
 		global $context;
 
 		// outbound web is not authorized
 		if(isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y')) {
-			if($debug)
-				Logger::remember($debug, 'Outbound HTTP is not authorized.', '', 'debug');
+			if($context['with_debug'] == 'Y')
+				Logger::remember('shared/http.php: Outbound HTTP is not authorized.', '', 'debug');
 			return FALSE;
 		}
 
@@ -289,8 +288,8 @@ class http {
 
 		// open a network connection -- wait for up to 10 seconds for the TCP connection
 		if(!$handle && (!$handle = Safe::fsockopen($host, $port, $errno, $errstr, 10))) {
-			if($debug)
-				Logger::remember($debug, sprintf('Impossible to connect to %s.', $host.':'.$port), '', 'debug');
+			if($context['with_debug'] == 'Y')
+				Logger::remember('shared/http.php: '.sprintf('Impossible to connect to %s.', $host.':'.$port), '', 'debug');
 			return FALSE;
 		}
 
@@ -313,8 +312,8 @@ class http {
 
 		// finalize the request
 		$request .= $headers.CRLF.$data;
-		if($debug)
-			Logger::remember($debug, 'http request', $request, 'debug');
+		if($context['with_debug'] == 'Y')
+			Logger::remember('shared/http.php: http request', $request, 'debug');
 
 		// submit the request
 		fwrite($handle, $request);
@@ -351,16 +350,16 @@ class http {
 		}
 
 		// redirect to another place
-		if(preg_match('/^Location: (\w.+?)/', $r_headers, $matches)) {
+		if(preg_match('/^Location: (.+)$/m', $r_headers, $matches)) {
 
 			if(--$limit <= 0) {
 				$http_internal_error = 'Too many redirections';
 				return FALSE;
 			}
 
-			if($debug)
-				Logger::remember($debug, 'redirecting to '.$matches[1], '', 'debug');
-			return http::proceed_natively($matches[1], $headers, $data, $debug, $cookie, $limit);
+			if($context['with_debug'] == 'Y')
+				Logger::remember('shared/http.php: redirecting to '.$matches[1], '', 'debug');
+			return http::proceed_natively($matches[1], $headers, $data, $cookie, $limit);
 
 		}
 
@@ -395,8 +394,8 @@ class http {
 			$handles[$host][$port] = $handle;
 
 		// log the response
-		if($debug)
-			Logger::remember($debug, 'http response', http::get_headers()."\n\n".$body, 'debug');
+		if($context['with_debug'] == 'Y')
+			Logger::remember('shared/http.php: http response', http::get_headers()."\n\n".$body, 'debug');
 
 		// return the fetched object
 		return $body;
@@ -413,24 +412,23 @@ class http {
 	 * @param string the link to fetch
 	 * @param array of strings optional headers (eg, 'array("Content-Type: text/xml")')
 	 * @param string optional data to send
-	 * @param the name of the calling script to be debugged (eg, 'scripts/stage.php')
 	 * @param string cookie, if any
 	 * @return the actual content, of FALSE on error
 	 */
-	function proceed_using_curl($url, $headers='', $data='', $debug='', $cookie='') {
+	public static function proceed_using_curl($url, $headers='', $data='', $cookie='') {
 		global $context;
 
 		// outbound web is not authorized
 		if(isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y')) {
-			if($debug)
-				Logger::remember($debug, 'Outbound HTTP is not authorized.', '', 'debug');
+			if($context['with_debug'] == 'Y')
+				Logger::remember('shared/http.php: Outbound HTTP is not authorized.', '', 'debug');
 			return FALSE;
 		}
 
 		// sanity check
 		if(!is_callable('curl_init')) {
-			if($debug)
-				Logger::remember($debug, 'CURL is not implemented"', '', 'debug');
+			if($context['with_debug'] == 'Y')
+				Logger::remember('shared/http.php: CURL is not implemented"', '', 'debug');
 			return FALSE;
 		}
 
@@ -474,6 +472,9 @@ class http {
 		// let CURL adapt to the encoding
 		curl_setopt($handle, CURLOPT_ENCODING, '');
 
+		// be cool over SSL/TLS
+		curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, FALSE);
+
 		// parse the returned error code as well
 		curl_setopt($handle, CURLOPT_FAILONERROR, TRUE);
 
@@ -484,6 +485,22 @@ class http {
 		// set headers, if any
 		if(isset($headers) && is_array($headers))
 			curl_setopt($handle, CURLOPT_HTTPHEADER, $headers);
+
+		// encode provided data, if any
+		if(is_array($data) && count($data)) {
+			$items = array();
+			foreach($data as $name => $value)
+				$items[] = urlencode($name).'='.urlencode($value);
+			$data = implode('&', $items);
+
+		}
+
+		// finalize the HTTP request
+		if($data) {
+            curl_setopt($handle, CURLOPT_HTTPHEADER, Array('Content-type: application/x-www-form-urlencoded'));
+            curl_setopt($handle, CURLOPT_POST, TRUE);
+            curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
+        }
 
 		// we would like to look at headers by ourselves
 		curl_setopt($handle, CURLOPT_HEADER, FALSE);
@@ -517,7 +534,7 @@ class http {
 	 * @param string the opaque string characterizing the target object
 	 * @return boolean TRUE if the client has provided the right headers, FALSE otherwise
 	 */
-	function validate($last_modified, $etag=NULL) {
+	public static function validate($last_modified, $etag=NULL) {
 
 		// not cached yet
 		$cached = FALSE;

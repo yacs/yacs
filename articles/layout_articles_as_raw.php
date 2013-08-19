@@ -16,9 +16,9 @@ Class Layout_articles_as_raw extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return arrayt
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -29,7 +29,7 @@ Class Layout_articles_as_raw extends Layout_interface {
 			return $items;
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// include all available attributes for this item
 			$items[ $item['id'] ] = $item;

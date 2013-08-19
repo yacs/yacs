@@ -41,7 +41,7 @@ if($context['page_title']) {
 // modify this page
 if(Articles::allow_modification($item, $anchor)) {
 	Skin::define_img('ARTICLES_EDIT_IMG', 'articles/edit.gif');
-	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
+	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command', 'articles')))
 		$label = i18n::s('Edit this page');
 	$menu = array( Articles::get_url($item['id'], 'edit') => ARTICLES_EDIT_IMG.$label);
 	$article .= Skin::build_list($menu, 'menu_bar');
@@ -68,7 +68,7 @@ if(!Articles::has_option('without_rating', $anchor, $item) && Articles::has_opti
 
 	// where the surfer can rate this item
 	else
-		$digg = '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'rate'), i18n::s('Rate it'), 'basic').'</div>';
+		$digg = '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'like'), i18n::s('Rate it'), 'basic').'</div>';
 
 	// rendering
 	$article .= '<div class="digg"><div class="votes">'.$rating_label.'</div>'
@@ -129,10 +129,10 @@ if($count = Files::count_for_anchor('article:'.$item['id'], FALSE, $embedded)) {
 		$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
 	// list files by date (default) or by title (option files_by_title)
-	if(Articles::has_option('files_by_title', $anchor, $item))
-		$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 100, 'article:'.$item['id'], $embedded);
+	if(Articles::has_option('files_by', $anchor, $item) == 'title')
+		$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 300, 'article:'.$item['id'], $embedded);
 	else
-		$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 100, 'article:'.$item['id'], $embedded);
+		$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 300, 'article:'.$item['id'], $embedded);
 
 	// actually render the html
 	if(is_array($items))
@@ -141,9 +141,9 @@ if($count = Files::count_for_anchor('article:'.$item['id'], FALSE, $embedded)) {
 		$box['text'] .= $items;
 
 	// the command to post a new file
-	if(Files::allow_creation($anchor, $item, 'article')) {
+	if(Files::allow_creation($item, $anchor, 'article')) {
 		Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-		$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Upload a file'));
+		$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Add a file'));
 	}
 
 }
@@ -230,15 +230,12 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 // on-going conversation
 } else {
 
-	// we have a wall, or not
-	$reverted = Articles::has_option('comments_as_wall', $anchor, $item);
-
 	// get a layout for these comments
 	$layout =& Comments::get_layout($anchor, $item);
 
 	// provide author information to layout
 	if(is_object($layout) && $item['create_id'])
-		$layout->set_variant('user:'.$item['create_id']);
+		$layout->set_focus('user:'.$item['create_id']);
 
 	// the maximum number of comments per page
 	if(is_object($layout))
@@ -255,7 +252,7 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 	$box = array('top' => array(), 'bottom' => array(), 'text' => '');
 
 	// feed the wall
-	if(Comments::allow_creation($anchor, $item) && $reverted)
+	if(Comments::allow_creation($anchor, $item))
 		$box['text'] .= Comments::get_form('article:'.$item['id']);
 
 	// a navigation bar for these comments
@@ -264,7 +261,7 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 		$box['bottom'] += array('_count' => sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
 
 		// list comments by date
-		$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, $reverted);
+		$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, TRUE);
 
 		// actually render the html
 		if(is_array($items))
@@ -276,12 +273,6 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 		$prefix = Comments::get_url('article:'.$item['id'], 'navigate');
 		$box['bottom'] += Skin::navigate(NULL, $prefix, $count, $items_per_page, $zoom_index, FALSE, TRUE);
 
-	}
-
-	// new comments are allowed
-	if(Comments::allow_creation($anchor, $item) && !$reverted) {
-		Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
-		$box['bottom'] += array( Comments::get_url('article:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.i18n::s('Post a comment'), '', 'basic', '', i18n::s('Post a comment')));
 	}
 
 	// build a box
@@ -317,10 +308,10 @@ if(Comments::allow_creation($anchor, $item)) {
 	$context['page_tools'][] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 }
 
-// attach a file, if upload is allowed
-if(Files::allow_creation($anchor, $item, 'article')) {
+// add a file, if upload is allowed
+if(Files::allow_creation($item, $anchor, 'article')) {
 	Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-	$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));
+	$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
 }
 
 // add a link
@@ -338,7 +329,7 @@ if(Images::allow_creation($anchor, $item)) {
 // modify this page
 if(Articles::allow_modification($item, $anchor)) {
 	Skin::define_img('ARTICLES_EDIT_IMG', 'articles/edit.gif');
-	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
+	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command', 'articles')))
 		$label = i18n::s('Edit this page');
 	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), ARTICLES_EDIT_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 }
@@ -350,7 +341,7 @@ if($has_versions && Articles::is_owned($item, $anchor)) {
 }
 
 // publish this page
-if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Articles::allow_publication($anchor, $item)) {
+if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Articles::allow_publication($item,$anchor)) {
 	Skin::define_img('ARTICLES_PUBLISH_IMG', 'articles/publish.gif');
 	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), ARTICLES_PUBLISH_IMG.i18n::s('Publish'));
 }

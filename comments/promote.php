@@ -37,12 +37,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Comments::get($id);
+$item = Comments::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // associates and authenticated owners can do what they want
 if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_owned()))
@@ -66,9 +66,9 @@ else
 	$context['path_bar'] = array( 'comments/' => i18n::s('Threads') );
 
 // the title of the page
-if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_title'] = $anchor->get_label('comments', 'promote_title');
-else
+if(is_object($anchor) && is_object($anchor->overlay))
+	$context['page_title'] = $anchor->overlay->get_label('promote_title', 'comments');
+if(!$context['page_title'])
 	$context['page_title'] = i18n::s('Promote a comment');
 
 // stop crawlers
@@ -125,7 +125,7 @@ if(Surfer::is_crawler()) {
 	// delete the comment and jump to the new article
 	elseif(Comments::delete($item['id'])) {
 		Comments::clear($item);
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($fields));
+		Safe::redirect(Articles::get_permalink($fields));
 	}
 
 // promotion has to be confirmed
@@ -136,9 +136,10 @@ if(Surfer::is_crawler()) {
 } else {
 
 	// the submit button
-	if(is_object($anchor))
-		$label = $anchor->get_label('comments', 'promote_command');
-	else
+	$label = '';
+	if(is_object($anchor) && is_object($anchor->overlay))
+		$label = $anchor->overlay->get_label('promote_confirmation', 'comments');
+	if(!$label)
 		$label = i18n::s('Yes, I want to promote this comment to an article');
 
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
@@ -148,10 +149,7 @@ if(Surfer::is_crawler()) {
 		.'</p></form>'."\n";
 
 	// set the focus
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#confirmed").focus();'."\n"
-		.JS_SUFFIX;
+	Page::insert_script('$("#confirmed").focus();');
 
 	// the title of the comment
 	if(isset($item['title']) && $item['title'])

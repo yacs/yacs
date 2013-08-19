@@ -3,7 +3,7 @@
  * set a new location or update an existing one
  *
  * A button-based editor is used for the description field.
- * It's aiming to introduce most common [link=codes]codes/index.php[/link] supported by YACS.
+ * It's aiming to introduce most common [link=codes]codes/[/link] supported by YACS.
  *
  * See either [link=Address Map Coordinate (Lat/Long) Finder]http://www.batchgeocode.com/lookup/[/link]
  * or [link=Free Geocoding Service for 22 Countries]http://www.travelgis.com/geocode/Default.aspx[/link]
@@ -39,7 +39,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
 include_once 'locations.php';
 
 // look for the id
@@ -51,7 +50,7 @@ elseif(isset($context['arguments'][0]) && !isset($context['arguments'][1]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Locations::get($id);
+$item = Locations::get($id);
 
 // look for the target anchor on item creation
 $target_anchor = NULL;
@@ -64,9 +63,9 @@ $target_anchor = strip_tags($target_anchor);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 elseif($target_anchor)
-	$anchor =& Anchors::get($target_anchor);
+	$anchor = Anchors::get($target_anchor);
 
 // do not always show the edition form
 $with_form = FALSE;
@@ -164,7 +163,7 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 		Locations::clear($_REQUEST);
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified'));
+		$context['text'] .= Mailer::build_recipients($anchor->get_reference());
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -180,7 +179,7 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
                         $link = $context['url_to_home'].$context['url_to_root'].Locations::get_url($_REQUEST['id']);
 			$description = $_REQUEST['geo_place_name']."\n"
 				.sprintf(i18n::c('at %s'), '<a href="'.$link.'">'.$link.'</a>');
-			Logger::notify('locations/edit.php', $label, $description);
+			Logger::notify('locations/edit.php: '.$label, $description);
 		}
 
 	// update of an existing location
@@ -237,10 +236,13 @@ if($with_form) {
 	if(isset($context['google_api_key']) && $context['google_api_key']) {
 
 		// encode on click
-		$input .= '<button type="button" id="encode" onclick="lookupAddress($(\'#geo_place_name\').value); return false;">'.encode_field(i18n::s('Encode this address')).'</button>'."\n"
-			.'<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key='.$context['google_api_key'].'" type="text/javascript"></script>'."\n"
-			.JS_PREFIX
-			.'var geocoder = null;'."\n"
+		$input .= '<button type="button" id="encode" onclick="lookupAddress($(\'#geo_place_name\').val()); return false;">'.encode_field(i18n::s('Encode this address')).'</button>'."\n";
+		
+		Page::defer_script("http://maps.google.com/maps?file=api&amp;v=2&amp;key=".$context['google_api_key']);
+			
+		// TODO  : update this with google API V3
+		Page::insert_script(
+			'var geocoder = null;'."\n"
 			.'function lookupAddress(address) {'."\n"
 			.'	if(!geocoder) {'."\n"
 			.'		geocoder = new GClientGeocoder();'."\n"
@@ -252,14 +254,14 @@ if($with_form) {
 			.'				if (!point) {'."\n"
 			.'					alert("'.i18n::s('This address has not been found').'");'."\n"
 			.'				} else {'."\n"
-			.'					$(\'#geo_position\').value = point.y.toString() + ", " + point.x.toString();'."\n"
+			.'					$(\'#geo_position\').val( point.y.toString() + ", " + point.x.toString() );'."\n"
 			.'					alert("'.i18n::s('This address has been encoded as').'\n" + point.y.toString() + ", " + point.x.toString());'."\n"
 			.'				}'."\n"
 			.'			}'."\n"
 			.'		)'."\n"
 			.'	}'."\n"
 			.'}'."\n"
-			.JS_SUFFIX."\n";
+			);
 
 	}
 
@@ -310,31 +312,27 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= JS_PREFIX
-		.'	// check that main fields are not empty'."\n"
-		.'	func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'		// geo_place_name is mandatory'."\n"
+	Page::insert_script(
+			// check that main fields are not empty
+		'	func'.'tion validateDocumentPost(container) {'."\n"
+				// geo_place_name is mandatory
 		.'		if(!container.geo_place_name.value) {'."\n"
 		.'			alert("'.i18n::s('You must give a name to this location.').'");'."\n"
 		.'			Yacs.stopWorking();'."\n"
 		.'			return false;'."\n"
 		.'		}'."\n"
-		."\n"
-		.'		// geo_position is mandatory'."\n"
+				// geo_position is mandatory
 		.'		if(!container.geo_position.value) {'."\n"
 		.'			alert("'.i18n::s('Please type some geographical coordinates.').'");'."\n"
 		.'			Yacs.stopWorking();'."\n"
 		.'			return false;'."\n"
 		.'		}'."\n"
-		."\n"
-		.'		// successful check'."\n"
+				// successful check
 		.'		return true;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'$("#geo_place_name").focus();'."\n"
-		.JS_SUFFIX."\n";
+		);
 
 	// general help on this form
 	$help = '<p>'.i18n::s('Latitude and longitude are numbers separated by a comma and spaces, for example: 47.98481,-71.42124.').'</p>'
@@ -342,7 +340,7 @@ if($with_form) {
 		.'<li>'.Skin::build_link(i18n::s('http://www.batchgeocode.com/lookup/'), i18n::s('Address Map Coordinate (Lat/Long) Finder'), 'external').'</li>'
 		.'<li>'.Skin::build_link(i18n::s('http://www.travelgis.com/geocode/Default.aspx'), i18n::s('Free Geocoding Service for 22 Countries'), 'external').'</li>'
 		.'</ul>'
-		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>';
 	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 }

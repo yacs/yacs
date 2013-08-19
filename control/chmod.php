@@ -59,14 +59,7 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 
 	// analyse each script
 	$count = 0;
-	foreach($scripts as $script) {
-
-		// check file content
-		list($module, $name) = $script;
-		if($module)
-			$file = $module.'/'.$name;
-		else
-			$file = $name;
+	foreach($scripts as $file) {
 
 		// this will be filtered by umask anyway
 		Safe::chmod($context['path_to_root'].$file, $context['file_mask']);
@@ -94,7 +87,7 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 
 	// remember the operation
 	$label = sprintf(i18n::c('chmod %s has been applied to scripts'), $context['file_mask']);
-	Logger::remember('control/chmod.php', $label);
+	Logger::remember('control/chmod.php: '.$label);
 
 // confirmation is required
 } else {

@@ -12,14 +12,25 @@
 Class Layout_sections_as_thumbnails extends Layout_interface {
 
 	/**
+	 * the preferred number of items for this layout
+	 *
+	 * The compact format of this layout allows a high number of items to be listed
+	 *
+	 * @return int the optimised count of items fro this layout
+	 */
+	function items_per_page() {
+		return 1000;
+	}
+
+	/**
 	 * list sections
 	 *
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -32,7 +43,7 @@ Class Layout_sections_as_thumbnails extends Layout_interface {
 		$text = '';
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// we want to make it visual
 			if(!$item['thumbnail_url'])
@@ -45,7 +56,7 @@ Class Layout_sections_as_thumbnails extends Layout_interface {
 				$title = '';
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// use the skin to shape it
 			$text .= Skin::build_image('thumbnail', $item['thumbnail_url'], $title, $url);

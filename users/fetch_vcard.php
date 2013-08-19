@@ -47,7 +47,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // reorder tokens of full name on comma
 if(preg_match('/^(.+),\s+(.+)$/', $item['full_name'], $matches))
@@ -143,28 +143,28 @@ if(!isset($item['id'])) {
 	if(isset($item['birth_date']) && $item['birth_date'])
 		$text .= 'BDAY:'.substr($item['birth_date'], 0, 10).CRLF;
 
-	// agent, if any -- not accepted by Palm Desktop :-(
-// 	if(isset($item['vcard_agent']) && $item['vcard_agent'] && ($agent =& Users::get($item['vcard_agent']))) {
-// 		$text .= 'AGENT:'."\x0D\x0A"
-// 			.'BEGIN:VCARD'."\x0D\x0A"
-// 			.'VERSION:2.1'."\x0D\x0A"
-// 			.'FN:'.$agent['full_name']."\x0D\x0A"
-// 			.'NICKNAME:'.$agent['nick_name']."\x0D\x0A";
+	// agent, if any
+ 	if(isset($item['vcard_agent']) && $item['vcard_agent'] && ($agent = Users::get($item['vcard_agent']))) {
+ 		$text .= 'AGENT:'."\x0D\x0A"
+ 			.'BEGIN:VCARD'."\x0D\x0A"
+ 			.'VERSION:2.1'."\x0D\x0A"
+ 			.'FN:'.$agent['full_name']."\x0D\x0A"
+ 			.'NICKNAME:'.$agent['nick_name']."\x0D\x0A";
 
-// 		// phone number, if any
-// 		if(isset($agent['phone_number']) && $agent['phone_number'])
-// 			$text .= 'TEL;PREF:'.$agent['phone_number']."\x0D\x0A";
+ 		// phone number, if any
+ 		if(isset($agent['phone_number']) && $agent['phone_number'])
+ 			$text .= 'TEL;PREF:'.$agent['phone_number']."\x0D\x0A";
 
-// 		// alternate number, if any
-// 		if(isset($agent['alternate_number']) && $agent['alternate_number'])
-// 			$text .= 'TEL;MSG:'.$agent['alternate_number']."\x0D\x0A";
+ 		// alternate number, if any
+ 		if(isset($agent['alternate_number']) && $agent['alternate_number'])
+ 			$text .= 'TEL;MSG:'.$agent['alternate_number']."\x0D\x0A";
 
-// 		// web mail, if any
-// 		if(isset($agent['email']) && $agent['email'])
-// 			$text .= 'EMAIL;PREF;INTERNET:'.$agent['email']."\x0D\x0A";
+ 		// web mail, if any
+ 		if(isset($agent['email']) && $agent['email'])
+ 			$text .= 'EMAIL;PREF;INTERNET:'.$agent['email']."\x0D\x0A";
 
-// 		$text .= 'END:VCARD'."\x0D\x0A";
-// 	}
+ 		$text .= 'END:VCARD'."\x0D\x0A";
+ 	}
 
 	// date of last update
 	$text .= 'REV:'.date('Ymd\THis\Z', SQL::strtotime($item['edit_date'])).CRLF
@@ -183,8 +183,8 @@ if(!isset($item['id'])) {
 
 	// suggest a download
 	if(!headers_sent()) {
-		$file_name = utf8::to_ascii(Skin::strip($context['page_title'], 5).'.vcf');
-		Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
+		$file_name = utf8::to_ascii(Skin::strip($context['page_title']).'.vcf');
+		Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $file_name).'"');
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

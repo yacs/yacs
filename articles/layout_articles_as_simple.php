@@ -20,9 +20,9 @@ Class Layout_articles_as_simple extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array of resulting items, or NULL
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -35,17 +35,16 @@ Class Layout_articles_as_simple extends Layout_interface {
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay, if any
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// use the title to label the link
 			if(is_object($overlay))
@@ -106,7 +105,7 @@ Class Layout_articles_as_simple extends Layout_interface {
 				$details[] = POPULAR_FLAG;
 
 			// the main anchor link
-			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
+			if(is_object($anchor) && (!isset($this->focus) || ($item['anchor'] != $this->focus)))
 				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'section'));
 
 			// combine in-line details

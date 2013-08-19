@@ -53,8 +53,8 @@ if(Surfer::is_crawler()) {
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
 		Safe::redirect($context['url_to_home'].
-						$context['url_to_root'].'users/login.php?url='
-						.urlencode('tools/populate.php?action='.$action));
+				$context['url_to_root'].'users/login.php?url='
+				.urlencode('tools/populate.php?action='.$action));
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
@@ -68,133 +68,133 @@ if(Surfer::is_crawler()) {
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST'))  {
 	$text = '';
 
-		if(($action == 'confirmed') && isset($_REQUEST['former_url'])) {
+	if(($action == 'confirmed') && isset($_REQUEST['former_url'])) {
 
-			//add "images/" to url, to be sure to replace only begining
-			$former_url = $_REQUEST['former_url'].'images/';
+		//add "images/" to url, to be sure to replace only begining
+		$former_url = $_REQUEST['former_url'].'images/';
 
-			//  I ANALYSE THUMBNAILS IN ARTICLES TABLE
-			$text .= Skin::build_block(i18n::s('Analysing thumbnails for articles'),'title');
+		//  I ANALYSE THUMBNAILS IN ARTICLES TABLE
+		$text .= Skin::build_block(i18n::s('Analysing thumbnails for articles'),'title');
 
-			// query to update
-			$query = "UPDATE ".SQL::table_name('articles')." SET ";
-			$query .= "thumbnail_url= REPLACE(thumbnail_url,'"
-				.$former_url."','".$context['url_to_root']."images/')";
+		// query to update
+		$query = "UPDATE ".SQL::table_name('articles')." SET ";
+		$query .= "thumbnail_url= REPLACE(thumbnail_url,'"
+			.$former_url."','".$context['url_to_root']."images/')";
 
-			// proceed
-			$result = SQL::query($query);
+		// proceed
+		$result = SQL::query($query);
 
-			// nb of lines
-			if($result)
-				$text .= '<p>'.$result.' line(s) updated</p>';
-			else
-				$text .= '<p>No line updated</p>';
+		// nb of lines
+		if($result)
+			$text .= '<p>'.$result.' line(s) updated</p>';
+		else
+			$text .= '<p>No line updated</p>';
 
-			 //  II ANALYSE ICONS IN ARTICLES TABLE
-			$text .= Skin::build_block(i18n::s('Analysing icons for articles'),'title');
+		 //  II ANALYSE ICONS IN ARTICLES TABLE
+		$text .= Skin::build_block(i18n::s('Analysing icons for articles'),'title');
 
-			// query to update
-			$query = "UPDATE ".SQL::table_name('articles')." SET ";
-			$query .= "icon_url= REPLACE(icon_url,'"
-				.$former_url."','".$context['url_to_root']."images/')";
+		// query to update
+		$query = "UPDATE ".SQL::table_name('articles')." SET ";
+		$query .= "icon_url= REPLACE(icon_url,'"
+			.$former_url."','".$context['url_to_root']."images/')";
 
-			// proceed
-			$result = SQL::query($query);
+		// proceed
+		$result = SQL::query($query);
 
-			// nb of lines
-			if($result)
-				$text .= '<p>'.$result.' line(s) updated</p>';
-			else
-				$text .= '<p>No line updated</p>';
+		// nb of lines
+		if($result)
+			$text .= '<p>'.$result.' line(s) updated</p>';
+		else
+			$text .= '<p>No line updated</p>';
 
-			//  III ANALYSE THUMBNAILS IN SECTIONS TABLE
-			$text .= Skin::build_block(i18n::s('Analysing thumbnails for sections'),'title');
+		//  III ANALYSE THUMBNAILS IN SECTIONS TABLE
+		$text .= Skin::build_block(i18n::s('Analysing thumbnails for sections'),'title');
 
-			// query to update
-			$query = "UPDATE ".SQL::table_name('sections')." SET ";
-			$query .= "thumbnail_url= REPLACE(thumbnail_url,'"
-				.$former_url."','".$context['url_to_root']."images/')";
+		// query to update
+		$query = "UPDATE ".SQL::table_name('sections')." SET ";
+		$query .= "thumbnail_url= REPLACE(thumbnail_url,'"
+			.$former_url."','".$context['url_to_root']."images/')";
 
-			// proceed
-			$result = SQL::query($query);
+		// proceed
+		$result = SQL::query($query);
 
-			// nb of lines
-			if($result)
-				$text .= '<p>'.$result.' line(s) updated</p>';
-			else
-				$text .= '<p>No line updated</p>';
+		// nb of lines
+		if($result)
+			$text .= '<p>'.$result.' line(s) updated</p>';
+		else
+			$text .= '<p>No line updated</p>';
 
-			//  IV ANALYSE ICONS IN SECTIONS TABLE
-			$text .= Skin::build_block(i18n::s('Analysing icons for sections'),'title');
+		//  IV ANALYSE ICONS IN SECTIONS TABLE
+		$text .= Skin::build_block(i18n::s('Analysing icons for sections'),'title');
 
-			// query to update
-			$query = "UPDATE ".SQL::table_name('sections')." SET ";
-			$query .= "icon_url= REPLACE(icon_url,'"
-				.$former_url."','".$context['url_to_root']."images/')";
+		// query to update
+		$query = "UPDATE ".SQL::table_name('sections')." SET ";
+		$query .= "icon_url= REPLACE(icon_url,'"
+			.$former_url."','".$context['url_to_root']."images/')";
 
-			// proceed
-			$result = SQL::query($query);
+		// proceed
+		$result = SQL::query($query);
 
-			// nb of lines
-			if($result)
-				$text .= '<p>'.$result.' line(s) updated</p>';
-			else
-				$text .= '<p>No line updated</p>';
+		// nb of lines
+		if($result)
+			$text .= '<p>'.$result.' line(s) updated</p>';
+		else
+			$text .= '<p>No line updated</p>';
 
-			//  V ANALYSE THUMBNAILS IN CATEGORIES TABLE
-			$text .= Skin::build_block(i18n::s('Analysing thumbnails for categories'),'title');
+		//  V ANALYSE THUMBNAILS IN CATEGORIES TABLE
+		$text .= Skin::build_block(i18n::s('Analysing thumbnails for categories'),'title');
 
-			// query to update
-			$query = "UPDATE ".SQL::table_name('categories')." SET ";
-			$query .= "thumbnail_url= REPLACE(thumbnail_url,'"
-				.$former_url."','".$context['url_to_root']."images/')";
+		// query to update
+		$query = "UPDATE ".SQL::table_name('categories')." SET ";
+		$query .= "thumbnail_url= REPLACE(thumbnail_url,'"
+			.$former_url."','".$context['url_to_root']."images/')";
 
-			// proceed
-			$result = SQL::query($query);
+		// proceed
+		$result = SQL::query($query);
 
-			// nb of lines
-			if($result)
-				$text .= '<p>'.$result.' line(s) updated</p>';
-			else
-				$text .= '<p>No line updated</p>';
+		// nb of lines
+		if($result)
+			$text .= '<p>'.$result.' line(s) updated</p>';
+		else
+			$text .= '<p>No line updated</p>';
 
-			//  VI ANALYSE ICONS IN CATEGORIES TABLE
-			$text .= Skin::build_block(i18n::s('Analysing icons for categories'),'title');
+		//  VI ANALYSE ICONS IN CATEGORIES TABLE
+		$text .= Skin::build_block(i18n::s('Analysing icons for categories'),'title');
 
-			// query to update
-			$query = "UPDATE ".SQL::table_name('categories')." SET ";
-			$query .= "icon_url= REPLACE(icon_url,'"
-				.$former_url."','".$context['url_to_root']."images/')";
+		// query to update
+		$query = "UPDATE ".SQL::table_name('categories')." SET ";
+		$query .= "icon_url= REPLACE(icon_url,'"
+			.$former_url."','".$context['url_to_root']."images/')";
 
-			// proceed
-			$result = SQL::query($query);
+		// proceed
+		$result = SQL::query($query);
 
-			// nb of lines
-			if($result)
-				$text .= '<p>'.$result.' line(s) updated</p>';
-			else
-				$text .= '<p>No line updated</p>';
+		// nb of lines
+		if($result)
+			$text .= '<p>'.$result.' line(s) updated</p>';
+		else
+			$text .= '<p>No line updated</p>';
 
-			//  VII ANALYSE THUMBNAILS IN FILES TABLE
-			$text .= Skin::build_block(i18n::s('Analysing thumbnails for files'),'title');
+		//  VII ANALYSE THUMBNAILS IN FILES TABLE
+		$text .= Skin::build_block(i18n::s('Analysing thumbnails for files'),'title');
 
-			// query to update
-			$query = "UPDATE ".SQL::table_name('files')." SET ";
-			$query .= "thumbnail_url= REPLACE(thumbnail_url,'"
-				.$former_url."','".$context['url_to_root']."images/')";
+		// query to update
+		$query = "UPDATE ".SQL::table_name('files')." SET ";
+		$query .= "thumbnail_url= REPLACE(thumbnail_url,'"
+			.$former_url."','".$context['url_to_root']."images/')";
 
-			// proceed
-			$result = SQL::query($query);
+		// proceed
+		$result = SQL::query($query);
 
-			// nb of lines
-			if($result)
-				$text .= '<p>'.$result.' line(s) updated</p>';
-			else
-				$text .= '<p>No line updated</p>';
+		// nb of lines
+		if($result)
+			$text .= '<p>'.$result.' line(s) updated</p>';
+		else
+			$text .= '<p>No line updated</p>';
 
-			// END : report
-			$context['text'] = $text;
-		}
+		// END : report
+		$context['text'] = $text;
+	}
 
 } else {
 

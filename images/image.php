@@ -9,6 +9,11 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
+// default jpeg quality in %, the 
+// lower, the more compressed the image is.
+if(!defined('IMG_JPEG_QUALITY'))
+    define('IMG_JPEG_QUALITY', 70);
+
 Class Image {
 
 	/**
@@ -23,7 +28,7 @@ Class Image {
 	 * @param string 'standard' or 'avatar'
 	 * @return TRUE on resize, FALSE otherwise
 	 */
-	function adjust($original, $verbose=TRUE, $variant='standard') {
+	public static function adjust($original, $verbose=TRUE, $variant='standard') {
 		global $context;
 
 		// get file name
@@ -124,7 +129,7 @@ Class Image {
 		if(($image_information[2] == 1) && is_callable('ImageGIF'))
 			ImageGIF($adjusted, $original);
 		elseif(($image_information[2] == 2) && is_callable('ImageJPEG'))
-			ImageJPEG($adjusted, $original, 70);
+			ImageJPEG($adjusted, $original, IMG_JPEG_QUALITY);
 		elseif((($image_information[2] == 1) || ($image_information[2] == 3)) && is_callable('ImagePNG'))
 			ImagePNG($adjusted, $original);
 		else {
@@ -146,7 +151,7 @@ Class Image {
 	 * @return string to be integrated into background CSS rule
 	 *
 	 */
-	function as_background($name) {
+	public static function as_background($name) {
 		$repeat = 'repeat';
 		if(strpos($name, '-x.'))
 			$repeat = 'repeat-x top left';
@@ -184,7 +189,7 @@ Class Image {
 	 * @param boolean TRUE to see error messages, if any
 	 * @return TRUE on success, FALSE on error
 	 */
-	function shrink($original, $target, $fixed=FALSE, $verbose=TRUE) {
+	public static function shrink($original, $target, $fixed=FALSE, $verbose=TRUE) {
 		global $context;
 
 		// get file name
@@ -305,7 +310,7 @@ Class Image {
 		if(($image_information[2] == 1) && is_callable('ImageGIF'))
 			ImageGIF($thumbnail, $target);
 		elseif(($image_information[2] == 2) && is_callable('ImageJPEG'))
-			ImageJPEG($thumbnail, $target, 70);
+			ImageJPEG($thumbnail, $target, IMG_JPEG_QUALITY);
 		elseif((($image_information[2] == 1) || ($image_information[2] == 3)) && is_callable('ImagePNG'))
 			ImagePNG($thumbnail, $target);
 		else {
@@ -331,7 +336,7 @@ Class Image {
 	 * @param boolean TRUE to not report on errors
 	 * @return boolean TRUE on correct processing, FALSE otherwise
 	 */
-	function upload($file_name, $file_path, $silent=FALSE) {
+	public static function upload($file_name, $file_path, $silent=FALSE) {
 		global $context, $_REQUEST;
 
 		// we accept only valid images

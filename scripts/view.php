@@ -100,6 +100,7 @@ if(!$script) {
 
 	// back to the index
 	$context['page_tools'][] = Skin::build_link('scripts/', i18n::s('Server software'));
+
 }
 
 // render the skin

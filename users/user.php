@@ -19,6 +19,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Alexis Raimbault
  * @see shared/anchor.php
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -61,24 +62,8 @@ Class User extends Anchor {
 		// initialize components
 		$previous_url = $previous_label = $next_url = $next_label = $option_url = $option_label ='';
 
-		// previous and next actions
-		if($type == 'action') {
-
-			// load the adequate library
-			include_once $context['path_to_root'].'actions/actions.php';
-
-			$order = 'date';
-
-			// get previous url
-			if($previous_url = Actions::get_previous_url($item, 'user:'.$this->item['id'], $order))
-				$previous_label = i18n::s('Previous action');
-
-			// get next url
-			if($next_url = Actions::get_next_url($item, 'user:'.$this->item['id'], $order))
-				$next_label = i18n::s('Next action');
-
 		// previous and next comments
-		} elseif($type == 'comment') {
+		if($type == 'comment') {
 
 			// load the adequate library
 			include_once $context['path_to_root'].'comments/comments.php';
@@ -203,7 +188,7 @@ Class User extends Anchor {
 	 *
 	 * @see shared/anchor.php
 	 */
-	 function get_path_bar() {
+	function get_path_bar() {
 
 		// load localized strings
 		i18n::bind('users');
@@ -224,18 +209,25 @@ Class User extends Anchor {
 		// return an array of ($url => $label)
 		 return $output;
 	 }
-
-	/**
-	 * get the reference for this anchor
-	 *
-	 * @return 'user:&lt;id&gt;', or NULL
-	 *
-	 * @see shared/anchor.php
+	 
+	 /**
+	 * get permalink to item
 	 */
-	function get_reference() {
-		if(isset($this->item['id']))
-			return 'user:'.$this->item['id'];
-		return NULL;
+	function get_permalink() {
+	    if(!isset($this->item['id']))
+		    return NULL;
+	    
+	    $link = Users::get_permalink($this->item);
+	    return $link;
+	}
+	
+	/**
+	 * provide classe name with all static functions on this kind of anchor
+	 * 
+	 * @return a class name
+	 */
+	function get_static_group_class() {
+	    return 'Users';
 	}
 
 	/**
@@ -307,11 +299,12 @@ Class User extends Anchor {
 	 * @return TRUE if the surfer is browsing his/her own profile
 	 *
 	 * @param int optional reference to some user profile
+	 * @param boolean TRUE to climb the list of containers up to the top
 	 * @return TRUE or FALSE
 	 *
 	 * @see shared/anchor.php
 	 */
-	 function is_assigned($user_id=NULL) {
+	function is_assigned($user_id=NULL, $cascade=TRUE) {
 
 		// id of requesting user
 		if(!$user_id && Surfer::get_id())
@@ -326,7 +319,7 @@ Class User extends Anchor {
 	/**
 	 * check that the surfer owns an anchor
 	 *
-	 * To be overloaded into derivated class if field has a different name
+	 * To be overloaded into derived class if field has a different name
 	 *
 	 * @param int optional reference to some user profile
 	 * @param boolean TRUE to not cascade the check to parent containers
@@ -334,7 +327,7 @@ Class User extends Anchor {
 	 *
 	 * @see shared/anchor.php
 	 */
-	 function is_owned($user_id=NULL, $strict=FALSE) {
+	function is_owned($user_id=NULL, $strict=FALSE) {
 		global $context;
 
 		// id of requesting user
@@ -365,7 +358,24 @@ Class User extends Anchor {
 	 * @see shared/anchor.php
 	 */
 	function load_by_id($id, $mutable=FALSE) {
-		$this->item =& Users::get($id, $mutable);
+		$this->item = Users::get($id, $mutable);
+	}
+	
+	/**
+	 * change some attributes of an anchor
+	 * 
+	 * @see shared/anchor.php
+	 *
+	 * @param array of (name, value)
+	 * @return TRUE on success, FALSE otherwise 
+	 */
+	function set_values($fields) {
+
+		// add our id
+		$fields['id'] = $this->item['id'];
+
+		// save in the database
+		return users::put_attributes($fields);
 	}
 
 	/**
@@ -374,12 +384,10 @@ Class User extends Anchor {
 	 * @param string the description of the last action
 	 * @param string the id of the item related to this update
 	 * @param boolean TRUE to not change the edit date of this anchor, default is FALSE
-	 * @param boolean TRUE to notify section watchers, default is FALSE
-	 * @param boolean TRUE to notify poster followers, default is FALSE
 	 *
 	 * @see shared/anchor.php
 	 */
-	function touch($action, $origin=NULL, $silently=FALSE, $to_watchers=FALSE, $to_followers=FALSE) {
+	function touch($action, $origin=NULL, $silently=FALSE) {
 		global $context;
 
 		// don't go further on import
@@ -392,7 +400,7 @@ Class User extends Anchor {
 
 		// sanity check
 		if(!$origin) {
-			logger::remember('users/user.php', 'unexpected NULL origin at touch()');
+			logger::remember('users/user.php: unexpected NULL origin at touch()');
 			return;
 		}
 
@@ -424,7 +432,7 @@ Class User extends Anchor {
 
 			// suppress references as icon and thumbnail as well
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 
 				if($url = Images::get_icon_href($image)) {
 					if($this->item['avatar_url'] == $url)
@@ -440,7 +448,7 @@ Class User extends Anchor {
 		// set an existing image as the user avatar
 		} elseif($action == 'image:set_as_avatar') {
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_icon_href($image))
 					$query[] = "avatar_url = '".SQL::escape($url)."'";
 			}
@@ -449,7 +457,7 @@ Class User extends Anchor {
 		// set an existing image as the user thumbnail
 		} elseif($action == 'image:set_as_thumbnail') {
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_thumbnail_href($image))
 					$query[] = "avatar_url = '".SQL::escape($url)."'";
 			}
@@ -541,7 +549,7 @@ Class User extends Anchor {
 		// always clear the cache, even on no update
 		Users::clear($this->item);
 
-	}
+	}		
 
 }
 

@@ -22,6 +22,7 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once 'categories.php';
+include_once '../links/links.php';
 
 // look for the id
 $id = NULL;
@@ -32,12 +33,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Categories::get($id);
+$item = Categories::get($id);
 
 // get the related anchor
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // associates and editors can do what they want
 if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
@@ -147,9 +148,9 @@ if(Surfer::is_crawler()) {
 
 	// list files by date (default) or by title (option :files_by_title:)
 	if(preg_match('/\bfiles_by_title\b/i', $item['options']))
-		$items = Files::list_by_title_for_anchor('category:'.$item['id'], 0, 50);
+		$items = Files::list_by_title_for_anchor('category:'.$item['id'], 0, 300, 'category:'.$item['id']);
 	else
-		$items = Files::list_by_date_for_anchor('category:'.$item['id'], 0, 50);
+		$items = Files::list_by_date_for_anchor('category:'.$item['id'], 0, 300, 'category:'.$item['id']);
 
 	// actually render the html for the section
 	if($items)
@@ -163,7 +164,6 @@ if(Surfer::is_crawler()) {
 	$section = Skin::build_block(i18n::s('See also'), 'title');
 
 	// list links by date (default) or by title (option :links_by_title:)
-	include_once '../links/links.php';
 	if(preg_match('/\blinks_by_title\b/i', $item['options']))
 		$items = Links::list_by_title_for_anchor('category:'.$item['id'], 0, 50);
 	else

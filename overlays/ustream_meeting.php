@@ -1,5 +1,5 @@
 <?php
-include_once 'event.php';
+include_once 'meeting.php';
 
 /**
  * meet on a ustream channel
@@ -26,7 +26,7 @@ include_once 'event.php';
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
-class ustream_Meeting extends Event {
+class ustream_Meeting extends Meeting {
 
 	/**
 	 * get the layout for comments
@@ -90,23 +90,6 @@ class ustream_Meeting extends Event {
 	}
 
 	/**
-	 * text to be displayed to page owner
-	 *
-	 * @see overlays/event.php
-	 *
-	 * @return string some instructions to page owner
-	 */
-	function get_event_status() {
-
-		// ensure we have an address for the meeting
-		if(!isset($this->attributes['meeting_id']) || !$this->attributes['meeting_id'])
-			return i18n::s('No information has been set for this meeting');
-
-		// everything is ok
-		return NULL;
-	}
-
-	/**
 	 * the URL to join the meeting
 	 *
 	 * @see overlays/events/join.php
@@ -121,64 +104,6 @@ class ustream_Meeting extends Event {
 			return 'http://www.ustream.tv/channel/'.$this->attributes['meeting_id'];
 
 		// tough luck
-		return NULL;
-	}
-
-	/**
-	 * get an overlaid label
-	 *
-	 * Accepted action codes:
-	 * - 'edit' the modification of an existing object
-	 * - 'delete' the deleting form
-	 * - 'new' the creation of a new object
-	 * - 'view' a displayed object
-	 *
-	 * @see overlays/overlay.php
-	 *
-	 * @param string the target label
-	 * @param string the on-going action
-	 * @return the label to use
-	 */
-	function get_label($name, $action='view') {
-		global $context;
-
-		// the target label
-		switch($name) {
-
-		// edit command
-		case 'edit_command':
-			return i18n::s('Edit this meeting');
-			break;
-
-		// new command
-		case 'new_command':
-			return i18n::s('Add a meeting');
-			break;
-
-		// page title
-		case 'page_title':
-
-			switch($action) {
-
-			case 'edit':
-				return i18n::s('Edit a meeting');
-
-			case 'delete':
-				return i18n::s('Delete a meeting');
-
-			case 'new':
-				return i18n::s('New meeting');
-
-			case 'view':
-			default:
-				// use article title as the page title
-				return NULL;
-
-			}
-			break;
-		}
-
-		// no match
 		return NULL;
 	}
 
@@ -213,35 +138,6 @@ class ustream_Meeting extends Event {
 
 		// nothing to display to page owner
 		return NULL;
-	}
-
-	/**
-	 * get a label for a given status code
-	 *
-	 * @param string the status code
-	 * @return string the label to display
-	 */
-	function get_status_label($status) {
-		global $context;
-
-		switch($status) {
-		case 'created':
-		default:
-			return i18n::s('Meeting is under preparation');
-
-		case 'open':
-			return i18n::s('Enrolment is open');
-
-		case 'lobby':
-			return i18n::s('Meeting has not started yet');
-
-		case 'started':
-			return i18n::s('Meeting has started');
-
-		case 'stopped':
-			return i18n::s('Meeting is over');
-
-		}
 	}
 
 	/**

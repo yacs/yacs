@@ -80,8 +80,6 @@
  * This is achieved through the field 'display', which is actually an anchor to the target page.
  * Following anchors are recognized for categories:
  * - 'site:all' - build one navigation box for the category, in skins/your_skin/template.php
- * - 'home:extra' - build one extra box for the category at the front page, in index.php
- * - 'home:gadget' - build one gadget box in the middle of the front page, in index.php
  * - 'article:index' - a sidebar at articles/index.php
  * - 'file:index' - a sidebar at files/index.php
  * - 'link:index' - a sidebar at links/index.php
@@ -129,13 +127,13 @@ Class Categories {
 	 * - global parameter 'users_without_submission' has been set to 'Y'
 	 *
 	 * Locked items can be further categorized.
-	 *
-	 * @param object an instance of the Anchor interface, if any
+	 *	 
 	 * @param array a set of item attributes, if any
+	 * @param object an instance of the Anchor interface, if any
 	 * @param string the type of item, e.g., 'section'
 	 * @return boolean TRUE or FALSE
 	 */
-	function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
+	public static function allow_creation($item=NULL, $anchor=NULL, $variant=NULL) {
 		global $context;
 
 		// surfer has to be an associate
@@ -160,10 +158,10 @@ Class Categories {
 	 * @param string reference to an anchor (i.e., 'category:423')
 	 * @return a string to be used in &lt;option&gt;
 	 */
-	function build_path($reference) {
-		$anchor =& Anchors::get($reference);
+	public static function build_path($reference) {
+		$anchor = Anchors::get($reference);
 		if(is_object($anchor)) {
-			if(preg_match('/category:(.+?)$/', $reference, $matches) && ($category =& Categories::get($matches[1])) && $category['anchor'] && ($category['anchor'] != $reference))
+			if(preg_match('/category:(.+?)$/', $reference, $matches) && ($category = Categories::get($matches[1])) && $category['anchor'] && ($category['anchor'] != $reference))
 				return Categories::build_path($category['anchor']).'|'.strip_tags($anchor->get_title());
 			return strip_tags($anchor->get_title());
 		}
@@ -174,7 +172,7 @@ Class Categories {
 	 *
 	 * @param array item attributes
 	 */
-	function clear(&$item) {
+	public static function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('categories', 'sections', 'articles', 'users');
@@ -198,7 +196,7 @@ Class Categories {
 	 * @param int the id of the category to delete
 	 * @return TRUE on success, FALSE otherwise
 	 */
-	function delete($id) {
+	public static function delete($id) {
 		global $context;
 
 		// id cannot be empty
@@ -225,13 +223,13 @@ Class Categories {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function delete_for_anchor($anchor) {
+	public static function delete_for_anchor($anchor) {
 		global $context;
 
 		// seek all records attached to this anchor
 		$query = "SELECT id FROM ".SQL::table_name('categories')." AS categories "
 			." WHERE categories.anchor LIKE '".SQL::escape($anchor)."'";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return;
 
 		// empty list
@@ -239,7 +237,7 @@ Class Categories {
 			return;
 
 		// silently delete everything
-		while($row =& SQL::fetch($result))
+		while($row = SQL::fetch($result))
 			Categories::delete($row['id']);
 	}
 
@@ -255,19 +253,19 @@ Class Categories {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function duplicate_for_anchor($anchor_from, $anchor_to) {
+	public static function duplicate_for_anchor($anchor_from, $anchor_to) {
 		global $context;
 
 		// look for records attached to this anchor
 		$count = 0;
 		$query = "SELECT * FROM ".SQL::table_name('categories')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// the list of transcoded strings
 			$transcoded = array();
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// a new id will be allocated
 				$old_id = $item['id'];
@@ -291,7 +289,7 @@ Class Categories {
 			}
 
 			// transcode in anchor
-			if($anchor =& Anchors::get($anchor_to))
+			if($anchor = Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 		}
@@ -307,7 +305,7 @@ Class Categories {
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
 	 * @return the resulting $item array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	function &get($id, $mutable=FALSE) {
+	public static function get($id, $mutable=FALSE) {
 		global $context;
 
 		// sanity check
@@ -319,10 +317,6 @@ Class Categories {
 		// ensure proper unicode encoding
 		$id = (string)$id;
 		$id = utf8::encode($id);
-
-//		// strip extra text from enhanced ids '3-topic' -> '3'
-//		if($position = strpos($id, '-'))
-//			$id = substr($id, 0, $position);
 
 		// cache previous answers
 		static $cache;
@@ -345,7 +339,7 @@ Class Categories {
 				." ORDER BY edit_date DESC LIMIT 1";
 
 		// do the job
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 
 		// save in cache
 		if(!$mutable && isset($output['id']))
@@ -361,7 +355,7 @@ Class Categories {
 	 * @param string the keyword of the category
 	 * @return the resulting $item array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	function &get_by_keyword($keyword) {
+	public static function &get_by_keyword($keyword) {
 		global $context;
 
 		// ensure proper utf8 encoding
@@ -371,7 +365,7 @@ Class Categories {
 		$query = "SELECT * FROM ".SQL::table_name('categories')." AS categories"
 			." WHERE categories.keywords = '".SQL::escape($keyword)."' LIMIT 1";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -381,7 +375,7 @@ Class Categories {
 	 * @param string the title of the category
 	 * @return the resulting $item array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	function &get_by_title($title) {
+	public static function &get_by_title($title) {
 		global $context;
 
 		// ensure proper unicode encoding
@@ -391,7 +385,7 @@ Class Categories {
 		$query = "SELECT * FROM ".SQL::table_name('categories')." AS categories"
 			." WHERE categories.title = '".SQL::escape($title)."' OR categories.path = '".str_replace('/', '|', $title)."'";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -408,7 +402,7 @@ Class Categories {
 	 * @param string the anchor currently selected, if any
 	 * @return the HTML to insert in the page
 	 */
-	function &get_checkboxes($to_avoid=NULL, $to_select=NULL) {
+	public static function &get_checkboxes($to_avoid=NULL, $to_select=NULL) {
 		global $context;
 
 		// returned text
@@ -447,7 +441,7 @@ Class Categories {
 			." FROM ".SQL::table_name('categories')." AS categories"
 			." WHERE (".$where.") AND categories.anchor =''"
 			." ORDER BY categories.path, categories.title LIMIT 0, 500";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return $text;
 
 		// parse request results
@@ -483,7 +477,7 @@ Class Categories {
 	 *
 	 * @return the resulting $item array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	function &get_most_read() {
+	public static function &get_most_read() {
 		global $context;
 
 		// select among active and restricted items
@@ -501,7 +495,7 @@ Class Categories {
 			." WHERE ".$where
 			." ORDER BY categories.hits DESC, categories.title LIMIT 0,1";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -515,7 +509,7 @@ Class Categories {
 	 *
 	 * @return the resulting $item array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	function &get_newest() {
+	public static function &get_newest() {
 		global $context;
 
 		// select among active and restricted items
@@ -533,7 +527,7 @@ Class Categories {
 			." WHERE ".$where
 			." ORDER BY categories.edit_date DESC, categories.title LIMIT 0,1";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -560,7 +554,7 @@ Class Categories {
 	 * @param string the anchor currently selected, if any
 	 * @return the HTML to insert in the page
 	 */
-	function &get_options($to_avoid=NULL, $to_select=NULL) {
+	public static function &get_options($to_avoid=NULL, $to_select=NULL) {
 		global $context;
 
 		// return the final result
@@ -576,7 +570,7 @@ Class Categories {
 	 * @param string the anchor currently selected, if any
 	 * @return the HTML to insert in the page
 	 */
-	function &get_options_for_anchor($anchor=NULL, $to_avoid=NULL, $to_select=NULL) {
+	public static function &get_options_for_anchor($anchor=NULL, $to_avoid=NULL, $to_select=NULL) {
 		global $context;
 
 		// an option to put the category at the root level
@@ -651,7 +645,7 @@ Class Categories {
 			." FROM ".SQL::table_name('categories')." AS categories"
 			." WHERE (".$where.")"
 			." ORDER BY categories.path, categories.title LIMIT 0, 500";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return $content;
 
 		// parse request results
@@ -679,11 +673,17 @@ Class Categories {
 	 * get permanent address
 	 *
 	 * @param array page attributes
-	 * @return string the permalink
+	 * @return string the permanent web address to this item, relative to the installation path
 	 */
-	function &get_permalink($item) {
-		$output = Categories::get_url($item['id'], 'view', $item['title']);
-		return $output;
+	public static function get_permalink($item) {
+		global $context;
+
+		// sanity check
+		if(!isset($item['id']))
+			throw new Exception('bad input parameter');
+
+		// absolute link
+		return $context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'view', $item['title']);
 	}
 
 	/**
@@ -703,7 +703,7 @@ Class Categories {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view', $name=NULL) {
+	public static function get_url($id, $action='view', $name=NULL) {
 		global $context;
 
 		// select a category for an anchor
@@ -746,7 +746,7 @@ Class Categories {
 	 * @param string the list variant, if any - default is 'full'
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_by_date($offset=0, $count=10, $variant='full') {
+	public static function &list_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// restricted to active and restricted items
@@ -786,7 +786,7 @@ Class Categories {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_by_date_for_anchor($anchor, $offset=0, $count=10, $variant='full') {
+	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// restricted to active and restricted items
@@ -833,7 +833,7 @@ Class Categories {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_by_date_for_display($display='site:index', $offset=0, $count=10, $variant='decorated') {
+	public static function &list_by_date_for_display($display='site:index', $offset=0, $count=10, $variant='decorated') {
 		global $context;
 
 		// restricted to active and restricted items
@@ -882,7 +882,7 @@ Class Categories {
 	 * @param string the list variant, if any - default is 'hits'
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_by_hits($offset=0, $count=10, $variant='hits') {
+	public static function &list_by_hits($offset=0, $count=10, $variant='hits') {
 		global $context;
 
 		// display active and restricted items
@@ -918,7 +918,7 @@ Class Categories {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 * @see services/blog.php
 	 */
-	function &list_by_path($offset=0, $count=10, $variant='full') {
+	public static function &list_by_path($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// display active and restricted items
@@ -972,7 +972,7 @@ Class Categories {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='full') {
+	public static function &list_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// display active and restricted items
@@ -1020,7 +1020,7 @@ Class Categories {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return array an ordered array with $url => ($prefix, $label, $suffix, $icon), else NULL on error
 	 */
-	function &list_for_anchor($anchor, $variant='decorated') {
+	public static function &list_for_anchor($anchor, $variant='decorated') {
 		global $context;
 
 		// limit the scope to one section
@@ -1059,7 +1059,7 @@ Class Categories {
 	 *
 	 * @see categories/complete.php
 	 */
-	function &list_keywords($prefix) {
+	public static function &list_keywords($prefix) {
 		global $context;
 
 		// we return an array
@@ -1072,10 +1072,10 @@ Class Categories {
 		$query = "SELECT keywords, introduction FROM ".SQL::table_name('categories')." AS categories"
 			." WHERE categories.keywords LIKE '".SQL::escape($prefix)."%'"
 			." ORDER BY keywords LIMIT 100";
-		$result =& SQL::query($query);
+		$result = SQL::query($query);
 
 		// populate the returned array
-		while($row =& SQL::fetch($result))
+		while($row = SQL::fetch($result))
 			$output[ $row['keywords'] ] = $row['introduction'];
 
 		// return by reference
@@ -1101,7 +1101,7 @@ Class Categories {
 	 * @param string the list variant, if any - default is 'full'
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_inactive_by_title($offset=0, $count=10, $variant='full') {
+	public static function &list_inactive_by_title($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// for associates only
@@ -1141,7 +1141,7 @@ Class Categories {
 	 *
 	 * @see search.php
 	 */
-	function &list_keywords_by_count($offset=0, $count=10, $variant='full') {
+	public static function &list_keywords_by_count($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// restricted to active and restricted items
@@ -1180,7 +1180,7 @@ Class Categories {
 	 *
 	 * @see search.php
 	 */
-	function &list_keywords_by_date($offset=0, $count=10, $variant='full') {
+	public static function &list_keywords_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// restricted to active and restricted items
@@ -1213,7 +1213,7 @@ Class Categories {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -1224,39 +1224,15 @@ Class Categories {
 
 		// special layouts
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
-		// no layout yet
-		$layout = NULL;
-
-		// separate options from layout name
-		$attributes = explode(' ', $variant, 2);
-
 		// instanciate the provided name
-		if($attributes[0]) {
-			$name = 'layout_categories_as_'.$attributes[0];
-			if(is_readable($context['path_to_root'].'categories/'.$name.'.php')) {
-				include_once $context['path_to_root'].'categories/'.$name.'.php';
-				$layout = new $name;
-
-				// provide parameters to the layout
-				if(isset($attributes[1]))
-					$layout->set_variant($attributes[1]);
-
-			}
-		}
-
-		// use default layout
-		if(!$layout) {
-			include_once $context['path_to_root'].'categories/layout_categories.php';
-			$layout = new Layout_categories();
-			$layout->set_variant($variant);
-		}
+		$layout = Layouts::new_($variant, 'category',false, true);
 
 		// do the job
-		$output =& $layout->layout($result);
+		$output = $layout->layout($result);
 		return $output;
 
 	}
@@ -1267,8 +1243,8 @@ Class Categories {
 	 * @param string the nick name looked for
 	 * @return string either 'category:&lt;id&gt;', or NULL
 	 */
-	function lookup($nick_name) {
-		if($item =& Categories::get($nick_name))
+	public static function lookup($nick_name) {
+		if($item = Categories::get($nick_name))
 			return 'category:'.$item['id'];
 		return NULL;
 	}
@@ -1285,7 +1261,7 @@ Class Categories {
 	 * @see categories/populate.php
 	 * @see categories/set_keyword.php
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// title cannot be empty
@@ -1294,11 +1270,14 @@ Class Categories {
 			return FALSE;
 		}
 
+		// sanity filter
+		$fields['title'] = strip_tags($fields['title'], '<br>');
+
 		// protect from hackers
 		if(isset($fields['icon_url']))
-			$fields['icon_url'] =& encode_link($fields['icon_url']);
+			$fields['icon_url'] = encode_link($fields['icon_url']);
 		if(isset($fields['thumbnail_url']))
-			$fields['thumbnail_url'] =& encode_link($fields['thumbnail_url']);
+			$fields['thumbnail_url'] = encode_link($fields['thumbnail_url']);
 
 		// set default values
 		if(!isset($fields['active_set']))
@@ -1311,7 +1290,7 @@ Class Categories {
 		}
 
 		// cascade anchor access rights
-		if(isset($fields['anchor']) && ($anchor =& Anchors::get($fields['anchor'])))
+		if(isset($fields['anchor']) && ($anchor = Anchors::get($fields['anchor'])))
 			$fields['active'] = $anchor->ceil_rights($fields['active_set']);
 		else
 			$fields['active'] = $fields['active_set'];
@@ -1436,7 +1415,7 @@ Class Categories {
 	 * @param array an array of fields
 	 * @return string either a null string, or some text describing an error to be inserted into the html response
 	**/
-	function put(&$fields) {
+	public static function put(&$fields) {
 		global $context;
 
 		// id cannot be empty
@@ -1447,11 +1426,14 @@ Class Categories {
 		if(!$fields['title'])
 			return i18n::s('No title has been provided.');
 
+		// sanity filter
+		$fields['title'] = strip_tags($fields['title'], '<br>');
+
 		// protect from hackers
 		if(isset($fields['icon_url']))
-			$fields['icon_url'] =& encode_link($fields['icon_url']);
+			$fields['icon_url'] = encode_link($fields['icon_url']);
 		if(isset($fields['thumbnail_url']))
-			$fields['thumbnail_url'] =& encode_link($fields['thumbnail_url']);
+			$fields['thumbnail_url'] = encode_link($fields['thumbnail_url']);
 
 		// set default values for this editor
 		Surfer::check_default_editor($fields);
@@ -1505,7 +1487,7 @@ Class Categories {
 			$fields['active_set'] = 'Y';
 
 		// cascade anchor access rights
-		if(isset($fields['anchor']) && ($anchor =& Anchors::get($fields['anchor'])))
+		if(isset($fields['anchor']) && ($anchor = Anchors::get($fields['anchor'])))
 			$fields['active'] = $anchor->ceil_rights($fields['active_set']);
 		else
 			$fields['active'] = $fields['active_set'];
@@ -1568,6 +1550,118 @@ Class Categories {
 		// end of job
 		return NULL;
 	}
+	
+	/**
+	 * change only some attributes
+	 *
+	 * @param array an array of fields
+	 * @return TRUE on success, or FALSE on error
+	**/
+	public static function put_attributes(&$fields) {
+		global $context;
+
+		// id cannot be empty
+		if(!isset($fields['id']) || !is_numeric($fields['id'])) {
+			Logger::error(i18n::s('No item has the provided id.'));
+			return FALSE;
+		}
+
+		// set default values for this editor
+		Surfer::check_default_editor($fields);
+
+		// quey components
+		$query = array();
+
+		// change access rights
+		if(isset($fields['active_set'])) {
+
+			// cascade anchor access rights
+			Anchors::cascade('category:'.$fields['id'], $fields['active']);
+
+			// remember these in this record
+			$query[] = "active='".SQL::escape($fields['active'])."'";
+			$query[] = "active_set='".SQL::escape($fields['active_set'])."'";
+
+		}
+
+		// other fields
+		if(isset($fields['anchor']))
+			$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
+		if(isset($fields['articles_layout']))
+			$query[] = "articles_layout='".SQL::escape($fields['articles_layout'])."'";
+		if(isset($fields['description']))
+			$query[] = "description='".SQL::escape($fields['description'])."'";
+		if(isset($fields['extra']))
+			$query[] = "extra='".SQL::escape($fields['extra'])."'";		
+		if(isset($fields['icon_url']))
+			$query[] = "icon_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['icon_url']))."'";		
+		if(isset($fields['introduction']))
+			$query[] = "introduction='".SQL::escape($fields['introduction'])."'";				
+		if(isset($fields['options']))
+			$query[] = "options='".SQL::escape($fields['options'])."'";
+		if(isset($fields['overlay']))
+			$query[] = "overlay='".SQL::escape($fields['overlay'])."'";
+		if(isset($fields['overlay_id']))
+			$query[] = "overlay_id='".SQL::escape($fields['overlay_id'])."'";
+		if(isset($fields['prefix']) && Surfer::is_associate())
+			$query[] = "prefix='".SQL::escape($fields['prefix'])."'";
+		if(isset($fields['rank']))
+			$query[] = "rank='".SQL::escape($fields['rank'])."'";
+		if(isset($fields['sections_layout']))
+			$query[] = "sections_layout='".SQL::escape($fields['sections_layout'])."'";
+		if(isset($fields['suffix']) && Surfer::is_associate())
+			$query[] = "suffix='".SQL::escape($fields['suffix'])."'";
+		if(isset($fields['keywords']))
+			$query[] = "keywords='".SQL::escape($fields['keywords'])."'";
+		if(isset($fields['thumbnail_url']))
+			$query[] = "thumbnail_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['thumbnail_url']))."'";
+		if(isset($fields['title'])) {
+			$fields['title'] = strip_tags($fields['title'], '<br>');
+			$query[] = "title='".SQL::escape($fields['title'])."'";
+		}
+		if(isset($fields['trailer']))
+			$query[] = "trailer='".SQL::escape($fields['trailer'])."'";
+		if(isset($fields['users_layout']))
+			$query[] = "users_layout='".SQL::escape($fields['users_layout'])."'";
+		if(isset($fields['categories_layout']))
+			$query[] = "categories_layout='".SQL::escape($fields['categories_layout'])."'";
+		if(isset($fields['display']))
+			$query[] = "display='".SQL::escape($fields['display'])."'";
+		if(isset($fields['background_color']))
+			$query[] = "background_color='".SQL::escape($fields['background_color'])."'";
+		if(isset($fields['categories_overlay']))
+			$query[] = "categories_overlay='".SQL::escape($fields['categories_overlay'])."'";
+		if(isset($fields['expiry_date']))
+			$query[] = "expiry_date='".SQL::escape($fields['expiry_date'])."'";
+		if(isset($fields['path']))
+			$query[] = "path='".SQL::escape($fields['path'])."'";
+
+		// nothing to update
+		if(!count($query))
+			return TRUE;
+
+		// maybe a silent update
+		if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
+			$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
+			$query[] = "edit_id=".SQL::escape($fields['edit_id']);
+			$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
+			$query[] = "edit_action='category:update'";
+			$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
+		}
+
+		// actual update query
+		$query = "UPDATE ".SQL::table_name('categories')
+			." SET ".implode(', ', $query)
+			." WHERE id = ".SQL::escape($fields['id']);
+		if(!SQL::query($query))
+			return FALSE;
+
+		// clear the cache
+		Categories::clear($fields);
+
+		// end of job
+		return TRUE;
+	}
 
 	/**
 	 * remember publications and tags
@@ -1591,7 +1685,7 @@ Class Categories {
 	 * @see categories/check.php
 	 * @see services/blog.php
 	 */
-	function remember($reference, $stamp=NULL, $tags=NULL) {
+	public static function remember($reference, $stamp=NULL, $tags=NULL) {
 		global $context;
 
 		// if automatic archiving has not been disabled
@@ -1604,7 +1698,7 @@ Class Categories {
 				$week = mktime(0,0,0, $stamp['mon'], $stamp['mday']-$stamp['wday']+1, $stamp['year']);
 
 				// create the category for this week if it does not exist
-				if(!($category = Categories::lookup('week '.date('y/m/d', $week))) && ($anchor =& Categories::get(i18n::c('weekly')))) {
+				if(!($category = Categories::lookup('week '.date('y/m/d', $week))) && ($anchor = Categories::get(i18n::c('weekly')))) {
 
 					$fields = array();
 					$fields['anchor'] = 'category:'.$anchor['id'];
@@ -1620,16 +1714,15 @@ Class Categories {
 				}
 
 				// link the reference to this weekly category
-				if($category) {
-					if($error = Members::assign($category, $reference))
-						Logger::error($error);
-				}
+				if($category) 
+				    Members::assign($category, $reference);
+						
 
 				// months are starting on day 1
 				$month = mktime(0,0,0, $stamp['mon'], 1, $stamp['year']);
 
 				// create the category for this month if it does not exist
-				if(!($category = Categories::lookup('month '.date('M Y', $month))) && ($anchor =& Categories::get(i18n::c('monthly')))) {
+				if(!($category = Categories::lookup('month '.date('M Y', $month))) && ($anchor = Categories::get(i18n::c('monthly')))) {
 					$fields = array();
 					$fields['anchor'] = 'category:'.$anchor['id'];
 					$fields['nick_name'] = 'month '.date('M Y', $month);
@@ -1644,10 +1737,8 @@ Class Categories {
 				}
 
 				// link the reference to this monthly category
-				if($category) {
-					if($error = Members::assign($category, $reference))
-						Logger::error($error);
-				}
+				if($category)
+				    Members::assign($category, $reference);									
 			}
 		}
 
@@ -1704,14 +1795,14 @@ Class Categories {
 			$query = "SELECT anchor FROM ".SQL::table_name('members')
 				." WHERE (member LIKE '".SQL::escape($reference)."') AND (anchor LIKE 'category:%')"
 				." LIMIT 0, 500";
-			if($result =& SQL::query($query)) {
+			if($result = SQL::query($query)) {
 
-				while($row =& SQL::fetch($result)) {
+				while($row = SQL::fetch($result)) {
 					if(in_array($row['anchor'], $assigned))
 						continue;
 
 					// assigned, and a keyword exists, but not in the string of tags
-					if(($category =& Anchors::get($row['anchor'])) && ($keywords = $category->get_value('keywords')) && (stripos($tags, $keywords) === FALSE))
+					if(($category = Anchors::get($row['anchor'])) && ($keywords = $category->get_value('keywords')) && (stripos($tags, $keywords) === FALSE))
 						Members::free($row['anchor'], $reference);
 				}
 			}
@@ -1729,13 +1820,13 @@ Class Categories {
 	 * - an expiry date has not been defined, or is not yet passed
 	 *
 	 * @param string the search string
-	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param float maximum score to look at
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 * @return NULL on error, else an ordered array of array($score, $summary)
 	 * @see #list_selected for $variant description
 	 */
-	function &search($pattern, $offset=0, $count=50, $variant='search') {
+	public static function &search($pattern, $offset=1.0, $count=50, $variant='search') {
 		global $context;
 
 		// sanity check
@@ -1746,9 +1837,9 @@ Class Categories {
 
 		// limit the scope of the request
 		$where = "categories.active='Y'";
-		if(Surfer::is_member())
+		if(Surfer::is_member() || Surfer::is_teased())
 			$where .= " OR categories.active='R'";
-		if(Surfer::is_associate())
+		if(Surfer::is_associate() || Surfer::is_teased())
 			$where .= " OR categories.active='N'";
 		$where = '('.$where.')';
 
@@ -1756,17 +1847,29 @@ Class Categories {
 		$where .= ' AND ((categories.expiry_date is NULL)'
 			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$context['now']."'))";
 
-		// match
-		$match = "MATCH(title, introduction, description) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
-
-		// look in keywords as well
-		$match = "((keywords LIKE '".SQL::escape($pattern)."%') OR (".$match."))";
+		// how to compute the score for categories
+		$score = "(MATCH(title, introduction, description, keywords)"
+			." AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)"
+			."/SQRT(GREATEST(1.1, DATEDIFF(NOW(), edit_date))))";
 
 		// the list of categories
-		$query = "SELECT categories.* FROM ".SQL::table_name('categories')." AS categories"
-			." WHERE ".$where." AND $match"
-			." ORDER BY categories.edit_date DESC"
-			." LIMIT ".$offset.','.$count;
+		$query = "SELECT *,"
+
+			// compute the score
+			." ".$score." AS score"
+
+			// matching categories
+			." FROM ".SQL::table_name('categories')." AS categories"
+
+			// score < offset and score > 0
+			." WHERE (".$score." < ".$offset.") AND (".$score." > 0)"
+
+			// other constraints
+			." AND ".$where
+
+			// packaging
+			." ORDER BY score DESC"
+			." LIMIT ".$count;
 
 		$output =& Categories::list_selected(SQL::query($query), $variant);
 		return $output;
@@ -1777,7 +1880,7 @@ Class Categories {
 	 *
 	 * @param the id of the category to update
 	 */
-	function increment_hits($id) {
+	public static function increment_hits($id) {
 		global $context;
 
 		// sanity check
@@ -1793,7 +1896,7 @@ Class Categories {
 	/**
 	 * create table for categories
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -1854,7 +1957,7 @@ Class Categories {
 		$indexes['INDEX path']			= "(path(255))";
 		$indexes['INDEX rank']			= "(rank)";
 		$indexes['INDEX title'] 		= "(title(255))";
-		$indexes['FULLTEXT INDEX']	= "full_text(title, introduction, description)";
+		$indexes['FULLTEXT INDEX']	= "full_text(title, introduction, description, keywords)";
 
 		return SQL::setup_table('categories', $fields, $indexes);
 
@@ -1872,7 +1975,7 @@ Class Categories {
 	 * @param the selected anchor (e.g., 'category:12')
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	function &stat_for_anchor($anchor) {
+	public static function stat_for_anchor($anchor) {
 		global $context;
 
 		// limit the scope of the request
@@ -1901,7 +2004,7 @@ Class Categories {
 			." FROM ".SQL::table_name('categories')." AS categories"
 			." WHERE ".$where;
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

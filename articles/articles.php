@@ -23,7 +23,6 @@
  * while others can be used with related items as well.
  *
  * Specific options to be processed by advanced overlays are not described hereafter.
- * One example of this is the optional keyword '[code]home_with_results[/code]' for the rendering of polls.
  * Please check documentation pages for any overlay you use, like [script]overlays/poll.php[/script].
  *
  * You can combine any of following keywords in the field for options, with the separator (spaces, tabs, commas) of your choice:
@@ -111,7 +110,7 @@ Class Articles {
 	 * @param boolean TRUE is these are coming from several sections, FALSE, otherwise
 	 * @return string to be put in SQL statements
 	 */
-	function _get_order($order, $multiple_anchor=TRUE) {
+	public static function _get_order($order, $multiple_anchor=TRUE) {
 
 		switch($order) {
 		case 'draft':
@@ -144,6 +143,15 @@ Class Articles {
 				$order = 'overlay_id, rating_sum DESC, publish_date DESC';
 			else
 				$order = 'overlay_id, rank, rating_sum DESC, publish_date DESC';
+			break;
+
+		case 'reverse_overlay' : // Same but DESC for overlay_id, then by number of points
+
+		        // avoid side effects of ranking across several sections
+			if($multiple_anchor)
+				$order = 'overlay_id DESC, rating_sum DESC, publish_date DESC';
+			else
+				$order = 'overlay_id DESC, rank, rating_sum DESC, publish_date DESC';
 			break;
 
 		case 'publication': // order by rank, then by reverse date of publication
@@ -214,7 +222,7 @@ Class Articles {
 	 * @param object an instance of the Anchor interface, if any
 	 * @return boolean TRUE or FALSE
 	 */
-	function allow_access($item, $anchor) {
+	public static function allow_access($item, $anchor) {
 		global $context;
 
 		// surfer is an associate
@@ -233,6 +241,10 @@ Class Articles {
 		if(isset($item['id']) && Articles::is_assigned($item['id']))
 			return TRUE;
 		if(is_object($anchor) && $anchor->is_assigned())
+			return TRUE;
+
+		// surfer is a trusted host
+		if(Surfer::is_trusted())
 			return TRUE;
 
 		// container is hidden
@@ -265,7 +277,7 @@ Class Articles {
 	 * @param object an instance of the Anchor interface, if any
 	 * @return boolean TRUE or FALSE
 	 */
-	function allow_creation($item, $anchor=NULL) {
+	public static function allow_creation($item, $anchor=NULL) {
 		global $context;
 
 		// articles are prevented in item, through layout
@@ -352,7 +364,7 @@ Class Articles {
 	 * @param object an instance of the Anchor interface
 	 * @return TRUE or FALSE
 	 */
-	function allow_deletion($item, $anchor) {
+	public static function allow_deletion($item, $anchor) {
 		global $context;
 
 		// sanity check
@@ -386,7 +398,7 @@ Class Articles {
 	 * @param object an instance of the Anchor interface
 	 * @return TRUE or FALSE
 	 */
-	function allow_message($item, $anchor=NULL) {
+	public static function allow_message($item, $anchor=NULL) {
 		global $context;
 
 		// subscribers can never send a message
@@ -427,7 +439,7 @@ Class Articles {
 	 * @param object an instance of the Anchor interface
 	 * @return TRUE or FALSE
 	 */
-	function allow_modification($item, $anchor) {
+	public static function allow_modification($item, $anchor) {
 		global $context;
 
 		// sanity check
@@ -452,6 +464,10 @@ Class Articles {
 
 		// allow section editors to manage content, except on private sections
 		if(Surfer::is_member() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+			return TRUE;
+
+		// allow page editors to manage content, except on private page
+		if(Surfer::is_member() && ($item['active'] != 'N') && Articles::is_assigned($item['id']))
 			return TRUE;
 
 		// article has been locked
@@ -479,12 +495,12 @@ Class Articles {
 	 *
 	 * This function returns TRUE if the page can be published,
 	 * and FALSE otherwise.
-	 *
-	 * @param object an instance of the Anchor interface
+	 *	 
 	 * @param array a set of item attributes, aka, the target article
+	 * @param object an instance of the Anchor interface
 	 * @return TRUE or FALSE
 	 */
-	function allow_publication($anchor, $item) {
+	public static function allow_publication($item,$anchor) {
 		global $context;
 
 		// sanity check
@@ -504,7 +520,7 @@ Class Articles {
 			return TRUE;
 
 		// owners can publish their content in this section
-		if(isset($item['owner_id']) && Surfer::is($item['owner_id']) && is_object($anchor) && $anchor->has_option('auto_publish'))
+		if(isset($item['owner_id']) && Surfer::is($item['owner_id']) && is_object($anchor) && $anchor->has_option('members_edit'))
 			return TRUE;
 
 		// surfer owns the container
@@ -526,7 +542,7 @@ Class Articles {
 	 * @param array the article to be documented
 	 * @return array strings detailed labels
 	 */
-	function &build_dates($anchor, $item) {
+	public static function &build_dates($anchor, $item) {
 		global $context;
 
 		// we return an array of strings
@@ -561,7 +577,7 @@ Class Articles {
 			if($item['publish_name'])
 				$details[] = sprintf(i18n::s('published by %s %s'), Users::get_link($item['publish_name'], $item['publish_address'], $item['publish_id']), Skin::build_date($item['publish_date']));
 			else
-				$details[] = Skin::build_date($item['publish_date'], 'publishing');
+				$details[] = Skin::build_date($item['publish_date']);
 
 		}
 
@@ -585,6 +601,251 @@ Class Articles {
 	}
 
 	/**
+	 * build a notification related to an article
+	 *
+	 * The action can be one of the following:
+	 * - 'apply' - surfer would like to get access to the page
+	 * - 'publish' - either a published page has been posted, or a draft page has been published
+	 * - 'submit' - a draft page has been posted
+	 * - 'update' - a page (draft or published) has been modified
+	 *
+	 * This function builds a mail message that displays:
+	 * - an image of the contributor (if possible)
+	 * - a headline mentioning the contribution
+	 * - the full content of the new comment
+	 * - a button linked to the reply page
+	 * - a link to the containing page
+	 *
+	 * Note: this function returns legacy HTML, not modern XHTML, because this is what most
+	 * e-mail client software can afford.
+	 *
+	 * @param string either 'apply', 'publish', 'submit' or 'update'
+	 * @param array attributes of the item
+	 * @param object overlay of the item, if any
+	 * @return string text to be send by e-mail
+	 */
+	public static function build_notification($action='publish', $item, $overlay=NULL) {
+		global $context;
+
+		// sanity check
+		if(!isset($item['anchor']) || (!$anchor = Anchors::get($item['anchor'])))
+			throw new Exception('no anchor for this article');
+
+		// compute page title
+		if(is_object($overlay))
+			$title = Codes::beautify_title($overlay->get_text('title', $item));
+		else
+			$title = Codes::beautify_title($item['title']);
+
+		// headline link to section
+		$headline_link = '<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'.$anchor->get_title().'</a>';
+
+		// headline template
+		switch($action) {
+		case 'apply':
+			$template = i18n::c('%s is requesting access to %s');
+			$headline_link = '<a href="'.Articles::get_permalink($item).'">'.$title.'</a>';
+			break;
+		case 'publish':
+			$template = i18n::c('%s has posted a page in %s');
+			break;
+		case 'submit':
+			$template = i18n::c('%s has submitted a page in %s');
+			break;
+		case 'update':
+			$template = i18n::c('%s has updated a page in %s');
+			break;
+		}
+
+		// headline
+		$headline = sprintf($template, Surfer::get_link(), $headline_link);
+
+		// panel content
+		$content = '';
+
+		// more insight on this page
+		$prefix = $suffix = '';
+
+		// signal articles to be published
+		if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
+			$prefix .= DRAFT_FLAG;
+
+		// signal restricted and private articles
+		if($item['active'] == 'N')
+			$prefix .= PRIVATE_FLAG;
+		elseif($item['active'] == 'R')
+			$prefix .= RESTRICTED_FLAG;
+
+		// flag expired articles
+		if(isset($item['expiry_date']) && ($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
+			$prefix .= EXPIRED_FLAG.' ';
+
+		// signal locked articles
+		if(isset($item['locked']) && ($item['locked'] == 'Y') && Articles::is_owned($item, $anchor))
+			$suffix .= ' '.LOCKED_FLAG;
+
+		// insert page title
+		$content .= '<h3><span>'.$prefix.$title.$suffix.'</span></h3>';
+
+		// insert anchor prefix
+		if(is_object($anchor))
+			$content .= $anchor->get_prefix();
+
+		// the introduction text, if any
+		if(is_object($overlay))
+			$content .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
+		elseif(isset($item['introduction']) && trim($item['introduction']))
+			$content .= Skin::build_block($item['introduction'], 'introduction');
+
+		// get text related to the overlay, if any
+		if(is_object($overlay))
+			$content .= $overlay->get_text('diff', $item);
+
+		// filter description, if necessary
+		if(is_object($overlay))
+			$description = $overlay->get_text('description', $item);
+		else
+			$description = $item['description'];
+
+		// the beautified description, which is the actual page body
+		if($description) {
+
+			// use adequate label
+			if(is_object($overlay) && ($label = $overlay->get_label('description')))
+				$content .= Skin::build_block($label, 'title');
+
+			// beautify the target page
+			$content .= Skin::build_block($description, 'description', '', $item['options']);
+
+		}
+
+		// attachment details
+		$details = array();
+
+		// avoid first file in list if mentioned in last comment
+		$file_offset = 0;
+
+		// comments
+		include_once $context['path_to_root'].'comments/comments.php';
+		if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE)) {
+
+			// get last contribution for this page
+			if($comment = Comments::get_newest_for_anchor('article:'.$item['id'])) {
+
+				if(preg_match('/\[(download|file)=/', $comment['description']))
+					$file_offset++;
+
+				// bars around the last contribution
+				$bottom_menu = array();
+
+				// last contributor
+				$contributor = Users::get_link($comment['create_name'], $comment['create_address'], $comment['create_id']);
+				$flag = '';
+				if($comment['create_date'] >= $context['fresh'])
+					$flag = NEW_FLAG;
+				elseif($comment['edit_date'] >= $context['fresh'])
+					$flag = UPDATED_FLAG;
+				$bottom_menu[] = sprintf(i18n::s('By %s'), $contributor).' '.Skin::build_date($comment['create_date']).$flag;
+
+				// gather pieces
+				$pieces = array();
+
+				// last contribution, and user signature
+				$pieces[] = ucfirst(trim($comment['description'])).Users::get_signature($comment['create_id']);
+
+				// bottom
+				if($bottom_menu)
+					$pieces[] = '<div>'.ucfirst(trim(Skin::finalize_list($bottom_menu, 'menu'))).'</div>';
+
+				// put all pieces together
+				$content .= '<div>'."\n"
+					.join("\n", $pieces)
+					.'</div>'."\n";
+
+			}
+
+			// count comments
+			$details[] = sprintf(i18n::nc('%d comment', '%d comments', $count), $count);
+		}
+
+		// info on related files
+		if($count = Files::count_for_anchor('article:'.$item['id'])) {
+
+			// most recent files attached to this page
+			if($items = Files::list_by_date_for_anchor('article:'.$item['id'], $file_offset, 3, 'dates')) {
+
+				// more files than listed
+				$more = '';
+				if($count > 3)
+					$more = '<span class="details">'.sprintf(i18n::s('%d files, including:'), $count).'</span>';
+
+				if(is_array($items))
+					$items = Skin::build_list($items, 'compact');
+
+				$items = '<div>'.$more.$items.'</div>';
+			}
+
+			// wrap it with some header
+			if($items)
+				$content .= '<h3><span>'.i18n::c('Files').'</span></h3>'.$items;
+
+			// count files
+			$details[] = sprintf(i18n::nc('%d file', '%d files', $count), $count);
+		}
+
+		// info on related links
+		include_once $context['path_to_root'].'links/links.php';
+		if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
+			$details[] = sprintf(i18n::nc('%d link', '%d links', $count), $count);
+
+		// describe attachments
+		if(count($details))
+			$content .= '<hr align="left" size=1" width="150">'
+				.'<p>'.sprintf(i18n::c('This page has %s'), join(', ', $details)).'</p>';
+
+		// assemble main content of this message
+		$text = Skin::build_mail_content($headline, $content);
+
+		// a set of links
+		$menu = array();
+
+		// request access to the item
+		if($action == 'apply') {
+
+			// call for action
+			$link = $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'invite', Surfer::get_id());
+			$label = sprintf(i18n::c('Invite %s to participate'), Surfer::get_name());
+			$menu[] = Skin::build_mail_button($link, $label, TRUE);
+
+			// link to user profile
+			$link = Surfer::get_permalink();
+			$label = sprintf(i18n::c('View the profile of %s'), Surfer::get_name());
+			$menu[] = Skin::build_mail_button($link, $label, FALSE);
+
+		// invite to visit the item
+		} else {
+
+			// call for action
+			$link = Articles::get_permalink($item);
+			if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'articles', FALSE)))
+				$label = i18n::c('View the page');
+			$menu[] = Skin::build_mail_button($link, $label, TRUE);
+
+			// link to the container
+			$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+			$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+
+		}
+
+		// finalize links
+		$text .= Skin::build_mail_menu($menu);
+
+		// the full message
+		return $text;
+
+	}
+
+	/**
 	 * build the field to capture article option
 	 *
 	 * @see articles/edit.php
@@ -592,7 +853,7 @@ Class Articles {
 	 * @param array the edited item
 	 * @return string text to be put in the form
 	 */
-	function build_options_input($item) {
+	public static function build_options_input($item) {
 		global $context;
 
 		$text = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />';
@@ -606,14 +867,14 @@ Class Articles {
 	 *
 	 * @return string text to be put in the form
 	 */
-	function build_options_hint() {
+	public static function build_options_hint() {
 		global $context;
 
 		$keywords = array();
 		$keywords[] = '<a>anonymous_edit</a> - '.i18n::s('Allow anonymous surfers to edit content');
 		$keywords[] = '<a>members_edit</a> - '.i18n::s('Allow members to edit content');
-		$keywords[] = '<a>comments_as_wall</a> - '.i18n::s('Allow easy interactions between people');
 		$keywords[] = '<a>no_comments</a> - '.i18n::s('Prevent the addition of comments');
+		$keywords[] = '<a>files_by_date</a> - '.i18n::s('Sort files by date (default)');
 		$keywords[] = '<a>files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
 		$keywords[] = '<a>no_files</a> - '.i18n::s('Prevent the upload of new files');
 		$keywords[] = '<a>links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
@@ -625,20 +886,19 @@ Class Articles {
 		$keywords[] = 'edit_as_simple - '.sprintf(i18n::s('Branch out to %s'), 'articles/edit_as_simple.php');
 		$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific theme (in skins/foo_bar)');
 		$keywords[] = 'variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular template');
-		$text = i18n::s('You may combine several keywords:').'<span id="options_list">'.Skin::finalize_list($keywords, 'compact').'</span>';
+		$text = i18n::s('You may combine several keywords:').'<div id="options_list">'.Skin::finalize_list($keywords, 'compact').'</div>';
 
-		$javascript = 	JS_PREFIX
-						.'function append_to_options(keyword) {'."\n"
-						.'	var target = $("#options");'."\n"
-						.'	target.val(target.val() + " " + keyword);'."\n"
-						.'}'."\n"
-						.'$(document).ready(function() {'."\n"
-						.'	$("#options_list a").bind("click",function(){'."\n"
-						.'		append_to_options($(this).text());'."\n"
-						.'	}).css("cursor","pointer");'."\n"
-						.'});'.JS_SUFFIX;
-		include_once $context['path_to_root'].'shared/js_css.php';
-		Js_Css::add_inline_js($javascript);
+		Page::insert_script(
+			'function append_to_options(keyword) {'."\n"
+			.'	var target = $("#options");'."\n"
+			.'	target.val(target.val() + " " + keyword);'."\n"
+			.'}'."\n"
+			.'$(function() {'."\n"
+			.'	$("#options_list a").bind("click",function(){'."\n"
+			.'		append_to_options($(this).text());'."\n"
+			.'	}).css("cursor","pointer");'."\n"
+			.'});'
+			);
 
 		return $text;
 	}
@@ -648,7 +908,7 @@ Class Articles {
 	 *
 	 * @param array item attributes
 	 */
-	function clear(&$item) {
+	public static function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('articles', 'sections', 'categories', 'users');
@@ -678,33 +938,15 @@ Class Articles {
 	 * @param boolean FALSE to include sticky pages, TRUE otherwise
 	 * @return int the resulting count, or NULL on error
 	 */
-	function count_for_anchor($anchor, $without_sticky=FALSE) {
+	public static function count_for_anchor($anchor, $without_sticky=FALSE) {
 		global $context;
 
 		// sanity check
 		if(!$anchor)
 			return NULL;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to authenticated surfers, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates, editors and readers may see everything
-		if(Surfer::is_empowered('S'))
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// avoid sticky articles
 		if($without_sticky)
@@ -752,7 +994,7 @@ Class Articles {
 	 *
 	 * @see users/view.php
 	 */
-	function count_for_user($user_id) {
+	public static function count_for_user($user_id) {
 		global $context;
 
 		// sanity check
@@ -760,22 +1002,8 @@ Class Articles {
 			return NULL;
 		$user_id = SQL::escape($user_id);
 
-		// select among active and restricted items
-		$where = "(articles.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR articles.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where .= ')';
+		// limit the scope of the request
+		$where = Articles::get_sql_where();
 
 		// list only published articles
 		if((Surfer::get_id() != $user_id) && !Surfer::is_associate())
@@ -787,24 +1015,33 @@ Class Articles {
 			$where .= " AND ((articles.expiry_date is NULL) "
 				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
-		// look for watched pages through sub-queries
-		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-			$query = "(SELECT articles.id FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
-				.", ".SQL::table_name('articles')." AS articles"
-				." WHERE (articles.id = ids.target)"
-				."	AND ".$where.")";
+		// the list of watched sections
+		$watched_sections = "(SELECT CONCAT('section:', sections.id) AS target"
+			."	FROM (".SQL::table_name('members')." AS members"
+			.", ".SQL::table_name('sections')." AS sections)"
+			." WHERE (members.member = 'user:".SQL::escape($user_id)."')"
+			."	AND (members.anchor LIKE 'section:%')"
+			."	AND (sections.id = SUBSTRING(members.anchor, 9))"
+			." ORDER BY sections.edit_date DESC, sections.title LIMIT 0, 1000)";
 
-		// use joined queries
-		} else {
-			$query = "(SELECT articles.id"
-				." FROM (".SQL::table_name('members')." AS members"
-				.", ".SQL::table_name('articles')." AS articles)"
-				." WHERE (members.member LIKE 'user:".SQL::escape($user_id)."')"
-				."	AND (members.anchor LIKE 'article:%')"
-				."	AND (articles.id = SUBSTRING(members.anchor, 9))"
-				."	AND ".$where.")";
+		// the list of forwarding sections
+		$forwarding_sections = "(SELECT CONCAT('section:', sections.id) AS target"
+			." FROM ".$watched_sections." AS anchors"
+			.", ".SQL::table_name('sections')." AS sections"
+			." WHERE (sections.anchor = anchors.target) AND (sections.options LIKE '%forward_notifications%')"
+			." ORDER BY sections.edit_date DESC, sections.title LIMIT 0, 1000)";
 
-		}
+		// look for pages in watched sections
+		$query = "(SELECT articles.id FROM (".$watched_sections." UNION ".$forwarding_sections.") AS anchors"
+			.", ".SQL::table_name('articles')." AS articles"
+			." WHERE (articles.anchor = anchors.target)"
+			."	AND ".$where.") UNION ";
+
+		// look for watched pages
+		$query .= "(SELECT articles.id FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
+			.", ".SQL::table_name('articles')." AS articles"
+			." WHERE (articles.id = ids.target)"
+			."	AND ".$where.")";
 
 		// include articles assigned to this surfer
 		if($these_items = Surfer::assigned_articles($user_id))
@@ -832,11 +1069,11 @@ Class Articles {
 	 * @see articles/delete.php
 	 * @see services/blog.php
 	 */
-	function delete($id) {
+	public static function delete($id) {
 		global $context;
 
 		// load the record
-		$item =& Articles::get($id);
+		$item = Articles::get($id);
 		if(!isset($item['id']) || !$item['id']) {
 			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
@@ -851,7 +1088,6 @@ Class Articles {
 			return FALSE;
 
 		// remember overlay deletion
-		include_once '../overlays/overlay.php';
 		if(isset($item['overlay']) && ($overlay = Overlay::load($item, 'article:'.$item['id'])))
 			$overlay->remember('delete', $item, 'article:'.$item['id']);
 
@@ -867,13 +1103,13 @@ Class Articles {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function delete_for_anchor($anchor) {
+	public static function delete_for_anchor($anchor) {
 		global $context;
 
 		// seek all records attached to this anchor
 		$query = "SELECT id FROM ".SQL::table_name('articles')." AS articles "
 			." WHERE articles.anchor LIKE '".SQL::escape($anchor)."'";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return;
 
 		// empty list
@@ -881,7 +1117,7 @@ Class Articles {
 			return;
 
 		// delete silently all matching items
-		while($row =& SQL::fetch($result))
+		while($row = SQL::fetch($result))
 			Articles::delete($row['id']);
 	}
 
@@ -897,19 +1133,19 @@ Class Articles {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function duplicate_for_anchor($anchor_from, $anchor_to) {
+	public static function duplicate_for_anchor($anchor_from, $anchor_to) {
 		global $context;
 
 		// look for records attached to this anchor
 		$count = 0;
 		$query = "SELECT * FROM ".SQL::table_name('articles')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// the list of transcoded strings
 			$transcoded = array();
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// a new id will be allocated
 				$old_id = $item['id'];
@@ -946,7 +1182,7 @@ Class Articles {
 			}
 
 			// transcode in anchor
-			if($anchor =& Anchors::get($anchor_to))
+			if($anchor = Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 		}
@@ -956,13 +1192,283 @@ Class Articles {
 	}
 
 	/**
+	 * do whatever is necessary when a page has been published
+	 *
+	 * This function:
+	 * - logs the publication
+	 * - sends notification to watchers and to followers
+	 * - "touches" the container of the page,
+	 * - ping referred pages remotely (via the pingback protocol)
+	 * - ping selected servers, if any
+	 * - and triggers the hook 'publish'.
+	 *
+	 * The first parameter provides the watching context to consider. If call is related
+	 * to the creation of a published page, the context is the section that hosts the new
+	 * page. If call is related to a draft page that has been published, then the context
+	 * is the page itself.
+	 *
+	 * This function is also able to notify followers of the surfer who has initiated the
+	 * action.
+	 *
+	 * @param object the watching context
+	 * @param array attributes of the published page
+	 * @param object page overlay, if any
+	 * @param boolean TRUE if dates should be left unchanged, FALSE otherwise
+	 * @param boolean TRUE if followers should be notified, FALSE otherwise
+	 */
+	public static function finalize_publication($anchor, $item, $overlay=NULL, $silently=FALSE, $with_followers=FALSE) {
+		global $context;
+
+		// sanity check
+		if(!isset($item['options']))
+			$item['options'] = '';
+
+		// notification to send by e-mail
+		$mail = array();
+		$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($item['title']));
+		$mail['notification'] = Articles::build_notification('publish', $item);
+		$mail['headers'] = Mailer::set_thread('article:'.$item['id']);
+
+		// allow the overlay to prevent notifications of watchers
+		if(!is_object($overlay) || $overlay->should_notify_watchers($mail))
+			$anchor->alert_watchers($mail, 'article:publish', ($item['active'] == 'N'));
+
+		// never notify followers on private pages
+		if(isset($item['active']) && ($item['active'] == 'N'))
+			$with_followers = FALSE;
+
+		// allow the overlay to prevent notifications of followers
+		if(is_object($overlay) && !$overlay->should_notify_followers())
+			$with_followers = FALSE;
+
+		// send to followers of this user
+		if($with_followers && Surfer::get_id()) {
+			$mail['message'] = Mailer::build_notification($mail['notification'], 2);
+			Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+		}
+
+		// update anchors
+		$anchor->touch('article:publish', $item['id'], $silently);
+
+		// advertise public pages
+		if(isset($item['active']) && ($item['active'] == 'Y')) {
+
+			// expose links within the page
+			$raw = '';
+			if(isset($item['introduction']))
+				$raw .= $item['introduction'];
+			if(isset($item['source']))
+				$raw .= ' '.$item['source'];
+			if(isset($item['description']))
+				$raw .= ' '.$item['description'];
+
+			// pingback to referred links, if any
+			include_once $context['path_to_root'].'links/links.php';
+			Links::ping($raw, 'article:'.$item['id']);
+
+			// ping servers, if any
+			Servers::notify($anchor->get_url());
+
+		}
+
+		// 'publish' hook
+		if(is_callable(array('Hooks', 'include_scripts')))
+			Hooks::include_scripts('publish', $item['id']);
+
+		// log page publication
+		$label = sprintf(i18n::c('Publication: %s'), strip_tags($item['title']));
+		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
+		if(is_object($anchor))
+			$description = sprintf(i18n::c('Sent by %s in %s'), $poster, $anchor->get_title());
+		else
+			$description = sprintf(i18n::c('Sent by %s'), $poster);
+		$description .= "\n\n".'<a href="'.Articles::get_permalink($item).'">'.$item['title'].'</a>';
+		Logger::notify('articles/articles.php: '.$label, $description);
+
+	}
+
+	/**
+	 * do whatever is necessary when a page has been submitted
+	 *
+	 * This function:
+	 * - logs the submission
+	 * - sends notification to owners that are also watchers
+	 * - "touches" the container of the page,
+	 * - and triggers the hook 'submit'.
+	 *
+	 * The first parameter provides the watching context to consider. If call is related
+	 * to the creation of a published page, the context is the section that hosts the new
+	 * page. If call is related to a draft page that has been published, then the context
+	 * is the page itself.
+	 *
+	 * This function is also able to notify followers of the surfer who has initiated the
+	 * action.
+	 *
+	 * @param object the watching context
+	 * @param array attributes of the published page
+	 * @param object page overlay, if any
+	 */
+	public static function finalize_submission($anchor, $item, $overlay=NULL) {
+		global $context;
+
+		// notification to send by e-mail
+		$mail = array();
+		$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($item['title']));
+		$mail['notification'] = Articles::build_notification('submit', $item);
+		$mail['message'] = Mailer::build_notification($mail['notification'], 1);
+		$mail['headers'] = Mailer::set_thread('article:'.$item['id']);
+
+		// allow the overlay to prevent notifications of watcherss
+		if(!is_object($overlay) || $overlay->should_notify_watchers($mail)) {
+
+			// look for anchor owner, and climb upwards
+			$owners = array();
+			$handle = $anchor->get_reference();
+			while($handle && ($container = Anchors::get($handle))) {
+
+				// consider owner of this level
+				if(($owner_id = $container->get_value('owner_id')) && ($owner = Users::get($owner_id))) {
+
+					// notify this owner, but not if he is the surfer
+					if(Surfer::get_id() != $owner_id)
+						Users::alert($owner, $mail);
+
+				}
+
+				// move to upper level
+				$handle = $container->get_parent();
+			}
+
+		}
+
+		// update anchors
+		$anchor->touch('article:submit', $item['id']);
+
+		// 'submit' hook
+		if(is_callable(array('Hooks', 'include_scripts')))
+			Hooks::include_scripts('submit', $item['id']);
+
+		// log page submission
+		$label = sprintf(i18n::c('Submission: %s'), strip_tags($item['title']));
+		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
+		if(is_object($anchor))
+			$description = sprintf(i18n::c('Sent by %s in %s'), $poster, $anchor->get_title());
+		else
+			$description = sprintf(i18n::c('Sent by %s'), $poster);
+		$description .= "\n\n".'<a href="'.Articles::get_permalink($item).'">'.$item['title'].'</a>';
+		Logger::notify('articles/articles.php: '.$label, $description);
+
+	}
+
+	/**
+	 * do whatever is necessary when a page has been updated
+	 *
+	 * This function:
+	 * - logs the update
+	 * - sends notification to watchers and to followers
+	 * - "touches" the container of the page,
+	 * - ping referred pages remotely (via the pingback protocol)
+	 * - ping selected servers, if any
+	 * - and triggers the hook 'update'.
+	 *
+	 * The first parameter provides the watching context to consider. If call is related
+	 * to the creation of a published page, the context is the section that hosts the new
+	 * page. If call is related to a draft page that has been published, then the context
+	 * is the page itself.
+	 *
+	 * This function is also able to notify followers of the surfer who has initiated the
+	 * action.
+	 *
+	 * @param object the watching context
+	 * @param array attributes of the published page
+	 * @param object page overlay, if any
+	 * @param boolean TRUE if dates should be left unchanged, FALSE otherwise
+	 * @param boolean TRUE if watchers should be notified, FALSE otherwise
+	 * @param boolean TRUE if followers should be notified, FALSE otherwise
+	 */
+	public static function finalize_update($anchor, $item, $overlay=NULL, $silently=FALSE, $with_watchers=TRUE, $with_followers=FALSE) {
+		global $context;
+
+		// proceed only if the page has been published
+		if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE)) {
+
+			// notification to send by e-mail
+			$mail = array();
+			$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Update'), strip_tags($item['title']));
+			$mail['notification'] = Articles::build_notification('update', $item);
+			$mail['headers'] = Mailer::set_thread('article:'.$item['id']);
+
+			// allow the overlay to prevent notifications of watcherss
+			if(is_object($overlay) && !$overlay->should_notify_watchers($mail))
+				$with_watchers = FALSE;
+
+			// send to watchers of this page, and to watchers upwards
+			if($with_watchers && ($handle = new Article())) {
+				$handle->load_by_content($item, $anchor);
+				$handle->alert_watchers($mail, 'article:update', ($item['active'] == 'N'));
+			}
+
+			// never notify followers on private pages
+			if(isset($item['active']) && ($item['active'] == 'N'))
+				$with_followers = FALSE;
+
+			// allow the overlay to prevent notifications of followers
+			if(is_object($overlay) && !$overlay->should_notify_followers())
+				$with_followers = FALSE;
+
+			// send to followers of this user
+			if($with_followers && Surfer::get_id()) {
+				$mail['message'] = Mailer::build_notification($mail['notification'], 2);
+				Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+			}
+
+			// update anchors
+			$anchor->touch('article:update', $item['id'], $silently);
+
+			// advertise public pages
+			if(isset($item['active']) && ($item['active'] == 'Y')) {
+
+				// expose links within the page
+				$raw = '';
+				if(isset($item['introduction']))
+					$raw .= $item['introduction'];
+				if(isset($item['source']))
+					$raw .= ' '.$item['source'];
+				if(isset($item['description']))
+					$raw .= ' '.$item['description'];
+
+				// pingback to referred links, if any
+				include_once $context['path_to_root'].'links/links.php';
+				Links::ping($raw, 'article:'.$item['id']);
+
+				// ping servers, if any
+				Servers::notify($anchor->get_url());
+
+			}
+
+		}
+
+		// 'update' hook
+		if(is_callable(array('Hooks', 'include_scripts')))
+			Hooks::include_scripts('update', $item['id']);
+
+		// log page update
+		$label = sprintf(i18n::c('Update: %s'), strip_tags($item['title']));
+		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
+		$description = sprintf(i18n::c('Updated by %s in %s'), $poster, $anchor->get_title());
+		$description .= "\n\n".'<a href="'.Articles::get_permalink($item).'">'.$item['title'].'</a>';
+		Logger::notify('articles/articles.php: '.$label, $description);
+
+	}
+
+	/**
 	 * get one article by id, nick name or by handle
 	 *
 	 * @param int the id of the article
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
 	 * @return the resulting $item array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	function &get($id, $mutable=FALSE) {
+	public static function get($id, $mutable=FALSE) {
 		$output = Articles::get_attributes($id, '*', $mutable);
 		return $output;
 	}
@@ -975,7 +1481,7 @@ Class Articles {
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
 	 * @return the resulting $item array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	function &get_attributes($id, $attributes, $mutable=FALSE) {
+	public static function &get_attributes($id, $attributes, $mutable=FALSE) {
 		global $context;
 
 		// sanity check
@@ -1009,10 +1515,10 @@ Class Articles {
 				." ORDER BY publish_date DESC LIMIT 1";
 
 		// do the job
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 
 		// save in cache, but only on generic request
-		if(!$mutable && isset($output['id']) && ($attributes == '*'))
+		if(isset($output['id']) && ($attributes == '*') && (count($cache) < 1000))
 			$cache[$id] = $output;
 
 		// return by reference
@@ -1025,43 +1531,21 @@ Class Articles {
 	 * @param string the target overlay identifier
 	 * @return array of page ids that match the provided identifier, else NULL
 	 */
-	function get_ids_for_overlay($overlay_id) {
+	public static function get_ids_for_overlay($overlay_id) {
 		global $context;
-
-		// display active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// include hidden sections for associates
-		if(Surfer::is_associate())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		// end of active filter
-		$where = '('.$where.')';
 
 		// limit the overall list of results
 		$query = "SELECT articles.id FROM ".SQL::table_name('articles')." AS articles"
-			." WHERE overlay_id LIKE '".SQl::escape($overlay_id)."' AND ".$where
+			." WHERE (overlay_id LIKE '".SQl::escape($overlay_id)."') AND ".Articles::get_sql_where()
 			." LIMIT 5000";
-		if(!$result =& SQL::query($query)) {
+		if(!$result = SQL::query($query)) {
 			$output = NULL;
 			return $output;
 		}
 
 		// process all matching records
 		$ids = array();
-		while($item =& SQL::fetch($result))
+		while($item = SQL::fetch($result))
 			$ids[] = $item['id'];
 
 		// return a list of ids
@@ -1088,25 +1572,11 @@ Class Articles {
 	 *
 	 * @see index.php
 	 */
-	function &get_newest_for_anchor($anchor, $without_sticky=FALSE) {
+	public static function &get_newest_for_anchor($anchor, $without_sticky=FALSE) {
 		global $context;
 
-		// select among active and restricted items
-		$where = "articles.active='Y'";
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-		if(Surfer::is_empowered('S'))
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where = "(".$where.")";
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// just get the newest page
 		if($anchor) {
@@ -1143,7 +1613,7 @@ Class Articles {
 			." WHERE ".$where
 			." ORDER BY articles.rank, articles.edit_date DESC, articles.title LIMIT 0,1";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -1159,7 +1629,7 @@ Class Articles {
 	 *
 	 * @see sections/section.php
 	 */
-	function get_next_url(&$item, $anchor, $order='edition') {
+	public static function get_next_url($item, $anchor, $order='edition') {
 		global $context;
 
 		// sanity check
@@ -1209,10 +1679,10 @@ Class Articles {
             return "unknown order '".$order."'";
 
 		// query the database
-		$query = "SELECT id, title, nick_name FROM ".SQL::table_name('articles')." AS articles "
+		$query = "SELECT id, title, nick_name, anchor FROM ".SQL::table_name('articles')." AS articles "
 			." WHERE (articles.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (".$where.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return NULL;
 
 		// no result
@@ -1220,7 +1690,7 @@ Class Articles {
 			return NULL;
 
 		// return url of the first item of the list
-		$item =& SQL::fetch($result);
+		$item = SQL::fetch($result);
 		return array(Articles::get_permalink($item), $item['title']);
 	}
 
@@ -1228,11 +1698,20 @@ Class Articles {
 	 * get permanent address
 	 *
 	 * @param array page attributes
-	 * @return string the permalink
+	 * @return string the permanent web address to this item, relative to the installation path
 	 */
-	function &get_permalink($item) {
-		$output = Articles::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
-		return $output;
+	public static function get_permalink($item) {
+		global $context;
+
+		// sanity check
+		if(!isset($item['id']))
+			throw new Exception('bad input parameter');				
+
+		// get host to this page
+		$vhost = Sections::get_vhost($item['anchor']);		
+
+		// absolute link
+		return $vhost.Articles::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
 	}
 
 	/**
@@ -1247,7 +1726,7 @@ Class Articles {
 	 *
 	 * @see sections/section.php
 	 */
-	function get_previous_url(&$item, $anchor, $order='edition') {
+	public static function get_previous_url($item, $anchor, $order='edition') {
 		global $context;
 
 		// sanity check
@@ -1297,10 +1776,10 @@ Class Articles {
             return "unknown order '".$order."'";
 
 		// query the database
-		$query = "SELECT id, title, nick_name FROM ".SQL::table_name('articles')." AS articles "
+		$query = "SELECT id, title, nick_name, anchor FROM ".SQL::table_name('articles')." AS articles "
 			." WHERE (articles.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (".$where.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return NULL;
 
 		// no result
@@ -1308,7 +1787,7 @@ Class Articles {
 			return NULL;
 
 		// return url of the first item of the list
-		$item =& SQL::fetch($result);
+		$item = SQL::fetch($result);
 		return array(Articles::get_permalink($item), $item['title']);
 	}
 
@@ -1318,9 +1797,47 @@ Class Articles {
 	 * @param array page attributes
 	 * @return string the short link
 	 */
-	function &get_short_url($item) {
+	public static function &get_short_url($item) {
 		$output = 'a~'.reduce_number($item['id']);
 		return $output;
+	}
+
+	/**
+	 * restrict the scope of SQL query
+	 *
+	 * @return string to be inserted into a SQL statement
+	 */
+	public static function get_sql_where() {
+
+		// display active items
+		$where = "articles.active='Y'";
+
+		// add restricted items to members and for trusted hosts, or if teasers are allowed
+		if(Surfer::is_logged() || Surfer::is_trusted() || Surfer::is_teased())
+			$where .= " OR articles.active='R'";
+
+		// include hidden items for associates and for trusted hosts, or if teasers are allowed
+		if(Surfer::is_associate() || Surfer::is_trusted() || Surfer::is_teased())
+			$where .= " OR articles.active='N'";
+
+		// include private items that the surfer can access
+		else {
+
+			// include articles from managed sections
+			if($my_sections = Surfer::assigned_sections())
+				$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
+			// include managed pages for editors
+			if($my_articles = Surfer::assigned_articles())
+				$where .= " OR articles.id IN (".join(', ', $my_articles).")";
+
+		}
+
+		// end of active filter
+		$where = '('.$where.')';
+
+		// job done
+		return $where;
 	}
 
 	/**
@@ -1357,7 +1874,7 @@ Class Articles {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view', $name=NULL, $alternate_name=NULL) {
+	public static function get_url($id, $action='view', $name=NULL, $alternate_name=NULL) {
 		global $context;
 
 		// use alternate name instead of regular name, if one is provided
@@ -1374,14 +1891,32 @@ Class Articles {
 				return 'services/check.php?id='.urlencode('article:'.$id);
 		}
 
-		// rate this page
-		if($action == 'rate') {
+		// invite someone to participate
+		if($action == 'invite') {
+			if($name)
+				return 'articles/invite.php?id='.urlencode($id).'&amp;invited='.urlencode($name);
+			else
+				return 'articles/invite.php?id='.urlencode($id);
+		}
+
+		// i like this page
+		if($action == 'like') {
 			if($context['with_friendly_urls'] == 'Y')
 				return 'articles/rate.php/'.rawurlencode($id).'?rating=5&amp;referer='.urlencode($context['self_url']);
 			elseif($context['with_friendly_urls'] == 'R')
 				return 'article-rate/'.rawurlencode($id).'?rating=5&amp;referer='.urlencode($context['self_url']);
 			else
 				return 'articles/rate.php?id='.urlencode($id).'&amp;rating=5&amp;referer='.urlencode($context['self_url']);
+		}
+
+		// i dislike this page
+		if($action == 'dislike') {
+			if($context['with_friendly_urls'] == 'Y')
+				return 'articles/rate.php/'.rawurlencode($id).'?rating=1&amp;referer='.urlencode($context['self_url']);
+			elseif($context['with_friendly_urls'] == 'R')
+				return 'article-rate/'.rawurlencode($id).'?rating=1&amp;referer='.urlencode($context['self_url']);
+			else
+				return 'articles/rate.php?id='.urlencode($id).'&amp;rating=1&amp;referer='.urlencode($context['self_url']);
 		}
 
 		// check the target action
@@ -1402,20 +1937,24 @@ Class Articles {
 	 * @param array page attributes
 	 * @return TRUE or FALSE
 	 */
-	 function has_option($option, $anchor=NULL, $item=NULL) {
+	 public static function has_option($option, $anchor=NULL, $item=NULL) {
 		global $context;
 
 		// sanity check
 		if(!$option)
 			return FALSE;
 
-		// option check for this page
+		// 'variant' matches with 'variant_red_background', return 'red_background'
+		if(isset($item['options']) && preg_match('/\b'.$option.'_(.+?)\b/i', $item['options'], $matches))
+			return $matches[1];
+
+		// exact match, return TRUE
 		if(isset($item['options']) && (strpos($item['options'], $option) !== FALSE))
 			return TRUE;
 
 		// check in anchor
-		if(is_object($anchor) && $anchor->has_option($option))
-			return TRUE;
+		if(is_object($anchor) && ($result = $anchor->has_option($option)))
+			return $result;
 
 		// sorry
 		return FALSE;
@@ -1426,7 +1965,7 @@ Class Articles {
 	 *
 	 * @param the id of the article to update
 	 */
-	function increment_hits($id) {
+	public static function increment_hits($id) {
 		global $context;
 
 		// id cannot be empty
@@ -1449,7 +1988,7 @@ Class Articles {
 	 * @param int optional id to impersonate
 	 * @return TRUE or FALSE
 	 */
-	function is_assigned($id, $surfer_id=NULL) {
+	public static function is_assigned($id, $surfer_id=NULL) {
 		global $context;
 
 		// no impersonation
@@ -1476,7 +2015,7 @@ Class Articles {
 	 * @param int optional reference to some user profile
 	 * @return TRUE or FALSE
 	 */
-	 function is_editable($anchor=NULL, $item=NULL, $user_id=NULL) {
+	 public static function is_editable($anchor=NULL, $item=NULL, $user_id=NULL) {
 		global $context;
 
 		// id of requesting user
@@ -1507,7 +2046,7 @@ Class Articles {
 	 * @param int optional reference to some user profile
 	 * @return TRUE or FALSE
 	 */
-	 function is_owned($item=NULL, $anchor=NULL, $strict=FALSE, $user_id=NULL) {
+	 public static function is_owned($item=NULL, $anchor=NULL, $strict=FALSE, $user_id=NULL) {
 		global $context;
 
 		// ownership requires to be authenticated
@@ -1534,8 +2073,9 @@ Class Articles {
 			return TRUE;
 
 		// page has not been created yet, section is not private, and surfer is member --not subscriber
-		if(!$strict && !isset($item['id']) && Surfer::is_member() && is_object($anchor) && !$anchor->is_hidden())
-			return TRUE;
+		// Alexis => desactivated cause it's rejected later
+		//if(!$strict && !isset($item['id']) && Surfer::is_member() && is_object($anchor) && !$anchor->is_hidden())
+		//	return TRUE;
 
 		// page is not private, and surfer is editor --not subscriber-- of parent container
 		if(!$strict && isset($item['active']) && ($item['active'] != 'N') && Surfer::is_member() && is_object($anchor) && $anchor->is_assigned($user_id))
@@ -1552,7 +2092,7 @@ Class Articles {
 	 * @param int optional id to impersonate
 	 * @return TRUE or FALSE
 	 */
-	function is_watched($id, $surfer_id=NULL) {
+	public static function is_watched($id, $surfer_id=NULL) {
 		global $context;
 
 		// no impersonation
@@ -1582,7 +2122,7 @@ Class Articles {
 	 * @param string stamp of the minimum publication date to be considered
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_($offset=0, $count=10, $layout='decorated', $since=NULL) {
+	public static function &list_($offset=0, $count=10, $layout='decorated', $since=NULL) {
 		global $context;
 
 		// define items order
@@ -1593,90 +2133,6 @@ Class Articles {
 
 		// ask for ordered articles
 		$output =& Articles::list_by($order, $offset, $count, $layout, $since);
-		return $output;
-	}
-
-	/**
-	 * list articles assigned to one surfer
-	 *
-	 * Only articles matching following criteria are returned:
-	 * - article is visible (active='Y')
-	 * - or article is restricted (active='R'), but surfer is a logged user
-	 * - or article is hidden (active='N'), but surfer is an associate
-	 *
-	 * @param mixed, either a string the target anchor, or an array of anchors
-	 * @param int surfer id
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string 'decorated', etc or object, i.e., an instance of Layout_Interface
-	 * @param boolean TRUE to list only pages shared with this surfer, FALSE otherwise
-	 * @param boolean TRUE to list live pages, or FALSE to list locked and archived pages
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 * @see users/view.php
-	 */
-	function &list_assigned_by_date_for_anchor($anchor=NULL, $surfer_id, $offset=0, $count=20, $variant='decorated', $shared_page=FALSE, $live=TRUE) {
-		global $context;
-
-		// display active items
-		$where = "(articles.active='Y'";
-
-		// add restricted items to logged members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// list hidden articles to associates, editors and to readers
-		if($shared_page)
-			$where .= " OR articles.active='N'";
-		elseif(is_callable(array('Surfer', 'is_empowered')) && Surfer::is_empowered('S'))
-			$where .= " OR articles.active='N'";
-		elseif(Surfer::get_id() == $surfer_id)
-			$where .= " OR articles.active='N'";
-
-		// end of scope
-		$where .= ")";
-
-		// several anchors
-		if(is_array($anchor)) {
-			$items = array();
-			foreach($anchor as $token)
-				$items[] = "articles.anchor LIKE '".SQL::escape($token)."'";
-			$where = '('.join(' OR ', $items).') AND '.$where;
-
-		// or only one
-		} elseif($anchor)
-			$where = "(articles.anchor LIKE '".SQL::escape($anchor)."') AND ".$where;
-
-		// only live pages
-		if($live)
-			$where .= " AND (articles.locked != 'Y')";
-		else
-			$where .= " AND (articles.locked = 'Y')";
-
-		// limit to pages shared with this surfer
-		if($shared_page)
-			$query = "SELECT articles.*"
-				." FROM (".SQL::table_name('articles')." AS articles"
-				.", ".SQL::table_name('members')." AS members"
-				.", ".SQL::table_name('members')." AS members2)"
-				." WHERE ((members.anchor LIKE 'user:".SQL::escape($surfer_id)."')"
-				."	AND (members.member_type LIKE 'article') AND (members.member_id = articles.id))"
-				."	AND ((members2.anchor LIKE 'user:".SQL::escape(Surfer::get_id())."')"
-				."	AND (members2.member_type LIKE 'article') AND (members2.member_id = articles.id))"
-				."	AND ".$where
-				." GROUP BY articles.id"
-				." ORDER BY articles.edit_date DESC LIMIT ".$offset.','.$count;
-
-		// else enlarge the scope
-		else
-			$query = "SELECT articles.* FROM ".SQL::table_name('articles')." AS articles"
-				.", ".SQL::table_name('members')." AS members"
-				." WHERE ((members.anchor LIKE 'user:".SQL::escape($surfer_id)."')"
-				."	AND (members.member_type LIKE 'article') AND (members.member_id = articles.id))"
-				."	AND ".$where
-				." ORDER BY articles.edit_date DESC LIMIT ".$offset.','.$count;
-
-		$output =& Articles::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -1702,30 +2158,11 @@ Class Articles {
 	 * @param string stamp of the minimum publication date to be considered
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_by($order=NULL, $offset=0, $count=10, $layout='decorated', $since=NULL) {
+	public static function &list_by($order=NULL, $offset=0, $count=10, $layout='decorated', $since=NULL) {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates can access hidden articles
-		if(Surfer::is_associate() && !( is_string($layout) && (($layout == 'feed') || ($layout == 'contents')) ) )
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		// bracket OR statements
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// list only draft articles
 		if($order == 'draft')
@@ -1757,7 +2194,7 @@ Class Articles {
 		// avoid articles pushed away from the front page
 		$sections_where = '';
 		if(isset($context['skin_variant']) && ($context['skin_variant'] == 'home')) {
-			$sections_where .= " AND (sections.home_panel LIKE 'main')";
+			$sections_where .= " AND (sections.index_map != 'N')";
 		}
 
 		// composite fields
@@ -1789,6 +2226,43 @@ Class Articles {
 	}
 
 	/**
+	 * list all editors of a page
+	 *
+	 * This function lists editors of this page, or of any parent section.
+	 *
+	 * @param array attributes of the page
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface adapted to list of users
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 *
+	 */
+	public static function list_editors_by_name($item, $offset=0, $count=7, $variant='comma5') {
+		global $context;
+
+		// this page itself
+		$anchors = array('article:'.$item['id']);
+
+		// look at parents
+		if($anchor = Anchors::get($item['anchor'])) {
+
+			// look for editors of parent section
+			$anchors[] = $anchor->get_reference();
+
+			// look for editors of any ancestor
+			$handle = $anchor->get_parent();
+			while($handle && ($parent = Anchors::get($handle))) {
+				$anchors[] = $handle;
+				$handle = $parent->get_parent();
+			}
+
+		}
+
+		// list users assigned to any of these anchors
+		return Members::list_editors_for_member($anchors, $offset, $count, $variant);
+	}
+
+	/**
 	 * list articles attached to one anchor
 	 *
 	 * The ordering method is provided by layout.
@@ -1809,7 +2283,7 @@ Class Articles {
 	 * @param boolean FALSE to include sticky pages, TRUE otherwise
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_for_anchor($anchor, $offset=0, $count=10, $layout='no_anchor', $without_sticky=FALSE) {
+	public static function &list_for_anchor($anchor, $offset=0, $count=10, $layout='no_anchor', $without_sticky=FALSE) {
 		global $context;
 
 		// define items order
@@ -1855,30 +2329,11 @@ Class Articles {
 	 * @param boolean FALSE to include sticky pages, TRUE otherwise
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_for_anchor_by($order, $anchor, $offset=0, $count=10, $layout='no_anchor', $without_sticky=FALSE) {
+	public static function &list_for_anchor_by($order, $anchor, $offset=0, $count=10, $layout='no_anchor', $without_sticky=FALSE) {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates, editors and readers may see everything
-		if(Surfer::is_empowered('S'))
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		// a dynamic where clause
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// avoid sticky articles
 		if($without_sticky)
@@ -1936,13 +2391,6 @@ Class Articles {
 	/**
 	 * list articles for one author
 	 *
-	 * Only articles matching following criteria are returned:
-	 * - article is visible (active='Y')
-	 * - article is restricted (active='R'), but surfer is a logged user
-	 * - article is not visible (active='N'), but surfer is an associate
-	 * - article has been officially published, or the surfer is a logged user
-	 * - an expiry date has not been defined, or is not yet passed
-	 *
 	 * @param string order of resulting set
 	 * @param int the id of the author of the article
 	 * @param int the offset from the start of the list; usually, 0 or 1
@@ -1952,7 +2400,7 @@ Class Articles {
 	 *
 	 * @see users/view.php
 	 */
-	function &list_for_author_by($order, $author_id, $offset=0, $count=10, $layout='no_author') {
+	public static function &list_for_author_by($order, $author_id, $offset=0, $count=10, $layout='no_author') {
 		global $context;
 
 		// sanity check
@@ -1962,21 +2410,13 @@ Class Articles {
 		}
 		$author_id = SQL::escape($author_id);
 
-		// select among active items
-		$where = "articles.active='Y'";
+		// list all of my articles
+		if(Surfer::get_id() == $author_id)
+			$where = "(articles.active IN ('Y', 'R', 'N'))";
 
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates, editors, readers, and page authors may see everything
-		if(Surfer::is_empowered('S'))
-			$where .= " OR articles.active='N'";
-		elseif(Surfer::get_id() && (Surfer::get_id() == $author_id))
-			$where .= " OR articles.active='N'";
-
-		// a dynamic where clause
-		$where = '('.$where.')';
+		// else restrict the scope of this request
+		else
+			$where = Articles::get_sql_where();
 
 		// list only articles contributed by this author
 		$where .= " AND ((articles.create_id = ".$author_id.") OR (articles.owner_id = ".$author_id."))";
@@ -2016,7 +2456,7 @@ Class Articles {
 	 * @param mixed the layout to apply
 	 * @return string to be inserted into the resulting page
 	 */
-	function &list_for_ids($ids, $layout='select') {
+	public static function &list_for_ids($ids, $layout='select') {
 		global $context;
 
 		// turn a string to an array
@@ -2061,19 +2501,16 @@ Class Articles {
 	 * This is used by the page locator to offer alternatives when several pages have the same nick names.
 	 * It is also used to link a page to twins, these being, most of the time, translations.
 	 *
-	 * Most matching articles are returned, and we assume that access control to private articles
-	 * is postponed to actual access to these articles.
-	 *
 	 * @param string the nick name
 	 * @param int the id of the current page, which will not be listed
 	 * @param mixed the layout, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_for_name($name, $exception=NULL, $layout='compact') {
+	public static function &list_for_name($name, $exception=NULL, $layout='compact') {
 		global $context;
 
-		// gather constraints
-		$where = '';
+		// limit the scope of this request
+		$where = Articles::get_sql_where();
 
 		// avoid exception, if any
 		if($exception)
@@ -2082,7 +2519,7 @@ Class Articles {
 		// articles by title -- no more than 100 pages with the same name
 		$query = "SELECT articles.*"
 			." FROM ".SQL::table_name('articles')." AS articles"
-			." WHERE (articles.nick_name LIKE '".SQL::escape($name)."')".$where
+			." WHERE (articles.nick_name LIKE '".SQL::escape($name)."') AND ".$where
 			." ORDER BY articles.title LIMIT 100";
 
 		$output =& Articles::list_selected(SQL::query($query), $layout);
@@ -2106,7 +2543,7 @@ Class Articles {
 	 * @see users/print.php
 	 * @see users/view.php
 	 */
-	function &list_for_user_by($order, $user_id, $offset=0, $count=10, $variant='full') {
+	public static function &list_for_user_by($order, $user_id, $offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// sanity check
@@ -2114,21 +2551,7 @@ Class Articles {
 			return NULL;
 
 		// limit the scope of the request
-		$where = "(articles.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR articles.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR articles.active='N'";
-
-		// include managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where .= ')';
+		$where = Articles::get_sql_where();
 
 		// show only published articles if not looking at self record
 		if((Surfer::get_id() != $user_id) && !Surfer::is_associate())
@@ -2143,24 +2566,33 @@ Class Articles {
 		// order these pages
 		$order = Articles::_get_order($order);
 
-		// look for watched pages through sub-queries
-		if(version_compare(SQL::version(), '4.1.0', '>=')) {
-			$query = "(SELECT articles.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
-				.", ".SQL::table_name('articles')." AS articles"
-				." WHERE (articles.id = ids.target)"
-				."	AND ".$where.")";
+		// the list of watched sections
+		$watched_sections = "(SELECT CONCAT('section:', sections.id) AS target"
+			."	FROM (".SQL::table_name('members')." AS members"
+			.", ".SQL::table_name('sections')." AS sections)"
+			." WHERE (members.member = 'user:".SQL::escape($user_id)."')"
+			."	AND (members.anchor LIKE 'section:%')"
+			."	AND (sections.id = SUBSTRING(members.anchor, 9))"
+			." ORDER BY sections.edit_date DESC, sections.title LIMIT 0, 1000)";
 
-		// use joined queries
-		} else {
-			$query = "(SELECT articles.*"
-				." FROM (".SQL::table_name('members')." AS members"
-				.", ".SQL::table_name('articles')." AS articles)"
-				." WHERE (members.member LIKE 'user:".SQL::escape($user_id)."')"
-				."	AND (members.anchor LIKE 'article:%')"
-				."	AND (articles.id = SUBSTRING(members.anchor, 9))"
-				."	AND ".$where.")";
+		// the list of forwarding sections
+		$forwarding_sections = "(SELECT CONCAT('section:', sections.id) AS target"
+			." FROM ".$watched_sections." AS anchors"
+			.", ".SQL::table_name('sections')." AS sections"
+			." WHERE (sections.anchor = anchors.target) AND (sections.options LIKE '%forward_notifications%')"
+			." ORDER BY sections.edit_date DESC, sections.title LIMIT 0, 1000)";
 
-		}
+		// look for pages in watched sections
+		$query = "(SELECT articles.* FROM (".$watched_sections." UNION ".$forwarding_sections.") AS anchors"
+			.", ".SQL::table_name('articles')." AS articles"
+			." WHERE (articles.anchor = anchors.target)"
+			."	AND ".$where.") UNION ";
+
+		// look for watched pages
+		$query .= "(SELECT articles.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE 'user:".SQL::escape($user_id)."') AND (members.anchor LIKE 'article:%')) AS ids"
+			.", ".SQL::table_name('articles')." AS articles"
+			." WHERE (articles.id = ids.target)"
+			."	AND ".$where.")";
 
 		// include articles assigned to this surfer
 		if($these_items = Surfer::assigned_articles($user_id))
@@ -2201,7 +2633,7 @@ Class Articles {
 	 * @see skins/skin_skeleton.php
 	 * @see index.php
 	 */
-	function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -2212,40 +2644,162 @@ Class Articles {
 
 		// use the provided layout interface
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
-		// no layout yet
-		$layout = NULL;
-
-		// separate options from layout name
-		$attributes = explode(' ', $variant, 2);
-
 		// instanciate the provided name
-		if($attributes[0]) {
-			$name = 'layout_articles_as_'.$attributes[0];
-			if(is_readable($context['path_to_root'].'articles/'.$name.'.php')) {
-				include_once $context['path_to_root'].'articles/'.$name.'.php';
-				$layout = new $name;
-
-				// provide parameters to the layout
-				if(isset($attributes[1]))
-					$layout->set_variant($attributes[1]);
-
-			}
-		}
-
-		// use default layout
-		if(!$layout) {
-			include_once $context['path_to_root'].'articles/layout_articles.php';
-			$layout = new Layout_articles();
-			$layout->set_variant($variant);
-		}
+		$layout = Layouts::new_($variant, 'article',false, true);						
 
 		// do the job
-		$output =& $layout->layout($result);
+		$output = $layout->layout($result);
 		return $output;
+	}
+
+	/**
+	 * list all watchers of a page
+	 *
+	 * If the page is public or restricted to any member, the full list of persons watching this
+	 * page, and its parent section. If the parent section has the option 'forward_notifications'
+	 * the persons assigned to grand parent section are added.
+	 *
+	 * For example, if the root section A contains a section B, which contains page P, and if
+	 * P is public, the function looks for persons assigned either to B or to P.
+	 *
+	 * If the parent section has option 'forward_notifications', then this fonction adds watchers
+	 * of grand-parent section to the list.
+	 *
+	 * If the page is private, then the function looks for wtahcers of it, and for editors of the
+	 * parent section that may also be watchers.
+	 *
+	 * For example, if the section A is public, and if it contains private page P, the function
+	 * looks for watchers of P and for editors of A that are also watchers of A.
+	 * This is because watchers of section A who are not editors are not entitled to watch P.
+	 *
+	 * @param array attributes of the watched page
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface adapted to list of users
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 *
+	 */
+	public static function list_watchers_by_name($item, $offset=0, $count=7, $variant='comma5') {
+		global $context;
+
+		// this page itself
+		$anchors = array('article:'.$item['id']);
+
+		// to list persons entitled to access this page
+		$ancestors = array('article:'.$item['id']);
+
+		// look at parents
+		if($anchor = Anchors::get($item['anchor'])) {
+
+			// notify watchers of parent section
+			$anchors[] = $anchor->get_reference();
+
+			// notify watchers of grand-parent section too
+			if($anchor->has_option('forward_notifications', FALSE) && $anchor->get_parent())
+				$anchors[] = $anchor->get_parent();
+
+			// editors of parent and grand parent section are entitled to access the page too
+			$ancestors[] = $anchor->get_reference();
+			$handle = $anchor->get_parent();
+			while($handle && ($parent = Anchors::get($handle))) {
+
+				// notify watchers of grand-parent section too
+				if($parent->has_option('forward_notifications', FALSE) && $parent->get_parent())
+					$anchors[] = $parent->get_parent();
+
+				$ancestors[] = $handle;
+				$handle = $parent->get_parent();
+			}
+
+		}
+
+		// authorized users only
+		$restricted = NULL;
+		if(($item['active'] == 'N') && ($editors =& Members::list_anchors_for_member($ancestors))) {
+			foreach($editors as $editor)
+				if(strpos($editor, 'user:') === 0)
+					$restricted[] = substr($editor, strlen('user:'));
+		}
+
+		// list users watching one of these anchors
+		return Members::list_watchers_by_name_for_anchor($anchors, $offset, $count, $variant, $restricted);
+	}
+
+	/**
+	 * list all watchers of a page
+	 *
+	 * If the page is public or restricted to any member, the full list of persons watching this
+	 * page, and its parent section. If the parent section has the option 'forward_notifications'
+	 * the persons assigned to grand parent section are added.
+	 *
+	 * For example, if the root section A contains a section B, which contains page P, and if
+	 * P is public, the function looks for persons assigned either to B or to P.
+	 *
+	 * If the parent section has option 'forward_notifications', then this fonction adds watchers
+	 * of grand-parent section to the list.
+	 *
+	 * If the page is private, then the function looks for wtahcers of it, and for editors of the
+	 * parent section that may also be watchers.
+	 *
+	 * For example, if the section A is public, and if it contains private page P, the function
+	 * looks for watchers of P and for editors of A that are also watchers of A.
+	 * This is because watchers of section A who are not editors are not entitled to watch P.
+	 *
+	 * @param array attributes of the watched page
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface adapted to list of users
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 *
+	 */
+	public static function list_watchers_by_posts($item, $offset=0, $count=7, $variant='comma5') {
+		global $context;
+
+		// this page itself
+		$anchors = array('article:'.$item['id']);
+
+		// to list persons entitled to access this page
+		$ancestors = array('article:'.$item['id']);
+
+		// look at parents
+		if($anchor = Anchors::get($item['anchor'])) {
+
+			// notify watchers of parent section
+			$anchors[] = $anchor->get_reference();
+
+			// notify watchers of grand-parent section too
+			if($anchor->has_option('forward_notifications', FALSE) && $anchor->get_parent())
+				$anchors[] = $anchor->get_parent();
+
+			// editors of parent and grand parent section are entitled to access the page too
+			$ancestors[] = $anchor->get_reference();
+			$handle = $anchor->get_parent();
+			while($handle && ($parent = Anchors::get($handle))) {
+
+				// notify watchers of grand-parent section too
+				if($parent->has_option('forward_notifications', FALSE) && $parent->get_parent())
+					$anchors[] = $parent->get_parent();
+
+				$ancestors[] = $handle;
+				$handle = $parent->get_parent();
+			}
+
+		}
+
+		// authorized users only
+		$restricted = NULL;
+		if(($item['active'] == 'N') && ($editors =& Members::list_anchors_for_member($ancestors))) {
+			foreach($editors as $editor)
+				if(strpos($editor, 'user:') === 0)
+					$restricted[] = substr($editor, strlen('user:'));
+		}
+
+		// list users watching one of these anchors
+		return Members::list_watchers_by_posts_for_anchor($anchors, $offset, $count, $variant, $restricted);
 	}
 
 	/**
@@ -2255,7 +2809,7 @@ Class Articles {
 	 * @param string the previous locking state
 	 * @return TRUE on success toggle, FALSE otherwise
 	 */
-	function lock($id, $status='Y') {
+	public static function lock($id, $status='Y') {
 		global $context;
 
 		// id cannot be empty
@@ -2282,18 +2836,18 @@ Class Articles {
 	 * @param string the nick name looked for
 	 * @return string either 'article:&lt;id&gt;', or NULL
 	 */
-	function lookup($nick_name) {
+	public static function lookup($nick_name) {
 		global $context;
 
 		// the page already exists
-		if($item =& Articles::get($nick_name))
+		if($item = Articles::get($nick_name))
 			return 'article:'.$item['id'];
 
 		// attempt to create a default item
 		Articles::post_default($nick_name);
 
 		// do the check again
-		if($item =& Articles::get($nick_name))
+		if($item = Articles::get($nick_name))
 			return 'article:'.$item['id'];
 
 		// tough luck
@@ -2310,7 +2864,7 @@ Class Articles {
 	 *
 	 * @see articles/edit.php
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// title cannot be empty
@@ -2319,17 +2873,20 @@ Class Articles {
 			return FALSE;
 		}
 
+		// sanity filter
+		$fields['title'] = strip_tags($fields['title'], '<br>');
+
 		// anchor cannot be empty
-		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor =& Anchors::get($fields['anchor']))) {
+		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor = Anchors::get($fields['anchor']))) {
 			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
 
 		// protect from hackers
 		if(isset($fields['icon_url']))
-			$fields['icon_url'] =& encode_link($fields['icon_url']);
+			$fields['icon_url'] = encode_link($fields['icon_url']);
 		if(isset($fields['thumbnail_url']))
-			$fields['thumbnail_url'] =& encode_link($fields['thumbnail_url']);
+			$fields['thumbnail_url'] = encode_link($fields['thumbnail_url']);
 
 		// set default values for this editor
 		Surfer::check_default_editor($fields);
@@ -2350,6 +2907,10 @@ Class Articles {
 		if(!isset($fields['nick_name']))
 			$fields['nick_name'] = '';
 
+		// set canvas default value
+		if(!isset($fields['canvas']) || !$fields['canvas'])
+			$fields['canvas'] = 'standard';
+
 		// clean provided tags
 		if(isset($fields['tags']))
 			$fields['tags'] = trim($fields['tags'], " \t.:,!?");
@@ -2368,6 +2929,7 @@ Class Articles {
 		if(Surfer::is_associate()) {
 			$query[] = "prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."'";
 			$query[] = "suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."'";
+			$query[] = "canvas='".SQL::escape(isset($fields['canvas']) ? $fields['canvas'] : '')."'";
 		}
 
 		$query[] = "nick_name='".SQL::escape(isset($fields['nick_name']) ? $fields['nick_name'] : '')."'";
@@ -2406,8 +2968,14 @@ Class Articles {
 		$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
 		$query[] = "edit_id=".SQL::escape(isset($fields['edit_id']) ? $fields['edit_id'] : '0');
 		$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
-		$query[] = "edit_action='".SQL::escape(isset($fields['edit_action']) ? $fields['edit_action'] : 'article:create')."'";
+		$query[] = "edit_action='".SQL::escape(isset($fields['edit_action']) ? $fields['edit_action'] : 'article:submit')."'";
 		$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
+
+		// reset user assignment, if any
+		$query[] = "assign_name=''";
+		$query[] = "assign_id=0";
+		$query[] = "assign_address=''";
+		$query[] = "assign_date='".SQL::escape(NULL_DATE)."'";
 
 		// set or change the publication date
 		if(isset($fields['publish_date']) && ($fields['publish_date'] > NULL_DATE)) {
@@ -2425,7 +2993,7 @@ Class Articles {
 
 		// allow anonymous surfer to access this page during his session
 		if(!Surfer::get_id())
-			Surfer::add_handle($fields['handle']);
+			Surfer::add_handle($fields['handle']);		
 
 		// insert a new record
 		$query = "INSERT INTO ".SQL::table_name('articles')." SET ".implode(', ', $query);
@@ -2459,11 +3027,11 @@ Class Articles {
 	 * @param string the nick name of the item to create
 	 * @return string text to be displayed in the resulting page
 	 */
-	function post_default($nick_name) {
+	public static function post_default($nick_name) {
 		global $context;
 
 		// the page already exists
-		if($item =& Articles::get($nick_name))
+		if($item = Articles::get($nick_name))
 			return '';
 
 		// use the provided model for this item
@@ -2487,7 +3055,7 @@ Class Articles {
 	 * @param int the maximum number of pages to keep in the database
 	 * @return void
 	 */
-	function purge_for_anchor($anchor, $limit=1000) {
+	public static function purge_for_anchor($anchor, $limit=1000) {
 		global $context;
 
 		// lists oldest entries beyond the limit
@@ -2496,7 +3064,7 @@ Class Articles {
 			." ORDER BY articles.edit_date DESC LIMIT ".$limit.', 10';
 
 		// no result
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return;
 
 		// empty list
@@ -2504,7 +3072,7 @@ Class Articles {
 			return;
 
 		// delete silently all matching items
-		while($item =& SQL::fetch($result))
+		while($item = SQL::fetch($result))
 			Articles::delete($item['id']);
 
 		// end of processing
@@ -2521,7 +3089,7 @@ Class Articles {
 	 * @see articles/edit.php
 	 * @see services/blog.php
 	**/
-	function put(&$fields) {
+	public static function put(&$fields) {
 		global $context;
 
 		// id cannot be empty
@@ -2536,8 +3104,11 @@ Class Articles {
 			return FALSE;
 		}
 
+		// sanity filter
+		$fields['title'] = strip_tags($fields['title'], '<br>');
+
 		// anchor cannot be empty
-		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor =& Anchors::get($fields['anchor']))) {
+		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor = Anchors::get($fields['anchor']))) {
 			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
@@ -2561,6 +3132,10 @@ Class Articles {
 		if(!isset($fields['rank']))
 			$fields['rank'] = 10000;
 
+		// set canvas default value
+		if(!isset($fields['canvas']) || !$fields['canvas'])
+			$fields['canvas'] = 'standard';
+
 		// clean provided tags
 		if(isset($fields['tags']))
 			$fields['tags'] = trim($fields['tags'], " \t.:,!?");
@@ -2575,6 +3150,7 @@ Class Articles {
 		if(Surfer::is_associate()) {
 			$query[] = "prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."'";
 			$query[] = "suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."'";
+			$query[] = "canvas='".SQL::escape(isset($fields['canvas']) ? $fields['canvas'] : '')."'";
 		}
 
 		// fields that are visible only to associates and to editors -- see articles/edit.php
@@ -2624,6 +3200,12 @@ Class Articles {
 			$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
 		}
 
+		// reset user assignment, if any
+		$query[] = "assign_name=''";
+		$query[] = "assign_id=0";
+		$query[] = "assign_address=''";
+		$query[] = "assign_date='".SQL::escape(NULL_DATE)."'";
+
 		// update an existing record
 		$query = "UPDATE ".SQL::table_name('articles')." SET ".implode(', ', $query)." WHERE id = ".SQL::escape($fields['id']);
 		if(SQL::query($query) === FALSE)
@@ -2631,6 +3213,10 @@ Class Articles {
 
 		// list the article in categories
 		Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
+
+		// add this page to surfer watch list
+		if(Surfer::get_id())
+			Members::assign('article:'.$fields['id'], 'user:'.Surfer::get_id());
 
 		// clear the cache
 		Articles::clear($fields);
@@ -2645,7 +3231,7 @@ Class Articles {
 	 * @param array an array of fields
 	 * @return TRUE on success, or FALSE on error
 	**/
-	function put_attributes(&$fields) {
+	public static function put_attributes(&$fields) {
 		global $context;
 
 		// id cannot be empty
@@ -2664,7 +3250,7 @@ Class Articles {
 		if(isset($fields['active_set'])) {
 
 			// anchor cannot be empty
-			if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor =& Anchors::get($fields['anchor']))) {
+			if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor = Anchors::get($fields['anchor']))) {
 				Logger::error(i18n::s('No anchor has been found.'));
 				return FALSE;
 			}
@@ -2735,10 +3321,15 @@ Class Articles {
 			$query[] = "thumbnail_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['thumbnail_url']))."'";
 		if(isset($fields['tags']))
 			$query[] = "tags='".SQL::escape($fields['tags'])."'";
-		if(isset($fields['title']))
+		if(isset($fields['title'])) {
+			$fields['title'] = strip_tags($fields['title'], '<br>');
 			$query[] = "title='".SQL::escape($fields['title'])."'";
+		}
 		if(isset($fields['trailer']))
 			$query[] = "trailer='".SQL::escape($fields['trailer'])."'";
+
+		if(isset($fields['rating_sum']))
+			$query[] = "rating_sum='".SQL::escape($fields['rating_sum'])."'";
 
 		// nothing to update
 		if(!count($query))
@@ -2776,7 +3367,7 @@ Class Articles {
 	 * @param int the id of the article to rate
 	 * @param int the rate
 	 */
-	function rate($id, $rating) {
+	public static function rate($id, $rating) {
 		global $context;
 
 		// id cannot be empty
@@ -2799,12 +3390,12 @@ Class Articles {
 	 * @see categories/set_keyword.php
 	 *
 	 * @param string the search string
-	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param float maximum score to look at
 	 * @param int the number of items to display
 	 * @param mixed the layout, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 * @return NULL on error, else an ordered array of array($score, $summary)
 	 */
-	function &search($pattern, $offset=0, $count=50, $layout='decorated') {
+	public static function &search($pattern, $offset=1.0, $count=50, $layout='search') {
 		global $context;
 
 		$output =& Articles::search_in_section(NULL, $pattern, $offset, $count, $layout);
@@ -2818,14 +3409,18 @@ Class Articles {
 	 *
 	 * @see search.php
 	 *
+	 * Modification dates are taken into account to prefer freshest information.
+	 *
+	 * @link http://www.artfulcode.net/articles/full-text-searching-mysql/
+	 *
 	 * @param int the id of the section to look in
 	 * @param string the search string
-	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param float maximum score to look at
 	 * @param int the number of items to display
 	 * @param mixed the layout, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 * @return NULL on error, else an ordered array of array($score, $summary)
 	 */
-	function &search_in_section($section_id, $pattern, $offset=0, $count=10, $layout='decorated') {
+	public static function &search_in_section($section_id, $pattern, $offset=1.0, $count=10, $layout='search') {
 		global $context;
 
 		// sanity check
@@ -2834,98 +3429,40 @@ Class Articles {
 			return $output;
 		}
 
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
+
 		// search is restricted to one section
 		$sections_where = '';
 		if($section_id) {
 
 			// look for children
-			$anchors = array();
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor('section:'.$section_id, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// also include the top level, of course
-			$anchors[] = 'section:'.$section_id;
+			$anchors = Sections::get_branch_at_anchor('section:'.$section_id);
 
 			// the full set of sections searched
-			$sections_where = "articles.anchor IN ('".join("', '", $anchors)."')";
+			$where .= " AND (anchor IN ('".join("', '", $anchors)."'))";
 
 		}
-
-		// select among active sections
-		if($sections_where)
-			$sections_where = " AND (".$sections_where.")";
-
-		// select among active articles
-		$where = "articles.active='Y'";
-
-		// add restricted items to authenticated surfers, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates can access hidden articles
-		if(is_string($layout) && ($layout == 'feed'))
-			;
-		elseif(Surfer::is_associate())
-			$where .= " OR articles.active='N'";
-
-		//include managed sections
-		if($my_sections = Surfer::assigned_sections()) {
-			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
-			$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-		}
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where = "(".$where.")";
 
 		// anonymous surfers and subscribers will see only published articles
 		if(!Surfer::is_member())
-			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$context['now']."')";
+			$where .= " AND NOT ((publish_date is NULL) OR (publish_date <= '0000-00-00'))"
+				." AND (publish_date < '".$context['now']."')";
 
 		// only consider live articles
-		$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
+		$where .= " AND ((expiry_date is NULL) "
+				."OR (expiry_date <= '".NULL_DATE."') OR (expiry_date > '".$context['now']."'))";
 
-		// match
-		$match = " AND MATCH(articles.title, articles.source, articles.introduction, articles.overlay, articles.description) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
+		// how to compute the score for articles
+		$score = "(MATCH(title, source, introduction, overlay, description)"
+			." AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)"
+			."/SQRT(GREATEST(1.1, DATEDIFF(NOW(), edit_date))))";
 
 		// the list of articles
-		$query = "SELECT articles.*"
-			." FROM (".SQL::table_name('articles')." AS articles"
-			.", ".SQL::table_name('sections')." AS sections)"
-			." WHERE ((articles.anchor_type LIKE 'section') AND (articles.anchor_id = sections.id))"
-			."	AND (".$where.")".$sections_where.$match
-			." ORDER BY articles.edit_date DESC"
-			." LIMIT ".$offset.','.$count;
+		$query = "SELECT *, ".$score." AS score FROM ".SQL::table_name('articles')." AS articles"
+			." WHERE (".$where.") AND (".$score." < ".$offset.") AND (".$score." > 0)"
+			." ORDER BY score DESC"
+			." LIMIT ".$count;
 
 		$output =& Articles::list_selected(SQL::query($query), $layout);
 		return $output;
@@ -2934,7 +3471,7 @@ Class Articles {
 	/**
 	 * create tables for articles
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -2944,7 +3481,12 @@ Class Articles {
 		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";
 		$fields['anchor_type']	= "VARCHAR(64) DEFAULT 'section' NOT NULL";
 		$fields['anchor_id']	= "MEDIUMINT UNSIGNED NOT NULL";
+		$fields['assign_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['assign_date']	= "DATETIME";
+		$fields['assign_id']	= "MEDIUMINT DEFAULT 0 NOT NULL";
+		$fields['assign_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['behaviors']	= "TEXT NOT NULL";
+		$fields['canvas']		= "VARCHAR(255) DEFAULT 'standard' NOT NULL";
 		$fields['create_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['create_date']	= "DATETIME";
 		$fields['create_id']	= "MEDIUMINT DEFAULT 0 NOT NULL";
@@ -3041,7 +3583,7 @@ Class Articles {
 	 * @see articles/publish.php
 	 * @see sections/manage.php
 	**/
-	function stamp($id, $publication=NULL, $expiry=NULL, $publisher=NULL) {
+	public static function stamp($id, $publication=NULL, $expiry=NULL, $publisher=NULL) {
 		global $context;
 
 		// id cannot be empty
@@ -3158,29 +3700,11 @@ Class Articles {
 	 *
 	 * @see articles/index.php
 	 */
-	function &stat() {
+	public static function stat() {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to authenticated surfers, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates can access hidden articles
-		if(Surfer::is_associate())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// list only published articles
 		$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
@@ -3191,7 +3715,7 @@ Class Articles {
 				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// avoid articles pushed away from the front page
-		$where .= ' AND ((sections.home_panel = "main") OR (sections.home_panel = "none"))';
+		$where .= ' AND (sections.index_map != "N")';
 
 
 		// select among available items
@@ -3200,7 +3724,7 @@ Class Articles {
 			.", ".SQL::table_name('sections')." AS sections"
 			." WHERE ((articles.anchor_type LIKE 'section') AND (articles.anchor_id = sections.id))  AND ".$where;
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -3222,33 +3746,15 @@ Class Articles {
 	 *
 	 * @see sections/view.php
 	 */
-	function &stat_for_anchor($anchor, $without_sticky=FALSE) {
+	public static function stat_for_anchor($anchor, $without_sticky=FALSE) {
 		global $context;
 
 		// sanity check
 		if(!$anchor)
 			return NULL;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to authenticated surfers, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates, editors and readers may see everything
-		if(Surfer::is_empowered('S'))
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// avoid sticky articles
 		if($without_sticky)
@@ -3274,7 +3780,7 @@ Class Articles {
 			." FROM ".SQL::table_name('articles')." AS articles"
 			." WHERE (articles.anchor LIKE '".SQL::escape($anchor)."') AND (".$where.")";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -3285,7 +3791,7 @@ Class Articles {
 	 * @param object overlay instance of this item, if any
 	 * @return string the XML encoding of this item
 	 */
-	function to_xml($item, $overlay) {
+	public static function to_xml($item, $overlay) {
 		global $context;
 
 		// article header
@@ -3304,6 +3810,7 @@ Class Articles {
 			'active',
 			'active_set',
 			'behaviors',
+			'canvas',
 			'create_address',
 			'create_date',
 			'create_id',
@@ -3390,7 +3897,7 @@ Class Articles {
 	 * @return string either a null string, or some text describing an error to be inserted into the html response
 	 * @see articles/unpublish.php
 	**/
-	function unpublish($id) {
+	public static function unpublish($id) {
 		global $context;
 
 		// id cannot be empty

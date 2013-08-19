@@ -20,7 +20,7 @@
  *
  * Accept following invocations:
  * - search.php?search=&lt;keywords&gt;
- * - search.php?search=&lt;keywords&gt;&page=1
+ * - search.php?search=&lt;keywords&gt;&offset=0.324
  * - search.php?search=&lt;keywords&gt;&anchor=section:12
  *
  * @author Bernard Paques
@@ -59,26 +59,26 @@ if(isset($_REQUEST['anchor']) && (strpos($_REQUEST['anchor'], 'section:') === 0)
 	$section_id = str_replace('section:', '', $_REQUEST['anchor']);
 $section_id = strip_tags($section_id);
 
-// which page should be displayed
-if(isset($_REQUEST['page']))
-	$page = $_REQUEST['page'];
-else
-	$page = 1;
-$page = max(1,intval($page));
+// offset, to navigate in result set
+$offset = 1.0;
+if(isset($_REQUEST['offset']))
+	$offset = (float)$_REQUEST['offset'];
+if(($offset > 1.0) || ($offset < 0.0))
+	$offset = 1.0;
 
 // minimum size for any search token - depends of mySQL setup
 $query = "SHOW VARIABLES LIKE 'ft_min_word_len'";
-if(!defined('MINIMUM_TOKEN_SIZE') && ($row =& SQL::query_first($query)) && ($row['Value'] > 0))
+if(!defined('MINIMUM_TOKEN_SIZE') && ($row = SQL::query_first($query)) && ($row['Value'] > 0))
 	define('MINIMUM_TOKEN_SIZE', $row['Value']);
 
 // by default MySQL indexes words with at least four chars
 if(!defined('MINIMUM_TOKEN_SIZE'))
 	define('MINIMUM_TOKEN_SIZE', 4);
 
-// kill short and redundant tokens
+// kill short and redundant tokens; adapt to boolean search
+$boolean_search = '';
 $tokens = preg_split('/[\s,]+/', $search);
 if(@count($tokens)) {
-	$search = '';
 	foreach($tokens as $token) {
 
 		// too short
@@ -86,13 +86,17 @@ if(@count($tokens)) {
 			continue;
 
 		// already here (repeated word)
-		if(strpos($search, $token) !== FALSE)
+		if(strpos($boolean_search, $token) !== FALSE)
 			continue;
 
+		// re-enforce boolean mode
+		if(($token[0] != '+') && ($token[0] != '+') && ($token[0] != '~'))
+			$token = '+'.$token;
+
 		// keep this token
-		$search .= $token.' ';
+		$boolean_search .= $token.' ';
 	}
-	$search = trim($search);
+	$boolean_search = trim($boolean_search).'*';
 }
 
 // load localized strings
@@ -113,7 +117,8 @@ $fields = array();
 
 // a field to type keywords
 $label = i18n::s('You are searching for');
-$input = '<input type="text" name="search" id="search" size="45" value="'.encode_field($search).'" maxlength="255" />';
+$input = '<input type="text" name="search" size="45" value="'.encode_field($search).'" maxlength="255" />'
+	.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
 $hint = i18n::s('Type one or several words.');
 $fields[] = array($label, $input, $hint);
 
@@ -131,115 +136,132 @@ $fields[] = array($label, $input, $hint);
 $context['text'] .= Skin::build_form($fields);
 $fields = array();
 
-// the submit button
-$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
-
 // the form to submit a new search
 $context['text'] .= '</div></form>';
 
 // the script used for form handling at the browser
-$context['text'] .= JS_PREFIX
-	.'	// check that main fields are not empty'."\n"
-	.'	func'.'tion validateDocumentPost(container) {'."\n"
-	."\n"
-	.'		// search is mandatory'."\n"
+Page::insert_script(
+		// check that main fields are not empty
+	'	func'.'tion validateDocumentPost(container) {'."\n"
+			// search is mandatory'
 	.'		if(!container.search.value) {'."\n"
-	.'			alert("'.i18n::s('Please type something to search for').'");'."\n"
-		.'		Yacs.stopWorking();'."\n"
+	.'			alert("'.i18n::s('Please type something to search for.').'");'."\n"
+	.'			Yacs.stopWorking();'."\n"
 	.'			return false;'."\n"
 	.'		}'."\n"
-	."\n"
-	.'		// successful check'."\n"
+			// successful check
 	.'		return true;'."\n"
 	.'	}'."\n"
 	."\n"
-	.'// set the focus on first form field'."\n"
+	// set the focus on first form field
 	.'$("#search").focus();'."\n"
-	.JS_SUFFIX."\n";
+	);
 
-// nothing found yet
-$no_result = TRUE;
-
-// provide results in separate panels
+// various panels
 $panels = array();
 
-// search in sections, but only on first page
-if(($page == 1)) {
+// all results, as array($score, $summary)
+$result = array();
 
-	if($rows = Sections::search_in_section($section_id, $search)) {
-		$panels[] = array('sections', i18n::s('Sections'), 'sections_panel', Skin::build_list($rows, 'decorated'));
-		$no_result = FALSE;
-	}
-
-}
+// number of results per page
+$bucket = 20;
 
 // search in articles
-$box = array();
-$box['title'] = '';
-$box['text'] = '';
-$offset = ($page - 1) * ARTICLES_PER_PAGE;
-$cap = 0;
-if($items = Articles::search_in_section($section_id, $search, $offset, ARTICLES_PER_PAGE + 1)) {
-	$box['title'] = i18n::s('Matching articles');
+if($items = Articles::search_in_section($section_id, $boolean_search, $offset, $bucket))
+	$result = array_merge($result, $items);
 
-	// link to next page if greater than ARTICLES_PER_PAGE
-	$cap = count($items);
+// search in sections
+if($items = Sections::search_in_section($section_id, $boolean_search, $offset, $bucket))
+	$result = array_merge($result, $items);
 
-	// limit the number of boxes displayed
-	if($cap > ARTICLES_PER_PAGE)
-		@array_splice($items, ARTICLES_PER_PAGE);
-
-
-}
-$cap += $offset;
-
-// we have found some articles
-if($cap || ($page > 1))
-	$no_result = FALSE;
-
-// navigation commands for articles
-$box['bar'] = array();
-if($cap > ARTICLES_PER_PAGE)
-	$box['bar'] = array('_count' => i18n::s('Results'));
-elseif($cap)
-	$box['bar'] = array('_count' => sprintf(i18n::ns('%d result', '%d results', count($items)), count($items)));
-$home = 'search.php?search='.urlencode($search);
-$prefix = $home.'&page=';
-if(($navigate = Skin::navigate($home, $prefix, $cap, ARTICLES_PER_PAGE, $page)) && @count($navigate))
-	$box['bar'] += $navigate;
-
-// actually render the html
-if(@count($box['bar']))
-	$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
-if(@count($items))
-	$box['text'] .= Skin::build_list($items, 'decorated');
-elseif(is_string($items))
-	$box['text'] .= $items;
-if($box['text'])
-	$panels[] = array('articles', i18n::s('Pages'), 'articles_panel', $box['text']);
-
-// on first page, and if search is not constrained
-if(($page == 1) && !$section_id) {
-
-	// search in files
-	if($rows = Files::search($search)) {
-		$panels[] = array('files', i18n::s('Files'), 'files_panel', Skin::build_list($rows, 'decorated'));
-		$no_result = FALSE;
-	}
-
-	// search in users
-	if($rows = Users::search($search)) {
-		$panels[] = array('users', i18n::s('People'), 'users_panel', Skin::build_list($rows, 'decorated'));
-		$no_result = FALSE;
-	}
+// global search
+if(!$section_id) {
 
 	// search in categories
-	if($rows = Categories::search($search)) {
-		$panels[] = array('categories', i18n::s('Categories'), 'categories_panel', Skin::build_list($rows, 'decorated'));
-		$no_result = FALSE;
-	}
+	if($items = Categories::search($boolean_search, $offset, $bucket))
+		$result = array_merge($result, $items);
+
+	// search in files
+	if($items = Files::search($boolean_search, $offset, $bucket))
+		$result = array_merge($result, $items);
+
+	// search in users
+	if($items = Users::search($boolean_search, $offset, $bucket))
+		$result = array_merge($result, $items);
 
 }
+
+// compare scores of two items
+function compare_scores($a, $b) {
+	if($a[0] < $b[0])
+		return 1;
+	if($a[0] == $b[0])
+		return 0;
+	return -1;
+}
+
+// sort the full array of results
+uasort($result, 'compare_scores');
+
+// limit the number of items displayed
+$more_results = FALSE;
+if(count($result) > $bucket) {
+	@array_splice($result, $bucket);
+	$more_results = TRUE;
+}
+
+// display results
+if($result) {
+
+	// drop scores
+	$items = array();
+	$last_offset = $offset;
+	foreach($result as $item) {
+		$items[] = $item[1];
+		$last_offset = $item[0];
+	}
+
+	// avoid that the first item of the next slice is the last item of current slice
+	$last_offset -= 0.0000000000001;
+
+	// stack all results
+	$text = Skin::finalize_list($items, 'rows');
+
+	// offer to fetch more results
+	if($more_results) {
+
+		// make a valid id
+		$id = str_replace('.', '_', $last_offset);
+
+		// the button to get more results
+		$text .= '<div style="margin-top: 1em; text-align: center;" id="div'.$id.'"><a href="#" class="button wide" id="a'.$id.'">'.i18n::s('Get more results').'</a></div>';
+			
+		Page::insert_script(
+			'$(function(){'
+			.	'$("#div'.$id.' a").click( function() {'
+			.		'Yacs.update("div'.$id.'", "'.$context['self_url'].'", {'
+			.			'data: "offset='.$last_offset.'",'
+			.			'complete: function() {'
+			.				'setTimeout(function() {$("#div'.$id.'").animate({"marginTop":0})}, 500); '
+			.			'}'
+			.		'});'
+			.		'return false;'
+			.	'});'
+			.'});'
+			);
+	}
+
+	// return a slice of results to update the search page through ajax call
+	if($offset < 1.0) {
+		echo $text;
+		return;
+	}
+
+} else
+	$text = sprintf(i18n::s('<p>No page has been found. This will happen with very short words (less than %d letters), that are not fully indexed. This can happen as well if more than half of pages contain the searched words. Try to use most restrictive words and to suppress "noise" words.</p>'), MINIMUM_TOKEN_SIZE)."\n";
+
+// in a separate panel
+$panels[] = array('results', i18n::s('Results'), 'result', $text);
 
 // add an extra panel
 if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'X')) {
@@ -274,20 +296,15 @@ if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'
 
 	// in a separate panel
 	$panels[] = array('extension', i18n::s('Extended search'), 'extensions_panel', $text);
-	$no_result = FALSE;
 }
 
 // assemble all tabs
 if(count($panels))
 	$context['text'] .= Skin::build_tabs($panels);
 
-// nothing found
-if(!count($panels) && $search)
-	$context['text'] .= sprintf(i18n::s('<p>No page has been found. This will happen with very short words (less than %d letters), that are not fully indexed. This can happen as well if more than half of pages contain the searched words. Try to use most restrictive words and to suppress "noise" words.</p>'), MINIMUM_TOKEN_SIZE)."\n";
-
 // search at peering sites, but only on unconstrained request and on first page
 include_once $context['path_to_root'].'servers/servers.php';
-if(!$section_id && ($page == 1) && ($servers = Servers::list_for_search(0, 3, 'search'))) {
+if(!$section_id && ($servers = Servers::list_for_search(0, 3, 'search'))) {
 
 	// everything in a separate section
 	$context['text'] .= Skin::build_block(i18n::s('At partner sites'), 'title');
@@ -336,10 +353,10 @@ if(!$section_id && ($page == 1) && ($servers = Servers::list_for_search(0, 3, 's
 //
 
 // extend the search, but only at first page
-if($search && ($page == 1)) {
+if($search) {
 
 	// a tool to update the related category
-	if($cap && Surfer::is_member())
+	if(Surfer::is_member())
 		$context['page_tools'][] = Skin::build_link('categories/set_keyword.php?search='.urlencode($search), i18n::s('Remember this search'));
 
 	// same keywords on whole site
@@ -363,7 +380,7 @@ $context['components']['boxes'] .= Skin::build_box(i18n::s('Monitor'), join(BR, 
 
 // side bar with the list of most recent keywords
 $cache_id = 'search.php#keywords_by_date';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 	if($items = Categories::list_keywords_by_date(0, COMPACT_LIST_SIZE))
 		$text =& Skin::build_box(i18n::s('Recent searches'), Skin::build_list($items, 'compact'), 'boxes');
 	Cache::put($cache_id, $text, 'categories');

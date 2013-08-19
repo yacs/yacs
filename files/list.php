@@ -35,7 +35,7 @@ $id = strip_tags($id);
 // get the anchor
 $anchor = NULL;
 if($id)
-	$anchor =& Anchors::get($id);
+	$anchor = Anchors::get($id);
 
 // which page should be displayed
 if(isset($_REQUEST['page']))
@@ -98,12 +98,11 @@ if(!is_object($anchor)) {
 	// insert anchor prefix and suffix, plus any available icon
 	$context['prefix'] .= $anchor->get_prefix();
 
-	include_once '../files/layout_files.php';
-	$layout = new Layout_files();
+	$layout = Layouts::new_('decorated', 'file');
 
 	// provide anthor information to layout
 	if(is_object($layout))
-		$layout->set_variant($anchor->get_reference());
+		$layout->set_focus($anchor->get_reference());
 
 	// the maximum number of files per page
 	if(is_object($layout))
@@ -125,10 +124,10 @@ if(!is_object($anchor)) {
 		$context['page_menu'] += Skin::navigate($anchor->get_url('files'), $prefix, $count, $items_per_page, $page, FALSE);
 
 		// list files by date or by title
-		if($anchor->has_option('files_by_title'))
-			$items = Files::list_by_title_for_anchor($anchor->get_reference(), $offset, $items_per_page, 'no_anchor');
+		if($anchor->has_option('files_by') == 'title')
+			$items = Files::list_by_title_for_anchor($anchor->get_reference(), $offset, $items_per_page, $anchor->get_reference());
 		else
-			$items = Files::list_by_date_for_anchor($anchor->get_reference(), $offset, $items_per_page, 'no_anchor');
+			$items = Files::list_by_date_for_anchor($anchor->get_reference(), $offset, $items_per_page, $anchor->get_reference());
 
 		// actually render the html
 		if(is_array($items))
@@ -145,10 +144,15 @@ if(!is_object($anchor)) {
 	// page menu
 	//
 
+	// get parent of the anchor too
+	$parent = NULL;
+	if(is_object($anchor) && ($parent = $anchor->get_parent()))
+		$parent =&  Anchors::get($parent);
+
 	// the command to post a new file, if this is allowed
-	if(Files::allow_creation($anchor)) {
+	if(is_object($anchor) && Files::allow_creation($anchor->get_values(), $parent, $anchor->get_type())) {
 		Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-		$context['page_menu'][] = Skin::build_link(Files::get_url($anchor->get_reference(), 'file'), FILES_UPLOAD_IMG.i18n::s('Upload a file'));
+		$context['page_menu'][] = Skin::build_link(Files::get_url($anchor->get_reference(), 'file'), FILES_UPLOAD_IMG.i18n::s('Add a file'));
 	}
 
 	// command to go back
@@ -159,8 +163,8 @@ if(!is_object($anchor)) {
 	//
 
 	// the command to post a new file, if this is allowed
-	if(Files::allow_creation($anchor))
-		$context['page_tools'][] = Skin::build_link(Files::get_url($anchor->get_reference(), 'file'), i18n::s('Upload a file'));
+	if(is_object($anchor) && Files::allow_creation($anchor->get_values(), $parent, $anchor->get_type()))
+		$context['page_tools'][] = Skin::build_link(Files::get_url($anchor->get_reference(), 'file'), i18n::s('Add a file'));
 
 	// back to main page
 	$context['page_tools'][] = Skin::build_link($anchor->get_url(), i18n::s('Back to main page'));

@@ -21,9 +21,9 @@ Class Layout_sections_as_select extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -46,7 +46,7 @@ Class Layout_sections_as_select extends Layout_interface {
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
 		$family = '';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// strip locked sections, except to associates and editors
 			if(isset($item['locked']) && ($item['locked'] == 'Y') && !Surfer::is_empowered())
@@ -91,7 +91,7 @@ Class Layout_sections_as_select extends Layout_interface {
 	 *
 	 * @see articles/edit.php
 	**/
-	function &one(&$item) {
+	function one(&$item) {
 		global $context;
 
 		// this function is invoked directly from articles/edit.php

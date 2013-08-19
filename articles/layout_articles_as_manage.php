@@ -20,9 +20,9 @@ Class Layout_articles_as_manage extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -33,39 +33,38 @@ Class Layout_articles_as_manage extends Layout_interface {
 			return $text;
 
 		// the script used to check all pages at once
-		$text .= JS_PREFIX
-			.'function cascade_selection_to_all_article_rows(handle) {'."\n"
+		Page::insert_script(
+			'function cascade_selection_to_all_article_rows(handle) {'."\n"
 			.'	$("div#articles_panel input[type=\'checkbox\'].row_selector").each('."\n"
-			.'		function() { $(this).attr("checked", $(handle).attr("checked"));}'."\n"
+			.'		function() { $(this).attr("checked", $(handle).is(":checked"));}'."\n"
 			.'	);'."\n"
 			.'}'."\n"
-			.JS_SUFFIX;
+			);
 
 		// table prefix
 		$text .= Skin::table_prefix('grid');
 
 		// table headers
-		$main = '<input type="checkbox" class="row_selector" onchange="cascade_selection_to_all_article_rows(this);" />';
+		$main = '<input type="checkbox" class="row_selector" onclick="cascade_selection_to_all_article_rows(this);" />';
 		$cells = array($main, i18n::s('Page'), i18n::s('Rank'));
 		$text .= Skin::table_row($cells, 'header');
 
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
 
 		$count = 0;
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 			$cells = array();
 
 			// get the related overlay, if any
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// column to select the row
 			$cells[] = '<input type="checkbox" name="selected_articles[]" id="article_selector_'.$count.'" class="row_selector" value="'.$item['id'].'" />';
@@ -155,13 +154,13 @@ Class Layout_articles_as_manage extends Layout_interface {
 
 			// rating
 			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
-				$details[] = Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
+				$details[] = Skin::build_link(Articles::get_url($item['id'], 'like'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 			// combine in-line details
 			if(count($details))
 				$suffix .= ucfirst(trim(implode(', ', $details)));
 
-			// list up to three categories by title, if any, and if not on a mobile
+			// list up to three categories by title, if any
 			$anchors = array();
 			if($members =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 7, 'raw')) {
 				foreach($members as $id => $attributes) {
@@ -195,14 +194,14 @@ Class Layout_articles_as_manage extends Layout_interface {
 			$cells[] = $prefix.Skin::build_link($url, $title, 'article').' - '.Skin::finalize_list($commands, 'menu').$suffix;
 
 			// ranking
-			$cells[] = '<input type="text" size="5" name="article_rank_'.$item['id'].'" value="'.$item['rank'].'" onfocus="$(\'#article_selector_'.$count.'\').checked = true;" onchange="$(\'#act_on_articles\').selectedIndex = 9;" />';
+			$cells[] = '<input type="text" size="5" name="article_rank_'.$item['id'].'" value="'.$item['rank'].'" onfocus="$(\'#article_selector_'.$count.'\').attr(\'checked\', \'checked\');" onchange="$(\'#act_on_articles\').prop(\'selectedIndex\', 9);" />';
 
 			// append the row
 			$text .= Skin::table_row($cells, $count++);
 		}
 
 		// select all rows
-		$cells = array('<input type="checkbox" class="row_selector" onchange="cascade_selection_to_all_article_rows(this);" />', i18n::s('Select all/none'), '');
+		$cells = array('<input type="checkbox" class="row_selector" onclick="cascade_selection_to_all_article_rows(this);" />', i18n::s('Select all/none'), '');
 		$text .= Skin::table_row($cells, $count++);
 
 		// table suffix

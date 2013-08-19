@@ -176,11 +176,8 @@ $context['prefix'] .= '<p>'.sprintf(i18n::s('Use this page while developing or c
 $panels = array();
 
 // regular panel
-// will be derivated to $context['text'] after codes::beautify()
+// will be derived to $context['text'] after codes::beautify()
 $text = '';
-
-// $context['text']
-$text .= DUMMY_TEXT;
 
 // $context['text'] - introduction
 $text .= Skin::build_block(DUMMY_TEXT, 'introduction');
@@ -199,8 +196,25 @@ $file_id = 1;
 if($item =& Files::get_newest())
 	$file_id = $item['id'];
 
+$compact_items = array('[article='.$article_id.']',
+	'[section='.Sections::get_default().']',
+	'[category=featured]',
+	'[user='.$user_id.']',
+	'[download='.$file_id.']',
+	'[email]foo@bar.com[/email]',
+	'[link=Cisco]http://www.cisco.com/[/link]',
+	'[script]skins/test.php[/script]',
+	Skin::build_link('skins/test.php', 'skins/test.php', 'shortcut'),
+	Skin::strip(DUMMY_TEXT, 7, 'skins/test.php'),
+	RESTRICTED_FLAG.i18n::s('Community - Access is granted to any identified surfer'),
+	PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons'),
+	i18n::s('This item is new').NEW_FLAG,
+	i18n::s('This item has been updated').UPDATED_FLAG,
+	DRAFT_FLAG.i18n::s('This item is a draft, and is not publicly visible') );
+
 // $context['text'] - basic content with links, etc.
 $text .= '[toc]'.DUMMY_TEXT."\n"
+
 	.'<ul>'."\n"
 	.'<li>[article='.$article_id.']</li>'."\n"
 	.'<li>[section='.Sections::get_default().']</li>'."\n"
@@ -218,16 +232,25 @@ $text .= '[toc]'.DUMMY_TEXT."\n"
 	.'<li>'.i18n::s('This item has been updated').UPDATED_FLAG.'</li>'."\n"
 	.'<li>'.DRAFT_FLAG.i18n::s('This item is a draft, and is not publicly visible').'</li>'."\n"
 	.'</ul>'."\n"
-	.'<p>[button='.i18n::s('Click to reload this page').']skins/test.php[/button]</p>'."\n"
+
 	.'<p>'.DUMMY_TEXT."</p>\n"
+
+	.Skin::finalize_list($compact_items, 'compact')
+
+	.'<p>'.DUMMY_TEXT."</p>\n"
+
+	.'<div class="menu_bar">[button='.i18n::s('Click to reload this page').']skins/test.php[/button]</div>'."\n"
+
+	.'<p>'.DUMMY_TEXT."</p>\n"
+
 	.' [title]'.i18n::s('level 1 title').'[/title] '."\n".DUMMY_TEXT."\n"
-			.' [subtitle]'.i18n::s('level 2 title').'[/subtitle] '."\n".DUMMY_TEXT;
+	.' [subtitle]'.i18n::s('level 2 title').'[/subtitle] '."\n".DUMMY_TEXT;
 
 // a sidebar
 $sidebar =& Skin::build_box(i18n::s('sidebar box'), DUMMY_TEXT, 'sidebar');
 
 // $context['text'] - section with sidebar box
-$text .= Skin::build_box(i18n::s('with a sidebar box'), $sidebar.DUMMY_TEXT);
+$text .= Skin::build_box(i18n::s('with a sidebar box'), $sidebar.'<p>'.DUMMY_TEXT.'</p><p>'.DUMMY_TEXT.'</p>');
 
 // a folded box
 $folder =& Skin::build_box(i18n::s('folded box'), DUMMY_TEXT, 'folded');

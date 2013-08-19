@@ -14,7 +14,6 @@
 // common definitions and initial processing
 include_once '../../shared/global.php';
 include_once '../../shared/enrolments.php';
-include_once '../../overlays/overlay.php';
 
 // look for the id --actually, a reference
 $id = NULL;
@@ -25,7 +24,7 @@ elseif(isset($context['arguments'][0]) && isset($context['arguments'][1]))
 $id = strip_tags($id);
 
 // get the anchor
-$anchor =& Anchors::get($id);
+$anchor = Anchors::get($id);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -125,35 +124,50 @@ elseif(!Surfer::get_id()) {
 	// notify page owner of this application, except if it is me
 	if(!$anchor->is_owned() && ($owner_id = $anchor->get_value('owner_id')) && ($user = Users::get($owner_id)) && $user['email']) {
 
-		// mail message
-		$mail = array();
-
 		// mail subject
-		$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Meeting'), strip_tags($anchor->get_title()));
+		$subject = sprintf(i18n::c('%s: %s'), i18n::c('Meeting'), strip_tags($anchor->get_title()));
 
 		// user has confirmed participation
 		if($overlay->get_value('enrolment') == 'none')
-			$action = sprintf(i18n::c('%s would like to participate to this event'), Surfer::get_name());
+			$headline = sprintf(i18n::c('%s has confirmed participation to %s'),
+				Surfer::get_link(),
+				'<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'.$anchor->get_title().'</a>');
 
 		// user is asking for an invitation
 		else
-			$action = sprintf(i18n::c('%s would like to be enrolled to this event'), Surfer::get_name());
+			$headline = sprintf(i18n::c('%s would like to be enrolled to %s'),
+				Surfer::get_link(),
+				'<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'.$anchor->get_title().'</a>');
 
-		// finalize the notification
-		$title = sprintf(i18n::c('Manage enrolment of %s'), strip_tags($anchor->get_title()));
+		// help the chairman
+		$message = Skin::build_mail_content($headline,
+			i18n::s('Click on the link below to manage the full list of participants'));
+
+		// several links
+		$menu = array();
+
+		// call for action
 		$link = $context['url_to_home'].$context['url_to_root'].'overlays/events/enroll.php?id='.urlencode($anchor->get_reference());
-		$mail['message'] =& Mailer::build_notification($action, $title, $link);
+		$title = sprintf(i18n::c('Manage enrolment of %s'), strip_tags($anchor->get_title()));
+		$menu[] = Skin::build_mail_button($link, $title, TRUE);
+
+		// surfer profile
+		$link = Surfer::get_permalink();
+		$menu[] = Skin::build_mail_button($link, Surfer::get_name(), FALSE);
+
+		// add the menu
+		$message .= Skin::build_mail_menu($menu);
 
 		// threads messages
-		$mail['headers'] = Mailer::set_thread($anchor->get_reference());
+		$headers = Mailer::set_thread($anchor->get_reference());
 
 		// send the message
-		Mailer::notify(Surfer::from(), $user['email'], $mail['subject'], $mail['message'], $mail['headers']);
+		Mailer::notify(Surfer::from(), $user['email'], $subject, $message, $headers);
 
 	}
 
 	// socialize self-applications
-	if($overlay->get_value('enrolment') == 'none') {
+	if(($overlay->get_value('enrolment') == 'none') && !$anchor->has_option('no_comments')) {
 		include_once $context['path_to_root'].'comments/comments.php';
 		$fields = array();
 		$fields['anchor'] = $anchor->get_reference();

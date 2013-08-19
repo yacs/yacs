@@ -46,11 +46,11 @@ if(!Surfer::is_associate()) {
 		." ORDER BY anchor LIMIT 0, 10000";
 
 	// parse the whole list
-	if($result =& SQL::query($query)) {
+	if($result = SQL::query($query)) {
 
 		// fetch one anchor and the linked member
 		$errors_count = 0;
-		while($row =& SQL::fetch($result)) {
+		while($row = SQL::fetch($result)) {
 
 			// animate user screen and take care of time
 			$count++;
@@ -106,9 +106,7 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '</form>';
 
 	// set the focus on the button
-	$context['text'] .= JS_PREFIX
-		.'$("#action").focus();'."\n"
-		.JS_SUFFIX;
+	Page::insert_script('$("#action").focus();');
 
 }
 

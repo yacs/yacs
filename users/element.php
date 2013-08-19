@@ -10,9 +10,7 @@
  * - permission denied is the default
  *
  * Accept following invocations:
- * - element.php/12/actions
  * - element.php/12/watch
- * - element.php?id=12&action=actions
  * - element.php?id=12&action=watch
  *
  * @author Bernard Paques
@@ -48,11 +46,10 @@ if(isset($_SERVER['HTTP_ACCEPT_CHARSET']) && preg_match('/^iso-8859-1/i', $_SERV
 	$id = utf8_encode($id);
 
 // get the item from the database
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item, 'user:'.$item['id']);
 
@@ -110,38 +107,6 @@ if(!isset($item['id'])) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	die(i18n::s('You are not allowed to perform this operation.'));
 
-// list actions
-} elseif($action == 'actions') {
-	render_raw();
-
-	// we return some HTML
-	$output = '';
-
-	// offer to add a new action
-	if(Surfer::is_member()) {
-		$menu = array( 'actions/edit.php?anchor=user:'.$item['id'] => i18n::s('Add an action') );
-		$output .= Skin::build_list($menu, 'menu_bar');
-	}
-
-	// query the database
-	include_once '../actions/actions.php';
-	$items = Actions::list_by_date_for_anchor('user:'.$item['id'], 0, ACTIONS_PER_PAGE);
-	if(is_array($items))
-		$items = Skin::build_list($items, 'decorated');
-
-	// display the list of pending actions
-	if($items)
-		$output .= $items;
-	elseif(Surfer::get_id() != $item['id'])
-		$output .= i18n::s('No action has been assigned to this person.');
-
-	// actual transmission except on a HEAD request
-	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
-		echo $output;
-
-	// the post-processing hook, then exit
-	finalize_page(TRUE);
-
 // the watch list
 } elseif($action == 'watch') {
 	render_raw();
@@ -174,7 +139,7 @@ if(!isset($item['id'])) {
 
 	// the list of followers
 	$followers = '';
-	if($items =& Members::list_watchers_by_posts_for_anchor('user:'.$item['id'], 0, 500, 'compact')) {
+	if($items = Members::list_watchers_by_name_for_anchor('user:'.$item['id'], 0, 1000, 'compact')) {
 		if(is_array($items))
 			$items = Skin::build_list($items, 'compact');
 		if(Surfer::get_id() == $item['id'])

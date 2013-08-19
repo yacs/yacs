@@ -14,7 +14,7 @@ class Profiles {
 	 *
 	 * @return void
 	 */
-	function check_request() {
+	public static function check_request() {
 		global $context;
 
 		// ensure we know where we are
@@ -41,7 +41,7 @@ class Profiles {
 
 		// if a record exists for this url
 		$query = "SELECT * FROM ".SQL::table_name('profiles')." AS profiles WHERE profiles.url = '$url'";
-		$item =& SQL::query_first($query);
+		$item = SQL::query_first($query);
 
 		// update figures
 		if($item['id']) {
@@ -69,14 +69,14 @@ class Profiles {
 	 * @param int the offset from the start of the list; usually, 0 or 1 - default is 0
 	 * @param int the number of items to display - default is 10
 	 */
-	function list_by_hits($offset=0, $count=10) {
+	public static function list_by_hits($offset=0, $count=10) {
 		global $context;
 
 		// the list of profiles
 		$query = "SELECT * FROM ".SQL::table_name('profiles')." "
 			."ORDER BY total_hits DESC LIMIT ".$offset.', '.$count;
-		if($result =& SQL::query($query))
-			while($row =& SQL::fetch($result))
+		if($result = SQL::query($query))
+			while($row = SQL::fetch($result))
 				$rows[] = array('left='.$row['url'], 'left='.$row['total_hits'], 'left='.round($row['total_time']/$row['total_hits'], 3), 'left='.$row['minimum_time'], 'left='.$row['maximum_time'], 'left='.$row['total_time']);
 
 		return $rows;
@@ -86,7 +86,7 @@ class Profiles {
 	 * create tables for profiles
 	 *
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -112,13 +112,13 @@ class Profiles {
 	 *
 	 * @see control/index.php
 	 */
-	function &stat() {
+	public static function stat() {
 		global $context;
 
 		// select among available items
 		$query = "SELECT COUNT(*) as count FROM ".SQL::table_name('profiles');
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

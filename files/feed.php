@@ -2,7 +2,6 @@
 /**
  * list new files in the RSS 2.0 format
  *
- * @todo derive this to links as well (pat)
  * @todo support Media RSS from yahoo http://search.yahoo.com/mrss
  *
  * This script gives the list of the newest published files,
@@ -58,6 +57,9 @@
 include_once '../shared/global.php';
 include_once 'files.php';
 
+// ensure we only provide public content through newsfeeds
+$context['users_without_teasers'] = 'Y';
+
 // check network credentials, if any -- used by winamp and other media players
 if($user = Users::authenticate())
 	Surfer::empower($user['capability']);
@@ -68,7 +70,7 @@ if(isset($_REQUEST['anchor']))
 	$anchor = $_REQUEST['anchor'];
 elseif(isset($context['arguments'][0]) && isset($context['arguments'][1]))
 	$anchor = $context['arguments'][0].':'.$context['arguments'][1];
-$anchor =& Anchors::get(strip_tags($anchor));
+$anchor = Anchors::get(strip_tags($anchor));
 
 // no anchor, look for an article id
 if(!$anchor) {
@@ -80,7 +82,7 @@ if(!$anchor) {
 	elseif(isset($context['arguments'][0]))
 		$id = $context['arguments'][0];
 	$id = strip_tags($id);
-	$anchor =& Anchors::get('section:'.$id);
+	$anchor = Anchors::get('section:'.$id);
 }
 
 // associates
@@ -153,9 +155,9 @@ if(!$permitted) {
 
 		// list newest files
 		if(is_object($anchor))
-			$values['items'] = Files::list_by_date_for_anchor($anchor->get_reference(), 0, 50, 'feed');
+			$values['items'] = Files::list_by_date_for_anchor($anchor->get_reference(), 0, 300, 'feed');
 		else
-			$values['items'] = Files::list_by_date(0, 50, 'feed');
+			$values['items'] = Files::list_by_date(0, 300, 'feed');
 
 		// make a text
 		include_once '../services/codec.php';
@@ -181,7 +183,7 @@ if(!$permitted) {
 			$file_name = utf8::to_ascii($context['site_name'].'.files.'.str_replace(':', '.', $anchor->get_reference()).'.xml');
 		else
 			$file_name = utf8::to_ascii($context['site_name'].'.files.xml');
-		Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+		Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

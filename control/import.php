@@ -12,7 +12,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../overlays/overlay.php';
 
 // do not always show the edition form
 $with_form = FALSE;
@@ -172,7 +171,7 @@ elseif(!Surfer::is_associate()) {
 						$parsed_item['id'] = $item['id'];
 
 						// stop on error
-						if(!Articles::put($parsed_item) || (is_object($overlay) && !$overlay->remember('update', $parsed_item)))
+						if(!Articles::put($parsed_item) || (is_object($overlay) && !$overlay->remember('update', $parsed_item, 'article:'.$item['id'])))
 							Logger::error(sprintf('Unable to save article %s', $parsed_item['title'].' ('.$parsed_item['id'].')'));
 
 					// create a new page
@@ -252,7 +251,7 @@ elseif(!Surfer::is_associate()) {
 						$parsed_item['id'] = $item['id'];
 
 						// stop on error
-						if(!Sections::put($parsed_item) || (is_object($overlay) && !$overlay->remember('update', $parsed_item)))
+						if(!Sections::put($parsed_item) || (is_object($overlay) && !$overlay->remember('update', $parsed_item, 'section:'.$item['id'])))
 							Logger::error(sprintf('Unable to save section %s', $parsed_item['title'].' ('.$parsed_item['id'].')'));
 
 					// create a new page
@@ -352,10 +351,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#upload").focus();'."\n"
-		.JS_SUFFIX;
+	Page::insert_script('$("#upload").focus();');
 
 }
 

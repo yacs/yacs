@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-26 00:14+0200\n"
+"POT-Creation-Date: 2013-05-01 00:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: dates/check.php:21 dates/check.php:32 dates/check.php:90
 #: dates/check.php:146 dates/delete.php:70 dates/edit.php:64
-#: dates/fetch_ics.php:41 dates/fetch_ics.php:44 dates/index.php:43
+#: dates/fetch_ics.php:27 dates/fetch_ics.php:30 dates/index.php:43
 #: dates/view.php:55
 msgid "Dates"
 msgstr ""
@@ -109,63 +109,63 @@ msgstr ""
 msgid "saturday"
 msgstr ""
 
-#: dates/dates.php:511
+#: dates/dates.php:493
 msgid "January"
 msgstr ""
 
-#: dates/dates.php:512
+#: dates/dates.php:494
 msgid "February"
 msgstr ""
 
-#: dates/dates.php:513
+#: dates/dates.php:495
 msgid "March"
 msgstr ""
 
-#: dates/dates.php:514
+#: dates/dates.php:496
 msgid "April"
 msgstr ""
 
-#: dates/dates.php:515
+#: dates/dates.php:497
 msgid "May"
 msgstr ""
 
-#: dates/dates.php:516
+#: dates/dates.php:498
 msgid "June"
 msgstr ""
 
-#: dates/dates.php:517
+#: dates/dates.php:499
 msgid "July"
 msgstr ""
 
-#: dates/dates.php:518
+#: dates/dates.php:500
 msgid "August"
 msgstr ""
 
-#: dates/dates.php:519
+#: dates/dates.php:501
 msgid "September"
 msgstr ""
 
-#: dates/dates.php:520
+#: dates/dates.php:502
 msgid "October"
 msgstr ""
 
-#: dates/dates.php:521
+#: dates/dates.php:503
 msgid "November"
 msgstr ""
 
-#: dates/dates.php:522
+#: dates/dates.php:504
 msgid "December"
 msgstr ""
 
-#: dates/dates.php:1125 dates/edit.php:226
+#: dates/dates.php:1013 dates/edit.php:226
 msgid "Please provide a date."
 msgstr ""
 
-#: dates/dates.php:1131 dates/edit.php:91
+#: dates/dates.php:1019 dates/edit.php:91
 msgid "No anchor has been found."
 msgstr ""
 
-#: dates/dates.php:1143
+#: dates/dates.php:1031
 msgid "No item has the provided id."
 msgstr ""
 
@@ -203,7 +203,7 @@ msgstr ""
 msgid "Target date"
 msgstr ""
 
-#: dates/delete.php:134 dates/layout_dates.php:72 dates/view.php:83
+#: dates/delete.php:134 dates/layout_dates.php:70 dates/view.php:83
 #, php-format
 msgid "edited by %s %s"
 msgstr ""
@@ -228,15 +228,11 @@ msgstr ""
 msgid "The date has been saved."
 msgstr ""
 
-#: dates/edit.php:136
-msgid "Persons that have been notified"
-msgstr ""
-
 #: dates/edit.php:139
 msgid "What do you want to do now?"
 msgstr ""
 
-#: dates/edit.php:141 dates/layout_dates.php:62
+#: dates/edit.php:141 dates/layout_dates.php:61
 #: dates/layout_dates_as_family.php:83
 msgid "View the page"
 msgstr ""
@@ -301,21 +297,21 @@ msgstr ""
 msgid "Monitor"
 msgstr ""
 
-#: dates/layout_dates.php:79
+#: dates/layout_dates.php:74
 #, php-format
 msgid "%d file"
 msgid_plural "%d files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dates/layout_dates.php:83
+#: dates/layout_dates.php:78
 #, php-format
 msgid "%d link"
 msgid_plural "%d links"
 msgstr[0] ""
 msgstr[1] ""
 
-#: dates/layout_dates.php:87
+#: dates/layout_dates.php:82
 #, php-format
 msgid "%d comment"
 msgid_plural "%d comments"

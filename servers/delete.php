@@ -30,12 +30,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Servers::get($id);
+$item = Servers::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // load the skin
 load_skin('servers');
@@ -81,10 +81,7 @@ if($item['id'] && Surfer::is_associate()) {
 		.'</p></form>'."\n";
 
 	// set the focus
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#confirmed").focus();'."\n"
-		.JS_SUFFIX."\n";
+	Page::insert_script('$("#confirmed").focus();');
 
 	// the title of the server
 	$context['text'] .= Skin::build_block($item['title'], 'title');
@@ -99,11 +96,11 @@ if($item['id'] && Surfer::is_associate()) {
 
 	// restricted to logged members
 	if($item['active'] == 'R')
-		$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is granted to any identified surfer').BR."\n";
+		$details[] = RESTRICTED_FLAG.i18n::s('Community - Access is granted to any identified surfer').BR."\n";
 
 	// restricted to associates
 	elseif($item['active'] == 'N')
-		$details[] = PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons').BR."\n";
+		$details[] = PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons').BR."\n";
 
 	// all details
 	$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";

@@ -15,7 +15,7 @@ Class Layout_links_as_daily extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string resulting text
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return a string
@@ -35,7 +35,7 @@ Class Layout_links_as_daily extends Layout_interface {
 		$box = array();
 		$box['content'] = '';
 		$previous_date = NULL;
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// not the same date
 			$current_date = substr($item['edit_date'], 0, 10);
@@ -98,7 +98,7 @@ Class Layout_links_as_daily extends Layout_interface {
 				$details[] = Anchors::get_action_label($item['edit_action']);
 
 			// show an anchor link
-			if($item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
+			if($item['anchor'] && ($anchor = Anchors::get($item['anchor']))) {
 				$anchor_url = $anchor->get_url();
 				$anchor_label = ucfirst($anchor->get_title());
 				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor_url, $anchor_label));

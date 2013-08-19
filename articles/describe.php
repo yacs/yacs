@@ -2,9 +2,6 @@
 /**
  * describe an article in RDF
  *
- * @todo derive this to support web slices http://en.wikipedia.org/wiki/Web_Slice
- * @todo web slice example at http://blogs.msdn.com/ie/archive/2009/03/03/create-a-dynamic-web-slice-in-5-minutes.aspx
- *
  * This script may be used by crawlers to index pages.
  * Therefore, only partial information is provided here.
  *
@@ -53,12 +50,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related anchor
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
@@ -95,7 +92,7 @@ if(!isset($item['id'])) {
 	Codes::initialize(Articles::get_permalink($item));
 
 	// compute the url for this article
-	$permanent_link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
+	$permanent_link = Articles::get_permalink($item);
 
 	// the trackback link
 	$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=article:'.$item['id'];
@@ -119,8 +116,9 @@ if(!isset($item['id'])) {
 		.'		<dc:description>'.encode_field(Skin::strip($description)).'</dc:description>'."\n"
 		.'		<dc:creator>'.$item['create_name'].'</dc:creator>'."\n"
 		.'		<dc:date>'.gmdate('Y-m-d').'</dc:date>'."\n"
-		.'		<dc:format>text/html</dc:format>'."\n"
-		.'		<dc:language>'.$context['preferred_language'].'</dc:language>'."\n";
+		.'		<dc:format>text/html</dc:format>'."\n";
+	if(isset($item['language']) && $item['language'] && ($item['language'] != 'none'))
+		$text .= '		<dc:language>'.$item['language'].'</dc:language>'."\n";
 	if(is_object($anchor))
 		$text .= '	<dc:subject>'.encode_field($anchor->get_title()).'</dc:subject>'."\n";
 	$text .= '	</rdf:Description>'."\n"
@@ -135,9 +133,9 @@ if(!isset($item['id'])) {
 
 	// suggest a name on download
 	if(!headers_sent()) {
-		$file_name = Skin::strip($context['page_title'], 20).'.opml.xml';
+		$file_name = Skin::strip($context['page_title']).'.opml.xml';
 		$file_name =& utf8::to_ascii($file_name);
-		Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+		Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

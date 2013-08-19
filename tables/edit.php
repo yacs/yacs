@@ -25,7 +25,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
 include_once 'tables.php';
 
 // look for the id
@@ -37,7 +36,7 @@ elseif(isset($context['arguments'][0]) && !isset($context['arguments'][1]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Tables::get($id);
+$item = Tables::get($id);
 
 // look for the target anchor on item creation
 $target_anchor = NULL;
@@ -49,9 +48,9 @@ if(!isset($target_anchor) && isset($context['arguments'][1]))
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 elseif($target_anchor)
-	$anchor =& Anchors::get($target_anchor);
+	$anchor = Anchors::get($target_anchor);
 
 // associates and owners can do what they want
 if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_owned()))
@@ -225,7 +224,7 @@ if($with_form) {
 		.BR."\n".'<input type="radio" name="with_zoom" value="Y"';
 	if(isset($item['with_zoom']) && ($item['with_zoom'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('First column provides a web link');
+	$input .= '/> '.i18n::s('First column provides a web address');
 	$fields[] = array($label, $input);
 
 	// the description
@@ -262,29 +261,26 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= JS_PREFIX
-		.'	// check that main fields are not empty'."\n"
-		.'	func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'		// query is mandatory'."\n"
+	Page::insert_script(
+			// check that main fields are not empty
+		'	func'.'tion validateDocumentPost(container) {'."\n"		
+				// query is mandatory
 		.'		if(!container.query.value) {'."\n"
 		.'			alert("'.i18n::s('Please type a valid SQL query.').'");'."\n"
 		.'			Yacs.stopWorking();'."\n"
 		.'			return false;'."\n"
 		.'		}'."\n"
-		."\n"
-		.'		// successful check'."\n"
+				// successful check
 		.'		return true;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'$("#title").focus();'."\n"
-		.JS_SUFFIX."\n";
+		);
 
 	// the help panel
 	$help = '<p>'.i18n::s('Please ensure you are using a compliant and complete SQL SELECT statement.').'</p>'
 		.'<p>'.sprintf(i18n::s('For more information check the %s.'), Skin::build_link('http://dev.mysql.com/doc/mysql/en/select.html', i18n::s('MySQL reference page'), 'external')).'</p>'
-		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>';
 	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 }

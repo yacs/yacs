@@ -38,25 +38,16 @@ a code { /* basic link */
 	cursor: pointer; /* help ie on folded boxes */
 }
 
-a:link,
-a:link code { /* link displayed for the first time */
-	color: #69f;
-	text-decoration: none;
-}
-
-a:visited,
-a:visited code { /* link that has been used at least once */
+a:visited { /* link that has been used at least once */
 	color: #69c;
 	text-decoration: none;
 }
 
-a:active,
-a:active code { /* link at the moment it is clicked */
+a:active { /* link at the moment it is clicked */
 	color: #f30;
 }
 
-a:hover,
-a:hover code { /* link below the mouse pointer */
+a:hover { /* link below the mouse pointer */
 	color: #c60;
 }
 
@@ -104,7 +95,7 @@ h2 { /* appears in the main content panel, to introduce sections of the page -- 
 	font: bold 16px/16px verdana, arial, helvetica, sans-serif;
 	color: #666;
 	margin-top: 1em;
-	margin-bottom: 0px;
+	margin-bottom: 6px;
 }
 
 h2 a {
@@ -123,7 +114,8 @@ img { /* a standard image */
 }
 
 input[type="password"],
-input[type="text"] { /* change form elements */
+input[type="text"],
+textarea { /* change form elements */
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10px;
 	color: black;
@@ -165,15 +157,7 @@ select:focus { /* help to locate the current field */
 	background-color: #dedede;
 }
 
-textarea { /* change form elements */
-	color: black;
-	background-color: white;
-	border: #26a solid 1px;
-}
-
 textarea:focus { /* signal current input area */
-	color: black;
-	background-color: #dedede;
 }
 
 th { /* an ordinary table header -- headers in [table]headers[body]content[/table] */
@@ -182,7 +166,12 @@ th { /* an ordinary table header -- headers in [table]headers[body]content[/tabl
 
 #main_panel ul { /* an ordinary list -- [list]...[/list] */
 	list-style-position : outside;
-	list-style-type : square;
+	list-style-type : none;
+}
+
+#main_panel ul.compact { /* a compact list in main panel */
+	list-style-position : outside;
+	list-style-type : none;
 }
 
 /**
@@ -263,6 +252,7 @@ table#wrapper td#main_panel { /* where the actual content is */
 
 	#main_panel pre code { /* use block attributes instead of in-line attributes */
 		background-color: transparent;
+		background-image: none;
 		margin: 0;
 		padding: 0;
 	}
@@ -280,7 +270,12 @@ ul li {
     padding: 0;
     padding-left: 12px;
     background: transparent url("codes/art_end.gif") no-repeat 0px 4px;
-  }
+}
+
+ul.compact li {
+	background-image: none;
+	padding-left: 0;
+}
 
 table#wrapper td#side_panel { /* complementary information related to this page */
 	background-color: #dcdcdc;
@@ -562,7 +557,6 @@ dl.column_2 dd { /* column actual content */
 }
 
 div.even { /* stacked with div.odd */
-	padding: 0.5em 0;
 }
 
 .extra_box ul { /* a list in the side panel */
@@ -601,7 +595,6 @@ dl.gadget_box { /* container of one gadget box -- also see #gadget_1, etc. -- fr
 }
 
 div.odd { /* stacked with div.even */
-	padding: 0.5em 0;
 }
 
 #main_panel tr.odd { /* one row out of two, but only in the main panel */

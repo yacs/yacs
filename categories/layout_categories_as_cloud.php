@@ -16,9 +16,9 @@ Class Layout_categories_as_cloud extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout($result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -32,7 +32,7 @@ Class Layout_categories_as_cloud extends Layout_interface {
 		$total = 0;
 		$minimum = 10000;
 		$maximum = 0;
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// this will be sorted alphabetically
 			$items[ $item['title'] ] = array( 'importance' => (int)$item['importance'], 'href' => Categories::get_permalink($item) );

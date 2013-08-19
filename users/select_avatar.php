@@ -46,7 +46,7 @@ elseif(Surfer::is_logged())
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -103,7 +103,7 @@ elseif(!isset($item['id'])) {
 
 // the current avatar, if any
 if(isset($item['avatar_url']) && $item['avatar_url'])
-	$context['text'] .= '<p>'.sprintf(i18n::s('Current picture: %s'), BR.'<img src="'.$item['avatar_url'].'" alt="avatar" style="avatar" />').'</p>'."\n";
+	$context['text'] .= '<p>'.sprintf(i18n::s('Current picture: %s'), BR.'<img src="'.$item['avatar_url'].'" alt="" style="avatar" />').'</p>'."\n";
 else
 	$context['text'] .= '<p>'.i18n::s('No picture has been set for this profile.').'</p>';
 
@@ -130,10 +130,7 @@ if(!count($context['error']) && isset($item['id'])) {
 		$text .= '</div></form>';
 
 		// the script used for form handling at the browser
-		$text .= JS_PREFIX
-			.'// set the focus on first form field'."\n"
-			.'$("#upload").focus();'."\n"
-			.JS_SUFFIX."\n";
+		Page::insert_script('$("#upload").focus();');
 
 
 		$context['text'] .= Skin::build_content(NULL, i18n::s('Upload an image'), $text);

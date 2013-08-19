@@ -22,7 +22,7 @@ Class Layout_articles_as_rights extends Layout_interface {
 	 *
 	 * @return 50
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 50;
@@ -34,7 +34,7 @@ Class Layout_articles_as_rights extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -46,25 +46,24 @@ Class Layout_articles_as_rights extends Layout_interface {
 
 		// we list pages for one surfer
 		// sanity check
-		if(!isset($this->layout_variant))
-			$this->layout_variant = Surfer::get_id();
+		if(!isset($this->focus))
+			$this->focus = Surfer::get_id();
 
 		// build a list of articles
 		Skin::define_img('CHECKED_IMG', 'ajax/accept.png', '*');
 		$rows = array();
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// reset everything
 			$summary = $update = $owner = $editor = $watcher = '';
@@ -75,9 +74,9 @@ Class Layout_articles_as_rights extends Layout_interface {
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
-				$summary .= PRIVATE_FLAG.' ';
+				$summary .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$summary .= RESTRICTED_FLAG.' ';
+				$summary .= RESTRICTED_FLAG;
 
 			// indicate the id in the hovering popup
 			$hover = i18n::s('View the page');
@@ -125,7 +124,7 @@ Class Layout_articles_as_rights extends Layout_interface {
 				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 			// the main anchor link
-			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
+			if(is_object($anchor) && (!isset($this->focus) || ($item['anchor'] != $this->focus)))
 				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'basic'));
 
 			// combine in-line details
@@ -140,15 +139,15 @@ Class Layout_articles_as_rights extends Layout_interface {
 //			$update = '<span class="details">'.join(BR, Articles::build_dates($anchor, $item)).'</span>';
 
 			// watcher
-			if(Articles::is_watched($item['id'], $this->layout_variant))
+			if(Articles::is_watched($item['id'], $this->focus))
 				$watcher = CHECKED_IMG;
 
 			// editor
-			if(Articles::is_assigned($item['id'], $this->layout_variant))
+			if(Articles::is_assigned($item['id'], $this->focus))
 				$editor = CHECKED_IMG;
 
 			// owner
-			if(isset($item['owner_id']) && ($item['owner_id'] == $this->layout_variant))
+			if(isset($item['owner_id']) && ($item['owner_id'] == $this->focus))
 				$owner = CHECKED_IMG;
 
 			// this is another row of the output

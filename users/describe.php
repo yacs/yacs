@@ -63,7 +63,7 @@ elseif(Surfer::is_logged())
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -140,7 +140,7 @@ if(!isset($item['id'])) {
 	if($item['web_address'])
 		$text .= '		<foaf:homepage rdf:resource="'.encode_field($item['web_address']).'" />'."\n";
 	else
-		$text .= '		<foaf:homepage rdf:resource="'.encode_field($context['url_to_home'].$context['url_to_root'].Users::get_permalink($item)).'" />'."\n";
+		$text .= '		<foaf:homepage rdf:resource="'.encode_field(Users::get_permalink($item)).'" />'."\n";
 
 	// the user avatar
 	if($item['avatar_url']) {
@@ -174,8 +174,8 @@ if(!isset($item['id'])) {
 
 	// suggest a name on download
 	if(!headers_sent()) {
-		$file_name = utf8::to_ascii(Skin::strip($context['page_title'], 20).'.opml.xml');
-		Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+		$file_name = utf8::to_ascii(Skin::strip($context['page_title']).'.opml.xml');
+		Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

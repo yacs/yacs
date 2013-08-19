@@ -19,7 +19,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../overlays/overlay.php';
 include_once 'comments.php';
 
 // ensure browser always look for fresh data
@@ -45,7 +44,7 @@ if(!strpos($anchor, ':'))
 
 // get the related anchor, if any
 if($anchor)
-	$anchor =& Anchors::get($anchor);
+	$anchor = Anchors::get($anchor);
 
 load_skin('comments');
 
@@ -84,7 +83,7 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['edit_name']))
 		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['edit_name']);
 	if(isset($_REQUEST['edit_address']))
-		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
+		$_REQUEST['edit_address'] = encode_link($_REQUEST['edit_address']);
 
 	// append to previous comment during 10 minutes
 	$continuity_limit = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 600);

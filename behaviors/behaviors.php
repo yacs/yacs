@@ -65,7 +65,7 @@ class Behaviors {
 	 * @param array reference item behaviors, if any
 	 * @param object reference anchor behaviors, if any
 	 */
-	function Behaviors(&$item, &$anchor) {
+	function __construct(&$item, &$anchor) {
 
 		// get behaviors description
 		$text = '';
@@ -90,7 +90,7 @@ class Behaviors {
 	 * @param array current menu
 	 * @return array updated menu
 	 */
-	function &add_commands($script, $anchor, $menu=array()) {
+	function add_commands($script, $anchor, $menu=array()) {
 		global $context;
 
 		// check every behavior in sequence
@@ -98,7 +98,7 @@ class Behaviors {
 
 			// extend the menu
 			$behavior = $this->items[$index];
-			$menu =& $behavior->add_commands($script, $anchor, $menu);
+			$menu = $behavior->add_commands($script, $anchor, $menu);
 
 		}
 
@@ -149,7 +149,7 @@ class Behaviors {
 
 		// one behavior per line
 		$lines = explode("\n", $text);
-		
+
 		// parse each line
 		include_once $context['path_to_root'].'behaviors/behavior.php';
 		foreach($lines as $line) {
@@ -194,7 +194,7 @@ class Behaviors {
 
 		// strip behavior ids
 		$this->items = array_values($this->items);
-		
+
 	}
 
 }

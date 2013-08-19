@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-25 17:18+0100\n"
+"POT-Creation-Date: 2012-11-20 23:52+0100\n"
 "PO-Revision-Date: 2011-01-24 23:40+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -373,11 +373,11 @@ msgstr "Searches"
 msgid "Item sent by e-mail"
 msgstr "Item sent by e-mail"
 
-#: agents/messages.php:1140
+#: agents/messages.php:1139
 msgid "Size"
 msgstr "Size"
 
-#: agents/messages.php:1380
+#: agents/messages.php:1355
 msgid ""
 "The page received by e-mail has been successfully published. Please review "
 "it now to ensure that it reflects your mind."
@@ -385,7 +385,7 @@ msgstr ""
 "The page received by e-mail has been successfully published. Please review "
 "it now to ensure that it reflects your mind."
 
-#: agents/messages.php:1382
+#: agents/messages.php:1357
 msgid ""
 "The page received by e-mail has been posted. Don't forget to read it online. "
 "Then click on the Publish command to make it publicly available."
@@ -393,24 +393,18 @@ msgstr ""
 "The page received by e-mail has been posted. Don't forget to read it online. "
 "Then click on the Publish command to make it publicly available."
 
-#: agents/messages.php:1387
+#: agents/messages.php:1362
 msgid "Thank you for your contribution"
 msgstr "Thank you for your contribution"
 
-#: agents/messages.php:1399
-#, php-format
-msgid "New submission: %s"
-msgstr "New submission: %s"
+#~ msgid "New submission: %s"
+#~ msgstr "New submission: %s"
 
-#: agents/messages.php:1401
-#, php-format
-msgid "Sent by %s in %s"
-msgstr "Sent by %s in %s"
+#~ msgid "Sent by %s in %s"
+#~ msgstr "Sent by %s in %s"
 
-#: agents/messages.php:1403
-#, php-format
-msgid "Sent by %s"
-msgstr "Sent by %s"
+#~ msgid "Sent by %s"
+#~ msgstr "Sent by %s"
 
 #~ msgid "No data to display"
 #~ msgstr "No data to display"

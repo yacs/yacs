@@ -3,14 +3,12 @@
  * help to complete tags
  *
  * This script is the back-end part in a AJAX architecture. It processes
- * data received in the parameter 'q', look in the database for matching
+ * data received in the parameter 'term', look in the database for matching
  * categories, and return an unordered list of keywords. If an introduction
  * has been set for the keyword, it is provided as well.
  *
- * @link http://wiki.script.aculo.us/scriptaculous/show/Ajax.Autocompleter
- *
  * Accept following invocations:
- * - complete.php
+ * - complete.php?term=abc
  *
  * @author Bernard Paques
  * @reference
@@ -53,11 +51,10 @@ $items = Categories::list_keywords($_REQUEST['term']);
 if(count($items)) {
 	$output .= '[';
 	$i = 0;
-
 	foreach($items as $label => $more) {
-    if ($i > 0)
-      $output .= ',';
-    $i++;
+		if ($i > 0)
+		  $output .= ',';
+		$i++;
 		$output .= '"'.$label.'"';
 	}
 
@@ -65,7 +62,7 @@ if(count($items)) {
 }
 
 // allow for data compression
-render_raw();
+render_raw('application/json; charset='.$context['charset']);
 
 // actual transmission except on a HEAD request
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))

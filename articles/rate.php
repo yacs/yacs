@@ -42,12 +42,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // look for the rating
 $rating = 0;
@@ -69,17 +69,9 @@ if(is_object($anchor) && !$anchor->is_viewable())
 elseif(is_object($anchor) && $anchor->has_option('without_rating'))
 	$permitted = FALSE;
 
-// surfer is logged
-elseif(Surfer::is_logged())
-	$permitted = TRUE;
-
-// surfer may handle this item
-elseif(isset($item['handle']) && Surfer::may_handle($item['handle']))
-	$permitted = TRUE;
-
-// the default is to disallow access
+// the default is to allow rating
 else
-	$permitted = FALSE;
+	$permitted = TRUE;
 
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
@@ -118,7 +110,7 @@ if(Surfer::is_crawler()) {
 // a rating has already been registered
 } elseif(isset($_COOKIE['rating_'.$id])) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
-	Logger::error(i18n::s('You have already rated his page.'));
+	Logger::error(i18n::s('You have already rated this page.'));
 
 // not a valid rating
 } elseif(($rating < 1 ) || ($rating > 5)) {
@@ -184,7 +176,7 @@ if(Surfer::is_crawler()) {
 
 		// go page to rated page
 		else
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
+			Safe::redirect(Articles::get_permalink($item));
 
 	// ask for manual click
 	} else {

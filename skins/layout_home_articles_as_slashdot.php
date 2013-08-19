@@ -13,7 +13,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 	 *
 	 * @return string to be used in requests to the database
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_order() {
 		return 'publication';
@@ -24,7 +24,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 	 *
 	 * @return 10
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 10;
@@ -36,9 +36,9 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -56,14 +56,13 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 		include_once $context['path_to_root'].'articles/article.php';
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// permalink
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// get the related overlay, if any
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
@@ -84,13 +83,13 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 			elseif(is_callable(array($anchor, 'get_bullet_url')))
 				$icon = $anchor->get_thumbnail_url();
 			if($icon)
-				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('View the page')).'" title="'.encode_field(i18n::s('View the page')).'" /></a>';
+				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="" title="'.encode_field(i18n::s('View the page')).'" /></a>';
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
-				$prefix .= PRIVATE_FLAG.' ';
+				$prefix .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$prefix .= RESTRICTED_FLAG.' ';
+				$prefix .= RESTRICTED_FLAG;
 
 			// flag articles updated recently
 			if($item['create_date'] >= $context['fresh'])
@@ -100,7 +99,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 
 			// rating
 			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
-				$suffix .= Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
+				$suffix .= Skin::build_link(Articles::get_url($item['id'], 'like'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 			// add details
 			$details = array();
@@ -114,7 +113,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 			}
 
 			// the publish date
-			$details[] = Skin::build_date($item['publish_date'], 'publishing');
+			$details[] = Skin::build_date($item['publish_date']);
 
 			// details
 			if(count($details))
@@ -142,11 +141,11 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 			$menu = array_merge($menu, array( $url => i18n::s('Read more') ));
 
 			// info on related files
-			if($count = Files::count_for_anchor('article:'.$item['id']))
-				$menu = array_merge($menu, array( $url.'#files' => sprintf(i18n::ns('%d file', '%d files', $count), $count) ));
+			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
+				$menu = array_merge($menu, array( $url.'#_attachments' => sprintf(i18n::ns('%d file', '%d files', $count), $count) ));
 
 			// info on related comments
-			if($count = Comments::count_for_anchor('article:'.$item['id']))
+			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
 				$menu = array_merge($menu, array( Comments::get_url('article:'.$item['id'], 'list') => sprintf(i18n::ns('%d comment', '%d comments', $count), $count) ));
 
 			// discuss
@@ -154,8 +153,8 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 				$menu = array_merge($menu, array( Comments::get_url('article:'.$item['id'], 'comment') => i18n::s('Discuss') ));
 
 			// info on related links
-			if($count = Links::count_for_anchor('article:'.$item['id']))
-				$menu = array_merge($menu, array( $url.'#links' => sprintf(i18n::ns('%d link', '%d links', $count), $count) ));
+			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
+				$menu = array_merge($menu, array( $url.'#_attachments' => sprintf(i18n::ns('%d link', '%d links', $count), $count) ));
 
 			// trackback
 			if(Links::allow_trackback())
@@ -166,7 +165,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 				$menu = array_merge($menu, array( $anchor->get_url() => $anchor->get_title() ));
 
 			// list up to three categories by title, if any
-			if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
+			if($items = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
 				foreach($items as $id => $attributes) {
 					$menu = array_merge($menu, array( Categories::get_permalink($attributes) => $attributes['title'] ));
 				}
@@ -187,7 +186,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 		SQL::free($result);
 
 		// add links to archives
-		$anchor =& Categories::get(i18n::c('monthly'));
+		$anchor = Categories::get(i18n::c('monthly'));
 		if(isset($anchor['id']) && ($items = Categories::list_by_date_for_anchor('category:'.$anchor['id'], 0, COMPACT_LIST_SIZE, 'compact')))
 			$text .= Skin::build_box(i18n::s('Previous pages'), Skin::build_list($items, 'menu_bar'));
 

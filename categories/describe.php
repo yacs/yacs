@@ -53,12 +53,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Categories::get($id);
+$item = Categories::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // associates and editors can do what they want
 if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
@@ -114,7 +114,7 @@ if(!isset($item['id'])) {
 } else {
 
 	// compute the url for this category
-	$url = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item);
+	$url = Categories::get_permalink($item);
 
 	// get a description
 	if($item['introduction'])
@@ -143,8 +143,8 @@ if(!isset($item['id'])) {
 
 	// suggest a name on download
 	if(!headers_sent()) {
-		$file_name = utf8::to_ascii(Skin::strip($context['page_title'], 20).'.opml.xml');
-		Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+		$file_name = utf8::to_ascii(Skin::strip($context['page_title']).'.opml.xml');
+		Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

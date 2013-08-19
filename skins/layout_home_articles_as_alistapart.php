@@ -15,7 +15,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 	 *
 	 * @return string to be used in requests to the database
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_order() {
 		return 'publication';
@@ -26,7 +26,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 	 *
 	 * @return 8 - the last recent article is displayed entirely, plus 7 other pages
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 8;
@@ -38,9 +38,9 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -64,17 +64,16 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		$others = array();
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// build a title
 			if(is_object($overlay))
@@ -87,9 +86,9 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
-				$prefix .= PRIVATE_FLAG.' ';
+				$prefix .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$prefix .= RESTRICTED_FLAG.' ';
+				$prefix .= RESTRICTED_FLAG;
 
 			// signal locked articles
 			if(isset($item['locked']) && ($item['locked'] == 'Y') && Articles::is_owned($item, $anchor))
@@ -163,10 +162,10 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 		// get the anchor
-		$anchor =& Anchors::get($item['anchor']);
+		$anchor = Anchors::get($item['anchor']);
 
 		// the url to view this item
-		$url =& Articles::get_permalink($item);
+		$url = Articles::get_permalink($item);
 
 		// reset the rendering engine between items
 		Codes::initialize($url);
@@ -187,7 +186,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 
 		// link to permalink
 		if(Surfer::is_empowered())
-			$title =& Skin::build_box_title($title, $url, i18n::s('Permalink'));
+			$title = Skin::build_box_title($title, $url, i18n::s('Permalink'));
 
 		// signal articles to be published
 		if(($item['publish_date'] <= NULL_DATE))
@@ -217,7 +216,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		// if this article has a specific icon, use it
 		if($item['icon_url'])
 			$icon = $item['icon_url'];
-		elseif($item['anchor'] && ($anchor =& Anchors::get($item['anchor'])))
+		elseif($item['anchor'] && ($anchor = Anchors::get($item['anchor'])))
 			$icon = $anchor->get_icon_url();
 
 		// if we have a valid image
@@ -241,7 +240,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			$label .= i18n::s('Rate this page');
 
 			// allow for rating
-			$text .= Skin::build_link(Articles::get_url($item['id'], 'rate'), $label, 'basic');
+			$text .= Skin::build_link(Articles::get_url($item['id'], 'like'), $label, 'basic');
 		}
 
 		// the introduction text, if any
@@ -283,10 +282,10 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 				$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
 			// list files by date (default) or by title (option files_by_title)
-			if(Articles::has_option('files_by_title', $anchor, $item))
-				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'no_anchor');
+			if(Articles::has_option('files_by', $anchor, $item) == 'title')
+				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'article:'.$item['id']);
 			else
-				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'no_anchor');
+				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'article:'.$item['id']);
 			if(is_array($items))
 				$box['text'] .= Skin::build_list($items, 'decorated');
 
@@ -295,9 +294,9 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			$box['bar'] += Skin::navigate($url, $prefix, $count, FILES_PER_PAGE, 0);
 
 			// the command to post a new file, if allowed
-			if(Files::allow_creation($anchor, $item, 'article')) {
+			if(Files::allow_creation($item, $anchor, 'article')) {
 				$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
-				$box['bar'] += array( $link => i18n::s('Upload a file') );
+				$box['bar'] += array( $link => i18n::s('Add a file') );
 			}
 
 			if(is_array($box['bar']))
@@ -326,19 +325,19 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 
 		// info on related links
 		if($count = Links::count_for_anchor('article:'.$item['id']))
-			$this->menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'span');
+			$this->menu[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'span');
 
 		// new files are accepted at the index page and at the article level
 		if(is_object($anchor) && $anchor->has_option('with_files')
 			 && !($anchor->has_option('no_files') || preg_match('/\bno_files\b/i', $item['options']))) {
 
-			// attach a file
-			if(Files::allow_creation($anchor, $item, 'article')) {
+			// add a file
+			if(Files::allow_creation($item, $anchor, 'article')) {
 				if($context['with_friendly_urls'] == 'Y')
 					$link = 'files/edit.php/article/'.$item['id'];
 				else
 					$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
-				$this->menu[] = Skin::build_link($link, i18n::s('Upload a file'), 'span');
+				$this->menu[] = Skin::build_link($link, i18n::s('Add a file'), 'span');
 			}
 
 		}

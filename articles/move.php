@@ -30,16 +30,15 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']) && $item['overlay'])
 	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
@@ -64,7 +63,7 @@ if($destination && is_object($anchor)) {
 }
 
 // load the target section, by id , or with a full reference
-$destination =& Anchors::get($destination);
+$destination = Anchors::get($destination);
 
 // clear the tab we are in, if any
 if(is_object($anchor))
@@ -125,18 +124,23 @@ elseif(!isset($item['id'])) {
 	// do the change
 	if(Articles::put_attributes($fields)) {
 
-		// add a comment to make the move explicit
-		include_once $context['path_to_root'].'comments/comments.php';
-		$fields = array();
-		$fields['anchor'] = 'article:'.$item['id'];
-		$fields['description'] = sprintf(i18n::s('Moved by %s from %s to %s'), Surfer::get_name(), $anchor->get_title(), $destination->get_title());
-		Comments::post($fields);
+		// only when comments are allowed
+		if(!Articles::has_option('no_comments', $anchor, $item)) {
+
+			// add a comment to make the move explicit
+			include_once $context['path_to_root'].'comments/comments.php';
+			$fields = array();
+			$fields['anchor'] = 'article:'.$item['id'];
+			$fields['description'] = sprintf(i18n::s('Moved by %s from %s to %s'), Surfer::get_name(), $anchor->get_title(), $destination->get_title());
+			Comments::post($fields);
+
+		}
 
 		// update previous container
 		Cache::clear($anchor->get_reference());
 
 		// switch to the updated page
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
+		Safe::redirect(Articles::get_permalink($item));
 
 	}
 

@@ -16,7 +16,7 @@ class xml {
 	 * @param we escape strings only at level 1
 	 * @return string the corresponding XML string
 	 */
-	function &encode($content, $level=0) {
+	public static function encode($content, $level=0) {
 
 		// the new representation
 		$text = '';
@@ -53,7 +53,7 @@ class xml {
 	 * @param array the PHP variable
 	 * @return string its XML representation
 	 */
-	function &encode_array($content) {
+	public static function encode_array($content) {
 
 		$text = '<?xml version="1.0" encoding="UTF-8"?>'."\n"
 			.'<data>'."\n"
@@ -69,7 +69,7 @@ class xml {
 	 * @param array the PHP variable
 	 * @return DOMDocument the related DOM representation, or FALSE on error
 	 */
-	function &load_array($content) {
+	public static function load_array($content) {
 		$output = FALSE;
 		if(method_exists('DOMDocument', 'loadXML')) {
 			$output = new DOMDocument();
@@ -79,18 +79,72 @@ class xml {
 	}
 
 	/**
+	 * strip invisible HTML tags
+	 *
+	 * @param string the text to filter
+	 * @return string the resulting text
+	 */
+	public static function strip_invisible_tags($text) {
+
+		// remove invisible tags
+		$text = preg_replace(array(
+			'#<applet[^>]*?>.*?</applet>#siu',
+			'#<comment[^>]*?>.*?</comment>#siu',
+            '#<embed[^>]*?>.*?</embed>#siu',
+			'#<head[^>]*?>.*?</head>#siu',
+            '#<link[^>]*?>.*?</link>#siu',
+            '#<listing[^>]*?>.*?</listing>#siu',
+            '#<meta[^>]*?>.*?</meta>#siu',
+            '#<noembed[^>]*?>.*?</noembed>#siu',
+            '#<noframes[^>]*?>.*?</noframes>#siu',
+            '#<noscript[^>]*?>.*?</noscript>#siu',
+            '#<object[^>]*?>.*?</object>#siu',
+            '#<plaintext[^>]*?>.*?</plaintext>#siu',
+            '#<script[^>]*?>.*?</script>#siu',
+            '#<style[^>]*?>.*?</style>#siu',
+            '#<xmp[^>]*?>.*?</xmp>#siu'), '', $text);
+
+		// job done
+		return $text;
+
+	}
+
+	/**
+	 * strip visible HTML tags
+	 *
+	 * @param string the text to filter
+	 * @param string the set of tags that should be preserved
+	 * @return string the resulting text
+	 */
+	public static function strip_visible_tags($text, $allowed='<a><b><br><i><img><strong><u>') {
+
+		// insert hard newlines before we remove html tags
+		$text = preg_replace('#<(br */{0,1}|h1|/h1|h2|/h2|h3|/h3|h4|/h4|h5|/h5|p|/p|/td)>#i', "<$1>\n", $text);
+
+		// strip html tags
+		$text = strip_tags($text, $allowed);
+
+		// remove new lines after HTML breaks
+		$text = preg_replace('#<(br */{0,1})>\n*#i', "<$1>", $text);
+
+		// job done
+		return $text;
+
+	}
+
+	/**
 	 * transform some XML data
 	 *
 	 * [php]
-	 * $data =& xml::load_array($context);
-	 * $text =& xml::transform($data, 'template.xsl');
+	 * $data = xml::load_array($context);
+	 * $text = xml::transform($data, 'template.xsl');
 	 * [/php]
 	 *
 	 * @param DOMDocument input data
 	 * @param string file that contains XSL declarations
 	 * @return string the resulting XML, or FALSE on error
 	 */
-	function &transform($data, $styles) {
+	public static function transform($data, $styles) {
 
 		$text = FALSE;
 
@@ -121,14 +175,14 @@ class xml {
 	 * transform some XML data
 	 *
 	 * [php]
-	 * $text =& xml::transform_file('data.xml', 'template.xsl');
+	 * $text = xml::transform_file('data.xml', 'template.xsl');
 	 * [/php]
 	 *
 	 * @param string file that contains data
 	 * @param string file that contains XSL declarations
 	 * @return string the resulting XML, or FALSE on error
 	 */
-	function &transform_file($data, $styles) {
+	public static function transform_file($data, $styles) {
 
 		$text = FALSE;
 
@@ -161,7 +215,6 @@ class xml {
 	 * @param string the string to check
 	 * @return boolean TRUE on success, FALSE otherwise
 	 *
-	 * @see actions/edit.php
 	 * @see articles/edit.php
 	 * @see comments/edit.php
 	 * @see locations/edit.php
@@ -170,7 +223,7 @@ class xml {
 	 * @see tables/edit.php
 	 * @see users/edit.php
 	 */
-	function validate($input) {
+	public static function validate($input) {
 		global $context;
 
 		// assume syntax is ok

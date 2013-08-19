@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-25 17:18+0100\n"
+"POT-Creation-Date: 2013-04-30 23:53+0200\n"
 "PO-Revision-Date: 2010-09-29 15:51+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -31,7 +31,7 @@ msgstr "Configurer"
 
 #: letters/configure.php:48 letters/configure.php:125
 #: letters/configure.php:195 letters/index.php:21 letters/new.php:74
-#: letters/new.php:640
+#: letters/new.php:639
 msgid "Newsletters"
 msgstr "Lettres d'information"
 
@@ -238,81 +238,81 @@ msgstr "Pour se rappeler les envois précédents"
 msgid "YACS puts automatically sent letters into this section."
 msgstr "YACS place les lettres envoyées dans cette section."
 
-#: letters/new.php:478
+#: letters/new.php:477
 msgid "Archiving the new letter"
 msgstr "Archivage de la lettre pour consultation ultérieure"
 
-#: letters/new.php:487
+#: letters/new.php:486
 #, php-format
 msgid "Sent %s to&nbsp;\"%s\""
 msgstr "Envoyé %s à&nbsp;\"%s\""
 
-#: letters/new.php:535
+#: letters/new.php:534
 msgid "Error: Invalid address skipped"
 msgstr "Erreur : Adresse invalide non traitée !"
 
-#: letters/new.php:570 letters/new.php:576
+#: letters/new.php:569 letters/new.php:575
 msgid "A message has been sent to:"
 msgstr "Un message a été envoyé à :"
 
-#: letters/new.php:579
+#: letters/new.php:578
 msgid "No recipient has been defined."
 msgstr "Aucun destinaire n'a été défini."
 
-#: letters/new.php:595
+#: letters/new.php:594
 msgid "Error has been encountered while sending the letter."
 msgstr "Erreur de transmission !"
 
-#: letters/new.php:604
+#: letters/new.php:603
 msgid "No recipient has been processed."
 msgstr "Aucun destinataire n'a été traité."
 
-#: letters/new.php:606
+#: letters/new.php:605
 msgid "One recipient has been processed."
 msgstr "Un destinataire a été traité."
 
-#: letters/new.php:608
+#: letters/new.php:607
 #, php-format
 msgid "%d recipients have been processed"
 msgstr "%d destinataires ont été traités."
 
-#: letters/new.php:612
+#: letters/new.php:611
 msgid "One invalid address has been skipped."
 msgstr "Une adresse invalide a été rencontrée."
 
-#: letters/new.php:614
+#: letters/new.php:613
 #, php-format
 msgid "%d invalid addresses have been skipped"
 msgstr "%d adresse invalides ont été rencontrées."
 
-#: letters/new.php:618
+#: letters/new.php:617
 msgid "No letter has been transmitted."
 msgstr "Aucune lettre n'a été transmise."
 
-#: letters/new.php:620
+#: letters/new.php:619
 msgid "One letter has been transmitted."
 msgstr "Une lettre a été transmise."
 
-#: letters/new.php:622
+#: letters/new.php:621
 #, php-format
 msgid "%d letters have been transmitted."
 msgstr "%d lettres ont été transmises."
 
-#: letters/new.php:626
+#: letters/new.php:625
 msgid "One transmission error has been encountered."
 msgstr "Une erreur de transmission a eu lieu."
 
-#: letters/new.php:628
+#: letters/new.php:627
 #, php-format
 msgid "%d transmission errors have been encountered."
 msgstr "%d erreurs de transmission ont eu lieu"
 
-#: letters/new.php:637
+#: letters/new.php:636
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminé en %.2f secondes."
 
-#: letters/new.php:647
+#: letters/new.php:646
 msgid ""
 "This script will help you to prepare and to send a electronic message to "
 "community members. Please select below the action you would like to perform. "
@@ -324,23 +324,23 @@ msgstr ""
 "fonction de votre choix, l'assistant pourra être amené à demander des "
 "paramètres complémentaires."
 
-#: letters/new.php:653
+#: letters/new.php:652
 msgid "Send a digest of articles published recently"
 msgstr "Envoyer une liste des articles publiés récemment"
 
-#: letters/new.php:656
+#: letters/new.php:655
 msgid "List featured pages"
 msgstr "Lister les articles à la Une"
 
-#: letters/new.php:659
+#: letters/new.php:658
 msgid "Send one announcement to community members"
 msgstr "Envoyer une annonce aux membres de la communauté"
 
-#: letters/new.php:662
+#: letters/new.php:661
 msgid "Next step"
 msgstr "Etape suivante"
 
-#: letters/new.php:662
+#: letters/new.php:661
 msgid "Press [s] to continue"
 msgstr "Appuyer sur [s] pour continuer"
 

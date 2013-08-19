@@ -62,12 +62,12 @@ if($url && !preg_match('/^(\/|\w+:)/i', $url)) {
 $url = rtrim($url, '/');
 
 // get the item from the database
-$item =& Links::get($url);
+$item = Links::get($url);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // the anchor has to be viewable by this surfer
 if(is_object($anchor) && !$anchor->is_viewable())

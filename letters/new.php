@@ -123,7 +123,7 @@ if(!Surfer::is_associate()) {
 	$context['letter_body'] .= "\n\n\n";
 
 	// append surfer signature, if any
-	if(Surfer::get_id() && ($user =& Users::get(Surfer::get_id())) && $user['signature'])
+	if(Surfer::get_id() && ($user = Users::get(Surfer::get_id())) && $user['signature'])
 		$context['letter_body'] .= '<p>-----'.BR.strip_tags($user['signature'].'</p>');
 
 	// the letter suffix
@@ -167,24 +167,21 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= JS_PREFIX
-		.'	// check that main fields are not empty'."\n"
-		.'	func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'		// letter_title is mandatory'."\n"
+	page::insert_script(
+			// check that main fields are not empty
+		'	func'.'tion validateDocumentPost(container) {'."\n"
+				// letter_title is mandatory
 		.'		if(!container.letter_title.value) {'."\n"
 		.'			alert("'.i18n::s('No title has been provided.').'");'."\n"
 		.'			Yacs.stopWorking();'."\n"
 		.'			return false;'."\n"
 		.'		}'."\n"
-		."\n"
-		.'		// successful check'."\n"
+				// successful check
 		.'		return true;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'document.main_form.letter_title.focus();'."\n"
-		.JS_SUFFIX."\n";
+		);
 
 // prepare a digest
 } elseif(isset($action) && ($action == 'digest')) {
@@ -303,24 +300,21 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// letter_title is mandatory'."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// letter_title is mandatory
 		.'	if(!container.letter_title.value) {'."\n"
 		.'		alert("'.i18n::s('No title has been provided.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
+			// successful check
 		.'	return true;'."\n"
 		.'}'."\n"
-		."\n"
 		.'// set the focus on first form field'."\n"
 		.'document.main_form.letter_title.focus();'."\n"
-		.JS_SUFFIX."\n";
+		);
 
 // list featured pages
 } elseif(isset($action) && ($action == 'featured')) {
@@ -334,7 +328,7 @@ if(!Surfer::is_associate()) {
 		$context['root_featured_count'] = 7;
 
 	// the category used to assign featured pages
-	$anchor =& Categories::get(i18n::c('featured'));
+	$anchor = Categories::get(i18n::c('featured'));
 	if(isset($anchor['id']) && ($items =& Members::list_articles_by_date_for_anchor('category:'.$anchor['id'], 0, $context['root_featured_count'], 'digest'))) {
 
 		// scan each article
@@ -421,24 +415,22 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
 		.'	// letter_title is mandatory'."\n"
 		.'	if(!container.letter_title.value) {'."\n"
 		.'		alert("'.i18n::s('No title has been provided.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
+			// successful check
 		.'	return true;'."\n"
 		.'}'."\n"
 		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'document.main_form.letter_title.focus();'."\n"
-		.JS_SUFFIX."\n";
+		);
 
 // no mail in demo mode
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && file_exists($context['path_to_root'].'parameters/demo.flag')) {
@@ -464,7 +456,6 @@ if(!Surfer::is_associate()) {
 		$fields['introduction'] = i18n::c('To remember our previous messages');
 		$fields['description'] = i18n::c('YACS puts automatically sent letters into this section.');
 		$fields['locked'] = 'Y'; // no direct contributions
-		$fields['home_panel'] = 'none'; // content is not pushed at the front page
 		$fields['index_map'] = 'N'; // listed only to associates
 		$fields['rank'] = 30000; // at the end of the list
 
@@ -558,7 +549,7 @@ if(!Surfer::is_associate()) {
 	$text = Codes::beautify($_REQUEST['letter_body']);
 
 	// preserve tagging as much as possible
-	$message = Mailer::build_message($subject, $text);
+	$message = Mailer::build_multipart($text);
 
 	// reply-to: from the letters configuration file
 	if(isset($context['letter_reply_to']) && $context['letter_reply_to'])
@@ -580,7 +571,7 @@ if(!Surfer::is_associate()) {
 
 	// do the job
 	if($recipients_processed) {
-		$recipients_ok = Mailer::post($from, $to, $subject, $message);
+		$recipients_ok = Mailer::post($from, $to, $subject, $message, NULL, $headers);
 		Mailer::close();
 
 		// we may have more recipients than expected

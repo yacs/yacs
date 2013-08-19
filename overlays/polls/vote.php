@@ -56,12 +56,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get poll data
 include_once '../overlay.php';
@@ -171,7 +171,7 @@ if(!isset($item['id'])) {
 	$item['overlay'] = serialize($overlay->attributes);
 
 	// touch the related anchor
-	if($article =& Anchors::get('article:'.$item['id']))
+	if($article = Anchors::get('article:'.$item['id']))
 		$article->touch('vote', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 	// update the database

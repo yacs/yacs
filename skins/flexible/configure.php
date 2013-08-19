@@ -436,7 +436,8 @@ if(!isset($context['flexible_width']))
 
 // some constants
 
-define('DUMMY_TEXT', 'Lorem <a href="#" class="regular">ipsum dolor sit</a> amet, <a href="#" class="current">consectetur adipisicing</a> elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+if(!defined('DUMMY_TEXT'))
+	define('DUMMY_TEXT', 'Lorem <a href="#" class="regular">ipsum dolor sit</a> amet, <a href="#" class="current">consectetur adipisicing</a> elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
 	.' Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
 	.' Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
 
@@ -485,9 +486,9 @@ elseif(!Surfer::is_associate()) {
 			$checked = '';
 			if($context[ $name ] == $value) {
 				$checked = ' checked="checked"';
-				$text .= JS_PREFIX."$('#".$sample."').css({'textAlign': '".$value."'});".JS_SUFFIX;
+				Page::insert_script("$('#".$sample."').css({'textAlign': '".$value."'});");
 			}
-			$text .= '<input type="radio" name="'.$name.'" size="8" value="'.$value.'" onchange="$(\'#'.$sample.'\').css({\'textAlign\': this.value})"'.$checked.' />'.$value.' ';
+			$text .= '<input type="radio" name="'.$name.'" size="8" value="'.$value.'" onclick="$(\'#'.$sample.'\').css({\'textAlign\': this.value})"'.$checked.' />'.$value.' ';
 		}
 
 		return $text;
@@ -505,10 +506,10 @@ elseif(!Surfer::is_associate()) {
 		$checked = '';
 		if($context[$name] == 'transparent') {
 			$checked = ' checked="checked"';
-			$text .= JS_PREFIX."$('#".$sample."').css({'background': 'transparent'});".JS_SUFFIX;
+			Page::insert_script("$('#".$sample."').css({'background': 'transparent'});");
 		}
 		$text .= '<div style="text-align: center; float:left; width: 150px; margin: 0 10px 20px 0; background-color: #ddd"><div style="width: 150px; height: 70px; background: transparent; position:relative;"><div style="position: absolute; top:50%; margin: 0 auto; width:150px">'.i18n::s('Transparent').'</div></div>'
-			.'<input type="radio" name="'.$name.'" value="transparent"'.$checked.' onchange="$(\'#'.$sample.'\').css({\'background\': this.value})" /></div>';
+			.'<input type="radio" name="'.$name.'" value="transparent"'.$checked.' onclick="$(\'#'.$sample.'\').css({\'background\': this.value})" /></div>';
 
 		// referenced several times
 		static $count;
@@ -525,14 +526,14 @@ elseif(!Surfer::is_associate()) {
 			} else {
 				$fixed_color = $context[$name];
 				$checked = ' checked="checked"';
-				$text .= JS_PREFIX."$('#".$sample."').css({'background': '".$fixed_color."'});".JS_SUFFIX;
+				Page::insert_script("$('#".$sample."').css({'background': '".$fixed_color."'});");
 			}
 		} else
 			$fixed_color = '';
 		$text .= '<div style="text-align: center; float:left; width: 150px; margin: 0 10px 20px 0; background-color: #ddd"><div style="width: 150px; height: 70px; background: transparent; position:relative;"><div style="position: absolute; top:50%; margin: 0 auto; width:150px">'
-			.'<input class="color {hash:true,required:false}" name="'.$name.'_color" size="10" value="'.encode_field($fixed_color).'" maxlength="12"  onchange="$(\'#'.$name.'_handle\').checked=1; $(\'#'.$name.'_handle\').value=this.value; $(\'#'.$sample.'\').css({\'background\': this.value})" id="background_fixed_color_'.$count.'" />'
+			.'<input class="color {hash:true,required:false}" name="'.$name.'_color" size="10" value="'.encode_field($fixed_color).'" maxlength="12"  onchange="$(\'#'.$name.'_handle\').attr(\'checked\', \'checked\'); $(\'#'.$name.'_handle\').value=this.value; $(\'#'.$sample.'\').css({\'background\': this.value})" id="background_fixed_color_'.$count.'" />'
 			.'</div></div>'
-			.'<input type="radio" name="'.$name.'" value="'.$fixed_color.'"'.$checked.' id="'.$name.'_handle" onchange="this.value = $(\'#background_fixed_color_'.$count.'\').value; $(\'#'.$sample.'\').css({\'background\': this.value})" /></div>';
+			.'<input type="radio" name="'.$name.'" value="'.$fixed_color.'"'.$checked.' id="'.$name.'_handle" onclick="this.value = $(\'#background_fixed_color_'.$count.'\').value; $(\'#'.$sample.'\').css({\'background\': this.value})" /></div>';
 
 		// break between images
 		$text .= '<br clear="left" />';
@@ -550,11 +551,11 @@ elseif(!Surfer::is_associate()) {
 				$checked = '';
 				if(strpos($context[$name], $item)) {
 					$checked = ' checked="checked"';
-					$text .= JS_PREFIX."$('#".$sample."').css({'background': '".$fixed_color." ".Image::as_background($context['url_to_root'].$path.'/'.$item)."'});".JS_SUFFIX;
+					Page::insert_script("$('#".$sample."').css({'background': '".$fixed_color." ".Image::as_background($context['url_to_root'].$path.'/'.$item)."'});");
 				}
 				$items[] = '<div style="text-align: center; float:left; width: 150px; margin: 0 10px 20px 0; background-color: #ddd"><div style="width: 150px; height: 70px; background: transparent '.Image::as_background($context['url_to_root'].$path.'/'.$item).'">&nbsp;</div>'
-					.'<input type="radio" name="'.$name.'" value="'.$fixed_color.' '.Image::as_background($context['url_to_root'].$path.'/'.$item).'"'.$checked.' onchange="this.value = $(\'#background_fixed_color_'.$count.'\').value + \' '.Image::as_background($context['url_to_root'].$path.'/'.$item).'\'; $(\'#'.$sample.'\').css({\'background\': this.value})" />'
-					.' '.Skin::build_link('skins/display.php?id='.urlencode($path.'/'.$item), '*', 'help').'</div>';
+					.'<input type="radio" name="'.$name.'" value="'.$fixed_color.' '.Image::as_background($context['url_to_root'].$path.'/'.$item).'"'.$checked.' onclick="this.value = $(\'#background_fixed_color_'.$count.'\').value + \' '.Image::as_background($context['url_to_root'].$path.'/'.$item).'\'; $(\'#'.$sample.'\').css({\'background\': this.value})" />'
+					.' '.Skin::build_link('skins/display.php?id='.urlencode($path.'/'.$item), '*', 'open').'</div>';
 			}
 			Safe::closedir($dir);
 
@@ -596,7 +597,7 @@ elseif(!Surfer::is_associate()) {
 		$text .= i18n::s('left').' <input type="text" name="'.$name.'_left" value="'.$context[$name.'_left'].'" size="10"'.$updater.' /> <span class="details">(ex: 1px solid #ccc)</span>';
 
 		if($sample)
-			$text .= JS_PREFIX.'$(\'#'.$sample.'\').css({ \'borderTop\': \''.$context[$name.'_top'].'\', \'borderRight\': \''.$context[$name.'_right'].'\', \'borderBottom\': \''.$context[$name.'_bottom'].'\', \'borderLeft\': \''.$context[$name.'_left'].'\'});'.JS_SUFFIX;
+			Page::insert_script('$(\'#'.$sample.'\').css({ \'borderTop\': \''.$context[$name.'_top'].'\', \'borderRight\': \''.$context[$name.'_right'].'\', \'borderBottom\': \''.$context[$name.'_bottom'].'\', \'borderLeft\': \''.$context[$name.'_left'].'\'});');
 
 		return $text;
 	}
@@ -613,7 +614,7 @@ elseif(!Surfer::is_associate()) {
 		$text =	'<input class="color {hash:true,required:false}" name="'.$name.'" size="8" value="'.encode_field($context[$name]).'" maxlength="12" '.$updater.' />';
 
 		if($sample)
-			$text .= JS_PREFIX.'$(\'#'.$sample.'\').css({\'color\': \''.$context[$name].'\'});'.JS_SUFFIX;
+			Page::insert_script('$(\'#'.$sample.'\').css({\'color\': \''.$context[$name].'\'});');
 
 		return $text;
 	}
@@ -630,13 +631,13 @@ elseif(!Surfer::is_associate()) {
 		$checked = '';
 		if($context[$name] == 'none') {
 			$checked = ' checked="checked"';
-			$text .= JS_PREFIX."$('#".$sample."').css({'display': 'none'});".JS_SUFFIX;
+			Page::insert_script("$('#".$sample."').css({'display': 'none'});");
 		}
 		$to_toggle = '';
 		if($toggle)
 			$to_toggle = '$(\'#'.$toggle.'\').css({\'display\': \'inline\'})';
 		$text .= '<div style="text-align: center; float:left; width: 150px; margin: 0 10px 20px 0; background-color: #ddd"><div style="width: 150px; height: 70px; background: transparent; position:relative;"><div style="position: absolute; top:50%; margin: 0 auto; width:150px">'.i18n::s('None').'</div></div>'
-			.'<input type="radio" name="'.$name.'" value="none"'.$checked.' onchange="$(\'#'.$sample.'\').css({\'display\': \'none\'});'.$to_toggle.'" /></div>';
+			.'<input type="radio" name="'.$name.'" value="none"'.$checked.' onclick="$(\'#'.$sample.'\').css({\'display\': \'none\'});'.$to_toggle.'" /></div>';
 
 		// scan files
 		if($dir = Safe::opendir($path)) {
@@ -654,10 +655,10 @@ elseif(!Surfer::is_associate()) {
 				$checked = '';
 				if(strpos($context[$name], $item)) {
 					$checked = ' checked="checked"';
-					$text .= JS_PREFIX."$('#".$sample."').src = '".$context['url_to_root'].$path.'/'.$item."';$('#".$sample."').css({'display': 'inline'});".$to_toggle.JS_SUFFIX;
+					Page::insert_script("$('#".$sample."').src = '".$context['url_to_root'].$path.'/'.$item."';$('#".$sample."').css({'display': 'inline'});".$to_toggle);
 				}
 				$items[] = '<div style="text-align: center; float:left; width: 150px; margin: 0 10px 20px 0; background-color: #ddd"><div style="width: 150px; height: 70px; background: transparent url('.$context['url_to_root'].$path.'/'.$item.') no-repeat">&nbsp;</div>'
-					.'<input type="radio" name="'.$name.'" value="'.$context['url_to_root'].$path.'/'.$item.'"'.$checked.' onchange="$(\'#'.$sample.'\').src = \''.$context['url_to_home'].$context['url_to_root'].$path.'/'.$item.'\';$(\'#'.$sample.'\').css({\'display\': \'inline\'});'.$to_toggle.'" /></div>';
+					.'<input type="radio" name="'.$name.'" value="'.$context['url_to_root'].$path.'/'.$item.'"'.$checked.' onclick="$(\'#'.$sample.'\').src = \''.$context['url_to_home'].$context['url_to_root'].$path.'/'.$item.'\';$(\'#'.$sample.'\').css({\'display\': \'inline\'});'.$to_toggle.'" /></div>';
 			}
 			Safe::closedir($dir);
 
@@ -686,7 +687,7 @@ elseif(!Surfer::is_associate()) {
 			.' <a id="'.$name.'_'.$property.'_t" onclick="this.css({\'display\': \'none\'});" style="margin-right: 4em; font-size: 12px; display: none;">'.i18n::s('Test').'</a>';
 
 		if($sample)
-			$text .= JS_PREFIX.'$(\'#'.$sample.'\').css({\''.$property.'\': \''.$context[$name.'_'.$property].'\'});'.JS_SUFFIX;
+			Page::insert_script('$(\'#'.$sample.'\').css({\''.$property.'\': \''.$context[$name.'_'.$property].'\'});');
 
 		return $text;
 	}
@@ -712,12 +713,12 @@ elseif(!Surfer::is_associate()) {
 			$checked = '';
 			if($context[ $name ] == $actual_value) {
 				$checked = ' checked="checked"';
-				$text .= JS_PREFIX.'$("#'.$sample.'").each(function(){$(this).css({"'.$style.'": "'.$actual_value.'"});});'.JS_SUFFIX;
+				Page::insert_script('$("#'.$sample.'").each(function(){$(this).css({"'.$style.'": "'.$actual_value.'"});});');
 			}
-			$text .= '<input type="radio" name="'.$name.'" size="8" value="'.$actual_value.'" onchange="$("#'.$sample.'").each(function(){$(this).css({"'.$style.'": this.value});})"'.$checked.' />'.$value.' ';
+			$text .= '<input type="radio" name="'.$name.'" size="8" value="'.$actual_value.'" onclick="$("#'.$sample.'").each(function(){$(this).css({"'.$style.'": this.value});})"'.$checked.' />'.$value.' ';
 		}
 
-		return $text;                                       
+		return $text;
 	}
 
 	/**
@@ -740,7 +741,7 @@ elseif(!Surfer::is_associate()) {
 			$checked = '';
 			if($context[ $name ] == $actual_value) {
 				$checked = ' selected="selected"';
-				$text .= JS_PREFIX.'$("#'.$sample.'").each(function(){$(this).css({"'.$style.'": "'.$actual_value.'"});});'.JS_SUFFIX;
+				Page::insert_script('$("#'.$sample.'").each(function(){$(this).css({"'.$style.'": "'.$actual_value.'"});});');
 			}
 			$text .= '<option value="'.$actual_value.'"'.$checked.' />'.$value.'</option>';
 		}
@@ -767,25 +768,25 @@ elseif(!Surfer::is_associate()) {
 		$checked = ' checked="checked"';
 	else
 		$checked = '';
-	$cell1 = '<div style="text-align: center"><a href="#" onclick="$(\'#fluid\').checked=1; return false;"><img src="configuration/fluid.gif" /></a>'
+	$cell1 = '<div style="text-align: center"><a href="#" onclick="$(\'#fluid\').attr(\'checked\', \'checked\'); return false;"><img src="configuration/fluid.gif" /></a>'
 		.BR.'<input type="radio" name="flexible_width"'.$checked.' id="fluid" value="fluid" />'.BR.i18n::s('Fluid').'</div>';
 	if(isset($context['flexible_width']) && ($context['flexible_width'] == '960px'))
 		$checked = ' checked="checked"';
 	else
 		$checked = '';
-	$cell2 = '<div style="text-align: center"><a href="#" onclick="$(\'#960px\').checked=1; return false;"><img src="configuration/fixed.gif" /></a>'
+	$cell2 = '<div style="text-align: center"><a href="#" onclick="$(\'#960px\').attr(\'checked\', \'checked\'); return false;"><img src="configuration/fixed.gif" /></a>'
 		.BR.'<input type="radio" name="flexible_width"'.$checked.' id="960px" value="960px" />'.BR.Skin::build_link('http://960.gs/', i18n::s('960px')).'</div>';
 	if(isset($context['flexible_width']) && ($context['flexible_width'] == '850px'))
 		$checked = ' checked="checked"';
 	else
 		$checked = '';
-	$cell3 = '<div style="text-align: center"><a href="#" onclick="$(\'#850px\').checked=1; return false;"><img src="configuration/fixed.gif" /></a>'
+	$cell3 = '<div style="text-align: center"><a href="#" onclick="$(\'#850px\').attr(\'checked\', \'checked\'); return false;"><img src="configuration/fixed.gif" /></a>'
 		.BR.'<input type="radio" name="flexible_width"'.$checked.' id="850px" value="850px" />'.BR.i18n::s('850px').'</div>';
 	if(isset($context['flexible_width']) && ($context['flexible_width'] == '640px'))
 		$checked = ' checked="checked"';
 	else
 		$checked = '';
-	$cell4 = '<div style="text-align: center"><a href="#" onclick="$(\'#640px\').checked=1; return false;"><img src="configuration/fixed.gif" /></a>'
+	$cell4 = '<div style="text-align: center"><a href="#" onclick="$(\'#640px\').attr(\'checked\', \'checked\'); return false;"><img src="configuration/fixed.gif" /></a>'
 		.BR.'<input type="radio" name="flexible_width"'.$checked.' id="640px" value="640px" />'.BR.i18n::s('640px').'</div>';
 	$input = Skin::layout_horizontally($cell1, $cell2, $cell3, $cell4);
 	$fields[] = array($label, $input);
@@ -796,25 +797,25 @@ elseif(!Surfer::is_associate()) {
 		$checked = ' checked="checked"';
 	else
 		$checked = '';
-	$cell1 = '<div style="text-align: center"><a href="#" onclick="$(\'#1_2_3\').checked=1; return false;"><img src="configuration/1_2_3.gif" /></a>'
+	$cell1 = '<div style="text-align: center"><a href="#" onclick="$(\'#1_2_3\').attr(\'checked\', \'checked\'); return false;"><img src="configuration/1_2_3.gif" /></a>'
 		.BR.'<input type="radio" name="flexible_columns"'.$checked.' id="1_2_3" value="1_2_3" />'.BR.i18n::s('1-2-3').'</div>';
 	if(isset($context['flexible_columns']) && ($context['flexible_columns'] == '3_2_1'))
 		$checked = ' checked="checked"';
 	else
 		$checked = '';
-	$cell2 = '<div style="text-align: center"><a href="#" onclick="$(\'#3_2_1\').checked=1; return false;"><img src="configuration/3_2_1.gif" /></a>'
+	$cell2 = '<div style="text-align: center"><a href="#" onclick="$(\'#3_2_1\').attr(\'checked\', \'checked\'); return false;"><img src="configuration/3_2_1.gif" /></a>'
 		.BR.'<input type="radio" name="flexible_columns"'.$checked.' id="3_2_1" value="3_2_1" />'.BR.i18n::s('3-2-1').'</div>';
 	if(isset($context['flexible_columns']) && ($context['flexible_columns'] == '2_3_1'))
 		$checked = ' checked="checked"';
 	else
 		$checked = '';
-	$cell3 = '<div style="text-align: center"><a href="#" onclick="$(\'#2_3_1\').checked=1; return false;"><img src="configuration/2_3_1.gif" /></a>'
+	$cell3 = '<div style="text-align: center"><a href="#" onclick="$(\'#2_3_1\').attr(\'checked\', \'checked\'); return false;"><img src="configuration/2_3_1.gif" /></a>'
 		.BR.'<input type="radio" name="flexible_columns"'.$checked.' id="2_3_1" value="2_3_1" />'.BR.i18n::s('2-3-1').'</div>';
 	if(isset($context['flexible_columns']) && ($context['flexible_columns'] == '2_1_3'))
 		$checked = ' checked="checked"';
 	else
 		$checked = '';
-	$cell4 = '<div style="text-align: center"><a href="#" onclick="$(\'#2_1_3\').checked=1; return false;"><img src="configuration/2_1_3.gif" /></a>'
+	$cell4 = '<div style="text-align: center"><a href="#" onclick="$(\'#2_1_3\').attr(\'checked\', \'checked\'); return false;"><img src="configuration/2_1_3.gif" /></a>'
 		.BR.'<input type="radio" name="flexible_columns"'.$checked.' id="2_1_3" value="2_1_3" />'.BR.i18n::s('2-1-3').'</div>';
 	$input = Skin::layout_horizontally($cell1, $cell2, $cell3, $cell4);
 	$fields[] = array($label, $input);
@@ -932,13 +933,13 @@ elseif(!Surfer::is_associate()) {
 	$label = i18n::s('Link color');
 	$input = '<input class="color {hash:true,required:false}" name="flexible_tabs_a_color" size="10" value="'.encode_field($context['flexible_tabs_a_color']).'" maxlength="8" onchange="$(\'div#t_sample a.regular span\').each(function(){$(this).css({ \'color\': this.value})});" />';
 	$fields[] = array($label, $input);
-	$text .= JS_PREFIX.'$("#t_sample .regular span").each(function(){$(this).css({"color": "'.$context['flexible_tabs_a_color'].'"});});'.JS_SUFFIX;
+	Page::insert_script('$("#t_sample .regular span").each(function(){$(this).css({"color": "'.$context['flexible_tabs_a_color'].'"});});');
 
 	// color of hovered link
 	$label = i18n::s('Hover color');
 	$input = '<input class="color {hash:true,required:false}" name="flexible_tabs_h_color" size="10" value="'.encode_field($context['flexible_tabs_h_color']).'" maxlength="8" onchange="$(\'div#t_sample a.current span\').each(function(){$(this).css({ \'color\': this.value})});" />';
 	$fields[] = array($label, $input);
-	$text .= JS_PREFIX.'$("#t_sample .current span").each(function(){$(this).css({"color": "'.$context['flexible_tabs_h_color'].'"});});'.JS_SUFFIX;
+	Page::insert_script('$("#t_sample .current span").each(function(){$(this).css({"color": "'.$context['flexible_tabs_h_color'].'"});});');
 
 	// put the set of fields in the page
 	$text .= Skin::build_folded_box(i18n::s('Text'), Skin::build_form($fields));
@@ -999,9 +1000,9 @@ elseif(!Surfer::is_associate()) {
 			$checked = '';
 			if($context['flexible_tabs_bg_image'] == $item) {
 				$checked = ' checked="checked"';
-				$text .= JS_PREFIX.'$(\'div#t_sample a\').each(function(){$(this).css({ \'backgroundImage\': \'url(tabs/'.$item.')\'})});$(\'div#t_sample a span\').each(function(){$(this).css({ \'backgroundImage\': \'url(tabs/'.str_replace('-left', '-right', $item).')\'})});'.JS_SUFFIX;
+				Page::insert_script('$(\'div#t_sample a\').each(function(){$(this).css({ \'backgroundImage\': \'url(tabs/'.$item.')\'})});$(\'div#t_sample a span\').each(function(){$(this).css({ \'backgroundImage\': \'url(tabs/'.str_replace('-left', '-right', $item).')\'})});');
 			}
-			$items[] = '<tr><td class="west"><input type="radio" name="flexible_tabs_bg_image" value="'.$item.'"'.$checked.' onchange="$(\'div#t_sample a\').each(function(){$(this).css({ \'backgroundImage\': \'url(tabs/'.$item.')\'})});$(\'div#t_sample a span\').each(function(){$(this).css({ \'backgroundImage\': \'url(tabs/'.str_replace('-left', '-right', $item).')\'})});" /></td>'
+			$items[] = '<tr><td class="west"><input type="radio" name="flexible_tabs_bg_image" value="'.$item.'"'.$checked.' onclick="$(\'div#t_sample a\').each(function(){$(this).css({ \'backgroundImage\': \'url(tabs/'.$item.')\'})});$(\'div#t_sample a span\').each(function(){$(this).css({ \'backgroundImage\': \'url(tabs/'.str_replace('-left', '-right', $item).')\'})});" /></td>'
 				.'<td class="east">'.$tabs.'</td></tr>'."\n";
 		}
 		Safe::closedir($dir);
@@ -1080,13 +1081,13 @@ elseif(!Surfer::is_associate()) {
 	$label = i18n::s('Link color');
 	$input = '<input class="color {hash:true,required:false}" name="flexible_breadcrumbs_a_color" size="10" value="'.encode_field($context['flexible_breadcrumbs_a_color']).'" maxlength="8" onchange="$(\'div#c_sample a.regular\').each(function(){$(this).css({ \'color\': this.value})});" />';
 	$fields[] = array($label, $input);
-	$text .= JS_PREFIX.'$("#c_sample .regular").each(function(){$(this).css({"color": "'.$context['flexible_breadcrumbs_a_color'].'"});});'.JS_SUFFIX;
+	Page::insert_script('$("#c_sample .regular").each(function(){$(this).css({"color": "'.$context['flexible_breadcrumbs_a_color'].'"});});');
 
 	// color of hovered link
 	$label = i18n::s('Hover color');
 	$input = '<input class="color {hash:true,required:false}" name="flexible_breadcrumbs_h_color" size="10" value="'.encode_field($context['flexible_breadcrumbs_h_color']).'" maxlength="8" onchange="$(\'div#c_sample a.current\').each(function(){$(this).css({ \'color\': this.value})});" />';
 	$fields[] = array($label, $input);
-	$text .= JS_PREFIX.'$("#c_sample .current").each(function(){$(this).css({"color": "'.$context['flexible_breadcrumbs_h_color'].'"});});'.JS_SUFFIX;
+	Page::insert_script('$("#c_sample .current").each(function(){$(this).css({"color": "'.$context['flexible_breadcrumbs_h_color'].'"});});');
 
 	// put the set of fields in the page
 	$text .= Skin::build_folded_box(i18n::s('Text'), Skin::build_form($fields));
@@ -1258,7 +1259,7 @@ elseif(!Surfer::is_associate()) {
 		.' <input class="color {hash:true,required:false}" name="flexible_main_a_bg" size="8" value="'.encode_field($context['flexible_main_a_bg']).'" maxlength="12" onchange="$(\'p#p_sample a.regular\').each(function(){$(this).css({\'backgroundColor\': this.value})})" />'
 		.' '.select_helper('flexible_main_a_decoration', $text_decorations, 'p#p_sample a.regular', 'textDecoration');
 	$fields[] = array($label, $input);
-	$text .= JS_PREFIX.'$("#p_sample .regular").each(function(){$(this).css({"backgroundColor": "'.$context['flexible_main_a_bg'].'", "color": "'.$context['flexible_main_a_color'].'", "textDecoration": "'.$context['flexible_main_a_decoration'].'"});});'.JS_SUFFIX;
+	Page::insert_script('$("#p_sample .regular").each(function(){$(this).css({"backgroundColor": "'.$context['flexible_main_a_bg'].'", "color": "'.$context['flexible_main_a_color'].'", "textDecoration": "'.$context['flexible_main_a_decoration'].'"});});');
 
 	// color of hovered link
 	$label = i18n::s('Hover color');
@@ -1266,7 +1267,7 @@ elseif(!Surfer::is_associate()) {
 		.' <input class="color {hash:true,required:false}" name="flexible_main_h_bg" size="8" value="'.encode_field($context['flexible_main_h_bg']).'" maxlength="12" onchange="$(\'p#p_sample a.current\').each(function(){$(this).css({\'backgroundColor\': this.value})})" />'
 		.' '.select_helper('flexible_main_h_decoration', $text_decorations, 'p#p_sample a.current', 'textDecoration');
 	$fields[] = array($label, $input);
-	$text .= JS_PREFIX.'$("#p_sample .current").each(function(){$(this).css({"backgroundColor": "'.$context['flexible_main_h_bg'].'", "color": "'.$context['flexible_main_h_color'].'", "textDecoration": "'.$context['flexible_main_h_decoration'].'"});});'.JS_SUFFIX;
+	Page::insert_script('$("#p_sample .current").each(function(){$(this).css({"backgroundColor": "'.$context['flexible_main_h_bg'].'", "color": "'.$context['flexible_main_h_color'].'", "textDecoration": "'.$context['flexible_main_h_decoration'].'"});});');
 
 	// put the set of fields in the page
 	$text .= Skin::build_folded_box(i18n::s('Links'), Skin::build_form($fields));
@@ -1398,7 +1399,7 @@ elseif(!Surfer::is_associate()) {
 		.' <input class="color {hash:true,required:false}" name="flexible_side_a_bg" size="8" value="'.encode_field($context['flexible_side_a_bg']).'" maxlength="12" onchange="$(\'dd#sd_sample a.regular\').each(function(){$(this).css({\'backgroundColor\': this.value})})" />'
 		.' '.select_helper('flexible_side_a_decoration', $text_decorations, 'dd#sd_sample a.regular', 'textDecoration');
 	$fields[] = array($label, $input);
-	$text .= JS_PREFIX.'$("#sd_sample .regular").each(function(){$(this).css({"backgroundColor": "'.$context['flexible_side_a_bg'].'", "color": "'.$context['flexible_side_a_color'].'", "textDecoration": "'.$context['flexible_side_a_decoration'].'"});});'.JS_SUFFIX;
+	Page::insert_script('$("#sd_sample .regular").each(function(){$(this).css({"backgroundColor": "'.$context['flexible_side_a_bg'].'", "color": "'.$context['flexible_side_a_color'].'", "textDecoration": "'.$context['flexible_side_a_decoration'].'"});});');
 
 	// color of hovered link
 	$label = i18n::s('Hover color');
@@ -1406,7 +1407,7 @@ elseif(!Surfer::is_associate()) {
 		.' <input class="color {hash:true,required:false}" name="flexible_side_h_bg" size="8" value="'.encode_field($context['flexible_side_h_bg']).'" maxlength="12" onchange="$(\'dd#sd_sample a.current\').each(function(){$(this).css({\'backgroundColor\': this.value})})" />'
 		.' '.select_helper('flexible_side_h_decoration', $text_decorations, 'dd#sd_sample a.current', 'textDecoration');
 	$fields[] = array($label, $input);
-	$text .= JS_PREFIX.'$("#sd_sample .current").each(function(){$(this).css({"backgroundColor": "'.$context['flexible_side_h_bg'].'", "color": "'.$context['flexible_side_h_color'].'", "textDecoration": "'.$context['flexible_side_h_decoration'].'"});});'.JS_SUFFIX;
+	Page::insert_script('$("#sd_sample .current").each(function(){$(this).css({"backgroundColor": "'.$context['flexible_side_h_bg'].'", "color": "'.$context['flexible_side_h_color'].'", "textDecoration": "'.$context['flexible_side_h_decoration'].'"});});');
 
 	// put the set of fields in the page
 	$text .= Skin::build_folded_box(i18n::s('Links'), Skin::build_form($fields));
@@ -1514,7 +1515,7 @@ elseif(!Surfer::is_associate()) {
 		.' <input class="color {hash:true,required:false}" name="flexible_extra_a_bg" size="8" value="'.encode_field($context['flexible_extra_a_bg']).'" maxlength="12" onchange="$(\'dd#ed_sample a.regular\').each(function(){$(this).css({\'backgroundColor\': this.value})})" />'
 		.' '.select_helper('flexible_extra_a_decoration', $text_decorations, 'dd#ed_sample a.regular', 'textDecoration');
 	$fields[] = array($label, $input);
-	$text .= JS_PREFIX.'$("#ed_sample .regular").each(function(){$(this).css({"backgroundColor": "'.$context['flexible_extra_a_bg'].'", "color": "'.$context['flexible_extra_a_color'].'", "textDecoration": "'.$context['flexible_extra_a_decoration'].'"});});'.JS_SUFFIX;
+	Page::insert_script('$("#ed_sample .regular").each(function(){$(this).css({"backgroundColor": "'.$context['flexible_extra_a_bg'].'", "color": "'.$context['flexible_extra_a_color'].'", "textDecoration": "'.$context['flexible_extra_a_decoration'].'"});});');
 
 	// color of hovered link
 	$label = i18n::s('Hover color');
@@ -1522,7 +1523,7 @@ elseif(!Surfer::is_associate()) {
 		.' <input class="color {hash:true,required:false}" name="flexible_extra_h_bg" size="8" value="'.encode_field($context['flexible_extra_h_bg']).'" maxlength="12" onchange="$(\'dd#ed_sample a.current\').each(function(){$(this).css({\'backgroundColor\': this.value})})" />'
 		.' '.select_helper('flexible_extra_h_decoration', $text_decorations, 'dd#ed_sample a.current', 'textDecoration');
 	$fields[] = array($label, $input);
-	$text .= JS_PREFIX.'$("#ed_sample .current").each(function(){$(this).css({"backgroundColor": "'.$context['flexible_extra_h_bg'].'", "color": "'.$context['flexible_extra_h_color'].'", "textDecoration": "'.$context['flexible_extra_h_decoration'].'"});});'.JS_SUFFIX;
+	Page::insert_script('$("#ed_sample .current").each(function(){$(this).css({"backgroundColor": "'.$context['flexible_extra_h_bg'].'", "color": "'.$context['flexible_extra_h_color'].'", "textDecoration": "'.$context['flexible_extra_h_decoration'].'"});});');
 
 	// put the set of fields in the page
 	$text .= Skin::build_folded_box(i18n::s('Links'), Skin::build_form($fields));
@@ -1571,7 +1572,7 @@ elseif(!Surfer::is_associate()) {
 		.' <input class="color {hash:true,required:false}" name="flexible_footer_a_bg" size="8" value="'.encode_field($context['flexible_footer_a_bg']).'" maxlength="12" onchange="$(\'div#f_sample a.regular\').each(function(){$(this).css({\'backgroundColor\': this.value})})" />'
 		.' '.select_helper('flexible_footer_a_decoration', $text_decorations, 'div#f_sample a.regular', 'textDecoration');
 	$fields[] = array($label, $input);
-	$text .= JS_PREFIX.'$("#f_sample .regular").each(function(){$(this).css({"backgroundColor": "'.$context['flexible_footer_a_bg'].'", "color": "'.$context['flexible_footer_a_color'].'", "textDecoration": "'.$context['flexible_footer_a_decoration'].'"});});'.JS_SUFFIX;
+	Page::insert_script('$("#f_sample .regular").each(function(){$(this).css({"backgroundColor": "'.$context['flexible_footer_a_bg'].'", "color": "'.$context['flexible_footer_a_color'].'", "textDecoration": "'.$context['flexible_footer_a_decoration'].'"});});');
 
 	// color of hovered link
 	$label = i18n::s('Hover color');
@@ -1579,7 +1580,7 @@ elseif(!Surfer::is_associate()) {
 		.' <input class="color {hash:true,required:false}" name="flexible_footer_h_bg" size="8" value="'.encode_field($context['flexible_footer_h_bg']).'" maxlength="12" onchange="$(\'div#f_sample a.current\').each(function(){$(this).css({\'backgroundColor\': this.value})})" />'
 		.' '.select_helper('flexible_footer_h_decoration', $text_decorations, 'div#f_sample a.current', 'textDecoration');
 	$fields[] = array($label, $input);
-	$text .= JS_PREFIX.'$("#f_sample .current").each(function(){$(this).css({"backgroundColor": "'.$context['flexible_footer_h_bg'].'", "color": "'.$context['flexible_footer_h_color'].'", "textDecoration": "'.$context['flexible_footer_h_decoration'].'"});});'.JS_SUFFIX;
+	Page::insert_script('$("#f_sample .current").each(function(){$(this).css({"backgroundColor": "'.$context['flexible_footer_h_bg'].'", "color": "'.$context['flexible_footer_h_color'].'", "textDecoration": "'.$context['flexible_footer_h_decoration'].'"});});');
 
 	// put the set of fields in the page
 	$text .= Skin::build_folded_box(i18n::s('Links'), Skin::build_form($fields));
@@ -1912,7 +1913,7 @@ elseif(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), $parameters_file);
-		Logger::remember('skins/flexible/configure.php', $label);
+		Logger::remember('skins/flexible/configure.php: '.$label);
 
 	}
 
@@ -2369,7 +2370,7 @@ elseif(!Surfer::is_associate()) {
 
 			// remember the change
 			$label = sprintf(i18n::c('%s has been updated'), $styles_file);
-			Logger::remember('skins/flexible/configure.php', $label);
+			Logger::remember('skins/flexible/configure.php: '.$label);
 
 		}
 	}

@@ -11,7 +11,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';
 
 // load localized strings -- see i18n/i18n.php for more information on internationalization and localization in YACS
 i18n::bind('tools');
@@ -55,8 +54,8 @@ $context['path_bar'] = array( 'skins/' => i18n::s('Themes'));
 $context['text'] .= '<p>'.DUMMY_TEXT.'</p>'.'<p>'.DUMMY_TEXT.'</p>'.'<p>'.DUMMY_TEXT.'</p>';
 
 // do the transformation
-$data =& xml::load_array($context);
-$text =& xml::transform($data, 'transform.xsl');
+$data = xml::load_array($context);
+$text = xml::transform($data, 'transform.xsl');
 
 // actual transmission except on a HEAD request
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))

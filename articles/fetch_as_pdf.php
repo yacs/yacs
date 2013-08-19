@@ -22,7 +22,6 @@
 include_once '../shared/global.php';
 include_once '../comments/comments.php';
 include_once '../links/links.php';
-include_once '../overlays/overlay.php';
 
 // look for the id
 $id = NULL;
@@ -33,12 +32,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related anchor
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -127,10 +126,10 @@ if(Surfer::is_crawler()) {
 
 	// list files by date (default) or by title (option files_by_title)
 	$items = array();
-	if(Articles::has_option('files_by_title', $anchor, $item))
-		$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 50, 'compact');
+	if(Articles::has_option('files_by', $anchor, $item) == 'title')
+		$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 300, 'compact');
 	else
-		$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'compact');
+		$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 300, 'compact');
 
 	// actually render the html for the section
 	if(count($items))
@@ -191,7 +190,7 @@ if(Surfer::is_crawler()) {
 	}
 
 	// link to the original page
-	$context['text'] .= '<p>'.sprintf(i18n::s('The original page is located at %s'), Skin::build_link($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item), $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item)))."</p>\n";
+	$context['text'] .= '<p>'.sprintf(i18n::s('The original page is located at %s'), Skin::build_link(Articles::get_permalink($item), Articles::get_permalink($item)))."</p>\n";
 
 	// insert anchor suffix
 	if(is_object($anchor))
@@ -243,8 +242,8 @@ if(Surfer::is_crawler()) {
 
 	// suggest a download
 	if(!headers_sent()) {
-		$file_name = utf8::to_ascii(Skin::strip($context['page_title'], 20).'.pdf');
-		Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
+		$file_name = utf8::to_ascii(Skin::strip($context['page_title']).'.pdf');
+		Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $file_name).'"');
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

@@ -161,7 +161,7 @@ if(!file_exists('../parameters/control.include.php')) {
 		// the user table is empty
 		$query = "SELECT count(*) FROM ".SQL::table_name('users');
 		$count = 0;
-		if($result =& SQL::query($query, TRUE, $context['users_connection'])) {
+		if($result = SQL::query($query, TRUE, $context['users_connection'])) {
 			$row = SQL::fetch_row($result);
 			$count = $row[0];
 		}
@@ -247,13 +247,13 @@ if(!file_exists('../parameters/control.include.php')) {
 				$commands[] = sprintf(i18n::s('%s - enhance information provided through RSS'), Skin::build_link('feeds/configure.php', i18n::s('Information channels'), 'basic'));
 
 				if(Surfer::has_all())
-					$commands[] = sprintf(i18n::s('%s - to share and stream existing directories and files'), Skin::build_link('collections/configure.php', i18n::s('File collections'), 'basic'));
-
-				if(Surfer::has_all())
 					$commands[] = sprintf(i18n::s('%s - to extend accepted types and to make uploaded files available from FTP'), Skin::build_link('files/configure.php', i18n::s('Files'), 'basic'));
 
 				if(isset($context['with_email']) && ($context['with_email'] == 'Y'))
 					$commands[] = sprintf(i18n::s('%s - change the template used for newsletters'), Skin::build_link('letters/configure.php', i18n::s('Newsletters'), 'basic'));
+
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - add specific configuration details for some host names or sub-domains'), Skin::build_link('control/virtual.php', i18n::s('Virtual hosts'), 'basic'));
 
 				if(Surfer::has_all())
 					$commands[] = sprintf(i18n::s('%s - change parameters for back-end services'), Skin::build_link('services/configure.php', i18n::s('Web services'), 'basic'));
@@ -289,16 +289,16 @@ if(!file_exists('../parameters/control.include.php')) {
 			$text .= Skin::table_row(array(i18n::s('Table'), 'center='.i18n::s('Records'), 'center='.i18n::s('First record'), 'center='.i18n::s('Last record')), 'header');
 			$lines = 2;
 
-			// actions
-			if($row = SQL::table_stat('actions')) {
+			// activities
+			if($row = SQL::table_stat('activities')) {
 				$cells = array();
-				$cells[] = Skin::build_link('actions/', SQL::table_name('actions'), 'basic');
+				$cells[] = SQL::table_name('activities');
 				$cells[] = 'center='.$row[0];
 				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
 				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
 				$text .= Skin::table_row($cells, $lines++);
 			} else
-				$text .= Skin::table_row(array(SQL::table_name('actions'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+				$text .= Skin::table_row(array(SQL::table_name('activities'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
 			// articles
 			if($row = SQL::table_stat('articles')) {
@@ -355,18 +355,19 @@ if(!file_exists('../parameters/control.include.php')) {
 			} else
 				$text .= Skin::table_row(array(SQL::table_name('dates'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
-			// decisions
-			if($row = SQL::table_stat('decisions')) {
+			// enrolments
+			if($row = SQL::table_stat('enrolments')) {
 				$cells = array();
-				$cells[] = Skin::build_link('decisions/', SQL::table_name('decisions'), 'basic');
+				$cells[] = SQL::table_name('enrolments');
 				$cells[] = 'center='.$row[0];
 				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
 				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
 				$text .= Skin::table_row($cells, $lines++);
 			} else
-				$text .= Skin::table_row(array(SQL::table_name('decisions'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+				$text .= Skin::table_row(array(SQL::table_name('enrolments'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
 			// files
+			include_once '../files/files.php';
 			if($stats = Files::stat()) {
 				$cells = array();
 				$size = '';
@@ -379,17 +380,6 @@ if(!file_exists('../parameters/control.include.php')) {
 				$text .= Skin::table_row($cells, $lines++);
 			} else
 				$text .= Skin::table_row(array(SQL::table_name('files'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
-
-			// forms
-			if($row = SQL::table_stat('forms')) {
-				$cells = array();
-				$cells[] = Skin::build_link('forms/', SQL::table_name('forms'), 'basic');
-				$cells[] = 'center='.$row[0];
-				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
-				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
-				$text .= Skin::table_row($cells, $lines++);
-			} else
-				$text .= Skin::table_row(array(SQL::table_name('forms'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
 			// images
 			include_once '../images/images.php';
@@ -405,6 +395,17 @@ if(!file_exists('../parameters/control.include.php')) {
 				$text .= Skin::table_row($cells, $lines++);
 			} else
 				$text .= Skin::table_row(array(SQL::table_name('images'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+
+			// issues
+			if($row = SQL::table_stat('issues')) {
+				$cells = array();
+				$cells[] = SQL::table_name('issues');
+				$cells[] = 'center='.$row[0];
+				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
+				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
+				$text .= Skin::table_row($cells, $lines++);
+			} else
+				$text .= Skin::table_row(array(SQL::table_name('issues'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
 			// links
 			if($row = SQL::table_stat('links')) {
@@ -578,7 +579,7 @@ if(!file_exists('../parameters/control.include.php')) {
 
 			// total size of the database
 			$query = "SHOW TABLE STATUS";
-			if(!$result =& SQL::query($query)) {
+			if(!$result = SQL::query($query)) {
 				$context['text'] .= Logger::error_pop().BR."\n";
 			} else {
 
@@ -589,7 +590,7 @@ if(!file_exists('../parameters/control.include.php')) {
 				$data_size = 0;
 				$index_size = 0;
 				$unused_size = 0;
-				while($row =& SQL::fetch($result)) {
+				while($row = SQL::fetch($result)) {
 					$total_tables += 1;
 					$total_records += $row['Rows'];
 					$total_size += $row['Data_length'] + $row['Index_length'] + $row['Data_free'];
@@ -655,7 +656,6 @@ if(!file_exists('../parameters/control.include.php')) {
 				|| (Surfer::is_member() && (!isset($context['users_without_submission']) || ($context['users_without_submission'] != 'Y'))) ) {
 
 				$commands[] = sprintf(i18n::s('%s - select a section and type some text, then add images, files and links'), Skin::build_link('articles/edit.php', i18n::s('Add a page'), 'basic'));
-				$commands[] = sprintf(i18n::s('%s - fill pre-defined fields, then add images, files and links'), Skin::build_link('forms/', i18n::s('Use a form'), 'basic'));
 
 			}
 
@@ -683,9 +683,6 @@ if(!file_exists('../parameters/control.include.php')) {
 					Skin::build_link(Articles::get_url('menu'), i18n::s('Menu')),
 					Skin::build_link(Articles::get_url('about'), i18n::s('About this site')),
 					Skin::build_link(Articles::get_url('privacy'), i18n::s('Privacy statement')));
-
-			// collections
-			$commands[] = sprintf(i18n::s('%s - shared directories and files'), Skin::build_link('collections/', i18n::s('File collections'), 'basic'));
 
 			// import some content
 			if(Surfer::is_associate())
@@ -719,10 +716,9 @@ if(!file_exists('../parameters/control.include.php')) {
 
 			// members can use additional tools
 			if(Surfer::is_member()) {
-				$text .= Skin::build_block(i18n::s('Blogging tools'), 'title');
 
 				// introduce bookmarklets
-				$text .= '<p>'.i18n::s('To install following bookmarklets, right-click over them and add them to your bookmarks or favorites. Then recall them at any time while browsing the Internet, to add content to this site.').'</p>'."\n".'<ul>';
+				$box = '<p>'.i18n::s('To install following bookmarklets, right-click over them and add them to your bookmarks or favorites. Then recall them at any time while browsing the Internet, to add content to this site.').'</p>'."\n".'<ul>';
 
 				// the blogging bookmarklet uses YACS codes
 				$bookmarklet = "javascript:function findFrame(f){var i;try{isThere=f.document.selection.createRange().text;}catch(e){isThere='';}if(isThere==''){for(i=0;i&lt;f.frames.length;i++){findFrame(f.frames[i]);}}else{s=isThere}return s}"
@@ -733,7 +729,7 @@ if(!file_exists('../parameters/control.include.php')) {
 						."title='+escape(d.title)+'"
 						."&amp;text='+escape('%22'+s+'%22%5Bnl]-- %5Blink='+d.title+']'+d.location+'%5B/link]')+'"
 						."&amp;source='+escape(d.location);";
-				$text .= '<li><a href="'.$bookmarklet.'">'.sprintf(i18n::s('Blog at %s'), $context['site_name']).'</a></li>'."\n";
+				$box .= '<li><a href="'.$bookmarklet.'">'.sprintf(i18n::s('Blog at %s'), $context['site_name']).'</a></li>'."\n";
 
 				// the bookmarking bookmarklet
 				$bookmarklet = "javascript:function findFrame(f){var i;try{isThere=f.document.selection.createRange().text;}catch(e){isThere='';}if(isThere==''){for(i=0;i&lt;f.frames.length;i++){findFrame(f.frames[i]);}}else{s=isThere}return s}"
@@ -744,27 +740,27 @@ if(!file_exists('../parameters/control.include.php')) {
 						."link='+escape(d.location)+'"
 						."&amp;title='+escape(d.title)+'"
 						."&amp;text='+escape(s);";
-				$text .= '<li><a href="'.$bookmarklet.'">'.sprintf(i18n::s('Bookmark at %s'), $context['site_name']).'</a></li>'."\n";
+				$box .= '<li><a href="'.$bookmarklet.'">'.sprintf(i18n::s('Bookmark at %s'), $context['site_name']).'</a></li>'."\n";
 
 				// end of bookmarklets
-				$text .= '</ul>'."\n";
+				$box .= '</ul>'."\n";
 
 				// the command to add a side panel
-				$text .= '<p>'.sprintf(i18n::s('If your browser supports side panels and javascript, click on the following link to %s.'), '<a onclick="addSidePanel()">'.i18n::s('add a blogging panel').'</a>.').'</p>'."\n";
+				$box .= '<p>'.sprintf(i18n::s('If your browser supports side panels and javascript, click on the following link to %s.'), '<a onclick="addSidePanel()">'.i18n::s('add a blogging panel').'</a>.').'</p>'."\n";
 
 				// the actual javascript code to add a panel
-				$context['page_footer'] .= JS_PREFIX
-					.'// add a side panel to the current browser instance'."\n"
-					.'function addSidePanel() {'."\n"
-					.'	// a gecko-based browser: netscape, mozilla, firefox'."\n"
+				Page::insert_script(
+					// add a side panel to the current browser instance
+					'function addSidePanel() {'."\n"
+						// a gecko-based browser: netscape, mozilla, firefox
 					.'	if((typeof window.sidebar == "object") && (typeof window.sidebar.addPanel == "function")) {'."\n"
 					.'		window.sidebar.addPanel("'.strip_tags($context['site_name']).'", "'.$context['url_to_home'].$context['url_to_root'].'panel.php", "");'."\n"
 					.'		alert("'.i18n::s('The panel has been added. You may have to ask your browser to make it visible (Ctrl-B for Firefox).').'");'."\n"
 					.'	} else {'."\n"
-					.'		// internet explorer'."\n"
+							// internet explorer
 					.'		if(document.all) {'."\n"
 					.'			window.open("'.$context['url_to_home'].$context['url_to_root'].'panel.php?target=_main" ,"_search");'."\n"
-					.'		// side panels are not supported'."\n"
+							// side panels are not supported
 					.'		} else {'."\n"
 					.'			var rv = alert("'.i18n::s('Your browser does not support side panels. Have you considered to upgrade to Mozilla Firefox?').'");'."\n"
 					.'			if(rv)'."\n"
@@ -772,11 +768,10 @@ if(!file_exists('../parameters/control.include.php')) {
 					.'		}'."\n"
 					.'	}'."\n"
 					.'}'."\n"
-					.JS_SUFFIX;
+					);
 
-				// the command to install a bookmaklet into internet explorer
-				$text .= '<p>'.sprintf(i18n::s('If you are running Internet Explorer under Windows, click on the following link to %s triggered on right-click. Accept registry updates, and restart the browser afterwards.'), Skin::build_link('articles/ie_bookmarklet.php', i18n::s('add a contextual bookmarklet'))).'</p>'."\n";
-
+				// make a nice box out of it
+				$text .= Skin::build_box(i18n::s('Blogging tools'), $box);
 			}
 
 			// build another tab
@@ -790,10 +785,8 @@ if(!file_exists('../parameters/control.include.php')) {
 			// display a system overview if not a crawler
 			if(!Surfer::is_crawler()) {
 
-				$text .= Skin::build_block(i18n::s('System overview'), 'title');
-
 				// use a neat table for the layout
-				$text .= Skin::table_prefix('');
+				$box = Skin::table_prefix('wide');
 				$lines = 1;
 
 				// yacs version
@@ -805,20 +798,20 @@ if(!file_exists('../parameters/control.include.php')) {
 					$cells[] = $generation['version'].', '.$generation['date'].', '.$generation['server'];
 				else
 					$cells[] = '---';
-				$text .= Skin::table_row($cells, $lines++);
+				$box .= Skin::table_row($cells, $lines++);
 
 				// php version
 				$cells = array();
 				$cells[] = Skin::build_link('http://www.php.net/', 'PHP');
 				$cells[] = phpversion();
-				$text .= Skin::table_row($cells, $lines++);
+				$box .= Skin::table_row($cells, $lines++);
 
 				// MySQL version
 				if($version = SQL::version()) {
 					$cells = array();
 					$cells[] = Skin::build_link('http://www.mysql.com/', 'MySQL');
 					$cells[] = $version;
-					$text .= Skin::table_row($cells, $lines++);
+					$box .= Skin::table_row($cells, $lines++);
 				}
 
 				// Apache version
@@ -826,26 +819,28 @@ if(!file_exists('../parameters/control.include.php')) {
 					$cells = array();
 					$cells[] = Skin::build_link('http://www.apache.org/', 'Apache');
 					$cells[] = apache_get_version();
-					$text .= Skin::table_row($cells, $lines++);
+					$box .= Skin::table_row($cells, $lines++);
 				}
 
 				// time shift
 				$cells = array();
 				$cells[] = i18n::s('Server time zone');
 				$cells[] = sprintf('UTC %s%s %s', ($context['gmt_offset'] > 0)?'+':'', $context['gmt_offset'], i18n::ns('hour', 'hours', abs($context['gmt_offset'])));
-				$text .= Skin::table_row($cells, $lines++);
+				$box .= Skin::table_row($cells, $lines++);
 
 				// memory usage
 				if(is_callable('memory_get_usage')) {
 					$cells = array();
 					$cells[] = i18n::s('Memory');
 					$cells[] = memory_get_usage();
-					$text .= Skin::table_row($cells, $lines++);
+					$box .= Skin::table_row($cells, $lines++);
 				}
 
 				// end of the table
-				$text .= Skin::table_suffix();
+				$box .= Skin::table_suffix();
 
+				// make a nice box out of it
+				$text .= Skin::build_box(i18n::s('System overview'), $box);
 			}
 
 			// available commands for system management
@@ -923,23 +918,17 @@ if(!file_exists('../parameters/control.include.php')) {
 				$links = array();
 
 				if(Surfer::is_associate())
-					$links[] = Skin::build_link('actions/', 'actions', 'shortcut');
-				if(Surfer::is_associate())
 					$links[] = Skin::build_link('agents/', 'agents', 'shortcut');
 				$links[] = Skin::build_link('articles/', 'articles', 'shortcut');
 				if(Surfer::is_associate())
 					$links[] = Skin::build_link('behaviors/', 'behaviors', 'shortcut');
 				$links[] = Skin::build_link('categories/', 'categories', 'shortcut');
 				$links[] = Skin::build_link('codes/', 'codes', 'shortcut');
-				$links[] = Skin::build_link('collections/', 'collections', 'shortcut');
 				if(Surfer::is_associate())
 					$links[] = Skin::build_link('comments/', 'comments', 'shortcut');
 				$links[] = Skin::build_link('dates/', 'dates', 'shortcut');
-				if(Surfer::is_associate())
-					$links[] = Skin::build_link('decisions/', 'decisions', 'shortcut');
 				$links[] = Skin::build_link('feeds/', 'feeds', 'shortcut');
 				$links[] = Skin::build_link('files/', 'files', 'shortcut');
-				$links[] = Skin::build_link('forms/', 'forms', 'shortcut');
 				if(Surfer::is_associate())
 					$links[] = Skin::build_link('images/', 'images', 'shortcut');
 				$links[] = Skin::build_link('letters/', 'letters', 'shortcut');

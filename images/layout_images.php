@@ -26,9 +26,9 @@ Class Layout_images extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array one item per image
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -44,7 +44,7 @@ Class Layout_images extends Layout_interface {
 		$items = array();
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// initialize variables
 			$prefix = $suffix = $icon = '';
@@ -59,10 +59,10 @@ Class Layout_images extends Layout_interface {
 				$suffix .= Skin::strip($item['title'], 10).BR;
 
 			// there is an anchor
-			if($item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
+			if($item['anchor'] && ($anchor = Anchors::get($item['anchor']))) {
 
 				// codes to embed this image
-				if($this->layout_variant == $anchor->get_reference()) {
+				if($this->focus == $anchor->get_reference()) {
 
 					// help to insert in textarea
 // 					if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))

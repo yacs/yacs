@@ -35,6 +35,9 @@
 include_once '../shared/global.php';
 include_once 'categories.php';
 
+// ensure we only provide public content through newsfeeds
+$context['users_without_teasers'] = 'Y';
+
 // check network credentials, if any
 if($user = Users::authenticate())
 	Surfer::empower($user['capability']);
@@ -48,12 +51,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Categories::get($id);
+$item = Categories::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // associates and editors can do what they want
 if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
@@ -109,7 +112,7 @@ if(!isset($item['id'])) {
 
 	// get the list from the cache, if possible
 	$cache_id = 'categories/feed.php?id='.$item['id'].'#channel';
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// loads feeding parameters
 		Safe::load('parameters/feeds.include.php');
@@ -118,7 +121,7 @@ if(!isset($item['id'])) {
 		$values = array();
 		$values['channel'] = array();
 		$values['channel']['title'] = $item['title'];
-		$values['channel']['link'] = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item);
+		$values['channel']['link'] = Categories::get_permalink($item);
 		$values['channel']['description'] = $item['introduction'];
 
 		// the image for this channel
@@ -148,7 +151,7 @@ if(!isset($item['id'])) {
 	// suggest a name on download
 	if(!headers_sent()) {
 		$file_name = utf8::to_ascii($context['site_name'].'.category.'.$item['id'].'.rss.xml');
-		Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+		Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

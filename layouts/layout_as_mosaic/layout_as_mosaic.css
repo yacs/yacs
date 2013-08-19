@@ -1,0 +1,34 @@
+/** 
+ * minimal stylesheet for layout_as_mosaic
+ * 
+ * all .classes and #id begin with mc- (for MosaiC)
+ *
+ * @author Alexis Raimbault
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+ */
+
+
+.mc-block {
+    max-width: 191px;
+    min-width: 91px;
+    padding: 3px;
+    margin : 0 3px 3px 0;    
+    /* total of width + 2x padding + 2x margin = a number multiple of masonry columnWidth */
+    /* by default columWith is 100 and total padding + margin is 9 */         
+    
+    border-radius : 3px;
+    background : rgba(0,0,0,.15);    
+}
+
+.mc-block h3 {
+    text-align: center;
+    margin-top: -3px;
+    margin-left: -3px;
+    margin-right: -3px;
+    
+    border-radius : 3px 3px 0 0;
+    background : rgba(0,0,0,.15);
+}
+
+

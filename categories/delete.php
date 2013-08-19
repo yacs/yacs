@@ -31,16 +31,15 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Categories::get($id);
+$item = Categories::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item, 'category:'.$item['id']);
 
@@ -88,15 +87,15 @@ if(!isset($item['id'])) {
 
 		// log item deletion
 		$label = sprintf(i18n::c('Deletion: %s'), strip_tags($item['title']));
-		$description = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item);
-		Logger::remember('categories/delete.php', $label, $description);
+		$description = Categories::get_permalink($item);
+		Logger::remember('categories/delete.php: '.$label, $description);
 
 		// this can appear anywhere
 		Cache::clear();
 
 		// back to the anchor page or to the index page
 		if(is_object($anchor))
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
+			Safe::redirect($anchor->get_url());
 		else
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].'categories/');
 	}
@@ -122,10 +121,7 @@ else {
 		.'</p></form>'."\n";
 
 	// set the focus
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#confirmed").focus();'."\n"
-		.JS_SUFFIX;
+	Page::insert_script('$("#confirmed").focus();');
 
 	// the title of the category
 	if($item['title'])

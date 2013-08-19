@@ -72,7 +72,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 	// remember this in log as well
-	Logger::remember('servers/ping.php', 'The cloud has been pinged');
+	Logger::remember('servers/ping.php: The cloud has been pinged');
 
 // operation has to be confirmed
 } else {
@@ -87,9 +87,7 @@ elseif(!Surfer::is_associate()) {
 		.'</p></form>';
 
 	// set the focus on the backup button
-	$context['text'] .= JS_PREFIX
-		.'$("#go").focus();'."\n"
-		.JS_SUFFIX."\n";
+	Page::insert_script('$("#go").focus();');
 
 }
 

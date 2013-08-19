@@ -17,7 +17,7 @@ Class Layout_sections_as_compact extends Layout_interface {
 	 *
 	 * @return int the optimised count of items for this layout
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return COMPACT_LIST_SIZE;
@@ -29,9 +29,9 @@ Class Layout_sections_as_compact extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -44,10 +44,10 @@ Class Layout_sections_as_compact extends Layout_interface {
 		$items = array();
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// initialize variables
 			$prefix = $label = $suffix = '';

@@ -34,47 +34,44 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 			Versions::save($item, 'article:'.$item['id']);
 
 		// stop on error
-		if(!Articles::put_attributes($_REQUEST) || (is_object($overlay) && !$overlay->remember('update', $_REQUEST))) {
+		if(!Articles::put_attributes($_REQUEST) || (is_object($overlay) && !$overlay->remember('update', $_REQUEST, 'article:'.$_REQUEST['id']))) {
 			$item = $_REQUEST;
 			$with_form = TRUE;
 
 		// else display the updated page
 		} else {
 
-			// touch the related anchor, but only if the page has been published
-			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
-				$anchor->touch('article:update', $_REQUEST['id'],
-					isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
-					isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'));
+			// do whatever is necessary on page update
+			Articles::finalize_update($anchor, $_REQUEST, $overlay,
+				isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
+				isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
+				isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
 
-			// add this page to poster watch list
-			if(Surfer::get_id())
-				Members::assign('article:'.$item['id'], 'user:'.Surfer::get_id());
+			// cascade changes on access rights
+			if($_REQUEST['active'] != $item['active'])
+				Anchors::cascade('article:'.$item['id'], $_REQUEST['active']);
 
-			// list persons that have been notified
-			if($recipients = Mailer::build_recipients(i18n::s('Persons that have been notified'))) {
-
-				$context['text'] .= $recipients;
-
-				// follow-up commands
-				$follow_up = i18n::s('What do you want to do now?');
-				$menu = array();
-				$menu = array_merge($menu, array(Articles::get_permalink($_REQUEST) => i18n::s('View the page')));
-				if(Surfer::may_upload())
-					$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Upload a file')));
-				if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Surfer::is_empowered())
-					$menu = array_merge($menu, array(Articles::get_url($item['id'], 'publish') => i18n::s('Publish the page')));
-				$follow_up .= Skin::build_list($menu, 'menu_bar');
-				$context['text'] .= Skin::build_block($follow_up, 'bottom');
-
-				// log page modification
-				$label = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
-				$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($_REQUEST).'">'.$_REQUEST['title'].'</a>';
-				Logger::notify('articles/edit.php', $label, $description);
+			// the page has been modified
+			$context['text'] .= '<p>'.i18n::s('The page has been successfully updated.').'</p>';
 
 			// display the updated page
-			} else
-				Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
+			if(!$recipients = Mailer::build_recipients('article:'.$item['id']))
+				Safe::redirect(Articles::get_permalink($item));
+
+			// list persons that have been notified
+			$context['text'] .= $recipients;
+
+			// follow-up commands
+			$follow_up = i18n::s('What do you want to do now?');
+			$menu = array();
+			$menu = array_merge($menu, array(Articles::get_permalink($_REQUEST) => i18n::s('View the page')));
+			if(Surfer::may_upload())
+				$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a file')));
+			if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Surfer::is_empowered())
+				$menu = array_merge($menu, array(Articles::get_url($item['id'], 'publish') => i18n::s('Publish the page')));
+			$follow_up .= Skin::build_list($menu, 'menu_bar');
+			$context['text'] .= Skin::build_block($follow_up, 'bottom');
+
 		}
 
 
@@ -85,49 +82,6 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 
 	// successful post
 	} else {
-
-		// post an overlay, with the new article id --don't stop on error
-		if(is_object($overlay))
-			$overlay->remember('insert', $_REQUEST, 'article:'.$_REQUEST['id']);
-
-		// attach some file
-		if(isset($_FILES['upload']))
-			Files::upload($_FILES['upload'], 'files/'.$context['virtual_path'].str_replace(':', '/', 'article:'.$_REQUEST['id']), 'article:'.$_REQUEST['id']);
-
-		// increment the post counter of the surfer
-		if(Surfer::get_id())
-			Users::increment_posts(Surfer::get_id());
-
-		// touch the related anchor, but only if the page has been published
-		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
-
-			// don't notify the creation of an event
-			$with_watchers = TRUE;
-			if(is_object($overlay))
-				$with_watchers = $overlay->should_notify_watchers();
-
-			// update anchors and forward notifications
-			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), $with_watchers, FALSE);
-
-			// advertise public pages
-			if(isset($_REQUEST['active']) && ($_REQUEST['active'] == 'Y')) {
-
-				// pingback, if any
-				Links::ping($_REQUEST['description'], 'article:'.$_REQUEST['id']);
-
-				// ping servers
-				Servers::notify($anchor->get_url());
-
-			}
-
-			// 'publish' hook
-			if(is_callable(array('Hooks', 'include_scripts')))
-				Hooks::include_scripts('publish', $_REQUEST['id']);
-
-		}
-
-		// get the new item
-		$article =& Anchors::get('article:'.$_REQUEST['id'], TRUE);
 
 		// page title
 		$context['page_title'] = i18n::s('Thank you for your contribution');
@@ -148,10 +102,66 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		else
 			$context['text'] .= i18n::s('<p>The new page will now be reviewed before its publication. It is likely that this will be done within the next 24 hours at the latest.</p>');
 
-		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified'));
+		// attach some file
+		$path = Files::get_path('article:'.$_REQUEST['id']);
+		if(isset($_FILES['upload']) && ($uploaded = Files::upload($_FILES['upload'], $path, 'article:'.$_REQUEST['id']))) {
+
+			// several files have been added
+			if(is_array($uploaded)) {
+				$context['text'] .= '<p>'.i18n::s('Following files have been added:').'</p>'
+					.Skin::build_list(Files::list_for_anchor_and_name('article:'.$_REQUEST['id'], $uploaded, 'compact'), 'compact');
+
+				$_REQUEST['first_comment'] = '<div>'.Skin::build_list(Files::list_for_anchor_and_name('article:'.$_REQUEST['id'], $uploaded, 'compact'), 'compact').'</div>';
+
+			// one file has been added
+			} elseif($file =& Files::get_by_anchor_and_name('article:'.$_REQUEST['id'], $uploaded)) {
+				$context['text'] .= '<p>'.i18n::s('Following file has been added:').'</p>'
+					.Codes::render_object('file', $file['id']);
+
+				$_REQUEST['first_comment'] = '<div>'.Codes::render_object('file', $file['id']).'</div>';
+
+				// silently delete the previous file if the name has changed
+				if(isset($file['file_name']) && ($file['file_name'] != $uploaded))
+					Safe::unlink($file_path.'/'.$file['file_name']);
+
+			}
+
+		}
+
+		// capture first comment too
+		if(isset($_REQUEST['first_comment']) && $_REQUEST['first_comment']) {
+			include_once $context['path_to_root'].'comments/comments.php';
+			$fields = array();
+			$fields['anchor'] = 'article:'.$_REQUEST['id'];
+			$fields['description'] = $_REQUEST['first_comment'];
+			Comments::post($fields);
+		}
+
+		// post an overlay, with the new article id --don't stop on error
+		if(is_object($overlay))
+			$overlay->remember('insert', $_REQUEST, 'article:'.$_REQUEST['id']);
+
+		// increment the post counter of the surfer
+		Users::increment_posts(Surfer::get_id());
+
+		// do whatever is necessary on page publication
+		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
+
+			Articles::finalize_publication($anchor, $_REQUEST, $overlay,
+				isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
+				isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
+
+		// else do whatever is necessary on page submission
+		} else
+			Articles::finalize_submission($anchor, $_REQUEST, $overlay);
+
+		// get the new item
+		$article = Anchors::get('article:'.$_REQUEST['id'], TRUE);
 
 		// list persons that have been notified
+		$context['text'] .= Mailer::build_recipients('article:'.$_REQUEST['id']);
+
+		// list endpoints that have been notified
 		$context['text'] .= Servers::build_endpoints(i18n::s('Servers that have been notified'));
 
 		// follow-up commands
@@ -159,37 +169,13 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		$menu = array();
 		$menu = array_merge($menu, array($article->get_url() => i18n::s('View the page')));
 		if(Surfer::may_upload())
-			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']) => i18n::s('Upload a file')));
+			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']) => i18n::s('Add a file')));
 		if((!isset($_REQUEST['publish_date']) || ($_REQUEST['publish_date'] <= NULL_DATE)) && Surfer::is_empowered())
 			$menu = array_merge($menu, array(Articles::get_url($_REQUEST['id'], 'publish') => i18n::s('Publish the page')));
 		if(is_object($anchor) && Surfer::is_empowered())
 			$menu = array_merge($menu, array('articles/edit.php?anchor='.urlencode($anchor->get_reference()) => i18n::s('Add another page')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
-
-		// log the creation of a new page
-		if(!Surfer::is_empowered())
-			$label = sprintf(i18n::c('New submission: %s'), strip_tags($article->get_title()));
-		else
-			$label = sprintf(i18n::c('New page: %s'), strip_tags($article->get_title()));
-
-		// poster and target section
-		if(is_object($anchor))
-			$description = sprintf(i18n::s('Sent by %s in %s'), Surfer::get_name(), $anchor->get_title())."\n\n";
-		else
-			$description = sprintf(i18n::s('Sent by %s'), Surfer::get_name())."\n\n";
-
-		// title and link
-		if($title = $article->get_title())
-			$description .= $title."\n";
-		$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].$article->get_url().'">'.$article->get_title().'</a>';
-
-		// teaser
-		if($teaser = $article->get_teaser('basic'))
-			$description .= "\n\n".$teaser."\n\n";
-
-		// notify sysops
-		Logger::notify('articles/edit.php', $label, $description);
 
 	}
 
@@ -277,15 +263,18 @@ if($with_form) {
 	$fields[] = array($label, $input, $hint);
 
 	// allow for an initial upload, if allowed
-	if(!isset($item['id']) && Surfer::may_upload()) {
+	if(!isset($item['id']) && Surfer::may_upload() && Files::allow_creation($item,$anchor, 'article')) {
 
 		// attachment label
-		$label = i18n::s('Upload a file');
+		$label = i18n::s('Add a file');
 
 		// an upload entry
 		$input = '<input type="hidden" name="file_type" value="upload" />'
-			.'<input type="file" name="upload" size="30" />'
-			.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')';
+			.'<input type="file" name="upload" size="30" onchange="if(/\\.zip$/i.test($(this).val())){$(\'#upload_option\').slideDown();}else{$(\'#upload_option\').slideUp();}" />'
+			.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
+			.'<div id="upload_option" style="display: none;" >'
+			.'<input type="checkbox" name="explode_files" checked="checked" /> '.i18n::s('Extract files from the archive')
+			.'</div>';
 
 		$fields[] = array($label, $input);
 
@@ -341,7 +330,7 @@ if($with_form) {
 
 		// files
 		$box = '';
-		if(Files::allow_creation($anchor, $item)) {
+		if(Files::allow_creation($item, $anchor, 'article')) {
 			$menu = array( 'files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a file') );
 			$box .= Skin::build_list($menu, 'menu_bar');
 		}
@@ -393,13 +382,6 @@ if($with_form) {
 
 			$fields[] = array($label, $input);
 
-			// editors
-			$label = i18n::s('Editors');
-			if($items =& Members::list_editors_for_member('article:'.$item['id'], 0, 7, 'comma5'))
-				$input =& Skin::build_list($items, 'comma');
-			else
-				$input = i18n::s('Nobody has been assigned to this page.');
-			$fields[] = array($label, $input);
 		}
 
 		// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
@@ -526,7 +508,7 @@ if($with_form) {
 			elseif(isset($_SESSION['pasted_name']))
 				$value = $_SESSION['pasted_name'];
 			$input = '<input type="text" name="nick_name" size="32" value="'.encode_field($value).'" maxlength="64" accesskey="n" />';
-			$hint = sprintf(i18n::s('To designate a page by its name in the %s'), Skin::build_link('go.php', 'page selector', 'help'));
+			$hint = sprintf(i18n::s('To designate a page by its name in the %s'), Skin::build_link('go.php', 'page selector', 'open'));
 			$fields[] = array($label, $input, $hint);
 		}
 
@@ -613,7 +595,7 @@ if($with_form) {
 
 		// preserve attributes coming from template duplication
 		if(!isset($item['id'])) {
-			$hidden = array('behaviors', 'extra', 'icon_url', 'home_panel', 'prefix', 'suffix', 'trailer');
+			$hidden = array('behaviors', 'extra', 'icon_url', 'index_map', 'prefix', 'suffix', 'trailer');
 			foreach($hidden as $name) {
 				if(isset($item[ $name ]))
 					$context['text'] .= '<input type="hidden" name="'.$name.'" value="'.$item[ $name ].'" />';
@@ -629,7 +611,7 @@ if($with_form) {
 
 		// preserve attributes coming from template duplication
 		if(!isset($item['id'])) {
-			$hidden = array('behaviors', 'extra', 'icon_url', 'home_panel', 'locked', 'meta', 'options', 'prefix', 'rank', 'source', 'suffix', 'thumbnail_url', 'trailer');
+			$hidden = array('behaviors', 'extra', 'icon_url', 'index_map', 'locked', 'meta', 'options', 'prefix', 'rank', 'source', 'suffix', 'thumbnail_url', 'trailer');
 			foreach($hidden as $name) {
 				if(isset($item[ $name ]))
 					$context['text'] .= '<input type="hidden" name="'.$name.'" value="'.$item[ $name ].'" />';

@@ -64,9 +64,7 @@ function send_body() {
 			.'</p></form>';
 
 		// set the focus on the button
-		echo JS_PREFIX
-			.'$("#confirmed").focus();'."\n"
-			.JS_SUFFIX."\n";
+		Page::insert_script('$("#confirmed").focus();');
 
 		// this may take some time
 		echo '<p>'.i18n::s('When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.').'</p>';
@@ -82,8 +80,10 @@ function send_body() {
 
 		// locate script files starting at root
 		$scripts = Scripts::list_scripts_at(NULL);
-		if(is_array($scripts) && count($scripts))
+		if(is_array($scripts) && count($scripts)) {
 			echo BR.sprintf(i18n::s('%d scripts have been found.'), count($scripts))."\n";
+			natsort($scripts);
+		}
 		echo "</p>\n";
 
 		// including scripts
@@ -97,25 +97,18 @@ function send_body() {
 		global $finalizing_fuse;
 		$finalizing_fuse = FALSE;
 
-		// take care of dependances
+		// take care of dependancies
 		include_once '../behaviors/behavior.php';
-		include_once '../overlays/overlay.php';
+		include_once '../services/codec.php';
 		include_once '../users/authenticator.php';
 
 		// analyse each script
 		$included_files = 0;
 		$links_to_be_checked_manually = array();
-		foreach($scripts as $script) {
+		foreach($scripts as $file) {
 
 			// ensure we have enough time to process this script
 			Safe::set_time_limit(30);
-
-			// check file content
-			list($module, $name) = $script;
-			if($module)
-				$file = $module.'/'.$name;
-			else
-				$file= $name;
 
 			// skip run once scripts
 			if(strpos($file, 'run_once/'))
@@ -157,7 +150,7 @@ function send_body() {
 
 			// log script inclusion on development host
 			if($context['with_debug'] == 'Y')
-				logger::remember('scripts/validate.php', 'inclusion of '.$file, '', 'debug');
+				logger::remember('scripts/validate.php: inclusion of '.$file, '', 'debug');
 
 			// include the script and display any error
 			$included_files += 1;

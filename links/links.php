@@ -23,7 +23,7 @@ Class Links {
 	 * @param string the type of item, e.g., 'section'
 	 * @return boolean TRUE or FALSE
 	 */
-	function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
+	public static function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
 		global $context;
 
 		// guess the variant
@@ -153,7 +153,7 @@ Class Links {
 	 *
 	 * @return boolean TRUE or FALSE
 	 */
-	function allow_trackback() {
+	public static function allow_trackback() {
 		global $context;
 
 		// site is visible from the Internet
@@ -173,7 +173,7 @@ Class Links {
 	 * @param int maximum number of chars
 	 * @return string a cleaned label
 	 */
-	function clean($title='', $reference='', $size=100) {
+	public static function clean($title='', $reference='', $size=100) {
 		global $context;
 
 		// use provided title
@@ -203,7 +203,7 @@ Class Links {
 	 *
 	 * @param array item attributes
 	 */
-	function clear(&$item) {
+	public static function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('articles', 'categories', 'links', 'sections', 'users');
@@ -227,7 +227,7 @@ Class Links {
 	 * @param string the external url that is targeted
 	 *
 	 */
-	function click($url) {
+	public static function click($url) {
 		global $context;
 
 		// we record only GET requests
@@ -239,7 +239,6 @@ Class Links {
 			return;
 
 		// record the activity
-		include_once $context['path_to_root'].'users/activities.php';
 		Activities::post($url, 'click');
 
 		// do not record clicks driving to search engines
@@ -249,7 +248,7 @@ Class Links {
 		// if this url is known
 		$query = "SELECT * FROM ".SQL::table_name('links')." AS links"
 			." WHERE links.link_url LIKE '".SQL::escape($url)."'";
-		if($item =& SQL::query_first($query)) {
+		if($item = SQL::query_first($query)) {
 
 			// increment the number of clicks
 			$query = "UPDATE ".SQL::table_name('links')." SET hits=hits+1 WHERE id = ".SQL::escape($item['id']);
@@ -270,7 +269,6 @@ Class Links {
 				$fields['description'] = i18n::c('YACS ties automatically external links to this section on use. Therefore, you will have below a global picture of external sites that are referenced through your site.');
 				$fields['active_set'] = 'N'; // for associates only
 				$fields['locked'] = 'Y'; // no direct contributions
-				$fields['home_panel'] = 'none'; // content is not pushed at the front page
 				$fields['index_map'] = 'N'; // listd only to associates
 				$fields['rank'] = 20000; // towards the end of the list
 
@@ -300,7 +298,7 @@ Class Links {
 	 * @param boolean TRUE if this can be optionnally avoided
 	 * @return the resulting count, or NULL on error
 	 */
-	function count_for_anchor($anchor, $optional=FALSE) {
+	public static function count_for_anchor($anchor, $optional=FALSE) {
 		global $context;
 
 		// sanity check
@@ -327,7 +325,7 @@ Class Links {
 	 *
 	 * @see links/delete.php
 	 */
-	function delete($id) {
+	public static function delete($id) {
 		global $context;
 
 		// id cannot be empty
@@ -350,7 +348,7 @@ Class Links {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function delete_for_anchor($anchor) {
+	public static function delete_for_anchor($anchor) {
 		global $context;
 
 		// delete all matching records in the database
@@ -370,16 +368,16 @@ Class Links {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function duplicate_for_anchor($anchor_from, $anchor_to) {
+	public static function duplicate_for_anchor($anchor_from, $anchor_to) {
 		global $context;
 
 		// look for records attached to this anchor
 		$count = 0;
 		$query = "SELECT * FROM ".SQL::table_name('links')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// a new id will be allocated
 				$old_id = $item['id'];
@@ -414,7 +412,7 @@ Class Links {
 	 * @see links/delete.php
 	 * @see links/edit.php
 	 */
-	function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// sanity check
@@ -435,7 +433,7 @@ Class Links {
 				." ORDER BY edit_date DESC LIMIT 1";
 
 		// do the job
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -470,7 +468,7 @@ Class Links {
 	 * @see links/trackback.php
 	 * @see services/ping.php
 	 */
-	function have($url, $anchor=NULL, $attributes=NULL) {
+	public static function have($url, $anchor=NULL, $attributes=NULL) {
 		global $context;
 
 		// does this (link, anchor) tupple exists?
@@ -522,7 +520,7 @@ Class Links {
 	 * @see links/check.php
 	 * @see links/index.php
 	 */
-	function &list_by_date($offset=0, $count=10, $variant='dates') {
+	public static function &list_by_date($offset=0, $count=10, $variant='dates') {
 		global $context;
 
 		// if not associate, restrict to links attached to public published not expired pages
@@ -572,7 +570,7 @@ Class Links {
 	 * @see users/print.php
 	 * @see users/view.php
 	 */
-	function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor') {
+	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor') {
 		global $context;
 
 		// the list of links
@@ -600,7 +598,7 @@ Class Links {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='no_author') {
+	public static function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='no_author') {
 		global $context;
 
 		// the list of links
@@ -635,7 +633,7 @@ Class Links {
 	 *
 	 * @see index.php
 	 */
-	function &list_by_hits($offset=0, $count=10, $variant='hits') {
+	public static function &list_by_hits($offset=0, $count=10, $variant='hits') {
 		global $context;
 
 		// the list of links
@@ -663,7 +661,7 @@ Class Links {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_by_hits_for_author($author_id, $offset=0, $count=10, $variant='hits') {
+	public static function &list_by_hits_for_author($author_id, $offset=0, $count=10, $variant='hits') {
 		global $context;
 
 		// the list of links
@@ -701,7 +699,7 @@ Class Links {
 	 * @see users/print.php
 	 * @see users/view.php
 	 */
-	function &list_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='no_anchor') {
+	public static function &list_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='no_anchor') {
 		global $context;
 
 		// the list of links
@@ -725,7 +723,7 @@ Class Links {
 	 *
 	 * @see feeds/feeds.php
 	 */
-	function &list_news($offset=0, $count=10, $variant='dates') {
+	public static function &list_news($offset=0, $count=10, $variant='dates') {
 		global $context;
 
 		// the list of links
@@ -749,7 +747,7 @@ Class Links {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return an array of $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -760,7 +758,7 @@ Class Links {
 
 		// special layouts
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
@@ -792,7 +790,7 @@ Class Links {
 		}
 
 		// do the job
-		$output =& $layout->layout($result);
+		$output = $layout->layout($result);
 		return $output;
 
 	}
@@ -846,7 +844,7 @@ Class Links {
 	 * @link http://www.movabletype.org/docs/mttrackback.html TrackBack Technical Specification
 	 * @link http://www.hixie.ch/specs/pingback/pingback Pingback specification
 	 */
-	function ping($text, $anchor) {
+	public static function ping($text, $anchor) {
 		global $context;
 
 		// render all codes
@@ -893,7 +891,7 @@ Class Links {
 			}
 
 			// skip invalid links
-			if(($content = http::proceed($url, '', '', 'links/links.php')) === FALSE) {
+			if(($content = http::proceed($url)) === FALSE) {
 				$links_skipped[] = $url;
 				continue;
 			}
@@ -910,7 +908,7 @@ Class Links {
 		}
 
 		// locate the anchor object for this text, we need its url
-		$anchor =& Anchors::get($anchor);
+		$anchor = Anchors::get($anchor);
 		if(!is_object($anchor))
 			return;
 
@@ -919,7 +917,7 @@ Class Links {
 
 		// find blog name for anchor
 		if($parent = $anchor->get_value('anchor')) {
-			$blog =& Anchors::get($parent);
+			$blog = Anchors::get($parent);
 			if(is_object($blog))
 				$blog_name = $blog->get_title();
 		}
@@ -955,7 +953,7 @@ Class Links {
 	 *
 	 * @link http://www.hixie.ch/specs/pingback/pingback Pingback specification
 	 */
-	function ping_as_pingback($text, $source, $target) {
+	public static function ping_as_pingback($text, $source, $target) {
 		global $context;
 
 		// extract all <link... /> tags
@@ -1001,7 +999,7 @@ Class Links {
 	 *
 	 * @link http://www.movabletype.org/docs/mttrackback.html TrackBack Technical Specification
 	 */
-	function ping_as_trackback($text, $source, $target, $title='', $excerpt='', $blog_name='') {
+	public static function ping_as_trackback($text, $source, $target, $title='', $excerpt='', $blog_name='') {
 		global $context;
 
 		// extract all rdf blocks
@@ -1042,14 +1040,14 @@ Class Links {
 		// outbound web is not authorized
 		if(isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y')) {
 			if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-				Logger::remember('links/links.php', 'Links::ping_as_trackback()', 'Outbound HTTP is not authorized.', 'debug');
+				Logger::remember('links/links.php: Links::ping_as_trackback()', 'Outbound HTTP is not authorized.', 'debug');
 			return FALSE;
 		}
 
 		// connect to the server
 		if(!$handle = Safe::fsockopen($host, $port, $errno, $errstr, 30)) {
 			if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-				Logger::remember('links/links.php', 'Links::ping_as_trackback()', sprintf('Impossible to connect to %s.', $host.':'.$port), 'debug');
+				Logger::remember('links/links.php: Links::ping_as_trackback()', sprintf('Impossible to connect to %s.', $host.':'.$port), 'debug');
 			return FALSE;
 		}
 
@@ -1080,7 +1078,7 @@ Class Links {
 
 		// save the request if debug mode
 		if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-			Logger::remember('links/links.php', 'Links::ping_as_trackback() request', str_replace("\r\n", "\n", $request), 'debug');
+			Logger::remember('links/links.php: Links::ping_as_trackback() request', str_replace("\r\n", "\n", $request), 'debug');
 
 		// submit the request
 		fputs($handle, $request);
@@ -1091,7 +1089,7 @@ Class Links {
 
 		// save the response if debug mode
 		if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-			Logger::remember('links/links.php', 'Links::ping_as_trackback() response', $code.'...', 'debug');
+			Logger::remember('links/links.php: Links::ping_as_trackback() response', $code.'...', 'debug');
 
 		// check HTTP status
 		if(!preg_match('/^HTTP\/[0-9\.]+ 200/', $code))
@@ -1099,7 +1097,7 @@ Class Links {
 
 		// successful trackback
 		if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-			Logger::remember('links/links.php', 'Links::ping_as_trackback() success', $broker[1], 'debug');
+			Logger::remember('links/links.php: Links::ping_as_trackback() success', $broker[1], 'debug');
 		return TRUE;
 	}
 
@@ -1116,7 +1114,7 @@ Class Links {
 	 * @see links/trackback.php
 	 * @see services/ping.php
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// suppress invalid chars, if any
@@ -1179,7 +1177,7 @@ Class Links {
 	 * @see feeds/configure.php
 	 * @see feeds/feeds.php
 	 */
-	function purge_old_news($limit=1000) {
+	public static function purge_old_news($limit=1000) {
 		global $context;
 
 		// lists oldest entries beyond the limit
@@ -1188,7 +1186,7 @@ Class Links {
 			." ORDER BY links.edit_date DESC, links.title LIMIT ".$limit.', 10000';
 
 		// no result
-		if(!$result =& SQL::query($query))
+		if(!$result = SQL::query($query))
 			return 0;
 
 		// empty list
@@ -1197,7 +1195,7 @@ Class Links {
 
 		// build an array of links
 		$count = 0;
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// delete the record in the database
 			$query = "DELETE FROM ".SQL::table_name('links')." WHERE id = ".SQL::escape($item['id']);
@@ -1222,7 +1220,7 @@ Class Links {
 	 * @param array an array of fields
 	 * @return boolean TRUE on success, FALSE on error
 	**/
-	function put(&$fields) {
+	public static function put(&$fields) {
 		global $context;
 
 		// id cannot be empty
@@ -1283,44 +1281,11 @@ Class Links {
 	}
 
 	/**
-	 * search for some keywords in all links
-	 *
-	 * @param the search string
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 * @see search.php
-	 */
-	function &search($pattern, $offset=0, $count=50, $variant='search') {
-		global $context;
-
-		// sanity check
-		if(!$pattern = trim($pattern)) {
-			$output = NULL;
-			return $output;
-		}
-
-		// match
-		$match = "MATCH(title, link_url, description) AGAINST('".SQL::escape($pattern)."' IN BOOLEAN MODE)";
-
-		// the list of links
-		$query = "SELECT * FROM ".SQL::table_name('links')." AS links "
-			." WHERE $match "
-			." ORDER BY links.edit_date DESC"
-			." LIMIT ".$offset.','.$count;
-
-		$output =& Links::list_selected(SQL::query($query), $variant);
-		return $output;
-	}
-
-	/**
 	 * create tables for links
 	 *
 	 * @see control/setup.php
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -1363,7 +1328,7 @@ Class Links {
 	 *
 	 * @see links/index.php
 	 */
-	function &stat() {
+	public static function stat() {
 		global $context;
 
 		// if not associate, restrict to links attached to public published not expired pages
@@ -1383,7 +1348,7 @@ Class Links {
 		$query = "SELECT COUNT(links.link_url) as count, MIN(links.edit_date) as oldest_date, MAX(links.edit_date) as newest_date"
 			." FROM ".SQL::table_name('links')." AS links ".$where;
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -1408,7 +1373,7 @@ Class Links {
 	 * @see skins/skin_skeleton.php
 	 * @see users/delete.php
 	 */
-	function &stat_for_anchor($anchor) {
+	public static function stat_for_anchor($anchor) {
 		global $context;
 
 		// select among available items
@@ -1416,7 +1381,7 @@ Class Links {
 			." FROM ".SQL::table_name('links')." AS links"
 			." WHERE links.anchor LIKE '".SQL::escape($anchor)."'";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -1434,7 +1399,7 @@ Class Links {
 	 * @see links/edit.php
 	 * @see shared/codes.php
 	 */
-	function transform_reference($text) {
+	public static function transform_reference($text) {
 		global $context;
 
 		// translate this reference to an internal link
@@ -1444,38 +1409,38 @@ Class Links {
 
 			// article link
 			case 'article':
-				if($item =& Articles::get($matches[2]))
+				if($item = Articles::get($matches[2]))
 					return array(Articles::get_permalink($item), $item['title'], $item['introduction']);
 				return array('', $text, '');
 
 			// section link
 			case 'section':
-				if($item =& Sections::get($matches[2]))
+				if($item = Sections::get($matches[2]))
 					return array(Sections::get_permalink($item), $item['title'], $item['introduction']);
 				return array('', $text, '');
 
 			// file link
 			case 'file':
-				if($item =& Files::get($matches[2]))
+				if($item = Files::get($matches[2]))
 					return array(Files::get_url($matches[2]), $item['title']?$item['title']:str_replace('_', ' ', ucfirst($item['file_name'])));
 				return array('', $text, '');
 
 			// image link
 			case 'image':
 				include_once $context['path_to_root'].'images/images.php';
-				if($item =& Images::get($matches[2]))
+				if($item = Images::get($matches[2]))
 					return array(Images::get_url($matches[2]), $item['title']?$item['title']:str_replace('_', ' ', ucfirst($item['image_name'])));
 				return array('', $text, '');
 
 			// category link
 			case 'category':
-				if($item =& Categories::get($matches[2]))
+				if($item = Categories::get($matches[2]))
 					return array(Categories::get_permalink($item), $item['title'], $item['introduction']);
 				return array('', $text, '');
 
 			// user link
 			case 'user':
-				if($item =& Users::get($matches[2]))
+				if($item = Users::get($matches[2]))
 					return array(Users::get_permalink($item), $item['full_name']?$item['full_name']:$item['nick_name']);
 				return array('', $text, '');
 
