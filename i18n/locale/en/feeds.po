@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-21 23:19+0200\n"
+"POT-Creation-Date: 2012-11-20 23:52+0100\n"
 "PO-Revision-Date: 2009-10-05 16:04+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -31,12 +31,12 @@ msgstr "Control Panel"
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: feeds/configure.php:71 feeds/index.php:189 feeds/flash/configure.php:56
+#: feeds/configure.php:71 feeds/index.php:187 feeds/flash/configure.php:56
 msgid "Configure"
 msgstr "Configure"
 
 #: feeds/configure.php:71 feeds/configure.php:207 feeds/configure.php:291
-#: feeds/index.php:60 feeds/flash/configure.php:166
+#: feeds/index.php:58 feeds/flash/configure.php:166
 #: feeds/flash/configure.php:248
 msgid "Information channels"
 msgstr "Information channels"
@@ -91,12 +91,12 @@ msgstr "Time to live"
 msgid "The suggested amount of time before fetching a feed again"
 msgstr "The suggested amount of time before fetching a feed again"
 
-#: feeds/configure.php:151 feeds/index.php:148
+#: feeds/configure.php:151 feeds/index.php:146
 #, php-format
 msgid "To extend the list of feeders add adequate %s."
 msgstr "To extend the list of feeders add adequate %s."
 
-#: feeds/configure.php:151 feeds/index.php:148
+#: feeds/configure.php:151 feeds/index.php:146
 msgid "server profiles"
 msgstr "server profiles"
 
@@ -213,15 +213,15 @@ msgstr "Comments"
 msgid "Files and podcasts"
 msgstr "Files and podcasts"
 
-#: feeds/feeds.php:338
+#: feeds/feeds.php:314
 msgid "External News"
 msgstr "External News"
 
-#: feeds/feeds.php:339
+#: feeds/feeds.php:315
 msgid "Received from feeding servers"
 msgstr "Received from feeding servers"
 
-#: feeds/index.php:74
+#: feeds/index.php:72
 #, php-format
 msgid ""
 "If you are unfamiliar with news feeds, they are easy to use. First, download "
@@ -234,31 +234,31 @@ msgstr ""
 "news feed below into the application subscribe dialogue. See Google for more "
 "about %s."
 
-#: feeds/index.php:74
+#: feeds/index.php:72
 msgid "http://www.rssbandit.org/"
 msgstr "http://www.rssbandit.org/"
 
-#: feeds/index.php:74
+#: feeds/index.php:72
 msgid "Rss Bandit"
 msgstr "Rss Bandit"
 
-#: feeds/index.php:74
+#: feeds/index.php:72
 msgid "http://www.feedreader.com/"
 msgstr "http://www.feedreader.com/"
 
-#: feeds/index.php:74
+#: feeds/index.php:72
 msgid "FeedReader"
 msgstr "FeedReader"
 
-#: feeds/index.php:74
+#: feeds/index.php:72
 msgid "http://www.google.com/search?q=RSS+newsreaders"
 msgstr "http://www.google.com/search?q=RSS+newsreaders"
 
-#: feeds/index.php:74
+#: feeds/index.php:72
 msgid "RSS newsreaders"
 msgstr "RSS newsreaders"
 
-#: feeds/index.php:77
+#: feeds/index.php:75
 msgid ""
 "Regular individuals will feed their preferred news reader with one of the "
 "links below:"
@@ -266,53 +266,53 @@ msgstr ""
 "Regular individuals will feed their preferred news reader with one of the "
 "links below:"
 
-#: feeds/index.php:80
+#: feeds/index.php:78
 msgid "RSS format"
 msgstr "RSS format"
 
-#: feeds/index.php:81
+#: feeds/index.php:79
 msgid "ATOM format"
 msgstr "ATOM format"
 
-#: feeds/index.php:82
+#: feeds/index.php:80
 msgid "RDF/RSS format"
 msgstr "RDF/RSS format"
 
-#: feeds/index.php:83
+#: feeds/index.php:81
 msgid "Index of main channels in OPML format"
 msgstr "Index of main channels in OPML format"
 
-#: feeds/index.php:89
+#: feeds/index.php:87
 msgid "Advanced bloggers can also use heavy feeds:"
 msgstr "Advanced bloggers can also use heavy feeds:"
 
-#: feeds/index.php:92
+#: feeds/index.php:90
 msgid "recent articles, integral version"
 msgstr "recent articles, integral version"
 
-#: feeds/index.php:93 feeds/index.php:100
+#: feeds/index.php:91 feeds/index.php:98
 msgid "recent files"
 msgstr "recent files"
 
-#: feeds/index.php:94
+#: feeds/index.php:92
 msgid "recent comments"
 msgstr "recent comments"
 
-#: feeds/index.php:100
+#: feeds/index.php:98
 #, php-format
 msgid "YACS enables automatic downloads and %s through a feed dedicated to %s."
 msgstr ""
 "YACS enables automatic downloads and %s through a feed dedicated to %s."
 
-#: feeds/index.php:100
+#: feeds/index.php:98
 msgid "http://en.wikipedia.org/wiki/Podcasting"
 msgstr "http://en.wikipedia.org/wiki/Podcasting"
 
-#: feeds/index.php:100
+#: feeds/index.php:98
 msgid "podcasting"
 msgstr "podcasting"
 
-#: feeds/index.php:103
+#: feeds/index.php:101
 msgid ""
 "More specific outbound feeds are also available. Look for the XML button at "
 "other places:"
@@ -320,105 +320,105 @@ msgstr ""
 "More specific outbound feeds are also available. Look for the XML button at "
 "other places:"
 
-#: feeds/index.php:104
+#: feeds/index.php:102
 #, php-format
 msgid "Browse the %s; each section has its own feed."
 msgstr "Browse the %s; each section has its own feed."
 
-#: feeds/index.php:104
+#: feeds/index.php:102
 msgid "site map"
 msgstr "site map"
 
-#: feeds/index.php:105
+#: feeds/index.php:103
 #, php-format
 msgid "Or browse %s to get a more focused feed."
 msgstr "Or browse %s to get a more focused feed."
 
-#: feeds/index.php:105
+#: feeds/index.php:103
 msgid "categories"
 msgstr "categories"
 
-#: feeds/index.php:106
+#: feeds/index.php:104
 #, php-format
 msgid "Visit %s, each one has a feed to monitor contributions from one person."
 msgstr ""
 "Visit %s, each one has a feed to monitor contributions from one person."
 
-#: feeds/index.php:106
+#: feeds/index.php:104
 msgid "user profiles"
 msgstr "user profiles"
 
-#: feeds/index.php:107
+#: feeds/index.php:105
 #, php-format
 msgid "You can even use our %s to build one customised feed."
 msgstr "You can even use our %s to build one customised feed."
 
-#: feeds/index.php:107
+#: feeds/index.php:105
 msgid "search engine"
 msgstr "search engine"
 
-#: feeds/index.php:111
+#: feeds/index.php:109
 #, php-format
 msgid "To help %s we also maintain a %s to be indexed."
 msgstr "To help %s we also maintain a %s to be indexed."
 
-#: feeds/index.php:111
+#: feeds/index.php:109
 msgid "https://www.google.com/webmasters/sitemaps/"
 msgstr "https://www.google.com/webmasters/sitemaps/"
 
-#: feeds/index.php:111
+#: feeds/index.php:109
 msgid "Google"
 msgstr "Google"
 
-#: feeds/index.php:111
+#: feeds/index.php:109
 msgid "Sitemap list of important pages"
 msgstr "Sitemap list of important pages"
 
-#: feeds/index.php:115
+#: feeds/index.php:113
 #, php-format
 msgid "As a an associate, you can also access the %s."
 msgstr "As a an associate, you can also access the %s."
 
-#: feeds/index.php:115
+#: feeds/index.php:113
 msgid "event log"
 msgstr "event log"
 
-#: feeds/index.php:124
+#: feeds/index.php:122
 msgid "Current local news"
 msgstr "Current local news"
 
-#: feeds/index.php:135
+#: feeds/index.php:133
 msgid "Outbound feeds"
 msgstr "Outbound feeds"
 
-#: feeds/index.php:155
+#: feeds/index.php:153
 #, php-format
 msgid ""
 "No feeder has been defined. If you need to integrate some external RSS %s."
 msgstr ""
 "No feeder has been defined. If you need to integrate some external RSS %s."
 
-#: feeds/index.php:155
+#: feeds/index.php:153
 msgid "add a server profile"
 msgstr "add a server profile"
 
-#: feeds/index.php:161
+#: feeds/index.php:159
 msgid "Most recent external news"
 msgstr "Most recent external news"
 
-#: feeds/index.php:170
+#: feeds/index.php:168
 msgid "Inbound feeds"
 msgstr "Inbound feeds"
 
-#: feeds/index.php:206
+#: feeds/index.php:204
 msgid "Pick a feed"
 msgstr "Pick a feed"
 
-#: feeds/index.php:211
+#: feeds/index.php:209
 msgid "Aggregate this site"
 msgstr "Aggregate this site"
 
-#: feeds/rss.php:112
+#: feeds/rss.php:110
 msgid "Latest Articles"
 msgstr "Latest Articles"
 

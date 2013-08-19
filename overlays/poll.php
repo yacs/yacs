@@ -2,9 +2,6 @@
 /**
  * describe one poll
  *
- * @todo allow for multiple choices (Myriam)
- * @todo export data as csv
- *
  * Normally, a poll appears at the front page only to let people vote.
  *
  * However, you can select to also display raw results by adding the keyword
@@ -88,11 +85,18 @@ class Poll extends Overlay {
 		case 'description':
 			return i18n::s('Additional information');
 
+		case 'edit_command':
+			return i18n::s('Edit this poll');
+
 		// help panel
 		case 'help':
 			if(($action == 'new') || ($action == 'edit'))
 				return '<p>'.i18n::s('Keep your polls as simple to understand as possible.').'</p>';
 			return NULL;
+
+		// command to add an item
+		case 'new_command':
+			return i18n::s('Add a poll');
 
 		// page title
 		case 'page_title':
@@ -107,11 +111,6 @@ class Poll extends Overlay {
 
 			case 'new':
 				return i18n::s('Add a poll');
-
-			case 'view':
-			default:
-				// use the article title as the page title
-				break;
 
 			}
 		}
@@ -195,7 +194,7 @@ class Poll extends Overlay {
 
 		// if this article cannot be modified anymore, go to the permalink
 		else
-			$text = '<form method="post" action="'.$context['url_to_root'].Articles::get_permalink($host).'">';
+			$text = '<form method="post" action="'.Articles::get_permalink($host).'">';
 
 		// layout poll elements
 		$text .= '<dl class="poll">';
@@ -262,7 +261,7 @@ class Poll extends Overlay {
 			$text .= '<p>'.Skin::build_submit_button(i18n::s('Cast your vote'))."\n";
 
 			// a link to see results
-			$text .= ' <a class="details" href="'.$context['url_to_root'].Articles::get_permalink($host).'">'.i18n::s('View results').'</a>'."</p>\n";
+			$text .= ' <a class="details" href="'.Articles::get_permalink($host).'">'.i18n::s('View results').'</a>'."</p>\n";
 
 		// view results only
 		} else {
@@ -395,7 +394,7 @@ class Poll extends Overlay {
 
 		// if this article cannot be modified anymore, go to the permalink
 		else
-			$text = '<form method="post" action="'.$context['url_to_root'].Articles::get_permalink($host).'">';
+			$text = '<form method="post" action="'.Articles::get_permalink($host).'">';
 
 		$text .= '<p class="poll">';
 
@@ -418,7 +417,7 @@ class Poll extends Overlay {
 			$text .= Skin::build_submit_button(i18n::s('Vote'))."\n";
 
 			// a link to see results
-			$text .= ' <a class="details" href="'.$context['url_to_root'].Articles::get_permalink($host).'">'.i18n::s('View results').'</a>'."\n";
+			$text .= ' <a class="details" href="'.Articles::get_permalink($host).'">'.i18n::s('View results').'</a>'."\n";
 
 		// display results only
 		} else {
@@ -441,7 +440,6 @@ class Poll extends Overlay {
 	 * @see overlays/overlay.php
 	 *
 	 * @param the fields as filled by the end user
-	 * @return array of updated attributes
 	 */
 	function parse_fields($fields) {
 
@@ -460,7 +458,6 @@ class Poll extends Overlay {
 			}
 		}
 
-		return $this->attributes;
 	}
 
 }

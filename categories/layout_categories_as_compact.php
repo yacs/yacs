@@ -16,9 +16,9 @@ Class Layout_categories_as_compact extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout($result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -31,10 +31,10 @@ Class Layout_categories_as_compact extends Layout_interface {
 		$items = array();
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// url to view the comment
-			$url =& Categories::get_permalink($item);
+			$url = Categories::get_permalink($item);
 
 			// use the title to label the link
 			$label = ucfirst(Skin::strip($item['title'], 20));

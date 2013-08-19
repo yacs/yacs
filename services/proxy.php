@@ -33,14 +33,14 @@ if(Surfer::is_crawler()) {
 
 	// save the raw request if debug mode
 	if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
-		Logger::remember('services/proxy.php', 'proxy request', $raw_data, 'debug');
+		Logger::remember('services/proxy.php: proxy request', $raw_data, 'debug');
 
 	// forward the request, and process the response
 	$response = http::proceed($_REQUEST['url']);
 
 	// save response headers if debug mode
 	if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
-		Logger::remember('services/proxy.php', 'proxy response headers', http::get_headers(), 'debug');
+		Logger::remember('services/proxy.php: proxy response headers', http::get_headers(), 'debug');
 
 	// transmit response headers
 	$headers = explode("\n", http::get_headers());
@@ -66,7 +66,7 @@ if(Surfer::is_crawler()) {
 
 	// save response content if debug mode
 	if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
-		Logger::remember('services/proxy.php', 'proxy response content', $response, 'debug');
+		Logger::remember('services/proxy.php: proxy response content', $response, 'debug');
 
 	// actual transmission except on a HEAD request
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))

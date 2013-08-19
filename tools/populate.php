@@ -16,7 +16,6 @@
  * Sample elements for the front page:
  * - 'extra_box' - a sample extra box at the front page
  * - 'gadget_cloud' - a sample gadget box featuring the cloud at the front page
- * - 'gadget_collections' - a sample gadget box featuring available collections at the front page
  * - 'navigation_box' - a sample navigation box
  *
  * Sample global pages:
@@ -49,12 +48,16 @@
  * - 'book_chapter' - chapter 1 of the sample electronic book
  * - 'book_page' - a sample page of an electronic book
  *
- * Sample items for wikis:
+ * Sample wiki:
  * - 'wikis' - top-level section for wiki samples
  * - 'wiki_anonymous' - a section that can be modified by anonymous surfers
  * - 'wiki_anonymous_page' - an article in 'wiki_anonymous'
  * - 'wiki_members' - a section that can be modified by authenticated persons
  * - 'wiki_members_page' - an article in 'wiki_anonymous'
+ *
+ * Sample support forum:
+ * - 'bugzilla' - a sample support forum
+ * - 'bugzilla_page' - a sample thread in the forum
  *
  * Following sections are created:
  * - 'files' - a sample library of files
@@ -376,24 +379,6 @@ if(Surfer::is_crawler()) {
 			$text .= Logger::error_pop().BR."\n";
 	}
 
-	// 'gadget_collections' article
-	if(Articles::get('gadget_collections'))
-		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'gadget_collections').BR."\n";
-	elseif($anchor = Sections::lookup('gadget_boxes')) {
-		$fields = array();
-		$fields['anchor'] = $anchor;
-		$fields['nick_name'] = 'gadget_collections';
-		$fields['title'] = i18n::c('Collections');
-		$fields['introduction'] = '';
-		$fields['description'] = '[collections]';
-		$fields['locked'] = 'Y'; // only associates can change this page
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-		if(Articles::post($fields))
-			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
-		else
-			$text .= Logger::error_pop().BR."\n";
-	}
-
 	// 'navigation_box' article
 	if(Articles::get('navigation_box'))
 		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'navigation_box').BR."\n";
@@ -445,7 +430,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Events');
 		$fields['introduction'] = i18n::c('A calendar of planned activities');
 		$fields['description'] = i18n::c('Every page in this section is featured in a nice-looking calendar.');
-		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
+		$fields['index_map'] = 'N'; // special processing at the front page -- see index.php
 		$fields['content_options'] = 'auto_publish'; // ease the job
 		$fields['content_overlay'] = 'event'; // calendar layout
 		$fields['articles_templates'] = 'event_template';
@@ -470,7 +455,8 @@ if(Surfer::is_crawler()) {
 		$fields['introduction'] = i18n::c('Sample discussion places');
 		$fields['sections_layout'] = 'yabb';
 		$fields['articles_layout'] = 'none';
-		$fields['articles_templates'] = 'discussion_template';
+		$fields['articles_templates'] = 'information_template, question_template';
+		$fields['content_options'] = 'auto_publish'; // ease the job
 		$fields['locked'] = 'Y';
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -488,7 +474,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Channels');
 		$fields['introduction'] = i18n::c('Real-time collaboration');
 		$fields['description'] = i18n::c('Every page in this section supports interactive discussion and file sharing.');
-		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
+		$fields['index_map'] = 'N'; // special processing at the front page -- see index.php
 		$fields['content_overlay'] = 'event layout_as_list'; // list threads appropriately
 		$fields['articles_templates'] = 'chat_template';
 		$fields['maximum_items'] = 1000; // limit the overall number of threads
@@ -525,7 +511,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('My yabb discussion board');
 		$fields['introduction'] = i18n::c('Sample discussion board');
 		$fields['articles_layout'] = 'yabb';
-		$fields['articles_templates'] = 'discussion_template, chat_template';
+		$fields['articles_templates'] = 'information_template, question_template';
 		$fields['content_options'] = 'auto_publish, with_extra_profile';
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -582,7 +568,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('My jive discussion board');
 		$fields['introduction'] = i18n::c('Sample discussion board');
 		$fields['articles_layout'] = 'jive'; // a threading layout
-		$fields['articles_templates'] = 'discussion_template, chat_template';
+		$fields['articles_templates'] = 'information_template, question_template';
 		$fields['content_options'] = 'auto_publish'; // let surfers rate their readings
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -703,7 +689,7 @@ if(Surfer::is_crawler()) {
 		$fields['introduction'] = i18n::c('Sample project web space');
 		$fields['options'] = 'view_as_tabs';
 		$fields['sections_layout'] = 'folded'; // show many articles in sections tab
-		$fields['articles_options'] = 'view_as_wiki comments_as_wall edit_as_simple'; // a set of wiki pages
+		$fields['articles_options'] = 'view_as_wiki edit_as_simple'; // a set of wiki pages
 		if($id = Sections::post($fields)) {
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 
@@ -726,7 +712,7 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'project_public_page';
 		$fields['title'] = i18n::c('Project description');
 		$fields['introduction'] = i18n::c('This is a public page that describes the project.');
-		$fields['options'] = 'view_as_wiki comments_as_wall edit_as_simple';
+		$fields['options'] = 'view_as_wiki edit_as_simple';
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -744,9 +730,9 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Project private area');
 		$fields['active_set'] = 'N'; // for editors only
 		$fields['articles_layout'] = 'yabb'; // list threads appropriately
-		$fields['articles_templates'] = 'discussion_template, event_template';
-		$fields['content_options'] = 'with_extra_profile, comments_as_wall'; // put poster profile aside
-		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
+		$fields['articles_templates'] = 'information_template, question_template, chat_template';
+		$fields['content_options'] = 'with_extra_profile'; // put poster profile aside
+		$fields['index_map'] = 'N'; // special processing at the front page -- see index.php
 		$fields['introduction'] = i18n::c('For project members only');
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -958,6 +944,70 @@ if(Surfer::is_crawler()) {
 			$text .= Logger::error_pop().BR."\n";
 	}
 
+	// bugzilla
+	//
+	$text .= Skin::build_block(i18n::s('Support forum'), 'subtitle');
+
+	// 'bugzilla' section
+	if(Sections::get('bugzilla'))
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'bugzilla').BR."\n";
+	else {
+		$fields = array();
+		$fields['nick_name'] = 'bugzilla';
+		$fields['title'] = i18n::c('Support forum');
+		$fields['introduction'] = i18n::c('Sample support forum');
+		$fields['options'] = 'auto_publish';
+		$fields['content_overlay'] = 'issue';	// incident/requirement/change/patch
+		$fields['articles_layout'] = 'custom';	// not in the standard list
+		$fields['articles_custom_layout'] = 'spray';	// show progress
+		if(Sections::post($fields))
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'bugzilla_page' article
+	if(Articles::get('bugzilla_page'))
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'bugzilla_page').BR."\n";
+	elseif($anchor = Sections::lookup('bugzilla')) {
+		$fields = array();
+		$fields['anchor'] = $anchor;
+		$fields['nick_name'] = 'bugzilla_page';
+		$fields['title'] = i18n::c('I need help');
+		$fields['introduction'] = i18n::c('Sample support request');
+		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$overlay = Overlay::bind('issue');
+		$fields['overlay'] = $overlay->save();
+		$fields['overlay_id'] = $overlay->get_id();
+		if(Articles::post($fields)) {
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$overlay->remember('insert', $fields, 'article:'.$fields['id']);
+		} else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// add sample comments to 'bugzilla_page'
+	if($anchor = Articles::lookup('bugzilla_page')) {
+
+		// add a bunch of comments
+		$stats = Comments::stat_for_anchor($anchor);
+		if($stats['count'] < 50) {
+			for($index = 1; $index <= 10; $index++) {
+				$fields = array();
+				$fields['anchor'] = $anchor;
+				$fields['description'] = sprintf(i18n::c('Comment #%d'), $index);
+				$fields['edit_name'] = $names[ rand(0, 2) ];
+				if(!Comments::post($fields)) {
+					$text .= Logger::error_pop().BR."\n";
+					break;
+				}
+			}
+
+			if($index > 1)
+				$text .= sprintf(i18n::s('Comments have been added to "%s".'), 'bugzilla_page').BR."\n";
+		}
+	}
+
 	// access rights
 	//
 	$text .= Skin::build_block(i18n::s('Access rights'), 'subtitle');
@@ -970,8 +1020,8 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'test_s';
 		$fields['title'] = i18n::c('Test section');
 		$fields['introduction'] = i18n::c('To demonstrate access right management');
-		$fields['options'] = 'with_comments comments_as_wall with_files with_links view_as_tabs articles_by_title';
-		$fields['content_options'] = 'comments_as_wall view_as_tabs with_neighbours';
+		$fields['options'] = 'with_comments with_files with_links view_as_tabs articles_by_title';
+		$fields['content_options'] = 'view_as_tabs with_neighbours';
 		$fields['sections_layout'] = 'decorated'; // show both sub-sections and articles
 		if($user = Users::get('sowner')) {
 			$fields['create_id'] = $user['id'];
@@ -1007,7 +1057,7 @@ if(Surfer::is_crawler()) {
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'test_ss';
 		$fields['title'] = i18n::c('Test sub-section');
-		$fields['options'] = 'with_comments comments_as_wall with_files with_links view_as_tabs articles_by_title';
+		$fields['options'] = 'with_comments with_files with_links view_as_tabs articles_by_title';
 		if($user = Users::get('sowner')) {
 			$fields['create_id'] = $user['id'];
 			$fields['create_name'] = $user['full_name'];
@@ -1064,7 +1114,7 @@ if(Surfer::is_crawler()) {
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'test_ssa';
 		$fields['title'] = i18n::c('Test sub-section').' anonymous_edit';
-		$fields['options'] = 'anonymous_edit with_comments comments_as_wall with_files with_links view_as_tabs articles_by_title';
+		$fields['options'] = 'anonymous_edit with_comments with_files with_links view_as_tabs articles_by_title';
 		if($user = Users::get('sowner')) {
 			$fields['create_id'] = $user['id'];
 			$fields['create_name'] = $user['full_name'];
@@ -1122,7 +1172,7 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'test_ssal';
 		$fields['locked'] = 'Y';
 		$fields['title'] = i18n::c('Test sub-section').' anonymous_edit '.i18n::s('locked');
-		$fields['options'] = 'anonyous_edit with_comments comments_as_wall with_files with_links view_as_tabs articles_by_title';
+		$fields['options'] = 'anonyous_edit with_comments with_files with_links view_as_tabs articles_by_title';
 		if($user = Users::get('sowner')) {
 			$fields['create_id'] = $user['id'];
 			$fields['create_name'] = $user['full_name'];
@@ -1179,7 +1229,7 @@ if(Surfer::is_crawler()) {
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'test_ssm';
 		$fields['title'] = i18n::c('Test sub-section').' members_edit';
-		$fields['options'] = 'members_edit with_comments comments_as_wall with_files with_links view_as_tabs articles_by_title';
+		$fields['options'] = 'members_edit with_comments with_files with_links view_as_tabs articles_by_title';
 		if($user = Users::get('sowner')) {
 			$fields['create_id'] = $user['id'];
 			$fields['create_name'] = $user['full_name'];
@@ -1237,7 +1287,7 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'test_ssml';
 		$fields['locked'] = 'Y';
 		$fields['title'] = i18n::c('Test sub-section').' members_edit '.i18n::s('locked');
-		$fields['options'] = 'members_edit with_comments comments_as_wall with_files with_links view_as_tabs articles_by_title';
+		$fields['options'] = 'members_edit with_comments with_files with_links view_as_tabs articles_by_title';
 		if($user = Users::get('sowner')) {
 			$fields['create_id'] = $user['id'];
 			$fields['create_name'] = $user['full_name'];

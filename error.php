@@ -20,10 +20,6 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
-// no need for access to the database
-if(!defined('NO_MODEL_PRELOAD'))
-	define('NO_MODEL_PRELOAD', TRUE);
-
 // common definitions and initial processing
 include_once 'shared/global.php';
 
@@ -87,7 +83,7 @@ case '401':
 			$event_description .= '$_SERVER[\'HTTP_USER_AGENT\']='.$_SERVER['HTTP_USER_AGENT']."\n";
 		if(isset($_SERVER['REMOTE_ADDR']))
 			$event_description .= '$_SERVER[\'REMOTE_ADDR\']='.$_SERVER['REMOTE_ADDR']."\n";
-		Logger::remember('error.php', $event_label, $event_description);
+		Logger::remember('error.php: '.$event_label, $event_description);
 	}
 
 	break;
@@ -111,7 +107,7 @@ case '403':
 			$event_description .= '$_SERVER[\'HTTP_USER_AGENT\']='.$_SERVER['HTTP_USER_AGENT']."\n";
 		if(isset($_SERVER['REMOTE_ADDR']))
 			$event_description .= '$_SERVER[\'REMOTE_ADDR\']='.$_SERVER['REMOTE_ADDR']."\n";
-		Logger::remember('error.php', $event_label, $event_description);
+		Logger::remember('error.php: '.$event_label, $event_description);
 	}
 
 	break;
@@ -155,7 +151,7 @@ default:
 			$event_description .= '$_SERVER[\'HTTP_USER_AGENT\']='.$_SERVER['HTTP_USER_AGENT']."\n";
 		if(isset($_SERVER['REMOTE_ADDR']))
 			$event_description .= '$_SERVER[\'REMOTE_ADDR\']='.$_SERVER['REMOTE_ADDR']."\n";
-		Logger::remember('error.php', $event_label, $event_description);
+		Logger::remember('error.php: '.$event_label, $event_description);
 	}
 
 	break;

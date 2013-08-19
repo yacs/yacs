@@ -16,26 +16,24 @@ Class Layout_users_as_compact extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
-
-		// empty list
-		if(!$delta = SQL::count($result)) {
-			$output = array();
-			return $output;
-		}
 
 		// we return an array of ($url => $attributes)
 		$items = array();
+
+		// empty list
+		if(!$delta = SQL::count($result))
+			return $items;
 
 		// flag idle users
 		$idle = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 600);
 
 		// process all items in the list
 		$count = 0;
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// url to view the user
 			$url = Users::get_permalink($item);

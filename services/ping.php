@@ -115,7 +115,10 @@
  * @link http://www.hixie.ch/specs/pingback/pingback Pingback specification
  */
 include_once '../shared/global.php';
+include_once 'codec.php';
+include_once 'xml_rpc_codec.php';
 include_once '../links/links.php';
+include_once '../servers/servers.php';
 
 // load a skin engine
 load_skin('services');
@@ -125,15 +128,13 @@ $raw_data = file_get_contents("php://input");
 
 // save the raw request if debug mode
 if(isset($context['debug_ping']) && ($context['debug_ping'] == 'Y'))
-	Logger::remember('services/ping.php', 'ping request', $raw_data, 'debug');
+	Logger::remember('services/ping.php: ping request', $raw_data, 'debug');
 
 // transcode to our internal charset
 if($context['charset'] == 'utf-8')
 	$raw_data = utf8::encode($raw_data);
 
 // load the adequate codec
-include_once 'codec.php';
-include_once 'xml_rpc_codec.php';
 $codec = new xml_rpc_Codec();
 
 // parse xml parameters
@@ -154,9 +155,9 @@ if(!$raw_data) {
 
 	// remember parameters if debug mode
 	if(isset($context['debug_ping']) && ($context['debug_ping'] == 'Y'))
-		Logger::remember('services/ping.php', 'ping '.$parameters['methodName'], $parameters['params'], 'debug');
+		Logger::remember('services/ping.php: ping '.$parameters['methodName'], $parameters['params'], 'debug');
 	elseif(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y') && ($parameters['methodName'] == 'pingback.ping'))
-		Logger::remember('services/ping.php', 'ping '.$parameters['methodName'], $parameters['params'], 'debug');
+		Logger::remember('services/ping.php: ping '.$parameters['methodName'], $parameters['params'], 'debug');
 
 	// depending on method name
 	switch($parameters['methodName']) {
@@ -165,8 +166,7 @@ if(!$raw_data) {
 	case 'monitor.ping':
 
 		// caller has been banned
-		include_once $context['path_to_root'].'servers/servers.php';
-		if($_SERVER['REMOTE_HOST'] && ($server =& Servers::get($_SERVER['REMOTE_HOST']) && ($server['process_monitor'] != 'Y')))
+		if($_SERVER['REMOTE_HOST'] && ($server = Servers::get($_SERVER['REMOTE_HOST']) && ($server['process_monitor'] != 'Y')))
 			$response = array('faultCode' => 49, 'faultString' => 'Access denied');
 
 		// check we have a configuration file
@@ -203,8 +203,7 @@ if(!$raw_data) {
 			$anchor = 'category:'.$matches[1];
 
 		// caller has been banned
-		include_once $context['path_to_root'].'servers/servers.php';
-		if(isset($_SERVER['REMOTE_HOST']) && ($server =& Servers::get($_SERVER['REMOTE_HOST']) && ($server['process_ping'] != 'Y')))
+		if(isset($_SERVER['REMOTE_HOST']) && ($server = Servers::get($_SERVER['REMOTE_HOST']) && ($server['process_ping'] != 'Y')))
 			$response = 49;
 
 		// check we are linking on this site
@@ -218,7 +217,7 @@ if(!$raw_data) {
 			$response = 48;
 
 		// check that the source actually has a link to us
-		elseif(($content = http::proceed($source, '', '', 'services/ping.php')) === FALSE)
+		elseif(($content = http::proceed($source)) === FALSE)
 			$response = 16;
 
 		// we have to found a reference to the target here
@@ -266,8 +265,7 @@ if(!$raw_data) {
 		list($label, $url) = $parameters['params'];
 
 		// caller has been banned
-		include_once $context['path_to_root'].'servers/servers.php';
-		if($_SERVER['REMOTE_HOST'] && ($server =& Servers::get($_SERVER['REMOTE_HOST']) && ($server['process_ping'] != 'Y')))
+		if($_SERVER['REMOTE_HOST'] && ($server = Servers::get($_SERVER['REMOTE_HOST']) && ($server['process_ping'] != 'Y')))
 			$response = array('flerror' => 49, 'message' => 'Access denied');
 
 		// do not accept local address
@@ -275,15 +273,14 @@ if(!$raw_data) {
 			$response = array('flerror' => 1, 'message' => 'We don\'t accept local references '.$url);
 
 		// check we can read the given address, or the same with an additional '/'
-		elseif((($content = http::proceed($url, '', '', 'services/ping.php')) === FALSE) && (($content = http::proceed($url.'/', '', '', 'services/ping.php')) === FALSE))
+		elseif((($content = http::proceed($url)) === FALSE) && (($content = http::proceed($url.'/')) === FALSE))
 			$response = array('flerror' => 1, 'message' => 'Cannot read source address '.$url);
 
 		// create or update a server entry
 		else {
-			include_once $context['path_to_root'].'servers/servers.php';
 			$response = Servers::ping(strip_tags($label), $url);
 			if($response) {
-				Logger::remember('services/ping.php', 'failing ping', $response, 'debug');
+				Logger::remember('services/ping.php: failing ping', $response, 'debug');
 				$response = array('flerror' => 1, 'message' => $response);
 			} else
 				$response = array('flerror' => 0, 'message' => 'Thanks for the ping');
@@ -293,7 +290,7 @@ if(!$raw_data) {
 
 	default:
 		$response = array('faultCode' => 1, 'faultString' => 'Do not know how to process '.$parameters['methodName']);
-		Logger::remember('services/ping.php', 'ping unsupported methodName', $parameters, 'debug');
+		Logger::remember('services/ping.php: ping unsupported methodName', $parameters, 'debug');
 	}
 }
 
@@ -315,9 +312,9 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
 
 // save the response if debug mode
 if(isset($context['debug_ping']) && ($context['debug_ping'] == 'Y'))
-	Logger::remember('services/ping.php', 'ping response', $response, 'debug');
+	Logger::remember('services/ping.php: ping response', $response, 'debug');
 elseif(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y') && ($parameters['methodName'] == 'pingback.ping'))
-	Logger::remember('services/ping.php', 'ping response', $response, 'debug');
+	Logger::remember('services/ping.php: ping response', $response, 'debug');
 
 // the post-processing hook
 finalize_page();

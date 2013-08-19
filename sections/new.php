@@ -28,7 +28,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
 include_once '../comments/comments.php';	// initiate the wall
 
 // the maximum number of personal sections per user
@@ -97,27 +96,27 @@ if(Surfer::is_crawler()) {
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// put all groups at the same place
-	if(!($anchor =& Sections::get('groups'))) {
+	if(!($anchor = Sections::get('groups'))) {
 
 		$fields = array();
 		$fields['nick_name'] = 'groups';
 		$fields['articles_layout'] = 'none';
-		$fields['articles_templates'] = 'discussion_template, chat_template, event_template, wiki_template';
+		$fields['articles_templates'] = 'information_template, question_template, chat_template, event_template, wiki_template';
 		$fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
 		$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
-		$fields['home_panel'] = 'none'; // not mentioned at the home page
+		$fields['index_map'] = 'N'; // not mentioned at the home page
 		$fields['locked'] = 'Y'; // no direct contributions
 		$fields['options'] = 'no_contextual_menu';
 		$fields['rank'] = 40000; // at the end of the list
 		$fields['sections_layout'] = 'directory';
 		$fields['title'] = i18n::c('Groups');
 		if(!$fields['id'] = Sections::post($fields, FALSE)) {
-			Logger::remember('sections/new.php', 'Impossible to add a section.');
+			Logger::remember('sections/new.php: Impossible to add a section.');
 			return;
 		}
 
 		// retrieve the new section
-		$anchor =& Sections::get('groups');
+		$anchor = Sections::get('groups');
 
 	}
 
@@ -127,7 +126,7 @@ if(Surfer::is_crawler()) {
 		$_REQUEST['articles_templates'] = 'simple_template';
 		$_REQUEST['content_options'] = 'with_extra_profile with_neighbours';
 		$_REQUEST['options'] = 'with_extra_profile';
-		$_REQUEST['locked'] = 'Y'; // no direct contributions
+		$_REQUEST['locked'] = 'Y'; // only editors can contribute
 
 	// we are creating a project
 	} elseif(isset($_REQUEST['space_type']) && ($_REQUEST['space_type'] == 'project')) {
@@ -139,7 +138,7 @@ if(Surfer::is_crawler()) {
 	// default is to create a group
 	} else {
 		$_REQUEST['articles_layout'] = 'yabb';
-		$_REQUEST['content_options'] = 'with_extra_profile auto_publish comments_as_wall view_as_tabs with_neighbours';
+		$_REQUEST['content_options'] = 'with_extra_profile auto_publish view_as_tabs with_neighbours';
 		$_REQUEST['options'] = 'view_as_tabs';
 		$_REQUEST['space_type'] = 'group'; // just to be sure...
 	}
@@ -153,7 +152,7 @@ if(Surfer::is_crawler()) {
 	$_REQUEST['active_set'] = $_REQUEST['active'];
 
 	// do not break home page layout
-	$_REQUEST['home_panel'] = 'none';
+	$_REQUEST['index_map'] = 'N';
 
 	// display the form on error
 	if(!$_REQUEST['id'] = Sections::post($_REQUEST)) {
@@ -181,7 +180,7 @@ if(Surfer::is_crawler()) {
 			$fields['anchor'] = 'section:'.$_REQUEST['id'];
 			$fields['description'] = i18n::c('This is the right place to describe ways of working in this group.');
 			$fields['locked'] = 'Y'; // no direct contributions
-			$fields['home_panel'] = 'none'; // not mentioned at the home page
+			$fields['index_map'] = 'N'; // not mentioned at the home page
 			$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 			$fields['rank'] = 1000; // sticky page
 			$fields['title'] = i18n::c('Group policy');
@@ -190,7 +189,7 @@ if(Surfer::is_crawler()) {
 			// a welcome thread
 			$fields = array();
 			$fields['anchor'] = 'section:'.$_REQUEST['id'];
-			$fields['home_panel'] = 'none'; // not mentioned at the home page
+			$fields['index_map'] = 'N'; // not mentioned at the home page
 			$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 			$fields['title'] = sprintf(i18n::c('Welcome to "%s"'), $_REQUEST['title']);
 			Articles::post($fields);
@@ -206,18 +205,17 @@ if(Surfer::is_crawler()) {
 			$fields['articles_layout'] = 'daily';
 			$fields['articles_templates'] = 'simple_template';
 			$fields['content_options'] = 'with_neighbours';
-			$fields['home_panel'] = 'none'; // not mentioned at the home page
-			$fields['locked'] = 'Y'; // for the owner only
-			$fields['options'] = 'articles_by_publication view_as_tabs'; // to list watchers of the news
+			$fields['index_map'] = 'N'; // not mentioned at the home page
+			$fields['options'] = 'forward_notifications articles_by_publication';
 			$fields['rank'] = 1000;
-			$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/news.gif';
+			$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/news.gif';
 			$fields['title'] = i18n::c("What is new?");
 			if($id = Sections::post($fields)) {
 
 				// a welcome thread
 				$fields = array();
 				$fields['anchor'] = 'section:'.$id;
-				$fields['home_panel'] = 'none'; // not mentioned at the home page
+				$fields['index_map'] = 'N'; // not mentioned at the home page
 				$fields['options'] = 'edit_as_simple';
 				$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 				$fields['title'] = sprintf(i18n::c('Welcome to "%s"'), $_REQUEST['title']);
@@ -229,11 +227,12 @@ if(Surfer::is_crawler()) {
 			$fields = array();
 			$fields['anchor'] = 'section:'.$_REQUEST['id'];
 			$fields['articles_layout'] = 'yabb';
-			$fields['content_options'] = 'auto_publish comments_as_wall view_as_tabs with_neighbours';
-			$fields['home_panel'] = 'none'; // not mentioned at the home page
+			$fields['content_options'] = 'auto_publish with_neighbours';
+			$fields['index_map'] = 'N'; // not mentioned at the home page
 			$fields['introduction'] = i18n::c('Working together');
+			$fields['options'] = 'forward_notifications';
 			$fields['rank'] = 2000;
-			$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
+			$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
 			$fields['title'] = i18n::c('Activities');
 			Sections::post($fields);
 
@@ -242,11 +241,12 @@ if(Surfer::is_crawler()) {
 			$fields['anchor'] = 'section:'.$_REQUEST['id'];
 			$fields['articles_layout'] = 'tagged';
 			$fields['articles_templates'] = 'simple_template';
-			$fields['content_options'] = 'articles_by_title auto_publish comments_as_wall members_edit view_as_wiki with_neighbours';
-			$fields['home_panel'] = 'none'; // not mentioned at the home page
+			$fields['content_options'] = 'articles_by_title auto_publish members_edit view_as_wiki with_neighbours';
+			$fields['index_map'] = 'N'; // not mentioned at the home page
 			$fields['introduction'] = i18n::c('Information pages');
+			$fields['options'] = 'forward_notifications';
 			$fields['rank'] = 3000;
-			$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/information.gif';
+			$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/information.gif';
 			$fields['title'] = i18n::c('Documentation');
 			Sections::post($fields);
 
@@ -256,12 +256,12 @@ if(Surfer::is_crawler()) {
 				$fields['active_set'] = 'N';
 				$fields['anchor'] = 'section:'.$_REQUEST['id'];
 				$fields['articles_layout'] = 'yabb';
-				$fields['content_options'] = 'auto_publish comments_as_wall view_as_tabs with_neighbours members_edit';
+				$fields['content_options'] = 'auto_publish with_neighbours members_edit';
 				$fields['introduction'] = i18n::c('Reserved to project members');
-				$fields['home_panel'] = 'none'; // not mentioned at the home page
-				$fields['options'] = 'view_as_tabs'; // to list editors and watchers explicitly
+				$fields['index_map'] = 'N'; // not mentioned at the home page
+				$fields['options'] = 'forward_notifications view_as_tabs'; // to list editors and watchers explicitly
 				$fields['rank'] = 4000;
-				$fields['thumbnail_url'] = $context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
+				$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
 				$fields['title'] = i18n::c('Private activities');
 				Sections::post($fields);
 			}
@@ -285,7 +285,7 @@ if(Surfer::is_crawler()) {
 		if(Surfer::may_upload())
 			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Add an image')));
 		if(preg_match('/\bwith_files\b/i', $section->item['options']) && Surfer::may_upload())
-			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Upload a file')));
+			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Add a file')));
 		if(preg_match('/\bwith_links\b/i', $section->item['options']))
 			$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Add a link')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
@@ -388,24 +388,20 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// append the script used for data checking on the browser
-	$context['page_footer'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// title is mandatory'."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// title is mandatory
 		.'	if(!container.title.value) {'."\n"
 		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
+			// successful check'
 		.'	return true;'."\n"
 		.'}'."\n"
-		."\n"
-		.'// detect changes in form'."\n"
+		// detect changes in form
 		.'func'.'tion detectChanges() {'."\n"
-		."\n"
 		.'	$("form#main_form input").each(function () {'."\n"
 		.'		$(this).change(function() { $("#preferred_editor").attr("disabled", true); });'."\n"
 		.'	});'."\n"
@@ -419,15 +415,15 @@ if($with_form) {
 		.'	});'."\n"
 		.'}'."\n"
 		."\n"
-		.'// observe changes in form'."\n"
+		// observe changes in form
 		.'$(document).ready( detectChanges);'."\n"
 		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'$("#title").focus();'."\n"
-		.JS_SUFFIX."\n";
+		);
 
 	// general help on this form
-	$help = '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', 'YACS codes', 'help'), Skin::build_link('smileys/', 'smileys', 'help')).'</p>';
+	$help = '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', 'YACS codes', 'open'), Skin::build_link('smileys/', 'smileys', 'open')).'</p>';
 	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 }

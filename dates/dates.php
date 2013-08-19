@@ -11,12 +11,25 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
+/** 
+ * different first day of week among countries, 
+ * @see i18n/i18n.php
+ */
+
+if(!defined('WEEK_START_MONDAY'))
+    define('WEEK_START_MONDAY',TRUE);
+
+define('W_START_DAY',((WEEK_START_MONDAY)?1:0));
+define('W_END_DAY',((WEEK_START_MONDAY)?8:7));
+define('STRFTIME_FORMAT',((WEEK_START_MONDAY)?'%u':'%w'));
+
+
 Class Dates {
 
 	/**
 	 * start a calendar for one month
 	 */
-	function &build_month_prefix($year, $month, $day, $style="month calendar", $caption=NULL, $with_headers=TRUE) {
+	public static function &build_month_prefix($year, $month, $day, $style="month calendar", $caption=NULL, $with_headers=TRUE) {
 		global $context;
 
 		// cache labels for days
@@ -30,7 +43,12 @@ Class Dates {
 			$days[4] = i18n::s('thursday');
 			$days[5] = i18n::s('friday');
 			$days[6] = i18n::s('saturday');
+			
+			// change day order according to ISO-8601 if required
+			if(WEEK_START_MONDAY) 
+			    $days[] = array_shift($days);  
 		}
+		
 
 		// one table per month
 		$text = '<table class="'.$style.'">';
@@ -54,10 +72,10 @@ Class Dates {
 		$first_of_month = gmmktime(0, 0, 0, $month, 1, $year);
 
 		// day in week for the first day of the month
-		$day = (int)gmstrftime('%w', $first_of_month);
+		$day = (int)gmstrftime(STRFTIME_FORMAT, $first_of_month);
 
 		// draw empty cells at the beginning of the month
-		for($index = 0; $index < $day; $index++)
+		for($index = W_START_DAY; $index < $day; $index++)
 			$text .= '<td>&nbsp;</td>';
 
 		// job done
@@ -67,7 +85,7 @@ Class Dates {
 	/**
 	 * end of one month
 	 */
-	function &build_month_suffix($year, $month, $day) {
+	public static function &build_month_suffix($year, $month, $day) {
 		global $context;
 
 		$text = '';
@@ -76,10 +94,10 @@ Class Dates {
 		$days_in_month = (int)gmdate('t', gmmktime(0, 0, 0, $month, 1, $year));
 
 		// day in week for the current date
-		$day_in_week = (int)gmstrftime('%w', gmmktime(0, 0, 0, $month, $day, $year));
+		$day_in_week = (int)gmstrftime(STRFTIME_FORMAT, gmmktime(0, 0, 0, $month, $day, $year));
 
 		// start a new week on next row
-		if(($day_in_week == 0) && ($day <= $days_in_month))
+		if(($day_in_week == W_START_DAY) && ($day <= $days_in_month))
 			$text .= '</tr><tr>';
 
 		// complement empty days for this month
@@ -87,16 +105,16 @@ Class Dates {
 			$text .= '<td>'.$day.'</td>';
 
 			// start a new week on next row
-			if(++$day_in_week >= 7) {
-				$day_in_week = 0;
+			if(++$day_in_week >= W_END_DAY) {
+				$day_in_week = W_START_DAY;
 				$text .= '</tr><tr>';
 			}
 
 		}
 
 		// draw empty cells at the end of the month
-		if($day_in_week > 0) {
-			while($day_in_week++ < 7)
+		if($day_in_week > W_START_DAY) {
+			while($day_in_week++ < W_END_DAY)
 				$text .= '<td>&nbsp;</td>';
 		}
 
@@ -107,7 +125,7 @@ Class Dates {
 		return $text;
 	}
 
-	function &build_day($day, $content, $panel_id, $compact) {
+	public static function &build_day($day, $content, $panel_id, $compact) {
 		global $context;
 
 		// content of each day
@@ -124,7 +142,7 @@ Class Dates {
 		if($compact) {
 			$id = 'day_content_'.$day_content_index++;
 
-			$text = '<a href="#" onclick="$(\'#'.$panel_id.'\').update($(\'#'.$id.'\').innerHTML); new Effect.Highlight(\''.$panel_id.'\'); return false;">'.$day.'</a>'
+			$text = '<a href="#" onclick="$(\'#'.$panel_id.'\').html($(\'#'.$id.'\').html()).effect(\'highlight\', {}, 3000); return false;">'.$day.'</a>'
 				.'<div id="'.$id.'" style="display: none">'.$content.'</div>';
 
 		} else
@@ -145,7 +163,7 @@ Class Dates {
 	 * @parameter int forced month, in case no dates are provided
 	 * @return a string to be put in the web page
 	 */
-	function &build_months($dates, $with_zoom=FALSE, $with_caption=TRUE, $with_headers=TRUE, $compact=FALSE, $forced_year=NULL, $forced_month=NULL, $style="month calendar") {
+	public static function &build_months($dates, $with_zoom=FALSE, $with_caption=TRUE, $with_headers=TRUE, $compact=FALSE, $forced_year=NULL, $forced_month=NULL, $style="month calendar") {
 		global $context;
 
 		// we return some text
@@ -175,8 +193,8 @@ Class Dates {
 
 				$text .= '<td class="spot">'.Dates::build_day($current_day, $day_content, $day_panel_id, $compact).'</td>';
 				$current_day++;
-				if(++$day_in_week >= 7) {
-					$day_in_week = 0;
+				if(++$day_in_week >= W_END_DAY) {
+					$day_in_week = W_START_DAY;
 					$text .= '</tr><tr>';
 				}
 				$day_content = array();
@@ -231,7 +249,7 @@ Class Dates {
 				$first_of_month = gmmktime(0, 0, 0, $month, 1, $year);
 
 				// day in week for the first day of the month
-				$day_in_week = (int)gmstrftime('%w', $first_of_month);
+				$day_in_week = (int)gmstrftime(STRFTIME_FORMAT, $first_of_month);
 
 				// start a new month
 				$current_day = 1;
@@ -248,8 +266,8 @@ Class Dates {
 				$text .= '<td>'.$current_day++.'</td>';
 
 				// start a new week on next row
-				if(++$day_in_week >= 7) {
-					$day_in_week = 0;
+				if(++$day_in_week >= W_END_DAY) {
+					$day_in_week = W_START_DAY;
 					$text .= '</tr><tr>';
 				}
 			}
@@ -306,7 +324,7 @@ Class Dates {
 	 *
 	 * @param array item attributes
 	 */
-	function clear(&$item) {
+	public static function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('articles', 'dates');
@@ -330,29 +348,11 @@ Class Dates {
 	 * @param string the selected anchor (e.g., 'article:12')
 	 * @return int the resulting count, or NULL on error
 	 */
-	function count_for_anchor($anchor) {
+	public static function count_for_anchor($anchor) {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates may see everything
-		if(Surfer::is_empowered())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where = "(".$where.")";
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// put only published pages in boxes
 		if(isset($variant) && ($variant == 'boxes')) {
@@ -391,7 +391,7 @@ Class Dates {
 	 *
 	 * @see dates/delete.php
 	 */
-	function delete($id) {
+	public static function delete($id) {
 		global $context;
 
 		// id cannot be empty
@@ -415,7 +415,7 @@ Class Dates {
 	 * @see overlays/day.php
 	 * @see shared/anchors.php
 	 */
-	function delete_for_anchor($anchor) {
+	public static function delete_for_anchor($anchor) {
 		global $context;
 
 		// delete all matching records in the database
@@ -433,7 +433,7 @@ Class Dates {
 	 * @see dates/edit.php
 	 * @see dates/view.php
 	 */
-	function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// sanity check
@@ -446,7 +446,7 @@ Class Dates {
 		$query = "SELECT * FROM ".SQL::table_name('dates')." as dates "
 			." WHERE (dates.id = ".SQL::escape($id).")";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -456,7 +456,7 @@ Class Dates {
 	 * @param string the anchor
 	 * @return the resulting $item array, with at least keys: 'id', 'date_stamp', etc.
 	 */
-	function &get_for_anchor($anchor) {
+	public static function &get_for_anchor($anchor) {
 		global $context;
 
 		// sanity check
@@ -467,7 +467,7 @@ Class Dates {
 		$query = "SELECT * FROM ".SQL::table_name('dates')." as dates "
 			." WHERE (dates.anchor LIKE '".SQL::escape($anchor)."')";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -478,7 +478,7 @@ Class Dates {
 	 * @parameter the target language, if any
 	 * @return a string to be used in web page
 	 */
-	function get_month_label($month, $language=NULL) {
+	public static function get_month_label($month, $language=NULL) {
 		global $context;
 
 		// the default is to use surfer language
@@ -542,7 +542,7 @@ Class Dates {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view') {
+	public static function get_url($id, $action='view') {
 		global $context;
 
 		// get a one-year calendar -- id is the target year (e.g., '1999')
@@ -618,7 +618,7 @@ Class Dates {
 	 *
 	 * @see dates/index.php
 	 */
-	function &list_by_date($offset=0, $count=10, $variant='full') {
+	public static function &list_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -639,7 +639,7 @@ Class Dates {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant=NULL) {
+	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant=NULL) {
 		global $context;
 
 		// use the anchor itself as the default variant
@@ -665,30 +665,11 @@ Class Dates {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	function &list_for_anchor($anchor, $offset=0, $count=100, $variant='family') {
+	public static function &list_for_anchor($anchor, $offset=0, $count=100, $variant='family') {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates may see everything
-		if(Surfer::is_empowered())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		// finalize ACL
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// put only published pages in boxes
 		if($variant == 'boxes') {
@@ -727,29 +708,11 @@ Class Dates {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	function &list_for_day($year, $month, $day, $variant='links') {
+	public static function &list_for_day($year, $month, $day, $variant='links') {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates may see everything
-		if(Surfer::is_empowered())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// put only published pages in boxes
 		if($variant == 'boxes') {
@@ -805,7 +768,7 @@ Class Dates {
 	 * @param string reference an target anchor (e.g., 'section:123'), if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	function &list_for_month($year, $month, $variant='links', $anchor=NULL) {
+	public static function &list_for_month($year, $month, $variant='links', $anchor=NULL) {
 		global $context;
 
 		// check the year
@@ -835,34 +798,15 @@ Class Dates {
 	 * @param string reference an target anchor (e.g., 'section:123'), if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	function &list_for_prefix($prefix=NULL, $variant='links', $anchor=NULL) {
+	public static function &list_for_prefix($prefix=NULL, $variant='links', $anchor=NULL) {
 		global $context;
 
 		// default is current month
 		if(!$prefix)
 			$prefix = gmstrftime('%Y-%m-');
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates may see everything
-		if(Surfer::is_empowered())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		// bracket everything
-		$where = "(".$where.")";
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// limit to this anchor, if any
 		if($anchor)
@@ -906,7 +850,7 @@ Class Dates {
 	 *
 	 * @see dates/index.php
 	 */
-	function &list_future($offset=0, $count=100, $variant='family') {
+	public static function &list_future($offset=0, $count=100, $variant='family') {
 		$output =& Dates::list_future_for_anchor(NULL, $offset, $count, $variant, TRUE);
 		return $output;
 	}
@@ -921,30 +865,11 @@ Class Dates {
 	 * @param boolean trackback to first day of current month
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	function &list_future_for_anchor($anchor, $offset=0, $count=100, $variant='family', $back_to_first = FALSE) {
+	public static function &list_future_for_anchor($anchor, $offset=0, $count=100, $variant='family', $back_to_first = FALSE) {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates may see everything
-		if(Surfer::is_empowered())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		// finalize ACL
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// put only published pages in boxes
 		if($variant == 'boxes') {
@@ -973,7 +898,7 @@ Class Dates {
 			$where = "(articles.anchor LIKE '".SQL::escape($anchor)."') AND ".$where;
 
 		// the request
-		$query = "SELECT dates.date_stamp as date_stamp, articles.id as id, articles.title as title, articles.nick_name as nick_name, articles.active, articles.edit_date, articles.publish_date, articles.introduction, articles.thumbnail_url FROM ".SQL::table_name('dates')." as dates"
+		$query = "SELECT dates.date_stamp as date_stamp, articles.id as id, articles.title as title, articles.nick_name as nick_name, articles.active, articles.edit_date, articles.publish_date, articles.introduction, articles.thumbnail_url, articles.anchor FROM ".SQL::table_name('dates')." as dates"
 			.", ".SQL::table_name('articles')." AS articles"
 			." WHERE ((dates.anchor_type LIKE 'article') AND (dates.anchor_id = articles.id))"
 			."	AND (dates.date_stamp >= '".SQL::escape($match)."') AND ".$where
@@ -993,30 +918,11 @@ Class Dates {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	function &list_past_for_anchor($anchor, $offset=0, $count=100, $variant='family') {
+	public static function &list_past_for_anchor($anchor, $offset=0, $count=100, $variant='family') {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates may see everything
-		if(Surfer::is_empowered())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		// finalize ACL
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// put only published pages in boxes
 		if($variant == 'boxes') {
@@ -1059,7 +965,7 @@ Class Dates {
 	 * @param string 'full', etc or object, i.e., an instance of the layout interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	function &list_selected(&$result, $variant='compact') {
+	public static function &list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -1070,7 +976,7 @@ Class Dates {
 
 		// special layouts
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
@@ -1102,7 +1008,7 @@ Class Dates {
 		}
 
 		// do the job
-		$output =& $layout->layout($result);
+		$output = $layout->layout($result);
 		return $output;
 
 	}
@@ -1117,7 +1023,7 @@ Class Dates {
 	 *
 	 * @see dates/edit.php
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// no date
@@ -1196,7 +1102,7 @@ Class Dates {
 	 *
 	 * @see control/setup.php
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -1229,14 +1135,14 @@ Class Dates {
 	 *
 	 * @see dates/index.php
 	 */
-	function &stat() {
+	public static function stat() {
 		global $context;
 
 		// select among available items
 		$query = "SELECT COUNT(*) as count, MIN(edit_date) as oldest_date, MAX(edit_date) as newest_date"
 			." FROM ".SQL::table_name('dates')." as dates";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -1246,29 +1152,11 @@ Class Dates {
 	 * @param the selected anchor (e.g., 'article:12')
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	function &stat_for_anchor($anchor) {
+	public static function stat_for_anchor($anchor) {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates may see everything
-		if(Surfer::is_empowered())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// put only published pages in boxes
 		if(isset($variant) && ($variant == 'boxes')) {
@@ -1296,7 +1184,7 @@ Class Dates {
 			." WHERE ((dates.anchor_type LIKE 'article') AND (dates.anchor_id = articles.id))"
 			."	AND (dates.anchor = '".SQL::escape($anchor)."') AND ".$where;
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -1306,29 +1194,11 @@ Class Dates {
 	 * @param the selected anchor (e.g., 'article:12')
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	function &stat_past_for_anchor($anchor) {
+	public static function stat_past_for_anchor($anchor) {
 		global $context;
 
-		// select among active items
-		$where = "articles.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$where .= " OR articles.active='R'";
-
-		// associates may see everything
-		if(Surfer::is_empowered())
-			$where .= " OR articles.active='N'";
-
-		// include articles from managed sections
-		if($my_sections = Surfer::assigned_sections())
-			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-
-		// include managed pages for editors
-		if($my_articles = Surfer::assigned_articles())
-			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
-
-		$where = '('.$where.')';
+		// restrict the query to addressable content
+		$where = Articles::get_sql_where();
 
 		// put only published pages in boxes
 		if(isset($variant) && ($variant == 'boxes')) {
@@ -1356,7 +1226,7 @@ Class Dates {
 			." WHERE ((dates.anchor_type LIKE 'article') AND (dates.anchor_id = articles.id))"
 			."	AND (dates.date_stamp < '".SQL::escape($match)."') AND	(articles.anchor = '".SQL::escape($anchor)."') AND ".$where;
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

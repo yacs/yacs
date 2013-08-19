@@ -54,6 +54,9 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 
+// ensure we only provide public content through newsfeeds
+$context['users_without_teasers'] = 'Y';
+
 // check network credentials, if any -- used by winamp and other media players
 if($user = Users::authenticate())
 	Surfer::empower($user['capability']);
@@ -67,12 +70,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Sections::get($id);
+$item = Sections::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // editors have associate-like capabilities
 if(Surfer::is_empowered('M') && (isset($item['id']) && isset($user['id']) && (Sections::is_assigned($item['id'], $user['id']))) || (is_object($anchor) && $anchor->is_assigned()))
@@ -109,7 +112,7 @@ if(!isset($item['id']) || !$item['id']) {
 
 	// get the list from the cache, if possible
 	$cache_id = 'sections/feed.php?id='.$item['id'].'#channel';
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// loads feeding parameters
 		Safe::load('parameters/feeds.include.php');
@@ -118,7 +121,7 @@ if(!isset($item['id']) || !$item['id']) {
 		$values = array();
 		$values['channel'] = array();
 		$values['channel']['title'] = $item['title'];
-		$values['channel']['link'] = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
+		$values['channel']['link'] = Sections::get_permalink($item);
 		$values['channel']['description'] = $item['introduction'];
 
 		// the image for this channel
@@ -126,35 +129,7 @@ if(!isset($item['id']) || !$item['id']) {
 			$values['channel']['image'] = $context['url_to_home'].$context['url_to_root'].$context['powered_by_image'];
 
 		// all anchors to consider
-		$anchors = array('section:'.$item['id']);
-
-		// first level of depth
-		$topics =& Sections::get_children_of_anchor('section:'.$item['id'], 'main');
-		$anchors = array_merge($anchors, $topics);
-
-		// second level of depth
-		if(count($topics) && (count($anchors) < 2000)) {
-			$topics =& Sections::get_children_of_anchor($topics, 'main');
-			$anchors = array_merge($anchors, $topics);
-		}
-
-		// third level of depth
-		if(count($topics) && (count($anchors) < 2000)) {
-			$topics =& Sections::get_children_of_anchor($topics, 'main');
-			$anchors = array_merge($anchors, $topics);
-		}
-
-		// fourth level of depth
-		if(count($topics) && (count($anchors) < 2000)) {
-			$topics =& Sections::get_children_of_anchor($topics, 'main');
-			$anchors = array_merge($anchors, $topics);
-		}
-
-		// fifth level of depth
-		if(count($topics) && (count($anchors) < 2000)) {
-			$topics =& Sections::get_children_of_anchor($topics, 'main');
-			$anchors = array_merge($anchors, $topics);
-		}
+		$anchors = Sections::get_branch_at_anchor('section:'.$item['id']);
 
 		// the list of newest pages
 		$values['items'] =& Articles::list_for_anchor_by('edition', $anchors, 0, 20, 'feed');
@@ -179,7 +154,7 @@ if(!isset($item['id']) || !$item['id']) {
 	// suggest a name on download
 	if(!headers_sent()) {
 		$file_name = utf8::to_ascii($context['site_name'].'.section.'.$item['id'].'.rss.xml');
-		Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+		Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

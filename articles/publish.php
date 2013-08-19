@@ -39,8 +39,8 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once '../links/links.php'; // used for link processing
-include_once '../overlays/overlay.php';
 include_once '../servers/servers.php'; // servers to be advertised
+include_once '../articles/article.php'; // servers to be advertised
 
 // look for the id
 $id = NULL;
@@ -51,7 +51,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -61,10 +61,10 @@ if(isset($item['overlay']))
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // surfer can proceed
-if(Articles::allow_publication($anchor, $item)) {
+if(Articles::allow_publication($item,$anchor)) {
 	Surfer::empower();
 	$permitted = TRUE;
 
@@ -100,6 +100,11 @@ if(Surfer::is_crawler()) {
 } elseif(!isset($item['id'])) {
 	include '../error.php';
 
+// an anchor is mandatory
+} elseif(!is_object($anchor)) {
+	Safe::header('Status: 404 Not Found', TRUE, 404);
+	Logger::error(i18n::s('No anchor has been found.'));
+
 // publication is not available to everybody
 } elseif(!$permitted) {
 
@@ -131,84 +136,23 @@ if(Surfer::is_crawler()) {
 	// post-processing tasks
 	else {
 
-		// allow the anchor to prevent notifications of watchers
-		if(is_object($overlay) && !$overlay->should_notify_watchers())
-			$_REQUEST['notify_watchers'] == 'N';
+		// reflect in memory what has been saved in database
+		$item['publish_date'] = $_REQUEST['publish_date'];
 
-		// never notify followers on private pages
-		if(isset($item['active']) && ($item['active'] == 'N'))
-			$_REQUEST['notify_followers'] == 'N';
+		// send to watchers of this page, and to watchers upwards
+		$watching_context = new Article();
+		$watching_context->load_by_content($item, $anchor);
 
-		// allow the anchor to prevent notifications of followers
-		elseif(is_object($overlay) && !$overlay->should_notify_followers())
-			$_REQUEST['notify_followers'] == 'N';
-
-		// touch the section
-		if(is_object($anchor)) {
-			$anchor->touch('article:publish', $item['id'], FALSE,
-				isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
-				isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
-		}
+		// do whatever is necessary on page publication
+		Articles::finalize_publication($watching_context, $item, $overlay,
+			isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
+			isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
 
 		// splash messages
 		$context['text'] .= '<p>'.i18n::s('The page has been successfully published.')."</p>\n";
 
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified'));
-
-		// trackback option
-		if(isset($_REQUEST['trackback_option']) && ($_REQUEST['trackback_option'] == 'Y')) {
-
-			// expose links within the page
-			$raw = $item['introduction'].' '.$item['source'].' '.$item['description'];
-
-			// pingback & trackback
-			list($links, $advertised, $skipped) = Links::ping($raw, 'article:'.$item['id']);
-
-			// report on processed links
-			if(@count($links)) {
-				$context['text'] .= '<p>'.i18n::s('Following links have been parsed:')."</p>\n";
-
-				$context['text'] .= '<ul>';
-				foreach($links as $link) {
-
-					// the link itself
-					$context['text'] .= '<li>'.Skin::build_link($link);
-
-					// link has been pinged
-					if(is_array($advertised) && in_array($link, $advertised))
-						$context['text'] .= ' ('.i18n::s('advertised').') ';
-
-					$context['text'] .= "</li>\n";
-				}
-				$context['text'] .= "</ul>\n";
-			}
-
-			// report on skipped links
-			if(@count($skipped)) {
-				$context['text'] .= '<p>'.i18n::s('Following links have been skipped:')."</p>\n";
-
-				$context['text'] .= '<ul>';
-				foreach($skipped as $link)
-					$context['text'] .= '<li>'.Skin::build_link($link)."</li>\n";
-				$context['text'] .= "</ul>\n";
-			}
-		}
-
-		// ping option
-		if(isset($_REQUEST['ping_option']) && ($_REQUEST['ping_option'] == 'Y')) {
-
-			// notify servers
-			Servers::notify($anchor->get_url());
-
-			// report on job done
-			$context['text'] .= Servers::build_endpoints(i18n::s('Servers that have been notified'));
-
-		}
-
-		// 'publish' hook
-		if(is_callable(array('Hooks', 'include_scripts')))
-			$context['text'] .= Hooks::include_scripts('publish', $item['id']);
+		$context['text'] .= Mailer::build_recipients('article:'.$item['id']);
 
 		// clear the cache
 		Articles::clear($item);
@@ -249,7 +193,7 @@ if($with_form) {
 	// advertise public pages
 	$ping_option = FALSE;
 	$trackback_option = FALSE;
-	if(is_object($anchor) && $anchor->is_public()
+	if($anchor->is_public()
 			&& (isset($item['active']) && ($item['active'] == 'Y')) ) {
 		$ping_option = TRUE;
 		$trackback_option = TRUE;

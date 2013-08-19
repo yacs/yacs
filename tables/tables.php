@@ -28,7 +28,7 @@ Class Tables {
 	 * @param array a set of item attributes, if any
 	 * @return boolean TRUE or FALSE
 	 */
-	function allow_creation($anchor=NULL, $item=NULL) {
+	public static function allow_creation($anchor=NULL, $item=NULL) {
 		global $context;
 
 		// tables are prevented in item
@@ -61,7 +61,7 @@ Class Tables {
 	 * @param string the variant to provide - default is 'simple'
 	 * @return a displayable string
 	 */
-	function build($id, $variant='simple') {
+	public static function build($id, $variant='simple') {
 		global $context;
 
 		// split parameters
@@ -69,11 +69,11 @@ Class Tables {
 		$id = $attributes[0];
 
 		// get the table object
-		if(!($table =& Tables::get($id)))
+		if(!($table = Tables::get($id)))
 			return NULL;
 
 		// do the SELECT statement
-		if(!$rows =& SQL::query($table['query'])) {
+		if(!$rows = SQL::query($table['query'])) {
 			Logger::error(sprintf(i18n::s('Error in table query %s'), $id).BR.htmlspecialchars($table['query']).BR.SQL::error());
 			return NULL;
 		}
@@ -93,7 +93,10 @@ Class Tables {
 				$label = preg_replace('/\s/', ' ', $table['title']);
 
 				// encode to ASCII
-				$label = utf8::to_ascii($label);
+				$label = utf8::to_ascii($label, PRINTABLE_SAFE_ALPHABET);
+
+				// escape quotes to preserve them in the data
+				$label = str_replace('"', '""', $label);
 
 				$text .= '"'.$label.'"';
 				$text .= "\n";
@@ -107,7 +110,10 @@ Class Tables {
 				$label = trim(preg_replace('/\s/', ' ', ucfirst($field->name)));
 
 				// encode
-				$label = utf8::to_ascii($label);
+				$label = utf8::to_ascii($label, PRINTABLE_SAFE_ALPHABET);
+
+				// escape quotes to preserve them in the data
+				$label = str_replace('"', '""', $label);
 
 				$text .= '"'.$label.'"';
 			}
@@ -115,7 +121,7 @@ Class Tables {
 
 			// process every table row
 			$row_index = 0;
-			while($row =& SQL::fetch($rows)) {
+			while($row = SQL::fetch($rows)) {
 
 				// one cell at a time
 				$index = 0;
@@ -132,14 +138,14 @@ Class Tables {
 					$label = trim(preg_replace('/\s+/', ' ', $value));
 
 					// encode
-					$label = utf8::to_ascii($label);
+					$label = utf8::to_ascii($label, PRINTABLE_SAFE_ALPHABET);
 
 					// escape quotes to preserve them in the data
 					$label = str_replace('"', '""', $label);
 
 					// make a link if this is a reference
-					if(($index == 0) && ($table['with_zoom'] == 'Y'))
-						$label = $context['url_to_home'].$label;
+					if(($index == 1) && ($table['with_zoom'] == 'Y'))
+						$label = $context['url_to_home'].$context['url_to_root'].$label;
 
 					// quote data
 					$text .= '"'.$label.'"';
@@ -162,7 +168,7 @@ Class Tables {
 			// all items
 			$data = array();
 			$data['items'] = array();
-			while($row =& SQL::fetch_row($rows)) {
+			while($row = SQL::fetch_row($rows)) {
 
 				// all rows
 				$datum = array();
@@ -174,7 +180,7 @@ Class Tables {
 
 					// first column is only a link
 					if(($index == 1) && ($table['with_zoom'] == 'Y')) {
-						$link = $context['url_to_home'].$context['url_to_root'].$value;
+						$link = $context['url_to_home'].$context['url_to_root'].ltrim($value, '/');
 						continue;
 					}
 
@@ -195,12 +201,12 @@ Class Tables {
 						$value = Skin::build_link($link, $value, 'basic');
 
 					// save this value
-					$datum[ $labels[$name] ] = utf8::to_ascii($value);
+					$datum[ $labels[$name] ] = utf8::to_ascii($value, PRINTABLE_SAFE_ALPHABET);
 
 				}
 
-				if($label && !in_array($labels, 'label'))
-					$datum['label'] = utf8::to_ascii($label);
+				if($label && !in_array('label', $labels))
+					$datum['label'] = utf8::to_ascii($label, PRINTABLE_SAFE_ALPHABET);
 
 				// add a tip, if any
 				$data['items'][] = $datum;
@@ -294,7 +300,7 @@ Class Tables {
 		case 'inline':
 		case 'sortable':
 
-			// a tabke with a grid
+			// a table with a grid
 			$text .= Skin::table_prefix('grid');
 
 			// the title, with a menu to download the table into Excel
@@ -322,7 +328,7 @@ Class Tables {
 			// the table body
 			$count = 0;
 			$row_index = 0;
-			while($row =& SQL::fetch_row($rows)) {
+			while($row = SQL::fetch_row($rows)) {
 				$cells = array();
 				$link = '';
 				for($index=0; $index < count($row); $index++) {
@@ -379,7 +385,7 @@ Class Tables {
 			$y3_values = array();
 			$y_min = $y_max = NULL;
 			$count = 1;
-			while($row =& SQL::fetch($rows)) {
+			while($row = SQL::fetch($rows)) {
 
 				// one cell at a time
 				$index = 0;
@@ -493,7 +499,7 @@ Class Tables {
 			$separator = ",";
 
 			// process every table row
-			while($row =& SQL::fetch($rows)) {
+			while($row = SQL::fetch($rows)) {
 
 				// not always the first column
 				$index = 0;
@@ -538,7 +544,7 @@ Class Tables {
 			$separator = ",";
 
 			// process every table row
-			while($row =& SQL::fetch($rows)) {
+			while($row = SQL::fetch($rows)) {
 
 				// one cell at a time
 				$index = 0;
@@ -559,7 +565,7 @@ Class Tables {
 
 					// make a link if this is a reference
 					if(($index == 0) && ($table['with_zoom'] == 'Y'))
-						$label = $context['url_to_home'].$label;
+						$label = $context['url_to_home'].$context['url_to_root'].$label;
 
 					// quote data
 					if(preg_match('/[^a-zA-Z0-9\-_]/', $label))
@@ -586,7 +592,7 @@ Class Tables {
 			$text .= Skin::table_row($cells, 'header');
 
 			// other rows
-			while($row =& SQL::fetch_row($rows)) {
+			while($row = SQL::fetch_row($rows)) {
 				$text .= Skin::table_row($row, $count++);
 			}
 
@@ -597,7 +603,7 @@ Class Tables {
 		case 'xml':
 
 			$text = '';
-			while($row =& SQL::fetch($rows)) {
+			while($row = SQL::fetch($rows)) {
 				$text .= '	<item>'."\n";
 				foreach($row as $name => $value) {
 					$type = preg_replace('/[^a-z0-9]+/i', '_', $name);
@@ -620,7 +626,7 @@ Class Tables {
 	 *
 	 * @param array item attributes
 	 */
-	function clear(&$item) {
+	public static function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('tables');
@@ -646,7 +652,7 @@ Class Tables {
 	 *
 	 * @see tables/delete.php
 	 */
-	function delete($id) {
+	public static function delete($id) {
 		global $context;
 
 		// id cannot be empty
@@ -672,7 +678,7 @@ Class Tables {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function delete_for_anchor($anchor) {
+	public static function delete_for_anchor($anchor) {
 		global $context;
 
 		// delete all matching records in the database
@@ -692,19 +698,19 @@ Class Tables {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function duplicate_for_anchor($anchor_from, $anchor_to) {
+	public static function duplicate_for_anchor($anchor_from, $anchor_to) {
 		global $context;
 
 		// look for records attached to this anchor
 		$count = 0;
 		$query = "SELECT * FROM ".SQL::table_name('tables')." WHERE anchor LIKE '".SQL::escape($anchor_from)."'";
-		if(($result =& SQL::query($query)) && SQL::count($result)) {
+		if(($result = SQL::query($query)) && SQL::count($result)) {
 
 			// the list of transcoded strings
 			$transcoded = array();
 
 			// process all matching records one at a time
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// a new id will be allocated
 				$old_id = $item['id'];
@@ -732,7 +738,7 @@ Class Tables {
 			}
 
 			// transcode in anchor
-			if($anchor =& Anchors::get($anchor_to))
+			if($anchor = Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 			// clear the cache for tables
@@ -750,7 +756,7 @@ Class Tables {
 	 * @param int the id of the table
 	 * @return the resulting $row array, with at least keys: 'id', 'title', etc.
 	 */
-	function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// sanity check
@@ -779,7 +785,7 @@ Class Tables {
 				." ORDER BY edit_date DESC LIMIT 1";
 
 		// do the job
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -799,7 +805,7 @@ Class Tables {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view') {
+	public static function get_url($id, $action='view') {
 		global $context;
 
 		// check the target action
@@ -836,7 +842,7 @@ Class Tables {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 * @see tables/tables.php#list_selected for $variant description
 	 */
-	function &list_by_date($offset=0, $count=10, $variant='full') {
+	public static function list_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -844,7 +850,7 @@ Class Tables {
 			." ORDER BY edit_date DESC, title LIMIT ".$offset.','.$count;
 
 		// the list of tables
-		$output =& Tables::list_selected(SQL::query($query), $variant);
+		$output = Tables::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -864,7 +870,7 @@ Class Tables {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor') {
+	public static function list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor') {
 		global $context;
 
 		// the request
@@ -873,35 +879,7 @@ Class Tables {
 			." ORDER BY edit_date DESC, title LIMIT ".$offset.','.$count;
 
 		// the list of tables
-		$output =& Tables::list_selected(SQL::query($query), $variant);
-		return $output;
-	}
-
-	/**
-	 * list newest tables for one author
-	 *
-	 * Example:
-	 * include_once 'tables/tables.php';
-	 * $items = Tables::list_by_date_for_author(0, 10, '', 12);
-	 * $context['text'] .= Skin::build_list($items, 'compact');
-	 *
-	 * @param int the id of the author of the table
-	 * @param int the offset from the start of the list; usually, 0 or 1 - default is 0
-	 * @param int the number of items to display - default is 20
-	 * @param string the list variant, if any - default is 'date'
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 * @see tables/tables.php#list_selected for $variant description
-	 */
-	function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='date') {
-		global $context;
-
-		// limit the scope of the request
-		$query = "SELECT * FROM ".SQL::table_name('tables')
-			." WHERE (edit_id = ".SQL::escape($author_id).")"
-			." ORDER BY edit_date DESC, title LIMIT ".$offset.','.$count;
-
-		// the list of tables
-		$output =& Tables::list_selected(SQL::query($query), $variant);
+		$output = Tables::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -916,7 +894,7 @@ Class Tables {
 	 * @variant string 'compact' or nothing
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_selected(&$result, $variant='compact') {
+	public static function list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -927,7 +905,7 @@ Class Tables {
 
 		// special layout
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
@@ -937,14 +915,14 @@ Class Tables {
 		case 'compact':
 			include_once $context['path_to_root'].'tables/layout_tables_as_compact.php';
 			$layout = new Layout_tables_as_compact();
-			$output =& $layout->layout($result);
+			$output = $layout->layout($result);
 			return $output;
 
 		default:
 			include_once $context['path_to_root'].'tables/layout_tables.php';
 			$layout = new Layout_tables();
 			$layout->set_variant($variant);
-			$output =& $layout->layout($result);
+			$output = $layout->layout($result);
 			return $output;
 
 		}
@@ -962,7 +940,7 @@ Class Tables {
 	 * @see tables/edit.php
 	 * @see tables/populate.php
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// no query
@@ -978,7 +956,7 @@ Class Tables {
 		}
 
 		// get the anchor
-		if(!isset($fields['anchor']) || (!$anchor =& Anchors::get($fields['anchor']))) {
+		if(!isset($fields['anchor']) || (!$anchor = Anchors::get($fields['anchor']))) {
 			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
@@ -1053,7 +1031,7 @@ Class Tables {
 	/**
 	 * create or alter tables for tables
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -1088,14 +1066,14 @@ Class Tables {
 	 *
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	function &stat() {
+	public static function stat() {
 		global $context;
 
 		// select among available items
 		$query = "SELECT COUNT(*) as count, MIN(edit_date) as oldest_date, MAX(edit_date) as newest_date"
 			." FROM ".SQL::table_name('tables');
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -1105,7 +1083,7 @@ Class Tables {
 	 * @param the selected anchor (e.g., 'article:12')
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	function &stat_for_anchor($anchor) {
+	public static function stat_for_anchor($anchor) {
 		global $context;
 
 		// select among available items
@@ -1113,7 +1091,7 @@ Class Tables {
 			." FROM ".SQL::table_name('tables')
 			." WHERE anchor LIKE '".SQL::escape($anchor)."'";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

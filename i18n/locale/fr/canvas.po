@@ -1,0 +1,56 @@
+# French translations for PACKAGE package.
+# Copyright (C) 2013 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-04-30 23:53+0200\n"
+"PO-Revision-Date: 2013-05-01 00:07+0100\n"
+"Last-Translator: Bernard Paques <bernard.paques@gmail.com>\n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ASCII\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: canvas/index.php:23
+msgid "Canvas"
+msgstr "Canevas"
+
+#: canvas/index.php:27
+msgid "Canvas listed below can be used to customise articles display attached to some sections."
+msgstr "Les canevas suivants peuvent personnaliser les pages de certaines sections."
+
+#: canvas/index.php:58
+#, php-format
+msgid "For example, if you want to apply the canvas <code>foo</code>, go to the %s, and select a target section, or add one."
+msgstr "Par exemple, pour employer le canevas <code>foo</code>, aller à %s, et sélectionner une section cible, ou en ajouter une."
+
+#: canvas/index.php:58
+msgid "site map"
+msgstr "carte du site"
+
+#: canvas/index.php:59
+msgid "In the form used to edit the section, select <code>foo</code> in the canvas field, then save changes."
+msgstr "Dans le formulaire de modification d'une section, choisir <code>foo</code> dans le champ canevas, puis enregistrer les modifications."
+
+#: canvas/one_panel.php:73
+msgid "Comments"
+msgstr "Commentaires"
+
+#: canvas/one_panel.php:93
+msgid "Information"
+msgstr "Information"
+
+#: canvas/standard.php:75
+msgid "Discussion"
+msgstr "Discussion"
+
+#: canvas/standard.php:105
+msgid "Attachments"
+msgstr "Pièces jointes"
+

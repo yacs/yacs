@@ -35,7 +35,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -50,7 +50,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 		// build a list of sections
 		$family = '';
 		$first = TRUE;
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// change the family
 			if($item['family'] != $family) {
@@ -77,9 +77,9 @@ Class Layout_sections_as_yabb extends Layout_interface {
 
 			// signal restricted and private sections
 			if($item['active'] == 'N')
-				$prefix .= PRIVATE_FLAG.' ';
+				$prefix .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$prefix .= RESTRICTED_FLAG.' ';
+				$prefix .= RESTRICTED_FLAG;
 
 			// indicate the id in the hovering popup
 			$hover = i18n::s('View the section');
@@ -87,7 +87,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 				$hover .= ' [section='.$item['id'].']';
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// use the title as a link to the page
 			$title =& Skin::build_link($url, Codes::beautify_title($item['title']), 'basic', $hover);
@@ -114,8 +114,8 @@ Class Layout_sections_as_yabb extends Layout_interface {
 			$more = array();
 
 			// board moderators
-			if($moderators =& Members::list_editors_for_member('section:'.$item['id'], 0, COMPACT_LIST_SIZE, 'comma'))
-				$more[] = sprintf(i18n::ns('Moderator: %s', 'Moderators: %s', count($moderators)), Skin::build_list($moderators, 'comma'));
+			if($moderators = Sections::list_editors_by_name($item, 0, 7, 'comma5'))
+				$more[] = sprintf(i18n::ns('Moderator: %s', 'Moderators: %s', count($moderators)), $moderators);
 
 			// children boards
 			if($children =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, COMPACT_LIST_SIZE, 'comma'))
@@ -134,14 +134,8 @@ Class Layout_sections_as_yabb extends Layout_interface {
 			if($details)
 				$details = BR.'<span class="details">'.$details."</span>\n";
 
-			// count posts here, and in children sections --up to three level of depth
-			if($anchors =& Sections::get_children_of_anchor('section:'.$item['id'])) {
-				if($anchors2 =& Sections::get_children_of_anchor($anchors))
-					$anchors2 = array_merge($anchors2, Sections::get_children_of_anchor($anchors2));
-
-				$anchors = array_merge($anchors, $anchors2);
-			}
-			$anchors[] = 'section:'.$item['id'];
+			// count posts here, and in children sections
+			$anchors = Sections::get_branch_at_anchor('section:'.$item['id']);
 			if(!$count = Articles::count_for_anchor($anchors))
 				$count = 0;
 

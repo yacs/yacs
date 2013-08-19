@@ -8,8 +8,8 @@
  * Of course, only associates can proceed.
  *
  * Accepted calls:
- * - own.php/&lt;id&gt;
- * - own.php?id=&lt;id&gt;
+ * - transfer.php/&lt;id&gt;
+ * - transfer.php?id=&lt;id&gt;
  *
  * @author Bernard Paques
  * @reference
@@ -28,7 +28,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // load the skin
 load_skin('users');
@@ -98,16 +98,12 @@ elseif(isset($_REQUEST['assigned_name']) && ($user = Users::get($_REQUEST['assig
 		.'</p></form>'."\n";
 
 	// enable autocompletion
-	$context['text'] .= JS_PREFIX
-		."\n"
-		.'// set the focus on first form field'."\n"
-		.'$(document).ready( function() { $("#name").focus() });'."\n"
-		."\n"
-		.'// enable name autocompletion'."\n"
-		.'$(document).ready( function() {'."\n"
-		.' Yacs.autocomplete_names("#name",true);'."\n"
-		.'});  '."\n"
-		.JS_SUFFIX;
+	Page::insert_script(
+		'$(function() {'."\n"
+		.'	$("#name").focus();'."\n" // set the focus on first form field
+		.'	Yacs.autocomplete_names("name",true);'."\n" // enable name autocompletion
+		.'});'."\n"
+		);
 
 	// back to the anchor page
 	$links = array();

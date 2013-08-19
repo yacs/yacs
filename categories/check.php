@@ -56,12 +56,12 @@ if(!Surfer::is_associate()) {
 	$query = "SELECT articles.id, articles.publish_date FROM ".SQL::table_name('articles')." AS articles"
 		." WHERE ".$where
 		." ORDER BY articles.rank, articles.edit_date DESC LIMIT 0, 10000";
-	if($result =& SQL::query($query)) {
+	if($result = SQL::query($query)) {
 
 		// scan the list
 		$count = 0;
 		$errors_count = 0;
-		while($row =& SQL::fetch($result)) {
+		while($row = SQL::fetch($result)) {
 			$count++;
 			if($error = Categories::remember('article:'.$row['id'], $row['publish_date'])) {
 				$context['text'] .= $error.BR."\n";
@@ -198,7 +198,7 @@ if(!Surfer::is_associate()) {
 	// scan up to 50000 members
 	$count = 0;
 	$query = "SELECT id, anchor, member FROM ".SQL::table_name('members')." LIMIT 0, 50000";
-	if(!($result =& SQL::query($query)))
+	if(!($result = SQL::query($query)))
 		return;
 
 	// parse the whole list
@@ -206,7 +206,7 @@ if(!Surfer::is_associate()) {
 
 		// fetch one anchor and the linked member
 		$errors_count = 0;
-		while($row =& SQL::fetch($result)) {
+		while($row = SQL::fetch($result)) {
 
 			// animate user screen and take care of time
 			$count++;
@@ -219,7 +219,7 @@ if(!Surfer::is_associate()) {
 			}
 
 			// fetch the member
-			if($row['member'] && !$item =& Anchors::get($row['member'])) {
+			if($row['member'] && !$item = Anchors::get($row['member'])) {
 
 				// delete this entry
 				$query = "DELETE FROM ".SQL::table_name('members')." WHERE id = ".SQL::escape($row['id']);
@@ -285,10 +285,7 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '</form>';
 
 	// set the focus on the button
-	$context['text'] .= JS_PREFIX
-		.'$("#action").focus();'."\n"
-		.JS_SUFFIX;
-
+	Page::insert_script('$("#action").focus();');
 
 }
 

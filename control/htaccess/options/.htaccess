@@ -19,13 +19,6 @@ Options -Indexes
 	RewriteRule ^rewrite_test/([0-9]+)$	control/test.php?a=$1  [QSA]
 	RewriteRule ^rewrite_test$ control/test.php	[QSA]
 
-	# actions
-	#
-	RewriteRule ^action-([a-zA-Z_]+)/([0-9]+)-([^/]+)$	actions/$1.php?id=$2&action=$3  [QSA]
-	RewriteRule ^action-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$  actions/$1.php?id=$2	[QSA]
-	RewriteRule ^action-([0-9]+)$  actions/view.php?id=$1  [QSA]
-	RewriteRule ^actions/([0-9]+)$  actions/index.php?page=$1  [QSA]
-
 	# articles
 	#
 	RewriteRule ^article-([a-zA-Z_]+)/([0-9]+)-([^/]+)$	articles/$1.php?id=$2&action=$3  [QSA]
@@ -56,12 +49,6 @@ Options -Indexes
 	RewriteRule ^date-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$	dates/$1.php?id=$2	[QSA]
 	RewriteRule ^date-([0-9]+)$	dates/view.php?id=$1  [QSA]
 
-	# decisions
-	#
-	RewriteRule ^decision-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$	decisions/$1.php?id=$2	[QSA]
-	RewriteRule ^decision-([0-9]+)$	decisions/view.php?id=$1  [QSA]
-	RewriteRule ^decisions/([0-9]+)$	decisions/index.php?page=$1  [QSA]
-
 	# feeds
 	#
 	RewriteRule ^feeds/articles$  articles/feed.php	[QSA]
@@ -79,14 +66,6 @@ Options -Indexes
 	RewriteRule ^file-([0-9]+)-([^/]+)$	files/view.php?id=$1  [QSA]
 	RewriteRule ^file-([0-9]+)$	files/view.php?id=$1  [QSA]
 	RewriteRule ^files/([0-9]+)$	files/index.php?page=$1  [QSA]
-
-	# forms
-	#
-	RewriteRule ^form-([a-zA-Z_]+)/([0-9]+)-([^/]+)$  forms/$1.php?id=$2&action=$3  [QSA]
-	RewriteRule ^form-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$	forms/$1.php?id=$2	[QSA]
-	RewriteRule ^form-([0-9]+)-([^/]+)$	forms/view.php?id=$1  [QSA]
-	RewriteRule ^form-([0-9]+)$	forms/view.php?id=$1  [QSA]
-	RewriteRule ^forms/([0-9]+)$	forms/index.php?page=$1  [QSA]
 
 	# images
 	#
@@ -149,6 +128,8 @@ Options -Indexes
 	#
 	RewriteRule ^about$	articles/view.php?id=about	[QSA]
 	RewriteRule ^cron$  cron.php  [QSA]
+	RewriteRule ^faceme$ faceme.php  [QSA]
+	RewriteRule ^faceme/([^/]+)$ faceme.php?id=$1  [QSA]
 	RewriteRule ^privacy$  articles/view.php?id=privacy	[QSA]
 	RewriteRule ^search$  search.php  [QSA]
 

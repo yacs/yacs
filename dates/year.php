@@ -42,7 +42,7 @@ if(abs(mktime(0, 0, 0, 1, 1, $year) - time()) > (31536000 * 3)) {
 
 	// page main content
 	$cache_id = 'dates/year.php#text#'.$year;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// robots cannot navigate
 		if(!Surfer::is_crawler()) {
@@ -83,7 +83,7 @@ if(abs(mktime(0, 0, 0, 1, 1, $year) - time()) > (31536000 * 3)) {
 
 // page extra content
 $cache_id = 'dates/year.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// side bar with the list of most recent pages
 	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))

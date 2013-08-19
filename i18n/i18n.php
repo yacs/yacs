@@ -2,8 +2,6 @@
 /**
  * handle internationalization
  *
- * @todo add a library of currencies
- *
  * This library helps to internationalize (i18n) and localize (l10n) strings used throughout the software.
  *
  * YACS leverages the gettext framework, which is the de facto standard for the internationalization of open source software.
@@ -83,7 +81,7 @@ Class i18n {
 	 *
 	 * @param string module name
 	 */
-	function bind($module) {
+	public static function bind($module) {
 		global $context;
 
 		// sanity check
@@ -124,7 +122,7 @@ Class i18n {
 	 * @param string the template string to be translated
 	 * @return string the localized string
 	 */
-	function &c($text) {
+	public static function &c($text) {
 		global $context;
 
 		// sanity check
@@ -155,7 +153,7 @@ Class i18n {
 	 * @param string the target language
 	 * @return string the provided text, if surfer language matches the target language, else ''
 	 */
-	function &filter($text, $language) {
+	public static function &filter($text, $language) {
 		global $context;
 
 		// sanity check
@@ -177,7 +175,7 @@ Class i18n {
 	 *
 	 * @return array of ($label => code)
 	 */
-	function &get_countries() {
+	public static function &get_countries() {
 
 		// initialize the table only once
 		static $codes;
@@ -449,7 +447,7 @@ Class i18n {
 	 * @param string alternate name and id for the returned tag
 	 * @return the HTML to insert in the page
 	 */
-	function &get_countries_select($current=NULL, $id='country') {
+	public static function &get_countries_select($current=NULL, $id='country') {
 		global $context;
 
 		// all options
@@ -492,7 +490,7 @@ Class i18n {
 	 * @param string the country code
 	 * @return string the related label, or NULL if the code is unknown
 	 */
-	function get_country_label($code='') {
+	public static function get_country_label($code='') {
 		global $context;
 
 		// sanity check
@@ -518,7 +516,7 @@ Class i18n {
 	 * @param string the language code
 	 * @return string the related label, or NULL if the code is unknown
 	 */
-	function get_language_label($code='') {
+	public static function get_language_label($code='') {
 		global $context;
 
 		// sanity check
@@ -545,7 +543,7 @@ Class i18n {
 	 *
 	 * @return array of ($label => code)
 	 */
-	function &get_languages() {
+	public static function &get_languages() {
 
 		// initialize the table only once
 		static $codes;
@@ -711,7 +709,7 @@ Class i18n {
 	 * @param string alternate name and id of the returned tag
 	 * @return the HTML to insert in the page
 	 */
-	function &get_languages_select($current=NULL, $id='language') {
+	public static function &get_languages_select($current=NULL, $id='language') {
 		global $context;
 
 		// use surfer language by default
@@ -725,7 +723,7 @@ Class i18n {
 		$languages =& i18n::get_languages();
 
 		// engage surfer
-		$text .= '<option value="none">'.i18n::s('Select a language')."</option>\n";
+		$text .= '<option value="none">'.i18n::s('Use browser settings')."</option>\n";
 
 		// current language setting
 		if($current == $context['language'])
@@ -760,35 +758,11 @@ Class i18n {
 	}
 
 	/**
-	 * provide a localized template
-	 *
-	 * @param string type of the expected template
-	 * @return string text of the template
-	 */
-	function &get_template($id) {
-
-		// depending of the expected template
-		switch($id) {
-
-		case 'mail_notification':
-		default:
-
-			// action, then title and link
-			$text = '<div>%1$s</div><p>&nbsp;</p><div><a href="%3$s">%2$s</a></div>';
-			break;
-
-		}
-
-		// job done
-		return $text;
-	}
-
-	/**
 	 * the database of time zones
 	 *
 	 * @return array of ($shift => $label)
 	 */
-	function &get_time_zones() {
+	public static function &get_time_zones() {
 
 		// initialize the table only once
 		static $codes;
@@ -884,7 +858,7 @@ Class i18n {
 	 * @param string original string
 	 * @return string hashed string
 	 */
-	function &hash($text) {
+	private static function &hash($text) {
 
 		if(strlen($text) < 32)
 			$output = $text;
@@ -897,18 +871,53 @@ Class i18n {
 	/**
 	 * initialize the localization engine
 	 *
-	 * This function analyzes data provided by the browser to automate surfer localization.
+	 * Language management in yacs is based on following data:
+	 * - $context['preferred_language'] is the community language.
+	 * - $context['language'] is the language adapted to current surfer.
+	 * - $context['page_language'] is the language of web content returned to the browser.
+	 *
+	 * The variable $context['preferred_language'] is used for information generated
+	 * automatically by the server, e.g., mail notifications, RSS feed, etc.
+	 * It can be changed in control/configure.php, and default value is 'en' for English.
+	 *
+	 * The variable $context['language'] is used while building information returned
+	 * interactively to the browser. This variable is determined based on following
+	 * algorithm:
+	 * - if parameter 'without_language_detection' equals 'Y', then 'language' is
+	 * set to the same value than 'preferred_language',
+	 * - else if the surfer has set a preferred language for himself from his profile,
+	 * 'language' is set to this value,
+	 * - else 'language' is set from HTTM attribute Accept-Language provided by the
+	 * browser on each request to the server.
+	 *
+	 * The variable $context['page_language'] is coming, usually, from items
+	 * displayed. For example, each page has an attribute to record the main language used
+	 * to write it, and $context['page_language'] is set to this attribute in script
+	 * articles/view.php. The same applies to sections, etc. For other scripts such as the
+	 * control panel at control/index.php, $context['page_language'] is set to adapt to
+	 * surfer language, i.e., $context['language'].
 	 *
 	 */
-	function initialize() {
+	public static function initialize() {
 		global $context;
 
-		// user language is explicit
-		if(isset($_SESSION['surfer_language']) && $_SESSION['surfer_language'] && ($_SESSION['surfer_language'] != 'none'))
+		// english is the default community language, if not defined in system configuration panel
+		if(!isset($context['preferred_language']) || !$context['preferred_language'])
+			$context['preferred_language'] = 'en';
+
+		// the default for the user is to use the community language
+		$context['language'] = $context['preferred_language'];
+
+		// yacs should not adapt to surfer language
+		if(isset($context['without_language_detection']) && ($context['without_language_detection'] == 'Y'))
+			;
+
+		// else user may have set language preference from his profile
+		elseif(isset($_SESSION['surfer_language']) && trim($_SESSION['surfer_language']) && ($_SESSION['surfer_language'] != 'none')) {
 			$context['language'] = $_SESSION['surfer_language'];
 
-		// guess surfer language
-		else {
+		// else guess surfer language
+		} else {
 
 			// languages accepted by browser
 			if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && $_SERVER['HTTP_ACCEPT_LANGUAGE'])
@@ -926,65 +935,101 @@ Class i18n {
 					$scores[$parts[0]] = (float)1.0;
 			}
 
-			// process each wish in sequence --most preferred language comes first without sorting data
+			// sort languages by descending score (highest first)
+			arsort($scores);
+
+			// language with highest score comes first
 			foreach($scores as $locale => $score) {
 
 				// ensure full locale availability
 				$path = 'i18n/locale/'.$locale.'/i18n.mo';
 				if(file_exists($context['path_to_root'].$path) || file_exists($context['path_to_root'].$path.'.php')) {
 
-						// this is guessed surfer locale
+						// ok, we have guessed the best possible language for this surfer
 						$context['language'] = $locale;
-
-						// drop other accepted languages
 						break;
 
 				}
 
-				// locale has no country code
+				// continue to next language if there is no country code, e.g., fr, not fr-FR
 				if(!$position = strpos($locale, '-'))
 					continue;
 
-				// check for availability of basic language file
+				// check for availability of basic language file, e.g., en-US --> en
 				$locale = substr($locale, 0, $position);
 				$path = 'i18n/locale/'.$locale.'/i18n.mo';
 				if(file_exists($context['path_to_root'].$path) || file_exists($context['path_to_root'].$path.'.php')) {
 
-						// this is guessed surfer locale
+						// ok, we have guessed the best possible language for this surfer
 						$context['language'] = $locale;
-
-						// drop other accepted languages
 						break;
 
 				}
 			}
 		}
 
-		// set community language
-		if(isset($context['preferred_language']))
-			;
+		// page language is adapted to surfer, but canbe changed afterwards based on content --e.g., articles/view.php
+		$context['page_language'] = $context['language'];
 
-		// use surfer guessed language, if any
-		elseif(isset($context['language']) && $context['language'])
-			$context['preferred_language'] = $context['language'];
-
-		// english is the default
-		else
-			$context['preferred_language'] = 'en';
-
-		// automatic detection has been disallowed
-		if(isset($context['without_language_detection']) && ($context['without_language_detection'] == 'Y'))
-			$context['language'] = $context['preferred_language'];
-
-		// english is the default
-		elseif(!isset($context['language']))
-			$context['language'] = 'en';
+		// set the continent, if known
+		if(isset($_SERVER['GEOIP_CONTINENT_CODE'])) {
+			$context['continent_code'] = $_SERVER['GEOIP_CONTINENT_CODE'];
+			$context['continent'] = i18n::get_country_label($_SERVER['GEOIP_CONTINENT_CODE']);
+		}
 
 		// set the country, if known
 		if(isset($_SERVER['GEOIP_COUNTRY_CODE'])) {
 			$context['country_code'] = $_SERVER['GEOIP_COUNTRY_CODE'];
 			$context['country'] = i18n::get_country_label($_SERVER['GEOIP_COUNTRY_CODE']);
 		}
+
+		// set the city, if known
+		if(isset($_SERVER['GEOIP_CITY'])) {
+			$context['city'] = $_SERVER['GEOIP_CITY'];
+		}
+
+		// set latitude and longitude, if known
+		if(isset($_SERVER['GEOIP_LATITUDE'])) {
+			$context['latitude'] = $_SERVER['GEOIP_LATITUDE'];
+			$context['longitude'] = $_SERVER['GEOIP_LONGITUDE'];
+		}
+
+		// initialize first day of week to display calendar
+		i18n::initialize_Fdof_Week ();
+
+	}
+
+	/**
+	 * initialize the first day of week from surfer's origin
+	 * the function define a constant that could be use by other's script
+	 */
+
+	static function initialize_Fdof_Week () {
+	    global $context;
+
+	    // choice has been manualy setted for the server somewhere
+	    if(defined('WEEK_START_MONDAY'))
+			return;
+
+		// deduce first day of week from country, if provided
+	    if(isset($_SERVER['GEOIP_COUNTRY_CODE'])) {
+			$start_sunday_countries = 'AS AZ BW CA CN FO GE GL GU HK IE IL IN IS JM JP KG KR LA MH MN MO MP MT NZ PH PK SG SY TH TT TW UM US UZ VI ZW ET MW NG TJ';
+			if(preg_match('/'.$_SERVER['GEOIP_COUNTRY_CODE'].'/', $start_sunday_countries))
+				define('WEEK_START_MONDAY',FALSE);
+			else
+				define('WEEK_START_MONDAY',TRUE);
+
+		// deduce it from language
+	    } elseif(isset($context['language'])) {
+			$start_sunday_lang = 'az en fo mo th vi';
+			if(preg_match('/'.$context['language'].'/', $start_sunday_lang))
+				define('WEEK_START_MONDAY',FALSE);
+			else
+				define('WEEK_START_MONDAY',TRUE);
+
+		// default is french standard, due to yacs'users
+	    } else
+			define('WEEK_START_MONDAY',TRUE);
 
 	}
 
@@ -1000,7 +1045,7 @@ Class i18n {
 	 * @param string desired language, if any
 	 * @return string the localized string, if any
 	 */
-	function &l($strings, $name, $forced='') {
+	public static function &l(&$strings, $name, $forced='') {
 		global $context;
 
 		// sanity check
@@ -1019,7 +1064,7 @@ Class i18n {
 		else {
 			$text = $name;
 			if($context['with_debug'] == 'Y')
-				logger::remember('i18n/i18n.php', $name.' is not localized', '', 'debug');
+				logger::remember('i18n/i18n.php: '.$name.' is not localized', '', 'debug');
 
 		}
 
@@ -1034,32 +1079,36 @@ Class i18n {
 	}
 
 	/**
-	 * look for a localized string
+	 * list all available locales
 	 *
-	 * @param array the array containing localized strings
-	 * @param string the label identifying string
-	 * @return string the localized string, if any
+	 * @return array of ($locale => $label)
 	 */
-	function &lookup($strings, $name) {
-		global $context;
+	public static function &list_locales() {
+		global $context, $locales;
 
-		// match on hashed name
-		if(($hash = i18n::hash($name)) && array_key_exists($hash, $strings))
-			$text = $strings[ $hash ];
+		// list of locales
+		$locales = array();
 
-		// no match
-		else {
+		// one directory per locale
+		if($dir = Safe::opendir($context['path_to_root'].'i18n/locale')) {
+			while(($item = Safe::readdir($dir)) !== FALSE) {
+				if(($item[0] == '.') || !is_dir($context['path_to_root'].'i18n/locale/'.$item))
+					continue;
 
-			// log information on development platform
-			if(($context['with_debug'] == 'Y') && file_exists($context['path_to_root'].'parameters/switch.on'))
-				logger::remember('i18n/i18n.php', $name.' is not localized', '', 'debug');
+				// remember locale
+				$locales[$item] = $item;
 
-			// degrade to provided string
-			$text = $name;
-		}
+				// enhance with manifest file, if any
+				if(is_readable($context['path_to_root'].'i18n/locale/'.$item.'/manifest.php'))
+					include_once $context['path_to_root'].'i18n/locale/'.$item.'/manifest.php';
+			}
+			Safe::closedir($dir);
 
-		// provide the localized string
-		return $text;
+		} else
+			logger::remember('i18n/i18n.php: Impossible to browse directory i18n/locale');
+
+		// done
+		return $locales;
 	}
 
 	/**
@@ -1086,7 +1135,7 @@ Class i18n {
 	 * @param string target module
 	 * @return TRUE on success, FALSE otherwise
 	 */
-	function load($language, $module) {
+	private static function load($language, $module) {
 		global $context;
 
 		// sanity check
@@ -1120,14 +1169,15 @@ Class i18n {
 
 			// log information on development platform
 			if($context['with_debug'] == 'Y')
-				logger::remember('i18n/i18n.php', 'Impossible to load '.$path, '', 'debug');
+				logger::remember('i18n/i18n.php: Impossible to load '.$path, '', 'debug');
 
 			// we've got a problem
 			return FALSE;
 		}
 
 		// read magic number
-		$magic = array_shift(unpack('V', fread($handle, 4)));
+		$values = unpack('V', fread($handle, 4));
+		$magic = array_shift($values);
 
 		// byte ordering
 		if($magic == (int)0x0950412de)
@@ -1139,23 +1189,27 @@ Class i18n {
 		else {
 			// log information on development platform
 			if($context['with_debug'] == 'Y')
-				logger::remember('i18n/i18n.php', 'bad magic number in '.$path, '', 'debug');
+				logger::remember('i18n/i18n.php: bad magic number in '.$path, '', 'debug');
 
 			// we've got a problem
 			return FALSE;
 		}
 
 		// read revision number
-		$revision = array_shift(unpack($order, fread($handle, 4)));
+		$values = unpack($order, fread($handle, 4));
+		$revision = array_shift($values);
 
 		// read number of strings
-		$number_of_strings = array_shift(unpack($order, fread($handle, 4)));
+		$values = unpack($order, fread($handle, 4));
+		$number_of_strings = array_shift($values);
 
 		// read offset for table of original strings
-		$original_table_offset = array_shift(unpack($order, fread($handle, 4)));
+		$values = unpack($order, fread($handle, 4));
+		$original_table_offset = array_shift($values);
 
 		// read offset for table of translated strings
-		$translated_table_offset = array_shift(unpack($order, fread($handle, 4)));
+		$values = unpack($order, fread($handle, 4));
+		$translated_table_offset = array_shift($values);
 
 		// two integers per string (offset and size)
 		$count = $number_of_strings * 2;
@@ -1177,7 +1231,6 @@ Class i18n {
 				.' * cache localized strings'."\n"
 				.' *'."\n"
 				.' * This file has been created by the script i18n/i18n.php. Please do not modify it manually.'."\n"
-				.' * @reference'."\n"
 				.' */'."\n";
 
 		}
@@ -1238,36 +1291,32 @@ Class i18n {
 	}
 
 	/**
-	 * list all available locales
+	 * look for a localized string
 	 *
-	 * @return array of ($locale => $label)
+	 * @param array the array containing localized strings
+	 * @param string the label identifying string
+	 * @return string the localized string, if any
 	 */
-	function &list_locales() {
-		global $context, $locales;
+	public static function &lookup(&$strings, $name) {
+		global $context;
 
-		// list of locales
-		$locales = array();
+		// match on hashed name
+		if(($hash = i18n::hash($name)) && array_key_exists($hash, $strings))
+			$text = $strings[ $hash ];
 
-		// one directory per locale
-		if($dir = Safe::opendir($context['path_to_root'].'i18n/locale')) {
-			while(($item = Safe::readdir($dir)) !== FALSE) {
-				if(($item[0] == '.') || !is_dir($context['path_to_root'].'i18n/locale/'.$item))
-					continue;
+		// no match
+		else {
 
-				// remember locale
-				$locales[$item] = $item;
+			// log information on development platform
+			if(($context['with_debug'] == 'Y') && file_exists($context['path_to_root'].'parameters/switch.on'))
+				logger::remember('i18n/i18n.php: '.$name.' is not localized', '', 'debug');
 
-				// enhance with manifest file, if any
-				if(is_readable($context['path_to_root'].'i18n/locale/'.$item.'/manifest.php'))
-					include_once $context['path_to_root'].'i18n/locale/'.$item.'/manifest.php';
-			}
-			Safe::closedir($dir);
+			// degrade to provided string
+			$text = $name;
+		}
 
-		} else
-			logger::remember('i18n/i18n.php', 'Impossible to browse directory i18n/locale');
-
-		// done
-		return $locales;
+		// provide the localized string
+		return $text;
 	}
 
 	/**
@@ -1280,7 +1329,7 @@ Class i18n {
 	 * @param int number of items to consider
 	 * @return string the localized string
 	 */
-	function &nc($singular, $plural, $count) {
+	public static function &nc($singular, $plural, $count) {
 		global $context;
 
 		// sanity check
@@ -1339,7 +1388,7 @@ Class i18n {
 	 * @param int number of items to consider
 	 * @return string the localized string
 	 */
-	function &ns($singular, $plural, $count) {
+	public static function &ns($singular, $plural, $count) {
 		global $context;
 
 		// sanity check
@@ -1392,7 +1441,8 @@ Class i18n {
 	 * reset localized strings in memory
 	 *
 	 */
-	function reset() {
+	public static function reset() {
+		global $context;
 
 		if(isset($context['l10n_modules']))
 			unset($context['l10n_modules']);
@@ -1407,7 +1457,7 @@ Class i18n {
 	 * @param string the template string to be translated
 	 * @return string the localized string, if any
 	 */
-	function &s($text) {
+	public static function &s($text) {
 		global $context;
 
 		// sanity check
@@ -1437,7 +1487,7 @@ Class i18n {
 	 * @param string the label identifying string
 	 * @return string the localized string, if any
 	 */
-	function &server($name) {
+	public static function &server($name) {
 		global $context, $local;
 
 		$text =& i18n::l($local, $name, $context['preferred_language']);
@@ -1463,7 +1513,7 @@ Class i18n {
 	 * @param string desired language, if any
 	 * @return string the localized string, if any
 	 */
-	function &user($name, $forced='') {
+	public static function &user($name, $forced='') {
 		global $local;
 
 		$text =& i18n::l($local, $name, $forced);

@@ -35,7 +35,7 @@ $track = strip_tags($track);
 
 // get the item from the database
 $item = NULL;
-$anchor =& Anchors::get($track);
+$anchor = Anchors::get($track);
 if(is_object($anchor))
 	$item = $anchor->item;
 
@@ -93,14 +93,31 @@ if(!$item['id']) {
 
 				// contact target user by e-mail
 				$subject = sprintf(i18n::c('%s is following you'), strip_tags(Surfer::get_name()));
-				$body = '<p>'.sprintf(i18n::c('%s will receive notifications when you will create new public content at %s'), Surfer::get_name(), $context['site_name']).'</p>'
-					.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink().'">'.ucfirst(strip_tags(Surfer::get_name())).'</a></p>';
 
-				// preserve tagging as much as possible
-				$message = Mailer::build_message($subject, $body);
+				// headline
+				$headline = sprintf(i18n::c('%s is following you'), Surfer::get_link());
+
+				// information
+				$message = '<p>'.sprintf(i18n::c('%s will receive notifications when you will update your followers at %s'), Surfer::get_name(), $context['site_name']).'</p>';
+
+				// assemble main content of this message
+				$message = Skin::build_mail_content($headline, $message);
+
+				// a set of links
+				$menu = array();
+
+				// call for action
+				$link = Surfer::get_permalink();
+				$menu[] = Skin::build_mail_button($link, ucfirst(strip_tags(Surfer::get_name())), TRUE);
+
+				// finalize links
+				$message .= Skin::build_mail_menu($menu);
+
+				// enable threading
+				$headers = Mailer::set_thread('user:'.$item['id']);
 
 				// sent by the server
-				Mailer::post(NULL, $user['email'], $subject, $message);
+				Mailer::notify(NULL, $user['email'], $subject, $message, $headers);
 			}
 
 			// feed-back to poster

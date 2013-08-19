@@ -25,7 +25,7 @@ class Feeds {
 	 * @param string some date
 	 * @return int a valid time stamp, or -1
 	 */
-	function decode_date($date) {
+	public static function decode_date($date) {
 		global $context;
 
 		// match wc3dtf
@@ -66,30 +66,6 @@ class Feeds {
 	}
 
 	/**
-	 * suppress invisible HTML tags
-	 *
-	 * @param string submitted text
-	 * @return string filtered text
-	 */
-	function encode_text($text) {
-
-		// remove blank blocks
-		$text = preg_replace(array('@<comment[^>]*?>.*?</comment>@siu',
-            '@<embed[^>]*?.*?</embed>@siu',
-            '@<link[^>]*?>.*?</link>@siu',
-            '@<listing[^>]*?>.*?</listing>@siu',
-            '@<meta[^>]*?>.*?</meta>@siu',
-            '@<noscript[^>]*?.*?</noscript>@siu',
-            '@<object[^>]*?.*?</object>@siu',
-            '@<plaintext[^>]*?.*?</plaintext>@siu',
-            '@<script[^>]*?.*?</script>@siu',
-            '@<xmp[^>]*?.*?</xmp>@siu'), '', $text);
-
-		return $text;
-
-	}
-
-	/**
 	 * get current news from this server
 	 *
 	 * Actually, this function lists most recent published articles.
@@ -98,7 +74,7 @@ class Feeds {
 	 * @param 'feed' to get a regular feed, or 'contents' to get everything
 	 * @return an array of array($time, $title, $author, $section, $image, $description)
 	 */
-	function get_local_news($count=20, $variant='feed') {
+	public static function get_local_news($count=20, $variant='feed') {
 		global $context;
 
 		// list the newest published articles
@@ -119,7 +95,7 @@ class Feeds {
 	 *
 	 * @see feeds/index.php
 	 */
-	function get_remote_news($count=20, $variant='compact') {
+	public static function get_remote_news($count=20, $variant='compact') {
 		global $context;
 
 		// number of items to display
@@ -146,7 +122,7 @@ class Feeds {
 	 * @see feeds/feeds.php
 	 * @see servers/test.php
 	 */
-	function get_remote_news_from($feed_url) {
+	public static function get_remote_news_from($feed_url) {
 		global $context;
 
 		// ensure we are using adequate feeding parameters
@@ -157,7 +133,7 @@ class Feeds {
 
 		// stop here if no host
 		if(!isset($items['host']) || !$items['host']) {
-			Logger::remember('feeds/feeds.php', 'No valid host at '.$feed_url);
+			Logger::remember('feeds/feeds.php: No valid host at '.$feed_url);
 			return NULL;
 		}
 
@@ -210,7 +186,7 @@ class Feeds {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id='rss') {
+	public static function get_url($id='rss') {
 		global $context;
 
 		// use rewriting engine to achieve pretty references
@@ -272,7 +248,7 @@ class Feeds {
 	 * @see control/scan.php
 	 * @see feeds/configure.php
 	 */
-	function tick_hook($forced=FALSE) {
+	public static function tick_hook($forced=FALSE) {
 		global $context;
 
 		// load librairies only once
@@ -332,13 +308,13 @@ class Feeds {
 					$fields['nick_name'] = 'external_news';
 					$fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
 					$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
+					$fields['index_map'] = 'N';
 					$fields['locked'] = 'Y'; // no direct contributions
-					$fields['home_panel'] = 'extra'; // in a side box at the front page
 					$fields['rank'] = 40000; // at the end of the list
 					$fields['title'] = i18n::c('External News');
 					$fields['description'] = i18n::c('Received from feeding servers');
 					if(!$fields['id'] = Sections::post($fields)) {
-						Logger::remember('feeds/feeds.php', 'Impossible to add a section.');
+						Logger::remember('feeds/feeds.php: Impossible to add a section.');
 						return;
 					}
 					$anchor = 'section:'.$fields['id'];
@@ -353,14 +329,14 @@ class Feeds {
 				// link has to be valid
 				if(!isset($item['link']) || !($item['title'].$item['description'])) {
 					if(isset($context['debug_feeds']) && ($context['debug_feeds'] == 'Y'))
-						Logger::remember('feeds/feeds.php', 'feed item is invalid', $item, 'debug');
+						Logger::remember('feeds/feeds.php: feed item is invalid', $item, 'debug');
 					continue;
 				}
 
 				// skip banned servers
 				if($banned_pattern && preg_match($banned_pattern, $item['link'])) {
 					if(isset($context['debug_feeds']) && ($context['debug_feeds'] == 'Y'))
-						Logger::remember('feeds/feeds.php', 'feed host has been banned', $item['link'], 'debug');
+						Logger::remember('feeds/feeds.php: feed host has been banned', $item['link'], 'debug');
 					continue;
 				}
 
@@ -387,7 +363,7 @@ class Feeds {
 
 				// save link in the database
 				if(!Links::post($fields))
-					Logger::remember('feeds/feeds.php', 'Impossible to save feed link: '.Logger::error_pop());
+					Logger::remember('feeds/feeds.php: Impossible to save feed link: '.Logger::error_pop());
 			}
 
 			// one feed has been processed

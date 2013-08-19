@@ -28,7 +28,7 @@
 	 * The class is set to 'extra' if [code]$context['extra'][/code] is not empty.
 	 *
 	 */
-	function body() {
+	public static function body($classes='') {
 		global $context;
 
 		// body id is derived from skin variant
@@ -37,9 +37,11 @@
 			$id = ' id="'.$context['skin_variant'].'"';
 
 		// we do have some extra content to render
-		$classes = '';
 		if($context['extra'])
-			$classes = ' class="extra"';
+			$classes .= ' extra';
+
+		// build classes declaration
+		$classes = ' class="'.$classes.'"';
 
 		// start the body
 		echo '<body'.$id.$classes.'>'."\n";
@@ -79,7 +81,7 @@
 	 * @param boolean TRUE to display the site slogan when at top level, FALSE otherwise
 	 * @return a string to be send to the browser
 	 */
-	function bread_crumbs($start_level=1, $with_slogan=FALSE) {
+	public static function bread_crumbs($start_level=1, $with_slogan=FALSE) {
 		global $context;
 
 		// add a link to the front page
@@ -131,7 +133,7 @@
 	 *
 	 * @see skins/configure.php
 	 */
-	function component($name, $variant='navigation') {
+	public static function component($name, $variant='navigation') {
 		global $context;
 
 		// sanity check
@@ -163,7 +165,7 @@
 
 		// look a named page, but only during regular operation
 		if(file_exists($context['path_to_root'].'parameters/switch.on') && is_callable(array('Articles', 'get')) && is_callable(array('Codes', 'beautify'))) {
-			if($item =& Articles::get($name)) {
+			if($item = Articles::get($name)) {
 				echo Skin::build_box(Codes::beautify_title($item['title']), Codes::beautify($item['description']), $variant, 'component_'.$name);
 				return TRUE;
 			}
@@ -171,6 +173,16 @@
 
 		// this component is unknown
 		return FALSE;
+	}
+	
+	/**
+	 * link a javascript file in the bottom of the page
+	 * 
+	 * @param string $path 
+	 */
+	public static function defer_script($path) {
+	    
+	    Js_css::link_file($path, 'js');
 	}
 
 	/**
@@ -199,7 +211,7 @@
 	 *
 	 * @param mixed a string of tokens, or a boolean
 	 */
-	function content($names=NULL) {
+	public static function content($names=NULL) {
 		global $context;
 
 		// display the prefix, if any
@@ -244,7 +256,7 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_bar() {
+	public static function echo_bar() {
 		global $context;
 
 		// commands are listed into $context
@@ -258,7 +270,7 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_details() {
+	public static function echo_details() {
 		global $context;
 
 		// from $context
@@ -271,7 +283,7 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_extra() {
+	public static function echo_extra() {
 		global $context;
 
 		// we don't want to create a full extra division
@@ -292,7 +304,7 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_error() {
+	public static function echo_error() {
 		global $context;
 
 		// delegate this to the skin
@@ -305,7 +317,7 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_image() {
+	public static function echo_image() {
 		global $context;
 
 		// the URL to use is in $context
@@ -326,14 +338,14 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_menu() {
+	public static function echo_menu() {
 		global $context;
 
 		// ensure normal conditions
 		if(file_exists($context['path_to_root'].'parameters/switch.on') && is_callable(array('Articles', 'get')) && is_callable(array('Codes', 'beautify'))) {
 
 			// use content of a named global page
-			if($item =& Articles::get('menu'))
+			if($item = Articles::get('menu'))
 				echo Skin::build_box(Codes::beautify_title($item['title']), Codes::beautify($item['description']), 'navigation', 'main_menu');
 		}
 	}
@@ -343,7 +355,7 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_tags() {
+	public static function echo_tags() {
 		global $context;
 
 		// tags are listed into $context
@@ -357,7 +369,7 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_text() {
+	public static function echo_text() {
 		global $context;
 
 		// from $context
@@ -378,7 +390,7 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_title() {
+	public static function echo_title() {
 		global $context;
 
 		// main page title has already been given
@@ -396,7 +408,7 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_tools() {
+	public static function echo_tools() {
 		global $context;
 
 		// tools are listed into $context
@@ -410,7 +422,7 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_user() {
+	public static function echo_user() {
 		global $context;
 
 		// build menu content dynamically
@@ -436,7 +448,7 @@
 	 *
 	 * You can override this function into your skin
 	 */
-	function echo_visited() {
+	public static function echo_visited() {
 		global $context;
 
 		// visited pages are listed in session space
@@ -453,7 +465,7 @@
 	 * @param string hard-coded list of components to put aside
 	 * @param boolean TRUE to generate the div#extra_panel, FALSE otherwise
 	 */
-	function extra_panel($names=NULL, $in_division=TRUE) {
+	public static function extra_panel($names=NULL, $in_division=TRUE) {
 		global $context;
 
 		// use regular parameters
@@ -468,10 +480,12 @@
 		$names = str_replace('extra', '', $names);
 
 		// in a separate division
-		if($in_division)
-			echo '<div id="extra_panel">';
+		if($in_division) {
+		    $tag = (SKIN_HTML5)?'aside':'div';
+		    echo '<'.$tag.' id="extra_panel">';
+		}
 
-		// a list of components
+		// a list of component
 		if(is_string($names))
 			$names = explode(' ', $names);
 
@@ -485,7 +499,7 @@
 
 		// close the extra panel
 		if($in_division)
-			echo "</div>\n";
+			echo '</'.$tag.">\n";
 
 	}
 
@@ -498,7 +512,7 @@
 	 * @param string footer prefix, if any
 	 * @param string footer suffix, if any
 	 */
-	function footer($prefix='', $suffix='') {
+	public static function footer($prefix='', $suffix='') {
 		global $context;
 
 		// the last paragraph
@@ -551,7 +565,7 @@
 	/**
 	 * generate content of the &lt;head&gt; tag
 	 */
-	function meta() {
+	public static function meta() {
 		global $context;
 
 		// other head directives
@@ -592,8 +606,11 @@
 	 * @param boolean TRUE to display site slogan, FALSE otherwise
 	 * @param boolean TRUE to display tabs, FALSE otherwise
 	 */
-	function header_panel($images=NULL, $attributes='top left repeat-x', $with_name=TRUE, $with_slogan=TRUE, $with_tabs=TRUE) {
+	public static function header_panel($images=NULL, $attributes='top left repeat-x', $with_name=TRUE, $with_slogan=TRUE, $with_tabs=TRUE) {
 		global $context;
+
+		// change rendering according to skin
+		$tag = (SKIN_HTML5)?'header':'div';
 
 		// put an image in panel background
 		if($images) {
@@ -610,11 +627,11 @@
 			$index = array_rand($images);
 
 			// the header panel comes before everything
-			echo '<div id="header_panel" style="background: transparent url('.$context['url_to_root'].$context['skin'].'/images/'.$images[$index].') '.$attributes.';">'."\n";
+			echo '<'.$tag.' id="header_panel" style="background: transparent url('.$context['url_to_root'].$context['skin'].'/images/'.$images[$index].') '.$attributes.';">'."\n";
 
 		// no image in the background
 		} else
-			echo '<div id="header_panel">'."\n";
+			echo '<'.$tag.' id="header_panel">'."\n";
 
 		// the site name -- can be replaced, through CSS, by an image -- access key 1
 		if($context['site_name'] && $with_name)
@@ -629,8 +646,48 @@
 			Page::tabs();
 
 		// end of the header panel
-		echo '</div>'."\n";
+		echo '</'.$tag.'>'."\n";
 
+	}
+	
+	/**
+	 * insert javascript to the end of the page
+	 * 
+	 * @param string $js_script the javascript code without html tag around
+	 */
+	public static function insert_script($js_script) {
+	    
+	    Js_css::insert($js_script);
+	}
+	
+	/**
+	 * insert css rules into the header of the page
+	 * 
+	 * @param string $css_style without html tag around
+	 */
+	public static function insert_style($css_style) {
+	    
+	    Js_css::insert($css_style,'css');
+	}
+	
+	/**
+	 * link a javascript file in the header of the page
+	 * 
+	 * @param string $path 
+	 */
+	public static function load_script($path) {
+	    
+	    Js_css::link_file($path,'js','header');	    
+	}
+	
+	/**
+	 * link a cascading style sheet in the header of the page
+	 * 
+	 * @param string $path 
+	 */
+	public static function load_style($path) {
+	    
+	    js_css::link_file($path,'css');
 	}
 
 	/**
@@ -640,7 +697,7 @@
 	 *
 	 * @param string hard-coded list of components to put aside
 	 */
-	function side($names=NULL) {
+	public static function side($names=NULL) {
 		global $context;
 
 		// we have no database back-end
@@ -668,7 +725,7 @@
 	/**
 	 * show site tabs
 	 *
-	 * Tabs are derivated by top-level sections of the server.
+	 * Tabs are derived by top-level sections of the server.
 	 *
 	 * Prefix and suffix tabs can be provided as links packaged in arrays of ( $url => array($label_prefix, $label, $label_suffix, $link_class) )
 	 *
@@ -676,21 +733,26 @@
 	 * @param boolean TRUE to reverse order of tabs, FALSE otherwise
 	 * @param array of links to be used as tabs before the regular set
 	 * @param array of links to be used as tabs after the regular set
+	 * @param string layout name to use for listing sub-sections (horizontal drop down menu)
 	 */
-	function tabs($with_home=TRUE, $with_reverse=FALSE, $prefix=NULL, $suffix=NULL) {
+	public static function tabs($with_home=TRUE, $with_reverse=FALSE, $prefix=NULL, $suffix=NULL, $layout_subsections=NULL) {
 		global $context;
 
-		// only for live servers
-		if(!file_exists($context['path_to_root'].'parameters/switch.on'))
+		// only for live servers Or Associate
+		if(!file_exists($context['path_to_root'].'parameters/switch.on') && !Surfer::is_associate())
 			return;
 
 		// we have no database back-end
 		if(!is_callable(array('sql', 'query')))
 			return;
 
+		// limit listing for drop-down menu
+		if (!defined('TABS_DROP_LIST_SIZE'))
+			define('TABS_DROP_LIST_SIZE',5);
+
 		// cache this across requests
 		$cache_id = 'skins/page.php#tabs';
-		if(!$text =& Cache::get($cache_id)) {
+		if(!$text = Cache::get($cache_id)) {
 
 			// an array of tabs
 			$site_bar = array();
@@ -708,8 +770,44 @@
 				$context['root_sections_count_at_home'] = 5;
 
 			// query the database to get dynamic tabs
-			if(is_callable(array('Sections', 'list_by_title_for_anchor')) && ($items =& Sections::list_by_title_for_anchor(NULL, 0, $context['root_sections_count_at_home'], 'tabs')))
-				$site_bar = array_merge($site_bar, $items);
+			if(is_callable(array('Sections', 'list_by_title_for_anchor')) && ($items = Sections::list_by_title_for_anchor(NULL, 0, $context['root_sections_count_at_home'], 'main_tabs')))
+				if(count($items)) {
+					//query subsections if layout is provided
+					if($layout_subsections) {
+						//Parse mother-sections previously selected to get sub-sections
+						foreach($items as $url => $item) {
+							//get id of mother section
+							$mother_id = str_replace('_',':',$item[3]);
+
+							//get subsections list
+							$subsections = '';
+							$subsections =  Sections::list_by_title_for_anchor($mother_id, 0, TABS_DROP_LIST_SIZE, $layout_subsections);
+
+							//transform list into string if necessary (depend layout output)
+							if(is_array($subsections))
+								$subsections = Skin::build_list($subsections, $layout_subsections);
+
+							//get real number of subsections
+							$nb_subsections = Sections::count_for_anchor($mother_id);
+							//hint unlisted subsections if any
+							$hint = '<p class="details" id="dropcount">';
+							if($nb_subsections > TABS_DROP_LIST_SIZE) {
+								$hint .= '( ';
+								$hint .= sprintf(i18n::ns('%d section', '%d sections', $nb_subsections), $nb_subsections);
+								$hint .= ' )</p>';
+							} else
+								// provide empty <p> to preserve alignment
+								$hint .= '&nbsp;</p>';
+							$subsections = $hint.$subsections;
+
+							//store sub-sections list into "suffix" of this tab's label
+							if($subsections)
+								$items[$url][2] = "\n<div class=dropmenu>".$subsections.'</div>';
+
+						}
+					}
+					$site_bar = array_merge($site_bar, $items);
+				}
 
 			// suffix tabs, if any
 			if(is_array($suffix) && count($suffix))
@@ -720,7 +818,9 @@
 				$site_bar = array_reverse($site_bar);
 
 			// shape tabs
-			$text =& Skin::build_list($site_bar, 'tabs')."\n";
+			$text = Skin::build_list($site_bar, 'tabs')."\n";
+
+			// cache result
 			Cache::put($cache_id, $text, 'sections');
 		}
 		echo $text;
@@ -733,7 +833,7 @@
 	 * @param string prefix that applies
 	 * @return string for example: 'tab_home', or 'tab_section_123', or NULL
 	 */
-	function top_focus($prefix='tab_') {
+	public static function top_focus($prefix='tab_') {
 		global $context;
 
 		// not sure there is a focus

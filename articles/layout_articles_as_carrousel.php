@@ -16,9 +16,9 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -29,11 +29,11 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 			return $text;
 
 		// sanity check
-		if(!isset($this->layout_variant))
-			$this->layout_variant = 'map';
+		if(!isset($this->focus))
+			$this->focus = 'map';
 
 		// put in cache
-		$cache_id = Cache::hash('articles/layout_articles_as_carrousel:'.$this->layout_variant).'.xml';
+		$cache_id = Cache::hash('articles/layout_articles_as_carrousel:'.$this->focus).'.xml';
 
 		// save for one minute
 		if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path_to_root'].$cache_id)+60 < time())) {
@@ -98,14 +98,13 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 				$default_href = NULL;
 
 			// process all items in the list
-			include_once $context['path_to_root'].'overlays/overlay.php';
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// get the related overlay
 				$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 				// get the anchor
-				$anchor =& Anchors::get($item['anchor']);
+				$anchor = Anchors::get($item['anchor']);
 
 				// this is visual
 				if(isset($item['icon_url']) && $item['icon_url'])
@@ -121,7 +120,7 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 
 				// fix relative path
 				if(!preg_match('/^(\/|http:|https:|ftp:)/', $image))
-					$image = $context['url_to_root'].$image;
+					$image = $context['url_to_home'].$context['url_to_root'].$image;
 
 				// build a title
 				if(is_object($overlay))
@@ -130,13 +129,13 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 					$title = Codes::beautify_title($item['title']);
 
 				// the url to view this item
-				$url =& Articles::get_permalink($item);
+				$url = Articles::get_permalink($item);
 
 				// add to the list
 				$content .= '	<photo>'."\n"
 					.'		<title>'.$title.'</title>'."\n"
-					.'		<src>'.$context['url_to_home'].$image.'</src>'."\n"
-					.'		<href>'.$context['url_to_home'].$context['url_to_root'].$url.'</href>'."\n"
+					.'		<src>'.$image.'</src>'."\n"
+					.'		<href>'.$url.'</href>'."\n"
 					.'		<target>_self</target>'."\n"
 					.'	</photo>'."\n";
 
@@ -158,9 +157,9 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 			$count++;
 
 		// load the right file
-		$text = '<div id="articles_as_carrousel_'.$count.'"></div>'."\n"
-			.JS_PREFIX
-			.'swfobject.embedSWF("'.$context['url_to_home'].$context['url_to_root'].'included/browser/carrousel.swf",'."\n"  // flash file
+		$text = '<div id="articles_as_carrousel_'.$count.'"></div>'."\n";
+		Page::insert_script(
+			'swfobject.embedSWF("'.$context['url_to_home'].$context['url_to_root'].'included/browser/carrousel.swf",'."\n"  // flash file
 			.'"articles_as_carrousel_'.$count.'",'."\n"		// div id
 			.'"100%",'."\n"			// width
 			.'"150",'."\n"			// height
@@ -169,7 +168,7 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 			.'{xmlfile:"'.$context['url_to_home'].$context['url_to_root'].$cache_id.'", loaderColor:"0x666666"},'."\n"		// flashvars
 			.'{wmode: "transparent"},'."\n" // parameter
 			.'{});'."\n"			// attributes
-			.JS_SUFFIX;
+			);
 
 		// end of processing
 		SQL::free($result);

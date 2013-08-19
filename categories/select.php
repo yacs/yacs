@@ -40,10 +40,10 @@ $member = strip_tags($member);
 // get the member object, which is supposed to be a container
 $anchor = NULL;
 if($member)
-	$anchor =& Anchors::get($member);
+	$anchor = Anchors::get($member);
 
 // do we have the permission to add new categories?
-if(Categories::allow_creation($anchor))
+if(Categories::allow_creation(NULL, $anchor))
 	$permitted = TRUE;
 else
 	$permitted = FALSE;
@@ -118,7 +118,7 @@ if(Surfer::is_crawler()) {
 		foreach($categories as $category_id => $attributes) {
 
 			// make an url
-			$url =& Categories::get_permalink($attributes);
+			$url = Categories::get_permalink($attributes);
 
 			// gather information on this category
 			$prefix = $suffix = $type = $icon = '';
@@ -165,9 +165,9 @@ if(Surfer::is_crawler()) {
 				." FROM ".SQL::table_name('categories')." AS categories "
 				." WHERE (".$where.") AND (categories.anchor='category:".$category_id."')"
 				." ORDER BY categories.title";
-			$result =& SQL::query($query);
+			$result = SQL::query($query);
 			$sub_categories = array();
-			while($result && ($option =& SQL::fetch($result)))
+			while($result && ($option = SQL::fetch($result)))
 				$sub_categories['category:'.$option['id']] = $option['title'];
 
 			if(count($sub_categories)) {

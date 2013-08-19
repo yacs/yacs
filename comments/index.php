@@ -66,14 +66,13 @@ if(($page > 1) && (($page - 1) * THREADS_PER_PAGE > $stats['count'])) {
 
 	// page main content
 	$cache_id = 'comments/index.php#text#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 
 		// the first comment to list
 		$offset = ($page - 1) * THREADS_PER_PAGE;
 
 		// load the layout to use
-		include_once $context['path_to_root'].'articles/layout_articles_as_yabb.php';
-		$layout = new Layout_articles_as_yabb();
+		$layout = Layouts::new_('yabb', 'article');
 
 		// query the database and layout that stuff
 		if(!$text = Comments::list_threads_by_date($offset, THREADS_PER_PAGE, $layout))
@@ -96,7 +95,7 @@ if(Surfer::is_associate())
 
 // page extra information
 $cache_id = 'comments/index.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// side bar with the list of most recent pages
 	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))

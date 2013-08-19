@@ -42,7 +42,7 @@ if(!Surfer::is_associate()) {
 	$count = 0;
 	$query = "SELECT id, anchor, date_stamp FROM ".SQL::table_name('dates')
 		." ORDER BY anchor LIMIT 0, 10000";
-	if(!($result =& SQL::query($query))) {
+	if(!($result = SQL::query($query))) {
 		$context['text'] .= Logger::error_pop().BR."\n";
 
 	// parse the whole list
@@ -50,7 +50,7 @@ if(!Surfer::is_associate()) {
 
 		// fetch one anchor and the linked member
 		$errors_count = 0;
-		while($row =& SQL::fetch($result)) {
+		while($row = SQL::fetch($result)) {
 
 			// animate user screen and take care of time
 			$count++;
@@ -63,7 +63,7 @@ if(!Surfer::is_associate()) {
 			}
 
 			// look only in articles
-			if(preg_match('/article:(.*)/', $row['anchor'], $matches) && ($article =& Articles::get($matches[1]))) {
+			if(preg_match('/article:(.*)/', $row['anchor'], $matches) && ($article = Articles::get($matches[1]))) {
 
 				// check that the description has a reference to this date, or that overlay date has been used
 				if(!preg_match('/\[date='.$row['id'].'.*\]/', $article['description']) && !preg_match('/date_stamp/', $article['overlay'])) {
@@ -100,7 +100,7 @@ if(!Surfer::is_associate()) {
 	$count = 0;
 	$query = "SELECT id, anchor, date_stamp FROM ".SQL::table_name('dates')
 		." ORDER BY anchor LIMIT 0, 10000";
-	if(!($result =& SQL::query($query))) {
+	if(!($result = SQL::query($query))) {
 		$context['text'] .= Logger::error_pop().BR."\n";
 		return;
 
@@ -109,7 +109,7 @@ if(!Surfer::is_associate()) {
 
 		// fetch one anchor and the linked member
 		$errors_count = 0;
-		while($row =& SQL::fetch($result)) {
+		while($row = SQL::fetch($result)) {
 
 			// animate user screen and take care of time
 			$count++;
@@ -168,9 +168,7 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '</form>';
 
 	// set the focus on the button
-	$context['text'] .= JS_PREFIX
-		.'$("#action").focus();'."\n"
-		.JS_SUFFIX;
+	Page::insert_script('$("#action").focus();');
 
 }
 

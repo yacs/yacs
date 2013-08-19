@@ -21,6 +21,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -38,12 +39,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Locations::get($id);
+$item = Locations::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // the anchor has to be viewable by this surfer
 if(!is_object($anchor) || $anchor->is_viewable())
@@ -91,89 +92,50 @@ if(!isset($item['id'])) {
 	// geo position
 	if($item['geo_position']) {
 
-		// use google map where possible
-		if(isset($context['google_api_key']) && $context['google_api_key']) {
+		// a place holder for the dynamic map
+		$context['text'] .= '<p>'.sprintf(i18n::s('Geographical coordinates: %s'), $item['geo_position'])."</p>\n"
+			.'<div id="map" style="border: 1px solid #979797; background-color: #e5e3df; width: 500px; height: 300px; margin-right: auto; margin-top: 2em; margin-bottom: 2em">'."\n"
+			.'	<div style="padding: 1em; color: gray">'.i18n::s('Loading...').'</div>'."\n"
+			.'</div>'."\n";
 
-			// a place holder for the dynamic map
-			$context['text'] .= '<p>'.sprintf(i18n::s('Geographical coordinates: %s'), $item['geo_position'])."</p>\n"
-				.'<div id="map" style="border: 1px solid #979797; background-color: #e5e3df; width: 500px; height: 300px; margin-right: auto; margin-top: 2em; margin-bottom: 2em">'."\n"
-				.'	<div style="padding: 1em; color: gray">'.i18n::s('Loading...').'</div>'."\n"
-				.'</div>'."\n";
+		// ensure we have split coordinates
+		if(!$item['latitude'] || !$item['longitude'])
+			list($item['latitude'], $item['longitude']) = preg_split('/[\s,;]+/', $item['geo_position']);
 
-			// ensure we have split coordinates
-			if(!$item['latitude'] || !$item['longitude'])
-				list($item['latitude'], $item['longitude']) = preg_split('/[\s,;]+/', $item['geo_position']);
+		// link to anchor page
+		$description = '';
+		if($anchor = Anchors::get($item['anchor']))
+			$description .= Skin::build_link($anchor->get_url(), $anchor->get_title());
 
-			// link to anchor page
-			$description = '';
-			if($anchor =& Anchors::get($item['anchor']))
-				$description .= Skin::build_link($anchor->get_url(), $anchor->get_title());
+		// item type
+		if(strpos($item['anchor'], 'user:') == 0)
+			$type = 'user';
+		else
+			$type = 'other';
 
-			// item type
-			if(strpos($item['anchor'], 'user:') == 0)
-				$type = 'user';
-			else
-				$type = 'other';
-
-			// do the job
-			$context['page_footer'] .= '	  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key='.$context['google_api_key'].'"'."\n"
-				.'			  type="text/javascript"></script>'."\n"
-				.JS_PREFIX
-				."\n"
-				.'	  var iconBlue = new GIcon();'."\n"
-				.'	  iconBlue.image = \'http://labs.google.com/ridefinder/images/mm_20_blue.png\';'."\n"
-				.'	  iconBlue.shadow = \'http://labs.google.com/ridefinder/images/mm_20_shadow.png\';'."\n"
-				.'	  iconBlue.iconSize = new GSize(12, 20);'."\n"
-				.'	  iconBlue.shadowSize = new GSize(22, 20);'."\n"
-				.'	  iconBlue.iconAnchor = new GPoint(6, 20);'."\n"
-				.'	  iconBlue.infoWindowAnchor = new GPoint(5, 1);'."\n"
-				."\n"
-				.'	  var iconRed = new GIcon();'."\n"
-				.'	  iconRed.image = \'http://labs.google.com/ridefinder/images/mm_20_red.png\';'."\n"
-				.'	  iconRed.shadow = \'http://labs.google.com/ridefinder/images/mm_20_shadow.png\';'."\n"
-				.'	  iconRed.iconSize = new GSize(12, 20);'."\n"
-				.'	  iconRed.shadowSize = new GSize(22, 20);'."\n"
-				.'	  iconRed.iconAnchor = new GPoint(6, 20);'."\n"
-				.'	  iconRed.infoWindowAnchor = new GPoint(5, 1);'."\n"
-				."\n"
-				.'	  var customIcons = [];'."\n"
-				.'	  customIcons["other"] = iconBlue;'."\n"
-				.'	  customIcons["user"] = iconRed;'."\n"
-				."\n"
-				.'	if (GBrowserIsCompatible()) {'."\n"
-				.'	  var map = new GMap2($("#map"));'."\n"
-				.'	  map.addControl(new GSmallMapControl());'."\n"
-				.'	  map.addControl(new GMapTypeControl());'."\n"
-				."\n"
-				.'	  map.setCenter(new GLatLng(parseFloat("'.$item['latitude'].'"), parseFloat("'.$item['longitude'].'")), 10);'."\n"
-				."\n"
-				.'	  var point = new GLatLng(parseFloat("'.$item['latitude'].'"), parseFloat("'.$item['longitude'].'"));'."\n"
-				.'	  var type = "'.$type.'";'."\n"
-				.'	  var html = "'.addcslashes($description, '\'\\"'."\n\r").'";'."\n"
-				.'	  var marker = createMarker(point, type, html);'."\n"
-				.'	  map.addOverlay(marker);'."\n"
-				.'	  marker.openInfoWindowHtml(html);'."\n"
-				."\n"
-				.'	}'."\n"
-				."\n"
-				.'	  function createMarker(point, type, html) {'."\n"
-				.'		var marker = new GMarker(point, customIcons[type]);'."\n"
-				.'		GEvent.addListener(marker, \'click\', function() {'."\n"
-				.'		  marker.openInfoWindowHtml(html);'."\n"
-				.'		});'."\n"
-				.'		return marker;'."\n"
-				.'	  }'."\n"
-				.JS_SUFFIX;
-
-		// or use a small dynamic image
-		} else {
-			$map = '';
-			if( ($item['geo_position'] || ($item['longitude'] && $item['latitude']))
-				&& file_exists($context['path_to_root'].'locations/images/earth_310.jpg'))
-				$map .= BR.'<img src="'.$context['url_to_root'].Locations::get_url($item['id'], 'map_on_earth').'" width="310" height="155" alt="'.$item['geo_position'].'" />';
-
-			$context['text'] .= '<p>'.sprintf(i18n::s('Geographical coordinates: %s'), $item['geo_position']).$map."</p>\n";
-		}
+		// do the job
+		Page::defer_script('http://maps.google.com/maps/api/js?v=3&amp;sensor=false');
+		Page::insert_script(
+			'var point = new google.maps.LatLng(parseFloat("'.$item['latitude'].'"), parseFloat("'.$item['longitude'].'"));'."\n"
+			."\n"
+			.'var mapOptions = {'."\n"
+			.'	zoom: 10,'."\n"
+			.'	center: point,'."\n"
+			.'	mapTypeId: google.maps.MapTypeId.ROADMAP'."\n"
+			.'};'."\n"
+			.'var map = new google.maps.Map($("#map")[0], mapOptions);'."\n"
+			.'	var marker = new google.maps.Marker({ position: point, map: map });'."\n"
+			.'	var infoWindow = new google.maps.InfoWindow();'."\n"
+			.'google.maps.event.addDomListener(marker, "click", function() {'."\n"
+			.'	infoWindow.setContent("'.addcslashes($description, '\'\\"'."\n\r").'");'."\n"
+			.'	infoWindow.open(map, marker);'."\n"
+			.'	});'."\n"
+			.'$("body").bind("yacs", function(e) {'."\n"
+			.'	google.maps.event.trigger(map, "resize");'."\n"
+			.'	map.setZoom( map.getZoom() );'."\n"
+			.'	map.setCenter(point);'."\n"
+			.'});'."\n"
+			);
 
 	}
 

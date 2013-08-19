@@ -19,7 +19,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 	 *
 	 * @return 9 - two last articles first, plus 7 other pages
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 9;
@@ -31,9 +31,9 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -49,8 +49,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 		include_once $context['path_to_root'].'articles/article.php';
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// next item
 			$item_count += 1;
@@ -59,10 +58,10 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// one box per article
 			$prefix = $suffix = $icon = '';
@@ -191,7 +190,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 
 				// rating
 				if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
-					$details[] = Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
+					$details[] = Skin::build_link(Articles::get_url($item['id'], 'like'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 				// combine in-line details
 				if(count($details))
@@ -210,7 +209,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 						if(isset($attributes['background_color']) && $attributes['background_color'])
 							$attributes['title'] = '<span style="background-color: '.$attributes['background_color'].'; padding: 0 3px 0 3px;">'.$attributes['title'].'</span>';
 
-						if($this->layout_variant != 'category:'.$id)
+						if($this->focus != 'category:'.$id)
 							$anchors[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'basic');
 					}
 				}
@@ -269,7 +268,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 		$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 		// the url to view this item
-		$url =& Articles::get_permalink($item);
+		$url = Articles::get_permalink($item);
 
 		// use the title to label the link
 		if(is_object($overlay))
@@ -285,13 +284,13 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 
 		// signal restricted and private articles
 		if($item['active'] == 'N')
-			$prefix .= PRIVATE_FLAG.' ';
+			$prefix .= PRIVATE_FLAG;
 		elseif($item['active'] == 'R')
-			$prefix .= RESTRICTED_FLAG.' ';
+			$prefix .= RESTRICTED_FLAG;
 
 		// rating
 		if($item['rating_count'])
-			$suffix .= Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic', i18n::s('Rate this page'));
+			$suffix .= Skin::build_link(Articles::get_url($item['id'], 'like'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic', i18n::s('Rate this page'));
 
 		// use the title as a link to the page
 		$text .= '<h3><span>'.$prefix.Skin::build_link($url, $title, 'basic', i18n::s('View the page')).$suffix.'</span></h3>';
@@ -332,7 +331,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 
 		// info on related files
 		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-			$text .= ' ('.Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic').')';
+			$text .= ' ('.Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic').')';
 
 		// list up to three categories by title, if any
 		if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 5, 'raw')) {

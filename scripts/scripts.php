@@ -20,7 +20,7 @@ class Scripts {
 	 * @param int its target size - default is 45
 	 * @return either a sub-string or a padded string
 	 */
-	function &adjust($text, $size=45) {
+	public static function &adjust($text, $size=45) {
 		$text = str_replace(array("\r", "\n"), '', $text);
 		$text_length = strlen($text);
 		if($text_length > $size)
@@ -38,7 +38,7 @@ class Scripts {
 	 * @param int maximm number of lines to consider
 	 * @return an array of ('=', $left, $right) or ('-', $left, '-') or ('+', '-', $right)
 	 */
-	function &compare($old_stream, $new_stream, $maximum=500) {
+	public static function &compare($old_stream, $new_stream, $maximum=500) {
 
 		$start_time = get_micro_time();
 
@@ -165,7 +165,7 @@ class Scripts {
 	 * @param string a file for the updated content
 	 * @return an ASCII string
 	 */
-	function diff($original, $updated) {
+	public static function diff($original, $updated) {
 		global $context;
 
 		// read the original file
@@ -203,7 +203,7 @@ class Scripts {
 	 * @param string a file for the updated content
 	 * @return an ASCII string
 	 */
-	function &gdiff($original, $updated) {
+	public static function &gdiff($original, $updated) {
 		global $context;
 
 		// read the original file
@@ -294,7 +294,7 @@ class Scripts {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view') {
+	public static function get_url($id, $action='view') {
 		global $context;
 
 		// sanity check
@@ -318,7 +318,7 @@ class Scripts {
 	 * @param string the path of the target file
 	 * @return an array of ($lines, $hash), or NULL if not part of the reference set
 	 */
-	function hash($file) {
+	public static function hash($file) {
 		global $context;
 
 		// only process php scripts
@@ -357,12 +357,12 @@ class Scripts {
 	 * @param string original content
 	 * @return array the set of tokens
 	 */
-	function &hbreak(&$text) {
+	public static function &hbreak(&$text) {
 		global $context;
 
 
 		// locate pre-formatted areas
-		$areas = preg_split('/<(code|pre)>(.*?)<\/\1>/is', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
+		$areas = preg_split('#<(code|pre)>(.*?)</$1>#is', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
 
 		// format only adequate areas
 		$output = array();
@@ -418,7 +418,7 @@ class Scripts {
 	 * @param string updated content
 	 * @return an ASCII string
 	 */
-	function &hdiff(&$original, &$updated) {
+	public static function &hdiff(&$original, &$updated) {
 		global $context;
 
 		// preserve HTML tags
@@ -446,7 +446,7 @@ class Scripts {
 	 *
 	 * @see scripts/build.php
 	 */
-	function list_files_at($path, $verbose=TRUE, $stripped='', $special=NULL) {
+	public static function list_files_at($path, $verbose=TRUE, $stripped='', $special=NULL) {
 		global $context, $script_count;
 
 		// the list that is returned
@@ -530,7 +530,7 @@ class Scripts {
 	 * @param string the path to scan, e.g., 'codes/extensions'
 	 *
 	 */
-	function load_scripts_at($path) {
+	public static function load_scripts_at($path) {
 		global $context;
 
 		// relative to yacs installation directory
@@ -585,7 +585,7 @@ class Scripts {
 	 *
 	 * @see scripts/build.php
 	 */
-	function list_scripts_at($path, $verbose=TRUE) {
+	public static function list_scripts_at($path, $verbose=TRUE) {
 		global $context, $script_count;
 
 		// we want a list of files
@@ -639,7 +639,10 @@ class Scripts {
 				} elseif(preg_match('/\.php$/i', $node) && is_readable($target_translated)) {
 
 					// append the script to the list
-					$files[] = array($path, $node);
+					if($path)
+						$files[] = $path.'/'.$node;
+					else
+						$files[] = $node;
 
 					// animate the screen
 					if($verbose)
@@ -665,7 +668,7 @@ class Scripts {
 	 * @param string a file for the updated content
 	 * @return an ASCII string
 	 */
-	function merge($original, $updated) {
+	public static function merge($original, $updated) {
 		global $context;
 
 		// read the original file
@@ -706,7 +709,7 @@ class Scripts {
 	 * flag all scripts in scripts/run_once
 	 *
 	 */
-	function purge_run_once() {
+	public static function purge_run_once() {
 		global $context;
 
 		// silently purge pending run-once scripts, if any
@@ -754,7 +757,7 @@ class Scripts {
 	 * @param string updated content
 	 * @return an ASCII string
 	 */
-	function &sdiff(&$original, &$updated) {
+	public static function &sdiff(&$original, &$updated) {
 		global $context;
 
 		// compare the two sequences
@@ -798,7 +801,7 @@ class Scripts {
 	 *
 	 * @see scripts/check.php
 	 */
-	function walk_files_at($path, $call_back=NULL) {
+	public static function walk_files_at($path, $call_back=NULL) {
 		global $context, $script_count;
 
 		// sanity check

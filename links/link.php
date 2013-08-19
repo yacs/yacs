@@ -15,15 +15,14 @@ Class Link {
 	 * @param string the link to fetch
 	 * @param array of strings optional headers (eg, 'array("Content-Type: text/xml")')
 	 * @param string optional data to send
-	 * @param string the name of the calling script to be debugged (eg, 'scripts/stage.php')
 	 * @param string cookie, if any
 	 * @return the actual content, of FALSE on error
 	 */
-	function fetch($url, $headers='', $data='', $debug='', $cookie='') {
+	function fetch($url, $headers='', $data='', $cookie='') {
 		global $context;
 
 		// use the http library
-		return http::proceed($url, $headers, $data, $debug, $cookie);
+		return http::proceed($url, $headers, $data, $cookie);
 
 	}
 
@@ -63,7 +62,7 @@ Class Link {
 		// open a network connection -- wait for up to 10 seconds for the TCP connection
 		if(!$handle = Safe::fsockopen($host, $port, $errno, $errstr, 10)) {
 			if($context['with_debug'] == 'Y')
-				logger::remember('links/link.php', $host.':'.$port.' is not reachable', $url, 'debug');
+				logger::remember('links/link.php: '.$host.':'.$port.' is not reachable', $url, 'debug');
 			return FALSE;
 		}
 
@@ -115,7 +114,7 @@ Class Link {
 		// ensure we have a valid HTTP status line
 		if(!preg_match('/^HTTP\/[0-9\.]+ 20\d /', $lines[0])) {
 			if($context['with_debug'] == 'Y')
-				logger::remember('links/link.php', 'bad status: '.$lines[0], $url, 'debug');
+				logger::remember('links/link.php: bad status: '.$lines[0], $url, 'debug');
 			return FALSE;
 		}
 
@@ -134,5 +133,9 @@ Class Link {
 	}
 
 }
+
+// load localized strings
+if(is_callable(array('i18n', 'bind')))
+	i18n::bind('links');
 
 ?>

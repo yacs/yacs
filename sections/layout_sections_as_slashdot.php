@@ -13,7 +13,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 	 *
 	 * @return 50
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 50;
@@ -25,9 +25,9 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -49,8 +49,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 		include_once $context['path_to_root'].'articles/article.php';
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// change the family
 			if($item['family'] != $family) {
@@ -68,10 +67,10 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 			$menu = array();
 
 			// permalink
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// get the related overlay, if any
 			$overlay = Overlay::load($item, 'section:'.$item['id']);
@@ -84,9 +83,9 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 
 			// signal restricted and private sections
 			if($item['active'] == 'N')
-				$prefix .= PRIVATE_FLAG.' ';
+				$prefix .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$prefix .= RESTRICTED_FLAG.' ';
+				$prefix .= RESTRICTED_FLAG;
 
 			// this is another row of the output
 			$text .= '<tr class="'.$class_title.'"><th>'.$prefix.Skin::build_link($url, $title, 'basic', i18n::s('View the section')).$suffix.'</th></tr>'."\n";
@@ -96,18 +95,17 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 			$menu = array();
 
 			// branches of this tree
-			$anchors =& Sections::get_children_of_anchor('section:'.$item['id']);
-			$anchors[] = 'section:'.$item['id'];
+			$anchors = Sections::get_branch_at_anchor('section:'.$item['id']);
 
 			// get last post
 			$article =& Articles::get_newest_for_anchor($anchors, TRUE);
 			if($article['id']) {
 
 				// permalink
-				$url =& Articles::get_permalink($article);
+				$url = Articles::get_permalink($article);
 
 				// get the anchor
-				$anchor =& Anchors::get($article['anchor']);
+				$anchor = Anchors::get($article['anchor']);
 
 				// get the related overlay, if any
 				$overlay = Overlay::load($item, 'section:'.$item['id']);
@@ -120,9 +118,9 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 
 				// signal restricted and private articles
 				if($article['active'] == 'N')
-					$prefix .= PRIVATE_FLAG.' ';
+					$prefix .= PRIVATE_FLAG;
 				elseif($article['active'] == 'R')
-					$prefix .= RESTRICTED_FLAG.' ';
+					$prefix .= RESTRICTED_FLAG;
 
 				// the icon to put aside
 				if($article['thumbnail_url'])
@@ -132,7 +130,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 				if(!$icon && is_callable(array($anchor, 'get_bullet_url')))
 					$icon = $anchor->get_bullet_url();
 				if($icon)
-					$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('View the page')).'" title="'.encode_field(i18n::s('View the page')).'" /></a>';
+					$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="" title="'.encode_field(i18n::s('View the page')).'" /></a>';
 
 				// the introductory text
 				if($article['introduction'])
@@ -166,7 +164,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 					$menu[] = Skin::build_link(Comments::get_url('article:'.$article['id'], 'comment'), i18n::s('Discuss'), 'span');
 
 				// the main anchor link
-				if(is_object($anchor) && (!isset($this->layout_variant) || ($article['anchor'] != $this->layout_variant)))
+				if(is_object($anchor) && (!isset($this->focus) || ($article['anchor'] != $this->focus)))
 					$menu[] = Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'span', i18n::s('View the section'));
 
 				// list up to three categories by title, if any

@@ -46,7 +46,7 @@ include_once '../shared/global.php';
 
 // stop banned hosts
 include_once $context['path_to_root'].'servers/servers.php';
-if(isset($_SERVER['REMOTE_HOST']) && ($server =& Servers::get($_SERVER['REMOTE_HOST']) && ($server['process_search'] != 'Y')))
+if(isset($_SERVER['REMOTE_HOST']) && ($server = Servers::get($_SERVER['REMOTE_HOST']) && ($server['process_search'] != 'Y')))
 	exit('Access denied');
 
 // look for words
@@ -102,26 +102,14 @@ switch($type) {
 		$values['items'] = Articles::search($search, 0, 30, 'feed');
 		break;
 
-	// search in comments
-	case 'comments':
-		include_once $context['path_to_root'].'comments/comments.php';
-		$values['items'] = Comments::search($search, 0, 30, 'feed');
-		break;
-
 	// search in files
 	case 'files':
 		$values['items'] = Files::search($search, 0, 30, 'feed');
 		break;
 
-	// search in links
-	case 'links':
-		include_once $context['path_to_root'].'links/links.php';
-		$values['items'] = Links::search($search, 0, 30, 'feed');
-		break;
-
 	// search in users
 	case 'users':
-		$values['items'] = Users::search($search, 0, 30, 'feed');
+		$values['items'] = Users::search($search, 1.0, 30, 'feed');
 		break;
 
 }

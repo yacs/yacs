@@ -34,7 +34,7 @@ elseif(Surfer::is_logged())
 $id = strip_tags($id);
 
 // get existing user data, if any
-$item =& Users::get($id);
+$item = Users::get($id);
 
 // is this is a shadow record?
 $origin = '';
@@ -127,7 +127,7 @@ if(Surfer::is_crawler()) {
 				'<a href="'.$context['url_to_home'].$context['url_to_root'].'">'.strip_tags($context['site_name']).'</a>').'</p>';
 
 		// enable threading
-		$headers = Mailer::set_thread('', 'user:'.$item['id']);
+		$headers = Mailer::set_thread('user:'.$item['id']);
 
 		// post the confirmation message
 		Mailer::notify(NULL, $item['email'], $subject, $message, $headers);
@@ -171,7 +171,7 @@ if(Surfer::is_crawler()) {
 
 	// save one click to associates
 	} elseif(Surfer::is_associate())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_permalink($item));
+		Safe::redirect(Users::get_permalink($item));
 
 	// follow-up
 	else {
@@ -238,9 +238,7 @@ if($with_form) {
 		$fields[] = array($label, $input);
 
 		// append the script used for data checking on the browser
-		$context['page_footer'] .= JS_PREFIX
-			.'$("#password").focus();'."\n"
-			.JS_SUFFIX."\n";
+		Page::insert_script('$("#password").focus();');
 
 	}
 

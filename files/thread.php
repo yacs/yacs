@@ -44,7 +44,7 @@ if(!strpos($anchor, ':'))
 
 // get the related anchor, if any
 if($anchor)
-	$anchor =& Anchors::get($anchor);
+	$anchor = Anchors::get($anchor);
 
 // load the skin
 load_skin('files');
@@ -76,7 +76,7 @@ if(Surfer::is_crawler()) {
 } else {
 
 	// list files by date (default) or by title (option files_by_title)
-	if($anchor->has_option('files_by_title'))
+	if($anchor->has_option('files_by') == 'title')
 		$output = Files::list_by_title_for_anchor($anchor->get_reference(), 0, 20, 'compact');
 	else
 		$output = Files::list_by_date_for_anchor($anchor->get_reference(), 0, 20, 'compact');

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-25 17:18+0100\n"
+"POT-Creation-Date: 2012-11-20 23:52+0100\n"
 "PO-Revision-Date: 2009-09-10 15:07+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Core team\n"
@@ -38,7 +38,7 @@ msgstr "Versions: %s"
 msgid "List versions"
 msgstr "List versions"
 
-#: versions/list.php:90 versions/restore.php:80 versions/versions.php:366
+#: versions/list.php:90 versions/restore.php:80 versions/versions.php:343
 msgid "No anchor has been found."
 msgstr "No anchor has been found."
 
@@ -79,12 +79,12 @@ msgstr "Restore: %s"
 msgid "The page has been successfully restored."
 msgstr "The page has been successfully restored."
 
-#: versions/versions.php:322
+#: versions/versions.php:299
 #, php-format
 msgid "Unknown anchor %s"
 msgstr "Unknown anchor %s"
 
-#: versions/versions.php:332
+#: versions/versions.php:309
 msgid "Impossible to restore the previous version."
 msgstr "Impossible to restore the previous version."
 

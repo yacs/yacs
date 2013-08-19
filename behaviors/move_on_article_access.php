@@ -23,7 +23,7 @@ class Move_on_article_access extends Behavior {
 	 * @param array current menu
 	 * @return array updated menu
 	 */
-	function &add_commands($script, $anchor, $menu=array()) {
+	function add_commands($script, $anchor, $menu=array()) {
 		global $context;
 
 		// limit the scope of our check to viewed pages
@@ -37,7 +37,7 @@ class Move_on_article_access extends Behavior {
 		// sanity checks
 		if(!$anchor)
 			Logger::error(i18n::s('No anchor has been found.'));
-		elseif(!$target =&  Anchors::get($anchor))
+		elseif(!$target = Anchors::get($anchor))
 			Logger::error(i18n::s('No anchor has been found.'));
 
 		// which agreement?
@@ -48,7 +48,7 @@ class Move_on_article_access extends Behavior {
 		else {
 
 			// look at parent container if possible
-			if(!$origin =&  Anchors::get($target->get_parent()))
+			if(!$origin = Anchors::get($target->get_parent()))
 				$origin = $target;
 
 			// only container editors can proceed
@@ -56,7 +56,7 @@ class Move_on_article_access extends Behavior {
 
 				// load target section
 				$tokens = explode(' ', $this->parameters, 2);
-				if($section =& Anchors::get('section:'.$tokens[0])) {
+				if($section = Anchors::get('section:'.$tokens[0])) {
 
 					// make a label
 					if(count($tokens) < 2)

@@ -56,12 +56,12 @@ $id = strip_tags($id);
 // get the related item, if any
 $item = array();
 if(($type == 'article') && $id)
-	$item =& Articles::get($id);
+	$item = Articles::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get related behaviors, if any
 $behaviors = NULL;
@@ -128,14 +128,14 @@ if(!isset($item['id'])) {
 		$items = Files::list_by_date_for_anchor($type.':'.$id, 0, 20, 'raw');
 
 	// archive each file
-	$file_path = $context['path_to_root'].'/files/'.$context['virtual_path'].$type.'/'.$id.'/';
+	$file_path = $context['path_to_root'].Files::get_path($type.':'.$id);
 	foreach($items as $id => $attributes) {
 
 		// read file content
-		if($content = Safe::file_get_contents($file_path.$attributes['file_name'], 'rb')) {
+		if($content = Safe::file_get_contents($file_path.'/'.$attributes['file_name'], 'rb')) {
 
 			// add the binary data
-			$zipfile->deflate($attributes['file_name'], Safe::filemtime($file_path.$attributes['file_name']), $content);
+			$zipfile->deflate($attributes['file_name'], Safe::filemtime($file_path.'/'.$attributes['file_name']), $content);
 		}
 	}
 
@@ -150,8 +150,8 @@ if(!isset($item['id'])) {
 		Safe::header('Content-Type: application/octet-stream');
 
 		// suggest a name for the saved file
-		$file_name = str_replace('_', ' ', utf8::to_ascii($item['title']).'.zip');
-		Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
+		$file_name = utf8::to_ascii($item['title']).'.zip';
+		Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $file_name).'"');
 
 		// file size
 		Safe::header('Content-Length: '.strlen($archive));

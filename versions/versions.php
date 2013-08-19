@@ -65,7 +65,7 @@ Class Versions {
 	 * @param array list of attributes to check
 	 * @return boolean TRUE if the arrays are different, FALSE otherwise
 	 */
-	function are_different($previous, $current, $names=NULL) {
+	public static function are_different($previous, $current, $names=NULL) {
 
 		// sanity check
 		if(!is_array($names) || !$names)
@@ -98,7 +98,7 @@ Class Versions {
 	 * @see articles/view.php
 	 * @see sections/view.php
 	 */
-	function count_for_anchor($anchor) {
+	public static function count_for_anchor($anchor) {
 		global $context;
 
 		// sanity check
@@ -110,7 +110,7 @@ Class Versions {
 		$query = "SELECT COUNT(*) as count"
 			." FROM ".SQL::table_name('versions')." AS versions"
 			." WHERE (versions.anchor LIKE '".SQL::escape($anchor)."')";
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 
 		// package result
 		if(isset($output['count']))
@@ -125,7 +125,7 @@ Class Versions {
 	 *
 	 * @see shared/anchors.php
 	 */
-	function delete_for_anchor($anchor) {
+	public static function delete_for_anchor($anchor) {
 		global $context;
 
 		// delete all records attached to this anchor
@@ -142,7 +142,7 @@ Class Versions {
 	 * @param int the id of the version
 	 * @return the resulting $item array, with at least keys: 'id', 'anchor', 'content', etc.
 	 */
-	function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// sanity check
@@ -154,7 +154,7 @@ Class Versions {
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('versions')." AS versions"
 			." WHERE (versions.id = ".SQL::escape($id).")";
-		$item =& SQL::query_first($query);
+		$item = SQL::query_first($query);
 
 		// inflate the serialized object if necessary
 		if(isset($item['content']) && strncmp($item['content'], 'a:', 2) && is_callable('gzuncompress'))
@@ -179,7 +179,7 @@ Class Versions {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view') {
+	public static function get_url($id, $action='view') {
 		global $context;
 
 		// list versions -- the id has to be an anchor (e.g., 'article:15')
@@ -199,29 +199,6 @@ Class Versions {
 	}
 
 	/**
-	 * list most recent versions
-	 *
-	 * Actually list versions by date.
-	 *
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 * @see versions/index.php
-	 */
-	function &list_by_date($offset=0, $count=10, $variant='full') {
-		global $context;
-
-		// the list of versions
-		$query = "SELECT versions.* FROM ".SQL::table_name('versions')." AS versions"
-			." ORDER BY versions.edit_date DESC LIMIT ".$offset.','.$count;
-
-		$output =& Versions::list_selected(SQL::query($query), $variant);
-		return $output;
-	}
-
-	/**
 	 * list most recent versions for one anchor
 	 *
 	 * @param string the target anchor
@@ -232,7 +209,7 @@ Class Versions {
 	 *
 	 * @see versions/list.php
 	 */
-	function &list_by_date_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
+	public static function list_by_date_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
 		global $context;
 
 		// locate where we are
@@ -244,7 +221,7 @@ Class Versions {
 			." WHERE (anchor LIKE '".SQL::escape($anchor)."')"
 			." ORDER BY versions.edit_date DESC LIMIT ".$offset.','.$count;
 
-		$output =& Versions::list_selected(SQL::query($query), $variant);
+		$output = Versions::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -258,7 +235,7 @@ Class Versions {
 	 * @return NULL on error, else an ordered array with $key => ($prefix, $label, $suffix, $type, $icon)
 	 *
 	 */
-	function &list_selected(&$result, $variant='compact') {
+	public static function list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -269,7 +246,7 @@ Class Versions {
 
 		// special layouts
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
@@ -279,13 +256,13 @@ Class Versions {
 		case 'compact':
 			include_once $context['path_to_root'].'versions/layout_versions_as_compact.php';
 			$layout = new Layout_versions_as_compact();
-			$output =& $layout->layout($result);
+			$output = $layout->layout($result);
 			return $output;
 
 		default:
 			include_once $context['path_to_root'].'versions/layout_versions.php';
 			$layout = new Layout_versions();
-			$output =& $layout->layout($result);
+			$output = $layout->layout($result);
 			return $output;
 
 		}
@@ -303,7 +280,7 @@ Class Versions {
 	 * @param int the id of the version to restore
 	 * @return TRUE on success, FALSE otherwise
 	 */
-	function restore($id) {
+	public static function restore($id) {
 		global $context;
 
 		// sanity check
@@ -313,11 +290,11 @@ Class Versions {
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('versions')." AS versions"
 			." WHERE (versions.id = ".SQL::escape($id).")";
-		if(!$item =& SQL::query_first($query))
+		if(!$item = SQL::query_first($query))
 			return FALSE;
 
 		// retrieve the related anchor
-		$anchor =& Anchors::get($item['anchor']);
+		$anchor = Anchors::get($item['anchor']);
 		if(!is_object($anchor)) {
 			Logger::error(sprintf(i18n::s('Unknown anchor %s'), $item['anchor']));
 			return FALSE;
@@ -349,7 +326,7 @@ Class Versions {
 	 *
 	 * Save previous version of some object in the database.
 	 * It is recommended to call Versions::are_different() before calling Versions::save(), to
-	 * ensure that something change has taken place.
+	 * ensure that some change has taken place.
 	 * This function populates the error context, where applicable.
 	 *
 	 * @param array an array of fields
@@ -358,7 +335,7 @@ Class Versions {
 	 *
 	 * @see versions/edit.php
 	**/
-	function save($fields, $anchor) {
+	public static function save($fields, $anchor) {
 		global $context;
 
 		// anchor cannot be empty
@@ -376,11 +353,6 @@ Class Versions {
 
 		// versioning date
 		$versioning_date = isset($fields['edit_date']) ? $fields['edit_date'] : gmstrftime('%Y-%m-%d %H:%M:%S');
-
-		// delete previous versions for this day
-// 		$query = "DELETE FROM ".SQL::table_name('versions')
-// 			." WHERE (anchor LIKE '".SQL::escape($anchor)."') AND (edit_date LIKE '".substr($versioning_date, 0, 10)."%')";
-// 		SQL::query($query);
 
 		// insert a new record
 		$query = "INSERT INTO ".SQL::table_name('versions')." SET "
@@ -408,7 +380,7 @@ Class Versions {
 	/**
 	 * create tables for versions
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -434,7 +406,7 @@ Class Versions {
 	 * @param the selected anchor (e.g., 'section:12')
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	function &stat_for_anchor($anchor) {
+	public static function stat_for_anchor($anchor) {
 		global $context;
 
 		// sanity check
@@ -447,7 +419,7 @@ Class Versions {
 			." FROM ".SQL::table_name('versions')." AS versions"
 			." WHERE (versions.anchor LIKE '".SQL::escape($anchor)."')";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

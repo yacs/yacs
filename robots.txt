@@ -1,5 +1,4 @@
 User-agent: *
-Disallow: /actions/
 Disallow: /agents/
 Disallow: /behaviors/
 Disallow: /codes/

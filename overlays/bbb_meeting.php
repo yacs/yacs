@@ -1,10 +1,11 @@
 <?php
-include_once 'event.php';
+include_once 'meeting.php';
 
 /**
  * meet on a BigBlueButton server
  *
  * This overlay integrates meeting facility provided by a BigBlueButton server.
+ * It is adapted to the BigBlueButton API version 0.8.
  *
  * @link http://bigbluebutton.org/
  *
@@ -14,6 +15,7 @@ include_once 'event.php';
  * The overlays drives the back-end service using the regular BigBlueButton API. This enables
  * a very high level of integration into yacs:
  * - Meeting is started and stopped by page owner, using buttons on yacs page.
+ * - If files have been added to the page prior the meeting, they are uploaded automatically to the web conference
  * - Names of participants are those used into the yacs server, and people don't have to enter their
  * identity or credentials to join the meeting after they have been authenticated by yacs.
  * - Details of the meeting (title, schedule, chairman) are displayed into the chat area.
@@ -37,7 +39,31 @@ include_once 'event.php';
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
-class BBB_Meeting extends Event {
+class BBB_Meeting extends Meeting {
+
+	/**
+	 * allow or block operations
+	 *
+	 * @param string the kind of item to handle
+	 * @param string the foreseen operation ('edit', 'new', ...)
+	 * @return TRUE if the operation is accepted, FALSE otherwise
+	 */
+	function allows($action, $type = '' ) {
+		global $context;
+
+		// we filter only file downloads
+		if($type != 'file')
+			return TRUE;
+		if($action != 'fetch')
+			return TRUE;
+
+		// reject download if caller is not bigbluebutton server
+		if(isset($_SERVER['HTTP_HOST']) && isset($context['bbb_server']) && ($_SERVER['HTTP_HOST'] == $context['bbb_server']))
+			return TRUE;
+
+		// blocked
+		return FALSE;
+	}
 
 	/**
 	 * build a secured link to the server
@@ -48,10 +74,6 @@ class BBB_Meeting extends Event {
 	 */
 	function build_link($action, $parameters) {
 		global $context;
-
-		// default host
-		if(!isset($context['bbb_server']) || !$context['bbb_server'])
-			$context['bbb_server'] = $context['host_name'];
 
 		// default salt
 		if(!isset($context['bbb_salt']))
@@ -117,6 +139,9 @@ class BBB_Meeting extends Event {
 		// surfer name, as authenticated by yacs
 		$parameters[] = 'fullName='.urlencode(Surfer::get_name());
 
+		// almost random passwords
+		$this->initialize_passwords();
+
 		// join as a moderator or not
 		if(isset($this->anchor) && $this->anchor->is_owned())
 			$parameters[] = 'password='.urlencode($this->moderator_password);
@@ -129,64 +154,6 @@ class BBB_Meeting extends Event {
 	}
 
 	/**
-	 * get an overlaid label
-	 *
-	 * Accepted action codes:
-	 * - 'edit' the modification of an existing object
-	 * - 'delete' the deleting form
-	 * - 'new' the creation of a new object
-	 * - 'view' a displayed object
-	 *
-	 * @see overlays/overlay.php
-	 *
-	 * @param string the target label
-	 * @param string the on-going action
-	 * @return the label to use
-	 */
-	function get_label($name, $action='view') {
-		global $context;
-
-		// the target label
-		switch($name) {
-
-		// edit command
-		case 'edit_command':
-			return i18n::s('Edit this meeting');
-			break;
-
-		// new command
-		case 'new_command':
-			return i18n::s('Add a meeting');
-			break;
-
-		// page title
-		case 'page_title':
-
-			switch($action) {
-
-			case 'edit':
-				return i18n::s('Edit a meeting');
-
-			case 'delete':
-				return i18n::s('Delete a meeting');
-
-			case 'new':
-				return i18n::s('New meeting');
-
-			case 'view':
-			default:
-				// use article title as the page title
-				return NULL;
-
-			}
-			break;
-		}
-
-		// no match
-		return NULL;
-	}
-
-	/**
 	 * the URL to start and to join the meeting
 	 *
 	 * @see overlays/events/start.php
@@ -195,6 +162,9 @@ class BBB_Meeting extends Event {
 	 */
 	function get_start_url() {
 		global $context;
+
+		// almost random passwords
+		$this->initialize_passwords();
 
 		// parameters to create a meeting
 		$parameters = array();
@@ -231,7 +201,7 @@ class BBB_Meeting extends Event {
 			$welcome .= sprintf(i18n::s('%s: %s'), i18n::s('Duration'), $this->attributes['duration'].' '.i18n::s('minutes'))."\n";
 
 		// build a link to the owner page, if any
-		if(is_object($this->anchor) && ($user =& Users::get($this->anchor->get_value('owner_id'))))
+		if(is_object($this->anchor) && ($user = Users::get($this->anchor->get_value('owner_id'))))
 			$welcome .= sprintf(i18n::s('%s: %s'), i18n::s('Chairman'), $user['full_name'])."\n";
 
 		// welcome message
@@ -241,11 +211,43 @@ class BBB_Meeting extends Event {
 		if(is_callable(array($this->anchor, 'get_url')))
 			$parameters[] = 'logoutURL='.urlencode($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url());
 
+		// should we record this session?
+		if($this->with_session_recording()) {
+			$parameters[] = 'record=true';
+			$parameters[] = 'duration=125'; // 2 hours max per recording
+		}
+
 		// link to create the meeting
 		$url = $this->build_link('create', $parameters);
 
+		// list most recent files that have been attached to this page
+		$headers = NULL;
+		$body = NULL;
+		if(is_object($this->anchor) && ($files = Files::list_by_date_for_anchor($this->anchor->get_reference(), 0, 5, 'raw'))) {
+			$headers = array("Content-Type: text/xml");
+
+			// instruct the presentation module to pre-load these files
+			$body = '<?xml version="1.0" encoding="UTF-8"?>'."\n"
+				.'<modules>'."\n"
+				.'	<module name="presentation">'."\n";
+
+			// list web address of each file
+			foreach($files as $file)
+				$body .= "\t\t".'<document'
+					.' url="'.$context['url_to_home'].$context['url_to_root'].utf8::to_xml(Files::get_url($file['id'], 'fetch', $file['file_name'])).'"'
+					.' name="'.utf8::to_xml($file['file_name']).'"'
+					.' />'."\n";
+
+			// end of the list of files
+			$body .= '   </module>'."\n"
+				.'</modules>'."\n";
+
+		}
+
 		// do create the meeting
-		if(($response = http::proceed($url)) && ($xml = simplexml_load_string($response)) && ($xml->returncode == 'SUCCESS')) {
+		if(($response = http::proceed_natively($url, $headers, $body))
+				&& ($xml = simplexml_load_string($response))
+				&& ($xml->returncode == 'SUCCESS')) {
 
 			// parameters to join the meeting
 			$parameters = array();
@@ -260,41 +262,12 @@ class BBB_Meeting extends Event {
 			$parameters[] = 'password='.urlencode($xml->moderatorPW);
 
 			// link to join the meeting
-			return $this->build_link('join', $parameters);
-
+			$url = $this->build_link('join', $parameters);
+			return $url;
 		}
 
 		// problem, darling!
 		return NULL;
-	}
-
-	/**
-	 * get a label for a given status code
-	 *
-	 * @param string the status code
-	 * @return string the label to display
-	 */
-	function get_status_label($status) {
-		global $context;
-
-		switch($status) {
-		case 'created':
-		default:
-			return i18n::s('Meeting is under preparation');
-
-		case 'open':
-			return i18n::s('Enrolment is open');
-
-		case 'lobby':
-			return i18n::s('Meeting has not started yet');
-
-		case 'started':
-			return i18n::s('Meeting has started');
-
-		case 'stopped':
-			return i18n::s('Meeting is over');
-
-		}
 	}
 
 	/**
@@ -306,6 +279,9 @@ class BBB_Meeting extends Event {
 	 */
 	function get_stop_url() {
 		global $context;
+
+		// almost random passwords
+		$this->initialize_passwords();
 
 		// parameters to end the meeting
 		$parameters = array();
@@ -325,6 +301,56 @@ class BBB_Meeting extends Event {
 	}
 
 	/**
+	 * display available recording, if any
+	 *
+	 * This function retrieves the list of available recordings from the BBB server,
+	 * and displays it to the surfer.
+	 */
+	function get_view_text_extension() {
+		global $context;
+
+		// parameters to list recordings
+		$parameters = array();
+		$parameters[] = 'meetingID='.urlencode($this->attributes['id']);
+
+		// link to list recordings
+		$url = $this->build_link('getRecordings', $parameters);
+
+		// query the BBB back-end
+		if(($response = http::proceed_natively($url))
+				&& ($xml = simplexml_load_string($response))
+				&& ($xml->returncode == 'SUCCESS')) {
+
+				// ok, we have some recording available
+				if($recordings = $xml->recordings->children()) {
+
+					// enumerate recordings, but use only the first one
+					foreach($recordings as $name => $node) {
+
+						// sanity checks
+						if($name != 'recording')
+							continue;
+
+						if(!isset($node->playback))
+							continue;
+						if(!isset($node->playback->format))
+							continue;
+						if(!isset($node->playback->format->url))
+							continue;
+
+						// a button to start the replay in a separate window
+						$menu = array();
+						$menu[] = Skin::build_link((string)$node->playback->format->url, 'Play the presentation', 'tee');
+						return Skin::build_box('Presentation', Skin::finalize_list($menu, 'menu_bar'));
+					}
+
+				}
+
+		}
+
+	}
+
+	/**
 	 * initialize this instance
 	 *
 	 * @see overlays/bbb_meetings/configure.php
@@ -337,14 +363,26 @@ class BBB_Meeting extends Event {
 		// load current parameters, if any
 		Safe::load('parameters/overlays.bbb_meetings.include.php');
 
+		// default host
+		if(!isset($context['bbb_server']) || !$context['bbb_server'])
+			$context['bbb_server'] = $context['host_name'];
+
+	}
+
+	/**
+	 * initialize passwords for this instance
+	 *
+	 */
+	protected function initialize_passwords() {
+		global $context;
+
 		// build moderator and attendees passwords
-		if(isset($this->attributes['id'])) {
-			$buffer = $this->attributes['id'];
-			if(isset($context['bbb_salt']))
-				$buffer .= $context['bbb_salt'];
-			$this->moderator_password = dechex(crc32($buffer.'moderator'));
-			$this->attendee_password = dechex(crc32($buffer.'attendee'));
-		}
+		$buffer = $this->attributes['id'];
+		if(isset($context['bbb_salt']))
+			$buffer .= $context['bbb_salt'];
+		$this->moderator_password = dechex(crc32($buffer.'moderator'));
+		$this->attendee_password = dechex(crc32($buffer.'attendee'));
+
 	}
 
 	/**
@@ -381,6 +419,16 @@ class BBB_Meeting extends Event {
 	function with_automatic_stop() {
 		return FALSE;
 	}
+
+	/**
+	 * should we record this session?
+	 *
+	 * @return boolean TRUE or FALSE
+	 */
+	function with_session_recording() {
+		return FALSE;
+	}
+
 }
 
 ?>

@@ -14,7 +14,7 @@ class Anchors {
 	 * @param string referencing of the changed anchor
 	 * @param string rights to be cascaded (e.g., 'Y', 'R' or 'N')
 	 */
-	function cascade($reference, $active) {
+	public static function cascade($reference, $active) {
 		global $context;
 
 		// only sections may have sub-sections
@@ -98,7 +98,7 @@ class Anchors {
 	 * @param string set locally (e.g., 'Y', 'R', or 'N')
 	 * @return string resulting value (e.g., 'Y', 'R', or 'N')
 	 */
-	function ceil_rights($inherited, $set) {
+	public static function ceil_rights($inherited, $set) {
 
 		if($inherited == 'N')
 			return 'N';
@@ -125,12 +125,8 @@ class Anchors {
 	 *
 	 * @param string reference of the deleted anchor (e.g., 'article:12')
 	 */
-	function delete_related_to($anchor) {
+	public static function delete_related_to($anchor) {
 		global $context;
-
-		// delete related actions
-		include_once $context['path_to_root'].'actions/actions.php';
-		Actions::delete_for_anchor($anchor);
 
 		// delete related articles
 		Articles::delete_for_anchor($anchor);
@@ -145,10 +141,6 @@ class Anchors {
 		// delete related dates
 		include_once $context['path_to_root'].'dates/dates.php';
 		Dates::delete_for_anchor($anchor);
-
-		// delete related decisions
-		include_once $context['path_to_root'].'decisions/decisions.php';
-		Decisions::delete_for_anchor($anchor);
 
 		// delete related files
 		Files::delete_for_anchor($anchor);
@@ -191,7 +183,7 @@ class Anchors {
 	 * This function is invoked  when some anchor is duplicated.
 	 *
 	 * Note: do not refer here to objects that will be duplicated through
-	 * overlays, such as Dates and Decisions.
+	 * overlays, such as Dates.
 	 *
 	 * The duplicate_related_to hook is used to invoke any software extension bound as follows:
 	 * - id: 'shared/anchors.php#duplicate_related_to'
@@ -201,12 +193,8 @@ class Anchors {
 	 * @param string reference of the source anchor (e.g., 'article:12')
 	 * @param string reference of the target anchor (e.g., 'article:12')
 	 */
-	function duplicate_related_to($from_anchor, $to_anchor) {
+	public static function duplicate_related_to($from_anchor, $to_anchor) {
 		global $context;
-
-		// duplicate related actions
-		include_once $context['path_to_root'].'actions/actions.php';
-		Actions::duplicate_for_anchor($from_anchor, $to_anchor);
 
 		// duplicate related articles
 		Articles::duplicate_for_anchor($from_anchor, $to_anchor);
@@ -219,8 +207,6 @@ class Anchors {
 		Comments::duplicate_for_anchor($from_anchor, $to_anchor);
 
 		// do not duplicate related dates -- this will be done through overlays
-
-		// do not duplicate related decisions -- this will be done through overlays
 
 		// duplicate related files
 		Files::duplicate_for_anchor($from_anchor, $to_anchor);
@@ -255,6 +241,7 @@ class Anchors {
 		Cache::clear();
 
 	}
+	
 
 	/**
 	 * load one anchor from the database
@@ -271,7 +258,7 @@ class Anchors {
 	 *
 	 * @see shared/anchor.php
 	 */
-	function &get($id, $mutable=FALSE) {
+	public static function get($id, $mutable=FALSE) {
 		global $context;
 
 		// no anchor yet
@@ -327,9 +314,9 @@ class Anchors {
 	 * get the label for an action
 	 *
 	 * Following actions codes have been defined:
-	 * - 'article:create'
-	 * - 'article:update'
 	 * - 'article:publish'
+	 * - 'article:submit'
+	 * - 'article:update'
 	 * - 'article:review'
 	 * - 'section:create'
 	 * - 'section:update'
@@ -354,20 +341,20 @@ class Anchors {
 	 * @return a string
 	 * @see shared/anchor.php#touch
 	 */
-	function get_action_label($action) {
+	public static function get_action_label($action) {
 
 		if(preg_match('/.*:import/i', $action))
 			return i18n::s('imported');
 
 		switch($action) {
-		case 'article:create':
+		case 'article:publish':
+			return i18n::s('published');
+
+		case 'article:submit':
 			return i18n::s('created');
 
 		case 'article:update':
 			return i18n::s('edited');
-
-		case 'article:publish':
-			return i18n::s('published');
 
 		case 'article:review':
 			return i18n::s('reviewed');
@@ -439,7 +426,7 @@ class Anchors {
 		default:
 			return i18n::s('edited');
 		}
-	}
+	}		
 
 	/**
 	 * count related items
@@ -451,7 +438,7 @@ class Anchors {
 	 * @param string the label to use, if any
 	 * @return string some XHTML snippet to send to the browser
 	 */
-	function &stat_related_to($anchor, $label=NULL) {
+	public static function stat_related_to($anchor, $label=NULL) {
 		global $context;
 
 		// describe related content
@@ -537,33 +524,11 @@ class Anchors {
 			$related .= Skin::table_row($cells, $lines++);
 		}
 
-		// stats for related actions
-		include_once $context['path_to_root'].'actions/actions.php';
-		if(($stats = Actions::stat_for_anchor($anchor)) && $stats['count']) {
-			$cells = array();
-			$cells[] = i18n::s('Actions');
-			$cells[] = 'center='.$stats['count'];
-			$cells[] = 'center='.Skin::build_date($stats['oldest_date']);
-			$cells[] = 'center='.Skin::build_date($stats['newest_date']);
-			$related .= Skin::table_row($cells, $lines++);
-		}
-
 		// stats for related dates
 		include_once $context['path_to_root'].'dates/dates.php';
 		if(($stats = Dates::stat_for_anchor($anchor)) && $stats['count']) {
 			$cells = array();
 			$cells[] = i18n::s('Dates');
-			$cells[] = 'center='.$stats['count'];
-			$cells[] = 'center='.Skin::build_date($stats['oldest_date']);
-			$cells[] = 'center='.Skin::build_date($stats['newest_date']);
-			$related .= Skin::table_row($cells, $lines++);
-		}
-
-		// stats for related decisions
-		include_once $context['path_to_root'].'decisions/decisions.php';
-		if(($stats = Decisions::stat_for_anchor($anchor)) && $stats['count']) {
-			$cells = array();
-			$cells[] = i18n::s('Decisions');
 			$cells[] = 'center='.$stats['count'];
 			$cells[] = 'center='.Skin::build_date($stats['oldest_date']);
 			$cells[] = 'center='.Skin::build_date($stats['newest_date']);

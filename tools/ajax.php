@@ -46,8 +46,11 @@ $context['text'] .= '<p style="margin-bottom: 1em;"><a href="#" onclick="Yacs.ha
 	.' <a href="#" onclick="Yacs.handleHelloNotification({ message: &quot;'.i18n::s('Hello notification').'&quot;,'
 	.'nick_name: &quot;Foo Bar&quot; })" class="button"><span>'.i18n::s('Hello notification').'</span></a> - '.i18n::s('Click on buttons to process notifications').'</p>'."\n";
 
+// a scaled iframe for preview
+$context['text'] .= '<p style="margin-bottom: 1em;"><a href="http://www.cisco.com/" class="button tipsy_preview"><span>'.i18n::s('Cisco').'</span></a> - '.i18n::s('Hover the button to display a preview').'</p>'."\n";
+
 // a popup box
-$context['text'] .= '<p style="margin-bottom: 1em;"><a href="http://www.google.com/" onclick="Yacs.popup( { url: this.href, width: \'100%\', height: \'100%\' } ); return false;" class="button"><span>'.i18n::s('Google').'</span></a> - '.i18n::s('Click on the button to trigger the popup window').'</p>'."\n";
+$context['text'] .= '<p style="margin-bottom: 1em;"><a href="http://www.cisco.com/" onclick="Yacs.popup( { url: this.href, width: \'100%\', height: \'100%\' } ); return false;" class="button"><span>'.i18n::s('Cisco').'</span></a> - '.i18n::s('Click on the button to trigger the popup window').'</p>'."\n";
 
 // a JSON-RPC call -- see services/rpc_echo_hook.php
 $context['text'] .= '<p style="margin-bottom: 1em;"><a href="#" onclick="Yacs.call( { method: \'echo\', params: { message: \''.i18n::s('AJAX demonstration').'\' }, id: 123 }, function(s) { if(s.message) { alert(s.message); } else { alert(\'failed!\'); } } ); return false;" class="button"><span>JSON-RPC echo</span></a> - '.i18n::s('Click on the button to call a remote function').'</p>'."\n";
@@ -79,12 +82,21 @@ $context['text'] .= '<p style="margin-bottom: 1em;"><b>'.i18n::s('Interactive fi
 	.'<p><input type="text" size="6" onkeypress="return Yacs.filterFloat(this, event)" /> - '.i18n::s('Enter a floating number').'</p>'
 	.'</form>'."\n";
 
+// calling raw content of a page
+$context['text'] .= '<p>';
+$context['text'] .= '<a class="button" id="view_1"><span>Press to open article 1 viewing page</span></a>';
+$context['text'] .= '<a class="button edit" id="edit_1" href="'.$context['url_to_root'].'articles/edit.php?id=1"><span>Press to open article 1 edition form</span></a>';
+$context['text'] .= '</p>';
+
+$context['text'] .= '<p><textarea size="3"></textarea>';
 
 // some AJAX to make it work
-$context['page_footer'] .= JS_PREFIX
-	.'$("#sortables .sortable").each( function() { Yacs.addOnDemandTools(this);}); '."\n"
-  .'$("#sortables").sortable({axis: "y", handle: ".drag_handle"});'."\n"
-	.JS_SUFFIX."\n";
+Page::insert_script('$("#sortables .sortable").each( function() { '
+		    .'Yacs.addOnDemandTools($(this));}); '."\n"
+		    .'$("#sortables").sortable({axis: "y", handle: ".drag_handle"});'."\n"		    
+		    //.'$("#edit_1").click(function(){$.get(url_to_root+"articles/edit.php",{id:1, raw:"Y"}).done(function(data){var content={body: data};Yacs.displayModalBox(content);});});'
+		    .'$("#view_1").click(function(){$.get(url_to_root+"articles/view.php",{id:1, raw:"Y"}).done(function(data){var content={body: data};Yacs.displayModalBox(content);});});'
+	);
 
 // render the page according to the loaded skin
 render_skin();

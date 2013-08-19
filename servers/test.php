@@ -27,6 +27,7 @@
 include_once '../shared/global.php';
 include_once 'servers.php';
 include_once '../feeds/feeds.php';	// to read feeds
+include_once '../links/links.php';
 
 // look for the id
 $id = NULL;
@@ -37,12 +38,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Servers::get($id);
+$item = Servers::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -106,11 +107,11 @@ if(Surfer::is_crawler()) {
 
 	// restricted to logged members
 	if($item['active'] == 'R')
-		$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is granted to any identified surfer').BR."\n";
+		$details[] = RESTRICTED_FLAG.i18n::s('Community - Access is granted to any identified surfer').BR."\n";
 
 	// restricted to associates
 	elseif($item['active'] == 'N')
-		$details[] = PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons').BR."\n";
+		$details[] = PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons').BR."\n";
 
 	// all details
 	$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
@@ -144,7 +145,6 @@ if(Surfer::is_crawler()) {
 			$context['text'] .= '<p>'.sprintf(i18n::s('%d elements have been read'), count($news))."</p>\n";
 
 			// list banned hosts
-			include_once $context['path_to_root'].'servers/servers.php';
 			$banned_pattern = Servers::get_banned_pattern();
 
 			// where links should be anchored
@@ -153,13 +153,12 @@ if(Surfer::is_crawler()) {
 				$reference = $anchor->get_reference();
 
 			// process retrieved links
-			include_once $context['path_to_root'].'links/links.php';
 			$context['text'] .= '<ul>'."\n";
 			foreach($news as $item) {
 
 				// debug
 				if(isset($context['debug_feeds']) && ($context['debug_feeds'] == 'Y'))
-					Logger::remember('servers/test.php', 'item', $item, 'debug');
+					Logger::remember('servers/test.php: item', $item, 'debug');
 
 				// link has to be valid
 				if(!$item['link'] || !($item['title'].$item['description'])) {

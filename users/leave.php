@@ -18,7 +18,7 @@ include_once '../shared/global.php';
 // users are assigned to this anchor, passed as member
 $anchor = NULL;
 if(isset($_REQUEST['id']))
-	$anchor =& Anchors::get($_REQUEST['id']);
+	$anchor = Anchors::get($_REQUEST['id']);
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -126,10 +126,7 @@ elseif(!$permitted) {
 	$context['text'] .= Skin::build_block($bottom, 'bottom');
 
 	// set the focus
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("confirmed").focus();'."\n"
-		.JS_SUFFIX;
+	Page::insert_script('$("confirmed").focus();');
 
 
 }

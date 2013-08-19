@@ -17,9 +17,9 @@ Class Layout_comments_as_feed extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -33,12 +33,12 @@ Class Layout_comments_as_feed extends Layout_interface {
 
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the anchor for this comment
 			$anchor = NULL;
 			if(isset($item['anchor']) && $item['anchor'])
-				$anchor =& Anchors::get($item['anchor']);
+				$anchor = Anchors::get($item['anchor']);
 
 			// url to read the full comment
 			$url = $context['url_to_home'].$context['url_to_root'].Comments::get_url($item['id']);
@@ -82,7 +82,7 @@ Class Layout_comments_as_feed extends Layout_interface {
 //			$description = Skin::cap($description, 300);
 
 			// fix image references
-			$description = preg_replace('/"\/([^">]+?)"/', '"'.$context['url_to_home'].'/\\1"', $description);
+			$description = preg_replace('#"/([^">]+?)"#', '"'.$context['url_to_home'].'/$1"', $description);
 
 			$introduction = $description;
 

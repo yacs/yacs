@@ -20,24 +20,56 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 Class Category extends Anchor {
+	
 
 	/**
-	 * get the url to display the icon for this anchor
-	 *
-	 * @return an anchor to the icon image
-	 *
-	 * @see shared/anchor.php
+	 * list childs of this anchor, with or without type filters
+	 * 
+	 * @param string set of desired childs (articles, sections...) separted by comma, or "all" keyword
+	 * @param int offset to start listing
+	 * @param int the maximum of items returned per type
+	 * @param mixed string or object the layout to use
+	 * @return an array of array with raw items sorted by type
 	 */
-	function get_icon_url() {
-		if(isset($this->item['icon_url']) && $this->item['icon_url'])
-			return $this->item['icon_url'];
-		return $this->get_thumbnail_url();
-	}
-
+	function get_childs($filter = 'all',$offset = 0, $max= 50, $layout='raw') {
+	    
+	    // we return a array
+	    $childs = array();
+	    
+	    // sub-categories
+	    if($filter == 'all' || preg_match('/\bcategor(y|ies)\b/i', $filter)) {
+		$childs['category'] = Categories::list_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
+	    }
+	    
+	    // related articles
+	    if($filter == 'all' || preg_match('/\barticles?\b/i', $filter)) {
+		$childs['article'] = Members::list_articles_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
+	    }
+	    
+	    // related sections
+	    if($filter == 'all' || preg_match('/\bsections?\b/i', $filter)) {
+		$childs['section'] = Members::list_sections_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
+	    }	    	    
+	    
+	    // related users
+	    if($filter == 'all' || preg_match('/\busers?\b/i', $filter)) {
+		$childs['user'] = Members::list_users_by_name_for_anchor($this->get_reference(), $offset, $max, $layout);
+	    }	
+	    
+	    // files
+	    if($filter == 'all' || preg_match('/\bfiles?\b/i', $filter)) {
+		$childs['file'] = Files::list_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
+	    }	
+		    
+	    
+	    return $childs;
+	 }
+    
 	/**
 	 * get the path bar for this anchor
 	 *
@@ -46,7 +78,7 @@ Class Category extends Anchor {
 	 * the path bar has to mention the category. You can use following code
 	 * to do that:
 	 * [php]
-	 * $anchor =& Anchors::get($article['anchor']);
+	 * $anchor = Anchors::get($article['anchor']);
 	 * $context['path_bar'] = array_merge($context['path_bar'], $anchor->get_path_bar());
 	 * [/php]
 	 *
@@ -55,67 +87,20 @@ Class Category extends Anchor {
 	 * @see shared/anchor.php
 	 */
 	function get_path_bar() {
-
+	    	   		    
 		// no item bound
 		if(!isset($this->item['id']))
-			return NULL;
-
-		// the parent level
-		$anchor =& Anchors::get($this->item['anchor']);
-		if(is_object($anchor))
-			$top_bar = $anchor->get_path_bar();
-		else
-			$top_bar = array( 'categories/' => i18n::s('Categories') );
-
-		// then the category title
-		$url = $this->get_url();
-		$label = $this->get_title();
-
-		// return an array of ($url => $label)
-		if(is_array($top_bar))
-			return array_merge($top_bar, array($url => $label));
-		return array($url => $label);
-	}
-
-	/**
-	 * get the reference for this anchor
-	 *
-	 * @return 'category:&lt;id&gt;', or NULL on error
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_reference() {
-		if(isset($this->item['id']))
-			return 'category:'.$this->item['id'];
-		return NULL;
-	}
-
-	/**
-	 * get the suffix text
-	 *
-	 * @param string a variant string transmitted by the caller
-	 * @return a string to be inserted in the final page
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_suffix($variant='') {
-		if(isset($this->item['suffix']))
-			return $this->item['suffix'];
-		return '';
-	}
-
-	/**
-	 * get the url to display the thumbnail for this anchor
-	 *
-	 * @return an anchor to the thumbnail image, or NULL
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_thumbnail_url() {
-		if(isset($this->item['thumbnail_url']))
-			return $this->item['thumbnail_url'];
-		return NULL;
-	}
+			return NULL;		
+		
+		// standard path
+		$path = Anchor::get_path_bar();
+		
+		// add categories root
+		if(!$this->item['anchor'])		
+		    $path = array_merge(array( 'categories/' => i18n::s('Categories') ), $path);
+		
+		return $path;		
+	}	
 
 	/**
 	 * get the url to display the main page for this anchor
@@ -134,6 +119,26 @@ Class Category extends Anchor {
 		}
 		return NULL;
 	}
+	
+	/**
+	 * get permalink to item
+	 */
+	function get_permalink() {
+	    if(!isset($this->item['id']))
+		    return NULL;
+	    
+	    $link = Categories::get_permalink($this->item);
+	    return $link;
+	}
+	
+	/**
+	 * provide classe name with all static functions on this kind of anchor
+	 * 
+	 * @return a class name
+	 */
+	function get_static_group_class() {
+	    return 'Categories';
+	}
 
 	/**
 	 * load the related item
@@ -144,7 +149,25 @@ Class Category extends Anchor {
 	 * @see shared/anchor.php
 	 */
 	function load_by_id($id, $mutable=FALSE) {
-		$this->item =& Categories::get($id, $mutable);
+		$this->item = Categories::get($id, $mutable);
+	}
+	
+	/**
+	 * change some attributes of an anchor
+	 *
+	 * @see shared/anchor.php
+	 *
+	 * @param array of (name, value)
+	 * @return TRUE on success, FALSE otherwise
+	 */
+	function set_values($fields) {
+
+		// add our id
+		$fields['id'] = $this->item['id'];
+
+		// save in the database
+		return Categories::put_attributes($fields);
+
 	}
 
 	/**
@@ -153,12 +176,10 @@ Class Category extends Anchor {
 	 * @param string the description of the last action
 	 * @param string the id of the item related to this update
 	 * @param boolean TRUE to not change the edit date of this anchor, default is FALSE
-	 * @param boolean TRUE to notify section watchers, default is FALSE
-	 * @param boolean TRUE to notify poster followers, default is FALSE
 	 *
 	 * @see shared/anchor.php
 	 */
-	function touch($action, $origin=NULL, $silently=FALSE, $to_watchers=FALSE, $to_followers=FALSE) {
+	function touch($action, $origin=NULL, $silently=FALSE) {
 		global $context;
 
 		// don't go further on import
@@ -171,7 +192,7 @@ Class Category extends Anchor {
 
 		// sanity check
 		if(!$origin) {
-			logger::remember('categories/category.php', 'unexpected NULL origin at touch()');
+			logger::remember('categories/category.php: unexpected NULL origin at touch()');
 			return;
 		}
 
@@ -210,7 +231,7 @@ Class Category extends Anchor {
 
 			// suppress references as icon and thumbnail as well
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 
 				if($url = Images::get_icon_href($image)) {
 					if($this->item['icon_url'] == $url)
@@ -230,7 +251,7 @@ Class Category extends Anchor {
 		// set an existing image as the category icon
 		} elseif($action == 'image:set_as_icon') {
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_icon_href($image))
 					$query[] = "icon_url = '".SQL::escape($url)."'";
 
@@ -244,7 +265,7 @@ Class Category extends Anchor {
 		// set an existing image as the category thumbnail
 		} elseif($action == 'image:set_as_thumbnail') {
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_thumbnail_href($image))
 					$query[] = "thumbnail_url = '".SQL::escape($url)."'";
 			}
@@ -256,7 +277,7 @@ Class Category extends Anchor {
 				$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
 
 			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
+			if($image = Images::get($origin)) {
 				if($url = Images::get_thumbnail_href($image))
 					$query[] = "thumbnail_url = '".SQL::escape($url)."'";
 			} elseif($origin) {
@@ -300,11 +321,11 @@ Class Category extends Anchor {
 
 		// get the parent
 		if(!$this->anchor)
-			$this->anchor =& Anchors::get($this->item['anchor']);
+			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// propagate the touch upwards silently -- we only want to purge the cache
 		if(is_object($this->anchor))
-			$this->anchor->touch('category:update', $this->item['id'], TRUE, $to_watchers, $to_followers);
+			$this->anchor->touch('category:update', $this->item['id'], TRUE);
 
 	}
 
@@ -335,7 +356,7 @@ Class Category extends Anchor {
 		$this->item['description'] = preg_replace($from, $to, $this->item['description']);
 
 		// update the database
-		$query = "UPDATE ".SQL::table_name('articles')." SET "
+		$query = "UPDATE ".SQL::table_name('categories')." SET "
 			." introduction = '".SQL::escape($this->item['introduction'])."',"
 			." description = '".SQL::escape($this->item['description'])."'"
 			." WHERE id = ".SQL::escape($this->item['id']);

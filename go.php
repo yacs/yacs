@@ -60,7 +60,6 @@
 
 // common definitions and initial processing
 include_once 'shared/global.php';
-include_once 'forms/forms.php';
 
 // look for the id
 $id = NULL;
@@ -84,12 +83,12 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 	$context['text'] .= '<p>'.i18n::s('Please indicate a nick name to look for.')."</p>\n";
 
 // short link to some article
-} elseif(!strncmp($id, 'a~', 2) && ($item =& Articles::get(restore_number(substr($id, 2))))) {
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
+} elseif(!strncmp($id, 'a~', 2) && ($item = Articles::get(restore_number(substr($id, 2))))) {
+		Safe::redirect(Articles::get_permalink($item));
 
 // short link to some section
-} elseif(!strncmp($id, 's~', 2) && ($item =& Sections::get(restore_number(substr($id, 2))))) {
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item));
+} elseif(!strncmp($id, 's~', 2) && ($item = Sections::get(restore_number(substr($id, 2))))) {
+		Safe::redirect(Sections::get_permalink($item));
 
 // look in sections
 } elseif($items =& Sections::list_for_name($id, NULL, 'full')) {
@@ -97,7 +96,7 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 		// only one section has this name
 		if(count($items) == 1) {
 			list($url, $attributes) = each($items);
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$url);
+			Safe::redirect($url);
 		}
 
 		// splash
@@ -107,8 +106,8 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 		$context['text'] .= Skin::build_list($items, 'decorated');
 
 // look in categories
-} elseif(($item =& Categories::get($id)) || ($item =& Categories::get_by_keyword($id))) {
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item));
+} elseif(($item = Categories::get($id)) || ($item =& Categories::get_by_keyword($id))) {
+		Safe::redirect(Categories::get_permalink($item));
 
 // look in articles
 } elseif($items =& Articles::list_for_name($id, NULL, 'full')) {
@@ -116,22 +115,7 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 		// only one page has this name
 		if(count($items) == 1) {
 			list($url, $attributes) = each($items);
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$url);
-		}
-
-		// splash
-		$context['text'] .= '<p>'.i18n::s('Select below among available pages.').'</p>';
-
-		// several pages
-		$context['text'] .= Skin::build_list($items, 'decorated');
-
-// look in forms
-} elseif($items =& Forms::list_for_name($id, NULL, 'full')) {
-
-		// only one page has this name
-		if(count($items) == 1) {
-			list($url, $attributes) = each($items);
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$url);
+			Safe::redirect($url);
 		}
 
 		// splash
@@ -141,8 +125,8 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 		$context['text'] .= Skin::build_list($items, 'decorated');
 
 // look in user profiles
-} elseif($item =& Users::get($id)) {
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_permalink($item));
+} elseif($item = Users::get($id)) {
+		Safe::redirect(Users::get_permalink($item));
 
 // not found
 } else {
@@ -165,24 +149,22 @@ $context['text'] .= '<form method="get" action="'.$context['script_url'].'" onsu
 	.$label.' '.$input.'</p></form>';
 
 // the script used for form handling at the browser
-$context['text'] .= JS_PREFIX
-	.'	// check that main fields are not empty'."\n"
-	.'	func'.'tion validateDocumentPost(container) {'."\n"
-	."\n"
-	.'		// search is mandatory'."\n"
+Page::insert_script(
+		// check that main fields are not empty
+	'	func'.'tion validateDocumentPost(container) {'."\n"
+			// search is mandatory
 	.'		if(!container.id.value) {'."\n"
 	.'			alert("'.i18n::s('Please type something to search for').'");'."\n"
 	.'			Yacs.stopWorking();'."\n"
 	.'			return false;'."\n"
 	.'		}'."\n"
-	."\n"
-	.'		// successful check'."\n"
+			// successful check
 	.'		return true;'."\n"
 	.'	}'."\n"
 	."\n"
-	.'// set the focus on first form field'."\n"
+	// set the focus on first form field
 	.'$("#id").focus();'."\n"
-	.JS_SUFFIX."\n";
+	);
 
 // extend the process to the search engine
 if($id) {

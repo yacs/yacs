@@ -16,9 +16,9 @@ Class Layout_files_as_feed extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array of resulting items, or NULL
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -29,11 +29,11 @@ Class Layout_files_as_feed extends Layout_interface {
 			return $items;
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the anchor for this file
 			if($item['anchor'])
-				$anchor =& Anchors::get($item['anchor']);
+				$anchor = Anchors::get($item['anchor']);
 
 			// download the file directly
 			$url = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
@@ -74,7 +74,7 @@ Class Layout_files_as_feed extends Layout_interface {
 			}
 
 			// fix image references
-			$description = preg_replace('/"\/([^">]+?)"/', '"'.$context['url_to_home'].'/\\1"', $description);
+			$description = preg_replace('#"/([^">]+?)"#', '"'.$context['url_to_home'].'/$1"', $description);
 
 			$introduction = $description;
 
@@ -83,7 +83,7 @@ Class Layout_files_as_feed extends Layout_interface {
 
 			// url for enclosure
 			$type = Files::get_mime_type($item['file_name']);
-			$extensions[] = '<enclosure url="'.$context['url_to_home'].$context['url_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.$item['file_name'].'"'
+			$extensions[] = '<enclosure url="'.$context['url_to_home'].$context['url_to_root'].Files::get_path($item['anchor']).'/'.$item['file_name'].'"'
 				.' length="'.$item['file_size'].'"'
 				.' type="'.$type.'" />';
 

@@ -18,9 +18,9 @@ Class Layout_files_as_simple extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array of resulting items, or NULL
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -35,10 +35,10 @@ Class Layout_files_as_simple extends Layout_interface {
 			$this->layout_variant = 'full';
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// download the file directly
 			$url = Files::get_url($item['id'], 'fetch', $item['file_name']);
@@ -64,7 +64,7 @@ Class Layout_files_as_simple extends Layout_interface {
 				$label = ucfirst(str_replace(array('%20', '-', '_'), ' ', $item['file_name']));
 
 			// the main anchor link, except on user profiles
-			if(is_object($anchor) && ($anchor->get_reference() != $this->layout_variant))
+			if(is_object($anchor) && ($anchor->get_reference() != $this->focus))
 				$suffix .= ' - <span class="details">'.sprintf(i18n::s('in %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()))).'</span>';
 
 			// list all components for this item

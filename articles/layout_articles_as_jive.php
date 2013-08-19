@@ -23,7 +23,7 @@ Class Layout_articles_as_jive extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -43,17 +43,16 @@ Class Layout_articles_as_jive extends Layout_interface {
 		$odd = FALSE;
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'links/links.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay, if any
 			$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// use the title to label the link
 			if(is_object($overlay))
@@ -71,9 +70,9 @@ Class Layout_articles_as_jive extends Layout_interface {
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
-				$text .= PRIVATE_FLAG.' ';
+				$text .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$text .= RESTRICTED_FLAG.' ';
+				$text .= RESTRICTED_FLAG;
 
 			// use the title as a link to the page
 			$text .= Skin::build_link($url, '<strong>'.$title.'</strong>', 'basic');
@@ -104,11 +103,11 @@ Class Layout_articles_as_jive extends Layout_interface {
 
 			// add details to the title
 			if(count($details))
-				$text .= '<p class="details">'.join(', ', $details).'</p>';
+				$text .= '<p class="details" style="margin: 3px 0">'.join(', ', $details).'</p>';
 
 			// display all tags
 			if($item['tags'])
-				$text .= '<span class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
+				$text .= '<p class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</p>';
 
 			// next cell for the content
 			$text .= '</td><td width="70%">';
@@ -118,7 +117,7 @@ Class Layout_articles_as_jive extends Layout_interface {
 
 			// rating
 			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
-				$content .= Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
+				$content .= Skin::build_link(Articles::get_url($item['id'], 'like'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 			// the introductory text
 			if(is_object($overlay))
@@ -137,9 +136,9 @@ Class Layout_articles_as_jive extends Layout_interface {
 			$details = array();
 
 			// info on related files
-			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE)) {
+			if($count = Files::count_for_anchor('article:'.$item['id'])) {
 				Skin::define_img('FILES_LIST_IMG', 'files/list.gif');
-				$details[] = Skin::build_link($url.'#files', FILES_LIST_IMG.sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
+				$details[] = Skin::build_link($url.'#_attachments', FILES_LIST_IMG.sprintf(i18n::ns('%d file', '%d files', $count), $count), 'span');
 			}
 
 			// info on related links
@@ -148,18 +147,18 @@ Class Layout_articles_as_jive extends Layout_interface {
 				$details[] = LINKS_LIST_IMG.sprintf(i18n::ns('%d link', '%d links', $count), $count);
 			}
 
+			// count replies
+			if($count = Comments::count_for_anchor('article:'.$item['id']))
+				$details[] = Skin::build_link($url.'#_discussion', sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'span');
+
 			// the command to reply
 			if(Comments::allow_creation($anchor, $item)) {
 				Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
-				$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic');
+				$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'span');
 			}
 
-			// count replies
-			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
-
 			// describe attachments
-			$content .= Skin::finalize_list($details, 'menu');
+			$content .= Skin::finalize_list($details, 'menu_bar');
 
 			// end the row
 			$text .= $content.'</td></tr>';

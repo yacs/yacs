@@ -44,6 +44,9 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 
+// ensure we only provide public content through newsfeeds
+$context['users_without_teasers'] = 'Y';
+
 // check network credentials, if any
 if($user = Users::authenticate())
 	Surfer::empower($user['capability']);
@@ -106,7 +109,7 @@ render_raw('text/xml; charset='.$context['charset']);
 if(!headers_sent()) {
 	$file_name = $context['site_name'].'.articles.rss.xml';
 	$file_name =& utf8::to_ascii($file_name);
-	Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+	Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 }
 
 // enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

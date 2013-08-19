@@ -20,7 +20,7 @@ Class Servers {
 	 * @param string title of the folded box generated
 	 * @return mixed text to be integrated into the page, or array with one item per recipient, or ''
 	 */
-	function build_endpoints($title=NULL) {
+	public static function build_endpoints($title=NULL) {
 		global $context;
 
 		// nothing to show
@@ -44,7 +44,7 @@ Class Servers {
 	 *
 	 * @param array item attributes
 	 */
-	function clear(&$item) {
+	public static function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('servers');
@@ -66,7 +66,7 @@ Class Servers {
 	 *
 	 * @see servers/delete.php
 	 */
-	function delete($id) {
+	public static function delete($id) {
 		global $context;
 
 		// id cannot be empty
@@ -88,13 +88,13 @@ Class Servers {
 	/**
 	 * get one server by id
 	 *
-	 * This function can be used to search for one server entry, either by id
+	 * This public static function can be used to search for one server entry, either by id
 	 * or submitting its nick name.
 	 *
 	 * @param int the id of the server, or its nick name
 	 * @return the resulting $item array, with at least keys: 'id', 'title', etc.
 	 */
-	function &get($id) {
+	public static function get($id) {
 		global $context;
 
 		// sanity check
@@ -115,7 +115,7 @@ Class Servers {
 				." ORDER BY edit_date DESC LIMIT 1";
 
 		// do the job
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -155,7 +155,7 @@ Class Servers {
 	 * @see feeds/feeds.php
 	 * @see servers/test.php
 	 */
-	function get_banned_pattern() {
+	public static function get_banned_pattern() {
 		global $context;
 
 		// use the configuration file
@@ -184,7 +184,7 @@ Class Servers {
 	 * @param string one of the URLs related to this server
 	 * @return the resulting $item array, with at least keys: 'id', 'title', etc.
 	 */
-	function &get_by_url($url) {
+	public static function get_by_url($url) {
 		global $context;
 
 		// sanity check
@@ -196,7 +196,7 @@ Class Servers {
 		$query = 'SELECT * FROM '.SQL::table_name('servers')
 			." WHERE (main_url LIKE '$url') OR (feed_url LIKE '$url')";
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 
@@ -216,7 +216,7 @@ Class Servers {
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view') {
+	public static function get_url($id, $action='view') {
 		global $context;
 
 		// check the target action
@@ -240,7 +240,7 @@ Class Servers {
 	 * @see index.php
 	 * @see servers/index.php
 	 */
-	function &list_by_date($offset=0, $count=10, $variant='full') {
+	public static function list_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// select among active and restricted items
@@ -256,40 +256,7 @@ Class Servers {
 			.' ORDER BY servers.edit_date DESC, servers.title LIMIT '.$offset.','.$count;
 
 		// the list of servers
-		$output =& Servers::list_selected(SQL::query($query), $variant);
-		return $output;
-	}
-
-	/**
-	 * list servers anchored to the given reference
-	 *
-	 * This script is used to display feeders attached to categories.
-	 *
-	 * @see categories/view.php
-	 *
-	 * @param string the anchor for this server (e.g., 'category:123')
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon)
-	 */
-	function &list_by_date_for_anchor($anchor, $offset=0, $count=10, $variant='compact') {
-		global $context;
-
-		// select among active and restricted items
-		$where = "servers.active='Y'";
-		if(Surfer::is_member())
-			$where .= " OR servers.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR servers.active='N'";
-
-		// limit the scope of the request
-		$query = "SELECT servers.* FROM ".SQL::table_name('servers')." AS servers"
-			." WHERE (".$where.") AND (anchor LIKE '".SQL::escape($anchor)."')"
-			." ORDER BY servers.edit_date DESC, servers.title LIMIT ".$offset.','.$count;
-
-		// the list of servers
-		$output =& Servers::list_selected(SQL::query($query), $variant);
+		$output = Servers::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -308,7 +275,7 @@ Class Servers {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon)
 	 */
-	function &list_for_feed($offset=0, $count=10, $variant='feed') {
+	public static function list_for_feed($offset=0, $count=10, $variant='feed') {
 		global $context;
 
 		// limit the scope of the request
@@ -317,7 +284,7 @@ Class Servers {
 			.' ORDER BY stamp_date, edit_date DESC, title LIMIT '.$offset.','.$count;
 
 		// the list of servers
-		$output =& Servers::list_selected(SQL::query($query), $variant);
+		$output = Servers::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -335,7 +302,7 @@ Class Servers {
 	 *
 	 * @see articles/publish.php
 	 */
-	function &list_for_ping($offset=0, $count=10, $variant='ping') {
+	public static function list_for_ping($offset=0, $count=10, $variant='ping') {
 		global $context;
 
 		// limit the scope of the request
@@ -344,7 +311,7 @@ Class Servers {
 			.' ORDER BY edit_date DESC, title LIMIT '.$offset.','.$count;
 
 		// the list of servers
-		$output =& Servers::list_selected(SQL::query($query), $variant);
+		$output = Servers::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -362,7 +329,7 @@ Class Servers {
 	 *
 	 * @see search.php
 	 */
-	function &list_for_search($offset=0, $count=10, $variant='search') {
+	public static function list_for_search($offset=0, $count=10, $variant='search') {
 		global $context;
 
 		// limit the scope of the request
@@ -371,7 +338,7 @@ Class Servers {
 			.' ORDER BY edit_date DESC, title LIMIT '.$offset.','.$count;
 
 		// the list of servers
-		$output =& Servers::list_selected(SQL::query($query), $variant);
+		$output = Servers::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -386,7 +353,7 @@ Class Servers {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => array ($prefix, $label, $suffix, $type, $icon)
 	 */
-	function &list_selected(&$result, $variant='compact') {
+	public static function list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -397,7 +364,7 @@ Class Servers {
 
 		// special layouts
 		if(is_object($variant)) {
-			$output =& $variant->layout($result);
+			$output = $variant->layout($result);
 			return $output;
 		}
 
@@ -407,18 +374,18 @@ Class Servers {
 		case 'compact':
 			include_once $context['path_to_root'].'servers/layout_servers_as_compact.php';
 			$layout = new Layout_servers_as_compact();
-			$output =& $layout->layout($result);
+			$output = $layout->layout($result);
 			return $output;
 
 		case 'dates':
 			include_once $context['path_to_root'].'servers/layout_servers_as_dates.php';
 			$layout = new Layout_servers_as_dates();
-			$output =& $layout->layout($result);
+			$output = $layout->layout($result);
 			return $output;
 
 		case 'feed':
 			$items = array();
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 
 				// stamp of last feed
 				$stamp = NULL_DATE;
@@ -433,7 +400,7 @@ Class Servers {
 
 		case 'ping':
 			$items = array();
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 				$url = Servers::get_url($item['id']);
 
 				// prepare for ping
@@ -444,7 +411,7 @@ Class Servers {
 
 		case 'search':
 			$items = array();
-			while($item =& SQL::fetch($result)) {
+			while($item = SQL::fetch($result)) {
 				$url = Servers::get_url($item['id']);
 
 				// prepare for search
@@ -456,7 +423,7 @@ Class Servers {
 		default:
 			include_once $context['path_to_root'].'servers/layout_servers.php';
 			$layout = new Layout_servers();
-			$output =& $layout->layout($result);
+			$output = $layout->layout($result);
 			return $output;
 
 		}
@@ -469,7 +436,7 @@ Class Servers {
 	 * @param string page URL
 	 * @param string server name
 	 */
-	function notify($link, $title=NULL) {
+	public static function notify($link, $title=NULL) {
 		global $context;
 
 		if(!$title)
@@ -514,11 +481,11 @@ Class Servers {
 	 * @param string the link to it
 	 * @return string either a null string, or some text describing an error to be inserted into the html response
 	 */
-	function ping($title, $url) {
+	public static function ping($title, $url) {
 		global $context;
 
 		// the entry already exists
-		if($item =& Servers::get_by_url($url)) {
+		if($item = Servers::get_by_url($url)) {
 
 			// ensure this operation is allowed
 			if(isset($item['process_ping']) && ($item['process_ping'] != 'Y'))
@@ -572,7 +539,7 @@ Class Servers {
 	 * @param array an array of fields
 	 * @return string either a null string, or some text describing an error to be inserted into the html response
 	**/
-	function post(&$fields) {
+	public static function post(&$fields) {
 		global $context;
 
 		// no title
@@ -586,15 +553,15 @@ Class Servers {
 
 		// protect from hackers
 		if(isset($fields['main_url']))
-			$fields['main_url'] =& encode_link($fields['main_url']);
+			$fields['main_url'] = encode_link($fields['main_url']);
 		if(isset($fields['feed_url']))
-			$fields['feed_url'] =& encode_link($fields['feed_url']);
+			$fields['feed_url'] = encode_link($fields['feed_url']);
 		if(isset($fields['ping_url']))
-			$fields['ping_url'] =& encode_link($fields['ping_url']);
+			$fields['ping_url'] = encode_link($fields['ping_url']);
 		if(isset($fields['search_url']))
-			$fields['search_url'] =& encode_link($fields['search_url']);
+			$fields['search_url'] = encode_link($fields['search_url']);
 		if(isset($fields['monitor_url']))
-			$fields['monitor_url'] =& encode_link($fields['monitor_url']);
+			$fields['monitor_url'] = encode_link($fields['monitor_url']);
 
 		// make a host name
 		if(!isset($fields['host_name']))
@@ -727,7 +694,7 @@ Class Servers {
 	 *
 	 * @see control/setup.php
 	 */
-	function setup() {
+	public static function setup() {
 		global $context;
 
 		$fields = array();
@@ -785,7 +752,7 @@ Class Servers {
 	 *
 	 * $param int the id of the server to update
 	 */
-	function stamp($id) {
+	public static function stamp($id) {
 		global $context;
 
 		// sanity check
@@ -807,7 +774,7 @@ Class Servers {
 	 *
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	function &stat() {
+	public static function stat() {
 		global $context;
 
 		// select among active and restricted items
@@ -822,7 +789,7 @@ Class Servers {
 			.' FROM '.SQL::table_name('servers').' AS servers'
 			.' WHERE ('.$where.')';
 
-		$output =& SQL::query_first($query);
+		$output = SQL::query_first($query);
 		return $output;
 	}
 

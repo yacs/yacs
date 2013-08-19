@@ -14,6 +14,8 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../comments/comments.php';
+include_once '../links/links.php';
 
 // look for the id
 $id = NULL;
@@ -24,12 +26,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Sections::get($id);
+$item = Sections::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // editors have associate-like capabilities
 if((isset($item['id']) && Sections::is_assigned($item['id'])) || (is_object($anchor) && $anchor->is_assigned()))
@@ -79,24 +81,15 @@ if(Surfer::is_crawler()) {
 
 	// restricted to logged members
 	if($item['active'] == 'R')
-		$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is granted to any identified surfer');
+		$details[] = RESTRICTED_FLAG.i18n::s('Community - Access is granted to any identified surfer');
 
 	// restricted to associates
 	elseif($item['active'] == 'N')
-		$details[] = PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons');
+		$details[] = PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons');
 
 	// rank for this section
 	if((intval($item['rank']) != 10000) && Surfer::is_associate())
 		$details[] = sprintf(i18n::s('Rank: %s'), $item['rank']);
-
-	// section editors
-	if(Surfer::is_empowered() && Surfer::is_member()) {
-		if($items =& Members::list_editors_for_member('section:'.$item['id'], 0, 50, 'comma'))
-			$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Editors'), Skin::build_list($items, 'comma'));
-
-		if($items =& Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 50, 'comma'))
-			$details[] = sprintf(i18n::s('Readers: %s'), Skin::build_list($items, 'comma'));
-	}
 
 	// signal sections to be activated
 	if(Surfer::is_empowered() && ($item['activation_date'] > $context['now']))
@@ -127,19 +120,8 @@ if(Surfer::is_crawler()) {
 	// select a layout
 	if(!isset($item['sections_layout']))
 		$layout = 'decorated';
-	elseif($item['sections_layout'] == 'compact')
-		$layout = 'compact';
-	elseif($item['sections_layout'] == 'inline') {
-		include_once '../sections/layout_sections_as_inline.php';
-		$layout = new Layout_sections_as_inline();
-	} elseif($item['sections_layout'] == 'map') {
-		include_once '../sections/layout_sections_as_yahoo.php';
-		$layout = new Layout_sections_as_yahoo();
-	} elseif($item['sections_layout'] == 'yabb') {
-		include_once '../sections/layout_sections_as_yabb.php';
-		$layout = new Layout_sections_as_yabb();
-	} else
-		$layout = 'decorated';
+	else
+		$layout = Layouts::new_($item['sections_layout'], 'section');	
 
 	// the maximum number of sections per page
 	if(is_object($layout))
@@ -172,25 +154,8 @@ if(Surfer::is_crawler()) {
 	// select a layout
 	if(!isset($item['articles_layout']))
 		$layout = NULL;
-	elseif($item['articles_layout'] == 'daily') {
-		include_once '../articles/layout_articles_as_daily.php';
-		$layout = new Layout_articles_as_daily();
-	} elseif($item['articles_layout'] == 'jive') {
-		include_once '../articles/layout_articles_as_jive.php';
-		$layout = new Layout_articles_as_jive();
-	} elseif($item['articles_layout'] == 'manual') {
-		include_once '../articles/layout_articles_as_manual.php';
-		$layout = new Layout_articles_as_manual();
-	} elseif($item['articles_layout'] == 'table') {
-		include_once '../articles/layout_articles_as_table.php';
-		$layout = new Layout_articles_as_table();
-	} elseif($item['articles_layout'] == 'yabb') {
-		include_once '../articles/layout_articles_as_yabb.php';
-		$layout = new Layout_articles_as_yabb();
-	} elseif($item['articles_layout'] == 'compact')
-		$layout = 'compact';
 	else
-		$layout = NULL;
+		$layout = Layouts::new_ ($item['articles_layout'], 'article');
 
 	// the maximum number of articles per page
 	if(is_object($layout))
@@ -214,8 +179,8 @@ if(Surfer::is_crawler()) {
 	if($box['text'])
 		$context['text'] .=  Skin::build_box('', $box['text']);
 
-	// sub-sections targeting the main area
-	if($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'main')) {
+	// newest articles posted in this branch of the content tree
+	if($anchors = Sections::get_branch_at_anchor('section:'.$item['id'])) {
 
 		// build a complete box
 		$box['bar'] = array();
@@ -239,9 +204,9 @@ if(Surfer::is_crawler()) {
 
 	// list files by date (default) or by title (option :files_by_title:)
 	if(preg_match('/\bfiles_by_title\b/i', $item['options']))
-		$items = Files::list_by_title_for_anchor('section:'.$item['id'], 0, 70);
+		$items = Files::list_by_title_for_anchor('section:'.$item['id'], 0, 300, 'section:'.$item['id']);
 	else
-		$items = Files::list_by_date_for_anchor('section:'.$item['id'], 0, 70);
+		$items = Files::list_by_date_for_anchor('section:'.$item['id'], 0, 300, 'section:'.$item['id']);
 
 	// actually render the html for the section
 	if($items)
@@ -251,30 +216,8 @@ if(Surfer::is_crawler()) {
 	// the comments section
 	//
 
-	// layout as defined in options
-	if($item['articles_layout'] == 'daily') {
-		include_once '../comments/layout_comments_as_daily.php';
-		$layout = new Layout_comments_as_daily();
-
-	} elseif($item['articles_layout'] == 'jive') {
-		include_once '../comments/layout_comments_as_jive.php';
-		$layout = new Layout_comments_as_jive();
-
-	} elseif($item['articles_layout'] == 'manual') {
-		include_once '../comments/layout_comments_as_manual.php';
-		$layout = new Layout_comments_as_manual();
-
-	} elseif($item['articles_layout'] == 'yabb') {
-		include_once '../comments/layout_comments_as_yabb.php';
-		$layout = new Layout_comments_as_yabb();
-
-	// layout as defined by general parameter
-	} elseif($context['root_articles_layout'] == 'daily') {
-		include_once '../comments/layout_comments_as_daily.php';
-		$layout = new Layout_comments_as_daily();
-
-	} else
-		$layout = 'no_anchor';
+	// layout for printed comments
+	$layout = 'no_anchor';
 
 	// the maximum number of comments per page
 	if(is_object($layout))
@@ -287,7 +230,6 @@ if(Surfer::is_crawler()) {
 	$box['text'] = '';
 
 	// list comments by date
-	include_once '../comments/comments.php';
 	$items = Comments::list_by_date_for_anchor('section:'.$item['id'], 0, $items_per_page, $layout);
 
 	// actually render the html
@@ -305,7 +247,6 @@ if(Surfer::is_crawler()) {
 	//
 
 	// list links by date (default) or by title (option :links_by_title:)
-	include_once '../links/links.php';
 	if(preg_match('/\blinks_by_title\b/i', $item['options']))
 		$items = Links::list_by_title_for_anchor('section:'.$item['id'], 0, 70);
 	else

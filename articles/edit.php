@@ -7,7 +7,7 @@
  * On anonymous usage YACS attempts to stop robots by generating a random string and by asking user to type it.
  *
  * A button-based editor is used for the description field.
- * It's aiming to introduce most common [link=codes]codes/index.php[/link] supported by YACS.
+ * It's aiming to introduce most common [link=codes]codes/[/link] supported by YACS.
  * Also, sample smilies are displayed, and may be used to introduce related codes into the description field.
  *
  * This script attempts to validate the new or updated article description against a standard PHP XML parser.
@@ -45,13 +45,11 @@
  * - edit.php/&lt;id&gt; modify an existing article
  * - edit.php?id=&lt;id&gt; modify an existing article
  *
- * If no anchor data is provided, a list of sections is proposed to let the surfer select one of them.
+ * If no anchor data is provided, the new page will be posted in the section named 'theads'.
  *
  * There is also a special invocation format to be used for direct blogging from bookmarklets,
- * such as the one provided by YACS for each section (see [script]sections/view.php[/script]),
- * or the one dedicated to users of Internet Explorer (see [script]articles/ie_bookmarklet.php[/script]).
+ * such as the one provided by YACS for each section (see [script]sections/view.php[/script]).
  *
- * @see articles/ie_bookmarklet.php
  * @see sections/view.php
  *
  * This format is aiming to provide to YACS every necessary parameters, but through a single GET or POST call.
@@ -106,14 +104,13 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once '../behaviors/behaviors.php';	// input validation
-include_once '../shared/xml.php';	// input validation
 include_once '../images/images.php';
 include_once '../links/links.php';
 include_once '../locations/locations.php';
-include_once '../overlays/overlay.php';
 include_once '../servers/servers.php';
 include_once '../tables/tables.php';
 include_once '../versions/versions.php'; // roll-back
+include_once '../articles/article.php';
 
 // allow for direct login
 if(isset($_REQUEST['account']) && isset($_REQUEST['password'])) {
@@ -132,20 +129,24 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 elseif(isset($_REQUEST['anchor']) && $_REQUEST['anchor'])
-	$anchor =& Anchors::get($_REQUEST['anchor']);
+	$anchor = Anchors::get($_REQUEST['anchor']);
 elseif(isset($_REQUEST['section']) && $_REQUEST['section'])
-	$anchor =& Anchors::get('section:'.$_REQUEST['section']);
+	$anchor = Anchors::get('section:'.$_REQUEST['section']);
 elseif(isset($_REQUEST['blogid']) && $_REQUEST['blogid'])
-	$anchor =& Anchors::get('section:'.$_REQUEST['blogid']);
+	$anchor = Anchors::get('section:'.$_REQUEST['blogid']);
 elseif(isset($_SESSION['anchor_reference']) && $_SESSION['anchor_reference'])
-	$anchor =& Anchors::get($_SESSION['anchor_reference']);
+	$anchor = Anchors::get($_SESSION['anchor_reference']);
+
+// the default is to create a thread
+if(!is_object($anchor) && !isset($item['id']) && ($reference = Sections::lookup('threads')))
+	$anchor = Anchors::get($reference);
 
 // reflect access rights from anchor
 if(!isset($item['active']) && is_object($anchor))
@@ -160,7 +161,9 @@ elseif(isset($_REQUEST['variant']) && $_REQUEST['variant'])
 elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
 	$overlay = Overlay::bind($_SESSION['pasted_variant']);
 	unset($_SESSION['pasted_variant']);
-} elseif(!isset($item['id']) && is_object($anchor))
+
+// set a new overlay instance, except if some template has been defined for this anchor
+} elseif(!isset($item['id']) && is_object($anchor) && !$anchor->get_value('articles_templates'))
 	$overlay = $anchor->get_overlay('content_overlay');
 
 // get related behaviors, if any
@@ -184,6 +187,16 @@ elseif(isset($item['id']) && Articles::allow_modification($item, $anchor))
 else
 	$permitted = FALSE;
 
+// request may ask for raw content only
+if(isset($_REQUEST['raw']) && $_REQUEST['raw'] == 'Y') {
+    $whole_rendering = false;   
+    // warn also render_skin() for limited output
+    // @see shared/global.php
+    global $render_body_only;
+    $render_body_only = true;
+} else
+    $whole_rendering = true;
+
 // cascade empowerment
 if(Articles::is_owned($item, $anchor) || Surfer::is_associate())
 	Surfer::empower();
@@ -198,16 +211,23 @@ load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
-// path to this page
-$context['path_bar'] = Surfer::get_path_bar($anchor);
-if(isset($item['id']) && isset($item['title']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_permalink($item) => $item['title']));
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'article:'.$item['id'];
+
+if($whole_rendering) {
+    // path to this page
+    $context['path_bar'] = Surfer::get_path_bar($anchor);
+    if(isset($item['id']) && isset($item['title']))
+	    $context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_permalink($item) => $item['title']));
+}    
 
 // page title
 if(isset($item['id']))
 	$context['page_title'] = sprintf(i18n::s('Edit: %s'), $item['title']);
-elseif(!is_object($overlay) || (!$context['page_title'] = $overlay->get_label('new_command')))
+elseif(!is_object($overlay) || (!$context['page_title'] = $overlay->get_label('new_command', 'articles')))
 	$context['page_title'] = i18n::s('Add a page');
+
 
 // save data in session, if any, to pass through login step or through section selection step
 if(!Surfer::is_logged() || !is_object($anchor)) {
@@ -244,6 +264,11 @@ if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
+// an anchor is mandatory
+} elseif(!is_object($anchor)) {
+	Safe::header('Status: 404 Not Found', TRUE, 404);
+	Logger::error(i18n::s('No anchor has been found.'));
+
 // permission denied
 } elseif(!$permitted) {
 
@@ -264,77 +289,18 @@ if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
-// an anchor is mandatory
-} elseif(!is_object($anchor) && !isset($item['id'])) {
-	$context['text'] .= '<p>'.i18n::s('Please carefully select a section for your page.')."</p>\n";
-
-	// no need for a title yet
-	$with_title = FALSE;
-
-	// list assigned sections, if any
-	include_once '../sections/layout_sections_as_select.php';
-	$layout = new Layout_sections_as_select();
-	if(($assigned = Surfer::assigned_sections()) && count($assigned)) {
-
-		// one section at a time
-		$items = array();
-		foreach($assigned as $assigned_id) {
-			if($item = Sections::get($assigned_id)) {
-
-				// strip locked sections, except to associates and editors
-				if(isset($item['locked']) && ($item['locked'] == 'Y') && !Surfer::is_empowered())
-					continue;
-
-				// format this item
-				$items = array_merge($items, $layout->one($item));
-
-			}
-		}
-
-		// one box for all sections
-		if(count($items)) {
-			$context['text'] .= Skin::build_box(i18n::s('Your sections'), Skin::build_list($items, '2-columns'), 'header1', 'assigned_sections');
-			$with_title = TRUE;
-
-		}
-
-	}
-
-	// list regular top-level sections
-	if($items = Sections::list_by_title_for_anchor(NULL, 0, 20, $layout)) {
-
-		if(count($items))
-			$items = Skin::build_list($items, '2-columns');
-
-		$title = '';
-		if($with_title)
-			$title = i18n::s('Regular sections');
-
-		$context['text'] .= Skin::build_box($title, $items, 'header1', 'regular_sections');
-
-	} else
-		$context['text'] .= '<p>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</p>';
-
-	// also list special sections to associates
-	if(Surfer::is_associate()) {
-
-		// query the database and layout that stuff
-		if($text = Sections::list_inactive_by_title_for_anchor(NULL, 0, 50, $layout)) {
-
-			// we have an array to format
-			if(is_array($text))
-				$text =& Skin::build_list($text, '2-columns');
-
-			// displayed as another box
-			$context['text'] .= Skin::build_box(i18n::s('Other sections'), $text, 'header1', 'other_sections');
-
-		}
-	}
-
 // an error occured
 } elseif(count($context['error'])) {
 	$item = $_REQUEST;
 	$with_form = TRUE;
+
+// page has been assigned to another person during the last 5 minutes
+} elseif(isset($item['assign_id']) && $item['assign_id'] && !Surfer::is($item['assign_id'])
+	&& (SQL::strtotime($item['assign_date'])+5*60 >= time())) {
+
+	// permission denied to authenticated user
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
+	$context['text'] .= Skin::build_block(sprintf(i18n::s('This page is currently edited by %s. You have to wait for a new version to be released.'), Users::get_link($item['assign_name'], $item['assign_address'], $item['assign_id'])), 'caution');
 
 // process uploaded data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
@@ -343,14 +309,10 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['edit_name']))
 		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['edit_name']);
 	if(isset($_REQUEST['edit_address']))
-		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
+		$_REQUEST['edit_address'] = encode_link($_REQUEST['edit_address']);
 
 	// track anonymous surfers
 	Surfer::track($_REQUEST);
-
-	// only authenticated surfers are allowed to post links
-	if(!Surfer::is_logged() && isset($_REQUEST['description']))
-		$_REQUEST['description'] = preg_replace('/(http:|https:|ftp:|mailto:)[\w@\/\.]+/', '!!!', $_REQUEST['description']);
 
 	// set options
 	if(!isset($_REQUEST['options']))
@@ -377,7 +339,7 @@ if(Surfer::is_crawler()) {
 
 		// delete the previous version, if any
 		if(is_object($overlay) && isset($_REQUEST['id']))
-			$overlay->remember('delete', $_REQUEST);
+			$overlay->remember('delete', $_REQUEST, 'article:'.$_REQUEST['id']);
 
 		// new version of page overlay
 		$overlay = Overlay::bind($_REQUEST['overlay_type']);
@@ -385,6 +347,9 @@ if(Surfer::is_crawler()) {
 
 	// when the page has been overlaid
 	if(is_object($overlay)) {
+
+		// allow for change detection
+		$overlay->snapshot();
 
 		// update the overlay from form content
 		$overlay->parse_fields($_REQUEST);
@@ -420,6 +385,12 @@ if(Surfer::is_crawler()) {
 	} elseif(isset($_REQUEST['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $_REQUEST['options'], $matches) && is_readable($matches[0].'.php')) {
 		include $matches[0].'.php';
 		return;
+	} elseif(is_object($overlay) && $overlay->get_value('edit_as_simple')) {
+		include 'edit_as_simple.php';
+		return;
+	} elseif(is_object($overlay) && $overlay->get_value('edit_as_thread')) {
+		include 'edit_as_thread.php';
+		return;
 	} elseif(is_object($anchor) && ($deputy = $anchor->has_option('edit_as')) && is_readable('edit_as_'.$deputy.'.php')) {
 		include 'edit_as_'.$deputy.'.php';
 		return;
@@ -445,44 +416,37 @@ if(Surfer::is_crawler()) {
 		// else display the updated page
 		} else {
 
-			// touch the related anchor, but only if the page has been published
-			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
-				$anchor->touch('article:update', $_REQUEST['id'],
-					isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
-					isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'));
+			// do whatever is necessary on page update
+			Articles::finalize_update($anchor, $_REQUEST, $overlay,
+				isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
+				isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'),
+				isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
 
 			// cascade changes on access rights
 			if($_REQUEST['active'] != $item['active'])
 				Anchors::cascade('article:'.$item['id'], $_REQUEST['active']);
 
-			// add this page to poster watch list
-			if(Surfer::get_id())
-				Members::assign('article:'.$item['id'], 'user:'.Surfer::get_id());
-
-			// list persons that have been notified
-			if($recipients = Mailer::build_recipients(i18n::s('Persons that have been notified'))) {
-
-				$context['text'] .= $recipients;
-
-				// follow-up commands
-				$follow_up = i18n::s('What do you want to do now?');
-				$menu = array();
-				$menu = array_merge($menu, array(Articles::get_permalink($_REQUEST) => i18n::s('View the page')));
-				if(Surfer::may_upload())
-					$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Upload a file')));
-				if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Surfer::is_empowered())
-					$menu = array_merge($menu, array(Articles::get_url($item['id'], 'publish') => i18n::s('Publish the page')));
-				$follow_up .= Skin::build_list($menu, 'menu_bar');
-				$context['text'] .= Skin::build_block($follow_up, 'bottom');
-
-				// log page modification
-				$label = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($_REQUEST['title']));
-				$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($_REQUEST).'">'.$_REQUEST['title'].'</a>';
-				Logger::notify('articles/edit.php', $label, $description);
+			// the page has been modified
+			$context['text'] .= '<p>'.i18n::s('The page has been successfully updated.').'</p>';
 
 			// display the updated page
-			} else
-				Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
+			if(!$recipients = Mailer::build_recipients('article:'.$item['id']))
+				Safe::redirect(Articles::get_permalink($item));
+
+			// list persons that have been notified
+			$context['text'] .= $recipients;
+
+			// follow-up commands
+			$follow_up = i18n::s('What do you want to do now?');
+			$menu = array();
+			$menu = array_merge($menu, array(Articles::get_permalink($_REQUEST) => i18n::s('View the page')));
+			if(Surfer::may_upload())
+				$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a file')));
+			if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Surfer::is_empowered())
+				$menu = array_merge($menu, array(Articles::get_url($item['id'], 'publish') => i18n::s('Publish the page')));
+			$follow_up .= Skin::build_list($menu, 'menu_bar');
+			$context['text'] .= Skin::build_block($follow_up, 'bottom');
+
 		}
 
 
@@ -493,45 +457,6 @@ if(Surfer::is_crawler()) {
 
 	// successful post
 	} else {
-
-		// update the overlay, with the new article id --don't stop on error
-		if(is_object($overlay))
-			$overlay->remember('insert', $_REQUEST, 'article:'.$_REQUEST['id']);
-
-		// increment the post counter of the surfer
-		if(Surfer::get_id())
-			Users::increment_posts(Surfer::get_id());
-
-		// touch the related anchor, but only if the page has been published
-		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
-
-			// don't notify the creation of an event
-			$with_watchers = TRUE;
-			if(is_object($overlay))
-				$with_watchers = $overlay->should_notify_watchers();
-
-			// update anchors and forward notifications
-			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), $with_watchers, FALSE);
-
-			// advertise public pages
-			if(isset($_REQUEST['active']) && ($_REQUEST['active'] == 'Y')) {
-
-				// pingback, if any
-				Links::ping($_REQUEST['description'], 'article:'.$_REQUEST['id']);
-
-				// ping servers
-				Servers::notify($anchor->get_url());
-
-			}
-
-			// 'publish' hook
-			if(is_callable(array('Hooks', 'include_scripts')))
-				Hooks::include_scripts('publish', $_REQUEST['id']);
-
-		}
-
-		// get the new item
-		$article =& Anchors::get('article:'.$_REQUEST['id'], TRUE);
 
 		// page title
 		$context['page_title'] = i18n::s('Thank you for your contribution');
@@ -552,8 +477,29 @@ if(Surfer::is_crawler()) {
 		else
 			$context['text'] .= i18n::s('<p>The new page will now be reviewed before its publication. It is likely that this will be done within the next 24 hours at the latest.</p>');
 
+		// update the overlay, with the new article id --don't stop on error
+		if(is_object($overlay))
+			$overlay->remember('insert', $_REQUEST, 'article:'.$_REQUEST['id']);
+
+		// increment the post counter of the surfer
+		Users::increment_posts(Surfer::get_id());
+
+		// do whatever is necessary on page publication
+		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
+
+			Articles::finalize_publication($anchor, $_REQUEST, $overlay,
+				isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'),
+				isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y'));
+
+		// else do whatever is necessary on page submission
+		} else
+			Articles::finalize_submission($anchor, $_REQUEST, $overlay);
+
+		// get the new item
+		$article = Anchors::get('article:'.$_REQUEST['id'], TRUE);
+
 		// list persons that have been notified
-		$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified'));
+		$context['text'] .= Mailer::build_recipients('article:'.$_REQUEST['id']);
 
 		// list endpoints that have been notified
 		$context['text'] .= Servers::build_endpoints(i18n::s('Servers that have been notified'));
@@ -562,46 +508,28 @@ if(Surfer::is_crawler()) {
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		$menu = array_merge($menu, array($article->get_url() => i18n::s('View the page')));
-		if(Surfer::may_upload())
-			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']) => i18n::s('Upload a file')));
+		$menu = array_merge($menu, array($article->get_url('edit') => i18n::s('Edit the page')));
 		if((!isset($_REQUEST['publish_date']) || ($_REQUEST['publish_date'] <= NULL_DATE)) && Surfer::is_empowered())
 			$menu = array_merge($menu, array(Articles::get_url($_REQUEST['id'], 'publish') => i18n::s('Publish the page')));
+		$follow_up .= Skin::build_list($menu, 'menu_bar');
+		$menu = array();
+		if(Surfer::may_upload()) {
+			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']) => i18n::s('Add an image')));
+			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']) => i18n::s('Add a file')));
+			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']).'&amp;action=thumbnail' => i18n::s('Add a thumbnail')));
+		}
 		if(is_object($anchor) && Surfer::is_empowered())
 			$menu = array_merge($menu, array('articles/edit.php?anchor='.urlencode($anchor->get_reference()) => i18n::s('Add another page')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
-		// log the creation of a new page
-		if(!Surfer::is_empowered())
-			$label = sprintf(i18n::c('New submission: %s'), strip_tags($article->get_title()));
-		else
-			$label = sprintf(i18n::c('New page: %s'), strip_tags($article->get_title()));
-
-		// poster and target section
-		if(is_object($anchor))
-			$description = sprintf(i18n::s('Sent by %s in %s'), Surfer::get_name(), $anchor->get_title())."\n\n";
-		else
-			$description = sprintf(i18n::s('Sent by %s'), Surfer::get_name())."\n\n";
-
-		// title and link
-		if($title = $article->get_title())
-			$description .= $title."\n";
-		$description .= '<a href="'.$context['url_to_home'].$context['url_to_root'].$article->get_url().'">'.$article->get_title().'</a>';
-
-		// teaser
-		if($teaser = $article->get_teaser('basic'))
-			$description .= "\n\n".$teaser."\n\n";
-
-		// notify sysops
-		Logger::notify('articles/edit.php', $label, $description);
-
 	}
 
 // we have to duplicate some template page
-} elseif(!isset($item['id']) && is_object($anchor) && isset($_REQUEST['template']) && ($item = Articles::get($_REQUEST['template']))) {
+} elseif(!isset($item['id']) && !is_object($overlay) && is_object($anchor) && isset($_REQUEST['template']) && ($item = Articles::get($_REQUEST['template']))) {
 
 	// ensure we are not duplicating outside regular templates
-	if((!$templates =& Anchors::get($item['anchor'])) || ($templates->get_nick_name() != 'templates')) {
+	if((!$templates = Anchors::get($item['anchor'])) || ($templates->get_nick_name() != 'templates')) {
 		Safe::header('Status: 401 Unauthorized', TRUE, 401);
 		die(i18n::s('You are not allowed to perform this operation.'));
 	}
@@ -630,13 +558,13 @@ if(Surfer::is_crawler()) {
 	unset($item['nick_name']);
 
 	// also duplicate the provided overlay, if any
-	$overlay = Overlay::load($item);
+	$overlay = Overlay::load($item, NULL);
 
 	// let the surfer do the rest
 	$with_form = TRUE;
 
 // select among available templates
-} elseif(!isset($item['id']) && is_object($anchor) && ($templates = $anchor->get_templates_for('article')) && ($items =& Articles::list_for_ids($templates, 'select'))) {
+} elseif(!isset($item['id']) && !is_object($overlay) && is_object($anchor) && ($templates = $anchor->get_templates_for('article')) && ($items =& Articles::list_for_ids($templates, 'select'))) {
 
 	// remember current anchor, it will not be part of next click
 	$_SESSION['anchor_reference'] = $anchor->get_reference();
@@ -702,10 +630,6 @@ if($with_form) {
 		// notify watchers, but not on draft pages
 		$with_watchers = (isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE));
 
-		// allow the anchor to prevent notifications of watchers
-		if($with_watchers && is_object($overlay))
-			$with_watchers = $overlay->should_notify_watchers();
-
 		// allow surfer to uncheck notifications
 		if($with_watchers)
 			$more = 'checked="checked"';
@@ -721,106 +645,99 @@ if($with_form) {
 	if(isset($item['id']) && Surfer::is_empowered() && Surfer::has_all())
 		$suffix[] = '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date.');
 
-	// hardcoded
-//	if(!isset($item['id']))
-//		$suffix[] = '<input type="checkbox" name="option_hardcoded" value="Y" /> '.i18n::s('Preserve carriage returns and newlines.');
-
-	// do not apply implicit transformations
-//	if(!isset($item['id']))
-//		$suffix[] = '<input type="checkbox" name="option_formatted" value="Y" /> '.i18n::s('Avoid implicit transformations (links, lists, ...), but process yacs codes as usual.');
-
 	// validate page content
 	if(Surfer::is_associate())
 		$suffix[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
 
 	// an assistant-like rendering at page bottom
 	$context['page_bottom'] = Skin::build_assistant_bottom('', $menu, $suffix, isset($item['tags'])?$item['tags']:'');
-
+		
 	// content of the help box
 	//
-	$help = '';
+	if($whole_rendering) {
+	    $help = '';
 
-	// capture help messages from the overlay, if any
-	if(is_object($overlay))
-		$help .= $overlay->get_label('help', isset($item['id'])?'edit':'new');
+	    // capture help messages from the overlay, if any
+	    if(is_object($overlay))
+		    $help .= $overlay->get_label('help', isset($item['id'])?'edit':'new');
 
-	// splash message for new pages
-	if(!isset($item['id']))
-		$help .= '<p>'.i18n::s('Please type the text of your new page and hit the submit button. You will then be able to post images, files and links on subsequent forms.').'</p>';
+	    // splash message for new pages
+	    if(!isset($item['id']))
+		    $help .= '<p>'.i18n::s('Please type the text of your new page and hit the submit button. You will then be able to post images, files and links on subsequent forms.').'</p>';
 
-	// html and codes
-	$help .= '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+	    // html and codes
+	    $help .= '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>';
 
- 	// locate mandatory fields
- 	$help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
+	    // locate mandatory fields
+	    $help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
 
- 	// change to another editor
-	$help .= '<form action=""><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
-	$selected = '';
-	if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'tinymce'))
-		$selected = ' selected="selected"';
-	$help .= '<option value="tinymce"'.$selected.'>'.i18n::s('TinyMCE')."</option>\n";
-	$selected = '';
-	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
-		$selected = ' selected="selected"';
-	$help .= '<option value="fckeditor"'.$selected.'>'.i18n::s('FCKEditor')."</option>\n";
-	$selected = '';
-	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'yacs'))
-		$selected = ' selected="selected"';
-	$help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
-	$help .= '</select></p></form>';
+	    // change to another editor
+	    $help .= '<form action=""><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
+	    $selected = '';
+	    if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'tinymce'))
+		    $selected = ' selected="selected"';
+	    $help .= '<option value="tinymce"'.$selected.'>'.i18n::s('TinyMCE')."</option>\n";
+	    $selected = '';
+	    if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'yacs'))
+		    $selected = ' selected="selected"';
+	    $help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
+	    $help .= '</select></p></form>';
 
-	// in a side box
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
+	    // in a side box
+	    $context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
+	
+	}
 
 	// the script used for form handling at the browser
-	//
-	$context['page_footer'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// title is mandatory'."\n"
+	//	
+	$js_script = 	
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// title is mandatory
 		.'	if(!Yacs.trim(container.title.value)) {'."\n"
 		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		$("#title").focus();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		.'	// extend validation --used in overlays'."\n"
+			// extend validation --used in overlays
 		.'	if(typeof validateOnSubmit == "function") {'."\n"
 		.'		return validateOnSubmit(container);'."\n"
-		.'	}'."\n"
-		."\n";
+		.'	}'."\n";
 
 	// warning on jumbo size, but only on first post
 	if(!isset($item['id']))
-		$context['page_footer'] .= '	if(container.description.value.length > 64000){'."\n"
+		$js_script .= '	if(container.description.value.length > 64000){'."\n"
 			.'		return confirm("'.i18n::s('Page content exceeds 64,000 characters. Do you confirm you are intended to post a jumbo page?').'");'."\n"
 			.'	}'."\n"
 			."\n";
 
-	$context['page_footer'] .= '	// successful check'."\n"
-		.'	return true;'."\n"
+	$js_script .= 
+			// successful check
+		'	return true;'."\n"
 		.'}'."\n"
 		."\n"
-		.'// disable editor selection on change in form'."\n"
+		// disable editor selection on change in form
                 .'$("#main_form textarea, #main_form input, #main_form select").change(function() {'."\n"
                 .'      $("#preferred_editor").attr("disabled",true);'."\n"
                 .'});'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
-		.'$(document).ready( function() { $("#title").focus() });'."\n"
-		."\n"
-		.'// enable tags autocompletion'."\n"
-		.'$(document).ready( function() {'."\n"
-		.'  Yacs.autocomplete_m("#tags","'.$context['url_to_root'].'categories/complete.php");'."\n"
-		.'});'."\n"
-		.JS_SUFFIX;
+		.'$(function() {'."\n"
+		.'	$("#title").focus();'."\n" // set the focus on first form field
+		.'  Yacs.autocomplete_m("tags", "'.$context['url_to_root'].'categories/complete.php");'."\n" // enable autocompletion
+		.'});';
+	
+	Page::insert_script($js_script);
+		
+
 	// branch to another script to display form fields, tabs, etc
 	//
 	$branching = '';
 	if(isset($item['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $item['options'], $matches) && is_readable($matches[0].'.php'))
 		$branching = $matches[0].'.php';
+	elseif(is_object($overlay) && $overlay->get_value('edit_as_simple'))
+		$branching = 'edit_as_simple.php';
+	elseif(is_object($overlay) && $overlay->get_value('edit_as_thread'))
+		$branching = 'edit_as_thread.php';
 	elseif(is_object($anchor) && ($deputy = $anchor->has_option('edit_as')) && is_readable('edit_as_'.$deputy.'.php'))
 		$branching = 'edit_as_'.$deputy.'.php';
 
@@ -998,7 +915,7 @@ if($with_form) {
 
 		// files
 		$box = '';
-		if(Files::allow_creation($anchor, $item)) {
+		if(Files::allow_creation($item, $anchor, 'article')) {
 			$menu = array( 'files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a file') );
 			$box .= Skin::build_list($menu, 'menu_bar');
 		}
@@ -1059,17 +976,10 @@ if($with_form) {
 
 		$fields[] = array($label, $input);
 
-		// editors
-		$label = i18n::s('Editors');
-		if($items =& Members::list_editors_for_member('article:'.$item['id'], 0, 7, 'comma5'))
-			$input =& Skin::build_list($items, 'comma');
-		else
-			$input = i18n::s('Nobody has been assigned to this page.');
-		$fields[] = array($label, $input);
 	}
 
 	// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
-	if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+	if( !isset($item['id']) || Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
 		$label = i18n::s('Access');
 		$input = Skin::build_active_set_input($item);
 		$hint = Skin::build_active_set_hint($anchor);
@@ -1192,7 +1102,7 @@ if($with_form) {
 		elseif(isset($_SESSION['pasted_name']))
 			$value = $_SESSION['pasted_name'];
 		$input = '<input type="text" name="nick_name" size="32" value="'.encode_field($value).'" maxlength="64" accesskey="n" />';
-		$hint = sprintf(i18n::s('To designate a page by its name in the %s'), Skin::build_link('go.php', 'page selector', 'help'));
+		$hint = sprintf(i18n::s('To designate a page by its name in the %s'), Skin::build_link('go.php', 'page selector', 'open'));
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -1220,7 +1130,7 @@ if($with_form) {
 // 	if(Surfer::is_empowered() && Surfer::is_member()) {
 // 		$label = i18n::s('Behaviors');
 // 		$input = '<textarea name="behaviors" rows="2" cols="50">'.encode_field(isset($item['behaviors']) ? $item['behaviors'] : '').'</textarea>';
-// 		$hint = sprintf(i18n::s('One %s per line'), Skin::build_link('behaviors/', i18n::s('behavior'), 'help'));
+// 		$hint = sprintf(i18n::s('One %s per line'), Skin::build_link('behaviors/', i18n::s('behavior'), 'open'));
 // 		$fields[] = array($label, $input, $hint);
 // 	}
 
@@ -1292,6 +1202,51 @@ if($with_form) {
 	} elseif(is_object($overlay))
 		$text .= '<input type="hidden" name="overlay_type" value="'.encode_field($overlay->get_type()).'" />';
 
+	// reflect content canvas from anchor
+	if(!isset($item['canvas']) && is_object($anchor))
+		$item['canvas'] = $anchor->get_articles_canvas();
+
+	// associates can change the canvas --complex interface
+	if(Surfer::is_associate() && Surfer::has_all()) {
+
+		// list canvas available on this system
+		$label = i18n::s('Change the canvas');
+		$input = '<select name="canvas">';
+		$hint = sprintf(i18n::s('%s used for this article'), Skin::build_link('canvas/', i18n::s('Canvas'), 'open'));
+		$canvas = array();
+		if ($dir = Safe::opendir($context['path_to_root'].'canvas')) {
+
+			// every php script is an overlay, except index.php, canvas.php, and hooks
+			while(($file = Safe::readdir($dir)) !== FALSE) {
+				if(($file[0] == '.') || is_dir($context['path_to_root'].'canvas/'.$file))
+					continue;
+				if($file == 'index.php')
+					continue;
+				if($file == 'canvas.php')
+					continue;
+				if(preg_match('/hook\.php$/i', $file))
+					continue;
+				if(!preg_match('/(.*)\.php$/i', $file, $matches))
+					continue;
+				$canvas[] = $matches[1];
+			}
+			Safe::closedir($dir);
+			if(@count($canvas)) {
+				natsort($canvas);
+				foreach($canvas as $canvas_name) {
+					$selected = '';
+					if($canvas_name == $item['canvas'])
+						$selected = ' selected="selected"';
+					$input .= '<option value="'.$canvas_name.'"'.$selected.'>'.$canvas_name."</option>\n";
+				}
+			}
+		}
+		$input .= '</select>';
+		$fields[] = array($label, $input, $hint);
+
+	// remember canvas
+	} else
+		$text .= '<input type="hidden" name="canvas" value="'.encode_field($item['canvas']).'" />';
 
 	// add a folded box
 	$text .= Skin::build_box(i18n::s('More options'), Skin::build_form($fields), 'folded');
@@ -1328,6 +1283,26 @@ if($with_form) {
 	unset($_SESSION['pasted_source']);
 	unset($_SESSION['pasted_text']);
 	unset($_SESSION['pasted_title']);
+
+	// assign the page to the surfer
+	if(isset($item['id']) && Surfer::get_id()) {
+		$query = "UPDATE ".SQL::table_name('articles')." SET "
+			." assign_name = '".SQL::escape(Surfer::get_name())."',"
+			." assign_id = ".SQL::escape(Surfer::get_id()).","
+			." assign_address = '".SQL::escape(Surfer::get_email_address())."',"
+			." assign_date = '".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'"
+			." WHERE (id  = ".SQL::escape($item['id']).")";
+
+		// do not stop on error
+		SQL::query($query);
+
+		// for subsequent heartbits
+		$_SESSION['assigned'] = $item['id'];
+
+		// current item
+		$context['current_action'] = 'edit';
+
+	}
 
 }
 

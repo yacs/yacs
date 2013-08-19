@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-26 00:14+0200\n"
+"POT-Creation-Date: 2013-05-01 00:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: codes/basic.php:52 codes/blocks.php:41 codes/index.php:23
-#: codes/links.php:81 codes/lists.php:33 codes/live.php:52 codes/misc.php:54
-#: codes/tables.php:30 codes/titles.php:42 codes/widgets.php:38
+#: codes/basic.php:52 codes/blocks.php:41 codes/index.php:21
+#: codes/links.php:79 codes/lists.php:33 codes/live.php:51 codes/misc.php:54
+#: codes/tables.php:30 codes/titles.php:42 codes/widgets.php:35
 msgid "Help index"
 msgstr ""
 
-#: codes/basic.php:53 codes/blocks.php:42 codes/links.php:82
-#: codes/lists.php:34 codes/live.php:53 codes/misc.php:55 codes/tables.php:31
-#: codes/titles.php:43 codes/widgets.php:39
+#: codes/basic.php:53 codes/blocks.php:42 codes/links.php:80
+#: codes/lists.php:34 codes/live.php:52 codes/misc.php:55 codes/tables.php:31
+#: codes/titles.php:43 codes/widgets.php:36
 msgid "Formatting Codes"
 msgstr ""
 
@@ -33,9 +33,9 @@ msgstr ""
 msgid "In-line formatting codes"
 msgstr ""
 
-#: codes/basic.php:60 codes/blocks.php:49 codes/index.php:30
-#: codes/links.php:89 codes/lists.php:41 codes/live.php:60 codes/misc.php:62
-#: codes/tables.php:38 codes/titles.php:50 codes/widgets.php:46
+#: codes/basic.php:60 codes/blocks.php:49 codes/index.php:28
+#: codes/links.php:87 codes/lists.php:41 codes/live.php:59 codes/misc.php:62
+#: codes/tables.php:38 codes/titles.php:50 codes/widgets.php:43
 #, php-format
 msgid "Edited %s"
 msgstr ""
@@ -64,39 +64,38 @@ msgstr ""
 #: codes/blocks.php:152 codes/blocks.php:178 codes/blocks.php:186
 #: codes/blocks.php:194 codes/blocks.php:202 codes/blocks.php:210
 #: codes/blocks.php:218 codes/blocks.php:226 codes/blocks.php:234
-#: codes/links.php:100 codes/links.php:108 codes/links.php:116
-#: codes/links.php:124 codes/links.php:132 codes/links.php:140
-#: codes/links.php:148 codes/links.php:156 codes/links.php:164
-#: codes/links.php:172 codes/links.php:180 codes/links.php:188
-#: codes/links.php:196 codes/links.php:204 codes/links.php:212
-#: codes/links.php:220 codes/links.php:228 codes/links.php:236
-#: codes/links.php:244 codes/links.php:252 codes/links.php:260
-#: codes/links.php:268 codes/links.php:276 codes/links.php:284
-#: codes/links.php:292 codes/links.php:300 codes/links.php:308
-#: codes/links.php:316 codes/links.php:324 codes/links.php:332
-#: codes/links.php:340 codes/links.php:348 codes/links.php:356
-#: codes/links.php:364 codes/lists.php:52 codes/lists.php:60
-#: codes/lists.php:68 codes/lists.php:76 codes/lists.php:84 codes/lists.php:92
-#: codes/lists.php:100 codes/live.php:71 codes/live.php:79 codes/live.php:87
-#: codes/live.php:95 codes/live.php:104 codes/live.php:112 codes/live.php:121
-#: codes/live.php:129 codes/live.php:138 codes/live.php:146 codes/live.php:155
-#: codes/live.php:163 codes/live.php:172 codes/live.php:180 codes/misc.php:73
-#: codes/misc.php:117 codes/misc.php:125 codes/misc.php:133 codes/misc.php:141
-#: codes/misc.php:149 codes/misc.php:157 codes/misc.php:177 codes/misc.php:189
-#: codes/misc.php:200 codes/misc.php:221 codes/misc.php:229 codes/misc.php:237
-#: codes/misc.php:244 codes/misc.php:252 codes/misc.php:260 codes/misc.php:268
-#: codes/misc.php:276 codes/tables.php:51 codes/tables.php:66
-#: codes/tables.php:81 codes/tables.php:95 codes/tables.php:113
-#: codes/tables.php:131 codes/tables.php:152 codes/titles.php:62
-#: codes/titles.php:70 codes/titles.php:82 codes/titles.php:94
-#: codes/titles.php:106 codes/titles.php:118 codes/titles.php:130
-#: codes/titles.php:142 codes/titles.php:154 codes/titles.php:166
-#: codes/titles.php:178 codes/titles.php:190 codes/titles.php:202
-#: codes/titles.php:214 codes/titles.php:222 codes/titles.php:230
-#: codes/titles.php:238 codes/widgets.php:57 codes/widgets.php:65
-#: codes/widgets.php:73 codes/widgets.php:81 codes/widgets.php:89
-#: codes/widgets.php:98 codes/widgets.php:107 codes/widgets.php:115
-#: codes/widgets.php:123
+#: codes/links.php:98 codes/links.php:106 codes/links.php:114
+#: codes/links.php:122 codes/links.php:130 codes/links.php:138
+#: codes/links.php:146 codes/links.php:154 codes/links.php:162
+#: codes/links.php:170 codes/links.php:178 codes/links.php:186
+#: codes/links.php:194 codes/links.php:202 codes/links.php:210
+#: codes/links.php:218 codes/links.php:226 codes/links.php:234
+#: codes/links.php:242 codes/links.php:250 codes/links.php:258
+#: codes/links.php:266 codes/links.php:274 codes/links.php:282
+#: codes/links.php:290 codes/links.php:298 codes/links.php:306
+#: codes/links.php:314 codes/links.php:322 codes/links.php:330
+#: codes/links.php:338 codes/links.php:346 codes/links.php:354
+#: codes/lists.php:52 codes/lists.php:60 codes/lists.php:68 codes/lists.php:76
+#: codes/lists.php:84 codes/lists.php:92 codes/lists.php:100 codes/live.php:70
+#: codes/live.php:78 codes/live.php:86 codes/live.php:94 codes/live.php:103
+#: codes/live.php:111 codes/live.php:120 codes/live.php:128 codes/live.php:137
+#: codes/live.php:145 codes/live.php:154 codes/live.php:162 codes/live.php:170
+#: codes/misc.php:73 codes/misc.php:117 codes/misc.php:125 codes/misc.php:133
+#: codes/misc.php:141 codes/misc.php:149 codes/misc.php:157 codes/misc.php:177
+#: codes/misc.php:189 codes/misc.php:200 codes/misc.php:221 codes/misc.php:229
+#: codes/misc.php:237 codes/misc.php:244 codes/misc.php:252 codes/misc.php:260
+#: codes/misc.php:268 codes/misc.php:276 codes/tables.php:51
+#: codes/tables.php:66 codes/tables.php:81 codes/tables.php:95
+#: codes/tables.php:113 codes/tables.php:131 codes/tables.php:152
+#: codes/titles.php:62 codes/titles.php:70 codes/titles.php:82
+#: codes/titles.php:94 codes/titles.php:106 codes/titles.php:118
+#: codes/titles.php:130 codes/titles.php:142 codes/titles.php:154
+#: codes/titles.php:166 codes/titles.php:178 codes/titles.php:190
+#: codes/titles.php:202 codes/titles.php:214 codes/titles.php:222
+#: codes/titles.php:230 codes/titles.php:238 codes/widgets.php:54
+#: codes/widgets.php:62 codes/widgets.php:70 codes/widgets.php:78
+#: codes/widgets.php:86 codes/widgets.php:95 codes/widgets.php:103
+#: codes/widgets.php:111
 msgid "Example"
 msgstr ""
 
@@ -114,38 +113,37 @@ msgstr ""
 #: codes/blocks.php:152 codes/blocks.php:178 codes/blocks.php:186
 #: codes/blocks.php:194 codes/blocks.php:202 codes/blocks.php:210
 #: codes/blocks.php:218 codes/blocks.php:226 codes/blocks.php:234
-#: codes/links.php:100 codes/links.php:108 codes/links.php:116
-#: codes/links.php:124 codes/links.php:132 codes/links.php:140
-#: codes/links.php:148 codes/links.php:156 codes/links.php:164
-#: codes/links.php:172 codes/links.php:180 codes/links.php:188
-#: codes/links.php:196 codes/links.php:204 codes/links.php:212
-#: codes/links.php:220 codes/links.php:228 codes/links.php:236
-#: codes/links.php:244 codes/links.php:252 codes/links.php:260
-#: codes/links.php:268 codes/links.php:276 codes/links.php:284
-#: codes/links.php:292 codes/links.php:300 codes/links.php:308
-#: codes/links.php:316 codes/links.php:324 codes/links.php:332
-#: codes/links.php:340 codes/links.php:348 codes/links.php:356
-#: codes/links.php:364 codes/lists.php:52 codes/lists.php:60
-#: codes/lists.php:68 codes/lists.php:76 codes/lists.php:84 codes/lists.php:92
-#: codes/lists.php:100 codes/live.php:71 codes/live.php:79 codes/live.php:87
-#: codes/live.php:95 codes/live.php:104 codes/live.php:112 codes/live.php:121
-#: codes/live.php:129 codes/live.php:138 codes/live.php:146 codes/live.php:155
-#: codes/live.php:163 codes/live.php:172 codes/live.php:180 codes/misc.php:73
-#: codes/misc.php:117 codes/misc.php:125 codes/misc.php:133 codes/misc.php:141
-#: codes/misc.php:149 codes/misc.php:157 codes/misc.php:177 codes/misc.php:189
-#: codes/misc.php:200 codes/misc.php:221 codes/misc.php:229 codes/misc.php:244
-#: codes/misc.php:252 codes/misc.php:260 codes/misc.php:268 codes/misc.php:276
-#: codes/tables.php:51 codes/tables.php:66 codes/tables.php:81
-#: codes/tables.php:95 codes/tables.php:113 codes/tables.php:131
-#: codes/tables.php:152 codes/titles.php:62 codes/titles.php:70
-#: codes/titles.php:82 codes/titles.php:94 codes/titles.php:106
-#: codes/titles.php:118 codes/titles.php:130 codes/titles.php:142
-#: codes/titles.php:154 codes/titles.php:166 codes/titles.php:178
-#: codes/titles.php:190 codes/titles.php:202 codes/titles.php:214
-#: codes/titles.php:222 codes/titles.php:230 codes/titles.php:238
-#: codes/widgets.php:57 codes/widgets.php:65 codes/widgets.php:73
-#: codes/widgets.php:81 codes/widgets.php:89 codes/widgets.php:98
-#: codes/widgets.php:107 codes/widgets.php:115 codes/widgets.php:123
+#: codes/links.php:98 codes/links.php:106 codes/links.php:114
+#: codes/links.php:122 codes/links.php:130 codes/links.php:138
+#: codes/links.php:146 codes/links.php:154 codes/links.php:162
+#: codes/links.php:170 codes/links.php:178 codes/links.php:186
+#: codes/links.php:194 codes/links.php:202 codes/links.php:210
+#: codes/links.php:218 codes/links.php:226 codes/links.php:234
+#: codes/links.php:242 codes/links.php:250 codes/links.php:258
+#: codes/links.php:266 codes/links.php:274 codes/links.php:282
+#: codes/links.php:290 codes/links.php:298 codes/links.php:306
+#: codes/links.php:314 codes/links.php:322 codes/links.php:330
+#: codes/links.php:338 codes/links.php:346 codes/links.php:354
+#: codes/lists.php:52 codes/lists.php:60 codes/lists.php:68 codes/lists.php:76
+#: codes/lists.php:84 codes/lists.php:92 codes/lists.php:100 codes/live.php:70
+#: codes/live.php:78 codes/live.php:86 codes/live.php:94 codes/live.php:103
+#: codes/live.php:111 codes/live.php:120 codes/live.php:128 codes/live.php:137
+#: codes/live.php:145 codes/live.php:154 codes/live.php:162 codes/live.php:170
+#: codes/misc.php:73 codes/misc.php:117 codes/misc.php:125 codes/misc.php:133
+#: codes/misc.php:141 codes/misc.php:149 codes/misc.php:157 codes/misc.php:177
+#: codes/misc.php:189 codes/misc.php:200 codes/misc.php:221 codes/misc.php:229
+#: codes/misc.php:244 codes/misc.php:252 codes/misc.php:260 codes/misc.php:268
+#: codes/misc.php:276 codes/tables.php:51 codes/tables.php:66
+#: codes/tables.php:81 codes/tables.php:95 codes/tables.php:113
+#: codes/tables.php:131 codes/tables.php:152 codes/titles.php:62
+#: codes/titles.php:70 codes/titles.php:82 codes/titles.php:94
+#: codes/titles.php:106 codes/titles.php:118 codes/titles.php:130
+#: codes/titles.php:142 codes/titles.php:154 codes/titles.php:166
+#: codes/titles.php:178 codes/titles.php:190 codes/titles.php:202
+#: codes/titles.php:214 codes/titles.php:222 codes/titles.php:230
+#: codes/titles.php:238 codes/widgets.php:54 codes/widgets.php:62
+#: codes/widgets.php:70 codes/widgets.php:78 codes/widgets.php:86
+#: codes/widgets.php:95 codes/widgets.php:103 codes/widgets.php:111
 msgid "Rendering"
 msgstr ""
 
@@ -215,8 +213,8 @@ msgstr ""
 
 #: codes/basic.php:137 codes/basic.php:138
 msgid ""
-"Here is some text in [color=red]red[/color] and some text in [color=green]"
-"green[/color]"
+"Here is some text in [color=red]red[/color] and some text in "
+"[color=green]green[/color]"
 msgstr ""
 
 #: codes/basic.php:142
@@ -362,22 +360,22 @@ msgid ""
 "also on the turtle speed..."
 msgstr ""
 
-#: codes/basic.php:289 codes/blocks.php:243 codes/links.php:373
-#: codes/lists.php:109 codes/live.php:189 codes/misc.php:285
-#: codes/tables.php:173 codes/titles.php:247 codes/widgets.php:132
+#: codes/basic.php:289 codes/blocks.php:243 codes/links.php:363
+#: codes/lists.php:109 codes/live.php:179 codes/misc.php:285
+#: codes/tables.php:173 codes/titles.php:247 codes/widgets.php:120
 #, php-format
 msgid "Please note that actual rendering depends on the selected %s."
 msgstr ""
 
-#: codes/basic.php:289 codes/blocks.php:243 codes/links.php:373
-#: codes/lists.php:109 codes/live.php:189 codes/misc.php:285
-#: codes/tables.php:173 codes/titles.php:247 codes/widgets.php:132
+#: codes/basic.php:289 codes/blocks.php:243 codes/links.php:363
+#: codes/lists.php:109 codes/live.php:179 codes/misc.php:285
+#: codes/tables.php:173 codes/titles.php:247 codes/widgets.php:120
 msgid "skin"
 msgstr ""
 
-#: codes/basic.php:290 codes/blocks.php:244 codes/links.php:374
-#: codes/lists.php:110 codes/live.php:190 codes/misc.php:286
-#: codes/tables.php:174 codes/titles.php:248 codes/widgets.php:133
+#: codes/basic.php:290 codes/blocks.php:244 codes/links.php:364
+#: codes/lists.php:110 codes/live.php:180 codes/misc.php:286
+#: codes/tables.php:174 codes/titles.php:248 codes/widgets.php:121
 msgid "Help"
 msgstr ""
 
@@ -517,47 +515,47 @@ msgstr ""
 msgid "Script terminated in %.2f seconds."
 msgstr ""
 
-#: codes/index.php:26
+#: codes/index.php:24
 msgid "Introduction to formatting codes"
 msgstr ""
 
-#: codes/index.php:34
+#: codes/index.php:32
 msgid "In-line formatting codes (bold, underlined, ...)"
 msgstr ""
 
-#: codes/index.php:35
+#: codes/index.php:33
 msgid "Links (and shortcuts, buttons, ...)"
 msgstr ""
 
-#: codes/index.php:36
+#: codes/index.php:34
 msgid "Lists (with bullets, numbered, ...)"
 msgstr ""
 
-#: codes/index.php:37
+#: codes/index.php:35
 msgid "Blocks (indentation, script, quote, ...)"
 msgstr ""
 
-#: codes/index.php:38
+#: codes/index.php:36
 msgid "Tables (with headers, with grids, use CSV data, ...)"
 msgstr ""
 
-#: codes/index.php:39
+#: codes/index.php:37
 msgid "Titles and questions (and table of content)"
 msgstr ""
 
-#: codes/index.php:40
+#: codes/index.php:38
 msgid "Dynamic queries (updates, content, ...)"
 msgstr ""
 
-#: codes/index.php:41
+#: codes/index.php:39
 msgid "Widgets (twitter, calendar, ...)"
 msgstr ""
 
-#: codes/index.php:42
+#: codes/index.php:40
 msgid "Miscellaneous codes (charts, ...)"
 msgstr ""
 
-#: codes/index.php:46
+#: codes/index.php:44
 msgid ""
 "Codes allow you to specify formatting rules for your text, even if you are "
 "not allowed to use HTML in your posts. BB codes, or UBB codes, originated "
@@ -565,7 +563,7 @@ msgid ""
 "of it."
 msgstr ""
 
-#: codes/index.php:47
+#: codes/index.php:45
 msgid ""
 "With codes you use \"tags\" to add formatting to your text. Every  tag is "
 "enclosed in [ and ]. If you want to mark some region in your text, you need "
@@ -574,240 +572,232 @@ msgid ""
 "to close it, you will not get the desired formatting."
 msgstr ""
 
-#: codes/index.php:48
+#: codes/index.php:46
 msgid ""
 "Follow the links below to get more information on codes implemented on this "
 "server."
 msgstr ""
 
-#: codes/index.php:50
+#: codes/index.php:48
 #, php-format
 msgid "You can also browse links above in complement to the %s."
 msgstr ""
 
-#: codes/index.php:50
+#: codes/index.php:48
 msgid "Theme test"
 msgstr ""
 
-#: codes/links.php:85
+#: codes/links.php:83
 msgid "Codes to format links"
 msgstr ""
 
-#: codes/links.php:92
+#: codes/links.php:90
 msgid "Various methods are presented to link your pages to others."
 msgstr ""
 
-#: codes/links.php:98 codes/links.php:106
+#: codes/links.php:96 codes/links.php:104
 msgid "External link"
 msgstr ""
 
-#: codes/links.php:101 codes/links.php:102
+#: codes/links.php:99 codes/links.php:100
 msgid ""
 "You can visit www.cisco.com or http://www.nortel.com, or have a chat at "
 "irc://irc.eu.be.ofloo.net/"
 msgstr ""
 
-#: codes/links.php:109 codes/links.php:110
+#: codes/links.php:107 codes/links.php:108
 msgid ""
 "You can visit [link]www.cisco.com[/link] or [link]http://www.nortel.com[/"
 "link], or have a chat at [link]irc://irc.eu.be.ofloo.net/[/link]"
 msgstr ""
 
-#: codes/links.php:114
+#: codes/links.php:112
 msgid "YouTube link"
 msgstr ""
 
-#: codes/links.php:122
+#: codes/links.php:120
 msgid "Internal link"
 msgstr ""
 
-#: codes/links.php:125 codes/links.php:126
+#: codes/links.php:123 codes/links.php:124
 msgid "You can visit [link]codes/basic.php[/link] or [link]index.php[/link]"
 msgstr ""
 
-#: codes/links.php:130 codes/links.php:138
+#: codes/links.php:128 codes/links.php:136
 msgid "Labelled link"
 msgstr ""
 
-#: codes/links.php:133 codes/links.php:134
+#: codes/links.php:131 codes/links.php:132
 msgid "You can visit [Cisco On Line|www.cisco.com]"
 msgstr ""
 
-#: codes/links.php:141 codes/links.php:142
+#: codes/links.php:139 codes/links.php:140
 msgid "You can visit [link=Cisco On Line]www.cisco.com[/link]"
 msgstr ""
 
-#: codes/links.php:146
+#: codes/links.php:144
 msgid "Labelled button"
 msgstr ""
 
-#: codes/links.php:149 codes/links.php:150
+#: codes/links.php:147 codes/links.php:148
 msgid "You can visit [button=Cisco On Line|www.cisco.com]"
 msgstr ""
 
-#: codes/links.php:154 codes/links.php:306
+#: codes/links.php:152 codes/links.php:304
 msgid "Member clicks"
 msgstr ""
 
-#: codes/links.php:157 codes/links.php:158
+#: codes/links.php:155 codes/links.php:156
 msgid ""
 "You can visit [click=Cisco On Line|http://www.cisco.com] [folded]"
 "[clicks=http://www.cisco.com][/folded]"
 msgstr ""
 
-#: codes/links.php:162 codes/links.php:170
+#: codes/links.php:160 codes/links.php:168
 msgid "e-mail address"
 msgstr ""
 
-#: codes/links.php:165 codes/links.php:166
+#: codes/links.php:163 codes/links.php:164
 msgid "You can send a message at webmaster@acme.com"
 msgstr ""
 
-#: codes/links.php:173 codes/links.php:174
+#: codes/links.php:171 codes/links.php:172
 msgid "You can send a message at [email]webmaster@acme.com[/email]"
 msgstr ""
 
-#: codes/links.php:178
+#: codes/links.php:176
 msgid "Labelled e-mail address"
 msgstr ""
 
-#: codes/links.php:181 codes/links.php:182
+#: codes/links.php:179 codes/links.php:180
 msgid ""
 "You can send a message to our [email=support team]webmaster@acme.com[/email]"
 msgstr ""
 
-#: codes/links.php:186 codes/links.php:194
+#: codes/links.php:184 codes/links.php:192
 msgid "Selector"
 msgstr ""
 
-#: codes/links.php:189 codes/links.php:190
+#: codes/links.php:187 codes/links.php:188
 msgid "Please use our [go=monthly, monthly archive] for reference"
 msgstr ""
 
-#: codes/links.php:197 codes/links.php:198
+#: codes/links.php:195 codes/links.php:196
 msgid "Please use our [[monthly, monthly archive]] for reference"
 msgstr ""
 
-#: codes/links.php:202 codes/links.php:210
+#: codes/links.php:200 codes/links.php:208
 msgid "Page shortcut"
 msgstr ""
 
-#: codes/links.php:205 codes/links.php:206 codes/links.php:213
-#: codes/links.php:214 codes/links.php:253 codes/links.php:254
-#: codes/links.php:261 codes/links.php:262 codes/links.php:277
-#: codes/links.php:278 codes/links.php:293 codes/links.php:294
+#: codes/links.php:203 codes/links.php:204 codes/links.php:211
+#: codes/links.php:212 codes/links.php:251 codes/links.php:252
+#: codes/links.php:259 codes/links.php:260 codes/links.php:275
+#: codes/links.php:276 codes/links.php:291 codes/links.php:292
 #, php-format
 msgid "Have a look at %s"
 msgstr ""
 
-#: codes/links.php:218
+#: codes/links.php:216
 msgid "Page"
 msgstr ""
 
-#: codes/links.php:226
+#: codes/links.php:224
 msgid "Previous page"
 msgstr ""
 
-#: codes/links.php:234
+#: codes/links.php:232
 msgid "Next page"
 msgstr ""
 
-#: codes/links.php:242
+#: codes/links.php:240
 msgid "Random"
 msgstr ""
 
-#: codes/links.php:250
+#: codes/links.php:248
 msgid "Section shortcut"
 msgstr ""
 
-#: codes/links.php:258
+#: codes/links.php:256
 msgid "Category shortcut"
 msgstr ""
 
-#: codes/links.php:266
+#: codes/links.php:264
 msgid "Category"
 msgstr ""
 
-#: codes/links.php:274
+#: codes/links.php:272
 msgid "User shortcut"
 msgstr ""
 
-#: codes/links.php:282
+#: codes/links.php:280
 msgid "Server shortcut"
 msgstr ""
 
-#: codes/links.php:285 codes/links.php:286
+#: codes/links.php:283 codes/links.php:284
 msgid "Click to view the page of [server=2, this server]"
 msgstr ""
 
-#: codes/links.php:290
+#: codes/links.php:288
 msgid "File shortcut"
 msgstr ""
 
-#: codes/links.php:298
+#: codes/links.php:296
 msgid "Download shortcut"
 msgstr ""
 
-#: codes/links.php:301 codes/links.php:302
+#: codes/links.php:299 codes/links.php:300
 #, php-format
 msgid "Click to %s"
 msgstr ""
 
-#: codes/links.php:301 codes/links.php:302
+#: codes/links.php:299 codes/links.php:300
 msgid "download the file"
 msgstr ""
 
-#: codes/links.php:314
+#: codes/links.php:312
 msgid "Action shortcut"
 msgstr ""
 
-#: codes/links.php:317 codes/links.php:318
+#: codes/links.php:315 codes/links.php:316
 msgid "Click to view the page of [action=2, this action]"
 msgstr ""
 
-#: codes/links.php:322
+#: codes/links.php:320
 msgid "Comment shortcut"
 msgstr ""
 
-#: codes/links.php:325 codes/links.php:326
+#: codes/links.php:323 codes/links.php:324
 msgid "Click to view the page of [comment=2, this comment]"
 msgstr ""
 
-#: codes/links.php:330
-msgid "Decision shortcut"
-msgstr ""
-
-#: codes/links.php:333 codes/links.php:334
-msgid "Click to view the page of [decision=2, this decision]"
-msgstr ""
-
-#: codes/links.php:338
+#: codes/links.php:328
 msgid "Script shortcut"
 msgstr ""
 
-#: codes/links.php:341 codes/links.php:342
+#: codes/links.php:331 codes/links.php:332
 msgid ""
 "You can access the documentation for the script [script]shared/codes.php[/"
 "script]"
 msgstr ""
 
-#: codes/links.php:346
+#: codes/links.php:336
 msgid "Search"
 msgstr ""
 
-#: codes/links.php:349 codes/links.php:350
+#: codes/links.php:339 codes/links.php:340
 msgid "All you want to know on [search=yacs]"
 msgstr ""
 
-#: codes/links.php:354
+#: codes/links.php:344
 msgid "Wikipedia"
 msgstr ""
 
-#: codes/links.php:357 codes/links.php:358
+#: codes/links.php:347 codes/links.php:348
 msgid "All you want to know on [wikipedia=Web_2, the web 2.0]"
 msgstr ""
 
-#: codes/links.php:362
+#: codes/links.php:352
 msgid "Proxy"
 msgstr ""
 
@@ -878,72 +868,62 @@ msgstr ""
 msgid "Another list with roman numbers:"
 msgstr ""
 
-#: codes/live.php:56
+#: codes/live.php:55
 msgid "Live codes"
 msgstr ""
 
-#: codes/live.php:63
+#: codes/live.php:62
 msgid ""
 "On this page we are introducing codes related to dynamic queries of site "
 "content."
 msgstr ""
 
-#: codes/live.php:69
+#: codes/live.php:68
 msgid "Sections"
 msgstr ""
 
-#: codes/live.php:77
+#: codes/live.php:76
 msgid "Assigned sections"
 msgstr ""
 
-#: codes/live.php:85
+#: codes/live.php:84
 msgid "Categories"
 msgstr ""
 
-#: codes/live.php:93
+#: codes/live.php:92
 msgid "Assigned categories"
 msgstr ""
 
-#: codes/live.php:101
+#: codes/live.php:100
 msgid "Recent pages"
 msgstr ""
 
-#: codes/live.php:102 codes/live.php:119 codes/live.php:136 codes/live.php:153
+#: codes/live.php:101 codes/live.php:118 codes/live.php:135 codes/live.php:152
 msgid ""
 "Use the simplest form to display a compact list of pages, or limit the scope."
 msgstr ""
 
-#: codes/live.php:110
+#: codes/live.php:109
 msgid "Personal pages"
 msgstr ""
 
-#: codes/live.php:118
+#: codes/live.php:117
 msgid "Recent updates"
 msgstr ""
 
-#: codes/live.php:127
+#: codes/live.php:126
 msgid "Personal updates"
 msgstr ""
 
-#: codes/live.php:135 codes/live.php:152
+#: codes/live.php:134 codes/live.php:151
 msgid "Hall of fame"
 msgstr ""
 
-#: codes/live.php:144 codes/live.php:161
+#: codes/live.php:143 codes/live.php:160
 msgid "Personal hits"
 msgstr ""
 
-#: codes/live.php:169
-msgid "Collections"
-msgstr ""
-
-#: codes/live.php:170
-msgid ""
-"Use the configuration panel for collections to create new collections of "
-"files."
-msgstr ""
-
-#: codes/live.php:178
+#: codes/live.php:168
 msgid "Present users"
 msgstr ""
 
@@ -1273,52 +1253,42 @@ msgstr ""
 msgid "I do not know, but it depends also on the turtle speed..."
 msgstr ""
 
-#: codes/widgets.php:42
+#: codes/widgets.php:39
 msgid "Widgets"
 msgstr ""
 
-#: codes/widgets.php:49
+#: codes/widgets.php:46
 msgid "On this page we are introducing codes related to widgets and badges."
 msgstr ""
 
-#: codes/widgets.php:55 codes/widgets.php:63
+#: codes/widgets.php:52 codes/widgets.php:60
 msgid "Newsfeed"
 msgstr ""
 
-#: codes/widgets.php:71
+#: codes/widgets.php:68
 msgid "Twitter profile"
 msgstr ""
 
-#: codes/widgets.php:79
+#: codes/widgets.php:76
 msgid "Twitter search"
 msgstr ""
 
-#: codes/widgets.php:87
+#: codes/widgets.php:84
 msgid "External page"
 msgstr ""
 
-#: codes/widgets.php:95
-msgid "A dynamic Freemind map"
-msgstr ""
-
-#: codes/widgets.php:96
-msgid ""
-"Use the simplest form to navigate site content is a mind map, or limit the "
-"scope to one section and related sub-sections."
-msgstr ""
-
-#: codes/widgets.php:104
+#: codes/widgets.php:92
 msgid "Cloud of tags"
 msgstr ""
 
-#: codes/widgets.php:105
+#: codes/widgets.php:93
 msgid "Use the parameter to adjust the number of tags listed."
 msgstr ""
 
-#: codes/widgets.php:113
+#: codes/widgets.php:101
 msgid "Events"
 msgstr ""
 
-#: codes/widgets.php:121
+#: codes/widgets.php:109
 msgid "Direct location"
 msgstr ""

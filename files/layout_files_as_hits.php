@@ -17,9 +17,9 @@ Class Layout_files_as_hits extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array of resulting items, or NULL
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -30,7 +30,7 @@ Class Layout_files_as_hits extends Layout_interface {
 			return $items;
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// download the file directly
 			$url = Files::get_url($item['id'], 'fetch', $item['file_name']);

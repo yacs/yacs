@@ -67,7 +67,7 @@
  * By default text submitted to any yacs server is filtered to protect from hackers.
  * Also, a special set of safe codes are available to beautify your posts.
  *
- * See: [link]codes/index.php[/link] and [link]smileys/index.php[/link]
+ * See: [link]codes/[/link] and [link]smileys/[/link]
  *
  * [subtitle]Boxes[/subtitle]
  * What is static and what is dynamic in yacs? Numerous web systems are offering a
@@ -214,7 +214,7 @@
  * an article related to a section may mention some introductory words on the section it is in. But an article related
  * to an ancestor may remember the salient dates for this person. Since we don't want to adapt the module that handle articles,
  * we have built a simple interface class named Anchor. This interface, which is the only one used within the articles
- * module, is implemented in derivated classes such as Category or Ancestor. Take a look at shared/anchor.php for more information.
+ * module, is implemented in derived classes such as Category or Ancestor. Take a look at shared/anchor.php for more information.
  *
  * As a conclusion, if you want to let items behave as anchors for other modules, you will have:
  * <ul><li> to name the type of your anchor (e.g., 'mytype')</li>

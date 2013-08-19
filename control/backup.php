@@ -161,11 +161,11 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 		// the string to re-create table structure
 		$query = "SHOW CREATE TABLE ".$table_name;
-		if((!$result =& SQL::query_first($query)) || !isset($result['Create Table']))
+		if((!$result = SQL::query_first($query)) || !isset($result['Create Table']))
 			continue;
 
 		// strip constraints and keep only engine definition
-		$create_query = preg_replace('/(ENGINE=\w+)\b.*$/i', '\\1', $result['Create Table']);
+		$create_query = preg_replace('/(ENGINE=\w+)\b.*$/i', '$1', $result['Create Table']);
 
 		// split lines
 		$create_query = str_replace('\n', "\n", $create_query);
@@ -184,7 +184,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 		// read all lines
 		$query = 'SELECT * FROM '.$table_name;
-		if(!$result =& SQL::query($query)) {
+		if(!$result = SQL::query($query)) {
 			$context['text'] .= Logger::error_pop().BR."\n";
 			continue;
 		}
@@ -192,7 +192,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		//parse the field info first
 		$field_list = '';
 		$index = 0;
-		while($field =& SQL::fetch_field($result)) {
+		while($field = SQL::fetch_field($result)) {
 			$field_list .= '`'.$field->name.'`, ';
 
 			$is_numeric = FALSE;
@@ -308,7 +308,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	if($compressed) {
 
 		// suggest a download
-		Safe::header('Content-Disposition: attachment; filename="'.$statements.'.gz"');
+		Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $statements).'.gz"');
 
 		// send gzip file
 		Safe::header('Content-Type: application/x-gzip');
@@ -320,7 +320,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	} else {
 
 		// suggest a download
-		Safe::header('Content-Disposition: attachment; filename="'.$statements.'"');
+		Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $statements).'"');
 
 		// send sql statements as-is
 		Safe::header('Content-Type: application/octet-stream');
@@ -330,7 +330,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	}
 
 	// remember this in log as well
-	Logger::remember('control/backup.php', 'The database has been saved');
+	Logger::remember('control/backup.php: The database has been saved');
 
 	// do not allow for regular rendering
 	exit;
@@ -366,7 +366,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// remember this in log as well
-		Logger::remember('control/backup.php', 'The database has been restored', $queries.' SQL statements have been processed in '.$time.' seconds.');
+		Logger::remember('control/backup.php: The database has been restored', $queries.' SQL statements have been processed in '.$time.' seconds.');
 
 	}
 
@@ -474,7 +474,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// remember this in log as well
-		Logger::remember('control/backup.php', 'The database has been restored', $queries.' SQL statements have been processed in '.$time.' seconds.');
+		Logger::remember('control/backup.php: The database has been restored', $queries.' SQL statements have been processed in '.$time.' seconds.');
 
 	}
 
@@ -578,7 +578,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// remember this in log as well
-		Logger::remember('control/backup.php', 'The database has been updated', $queries.' SQL statements have been processed in '.$time.' seconds.');
+		Logger::remember('control/backup.php: The database has been updated', $queries.' SQL statements have been processed in '.$time.' seconds.');
 
 	}
 
@@ -841,12 +841,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	$context['text'] .= BR.'<input type="checkbox" name="backup_avoid" value="cache notifications phpdoc versions visits" checked="checked" /> '.sprintf(i18n::s('Skip transient data and minimize size of backup file'));
 
 	// end of this form
-	$context['text'] .= '</p></div></form>';
-
-	// set the focus on the backup button
-	$context['text'] .= JS_PREFIX
-		.'$("#go").focus();'."\n"
-		.JS_SUFFIX;
+	$context['text'] .= '</p></div></form>';		
 
 	// this may take several minutes
 	$context['text'] .= '<p>'.i18n::s('When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.')."</p>\n";

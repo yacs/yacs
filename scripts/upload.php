@@ -48,7 +48,7 @@ elseif(!Surfer::is_associate()) {
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 		// nothing has been uploaded
-		if(!$_FILES['upload']['name'] || ($_FILES['upload']['name'] == 'none'))
+		if(!isset($_FILES['upload']['name']) || !$_FILES['upload']['name'] || ($_FILES['upload']['name'] == 'none'))
 			Logger::error(i18n::s('Nothing has been received.'));
 
 		// a file has been uploaded
@@ -143,10 +143,7 @@ elseif(!Surfer::is_associate()) {
 		$context['text'] .= '</div></form>';
 
 		// the script used for form handling at the browser
-		$context['text'] .= JS_PREFIX
-			.'// set the focus on first form field'."\n"
-			.'$("#focus").focus();'."\n"
-			.JS_SUFFIX."\n";
+		Page::insert_script('$("#focus").focus();');
 
 	}
 

@@ -57,6 +57,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../links/links.php';
 
 // the source url
 $source = NULL;
@@ -98,7 +99,7 @@ $anchor = strip_tags($anchor);
 
 // get the related anchor, if any
 if($anchor)
-	$anchor =& Anchors::get($anchor);
+	$anchor = Anchors::get($anchor);
 
 // load the skin, maybe with a variant
 load_skin('links', $anchor);
@@ -127,7 +128,7 @@ if(Surfer::is_crawler()) {
 
 	// save the request if debug mode
 	if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-		Logger::remember('links/trackback.php', 'trackback request', $_REQUEST, 'debug');
+		Logger::remember('links/trackback.php: trackback request', $_REQUEST, 'debug');
 
 	// do we have a valid target to track?
 	if(!$anchor || !is_object($anchor))
@@ -138,7 +139,7 @@ if(Surfer::is_crawler()) {
 		$response = array('faultCode' => 1, 'faultString' => 'The source has already been registered');
 
 	// read the source file
-	elseif(($content = http::proceed($source, '', '', 'links/trackback.php')) === FALSE)
+	elseif(($content = http::proceed($source)) === FALSE)
 		$response = array('faultCode' => 1, 'faultString' => 'Cannot read source address '.$source);
 
 	// we have to find a reference to the target here
@@ -225,7 +226,7 @@ if(Surfer::is_crawler()) {
 
 		// save the response if debug mode
 		if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-			Logger::remember('links/trackback.php', 'trackback response', $response, 'debug');
+			Logger::remember('links/trackback.php: trackback response', $response, 'debug');
 
 		// send the response
 		Safe::header('Content-Type: text/xml');
@@ -344,45 +345,39 @@ if(Surfer::is_crawler()) {
 	$text .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$text .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// url is mandatory'."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// url is mandatory'
 		.'	if(!container.url.value) {'."\n"
 		.'		alert("'.i18n::s('Please type a valid link.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// title is mandatory'."\n"
+			// title is mandatory
 		.'	if(!container.title.value) {'."\n"
 		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// exceprt is mandatory'."\n"
+			// exceprt is mandatory'
 		.'	if(!container.exceprt.value) {'."\n"
 		.'		alert("'.i18n::s('You must type an excerpt of the referencing page.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// blog_name is mandatory'."\n"
+			// blog_name is mandatory
 		.'	if(!container.blog_name.value) {'."\n"
 		.'		alert("'.i18n::s('You must name the originating blog.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
+			// successful check
 		.'	return true;'."\n"
 		.'}'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'$("#url").focus();'."\n"
-		.JS_SUFFIX."\n";
+		);
 
 	// trackback link
 	$label = i18n::s('Trackback address:');

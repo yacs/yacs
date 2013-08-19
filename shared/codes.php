@@ -94,8 +94,6 @@
  * - &#91;article=&lt;id>] - use article title as link label
  * - &#91;article=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;article.description=&lt;id>] - insert article description
- * - &#91;form=&lt;id>] - use form title as link label
- * - &#91;form=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;next=&lt;id>] - shortcut to next article
  * - &#91;next=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;previous=&lt;id>] - shortcut to previous article
@@ -107,8 +105,6 @@
  * - &#91;category=&lt;id>] - use category title as link label
  * - &#91;category=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;category.description=&lt;id>] - insert category description
- * - &#91;decision=&lt;id>] - use decision id in link label
- * - &#91;decision=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;user=&lt;id>] - use nick name as link label
  * - &#91;user=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;server=&lt;id>] - use server title as link label
@@ -122,8 +118,6 @@
  * - &#91;script]&lt;path/script.php&gt;[/script] - to the phpDoc page for script 'path/script.php'
  * - &#91;search] - a search form
  * - &#91;search=&lt;word&gt;] - hit Enter to search for 'word'
- * - &#91;action=&lt;id>] - use action title as link label
- * - &#91;action=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;wikipedia=&lt;keyword] - search Wikipedia
  * - &#91;wikipedia=&lt;keyword, foo bar] - search Wikipedia, with label 'foo bar'
  * - &#91;proxy]&lt;url&gt;[/proxy] - proxy a remote address
@@ -185,7 +179,6 @@
  * - &#91;voted=section:&lt;id>] - articles of fame in the given section
  * - &#91;voted=self] - personal hits
  * - &#91;voted=user:&lt;id>] - personal hits
- * - &#91;collections] - list available collections
  * - &#91;users=present] - list of users present on site
  *
  * @see codes/live.php
@@ -196,9 +189,6 @@
  * - &#91;twitter=id] - twitter updates of one person
  * - &#91;tsearch=token] - twitter search on a given topic
  * - &#91;iframe=&lt;width&gt;, &lt;height&gt;]&lt;url&gt;[/iframe] - include some external page
- * - &#91;freemind] - a Freemind map of site content
- * - &#91;freemind=section:&lt;id>] - a Freemind map of a section and its content
- * - &#91;freemind=section:&lt;id>, width, height] - a Freemind map of a section and its content
  * - &#91;cloud] - the tags used at this site
  * - &#91;cloud=12] - maximum count of tags used at this site
  * - &#91;calendar] - events for this month
@@ -242,7 +232,6 @@
  * In-line elements:
  * - &#91;embed=&lt;id>, &lt;width>, &lt;height>, &lt;flashparams>] - embed a multimedia file
  * - &#91;embed=&lt;id>, window] - render a multimedia file in a separate window
- * - &#91;freemind=&lt;id>] - a Freemind map out of given file
  * - &#91;sound=&lt;id>] - play a sound
  * - &#91;image=&lt;id>] - an inline image
  * - &#91;image=&lt;id>,left] - a left-aligned image
@@ -309,7 +298,7 @@ Class Codes {
 	 *
 	 * @see articles/view.php
 	 */
-	function &beautify($text, $options='') {
+	public static function &beautify($text, $options='') {
 		global $context;
 
 		// save CPU cycles
@@ -361,7 +350,7 @@ Class Codes {
 
 		// render smileys after codes, else it will break escaped strings
 		if(is_callable(array('Smileys', 'render_smileys')))
-			$text =& Smileys::render_smileys($text);
+			$text = Smileys::render_smileys($text);
 
 		// relocate images
 		$text = str_replace('"skins/', '"'.$context['path_to_root'].'skins/', $text);
@@ -389,7 +378,7 @@ Class Codes {
 	 *
 	 * @see articles/view.php
 	 */
-	function &beautify_extra($text) {
+	public static function &beautify_extra($text) {
 		global $context;
 
 		$search = array();
@@ -456,7 +445,7 @@ Class Codes {
 	 * @param sring either 'text' or 'newlines'
 	 * @return the modified string
 	 */
-	function &beautify_implied($text, $variant='text') {
+	public static function &beautify_implied($text, $variant='text') {
 
 		// streamline newlines, even if this has been done elsewhere
 		$text = str_replace(array("\r\n", "\r"), "\n", $text);
@@ -484,13 +473,12 @@ Class Codes {
 				"|</h2>\n+|i",
 				"|</h3>\n+|i",
 				"|</h4>\n+|i",
-				'/http:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+)/i', // YouTube link
-				"#^([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
-				"#([\n\t ])([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
+				'/http:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+)[a-zA-Z0-9_\-&=]*/i', // YouTube link
+				'/http:\/\/youtu\.be\/([a-zA-Z0-9_\-]+)/i', // YouTube link too
+				"#([\n\t \(])([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t \(])www\.([a-z0-9\-]+)\.([a-z0-9_\-\.\~]+)((?:/[^,< \r\n\)]*)?)#ie",	/* web server */
-				"/^\<p\>(-|\*)\s+(.+)\<\/p\>$/im", /* lists hard-coded with -, *, Ĭ or ՠ-- no space ahead */
-				"/^(-|\*)\s+(.+)$/m", /* lists hard-coded with -, *, Ĭ or ՠ-- no space ahead */
 				"/\n[ \t]*(From|To|cc|bcc|Subject|Date):(\s*)/i",	/* common message headers */
+				"|\n[ \t]*-(\s+)|i",		/* - list item > */
 				"|\n[ \t]*>(\s*)|i",		/* quoted by > */
 				"|\n[ \t]*\|(\s*)|i",		/* quoted by | */
 				"#([\n\t ])(mailto:|)([a-z0-9_\-\.\~]+?)@([a-z0-9_\-\.\~]+\.[a-z0-9_\-\.\~]+)([\n\t ]*)#ie" /* mail address*/
@@ -502,12 +490,11 @@ Class Codes {
 				"</h3>",
 				"</h4>",
 				'<iframe class="youtube-player" type="text/html" width="445" height="364" src="http://www.youtube.com/embed/$1" frameborder="0"></iframe>', // YouTube link
-				"Skin::build_link('$1://$2', '$1://$2')",
+				'<iframe class="youtube-player" type="text/html" width="445" height="364" src="http://www.youtube.com/embed/$1" frameborder="0"></iframe>', // YouTube link too
 				"'$1'.Skin::build_link('$2://$3', '$2://$3')",
 				"'$1'.Skin::build_link('http://www.$2.$3$4', 'www.$2.$3$4')",
-				"<ul><li>$2</li></ul>",
-				"<ul><li>$2</li></ul>",
 				BR."$1:$2",
+				BR."-$1",
 				BR.">$1",
 				BR."|$1",
 				"'$1'.Skin::build_link('mailto:$3@$4', '$3@$4', 'email').'$5'"
@@ -519,7 +506,7 @@ Class Codes {
 			array('<escape>', '</escape>', '<list>', '</list>', '<php>', '</php>', '<snippet>', '</snippet>'), $text);
 
 		// locate pre-formatted areas
-		$areas = preg_split('/<(code|escape|list|php|snippet|pre)>(.*?)<\/\1>/is', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
+		$areas = preg_split('#<(code|escape|list|php|snippet|pre)>(.*?)</\1>#is', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
 
 		// format only adequate areas
 		$index = 0;
@@ -601,14 +588,14 @@ Class Codes {
 	 * @param string raw introduction
 	 * @return string finalized title
 	 */
-	function &beautify_introduction($text) {
+	public static function &beautify_introduction($text) {
 
 		// render codes
 		$output =& Codes::render($text);
 
 		// render smileys after codes, else it will break escaped strings
 		if(is_callable(array('Smileys', 'render_smileys')))
-			$output =& Smileys::render_smileys($output);
+			$output = Smileys::render_smileys($output);
 
 		// return by reference
 		return $output;
@@ -623,10 +610,10 @@ Class Codes {
 	 * @param string raw title
 	 * @return string finalized title
 	 */
-	function &beautify_title($text) {
+	public static function &beautify_title($text) {
 
 		// suppress pairing codes
-		$output =& Codes::strip($text);
+		$output =& Codes::strip($text, FALSE);
 
 		// the only code transformed in titles
 		$output = str_replace(array('[nl]', '[NL]'), '<br />', $output);
@@ -646,7 +633,7 @@ Class Codes {
 	 * @param int the id of the object
 	 * @return boolean TRUE if the code is present, false otherwise
 	 */
-	function check_embedded($text, $code, $id) {
+	public static function check_embedded($text, $code, $id) {
 
 		// we check the string of digits
 		$id = strval($id);
@@ -696,7 +683,7 @@ Class Codes {
 	 * @param int the id of the object
 	 * @return string the resulting string
 	 */
-	function delete_embedded($text, $code, $id) {
+	public static function delete_embedded($text, $code, $id) {
 
 		// we check the string of digits
 		$id = strval($id);
@@ -762,14 +749,14 @@ Class Codes {
 	}
 
 	/**
-	 * fix line breaks introduced by FCKEditor
+	 * fix line breaks
 	 *
 	 * This function moves unclosed tags to the beginning of content.
 	 *
 	 * @param string input
 	 * @return string original or modified content
 	 */
-	function &fix_tags($text) {
+	public static function &fix_tags($text) {
 
 		// look for opening tag at content end
 		$last_open = strrpos($text, '<p>');
@@ -787,7 +774,7 @@ Class Codes {
 		}
 
 		// also fix broken img tags, if any
-		$text = preg_replace('/\<(img[^\<\/]+)\>/i', '<\\1 />', $text);
+		$text = preg_replace('#<(img[^</]+)>#i', '<$1 />', $text);
 
 		// remove slashes added by preg_replace -- only for double quotes
 		$text = str_replace('\"', '"', $text);
@@ -803,7 +790,7 @@ Class Codes {
 	 *
 	 * @param string the target URL for this rendering (e.g., 'articles/view.php/123')
 	 */
-	function initialize($main_target=NULL) {
+	public static function initialize($main_target=NULL) {
 		global $context;
 
 		if($main_target)
@@ -818,7 +805,7 @@ Class Codes {
 	 * @param string code to check (e.g., 'embed')
 	 * @return array the list of matching ids
 	 */
-	function list_embedded($text, $code='embed') {
+	public static function list_embedded($text, $code='embed') {
 
 		// all ids we have found
 		$ids = array();
@@ -889,14 +876,14 @@ Class Codes {
 	 * @param string the input string
 	 * @return string the transformed string
 	 */
-	function &render($text) {
+	public static function &render($text) {
 		global $context;
 
 		// streamline newlines, even if this has been done elsewhere
 		$text = str_replace(array("\r\n", "\r"), "\n", $text);
 
 		// prevent wysiwyg editors to bracket our own tags
-		$text = preg_replace('/^<p>(\[.+\])<\/p>$/m', '\\1', $text);
+		$text = preg_replace('#^<p>(\[.+\])</p>$#m', '$1', $text);
 
  		// initialize only once
 		static $pattern;
@@ -960,7 +947,6 @@ Class Codes {
 				'/\[search\]/ise',						// [search]
 				'/\[cloud=(\d+?)\]/ise',				// [cloud=12]
 				'/\[cloud\]/ise',						// [cloud]
-				'/\[collections\]/ise', 				// [collections]
 				'/\[login=([^\]]+?)\]/is',				// [login=words] --obsoleted
 				'/\[login\]/is',						// [login] --obsoleted
 				'/\[center\](.*?)\[\/center\]/ise', 	// [center]...[/center]
@@ -1017,9 +1003,7 @@ Class Codes {
 				'/\[server=([^\]]+?)\]/ie', 				// [server=<id>]
 				'/\[file=([^\]]+?)\]/ie',					// [file=<id>] or [file=<id>, title]
 				'/\[download=([^\]]+?)\]/ie',				// [download=<id>] or [download=<id>, title]
-				'/\[action=([^\]]+?)\]/ie', 				// [action=<id>]
 				'/\[comment=([^\]]+?)\]/ie',				// [comment=<id>] or [comment=<id>, title]
-				'/\[decision=([^\]]+?)\]/ie',				// [decision=<id>] or [decision=<id>, title]
 				'/\[url=([^\]]+?)\](.*?)\[\/url\]/ise', 	// [url=url]label[/url] (deprecated by [link])
 				'/\[url\](.*?)\[\/url\]/ise',				// [url]url[/url] (deprecated by [link])
 				'/\[link=([^\]]+?)\](.*?)\[\/link\]/ise',	// [link=label]url[/link]
@@ -1051,7 +1035,7 @@ Class Codes {
 				'/\[toq\]\n*/ise',							// [toq] (table of questions)
 				'/\[title\](.*?)\[\/title\]\n*/is', 		// [title]...[/title]
 				'/\[subtitle\](.*?)\[\/subtitle\]\n*/is',	// [subtitle]...[/subtitle]
-				'/\[(header[1-5])\](.*?)\[\/\1\]\n*/ise',	// [header1]...[/header1] ... [header5]...[/header5]
+				'#\[(header[1-5])\](.*?)\[/\1\]\n*#ise',	// [header1]...[/header1] ... [header5]...[/header5]
 				'/^======(\S.*?\S)======/me',				// ======...====== level 5 headline
 				'/<(br \/|p)>======(\S.*?\S)======<(br \/|\/p)>/me',		// ======...====== level 5 headline
 				'/^=====(\S.*?\S)=====/me',					// =====...===== level 4 headline
@@ -1079,8 +1063,6 @@ Class Codes {
 				'/\[voted\.([^\]]+?)\]\n*/ise',				// [voted.decorated]
 				'/\[voted=([^\]]+?)\]\n*/ise',				// [voted=section:4029]
 				'/\[voted\]\n*/ise', 						// [voted]
-				'/\[freemind\]\n*/ise', 					// [freemind] (a mind map of site content)
-				'/\[freemind=([^\]]+?)\]\n*/ise',			// [freemind=section:4029] (a mind map of section content)
 				'/\[sections\]\n*/ise',						// [sections] (site map)
 				'/\[sections\.([^\]=]+?)\]\n*/ise',			// [sections.folded] (site map)
 				'/\[sections=([^\]]+?)\]\n*/ise',			// [sections=section:4029] (sub-sections)
@@ -1131,9 +1113,9 @@ Class Codes {
 				"Codes::render_hidden(Codes::fix_tags('$1'), 'authenticated')",		// [authenticated]...[/authenticated]
 				"Codes::render_hidden(Codes::fix_tags('$1'), 'authenticated')",		// [restricted]...[/restricted]
 				"Codes::render_hidden(Codes::fix_tags('$1'), 'anonymous')",			// [anonymous]...[/anonymous]
-				"Codes::render_redirect('\\1')",									// [redirect=<link>]
-				"Codes::render_execute('\\1')",										// [execute=<name>]
-				"Codes::render_parameter('\\1')",									// [parameter=<name>]
+				"Codes::render_redirect('$1')",									// [redirect=<link>]
+				"Codes::render_execute('$1')",										// [execute=<name>]
+				"Codes::render_parameter('$1')",									// [parameter=<name>]
 				"i18n::filter(Codes::fix_tags('$2'), '$1')", 						// [lang=xy]...[/lang]
 				"utf8::encode(str_replace('$1', '|', utf8::from_unicode(Codes::fix_tags('$2'))))",	// [csv=;]...[/csv]
 				"str_replace(',', '|', Codes::fix_tags('$1'))",						// [csv]...[/csv]
@@ -1145,8 +1127,8 @@ Class Codes {
 				"'<div class=\"external_image\"><img src=\"'.encode_link('$1').'\" alt=\"\" /></div>'",	// [img]src[/img]
 				"'<div class=\"external_image\"><img src=\"'.encode_link('$2').'\" alt=\"'.encode_link('$1').'\" /></div>'", // [img=alt]src[/img]
 				"Codes::render_object('image', Codes::fix_tags('$1'))",				// [image=<id>]
-				'<code>\\1</code>', 												// ##...##
-				'<code>\\1</code>', 												// [code]...[/code]
+				'<code>$1</code>', 												// ##...##
+				'<code>$1</code>', 												// [code]...[/code]
 				"Skin::build_block(Codes::fix_tags('$1'), 'indent')", 				// [indent]...[indent]
 				"Skin::build_block(Codes::fix_tags('$1'), 'quote')",				// [quote]...[/quote]
 				"Skin::build_box('$1', Codes::fix_tags('$2'), 'folded')",			// [folded=title]...[/folded]
@@ -1163,42 +1145,41 @@ Class Codes {
 				"Skin::build_block(NULL, 'search')",								// [search]
 				"Codes::render_cloud('$1')",										// [cloud=12]
 				"Codes::render_cloud(20)",											// [cloud]
-				"Codes::render_collections()",										// [collections]
 				'', 																// [login=<words>] --obsoleted
 				'', 																// [login] --obsoleted
 				"Skin::build_block(Codes::fix_tags('$1'), 'center')", 				// [center]...[/center]
 				"Skin::build_block(Codes::fix_tags('$1'), 'right')",				// [right]...[/right]
 				"Skin::build_block(Codes::fix_tags('$1'), 'decorated')",			// [decorated]...[/decorated]
 				"Skin::build_block(Codes::fix_tags('$2'), '$1')", 					// [style=variant]...[/style]
-				'<acronym title="\\1">\\2</acronym>',								// [hint=help]...[/hint]
+				'<acronym title="$1">$2</acronym>',									// [hint=help]...[/hint]
 				"Skin::build_block(Codes::fix_tags('$1'), 'tiny')",					// [tiny]...[/tiny]
 				"Skin::build_block(Codes::fix_tags('$1'), 'small')",				// [small]...[/small]
 				"Skin::build_block(Codes::fix_tags('$1'), 'big')",					// [big]...[/big]
 				"Skin::build_block(Codes::fix_tags('$1'), 'huge')",					// [huge]...[/huge]
-				'<sub>\\1</sub>',													// [subscript]...[/subscript]
-				'<sup>\\1</sup>',													// [superscript]...[/superscript]
-				'<ins>\\1</ins>',													// ++...++
+				'<sub>$1</sub>',													// [subscript]...[/subscript]
+				'<sup>$1</sup>',													// [superscript]...[/superscript]
+				'<ins>$1</ins>',													// ++...++
 				"HORIZONTAL_RULER", 												// [---], [___]
 				"HORIZONTAL_RULER", 												// ----
-				'<ins>\\1</ins>',													// [inserted]...[/inserted]
-				' <del>\\1</del>',													// --...--
-				'<del>\\1</del>',													// [deleted]...[/deleted]
-				'<b>\\1</b>',														// **...**
-				'<b>\\1</b>',														// [b]...[/b]
-				' <i>\\1</i>',														// //...//
-				'<i>\\1</i>',														// [i]...[/i]
-				'<span style="text-decoration: underline">\\1</span>',				// __...__
-				'<span style="text-decoration: underline">\\1</span>',				// [u]...[/u]
-				'<span style="color: \\1">\\2</span>',								// [color]...[/color]
+				'<ins>$1</ins>',													// [inserted]...[/inserted]
+				' <del>$1</del>',													// --...--
+				'<del>$1</del>',													// [deleted]...[/deleted]
+				'<b>$1</b>',														// **...**
+				'<b>$1</b>',														// [b]...[/b]
+				' <i>$1</i>',														// //...//
+				'<i>$1</i>',														// [i]...[/i]
+				'<span style="text-decoration: underline">$1</span>',				// __...__
+				'<span style="text-decoration: underline">$1</span>',				// [u]...[/u]
+				'<span style="color: $1">$2</span>',								// [color]...[/color]
 				"NEW_FLAG", 														// [new]
 				"POPULAR_FLAG", 													// [popular]
-				"Skin::build_flag('\\1')",											// [flag=....]
-				"Skin::build_flag('\\1')",											// [flag]...[/flag]
+				"Skin::build_flag('$1')",											// [flag=....]
+				"Skin::build_flag('$1')",											// [flag]...[/flag]
 				"Codes::render_list(Codes::fix_tags('$1'), NULL)",					// [list]...[/list]
 				"Codes::render_list(Codes::fix_tags('$2'), '$1')",					// [list=?]...[/list]
 				"BR.BR.BULLET_IMG.'&nbsp;'",										// standalone [*]
 				"BR.BULLET_IMG.'&nbsp;'",
-				'<li>\\1</li>', 													// [li]...[/li]
+				'<li>$1</li>', 														// [li]...[/li]
 				"Codes::render_chart(Codes::fix_tags('$2'), '$1')",					// [chart=<width>, <height>, <params>]...[/chart]
 				"Codes::render_embed(Codes::fix_tags('$1'))",						// [embed=<id>, <width>, <height>, <params>]
 				"Codes::render_embed(Codes::fix_tags('$1'))",						// [flash=<id>, <width>, <height>, <params>] -- obsoleted by 'embed'
@@ -1220,9 +1201,7 @@ Class Codes {
 				"Codes::render_object('server', Codes::fix_tags('$1'))",			// [server=<id>]
 				"Codes::render_object('file', Codes::fix_tags('$1'))",				// [file=<id>] or [file=<id>, title]
 				"Codes::render_object('download', Codes::fix_tags('$1'))",			// [download=<id>] or [download=<id>, title]
-				"Codes::render_object('action', Codes::fix_tags('$1'))",			// [action=<id>]
 				"Codes::render_object('comment', Codes::fix_tags('$1'))",			// [comment=<id>] or [comment=<id>, title]
-				"Codes::render_object('decision', Codes::fix_tags('$1'))", 			// [decision=<id>] or [decision=<id>, title]
 				"Skin::build_link(encode_link('$1'), Codes::fix_tags('$2'))",		// [url=url]label[/link] (deprecated by [link])
 				"Skin::build_link(encode_link('$1'), NULL)",						// [url]url[/url] (deprecated by [link])
 				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'))",		// [link=label]url[/link]
@@ -1252,8 +1231,8 @@ Class Codes {
 				"Codes::render_iframe(Codes::fix_tags('$2'), '$1')",				// [iframe=<width>, <height>]<url>[/iframe]
 				"Codes::render_animated(Codes::fix_tags('$1'), 'scroller')",		// [scroller]...[/scroller]
 				"Codes::render_table_of('questions')",								// [toq]
-				'[header1]\\1[/header1]',											// [title]...[/title]
-				'[header2]\\1[/header2]',											// [subtitle]...[/subtitle]
+				'[header1]$1[/header1]',											// [title]...[/title]
+				'[header2]$1[/header2]',											// [subtitle]...[/subtitle]
 				"Codes::render_title(Codes::fix_tags('$2'), '$1')",					// [header1]...[/header1] ... [header5]...[/header5]
 				"Codes::render_title(Codes::fix_tags('$1'), 'header5')",			// ======...====== level 5 header
 				"Codes::render_title(Codes::fix_tags('$2'), 'header5')",			// ======...====== level 5 header
@@ -1282,8 +1261,6 @@ Class Codes {
 				"Codes::render_voted('', '$1')",									// [voted.decorated]
 				"Codes::render_voted('$1', 'simple')",								// [voted=section:4029]
 				"Codes::render_voted('', 'simple')",								// [voted]
-				"Codes::render_freemind('sections')",								// [freemind]
-				"Codes::render_freemind('$1')", 									// [freemind=section:4029] or [freemind=123]
 				"Codes::render_sections()", 										// [sections] (site map)
 				"Codes::render_sections('', '$1')",									// [sections.folded] (site map)
 				"Codes::render_sections('$1')", 									// [sections=section:4029] (sub-sections)
@@ -1330,9 +1307,6 @@ Class Codes {
 		// do it globally
 		$text = preg_replace($pattern, $replace, $text);
 
-		// FCKEditor optimisation
-		$text = str_replace("</pre>\n<pre>", "\n", $text);
-
 		// done
 		return $text;
 
@@ -1345,7 +1319,7 @@ Class Codes {
 	 * @param string the variant
 	 * @return string the rendered text
 	**/
-	function &render_animated($text, $variant) {
+	public static function &render_animated($text, $variant) {
 		global $context, $scroller_counter;
 
 		$scroller_counter++;
@@ -1363,7 +1337,7 @@ Class Codes {
 	 * @param string the anchor (e.g. 'section:123')
 	 * @return string the rendered text
 	**/
-	function &render_calendar($anchor='') {
+	public static function &render_calendar($anchor='') {
 		global $context;
 
 		// a list of dates
@@ -1398,7 +1372,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_categories($anchor='', $layout='compact') {
+	public static function &render_categories($anchor='', $layout='compact') {
 		global $context;
 
 		// we return some text;
@@ -1450,7 +1424,7 @@ Class Codes {
 	 * @param string chart parameters
 	 * @return string the rendered text
 	**/
-	function &render_chart($data, $variant) {
+	public static function &render_chart($data, $variant) {
 		global $context;
 
 		// split parameters
@@ -1477,23 +1451,24 @@ Class Codes {
 			$chart_index++;
 
 		$url = $context['url_to_home'].$context['url_to_root'].'included/browser/open-flash-chart.swf';
-		$text = '<div id="open_flash_chart_'.$chart_index.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-			.JS_PREFIX
-			.'var params = {};'."\n"
+		$text = '<div id="open_flash_chart_'.$chart_index.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+			
+		Page::insert_script(
+			'var params = {};'."\n"
 			.'params.base = "'.dirname($url).'/";'."\n"
 			.'params.quality = "high";'."\n"
 			.'params.wmode = "opaque";'."\n"
 			.'params.allowscriptaccess = "always";'."\n"
 			.'params.menu = "false";'."\n"
 			.'params.flashvars = "'.$flashvars.'";'."\n"
-			.'swfobject.embedSWF("'.$url.'", "open_flash_chart_'.$chart_index.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", {"get-data":"open_flash_chart_'.$chart_index.'"}, params);'."\n"
+			.'swfobject.embedSWF("'.$url.'", "open_flash_chart_'.$chart_index.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", {"get-data":"get_open_flash_chart_'.$chart_index.'"}, params);'."\n"
 			."\n"
 			.'var chart_data_'.$chart_index.' = '.trim(str_replace(array('<br />', "\n"), ' ', $data)).';'."\n"
 			."\n"
-			.'function open_flash_chart_'.$chart_index.'() {'."\n"
-			.'	return Object.toJSON(chart_data_'.$chart_index.');'."\n"
+			.'function get_open_flash_chart_'.$chart_index.'() {'."\n"
+			.'	return $.toJSON(chart_data_'.$chart_index.');'."\n"
 			.'}'."\n"
-			.JS_SUFFIX;
+			);
 
 		return $text;
 
@@ -1505,7 +1480,7 @@ Class Codes {
 	 * @param string web address that is monitored
 	 * @return string the rendered text
 	**/
-	function &render_clicks($url) {
+	public static function &render_clicks($url) {
 		global $context;
 
 		$text = '';
@@ -1519,11 +1494,10 @@ Class Codes {
 			$url = 'file:'.$url;
 
 		// the list of people who have followed this link
-		include_once $context['path_to_root'].'users/activities.php';
 		if($users = Activities::list_at($url, array('click', 'fetch'), 50, 'comma')) {
 
 			$count = Activities::count_at($url, array('click', 'fetch'));
-			$text .= sprintf(i18n::ns('%d named person has followed the link: %s', '%d named persons have followed the link: %s', $count), $count, $users);
+			$text .= sprintf(i18n::ns('%d named person has followed the link: %s', '%d named persons have followed the link: %s', $count), $count, $url);
 
 		} else
 			$text .= i18n::s('No authenticated person has used this link yet');
@@ -1538,7 +1512,7 @@ Class Codes {
 	 * @param string the number of items to list
 	 * @return string the rendered text
 	**/
-	function &render_cloud($count=40) {
+	public static function &render_cloud($count=40) {
 		global $context;
 
 		// sanity check
@@ -1559,77 +1533,13 @@ Class Codes {
 	}
 
 	/**
-	 * list available collections
-	 *
-	 * @return string the rendered text
-	**/
-	function &render_collections() {
-		global $context;
-
-		// has one collection been defined?
-		Safe::load('parameters/collections.include.php');
-		if(!isset($context['collections']) || !is_array($context['collections'])) {
-			$output = NULL;
-			return $output;
-		}
-
-		// use attributes set for each collection
-		$text = '';
-		foreach($context['collections'] as $name => $attributes) {
-
-			// retrieve collection information
-			list($title, $path, $url, $introduction, $description, $prefix, $suffix, $visibility) = $attributes;
-
-			// skip protected collections
-			if(($visibility == 'N') && !Surfer::is_associate())
-				continue;
-			if(($visibility == 'R') && !Surfer::is_member())
-				continue;
-
-			// ensure we have a title for this collection
-			if(!trim($title))
-				$title = str_replace(array('.', '_', '%20'), ' ', $name);
-
-			// build some hovering title
-			$hover = ' title="'.encode_field(i18n::s('Access collection')." '".strip_tags($title)."'").'"';
-
-			// signal restricted and private collections
-			if($visibility == 'N')
-				$title = PRIVATE_FLAG.$title;
-			elseif($visibility == 'R')
-				$title = RESTRICTED_FLAG.$title;
-
-			// link to collection index page
-			if($context['with_friendly_urls'] == 'Y')
-				$link = 'collections/browse.php/'.rawurlencode($name);
-			else
-				$link = 'collections/browse.php?path='.urlencode($name);
-			$text .= '<li><a href="'.$context['url_to_root'].$link.'"'.$hover.'>'.$title.'</a>';
-
-			// add introduction text, if any
-			if($introduction)
-				$text .= ' - '.Codes::beautify($introduction);
-
-			$text .= "</li>\n";
-		}
-
-		// finalize the list
-		if($text)
-			$text = '<ul class="collections">'."\n".$text."</ul>\n";
-
-		// job done
-		return $text;
-
-	}
-
-	/**
 	 * render a dynamic table
 	 *
 	 * @param string the table content
 	 * @param string the variant, if any
 	 * @return string the rendered text
 	**/
-	function &render_dynamic_table($id, $variant='inline') {
+	public static function &render_dynamic_table($id, $variant='inline') {
 		global $context;
 
 		// refresh on every page load
@@ -1698,9 +1608,10 @@ Class Codes {
 
 			// load it through Javascript
 			$url = $context['url_to_home'].$context['url_to_root'].'included/browser/open-flash-chart.swf';
-			$text = '<div id="table_chart_'.$chart_index.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-				.JS_PREFIX
-				.'var params = {};'."\n"
+			$text = '<div id="table_chart_'.$chart_index.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+			
+			Page::insert_script(
+				'var params = {};'."\n"
 				.'params.base = "'.dirname($url).'/";'."\n"
 				.'params.quality = "high";'."\n"
 				.'params.wmode = "opaque";'."\n"
@@ -1712,9 +1623,9 @@ Class Codes {
 				.'var chart_data_'.$chart_index.' = '.trim(str_replace(array('<br />', "\n"), ' ', $data)).';'."\n"
 				."\n"
 				.'function table_chart_'.$chart_index.'() {'."\n"
-				.'	return Object.toJSON(chart_data_'.$chart_index.');'."\n"
+				.'	return $.toJSON(chart_data_'.$chart_index.');'."\n"
 				.'}'."\n"
-				.JS_SUFFIX;
+				);
 
 		// build sparkline
 		} elseif($variant == 'line') {
@@ -1735,7 +1646,7 @@ Class Codes {
 	 * @param string the label
 	 * @return string the rendered text
 	**/
-	function &render_email($address, $text) {
+	public static function &render_email($address, $text) {
 
 		// be sure to display something
 		if(!$text)
@@ -1759,7 +1670,7 @@ Class Codes {
 	 * @param string id of the target file
 	 * @return string the rendered string
 	**/
-	function &render_embed($id) {
+	public static function &render_embed($id) {
 		global $context;
 
 		// split parameters
@@ -1767,7 +1678,7 @@ Class Codes {
 		$id = $attributes[0];
 
 		// get the file
-		if(!$item =& Files::get($id)) {
+		if(!$item = Files::get($id)) {
 			$output = '[embed='.$id.']';
 			return $output;
 		}
@@ -1851,13 +1762,14 @@ Class Codes {
 			if(Surfer::has_flash()) {
 
 				// the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
-				$output = '<div id="flv_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-					.JS_PREFIX
-					.'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showfullscreen:1, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
+				$output = '<div id="flv_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+					
+				Page::insert_script(
+					'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showfullscreen:1, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
 					.'var params = { allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
 					.'var attributes = { id: "file_'.$item['id'].'", name: "file_'.$item['id'].'"}'."\n"
 					.'swfobject.embedSWF("'.$flvplayer_url.'", "flv_'.$item['id'].'", "'.$width.'", "'.$height.'", "9", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params);'."\n"
-					.JS_SUFFIX."\n";
+					);
 
 			// native support
  			} else {
@@ -1881,7 +1793,7 @@ Class Codes {
 		case 'gan':
 
 			// where the file is
-			$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+			$path = Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']);
 
 			// we actually use a transformed version of the file
 			$cache_id = Cache::hash($path).'.xml';
@@ -1907,9 +1819,10 @@ Class Codes {
 			$now = gmdate('M d Y H:i:s', time()-7*24*60*60);
 
 			// load the right file
-			$output = '<div id="gantt" style="height: '.$height.'; width: '.$width.'; border: 1px solid #aaa; font-family: Trebuchet MS, Helvetica, Arial, sans serif; font-size: 8pt"></div>'."\n"
-				.JS_PREFIX
-				.'var simile_handle;'."\n"
+			$output = '<div id="gantt" style="height: '.$height.'; width: '.$width.'; border: 1px solid #aaa; font-family: Trebuchet MS, Helvetica, Arial, sans serif; font-size: 8pt"></div>'."\n";
+			
+			Page::insert_script(
+				'var simile_handle;'."\n"
 				.'function onLoad() {'."\n"
 				.'  var eventSource = new Timeline.DefaultEventSource();'."\n"
 				.'	var theme = Timeline.ClassicTheme.create();'."\n"
@@ -1958,7 +1871,7 @@ Class Codes {
 				.'// observe page major events'."\n"
 				.'$(document).ready( onLoad);'."\n"
 				.'$(window).resize(onResize);'."\n"
-				.JS_SUFFIX;
+				);
 
 			// job done
 			return $output;
@@ -1977,7 +1890,7 @@ Class Codes {
 				$file_name = utf8::to_ascii($item['file_name']);
 
 				// where the file is
-				$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+				$path = Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']);
 
 				// map the file on the regular web space
 				$url_prefix = $context['url_to_home'].$context['url_to_root'];
@@ -1999,16 +1912,17 @@ Class Codes {
 			// variables
 			$flashvars = 'initLoadFile='.$target_href.'&openUrl=_self';
 
-			$output = '<div id="freemind_viewer_'.$freemind_viewer_index.'">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-				.JS_PREFIX
-				.'var params = {};'."\n"
+			$output = '<div id="freemind_viewer_'.$freemind_viewer_index.'">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+			
+			Page::insert_script(
+				'var params = {};'."\n"
 				.'params.base = "'.dirname($url).'/";'."\n"
 				.'params.quality = "high";'."\n"
 				.'params.wmode = "transparent";'."\n"
 				.'params.menu = "false";'."\n"
 				.'params.flashvars = "'.$flashvars.'";'."\n"
 				.'swfobject.embedSWF("'.$url.'", "freemind_viewer_'.$freemind_viewer_index.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-				.JS_SUFFIX."\n";
+				);
 
 			// offer to download a copy of the map
 			$menu = array($target_href => i18n::s('Browse this map with Freemind'));
@@ -2030,9 +1944,10 @@ Class Codes {
 			else
 				$url = $context['url_to_home'].$context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
 
-			$output = '<div id="swf_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-				.JS_PREFIX
-				.'var params = {};'."\n"
+			$output = '<div id="swf_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+				
+			Page::insert_script(
+				'var params = {};'."\n"
 				.'params.base = "'.dirname($url).'/";'."\n"
 				.'params.quality = "high";'."\n"
 				.'params.wmode = "transparent";'."\n"
@@ -2040,7 +1955,8 @@ Class Codes {
 				.'params.allowscriptaccess = "always";'."\n"
 				.'params.flashvars = "'.$flashvars.'";'."\n"
 				.'swfobject.embedSWF("'.$url.'", "swf_'.$item['id'].'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-				.JS_SUFFIX."\n";
+				);
+			
 			return $output;
 
 		// link to file page
@@ -2066,7 +1982,7 @@ Class Codes {
 	 * @param string the text
 	 * @return string the rendered text
 	**/
-	function &render_escaped($text) {
+	public static function &render_escaped($text) {
 
 		// replace strings --initialize only once
 		static $from, $to;
@@ -2110,7 +2026,7 @@ Class Codes {
 	 * @param mixed default value, if any
 	 * @return text generated during the inclusion
 	 */
-	function &render_execute($name) {
+	public static function &render_execute($name) {
 		global $context;
 
 		// check path to the file
@@ -2152,146 +2068,13 @@ Class Codes {
 	}
 
 	/**
-	 * render an interactive Freemind map
-	 *
-	 * The id can be:
-	 * - 'sections' - the entire content tree
-	 * - 'section:123' - some branch of the content tree
-	 * - '123' - the file with the provided id, if it is a Freemind map
-	 * - 'http://link/to/a/map.mm' - has to reference this server
-	 *
-	 * The id can also include width and height of the target canvas, as in
-	 * following examples:
-	 * - '100%, 250px' - actual id is assumed to be 'sections'
-	 * - 'section:4059, 100%, 250px'
-	 *
-	 * The Flash viewer is available at http://evamoraga.net/efectokiwano/mm/index.mm
-	 *
-	 * @link http://evamoraga.net/efectokiwano/mm/index.mm
-	 *
-	 * @param string id of the target map
-	 * @return string the rendered string
-	**/
-	function &render_freemind($id) {
-		global $context;
-
-		// process parameters
-		$attributes = preg_split("/\s*,\s*/", $id, 3);
-		switch(count($attributes)) {
-		case 3: // id, width, height
-			$id = $attributes[0];
-			$width = $attributes[1];
-			$height = $attributes[2];
-			break;
-		case 2: // width, height
-			$id = 'sections';
-			$width = $attributes[0];
-			$height = $attributes[1];
-			break;
-		case 1: // id
-			$id = $attributes[0];
-			$width = isset($context['skins_freemind_canvas_width']) ? $context['skins_freemind_canvas_width'] : '100%';
-			$height = isset($context['skins_freemind_canvas_height']) ? $context['skins_freemind_canvas_height'] : '500px';
-			break;
-		}
-
-		// additional commands
-		$menu = array();
-
-		// web reference to site full content
-		if($id == 'sections') {
-			$target_href = $context['url_to_home'].$context['url_to_root'].Sections::get_url('all', 'freemind', utf8::to_ascii($context['site_name'].'.mm'));
-			$menu = array_merge($menu, array(Sections::get_url('all', 'view_as_freemind', utf8::to_ascii($context['site_name'].'.mm')) => i18n::s('Full-size')));
-
-		// content of one section
-		} elseif(($position = strpos($id, 'section:')) !== FALSE) {
-
-			if(!$item =& Sections::get(substr($id, $position + strlen('section:')))) {
-				$text = '[freemind='.$id.']';
-				return $text;
-			}
-
-			$target_href = $context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'freemind', utf8::to_ascii($context['site_name'].' - '.strip_tags(Codes::beautify(trim($item['title']))).'.mm'));
-
-			$menu = array_merge($menu, array(Sections::get_url($item['id'], 'view_as_freemind', utf8::to_ascii($context['site_name'].' - '.strip_tags(Codes::beautify(trim($item['title']))).'.mm')) => i18n::s('Full-size')));
-
-		// direct reference to the target file
-		} elseif(strpos($id, $context['url_to_home']) === 0) {
-			$target_href = $id;
-
-		// one file, as a freemind map
-		} elseif(($item =& Files::get($id)) && isset($item['id'])) {
-
-			// if we have an external reference, use it
-			if(isset($item['file_href']) && $item['file_href']) {
-				$target_href = $item['file_href'];
-
-			// else redirect to ourself
-			} else {
-
-				// ensure a valid file name
-				$file_name = utf8::to_ascii($item['file_name']);
-
-				// where the file is
-				$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
-
-				// map the file on the regular web space
-				$url_prefix = $context['url_to_home'].$context['url_to_root'];
-
-				// redirect to the actual file
-				$target_href = $url_prefix.$path;
-			}
-
-		// no way to render this id
-		} else {
-			$text = '[freemind='.$id.']';
-			return $text;
-		}
-
-		// allow several viewers to co-exist in the same page
-		static $freemind_viewer_index;
-		if(!isset($freemind_viewer_index))
-			$freemind_viewer_index = 1;
-		else
-			$freemind_viewer_index++;
-
-		// load flash player
-		$url = $context['url_to_home'].$context['url_to_root'].'included/browser/visorFreemind.swf';
-
-		// variables
-		$flashvars = 'initLoadFile='.$target_href.'&openUrl=_self';
-
-		$text = '<div id="freemind_viewer_'.$freemind_viewer_index.'">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-			.JS_PREFIX
-			.'var params = {};'."\n"
-			.'params.base = "'.dirname($url).'/";'."\n"
-			.'params.quality = "high";'."\n"
-			.'params.wmode = "transparent";'."\n"
-			.'params.menu = "false";'."\n"
-			.'params.flashvars = "'.$flashvars.'";'."\n"
-			.'swfobject.embedSWF("'.$url.'", "freemind_viewer_'.$freemind_viewer_index.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-			.JS_SUFFIX."\n";
-
-		// offer to download a copy of the map
-		$menu = array_merge($menu, array($target_href => i18n::s('Browse this map with Freemind')));
-
-		// display menu commands below the viewer
-		if(count($menu))
-			$text .= Skin::build_list($menu, 'menu_bar');
-
-		// job done
-		return $text;
-
-	}
-
-	/**
 	 * render a graphviz
 	 *
 	 * @param string the text
 	 * @param string the variant
 	 * @return string the rendered text
 	**/
-	function &render_graphviz($text, $variant='digraph') {
+	public static function &render_graphviz($text, $variant='digraph') {
 		global $context;
 
 		// sanity check
@@ -2365,7 +2148,7 @@ Class Codes {
 	 * @param either 'anonymous', or 'restricted' or 'hidden'
 	 * @return string the rendered text
 	**/
-	function &render_hidden($text, $variant) {
+	public static function &render_hidden($text, $variant) {
 
 		// this block should only be visible from non-logged surfers
 		if($variant == 'anonymous') {
@@ -2394,7 +2177,7 @@ Class Codes {
 	 * @param string iframe parameters
 	 * @return string the rendered text
 	**/
-	function &render_iframe($url, $variant) {
+	public static function &render_iframe($url, $variant) {
 		global $context;
 
 		// split parameters
@@ -2421,7 +2204,7 @@ Class Codes {
 	 * @param string the variant, if any
 	 * @return string the rendered text
 	**/
-	function &render_list($content, $variant='') {
+	public static function &render_list($content, $variant='') {
 		global $context;
 
 		if(!$content = trim($content)) {
@@ -2486,7 +2269,7 @@ Class Codes {
 	 * @param string the id, with possible options or variant
 	 * @return string the rendered text
 	**/
-	function &render_location($id) {
+	public static function &render_location($id) {
 		global $context;
 
 		// the required library
@@ -2507,7 +2290,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// a record is mandatory
-			if(!$item =& Locations::get($id)) {
+			if(!$item = Locations::get($id)) {
 				if(Surfer::is_member()) {
 					$output = '&#91;location='.$id.']';
 					return $output;
@@ -2530,7 +2313,7 @@ Class Codes {
 		}
 
 		// map on Google
-		$output =& Locations::map_on_google(array($item));
+		$output = Locations::map_on_google(array($item));
 		return $output;
 
 	}
@@ -2541,7 +2324,7 @@ Class Codes {
 	 * @param string 'all' or 'users'
 	 * @return string the rendered text
 	**/
-	function &render_locations($id='all') {
+	public static function &render_locations($id='all') {
 		global $context;
 
 		// the required library
@@ -2569,7 +2352,7 @@ Class Codes {
 		}
 
 		// integrate with google maps
-		$output =& Locations::map_on_google($items);
+		$output = Locations::map_on_google($items);
 		return $output;
 
 	}
@@ -2584,7 +2367,7 @@ Class Codes {
 	 * @param string the variant - default is 'flash'
 	 * @return string the rendered text
 	**/
-	function &render_news($variant) {
+	public static function &render_news($variant) {
 		global $context;
 
 		switch($variant) {
@@ -2597,16 +2380,17 @@ Class Codes {
 			else {
 				$url = $context['url_to_home'].$context['url_to_root'].'feeds/flash/slashdot.php';
 				$flashvars = '';
-				$text = '<div id="local_news" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-					.JS_PREFIX
-					.'var params = {};'."\n"
+				$text = '<div id="local_news" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+					
+				Page::insert_script(
+					'var params = {};'."\n"
 					.'params.base = "'.dirname($url).'/";'."\n"
 					.'params.quality = "high";'."\n"
 					.'params.wmode = "transparent";'."\n"
 					.'params.menu = "false";'."\n"
 					.'params.flashvars = "'.$flashvars.'";'."\n"
 					.'swfobject.embedSWF("'.$url.'", "local_news", "80%", "50", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-					.JS_SUFFIX;
+					);
 			}
 
 			return $text;
@@ -2627,7 +2411,7 @@ Class Codes {
 	 * @param string address of the newsfeed to get
 	 * @return string the rendered text
 	**/
-	function &render_newsfeed($url, $variant='ajax') {
+	public static function &render_newsfeed($url, $variant='ajax') {
 		global $context;
 
 		// we allow multiple calls
@@ -2642,10 +2426,8 @@ Class Codes {
 		case 'ajax': // asynchronous loading
 		default:
 
-			$text = '<div id="newsfeed_'.$count.'" class="no_print"></div>'."\n"
-			.JS_PREFIX
-			.'$(document).ready( function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\' , id: 1 } }, function(s) { if(s.text) { $("#newsfeed_'.$count.'").update(s.text.toString()); } else { $("#newsfeed_'.$count.'").update(""); } } ) } );'."\n"
-			.JS_SUFFIX;
+			$text = '<div id="newsfeed_'.$count.'" class="no_print"></div>'."\n";
+			Page::insert_script('$(function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\' }, id: 1 }, function(s) { if(s.text) { $("#newsfeed_'.$count.'").html(s.text.toString()); } else { $("#newsfeed_'.$count.'").html("***error***"); } } ) } );');			
 
 			return $text;
 
@@ -2665,11 +2447,9 @@ Class Codes {
 	 * render a link to an object
 	 *
 	 * Following types are supported:
-	 * - action - link to an action page
 	 * - article - link to an article page
 	 * - category - link to a category page
 	 * - comment - link to a comment page
-	 * - decision - link to a decision page
 	 * - download - link to a download page
 	 * - file - link to a file page
 	 * - flash - display a file as a native flash object, or play a flash video
@@ -2686,40 +2466,11 @@ Class Codes {
 	 * @param string the id, with possible options or variant
 	 * @return string the rendered text
 	**/
-	function &render_object($type, $id) {
+	public static function &render_object($type, $id) {
 		global $context;
 
 		// depending on type
 		switch($type) {
-
-		// link to an action
-		case 'action':
-			include_once $context['path_to_root'].'actions/actions.php';
-
-			// maybe an alternate title has been provided
-			$attributes = preg_split("/\s*,\s*/", $id, 2);
-			$id = $attributes[0];
-
-			// load the record from the database
-			if(!$item =& Actions::get($id))
-				$output = '[action='.$id.']';
-
-			else {
-
-				// ensure we have a label for this link
-				if(isset($attributes[1]))
-					$text = $attributes[1];
-				else
-					$text =& Skin::strip($item['title']);
-
-				// make a link to the target page
-				$url = $context['url_to_home'].$context['url_to_root'].Actions::get_url($item['id']);
-
-				// return a complete anchor
-				$output =& Skin::build_link($url, $text, 'basic');
-			}
-
-			return $output;
 
 		// link to an article
 		case 'article':
@@ -2729,7 +2480,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Articles::get($id))
+			if(!$item = Articles::get($id))
 				$output = '[article='.$id.']';
 
 			else {
@@ -2742,7 +2493,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Articles::get_permalink($item);
+				$url = Articles::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);
@@ -2758,7 +2509,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Articles::get($id))
+			if(!$item = Articles::get($id))
 				$output = '[article.description='.$id.']';
 
 			else {
@@ -2771,7 +2522,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Articles::get_permalink($item);
+				$url = Articles::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, 'article');
@@ -2781,7 +2532,6 @@ Class Codes {
 
 				// load overlay, if any
 				if(isset($item['overlay']) && $item['overlay']) {
-					include_once '../overlays/overlay.php';
 					$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 					// get text related to the overlay, if any
@@ -2805,7 +2555,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Categories::get($id))
+			if(!$item = Categories::get($id))
 				$output = '[category='.$id.']';
 
 			else {
@@ -2818,7 +2568,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Categories::get_permalink($item);
+				$url = Categories::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);
@@ -2834,7 +2584,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Categories::get($id))
+			if(!$item = Categories::get($id))
 				$output = '[category.description='.$id.']';
 
 			else {
@@ -2847,7 +2597,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Categories::get_permalink($item);
+				$url = Categories::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, 'category');
@@ -2857,7 +2607,6 @@ Class Codes {
 
 				// load overlay, if any
 				if(isset($item['overlay']) && $item['overlay']) {
-					include_once '../overlays/overlay.php';
 					$overlay = Overlay::load($item, 'category:'.$item['id']);
 
 					// get text related to the overlay, if any
@@ -2882,7 +2631,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Comments::get($id))
+			if(!$item = Comments::get($id))
 				$output = '[comment='.$id.']';
 
 			else {
@@ -2902,35 +2651,6 @@ Class Codes {
 
 			return $output;
 
-		// link to a decision
-		case 'decision':
-			include_once $context['path_to_root'].'decisions/decisions.php';
-
-			// maybe an alternate title has been provided
-			$attributes = preg_split("/\s*,\s*/", $id, 2);
-			$id = $attributes[0];
-
-			// load the record from the database
-			if(!$item =& Decisions::get($id))
-				$output = '[decision='.$id.']';
-
-			else {
-
-				// ensure we have a label for this link
-				if(isset($attributes[1]))
-					$text = $attributes[1];
-				else
-					$text = i18n::s('View this decision');
-
-				// make a link to the target page
-				$url = $context['url_to_home'].$context['url_to_root'].Decisions::get_url($item['id']);
-
-				// return a complete anchor
-				$output =& Skin::build_link($url, $text, 'basic');
-
-			}
-			return $output;
-
 		// link to a download
 		case 'download':
 
@@ -2939,22 +2659,50 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Files::get($id))
-				$output = '[download='.$id.']';
+			if(!$item = Files::get($id))
+
+				// file does not exist anymore
+				if((isset($attributes[1]) && $attributes[1]))
+					$output = $attributes[1].'<p class="details">'.i18n::s('[this file has been deleted]').'</p>';
+				else
+					$output = '[download='.$id.']';
 
 			else {
 
+				// label for this file
+				$prefix = $text = $suffix = '';
+
+				// signal restricted and private files
+				if($item['active'] == 'N')
+					$prefix .= PRIVATE_FLAG;
+				elseif($item['active'] == 'R')
+					$prefix .= RESTRICTED_FLAG;
+
 				// ensure we have a label for this link
-				if(isset($attributes[1]))
-					$text = $attributes[1];
-				else
+				if(isset($attributes[1]) && $attributes[1]) {
+					$text .= $attributes[1];
+
+					// this may describe a previous file, which has been replaced
+					if(($item['edit_action'] != 'file:create') && ($attributes[1] != $item['file_name'])) {
+						$text .= ' <p class="details">'.i18n::s('[this file has been replaced]').'</p>';
+						$output = $prefix.$text.$suffix;
+						return $output;
+					}
+
+				} else
 					$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
+
+				// flag files uploaded recently
+				if($item['create_date'] >= $context['fresh'])
+					$suffix .= NEW_FLAG;
+				elseif($item['edit_date'] >= $context['fresh'])
+					$suffix .= UPDATED_FLAG;
 
 				// always download the file
 				$url = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
 
 				// return a complete anchor
-				$output =& Skin::build_link($url, $text, 'file');
+				$output = $prefix.Skin::build_link($url, $text, 'file').$suffix;
 			}
 
 			return $output;
@@ -2966,57 +2714,57 @@ Class Codes {
 			$attributes = preg_split("/\s*,\s*/", $id, 2);
 			$id = $attributes[0];
 
-			// load the record from the database
-			if(!$item =& Files::get($id))
-				$output = '[file='.$id.']';
+			// load the record from the database --ensure we get a fresh copy of the record, not a cached one
+			if(!$item = Files::get($id, TRUE))
+
+				// file does not exist anymore
+				if((isset($attributes[1]) && $attributes[1]))
+					$output = $attributes[1].'<p class="details">'.i18n::s('[this file has been deleted]').'</p>';
+				else
+					$output = '[file='.$id.']';
 
 			else {
 
 				// maybe we want to illustrate this file
-				$output = Files::interact($item);
+				if((($item['edit_action'] != 'file:create') && isset($attributes[1]) && $attributes[1]) || (!$output = Files::interact($item))) {
 
-				// ensure we have a label for this link
-				if(isset($attributes[1]))
-					$text = $attributes[1];
-				else
-					$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
+					// label for this file
+					$output = $prefix = $text = $suffix = '';
 
-				// make a link to the target page
-				$url = Files::get_permalink($item);
+					// signal restricted and private files
+					if($item['active'] == 'N')
+						$prefix .= PRIVATE_FLAG;
+					elseif($item['active'] == 'R')
+						$prefix .= RESTRICTED_FLAG;
 
-				// return a complete anchor
-				$output .= Skin::build_link($url, $text, 'basic');
+					// ensure we have a label for this link
+					if(isset($attributes[1]) && $attributes[1]) {
+						$text .= $attributes[1];
+
+						// this may describe a previous file, which has been replaced
+						if(($item['edit_action'] != 'file:create') && ($attributes[1] != $item['file_name'])) {
+							$text .= '<p class="details">'.i18n::s('[this file has been replaced]').'</p>';
+							$output = $prefix.$text.$suffix;
+							return $output;
+						}
+
+					} else
+						$text .= Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
+
+					// flag files uploaded recently
+					if($item['create_date'] >= $context['fresh'])
+						$suffix .= NEW_FLAG;
+					elseif($item['edit_date'] >= $context['fresh'])
+						$suffix .= UPDATED_FLAG;
+
+					// make a link to the target page
+					$url = Files::get_download_url($item);
+
+					// return a complete anchor
+					$output .= $prefix.Skin::build_link($url, $text, 'basic').$suffix;
+
+				}
 			}
-			return $output;
-
-		// link to a form
-		case 'form':
-			include_once $context['path_to_root'].'forms/forms.php';
-
-			// maybe an alternate title has been provided
-			$attributes = preg_split("/\s*,\s*/", $id, 2);
-			$id = $attributes[0];
-
-			// load the record from the database
-			if(!$item =& Forms::get($id))
-				$output = '[form='.$id.']';
-
-			else {
-
-				// ensure we have a label for this link
-				if(isset($attributes[1])) {
-					$text = $attributes[1];
-					$type = 'basic';
-				} else
-					$text = Skin::strip($item['title']);
-
-				// make a link to the target page
-				$url = $context['url_to_home'].$context['url_to_root'].Forms::get_url($item['id']);
-
-				// return a complete anchor
-				$output =& Skin::build_link($url, $text, $type);
-			}
-
 			return $output;
 
 		// invoke the selector
@@ -3049,7 +2797,7 @@ Class Codes {
 				$variant = 'inline';
 
 			// get the image record
-			if(!$image =& Images::get($id)) {
+			if(!$image = Images::get($id)) {
 				$output = '[image='.$id.']';
 				return $output;
 			}
@@ -3139,7 +2887,7 @@ Class Codes {
 			foreach($ids as $id) {
 
 				// get the image record
-				if($image =& Images::get($id)) {
+				if($image = Images::get($id)) {
 
 					// a title for the image --do not force a title
 					if(isset($image['title']))
@@ -3229,7 +2977,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Articles::get($id))
+			if(!$item = Articles::get($id))
 				$output = '[next='.$id.']';
 
 			else {
@@ -3257,7 +3005,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Articles::get($id))
+			if(!$item = Articles::get($id))
 				$output = '[previous='.$id.']';
 
 			else {
@@ -3285,7 +3033,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Sections::get($id))
+			if(!$item = Sections::get($id))
 				$output = '[section='.$id.']';
 
 			else {
@@ -3298,7 +3046,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url =& Sections::get_permalink($item);
+				$url = Sections::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);
@@ -3315,7 +3063,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Servers::get($id))
+			if(!$item = Servers::get($id))
 				$output = '[server='.$id.']';
 
 			else {
@@ -3347,7 +3095,7 @@ Class Codes {
 				$flashvars = $attributes[1];
 
 			// get the file
-			if(!$item =& Files::get($id)) {
+			if(!$item = Files::get($id)) {
 				$output = '[sound='.$id.']';
 				return $output;
 			}
@@ -3371,16 +3119,17 @@ Class Codes {
 				else
 					$flashvars = 'son='.$url;
 
-				$output = '<div id="sound_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-					.JS_PREFIX
-					.'var params = {};'."\n"
+				$output = '<div id="sound_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+				
+				Page::insert_script(
+					'var params = {};'."\n"
 					.'params.base = "'.dirname($url).'/";'."\n"
 					.'params.quality = "high";'."\n"
 					.'params.wmode = "transparent";'."\n"
 					.'params.menu = "false";'."\n"
 					.'params.flashvars = "'.$flashvars.'";'."\n"
 					.'swfobject.embedSWF("'.$dewplayer_url.'", "sound_'.$item['id'].'", "200", "20", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-					.JS_SUFFIX."\n";
+					);
 				return $output;
 
 			// link to file page
@@ -3390,7 +3139,7 @@ Class Codes {
 				$text = Skin::strip( $item['title']?$item['title']:str_replace('_', ' ', $item['file_name']) );
 
 				// make a link to the target page
-				$url = Files::get_permalink($item);
+				$url = Files::get_download_url($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, 'basic');
@@ -3406,7 +3155,7 @@ Class Codes {
 			$id = $attributes[0];
 
 			// load the record from the database
-			if(!$item =& Users::get($id))
+			if(!$item = Users::get($id))
 				$output = '[user='.$id.']';
 
 			else {
@@ -3448,7 +3197,7 @@ Class Codes {
 	 * @param mixed default value, if any
 	 * @return the actual value of this parameter, else the default value, else ''
 	 */
-	function &render_parameter($name, $default='') {
+	public static function &render_parameter($name, $default='') {
 		global $context;
 
 		if(!strncmp($name, 'page_', 5) && isset($context[$name])) {
@@ -3471,7 +3220,7 @@ Class Codes {
 	 * @param string the text
 	 * @return string the rendered text
 	**/
-	function &render_pre($text, $variant='snippet') {
+	public static function &render_pre($text, $variant='snippet') {
 
 		// change new lines
 		$text = trim(str_replace("\r", '', str_replace(array("<br>\n", "<br/>\n", "<br />\n", '<br>', '<br/>', '<br />'), "\n", $text)));
@@ -3537,7 +3286,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_published($anchor='', $layout='compact') {
+	public static function &render_published($anchor='', $layout='compact') {
 		global $context;
 
 		// we return some text;
@@ -3565,36 +3314,8 @@ Class Codes {
 		// scope is limited to one section
 		if(strpos($anchor, 'section:') === 0) {
 
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
+			// look at this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
 			$text =& Articles::list_for_anchor_by('publication', $anchors, 0, $count, $layout);
@@ -3613,25 +3334,25 @@ Class Codes {
 
 			// second level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// third level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// fourth level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// fifth level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
@@ -3674,7 +3395,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_random($anchor='', $layout='') {
+	public static function &render_random($anchor='', $layout='') {
 		global $context;
 
 		// we return some text;
@@ -3699,36 +3420,8 @@ Class Codes {
 		// scope is limited to one section
 		if(!strncmp($anchor, 'section:', 8)) {
 
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
+			// look at this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
 			$items =& Articles::list_for_anchor_by('random', $anchors, 0, 1, 'raw');
@@ -3746,7 +3439,7 @@ Class Codes {
  			foreach($items as $id => $item) {
 
 				// make a link to the target page
-				$link =& Articles::get_permalink($item);
+				$link = Articles::get_permalink($item);
 				if(!$label)
 					$label = Skin::strip($item['title']);
 				$text =& Skin::build_link($link, $label, 'article');
@@ -3758,7 +3451,6 @@ Class Codes {
 
 					// load overlay, if any
 					if(isset($item['overlay']) && $item['overlay']) {
-						include_once '../overlays/overlay.php';
 						$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 						// get text related to the overlay, if any
@@ -3788,7 +3480,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_read($anchor='', $layout='hits') {
+	public static function &render_read($anchor='', $layout='hits') {
 		global $context;
 
 		// we return some text;
@@ -3816,36 +3508,8 @@ Class Codes {
 		// scope is limited to one section
 		if(strpos($anchor, 'section:') === 0) {
 
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
+			// look at this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
 			$text =& Articles::list_for_anchor_by('hits', $anchors, 0, $count, $layout);
@@ -3874,7 +3538,7 @@ Class Codes {
 	 * @param string target link
 	 * @return text generated during the inclusion
 	 */
-	function &render_redirect($link) {
+	public static function &render_redirect($link) {
 		global $context;
 
 		// turn external links to clickable things
@@ -3923,14 +3587,12 @@ Class Codes {
 	 *
 	 * @return string the rendered text
 	**/
-	function &render_retweet() {
+	public static function &render_retweet() {
 		global $context;
 
 		// we return some text --$context['self_url'] already has $context['url_to_root'] in it
-		$text = JS_PREFIX
-			.'tweetmeme_url = "'.$context['url_to_home'].$context['self_url'].'";'."\n"
-			.JS_SUFFIX
-			.'<script type="text/javascript" src="http://tweetmeme.com/i/scripts/button.js"></script>';
+		Page::insert_script('tweetmeme_url = "'.$context['url_to_home'].$context['self_url'].'";');			
+		Page::defer_script("http://tweetmeme.com/i/scripts/button.js");			
 
 		// job done
 		return $text;
@@ -3949,7 +3611,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_sections($anchor='', $layout='simple') {
+	public static function &render_sections($anchor='', $layout='simple') {
 		global $context;
 
 		// we return some text;
@@ -4001,7 +3663,7 @@ Class Codes {
 	 * @param string the variant, if any
 	 * @return string the rendered text
 	**/
-	function render_static_table($content, $variant='') {
+	public static function render_static_table($content, $variant='') {
 		global $context;
 
 		// we are providing inline tables
@@ -4056,7 +3718,7 @@ Class Codes {
 	 * @param string the variant
 	 * @return string the rendered text
 	**/
-	function &render_table_of($variant) {
+	public static function &render_table_of($variant) {
 		global $context;
 
 		// nothing to return yet
@@ -4159,7 +3821,7 @@ Class Codes {
 	 * @param string the variant
 	 * @return string the rendered text
 	**/
-	function &render_title($text, $variant) {
+	public static function &render_title($text, $variant) {
 		global $codes_toc, $codes_toq, $context;
 
 		// remember questions
@@ -4217,7 +3879,7 @@ Class Codes {
 	 * @param string twitter id to display, plus optional parameters, if any
 	 * @return string the rendered text
 	**/
-	function &render_twitter($id) {
+	public static function &render_twitter($id) {
 		global $context;
 
 		// up to 4 parameters: id, width, height, styles
@@ -4259,17 +3921,8 @@ Class Codes {
 
 		// we return some text --$context['self_url'] already has $context['url_to_root'] in it
 		$text = '<div id="twitter_'.$count.'"></div>'."\n"
-			.'<script src="http://widgets.twimg.com/j/1/widget.js" type="text/javascript"></script>'."\n"
-			.'<link href="http://widgets.twimg.com/j/1/widget.css" type="text/css" rel="stylesheet" />'."\n"
 			.'<script type="text/javascript">'."\n"
-			.'new TWTR.Widget({'."\n"
-			.'  profile: true,'."\n"
-			.'  id: "twitter_'.$count.'",'."\n"
-			.'  loop: true,'."\n"
-			.'  width: '.$width.','."\n"
-			.'  height: '.$height.','."\n"
-			.'  '.$theme."\n"
-			.'}).render().setProfile("'.$id.'").start();'."\n"
+			.'$(function() { $("#twitter_'.$count.'").liveTwitter("'.$id.'", {mode: "user_timeline"}); });'."\n"
 			.'</script>';
 
 		// job done
@@ -4282,7 +3935,7 @@ Class Codes {
 	 * @param string twitter searched keywords, plus optional parameters, if any
 	 * @return string the rendered text
 	**/
-	function &render_twitter_search($id) {
+	public static function &render_twitter_search($id) {
 		global $context;
 
 		// up to 4 parameters: id, width, height, styles
@@ -4301,20 +3954,6 @@ Class Codes {
 		else
 			$height = 300;
 
-		// theme
-		if(isset($attributes[3]))
-			$theme = $attributes[3];
-		else
-			$theme = 'theme: { shell: {'."\n"
-				.'      background: "#3082af",'."\n"
-				.'      color: "#ffffff"'."\n"
-				.'    },'."\n"
-				.'    tweets: {'."\n"
-				.'      background: "#ffffff",'."\n"
-				.'      color: "#444444",'."\n"
-				.'      links: "#1985b5"'."\n"
-				.'    }}';
-
 		// allow multiple widgets
 		static $count;
 		if(!isset($count))
@@ -4324,17 +3963,8 @@ Class Codes {
 
 		// $context['self_url'] already has $context['url_to_root'] in it
 		$text = '<div id="tsearch_'.$count.'"></div>'."\n"
-			.'<script src="http://widgets.twimg.com/j/1/widget.js" type="text/javascript"></script>'."\n"
-			.'<link href="http://widgets.twimg.com/j/1/widget.css" type="text/css" rel="stylesheet" />'."\n"
 			.'<script type="text/javascript">'."\n"
-			.'new TWTR.Widget({'."\n"
-			.'  search: "'.str_replace('"', '', $id).'",'."\n"
-			.'  id: "tsearch_'.$count.'",'."\n"
-			.'  loop: true,'."\n"
-			.'  width: '.$width.','."\n"
-			.'  height: '.$height.','."\n"
-			.'  '.$theme."\n"
-			.'}).render().start();'."\n"
+			.'$(function() { $("#tsearch_'.$count.'").liveTwitter("'.str_replace('"', '', $id).'"); });'."\n"
 			.'</script>';
 
 		// job done
@@ -4355,7 +3985,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_updated($anchor='', $layout='compact') {
+	public static function &render_updated($anchor='', $layout='compact') {
 		global $context;
 
 		// we return some text;
@@ -4383,36 +4013,8 @@ Class Codes {
 		// scope is limited to one section
 		if(strpos($anchor, 'section:') === 0) {
 
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
+			// look at this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
 			$text =& Articles::list_for_anchor_by('edition', $anchors, 0, $count, $layout);
@@ -4431,25 +4033,25 @@ Class Codes {
 
 			// second level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// third level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// fourth level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// fifth level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
@@ -4484,7 +4086,7 @@ Class Codes {
 	 * @param string the anchor (e.g. 'present')
 	 * @return string the rendered text
 	**/
-	function &render_users($anchor='') {
+	public static function &render_users($anchor='') {
 		global $context;
 
 		// we return some text;
@@ -4523,7 +4125,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_voted($anchor='', $layout='simple') {
+	public static function &render_voted($anchor='', $layout='simple') {
 		global $context;
 
 		// we return some text;
@@ -4551,36 +4153,8 @@ Class Codes {
 		// scope is limited to one section
 		if(strpos($anchor, 'section:') === 0) {
 
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
+			// look at this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
 			$text =& Articles::list_for_anchor_by('rating', $anchors, 0, $count, $layout);
@@ -4607,7 +4181,7 @@ Class Codes {
 	 * @param string the id, with possible options or variant
 	 * @return string the rendered text
 	**/
-	function &render_wikipedia($id) {
+	public static function &render_wikipedia($id) {
 		global $context;
 
 		// maybe an alternate title has been provided
@@ -4641,13 +4215,14 @@ Class Codes {
 	 * remove YACS codes from a string
 	 *
 	 * @param string embedding YACS codes
+	 * @param boolean FALSE to remove only only pairing codes, TRUE otherwise
 	 * @return a purged string
 	 */
-	function &strip($text, $suppress_all_brackets=FALSE) {
+	public static function &strip($text, $suppress_all_brackets=TRUE) {
 		global $context;
 
 		// suppress pairing codes
-		$output = preg_replace('/\[(\w+?)[^\]]*\](.*?)\[\/\1\]/s', '${2}', $text);
+		$output = preg_replace('#\[(\w+?)[^\]]*\](.*?)\[\/\1\]#s', '${2}', $text);
 
 		// suppress bracketed words
 		if($suppress_all_brackets)

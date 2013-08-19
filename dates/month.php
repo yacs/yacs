@@ -66,7 +66,7 @@ if((strlen($target) < 6) && (strlen($target) > 7)) {
 
 		// page main content
 		$cache_id = 'dates/month.php#text#'.$target;
-		if(!$text =& Cache::get($cache_id)) {
+		if(!$text = Cache::get($cache_id)) {
 
 			// robots cannot navigate
 			if(!Surfer::is_crawler()) {
@@ -103,7 +103,7 @@ if((strlen($target) < 6) && (strlen($target) > 7)) {
 
 // page extra content
 $cache_id = 'dates/month.php#extra';
-if(!$text =& Cache::get($cache_id)) {
+if(!$text = Cache::get($cache_id)) {
 
 	// side bar with the list of most recent pages
 	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))

@@ -23,12 +23,11 @@ Class Layout_links extends Layout_interface {
 	 * - 'no_author' to list items attached to one user prolink
 	 *
 	 * @param resource the SQL result
-	 * @param string a variant, if any
 	 * @return array of resulting items, or NULL
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result, $variant='full') {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -43,10 +42,10 @@ Class Layout_links extends Layout_interface {
 			$this->layout_variant = 'no_anchor';
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// initialize variables
 			$prefix = $suffix = $icon = '';
@@ -78,7 +77,7 @@ Class Layout_links extends Layout_interface {
 			}
 
 			// show an anchor link
-			if(($this->layout_variant != 'no_anchor') && ($this->layout_variant != 'no_author') && $item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
+			if(($this->layout_variant != 'no_anchor') && ($this->layout_variant != 'no_author') && $item['anchor'] && ($anchor = Anchors::get($item['anchor']))) {
 				$anchor_url = $anchor->get_url();
 				$anchor_label = ucfirst($anchor->get_title());
 				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor_url, $anchor_label, 'article'));

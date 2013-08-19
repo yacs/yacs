@@ -17,91 +17,38 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 Class Article extends Anchor {
-
+	
+	
 	/**
-	 * allow or block operations
-	 *
-	 * @param string the kind of item to handle
-	 * @param string the foreseen operation ('edit', 'new', ...)
-	 * @return TRUE if the operation is accepted, FALSE otherwise
+	 * list childs of this anchor, with or without type filters
+	 * 
+	 * @param string set of desired childs (articles, sections...) separted by comma, or "all" keyword
+	 * @param int offset to start listing
+	 * @param int the maximum of items returned per type
+	 * @param mixed string or object the layout to use
+	 * @return an array of array with raw items sorted by type
 	 */
-	function allows($type, $action) {
-		global $context;
-
-		// cache the overlay, if any
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		if(!isset($this->overlay) && isset($this->item['overlay']))
-			$this->overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
-
-		// delegate the validation to the overlay
-		if(isset($this->overlay) && is_object($this->overlay) && is_callable(array($this->overlay, 'allows')))
-			return $this->overlay->allows($type, $action);
-
-		// allowed
-		return TRUE;
-	}
-
-	/**
-	 * get the focus for this anchor
-	 *
-	 * This function lists containers of the content tree,
-	 * from top level down to this item.
-	 *
-	 * @return array of anchor references
-	 */
-	function get_focus() {
-
-		// get the parent
-		if(!isset($this->anchor))
-			$this->anchor =& Anchors::get($this->item['anchor']);
-
-		// the parent level
-		if(is_object($this->anchor))
-			$focus = $this->anchor->get_focus();
-		else
-			$focus = array();
-
-		// append this level
-		if(isset($this->item['id']))
-			$focus[] = 'article:'.$this->item['id'];
-
-		 return $focus;
+	function get_childs($filter = 'all',$offset = 0, $max= 50, $layout='raw') {
+	    
+	    // we return a array
+	    $childs = array();		    	    	   	    	    	  
+	    
+	    // files
+	    if($filter == 'all' || preg_match('/\bfiles?\b/i', $filter)) {
+		$childs['file'] = Files::list_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
+	    }			    
+	    
+	    return $childs;
 	 }
-
-	/**
-	 * get the url to display the icon for this anchor
-	 *
-	 * @return an anchor to the icon image
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_icon_url() {
-		if(isset($this->item['icon_url']) && $this->item['icon_url'])
-			return $this->item['icon_url'];
-		return $this->get_thumbnail_url();
-	}
-
-	/**
-	 * get the named url for this anchor
-	 *
-	 * If the anchor as been named, this function returns the related url.
-	 *
-	 * @return an url to view the anchor page, or NULL
-	 */
-	function get_named_url() {
-		if(isset($this->item['nick_name']) && $this->item['nick_name'])
-			return normalize_shortcut($this->item['nick_name']);
-		return NULL;
-	}
 
 	/**
 	 * get next and previous items, if any
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param string the item type (eg, 'image', 'file', etc.)
 	 * @param array the anchored item asking for neighbours
 	 * @return an array($previous_url, $previous_label, $next_url, $next_label, $option_url, $option_label), or NULL
-	 *
-	 * @see shared/anchor.php
 	 */
 	function get_neighbours($type, $item) {
 		global $context;
@@ -229,60 +176,17 @@ Class Article extends Anchor {
 		// return navigation info
 		return array($previous_url, $previous_label, $next_url, $next_label, $option_url, $option_label);
 	}
-
+	
+	
 	/**
-	 * get the path bar for this anchor
-	 *
-	 * For articles, the path bar is made of one stem for the section, then one stem for the article itself.
-	 *
-	 * @return an array of $url => $label, or NULL
-	 *
-	 * @see shared/anchor.php
+	 * get permalink to item
 	 */
-	function get_path_bar() {
-		global $context;
-
-		// no item bound
-		if(!isset($this->item['id']))
-			return NULL;
-
-		// get the parent
-		if(!isset($this->anchor))
-			$this->anchor =& Anchors::get($this->item['anchor']);
-
-		// the parent level
-		$parent = array();
-		if(is_object($this->anchor))
-			$parent = $this->anchor->get_path_bar();
-
-		// this item
-		$url = $this->get_url();
-		$label = $this->get_title();
-		$data = array_merge($parent, array($url => $label));
-
-		// return the result
-		return $data;
-
-	}
-
-	/**
-	 * get the reference for this anchor
-	 *
-	 * This function is used to retrieve a reference to be placed into the database.
-	 * For example:
-	 * [php]
-	 * $anchor =& Anchors::get($article['anchor']);
-	 * $context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
-	 * [/php]
-	 *
-	 * @return 'article:&lt;id&gt;', or NULL on error
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_reference() {
-		if(isset($this->item['id']))
-			return 'article:'.$this->item['id'];
-		return NULL;
+	function get_permalink() {
+	    if(!isset($this->item['id']))
+		    return NULL;
+	    
+	    $link = Articles::get_permalink($this->item);
+	    return $link;
 	}
 
 	/**
@@ -296,6 +200,15 @@ Class Article extends Anchor {
 		if(isset($this->item['id']))
 			return 'a~'.reduce_number($this->item['id']);;
 		return NULL;
+	}
+	
+	/**
+	 * provide classe name with all static functions on this kind of anchor
+	 * 
+	 * @return a class name
+	 */
+	function get_static_group_class() {
+	    return 'Articles';
 	}
 
 	/**
@@ -315,10 +228,10 @@ Class Article extends Anchor {
 	 * - 'quote' - strip most HTML tags
 	 * - 'teaser' - limit the number of words, tranform YACS codes, and link to permalink
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param string an optional variant, including
 	 * @return NULL, of some text
-	 *
-	 * @see shared/anchor.php
 	 */
 	function &get_teaser($variant = 'basic') {
 		global $context;
@@ -356,7 +269,6 @@ Class Article extends Anchor {
 
 		// use overlay data, if any
 		if(!$text) {
-			include_once $context['path_to_root'].'overlays/overlay.php';
 			if(!isset($this->overlay) && isset($this->item['overlay']))
 				$this->overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
 			if(is_object($this->overlay))
@@ -443,25 +355,12 @@ Class Article extends Anchor {
 	}
 
 	/**
-	 * get the url to display the thumbnail for this anchor
-	 *
-	 * @return an anchor to the thumbnail image
+	 * get the url to display the main page for this anchor
 	 *
 	 * @see shared/anchor.php
-	 */
-	function get_thumbnail_url() {
-		if(isset($this->item['thumbnail_url']))
-			return $this->item['thumbnail_url'];
-		return NULL;
-	}
-
-	/**
-	 * get the url to display the main page for this anchor
 	 *
 	 * @param string the targeted action ('view', 'print', 'edit', 'delete', ...)
 	 * @return an anchor to the viewing script, or NULL on error
-	 *
-	 * @see shared/anchor.php
 	 */
 	function get_url($action='view') {
 
@@ -474,9 +373,6 @@ Class Article extends Anchor {
 		// view comments
 		case 'comments':
 			// variants that start at the article page
-			if($this->has_option('view_as_tabs'))
-				return $this->get_url().'#_discussion';
-
 			if($this->has_option('view_as_chat'))
 				return $this->get_url().'#comments';
 
@@ -484,25 +380,21 @@ Class Article extends Anchor {
 			if($this->has_layout('alistapart'))
 				return Comments::get_url($this->get_reference(), 'list');
 
-			// layouts that start at the article page
-			return Articles::get_permalink($this->item).'#comments';
+			// layouts that start at the article page --assume we have at least one comment, on a tab
+			return Articles::get_permalink($this->item).'#_discussion';
 
 		// list of files
 		case 'files':
-			if($this->has_option('view_as_tabs'))
-				return $this->get_url().'#_attachments';
-			return Articles::get_permalink($this->item).'#files';
+			return $this->get_url().'#_attachments';
 
 		// list of links
 		case 'links':
-			if($this->has_option('view_as_tabs'))
-				return $this->get_url().'#_attachments';
-			return Articles::get_permalink($this->item).'#links';
+			return $this->get_url().'#_attachments';
 
 		// jump to parent page
 		case 'parent':
 			if(!isset($this->anchor))
-				$this->anchor =& Anchors::get($this->item['anchor']);
+				$this->anchor = Anchors::get($this->item['anchor']);
 
 			return $this->anchor->get_url();
 
@@ -519,81 +411,58 @@ Class Article extends Anchor {
 	}
 
 	/**
-	 * check that the surfer is an editor of an article
+	 * list all items in the watching context
 	 *
-	 * An anonymous surfer is considered as an editor if he has provided the secret handle.
+	 * For articles, the watching context is limited by default to the page itself,
+	 * and to its parent container. If the container has option 'forward_notifications',
+	 * then the context is extended to its parent too. The forwarding is recursive
+	 * until no option 'forward_notifications' is found.
 	 *
-	 * @param int optional reference to some user profile
-	 * @param boolean TRUE to climb the list of containers up to the top
-	 * @return TRUE or FALSE
+	 * Called in function alert_watchers() in shared/anchor.php
+	 *
+	 * @param string description of the on-going action (e.g., 'file:create')
+	 * @return mixed either a reference (e.g., 'article:123') or an array of references
 	 */
-	 function is_assigned($user_id=NULL, $cascade=TRUE) {
+	protected function get_watched_context($action) {
 		global $context;
 
-		// we need some data to proceed
-		if(!isset($this->item['id']))
-			return FALSE;
+		// notifications should be sent to watchers of these containers
+		$containers = array();
 
-		// id of requesting user
-		if(!$user_id && Surfer::get_id())
-			$user_id = Surfer::get_id();
+		// i am a container
+		$containers[] = $this->get_reference();
 
-		// anonymous is allowed
-		if(!$user_id)
-			$user_id = 0;
+		// if the page has been published
+		if($this->item['publish_date'] > NULL_DATE) {
 
-		// create the cache
-		if(!isset($this->is_assigned_cache))
-			$this->is_assigned_cache = array();
+			// look at my parents
+			$handle = $this->get_parent();
+			while($handle && ($container = Anchors::get($handle))) {
 
-		// cache the answer
-		if(isset($this->is_assigned_cache[$user_id]))
-			return $this->is_assigned_cache[$user_id];
+				// add watchers of this level
+				$containers[] = $handle;
 
-		// anonymous surfer has provided the secret handle
-		if(isset($this->item['handle']) && Surfer::may_handle($this->item['handle']))
-			return $this->is_assigned_cache[$user_id] = TRUE;
+				// should we forward notifications upwards
+				if(($action != 'article:publish') && !$container->has_option('forward_notifications', FALSE))
+					break;
 
-		// surfer owns this item
-		if($user_id && isset($this->item['owner_id']) && ($user_id == $this->item['owner_id']))
-			return $this->is_assigned_cache[$user_id] = TRUE;
-
-		// article has been assigned to this surfer
-		if($user_id && Members::check('user:'.$user_id, 'article:'.$this->item['id']))
-			return $this->is_assigned_cache[$user_id] = TRUE;
-
-		// anonymous edition is allowed
-		if(($this->item['active'] == 'Y') && $this->has_option('anonymous_edit'))
-			return $this->is_assigned_cache[$user_id] = TRUE;
-
-		// members edition is allowed
-		if(($this->item['active'] == 'Y') && Surfer::is_empowered('M') && $this->has_option('members_edit'))
-			return $this->is_assigned_cache[$user_id] = TRUE;
-
-		// container may be edited
-		if($cascade && isset($this->item['anchor'])) {
-
-			// save requests
-			if(!isset($this->anchor) || !$this->anchor)
-				$this->anchor =& Anchors::get($this->item['anchor']);
-
-			// check for ownership
-			if(is_object($this->anchor))
-				return $this->is_assigned_cache[$user_id] = $this->anchor->is_assigned($user_id);
+				// add watchers of next level
+				$handle = $container->get_parent();
+			}
 
 		}
 
-		// sorry
-		return $this->is_assigned_cache[$user_id] = FALSE;
-	 }
+		// by default, limit to direct watchers of this anchor
+		return $containers;
+	}	
 
 	/**
 	 * load the related item
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param int the id of the record to load
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
-	 *
-	 * @see shared/anchor.php
 	 */
 	function load_by_id($id, $mutable=FALSE) {
 		$this->item = Articles::get($id, $mutable);
@@ -619,13 +488,13 @@ Class Article extends Anchor {
 	 * $fields = $article->parse($content['description'], $item);
 	 * [/php]
 	 *
-	 * @param string the input text
-	 * @param array previous attributes for the page
-	 * @return an array of updated attributes
-	 *
 	 * @see agents/messages.php
 	 $ @see agents/uploads.php
 	 * @see services/blog.php
+	 *
+	 * @param string the input text
+	 * @param array previous attributes for the page
+	 * @return an array of updated attributes
 	 */
 	function parse($text, $item = NULL) {
 		global $context;
@@ -655,10 +524,10 @@ Class Article extends Anchor {
 		$text = $headers.$body;
 
 		// parse embedded fields based on XML tags
-		$this->item['description'] = trim(preg_replace_callback('/<(.*?)>(.*?)<\/\\1>/is', array(&$this, 'parse_match'),  $text))."\n\n";
+		$this->item['description'] = trim(preg_replace_callback('/<(.*?)>(.*?)<\/$1>/is', array(&$this, 'parse_match'),  $text))."\n\n";
 
 		// text contains an implicit anchor to an article or to a section
-// 		if(preg_match('/##(article|section):([^#]+?)##/', $text, $matches) && ($anchor =& Anchors::get($matches[1].':'.$matches[2])))
+// 		if(preg_match('/##(article|section):([^#]+?)##/', $text, $matches) && ($anchor = Anchors::get($matches[1].':'.$matches[2])))
 // 			$this->item['anchor'] = $anchor->get_reference();
 
 		return $this->item;
@@ -738,10 +607,10 @@ Class Article extends Anchor {
 	/**
 	 * restore a previous version of this article
 	 *
+	 * @see versions/restore.php
+	 *
 	 * @param array set of attributes to restore
 	 * @return TRUE on success, FALSE otherwise
-	 *
-	 * @see versions/restore.php
 	 */
 	function restore($item) {
 		global $context;
@@ -756,10 +625,10 @@ Class Article extends Anchor {
 	/**
 	 * change some attributes of an anchor
 	 *
+	 * @see shared/anchor.php
+	 *
 	 * @param array of (name, value)
 	 * @return TRUE on success, FALSE otherwise
-	 *
-	 * @see shared/anchor.php
 	 */
 	function set_values($fields) {
 
@@ -781,22 +650,19 @@ Class Article extends Anchor {
 	 * - On location creation, some code is inserted in the description field to display location name inline
 	 * - On table creation, some code is inserted in the description field to display the table inline
 	 *
-	 * Moreover, on any change that impact the edition date (i.e., not in silent mode),
-	 * a message is sent to the article creator, if different from the current surfer
-	 * and a message is sent to watchers as well.
+	 * @see articles/article.php
+	 * @see articles/edit.php
+	 * @see shared/anchor.php
 	 *
 	 * @param string one of the pre-defined action code
 	 * @param string the id of the item related to this update
 	 * @param boolean TRUE to not change the edit date of this anchor, default is FALSE
-	 * @param boolean TRUE to notify section watchers, default is FALSE
-	 * @param boolean TRUE to notify poster followers, default is FALSE
-	 *
-	 * @see articles/article.php
-	 * @see articles/edit.php
-	 * @see shared/anchor.php
 	 */
-	function touch($action, $origin=NULL, $silently=FALSE, $to_watchers=FALSE, $to_followers=FALSE) {
+	function touch($action, $origin=NULL, $silently=FALSE) {
 		global $context;
+
+		// we make extensive use of comments below
+		include_once $context['path_to_root'].'comments/comments.php';
 
 		// don't go further on import
 		if(preg_match('/import$/i', $action))
@@ -816,10 +682,11 @@ Class Article extends Anchor {
 			return;
 		}
 
-		// sanity check
-		if(!$origin) {
-			logger::remember('articles/article.php', 'unexpected NULL origin at touch()');
-			return;
+		// get the related overlay, if any
+		if(!isset($this->overlay)) {
+			$this->overlay = NULL;
+			if(isset($this->item['overlay']))
+				$this->overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
 		}
 
 		// components of the query
@@ -829,32 +696,70 @@ Class Article extends Anchor {
 		if($action == 'comment:create') {
 
 			// purge oldest comments
-			include_once $context['path_to_root'].'comments/comments.php';
 			Comments::purge_for_anchor('article:'.$this->item['id']);
 
-		// a new file has been attached
-		} elseif(($action == 'file:create')) {
+		// file upload
+		} elseif(($action == 'file:create') || ($action == 'file:upload')) {
 
-			// identify specific files
+			// actually, several files have been added
 			$label = '';
-			if(!Codes::check_embedded($this->item['description'], 'embed', $origin) && ($item =& Files::get($origin))) {
+			if(!$origin) {
 
-				// give it to the Flash player
-				if(isset($item['file_name']) && Files::is_embeddable($item['file_name']))
-					$label = '[embed='.$origin.']';
+				// only when comments are allowed
+				if(!Articles::has_option('no_comments', $this->anchor, $this->item)) {
 
+					// remember this as an automatic notification
+					$fields = array();
+					$fields['anchor'] = 'article:'.$this->item['id'];
+					$fields['description'] = i18n::s('Several files have been added');
+					$fields['type'] = 'notification';
+					Comments::post($fields);
+
+				}
+
+			// one file has been added
+			} elseif(!Codes::check_embedded($this->item['description'], 'embed', $origin) && ($item = Files::get($origin, TRUE))) {
+
+				// this file is eligible for being embedded in the page
+				if(isset($item['file_name']) && Files::is_embeddable($item['file_name'])) {
+
+					// the overlay may prevent embedding
+					if(is_object($this->overlay) && !$this->overlay->should_embed_files())
+						;
+
+					// else use a yacs code to implement the embedded object
+					else
+						$label = '[embed='.$origin.']';
+
+				// else add a comment to take note of the upload
+				} else {
+
+					// only when comments are allowed
+					if(!Articles::has_option('no_comments', $this->anchor, $this->item)) {
+
+						// remember this as an automatic notification
+						$fields = array();
+						$fields['anchor'] = 'article:'.$this->item['id'];
+						if($action == 'file:create')
+							$fields['description'] = '[file='.$item['id'].','.$item['file_name'].']';
+						else
+							$fields['description'] = '[download='.$item['id'].','.$item['file_name'].']';
+						Comments::post($fields);
+
+					}
+
+				}
 
 			}
 
 			// we are in some interactive thread
-			if($this->has_option('view_as_chat')) {
+			if($origin && $this->has_option('view_as_chat')) {
 
 				// default is to download the file
 				if(!$label)
 					$label = '[download='.$origin.']';
 
 				// this is the first contribution to the thread
-				include_once $context['path_to_root'].'comments/comments.php';
 				if(!$comment = Comments::get_newest_for_anchor('article:'.$this->item['id'])) {
 					$fields = array();
 					$fields['anchor'] = 'article:'.$this->item['id'];
@@ -873,16 +778,17 @@ Class Article extends Anchor {
 
 				}
 
-				// actual creation in the database, but silently
-				Comments::post($fields);
+				// only when comments are allowed
+				if(!Articles::has_option('no_comments', $this->anchor, $this->item))
+					Comments::post($fields);
 
 			// include flash videos in a regular page
-			} elseif($label)
+			} elseif($origin && $label)
 				$query[] = "description = '".SQL::escape($this->item['description'].' '.$label)."'";
 
 
 		// suppress references to a deleted file
-		} elseif($action == 'file:delete') {
+		} elseif(($action == 'file:delete') && $origin) {
 
 			// suppress reference in main description field
 			$text = Codes::delete_embedded($this->item['description'], 'download', $origin);
@@ -893,7 +799,7 @@ Class Article extends Anchor {
 			$query[] = "description = '".SQL::escape($text)."'";
 
 		// append a reference to a new image to the description
-		} elseif($action == 'image:create') {
+		} elseif(($action == 'image:create') && $origin) {
 			if(!Codes::check_embedded($this->item['description'], 'image', $origin)) {
 
 				// list has already started
@@ -919,7 +825,7 @@ Class Article extends Anchor {
 				$silently = TRUE;
 
 		// suppress a reference to an image that has been deleted
-		} elseif($action == 'image:delete') {
+		} elseif(($action == 'image:delete') && $origin) {
 
 			// suppress reference in main description field
 			$query[] = "description = '".SQL::escape(Codes::delete_embedded($this->item['description'], 'image', $origin))."'";
@@ -944,7 +850,7 @@ Class Article extends Anchor {
 			}
 
 		// set an existing image as the article icon
-		} elseif($action == 'image:set_as_icon') {
+		} elseif(($action == 'image:set_as_icon') && $origin) {
 			include_once $context['path_to_root'].'images/images.php';
 			if($image = Images::get($origin)) {
 				if($url = Images::get_icon_href($image))
@@ -957,7 +863,7 @@ Class Article extends Anchor {
 			}
 
 		// set an existing image as the article thumbnail
-		} elseif($action == 'image:set_as_thumbnail') {
+		} elseif(($action == 'image:set_as_thumbnail') && $origin) {
 			include_once $context['path_to_root'].'images/images.php';
 			if($image = Images::get($origin)) {
 
@@ -975,7 +881,7 @@ Class Article extends Anchor {
 			$silently = TRUE;
 
 		// append a new image, and set it as the article thumbnail
-		} elseif($action == 'image:set_as_both') {
+		} elseif(($action == 'image:set_as_both') && $origin) {
 			if(!Codes::check_embedded($this->item['description'], 'image', $origin))
 				$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
 
@@ -997,21 +903,21 @@ Class Article extends Anchor {
 			$silently = TRUE;
 
 		// add a reference to a location in the article description
-		} elseif($action == 'location:create') {
+		} elseif(($action == 'location:create') && $origin) {
 			if(!Codes::check_embedded($this->item['description'], 'location', $origin))
 				$query[] = "description = '".SQL::escape($this->item['description'].' [location='.$origin.']')."'";
 
 		// suppress a reference to a location that has been deleted
-		} elseif($action == 'location:delete') {
+		} elseif(($action == 'location:delete') && $origin) {
 			$query[] = "description = '".SQL::escape(Codes::delete_embedded($this->item['description'], 'location', $origin))."'";
 
 		// add a reference to a new table in the article description
-		} elseif($action == 'table:create') {
+		} elseif(($action == 'table:create') && $origin) {
 			if(!Codes::check_embedded($this->item['description'], 'table', $origin))
 				$query[] = "description = '".SQL::escape($this->item['description']."\n".'[table='.$origin.']'."\n")."'";
 
 		// suppress a reference to a table that has been deleted
-		} elseif($action == 'table:delete') {
+		} elseif(($action == 'table:delete') && $origin) {
 			$query[] = "description = '".SQL::escape(Codes::delete_embedded($this->item['description'], 'table', $origin))."'";
 
 		}
@@ -1031,116 +937,6 @@ Class Article extends Anchor {
 			SQL::query($query);
 		}
 
-		// load the anchor, if any
-		$anchor = NULL;
-		if(isset($this->item['anchor']) && $this->item['anchor'])
-			$anchor =& Anchors::get($this->item['anchor']);
-
-		// do not signal the change to watchers if the page is on draft mode
-		if(!isset($this->item['publish_date']) ||  ($this->item['publish_date'] <= NULL_DATE)) {
-			$to_watchers = FALSE;
-			$to_followers = FALSE;
-		}
-
-		// do not forward this to followers if the page is private
-		if($this->item['active'] == 'N')
-			$to_followers = FALSE;
-
-		// send alert only on new stuff
-		if(preg_match('/:create$/i', $action)) {
-
-			// poster name
-			$surfer = Surfer::get_name();
-
-			// mail message
-			$mail = array();
-
-			// mail subject
-			$mail['subject'] = sprintf(i18n::c('%s: %s'), i18n::c('Contribution'), strip_tags($this->item['title']));
-
-			// nothing done yet
-			$summary = $title = $link = '';
-
-			// a file has been added to the page
-			if($action == 'file:create') {
-				if(($target = Files::get($origin)) && $target['id']) {
-
-					// file title
-					if($target['title'])
-						$title = $target['title'];
-					else
-						$title = $target['file_name'];
-
-					// message components
-					$summary = sprintf(i18n::c('A file has been uploaded by %s'), $surfer);
-					$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($target);
-
-					// threads messages
-					$mail['headers'] = Mailer::set_thread('file:'.$target['id'], $this->get_reference());
-
-				}
-
-			// a comment has been added to the page
-			} else if($action == 'comment:create') {
-				include_once $context['path_to_root'].'comments/comments.php';
-				if(($target = Comments::get($origin)) && $target['id']) {
-
-					// title with link to the commented page
-					$page_title_link = '<a href="'.$context['url_to_home']
-					    .$context['url_to_root']
-					    .Articles::get_permalink($this->item)
-					    .'">'.$this->item['title'].'</a>';
-
-					// insert the full content of the comment, to provide the full information
-					$summary = '<p>'.sprintf(i18n::c('%s has contributed to %s'), $surfer, $page_title_link).'</p>'
-						.'<div style="margin: 1em 0;">'.Codes::beautify($target['description']).'</div>';
-
-					// offer to react to the comment
-					$title = i18n::s('Reply');
-					$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($target['id'], 'reply');
-
-					// threads messages
-					$mail['headers'] = Mailer::set_thread('comment:'.$target['id'], $this->get_reference());
-
-				}
-
-			// something else has been added to the page
-			} else {
-
-				// add poster name if applicable
-				$summary = sprintf(i18n::c('%s by %s'), Anchors::get_action_label($action), Surfer::get_name());
-
-				// message components
-				$title = sprintf(i18n::c('%s in %s'), ucfirst($action), strip_tags($this->item['title']));
-				$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($this->item);
-
-				// threads messages
-				$mail['headers'] = Mailer::set_thread('', $this->get_reference());
-
-			}
-
-			// message to watchers
-			$mail['message'] =& Mailer::build_notification($summary, $title, $link, 1);
-
-			// we only have mail address of page creator
-			if(!$this->item['create_id'] && $this->item['create_address'])
-				Mailer::notify(Surfer::from(), $this->item['create_address'], $mail['subject'], $mail['message'], isset($mail['headers'])?$mail['headers']:'');
-
-			// alert watchers
-			if($to_watchers)
-				Users::alert_watchers('article:'.$this->item['id'], $mail);
-
-			// alert connexions, except on private pages
-			if(Surfer::get_id() && $to_followers) {
-
-				// message to connexions
-				$mail['message'] =& Mailer::build_notification($summary, $title, $link, 2);
-
-				// alert connexions
-				Users::alert_watchers('user:'.Surfer::get_id(), $mail);
-			}
-		}
-
 		// add this page to the watch list of the contributor, on any action
 		if(Surfer::get_id())
 			Members::assign('article:'.$this->item['id'], 'user:'.Surfer::get_id());
@@ -1153,30 +949,20 @@ Class Article extends Anchor {
 
 		// get the parent
 		if(!$this->anchor)
-			$this->anchor =& Anchors::get($this->item['anchor']);
+			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// propagate the touch upwards
-		if(is_object($this->anchor)) {
-
-			// notify the full contribution to section watcher
-			if($action == 'comment:create')
-				$action = 'article:comment';
-
-			// default case
-			else
-				$action = 'article:update';
-
-			$this->anchor->touch($action, $this->item['id'], TRUE, $to_watchers);
-		}
+		if(is_object($this->anchor))
+			$this->anchor->touch('article:update', $this->item['id'], TRUE);
 
 	}
 
 	/**
 	 * transcode some references
 	 *
-	 * @param array of pairs of strings to be used in preg_replace()
-	 *
 	 * @see images/images.php
+	 *
+	 * @param array of pairs of strings to be used in preg_replace()
 	 */
 	function transcode($transcoded) {
 		global $context;

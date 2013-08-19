@@ -29,12 +29,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Sections::get($id);
+$item = Sections::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // load the skin, maybe with a variant
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
@@ -64,7 +64,7 @@ if(Surfer::is_crawler()) {
 	include '../error.php';
 
 // permission denied
-} elseif(!Sections::is_owned($item, $anchor)) {
+} elseif(!Sections::is_owned($item, $anchor) && !Surfer::is_associate()) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
@@ -85,7 +85,7 @@ elseif(Sections::lock($item['id'], $item['locked'])) {
 	Sections::clear($item);
 
 	// redirect to the page
-	Safe::redirect($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item));
+	Safe::redirect(Sections::get_permalink($item));
 
 // failed operation
 } else

@@ -53,7 +53,6 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once 'files.php';
-include_once '../users/activities.php'; // record file fetch
 
 // check network credentials, if any -- used by winamp and other media players
 if($user = Users::authenticate())
@@ -76,12 +75,12 @@ elseif(isset($context['arguments'][1]))
 $action = strip_tags($action);
 
 // get the item from the database
-$item =& Files::get($id);
+$item = Files::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get related behaviors, if any
 $behaviors = NULL;
@@ -89,20 +88,12 @@ include_once '../behaviors/behaviors.php';
 if(isset($item['id']))
 	$behaviors = new Behaviors($item, $anchor);
 
-// public access is allowed
-if(isset($item['active']) && ($item['active'] == 'Y'))
-	$permitted = TRUE;
+// change default behavior
+if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('files/fetch.php', 'file:'.$item['id']))
+	$permitted = FALSE;
 
-// access is restricted to authenticated member
-elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_logged())
-	$permitted = TRUE;
-
-// the item is anchored to the profile of this member
-elseif(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
-	$permitted = TRUE;
-
-// associates, editors and readers can view the page
-elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
+// check access rights
+elseif(Files::allow_access($item, $anchor))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -196,7 +187,7 @@ if(!isset($item['id']) || !$item['id']) {
 		Logger::error('Unexpected Content-Type');
 
 	// not allowed to write
-	} elseif(!$output_handle = Safe::fopen($context['path_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']), "wb")) {
+	} elseif(!$output_handle = Safe::fopen($context['path_to_root'].Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']), "wb")) {
 		Safe::header('500 Internal Server Error');
 		Logger::error('Not allowed to write to local file');
 
@@ -298,16 +289,14 @@ if(!isset($item['id']) || !$item['id']) {
 		.'</div></form>'."\n";
 
 	// set the focus
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#confirmed").focus();'."\n"
-		.JS_SUFFIX."\n";
+	Page::insert_script('$("#confirmed").focus();');
 
 //actual transfer
 } elseif($item['id'] && $item['anchor']) {
 
 	// increment the count of downloads
-	Files::increment_hits($item['id']);
+	if(!Surfer::is_crawler())
+		Files::increment_hits($item['id']);
 
 	// record surfer activity
 	Activities::post('file:'.$item['id'], 'fetch');
@@ -323,13 +312,10 @@ if(!isset($item['id']) || !$item['id']) {
 		$file_name = utf8::to_ascii($item['file_name']);
 
 		// where the file is located
-		$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+		$path = Files::get_path($item['anchor']).'/'.$item['file_name'];
 
 		// file attributes
 		$attributes = array();
-
-		// map the file onto the regular web space
-		$url_prefix = $context['url_to_home'].$context['url_to_root'];
 
 		// transmit file content
 		if(!headers_sent() && ($handle = Safe::fopen($context['path_to_root'].$path, "rb")) && ($stat = Safe::fstat($handle))) {
@@ -390,11 +376,11 @@ if(!isset($item['id']) || !$item['id']) {
 			}
 
 			// serve the right type
-			Safe::header('Content-Type: '.Files::get_mime_type($item['file_name'], TRUE));
+			Safe::header('Content-Type: '.Files::get_mime_type($item['file_name']));
 
 			// suggest a name for the saved file
-			$file_name = str_replace('_', ' ', utf8::to_ascii($item['file_name']));
-			Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
+			$file_name = utf8::to_ascii($item['file_name']);
+			Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $file_name).'"');
 
 			// we accepted (limited) range requests
 			Safe::header('Accept-Ranges: bytes');
@@ -459,7 +445,7 @@ if(!isset($item['id']) || !$item['id']) {
 		}
 
 		// redirect to the actual file
-		$target_href = $url_prefix.$path;
+		$target_href = $context['url_to_home'].$context['url_to_root'].Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']);
 	}
 
 	// let the web server provide the actual file

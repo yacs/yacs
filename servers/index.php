@@ -83,7 +83,7 @@ if(($page > 1) && (($page - 1) * SERVERS_PER_PAGE > $stats['count'])) {
 	
 	// seek the database
 	$cache_id = 'servers/index.php#text#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	if(!$text = Cache::get($cache_id)) {
 	
 		// query the database and layout that stuff
 		$offset = ($page - 1) * SERVERS_PER_PAGE;

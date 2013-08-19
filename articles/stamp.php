@@ -40,12 +40,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // do not always show the edition form
 $with_form = FALSE;
@@ -74,7 +74,7 @@ if(Surfer::is_crawler()) {
 	include '../error.php';
 
 // publication is restricted to some people
-} elseif(!Articles::allow_publication($anchor, $item)) {
+} elseif(!Articles::allow_publication($item,$anchor)) {
 
 	// anonymous users are invited to log in
 	if(!Surfer::is_logged())

@@ -10,6 +10,9 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 
+// ensure we only provide public content through newsfeeds
+$context['users_without_teasers'] = 'Y';
+
 // load the rendering skin
 load_skin('feeds');
 
@@ -83,14 +86,14 @@ if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path
 
 			if($introduction)
 				$text .= '		<summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
-'.Feeds::encode_text($introduction)."</div></summary>\n";
+'.xml::strip_invisible_tags($introduction)."</div></summary>\n";
 			else
 				$text .= '		<summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
 '."</div></summary>\n";
 
 			if($description)
 				$text .= '		<content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
-'.Feeds::encode_text($description)."</div></content>\n";
+'.xml::strip_invisible_tags($description)."</div></content>\n";
 
 			if(intval($time))
 				$text .= '		<updated>'.gmdate('Y-m-d\TH:i:s\Z', intval($time))."</updated>\n";
@@ -128,7 +131,7 @@ render_raw('text/xml; charset='.$context['charset']);
 // suggest a name on download
 if(!headers_sent()) {
 	$file_name = utf8::to_ascii($context['site_name'].'.atom.xml');
-	Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
+	Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 }
 
 // enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

@@ -16,9 +16,9 @@ Class Layout_links_as_feed extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array of resulting items, or NULL
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -29,11 +29,11 @@ Class Layout_links_as_feed extends Layout_interface {
 			return $items;
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the anchor for this link
 			if($item['anchor'])
-				$anchor =& Anchors::get($item['anchor']);
+				$anchor = Anchors::get($item['anchor']);
 
 			// url is the link itself
 			$url = $item['link_url'];
@@ -62,7 +62,7 @@ Class Layout_links_as_feed extends Layout_interface {
 			$description = Skin::cap($description, 300);
 
 			// fix image references
-			$description = preg_replace('/"\/([^">]+?)"/', '"'.$context['url_to_home'].'/\\1"', $description);
+			$description = preg_replace('#"/([^">]+?)"#', '"'.$context['url_to_home'].'/$1"', $description);
 
 			$introduction = $description;
 

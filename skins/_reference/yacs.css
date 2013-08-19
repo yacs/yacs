@@ -46,60 +46,154 @@ h3 { font-size: 3.0em; }
 
 h4 { font-size: 2.0em; }
 
+input {
+	padding: 2px;
+	font-family: Georgia, Times, serif;
+	font-size: 13px;
+}
+
+textarea {
+	padding: 2px;
+	font-family: Georgia, Times, serif;
+	font-size: 13px;
+}
+
 /*************************
  * styles demonstrated into test page skins/test.php
  *************************/
 
 /* some tabs */
 
-div.tabs {
+.tabs {
       float:left;
       width:100%;
       line-height: 1em;
 }
 
-div.tabs,
-div.tabs a { /* text appearance in tabs */
+.tabs,
+.tabs a { /* text appearance in tabs */
 }
 
-div.tabs ul { /* position tabs */
+.tabs ul { /* position tabs */
 	margin: 0;
 	padding: 10px 10px 0 15px;
 	list-style: none;
 }
 
-div.tabs ul li {
+.tabs ul li {
       display: inline;
       margin: 0;
       padding: 0;
 }
 
-div.tabs li a { /* tab top left corner */
+.tabs li a { /* tab top left corner */
       float: left;
       margin: 0;
       padding: 0 0 0 4px;
       text-decoration: none;
 }
 
-div.tabs li a span { /* tab top right corner */
+.tabs li a span { /* tab top right corner */
       float: left;
       display: block;
       padding: 5px 12px 4px 6px;
       color: #666;
 }
 
-div.tabs li a:hover,
-div.tabs li a.current { /* change tab background on hovering */
+.tabs li a:hover,
+.tabs li a.current { /* change tab background on hovering */
 	background-position: 0% -42px;
 	cursor: pointer; /* else ie 6 is lost */
 }
 
-div.tabs li a:hover span,
-div.tabs li a.current span { /* change tab background on hovering */
+.tabs li a:hover span,
+.tabs li a.current span { /* change tab background on hovering */
 	background-position: 100% -42px;
 	color:#FF9834;
 }
 
+
+/**
+* styles for drop down menu within tabs
+* <ul>
+*	<li>level 1 entry
+*		<div class="dropmenu">
+			<p class ="details" id="dropcount">(xx sections)</p>
+*			<ul>
+*				<li>level 2 entry</li>
+*			</ul>
+*		</div>
+*	</li>
+* </ul>
+*
+* !Important : if within header_panel, set overflow to visible
+* for this tag in your style sheet.
+* you can't see second-level <ul> either !
+*/
+
+/* li elements of first level <ul> have to be block and set
+ * as reference for absolute positionning of second level <ul> */
+.tabs ul li {
+	position:relative;
+	display: block;
+	float: left; 		/*to appear as a horizontal menu*/
+}
+
+/* rule for second level list
+ * list should be right under first level <li>
+ * with side and bottom padding so not disapearing to fast*/
+.tabs ul li .dropmenu {
+	position:absolute; 			/*from first level <li>*/
+	top:100%; 					/*start the top of second-level <ul> at the bottom of first-level <li>*/
+	left : 0; 					/*align left, but set as you need*/
+	display : none; 			/*showed only when first level <ul> is hovered*/
+	z-index: 10; 				/*ensure it's over other following "relative" tags*/
+	padding:0 8px 8px 8px; 		/* ensure displaying doesn't dispear to fast while moving the mouse away */
+	border : 1px solid #888; 	/* basic to delimitate the dropmenu */
+	border-top : none;
+	/*margin-top: 2px; 			/* equals ul li border bottom; */
+}
+
+/* display second level <ul> when first-level <li> is hovered*/
+.tabs ul li:hover .dropmenu {
+	display : block;
+}
+
+.tabs .dropmenu li {
+	float:none;		/* prevent inheritage from tabs' rules*/
+	display : block;	/* prevent inheritage from tabs' rules*/
+	background-color : #FFF;/* distinguish from background*/
+	background-image : none;/* prevent inheritage from tabs' rules*/
+	width : 130px; 		/* 152px - padding 2x8px + 2x2px - border 2x1px */
+	height : auto;		/* prevent inheritage from tabs' rules*/
+	min-height : 1.5em;	/* ensure good appearence*/
+	border : none;		/* prevent inheritage from tabs' rules*/
+	padding : 2px;		/* ensure good appearence*/
+	margin-right: 0px;
+}
+
+/*not all second-level <li> content may be a link*/
+.tabs ul li ul li:hover {
+	cursor: default;	/* prevent inheritage from tabs' rules*/
+	background : #DEE; /* basic to make pleasant hovering */
+}
+
+/* prevent inheritage from tabs' rules*/
+.tabs ul li ul li a, div.tabs ul li ul li a span {
+	display : inline;
+	float : none;
+	background : none;
+	padding: 0px;
+}
+
+/*minimize icon size */
+.dropmenu .icon img {
+	max-height: 40px;
+	max-width: 40px;
+}
+
+/* format hint that display count of total subsections */
+#dropcount {text-align:center;margin: 0 5px 5px;padding:0;}
 
 /* navigation boxes (in the side panel) */
 
@@ -201,21 +295,30 @@ p#crumbs a { /* one of the links to go up */
 /* the main menu of commands */
 
 p#page_menu { /* the main horizontal menu of commands */
-	margin: 0 0 8px 0;
+	margin: 2px 0 8px 0;
 	font-weight: normal;
 }
 
-p#page_menu a,
-p#page_menu a:hover { /* a link in the menu */
-	margin: 0;
-	padding: 0px 0px 0px 7px;
-	background: transparent url("links/menu_bar.gif") no-repeat bottom left;
+p#page_menu a { /* a link in the main page menu */
+	margin: 2px;
+	padding: 0.25em 0.55em;
+	background-color: #666666;
+	color: white;
+	border-radius: 5px; -moz-border-radius:5px; -webkit-border-radius:5px;
+	display: inline-block;
 	text-decoration: none;
 	font-weight: normal;
 }
 
+p#page_menu a:active { /* click on button */
+	left: 1px;
+	position: relative;
+	top: 1px;
+}
+
 p#page_menu a:hover { /* about to click */
-	color: red;
+	position: relative;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
 }
 
 p#page_menu a.button,
@@ -228,8 +331,7 @@ p#page_menu a.button:hover span { /* no specific background image for buttons */
 
 p#page_menu a span { /* to complement background, if required */
 	margin: 0;
-	padding: 0px 7px 0px 0px;
-	background: transparent url("links/menu_bar.gif") no-repeat bottom right;
+	padding: 0;
 }
 
 p#page_menu a span.first { /* first command on left */
@@ -371,7 +473,7 @@ span.details a { /* faded into text */
 }
 
 p.details { /* stick to previous and next elements */
-	margin: 0;
+	margin: 0.2em 0;
 	padding: 0;
 }
 
@@ -380,9 +482,14 @@ p.details { /* stick to previous and next elements */
 /* content generated by yacs is structured as successive boxes */
 
 div.box { /* some content with a title */
+	position: relative;
+	margin-bottom: 1em;
 }
 
 div.box h2 { /* box title */
+	border: none;
+	margin: 0;
+	padding: 3px 0;
 }
 
 h2.top, h3.top { /* no top margin */
@@ -392,76 +499,128 @@ h2.top, h3.top { /* no top margin */
 div.box h2 span { /* for a complementary background image */
 }
 
+div.box h2,
+div.box h2 span,
+div.box h2 a,
+div.box h2 a:hover,
+div.box h2 a span {
+	font-size: 16px;
+	line-height: normal;
+	text-decoration: none;
+}
+
 div.box div.content { /* actual content of the box */
 	overflow: hidden; /* clear floats, as in http://www.quirksmode.org/css/clearing.html */
 	width: 100%;
+	position: relative;
 }
+
+html > body .ibox { display:inline-block; } /* inline boxes that work on IE6 -- use span.ibox */
+.ibox {display:inline-block;position:relative;}
+* html .ibox { display: inline; }
+:first-child + html .ibox { display:inline; }
 
 /* menu bars */
 
-p.menu_bar { /* an horizontal menu of commands */
-	margin: 1em 0 1em 0;
+div.menu_bar,
+p.assistant_bar { /* an horizontal menu of commands */
+	margin: 0.5em 0 1em 0;
 	padding: 3px 0 3px 0;
 	font-weight: normal;
+	line-height: 2em; /* because of large padded links */
 }
 
-p.menu_bar a,
-p.menu_bar a:hover { /* one command */
-	margin: 0;
-	padding: 0px 0px 0px 7px;
-	background: transparent url("links/menu_bar.gif") no-repeat bottom left;
+div.menu_bar a { /* one command */
+	background-color: #ddd;
+	color: black;
+	font-size: 1em;
+	font-style: none;
+	border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;
+	padding: 5px 8px 3px 8px;
+	margin: 2px;
+}
+
+div.menu_bar a:hover { /* behaviour on hovering */
+	cursor: pointer;
+	position: relative;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
 	text-decoration: none;
-	font-weight: normal;
 }
 
-p.menu_bar a:hover { /* behaviour on hovering */
-	color: red;
+div.menu_bar a.button,
+div.menu_bar a.button span,
+div.menu_bar a.button:hover,
+div.menu_bar a.button:hover span { /* no specific background image for buttons */
 }
 
-p.menu_bar a.button,
-p.menu_bar a.button span,
-p.menu_bar a.button:hover,
-p.menu_bar a.button:hover span { /* no specific background image for buttons */
-	background-color: #c0c0c0;
-	background-image: none;
+div.menu_bar a span { /* secondary background image */
 }
 
-p.menu_bar a span { /* secondary background image */
-	margin: 0;
-	padding: 0px 7px 0px 0px;
-	background: transparent url("links/menu_bar.gif") no-repeat bottom right;
+div.menu_bar span.first a { /* first command of the menu */
 }
 
-p.menu_bar a span.first { /* first command of the menu */
+div.menu_bar > span.label { /* some text in a menu bar, with no link */
+	background-color: #eee;
+	color: black;
+	font-size: 1em;
+	font-style: none;
+	border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;
+	padding: 5px 8px 3px 8px;
+	margin: 2px;
 }
 
-p.menu_bar a span.last { /* last command of the menu */
+div.menu_bar span.last a { /* last command of the menu */
+}
+
+div.menu_bar a span a,
+div.menu_bar a span a:hover,
+div.menu_bar a span a span,
+div.menu_bar a span a:hover span { /* don't put background image on sub links (e.g., drop menus) */
+
+	background: none;
+
 }
 
 @media print { /* do not print menu bars */
 
-	p.menu_bar { display: none; }
+	div.menu_bar { display: none; }
 
 }
 
 
 /* navigation bar */
 
-.pager-current { /* where we are */
-	border: 1px solid #cccccc;
-	margin: 0 3px;
-	padding: 0 3px;
+a.pager-current,	/* where we are */
+a.pager-item,		/* navigation link in option */
+a.pager-previous,	/* link to previous item */
+a.pager-next {		/* link to next item */
+	background-color: #ddd;
+	color: black;
+	font-size: 1em;
+	font-style: none;
+	border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;
+	padding: 5px 8px 3px 8px;
+	margin: 2px;
 }
 
-.pager-item { /* navigation link */
-	margin: 0 3px;
-	padding: 0 3px;
+a.pager-current {
+	border: 1px solid black;
 }
 
+a.pager-current:hover,
+a.pager-item:hover,
+a.pager-previous:hover,
+a.pager-next:hover {
+	color: black;
+	cursor: pointer;
+	position: relative;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
+	text-decoration: none;
+}
 table.neighbours { /* previous and next links */
 	clear: left;
 	border: none;
-	margin: 0 auto;
+	margin: 1em auto;
 }
 
 table.neighbours tr td {
@@ -506,29 +665,34 @@ table.neighbours tr td.previous { /* to the left */
 
 /* vertical and horizontal layouts --it used to be named "form" instead of "layout" */
 
-table.layout,
 table.form {
-/*	margin: 0 auto; */
 	width: 99%; /* not 100% because of IE6 */
 	border: none; /* we are only interested into the layout */
 	margin: 0;
 	padding: 0;
 }
 
-table.layout tbody tr td.center,
-table.form tbody tr td.center,
-table.layout tbody tr td.east,
-table.form tbody tr td.east,
-table.layout tbody tr td.west,
-table.form tbody tr td.west,
-table.layout tbody tr td.north,
-table.form tbody tr td.north,
-table.layout tbody tr td.equator,
-table.form tbody tr td.equator,
-table.layout tbody tr td.south,
-table.form tbody tr td.south,
-table.layout tbody tr td,
-table.form tbody tr td{
+table.layout {
+	width: auto; /* fully adapt to content */
+	border: none; /* we are only interested into the layout */
+	margin: 0;
+	padding: 0;
+}
+
+table.layout > tbody > tr > td.center,
+table.form > tbody > tr > td.center,
+table.layout > tbody > tr > td.east,
+table.form > tbody > tr > td.east,
+table.layout > tbody > tr > td.west,
+table.form > tbody > tr > td.west,
+table.layout > tbody > tr > td.north,
+table.form > tbody > tr > td.north,
+table.layout > tbody > tr > td.equator,
+table.form > tbody > tr > td.equator,
+table.layout > tbody > tr > td.south,
+table.form > tbody > tr > td.south,
+table.layout > tbody > tr > td,
+table.form > tbody > tr > td{
 	padding: 0; /* save on space around cells */
 	margin: 0;
 	text-align: left; /* prefix cells with 'left=' or 'center=' or 'right=' to change alignment */
@@ -536,22 +700,22 @@ table.form tbody tr td{
 	background: transparent none;
 }
 
-table.layout tbody tr.even td.center,
-table.form tbody tr.even td.center,
-table.layout tbody tr.even td.east,
-table.form tbody tr.even td.east,
-table.layout tbody tr.even td.west,
-table.form tbody tr.even td.west,
-table.layout tbody tr.even td,
-table.form tbody tr.even td,
-table.layout tbody tr.odd td.center,
-table.form tbody tr.odd td.center,
-table.layout tbody tr.odd td.east,
-table.form tbody tr.odd td.east,
-table.layout tbody tr.odd td.west,
-table.form tbody tr.odd td.west,
-table.layout tbody tr.odd td,
-table.form tbody tr.odd td { /* some space around content when background is paint */
+table.layout > tbody > tr.even > td.center,
+table.form > tbody > tr.even > td.center,
+table.layout > tbody > tr.even > td.east,
+table.form > tbody > tr.even > td.east,
+table.layout > tbody > tr.even > td.west,
+table.form > tbody > tr.even > td.west,
+table.layout > tbody > tr.even > td,
+table.form > tbody > tr.even > td,
+table.layout > tbody > tr.odd > td.center,
+table.form > tbody > tr.odd > td.center,
+table.layout > tbody > tr.odd > td.east,
+table.form > tbody > tr.odd > td.east,
+table.layout > tbody > tr.odd > td.west,
+table.form > tbody > tr.odd > td.west,
+table.layout > tbody > tr.odd > td,
+table.form > tbody > tr.odd > td { /* some space around content when background is paint */
 	padding: 0.5em;
 }
 
@@ -563,6 +727,12 @@ table.layout tbody tr td.equator { /* some room between rows */
 table.layout tbody tr td.west,
 table.layout tbody tr td.center { /* some room between columns */
 	padding-right: 3em;
+}
+
+form textarea,
+#comment_form textarea {
+	margin: 0 auto;
+	width: 90%;
 }
 
 /* explorer tree (in #contextual_menu) */
@@ -589,6 +759,7 @@ dl#contextual_menu ul.tree ul { /* indent all levels, except level 1 */
 }
 
 dl#contextual_menu ul.tree li { /* every branch of the tree */
+	list-style-type: none;
 	border: none;
 	margin: 0;
 	padding-top: 0;
@@ -632,7 +803,41 @@ dl#contextual_menu ul.tree li a.open { /* item has the current focus */
 }
 
 
+/* tipsy -- see http://onehackoranother.com/projects/jquery/tipsy/ */
 
+.tipsy { padding: 5px; font-size: 10px; position: absolute; z-index: 1000; }
+  .tipsy-inner { padding: 5px 8px 4px 8px; background-color: black; color: white; max-width: 200px; text-align: center; }
+  .tipsy-inner { border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px; }
+  .tipsy-arrow { position: absolute; background: url('tools/tipsy.gif') no-repeat top left; width: 9px; height: 5px; }
+  .tipsy-n .tipsy-arrow { top: 0; left: 50%; margin-left: -4px; }
+    .tipsy-nw .tipsy-arrow { top: 0; left: 10px; }
+    .tipsy-ne .tipsy-arrow { top: 0; right: 10px; }
+  .tipsy-s .tipsy-arrow { bottom: 0; left: 50%; margin-left: -4px; background-position: bottom left; }
+    .tipsy-sw .tipsy-arrow { bottom: 0; left: 10px; background-position: bottom left; }
+    .tipsy-se .tipsy-arrow { bottom: 0; right: 10px; background-position: bottom left; }
+  .tipsy-e .tipsy-arrow { top: 50%; margin-top: -4px; right: 0; width: 5px; height: 9px; background-position: top right; }
+  .tipsy-w .tipsy-arrow { top: 50%; margin-top: -4px; left: 0; width: 5px; height: 9px; }
+
+.tipsy_thumbnail { /* absolute limit for the contained iframe */
+    width: 200px;
+    height: 130px;
+    overflow: hidden;
+    background-color: white;
+    background-image: none;
+    margin: 3px 0 4px 0;
+}
+
+.tipsy_iframe {	/* display a scaled-down web page */
+    width: 800px;
+    height: 520px;
+    border: none;
+	-moz-transform: scale(0.25);
+    -moz-transform-origin: 0 0;
+    -o-transform: scale(0.25);
+    -o-transform-origin: 0 0;
+    -webkit-transform: scale(0.25);
+    -webkit-transform-origin: 0 0;
+}
 
 /*************************
  * styles demonstrated into help page codes/basic.php
@@ -657,21 +862,25 @@ code { /* ##..## or [code]..[/code] -- some script shell */
 
 a.tiny,
 span.tiny a,
+div.tiny,
 span.tiny { /* [tiny]...[/tiny] -- smaller than .small*/
 	font-family: sans-serif;
 	font-size: 9px;
 }
 
+div.small,
 span.small { /* [small]...[/small] -- smaller than default, but larger than .tiny */
 	font-family: sans-serif;
 	font-size: 0.75em;
 }
 
+div.big,
 span.big { /* [big]...[/big] -- bigger than default, but smaller than .huge */
 	font-size: 1.5em;
 	line-height: 1.1em;
 }
 
+div.huge,
 span.huge { /* [huge]...[/huge] -- bigger than .big */
 	font-size: 3em;
 	line-height: 1.1em;
@@ -749,31 +958,52 @@ a img {
 }
 
 a.button,
-p.menu_bar a.button { /* [button]url[/button], [button=label]url[/button] -- a link that mimic a form button */
-	border-color: #dcdcdc #696969 #696969 #dcdcdc;
-	border-style: solid;
-	border-width: 2px;
-	text-align: center;
-	padding: 4px;
-	line-height: 2.5em;
-	background-color: #c0c0c0;
+div.menu_bar a.button,
+input[type="submit"],
+button.bigButton,
+div.menu_bar .button button { /* [button]url[/button], [button=label]url[/button] -- a link that mimic a form button */
+	background: -moz-linear-gradient(center top , #FFFFFF, #CCCCCC) repeat scroll 0 0 transparent;
+    border: 1px solid #AAAAAA;
+    border-radius: 12px 12px 12px 12px;
+    color: #111111;
+    font-weight: normal;
+	font-size: 1em;
+    margin: 1px 4px 1px 4px;
+    padding: 5px 7px 4px 7px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #FFFFFF;
 }
 
 a.button,
 a.button span,
-a:visited.button,
-a:visited.button span {
-   	color: #202020;
+a.button:visited,
+a.button:visited span,
+div.menu_bar .button button span {
+	color: #111111;
+}
+
+a.button:active { /* click on button */
+	left: 1px;
+	position: relative;
+	top: 1px;
+}
+
+a.button:hover,
+div.menu_bar a.button:hover,
+input[type="submit"]:hover,
+button.bigButton:hover,
+div.menu_bar .button button:hover { /* hover a button */
+	background: -moz-linear-gradient(center top , #CCCCCC, #DDDDDD) repeat scroll 0 0 transparent;
+	cursor: pointer;
+	position: relative;
+	box-shadow: 0 2px 6px #FFFFFF inset, 0 3px 3px rgba(0, 0, 0, 0.6);
 	text-decoration: none;
 }
 
-a:active.button { /* click on button */
-	color: #202040;
-	border-color: #eaeaea #095ba5 #095ba5 #eaeaea;
-}
-
-a:hover.button { /* hover a button */
-	color: #202040;
+a.button.wide { /* a button spanning most of the available space */
+	display: block;
+	width: 98%;
+	text-align: center;
 }
 
 @media screen { /* not on printers */
@@ -808,12 +1038,14 @@ a:hover.button { /* hover a button */
 		background: none;
 	}
 
-	#main_panel a.external { /* the image near an external link -- [link]href[/link], [link=label]href[/link] */
+	#main_panel a.external span { /* the image near an external link -- [link]href[/link], [link=label]href[/link] */
 		padding-right: 15px;
-		background: transparent url("links/external.png") no-repeat right;
+		background-image: url("links/external.png");
+		background-position: right;
+		background-repeat: no-repeat;
 	}
 
-	* html #main_panel a.external { /* ie6 kills trailing rendering on long links */
+	* html #main_panel a.external span { /* ie6 kills trailing rendering on long links */
 		padding-right: 0px;
 		background: none;
 	}
@@ -833,9 +1065,39 @@ a:hover.button { /* hover a button */
 	}
 
 	#main_panel a.next { /* shortcut to next page -- [next=id], [next=id, label] */
+		background-color: #ddd;
+		color: black;
+		font-size: 1em;
+		font-style: none;
+		border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;
+		padding: 5px 8px 3px 8px;
+		margin: 2px;
+	}
+
+	#main_panel a.next:hover { /* about to click */
+		color: black;
+		cursor: pointer;
+		position: relative;
+		box-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
+		text-decoration: none;
 	}
 
 	#main_panel a.previous { /* shortcut to previous page -- [previous=id], [previous=id, label] */
+		background-color: #ddd;
+		color: black;
+		font-size: 1em;
+		font-style: none;
+		border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;
+		padding: 5px 8px 3px 8px;
+		margin: 2px;
+	}
+
+	#main_panel a.previous:hover { /* about to click */
+		color: black;
+		cursor: pointer;
+		position: relative;
+		box-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
+		text-decoration: none;
 	}
 
 	#main_panel a.script { /* the image near a link to a phpDoc page -- [script]path/script.php[/script] */
@@ -929,24 +1191,26 @@ table.decorated { /* [decorated]...[/decorated] -- a 2-column table, with images
 	margin-bottom: 1em;
 }
 
-table.decorated tr { /* vertical alignment */
+table.decorated tbody tr { /* vertical alignment */
 	margin: 0 0 1em 0;
 }
 
-table.decorated tr td.content { /* the cell with content */
+table.decorated tbody tr td.content { /* the cell with content */
 	border: none;
 	margin: 0;
-	padding: 6px 6px 1em 6px;
+	padding: 6px;
+	position: static;
 }
 
-table.decorated tr td.image { /* the cell with image */
+table.decorated tbody tr td.image { /* the cell with image */
 	border: none;
 	margin: 0;
 	padding: 5px 0;
+	position: static;
 }
 
-table.decorated tr td.image img {
-	margin: 2px 2px 0 0;	/* align the decorating image with decorated text */
+table.decorated tbody tr td.image img {
+	margin: 2px;	/* align the decorating image with decorated text */
 	max-width: 50px;		/* ensure that the image is not too large */
 	width: expression(this.width > 50 ? 50: true); /* just for IE 6 */
 	max-height: 50px;
@@ -954,17 +1218,17 @@ table.decorated tr td.image img {
 }
 
 div.caution { /* [caution]...[/caution] -- draw attention to a warning message */
-	margin: 1em 0 1em 0;
+	margin: 1em auto;
 	padding: 1em;
 	border: 1px solid #f66;
 	background-color: #faa;
 }
 
 div.note { /* [note]...[/note] -- draw attention to a note */
-	margin: 1em 0 1em 0;
+	margin: 1em auto;
 	padding: 1em;
-	border: 1px solid #f66;
-	background-color: #faa;
+	border: 1px solid #063;
+	background-color: #6c6;
 }
 
 pre { /* [php]...[/php] and [snippet]...[/snippet] -- pre-formatted text */
@@ -1028,7 +1292,7 @@ div.folder_box div.folder_body { /* rendering while unfolded */
 
 div.sidebar_box { /* [sidebar]...[/sidebar] -- a side box somewhere in the main panel */
 	float: right;
-	width: 10em;
+	width: 20em;
 	margin: 0 1em 1em 1em ;
 }
 
@@ -1077,9 +1341,10 @@ td { /* an ordinary table cell -- cells in [table]headers[body]content[/table] *
 	border-top: 1px solid #bfbfbf;
 	border-left: 1px solid #bfbfbf;
 	margin: 0;
-	padding: 4px;
+	padding: 8px;
 	vertical-align: top;
-    text-align: left;
+	text-align: left;
+	position: relative;
 }
 
 @media print { /* enhance printed material */
@@ -1105,7 +1370,7 @@ th { /* an ordinary table header -- headers in [table]headers[body]content[/tabl
 	border-top: 1px solid #bfbfbf;
 	border-left: 1px solid #bfbfbf;
 	margin: 0;
-	padding: 4px;
+	padding: 8px;
 	color: #444;
 	background-color: #ddd;
 }
@@ -1127,6 +1392,7 @@ th { /* an ordinary table header -- headers in [table]headers[body]content[/tabl
 table.grid,
 table.exhibit-tabularView-body { /* [table=grid]...[/table] - enhance table borders*/
 	border: none;
+	margin: 1em 0;
 }
 
 table.grid tbody tr td,
@@ -1138,6 +1404,7 @@ table.exhibit-tabularView-body tbody tr td,
 table.exhibit-tabularView-body tbody tr th { /* a cell in a grid */
 	border: 2px ridge #bfbfbf;
 	padding: 0.5em;
+	position: static; /* specially for firefox 8 */
 }
 
 #main_panel table.exhibit-tabularView-body { /* a table that takes as much space as possible horizontally */
@@ -1155,6 +1422,16 @@ table.tiny thead tr th { /* [table=tiny]...[/table] */
 table.wide { /* a table that takes as much space as possible horizontally */
 	width: 99%;
 	margin: 1px;
+}
+
+table.wide tbody tr td,
+table.wide tbody tr.even td,
+table.wide tbody tr.odd td,
+table.wide tbody tr th,
+table.wide thead tr th { /* a cell in a grid */
+	border: 2px ridge #bfbfbf;
+	padding: 0.5em;
+	position: static; /* specially for firefox 8 */
 }
 
 
@@ -1225,6 +1502,23 @@ div.toc_box { /* table of content -- [toc] */
 	position: relative;
 }
 
+div.toc_box a.handle { /* the handle to open/close the box */
+	background-color: #ddd;
+	color: black;
+	font-size: 1em;
+	font-style: none;
+	border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;
+	padding: 5px 8px 3px 8px;
+	margin: 2px;
+}
+
+div.toc_box a.handle:hover { /* about to click */
+	cursor: pointer;
+	position: relative;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
+	text-decoration: none;
+}
+
 div.toc_box a code { /* some code in a toc */
 	font-size: 1em;
 	font-family: tahoma, sans-serif;
@@ -1240,17 +1534,6 @@ div.toc_box div.panel { /* actual content of the table of content */
 	max-width: 30em;
 	position: absolute;
 	left: 0px;
-	z-index: 20;
-}
-
-div.toc_box ul { /* first level of the toc */
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-div.toc_box ul ul { /* second level of the toc */
-	margin-left: 1.3em;
 }
 
 div.toq_box { /* table of questions -- [toq] */
@@ -1283,6 +1566,15 @@ dl.newsfeed_item dd { /* [newsfeed=url] */
 	max-width: 500px; /* few words could create orphan lines */
 }
 
+dl.newsfeed_item dt h2 {
+	margin: 1em 0 auto;
+}
+
+dl.newsfeed_item dt span.details {
+	display: block;
+	margin: 2px auto;
+}
+
 dl.newsfeed_item dd,
 dl.newsfeed_item dd div,
 dl.newsfeed_item dd p {
@@ -1293,7 +1585,34 @@ dl.newsfeed_item dd img {
 	padding: 0.5em; /* some space between images and text around */
 }
 
+.tweet {
+	background: #fff;
+	margin: 4px 0;
+	width: 500px;
+	padding: 8px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+}
 
+.tweet img {
+	float: left;
+	margin: 0 8px 4px 0;
+}
+
+.tweet .text {
+	margin: 0;
+}
+
+.tweet .time a {
+	font-size: 80%;
+	color: #888;
+	white-space: nowrap;
+	text-decoration: none;
+}
+
+.tweet .time a:hover {
+	text-decoration: underline;
+}
 
 /*************************
  * styles demonstrated into help page codes/misc.php
@@ -1345,9 +1664,8 @@ hr { /* an ordinary horizontal rule --- [---], [___] */
  *************************/
 
 /**
- * scriptaculous autocomplete
+ * autocomplete
  *
- * @link http://wiki.script.aculo.us/scriptaculous/show/Ajax.Autocompleter
  */
 
 div.autocomplete,
@@ -1382,55 +1700,6 @@ div.autocomplete ul li,
 /*	height:32px; */
 	cursor:pointer;
 	background-image:none;
-}
-
-/**
- * forms with Ajax -- see forms/edit.php
- */
-
-div.captured { /* some text provided in the form */
-	border: 1px dotted #ddd;
-	margin: 1em auto 1em 0;
-	padding: 0.5em;
-}
-
-div.dropmarker { /* the horizontal line to track position during drag */
-	height: 6px;
-	width: 100px;
-	border-top: 3px solid #666;
-	color: #fff;
-	z-index: 1000;
-	margin: 0 0 30px 20px;
-}
-
-.sortable {
-	position: relative;
-/*	border: 1px solid #ccc; */
-	margin: 0.3em 0 0 0;
-	padding: 0.5em 0 0.5em 0;
-	width: 500px;
-}
-
-.sortable:hover {background-color: #edf6dd;}
-
-div#form_input_panel {
-	margin-top: 2em;
-	padding-top: 1em;
-}
-
-div#form_panel {
-	position: relative;
-}
-
-div#form_panel h2,
-div#form_panel h3 { /* align title with dragging handle */
-	clear: none;
-}
-
-div#form_wrapper { /* the panel where fields are handled */
-	margin-bottom: 2em;
-	padding-bottom: 0.5em;
-	min-height: 5em;
 }
 
 /**
@@ -1469,14 +1738,17 @@ div#modal_centered { /* the centered container */
 	position: absolute;
 	top: 30%;	/* top and left will be adjusted dynamically through javascript */
 	left: 30%;
-	display: block;
-	text-align: center;
+	display: block;	
 	color: #444;
 	background-color: #fff;
 	border: 2px solid #888;
 	margin: 0 auto;
-	padding: 4px;
+	padding: 4px;	
 	z-index: 2000;
+}
+
+#modal_content {
+    overflow-y : auto;
 }
 
 div#modal_content div.boxButtons {
@@ -1491,8 +1763,27 @@ div#modal_content h2.boxTitle {
 	text-align: center;
 }
 
+/* no menu bar in overlaid viewing, use modal box buttons instead */
+#modal_content .menu_bar {display :none;}
+
+#modal_centered .boxClose {
+    position : absolute;
+    top: -14px;
+    right: -10px;   
+    
+    background: #122;
+    color : #B99;
+    font-weight: bold;
+    
+    padding : 0 2px 1px;
+    border : 2px solid #B99;
+    border-radius : 5px;
+    
+}
+
 div#modal_image_panel {
 	padding: 6px;
+	text-align: center;
 }
 
 div#modal_panel {	/* the grey overlay that sits behind the modal box */
@@ -1504,7 +1795,6 @@ div#modal_panel {	/* the grey overlay that sits behind the modal box */
 	height: 100%;
 	min-height: 100%;
 	background: transparent url('ajax/overlay_background.png') repeat; /* transparent image generated at http://apps.everamber.com/alpha/ */
-	text-align: center;
 	z-index: 1999; /* just below modal_centered */
 }
 
@@ -1577,26 +1867,89 @@ dl#scrolling_news dd ul { /* a list with no bullet */
 
 
 /**
- * styles for chats
+ * styles for chats and for face to face sessions
  *
  * @see articles/view_as_chat.php
+ * @see faceme.php
  */
+
+body#faceme div#sharingPanel { /* help the surfer to spread the link */
+	width: 515px;
+	margin: 0;
+	padding: 1em;
+}
+
+body#faceme div#sharingPanel p { /* the help label */
+	margin: 0 0 0.5em;
+}
+
+body#faceme div#sharingPanel input { /* display the link to share */
+	width: 400px;
+}
+
+div#opentok { /* for videos above the chat area */
+	position: relative;
+	max-width: 720px; /* limit the width */
+	width: expression(this.width > 720 ? 720: true); /* just for IE 6 */
+	margin: 0;
+	padding: 0;
+}
+
+div#opentok .growl,
+body#faceme .growl { /* for real-time status updates */
+	font-size: 10px;
+	font-style: none;
+	padding: 2px 0;
+}
+
+div#opentok .growl span,
+body#faceme .growl span { /* tipsy-like real-time notification */
+	background-color: black;
+	color: white;
+	font-size: 10px;
+	font-style: none;
+	border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;
+	padding: 5px 8px 3px 8px;
+	margin: 2px;
+}
+
+div#opentok .subscriber { /* each listener has an invisible border at the top, to be replaced when he starts talking */
+	border-top: 3px solid transparent;
+}
+
+div#opentok .me { /* for my video */
+	margin: 0;
+	padding: 0;
+}
+
+div#opentok .others { /* for videos of other participants */
+	margin: 0;
+	padding: 0;
+}
+
+div#opentok .subscriber.talker { /* each talker has a red border at the top */
+	border-top: 3px solid red;
+}
 
 div#thread_wrapper { /* around text and input field */
 	position: relative;
-	max-width: 700px; /* limit the width */
-	width: expression(this.width > 700 ? 700: true); /* just for IE 6 */
-	margin: 1em 0;
+	max-width: 720px; /* limit the width */
+	width: expression(this.width > 720 ? 720: true); /* just for IE 6 */
+	margin: 0;
 	padding: 0 0 6px 0;
 }
 
-div#thread_wrapper textarea#contribution { /* the main input field */
+div#thread_wrapper textarea#description { /* the main input field */
+	max-width: 99%;
 	width: 99%;
-	margin: 0 0 0.5em 0;
+	margin: 0;
 	padding: 3px;
-	background-color: #eee;
+	background-color: #FFFFE5; /* #eee; */
 	overflow: auto; /* add a vertical scroller if required */
-	border: 1px dotted #aaa;
+	border-top: none;
+	border-right: 1px dotted #ccc;
+	border-bottom: 1px dotted #aaa;
+	border-left: 1px dotted #ccc;
 }
 
 div#thread_wrapper button#submit { /* the submit button */
@@ -1609,13 +1962,18 @@ div#thread_files_panel {
 }
 
 div#thread_text_panel { /* where successive contributions are displayed */
-	margin: 0 0 0.5em 0;
+	margin: 0;
 	padding: 0;
 	height: 350px; /* ensure the input field is always visible */
 	max-height: 350px;
 	overflow: auto; /* add a vertical scroller if required */
 	border: 1px dotted #ccc;
 	background-color: #fcfcfc;
+}
+
+div#thread_text_panel dl { /* all contributions */
+	margin: 0;
+	padding: 0;
 }
 
 div#thread_text_panel dl dd { /* one contribution */
@@ -1636,9 +1994,8 @@ div#thread_text_panel dl dd.thread_other { /* one contribution from another surf
 div#thread_text_panel dl dt { /* contributor details */
 	clear: both;	/* because of stacked rows */
 	float: left;
-/*	width: 120px; */
 	margin: 0;
-	padding: 0.3em 1em 0.3em 0.6em;
+	padding: 0.3em 1em 0 0.6em;
 	text-align: left;
 }
 
@@ -1651,37 +2008,6 @@ div#thread_text_panel dl dt.thread_other { /* details about other contributor */
 div.follow_up { /* comments from page author */
 	border: none;
 	background-color: #ffffe5;
-}
-
-/**
- * files in a collection
- *
- * @see collections/browse.php
- * @see shared/codes.php
- */
-
-table.collections { /* content of a directory */
-	border-spacing: 0;
-	border: none;
-}
-
-table.collections a img {
-	border: none;
-}
-
-table.collections td {
-	border: none;
-	margin: 0;
-	padding: 0.3em 8px 0.3em 8px;
-}
-
-table.collections th {
-	border: none;
-	margin: 0;
-	padding: 0.3em 8px 0.3em 8px;
-}
-
-ul.collections { /* a list of collections, in [collections] */
 }
 
 /**
@@ -1702,48 +2028,20 @@ ul.collections { /* a list of collections, in [collections] */
 }
 
 /**
- * comments in a manual
+ * comments in a wall
  *
- * @see comments/layout_comments_as_manual.php
+ * @see comments/layout_comments_as_updates.php
  */
 
-dl.manual_comments { /* to list comments in a manual */
-	margin: 0 1em 0 0;
-	padding: 0;
+.comment.approval  > p:first-of-type {		/* an approval */
+	background-color: yellow;
+	font-weight: bold;
+	padding: 0.5em 1em;
 }
 
-dl.manual_comments dd { /* body of one note */
-	margin: 0 0 1em 0;
-	padding: 0.3em 1em 1em 1em;
-}
-
-dl.manual_comments dd.odd {
-	border-left: 1px solid #daa;
-	border-right: 1px solid #daa;
-	border-bottom: 1px solid #daa;
-}
-
-dl.manual_comments dd.even {
-	border-left: 1px solid #aaf;
-	border-right: 1px solid #aaf;
-	border-bottom: 1px solid #aaf;
-}
-
-dl.manual_comments dt { /* header of one note */
-	margin: 1em 0 0 0;
-	padding: 1em 1em 2px 1em;
-}
-
-dl.manual_comments dt.odd {
-	border-top: 1px solid #daa;
-	border-left: 1px solid #daa;
-	border-right: 1px solid #daa;
-}
-
-dl.manual_comments dt.even {
-	border-top: 1px solid #aaf;
-	border-left: 1px solid #aaf;
-	border-right: 1px solid #aaf;
+.author.notification,
+.comment.notification { /* a notification */
+	font-style: italic;
 }
 
 /**
@@ -1756,8 +2054,8 @@ dl.wiki_comments { /* to list comments in a wiki */
 }
 
 dl.wiki_comments dd { /* body of one note */
-	margin: 0 0 2em 4px;
-	padding: 0.5em 1em 0.5em 1em;
+	margin: 0 0 1em 0;
+	padding: 0.5em;
 }
 
 dl.wiki_comments dd.odd {
@@ -1770,7 +2068,7 @@ dl.wiki_comments dd.even {
 
 dl.wiki_comments dt { /* header of one note */
 	margin: 0;
-	padding: 0 0 2px 0;
+	padding: 0 0 0 0;
 	display: inline;
 	margin-right: auto;
 }
@@ -1909,86 +2207,36 @@ tr.odd td.sorted {
 }
 
 
-/****************************** styles generated by layouts, see skins/layout.php ************************************/
+/****************************** styles generated by layouts, see layouts/layout.php ************************************/
 
-/**
- * accordion layout: a list of boxes, each box having the following structure:
- *
- * <div class="accordion_handle"><a class="accordion_link">box title</a>
- * 		<div class="accordion_content"><div>box content</div></div></div>
- *
- * @see articles/layout_articles_as_accordion.php
- * @see sections/layout_sections_as_accordion.php
- */
 
-div.accordion_handle {
-	width: 99%; /* avoid horizontal slider */
-}
-
-div.accordion_handle a.accordion_link {
-	display: block;
-	font-size: 1.2em;
-	text-decoration: none;
-	background-color: #F5F5F5;
-	border-top: 1px solid #FFFFFF;
-	border-bottom: none;
-	color: #666;
-	cursor: pointer;
-	margin-bottom: 1px;
-	padding: 9px 1em 6px 1em;
-	z-index: 10;
-}
-
-div.accordion_handle a.accordion_link img.handle {
-	float: right;
-	padding-right: 0;
-}
-
-div.accordion_handle a.accordion_link:hover, div.accordion-toggle-active {
-	text-decoration: none;
-	color: #666;
-	background-color:#ddd;
-}
-
-div.accordion_content {
-	border-left: 2px solid #F5F5F5;
-	border-bottom: none;
-	border-right: 2px solid #F5F5F5;
-	overflow:hidden;
-	padding: 1em;
-	margin-bottom: 0;
-}
-
-div.accordion_content div.introduction {
-	margin: 0 0 15px 0; /* no space at the top of the introduction text */
-}
 
 /**
  * daily layout: first box is shaped as follows:
  *
  * <div class="newest">
- * <p class="date">date of post</p>
  * <div class="box">
+ *  <div class="date">date of post</div>
  *	<h2><span>box title</span></h2>
  *  <div class="content">
- * 		<a><img class="left_image">page thumbnail</img></a>
+ * 		<a><img class="left_image" src="page thumbnail" /></a>
  *		<p class="details">box details</p>
  *		box content
- *		<p class="menu_bar right">box menu</p>
+ *		<div class="menu_bar right">box menu</div>
  *  </div>
  * </div>
  * </div>
  *
  * other boxes have the same layout, except the most external div:
  *
- * <p class="date">date of post</p>
  * <div class="box">
+ *  <div class="date">date of post</div>
  *	<h2><span>box title</span></h2>
  *  <div class="content">
- * 		<a><img class="left_image">page thumbnail</img></a>
+ * 		<a><img class="left_image" src="page thumbnail" /></a>
  *		<p class="details">box details</p>
  *		box content
- *		<p class="menu_bar right">box menu</p>
+ *		<div class="menu_bar right">box menu</div>
  *  </div>
  * </div>
  *
@@ -2010,15 +2258,67 @@ div#newest p.date { /* space above date to be partly delegated to the containing
 	margin-top: 0.5em;
 }
 
-p.date { /* date of a post, above its title */
-	color: #888;
-	font-size: .8em;
-	margin-top: 1.5em;
-	margin-bottom: 0;
-	padding-bottom: 4px;
-	border-bottom: 1px solid #ddd;
-	text-align: right;
+div.post {
+	position: relative;
+	margin: 1em 0 2em 60px; /* left margin to display post date */
+	border-top: 1px solid #999;
 }
+
+div.post h2 {
+	border: none;
+	margin: 0;
+	padding-top: 3px;
+}
+
+div.post h2,
+div.post h2 span,
+div.post h2 a,
+div.post h2 a:hover,
+div.post h2 a span {
+	font-size: 24px;
+	line-height: normal;
+	text-decoration: none;
+}
+
+/* you can also rotate some date elements, as explained at http://www.wplover.com/1449/easier-date-display-technique-with-css-3/ */
+
+div.date { /* date of a post */
+	width: 60px;
+	height: 60px;
+	overflow: hidden;
+	font-family: Georgia, serif;
+	font-size: 20px;
+	line-height: normal;
+	color: #999;
+	margin: 0 auto;
+	position: absolute;
+	left: -60px;
+	top: -1px; /* because of the border */
+	border-top: 1px solid #999;
+}
+
+div.date .day { /* day of the post */
+	font-size: 30px;
+	position: absolute;
+	left: 0;
+	top: 13px;
+}
+
+div.date .month { /* month of the post */
+	font-size: 16px;
+	position: absolute;
+	left: 0;
+	top: 3px;
+}
+
+div.date .year { /* year of the post */
+	font-size: 12px;
+	position: absolute;
+	left: 3px;
+	top: 43px;
+}
+
+
 
 /**
  * hardboiled layout: two boxes aligned at the top, then decorated items
@@ -2091,9 +2391,11 @@ ul.index {
 }
 
 ul.index li {
-    float: left;
-    margin-left: 25px;
-    margin-top: 4px;
+	background: none;
+	float: left;
+	margin-left: 25px;
+	margin-top: 4px;
+	padding: 0;
 }
 
 /**
@@ -2137,6 +2439,30 @@ table.jive tr th { /* table header */
 	font-weight: bold;
 	margin: 0;
 	padding: 8px;
+}
+
+/**
+ * last layout: reflect last contributions to the page
+ *
+ * @see articles/layout_articles_as_last.php
+ */
+
+div.last_articles { /* the overall list of articles */
+	border-bottom: 1px dotted #ccc;
+	padding-bottom: 4px;
+	margin-bottom: 2em;
+}
+
+div.last_article { /* one div per article */
+	border-top: 1px dotted #ccc;
+	padding-top: 4px;
+	margin-bottom: 2em;
+}
+
+div.last_comment { /* content of last comment to the page */
+	border-left: 2px solid #ccc;
+	margin: 7px 10px 20px 7px;
+	padding: 4px 0 0 10px;
 }
 
 /**
@@ -2299,7 +2625,7 @@ div.recent div.east { /* the second newest item */
  * slashdot layout: a list of boxes like the following
  *
  * <div class="box">
- *	<h2><span><img class="right_image">page thumbnail</img>box title</span></h2>
+ *	<h2><span><img class="right_image" src="page thumbnail" />box title</span></h2>
  *  <div class="content">
  *		<p class="details">box details</p>
  *		box content
@@ -2309,6 +2635,37 @@ div.recent div.east { /* the second newest item */
  *
  * @see articles/layout_articles_as_slashdot.php
  */
+
+
+/**
+ * smartlist layout
+ *
+ * <ul class=smartlist>
+ * 		<li><div class=icon>image</div><div class=label>title<span=detail>intro</span></div></li>
+ * 		...
+ * </ul>
+*/
+
+
+/* <li> contain already icons */
+.smartlist {list-style:none;}
+
+/*ensure floating element are overlapped*/
+.smartlist li {
+	overflow: hidden;
+	background : none; /* avoid icons putted by some reference theme */
+	}
+
+/*contain title and intro*/
+.smartlist .label {
+	overflow: hidden;	/*content don't go under icon*/
+	}
+
+/*contain icon, float left*/
+.smartlist .icon {
+	float: left;
+	margin-right: 0.6em;
+	}
 
 /**
  * spray layout: a nice layout to report on status
@@ -2396,10 +2753,9 @@ div.recent div.east { /* the second newest item */
 
 dl.floating_box { /* float to the left */
 	float: left;
-	display: table-cell;
-	margin-right: 2em;
 	text-align: center;
 	padding: 6px;
+	width: 20em;
 }
 
 dl.floating_box:hover {
@@ -2439,6 +2795,32 @@ div.floating_family { /* break between boxes */
 	z-index: 10;
 }
 
+a.tip:hover {
+    cursor: help;
+    position: relative;
+}
+
+a.tip span.tip_content { /* mask tips until they are activated */
+    display: none;
+}
+
+a.tip:hover span.tip_content { /* unveil a tip */
+	color: #888;
+	font-size: 0.8em;
+	background-color: #fff;
+    border: 1px solid #C0C0C0;
+    display: block;
+    left: 0;
+    margin: 10px;
+    padding: 5px 20px 5px 5px;
+    position: absolute;
+    text-align: left;
+    text-decoration: none;
+    top: 10px;
+    width: 250px;
+    z-index: 100;
+}
+
 /**
  * yabb layout: a table of discussion threads
  *
@@ -2472,6 +2854,10 @@ table.yabb {
 	padding: 0;
 }
 
+table.yabb tbody tr td {
+	position: static;
+}
+
 table.yabb tr td.family { /* to introduce several successive sections in a forum */
 	font-weight: bold;
 	color: #222;
@@ -2501,11 +2887,11 @@ div.icon img { /* main image of an article, or of some section -- $context[page_
 div.bottom { /* bottom -- the last div of the content area */
 	margin-top: 2em;
 	border-top: 1px solid #ccc;
-	padding-top: 0;
+	padding-top: 0.8em; /* because of Done buttons */
    	width: 80%; /* same width as div#tabs_bar */
 }
 
-div.bottom p.menu_bar {
+div.bottom div.menu_bar {
 	margin: 0.4em 0;
 }
 
@@ -2620,8 +3006,7 @@ div.external_image { /* display an image hosted elsewhere -- [img]url[/img] */
 	float: left;
 	margin-right: 8px;
 	text-align: center;
-	height: 150px;	 /* to align with actual thumbnail height set in configuration panel for skins */
-	width: 120px;	/* to align with actual thumbnail width set in configuration panel for skins */
+	width: 80px;	/* to align with actual thumbnail width set in configuration panel for skins */
 	overflow: auto;
 }
 
@@ -2701,21 +3086,41 @@ dl.column dt img { /* align the image */
 
 
 ul.compact,
+#main_panel ul.compact { /* a regular compact list */
+}
+
+ul.compact li,
+#main_panel ul.compact li { /* an item in a regular compact list */
+}
+
+ul.compact li a,
+ul.compact li a span,
+#main_panel ul.compact li a,
+#main_panel ul.compact li a span { /* a link in a regular compact list */
+	background: none;
+	padding: 0;
+}
+
 #extra_panel ul.compact,
-#main_panel ul.compact,
-#side_panel ul.compact { /* a compact list */
-	margin: 0;
+#side_panel ul.compact { /* a compact list in a side panel */
+	margin: 0 auto;
 	padding: 0;
 	list-style: none;
 }
 
-ul.compact li,
 #extra_panel ul.compact li,
-#main_panel ul.compact li,
-#side_panel ul.compact li { /* item in a compact list */
-    margin: 0;
-    padding: 0;
-    background: none;
+#side_panel ul.compact li { /* item in a side compact list */
+	margin: 0 auto;
+	padding: 0;
+	background: none;
+}
+
+#extra_panel ul.compact li a,
+#extra_panel ul.compact li a span,
+#side_panel ul.compact li a,
+#side_panel ul.compact li a span { /* links in a side compact list */
+	background: none;
+	padding: 0;
 }
 
 
@@ -2728,6 +3133,7 @@ address { /* a author profile towards the end of the main panel */
 	margin: 0.5em 0 0.5em 0;
 	padding: 1em;
 	border: 1px solid #ccc;
+	border-radius: 8px; -moz-border-radius:8px; -webkit-border-radius:8px;
 }
 
 img.avatar { /* an image representing a member -- do not float it! */
@@ -2756,6 +3162,7 @@ div.top { /* poster information, when placed at page top */
  */
 
 div#tabs_bar {
+	clear: both; /* because of floating images inserted before tabs */
 	position: relative;
 	margin: 2em 0 1em 0;
 	padding: 0 0 0 0.5em;
@@ -2805,13 +3212,13 @@ div#tabs_panels {
 	padding: 2px 0;
 	margin: 1em 0 0 0;
 	min-height: 200px;
-	overflow: auto;
+	overflow: none;
 	position: relative; /* we have absolute positioning inside! */
 }
 
 div#tabs_panels div.panel-foreground {
 	display: block;
-/*	position: static; */
+	position: relative;
 	max-width: 3000px; /* avoid overlap between tabbed panels in FF */
 	width: expression(this.width > 3000 ? 3000: true); /* just for IE 6 */
 }
@@ -2822,6 +3229,7 @@ div#tabs_panels div.panel-foreground div.sidebar_box { /* show sidebars in visib
 
 div#tabs_panels div.panel-background {
 	display: none;
+	position: relative;
 	max-width: 3000px; /* avoid overlap between tabbed panels in FF */
 	width: expression(this.width > 3000 ? 3000: true); /* just for IE 6 */
 }
@@ -2840,6 +3248,7 @@ dl.comments dd { /* comment content */
 	border-bottom: 1px solid #aaa;
 	border-right: 1px solid #aaa;
 	background-color: #E5DDCD;
+	border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;
 }
 
 dl.comments dt { /* poster name */
@@ -2894,6 +3303,13 @@ table.month thead tr th { /* an ordinary cell in a calendar table */
 
 table.calendar tbody tr td.spot { /* a cell in calendar that has some content */
 	background-color: #fdd;
+}
+
+div.day_panel { /* where content of one day is displayed */
+	font-family: sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	max-width: 200px;
 }
 
 dl.family { /* a list of dates */
@@ -2984,6 +3400,18 @@ div.toc_box div.panel { /* content of sliding panels */
 	padding: 1em;
 	width: 50em; /* beware of narrow layouts */
 	border: 7px #cccccc solid;
+}
+
+#main_panel div.panel ul,
+div.panel ul { /* first level of the toc */
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#main_panel div.panel ul ul,
+div.panel ul ul { /* second level of the toc */
+	margin-left: 1.3em;
 }
 
 /* do not print commands */

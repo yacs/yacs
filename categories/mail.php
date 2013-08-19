@@ -30,12 +30,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Categories::get($id);
+$item = Categories::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -100,14 +100,40 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['subject']))
 		$subject = strip_tags($_REQUEST['subject']);
 
-	// enable yacs codes in messages
-	$text = Codes::beautify($_REQUEST['message']);
+	// headline
+	$headline = sprintf(i18n::c('%s is notifying you from %s'),
+		Surfer::get_link(),
+		'<a href="'.Categories::get_permalink($item).'">'.$item['title'].'</a>');
 
-	// preserve tagging as much as possible
-	$message = Mailer::build_message($subject, $text);
+	// enable yacs codes in messages
+	$message = Codes::beautify($_REQUEST['message']);
+
+	// assemble main content of this message
+	$message = Skin::build_mail_content($headline, $message);
+
+	// a set of links
+	$menu = array();
+
+	// call for action
+	$link = Categories::get_permalink($item);
+	if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'categories', FALSE)))
+		$label = i18n::c('View the category');
+	$menu[] = Skin::build_mail_button($link, $label, TRUE);
+
+	// link to the container
+	if(is_object($anchor)) {
+		$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+		$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+	}
+
+	// finalize links
+	$message .= Skin::build_mail_menu($menu);
+
+	// threads messages
+	$headers = Mailer::set_thread('category:'.$item['id']);
 
 	// send the message
-	if(Mailer::post(Surfer::from(), $to, $subject, $message)) {
+	if(Mailer::notify(Surfer::from(), $to, $subject, $message, $headers)) {
 
 		// feed-back to the sender
 		$context['text'] .= '<p>'.i18n::s('A message has been sent to:')."</p>\n".'<ul>'."\n";
@@ -145,7 +171,7 @@ if(Surfer::is_crawler()) {
 
 	// the message
 	$label = i18n::s('Message content');
-	$input = Surfer::get_editor('message', '<p>'.$item['title'].BR.$context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item).'</p>');
+	$input = Surfer::get_editor('message', '<p>'.$item['title'].BR.Categories::get_permalink($item).'</p>');
 	$fields[] = array($label, $input);
 
 	// build the form
@@ -173,32 +199,28 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= '</div></form>';
 
 	// append the script used for data checking on the browser
-	$context['text'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// title is mandatory'."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// title is mandatory
 		.'	if(!container.subject.value) {'."\n"
 		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// body is mandatory'."\n"
+			// body is mandatory
 		.'	if(!container.message.value) {'."\n"
 		.'		alert("'.i18n::s('Message content can not be empty').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
+			// successful check
 		.'	return true;'."\n"
 		.'}'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'$("#subject").focus();'."\n"
 		."\n"
-		.JS_SUFFIX;
+		);
 
 }
 

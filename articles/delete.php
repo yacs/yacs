@@ -30,16 +30,15 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related anchor
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
@@ -89,8 +88,8 @@ if(!isset($item['id'])) {
 
 		// log item deletion
 		$label = sprintf(i18n::c('Deletion: %s'), strip_tags($item['title']));
-		$description = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
-		Logger::remember('articles/delete.php', $label, $description);
+		$description = Articles::get_permalink($item);
+		Logger::remember('articles/delete.php: '.$label, $description);
 
 		// this can appear anywhere
 		Cache::clear();
@@ -101,7 +100,7 @@ if(!isset($item['id'])) {
 		elseif($anchor->is_viewable())
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
 		elseif($id = Surfer::get_id())
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_url($id, 'contact'));
+			Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_url($id));
 		else
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].'articles/');
 
@@ -133,10 +132,7 @@ else {
 		.'</p></form>'."\n";
 
 	// set the focus
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#confirmed").focus();'."\n"
-		.JS_SUFFIX;
+	Page::insert_script('$("#confirmed").focus();');
 
 	// the title of the action
 	$context['text'] .= Skin::build_block($item['title'], 'title');

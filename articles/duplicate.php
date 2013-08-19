@@ -41,16 +41,15 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Articles::get($id);
+$item = Articles::get($id);
 
 // get the related anchor
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item, 'article:'.$item['id']);
 
@@ -117,7 +116,7 @@ if(!isset($item['id'])) {
 
 		// post an overlay, with the new article id
 		if(is_object($overlay))
-			$overlay->remember('insert', $item);
+			$overlay->remember('insert', $item, 'article:'.$item['id']);
 
 		// duplicate all related items, images, etc.
 		Anchors::duplicate_related_to($original_anchor, 'article:'.$item['id']);
@@ -134,7 +133,7 @@ if(!isset($item['id'])) {
 		}
 
 		// get the new item
-		$article =& Anchors::get('article:'.$item['id'], TRUE);
+		$article = Anchors::get('article:'.$item['id'], TRUE);
 
 		$context['page_title'] = i18n::s('Thank you for your contribution');
 
@@ -148,7 +147,7 @@ if(!isset($item['id'])) {
 		$menu = array_merge($menu, array($article->get_url('edit') => i18n::s('Edit the page')));
 		if(Surfer::may_upload()) {
 			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode($article->get_reference()) => i18n::s('Add an image')));
-			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode($article->get_reference()) => i18n::s('Upload a file')));
+			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode($article->get_reference()) => i18n::s('Add a file')));
 		}
 		$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode($article->get_reference()) => i18n::s('Add a link')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
@@ -169,7 +168,7 @@ if(!isset($item['id'])) {
 		$description = '<a href="'.$context['url_to_home'].$context['url_to_root'].$article->get_url().'">'.$article->get_title().'</a>';
 
 		// notify sysops
-		Logger::notify('articles/duplicate.php', $label, $description);
+		Logger::notify('articles/duplicate.php: '.$label, $description);
 
 	}
 
@@ -199,10 +198,7 @@ if(!isset($item['id'])) {
 		.'</p></form>'."\n";
 
 	// set the focus
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#confirmed").focus();'."\n"
-		.JS_SUFFIX;
+	Page::insert_script('$("#confirmed").focus();');
 
 	// the title of the action
 	$context['text'] .= Skin::build_block($item['title'], 'title');

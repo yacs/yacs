@@ -40,7 +40,7 @@
  * - the anchor page is not modified either
  *
  * A button-based editor is used for the description field.
- * It's aiming to introduce most common [link=codes]codes/index.php[/link] supported by YACS.
+ * It's aiming to introduce most common [link=codes]codes/[/link] supported by YACS.
  *
  * This script attempts to validate the new or updated article description against a standard PHP XML parser.
  * The objective is to spot malformed or unordered HTML and XHTML tags. No more, no less.
@@ -114,7 +114,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
 include_once 'links.php';
 
 // allow for direct login
@@ -135,20 +134,20 @@ elseif(isset($context['arguments'][0]) && !isset($context['arguments'][1]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Links::get($id);
+$item = Links::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($_REQUEST['anchor']))
-	$anchor =& Anchors::get($_REQUEST['anchor']);
+	$anchor = Anchors::get($_REQUEST['anchor']);
 elseif(isset($_REQUEST['category']) && $_REQUEST['category'])
-	$anchor =& Anchors::get('category:'.$_REQUEST['category']);
+	$anchor = Anchors::get('category:'.$_REQUEST['category']);
 elseif(isset($_REQUEST['section']) && $_REQUEST['section'])
-	$anchor =& Anchors::get('section:'.$_REQUEST['section']);
+	$anchor = Anchors::get('section:'.$_REQUEST['section']);
 elseif(isset($context['arguments'][1]))
-	$anchor =& Anchors::get($context['arguments'][0].':'.$context['arguments'][1]);
+	$anchor = Anchors::get($context['arguments'][0].':'.$context['arguments'][1]);
 elseif(isset($item['anchor']))
-	$anchor =& Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // anchor owners can do what they want
 if(is_object($anchor) && $anchor->is_owned()) {
@@ -305,8 +304,8 @@ if(Surfer::is_crawler()) {
 		// follow-up
 		} else {
 
-			// touch the related anchor and alert watchers
-			$anchor->touch('link:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'), TRUE);
+			// touch the related anchor
+			$anchor->touch('link:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 			// clear cache
 			Links::clear($_REQUEST);
@@ -321,7 +320,7 @@ if(Surfer::is_crawler()) {
 			$context['text'] .= '<p>'.i18n::s('The link has been successfully recorded.').'</p>';
 
 			// list persons that have been notified
-			$context['text'] .= Mailer::build_recipients(i18n::s('Persons that have been notified'));
+			$context['text'] .= Mailer::build_recipients($anchor->get_reference());
 
 			// follow-up commands
 			$follow_up = i18n::s('What do you want to do now?');
@@ -336,10 +335,10 @@ if(Surfer::is_crawler()) {
 			// log the submission of a new link by a non-associate
 			if(!Surfer::is_associate() && is_object($anchor)) {
 				$label = sprintf(i18n::c('New link at %s'), strip_tags($anchor->get_title()));
-                                $link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#links';
+                                $link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#_attachments';
 				$description = $_REQUEST['link_url']."\n"
 					.sprintf(i18n::c('at %s'),'<a href="'.$link.'">'.$link.'</a>');
-				Logger::notify('links/edit.php', $label, $description);
+				Logger::notify('links/edit.php: '.$label, $description);
 			}
 		}
 
@@ -361,7 +360,7 @@ if(Surfer::is_crawler()) {
 			Links::clear($_REQUEST);
 
 			// forward to the updated anchor page
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#links');
+			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#_attachments');
 		}
 	}
 
@@ -520,24 +519,21 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= JS_PREFIX
-		.'	// check that main fields are not empty'."\n"
-		.'	func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'		// link_url is mandatory'."\n"
+	Page::insert_script(
+			// check that main fields are not empty
+		'	func'.'tion validateDocumentPost(container) {'."\n"
+				// link_url is mandatory
 		.'		if(!container.link_url.value) {'."\n"
 		.'			alert("'.i18n::s('Please type a valid link.').'");'."\n"
 		.'			Yacs.stopWorking();'."\n"
 		.'			return false;'."\n"
 		.'		}'."\n"
-		."\n"
-		.'		// successful check'."\n"
+				// successful check
 		.'		return true;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'$("#link_url").focus();'."\n"
-		.JS_SUFFIX."\n";
+		);
 
 	// clear session data now we have populated the form
 	unset($_SESSION['pasted_link']);
@@ -564,7 +560,7 @@ if($with_form) {
 	$help = '<p>'.sprintf(i18n::s('You can use following shortcuts to link to other pages of this server: %s'), '&#91;article=&lt;id>] &#91;section=&lt;id>] &#91;category=&lt;id>]').'</p>'
 		.'<p>'.i18n::s('Please set a meaningful title to be used instead of the link itself.').'</p>'
 		.'<p>'.i18n::s('Also, take the time to describe the link. This field is fully indexed for searches.').'</p>'
-		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>';
 	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 }

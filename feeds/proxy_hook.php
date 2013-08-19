@@ -31,7 +31,7 @@ $hooks[] = array(
 
 class Proxy_hook {
 
-	function serve($parameters) {
+	public static function serve($parameters) {
 		global $context;
 
 		// the output of this function
@@ -49,6 +49,7 @@ class Proxy_hook {
 		// make a string
 		$output['text'] = '';
 		$even = true;
+		$count = 0;
 		foreach($feed->get_items() as $item) {
 
 			// allow for alternate layout

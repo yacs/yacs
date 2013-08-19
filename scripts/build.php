@@ -120,9 +120,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= '</p></form>';
 
 	// set the focus on the button
-	$context['text'] .= JS_PREFIX
-		.'$("#confirmed").focus();'."\n"
-		.JS_SUFFIX."\n";
+	Page::insert_script('$("#confirmed").focus();');		
 
 	// this may take several minutes
 	$context['text'] .=  '<p>'.i18n::s('When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.').'</p>';
@@ -160,14 +158,7 @@ elseif(!Surfer::is_associate()) {
 
 	// analyse each script
 	$footprints = array();
-	foreach($scripts as $script) {
-
-		// check file content
-		list($module, $name) = $script;
-		if($module)
-			$file = $module.'/'.$name;
-		else
-			$file = $name;
+	foreach($scripts as $file) {
 
 		// silently skip configuration files
 		if(strpos($file, '.include.php'))
@@ -423,7 +414,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 	// remember the built
-	Logger::remember('scripts/build.php', i18n::c('The reference store has been rebuilt'));
+	Logger::remember('scripts/build.php: '.i18n::c('The reference store has been rebuilt'));
 }
 
 // render the skin

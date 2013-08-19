@@ -89,10 +89,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= '</div></form>';
 
 	// set the focus
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#banned_hosts").focus();'."\n"
-		.JS_SUFFIX."\n";
+	Page::insert_script('$("#banned_hosts").focus();');
 
 // no modifications in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
@@ -132,7 +129,7 @@ elseif(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/servers.include.php');
-		Logger::remember('servers/configure.php', $label);
+		Logger::remember('servers/configure.php: '.$label);
 
 	}
 

@@ -2,20 +2,6 @@
 /**
  * fetch calendar data
  *
- * Example of data formatted by this script:
- * [snippet]
- * BEGIN:VCALENDAR
- * VERSION:2.0
- * FN:Foo Bar
- * N:Bar;Foo
- * NICKNAME:little_foo
- * EMAIL;PREF;INTERNET:foo.bar@acme.com
- * REV:20040922T000712Z
- * END:VCARD
- * [/snippet]
- *
- * @link http://www.imc.org/pdi/vcard-21.txt
- *
  * Accept following invocations:
  * - fetch_ics.php/article/&lt;id&gt;
  * - fetch_ics.php?id=&lt;article:id&gt;
@@ -27,7 +13,6 @@
 
 // common definitions and initial processing
 include_once '../../shared/global.php';
-include_once '../../overlays/overlay.php';
 
 // look for the id --actually, a reference
 $id = NULL;
@@ -38,7 +23,7 @@ elseif(isset($context['arguments'][0]) && isset($context['arguments'][1]))
 $id = strip_tags($id);
 
 // get the anchor
-$anchor =& Anchors::get($id);
+$anchor = Anchors::get($id);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -88,8 +73,8 @@ else {
 
 	// suggest a download
 	if(!headers_sent()) {
-		$file_name = utf8::to_ascii(Skin::strip($anchor->get_title(), 5).'.ics');
-		Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
+		$file_name = utf8::to_ascii(Skin::strip($anchor->get_title()).'.ics');
+		Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $file_name).'"');
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download

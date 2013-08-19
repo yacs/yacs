@@ -23,9 +23,9 @@ Class Layout_tables extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array one item per image
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -39,10 +39,10 @@ Class Layout_tables extends Layout_interface {
 			$this->layout_variant = 'no_anchor';
 
 		// process all items in the list
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the main anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// initialize variables
 			$prefix = $suffix = $icon = '';
@@ -51,7 +51,7 @@ Class Layout_tables extends Layout_interface {
 			$url = Tables::get_url($item['id']);
 
 			// codes to embed this image
-			if($anchor && ($this->layout_variant == $anchor->get_reference())) {
+			if($anchor && ($this->focus == $anchor->get_reference())) {
 
 				// codes
 				$codes = array();
@@ -73,7 +73,7 @@ Class Layout_tables extends Layout_interface {
 			}
 
 			// we are listing tables attached to an chor
-			if($anchor && ($this->layout_variant == $anchor->get_reference())) {
+			if($anchor && ($this->focus == $anchor->get_reference())) {
 
 				$label = '_';
 

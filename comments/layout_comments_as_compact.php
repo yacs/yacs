@@ -16,9 +16,9 @@ Class Layout_comments_as_compact extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// empty list
@@ -32,7 +32,7 @@ Class Layout_comments_as_compact extends Layout_interface {
 
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// url to view the comment
 			$url = Comments::get_url($item['id']);
@@ -46,7 +46,7 @@ Class Layout_comments_as_compact extends Layout_interface {
 
 			// time of creation
 			$label .= Skin::build_date($item['create_date']);
-			
+
 			// text beginning
 			if($text = Skin::strip($item['description'], 10, NULL, NULL))
 				$suffix = ' - '.$text;

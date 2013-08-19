@@ -25,7 +25,7 @@ Class Layout_sections_as_directory extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return some text
@@ -39,17 +39,16 @@ Class Layout_sections_as_directory extends Layout_interface {
 			return $text;
 
 		// build a list of sections
-		include_once $context['path_to_root'].'overlays/overlay.php';
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// get the related overlay, if any
-			$overlay = Overlay::load($item, 'article:'.$item['id']);
+			$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
+			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url = Sections::get_permalink($item);
 
 			// use the title to label the link
 			if(is_object($overlay))
@@ -62,9 +61,9 @@ Class Layout_sections_as_directory extends Layout_interface {
 
 			// signal restricted and private sections
 			if(isset($item['active']) && ($item['active'] == 'N'))
-				$prefix .= PRIVATE_FLAG.' ';
+				$prefix .= PRIVATE_FLAG;
 			elseif(isset($item['active']) && ($item['active'] == 'R'))
-				$prefix .= RESTRICTED_FLAG.' ';
+				$prefix .= RESTRICTED_FLAG;
 
 			// flag sections updated recently
 			if($item['create_date'] >= $context['fresh'])

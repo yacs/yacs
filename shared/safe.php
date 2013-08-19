@@ -24,7 +24,7 @@ class Safe {
 	 * @param string target directory
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function chdir($path) {
+	public static function chdir($path) {
 
 		// translate the path
 		$path = Safe::realpath($path);
@@ -49,7 +49,7 @@ class Safe {
 	 * @param int mode
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function chmod($file_name, $mode=0) {
+	public static function chmod($file_name, $mode=0) {
 		global $context;
 
 		// use default mask
@@ -70,7 +70,7 @@ class Safe {
 	 *
 	 * @param resource to close
 	 */
-	function closedir($handle) {
+	public static function closedir($handle) {
 
 		// sanity check
 		if(!is_resource($handle))
@@ -89,7 +89,7 @@ class Safe {
 	 * @param string the destination file
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function copy($source, $destination) {
+	public static function copy($source, $destination) {
 
 		// translate paths
 		$source = Safe::realpath($source);
@@ -114,7 +114,7 @@ class Safe {
 	 * @param string constant name to be defined
 	 * @param mixed the value
 	 */
-	function define($name, $value) {
+	public static function define($name, $value) {
 
 		if(!defined($name))
 			define($name, $value);
@@ -127,7 +127,7 @@ class Safe {
 	 * @param int new reporting level
 	 * @return int previous reporting level, or FALSE on error
 	 */
-	function error_reporting($level) {
+	public static function error_reporting($level) {
 
 		// ensure call is allowed
 		if(is_callable('error_reporting'))
@@ -144,7 +144,7 @@ class Safe {
 	 * @param string the file
 	 * @return array on success, FALSE on failure
 	 */
-	function file($path) {
+	public static function file($path) {
 
 		// translate the path
 		$path = Safe::realpath($path);
@@ -168,7 +168,7 @@ class Safe {
 	 * @param string file to read
 	 * @return a string, or ''
 	 */
-	function file_get_contents($file) {
+	public static function file_get_contents($file) {
 
 		// translate the path
 		$file = Safe::realpath($file);
@@ -205,7 +205,7 @@ class Safe {
 	 * @param string new content
 	 * @return int the number of bytes written to the file, or 0 on failure
 	 */
-	function file_put_contents($file, $content) {
+	public static function file_put_contents($file, $content) {
 		global $context;
 
 		// sanity check
@@ -238,7 +238,7 @@ class Safe {
 	 * @param string name of the file to consider
 	 * @return date of last modification, FALSE on failure
 	 */
-	function filemtime($file) {
+	public static function filemtime($file) {
 
 		// translate the path
 		$file = Safe::realpath($file);
@@ -262,7 +262,7 @@ class Safe {
 	 * @param string the file to consider
 	 * @return int on success, FALSE on failure
 	 */
-	function filesize($file) {
+	public static function filesize($file) {
 
 		// translate the path
 		$file = Safe::realpath($file);
@@ -287,7 +287,7 @@ class Safe {
 	 * @param string mode
 	 * @return resource on success, FALSE on failure
 	 */
-	function fopen($file, $mode) {
+	public static function fopen($file, $mode) {
 
 		// translate the path
 		$file = Safe::realpath($file);
@@ -315,7 +315,7 @@ class Safe {
 	 * @param int maximum delay to wait
 	 * @return resource on success, FALSE on failure
 	 */
-	function fsockopen($server, $port, &$errno, &$errstr, $timeout) {
+	public static function fsockopen($server, $port, &$errno, &$errstr, $timeout) {
 		global $context;
 
 		// ensure call is allowed
@@ -343,7 +343,7 @@ class Safe {
 	 * @param int file handle
 	 * @return mixed on success, FALSE on failure
 	 */
-	function fstat($handle) {
+	public static function fstat($handle) {
 
 		// sanity check
 		if(!$handle)
@@ -364,7 +364,7 @@ class Safe {
 	 * @param string parameter name
 	 * @return string parameter value, or FALSE on failure
 	 */
-	function get_cfg_var($parameter) {
+	public static function get_cfg_var($parameter) {
 
 		// use the library
 		if(is_callable('get_cfg_var'))
@@ -380,7 +380,7 @@ class Safe {
 	 * @param string file name
 	 * @return an array or FALSE
 	 */
-	function GetImageSize($file) {
+	public static function GetImageSize($file) {
 		global $context;
 
 		// translate the path
@@ -403,7 +403,7 @@ class Safe {
 	 * @param string path and file pattern
 	 * @return array fi some files have been found, FALSE otherwise
 	 */
-	function glob($pattern) {
+	public static function glob($pattern) {
 
 		// ensure call is allowed
 		if(is_callable('glob') && ($output = glob($pattern)) && is_array($output) && count($output))
@@ -422,19 +422,27 @@ class Safe {
 	 * @param int HTTP status code to return, if any
 	 *
 	 */
-	function header($attribute, $replace=NULL, $status=NULL) {
+	public static function header($attribute, $replace=NULL, $status=NULL) {
+		global $context;
 
  		// CGI and FastCGI error parsing headers
  		if(substr(php_sapi_name(), 0, 3) == 'cgi')
  			$attribute = str_replace('Status:', 'HTTP/1.0', $attribute);
 
-		// too late
-		if(headers_sent())
-			return;
-
 		// in case we are validating all scripts
 		if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 			return;
+
+		// too late
+		if(headers_sent($file, $line)) {
+
+			// help on development machine
+			if($context['with_debug'] == 'Y')
+				Logger::remember('shared/safe.php: Can not add HTTP header', 'Headers already sent in '.$file.' on line '.$line, 'debug');
+
+			// don't call header(), this would raise an error
+			return;
+		}
 
 		// function has been allowed
 		if(is_callable('header')) {
@@ -453,7 +461,7 @@ class Safe {
 	 * @param string the code
 	 * @return string to be sent to the browser
 	 */
-	function highlight_string($text) {
+	public static function highlight_string($text) {
 
 		// actual highlight
 		$result = highlight_string($text, TRUE);
@@ -465,7 +473,7 @@ class Safe {
 	 *
 	 * This function wraps around bugs of PHP4
 	 */
-	function html_entity_decode($text, $style=ENT_COMPAT, $charset='ISO-8859-1') {
+	public static function html_entity_decode($text, $style=ENT_COMPAT, $charset='ISO-8859-1') {
 
 		// php4 is buggy on this
 		if((version_compare( phpversion(), '5.0' ) < 0))
@@ -482,7 +490,7 @@ class Safe {
 	 * @param boolean new value
 	 * @return previous setting, or FALSE on error
 	 */
-	function ignore_user_abort($value) {
+	public static function ignore_user_abort($value) {
 
 		// change setting
 		if(is_callable('ignore_user_abort'))
@@ -498,7 +506,7 @@ class Safe {
 	 * @param string the file
 	 * @return array on success, FALSE on failure
 	 */
-	function is_uploaded_file($path) {
+	public static function is_uploaded_file($path) {
 
 		// sanity check
 		if(!file_exists($path))
@@ -519,7 +527,7 @@ class Safe {
 	 * @param string the target path
 	 * @return TRUE if the file can be written, FALSE otherwise
 	 */
-	function is_writable($path) {
+	public static function is_writable($path) {
 
 		// translate the path
 		$path = Safe::realpath($path);
@@ -558,7 +566,7 @@ class Safe {
 	 * @param string configuration name
 	 * @return a string or ''
 	 */
-	function ini_get($name) {
+	public static function ini_get($name) {
 
 		// ensure call is allowed
 		if(is_callable('ini_get'))
@@ -576,7 +584,7 @@ class Safe {
 	 * @param string the new value
 	 * @return a string or FALSE
 	 */
-	function ini_set($name, $value) {
+	public static function ini_set($name, $value) {
 
 		// ensure call is allowed
 		if(is_callable('ini_set'))
@@ -593,7 +601,7 @@ class Safe {
 	 * @param string the serialized version
 	 * @return mixed the resulting array, or FALSE on error
 	 */
-	function json_decode($text) {
+	public static function json_decode($text) {
 		global $context;
 
 		// maybe we have a native extension --return an associative array
@@ -616,7 +624,7 @@ class Safe {
 	 * @param mixed the array to serialize
 	 * @return mixed a string, or FALSE on error
 	 */
-	function json_encode($data) {
+	public static function json_encode($data) {
 		global $context;
 
 		// maybe we have a native extension
@@ -643,7 +651,7 @@ class Safe {
 	 * @return boolean TRUE if file has been included, FALSE otherwise
 	 * @param boolean TRUE to force a reload, FALSE to load the file only once
 	 */
-	function load($file, $reload=FALSE) {
+	public static function load($file, $reload=FALSE) {
 		global $context;
 
 		// translate the path
@@ -671,7 +679,7 @@ class Safe {
 	 * @param the target path
 	 * @return TRUE on success, or FALSE on failure
 	 */
-	function make_path($path) {
+	public static function make_path($path) {
 		global $context;
 
 		// sanity check
@@ -708,7 +716,7 @@ class Safe {
 	 * @param int mode
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function mkdir($path_name, $mode=0) {
+	public static function mkdir($path_name, $mode=0) {
 		global $context;
 
 		// use default mask
@@ -744,8 +752,8 @@ class Safe {
 	 *
 	 * @return string
 	 */
-	function mkdir_index_content() {
-		return '<?php echo "Browsing is not allowed here."; ?>';
+	public static function mkdir_index_content() {
+		return '<'.'?php echo "Browsing is not allowed here."; ?'.'>';
 	}
 
 	/**
@@ -755,7 +763,7 @@ class Safe {
 	 * @param string the destination file
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function move_uploaded_file($source, $destination) {
+	public static function move_uploaded_file($source, $destination) {
 
 		// translate the path
 		$destination = Safe::realpath($destination);
@@ -774,7 +782,7 @@ class Safe {
 	 *
 	 * @param string handler to use
 	 */
-	function ob_start($handler='ob_gz_handler') {
+	public static function ob_start($handler='ob_gz_handler') {
 
 		// call only once
 		static $fuse;
@@ -809,7 +817,7 @@ class Safe {
 	 * @param string path to read
 	 * @return resource on success, FALSE on failure
 	 */
-	function opendir($path) {
+	public static function opendir($path) {
 
 		// translate the path
 		$path = Safe::realpath($path);
@@ -833,7 +841,7 @@ class Safe {
 	 * @param resource handle to browsed directory
 	 * @return string on success, FALSE on failure
 	 */
-	function readdir($handle) {
+	public static function readdir($handle) {
 
 		// sanity check
 		if(!is_resource($handle))
@@ -860,7 +868,7 @@ class Safe {
 	 * @param string path to some file
 	 * @return string the translated string
 	 */
-	function realpath($path) {
+	public static function realpath($path) {
 		global $context;
 
 		// sanity check
@@ -895,7 +903,7 @@ class Safe {
 	 *
 	 * @param string the target full web address
 	 */
-	function redirect($reference) {
+	public static function redirect($reference) {
 		global $context;
 
 		// the actual redirection directive
@@ -904,7 +912,7 @@ class Safe {
 		// a message for human beings
 		if(!is_callable(array('i18n', 's')))
 			exit();
-		exit(sprintf(i18n::s('Redirecting to %s'), $reference));
+		exit(sprintf(i18n::s('Redirecting to %s'), '<a href="'.$reference.'">'.$reference.'</a>'));
 
 	}
 
@@ -915,7 +923,7 @@ class Safe {
 	 * @param string the target file
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function rename($original, $target) {
+	public static function rename($original, $target) {
 
 		// translate paths
 		$original = Safe::realpath($original);
@@ -940,7 +948,7 @@ class Safe {
 	 * @param string path to directory to delete
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function rmdir($path) {
+	public static function rmdir($path) {
 
 		// translate the path
 		$path = Safe::realpath($path);
@@ -971,7 +979,7 @@ class Safe {
 	 *
 	 * @param int number of seconds
 	 */
-	function set_time_limit($duration) {
+	public static function set_time_limit($duration) {
 
 		// ensure call is allowed -- safe mode is a special case
 		if((is_callable('set_time_limit')) && (!Safe::ini_get('safe_mode')))
@@ -984,18 +992,27 @@ class Safe {
 	 *
 	 * @return TRUE on success, FALSE otherwise
 	 */
-	function setcookie($name, $value, $expire, $path, $domain=NULL) {
+	public static function setcookie($name, $value, $expire, $path, $domain=NULL) {
+		global $context;
 
 		// no way to send something back
 		if(headers_sent())
 			return FALSE;
 
-		// ensure call is allowed
-		if(is_callable('setcookie'))
-			return setcookie($name, $value, $expire, $path, $domain);
-
 		// tough luck
-		return FALSE;
+		if(!is_callable('setcookie'))
+			return FALSE;
+
+		// sanity check
+		if(!$domain)
+			$domain = $context['host_name'];
+
+		// enable sub-domains, using only last two name components: www.mydomain.com -> .mydomain.com
+		if(($parent_domain = strstr($domain, '.')) && strpos($parent_domain, '.', 1))
+			$domain = $parent_domain;
+
+		// do the job
+		return setcookie($name, $value, $expire, $path, $domain);
 
 	}
 
@@ -1011,7 +1028,7 @@ class Safe {
 	 * @param string command
 	 * @return the output of the command, or NULL
 	 */
-	function shell_exec($text) {
+	public static function shell_exec($text) {
 
 		// ensure call is allowed
 		if(!is_callable('shell_exec'))
@@ -1027,7 +1044,7 @@ class Safe {
 	 *
 	 * @param int number of seconds
 	 */
-	function sleep($duration) {
+	public static function sleep($duration) {
 
 		// ensure call is allowed
 		if(is_callable('sleep'))
@@ -1041,7 +1058,7 @@ class Safe {
 	 * @param string path to file to consider
 	 * @return mixed on success, FALSE on failure
 	 */
-	function stat($file) {
+	public static function stat($file) {
 
 		// translate the path
 		$file = Safe::realpath($file);
@@ -1066,7 +1083,7 @@ class Safe {
 	 * @param string message to save
 	 * @return an integer
 	 */
-	function syslog($priority, $message) {
+	public static function syslog($priority, $message) {
 
 		// ensure call is allowed
 		if(is_callable('syslog'))
@@ -1084,7 +1101,7 @@ class Safe {
 	 * @param int time of last modification
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function touch($file, $modification_stamp=NULL) {
+	public static function touch($file, $modification_stamp=NULL) {
 
 		// translate the path
 		$file = Safe::realpath($file);
@@ -1111,7 +1128,7 @@ class Safe {
 	 * @param string path to file to delete
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function unlink($file) {
+	public static function unlink($file) {
 
 		// translate the path
 		$file = Safe::realpath($file);
@@ -1138,7 +1155,7 @@ class Safe {
 	 * @param string data to be unserialized
 	 * @return mixed restored object, or FALSE on error
 	 */
-	function unserialize($text) {
+	public static function unserialize($text) {
 		global $context;
 
 		// the returned value

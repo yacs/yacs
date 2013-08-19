@@ -18,9 +18,9 @@ Class Layout_users_as_watch extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array of resulting items (id => label), or NULL
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
-	function &layout(&$result) {
+	function layout($result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -31,16 +31,16 @@ Class Layout_users_as_watch extends Layout_interface {
 			return $items;
 
 		// build a list of users
-		while($item =& SQL::fetch($result)) {
+		while($item = SQL::fetch($result)) {
 
 			// reset everything
 			$prefix = $label = $suffix = $icon = '';
 
 			// signal restricted and private users
 			if($item['active'] == 'N')
-				$prefix .= PRIVATE_FLAG.' ';
+				$prefix .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
-				$prefix .= RESTRICTED_FLAG.' ';
+				$prefix .= RESTRICTED_FLAG;
 
 			// indicate the id in the hovering popup
 			$hover = i18n::s('View profile');

@@ -650,7 +650,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 			.'class Hooks {'."\n\n";
 
 		// start the linking function
-		$content .= "\t".'function link_scripts($id, $variant=\'list\') {'."\n"
+		$content .= "\t".'public static function link_scripts($id, $variant=\'list\') {'."\n"
 			."\t\t".'global $local, $context;'."\n\n"
 			."\t\t".'$links = array();'."\n\n"
 			."\t\t".'switch($id) {'."\n\n";
@@ -689,7 +689,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 		$content .= "\t".'}'."\n\n";
 
 		// start the including function
-		$content .= "\t".'function include_scripts($id, $parameters=NULL) {'."\n"
+		$content .= "\t".'public static function include_scripts($id, $parameters=NULL) {'."\n"
 			."\t\t".'global $local, $context;'."\n\n"
 			."\t\t".'$text = \'\';'."\n\n"
 			."\t\t".'switch($id) {'."\n\n";
@@ -710,7 +710,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 		$content .= "\t\t}\n\n\t\t".'return $text;'."\n\n\t}\n\n";
 
 		// start the calling function
-		$content .= "\t".'function call_scripts($id, $parameters, $variant=\'XML-RPC\') {'."\n"
+		$content .= "\t".'public static function call_scripts($id, $parameters, $variant=\'XML-RPC\') {'."\n"
 			."\t\t".'global $local, $context;'."\n"
 			."\t\t".'include_once $context[\'path_to_root\'].\'services/call.php\';'."\n\n"
 			."\t\t".'$result = array();'."\n\n"
@@ -727,7 +727,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 		$content .= "\t".'}'."\n\n";
 
 		// start the serving function
-		$content .= "\t".'function serve_scripts($id, $parameters) {'."\n"
+		$content .= "\t".'public static function serve_scripts($id, $parameters) {'."\n"
 			."\t\t".'global $local, $context;'."\n\n"
 			."\t\t".'$result = NULL;'."\n\n"
 			."\t\t".'switch($id) {'."\n\n";
@@ -754,7 +754,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 
 			// remember the change
 			$label = sprintf(i18n::c('%s has been updated'), 'parameters/hooks.include.php');
-			Logger::remember('control/scan.php', $label);
+			Logger::remember('control/scan.php: '.$label);
 
 		}
 
@@ -816,10 +816,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 		.'</p></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#confirmed").focus();'."\n"
-		.JS_SUFFIX;
+	Page::insert_script('$("#confirmed").focus();');
 
 	// this may take several minutes
 	$context['text'] .= '<p>'.i18n::s('When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.').'</p>';
