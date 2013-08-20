@@ -164,7 +164,7 @@ class Layout_as_tree_manager extends Layout_interface {
 	$items_type = $this->listed_type;
 	
 	// this level root reference
-	if(isset($this->focus))
+	if(isset($this->focus) && $this->focus)
 	    $root_ref = $this->focus;
 	elseif(isset($context['current_item']) && $context['current_item'])
 	    $root_ref = $context['current_item'];
@@ -203,7 +203,7 @@ class Layout_as_tree_manager extends Layout_interface {
 	
 	if(!preg_match('/index$/', $root_ref))  {
 	    
-	    $thislevel = Anchors::get($root_ref);
+	    $thislevel = Anchors::get($root_ref);	    
 	    $text .= $this->get_sub_level($thislevel,true); // do not search for folders	    	    
 	}
 	    	
