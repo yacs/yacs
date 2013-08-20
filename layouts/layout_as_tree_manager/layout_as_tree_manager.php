@@ -80,7 +80,7 @@ class Layout_as_tree_manager extends Layout_interface {
 	if($this->listed_type == 'category') {
 	    $data = $entity->get_childs('section', 0, 200, 'raw');
 	    
-	    // layout articles
+	    // layout sections
 	    if(isset($data ['section'])) {
 		foreach($data['section'] as $sec) {
 
@@ -164,7 +164,9 @@ class Layout_as_tree_manager extends Layout_interface {
 	$items_type = $this->listed_type;
 	
 	// this level root reference
-	if(isset($context['current_item']) && $context['current_item'])
+	if(isset($this->focus))
+	    $root_ref = $this->focus;
+	elseif(isset($context['current_item']) && $context['current_item'])
 	    $root_ref = $context['current_item'];
 	else 
 	    $root_ref = $items_type.':index';
