@@ -979,7 +979,7 @@ Class Categories {
 		if($anchor && !is_object($anchor)) {
 		    $anchor = Anchors::get($anchor);
 		}
-		if($anchor->is_assigned())
+		if($anchor && $anchor->is_assigned())
 		    $where .= " OR categories.active='N'";
 					
 
