@@ -60,7 +60,7 @@ switch($_REQUEST['action']) {
 	}
 	
 	// check surfer's rights
-	if(!Categories::allow_creation($anchor->item,$anchor->anchor)) {
+	if(!$cat->allows('categorization',$anchor)) {
 	    $output['success'] = false;
 	    break;
 	}
