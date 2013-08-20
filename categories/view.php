@@ -814,8 +814,8 @@ if(!isset($item['id'])) {
 	// page tools
 	//
 
-	// only on first page, and for associates
-	if(!$zoom_type && Surfer::is_associate()) {
+	// only on first page, and for associates or editors
+	if(!$zoom_type && $this_cat->is_assigned()) {
 
 		// add a category
 		if($this_cat->allow_creation()) {
@@ -882,7 +882,7 @@ if(!isset($item['id'])) {
 	if(Surfer::is_logged()) {
 		Skin::define_img('TOOLS_PRINT_IMG', 'tools/print.gif');
 		$lines[] = Skin::build_link(Categories::get_url($item['id'], 'print'), TOOLS_PRINT_IMG.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
-	}
+	}		
 
 	// in a side box
 	if(count($lines))
