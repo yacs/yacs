@@ -974,10 +974,14 @@ Class Categories {
 		if(Surfer::is_member())
 			$where .= " OR categories.active='R'";
 
-		// list hidden categories to associates, but not on the category tree
+		// list hidden categories to associates or editors, but not on the category tree
 		// they will be listed through a call to list_inactive_by_title() -- see categories/index.php
-		if($anchor && Surfer::is_associate())
-			$where .= " OR categories.active='N'";
+		if($anchor && !is_object($anchor)) {
+		    $anchor = Anchors::get($anchor);
+		}
+		if($anchor->is_assigned())
+		    $where .= " OR categories.active='N'";
+					
 
 		// only consider live categories
 		$where = "(".$where.")"

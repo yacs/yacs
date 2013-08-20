@@ -79,7 +79,7 @@ Class Category extends Anchor {
 	    
 	    // sub-categories
 	    if($filter == 'all' || preg_match('/\bcategor(y|ies)\b/i', $filter)) {
-		$childs['category'] = Categories::list_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
+		$childs['category'] = Categories::list_by_title_for_anchor($this, $offset, $max, $layout);
 	    }
 	    
 	    // related articles
