@@ -782,11 +782,19 @@ Class Categories {
 	 */
 	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=10, $variant='full') {
 		global $context;
+		
+		if($anchor && !is_object($anchor)) {
+		    $anchor = Anchors::get($anchor);
+		}
 
 		// restricted to active and restricted items
 		$where = "categories.active='Y'";
 		if(Surfer::is_member())
 			$where .= " OR categories.active='R'";
+		
+		// list hidden categories to associates and to editors
+		if(Surfer::is_associate() || $anchor->is_assigned())
+			$where .= " OR categories.active='N'";
 
 		// only consider live categories
 		$where = '('.$where.')'
@@ -1020,6 +1028,10 @@ Class Categories {
 	 */
 	public static function &list_for_anchor($anchor, $variant='decorated') {
 		global $context;
+		
+		if($anchor && !is_object($anchor)) {
+		    $anchor = Anchors::get($anchor);
+		}
 
 		// limit the scope to one section
 		$where = "(categories.anchor LIKE '".SQL::escape($anchor)."')";
@@ -1032,7 +1044,7 @@ Class Categories {
 			$where .= " OR categories.active='R'";
 
 		// list hidden categories to associates and to editors
-		if(Surfer::is_empowered())
+		if(Surfer::is_associate() || $anchor->is_assigned())
 			$where .= " OR categories.active='N'";
 
 		// end of scope
