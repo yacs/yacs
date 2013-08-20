@@ -199,10 +199,11 @@ class Layout_as_tree_manager extends Layout_interface {
 	    
 	}	
 	
-	// this level may have childs that are not folders
-	if(isset($context['current_item']) && $context['current_item']) {
+	// this level may have childs that are not folders (exept index)
+	
+	if(!preg_match('/index$/', $root_ref))  {
 	    
-	    $thislevel = Anchors::get($context['current_item']);
+	    $thislevel = Anchors::get($root_ref);
 	    $text .= $this->get_sub_level($thislevel,true); // do not search for folders	    	    
 	}
 	    	
