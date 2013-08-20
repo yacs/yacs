@@ -815,7 +815,7 @@ if(!isset($item['id'])) {
 	//
 
 	// only on first page, and for associates or editors
-	if(!$zoom_type && (Surfer::is_assigned || $this_cat->is_assigned())) {
+	if(!$zoom_type && (Surfer::is_associate() || $this_cat->is_assigned())) {
 
 		// add a category
 		if($this_cat->allow_creation()) {
