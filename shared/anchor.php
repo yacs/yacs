@@ -140,6 +140,7 @@ abstract class Anchor {
 	 * class constructor 
 	 * 
 	 * may accept data
+	 * @param array $item
 	 */
 	function __construct($item=NULL) {
 	    
@@ -151,6 +152,15 @@ abstract class Anchor {
 		// bind item, anchor and overlay data to object
 		$this->load_by_content($item, $anchor);
 	    }
+	}
+	
+	/**
+	 * Using object like a string get its reference
+	 * 
+	 * @return string 
+	 */
+	function __toString() {
+	    return $this->get_reference();
 	}
 	
 	/**
