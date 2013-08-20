@@ -115,25 +115,19 @@
 Class Categories {
 
 	/**
-	 * check if new categories can be added or assigned
+	 * Check if new categories can be assigned
 	 *
-	 * This function returns TRUE if categories can be added to some place,
-	 * and FALSE otherwise.
+	 * This function returns TRUE if assign categories command could be displayed
+	 * (share component), and FALSE otherwise.
 	 *
-	 * The function prevents the creation of new categories when:
-	 * - the surfer is not an associate
-	 * - item has some option 'no_categories' that prevents new categories
-	 * - the anchor has some option 'no_categories' that prevents new categories
-	 * - global parameter 'users_without_submission' has been set to 'Y'
-	 *
-	 * Locked items can be further categorized.
+	 * Note this is different from categorizing with tags. 
 	 *	 
 	 * @param array a set of item attributes, if any
 	 * @param object an instance of the Anchor interface, if any
 	 * @param string the type of item, e.g., 'section'
 	 * @return boolean TRUE or FALSE
 	 */
-	public static function allow_creation($item=NULL, $anchor=NULL, $variant=NULL) {
+	public static function allow_assign($item=NULL, $anchor=NULL, $variant=NULL) {
 		global $context;
 
 		// surfer has to be an associate

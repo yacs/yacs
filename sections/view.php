@@ -803,7 +803,7 @@ if(!isset($item['id'])) {
 		$items =& Members::list_categories_by_title_for_member('section:'.$item['id'], $offset, CATEGORIES_PER_PAGE, 'sidebar');
 
 		// the command to change categories assignments
-		if(Categories::allow_creation($item,$anchor))
+		if(Categories::allow_assign($item,$anchor))
 			$items = array_merge($items, array( Categories::get_url('section:'.$item['id'], 'select') => i18n::s('Assign categories') ));
 
 		// actually render the html for the section

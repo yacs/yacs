@@ -129,18 +129,18 @@ if($zoom_index < 1)
 
 // get the item from the database
 $item = Categories::get($id);
+// object interface
+$this_cat = new Category($item);
 
 // get the related anchor, if any
-$anchor = NULL;
-if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+$anchor = $this_cat->anchor;
 
 // get the related overlay, if any
-$overlay = NULL;
-if(isset($item['overlay']) && $item['overlay'])
+$overlay = $this_cat->overlay;
+/*if(isset($item['overlay']) && $item['overlay'])
 	$overlay = Overlay::load($item, 'category:'.$item['id']);
 elseif(isset($item['overlay_id']))
-	$overlay = Overlay::bind($item['overlay_id']);
+	$overlay = Overlay::bind($item['overlay_id']);*/
 
 // associates and editors can do what they want
 if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
@@ -710,7 +710,7 @@ if(!isset($item['id'])) {
 			Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $zoom_index));
 
 		// the command to post a new category
-		if($stats['count'] && Categories::allow_creation($item,$anchor)) {
+		if($stats['count'] && $this_cat->allow_creation()) {
 			$url = 'categories/edit.php?anchor='.urlencode('category:'.$item['id']);
 			$box['bar'] += array( $url => i18n::s('Add a category') );
 		}
@@ -818,7 +818,7 @@ if(!isset($item['id'])) {
 	if(!$zoom_type && Surfer::is_associate()) {
 
 		// add a category
-		if(Categories::allow_creation($item,$anchor)) {
+		if($this_cat->allow_creation()) {
 			Skin::define_img('CATEGORIES_ADD_IMG', 'categories/add.gif');
 			$context['page_tools'][] = Skin::build_link('categories/edit.php?anchor='.urlencode('category:'.$item['id']), CATEGORIES_ADD_IMG.i18n::s('Add a category'), 'basic');
 		}

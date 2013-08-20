@@ -26,7 +26,43 @@
  */
 Class Category extends Anchor {
 	
-
+	/**
+	 * check if this category allow surfer to categorize a given anchor into it
+	 * @see layouts/layout_as_tree_manager/tree_manager_ajax.php
+	 * 
+	 * This is different than categorizing with tags.
+	 * 
+	 * @param object $anchor to categorize
+	 */
+	function allow_categorization ($anchor=NULL) {
+	    
+	    // surfer as to be a associate or editor of the category
+	    if(!$this->is_assigned(Surfer::get_id()) && !Surfer::is_associate())
+		    return FALSE;
+	    
+	    if(is_object($anchor) && $anchor->has_option('no_categories'))
+		return FALSE;
+	    
+	    return TRUE;	    	    
+	}	
+	
+	
+	/**
+	 * Check if surfer is allowed to add sub-categories
+	 * 
+	 * @param string $type
+	 * @return boolean 
+	 */
+	function allow_creation($type='') {
+	    
+	    // surfer as to be a associate or editor of the category
+	    if($this->is_assigned(Surfer::get_id()) || Surfer::is_associate())
+		    return TRUE;
+	    
+	    return FALSE;	    
+	}
+    
+    
 	/**
 	 * list childs of this anchor, with or without type filters
 	 * 
