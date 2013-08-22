@@ -1373,14 +1373,14 @@ function render_skin($with_last_modified=TRUE) {
 		Page::load_style('included/jscalendar/calendar-system.css');
 
 		// use the compressed version if it's available
-		Page::defer_script('included/jscalendar/calendar.min.js');
+		Page::load_script('included/jscalendar/calendar.min.js');
 
 		if(file_exists($context['path_to_root'].'included/jscalendar/lang/calendar-'.strtolower($context['language']).'.js'))
-		    Page::defer_script('included/jscalendar/lang/calendar-'.strtolower($context['language']).'.js');
+		    Page::load_script('included/jscalendar/lang/calendar-'.strtolower($context['language']).'.js');
 		else
-		    Page::defer_script ('included/jscalendar/lang/calendar-en.js');
+		    Page::load_script ('included/jscalendar/lang/calendar-en.js');
 
-		Page::defer_script('included/jscalendar/calendar-setup.min.js');
+		Page::load_script('included/jscalendar/calendar-setup.min.js');
 
 	}
 
