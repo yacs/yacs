@@ -15,8 +15,8 @@ Class Js_Css {
      * @global type $context
      * @param string $path, relative from yacs root, or external url
      * @param string $forced_type = 'js' or 'css', if path does not end by .js or .css
-     * @param string $forced_position = 'header' of 'footer' to specify where to
-     * load a js file.
+     * @param string $forced_position = 'header', 'defer' of 'footer' to specify where to
+     * load a js file (defer always before footer).
      * @return false if unsucceed 
      */
     public static function link_file($path, $forced_type='',$forced_position='') {
@@ -79,7 +79,7 @@ Class Js_Css {
 			$forced_position = 'header';
 
 		// by default .js goes to page footer
-		$target = ($forced_position)?$forced_position:'footer';
+		$target = ($forced_position)?$forced_position:'defer';
 		
 		Js_css::add_js(Js_css::build_js_declaration($path),$target);
 		break;
