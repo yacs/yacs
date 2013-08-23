@@ -15,19 +15,29 @@ class Layout_as_tree_manager extends Layout_interface {
      */
     private function btn_create() {
 	
-	$btn = '<a class="tm-cmd tm-create details" title="'.sprintf(i18n::s('Add a %s'),$this->listed_type).'">+</a>'."\n";	
+	$btn = '<a href="#" class="tm-cmd tm-create details" title="'.sprintf(i18n::s('Add a %s'),$this->listed_type).'">+</a>'."\n";	
 	
 	return $btn;
     }
     
     /**     
-     * @return string the html code to build a "create" button related to a folder
+     * @return string the html code to build a "delete" button related to a folder
      */
     private function btn_delete() {
 	
-	$btn = '<a class="tm-cmd tm-delete details" title="'.i18n::s('Delete').'">x</a>'."\n";	
+	$btn = '<a href="#" class="tm-cmd tm-delete details" title="'.i18n::s('Delete').'">x</a>'."\n";	
 	
 	return $btn;
+    }
+    
+    /**
+     * @return string the html code to build a "rename" button related to a folder
+     */
+    private function btn_rename() {
+	
+	$btn = '<a href="#" class="tm-cmd tm-rename details" title="'.i18n::s('Rename').'">r</a>'."\n";	
+	
+	return $btn;	
     }
         
     /**
@@ -64,7 +74,7 @@ class Layout_as_tree_manager extends Layout_interface {
 			$deeper = $this->get_sub_level($elem);
 
 			// build commands menu
-			$cmd = $this->btn_create().$this->btn_delete();
+			$cmd = $this->btn_create().$this->btn_rename().$this->btn_delete();
 
 			// layout sub container
 			$details[] = '<li class="tm-drag tm-drop" data-ref="'.$elem->get_reference()
@@ -111,7 +121,7 @@ class Layout_as_tree_manager extends Layout_interface {
 		$art = new Article($art);
 		
 		// build commands menu
-		$cmd = $this->btn_delete();
+		$cmd = $this->btn_rename().$this->btn_delete();
 		
 		// layout articles
 		$details[] = '<li class="tm-drag" data-ref="'.$art->get_reference().'"><span class="tm-page details">'
@@ -192,7 +202,7 @@ class Layout_as_tree_manager extends Layout_interface {
 	    $sub = $this->get_sub_level($entity);	
 	    
 	    // command related to this entity
-	    $cmd = $this->btn_create().$this->btn_delete();
+	    $cmd = $this->btn_create().$this->btn_rename().$this->btn_delete();
 	    
 	    // one <li> per entity of this level of the tree
 	    $text .= '<li class="tm-drag tm-drop" data-ref="'.$entity->get_reference().'">'.$title.$cmd.$sub.'</li>'."\n";		    	    	    
