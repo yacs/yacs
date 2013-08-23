@@ -51,25 +51,16 @@ var TreeManager = {
 		$(".tm-drop").droppable(TreeManager.dropOptions);
 
 		// all cmd buttons
-		$(".tm-cmd").click( function(e) {e.stopPropagation();TreeManager.cmd($(this));});
-
-		//zoom & rename folders	    
-		$(".tm-zoom").click_n_dblclick(TreeManager.zoom,TreeManager.inputRename);
-
-		// rename content
-		$(".tm-page").dblclick( function(e) {e.stopPropagation();TreeManager.inputRename($(this));});
+		$(".tm-cmd").click( function(e) {e.stopPropagation();TreeManager.cmd($(this));});		
 	    
-	    } else {
-		// allow zoom only
-		$(".tm-zoom").click(function(e){
-		    e.preventDefault();
-		    e.stopPropagation();
-		    TreeManager.zoom($(this));
-		});				
+	    } else {				
 		
 		// hide commands tags
 		$(".tm-cmd").hide();
-	    }
+	    }	    	    
+		
+	    // propagate simple click and & zoomin
+	    $(".tm-zoom").click_n_dblclick(TreeManager.propagateClick,TreeManager.zoom);	
 	    
 	    // fold/unfold list
 	    TreeManager.animFold($("li.tm-drop"));	    
@@ -101,7 +92,8 @@ var TreeManager = {
 			li.append('<span class="tm-foldmark">...</span>');
 		});		
 	    });
-    },
+    },    
+    
     
     /**
      * mouse overing a block hilight it, but do not hiligth parent
@@ -170,7 +162,14 @@ var TreeManager = {
 	    var anchor = cmd.parents(".tm-drag").first(); // consider any draggable element 
 	    TreeManager.confirmDelete(anchor);
 	    return;
-	}	
+	}
+
+	if(cmd.hasClass("tm-rename")) {
+	    var anchor = cmd.prevAll(".tm-zoom").first(); // consider any draggable element 
+	    console.log(anchor);
+	    TreeManager.inputRename(anchor);
+	    return;
+	}
 	
     },
     
@@ -216,11 +215,16 @@ var TreeManager = {
      */
     inputCreate: function(anchor) {
 	
+	// check if sub list is visible otherwise unfold it
+	var sublist = anchor.children('.tm-sub_elems');
+	if(sublist.is(':hidden'))
+	    anchor.trigger('click');
+	
 	// input html
-	var input = $('<input type="text" name="create"/>');
+	var input = $('<input type="text" name="create"/>');	
 	
 	// add to subelems list
-	input.prependTo(anchor.children('.tm-sub_elems'));
+	input.prependTo(sublist);
 	input.wrap('<li class="tm-drop"></li>');
 	
 	// stop propagation of clicking on input
@@ -340,7 +344,7 @@ var TreeManager = {
 		    // set the title
 		    var title = $('<span class="tm-folder"></span>').text(data.title);
 		    // single and double click events
-		    var zoom = $('<a class="tm-zoom"></a>').click_n_dblclick(TreeManager.zoom,TreeManager.inputRename);
+		    var zoom = $('<a class="tm-zoom"></a>').click_n_dblclick(TreeManager.propagateClick,TreeManager.zoom);
 		    // nest elements
 		    zoom.append(title);
 		    newli.append(zoom);
@@ -349,6 +353,11 @@ var TreeManager = {
 		    var cmd_create = $('.tm-ddz').find('.tm-create').first().clone();
 		    cmd_create.click( function(e) {e.stopPropagation();TreeManager.cmd($(this));});
 		    newli.append(cmd_create);
+		    
+		     // clone and append a rename cmd to entry
+		    var cmd_rename = $('.tm-ddz').find('.tm-rename').first().clone();
+		    cmd_rename.click( function(e) {e.stopPropagation();TreeManager.cmd($(this));});
+		    newli.append(cmd_rename);
 		    
 		    // clone add append a delete cmd
 		    var cmd_delete = $('.tm-ddz').find('.tm-delete').first().clone();
@@ -471,6 +480,25 @@ var TreeManager = {
     },
     
     /**
+     * Simple click on folder's name must be propagate to the first parent list
+     * witch have childs
+     */
+    propagateClick: function (elem) {
+	// get all parent folders
+	var parents = elem.parents("li.tm-drop");
+	
+	// look for the first one with childs
+	parents.each(function(i,parent){
+	    if($(parent).find('.tm-drag').length) {
+		
+		$(parent).trigger('click');
+		return false // job done, break loop
+	    }
+	});
+	
+    },
+    
+    /**
      * this function perform the ajax request to get 
      * a new tree view from a given anchor
      * @see layouts/layout_as_tree_manager/tree_manager_ajax.php
@@ -483,6 +511,8 @@ var TreeManager = {
      * @param title jquery object that was clicked to ask for a zoom
      */
     zoom:function (title) {	
+	
+	console.log('zoom');
 	
 	// get the anchor to zoom
 	var anchor = title.parents(".tm-drop").first();
@@ -503,11 +533,12 @@ var TreeManager = {
 		if(data.success) {		    	    		  		    
 		    // building breadcrumbs complement ...
 			var more_crumbs = ''; // string
-			// get hierarchy
+			// get hierarchy			
 			var path_anchors = $(anchor.parents(".tm-drop").get().reverse());
+			console.log(path_anchors);
 			// build it			
 			$.each(path_anchors,function() {
-			    var link = $('<a class="tm-crumbs"></a>');
+			    var link = $('<a href="#" class="tm-crumbs"></a>');
 			    link.attr('data-ref',$(this).data('ref'))
 			    // looking for label			    
 			    if(!$(this).hasClass("tm-ddz")) {
@@ -515,7 +546,7 @@ var TreeManager = {
 				link.text(label.text());
 			    } else
 				// take root title from page
-				link.text($('#main_panel h1 span').text());
+				link.text($('#main_panel h1 span').text());			    			    
 			    
 			    // tricks : get link's outerHTML by appending it to a temporary <div> 
 			    // add also a <span> wrapped on separator to be able to remove it easily while zooming out
