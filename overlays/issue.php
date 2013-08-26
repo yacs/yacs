@@ -180,7 +180,7 @@ class Issue extends Overlay {
 		}
 
 		// show progress
-		$rows[] = array(i18n::s('Progress'), $this->get_progress_text());
+		$rows[] = array(i18n::s('Progress'), $this->get_progress_value());
 
 		// type
 		$rows[] = array(i18n::s('Workflow'), self::get_type_value());
@@ -535,7 +535,7 @@ class Issue extends Overlay {
 	function &get_list_text($host=NULL) {
 
 		// show progress
-		$text = BR.$this->get_progress_text();
+		$text = BR.$this->get_progress_value();
 
 		return $text;
 	}
@@ -573,7 +573,7 @@ class Issue extends Overlay {
 	 *
 	 * @return string to be returned to browser
 	 */
-	function get_progress_text() {
+	function get_progress_value() {
 		global $context;
 
 		// based on status
@@ -1073,7 +1073,7 @@ class Issue extends Overlay {
 		}
 
 		// show progress
-		$rows[] = array(i18n::s('Progress'), $this->get_progress_text());
+		$rows[] = array(i18n::s('Progress'), $this->get_progress_value());
 
 		// type
 		$rows[] = array(i18n::s('Workflow'), self::get_type_value());
