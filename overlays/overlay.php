@@ -490,48 +490,31 @@ class Overlay {
 
 		// live description
 		case 'description':
-			$text =& $this->get_live_description($host);
-			return $text;
-
-		// small details
-		case 'details':
-			$text =& $this->get_details_text($host);
-			return $text;
-
-		// diff from a previous version, for e-mail notifications
-		case 'diff':
-			$text = $this->get_diff_text($host);
-			return $text;
-
-		// extra side of the page
-		case 'extra':
-			$text =& $this->get_extra_text($host);
-			return $text;
+			$text = $this->get_live_description($host);
+			return $text;			
 
 		// live introduction
 		case 'introduction':
-			$text =& $this->get_live_introduction($host);
+			$text = $this->get_live_introduction($host);
 			return $text;
-
-		// container is one item of a list
-		case 'list':
-			$text =& $this->get_list_text($host);
-			return $text;
+		
 
 		// live title
 		case 'title':
-			$text =& $this->get_live_title($host);
-			return $text;
+			$text = $this->get_live_title($host);
+			return $text;		
 
-		// at the bottom of the page, after the description field
-		case 'trailer':
-			$text =& $this->get_trailer_text($host);
-			return $text;
-
-		// full page of the container
-		case 'view':
+		// generic get_<something>_text function
+		// eg. view, trailer, detail, list, extra...
+		// or any custom function
 		default:
-			$text =& $this->get_view_text($host);
+			$func = 'get_'.$variant.'_text';
+			if(is_callable(array($this,$func)))
+			    $text = $this->$func($host);
+			else {
+			    $text = '';
+			    Logger::error(sprintf(i18n::s('function %s not found for overlay %s'),$func, get_class($this)));
+			}
 			return $text;
 		}
 	}
