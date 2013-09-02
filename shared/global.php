@@ -1323,22 +1323,12 @@ function render_skin($with_last_modified=TRUE) {
 	if(isset($context['site_head']))
 		$metas[] = $context['site_head'];
 
-	// provide a page reference to Javascript --e.g., for reporting activity from this page
-	$context['page_footer'] .= JS_PREFIX;
-
-	// a reference to the data we are at (e.g., 'article:123')
-	if(isset($context['current_item']) && $context['current_item'])
-		$context['javascript']['footer'] .= '	Yacs.current_item = "'.$context['current_item'].'";'."\n";
-	else
-		$context['javascript']['footer'] .= '	Yacs.current_item = "";'."\n";
-
-	// some indication at what we are doing (e.g., 'edit')
-	if(isset($context['current_action']) && $context['current_action'])
-		$context['javascript']['footer'] .= '	Yacs.current_action = "'.$context['current_action'].'";'."\n";
-	else
-		$context['javascript']['footer'] .= '	Yacs.current_action = "";'."\n";
-
-	$context['page_footer'] .= JS_SUFFIX;
+	// provide a page reference to Javascript --e.g., for reporting activity from this page		
+	$js_script = 'Yacs.current_item = "'
+		.((isset($context['current_item']) && $context['current_item'])?$context['current_item']:'').'"; '
+		.'Yacs.current_action = "'
+		.((isset($context['current_action']) && $context['current_action'])?$context['current_action']:'').'";';
+	Page::insert_script($js_script);
 
 	// jquery-ui stylesheet
 	if($whole_rendering)
