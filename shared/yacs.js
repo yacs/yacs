@@ -498,7 +498,7 @@ var Yacs = {
 	 */
 	displayOverlaid:function(url) {	    
 	    
-	    $.get(url,{raw:'Y'})   
+	    $.get(url,{overlaid:'Y'})   
 	    .done(function(data){
 		var content={
 		    body: data,
