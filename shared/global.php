@@ -963,7 +963,7 @@ function load_skin($variant='', $anchor=NULL, $options='') {
  *
  */
 function render_skin($with_last_modified=TRUE) {
-	global $context, $render_body_only, $local; // put here ALL global variables to be included in template, including $local
+	global $context, $render_overlaid, $local; // put here ALL global variables to be included in template, including $local
 
 	// allow for only one call -- see scripts/validate.php
 	global $rendering_fuse;
@@ -971,9 +971,9 @@ function render_skin($with_last_modified=TRUE) {
 		return;
 	$rendering_fuse = TRUE;
 	
-	if(!isset($render_body_only))
+	if(!isset($render_overlaid))
 	    $whole_rendering = true;
-	elseif($render_body_only)
+	elseif($render_overlaid)
 	    $whole_rendering = false;
 
 	// ensure we have a fake skin, at least
@@ -1418,7 +1418,7 @@ function render_skin($with_last_modified=TRUE) {
 		$context['content_type'] = 'text/html';
 	Safe::header('Content-Type: '.$context['content_type'].'; charset='.$context['charset']);
 	
-	if(isset($render_body_only) && $render_body_only ) {
+	if(isset($render_overlaid) && $render_overlaid ) {
 	    
 	    Js_css::prepare_scripts_for_overlaying();	    
 	    

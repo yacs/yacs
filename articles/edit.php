@@ -187,13 +187,13 @@ elseif(isset($item['id']) && Articles::allow_modification($item, $anchor))
 else
 	$permitted = FALSE;
 
-// request may ask for raw content only
-if(isset($_REQUEST['raw']) && $_REQUEST['raw'] == 'Y') {
+// request may ask for overlaid content only
+if(isset($_REQUEST['overlaid']) && $_REQUEST['overlaid'] == 'Y') {
     $whole_rendering = false;   
     // warn also render_skin() for limited output
     // @see shared/global.php
-    global $render_body_only;
-    $render_body_only = true;
+    global $render_overlaid;
+    $render_overlaid = true;
 } else
     $whole_rendering = true;
 
