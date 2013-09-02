@@ -1308,10 +1308,10 @@ function render_skin($with_last_modified=TRUE) {
 	}
 
 	// activate tinyMCE, if available
-	if($whole_rendering && isset($context['javascript']['tinymce'])) {
+	if(isset($context['javascript']['tinymce'])) {
 
 		Page::defer_script('included/tiny_mce/tinymce.min.js');	
-		Page::insert_script('Yacs.tinymceInit()');				
+		Page::insert_script('Yacs.tinymceInit();');				
 
 	}
 
@@ -1328,15 +1328,15 @@ function render_skin($with_last_modified=TRUE) {
 
 	// a reference to the data we are at (e.g., 'article:123')
 	if(isset($context['current_item']) && $context['current_item'])
-		$context['page_footer'] .= '	Yacs.current_item = "'.$context['current_item'].'";'."\n";
+		$context['javascript']['footer'] .= '	Yacs.current_item = "'.$context['current_item'].'";'."\n";
 	else
-		$context['page_footer'] .= '	Yacs.current_item = "";'."\n";
+		$context['javascript']['footer'] .= '	Yacs.current_item = "";'."\n";
 
 	// some indication at what we are doing (e.g., 'edit')
 	if(isset($context['current_action']) && $context['current_action'])
-		$context['page_footer'] .= '	Yacs.current_action = "'.$context['current_action'].'";'."\n";
+		$context['javascript']['footer'] .= '	Yacs.current_action = "'.$context['current_action'].'";'."\n";
 	else
-		$context['page_footer'] .= '	Yacs.current_action = "";'."\n";
+		$context['javascript']['footer'] .= '	Yacs.current_action = "";'."\n";
 
 	$context['page_footer'] .= JS_SUFFIX;
 
@@ -1419,10 +1419,13 @@ function render_skin($with_last_modified=TRUE) {
 	Safe::header('Content-Type: '.$context['content_type'].'; charset='.$context['charset']);
 	
 	if(isset($render_body_only) && $render_body_only ) {
+	    
+	    Js_css::prepare_scripts_for_overlaying();	    
+	    
 	    echo $context['page_header'];
 	    echo '<h2>'.$context['page_title'].'</h2>';
-	    echo $context['text'];
-	    echo $context['page_footer'];
+	    echo $context['text'];	    
+	    echo $context['javascript']['footer'];
 	    return;
 	}	
 

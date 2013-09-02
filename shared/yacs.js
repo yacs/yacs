@@ -486,6 +486,48 @@ var Yacs = {
 
 
 	},
+	
+	/**
+	 * This function display a given yacs' page (view.php or edit.php)
+	 * in a modalBox. Yacs php code will perform a special rendering
+	 * when called by this function
+	 * 
+	 * 1 get the page and put it in modal box
+	 * 2 if array scripts_to_load exists, get the scripts defined in
+	 * 3 if function execute_after_loading exists, call it
+	 */
+	displayOverlaid:function(url) {	    
+	    
+	    $.get(url,{raw:'Y'})   
+	    .done(function(data){
+		var content={
+		    body: data,
+		    button_TRUE:'Send',
+		    button_FALSE:'Cancel'
+		};
+		// display the modalBox
+		Yacs.displayModalBox(content,Yacs.modalPost);
+		// preload instruction for tinymce
+		// @see https://gist.github.com/badsyntax/379244
+		window.tinyMCEPreInit = {
+		    base: url_to_root+'included/tiny_mce',
+		    suffix : '.min'	// to search for theme.min.js		
+		    }; 
+		
+		// function will be called by Yacs.updateModalBox
+		Yacs.callAfterDisplayModal = function() {
+		    if(typeof scripts_to_load != 'undefined') {
+			// get all the scripts
+			Yacs.getScriptS(scripts_to_load, function() {
+			    // execute all snipets (like a $.ready(...)  )
+			    if( typeof execute_after_loading == 'function')			
+				(execute_after_loading)();			    			   
+			});
+		    } else if( typeof execute_after_loading == 'function')
+			(execute_after_loading)();
+		}		
+	    });	    
+	},
 
 	/**
 	 * filter floating numbers
@@ -595,6 +637,33 @@ var Yacs = {
 		}
 
 		return s;
+	},
+	
+	/**
+	 * This function allow to load a bunch of scripts
+	 * @see http://www.jquery4u.com/ajax/getscript-mutiple-scripts/
+	 * 
+	 * @param array resources, urls of scripts to load
+	 * @param function callback, something to do after all scripts are loaded
+	 */
+	getScriptS: function( resources, callback ) {
+	
+	    var // reference declaration &amp; localization
+	    length = resources.length,
+	    handler = function() { counter++; },    
+	    deferreds = [],
+	    counter = 0,    
+	    idx = 0;
+
+	    for ( ; idx < length; idx++ ) {
+		deferreds.push(
+		    $.getScript( resources[ idx ], handler )
+		);
+	    }
+
+	    $.when.apply( null, deferreds ).then(function() {
+		callback && callback();
+	    });
 	},
 
 	/**
@@ -720,6 +789,12 @@ var Yacs = {
 	},
 	
 	tinymceInit: function() {
+	    
+	    // without this tinymce won't initialize during overlaid view
+	    // @see https://gist.github.com/badsyntax/379244
+	    tinymce.dom.Event.domLoaded = true; 
+	    
+	    // regular initialization
 	    tinymce.init({
 		    selector: "textarea.tinymce",
 		    menubar:false,
@@ -840,34 +915,10 @@ var Yacs = {
 			anchor = null; // no memory leak
 		}
 
-		// prepare edition link to ajax call of overlaid edition
+		// prepare edition link to ajax call of overlaid edition		
 		$("a.edit").click(function(e){
-		    e.preventDefault();	
-		    // get edition page
-		    $.get($(this).attr("href"),{raw:'Y'})   
-		    .done(function(data){
-			var content={
-			    body: data,
-			    button_TRUE:'Send',
-			    button_FALSE:'Cancel'
-			};
-			Yacs.displayModalBox(content,Yacs.modalPost);
-			// preload instruction for tinymce
-			// @see https://gist.github.com/badsyntax/379244
-			window.tinyMCEPreInit = {
-			    base: url_to_root+'included/tiny_mce',
-			    suffix : '.min'	// to search for theme.min.js		
-			    }; 
-			// get tinymce editor    
-			$.getScript(url_to_root+'included/tiny_mce/tinymce.min.js')
-			.done(function(){
-			    // without this tinymce won't initialize
-			    tinymce.dom.Event.domLoaded = true; 
-			    // initialize tinymce
-			    Yacs.tinymceInit();
-			})
-			
-		    });
+		    e.preventDefault();			    
+		    Yacs.displayOverlaid($(this).attr("href"));
 		});
 
 		// slow down notifications on window blur
@@ -1773,6 +1824,10 @@ var Yacs = {
 
 		// update box content
 		$('#modal_content').html(content);
+		
+		// callback after displaying, if defined
+		if(typeof Yacs.callAfterDisplayModal == 'function')
+		    (Yacs.callAfterDisplayModal)();
 
 		// remove height limitation if it was set
 		$('#modal_centered').css('bottom','');
@@ -1852,8 +1907,7 @@ var Yacs = {
 };
 
 // specific jquery extensions
-jQuery.fn.extend({
-
+jQuery.fn.extend({        
 
     /**
      * This function enable to bind single click and dblclick on same objects.

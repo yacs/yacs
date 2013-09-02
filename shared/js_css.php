@@ -103,6 +103,13 @@ Class Js_Css {
 
     }
 	
+    /**
+     * This function insert some javascript of css styles in the page
+     * 
+     * @param string $script javascript code or css rules
+     * @param string $type to tell the function what can of script it is
+     * by default 'js' because it is the main use. 
+     */
     public static function insert($script, $type='js') {
 	global $context;
 
@@ -125,11 +132,11 @@ Class Js_Css {
 	}
     }
 
-    public static function include_file($path) {
-
-    }
-
-
+    /**
+     * Add declaration of a css file to the preparation of the page
+     * 
+     * @param string $css 
+     */
     private static function add_css($css) {
 	global $context;
 
@@ -143,6 +150,11 @@ Class Js_Css {
     }
 
     /**
+     *  Add a js file declaration to the preparation of the page
+     *  Target could be header, defer or footer
+     * 
+     *  @param string $js the path to the file
+     *  @param string target the place where to include the declaration
      */
     private static function add_js($js,$target='footer') {
 	global $context;
@@ -155,6 +167,13 @@ Class Js_Css {
 	$context['javascript'][$target] .= $js;
     }
 
+    /**
+     * build declaration of a css style sheet
+     * 
+     * @param string $path to the file
+     * @param string $media concerned by the file (all, screen, print...)
+     * @return string the declaration 
+     */
     public static function build_css_declaration($path,$media="all") {
 
 	    $type = (SKIN_HTML5)?'':' type="text/css" ';
@@ -172,10 +191,36 @@ Class Js_Css {
      */
     public static function build_js_declaration($path) {
 
-	    $type = (SKIN_HTML5)?'':' type="text/javascript" ';
+	$type = (SKIN_HTML5)?'':' type="text/javascript" ';
 
-	    $html = '<script'.$type.' src="'.$path.'"></script>'."\n";
-	    return $html;
+	$html = '<script'.$type.' src="'.$path.'"></script>'."\n";
+	return $html;
+    }
+        
+    
+    /**
+     * This function takes all urls of script that should be deferred
+     * and put them in a array variable
+     * Yacs will use this variable to load script later with a getScript ajax
+     * request
+     * This is used by the overlaid viewing mode
+     * 
+     * @return void
+     */
+    private static function extract_src_from_deferred_scripts() {
+	global $context;
+	
+	if(!isset($context['javascript']['defer'])) 
+	    return;
+	
+	$src= array();
+	if(!preg_match_all('/src="(.*?)"/sim', $context['javascript']['defer'], $src))
+	    return;
+	
+	array_shift($src); // remove matches[0] with all pattern
+	$to_load = 'var scripts_to_load = ["'.implode('","',$src[0]).'"]';
+	
+	Js_css::insert($to_load);
     }
 
     /**
@@ -236,28 +281,76 @@ Class Js_Css {
 	    }
 
 	    return $html;
-    }	
+    }
+    
+    /**
+     * overlaying a page thru a ajax call needs special preparation
+     * for javascript files in order to be loaded and executed properly
+     * 
+     * 
+     * @see shared/global.php 
+     * @see shared/yacs.js, yacs.displayOverlaid()
+     */
+    public static function prepare_scripts_for_overlaying() {
+		
+	// call functions in this order : wrap_footer, extract_src
+	Js_css::wrap_footer_scripts();
+	Js_css::extract_src_from_deferred_scripts();
+		
+    }
     
     
-	/**
-	 * create table for js_css
-	 * to count js and css files calls over time
-	 *
-	 * @see control/setup.php
-	 */
-	public static function setup() {
-	    
-	    $fields = array();
-	    $fields['id']		= "VARCHAR(32) NOT NULL";
-	    $fields['path']		= "VARCHAR(255) DEFAULT '' NOT NULL";
-	    $fields['calls']		= "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";	
-	    
-	    $indexes = array();
-	    $indexes['PRIMARY KEY'] 	= "(id)";
-	    
-	    return SQL::setup_table('js_css_calls', $fields, $indexes);
-	    
-	}
+    /**
+     * create table for js_css
+     * to count js and css files calls over time
+     *
+     * @see control/setup.php
+     */
+    public static function setup() {
+
+	$fields = array();
+	$fields['id']		    = "VARCHAR(32) NOT NULL";
+	$fields['path']		    = "VARCHAR(255) DEFAULT '' NOT NULL";
+	$fields['calls']	    = "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";	
+
+	$indexes = array();
+	$indexes['PRIMARY KEY']	    = "(id)";
+
+	return SQL::setup_table('js_css_calls', $fields, $indexes);
+
+    }
+    
+    /**
+     * This function wrap all end of page javascripts snipet 
+     * in a special function "execute_after_loading"
+     * The function will be called later by yacs.js when script
+     * are ready to be executed
+     * This is because you cannot relay on $.ready() for a script loaded asynchroniusly
+     * 
+     * @return void 
+     */
+    private static function wrap_footer_scripts() {
+	global $context;
+	
+	if(!isset($context['javascript']['footer'])) 
+	    return;
+	
+	// extract code for <script> tags
+	$scripts = array();
+	if(!preg_match_all('/<script.*?>(.*?)<\/script/sim', $context['javascript']['footer'], $scripts)) 
+	    return;
+	
+	array_shift($scripts); // remove matches[0] with all pattern
+	$wrapped = 'function execute_after_loading() {'.implode("\n", $scripts[0]).'}';
+					
+	// erase footer
+	$context['javascript']['footer'] = '';
+	// fill with new wrapped code
+	Js_css::insert($wrapped);
+	
+	return;
+	
+    }
 
 }
 ?>
