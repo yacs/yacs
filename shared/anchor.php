@@ -876,10 +876,10 @@ abstract class Anchor {
 	 *
 	 * @return a string
 	 */
-	function get_title() {
+	function get_title($use_overlay=true) {
 	        
 	    // use overlay if any
-	    if(is_object($this->overlay))
+	    if(is_object($this->overlay) && $use_overlay)
 		return $this->overlay->get_text('title', $this->item);
 	    elseif(isset($this->item['title']))
 		return trim(str_replace('& ', '&amp; ', $this->item['title']));

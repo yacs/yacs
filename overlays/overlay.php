@@ -422,7 +422,7 @@ class Overlay {
 	 */
 	function &get_live_title($host=NULL) {
 
-		$text = $this->anchor->get_title();
+		$text = $this->anchor->get_title(false);
 
 		return $text;
 	}
@@ -623,15 +623,20 @@ class Overlay {
 	 * @param string reference of the containing page (e.g., 'article:123')
 	 * @return a restored instance, or NULL
 	 */
-	final public static function load($host, $reference) {
+	final public static function load($host, $reference='') {
 		global $context;
+		
+		if(is_object($host))
+		    $data = $host->item;
+		else
+		    $data = $host;
 
 		// no overlay yet
-		if(!isset($host['overlay']) || !$host['overlay'])
+		if(!isset($data['overlay']) || !$data['overlay'])
 			return NULL;
 
 		// retrieve the content of the overlay
-		if(($attributes = Safe::unserialize($host['overlay'])) === FALSE)
+		if(($attributes = Safe::unserialize($data['overlay'])) === FALSE)
 			return NULL;
 
 		// restore unicode entities
@@ -645,8 +650,8 @@ class Overlay {
 			return NULL;
 
 		// bind this to current page
-		if(isset($host['id']))
-			$attributes['id'] = $host['id'];
+		if(isset($data['id']))
+			$attributes['id'] = $data['id'];
 
 		// use one particular overlay instance
 		$overlay = Overlay::bind($attributes['overlay_type']);
@@ -654,7 +659,10 @@ class Overlay {
 			$overlay->attributes = $attributes;
 
 			// expose all of the anchor interface to the contained overlay
-			$overlay->anchor = Anchors::get($reference);
+			if(!is_object($host))
+			    $overlay->anchor = Anchors::get($reference);
+			else
+			    $overlay->anchor = $host;
 
 			// ready to use!
 			return $overlay;
