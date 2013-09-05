@@ -305,6 +305,10 @@ class Anchors {
 		// ensure the object actually exists
 		if(!isset($anchor->item['id']))
 			$anchor = NULL;
+		
+		// load overlay if any
+		if(isset($anchor->item['overlay']))
+			$anchor->overlay = Overlay::load($anchor->item, $anchor->get_reference());
 
 		// return by reference
 		return $anchor;
