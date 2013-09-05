@@ -237,7 +237,7 @@ Class User extends Anchor {
 	 *
 	 * @see shared/anchor.php
 	 */
-	 function get_title() {
+	 function get_title($use_overlay=true) {
 		if(!isset($this->item['id']))
 			return '???';
 

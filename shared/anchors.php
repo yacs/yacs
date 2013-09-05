@@ -308,7 +308,7 @@ class Anchors {
 		
 		// load overlay if any
 		if(isset($anchor->item['overlay']))
-			$anchor->overlay = Overlay::load($anchor->item, $anchor->get_reference());
+			$anchor->overlay = Overlay::load($anchor);
 
 		// return by reference
 		return $anchor;
