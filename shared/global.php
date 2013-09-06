@@ -1328,7 +1328,10 @@ function render_skin($with_last_modified=TRUE) {
 		.((isset($context['current_item']) && $context['current_item'])?$context['current_item']:'').'"; '
 		.'Yacs.current_action = "'
 		.((isset($context['current_action']) && $context['current_action'])?$context['current_action']:'').'";';
-	Page::insert_script($js_script);
+	$type = (SKIN_HTML5)?'':' type="text/javascript" ';
+	$js_script = '<script'.$type.'> '.$js_script.'</script>'."\n";
+	// put directly in page footer, before snippets of ['javascript']['footer']
+	$context['page_footer'] .= $js_script;
 
 	// jquery-ui stylesheet
 	if($whole_rendering)
