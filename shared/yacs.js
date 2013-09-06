@@ -496,15 +496,18 @@ var Yacs = {
 	 * 2 if array scripts_to_load exists, get the scripts defined in
 	 * 3 if function execute_after_loading exists, call it
 	 */
-	displayOverlaid:function(url) {	    
+	displayOverlaid:function(url, withButtons) {	    
 	    
 	    $.get(url,{overlaid:'Y'})   
 	    .done(function(data){
 		var content={
-		    body: data,
-		    button_TRUE:'Send',
-		    button_FALSE:'Cancel'
+		    body: data,		    
 		};
+		
+		if(withButtons) {
+		    content.button_TRUE	    = 'Send',
+		    content.button_FALSE    = 'Cancel'
+		}
 		// display the modalBox
 		Yacs.displayModalBox(content,Yacs.modalPost);
 		// preload instruction for tinymce
@@ -918,7 +921,7 @@ var Yacs = {
 		// prepare edition link to ajax call of overlaid edition		
 		$("a.edit").click(function(e){
 		    e.preventDefault();			    
-		    Yacs.displayOverlaid($(this).attr("href"));
+		    Yacs.displayOverlaid($(this).attr("href"),true);
 		});
 
 		// slow down notifications on window blur
