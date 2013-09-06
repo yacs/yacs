@@ -1957,6 +1957,33 @@ jQuery.fn.extend({
 		e.preventDefault();		//cancel system double-click event
 	   });
 	});
+    },
+    
+    /**
+     * scroll to a object to make sure it is visible
+     * @see http://stackoverflow.com/questions/4217962/scroll-to-an-element-using-jquery
+     * 
+     * @param boolean smooth to have a slow scroll;
+     */ 
+    scrollMinimal:function(smooth) {
+	var cTop = this.offset().top;
+	var cHeight = this.outerHeight(true);
+	var windowTop = $(window).scrollTop();
+	var visibleHeight = $(window).height();
+
+	if (cTop < windowTop) {
+	if (smooth) {
+	    $('html, body').animate({'scrollTop': cTop}, 'slow', 'swing');
+	} else {
+	    $(window).scrollTop(cTop);
+	}
+	} else if (cTop + cHeight > windowTop + visibleHeight) {
+	    if (smooth) {
+		$('html, body').animate({'scrollTop': cTop - visibleHeight + cHeight}, 'slow', 'swing');
+	    } else {
+		$(window).scrollTop(cTop - visibleHeight + cHeight);
+	    }
+	}
     }
 }); //end jQuery extends
 
