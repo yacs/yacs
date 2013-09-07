@@ -1550,14 +1550,13 @@ var Yacs = {
 				}
 			}
 		}
-		// buttons for tabs used as a step by step form    
-		prev_next_buttons = $("#tabs_panels .step");
-		$.each(prev_next_buttons, function() {
-		    $(this).click(function() {Yacs.tabsDisplay($(this).data("target"));});
-		    // smooth scroll to title
+		// behavior of buttons for tabs used as step by step form, if any    	
+		$("#tabs_panels .step").click(function() {
+		    // display tab associate with button
+		    Yacs.tabsDisplay($(this).data("target"));
+		    // smooth scroll to title (begin of form)
 		    $('#main_panel h1').scrollMinimal(true);
-		});
-
+		});		   		
 
 		// where are we?
 		if(window.location.hash.length > 1) {
