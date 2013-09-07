@@ -321,11 +321,13 @@ Class Js_Css {
     }
     
     /**
-     * This function wrap all end of page javascripts snipet 
+     * This function wrap all end of page javascript snippets
      * in a special function "execute_after_loading"
      * The function will be called later by yacs.js when script
      * are ready to be executed
      * This is because you cannot relay on $.ready() for a script loaded asynchroniusly
+     * the function has to pay attention about portion of codes that are only declaration of a function or variable
+     * they should not be nested in the closure of execute_after_loading
      * 
      * @return void 
      */
@@ -335,13 +337,24 @@ Class Js_Css {
 	if(!isset($context['javascript']['footer'])) 
 	    return;
 	
-	// extract code for <script> tags
+	// extract code from <script></script> tags
 	$scripts = array();
 	if(!preg_match_all('/<script.*?>(.*?)<\/script/sim', $context['javascript']['footer'], $scripts)) 
 	    return;
 	
 	array_shift($scripts); // remove matches[0] with all pattern
-	$wrapped = 'function execute_after_loading() {'.implode("\n", $scripts[0]).'}';
+		
+	// parse array and look for declarations
+	$declare_only = array();
+	for($i = 0; $i < count($scripts); $i++) {
+	    if(preg_match('/^( ?function| ?var).*?/',$scripts[0][$i])) {
+		$declare_only[] =  $scripts[0][$i];
+		unset($scripts[0][$i]);
+	    }
+	}
+	
+	$wrapped = implode("\n", $declare_only)."\n";
+	$wrapped .= 'function execute_after_loading() {'.implode("\n", $scripts[0]).'}'."\n";
 					
 	// erase footer
 	$context['javascript']['footer'] = '';
