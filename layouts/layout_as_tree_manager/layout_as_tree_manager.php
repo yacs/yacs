@@ -4,11 +4,18 @@
  * drag & drop actions. Containers are displayed like folders-tree in
  * a file manager program.
  *
+ * variant :
+ * - tree_only, to list folders composing the hierachy, but not the objects contained
+ * 
+ * 
  * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
-class Layout_as_tree_manager extends Layout_interface {
+class Layout_as_tree_manager extends Layout_interface {     
+    
+    
+    var $tree_only = false;
     
     /**      
      * @return string the html code to build a "create" button related to a folder
@@ -87,7 +94,7 @@ class Layout_as_tree_manager extends Layout_interface {
 	}
 	
 	// look for section as pages, but only for categories browsing
-	if($this->listed_type == 'category') {
+	if($this->listed_type == 'category' && !$this->tree_only) {
 	    $data = $entity->get_childs('section', 0, 200, 'raw');
 	    
 	    // layout sections
@@ -111,39 +118,41 @@ class Layout_as_tree_manager extends Layout_interface {
 	}
 	
 	// look for articles and users of this level
-	$data = $entity->get_childs('article, user', 0, 200, 'raw');
-	
-	// layout articles
-	if(isset($data ['article'])) {
-	    foreach($data['article'] as $art) {
-		
-		// transform data to obj interface
-		$art = new Article($art);
-		
-		// build commands menu
-		$cmd = $this->btn_rename().$this->btn_delete();
-		
-		// layout articles
-		$details[] = '<li class="tm-drag" data-ref="'.$art->get_reference().'"><span class="tm-page details">'
-			.$art->get_title().'</span>'.$cmd.'</li>';
-		
+	if( !$this->tree_only ) {
+	    $data = $entity->get_childs('article, user', 0, 200, 'raw');
+
+	    // layout articles
+	    if(isset($data ['article'])) {
+		foreach($data['article'] as $art) {
+
+		    // transform data to obj interface
+		    $art = new Article($art);
+
+		    // build commands menu
+		    $cmd = $this->btn_rename().$this->btn_delete();
+
+		    // layout articles
+		    $details[] = '<li class="tm-drag" data-ref="'.$art->get_reference().'"><span class="tm-page details">'
+			    .$art->get_title().'</span>'.$cmd.'</li>';
+
+		}
 	    }
-	}
-	
-	// layout users
-	if(isset($data ['user'])) {
-	    foreach($data['user'] as $usr) {
-		
-		// transform data to obj interface
-		$usr = new User($usr);
-		
-		// build commands menu
-		$cmd = $this->btn_delete();
-		
-		// layout articles
-		$details[] = '<li class="tm-drag" data-ref="'.$usr->get_reference().'"><span class ="tm-user details">'
-			.$usr->get_title().'</span>'.$cmd.'</li>';
-		
+
+	    // layout users
+	    if(isset($data ['user'])) {
+		foreach($data['user'] as $usr) {
+
+		    // transform data to obj interface
+		    $usr = new User($usr);
+
+		    // build commands menu
+		    $cmd = $this->btn_delete();
+
+		    // layout articles
+		    $details[] = '<li class="tm-drag" data-ref="'.$usr->get_reference().'"><span class ="tm-user details">'
+			    .$usr->get_title().'</span>'.$cmd.'</li>';
+
+		}
 	    }
 	}
 	
@@ -179,7 +188,9 @@ class Layout_as_tree_manager extends Layout_interface {
 	elseif(isset($context['current_item']) && $context['current_item'])
 	    $root_ref = $context['current_item'];
 	else 
-	    $root_ref = $items_type.':index';
+	    $root_ref = $items_type.':index';		
+	
+	$this->tree_only = $this->has_variant('tree_only');
 	
 	// drag&drop zone
 	$text .= '<div class="tm-ddz tm-drop" data-ref='.$root_ref.'>'."\n";
@@ -210,8 +221,9 @@ class Layout_as_tree_manager extends Layout_interface {
 	}	
 	
 	// this level may have childs that are not folders (exept index)
+	// do not search in variant tree_only is setted
 	
-	if(!preg_match('/index$/', $root_ref))  {
+	if(!preg_match('/index$/', $root_ref) && !$this->tree_only)  {
 	    
 	    $thislevel = Anchors::get($root_ref);	    
 	    $text .= $this->get_sub_level($thislevel,true); // do not search for folders	    	    

@@ -218,7 +218,7 @@ Class Js_Css {
 	    return;
 	
 	array_shift($src); // remove matches[0] with all pattern
-	$to_load = 'var scripts_to_load = ["'.implode('","',$src[0]).'"]';
+	$to_load = 'var scripts_to_load = ["'.implode('","',$src[0]).'"];';
 	
 	Js_css::insert($to_load);
     }
@@ -345,6 +345,7 @@ Class Js_Css {
 	array_shift($scripts); // remove matches[0] with all pattern
 		
 	// parse array and look for declarations
+	/* @TODO : isolate function declaration : #(function\ [a-zA-Z]+\ ?\([a-zA-Z0-9_,$\-\ ]*\)\ ?(\{ ( (?>[^{}]+) | (?-2) )* \}))#simx */
 	$declare_only = array();
 	for($i = 0; $i < count($scripts); $i++) {
 	    if(preg_match('/^( ?function| ?var).*?/',$scripts[0][$i])) {
