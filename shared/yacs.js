@@ -430,10 +430,7 @@ var Yacs = {
 
 		// extend the DOM tree
 		if(!Yacs.modalOverlay) {
-
-		    // small cross for closing modal box on right corner
-		//'<a class="boxClose" onclick="if(typeof Yacs.modalCallBack == &quot;function&quot;) { (Yacs.modalCallBack)(false) }; Yacs.closeModalBox();">x</a>'
-
+			
 			var objContent = document.createElement("div");
 			$(objContent).attr('id','modal_content');
 			$(objContent).html('<img src="'+Yacs.spinningImage.src+'" />');
@@ -441,25 +438,32 @@ var Yacs = {
 
 			var objCentered = document.createElement("div");
 			$(objCentered).attr('id','modal_centered');
-//			objCentered.css({ visibility: 'hidden' });
 			$(objCentered).append(objContent);
 			$(objCentered).click(function(e){e.stopPropagation();});
 
-			var objBoxClose = document.createElement("a");
-			$(objBoxClose).text('x');
-			$(objBoxClose).addClass("boxClose");
-			$(objBoxClose).click(function(e){
-			    e.stopPropagation();
-			    if(typeof Yacs.modalCallBack == 'function'){(Yacs.modalCallBack)(false);}
-			    Yacs.closeModalBox();
-			});
-			$(objCentered).prepend(objBoxClose);
+			// small cross for closing modal box on right corner
+			if(content.withBoxClose) {
+			    var objBoxClose = document.createElement("a");
+			    $(objBoxClose).text('x');
+			    $(objBoxClose).addClass("boxClose");
+			    $(objBoxClose).click(function(e){
+				e.stopPropagation();
+				if(typeof Yacs.modalCallBack == 'function'){(Yacs.modalCallBack)(false);}
+				Yacs.closeModalBox();
+			    });
+			    $(objCentered).prepend(objBoxClose);
+			}
 
 			Yacs.modalOverlay = document.createElement("div");
 			$(Yacs.modalOverlay).attr('id','modal_panel');
-			$(Yacs.modalOverlay).click(function() {
-			    if(typeof Yacs.modalCallBack == 'function'){(Yacs.modalCallBack)(false);}
-			    Yacs.closeModalBox();});
+			// click at the back of the overlay close it, 
+			// exept if option confirmClose is setted
+			if(!content.confirmClose) {
+			    $(Yacs.modalOverlay).click(function() {
+				if(typeof Yacs.modalCallBack == 'function'){(Yacs.modalCallBack)(false);}
+				Yacs.closeModalBox();
+			    });
+			}
 			$(Yacs.modalOverlay).append(objCentered);
 
 			var objBody = document.getElementsByTagName("body").item(0);
@@ -495,19 +499,29 @@ var Yacs = {
 	 * 1 get the page and put it in modal box
 	 * 2 if array scripts_to_load exists, get the scripts defined in
 	 * 3 if function execute_after_loading exists, call it
+	 * 
+	 * @param string url, the page of the server to load
+	 * @param boolean withButtons, to add a Send/cancel button
+	 * @param boolean confirmClose, to avoid closing accidentaly the overlay,
+	 * for example in the case of a form.
 	 */
-	displayOverlaid:function(url, withButtons) {	    
+	displayOverlaid:function(url, withButtons, confirmClose) {	    
 	    
 	    $.get(url,{overlaid:'Y'})   
 	    .done(function(data){
 		var content={
-		    body: data,		    
+		    body: data		    
 		};
 		
 		if(withButtons) {
 		    content.button_TRUE	    = 'Send',
 		    content.button_FALSE    = 'Cancel'
 		}
+		if(confirmClose) {
+		    content.confirmClose    = true;
+		} else 
+		    content.withBoxClose    = true;
+		
 		// display the modalBox
 		Yacs.displayModalBox(content,Yacs.modalPost);
 		// preload instruction for tinymce
@@ -921,7 +935,7 @@ var Yacs = {
 		// prepare edition link to ajax call of overlaid edition		
 		$("a.edit").click(function(e){
 		    e.preventDefault();			    
-		    Yacs.displayOverlaid($(this).attr("href"),true);
+		    Yacs.displayOverlaid($(this).attr("href"),true, true);
 		});
 
 		// slow down notifications on window blur
