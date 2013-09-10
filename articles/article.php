@@ -671,6 +671,11 @@ Class Article extends Anchor {
 		// no article bound
 		if(!isset($this->item['id']))
 			return;
+		
+		// delegate action to overlay if any. Stop if it reply "job done"
+		if(isset($this->overlay) && $this->overlay)
+			if($this->overlay->touch($action, $origin, $silently))
+				return;
 
 		// clear floating objects
 		if($action == 'clear') {
