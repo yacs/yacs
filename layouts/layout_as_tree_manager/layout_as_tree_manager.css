@@ -37,19 +37,30 @@
  }
 
  /* show entry binded commands only when hovering them */
- li .tm-cmd {display:none;}
- .tm-hover > .tm-cmd {display: inline;}
+ .tm-drag {position: relative;padding : 1px 2px;}
+ .tm-hovermenu {
+     display:none;
+     position: absolute;
+     z-index: 2;
+     top : -0.5em;
+     right : -0.8em;
+     height: 1.3em;
+     
+     background: wheat;     
+     box-shadow : 1px 1px 3px #AAA;
+ }
+ .tm-hover > .tm-hovermenu {display: block;}
  
  /* rules for command buttons */
- .tm-cmd {padding: 2px;} 
- #main_panel .tm-cmd:hover {color:black;cursor: pointer;}
+ .tm-cmd {padding: 2px;margin: 0;} 
+ .tm-cmd:hover {color:black;cursor: pointer;}
+ /* use id in rules selector to override former rule */
  #main_panel .tm-create:hover {background: greenyellow;}
  #main_panel .tm-delete:hover {background: red;}
+ #main_panel .tm-rename:hover {background: royalblue;}
  
  /* built-in crumbs while zooming */
  .tm-crumbs {text-transform: capitalize;}
- 
- .tm-drag {padding: 1px;}
  
  #main_panel .tm-sub_elems {margin : 2px 0;}
 
