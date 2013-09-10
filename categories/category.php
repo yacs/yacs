@@ -231,6 +231,11 @@ Class Category extends Anchor {
 			logger::remember('categories/category.php: unexpected NULL origin at touch()');
 			return;
 		}
+		
+		// delegate action to overlay if any. Stop if it reply "job done"
+		if(isset($this->overlay) && $this->overlay)
+			if($this->overlay->touch($action, $origin, $silently))
+				return;
 
 		// components of the query
 		$query = array();
