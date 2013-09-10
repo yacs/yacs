@@ -46,6 +46,34 @@ class Layout_as_tree_manager extends Layout_interface {
 	
 	return $btn;	
     }
+    
+    /**
+     * the menu that apears when hovering a entry 
+     * 
+     * @param string $cmd the html cmd to put in the menu
+     * @return string html
+     */
+    private function build_menu($cmds) {
+	
+	// determine how many cmds in menu
+	$matches = array();
+	if(preg_match_all('/tm-cmd/sm', $cmds, $matches))
+	    $style = ' style="width:'.((count($matches[0]))*13).'px"';
+	
+	$menu = '<span class="tm-hovermenu"'.$style.'>'.$cmds.'</span>'."\n";
+	
+	return $menu;
+    }
+    
+    
+    public function get_interactive_menu() {
+	
+	$cmd = $this->btn_create().$this->btn_rename().$this->btn_delete();
+	$cmd = $this->build_menu($cmd);
+	
+	return $cmd;
+	
+    }
         
     /**
      * layout sub-level of tree hierarchy
@@ -80,8 +108,8 @@ class Layout_as_tree_manager extends Layout_interface {
 			// go deeper in tree hierarchy with a recursive call
 			$deeper = $this->get_sub_level($elem);
 
-			// build commands menu
-			$cmd = $this->btn_create().$this->btn_rename().$this->btn_delete();
+			// build commands menu			
+			$cmd = $this->get_interactive_menu();
 
 			// layout sub container
 			$details[] = '<li class="tm-drag tm-drop" data-ref="'.$elem->get_reference()
@@ -106,6 +134,7 @@ class Layout_as_tree_manager extends Layout_interface {
 		    
 		    // build commands menu
 		    $cmd = $this->btn_delete();
+		    $cmd = $this->build_menu($cmd);
 
 		    // layout articles
 		    $details[] = '<li class="tm-drag" data-ref="'.$sec->get_reference().'"><span class="tm-page details">'
@@ -129,7 +158,8 @@ class Layout_as_tree_manager extends Layout_interface {
 		    $art = new Article($art);
 
 		    // build commands menu
-		    $cmd = $this->btn_rename().$this->btn_delete();
+		    $cmd = $this->btn_delete();
+		    $cmd = $this->build_menu($cmd);
 
 		    // layout articles
 		    $details[] = '<li class="tm-drag" data-ref="'.$art->get_reference().'"><span class="tm-page details">'
@@ -147,6 +177,7 @@ class Layout_as_tree_manager extends Layout_interface {
 
 		    // build commands menu
 		    $cmd = $this->btn_delete();
+		    $cmd = $this->build_menu($cmd);
 
 		    // layout articles
 		    $details[] = '<li class="tm-drag" data-ref="'.$usr->get_reference().'"><span class ="tm-user details">'
@@ -212,8 +243,8 @@ class Layout_as_tree_manager extends Layout_interface {
 	    // sub elements of this entity	    	    
 	    $sub = $this->get_sub_level($entity);	
 	    
-	    // command related to this entity
-	    $cmd = $this->btn_create().$this->btn_rename().$this->btn_delete();
+	    // command related to this entity	    
+	    $cmd = $this->get_interactive_menu();
 	    
 	    // one <li> per entity of this level of the tree
 	    $text .= '<li class="tm-drag tm-drop" data-ref="'.$entity->get_reference().'">'.$title.$cmd.$sub.'</li>'."\n";		    	    	    

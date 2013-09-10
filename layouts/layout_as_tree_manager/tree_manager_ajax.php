@@ -108,7 +108,10 @@ switch($_REQUEST['action']) {
 	if($output['success'] = $newitem->post($_REQUEST['anchor'],$_REQUEST['title'])) {				   
 	    
 		$output['title'] = $newitem->get_title();
-		$output['ref']	= $newitem->get_reference();	   
+		$output['ref']	= $newitem->get_reference();
+		// ask menu rendering for this new entry
+		$l = Layouts::new_('tree_manager', $type);
+		$output['menu'] = $l->get_interactive_menu();
 	}		
 	
 	break;

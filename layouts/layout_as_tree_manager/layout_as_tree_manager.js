@@ -165,8 +165,7 @@ var TreeManager = {
 	}
 
 	if(cmd.hasClass("tm-rename")) {
-	    var anchor = cmd.prevAll(".tm-zoom").first(); // consider any draggable element 
-	    console.log(anchor);
+	    var anchor = cmd.parent().prevAll(".tm-zoom").first(); // consider title associated with same entry	    
 	    TreeManager.inputRename(anchor);
 	    return;
 	}
@@ -349,6 +348,7 @@ var TreeManager = {
 		    zoom.append(title);
 		    newli.append(zoom);
 		    
+		    /*
 		    // clone and append a create cmd to entry
 		    var cmd_create = $('.tm-ddz').find('.tm-create').first().clone();
 		    cmd_create.click( function(e) {e.stopPropagation();TreeManager.cmd($(this));});
@@ -364,9 +364,17 @@ var TreeManager = {
 		    cmd_delete.click( function(e) {e.stopPropagation();TreeManager.cmd($(this));});
 		    newli.append(cmd_delete);
 		    
+		    */
+		    
+		    // get cmds menu 
+		    var cmds = $(data.menu);
+		    // bind click event
+		    cmds.find('.tm-cmd').click(function(e){e.stopPropagation();TreeManager.cmd($(this));});
+		    newli.append(cmds);
+		    
 		    // append a empty sub-elements list
 		    var sub_list = $('<ul class="tm-sub_elems"></ul>');
-		    newli.append(sub_list);
+		    newli.append(sub_list);		    
 		    
 		    // set binded reference (won't appear as a tag attribute)
 		    newli.data('ref',data.ref);
