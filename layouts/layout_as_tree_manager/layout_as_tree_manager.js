@@ -56,7 +56,7 @@ var TreeManager = {
 	    } else {				
 		
 		// hide commands tags
-		$(".tm-cmd").hide();
+		$(".tm-cmd, .tm-hovermenu").hide();
 	    }	    	    
 		
 	    // propagate simple click and & zoomin
@@ -69,7 +69,7 @@ var TreeManager = {
 	    TreeManager.animOver($(".tm-drag"));
 	    	    
 	    // hide menu bar ( we could override clic action on item creation link instead )
-	    $('.menu_bar').hide();
+	    $('.menu_bar').hide();	    	    
 	    
 	});	
 	
@@ -346,25 +346,7 @@ var TreeManager = {
 		    var zoom = $('<a class="tm-zoom"></a>').click_n_dblclick(TreeManager.propagateClick,TreeManager.zoom);
 		    // nest elements
 		    zoom.append(title);
-		    newli.append(zoom);
-		    
-		    /*
-		    // clone and append a create cmd to entry
-		    var cmd_create = $('.tm-ddz').find('.tm-create').first().clone();
-		    cmd_create.click( function(e) {e.stopPropagation();TreeManager.cmd($(this));});
-		    newli.append(cmd_create);
-		    
-		     // clone and append a rename cmd to entry
-		    var cmd_rename = $('.tm-ddz').find('.tm-rename').first().clone();
-		    cmd_rename.click( function(e) {e.stopPropagation();TreeManager.cmd($(this));});
-		    newli.append(cmd_rename);
-		    
-		    // clone add append a delete cmd
-		    var cmd_delete = $('.tm-ddz').find('.tm-delete').first().clone();
-		    cmd_delete.click( function(e) {e.stopPropagation();TreeManager.cmd($(this));});
-		    newli.append(cmd_delete);
-		    
-		    */
+		    newli.append(zoom);		    		   
 		    
 		    // get cmds menu 
 		    var cmds = $(data.menu);
@@ -489,9 +471,17 @@ var TreeManager = {
     
     /**
      * Simple click on folder's name must be propagate to the first parent list
-     * witch have childs
+     * witch have childs, exept after a drop event
      */
-    propagateClick: function (elem) {
+    propagateClick: function (elem) {	
+	
+	// get this li level, check we are not just after a drop event
+	var li = elem.parents('.tm-drag').first();
+	if(li.hasClass('tm-nozoom')) {
+	    li.removeClass('tm-nozoom');
+	    return;
+	}
+	
 	// get all parent folders
 	var parents = elem.parents("li.tm-drop");
 	
@@ -518,9 +508,7 @@ var TreeManager = {
      * 
      * @param title jquery object that was clicked to ask for a zoom
      */
-    zoom:function (title) {	
-	
-	console.log('zoom');
+    zoom:function (title) {			
 	
 	// get the anchor to zoom
 	var anchor = title.parents(".tm-drop").first();
