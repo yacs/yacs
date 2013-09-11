@@ -19,6 +19,14 @@ var TreeManager = {
      * @param userlevel string, 'powered' to start interaction, empty for zoom only
      */
     init: function(userlevel) {
+		
+	// masonry layout
+	$('.tm-root > .tm-drop').addClass('tm-masonry');
+	$('.tm-root').masonry({
+	    columnWidth : 140,
+	    itemSelector : '.tm-masonry'
+	});
+	TreeManager.masonry = $('.tm-root').data('masonry');
 	
 	// options for dragged elements
 	TreeManager.dragOptions = {
@@ -38,7 +46,7 @@ var TreeManager = {
 		greedy : true,	 // prevent drop event propagation on nested drop elements
 		hoverClass: "tm-hoverdrop",
 		tolerance: 'pointer',
-		drop : TreeManager.elemDroped	// function to call when dropping is done	
+		drop : TreeManager.elemDropped	// function to call when dropping is done	
 	    }	
 	
 	$().ready(function() {
@@ -69,7 +77,8 @@ var TreeManager = {
 	    TreeManager.animOver($(".tm-drag"));
 	    	    
 	    // hide menu bar ( we could override clic action on item creation link instead )
-	    $('.menu_bar').hide();	    	    
+	    $('.menu_bar').hide();	  
+	   
 	    
 	});	
 	
@@ -90,6 +99,8 @@ var TreeManager = {
 			li.children('.tm-foldmark').remove();
 		    else			    			
 			li.append('<span class="tm-foldmark">...</span>');
+		    
+		    TreeManager.masonry.layout();
 		});		
 	    });
     },    
@@ -182,11 +193,36 @@ var TreeManager = {
     dropping: function (obj,tar) {		
 	
 	// find <ul.tm-sub_elems> the sub-elements list of target
-	var list = tar.children(".tm-sub_elems");		
+	var list = tar.children(".tm-sub_elems");
+	
+	var needReload = false;
+	
+	// mark root drop for masonry
+	if(list.hasClass('tm-root') && !obj.hasClass('tm-masonry')) {
+	    obj.addClass('tm-masonry');	
+	    needReload = true;
+	} else if(obj.hasClass('tm-masonry')) {
+	    obj.removeClass('tm-masonry');	   
+	    needReload = true;
+	}				
 	
 	// append the dragged object to it
 	obj.appendTo(list);
-	obj.animate({left:'0',top:'0'},100);
+	obj.animate({left:'0',top:'0'},100,
+	    function(){	
+		// remove absolute position
+		obj.css("position","");
+		// reload masonry if less items
+		if(needReload)
+		    TreeManager.masonry.reloadItems();
+		// unfold list if necessary
+		if(list.is(':hidden'))
+		    tar.trigger('click');
+		else
+		    // simple re-layout
+		    TreeManager.masonry.layout()
+	    }
+	);
     },
     
     /**
@@ -195,7 +231,7 @@ var TreeManager = {
      * @param e the event
      * @param ui a jquery-ui object
      */
-    elemDroped: function (e,ui) {	
+    elemDropped: function (e,ui) {	
 			
 	if(!TreeManager.is_cat(ui.draggable.data("ref")) && TreeManager.is_cat($(this).data("ref")))
 	    // post a assignment
@@ -212,7 +248,7 @@ var TreeManager = {
      * 
      * @param anchor jquery obj the anchor which will receive the new entry
      */
-    inputCreate: function(anchor) {
+    inputCreate: function(anchor) {		
 	
 	// check if sub list is visible otherwise unfold it
 	var sublist = anchor.children('.tm-sub_elems');
@@ -220,11 +256,11 @@ var TreeManager = {
 	    anchor.trigger('click');
 	
 	// input html
-	var input = $('<input type="text" name="create"/>');	
+	var input = $('<input type="text" size="10" name="create"/>');	
 	
 	// add to subelems list
 	input.prependTo(sublist);
-	input.wrap('<li class="tm-drop"></li>');
+	input.wrap('<li class="tm-drop"></li>');	
 	
 	// stop propagation of clicking on input
 	input.click(function(e){e.stopPropagation();})
@@ -232,12 +268,21 @@ var TreeManager = {
 	// remove input on focus out
 	input.focusout(function() {
 	    input.parent().remove();
+	    TreeManager.masonry.layout();
 	});
 	
 	// post on input change
 	input.change(function() {
 	    TreeManager.postCreate(anchor,input);	   
 	});
+	
+	// special behavior on root
+	if(sublist.hasClass('tm-root')) {
+	    input.parent().addClass('tm-masonry');
+	    TreeManager.masonry.prepended(input.parent().get());
+	} else
+	    // resize only
+	    TreeManager.masonry.layout();
 		
 	// input name right now !	
 	input.focus();
@@ -254,7 +299,7 @@ var TreeManager = {
     inputRename: function(title) {
 	
 	// display an input field instead of name
-	var input = $('<input type="text" name="rename"/>'); 
+	var input = $('<input type="text" size="10" name="rename"/>'); 
 	input.val(title.text());    // use former name
 	input.insertBefore(title);
 	title.detach();	// remove the original title but keep it in DOM
@@ -369,11 +414,21 @@ var TreeManager = {
 		    TreeManager.animFold(newli);
 		    TreeManager.animOver(newli);
 		    
-		    // display <li>
-		    input.parent().replaceWith(newli); 
+		    // masonry
+		    if(input.parent().hasClass('tm-masonry')) {			
+			newli.addClass('tm-masonry');
+			newli.insertAfter(input.parent()); 
+			TreeManager.masonry.remove(input.parent().get());
+			TreeManager.masonry.prepended(newli.get());
+		    } else		    
+			// display <li>
+			input.parent().replaceWith(newli); 
 		} else
 		    // remove input and leave everything as before
-		    input.parent().remove();
+		    if(input.parent().hasClass('tm-masonry')) {
+			TreeManager.masonry.remove(input.parent.get());
+		    } else
+			input.parent().remove();
 				
 		Yacs.stopWorking();		
 	});	
@@ -393,9 +448,14 @@ var TreeManager = {
 	    tm_ajaxUrl,
 	    {action : 'delete', anchor : anchor.data('ref')}
 	).done(function( data ) {
-		if(data.success)
-		    anchor.remove();
+		if(data.success) {
+		    if(anchor.hasClass('tm-masonry'))
+			TreeManager.masonry.remove(anchor.get());
+		    else
+			anchor.remove();
+		}
 		
+		TreeManager.masonry.layout();
 		Yacs.stopWorking();    
 	});
     },
