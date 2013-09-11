@@ -238,14 +238,19 @@ Class Category extends Anchor {
 		// append a reference to a new image to the description
 		if($action == 'image:create') {
 			if(!Codes::check_embedded($this->item['description'], 'image', $origin)) {
+			    
+				// the overlay may prevent embedding
+				if(is_object($this->overlay) && !$this->overlay->should_embed_files())
+						;
+				else {
+				    // list has already started
+				    if(preg_match('/\[image=[^\]]+?\]\s*$/', $this->item['description']))
+					    $query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
 
-				// list has already started
-				if(preg_match('/\[image=[^\]]+?\]\s*$/', $this->item['description']))
-					$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
-
-				// starting a new list of images
-				else
-					$query[] = "description = '".SQL::escape($this->item['description']."\n\n".'[image='.$origin.']')."'";
+				    // starting a new list of images
+				    else
+					    $query[] = "description = '".SQL::escape($this->item['description']."\n\n".'[image='.$origin.']')."'";
+				}
 			}
 
 			// also use it as thumnail if none has been defined yet
