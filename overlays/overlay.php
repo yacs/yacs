@@ -878,23 +878,6 @@ class Overlay {
 		}
 
 	}
-	
-	/**
-	 * Called when anchor is "touched" because of a event.
-	 * Overlay may change standard behaviors here.
-	 * 
-	 * @param string $action
-	 * @param int $origin the id of the entity that triggered the touch
-	 * @param boolean $silently
-	 * @return boolean, true will stop normal processing, false will let the
-	 * anchor continue it's task
-	 */
-	function touch($action, $origin=NULL, $silently=FALSE) {
-	    
-	   $job_done = false; 
-	    
-	   return $job_done;
-	}
 }
 
 ?>
