@@ -137,8 +137,8 @@ class Layout_as_tree_manager extends Layout_interface {
 		    $cmd = $this->build_menu($cmd);
 
 		    // layout articles
-		    $details[] = '<li class="tm-drag" data-ref="'.$sec->get_reference().'"><span class="tm-page details">'
-			    .$sec->get_title().'</span>'.$cmd.'</li>';
+		    $details[] = '<li class="tm-drag" data-ref="'.$sec->get_reference().'"><a href="'.$sec->get_permalink().'" class="tm-page details">'
+			    .$sec->get_title().'</a>'.$cmd.'</li>';
 
 		}
 	    }
@@ -162,8 +162,8 @@ class Layout_as_tree_manager extends Layout_interface {
 		    $cmd = $this->build_menu($cmd);
 
 		    // layout articles
-		    $details[] = '<li class="tm-drag" data-ref="'.$art->get_reference().'"><span class="tm-page details">'
-			    .$art->get_title().'</span>'.$cmd.'</li>';
+		    $details[] = '<li class="tm-drag" data-ref="'.$art->get_reference().'"><a href="'.$art->get_permalink().'" class="tm-page details">'
+			    .$art->get_title().'</a>'.$cmd.'</li>';
 
 		}
 	    }
@@ -180,8 +180,8 @@ class Layout_as_tree_manager extends Layout_interface {
 		    $cmd = $this->build_menu($cmd);
 
 		    // layout articles
-		    $details[] = '<li class="tm-drag" data-ref="'.$usr->get_reference().'"><span class ="tm-user details">'
-			    .$usr->get_title().'</span>'.$cmd.'</li>';
+		    $details[] = '<li class="tm-drag" data-ref="'.$usr->get_reference().'"><a href="'.$usr->get_permalink().'"class ="tm-user details">'
+			    .$usr->get_title().'</a>'.$cmd.'</li>';
 
 		}
 	    }
