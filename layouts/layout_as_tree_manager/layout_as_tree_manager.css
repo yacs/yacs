@@ -71,5 +71,10 @@
      border-left : 1px dotted lightgray;
  }
  
+ /* width of a folder at the root */
  .tm-masonry {width :118px;}
 
+ .tm-ddz a {
+     color : darkslategrey;
+     text-decoration: none;	 
+ }

@@ -77,7 +77,14 @@ var TreeManager = {
 	    TreeManager.animOver($(".tm-drag"));
 	    	    
 	    // hide menu bar ( we could override clic action on item creation link instead )
-	    $('.menu_bar').hide();	  
+	    $('.menu_bar').hide();
+	    
+	    // overlaid viewing of pages and users
+	    $('.tm-page, .tm-user').click(function(e){
+		e.preventDefault();
+		e.stopPropagation();
+		Yacs.displayOverlaid($(this).attr('href'));
+	    });
 	   
 	    
 	});	
