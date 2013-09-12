@@ -622,6 +622,9 @@ function core_autoload($class) {
 	case 'codes':
 	    include_once $context['path_to_root'].'/shared/codes.php';
 	    break;	
+	case 'image':
+	    include_once $context['path_to_root'].'/images/image.php';
+	    break;
 	default :
 	    // this is default architecture of Yacs
 	    if(is_readable($context['path_to_root'].$class.'/'.$class.'.php'))
