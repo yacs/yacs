@@ -80,13 +80,12 @@ var TreeManager = {
 	    $('.menu_bar').hide();
 	    
 	    // overlaid viewing of pages and users
-	    $('.tm-page, .tm-user').click(function(e){
+	    $('.tm-page, .tm-user').click(function(e){						
 		e.preventDefault();
 		e.stopPropagation();
-		Yacs.displayOverlaid($(this).attr('href'));
+		TreeManager.zoom($(this));		
 	    });
-	   
-	    
+	   	    
 	});	
 	
     },  
@@ -239,7 +238,14 @@ var TreeManager = {
      * @param ui a jquery-ui object
      */
     elemDropped: function (e,ui) {	
-			
+	
+	//// avoid calling something if drop on the same parent
+	// get first parent
+	var par = ui.draggable.parents('.tm-drop').first();
+	// check
+	if (par.data('ref') == $(this).data('ref'))
+	    return;
+	
 	if(!TreeManager.is_cat(ui.draggable.data("ref")) && TreeManager.is_cat($(this).data("ref")))
 	    // post a assignment
 	    TreeManager.postBind(ui.draggable, $(this), 'assign');
@@ -578,12 +584,19 @@ var TreeManager = {
     zoom:function (title) {			
 	
 	// get the anchor to zoom
-	var anchor = title.parents(".tm-drop").first();
+	var anchor = title.parents(".tm-drag").first();
 	
 	// maybe event was fired after dropping operation ?
 	// this is a fuse
 	if(anchor.hasClass('tm-nozoom')) {
 	    anchor.removeClass('tm-nozoom');
+	    return;
+	}
+	
+	// is it a simple page ?
+	if(!TreeManager.is_cat(anchor.data('ref'))) {
+	    // zoom to page
+	    Yacs.displayOverlaid(title.attr('href'));
 	    return;
 	}
 	
