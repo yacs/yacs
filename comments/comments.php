@@ -226,7 +226,7 @@ Class Comments {
 		// headline
 		$headline = sprintf(i18n::c('%s has contributed to %s'),
 			Surfer::get_link(),
-			'<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'.$anchor->get_title().'</a>');
+			'<a href="'.$anchor->get_url().'">'.$anchor->get_title().'</a>');
 
 		// content
 		$content = Codes::beautify($item['description']);
@@ -251,9 +251,8 @@ Class Comments {
 		$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($previous_id, 'reply');
 		$menu[] = Skin::build_mail_button($link, i18n::c('Reply'), TRUE);
 
-		// link to the container
-		$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
-		$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+		// link to the container		
+		$menu[] = Skin::build_mail_button($anchor->get_url(), $anchor->get_title(), FALSE);
 
 		// finalize links
 		$text .= Skin::build_mail_menu($menu);
