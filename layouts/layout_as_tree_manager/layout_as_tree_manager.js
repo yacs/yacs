@@ -35,6 +35,7 @@ var TreeManager = {
 		distance: 20,
 		revert: true,  // by defaut a dragged object will return to it's possition
 		revertDuration: 700,
+		zIndex : 100,
 		start: function(e, ui) {
 		    // to prevent zooming after dragging (click event)
 		    $(this).addClass('tm-nozoom'); 
@@ -118,14 +119,16 @@ var TreeManager = {
      */
     animOver:function(elems) {
 	elems.mouseenter(function(){
-		$(this).addClass('tm-hover');
-		$(this).parents('.tm-drag').removeClass('tm-hover');
-		//e.stopPropagation();
+		if(!$(this).find('.tm-hover').length) {
+		    $(this).addClass('tm-hover');
+		    $(this).parents('.tm-drag').removeClass('tm-hover');
+		}				
 	    }).mouseleave(function(){
-		$(this).removeClass('tm-hover');
-		$(this).parents('.tm-drag').first().addClass('tm-hover');
-	    });
-	
+		if($(this).hasClass('tm-hover')) {
+		    $(this).removeClass('tm-hover');
+		    $(this).parents('.tm-drag').first().addClass('tm-hover');
+		}		
+	    });	
     },
     
     /**
@@ -371,6 +374,7 @@ var TreeManager = {
 		    anchor.remove();
 		else if(way == 'assign') {
 		    var newanch = anchor.clone();
+		    TreeManager.animOver(newanch);
 		    TreeManager.dropping(newanch,cat);
 		}
 	    }
