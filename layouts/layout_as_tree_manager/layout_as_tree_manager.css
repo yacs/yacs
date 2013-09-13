@@ -14,6 +14,13 @@
  and let enought spaces arround them to drag elements */
  .tm-root {padding:2em; overflow: hidden;}
  
+ /* switching box model for all elements */
+.tm-ddz * {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+ 
  /* no list decoration */ 
  .tm-root, .tm-root ul{list-style: none;}
  
@@ -26,18 +33,35 @@
      float : left;
      clear : none;
      margin : 2px;
-     padding : 0.5em;
+     padding : 0.5em 7px;
      border : 1px solid grey;
      border-radius : 3px;         
  }
 
  /* hilight drop targets when hovered */
- .tm-hoverdrop, .tm-hover {
+
+ .tm-hoverdrop .tm-masonry {
+     background : white;
+ }
+ 
+ .tm-hover {
      background : rgba(20,20,50,.1);
  }
+ .tm-hover > .tm-zoom > .tm-folder {
+     border-bottom: 1px dotted darkslategray;
+ }
+ /* define this after .tm-hover backg */
+ .tm-hoverdrop {
+     background : yellowgreen;
+ }
+ .ui-draggable-dragging {
+     background : rgba(250,250,230,.8) !important;
+     box-shadow : 2px 2px 4px #888; 
+ }
+ 
 
  /* show entry binded commands only when hovering them */
- .tm-drag {position: relative; padding : 0px 0px 2px 2px;}
+ .tm-drag {position: relative; padding : 1px 0 0 3px;}
  .tm-hovermenu {
      display:none;
      position: absolute;
@@ -49,7 +73,14 @@
      background: wheat;     
      box-shadow : 1px 1px 3px #AAA;
  }
+ /* display menu when entry hovered... */
  .tm-hover > .tm-hovermenu {display: block;}
+ /* ...but not during a dragging operation */
+ .ui-draggable-dragging > .tm-hovermenu, .tm-hoverdrop > .tm-hovermenu
+    {display: none !important;}
+ 
+ /* cancel yacs' rule */
+ .tm-hover a {background: transparent !important;}
  
  /* rules for command buttons */
  .tm-cmd {padding: 2px;margin: 0;} 
@@ -72,9 +103,12 @@
  }
  
  /* width of a folder at the root */
- .tm-masonry {width :118px;}
+ .tm-masonry {width :136px;min-height: 5.7em;}
+ .tm-masonry > .tm-zoom > .tm-folder {font-weight: bold;}
 
  .tm-ddz a {
      color : darkslategrey;
      text-decoration: none;	 
  }
+ 
+ .tm-foldmark {display:block;}
