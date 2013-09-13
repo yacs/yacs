@@ -812,11 +812,13 @@ var Yacs = {
 	    tinymce.dom.Event.domLoaded = true; 
 	    
 	    // regular initialization
+	    // to choose components :
+	    // @see http://www.tinymce.com/wiki.php/Controls
 	    tinymce.init({
 		    selector: "textarea.tinymce",
 		    menubar:false,
-		    plugins: "charmap, textcolor, fullscreen, code",
-		    toolbar: "undo redo | styleselect | charmap | bold italic | alignleft aligncenter alignright | bullist numlist | forecolor backcolor | fullscreen code",
+		    plugins: "charmap, textcolor, fullscreen, code, link",
+		    toolbar: "undo redo | styleselect | charmap | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | forecolor backcolor | link | fullscreen code",
 		    language : surfer_lang
 		});
 	},
