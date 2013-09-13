@@ -376,7 +376,7 @@ if(Surfer::is_crawler()) {
 		Comments::clear($_REQUEST);
 
 		// forward to the updated thread
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url('comments'));
+		Safe::redirect($anchor->get_url('comments'));
 
 	}
 
