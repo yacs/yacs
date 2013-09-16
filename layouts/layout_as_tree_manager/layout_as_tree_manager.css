@@ -14,6 +14,8 @@
  and let enought spaces arround them to drag elements */
  .tm-root {padding:2em; overflow: hidden;}
  
+.tm-ddz {position:relative;}
+ 
  /* switching box model for all elements */
 .tm-ddz * {
 	-webkit-box-sizing: border-box;

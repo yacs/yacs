@@ -23,10 +23,29 @@ var TreeManager = {
 	// masonry layout
 	$('.tm-root > .tm-drop').addClass('tm-masonry');
 	$('.tm-root').masonry({
+	    isInitLayout: false,
 	    columnWidth : 140,
 	    itemSelector : '.tm-masonry'
 	});
 	TreeManager.masonry = $('.tm-root').data('masonry');
+	// use "stamp" to leave space to selected elements on root
+	TreeManager.stamp = $('<div class="tm-stamp"></div>').css({
+	    // display:'none',
+	    // background : 'red',
+	    position: 'absolute',
+	    zIndex: -1,	
+	    top : 0,
+	    bottom: 0,
+	    width: '140px' // same as masonry column
+	});
+	TreeManager.stamp.appendTo($('.tm-ddz'));
+	TreeManager.hasRootColumn = false;
+	// initialize creation of the column
+	TreeManager.checkRootColumn();	
+	// layout only if necessary
+	if($('.tm-masonry').length) {	    
+	    TreeManager.masonry.layout();
+	}
 	
 	// options for dragged elements
 	TreeManager.dragOptions = {
@@ -132,38 +151,32 @@ var TreeManager = {
     },
     
     /**
-     * called after pressing on delete button of a anchor
-     * routed from cmd() function
+     * selection (page, user) at root folder are listed without masonry
+     * as standard <li>. Elements controled by masonry are pushed
+     * away using "stamp" feature, this simulate a column for elements
+     * on root.
      */
-    confirmDelete: function (anchor) {
+    checkRootColumn:function() {	
 	
-	// count nb of sub elements
-	var nbsub = anchor.find("li").length;
+	// fuse not to call layout() for nothing
+	var change = false;	
 	
-	if(!nbsub) {
-	    // is anchor a folder ?
-	    if(!anchor.hasClass("tm-drop")) {
-		// check if parent is a category
-		var parent = anchor.parents(".tm-drop").first();
-		if( TreeManager.is_cat(parent.data('ref')) )
-		    // free the category assignment
-		    TreeManager.postBind(anchor,parent,'free'); 
-		else
-		    TreeManager.postDelete(anchor);
-	    } else
-		// no sub elements, delete it right now
-		TreeManager.postDelete(anchor);
-	} else
-	    // ask for a confirmation
-	    Yacs.displayModalBox({
-		title : 'Suppress',
-		body : 'This will suppress '+nbsub+' sub-element(s).',
-		button_TRUE : 'Confirm',
-		button_FALSE : 'Cancel'		
-	    }, function(result) {
-		if(result == true)
-		    TreeManager.postDelete(anchor)
-	    });
+	// is their one child on root that is not a folder ?
+	var childOnRoot = $('.tm-root > .tm-drag > .tm-page, .tm-root > .tm-drag > .tm-user').length;
+	
+	if( childOnRoot && !TreeManager.hasRootColumn) {
+	    TreeManager.masonry.stamp(TreeManager.stamp.get());
+	    TreeManager.hasRootColumn = true;
+	    change=true;	    
+	} else if(!childOnRoot && TreeManager.hasRootColumn) {
+	    TreeManager.masonry.unstamp(TreeManager.stamp.get());
+	    TreeManager.hasRootColumn = false;
+	    change=true;
+	}
+	
+	// visual effect
+	if(change)
+	    TreeManager.masonry.layout();
     },
     
     /**
@@ -193,6 +206,41 @@ var TreeManager = {
     },
     
     /**
+     * called after pressing on delete button of a anchor
+     * routed from cmd() function
+     */
+    confirmDelete: function (anchor) {
+	
+	// count nb of sub elements
+	var nbsub = anchor.find("li").length;
+	
+	if(!nbsub) {
+	    // is anchor a folder ?
+	    if(!anchor.hasClass("tm-drop")) {
+		// check if parent is a category
+		var parent = anchor.parents(".tm-drop").first();
+		if( TreeManager.is_cat(parent.data('ref')) ) {
+		    // free the category assignment
+		    TreeManager.postBind(anchor,parent,'free'); 		    
+		} else
+		    TreeManager.postDelete(anchor);
+	    } else
+		// no sub elements, delete it right now
+		TreeManager.postDelete(anchor);
+	} else
+	    // ask for a confirmation
+	    Yacs.displayModalBox({
+		title : 'Suppress',
+		body : 'This will suppress '+nbsub+' sub-element(s).',
+		button_TRUE : 'Confirm',
+		button_FALSE : 'Cancel'		
+	    }, function(result) {
+		if(result == true)
+		    TreeManager.postDelete(anchor)
+	    });
+    },        
+    
+    /**
      * called to finish the dropping animation, when
      * reply to ajax request was a success
      * 
@@ -205,15 +253,17 @@ var TreeManager = {
 	var list = tar.children(".tm-sub_elems");
 	
 	var needReload = false;
-	
-	// mark root drop for masonry
-	if(list.hasClass('tm-root') && !obj.hasClass('tm-masonry')) {
+	var objIsFolder= obj.find('.tm-folder').length;
+		
+	if(list.hasClass('tm-root') && !obj.hasClass('tm-masonry') && objIsFolder) {
+	    // mark root drop of folder for masonry
 	    obj.addClass('tm-masonry');	
-	    needReload = true;
+	    needReload = true;	
 	} else if(obj.hasClass('tm-masonry')) {
+	    // remove special attributes of folder on root
 	    obj.removeClass('tm-masonry');	   
 	    needReload = true;
-	}				
+	}					
 	
 	// append the dragged object to it
 	obj.appendTo(list);
@@ -221,11 +271,15 @@ var TreeManager = {
 	    function(){	
 		// remove absolute position
 		obj.css("position","");
-		// reload masonry if less items
+		// reload masonry if nb of folder on root change
 		if(needReload)
 		    TreeManager.masonry.reloadItems();
+		
+		// drop of a page on root ? check the column
+		if(list.hasClass('tm-root') && !objIsFolder)		
+		    TreeManager.checkRootColumn();
 		// unfold list if necessary
-		if(list.is(':hidden'))
+		else if(list.is(':hidden'))
 		    tar.trigger('click');
 		else
 		    // simple re-layout
@@ -256,7 +310,7 @@ var TreeManager = {
 	    // post a move
 	    TreeManager.postMove(ui.draggable, $(this));
 		
-    },               
+    },                       
     
     /**
      * called after pressing create button binded to a entry
@@ -296,6 +350,8 @@ var TreeManager = {
 	if(sublist.hasClass('tm-root')) {
 	    input.parent().addClass('tm-masonry');
 	    TreeManager.masonry.prepended(input.parent().get());
+	    if(TreeManager.hasRootColumn)
+		TreeManager.masonry.layout();
 	} else
 	    // resize only
 	    TreeManager.masonry.layout();
@@ -368,13 +424,19 @@ var TreeManager = {
 	    tm_ajaxUrl,
 	    {action : 'bind', anchor : anchor.data('ref'), cat : cat.data('ref'), way: way}
 	).done(function( data ) { 
-	    if( data.success ) {
-		if(way == 'free')
+	    if( data.success ) {		
+		if(way == 'free') {
 		    // free element
-		    anchor.remove();
-		else if(way == 'assign') {
+		    anchor.remove();		    
+		    // if remove from root, check the need of special column
+		    if(cat.hasClass('tm-ddz'))
+			TreeManager.checkRootColumn();
+		} else if(way == 'assign') {		    
+		    
 		    var newanch = anchor.clone();
-		    TreeManager.animOver(newanch);
+		    newanch.removeClass('ui-draggable-dragging');
+		    newanch.find('.tm-cmd').click(function(e){e.stopPropagation();TreeManager.cmd($(this));});
+		    TreeManager.animOver(newanch);		   
 		    TreeManager.dropping(newanch,cat);
 		}
 	    }
@@ -437,6 +499,8 @@ var TreeManager = {
 			newli.insertAfter(input.parent()); 
 			TreeManager.masonry.remove(input.parent().get());
 			TreeManager.masonry.prepended(newli.get());
+			if(TreeManager.hasRootColumn)
+			    TreeManager.masonry.layout();
 		    } else		    
 			// display <li>
 			input.parent().replaceWith(newli); 
