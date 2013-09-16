@@ -19,33 +19,7 @@ var TreeManager = {
      * @param userlevel string, 'powered' to start interaction, empty for zoom only
      */
     init: function(userlevel) {
-		
-	// masonry layout
-	$('.tm-root > .tm-drop').addClass('tm-masonry');
-	$('.tm-root').masonry({
-	    isInitLayout: false,
-	    columnWidth : 140,
-	    itemSelector : '.tm-masonry'
-	});
-	TreeManager.masonry = $('.tm-root').data('masonry');
-	// use "stamp" to leave space to selected elements on root
-	TreeManager.stamp = $('<div class="tm-stamp"></div>').css({
-	    // display:'none',
-	    // background : 'red',
-	    position: 'absolute',
-	    zIndex: -1,	
-	    top : 0,
-	    bottom: 0,
-	    width: '140px' // same as masonry column
-	});
-	TreeManager.stamp.appendTo($('.tm-ddz'));
-	TreeManager.hasRootColumn = false;
-	// initialize creation of the column
-	TreeManager.checkRootColumn();	
-	// layout only if necessary
-	if($('.tm-masonry').length) {	    
-	    TreeManager.masonry.layout();
-	}
+			
 	
 	// options for dragged elements
 	TreeManager.dragOptions = {
@@ -70,6 +44,44 @@ var TreeManager = {
 	    }	
 	
 	$().ready(function() {
+	    
+	    // masonry layout
+	    $('.tm-root > .tm-drop').addClass('tm-masonry');
+	    $('.tm-root').masonry({
+		isInitLayout: false,
+		columnWidth : 140,
+		itemSelector : '.tm-masonry'
+	    });
+	    TreeManager.masonry = $('.tm-root').data('masonry');
+
+	    // if we have a pinned folder, narrow the root
+	    if($('.tm-pinz').is(':visible')) {
+		$('.tm-root').css('width','80%');
+		// remove pinned folder from standard list if present
+		// this may happen with zoom out case
+		var pinref = $('.tm-pinz > .tm-drop').data('ref');
+		var to_remove = $('.tm-root .tm-drop[data-ref="'+pinref+'"]');	  
+		if(to_remove.length)
+		    TreeManager.masonry.remove(to_remove.get());
+	    }
+	    // use "stamp" to leave space to selected elements on root
+	    TreeManager.stamp = $('<div class="tm-stamp"></div>').css({
+		// display:'none',
+		// background : 'red',
+		position: 'absolute',
+		zIndex: -1,	
+		top : 0,
+		bottom: 0,
+		width: '140px' // same as masonry column
+	    });
+	    TreeManager.stamp.appendTo($('.tm-ddz'));
+	    TreeManager.hasRootColumn = false;	
+	    // initialize creation of the column
+	    TreeManager.checkRootColumn();	
+	    // layout only if necessary
+	    if($('.tm-masonry').length) {	    
+		TreeManager.masonry.layout();
+	    }
 	    
 	    if(userlevel == 'powered') {
 		// draggable elements
@@ -105,6 +117,11 @@ var TreeManager = {
 		e.stopPropagation();
 		TreeManager.zoom($(this));		
 	    });
+	    
+	    // add pinnable zone
+	    if(!$('.tm-pinz').length) {
+		$('<ul class="tm-pinz"></ul>').insertAfter($('.tm-root'));
+	    }
 	   	    
 	});	
 	
@@ -200,6 +217,11 @@ var TreeManager = {
 	if(cmd.hasClass("tm-rename")) {
 	    var anchor = cmd.parent().prevAll(".tm-zoom").first(); // consider title associated with same entry	    
 	    TreeManager.inputRename(anchor);
+	    return;
+	}
+	
+	if(cmd.hasClass("tm-pin")) {	   
+	    TreeManager.pinup(cmd);	  	    	
 	    return;
 	}
 	
@@ -405,6 +427,51 @@ var TreeManager = {
 	    return true
 	else
 	    return false;	
+    },
+    
+    pinup: function(cmd) {
+	var anchor = cmd.parents(".tm-drop").first(); // consider only folders
+	var mother = $('.tm-ddz').data('ref');
+	// tools 1
+	function pin(li) {	
+	    li.data('mother',mother);		// keep track of parent folder	    
+	    li.appendTo($('.tm-pinz'));
+	    li.css({top:'0',left:'0',bottom:'0'});	// cancel absolute position from masonry
+	    cmd.addClass('tm-pin-active');	    
+	    $('.tm-root').css({width:'80%'});	    
+	    $('.tm-pinz').show();
+	} 
+	
+	// tools 2
+	function unpin(li) {	    
+	    // append to root only if it is the right mother
+	    if(li.data('mother') == mother) {
+		li.css('bottom','');		// remove it cause of bad visual effet
+		li.appendTo($('.tm-root'));
+		li.removeClass('tm-hover');
+	    } else
+		// remove completly
+		li.remove();
+	    $('.tm-root').css({width:'100%'});	       
+	}
+	
+	
+	// if something already pinned, unpin it
+	var pinned = $('.tm-pinz > .tm-drop');
+	if(pinned.length)
+	    unpin(pinned);
+	
+	if(!cmd.hasClass("tm-pin-active")) {
+	    // pin
+	    pin(anchor);
+	} else {
+	    // unpin
+	    unpin(anchor);
+	    $('.tm-pinz').hide();
+	}
+	// redo masonry
+	TreeManager.masonry.reloadItems();
+	TreeManager.masonry.layout();
     },
 
     /**
@@ -668,6 +735,10 @@ var TreeManager = {
 	    return;
 	}
 	
+	// do not zoom in a pinned folder
+	if(anchor.parents(".tm-pinz").length)
+	    return;
+	
 	Yacs.startWorking();
 	$.get(
 	    tm_ajaxUrl,
@@ -678,8 +749,7 @@ var TreeManager = {
 		    // building breadcrumbs complement ...
 			var more_crumbs = ''; // string
 			// get hierarchy			
-			var path_anchors = $(anchor.parents(".tm-drop").get().reverse());
-			console.log(path_anchors);
+			var path_anchors = $(anchor.parents(".tm-drop").get().reverse());			
 			// build it			
 			$.each(path_anchors,function() {
 			    var link = $('<a href="#" class="tm-crumbs"></a>');
@@ -714,7 +784,9 @@ var TreeManager = {
 		    $('#page_tools, #share').css('opacity','.5');
 		    
 		    // update content
-		    anchor.parents(".tm-ddz").replaceWith(data.content);
+		    var newroot = $(data.content).find('.tm-root');		    
+		    $('.tm-ddz').data('ref',data.root_ref);
+		    $(".tm-root").replaceWith(newroot);
 		    TreeManager.init(data.userlevel);
 		}
 		Yacs.stopWorking()
@@ -755,7 +827,9 @@ var TreeManager = {
 		    $('#main_panel h1 span').text(data.title);	
 		    
 		    // update content
-		    $(".tm-ddz").replaceWith(data.content);
+		    var newroot = $(data.content).find('.tm-root');		    
+		    $('.tm-ddz').data('ref',data.root_ref);
+		    $(".tm-root").replaceWith(newroot);
 		    TreeManager.init(data.userlevel);		    
 		}
 		Yacs.stopWorking();

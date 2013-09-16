@@ -246,6 +246,7 @@ switch($_REQUEST['action']) {
 		$output['crumbs_separator'] = CRUMBS_SEPARATOR;
 		$output['crumbs_suffix'] = CRUMBS_SUFFIX;
 		$output['userlevel'] = ($powered)?'powered':'';
+		$output['root_ref'] = $anchor->get_reference(); 
 	} else 
 	    $output['success'] = false;
 	    	
