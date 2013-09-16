@@ -14,7 +14,7 @@
  and let enought spaces arround them to drag elements */
  .tm-root {padding:2em; overflow: hidden;}
  
-.tm-ddz {position:relative;}
+.tm-ddz {position:relative;padding-bottom: 2em;}
  
  /* switching box model for all elements */
 .tm-ddz * {
