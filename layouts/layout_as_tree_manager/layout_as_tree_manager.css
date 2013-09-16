@@ -24,12 +24,13 @@
 }
  
  /* no list decoration */ 
- .tm-root, .tm-root ul{list-style: none;}
+ .tm-ddz ul {list-style: none;}
  
- /* main viewed elements are rendred as blocks */
+ /* main viewed elements are rendred as blocks but not full width*/
  .tm-root > .tm-drag {
      float : left;
      clear : left;
+     max-width: 136px;
  } 
  .tm-root > .tm-drop {
      float : left;
@@ -43,7 +44,8 @@
  /* hilight drop targets when hovered */
 
  .tm-hoverdrop .tm-masonry {
-     background : white;
+     background : lightgrey;
+     opacity : 0.7
  }
  
  .tm-hover {
@@ -82,7 +84,7 @@
     {display: none !important;}
  
  /* cancel yacs' rule */
- .tm-hover a {background: transparent !important;}
+ .tm-zoom:hover, .tm-page:hover, .tm-user:hover {background: transparent;}
  
  /* rules for command buttons */
  .tm-cmd {padding: 2px;margin: 0;} 
@@ -91,6 +93,8 @@
  #main_panel .tm-create:hover {background: greenyellow;}
  #main_panel .tm-delete:hover {background: red;}
  #main_panel .tm-rename:hover {background: royalblue;}
+ #main_panel .tm-pin:hover {background : orange;}
+ #main_panel .tm-pin-active {background : orange;}
  
  /* built-in crumbs while zooming */
  .tm-crumbs {text-transform: capitalize;}
@@ -114,3 +118,29 @@
  }
  
  .tm-foldmark {display:block;}
+
+ .tm-pinz {
+     display: none;
+     position:absolute;
+     z-index: 1;
+     top : 1em;
+     min-height : 100%;
+     right : 0;
+     width:20%;
+     
+     padding: 0 ;    
+     border : 2px solid orange;
+     border-radius : 3px; 
+
+ }
+ 
+ .tm-pinz > .tm-drop {
+     width: 100%;     
+     padding : 0.5em 7px;
+ }
+ .tm-pinz > .tm-hover {
+     background : none;
+ }
+ 
+ 
+ .tm-root .tm-sub_elems .tm-pin, .tm-pinz .tm-sub_elems .tm-pin {display:none;}

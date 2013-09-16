@@ -48,6 +48,15 @@ class Layout_as_tree_manager extends Layout_interface {
     }
     
     /**
+     * 
+     */
+    private function btn_pin() {
+	$btn = '<a href="#" class="tm-cmd tm-pin details" title="'.i18n::s('Pin').'">p</a>'."\n";	
+	
+	return $btn;
+    }
+    
+    /**
      * the menu that apears when hovering a entry 
      * 
      * @param string $cmd the html cmd to put in the menu
@@ -68,7 +77,7 @@ class Layout_as_tree_manager extends Layout_interface {
     
     public function get_interactive_menu() {
 	
-	$cmd = $this->btn_create().$this->btn_rename().$this->btn_delete();
+	$cmd = $this->btn_create().$this->btn_rename().$this->btn_pin().$this->btn_delete();
 	$cmd = $this->build_menu($cmd);
 	
 	return $cmd;
