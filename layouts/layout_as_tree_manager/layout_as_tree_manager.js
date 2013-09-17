@@ -43,7 +43,23 @@ var TreeManager = {
 		drop : TreeManager.elemDropped	// function to call when dropping is done	
 	    }	
 	
-	$().ready(function() {
+	$().ready(function() {	    
+	    
+	    // delay initialization if layout is hidden (tabs case)
+	    if($('.tm-ddz').is(':hidden') ) {
+		
+		if(!TreeManager.yacs) {
+		    // suscribe to yacs event (tabs change)
+		    $(document).on('yacs',function(){
+			if($('.tm-ddz').is(':visible')) {			    
+			    TreeManager.init(userlevel);
+			    $(document).off('yacs')     // unsuscribe after init is done
+			}
+		    });
+		    TreeManager.yacs = true; // flag suscribe done
+		}
+		return;
+	    }
 	    
 	    // masonry layout
 	    $('.tm-root > .tm-drop').addClass('tm-masonry');
@@ -121,7 +137,7 @@ var TreeManager = {
 	    // make pinnable zone ready
 	    if(!$('.tm-pinz').length) {
 		$('<ul class="tm-pinz"></ul>').insertAfter($('.tm-root'));
-	    }
+	    }	    	    
 	   	    
 	});	
 	
