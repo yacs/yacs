@@ -64,7 +64,7 @@ var TreeManager = {
 		if(to_remove.length)
 		    TreeManager.masonry.remove(to_remove.get());
 	    }
-	    // use "stamp" to leave space to selected elements on root
+	    // use "stamp" to leave space to selected elements on root (fake column)
 	    TreeManager.stamp = $('<div class="tm-stamp"></div>').css({
 		// display:'none',
 		// background : 'red',
@@ -118,7 +118,7 @@ var TreeManager = {
 		TreeManager.zoom($(this));		
 	    });
 	    
-	    // add pinnable zone
+	    // make pinnable zone ready
 	    if(!$('.tm-pinz').length) {
 		$('<ul class="tm-pinz"></ul>').insertAfter($('.tm-root'));
 	    }
@@ -372,8 +372,7 @@ var TreeManager = {
 	if(sublist.hasClass('tm-root')) {
 	    input.parent().addClass('tm-masonry');
 	    TreeManager.masonry.prepended(input.parent().get());
-	    if(TreeManager.hasRootColumn)
-		TreeManager.masonry.layout();
+	    
 	} else
 	    // resize only
 	    TreeManager.masonry.layout();
@@ -566,8 +565,7 @@ var TreeManager = {
 			newli.insertAfter(input.parent()); 
 			TreeManager.masonry.remove(input.parent().get());
 			TreeManager.masonry.prepended(newli.get());
-			if(TreeManager.hasRootColumn)
-			    TreeManager.masonry.layout();
+		
 		    } else		    
 			// display <li>
 			input.parent().replaceWith(newli); 
@@ -665,8 +663,6 @@ var TreeManager = {
 		    else
 			// we are already a span :)
 			title.text(input.val());
-
-
 		} 
 
 		// remove input and display title with new or former name
