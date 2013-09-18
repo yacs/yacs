@@ -155,7 +155,9 @@ var TreeManager = {
     animFold:function(elems) {
 	elems.click(function(e){
 		e.stopPropagation();
-		var li = $(this);
+		// find parent folder on root
+		var li = $(this).closest('.tm-masonry');
+		// var li = $(this);
 		var subul = li.children('.tm-sub_elems');
 		if(!subul.children().length)
 		    return;
