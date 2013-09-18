@@ -56,10 +56,10 @@ var TreeManager = {
 			    $(document).off('yacs')     // unsuscribe after init is done
 			}
 		    });
-		    TreeManager.yacs = true; // flag suscribe done
+		    TreeManager.yacs = true; // flag suscribing done
 		}
-		return;
-	    }
+		return;  // do nothing if interface is hidden
+	    }	    	    
 	    
 	    // masonry layout
 	    $('.tm-root > .tm-drop').addClass('tm-masonry');
@@ -93,9 +93,15 @@ var TreeManager = {
 	    TreeManager.stamp.appendTo($('.tm-ddz'));
 	    TreeManager.hasRootColumn = false;	
 	    // initialize creation of the column
-	    TreeManager.checkRootColumn();	
+	    TreeManager.checkRootColumn();		   	    	   	    
+	    
 	    // layout only if necessary
-	    if($('.tm-masonry').length) {	    
+	    if($('.tm-masonry').length) {
+		// close all folders
+		//$('.tm-masonry > .tm-sub_elems').hide();
+		//$('.tm-masonry').append('<span class="tm-foldmark">...</span>');
+		$('.tm-masonry').each(function(){TreeManager.checkHeight($(this),'fold');});
+		
 		TreeManager.masonry.layout();
 	    }
 	    
@@ -113,16 +119,16 @@ var TreeManager = {
 		
 		// hide commands tags
 		$(".tm-cmd, .tm-hovermenu").hide();
-	    }	    	    
-		
-	    // propagate simple click and & zoomin
-	    $(".tm-zoom").click_n_dblclick(TreeManager.propagateClick,TreeManager.zoom);	
-	    
+	    }	    
+
 	    // fold/unfold list
-	    TreeManager.animFold($("li.tm-drop"));	    
-	    
+	    TreeManager.animFold($("li.tm-drop"));
+
 	    // mouse over animation
 	    TreeManager.animOver($(".tm-drag"));
+		
+	    // propagate simple click , zoom on double
+	    $(".tm-zoom").click_n_dblclick(TreeManager.propagateClick,TreeManager.zoom);		    	    	    	    
 	    	    
 	    // hide menu bar ( we could override clic action on item creation link instead )
 	    $('.menu_bar').hide();
@@ -138,7 +144,7 @@ var TreeManager = {
 	    if(!$('.tm-pinz').length) {
 		$('<ul class="tm-pinz"></ul>').insertAfter($('.tm-root'));
 	    }	    	    
-	   	    
+	    	    	   	    
 	});	
 	
     },  
@@ -153,13 +159,13 @@ var TreeManager = {
 		var subul = li.children('.tm-sub_elems');
 		if(!subul.children().length)
 		    return;
-		subul.toggle('fold',function() {		    
+		subul.toggle(100,function() {		    
 		    if(subul.is(":visible")) 	  
 			li.children('.tm-foldmark').remove();
 		    else			    			
 			li.append('<span class="tm-foldmark">...</span>');
 		    
-		    TreeManager.masonry.layout();
+		    TreeManager.checkHeight(li,'lay')		    
 		});		
 	    });
     },    
@@ -181,6 +187,30 @@ var TreeManager = {
 		    $(this).parents('.tm-drag').first().addClass('tm-hover');
 		}		
 	    });	
+    },
+    
+    checkHeight: function(item,opt) {
+		
+	// find parent folder on root
+	var top = item.closest('.tm-masonry');
+	
+	if(!top.length)
+	    return;
+	
+	// reset min-height
+	top.css('min-height','80px')
+	// calc its normalize height,
+	var top_h = Math.ceil(top.height()/80)*96 - 16;
+	if(top_h > 80 && opt == 'fold') {
+	    // hide sub list
+	    top.children('.tm-sub_elems').hide();
+	    top.append('<span class="tm-foldmark">...</span>');
+	} else
+	    // set min height
+	    top.css('min-height',top_h+'px')		
+	
+	if(opt == 'lay')
+	    TreeManager.masonry.layout();
     },
     
     /**
@@ -312,13 +342,14 @@ var TreeManager = {
 		// reload masonry if nb of folder on root change
 		if(needReload)
 		    TreeManager.masonry.reloadItems();
-		
+		// height
+		TreeManager.checkHeight(obj);
 		// drop of a page on root ? check the column
 		if(list.hasClass('tm-root') && !objIsFolder)		
 		    TreeManager.checkRootColumn();
 		// unfold list if necessary
-		else if(list.is(':hidden'))
-		    tar.trigger('click');
+		// else if(list.is(':hidden'))
+		//    tar.trigger('click');
 		else
 		    // simple re-layout
 		    TreeManager.masonry.layout()
@@ -348,7 +379,7 @@ var TreeManager = {
 	    // post a move
 	    TreeManager.postMove(ui.draggable, $(this));
 		
-    },                       
+    },         
     
     /**
      * called after pressing create button binded to a entry
@@ -376,6 +407,7 @@ var TreeManager = {
 	// remove input on focus out
 	input.focusout(function() {
 	    input.parent().remove();
+	    TreeManager.checkHeight(anchor);
 	    TreeManager.masonry.layout();
 	});
 	
@@ -391,7 +423,9 @@ var TreeManager = {
 	    
 	} else
 	    // resize only
-	    TreeManager.masonry.layout();
+	    TreeManager.checkHeight(anchor,'lay');	
+	    // TreeManager.masonry.layout();
+	
 		
 	// input name right now !	
 	input.focus();
@@ -589,8 +623,11 @@ var TreeManager = {
 		    // remove input and leave everything as before
 		    if(input.parent().hasClass('tm-masonry')) {
 			TreeManager.masonry.remove(input.parent.get());
-		    } else
+			TreeManager.masonry.layout();
+		    } else {
 			input.parent().remove();
+			TreeManager.checkHeight(anchor,'lay')
+		    }
 				
 		Yacs.stopWorking();		
 	});	
@@ -603,7 +640,7 @@ var TreeManager = {
      * 
      * @param anchor jquery object the anchor to delete ( <li> )
      */
-    postDelete: function (anchor) {
+    postDelete: function (anchor) {		
 	
 	Yacs.startWorking();
 	$.post(
@@ -611,13 +648,19 @@ var TreeManager = {
 	    {action : 'delete', anchor : anchor.data('ref')}
 	).done(function( data ) {
 		if(data.success) {
-		    if(anchor.hasClass('tm-masonry'))
+		    if(anchor.hasClass('tm-masonry')) {
 			TreeManager.masonry.remove(anchor.get());
-		    else
-			anchor.remove();
+			TreeManager.masonry.layout();
+		    } else {		
+			// find parent folder on root
+			var top = anchor.closest('.tm-masonry');
+			
+			anchor.remove();			
+			TreeManager.checkHeight(top, 'lay');
+		    }
 		}
 		
-		TreeManager.masonry.layout();
+		// TreeManager.masonry.layout();
 		Yacs.stopWorking();    
 	});
     },
@@ -702,8 +745,12 @@ var TreeManager = {
 	    return;
 	}
 	
+	// find parent folder on root
+	var top = elem.closest('.tm-masonry');
+	top.trigger('click');
+	
 	// get all parent folders
-	var parents = elem.parents("li.tm-drop");
+	/*var parents = elem.parents("li.tm-drop");
 	
 	// look for the first one with childs
 	parents.each(function(i,parent){
@@ -712,7 +759,7 @@ var TreeManager = {
 		$(parent).trigger('click');
 		return false // job done, break loop
 	    }
-	});
+	});*/
 	
     },
     

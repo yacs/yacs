@@ -44,7 +44,7 @@
      float : left;
      clear : none;
      margin : 2px;
-     padding : 0.5em 7px;
+     padding : 5px;
      border : 1px solid grey;
      border-radius : 3px;         
  }
@@ -74,7 +74,7 @@
  } 
 
  /* an entry is relative to be setted as reference for hover menu */
- .tm-drag {position: relative; padding : 1px 0 0 3px;}
+ .tm-drag {position: relative; padding-left : 3px;}
  /* the interactive menu for entries */
  .tm-hovermenu {
      display:none;
@@ -121,7 +121,7 @@
  }
  
  /* width of a folder at the root */
- .tm-masonry {width :136px;min-height: 5.7em;}
+ .tm-masonry {width :136px;min-height: 80px;}
  /* emphatize titles of folder at root */
  .tm-masonry > .tm-zoom > .tm-folder {font-weight: bold;}
 
