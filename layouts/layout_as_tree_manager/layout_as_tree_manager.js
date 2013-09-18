@@ -97,9 +97,7 @@ var TreeManager = {
 	    
 	    // layout only if necessary
 	    if($('.tm-masonry').length) {
-		// close all folders
-		//$('.tm-masonry > .tm-sub_elems').hide();
-		//$('.tm-masonry').append('<span class="tm-foldmark">...</span>');
+		// close all long folders
 		$('.tm-masonry').each(function(){TreeManager.checkHeight($(this),'fold');});
 		
 		TreeManager.masonry.layout();
@@ -157,7 +155,7 @@ var TreeManager = {
 		e.stopPropagation();
 		// find parent folder on root
 		var li = $(this).closest('.tm-masonry');
-		// var li = $(this);
+		
 		var subul = li.children('.tm-sub_elems');
 		if(!subul.children().length)
 		    return;
@@ -202,7 +200,8 @@ var TreeManager = {
 	// reset min-height
 	top.css('min-height','80px')
 	// calc its normalize height,
-	var top_h = Math.ceil(top.height()/80)*96 - 16;
+	// var top_h = Math.ceil(top.height()/80)*96 - 16;
+	var top_h = Math.ceil(top.height()/80)*84 - 4;
 	if(top_h > 80 && opt == 'fold') {
 	    // hide sub list
 	    top.children('.tm-sub_elems').hide();
