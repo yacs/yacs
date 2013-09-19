@@ -1418,10 +1418,12 @@ function render_skin($with_last_modified=TRUE) {
 	    
 	    Js_css::prepare_scripts_for_overlaying();	    
 	    
-	    echo $context['page_header'];
+	    if(isset($context['page_header']))
+		echo $context['page_header'];
 	    echo '<h2>'.$context['page_title'].'</h2>';
 	    echo $context['text'];	    
-	    echo $context['javascript']['footer'];
+	    if(isset($context['javascript']['footer']))
+		echo $context['javascript']['footer'];
 	    return;
 	}	
 
