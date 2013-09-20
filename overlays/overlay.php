@@ -688,6 +688,17 @@ class Overlay {
 	 */
 	final protected function load_scripts_n_styles($myclass='') {
 
+	    // fuse not to search twice for bound files	
+	    static $fuse_called = false;
+	    
+	    // function is always called by DEV without specifying the class.
+	    // fuse should not block recursive calls from the firt call,
+	    // which are always done with a classname argument
+	    if(!$myclass && $fuse_called)
+		return;
+	    
+	    $fuse_called = true;
+	    
 	    if(!$myclass)
 		$myclass = get_class($this);
 
