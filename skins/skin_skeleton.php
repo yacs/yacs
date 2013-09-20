@@ -1680,12 +1680,33 @@ Class Skin_Skeleton {
 
 			// flag external links
 			$external = ($variant == 'external');
-			if(!strncmp($url, 'http:', 5) && strncmp($url, 'http://'.$context['host_name'], strlen('http://'.$context['host_name'])))
-				$external = TRUE;
-			elseif(!strncmp($url, 'https:', 6) && strncmp($url, 'https://'.$context['host_name'], strlen('https://'.$context['host_name'])))
-				$external = TRUE;
-			elseif(!strncmp($url, 'ftp:', 4) && strncmp($url, 'ftp://'.$context['host_name'], strlen('ftp://'.$context['host_name'])))
-				$external = TRUE;
+			
+			// if no explict "external" variant but url is absolute, compare
+			// it with all hosted domains to establish if its external or not
+			$matches_ext = array();
+			if(!$external && preg_match('/.+:\/\/(.+)$/',$url, $matches_ext)) {
+			    // the url without the protocol, begins after "://"
+			    $url_path = $matches_ext[1];
+			    // our host name, at least !
+			    $domains[] = $context['host_name'];
+			    // the master host, could be different
+			    $domains[] = $context['master_host'];
+			    // do we have hosted virtual domains ? consider them also
+			    if(isset($context['virtual_domains']))
+				$domains = array_merge($domains, $context['virtual_domains']);			    			    
+			    
+			    // consider the url will not match ...
+			    $internal = FALSE; 
+			    // compare url with each domains
+			    foreach($domains as $domain) {
+				// strncomp = 0 means strings are matching
+				if(!strncmp($url_path,$domain,strlen($domain))) {
+					$internal = TRUE;
+					break;    // one matching is enought
+				}
+			    }
+			    $external = !$internal;
+			}			
 
 			// default tagging for external links
 			if(!$variant && $external)

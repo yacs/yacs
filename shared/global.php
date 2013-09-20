@@ -342,6 +342,16 @@ Safe::load('parameters/root.include.php'); // to support Page::tabs()
 // load parameters specific to this virtual host or sub-domain, if any
 Safe::load('parameters/virtual_'.$context['host_name'].'.include.php');
 
+// make the list of compagnon domains
+// the list is used to establish if a link is external or not
+// @see skins/skin_skeleton.php
+$virtuals = Safe::glob($context['path_to_root'].'parameters/virtual_*.include.php');
+foreach($virtuals as $file) {
+    $matches = array();
+    preg_match('/^virtual_(.+)\.include/',basename($file),$matches);
+    $context['virtual_domains'][] = $matches[1];
+}
+
 // ensure we have a site name
 if(!isset($context['site_name']))
 	$context['site_name'] = $context['host_name'];
