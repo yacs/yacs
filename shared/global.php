@@ -345,11 +345,12 @@ Safe::load('parameters/virtual_'.$context['host_name'].'.include.php');
 // make the list of compagnon domains
 // the list is used to establish if a link is external or not
 // @see skins/skin_skeleton.php
-$virtuals = Safe::glob($context['path_to_root'].'parameters/virtual_*.include.php');
-foreach($virtuals as $file) {
-    $matches = array();
-    preg_match('/^virtual_(.+)\.include/',basename($file),$matches);
-    $context['virtual_domains'][] = $matches[1];
+if($virtuals = Safe::glob($context['path_to_root'].'parameters/virtual_*.include.php')) {
+    foreach($virtuals as $file) {
+	$matches = array();
+	preg_match('/^virtual_(.+)\.include/',basename($file),$matches);
+	$context['virtual_domains'][] = $matches[1];
+    }
 }
 
 // ensure we have a site name
