@@ -441,53 +441,55 @@ var Yacs = {
 			$(objCentered).append(objContent);
 			$(objCentered).click(function(e){e.stopPropagation();});
 
-			// small cross for closing modal box on right corner
-			if(content.withBoxClose) {
-			    var objBoxClose = document.createElement("a");
-			    $(objBoxClose).text('x');
-			    $(objBoxClose).addClass("boxClose");
-			    $(objBoxClose).click(function(e){
-				e.stopPropagation();
-				if(typeof Yacs.modalCallBack == 'function'){(Yacs.modalCallBack)(false);}
-				Yacs.closeModalBox();
-			    });
-			    $(objCentered).prepend(objBoxClose);
-			}
+			// small cross for closing modal box on right corner			
+			var objBoxClose = document.createElement("a");
+			$(objBoxClose).text('x');
+			$(objBoxClose).attr('id',"modal_close");
+			$(objBoxClose).click(function(e){
+			    e.stopPropagation();
+			    if(typeof Yacs.modalCallBack == 'function'){(Yacs.modalCallBack)(false);}
+			    Yacs.closeModalBox();
+			});
+			$(objCentered).prepend(objBoxClose);
+			
 
 			Yacs.modalOverlay = document.createElement("div");
 			$(Yacs.modalOverlay).attr('id','modal_panel');
-			// click at the back of the overlay close it, 
-			// exept if option confirmClose is setted
-			if(!content.confirmClose) {
-			    $(Yacs.modalOverlay).click(function() {
-				if(typeof Yacs.modalCallBack == 'function'){(Yacs.modalCallBack)(false);}
-				Yacs.closeModalBox();
-			    });
-			}
+			
 			$(Yacs.modalOverlay).append(objCentered);
 
 			var objBody = document.getElementsByTagName("body").item(0);
 			$(objBody).append(Yacs.modalOverlay);
 
 		// ensure containers are visible to compute box size
+		// reset click event if any
 		} else {
-			$('#modal_panel').css('display', 'block');
+			$('#modal_panel').css('display', 'block').unbind( "click" );			
 		}
+		
+		// click at the back of the overlay close it, 
+		// exept if option confirmClose is setted
+		if(!content.confirmClose) {
+		    $('#modal_panel').click(function() {
+			if(typeof Yacs.modalCallBack == 'function'){(Yacs.modalCallBack)(false);}
+			Yacs.closeModalBox();
+		    });
+		}
+		
+		// show or hide closing cross
+		if(content.withBoxClose)
+		    $('#modal_close').show();
+		else
+		    $('#modal_close').hide();
 
 		// paint or repaint box content
 		$('#modal_content').fadeTo(0.1, 0.3,
 			function() {
 
 				// update the content
-				Yacs.updateModalBox(boxContent);
-
-				// display the updated box
-				$('#modal_content').css('visibility', 'visible');
-				$('#modal_content').fadeTo(0.3, 1.0);
+				Yacs.updateModalBox(boxContent);			
 
 			});
-
-
 
 	},
 	
@@ -507,6 +509,7 @@ var Yacs = {
 	 */
 	displayOverlaid:function(url, withButtons, confirmClose) {	    
 	    
+	    // get ajax request, add overlaid=Y as parameter
 	    $.get(url,{overlaid:'Y'})   
 	    .done(function(data){
 		var content={
@@ -521,9 +524,7 @@ var Yacs = {
 		    content.confirmClose    = true;
 		} else 
 		    content.withBoxClose    = true;
-		
-		// display the modalBox
-		Yacs.displayModalBox(content,Yacs.modalPost);
+				
 		// preload instruction for tinymce
 		// @see https://gist.github.com/badsyntax/379244
 		window.tinyMCEPreInit = {
@@ -535,14 +536,25 @@ var Yacs = {
 		Yacs.callAfterDisplayModal = function() {
 		    if(typeof scripts_to_load != 'undefined') {
 			// get all the scripts
+			$.ajaxSetup({cache: true});			
 			Yacs.getScriptS(scripts_to_load, function() {
+			    $.ajaxSetup({cache: false});
 			    // execute all snipets (like a $.ready(...)  )
 			    if( typeof execute_after_loading == 'function')			
-				(execute_after_loading)();			    			   
+				(execute_after_loading)();
+			    else
+				// continue with modal box sizing
+				Yacs.updateModalBox(true);
 			});
 		    } else if( typeof execute_after_loading == 'function')
 			(execute_after_loading)();
-		}		
+		    else 
+			// modal box sizing
+			Yacs.updateModalBox(true);
+		}
+
+		// display the modalBox
+		Yacs.displayModalBox(content,Yacs.modalPost);
 	    });	    
 	},
 
@@ -664,10 +676,9 @@ var Yacs = {
 	 * @param function callback, something to do after all scripts are loaded
 	 */
 	getScriptS: function( resources, callback ) {
-	
-	    var // reference declaration &amp; localization
-	    length = resources.length,
-	    handler = function() { counter++; },    
+		
+	    var length = resources.length,
+	    handler = function() {counter++;},    
 	    deferreds = [],
 	    counter = 0,    
 	    idx = 0;
@@ -1840,45 +1851,81 @@ var Yacs = {
 	 * update a modal box
 	 *
 	 * This is called internally by Yacs.displayModalBox()
+	 * 
+	 * we have a job in several steps :
+	 * 1. update the content ;
+	 * 2. wait for the images to be loaded ;
+	 * 3. load and excecute js bound with the content, if any ;
+	 * 4. size the modal box to fit the content.
+	 * 
+	 * steps are done by callbacks on this function with different parameters
+	 * 1: content = XHTML
+	 * 3: content = false, and callAfterDisplayModal function is defined
+	 * 4: content = true or no js to load in previous step
 	 *
-	 * @param string XHTML content of the box
+	 * @param mixed XHTML content of the box,  
+	 * or flag false to load js if any, flag true to resize
 	 */
 	updateModalBox: function(content) {
-
-		// update box content
-		$('#modal_content').html(content);
+	    		
+		// first, update box content
+		if(content !== false && content !==true) {
+		    // actual content update
+		    $('#modal_content').html(content);
+		    
+		    // remove height limitation if it was set
+		    $('#modal_centered').css('bottom','');
+		    // free the box size
+		    $('#modal_content').css({width:'auto', height: 'auto'});
+		    
+		    // recall itself when images are loaded, with "false" parameter
+		    imagesLoaded('#modal_content', function(){Yacs.updateModalBox(false);});
+		    return;
+		}						
 		
 		// callback after displaying, if defined
-		if(typeof Yacs.callAfterDisplayModal == 'function')
+		if(typeof Yacs.callAfterDisplayModal == 'function' && content === false) {
+		    // this function should recall updateModalBox with "true" parameter
 		    (Yacs.callAfterDisplayModal)();
-
-		// remove height limitation if it was set
-		$('#modal_centered').css('bottom','');
-		// free the box size
-		$('#modal_content').css({width: 'auto', height: 'auto'});
-
-		if($('#modal_centered').outerHeight() < $(window).height()) {
+		    return;
+		}				
+		
+		// loading of images and js done, and js executed, do the sizing
+		var $modal_centered = $('#modal_centered');
+		var pos_modal = $modal_centered.position();
+		if($modal_centered.outerHeight() < $(window).height()) {		    		    
 
 		    // center the box
 		    var yShift, xShift;
-		    yShift = Math.floor((($(window).height() - $('#modal_centered').outerHeight()) / 2) - $('#modal_centered').css('top').replace('px', ''));
-		    xShift = Math.floor((($(window).width() - $('#modal_centered').outerWidth()) / 2) - $('#modal_centered').css('left').replace('px', ''));
+		    var pos = $modal_centered.position();
+		    yShift = Math.floor((($(window).height() - $modal_centered.outerHeight()) / 2) - pos_modal.top);
+		    xShift = Math.floor((($(window).width() - $modal_centered.outerWidth()) / 2) - pos_modal.left);
 
 		    // update box position
 		    if((Math.abs(yShift) > 1) || (Math.abs(xShift) > 1)) {
-			    $('#modal_centered').animate({top: '+=' + yShift, left: '+=' + xShift}, 0.2);
+			    $modal_centered.animate({top: '+=' + yShift, left: '+=' + xShift}, 0.2);
 		    }
 
-		} else {
-		    // adjust box size to max space
-		    $('#modal_content').css({width: $('#modal_centered').outerWidth()+'px', height: '100%'});
+		} else {		    
+		    
+		    // adjust box size to needed width, but max is 80% of window width
+		    var modal_width = $modal_centered.width();
+		    var max_width = $(window).width()*.8
+		    if(modal_width > max_width)
+			modal_width = max_width;
+			
+		    $('#modal_content').css({width: modal_width + 'px', height: '100%'});
 
 		    // center horizontaly
 		    var xShift;
-		    xShift = Math.floor((($(window).width() - $('#modal_centered').outerWidth()) / 2) - $('#modal_centered').css('left').replace('px', ''));
+		    xShift = Math.floor((($(window).width() - $modal_centered.outerWidth()) / 2) - pos_modal.left);
 		    if(Math.abs(xShift) < 1) xShift = 0;
-		    $('#modal_centered').animate({top:'5%',bottom:'5%',left: '+=' + xShift}, 0.2);
+		    $modal_centered.animate({top:'5%',bottom:'5%',left: '+=' + xShift}, 0.2);
 		}
+		
+		// display the updated box
+		$('#modal_content').css('visibility', 'visible');
+		$('#modal_content').fadeTo(0.3, 1.0);
 
 	},
 
