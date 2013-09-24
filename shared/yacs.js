@@ -509,8 +509,16 @@ var Yacs = {
 	 */
 	displayOverlaid:function(url, withButtons, confirmClose) {	    
 	    
-	    // get ajax request, add overlaid=Y as parameter
-	    $.get(url,{overlaid:'Y'})   
+	    // add overlaid=Y as parameter
+	    if(url.indexOf('?') > -1)
+		url += '&';
+	    else 
+		url += '?';
+	    
+	    url	    += 'overlaid=Y';
+	    
+	    // start ajax request
+	    $.get(url)   
 	    .done(function(data){
 		var content={
 		    body: data		    
