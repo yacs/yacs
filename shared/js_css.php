@@ -210,12 +210,18 @@ Class Js_Css {
     private static function extract_src_from_deferred_scripts() {
 	global $context;
 	
-	if(!isset($context['javascript']['defer'])) 
+	$reset = 'delete scripts_to_load';	
+	
+	if(!isset($context['javascript']['defer'])) {
+	    Js_css::insert($reset);
 	    return;
+	}
 	
 	$src= array();
-	if(!preg_match_all('/src="(.*?)"/sim', $context['javascript']['defer'], $src))
+	if(!preg_match_all('/src="(.*?)"/sim', $context['javascript']['defer'], $src)) {
+	    Js_css::insert($reset);
 	    return;
+	}
 	
 	array_shift($src); // remove matches[0] with all pattern
 	$to_load = 'var scripts_to_load = ["'.implode('","',$src[0]).'"];';
@@ -334,8 +340,12 @@ Class Js_Css {
     private static function wrap_footer_scripts() {
 	global $context;
 	
-	if(!isset($context['javascript']['footer'])) 
+	$reset = 'delete execute_after_loading;';
+	
+	if(!isset($context['javascript']['footer'])) {
+	    Js_css::insert($reset);
 	    return;
+	}
 	
 	// extract code from <script></script> tags
 	$scripts = array();
@@ -355,7 +365,7 @@ Class Js_Css {
 	}
 	
 	$wrapped = implode("\n", $declare_only)."\n";
-	$wrapped .= 'function execute_after_loading() {'.implode("\n", $scripts[0]).'}'."\n";
+	$wrapped .= 'function execute_after_loading() {'.implode("\n", $scripts[0]).' Yacs.updateModalBox(true)'."\n".'}'."\n";
 					
 	// erase footer
 	$context['javascript']['footer'] = '';
