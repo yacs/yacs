@@ -114,8 +114,7 @@ class Layout_as_mosaic extends Layout_interface {
 	
 	// infinite scroll js lib
 	if($infinite) {
-	    Page::defer_script('layouts/layout_as_mosaic/jquery.infinitescroll.min.js');
-	    Page::defer_script('layouts/layout_as_mosaic/imagesloaded.pkgd.min.js');
+	    Page::defer_script('layouts/layout_as_mosaic/jquery.infinitescroll.min.js');	    
 	    Page::insert_script('Mosaic.infiniteScroll()');
 	}
 	
