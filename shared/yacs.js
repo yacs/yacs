@@ -252,6 +252,11 @@ var Yacs = {
 				// mask the modal box
 				$('#modal_panel').css('display', 'none');
 
+				// stop react to window resizing
+				// @see displayModalBox
+				// @see updateModalBox
+				$( window ).off('resize', Yacs.startResizeModal);
+
 			} );
 	},
 
@@ -430,7 +435,7 @@ var Yacs = {
 
 		// extend the DOM tree
 		if(!Yacs.modalOverlay) {
-			
+
 			var objContent = document.createElement("div");
 			$(objContent).attr('id','modal_content');
 			$(objContent).html('<img src="'+Yacs.spinningImage.src+'" />');
@@ -441,7 +446,7 @@ var Yacs = {
 			$(objCentered).append(objContent);
 			$(objCentered).click(function(e){e.stopPropagation();});
 
-			// small cross for closing modal box on right corner			
+			// small cross for closing modal box on right corner
 			var objBoxClose = document.createElement("a");
 			$(objBoxClose).text('x');
 			$(objBoxClose).attr('id',"modal_close");
@@ -451,23 +456,58 @@ var Yacs = {
 			    Yacs.closeModalBox();
 			});
 			$(objCentered).prepend(objBoxClose);
-			
+
 
 			Yacs.modalOverlay = document.createElement("div");
 			$(Yacs.modalOverlay).attr('id','modal_panel');
-			
+
 			$(Yacs.modalOverlay).append(objCentered);
 
 			var objBody = document.getElementsByTagName("body").item(0);
 			$(objBody).append(Yacs.modalOverlay);
 
+			/*
+			 * add functions to react to window resizing,
+			 * by using timer to filter multiple events
+			 * firing from browser.
+			 * @see Yacs.updateModalBox() for event binding
+			 * @see Yacs.closeModalBox() for event unbinding
+			 */
+
+			Yacs.resizeTimeout = false;
+
+			Yacs.endResizeModal = function() {
+			    if(new Date() - Yacs.resizeTime < 200 )
+			       setTimeout(Yacs.endResizeModal, 200);
+			    else {
+				console.log('endresize');
+				Yacs.resizeTimeout = false;
+				// remove height limitation if it was set
+				$('#modal_centered').css('bottom','');
+				// free the box size
+				$('#modal_content').css({width:'auto', height: 'auto'});
+				// size the box
+				Yacs.updateModalBox(true);
+			    }
+			}
+
+			Yacs.startResizeModal = function() {
+
+			    Yacs.resizeTime = new Date();
+			    if (Yacs.resizeTimeout === false) {
+				Yacs.resizeTimeout = true;
+				setTimeout(Yacs.endResizeModal, 200);
+			    }
+			}
+
+
 		// ensure containers are visible to compute box size
 		// reset click event if any
 		} else {
-			$('#modal_panel').css('display', 'block').unbind( "click" );			
+			$('#modal_panel').css('display', 'block').unbind( "click" );
 		}
-		
-		// click at the back of the overlay close it, 
+
+		// click at the back of the overlay close it,
 		// exept if option confirmClose is setted
 		if(!content.confirmClose) {
 		    $('#modal_panel').click(function() {
@@ -475,7 +515,7 @@ var Yacs = {
 			Yacs.closeModalBox();
 		    });
 		}
-		
+
 		// show or hide closing cross
 		if(content.withBoxClose)
 		    $('#modal_close').show();
@@ -487,68 +527,68 @@ var Yacs = {
 			function() {
 
 				// update the content
-				Yacs.updateModalBox(boxContent);			
+				Yacs.updateModalBox(boxContent);
 
 			});
 
 	},
-	
+
 	/**
 	 * This function display a given yacs' page (view.php or edit.php)
 	 * in a modalBox. Yacs php code will perform a special rendering
 	 * when called by this function
-	 * 
+	 *
 	 * 1 get the page and put it in modal box
 	 * 2 if array scripts_to_load exists, get the scripts defined in
 	 * 3 if function execute_after_loading exists, call it
-	 * 
+	 *
 	 * @param string url, the page of the server to load
 	 * @param boolean withButtons, to add a Send/cancel button
 	 * @param boolean confirmClose, to avoid closing accidentaly the overlay,
 	 * for example in the case of a form.
 	 */
-	displayOverlaid:function(url, withButtons, confirmClose) {	    
-	    
+	displayOverlaid:function(url, withButtons, confirmClose) {
+
 	    // add overlaid=Y as parameter
 	    if(url.indexOf('?') > -1)
 		url += '&';
-	    else 
+	    else
 		url += '?';
-	    
+
 	    url	    += 'overlaid=Y';
-	    
+
 	    // start ajax request
-	    $.get(url)   
+	    $.get(url)
 	    .done(function(data){
 		var content={
-		    body: data		    
+		    body: data
 		};
-		
+
 		if(withButtons) {
 		    content.button_TRUE	    = 'Send',
 		    content.button_FALSE    = 'Cancel'
 		}
 		if(confirmClose) {
 		    content.confirmClose    = true;
-		} else 
+		} else
 		    content.withBoxClose    = true;
-				
+
 		// preload instruction for tinymce
 		// @see https://gist.github.com/badsyntax/379244
 		window.tinyMCEPreInit = {
 		    base: url_to_root+'included/tiny_mce',
-		    suffix : '.min'	// to search for theme.min.js		
-		    }; 
-		
+		    suffix : '.min'	// to search for theme.min.js
+		    };
+
 		// function will be called by Yacs.updateModalBox
 		Yacs.callAfterDisplayModal = function() {
 		    if(typeof scripts_to_load != 'undefined') {
 			// get all the scripts
-			$.ajaxSetup({cache: true});			
+			$.ajaxSetup({cache: true});
 			Yacs.getScriptS(scripts_to_load, function() {
 			    $.ajaxSetup({cache: false});
 			    // execute all snipets (like a $.ready(...)  )
-			    if( typeof execute_after_loading == 'function')			
+			    if( typeof execute_after_loading == 'function')
 				(execute_after_loading)();
 			    else
 				// continue with modal box sizing
@@ -556,14 +596,14 @@ var Yacs = {
 			});
 		    } else if( typeof execute_after_loading == 'function')
 			(execute_after_loading)();
-		    else 
+		    else
 			// modal box sizing
 			Yacs.updateModalBox(true);
 		}
 
 		// display the modalBox
 		Yacs.displayModalBox(content,Yacs.modalPost);
-	    });	    
+	    });
 	},
 
 	/**
@@ -675,20 +715,20 @@ var Yacs = {
 
 		return s;
 	},
-	
+
 	/**
 	 * This function allow to load a bunch of scripts
 	 * @see http://www.jquery4u.com/ajax/getscript-mutiple-scripts/
-	 * 
+	 *
 	 * @param array resources, urls of scripts to load
 	 * @param function callback, something to do after all scripts are loaded
 	 */
 	getScriptS: function( resources, callback ) {
-		
+
 	    var length = resources.length,
-	    handler = function() {counter++;},    
+	    handler = function() {counter++;},
 	    deferreds = [],
-	    counter = 0,    
+	    counter = 0,
 	    idx = 0;
 
 	    for ( ; idx < length; idx++ ) {
@@ -823,13 +863,13 @@ var Yacs = {
 		$(handle + ' .onHoverLeft, ' + handle + ' .onHoverRight')
 			.css('visibility', 'visible');
 	},
-	
+
 	tinymceInit: function() {
-	    
+
 	    // without this tinymce won't initialize during overlaid view
 	    // @see https://gist.github.com/badsyntax/379244
-	    tinymce.dom.Event.domLoaded = true; 
-	    
+	    tinymce.dom.Event.domLoaded = true;
+
 	    // regular initialization
 	    // to choose components & configuration :
 	    // @see http://www.tinymce.com/wiki.php/Configuration
@@ -956,9 +996,9 @@ var Yacs = {
 			anchor = null; // no memory leak
 		}
 
-		// prepare edition link to ajax call of overlaid edition		
+		// prepare edition link to ajax call of overlaid edition
 		$("a.edit").click(function(e){
-		    e.preventDefault();			    
+		    e.preventDefault();
 		    Yacs.displayOverlaid($(this).attr("href"),true, true);
 		});
 
@@ -1588,13 +1628,13 @@ var Yacs = {
 				}
 			}
 		}
-		// behavior of buttons for tabs used as step by step form, if any    	
+		// behavior of buttons for tabs used as step by step form, if any
 		$("#tabs_panels .step").click(function() {
 		    // display tab associate with button
 		    Yacs.tabsDisplay($(this).data("target"));
 		    // smooth scroll to title (begin of form)
 		    $('#main_panel h1').scrollMinimal(true);
-		});		   		
+		});
 
 		// where are we?
 		if(window.location.hash.length > 1) {
@@ -1859,38 +1899,43 @@ var Yacs = {
 	 * update a modal box
 	 *
 	 * This is called internally by Yacs.displayModalBox()
-	 * 
+	 *
 	 * we have a job in several steps :
 	 * 1. update the content ;
 	 * 2. wait for the images to be loaded ;
 	 * 3. load and excecute js bound with the content, if any ;
 	 * 4. size the modal box to fit the content.
-	 * 
+	 *
 	 * steps are done by callbacks on this function with different parameters
 	 * 1: content = XHTML
 	 * 3: content = false, and callAfterDisplayModal function is defined
 	 * 4: content = true or no js to load in previous step
 	 *
-	 * @param mixed XHTML content of the box,  
+	 * @param mixed XHTML content of the box,
 	 * or flag false to load js if any, flag true to resize
 	 */
 	updateModalBox: function(content) {
-	    		
+
 		// first, update box content
 		if(content !== false && content !==true) {
 		    // actual content update
 		    $('#modal_content').html(content);
-		    
+
 		    // remove height limitation if it was set
 		    $('#modal_centered').css('bottom','');
 		    // free the box size
 		    $('#modal_content').css({width:'auto', height: 'auto'});
-		    
+
+		    // suscribe to resize event
+		    // @see displayModalBox
+		    // @see closeModalBox
+		    $( window ).on('resize', Yacs.startResizeModal);
+
 		    // recall itself when images are loaded, with "false" parameter
 		    imagesLoaded('#modal_content', function(){Yacs.updateModalBox(false);});
 		    return;
-		}						
-		
+		}
+
 		// callback after displaying, if defined
 		// for example to load javascript files
 		// @see Yacs.displayOverlaid()
@@ -1898,51 +1943,53 @@ var Yacs = {
 		    // this function should recall updateModalBox with "true" parameter
 		    (Yacs.callAfterDisplayModal)();
 		    return;
-		}				
-		
-		/* 
+		}
+
+		/*
 		 * images add additionnal loadings (js) done, do the sizing
 		 */
-		
+
 		// use variable to avoid multiple scan of the page by jquery
-		var $modal_centered = $('#modal_centered'); 
+		var $modal_centered = $('#modal_centered');
 		// get top and left of box'div
 		var pos_modal = $modal_centered.position();
-		
+
 		// adjust box size to needed width, but max is 80% of window width
 		var modal_width = $modal_centered.width();
 		var max_width = $(window).width()*.8
 		if(modal_width > max_width)
 		    modal_width = max_width;
-		
+
 		$('#modal_content').css({width: modal_width + 'px'});
-		
+
 		// center the box, depending of its height compared to window'height
-		if($modal_centered.outerHeight() < $(window).height()) {		    		    
+		if($modal_centered.outerHeight() < $(window).height()) {
 
 		    // center the box
 		    var yShift, xShift;
-		    var pos = $modal_centered.position();
 		    yShift = Math.floor((($(window).height() - $modal_centered.outerHeight()) / 2) - pos_modal.top);
 		    xShift = Math.floor((($(window).width() - $modal_centered.outerWidth()) / 2) - pos_modal.left);
 
 		    // update box position
 		    if((Math.abs(yShift) > 1) || (Math.abs(xShift) > 1)) {
 			    $modal_centered.animate({top: '+=' + yShift, left: '+=' + xShift}, 0.2);
-		    }		    		    
+		    }
+		    // lock the bottom
+		    var height_interval = Math.floor(($(window).height() - $modal_centered.outerHeight()) /2 );
+		    $modal_centered.css({bottom: height_interval+'px'});
 
-		} else {		    
-		    		
-		    // center horizontaly 
+		} else {
+
+		    // center horizontaly
 		    var xShift;
 		    xShift = Math.floor((($(window).width() - $modal_centered.outerWidth()) / 2) - pos_modal.left);
 		    if(Math.abs(xShift) < 1) xShift = 0;
 		    // update position and fit the box at top and bottom
 		    $modal_centered.animate({top:'5%',bottom:'5%',left: '+=' + xShift}, 0.2);
 		}
-		
+
 		// lock modal_content height, display the updated box
-		$('#modal_content').css({height: '100%', visibility:'visible'}).fadeTo(0.3, 1.0);						
+		$('#modal_content').css({height: '100%', visibility:'visible'}).fadeTo(0.3, 1.0);
 
 	},
 
@@ -1994,7 +2041,7 @@ var Yacs = {
 };
 
 // specific jquery extensions
-jQuery.fn.extend({        
+jQuery.fn.extend({
 
     /**
      * This function enable to bind single click and dblclick on same objects.
@@ -2045,13 +2092,13 @@ jQuery.fn.extend({
 	   });
 	});
     },
-    
+
     /**
      * scroll to a object to make sure it is visible
      * @see http://stackoverflow.com/questions/4217962/scroll-to-an-element-using-jquery
-     * 
+     *
      * @param boolean smooth to have a slow scroll;
-     */ 
+     */
     scrollMinimal:function(smooth) {
 	var cTop = this.offset().top;
 	var cHeight = this.outerHeight(true);
