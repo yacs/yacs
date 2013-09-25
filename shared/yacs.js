@@ -1892,15 +1892,32 @@ var Yacs = {
 		}						
 		
 		// callback after displaying, if defined
+		// for example to load javascript files
+		// @see Yacs.displayOverlaid()
 		if(typeof Yacs.callAfterDisplayModal == 'function' && content === false) {
 		    // this function should recall updateModalBox with "true" parameter
 		    (Yacs.callAfterDisplayModal)();
 		    return;
 		}				
 		
-		// loading of images and js done, and js executed, do the sizing
-		var $modal_centered = $('#modal_centered');
+		/* 
+		 * images add additionnal loadings (js) done, do the sizing
+		 */
+		
+		// use variable to avoid multiple scan of the page by jquery
+		var $modal_centered = $('#modal_centered'); 
+		// get top and left of box'div
 		var pos_modal = $modal_centered.position();
+		
+		// adjust box size to needed width, but max is 80% of window width
+		var modal_width = $modal_centered.width();
+		var max_width = $(window).width()*.8
+		if(modal_width > max_width)
+		    modal_width = max_width;
+		
+		$('#modal_content').css({width: modal_width + 'px'});
+		
+		// center the box, depending of its height compared to window'height
 		if($modal_centered.outerHeight() < $(window).height()) {		    		    
 
 		    // center the box
@@ -1912,28 +1929,20 @@ var Yacs = {
 		    // update box position
 		    if((Math.abs(yShift) > 1) || (Math.abs(xShift) > 1)) {
 			    $modal_centered.animate({top: '+=' + yShift, left: '+=' + xShift}, 0.2);
-		    }
+		    }		    		    
 
 		} else {		    
-		    
-		    // adjust box size to needed width, but max is 80% of window width
-		    var modal_width = $modal_centered.width();
-		    var max_width = $(window).width()*.8
-		    if(modal_width > max_width)
-			modal_width = max_width;
-			
-		    $('#modal_content').css({width: modal_width + 'px', height: '100%'});
-
-		    // center horizontaly
+		    		
+		    // center horizontaly 
 		    var xShift;
 		    xShift = Math.floor((($(window).width() - $modal_centered.outerWidth()) / 2) - pos_modal.left);
 		    if(Math.abs(xShift) < 1) xShift = 0;
+		    // update position and fit the box at top and bottom
 		    $modal_centered.animate({top:'5%',bottom:'5%',left: '+=' + xShift}, 0.2);
 		}
 		
-		// display the updated box
-		$('#modal_content').css('visibility', 'visible');
-		$('#modal_content').fadeTo(0.3, 1.0);
+		// lock modal_content height, display the updated box
+		$('#modal_content').css({height: '100%', visibility:'visible'}).fadeTo(0.3, 1.0);						
 
 	},
 
