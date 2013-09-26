@@ -22,7 +22,7 @@ class Layout_as_tree_manager extends Layout_interface {
      */
     private function btn_create() {
 	
-	$btn = '<a href="#" class="tm-cmd tm-create details" title="'.sprintf(i18n::s('Add a %s'),$this->listed_type).'">+</a>'."\n";	
+	$btn = '<a class="tm-cmd tm-create details" title="'.sprintf(i18n::s('Add a %s'),$this->listed_type).'">+</a>'."\n";	
 	
 	return $btn;
     }
@@ -32,7 +32,7 @@ class Layout_as_tree_manager extends Layout_interface {
      */
     private function btn_delete() {
 	
-	$btn = '<a href="#" class="tm-cmd tm-delete details" title="'.i18n::s('Delete').'">x</a>'."\n";	
+	$btn = '<a class="tm-cmd tm-delete details" title="'.i18n::s('Delete').'">x</a>'."\n";	
 	
 	return $btn;
     }
@@ -42,7 +42,7 @@ class Layout_as_tree_manager extends Layout_interface {
      */
     private function btn_rename() {
 	
-	$btn = '<a href="#" class="tm-cmd tm-rename details" title="'.i18n::s('Rename').'">r</a>'."\n";	
+	$btn = '<a class="tm-cmd tm-rename details" title="'.i18n::s('Rename').'">r</a>'."\n";	
 	
 	return $btn;	
     }
@@ -51,7 +51,7 @@ class Layout_as_tree_manager extends Layout_interface {
      * 
      */
     private function btn_pin() {
-	$btn = '<a href="#" class="tm-cmd tm-pin details" title="'.i18n::s('Pin').'">p</a>'."\n";	
+	$btn = '<a class="tm-cmd tm-pin details" title="'.i18n::s('Pin').'">p</a>'."\n";	
 	
 	return $btn;
     }
