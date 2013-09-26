@@ -1959,9 +1959,9 @@ var Yacs = {
 		// get top and left of box'div
 		var pos_modal = $modal_centered.position();
 
-		// adjust box size to needed width, but max is 80% of window width
+		// adjust box size to needed width, but max is 90% of window width
 		var modal_width = $modal_centered.width();
-		var max_width = $(window).width()*.8
+		var max_width = $(window).width()*.9
 		if(modal_width > max_width)
 		    modal_width = max_width;
 
