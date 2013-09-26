@@ -734,7 +734,7 @@ var Yacs = {
 	    for ( ; idx < length; idx++ ) {
 		
 		// skip if script already present in the page
-		if($('script[src=["'+resources[ idx ]+'"]').length)
+		if($('script[src="'+resources[ idx ]+'"]').length)
 		    continue;
 		
 		deferreds.push(
