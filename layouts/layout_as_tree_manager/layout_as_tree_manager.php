@@ -38,14 +38,13 @@ class Layout_as_tree_manager extends Layout_interface {
     }
     
     /**
-     * @return string the html code to build a "rename" button related to a folder
+     * 
      */
-    private function btn_rename() {
+    private function btn_edit() {
+	$btn = '<a class="tm-cmd tm-edit details" title="'.i18n::s('edit').'">e</a>'."\n";	
 	
-	$btn = '<a class="tm-cmd tm-rename details" title="'.i18n::s('Rename').'">r</a>'."\n";	
-	
-	return $btn;	
-    }
+	return $btn;
+    }       
     
     /**
      * 
@@ -55,6 +54,17 @@ class Layout_as_tree_manager extends Layout_interface {
 	
 	return $btn;
     }
+    
+    /**
+     * @return string the html code to build a "rename" button related to a folder
+     */
+    private function btn_rename() {
+	
+	$btn = '<a class="tm-cmd tm-rename details" title="'.i18n::s('Rename').'">r</a>'."\n";	
+	
+	return $btn;	
+    }
+    
     
     /**
      * the menu that apears when hovering a entry 
@@ -67,7 +77,7 @@ class Layout_as_tree_manager extends Layout_interface {
 	// determine how many cmds in menu
 	$matches = array();
 	if(preg_match_all('/tm-cmd/sm', $cmds, $matches))
-	    $style = ' style="width:'.((count($matches[0]))*13).'px"';
+	    $style = ' style="width:'.((count($matches[0]))*14).'px"';
 	
 	$menu = '<span class="tm-hovermenu"'.$style.'>'.$cmds.'</span>'."\n";
 	
@@ -78,6 +88,10 @@ class Layout_as_tree_manager extends Layout_interface {
     public function get_interactive_menu() {
 	
 	$cmd = $this->btn_create().$this->btn_rename().$this->btn_pin().$this->btn_delete();
+	
+	if($this->has_variant('cmd_edit'))
+	    $cmd = $this->btn_edit().$cmd;
+	
 	$cmd = $this->build_menu($cmd);
 	
 	return $cmd;

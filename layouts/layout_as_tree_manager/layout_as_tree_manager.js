@@ -262,13 +262,21 @@ var TreeManager = {
 	}
 
 	if(cmd.hasClass("tm-rename")) {
-	    var anchor = cmd.parent().prevAll(".tm-zoom").first(); // consider title associated with same entry	    
-	    TreeManager.inputRename(anchor);
+	    var name = cmd.parent().prevAll(".tm-zoom").first(); // consider title associated with same entry	    
+	    TreeManager.inputRename(name);
 	    return;
 	}
 	
 	if(cmd.hasClass("tm-pin")) {	   
 	    TreeManager.pinup(cmd);	  	    	
+	    return;
+	}
+	
+	if(cmd.hasClass('tm-edit')) {
+	    var link = cmd.parent().prevAll(".tm-zoom").first();
+	    var url = link.attr("href");
+	    url = url.replace('view','edit');
+	    Yacs.displayOverlaid(url, true, true);
 	    return;
 	}
 	
