@@ -158,7 +158,31 @@ if(Surfer::is_crawler()) {
 		$_REQUEST['active'] = $anchor->ceil_rights($_REQUEST['active_set']);
 	else
 		$_REQUEST['active'] = $_REQUEST['active_set'];
+	
+	
+	// overlay may have changed
+	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type']) {
 
+		// associates are allowed to change overlay types -- see overlays/select.php
+		if(!Surfer::is_associate() && isset($_REQUEST['id']))
+			unset($_REQUEST['overlay_type']);
+
+		// overlay type has not changed
+		elseif(is_object($overlay) && ($overlay->get_type() == $_REQUEST['overlay_type']))
+			unset($_REQUEST['overlay_type']);
+	}
+	
+	// new overlay type
+	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type']) {
+
+		// delete the previous version, if any
+		if(is_object($overlay) && isset($_REQUEST['id']))
+			$overlay->remember('delete', $_REQUEST, 'category:'.$_REQUEST['id']);
+
+		// new version of page overlay
+		$overlay = Overlay::bind($_REQUEST['overlay_type']);
+	}
+	
 
 	// when the page has been overlaid
 	if(is_object($overlay)) {
