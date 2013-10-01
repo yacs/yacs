@@ -87,6 +87,17 @@ if(Surfer::is_associate())
 else
 	$permitted = FALSE;
 
+
+// request may ask for overlaid content only
+if(isset($_REQUEST['overlaid']) && $_REQUEST['overlaid'] == 'Y') {
+    $whole_rendering = false;   
+    // warn also render_skin() for limited output
+    // @see shared/global.php
+    global $render_overlaid;
+    $render_overlaid = true;
+} else
+    $whole_rendering = true;
+
 // do not always show the edition form
 $with_form = FALSE;
 
@@ -942,28 +953,30 @@ if($with_form) {
 		);
 
 	// content of the help box
-	$help = '';
+	if($whole_rendering) {
+	    $help = '';
 
-	// html and codes
-	$help .= '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>';
+	    // html and codes
+	    $help .= '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>';
 
- 	// locate mandatory fields
- 	$help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
+	    // locate mandatory fields
+	    $help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
 
- 	// change to another editor
-	$help .= '<form action=""><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
-	$selected = '';
-	if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'tinymce'))
-		$selected = ' selected="selected"';
-	$help .= '<option value="tinymce"'.$selected.'>'.i18n::s('TinyMCE')."</option>\n";
-	$selected = '';
-	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'yacs'))
-		$selected = ' selected="selected"';
-	$help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
-	$help .= '</select></p></form>';
+	    // change to another editor
+	    $help .= '<form action=""><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
+	    $selected = '';
+	    if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'tinymce'))
+		    $selected = ' selected="selected"';
+	    $help .= '<option value="tinymce"'.$selected.'>'.i18n::s('TinyMCE')."</option>\n";
+	    $selected = '';
+	    if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'yacs'))
+		    $selected = ' selected="selected"';
+	    $help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
+	    $help .= '</select></p></form>';
 
-	// in a side box
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
+	    // in a side box
+	    $context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
+	}
 
 }
 
