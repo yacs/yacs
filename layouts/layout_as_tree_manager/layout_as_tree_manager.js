@@ -273,9 +273,17 @@ var TreeManager = {
 	}
 	
 	if(cmd.hasClass('tm-edit')) {
-	    var link = cmd.parent().prevAll(".tm-zoom").first();
-	    var url = link.attr("href");
-	    url = url.replace('view','edit');
+	    var anchor = cmd.parents(".tm-drop").first(); // consider only folders
+	    var ref = anchor.data("ref").split(":");	
+	
+	    if(ref[0]=='category')
+		url = 'categories/';
+	    else if(ref[0]=='section')
+		url = 'sections/';
+	    else
+		return; // bad ref
+	    
+	    url = url_to_root + url + 'edit.php/' + ref[1];
 	    Yacs.displayOverlaid(url, true, true);
 	    return;
 	}
