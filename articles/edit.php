@@ -430,9 +430,9 @@ if(Surfer::is_crawler()) {
 			$context['text'] .= '<p>'.i18n::s('The page has been successfully updated.').'</p>';
 
 			// display the updated page
-			if(!$recipients = Mailer::build_recipients('article:'.$item['id']))
+			if(!$recipients = Mailer::build_recipients('article:'.$item['id']) && !$render_overlaid)
 				Safe::redirect(Articles::get_permalink($item));
-
+						
 			// list persons that have been notified
 			$context['text'] .= $recipients;
 

@@ -583,10 +583,8 @@ var Yacs = {
 		// function will be called by Yacs.updateModalBox
 		Yacs.callAfterDisplayModal = function() {
 		    if(typeof scripts_to_load != 'undefined') {
-			// get all the scripts
-			$.ajaxSetup({cache: true});
-			Yacs.getScriptS(scripts_to_load, function() {
-			    $.ajaxSetup({cache: false});
+			// get all the scripts			
+			Yacs.getScriptS(scripts_to_load, function() {			    
 			    // execute all snipets (like a $.ready(...)  )
 			    if( typeof execute_after_loading == 'function')
 				(execute_after_loading)();
@@ -740,11 +738,11 @@ var Yacs = {
 		deferreds.push(
 		    $.getScript( resources[ idx ], handler )
 		);
-	    }
-
+	    }	    
+	    
 	    $.when.apply( null, deferreds ).then(function() {
-		
-		// memorize this load
+				
+		// memorize this loading
 		Yacs.loadedJs = Yacs.loadedJs.concat(resources);		
 		
 		callback && callback();
@@ -1266,15 +1264,15 @@ var Yacs = {
 	    }
 
 	    // trigger submission
-	    form.submit();
+	    //form.submit();
 	    Yacs.startWorking();
-
 
 	    /**
 	     * For ajax post, we have to consider intermediate screens
 	     * (like list of recipients alerted of the update)
+	     */
 	    // append a input to the form to tell this is a ajax post
-	    $('<input name="ajax_request" value="Y" />').appendTo(form);
+	    $('<input type="hidden" name="overlaid" value="Y" />').appendTo(form);
 
 	    // we are ok, send a ajax request
 	    $.ajax({
@@ -1282,12 +1280,12 @@ var Yacs = {
 		type:form.attr('method'),
 		data:form.serialize()
 	    }).done(function(html){
-		var html = $(html);
+		// var html = $(html);
 		// replace content element
-		$('h1').replaceWith(html.find('h1'));
-
-	    });
-	    */
+		// $('h1').replaceWith(html.find('h1'));
+		// Yacs.stopWorking();
+		window.location.reload();
+	    });	   
 
 	},
 
