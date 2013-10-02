@@ -1353,7 +1353,7 @@ function render_skin($with_last_modified=TRUE) {
 
 	// activate jscolor, if available
 	if(isset($context['javascript']['jscolor']))
-		Page::load_script('included/jscolor/jscolor.js');
+		Page::defer_script('included/jscolor/jscolor.js');
 
 	// activate SIMILE timeline, if required
 	if(isset($context['javascript']['timeline']))
