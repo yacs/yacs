@@ -354,13 +354,25 @@ Class Js_Css {
 	
 	array_shift($scripts); // remove matches[0] with all pattern
 		
-	// parse array and look for declarations
-	/* @TODO : isolate function declaration : #(function\ [a-zA-Z]+\ ?\([a-zA-Z0-9_,$\-\ ]*\)\ ?(\{ ( (?>[^{}]+) | (?-2) )* \}))#simx */
+	// parse array and look for function declarations	
 	$declare_only = array();
-	for($i = 0; $i < count($scripts); $i++) {
-	    if(preg_match('/^( ?function| ?var).*?/',$scripts[0][$i])) {
-		$declare_only[] =  $scripts[0][$i];
-		unset($scripts[0][$i]);
+	for($i = 0; $i < count($scripts[0]); $i++) {
+
+	    $matches = array();
+	    if(preg_match_all('/(function\ [a-zA-Z_]+\ ?\([a-zA-Z0-9_,$\-\ ]*\)\ ?(\{ ( (?>[^{}]+) | (?-2) )* \}) )/simx'
+		    , $scripts[0][$i], $matches)) {
+		
+		// consider matches for the whole pattern
+		foreach($matches[0] as $match) {
+		    // store them
+		    $declare_only[] = $match;
+		    // remove this part of the script
+		    $scripts[0][$i] = str_replace($match, '', $scripts[0][$i]);
+		}
+				
+		// unset if void
+		if(!trim($scripts[0][$i]))
+		    unset ($scripts[0][$i]);
 	    }
 	}
 	
