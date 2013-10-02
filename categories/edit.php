@@ -105,13 +105,15 @@ $with_form = FALSE;
 load_skin('categories');
 
 // the path to this page
-if(is_object($anchor)&& $anchor->is_viewable())
-	$context['path_bar'] = $anchor->get_path_bar();
-else
-	$context['path_bar'] = array( 'categories/' => i18n::s('Categories') );
+if($whole_rendering) {
+    if(is_object($anchor)&& $anchor->is_viewable())
+	    $context['path_bar'] = $anchor->get_path_bar();
+    else
+	    $context['path_bar'] = array( 'categories/' => i18n::s('Categories') );
 
-if(isset($item['id']) && isset($item['title']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Categories::get_permalink($item) => $item['title']));
+    if(isset($item['id']) && isset($item['title']))
+	    $context['path_bar'] = array_merge($context['path_bar'], array(Categories::get_permalink($item) => $item['title']));
+}
 
 // the title of the page
 if(isset($item['title']))
@@ -229,8 +231,9 @@ if(Surfer::is_crawler()) {
 
 		// clear cache
 		Categories::clear($_REQUEST);
-
-		Safe::redirect(Categories::get_permalink($item));
+		
+		if(!$render_overlaid)
+		    Safe::redirect(Categories::get_permalink($item));
 	}
 
 // post a new category
