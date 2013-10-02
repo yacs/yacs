@@ -733,9 +733,9 @@ var Yacs = {
 
 	    for ( ; idx < length; idx++ ) {
 		
-		// skip if script already present in the page
-		if($('script[src="'+resources[ idx ]+'"]').length)
-		    continue;
+		// skip if script already present in the page		
+		if(Yacs.loadedJs.indexOf(resources[ idx ]) > -1 )
+		    continue;				
 		
 		deferreds.push(
 		    $.getScript( resources[ idx ], handler )
@@ -743,6 +743,10 @@ var Yacs = {
 	    }
 
 	    $.when.apply( null, deferreds ).then(function() {
+		
+		// memorize this load
+		Yacs.loadedJs = Yacs.loadedJs.concat(resources);		
+		
 		callback && callback();
 	    });
 	},
@@ -1012,6 +1016,13 @@ var Yacs = {
 
 		// back to normal rate on focus
 		$(window).focus(Yacs.getFocus);
+		
+		// store loaded scripts names in a list
+		Yacs.loadedJs = new Array();
+		var loaded_scripts = $('script[src]');
+		$.each(loaded_scripts, function() {
+		    Yacs.loadedJs.push($(this).attr('src'));
+		});
 
 		// check for asynchronous notifications
 		setTimeout(Yacs.subscribe, 40000);
