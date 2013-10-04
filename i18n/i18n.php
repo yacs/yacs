@@ -911,9 +911,15 @@ Class i18n {
 		// yacs should not adapt to surfer language
 		if(isset($context['without_language_detection']) && ($context['without_language_detection'] == 'Y'))
 			;
+		
+		// language is imposed by request
+		elseif(isset($_REQUEST['lang'])) {
+			$context['language'] = $_REQUEST['lang']; 
+			// remember this over the session
+			$_SESSION['surfer_language'] = $context['language'];
 
 		// else user may have set language preference from his profile
-		elseif(isset($_SESSION['surfer_language']) && trim($_SESSION['surfer_language']) && ($_SESSION['surfer_language'] != 'none')) {
+		} elseif(isset($_SESSION['surfer_language']) && trim($_SESSION['surfer_language']) && ($_SESSION['surfer_language'] != 'none')) {
 			$context['language'] = $_SESSION['surfer_language'];
 
 		// else guess surfer language
