@@ -31,7 +31,7 @@ $files[] = 'i18n/locale/fr/users.mo';
 $files[] = 'included/browser/js_endpage/jquery.tipsy.js';
 $files[] = 'included/browser/library_js_endpage.min.js';
 $files[] = 'included/browser/library_js_header.min.js';
-$files[] = 'shared/yacs.js'
+$files[] = 'shared/yacs.js';
 
 // process every file
 $count = 0;
