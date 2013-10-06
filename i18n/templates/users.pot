@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-20 18:26+0200\n"
+"POT-Creation-Date: 2013-10-06 09:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,7 +48,7 @@ msgstr ""
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
-#: users/configure.php:144 users/configure.php:523 users/configure.php:641
+#: users/configure.php:144 users/configure.php:527 users/configure.php:645
 #: users/login.php:391
 msgid "Control Panel"
 msgstr ""
@@ -65,7 +65,7 @@ msgstr ""
 msgid "Configure"
 msgstr ""
 
-#: users/configure.php:147 users/configure.php:526 users/configure.php:640
+#: users/configure.php:147 users/configure.php:530 users/configure.php:644
 #: users/delete.php:65 users/describe.php:92 users/edit.php:128
 #: users/element.php:94 users/feed.php:78 users/fetch_vcard.php:76
 #: users/index.php:84 users/leave.php:42 users/login.php:406 users/mail.php:61
@@ -76,7 +76,7 @@ msgstr ""
 msgid "People"
 msgstr ""
 
-#: users/configure.php:174 users/configure.php:504
+#: users/configure.php:174 users/configure.php:508
 msgid "Registration"
 msgstr ""
 
@@ -162,7 +162,7 @@ msgstr ""
 msgid "Only associates can delete user profiles."
 msgstr ""
 
-#: users/configure.php:256 users/configure.php:505
+#: users/configure.php:256 users/configure.php:509
 msgid "Authentication"
 msgstr ""
 
@@ -229,232 +229,238 @@ msgid ""
 "afterwards (intranet site)."
 msgstr ""
 
-#: users/configure.php:327
+#: users/configure.php:325
+msgid ""
+"Let members decide for themselves to stay connected or not (checkbox on "
+"login form)."
+msgstr ""
+
+#: users/configure.php:331
 msgid "Trusted hosts"
 msgstr ""
 
-#: users/configure.php:329
+#: users/configure.php:333
 msgid ""
 "Private content will be exposed to requests coming from these network "
 "addresses"
 msgstr ""
 
-#: users/configure.php:342
+#: users/configure.php:346
 msgid "Pictures"
 msgstr ""
 
-#: users/configure.php:346
+#: users/configure.php:350
 msgid "Display the same picture for every person profile."
 msgstr ""
 
-#: users/configure.php:350
+#: users/configure.php:354
 msgid "Display individual pictures."
 msgstr ""
 
-#: users/configure.php:354
+#: users/configure.php:358
 msgid "Spam"
 msgstr ""
 
-#: users/configure.php:358
+#: users/configure.php:362
 msgid "Protect mail addresses as much as possible (for Internet servers)."
 msgstr ""
 
-#: users/configure.php:362
+#: users/configure.php:366
 msgid "Show email addresses to authenticated persons."
 msgstr ""
 
-#: users/configure.php:366
+#: users/configure.php:370
 msgid "Share email addresses as much as possible (for intranet servers)."
 msgstr ""
 
-#: users/configure.php:370
+#: users/configure.php:374
 msgid "Threads"
 msgstr ""
 
-#: users/configure.php:374
+#: users/configure.php:378
 msgid "Support on-demand interactions between people with private pages."
 msgstr ""
 
-#: users/configure.php:378
+#: users/configure.php:382
 msgid "Prevent members from creating new threads."
 msgstr ""
 
-#: users/configure.php:384
+#: users/configure.php:388
 msgid "Groups"
 msgstr ""
 
-#: users/configure.php:385
+#: users/configure.php:389
 #, php-format
 msgid "Each member may create up to %s groups and blogs."
 msgstr ""
 
-#: users/configure.php:389
+#: users/configure.php:393
 msgid "Teasers"
 msgstr ""
 
-#: users/configure.php:393
+#: users/configure.php:397
 msgid ""
 "Anonymous surfers can see titles and teasers of pages with restricted "
 "access. They can move forward after authentication."
 msgstr ""
 
-#: users/configure.php:397
+#: users/configure.php:401
 msgid "Nothing from restricted content is disclosed to non-members."
 msgstr ""
 
-#: users/configure.php:401
+#: users/configure.php:405
 msgid "Archiving"
 msgstr ""
 
-#: users/configure.php:405
+#: users/configure.php:409
 msgid ""
 "Published pages are automatically assigned to weekly and monthly categories."
 msgstr ""
 
-#: users/configure.php:409
+#: users/configure.php:413
 msgid "Automatic archiving is disabled."
 msgstr ""
 
-#: users/configure.php:422
+#: users/configure.php:426
 msgid "Allowed Tags"
 msgstr ""
 
-#: users/configure.php:424
+#: users/configure.php:428
 msgid "List HTML tags allowed to members."
 msgstr ""
 
-#: users/configure.php:428
+#: users/configure.php:432
 msgid "Submissions"
 msgstr ""
 
-#: users/configure.php:432
+#: users/configure.php:436
 msgid "Authenticated members are allowed to submit new content."
 msgstr ""
 
-#: users/configure.php:436
+#: users/configure.php:440
 msgid "Only associates are allowed to add content."
 msgstr ""
 
-#: users/configure.php:440
+#: users/configure.php:444
 msgid "Publications"
 msgstr ""
 
-#: users/configure.php:444
+#: users/configure.php:448
 msgid ""
 "Members submit articles and associates publish them (review mode), except in "
 "sections configured with option <code>auto_publish</code>."
 msgstr ""
 
-#: users/configure.php:448
+#: users/configure.php:452
 msgid "Every post is published (Wiki mode)."
 msgstr ""
 
-#: users/configure.php:452
+#: users/configure.php:456
 msgid "Uploads"
 msgstr ""
 
-#: users/configure.php:454
+#: users/configure.php:458
 msgid "The PHP run-time configuration does not allow for any upload."
 msgstr ""
 
-#: users/configure.php:460
+#: users/configure.php:464
 msgid "Authenticated persons are allowed to post images and files."
 msgstr ""
 
-#: users/configure.php:464
+#: users/configure.php:468
 msgid "Only associates are allowed to post images and files."
 msgstr ""
 
-#: users/configure.php:468
+#: users/configure.php:472
 msgid "No upload is accepted."
 msgstr ""
 
-#: users/configure.php:473 users/edit.php:740 users/print.php:160
+#: users/configure.php:477 users/edit.php:740 users/print.php:160
 #: users/view.php:717
 msgid "Files"
 msgstr ""
 
-#: users/configure.php:477
+#: users/configure.php:481
 msgid "Any member can update files posted by others."
 msgstr ""
 
-#: users/configure.php:481
+#: users/configure.php:485
 msgid ""
 "Files can be modified only by their original authors, plus associates and "
 "owners."
 msgstr ""
 
-#: users/configure.php:485
+#: users/configure.php:489
 msgid "Comments"
 msgstr ""
 
-#: users/configure.php:489
+#: users/configure.php:493
 msgid "Only authenticated surfers can send comments."
 msgstr ""
 
-#: users/configure.php:493
+#: users/configure.php:497
 msgid "Allow anonymous surfers to post comments."
 msgstr ""
 
-#: users/configure.php:506
+#: users/configure.php:510
 msgid "Content"
 msgstr ""
 
-#: users/configure.php:507
+#: users/configure.php:511
 msgid "Submission"
 msgstr ""
 
-#: users/configure.php:519 users/edit.php:779 users/mail.php:227
+#: users/configure.php:523 users/edit.php:779 users/mail.php:227
 #: users/password.php:256 users/select_avatar.php:126 users/select.php:271
 msgid "Submit"
 msgstr ""
 
-#: users/configure.php:519 users/edit.php:779 users/mail.php:227
+#: users/configure.php:523 users/edit.php:779 users/mail.php:227
 #: users/password.php:256 users/select_avatar.php:126
 msgid "Press [s] to submit data"
 msgstr ""
 
-#: users/configure.php:537 users/delete.php:83 users/mail.php:108
+#: users/configure.php:541 users/delete.php:83 users/mail.php:108
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr ""
 
-#: users/configure.php:545
+#: users/configure.php:549
 msgid "All user profiles have been updated."
 msgstr ""
 
-#: users/configure.php:615
+#: users/configure.php:619
 #, php-format
 msgid ""
 "ERROR: Impossible to write to the file %s. The configuration has not been "
 "saved."
 msgstr ""
 
-#: users/configure.php:618
+#: users/configure.php:622
 #, php-format
 msgid ""
 "To actually change the configuration, please copy and paste following lines "
 "by yourself in file %s."
 msgstr ""
 
-#: users/configure.php:623
+#: users/configure.php:627
 #, php-format
 msgid "The following configuration has been saved into the file %s."
 msgstr ""
 
-#: users/configure.php:629
+#: users/configure.php:633
 #, php-format
 msgid "%s has been updated"
 msgstr ""
 
-#: users/configure.php:635
+#: users/configure.php:639
 msgid "Configuration parameters"
 msgstr ""
 
-#: users/configure.php:638 users/login.php:381 users/validate.php:74
+#: users/configure.php:642 users/login.php:381 users/validate.php:74
 msgid "Where do you want to go now?"
 msgstr ""
 
-#: users/configure.php:642
+#: users/configure.php:646
 msgid "Configure again"
 msgstr ""
 
@@ -516,7 +522,7 @@ msgid "Please prove you are not a robot."
 msgstr ""
 
 #: users/edit.php:280 users/login.php:227 users/login.php:319
-#: users/users.php:1711
+#: users/users.php:1715
 msgid "Welcome!"
 msgstr ""
 
@@ -962,12 +968,12 @@ msgstr ""
 msgid "Mandatory fields are marked with a *"
 msgstr ""
 
-#: users/edit.php:889 users/login.php:554 users/search.php:158
+#: users/edit.php:889 users/login.php:556 users/search.php:158
 #: users/select.php:553 users/select.php:562
 msgid "Help"
 msgstr ""
 
-#: users/element.php:105 users/users.php:331 users/users.php:1778
+#: users/element.php:105 users/users.php:331 users/users.php:1782
 msgid "No item has the provided id."
 msgstr ""
 
@@ -1300,49 +1306,49 @@ msgstr ""
 msgid "Your nick name, or e-mail address"
 msgstr ""
 
-#: users/login.php:470
+#: users/login.php:471
 msgid "Stay connected"
 msgstr ""
 
-#: users/login.php:478 users/password.php:140
+#: users/login.php:480 users/password.php:140
 msgid "Login"
 msgstr ""
 
-#: users/login.php:481 users/password.php:58 users/password.php:78
+#: users/login.php:483 users/password.php:58 users/password.php:78
 msgid "Lost password"
 msgstr ""
 
-#: users/login.php:508
+#: users/login.php:510
 msgid "Create your profile"
 msgstr ""
 
-#: users/login.php:508
+#: users/login.php:510
 #, php-format
 msgid "%s if you have not yet a profile for yourself at %s."
 msgstr ""
 
-#: users/login.php:508
+#: users/login.php:510
 msgid "Click here to register"
 msgstr ""
 
-#: users/login.php:524
+#: users/login.php:526
 msgid "You must provide a nick name or an email address."
 msgstr ""
 
-#: users/login.php:545 users/login.php:552
+#: users/login.php:547 users/login.php:554
 msgid ""
 "Your browser must accept cookies in order to successfully register and log "
 "in."
 msgstr ""
 
-#: users/login.php:553
+#: users/login.php:555
 #, php-format
 msgid ""
 "If you already are a registered member, but do not remember your username "
 "and/or password, %s."
 msgstr ""
 
-#: users/login.php:553
+#: users/login.php:555
 msgid "click here"
 msgstr ""
 
@@ -1427,39 +1433,39 @@ msgstr ""
 msgid "From %s:"
 msgstr ""
 
-#: users/password.php:106 users/users.php:1708 users/users.php:1949
+#: users/password.php:106 users/users.php:1712 users/users.php:1953
 #, php-format
 msgid "Your account at %s"
 msgstr ""
 
-#: users/password.php:109 users/users.php:1712
+#: users/password.php:109 users/users.php:1716
 #, php-format
 msgid "This message relates to your account at %s."
 msgstr ""
 
-#: users/password.php:113 users/users.php:1716 users/users.php:1954
+#: users/password.php:113 users/users.php:1720 users/users.php:1958
 #, php-format
 msgid "Your nick name is %s"
 msgstr ""
 
-#: users/password.php:117 users/users.php:1721
+#: users/password.php:117 users/users.php:1725
 msgid ""
 "Record this message and use the following link to authenticate to the site "
 "at any time:"
 msgstr ""
 
-#: users/password.php:121 users/users.php:1725
+#: users/password.php:121 users/users.php:1729
 msgid ""
 "Caution: This hyperlink contains your login credentials encrypted. Please be "
 "aware anyone who uses this link will have full access to your account."
 msgstr ""
 
-#: users/password.php:124 users/users.php:1737 users/users.php:1956
+#: users/password.php:124 users/users.php:1741 users/users.php:1960
 #, php-format
 msgid "On-line help is available at %s"
 msgstr ""
 
-#: users/password.php:126 users/users.php:1739 users/users.php:1958
+#: users/password.php:126 users/users.php:1743 users/users.php:1962
 #, php-format
 msgid "Thank you for your interest into %s."
 msgstr ""
@@ -1909,84 +1915,84 @@ msgstr ""
 msgid "Location %d of %d"
 msgstr ""
 
-#: users/users.php:456
+#: users/users.php:460
 #, php-format
 msgid "Click to call %s"
 msgstr ""
 
-#: users/users.php:460
+#: users/users.php:464
 msgid "Calling..."
 msgstr ""
 
-#: users/users.php:463
+#: users/users.php:467
 msgid "Stop the call"
 msgstr ""
 
-#: users/users.php:466
+#: users/users.php:470
 msgid "Stopping the call..."
 msgstr ""
 
-#: users/users.php:478
+#: users/users.php:482
 msgid "Your phone number in international format, starting with country code"
 msgstr ""
 
-#: users/users.php:594
+#: users/users.php:598
 msgid "(unknown)"
 msgstr ""
 
-#: users/users.php:1247
+#: users/users.php:1251
 msgid "lrp has logged in"
 msgstr ""
 
-#: users/users.php:1247
+#: users/users.php:1251
 msgid "Login using the last resort password"
 msgstr ""
 
-#: users/users.php:1274 users/users.php:1334
+#: users/users.php:1278 users/users.php:1338
 msgid "Wait for one hour to recover from too many failed authentications."
 msgstr ""
 
-#: users/users.php:1307
+#: users/users.php:1311
 msgid "Authenticated externally."
 msgstr ""
 
-#: users/users.php:1336
+#: users/users.php:1340
 msgid "You have 1 grace authentication attempt."
 msgstr ""
 
-#: users/users.php:1345
+#: users/users.php:1349
 msgid "You have 2 grace authentication attempts."
 msgstr ""
 
-#: users/users.php:1497 users/users.php:1802
+#: users/users.php:1501 users/users.php:1806
 msgid "Please indicate a nick name."
 msgstr ""
 
-#: users/users.php:1516 users/users.php:1811
+#: users/users.php:1520 users/users.php:1815
 msgid ""
 "Another member already has this nick name. Please select a different one."
 msgstr ""
 
-#: users/users.php:1526
+#: users/users.php:1530
 msgid "Please indicate a password."
 msgstr ""
 
-#: users/users.php:1729
+#: users/users.php:1733
 msgid "Click on the link below to activate your new account."
 msgstr ""
 
-#: users/users.php:1790
+#: users/users.php:1794
 msgid "New password has to be confirmed."
 msgstr ""
 
-#: users/users.php:1952
+#: users/users.php:1956
 #, php-format
 msgid ""
 "This message has been automatically sent to you to confirm a change of your "
 "profile at %s."
 msgstr ""
 
-#: users/users.php:1955
+#: users/users.php:1959
 #, php-format
 msgid "Authenticate with password %s"
 msgstr ""
