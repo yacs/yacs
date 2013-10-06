@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-19 17:24+0200\n"
+"POT-Creation-Date: 2013-10-06 09:03+0200\n"
 "PO-Revision-Date: 2012-11-20 23:54+0100\n"
 "Last-Translator: Bernard Paques <bernard.paques@gmail.com>\n"
 "Language-Team: Bernard Paques\n"
@@ -32,7 +32,7 @@ msgstr "monthly"
 msgid "-- Root level"
 msgstr "-- Root level"
 
-#: categories/categories.php:631 categories/edit.php:722
+#: categories/categories.php:631 categories/edit.php:746
 msgid "featured"
 msgstr "featured"
 
@@ -215,7 +215,7 @@ msgstr "The action has not been confirmed."
 msgid "Yes, I want to delete this category"
 msgstr "Yes, I want to delete this category"
 
-#: categories/delete.php:114 categories/edit.php:885 categories/mail.php:190
+#: categories/delete.php:114 categories/edit.php:909 categories/mail.php:190
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -243,201 +243,201 @@ msgstr "path"
 msgid "Edit: %s"
 msgstr "Edit: %s"
 
-#: categories/edit.php:243
+#: categories/edit.php:267
 msgid "Thank you for your contribution"
 msgstr "Thank you for your contribution"
 
-#: categories/edit.php:245
+#: categories/edit.php:269
 msgid "Please review the new page carefully and fix possible errors rapidly."
 msgstr "Please review the new page carefully and fix possible errors rapidly."
 
-#: categories/edit.php:251
+#: categories/edit.php:275
 msgid "What do you want to do now?"
 msgstr "What do you want to do now?"
 
-#: categories/edit.php:253 categories/layout_categories_as_yahoo.php:166
+#: categories/edit.php:277 categories/layout_categories_as_yahoo.php:166
 #: categories/layout_categories_as_yahoo.php:180 categories/mail.php:120
 msgid "View the category"
 msgstr "View the category"
 
-#: categories/edit.php:255 categories/edit.php:566 categories/edit.php:607
-#: categories/edit.php:701 categories/view.php:900
+#: categories/edit.php:279 categories/edit.php:590 categories/edit.php:631
+#: categories/edit.php:725 categories/view.php:900
 msgid "Add an image"
 msgstr "Add an image"
 
-#: categories/edit.php:257 categories/edit.php:618 categories/view.php:598
+#: categories/edit.php:281 categories/edit.php:642 categories/view.php:598
 #: categories/view.php:906
 msgid "Add a file"
 msgstr "Add a file"
 
-#: categories/edit.php:259 categories/view.php:695 categories/view.php:918
+#: categories/edit.php:283 categories/view.php:695 categories/view.php:918
 msgid "Add a link"
 msgstr "Add a link"
 
-#: categories/edit.php:287
+#: categories/edit.php:311
 msgid "Title"
 msgstr "Title"
 
-#: categories/edit.php:289 categories/edit.php:918 categories/mail.php:208
+#: categories/edit.php:313 categories/edit.php:942 categories/mail.php:208
 msgid "Please provide a meaningful title."
 msgstr "Please provide a meaningful title."
 
-#: categories/edit.php:293
+#: categories/edit.php:317
 msgid "Introduction"
 msgstr "Introduction"
 
-#: categories/edit.php:295
+#: categories/edit.php:319
 msgid "Appears in list of categories near the title"
 msgstr "Appears in list of categories near the title"
 
-#: categories/edit.php:310
+#: categories/edit.php:334
 msgid "Description"
 msgstr "Description"
 
-#: categories/edit.php:319 categories/edit.php:383 categories/edit.php:447
-#: categories/edit.php:480
+#: categories/edit.php:343 categories/edit.php:407 categories/edit.php:471
+#: categories/edit.php:504
 msgid "Layout"
 msgstr "Layout"
 
-#: categories/edit.php:331 categories/edit.php:395 categories/edit.php:459
-#: categories/edit.php:494
+#: categories/edit.php:355 categories/edit.php:419 categories/edit.php:483
+#: categories/edit.php:518
 msgid "decorated - A list decorated with images"
 msgstr "decorated - A list decorated with images"
 
-#: categories/edit.php:335 categories/edit.php:403
+#: categories/edit.php:359 categories/edit.php:427
 msgid "slashdot - List most recent pages equally"
 msgstr "slashdot - List most recent pages equally"
 
-#: categories/edit.php:339 categories/edit.php:407
+#: categories/edit.php:363 categories/edit.php:431
 msgid "map - Map in two columns, like Yahoo!"
 msgstr "map - Map in two columns, like Yahoo!"
 
-#: categories/edit.php:343
+#: categories/edit.php:367
 msgid "freemind - Build an interactive mind map"
 msgstr "freemind - Build an interactive mind map"
 
-#: categories/edit.php:347
+#: categories/edit.php:371
 msgid "jive - List 5 threads per board"
 msgstr "jive - List 5 threads per board"
 
-#: categories/edit.php:351
+#: categories/edit.php:375
 msgid "yabb - A discussion forum"
 msgstr "yabb - A discussion forum"
 
-#: categories/edit.php:355
+#: categories/edit.php:379
 msgid "inline - List sections and related pages"
 msgstr "inline - List sections and related pages"
 
-#: categories/edit.php:359
+#: categories/edit.php:383
 msgid "folded - One folded box per section, with content"
 msgstr "folded - One folded box per section, with content"
 
-#: categories/edit.php:363 categories/edit.php:431 categories/edit.php:463
-#: categories/edit.php:509
+#: categories/edit.php:387 categories/edit.php:455 categories/edit.php:487
+#: categories/edit.php:533
 msgid "compact - A compact list"
 msgstr "compact - A compact list"
 
-#: categories/edit.php:367
+#: categories/edit.php:391
 msgid "titles - Use only titles and thumbnails"
 msgstr "titles - Use only titles and thumbnails"
 
-#: categories/edit.php:371 categories/edit.php:435 categories/edit.php:467
-#: categories/edit.php:519
+#: categories/edit.php:395 categories/edit.php:459 categories/edit.php:491
+#: categories/edit.php:543
 #, php-format
 msgid "Use the customized layout %s"
 msgstr "Use the customized layout %s"
 
-#: categories/edit.php:375
+#: categories/edit.php:399
 msgid "Do not list sections"
 msgstr "Do not list sections"
 
-#: categories/edit.php:379 categories/view.php:488
+#: categories/edit.php:403 categories/view.php:488
 msgid "Sections"
 msgstr "Sections"
 
-#: categories/edit.php:399
+#: categories/edit.php:423
 msgid "digg - To order pages by rating"
 msgstr "digg - To order pages by rating"
 
-#: categories/edit.php:411
+#: categories/edit.php:435
 msgid "table - A table of recent pages"
 msgstr "table - A table of recent pages"
 
-#: categories/edit.php:415
+#: categories/edit.php:439
 msgid "daily - A list of stamped pages (blog)"
 msgstr "daily - A list of stamped pages (blog)"
 
-#: categories/edit.php:419
+#: categories/edit.php:443
 msgid "jive - Display most of articles content"
 msgstr "jive - Display most of articles content"
 
-#: categories/edit.php:423
+#: categories/edit.php:447
 msgid "yabb - A discussion board"
 msgstr "yabb - A discussion board"
 
-#: categories/edit.php:427
+#: categories/edit.php:451
 msgid "alistapart - Display entirely the last published page"
 msgstr "alistapart - Display entirely the last published page"
 
-#: categories/edit.php:439
+#: categories/edit.php:463
 msgid "Do not list pages"
 msgstr "Do not list pages"
 
-#: categories/edit.php:443 categories/print.php:130 categories/view.php:559
+#: categories/edit.php:467 categories/print.php:130 categories/view.php:559
 msgid "Pages"
 msgstr "Pages"
 
-#: categories/edit.php:471
+#: categories/edit.php:495
 msgid "Do not list persons"
 msgstr "Do not list persons"
 
-#: categories/edit.php:475 categories/view.php:855
+#: categories/edit.php:499 categories/view.php:855
 msgid "Persons"
 msgstr "Persons"
 
-#: categories/edit.php:483
+#: categories/edit.php:507
 #, php-format
 msgid "List up to %s sub-categories with the following layout:"
 msgstr "List up to %s sub-categories with the following layout:"
 
-#: categories/edit.php:499
+#: categories/edit.php:523
 msgid "yahoo - List these categories on two columns, like Yahoo!"
 msgstr "yahoo - List these categories on two columns, like Yahoo!"
 
-#: categories/edit.php:504
+#: categories/edit.php:528
 msgid "inline - List categories and related pages"
 msgstr "inline - List categories and related pages"
 
-#: categories/edit.php:514
+#: categories/edit.php:538
 msgid "clouds - List sub-categories as clouds."
 msgstr "clouds - List sub-categories as clouds."
 
-#: categories/edit.php:523
+#: categories/edit.php:547
 msgid "Do not list categories"
 msgstr "Do not list categories"
 
-#: categories/edit.php:527
+#: categories/edit.php:551
 msgid "Category overlay"
 msgstr "Category overlay"
 
-#: categories/edit.php:529
+#: categories/edit.php:553
 #, php-format
 msgid "Script used to %s this category"
 msgstr "Script used to %s this category"
 
-#: categories/edit.php:529
+#: categories/edit.php:553
 msgid "overlay"
 msgstr "overlay"
 
-#: categories/edit.php:545
+#: categories/edit.php:569
 msgid "Sub-categories"
 msgstr "Sub-categories"
 
-#: categories/edit.php:549
+#: categories/edit.php:573
 msgid "Trailer"
 msgstr "Trailer"
 
-#: categories/edit.php:551
+#: categories/edit.php:575
 msgid ""
 "Text to be appended at the bottom of the page, after all other elements "
 "attached to this page."
@@ -445,23 +445,23 @@ msgstr ""
 "Text to be appended at the bottom of the page, after all other elements "
 "attached to this page."
 
-#: categories/edit.php:556
+#: categories/edit.php:580
 msgid "Image"
 msgstr "Image"
 
-#: categories/edit.php:563 categories/edit.php:698
+#: categories/edit.php:587 categories/edit.php:722
 msgid "Change"
 msgstr "Change"
 
-#: categories/edit.php:565
+#: categories/edit.php:589
 msgid "Image to be displayed in the panel aside the page."
 msgstr "Image to be displayed in the panel aside the page."
 
-#: categories/edit.php:579
+#: categories/edit.php:603
 msgid "Extra"
 msgstr "Extra"
 
-#: categories/edit.php:581
+#: categories/edit.php:605
 msgid ""
 "Text to be inserted in the panel aside the page. Use [box.extra=title]content"
 "[/box] or plain HTML."
@@ -469,63 +469,63 @@ msgstr ""
 "Text to be inserted in the panel aside the page. Use [box.extra=title]content"
 "[/box] or plain HTML."
 
-#: categories/edit.php:585
+#: categories/edit.php:609
 msgid "More content"
 msgstr "More content"
 
-#: categories/edit.php:590
+#: categories/edit.php:614
 msgid "Index page"
 msgstr "Index page"
 
-#: categories/edit.php:599
+#: categories/edit.php:623
 msgid "Submit the new item, and you will be able to add resources afterwards."
 msgstr "Submit the new item, and you will be able to add resources afterwards."
 
-#: categories/edit.php:613
+#: categories/edit.php:637
 msgid "Images"
 msgstr "Images"
 
-#: categories/edit.php:624 categories/print.php:147 categories/view.php:607
+#: categories/edit.php:648 categories/print.php:147 categories/view.php:607
 msgid "Files"
 msgstr "Files"
 
-#: categories/edit.php:630
+#: categories/edit.php:654
 msgid "Resources"
 msgstr "Resources"
 
-#: categories/edit.php:638
+#: categories/edit.php:662
 msgid "Access"
 msgstr "Access"
 
-#: categories/edit.php:654
+#: categories/edit.php:678
 msgid "Rank"
 msgstr "Rank"
 
-#: categories/edit.php:656
+#: categories/edit.php:680
 msgid "Regular categories are ranked at 10000."
 msgstr "Regular categories are ranked at 10000."
 
-#: categories/edit.php:660
+#: categories/edit.php:684
 msgid "Expiry date"
 msgstr "Expiry date"
 
-#: categories/edit.php:668
+#: categories/edit.php:692
 msgid "Remove content on dead-line - automatically"
 msgstr "Remove content on dead-line - automatically"
 
-#: categories/edit.php:673
+#: categories/edit.php:697
 msgid "Parent category"
 msgstr "Parent category"
 
-#: categories/edit.php:683
+#: categories/edit.php:707
 msgid "Please carefully select a parent category."
 msgstr "Please carefully select a parent category."
 
-#: categories/edit.php:690
+#: categories/edit.php:714
 msgid "Thumbnail"
 msgstr "Thumbnail"
 
-#: categories/edit.php:700
+#: categories/edit.php:724
 msgid ""
 "Upload a small image to illustrate this page when it is listed into parent "
 "page."
@@ -533,198 +533,198 @@ msgstr ""
 "Upload a small image to illustrate this page when it is listed into parent "
 "page."
 
-#: categories/edit.php:716
+#: categories/edit.php:740
 #, php-format
 msgid "Contribution to \"%s\""
 msgstr "Contribution to \"%s\""
 
-#: categories/edit.php:718
+#: categories/edit.php:742
 msgid "Appearance at the category tree"
 msgstr "Appearance at the category tree"
 
-#: categories/edit.php:723
+#: categories/edit.php:747
 msgid "YACS can list most recent items"
 msgstr "YACS can list most recent items"
 
-#: categories/edit.php:727
+#: categories/edit.php:751
 msgid "at all pages, among other navigation boxes"
 msgstr "at all pages, among other navigation boxes"
 
-#: categories/edit.php:731
+#: categories/edit.php:755
 msgid "in the middle of the front page, among other gadget boxes"
 msgstr "in the middle of the front page, among other gadget boxes"
 
-#: categories/edit.php:735
+#: categories/edit.php:759
 msgid "at the front page, among other extra boxes"
 msgstr "at the front page, among other extra boxes"
 
-#: categories/edit.php:739
+#: categories/edit.php:763
 msgid "at site map"
 msgstr "at site map"
 
-#: categories/edit.php:743
+#: categories/edit.php:767
 msgid "at articles index"
 msgstr "at articles index"
 
-#: categories/edit.php:747
+#: categories/edit.php:771
 msgid "at files index"
 msgstr "at files index"
 
-#: categories/edit.php:751
+#: categories/edit.php:775
 msgid "at links index"
 msgstr "at links index"
 
-#: categories/edit.php:755
+#: categories/edit.php:779
 msgid "at users index"
 msgstr "at users index"
 
-#: categories/edit.php:759
+#: categories/edit.php:783
 msgid "No, thank you to not handle excerpts for this category"
 msgstr "No, thank you to not handle excerpts for this category"
 
-#: categories/edit.php:762
+#: categories/edit.php:786
 msgid "Excerpts"
 msgstr "Excerpts"
 
-#: categories/edit.php:766
+#: categories/edit.php:790
 msgid "Background color"
 msgstr "Background color"
 
-#: categories/edit.php:768
+#: categories/edit.php:792
 msgid "To highlight this category in lists"
 msgstr "To highlight this category in lists"
 
-#: categories/edit.php:772
+#: categories/edit.php:796
 msgid "Nick name"
 msgstr "Nick name"
 
-#: categories/edit.php:774
+#: categories/edit.php:798
 msgid "To designate a category by name"
 msgstr "To designate a category by name"
 
-#: categories/edit.php:778
+#: categories/edit.php:802
 msgid "Keyword"
 msgstr "Keyword"
 
-#: categories/edit.php:780
+#: categories/edit.php:804
 msgid "To relate this category to some search pattern"
 msgstr "To relate this category to some search pattern"
 
-#: categories/edit.php:784
+#: categories/edit.php:808
 msgid "Rendering"
 msgstr "Rendering"
 
-#: categories/edit.php:788
+#: categories/edit.php:812
 msgid "Sort pages by title"
 msgstr "Sort pages by title"
 
-#: categories/edit.php:789
+#: categories/edit.php:813
 msgid "Sort pages by rating sum"
 msgstr "Sort pages by rating sum"
 
-#: categories/edit.php:790
+#: categories/edit.php:814
 msgid "Files can be added to the index page"
 msgstr "Files can be added to the index page"
 
-#: categories/edit.php:791
+#: categories/edit.php:815
 msgid "Sort files by title (and not by date)"
 msgstr "Sort files by title (and not by date)"
 
-#: categories/edit.php:792
+#: categories/edit.php:816
 msgid "Links can be added to the index page"
 msgstr "Links can be added to the index page"
 
-#: categories/edit.php:793
+#: categories/edit.php:817
 msgid "Sort links by title (and not by date)"
 msgstr "Sort links by title (and not by date)"
 
-#: categories/edit.php:794
+#: categories/edit.php:818
 msgid "The index page itself is a thread"
 msgstr "The index page itself is a thread"
 
-#: categories/edit.php:795
+#: categories/edit.php:819
 msgid "Apply a specific theme (in skins/foo_bar)"
 msgstr "Apply a specific theme (in skins/foo_bar)"
 
-#: categories/edit.php:796
+#: categories/edit.php:820
 msgid "To load template_foo_bar.php instead of the regular template"
 msgstr "To load template_foo_bar.php instead of the regular template"
 
-#: categories/edit.php:797
+#: categories/edit.php:821
 msgid "You may combine several keywords:"
 msgstr "You may combine several keywords:"
 
-#: categories/edit.php:821
+#: categories/edit.php:845
 msgid "Change the overlay"
 msgstr "Change the overlay"
 
-#: categories/edit.php:824 categories/edit.php:828
+#: categories/edit.php:848 categories/edit.php:852
 msgid "none"
 msgstr "none"
 
-#: categories/edit.php:825
+#: categories/edit.php:849
 msgid "If you change the overlay you may loose some data."
 msgstr ""
 "Attention, des données peuvent être perdues si vous modifiez l'overlay."
 
-#: categories/edit.php:827
+#: categories/edit.php:851
 msgid "No overlay has been selected yet."
 msgstr "No overlay has been selected yet."
 
-#: categories/edit.php:865
+#: categories/edit.php:889
 msgid "More options"
 msgstr "More options"
 
-#: categories/edit.php:870
+#: categories/edit.php:894
 msgid "Options"
 msgstr "Options"
 
-#: categories/edit.php:881
+#: categories/edit.php:905
 msgid "Submit"
 msgstr "Submit"
 
-#: categories/edit.php:881 categories/mail.php:186
+#: categories/edit.php:905 categories/mail.php:186
 msgid "Press [s] to submit data"
 msgstr "Press [s] to submit data"
 
-#: categories/edit.php:895
+#: categories/edit.php:919
 msgid "Do not change modification date."
 msgstr "Do not change modification date."
 
-#: categories/edit.php:898
+#: categories/edit.php:922
 msgid "Ensure this post is valid XHTML."
 msgstr "Ensure this post is valid XHTML."
 
-#: categories/edit.php:940
+#: categories/edit.php:964
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr "%s and %s are available to enhance text rendering."
 
-#: categories/edit.php:940
+#: categories/edit.php:964
 msgid "YACS codes"
 msgstr "YACS codes"
 
-#: categories/edit.php:940
+#: categories/edit.php:964
 msgid "smileys"
 msgstr "smileys"
 
-#: categories/edit.php:943
+#: categories/edit.php:967
 msgid "Mandatory fields are marked with a *"
 msgstr "Mandatory fields are marked with a *"
 
-#: categories/edit.php:950
+#: categories/edit.php:974
 msgid "TinyMCE"
 msgstr "TinyMCE"
 
-#: categories/edit.php:954
+#: categories/edit.php:978
 msgid "FCKEditor"
 msgstr "FCKEditor"
 
-#: categories/edit.php:958
+#: categories/edit.php:982
 msgid "Textarea"
 msgstr "Textarea"
 
-#: categories/edit.php:962
+#: categories/edit.php:986
 msgid "Help"
 msgstr "Help"
 

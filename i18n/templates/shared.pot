@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-20 18:26+0200\n"
+"POT-Creation-Date: 2013-10-06 09:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -424,60 +424,60 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: shared/surfer.php:333
+#: shared/surfer.php:334
 msgid "Stay connected"
 msgstr ""
 
-#: shared/surfer.php:336
+#: shared/surfer.php:337
 msgid "Login"
 msgstr ""
 
-#: shared/surfer.php:346
+#: shared/surfer.php:347
 msgid "Register"
 msgstr ""
 
-#: shared/surfer.php:346
+#: shared/surfer.php:347
 msgid "Share your profile in this community"
 msgstr ""
 
-#: shared/surfer.php:348
+#: shared/surfer.php:349
 msgid "Lost password"
 msgstr ""
 
-#: shared/surfer.php:348
+#: shared/surfer.php:349
 msgid "Prove who you are"
 msgstr ""
 
-#: shared/surfer.php:604
+#: shared/surfer.php:605
 msgid "Contribute to this page!"
 msgstr ""
 
-#: shared/surfer.php:628
+#: shared/surfer.php:629
 msgid "You are allowed to post any XHTML."
 msgstr ""
 
-#: shared/surfer.php:630
+#: shared/surfer.php:631
 #, php-format
 msgid "Following XHTML tags are allowed: %s"
 msgstr ""
 
-#: shared/surfer.php:734
+#: shared/surfer.php:735
 msgid "anonymous"
 msgstr ""
 
-#: shared/surfer.php:757
+#: shared/surfer.php:758
 msgid "My pages"
 msgstr ""
 
-#: shared/surfer.php:761
+#: shared/surfer.php:762
 msgid "All pages"
 msgstr ""
 
-#: shared/surfer.php:839
+#: shared/surfer.php:840
 msgid "Robot stopper"
 msgstr ""
 
-#: shared/surfer.php:840
+#: shared/surfer.php:841
 msgid "Type exactly the following 5 chars:"
 msgstr ""
 

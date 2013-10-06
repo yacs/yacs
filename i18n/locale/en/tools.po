@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-07 10:32+0200\n"
+"POT-Creation-Date: 2013-10-06 09:04+0200\n"
 "PO-Revision-Date: 2012-05-15 23:41+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -277,29 +277,29 @@ msgstr "Control Panel"
 msgid "Compressing Javascript files..."
 msgstr "Compressing Javascript files..."
 
-#: tools/jsmin.php:150
+#: tools/jsmin.php:157
 #, php-format
 msgid "%d files have been minified."
 msgstr "%d files have been minified."
 
-#: tools/jsmin.php:153 tools/jsmin.php:154
+#: tools/jsmin.php:160 tools/jsmin.php:161
 msgid "bytes"
 msgstr "bytes"
 
-#: tools/jsmin.php:158
+#: tools/jsmin.php:165
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminated in %.2f seconds."
 
-#: tools/jsmin.php:164
+#: tools/jsmin.php:171
 msgid "You are about to compress and assemble Javascript files. Are you sure?"
 msgstr "You are about to compress and assemble Javascript files. Are you sure?"
 
-#: tools/jsmin.php:168
+#: tools/jsmin.php:175
 msgid "Yes, I do want to compress and assemble Javascript files"
 msgstr "Yes, I do want to compress and assemble Javascript files"
 
-#: tools/jsmin.php:173
+#: tools/jsmin.php:180
 msgid ""
 "When you will click on the button the server will be immediately requested "
 "to proceed. However, because of the so many things to do on the back-end, "

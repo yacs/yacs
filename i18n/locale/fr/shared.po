@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-07 10:32+0200\n"
+"POT-Creation-Date: 2013-10-06 09:04+0200\n"
 "PO-Revision-Date: 2013-05-01 00:18+0100\n"
 "Last-Translator: Bernard Paques <bernard.paques@gmail.com>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -439,60 +439,60 @@ msgstr "Utilisateur"
 msgid "Password"
 msgstr "Mot de passe"
 
-#: shared/surfer.php:333
+#: shared/surfer.php:334
 msgid "Stay connected"
 msgstr "Rester connecté(e)"
 
-#: shared/surfer.php:336
+#: shared/surfer.php:337
 msgid "Login"
 msgstr "Authentification"
 
-#: shared/surfer.php:346
+#: shared/surfer.php:347
 msgid "Register"
 msgstr "Enregistrez-vous"
 
-#: shared/surfer.php:346
+#: shared/surfer.php:347
 msgid "Share your profile in this community"
 msgstr "Partager votre profil dans cette communauté"
 
-#: shared/surfer.php:348
+#: shared/surfer.php:349
 msgid "Lost password"
 msgstr "Mot de passe perdu"
 
-#: shared/surfer.php:348
+#: shared/surfer.php:349
 msgid "Prove who you are"
 msgstr "Prouver qui vous êtes"
 
-#: shared/surfer.php:604
+#: shared/surfer.php:605
 msgid "Contribute to this page!"
 msgstr "Contribuez à cette page !"
 
-#: shared/surfer.php:628
+#: shared/surfer.php:629
 msgid "You are allowed to post any XHTML."
 msgstr "Vous pouvez envoyer du XHTML."
 
-#: shared/surfer.php:630
+#: shared/surfer.php:631
 #, php-format
 msgid "Following XHTML tags are allowed: %s"
 msgstr "Les balises XHTML suivantes sont acceptées : %s"
 
-#: shared/surfer.php:734
+#: shared/surfer.php:735
 msgid "anonymous"
 msgstr "anonyme"
 
-#: shared/surfer.php:757
+#: shared/surfer.php:758
 msgid "My pages"
 msgstr "Mes pages"
 
-#: shared/surfer.php:761
+#: shared/surfer.php:762
 msgid "All pages"
 msgstr "Toutes les pages"
 
-#: shared/surfer.php:839
+#: shared/surfer.php:840
 msgid "Robot stopper"
 msgstr "Anti-robot"
 
-#: shared/surfer.php:840
+#: shared/surfer.php:841
 msgid "Type exactly the following 5 chars:"
 msgstr "Tapez exactement les 5 caractères suivants :"
 
