@@ -178,8 +178,11 @@ abstract class Anchor {
 			$this->overlay = Overlay::load($this->item, $this->get_type().':'.$this->item['id']);
 
 		// delegate the validation to the overlay
-		if(isset($this->overlay) && is_object($this->overlay) && is_callable(array($this->overlay, 'allows')))
-			return $this->overlay->allows($action, $type);
+		if(isset($this->overlay) && is_object($this->overlay) && is_callable(array($this->overlay, 'allows'))) {
+			$reply =  $this->overlay->allows($action, $type);
+			if($reply != 'PASS')
+			    return $reply;
+		}
 			
 		$allow_func = 'allow_'.$action;
 		// delegate validation to legacy group class function, depending on 'action'
