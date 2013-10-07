@@ -1273,7 +1273,7 @@ Class Categories {
 	**/
 	public static function post(&$fields) {
 		global $context;
-		$overlay = NULL;
+		$anchor = $overlay = NULL;
 
 		// title cannot be empty
 		if(!isset($fields['title']) || !$fields['title']) {
@@ -1341,7 +1341,7 @@ Class Categories {
 
 		// set layout for categories
 		if(!isset($fields['categories_layout']) || !$fields['categories_layout'])
-			$fields['categories_layout'] = 'decorated';
+			$fields['categories_layout'] = ($anchor)?$anchor->item['categories_layout']:'decorated';
 		elseif($fields['categories_layout'] == 'custom') {
 			if(isset($fields['categories_custom_layout']) && $fields['categories_custom_layout'])
 				$fields['categories_layout'] = $fields['categories_custom_layout'];
@@ -1351,7 +1351,7 @@ Class Categories {
 
 		// set layout for sections
 		if(!isset($fields['sections_layout']) || !$fields['sections_layout'])
-			$fields['sections_layout'] = 'decorated';
+			$fields['sections_layout'] = ($anchor)?$anchor->item['sections_layout']:'decorated';
 		elseif($fields['sections_layout'] == 'custom') {
 			if(isset($fields['sections_custom_layout']) && $fields['sections_custom_layout'])
 				$fields['sections_layout'] = $fields['sections_custom_layout'];
@@ -1361,7 +1361,7 @@ Class Categories {
 
 		// set layout for articles
 		if(!isset($fields['articles_layout']) || !$fields['articles_layout'])
-			$fields['articles_layout'] = 'decorated';
+			$fields['articles_layout'] = ($anchor)?$anchor->item['articles_layout']:'decorated';
 		elseif($fields['articles_layout'] == 'custom') {
 			if(isset($fields['articles_custom_layout']) && $fields['articles_custom_layout'])
 				$fields['articles_layout'] = $fields['articles_custom_layout'];
@@ -1371,13 +1371,17 @@ Class Categories {
 
 		// set layout for users
 		if(!isset($fields['users_layout']) || !$fields['users_layout'])
-			$fields['users_layout'] = 'decorated';
+			$fields['users_layout'] = ($anchor)?$anchor->item['users_layout']:'decorated';
 		elseif($fields['users_layout'] == 'custom') {
 			if(isset($fields['users_custom_layout']) && $fields['users_custom_layout'])
 				$fields['users_layout'] = $fields['users_custom_layout'];
 			else
 				$fields['users_layout'] = 'decorated';
 		}
+		
+		// set overlay for sub-categories
+		if(!isset($fields['categories_overlay']))
+		    $fields['categories_overlay'] = ($anchor)?$anchor->item['categories_overlay']:'';
 
 		// insert a new record
 		$query = "INSERT INTO ".SQL::table_name('categories')." SET ";
