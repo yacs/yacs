@@ -1307,8 +1307,8 @@ Class Categories {
 			$fields['active'] = $fields['active_set'];
 		
 		// create overlay from anchor if not done previously
-		if(!isset($fields['overlay']) && is_object($anchor) && $anchor->item['categories_overlay']) {
-		    $overlay = $anchor->get_overlay($anchor->item['categories_overlay']);
+		if(!isset($fields['overlay']) && is_object($anchor)) {
+		    $overlay = $anchor->get_overlay('categories_overlay');
 		    
 		    if(is_object($overlay)) {
 
