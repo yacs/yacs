@@ -247,7 +247,7 @@ class Layout_as_tree_manager extends Layout_interface {
 	$this->tree_only = $this->has_variant('tree_only');
 	
 	// drag&drop zone
-	$text .= '<div class="tm-ddz tm-drop" data-ref='.$root_ref.'>'."\n";
+	$text .= '<div class="tm-ddz tm-drop" data-ref="'.$root_ref.'" data-variant="'.$this->layout_variant.'" >'."\n";
 	
 	// root create command
 	$text .= $this->btn_create();
