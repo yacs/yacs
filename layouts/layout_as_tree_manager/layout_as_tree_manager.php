@@ -87,7 +87,12 @@ class Layout_as_tree_manager extends Layout_interface {
     
     public function get_interactive_menu() {
 	
-	$cmd = $this->btn_create().$this->btn_rename().$this->btn_pin().$this->btn_delete();
+	$cmd = $this->btn_create();
+	
+	if(!$this->has_variant('no_rename'))
+	    $cmd .= $this->btn_rename();
+	
+	$cmd .= $this->btn_pin().$this->btn_delete();
 	
 	if($this->has_variant('cmd_edit'))
 	    $cmd = $this->btn_edit().$cmd;
