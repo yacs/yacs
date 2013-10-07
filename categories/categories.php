@@ -1273,6 +1273,7 @@ Class Categories {
 	**/
 	public static function post(&$fields) {
 		global $context;
+		$overlay = NULL;
 
 		// title cannot be empty
 		if(!isset($fields['title']) || !$fields['title']) {
@@ -1304,6 +1305,24 @@ Class Categories {
 			$fields['active'] = $anchor->ceil_rights($fields['active_set']);
 		else
 			$fields['active'] = $fields['active_set'];
+		
+		// create overlay from anchor if not done previously
+		if(!isset($fields['overlay']) && is_object($anchor) && $anchor->item['categories_overlay']) {
+		    $overlay = $anchor->get_overlay($anchor->item['categories_overlay']);
+		    
+		    if(is_object($overlay)) {
+
+			// allow for change detection
+			$overlay->snapshot();
+
+			// update the overlay from form content
+			$overlay->parse_fields($fields);
+
+			// save content of the overlay in the category itself
+			$fields['overlay'] = $overlay->save();
+			$fields['overlay_id'] = $overlay->get_id();
+		    }
+		}
 
 		// set default values for this editor
 		Surfer::check_default_editor($fields);
@@ -1411,6 +1430,11 @@ Class Categories {
 
 		// remember the id of the new item
 		$fields['id'] = SQL::get_last_id($context['connection']);
+		
+		// call remember for the overlay if any intancied here
+		if(is_object($overlay)) {
+		    $overlay->remember('insert',$fields,'category:'.$fields['id']);
+		}
 
 		// clear the whole cache, because a rendering option for things anchored to this category could being changed
 		Categories::clear($fields);
