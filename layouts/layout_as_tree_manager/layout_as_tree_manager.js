@@ -203,7 +203,7 @@ var TreeManager = {
 	// reset min-height
 	top.css('min-height','80px')
 	// calc its normalize height,
-	// var top_h = Math.ceil(top.height()/80)*96 - 16;
+	// var top_h = Math.ceil(top.height()/80)*96 - 16; // -> without box-sizing: border-box
 	var top_h = Math.ceil(top.height()/80)*84 - 4;
 	if(top_h > 80 && opt == 'fold') {
 	    // hide sub list
