@@ -406,7 +406,7 @@ if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == '')) {
 		$_SESSION['cross_domain_login_required'] = true;
 		
 		// ask user agent to call various hosts via javascript
-		$script = '<script type="text/javascript">'."\n";
+		/*$script = '<script type="text/javascript">'."\n";
 
 		// one host at a time
 		foreach($hosts as $index => $host) {
@@ -433,7 +433,7 @@ if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == '')) {
 
 		// defer its execution in user agent
 		$context['page_footer'] .= $script;
-	
+		*/
 	}
 
 }
