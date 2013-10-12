@@ -27,6 +27,8 @@ if ( isset($_SESSION['cross_domain_login_required']) && $_SESSION['cross_domain_
     if(($parent_domain = strstr($domain, '.')) && strpos($parent_domain, '.', 1))
 		$domain = $parent_domain;
     
+    $hosts = Safe::file('parameters/hosts');
+    
     foreach ($hosts as $host) {
 	
 	if($host == $domain) continue;
