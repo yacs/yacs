@@ -28,7 +28,7 @@ if($_REQUEST['id']) {
 	session_start();
 	
 	// login done, no more ajax request is needed 
-	$_SESSION['cross_domain_login_required'] == false;
+	$_SESSION['cross_domain_login_required'] = false;
 
 }
 

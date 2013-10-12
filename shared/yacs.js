@@ -228,7 +228,7 @@ var Yacs = {
 	multiDomainLogin: function() {
 	   
 	   // send query to ask if crossDomainLogin is required
-	   $.get( url_to_root + 'tools/check_multi_login.php', {checking:'Y'})
+	   $.get( url_to_root + 'tools/check_multi_login.php')
 	   .done(function(reply){
 	       
 	       if(reply.login == true) {
@@ -236,8 +236,8 @@ var Yacs = {
 		    // start an cross-domain ajax transaction
 		    // @see https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS
 		    // @see tools/session.php
-		    $.each(reply.domains, function(domain){
-			$.ajax({"url": domain.url + "tools/session.php",
+		    $.each(reply.domains, function(i,url){
+			$.ajax({"url": url + "tools/session.php",
 				"type": "GET",
 				"data": {"id": reply.sessid,"origin": reply.origin },
 				"xhrFields": { "withCredentials": true}
