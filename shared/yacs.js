@@ -1044,6 +1044,9 @@ var Yacs = {
 		$.each(loaded_scripts, function() {
 		    Yacs.loadedJs.push($(this).attr('src'));
 		});
+		
+		// check for virtual host automatic login
+		Yacs.multiDomainLogin();
 
 		// check for asynchronous notifications
 		setTimeout(Yacs.subscribe, 40000);
