@@ -26,6 +26,9 @@ if($_REQUEST['id']) {
 
 	// bind it to this host name
 	session_start();
+	
+	// login done, no more ajax request is needed 
+	$_SESSION['cross_domain_login_required'] == false;
 
 }
 
