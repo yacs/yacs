@@ -224,6 +224,29 @@ var Yacs = {
 			document.cookie = name + "=; expires=Thu, 01-Jan-70 00:00:01 GMT";
 		}
 	},
+    
+	multiDomainLogin: function() {
+	   
+	   // send query to ask if crossDomainLogin is required
+	   $.get( url_to_root + 'tools/check_multi_login.php', {checking:'Y'})
+	   .done(function(reply){
+	       
+	       if(reply.login == true) {
+		   
+		    // start an cross-domain ajax transaction
+		    // @see https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS
+		    // @see tools/session.php
+		    $.each(reply.domains, function(domain){
+			$.ajax({"url": domain.url + "tools/session.php",
+				"type": "GET",
+				"data": {"id": reply.sessid,"origin": reply.origin },
+				"xhrFields": { "withCredentials": true}
+
+			});
+		    });
+	       }
+	   });
+	},
 
 	/**
 	 * trigger the show
