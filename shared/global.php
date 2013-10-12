@@ -403,7 +403,7 @@ if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == '')) {
 	// if several hosts or domains have been defined for this server, ensure all use same session data
 	if(!isset($_COOKIE['PHPSESSID']) && ($hosts = Safe::file('parameters/hosts'))) {
 
-		$_SESSION['cross_domain_login_required'] == true;
+		$_SESSION['cross_domain_login_required'] = true;
 		
 		// ask user agent to call various hosts via javascript
 		$script = '<script type="text/javascript">'."\n";
