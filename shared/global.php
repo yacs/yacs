@@ -394,46 +394,19 @@ if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == '')) {
 	if(($parent_domain = strstr($domain, '.')) && strpos($parent_domain, '.', 1))
 		$domain = $parent_domain;
 
-    // set the cookie to parent domain, to allow for sub-domains
+	// set the cookie to parent domain, to allow for sub-domains
 	session_set_cookie_params(0, '/', $domain);
 
 	// set or use the PHPSESSID cookie
 	session_start();
 
 	// if several hosts or domains have been defined for this server, ensure all use same session data
+	// @see tools/check_multi_login.php
+	// @see Yacs.muliDomainLogin() /shared/yacs.js
 	if(!isset($_COOKIE['PHPSESSID']) && isset($context['virtual_domains']) && count($context['virtual_domains'])) {
 
 		$_SESSION['cross_domain_login_required'] = true;
-		
-		// ask user agent to call various hosts via javascript
-		/*$script = '<script type="text/javascript">'."\n";
-
-		// one host at a time
-		foreach($hosts as $index => $host) {
-			if($host = trim($host)) {
-
-			if($host == $domain) continue;
-
-			// start an cross-domain ajax transaction
-			// @see https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS
-			// @see tools/session.php
-			$script .= "\t".'$.ajax({'
-				.'"url":"http://'.$host.$context['url_to_root'].'tools/session.php",'
-				.'"type": "GET",'
-				.'"data": {"id": "'.session_id().'","origin":"'.$domain.'"},'
-				.'"xhrFields": { "withCredentials": true}'
-
-				.'});'."\n";
-
-			}
-		}
-
-		// close this javascript snippet
-		$script .= '</script>'."\n";
-
-		// defer its execution in user agent
-		$context['page_footer'] .= $script;
-		*/
+				
 	}
 
 }
