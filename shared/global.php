@@ -401,7 +401,7 @@ if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == '')) {
 	session_start();
 
 	// if several hosts or domains have been defined for this server, ensure all use same session data
-	if(!isset($_COOKIE['PHPSESSID']) && ($hosts = Safe::file('parameters/hosts'))) {
+	if(!isset($_COOKIE['PHPSESSID']) && isset($context['virtual_domains']) && count($context['virtual_domains'])) {
 
 		$_SESSION['cross_domain_login_required'] = true;
 		
