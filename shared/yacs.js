@@ -225,7 +225,19 @@ var Yacs = {
 		}
 	},
     
+	/**
+	 * called after page loading to perform session openning
+	 * on other virtual hosts declared on the server
+	 * perform a ajax request to get the list of virtual hosts,
+	 * then a ajax request for each host.
+	 * 
+	 * Job done is memorised in session storage to avoid extra 
+	 * request
+	 */
 	multiDomainLogin: function() {
+	   
+	   if(sessionStorage.getItem('multilogin') == 'done')
+	       return;
 	   
 	   // send query to ask if crossDomainLogin is required
 	   $.get( url_to_root + 'tools/check_multi_login.php')
@@ -244,7 +256,8 @@ var Yacs = {
 
 			});
 		    });
-	       }
+	       } else
+		   sessionStorage.setItem('multilogin','done');
 	   });
 	},
 
