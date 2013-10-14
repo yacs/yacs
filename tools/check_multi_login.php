@@ -22,35 +22,36 @@ $reply = array();
 $reply['login'] = false;
 
 if ( isset($_SESSION['cross_domain_login_required']) && $_SESSION['cross_domain_login_required'] == true ) {
-    
-    $domain = $context['host_name'];
+
+    $domain	= $context['host_name'];
     if(($parent_domain = strstr($domain, '.')) && strpos($parent_domain, '.', 1))
-		$domain = $parent_domain;
-    
-    $hosts = Safe::file('parameters/hosts');
-    
+	$domain = $parent_domain;
+
+    $hosts	= $context['virtual_domains'];
+    $hosts[]	= $context['master_host'];
+
     foreach ($hosts as $host) {
-	
+
 	if($host == $domain) continue;
 
 	// list url to target
 	$reply['domains'][] = 'http://'.$host.$context['url_to_root'];
-	
+
     }
-    
+
     // remember origin domain
-    $reply['origin'] = $domain;
+    $reply['origin']	= $domain;
     // provide session id
-    $reply['sessid'] = session_id();
+    $reply['sessid']	= session_id();
     // yes, something as to be done
-    $reply['login'] = true;
+    $reply['login']	= true;
 }
 
 // output is JSON formated
 render_raw('application/json');
 $reply = json_encode($reply);
 
-// actual transmission 
+// actual transmission
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
 	echo $reply;
 
