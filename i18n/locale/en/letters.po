@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-30 23:53+0200\n"
+"POT-Creation-Date: 2013-10-15 15:34+0200\n"
 "PO-Revision-Date: 2010-09-29 14:54+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: letters/configure.php:45 letters/configure.php:121
-#: letters/configure.php:196
+#: letters/configure.php:193
 msgid "Control Panel"
 msgstr "Control Panel"
 
@@ -35,8 +35,8 @@ msgid "Configure"
 msgstr "Configure"
 
 #: letters/configure.php:48 letters/configure.php:125
-#: letters/configure.php:195 letters/index.php:21 letters/new.php:74
-#: letters/new.php:639
+#: letters/configure.php:192 letters/index.php:21 letters/new.php:74
+#: letters/new.php:631
 msgid "Newsletters"
 msgstr "Newsletters"
 
@@ -98,52 +98,52 @@ msgstr ""
 msgid "Submit"
 msgstr "Submit"
 
-#: letters/configure.php:117 letters/new.php:164 letters/new.php:300
-#: letters/new.php:418
+#: letters/configure.php:117 letters/new.php:164 letters/new.php:297
+#: letters/new.php:412
 msgid "Press [s] to submit data"
 msgstr "Press [s] to submit data"
 
-#: letters/configure.php:142 letters/new.php:446
+#: letters/configure.php:139 letters/new.php:438
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr "You are not allowed to perform this operation in demonstration mode."
+
+#: letters/configure.php:170
+#, php-format
+msgid ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+msgstr ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
 
 #: letters/configure.php:173
 #, php-format
 msgid ""
-"ERROR: Impossible to write to the file %s. The configuration has not been "
-"saved."
-msgstr ""
-"ERROR: Impossible to write to the file %s. The configuration has not been "
-"saved."
-
-#: letters/configure.php:176
-#, php-format
-msgid ""
 "To actually change the configuration, please copy and paste following lines "
 "by yourself in file %s."
 msgstr ""
 "To actually change the configuration, please copy and paste following lines "
 "by yourself in file %s."
 
-#: letters/configure.php:181
+#: letters/configure.php:178
 #, php-format
 msgid "The following configuration has been saved into the file %s."
 msgstr "The following configuration has been saved into the file %s."
 
-#: letters/configure.php:184
+#: letters/configure.php:181
 #, php-format
 msgid "%s has been updated"
 msgstr "%s has been updated"
 
-#: letters/configure.php:190
+#: letters/configure.php:187
 msgid "Configuration parameters"
 msgstr "Configuration parameters"
 
-#: letters/configure.php:193
+#: letters/configure.php:190
 msgid "Where do you want to go now?"
 msgstr "Where do you want to go now?"
 
-#: letters/configure.php:197
+#: letters/configure.php:194
 msgid "Configure again"
 msgstr "Configure again"
 
@@ -168,150 +168,150 @@ msgstr "No account to post the letter. Please %s."
 msgid "configure one"
 msgstr "configure one"
 
-#: letters/new.php:138 letters/new.php:274 letters/new.php:392
+#: letters/new.php:138 letters/new.php:271 letters/new.php:386
 msgid "Title"
 msgstr "Title"
 
-#: letters/new.php:142 letters/new.php:278 letters/new.php:396
+#: letters/new.php:142 letters/new.php:275 letters/new.php:390
 msgid "Used as message subject line"
 msgstr "Used as message subject line"
 
-#: letters/new.php:146 letters/new.php:282 letters/new.php:400
+#: letters/new.php:146 letters/new.php:279 letters/new.php:394
 msgid "Content"
 msgstr "Content"
 
-#: letters/new.php:151 letters/new.php:287 letters/new.php:405
+#: letters/new.php:151 letters/new.php:284 letters/new.php:399
 msgid "Recipients"
 msgstr "Recipients"
 
-#: letters/new.php:152 letters/new.php:288 letters/new.php:406
+#: letters/new.php:152 letters/new.php:285 letters/new.php:400
 msgid "All subscribers of the community"
 msgstr "All subscribers of the community"
 
-#: letters/new.php:153 letters/new.php:289 letters/new.php:407
+#: letters/new.php:153 letters/new.php:286 letters/new.php:401
 msgid "Members only"
 msgstr "Members only"
 
-#: letters/new.php:154 letters/new.php:290 letters/new.php:408
+#: letters/new.php:154 letters/new.php:287 letters/new.php:402
 msgid "Associates only"
 msgstr "Associates only"
 
-#: letters/new.php:155 letters/new.php:291 letters/new.php:409
+#: letters/new.php:155 letters/new.php:288 letters/new.php:403
 msgid "Specific addresses:"
 msgstr "Specific addresses:"
 
-#: letters/new.php:157 letters/new.php:293 letters/new.php:411
+#: letters/new.php:157 letters/new.php:290 letters/new.php:405
 msgid "The recipients that will receive the letter"
 msgstr "The recipients that will receive the letter"
 
-#: letters/new.php:164 letters/new.php:300 letters/new.php:418
+#: letters/new.php:164 letters/new.php:297 letters/new.php:412
 msgid "Send"
 msgstr "Send"
 
-#: letters/new.php:176 letters/new.php:312 letters/new.php:430
+#: letters/new.php:175 letters/new.php:308 letters/new.php:423
 msgid "No title has been provided."
 msgstr "No title has been provided."
 
-#: letters/new.php:231 letters/new.php:366
+#: letters/new.php:228 letters/new.php:360
 #, php-format
 msgid "By %s"
 msgstr "By %s"
 
-#: letters/new.php:337
+#: letters/new.php:331
 msgid "featured"
 msgstr "featured"
 
-#: letters/new.php:460
+#: letters/new.php:452
 msgid "Creating a section for archived letters"
 msgstr "Creating a section for archived letters"
 
-#: letters/new.php:463
+#: letters/new.php:455
 msgid "Archived letters"
 msgstr "Archived letters"
 
-#: letters/new.php:464
+#: letters/new.php:456
 msgid "To remember our previous messages"
 msgstr "To remember our previous messages"
 
-#: letters/new.php:465
+#: letters/new.php:457
 msgid "YACS puts automatically sent letters into this section."
 msgstr "YACS puts automatically sent letters into this section."
 
-#: letters/new.php:477
+#: letters/new.php:469
 msgid "Archiving the new letter"
 msgstr "Archiving the new letter"
 
-#: letters/new.php:486
+#: letters/new.php:478
 #, php-format
 msgid "Sent %s to&nbsp;\"%s\""
 msgstr "Sent %s to&nbsp;\"%s\""
 
-#: letters/new.php:534
+#: letters/new.php:526
 msgid "Error: Invalid address skipped"
 msgstr "Error: Invalid address skipped"
 
-#: letters/new.php:569 letters/new.php:575
+#: letters/new.php:561 letters/new.php:567
 msgid "A message has been sent to:"
 msgstr "A message has been sent to:"
 
-#: letters/new.php:578
+#: letters/new.php:570
 msgid "No recipient has been defined."
 msgstr "No recipient has been defined."
 
-#: letters/new.php:594
+#: letters/new.php:586
 msgid "Error has been encountered while sending the letter."
 msgstr "Error has been encountered while sending the letter."
 
-#: letters/new.php:603
+#: letters/new.php:595
 msgid "No recipient has been processed."
 msgstr "No recipient has been processed."
 
-#: letters/new.php:605
+#: letters/new.php:597
 msgid "One recipient has been processed."
 msgstr "One recipient has been processed."
 
-#: letters/new.php:607
+#: letters/new.php:599
 #, php-format
 msgid "%d recipients have been processed"
 msgstr "%d recipients have been processed"
 
-#: letters/new.php:611
+#: letters/new.php:603
 msgid "One invalid address has been skipped."
 msgstr "One invalid address has been skipped."
 
-#: letters/new.php:613
+#: letters/new.php:605
 #, php-format
 msgid "%d invalid addresses have been skipped"
 msgstr "%d invalid addresses have been skipped"
 
-#: letters/new.php:617
+#: letters/new.php:609
 msgid "No letter has been transmitted."
 msgstr "No letter has been transmitted."
 
-#: letters/new.php:619
+#: letters/new.php:611
 msgid "One letter has been transmitted."
 msgstr "One letter has been transmitted."
 
-#: letters/new.php:621
+#: letters/new.php:613
 #, php-format
 msgid "%d letters have been transmitted."
 msgstr "%d letters have been transmitted."
 
-#: letters/new.php:625
+#: letters/new.php:617
 msgid "One transmission error has been encountered."
 msgstr "One transmission error has been encountered."
 
-#: letters/new.php:627
+#: letters/new.php:619
 #, php-format
 msgid "%d transmission errors have been encountered."
 msgstr "%d transmission errors have been encountered."
 
-#: letters/new.php:636
+#: letters/new.php:628
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminated in %.2f seconds."
 
-#: letters/new.php:646
+#: letters/new.php:638
 msgid ""
 "This script will help you to prepare and to send a electronic message to "
 "community members. Please select below the action you would like to perform. "
@@ -323,23 +323,23 @@ msgstr ""
 "Depending on your choice, the assistant may ask for additional parameters on "
 "successive panels."
 
-#: letters/new.php:652
+#: letters/new.php:644
 msgid "Send a digest of articles published recently"
 msgstr "Send a digest of articles published recently"
 
-#: letters/new.php:655
+#: letters/new.php:647
 msgid "List featured pages"
 msgstr "List featured pages"
 
-#: letters/new.php:658
+#: letters/new.php:650
 msgid "Send one announcement to community members"
 msgstr "Send one announcement to community members"
 
-#: letters/new.php:661
+#: letters/new.php:653
 msgid "Next step"
 msgstr "Next step"
 
-#: letters/new.php:661
+#: letters/new.php:653
 msgid "Press [s] to continue"
 msgstr "Press [s] to continue"
 

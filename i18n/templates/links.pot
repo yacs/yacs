@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-01 00:19+0200\n"
+"POT-Creation-Date: 2013-10-16 16:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -166,13 +166,13 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: links/delete.php:154 links/edit.php:552 links/layout_links.php:76
-#: links/layout_links_as_daily.php:95
+#: links/delete.php:151 links/edit.php:549 links/layout_links_as_daily.php:95
+#: links/layout_links.php:76
 #, php-format
 msgid "edited by %s %s"
 msgstr ""
 
-#: links/delete.php:158 links/edit.php:556 links/layout_links.php:62
+#: links/delete.php:155 links/edit.php:553 links/layout_links.php:62
 msgid "clicks"
 msgstr ""
 
@@ -278,7 +278,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: links/edit.php:459 links/trackback.php:361
+#: links/edit.php:459 links/trackback.php:359
 msgid "Please provide a meaningful title."
 msgstr ""
 
@@ -322,40 +322,40 @@ msgstr ""
 msgid "Ensure this post is valid XHTML."
 msgstr ""
 
-#: links/edit.php:528 links/trackback.php:354
+#: links/edit.php:527 links/trackback.php:353
 msgid "Please type a valid link."
 msgstr ""
 
-#: links/edit.php:563
+#: links/edit.php:560
 #, php-format
 msgid ""
 "You can use following shortcuts to link to other pages of this server: %s"
 msgstr ""
 
-#: links/edit.php:564
+#: links/edit.php:561
 msgid "Please set a meaningful title to be used instead of the link itself."
 msgstr ""
 
-#: links/edit.php:565
+#: links/edit.php:562
 msgid ""
 "Also, take the time to describe the link. This field is fully indexed for "
 "searches."
 msgstr ""
 
-#: links/edit.php:566
+#: links/edit.php:563
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr ""
 
-#: links/edit.php:566
+#: links/edit.php:563
 msgid "YACS codes"
 msgstr ""
 
-#: links/edit.php:566
+#: links/edit.php:563
 msgid "smileys"
 msgstr ""
 
-#: links/edit.php:567 links/trackback.php:398
+#: links/edit.php:564 links/trackback.php:392
 msgid "Help"
 msgstr ""
 
@@ -382,8 +382,16 @@ msgstr ""
 msgid "View the category"
 msgstr ""
 
-#: links/layout_links.php:83 links/layout_links_as_daily.php:104
-#: links/layout_links_as_simple.php:54
+#: links/layout_links_as_daily.php:81
+msgid "Edit"
+msgstr ""
+
+#: links/layout_links_as_daily.php:82
+msgid "Delete"
+msgstr ""
+
+#: links/layout_links_as_daily.php:104 links/layout_links_as_simple.php:54
+#: links/layout_links.php:83
 #, php-format
 msgid "in %s"
 msgstr ""
@@ -394,14 +402,6 @@ msgstr ""
 
 #: links/layout_links.php:89
 msgid "delete"
-msgstr ""
-
-#: links/layout_links_as_daily.php:81
-msgid "Edit"
-msgstr ""
-
-#: links/layout_links_as_daily.php:82
-msgid "Delete"
 msgstr ""
 
 #: links/links.php:267
@@ -507,23 +507,23 @@ msgstr ""
 msgid "To complement the excerpt"
 msgstr ""
 
-#: links/trackback.php:368
+#: links/trackback.php:365
 msgid "You must type an excerpt of the referencing page."
 msgstr ""
 
-#: links/trackback.php:375
+#: links/trackback.php:371
 msgid "You must name the originating blog."
 msgstr ""
 
-#: links/trackback.php:389
+#: links/trackback.php:383
 msgid "Trackback address:"
 msgstr ""
 
-#: links/trackback.php:393
+#: links/trackback.php:387
 msgid "Trackback"
 msgstr ""
 
-#: links/trackback.php:396
+#: links/trackback.php:390
 #, php-format
 msgid ""
 "This server supports the %s created by Ben Trott and Mena Trott. Please note "
@@ -531,10 +531,10 @@ msgid ""
 "published page."
 msgstr ""
 
-#: links/trackback.php:396
+#: links/trackback.php:390
 msgid "trackback specification"
 msgstr ""
 
-#: links/trackback.php:397
+#: links/trackback.php:391
 msgid "You can use this form to manually trackback your pages to this site."
 msgstr ""
