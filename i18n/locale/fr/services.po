@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-20 23:52+0100\n"
+"POT-Creation-Date: 2013-10-15 15:34+0200\n"
 "PO-Revision-Date: 2012-05-13 23:32+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -85,19 +85,19 @@ msgid "Sample blog client"
 msgstr "Exemple de client blog"
 
 #: services/blog_test.php:42 services/ping_test.php:75
-#: services/ping_test.php:102 services/rpc_echo_hook_test.php:32
+#: services/ping_test.php:99 services/rpc_echo_hook_test.php:32
 #: services/xml_rpc_drupal.login_hook_test.php:36
 msgid "Server address"
 msgstr "Adresse du serveur"
 
 #: services/blog_test.php:44 services/ping_test.php:77
-#: services/ping_test.php:104 services/rpc_echo_hook_test.php:34
+#: services/ping_test.php:101 services/rpc_echo_hook_test.php:34
 #: services/xml_rpc_drupal.login_hook_test.php:38
 msgid "Go"
 msgstr "Go"
 
 #: services/blog_test.php:45 services/ping_test.php:78
-#: services/ping_test.php:105 services/rpc_echo_hook_test.php:35
+#: services/ping_test.php:102 services/rpc_echo_hook_test.php:35
 #: services/xml_rpc_drupal.login_hook_test.php:39
 msgid "The name or the IP address of the yacs server"
 msgstr "Le nom ou l'adresse IP du serveur cible"
@@ -110,7 +110,7 @@ msgstr "Nom d'utilisateur"
 msgid "User password"
 msgstr "Mot de passe"
 
-#: services/blog_test.php:531
+#: services/blog_test.php:529
 #, php-format
 msgid ""
 "Go to the %s and check debug mode for <code>call</code> has been set, if you "
@@ -120,13 +120,13 @@ msgstr ""
 "<code>call</code> a été sélectionné si vous souhaitez enregistrer les "
 "requêtes et réponses HTTP."
 
-#: services/blog_test.php:531 services/rpc_echo_hook_test.php:99
-#: services/xml_rpc_drupal.login_hook_test.php:87
+#: services/blog_test.php:529 services/rpc_echo_hook_test.php:97
+#: services/xml_rpc_drupal.login_hook_test.php:85
 msgid "configuration panel for services"
 msgstr "le panneau de configuration des services"
 
-#: services/blog_test.php:532 services/rpc_echo_hook_test.php:100
-#: services/xml_rpc_drupal.login_hook_test.php:88
+#: services/blog_test.php:530 services/rpc_echo_hook_test.php:98
+#: services/xml_rpc_drupal.login_hook_test.php:86
 msgid "Help"
 msgstr "Aide"
 
@@ -470,15 +470,15 @@ msgstr "Nom du serveur mis à jour"
 msgid "URI of the updated server"
 msgstr "Adresse du serveur mis à jour"
 
-#: services/ping_test.php:97
+#: services/ping_test.php:94
 msgid "Test pingback.ping"
 msgstr "Test pingback.ping"
 
-#: services/ping_test.php:107
+#: services/ping_test.php:104
 msgid "URI of the source page"
 msgstr "Adresse de la page source"
 
-#: services/ping_test.php:110
+#: services/ping_test.php:107
 msgid "URI of the target page"
 msgstr "Adresse de la page cible"
 
@@ -491,8 +491,8 @@ msgstr "Test de service web"
 msgid "Message"
 msgstr "Message"
 
-#: services/rpc_echo_hook_test.php:99
-#: services/xml_rpc_drupal.login_hook_test.php:87
+#: services/rpc_echo_hook_test.php:97
+#: services/xml_rpc_drupal.login_hook_test.php:85
 #, php-format
 msgid ""
 "Go to the %s and check debug mode for <code>rpc</code> has been set, if you "

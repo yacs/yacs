@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-28 18:07+0100\n"
+"POT-Creation-Date: 2013-10-15 15:34+0200\n"
 "PO-Revision-Date: 2012-04-28 00:22+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -102,17 +102,17 @@ msgstr "Oui, je veux supprimer cette image"
 msgid "Cancel"
 msgstr "Annuler"
 
-#: images/delete.php:159 images/edit.php:467 images/edit.php:479
+#: images/delete.php:156 images/edit.php:467 images/edit.php:479
 #: images/layout_images.php:99
 msgid "bytes"
 msgstr "octets"
 
-#: images/delete.php:163 images/layout_images.php:103 images/view.php:223
+#: images/delete.php:160 images/layout_images.php:103 images/view.php:223
 #, php-format
 msgid "edited by %s %s"
 msgstr "modifié par %s %s"
 
-#: images/delete.php:180 images/view.php:210
+#: images/delete.php:177 images/view.php:210
 #, php-format
 msgid "Source: %s"
 msgstr "Source : %s"
@@ -305,7 +305,7 @@ msgstr "Ne pas changer la date de modification de la page principale."
 msgid "Ensure this post is valid XHTML."
 msgstr "Vérifier que le contenu est du XHTML valide."
 
-#: images/edit.php:627
+#: images/edit.php:624
 msgid ""
 "Large files (i.e. exceeding 20&nbsp;kbytes) are published as thumbnails. By "
 "clicking on thumbnails people can access full-sized pictures. The title is "
@@ -317,20 +317,20 @@ msgstr ""
 "complètes. Le titre est affiché lorsque la souris survole la vignette. La "
 "description et la source sont affichées avec l'image complète."
 
-#: images/edit.php:628
+#: images/edit.php:625
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr "Utilisez %s et %s pour embellir le texte."
 
-#: images/edit.php:628
+#: images/edit.php:625
 msgid "YACS codes"
 msgstr "codes YACS"
 
-#: images/edit.php:628
+#: images/edit.php:625
 msgid "smileys"
 msgstr "emoticons"
 
-#: images/edit.php:629
+#: images/edit.php:626
 msgid ""
 "Smaller files are embedded as-is. The description and the source fields are "
 "more or less useless in this case."
@@ -338,56 +338,56 @@ msgstr ""
 "Les fichiers plus petits sont intégrés tels quels dans la page. Inutile de "
 "remplir les champs description et source dans ce cas."
 
-#: images/edit.php:630 images/view.php:249
+#: images/edit.php:627 images/view.php:249
 msgid "Help"
 msgstr "Aide"
 
-#: images/image.php:35
+#: images/image.php:40
 #, php-format
 msgid "No image information in %s."
 msgstr "Aucune image valide dans %s"
 
-#: images/image.php:54
+#: images/image.php:59
 #, php-format
 msgid "No GD support, or unknown image type in %s."
 msgstr "Pas de support GD ou type d'image inconnu dans %s."
 
-#: images/image.php:118
+#: images/image.php:123
 #, php-format
 msgid "Impossible to adjust image %s."
 msgstr "Impossible d'ajuster l'image %s."
 
-#: images/image.php:132
+#: images/image.php:137
 #, php-format
 msgid "Cannot write adjusted image to %s."
 msgstr "Impossible d'écrire l'image ajustée %s."
 
-#: images/image.php:196 images/image.php:340
+#: images/image.php:201 images/image.php:345
 #, php-format
 msgid "No image information in %s"
 msgstr "Aucune image valide dans %s"
 
-#: images/image.php:215
+#: images/image.php:220
 #, php-format
 msgid "Unknown image type in %s."
 msgstr "Type d'image inconnu dans %s."
 
-#: images/image.php:275
+#: images/image.php:280
 #, php-format
 msgid "Cannot copy image to %s"
 msgstr "Impossible de copier vers %s"
 
-#: images/image.php:299
+#: images/image.php:304
 #, php-format
 msgid "Impossible to skrink image %s"
 msgstr "Impossible de réduire l'image %s"
 
-#: images/image.php:313
+#: images/image.php:318
 #, php-format
 msgid "Impossible to write to %s."
 msgstr "Impossible d'écrire dans %s."
 
-#: images/image.php:346
+#: images/image.php:351
 #, php-format
 msgid "Rejected file type %s"
 msgstr "Type de fichier invalide %s"
@@ -422,6 +422,10 @@ msgstr[1] "%d images"
 msgid "Recent pages"
 msgstr "Pages récentes"
 
+#: images/layout_images_as_hits.php:57
+msgid "hits"
+msgstr "sélections"
+
 #: images/layout_images.php:86
 #, php-format
 msgid "In %s"
@@ -446,10 +450,6 @@ msgstr "Comme vignette de page, dans les listes"
 #: images/layout_images.php:128 images/view.php:243
 msgid "Delete this image"
 msgstr "Supprimer cette image"
-
-#: images/layout_images_as_hits.php:57
-msgid "hits"
-msgstr "sélections"
 
 #: images/set_as_icon.php:60 images/set_as_thumbnail.php:58
 msgid "Use an image"

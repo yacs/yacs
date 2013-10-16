@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-01 00:19+0200\n"
+"POT-Creation-Date: 2013-10-16 16:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,9 +17,9 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: feeds/configure.php:68 feeds/configure.php:203 feeds/configure.php:292
+#: feeds/configure.php:68 feeds/configure.php:203 feeds/configure.php:289
 #: feeds/flash/configure.php:53 feeds/flash/configure.php:158
-#: feeds/flash/configure.php:249
+#: feeds/flash/configure.php:246
 msgid "Control Panel"
 msgstr ""
 
@@ -32,9 +32,9 @@ msgstr ""
 msgid "Configure"
 msgstr ""
 
-#: feeds/configure.php:71 feeds/configure.php:207 feeds/configure.php:291
+#: feeds/configure.php:71 feeds/configure.php:207 feeds/configure.php:288
 #: feeds/index.php:58 feeds/flash/configure.php:166
-#: feeds/flash/configure.php:248
+#: feeds/flash/configure.php:245
 msgid "Information channels"
 msgstr ""
 
@@ -140,68 +140,68 @@ msgstr ""
 msgid "Press [s] to submit data"
 msgstr ""
 
-#: feeds/configure.php:222
+#: feeds/configure.php:219
 #, php-format
 msgid "To ban some hosts or domains, go to the %s."
 msgstr ""
 
-#: feeds/configure.php:222
+#: feeds/configure.php:219
 msgid "configuration panel for servers"
 msgstr ""
 
-#: feeds/configure.php:223 feeds/flash/configure.php:182
+#: feeds/configure.php:220 feeds/flash/configure.php:179
 msgid "Help"
 msgstr ""
 
-#: feeds/configure.php:228 feeds/flash/configure.php:187
+#: feeds/configure.php:225 feeds/flash/configure.php:184
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr ""
 
-#: feeds/configure.php:266 feeds/flash/configure.php:225
+#: feeds/configure.php:263 feeds/flash/configure.php:222
 #, php-format
 msgid ""
 "ERROR: Impossible to write to the file %s. The configuration has not been "
 "saved."
 msgstr ""
 
-#: feeds/configure.php:269 feeds/flash/configure.php:228
+#: feeds/configure.php:266 feeds/flash/configure.php:225
 #, php-format
 msgid ""
 "To actually change the configuration, please copy and paste following lines "
 "by yourself in file %s."
 msgstr ""
 
-#: feeds/configure.php:274 feeds/flash/configure.php:233
+#: feeds/configure.php:271 feeds/flash/configure.php:230
 #, php-format
 msgid "The following configuration has been saved into the file %s."
 msgstr ""
 
-#: feeds/configure.php:280 feeds/flash/configure.php:236
+#: feeds/configure.php:277 feeds/flash/configure.php:233
 #, php-format
 msgid "%s has been updated"
 msgstr ""
 
-#: feeds/configure.php:286 feeds/flash/configure.php:242
+#: feeds/configure.php:283 feeds/flash/configure.php:239
 msgid "Configuration parameters"
 msgstr ""
 
-#: feeds/configure.php:289 feeds/flash/configure.php:245
+#: feeds/configure.php:286 feeds/flash/configure.php:242
 msgid "Where do you want to go now?"
 msgstr ""
 
-#: feeds/configure.php:293 feeds/flash/configure.php:250
+#: feeds/configure.php:290 feeds/flash/configure.php:247
 msgid "Configure again"
 msgstr ""
 
-#: feeds/describe.php:69
+#: feeds/describe.php:72
 msgid "Pages with full content"
 msgstr ""
 
-#: feeds/describe.php:72
+#: feeds/describe.php:75
 msgid "Comments"
 msgstr ""
 
-#: feeds/describe.php:75
+#: feeds/describe.php:78
 msgid "Files and podcasts"
 msgstr ""
 
@@ -399,7 +399,7 @@ msgstr ""
 msgid "Aggregate this site"
 msgstr ""
 
-#: feeds/rss.php:110
+#: feeds/rss.php:113
 msgid "Latest Articles"
 msgstr ""
 
@@ -469,10 +469,10 @@ msgstr ""
 msgid "Internal vertical scale"
 msgstr ""
 
-#: feeds/flash/configure.php:162 feeds/flash/configure.php:247
+#: feeds/flash/configure.php:162 feeds/flash/configure.php:244
 msgid "Front page"
 msgstr ""
 
-#: feeds/flash/configure.php:181
+#: feeds/flash/configure.php:178
 msgid "Do not set any background color to achieve a transparent object."
 msgstr ""

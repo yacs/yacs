@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-07 10:32+0200\n"
+"POT-Creation-Date: 2013-10-15 15:34+0200\n"
 "PO-Revision-Date: 2010-08-11 17:30+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Alexis Raimbault, Bernard Paques\n"
@@ -154,7 +154,7 @@ msgstr "Novembre"
 msgid "December"
 msgstr "Décembre"
 
-#: dates/dates.php:1031 dates/edit.php:226
+#: dates/dates.php:1031 dates/edit.php:225
 msgid "Please provide a date."
 msgstr "Merci d'indiquer une date."
 
@@ -190,17 +190,17 @@ msgstr "Oui, je veux supprimer cette date"
 msgid "Cancel"
 msgstr "Annuler"
 
-#: dates/delete.php:127 dates/edit.php:124 dates/view.php:76
+#: dates/delete.php:124 dates/edit.php:124 dates/view.php:76
 #, php-format
 msgid "%s: %s"
 msgstr "%s : %s"
 
-#: dates/delete.php:127 dates/edit.php:124 dates/edit.php:193
+#: dates/delete.php:124 dates/edit.php:124 dates/edit.php:193
 #: dates/view.php:76
 msgid "Target date"
 msgstr "Date cible"
 
-#: dates/delete.php:134 dates/layout_dates.php:70 dates/view.php:83
+#: dates/delete.php:131 dates/layout_dates.php:70 dates/view.php:83
 #, php-format
 msgid "edited by %s %s"
 msgstr "modifié par %s %s"
@@ -229,8 +229,8 @@ msgstr "La date a été enregistrée."
 msgid "What do you want to do now?"
 msgstr "Que voulez-vous faire à présent ?"
 
-#: dates/edit.php:141 dates/layout_dates.php:61
-#: dates/layout_dates_as_family.php:83
+#: dates/edit.php:141 dates/layout_dates_as_family.php:83
+#: dates/layout_dates.php:61
 msgid "View the page"
 msgstr "Voir la page"
 
@@ -258,20 +258,20 @@ msgstr "Enregistrer"
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
-#: dates/edit.php:240
+#: dates/edit.php:237
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr "Utilisez %s et %s pour embellir le texte."
 
-#: dates/edit.php:240
+#: dates/edit.php:237
 msgid "YACS codes"
 msgstr "codes YACS"
 
-#: dates/edit.php:240
+#: dates/edit.php:237
 msgid "smileys"
 msgstr "emoticons"
 
-#: dates/edit.php:241
+#: dates/edit.php:238
 msgid "Help"
 msgstr "Aide"
 

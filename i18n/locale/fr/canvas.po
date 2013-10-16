@@ -5,7 +5,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Yacs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-30 23:53+0200\n"
 "PO-Revision-Date: 2013-05-01 00:07+0100\n"
@@ -13,9 +13,12 @@ msgstr ""
 "Language-Team: none\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ASCII\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
 #: canvas/index.php:23
 msgid "Canvas"
@@ -28,7 +31,7 @@ msgstr "Les canevas suivants peuvent personnaliser les pages de certaines sectio
 #: canvas/index.php:58
 #, php-format
 msgid "For example, if you want to apply the canvas <code>foo</code>, go to the %s, and select a target section, or add one."
-msgstr "Par exemple, pour employer le canevas <code>foo</code>, aller à %s, et sélectionner une section cible, ou en ajouter une."
+msgstr "Par exemple, pour employer le canevas <code>foo</code>, aller Ã  %s, et sÃ©lectionner une section cible, ou en ajouter une."
 
 #: canvas/index.php:58
 msgid "site map"
@@ -52,5 +55,5 @@ msgstr "Discussion"
 
 #: canvas/standard.php:105
 msgid "Attachments"
-msgstr "Pièces jointes"
+msgstr "PiÃ¨ces jointes"
 

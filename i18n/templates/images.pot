@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-01 00:19+0200\n"
+"POT-Creation-Date: 2013-10-16 16:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,17 +105,17 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: images/delete.php:159 images/edit.php:467 images/edit.php:479
+#: images/delete.php:156 images/edit.php:467 images/edit.php:479
 #: images/layout_images.php:99
 msgid "bytes"
 msgstr ""
 
-#: images/delete.php:163 images/layout_images.php:103 images/view.php:223
+#: images/delete.php:160 images/layout_images.php:103 images/view.php:223
 #, php-format
 msgid "edited by %s %s"
 msgstr ""
 
-#: images/delete.php:180 images/view.php:210
+#: images/delete.php:177 images/view.php:210
 #, php-format
 msgid "Source: %s"
 msgstr ""
@@ -298,7 +298,7 @@ msgstr ""
 msgid "Ensure this post is valid XHTML."
 msgstr ""
 
-#: images/edit.php:627
+#: images/edit.php:624
 msgid ""
 "Large files (i.e. exceeding 20&nbsp;kbytes) are published as thumbnails. By "
 "clicking on thumbnails people can access full-sized pictures. The title is "
@@ -306,75 +306,75 @@ msgid ""
 "source information are displayed along the full-sized picture."
 msgstr ""
 
-#: images/edit.php:628
+#: images/edit.php:625
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr ""
 
-#: images/edit.php:628
+#: images/edit.php:625
 msgid "YACS codes"
 msgstr ""
 
-#: images/edit.php:628
+#: images/edit.php:625
 msgid "smileys"
 msgstr ""
 
-#: images/edit.php:629
+#: images/edit.php:626
 msgid ""
 "Smaller files are embedded as-is. The description and the source fields are "
 "more or less useless in this case."
 msgstr ""
 
-#: images/edit.php:630 images/view.php:249
+#: images/edit.php:627 images/view.php:249
 msgid "Help"
 msgstr ""
 
-#: images/image.php:35
+#: images/image.php:40
 #, php-format
 msgid "No image information in %s."
 msgstr ""
 
-#: images/image.php:54
+#: images/image.php:59
 #, php-format
 msgid "No GD support, or unknown image type in %s."
 msgstr ""
 
-#: images/image.php:118
+#: images/image.php:123
 #, php-format
 msgid "Impossible to adjust image %s."
 msgstr ""
 
-#: images/image.php:132
+#: images/image.php:137
 #, php-format
 msgid "Cannot write adjusted image to %s."
 msgstr ""
 
-#: images/image.php:196 images/image.php:340
+#: images/image.php:201 images/image.php:345
 #, php-format
 msgid "No image information in %s"
 msgstr ""
 
-#: images/image.php:215
+#: images/image.php:220
 #, php-format
 msgid "Unknown image type in %s."
 msgstr ""
 
-#: images/image.php:275
+#: images/image.php:280
 #, php-format
 msgid "Cannot copy image to %s"
 msgstr ""
 
-#: images/image.php:299
+#: images/image.php:304
 #, php-format
 msgid "Impossible to skrink image %s"
 msgstr ""
 
-#: images/image.php:313
+#: images/image.php:318
 #, php-format
 msgid "Impossible to write to %s."
 msgstr ""
 
-#: images/image.php:346
+#: images/image.php:351
 #, php-format
 msgid "Rejected file type %s"
 msgstr ""
@@ -409,6 +409,10 @@ msgstr[1] ""
 msgid "Recent pages"
 msgstr ""
 
+#: images/layout_images_as_hits.php:57
+msgid "hits"
+msgstr ""
+
 #: images/layout_images.php:86
 #, php-format
 msgid "In %s"
@@ -432,10 +436,6 @@ msgstr ""
 
 #: images/layout_images.php:128 images/view.php:243
 msgid "Delete this image"
-msgstr ""
-
-#: images/layout_images_as_hits.php:57
-msgid "hits"
 msgstr ""
 
 #: images/set_as_icon.php:60 images/set_as_thumbnail.php:58
