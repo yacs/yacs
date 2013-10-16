@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-01 00:19+0200\n"
+"POT-Creation-Date: 2013-10-16 16:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,18 +18,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: comments/check.php:21 comments/edit.php:165 comments/feed.php:73
+#: comments/check.php:21 comments/edit.php:165 comments/feed.php:76
 #: comments/list.php:98 comments/list.php:104 comments/list.php:170
 #: comments/post.php:178
 msgid "Comments"
 msgstr ""
 
-#: comments/check.php:24 comments/index.php:95
+#: comments/check.php:24 comments/index.php:94
 msgid "Maintenance"
 msgstr ""
 
 #: comments/check.php:29 comments/delete.php:72 comments/delete.php:81
-#: comments/edit.php:181 comments/edit.php:197 comments/feed.php:89
+#: comments/edit.php:181 comments/edit.php:197 comments/feed.php:92
 #: comments/index.php:51 comments/list.php:120 comments/list.php:125
 #: comments/post.php:186 comments/promote.php:77 comments/promote.php:92
 #: comments/thread.php:54 comments/thread.php:64 comments/thread.php:69
@@ -151,7 +151,7 @@ msgstr ""
 msgid "Job has been completed"
 msgstr ""
 
-#: comments/comments.php:1605 comments/index.php:80
+#: comments/comments.php:1605 comments/index.php:79
 msgid "No comment has been transmitted."
 msgstr ""
 
@@ -180,13 +180,13 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: comments/delete.php:137 comments/promote.php:162 comments/view.php:152
+#: comments/delete.php:134 comments/promote.php:159 comments/view.php:152
 #, php-format
 msgid "by %s %s"
 msgstr ""
 
-#: comments/delete.php:141 comments/layout_comments_as_updates.php:153
-#: comments/promote.php:166 comments/view.php:158
+#: comments/delete.php:138 comments/layout_comments_as_updates.php:153
+#: comments/promote.php:163 comments/view.php:158
 #, php-format
 msgid "edited by %s %s"
 msgstr ""
@@ -339,21 +339,21 @@ msgstr ""
 msgid "Ensure this post is valid XHTML."
 msgstr ""
 
-#: comments/edit.php:604
+#: comments/edit.php:603
 msgid "Please type a valid comment"
 msgstr ""
 
-#: comments/edit.php:637
+#: comments/edit.php:633
 #, php-format
 msgid "posted by %s %s"
 msgstr ""
 
-#: comments/edit.php:642
+#: comments/edit.php:638
 msgid ""
 "You can cut and paste some text from the field below to shape your post."
 msgstr ""
 
-#: comments/edit.php:647
+#: comments/edit.php:643
 msgid ""
 "Hearty discussion and unpopular viewpoints are welcome, but please keep "
 "comments on-category and civil. Flaming, trolling, and smarmy comments are "
@@ -361,56 +361,56 @@ msgid ""
 "post for any reason. Don't make us do it."
 msgstr ""
 
-#: comments/edit.php:649
+#: comments/edit.php:645
 msgid ""
 "Since you are posting anonymously, most HTML tags and web addresses are "
 "removed."
 msgstr ""
 
-#: comments/edit.php:651
+#: comments/edit.php:647
 msgid "Most HTML tags are removed."
 msgstr ""
 
-#: comments/edit.php:654
+#: comments/edit.php:650
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr ""
 
-#: comments/edit.php:654
+#: comments/edit.php:650
 msgid "YACS codes"
 msgstr ""
 
-#: comments/edit.php:654
+#: comments/edit.php:650
 msgid "smileys"
 msgstr ""
 
-#: comments/edit.php:661
+#: comments/edit.php:657
 msgid "TinyMCE"
 msgstr ""
 
-#: comments/edit.php:665
+#: comments/edit.php:661
 msgid "Textarea"
 msgstr ""
 
-#: comments/edit.php:669
+#: comments/edit.php:665
 msgid "Help"
 msgstr ""
 
-#: comments/feed.php:76
+#: comments/feed.php:79
 msgid "RSS feed"
 msgstr ""
 
-#: comments/feed.php:111
+#: comments/feed.php:114
 #, php-format
 msgid "Comments for: %s"
 msgstr ""
 
-#: comments/feed.php:115
+#: comments/feed.php:118
 #, php-format
 msgid "Recent comments at %s"
 msgstr ""
 
-#: comments/feed.php:117
+#: comments/feed.php:120
 msgid "Each article also has its own newsfeed."
 msgstr ""
 
@@ -421,20 +421,8 @@ msgid_plural "%d threads"
 msgstr[0] ""
 msgstr[1] ""
 
-#: comments/index.php:103
+#: comments/index.php:102
 msgid "Recent pages"
-msgstr ""
-
-#: comments/layout_comments.php:54 comments/layout_comments_as_updates.php:83
-msgid "View this comment"
-msgstr ""
-
-#: comments/layout_comments.php:72 comments/layout_comments_as_replies.php:65
-msgid "edit"
-msgstr ""
-
-#: comments/layout_comments.php:73 comments/layout_comments_as_replies.php:66
-msgid "delete"
 msgstr ""
 
 #: comments/layout_comments_as_excerpt.php:47
@@ -444,6 +432,14 @@ msgstr ""
 #: comments/layout_comments_as_feed.php:54
 #, php-format
 msgid "on %s"
+msgstr ""
+
+#: comments/layout_comments_as_replies.php:65 comments/layout_comments.php:72
+msgid "edit"
+msgstr ""
+
+#: comments/layout_comments_as_replies.php:66 comments/layout_comments.php:73
+msgid "delete"
 msgstr ""
 
 #: comments/layout_comments_as_replies.php:81
@@ -456,6 +452,10 @@ msgstr ""
 #: comments/layout_comments_as_updates.php:121 comments/view.php:178
 #: comments/view.php:208 comments/view.php:221
 msgid "Edit"
+msgstr ""
+
+#: comments/layout_comments_as_updates.php:83 comments/layout_comments.php:54
+msgid "View this comment"
 msgstr ""
 
 #: comments/layout_comments_as_updates.php:112

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-30 23:53+0200\n"
+"POT-Creation-Date: 2013-10-15 15:34+0200\n"
 "PO-Revision-Date: 2012-11-20 23:54+0100\n"
 "Last-Translator: Bernard Paques <bernard.paques@gmail.com>\n"
 "Language-Team: Bernard Paques\n"
@@ -18,18 +18,18 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: comments/check.php:21 comments/edit.php:165 comments/feed.php:73
+#: comments/check.php:21 comments/edit.php:165 comments/feed.php:76
 #: comments/list.php:98 comments/list.php:104 comments/list.php:170
 #: comments/post.php:178
 msgid "Comments"
 msgstr "Comments"
 
-#: comments/check.php:24 comments/index.php:95
+#: comments/check.php:24 comments/index.php:94
 msgid "Maintenance"
 msgstr "Maintenance"
 
 #: comments/check.php:29 comments/delete.php:72 comments/delete.php:81
-#: comments/edit.php:181 comments/edit.php:197 comments/feed.php:89
+#: comments/edit.php:181 comments/edit.php:197 comments/feed.php:92
 #: comments/index.php:51 comments/list.php:120 comments/list.php:125
 #: comments/post.php:186 comments/promote.php:77 comments/promote.php:92
 #: comments/thread.php:54 comments/thread.php:64 comments/thread.php:69
@@ -151,7 +151,7 @@ msgstr "Attention"
 msgid "Job has been completed"
 msgstr "Job has been completed"
 
-#: comments/comments.php:1605 comments/index.php:80
+#: comments/comments.php:1605 comments/index.php:79
 msgid "No comment has been transmitted."
 msgstr "No comment has been transmitted."
 
@@ -180,13 +180,13 @@ msgstr "Yes, I want to delete this comment"
 msgid "Cancel"
 msgstr "Cancel"
 
-#: comments/delete.php:137 comments/promote.php:162 comments/view.php:152
+#: comments/delete.php:134 comments/promote.php:159 comments/view.php:152
 #, php-format
 msgid "by %s %s"
 msgstr "by %s %s"
 
-#: comments/delete.php:141 comments/layout_comments_as_updates.php:153
-#: comments/promote.php:166 comments/view.php:158
+#: comments/delete.php:138 comments/layout_comments_as_updates.php:153
+#: comments/promote.php:163 comments/view.php:158
 #, php-format
 msgid "edited by %s %s"
 msgstr "edited by %s %s"
@@ -341,85 +341,85 @@ msgstr "Do not change modification date of the main page."
 msgid "Ensure this post is valid XHTML."
 msgstr "Ensure this post is valid XHTML."
 
-#: comments/edit.php:604
+#: comments/edit.php:603
 msgid "Please type a valid comment"
 msgstr "Please type a valid comment"
 
-#: comments/edit.php:637
+#: comments/edit.php:633
 #, php-format
 msgid "posted by %s %s"
 msgstr "posted by %s %s"
 
-#: comments/edit.php:642
+#: comments/edit.php:638
 msgid ""
 "You can cut and paste some text from the field below to shape your post."
 msgstr ""
 "You can cut and paste some text from the field below to shape your post."
+
+#: comments/edit.php:643
+msgid ""
+"Hearty discussion and unpopular viewpoints are welcome, but please keep "
+"comments on-category and civil. Flaming, trolling, and smarmy comments are "
+"discouraged and may be deleted. In fact, we reserve the right to delete any "
+"post for any reason. Don't make us do it."
+msgstr ""
+"Hearty discussion and unpopular viewpoints are welcome, but please keep "
+"comments on-category and civil. Flaming, trolling, and smarmy comments are "
+"discouraged and may be deleted. In fact, we reserve the right to delete any "
+"post for any reason. Don't make us do it."
+
+#: comments/edit.php:645
+msgid ""
+"Since you are posting anonymously, most HTML tags and web addresses are "
+"removed."
+msgstr ""
+"Since you are posting anonymously, most HTML tags and web addresses are "
+"removed."
 
 #: comments/edit.php:647
-msgid ""
-"Hearty discussion and unpopular viewpoints are welcome, but please keep "
-"comments on-category and civil. Flaming, trolling, and smarmy comments are "
-"discouraged and may be deleted. In fact, we reserve the right to delete any "
-"post for any reason. Don't make us do it."
-msgstr ""
-"Hearty discussion and unpopular viewpoints are welcome, but please keep "
-"comments on-category and civil. Flaming, trolling, and smarmy comments are "
-"discouraged and may be deleted. In fact, we reserve the right to delete any "
-"post for any reason. Don't make us do it."
-
-#: comments/edit.php:649
-msgid ""
-"Since you are posting anonymously, most HTML tags and web addresses are "
-"removed."
-msgstr ""
-"Since you are posting anonymously, most HTML tags and web addresses are "
-"removed."
-
-#: comments/edit.php:651
 msgid "Most HTML tags are removed."
 msgstr "Most HTML tags are removed."
 
-#: comments/edit.php:654
+#: comments/edit.php:650
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr "%s and %s are available to enhance text rendering."
 
-#: comments/edit.php:654
+#: comments/edit.php:650
 msgid "YACS codes"
 msgstr "YACS codes"
 
-#: comments/edit.php:654
+#: comments/edit.php:650
 msgid "smileys"
 msgstr "smileys"
 
-#: comments/edit.php:661
+#: comments/edit.php:657
 msgid "TinyMCE"
 msgstr "TinyMCE"
 
-#: comments/edit.php:665
+#: comments/edit.php:661
 msgid "Textarea"
 msgstr "Textarea"
 
-#: comments/edit.php:669
+#: comments/edit.php:665
 msgid "Help"
 msgstr "Help"
 
-#: comments/feed.php:76
+#: comments/feed.php:79
 msgid "RSS feed"
 msgstr "RSS feed"
 
-#: comments/feed.php:111
+#: comments/feed.php:114
 #, php-format
 msgid "Comments for: %s"
 msgstr "Comments for: %s"
 
-#: comments/feed.php:115
+#: comments/feed.php:118
 #, php-format
 msgid "Recent comments at %s"
 msgstr "Recent comments at %s"
 
-#: comments/feed.php:117
+#: comments/feed.php:120
 msgid "Each article also has its own newsfeed."
 msgstr "Each article also has its own newsfeed."
 
@@ -430,21 +430,9 @@ msgid_plural "%d threads"
 msgstr[0] "%d thread"
 msgstr[1] "%d threads"
 
-#: comments/index.php:103
+#: comments/index.php:102
 msgid "Recent pages"
 msgstr "Recent pages"
-
-#: comments/layout_comments.php:54 comments/layout_comments_as_updates.php:83
-msgid "View this comment"
-msgstr "View this comment"
-
-#: comments/layout_comments.php:72 comments/layout_comments_as_replies.php:65
-msgid "edit"
-msgstr "edit"
-
-#: comments/layout_comments.php:73 comments/layout_comments_as_replies.php:66
-msgid "delete"
-msgstr "delete"
 
 #: comments/layout_comments_as_excerpt.php:47
 msgid "anonymous"
@@ -454,6 +442,14 @@ msgstr "anonymous"
 #, php-format
 msgid "on %s"
 msgstr "on %s"
+
+#: comments/layout_comments_as_replies.php:65 comments/layout_comments.php:72
+msgid "edit"
+msgstr "edit"
+
+#: comments/layout_comments_as_replies.php:66 comments/layout_comments.php:73
+msgid "delete"
+msgstr "delete"
 
 #: comments/layout_comments_as_replies.php:81
 #, php-format
@@ -466,6 +462,10 @@ msgstr "modified by %s"
 #: comments/view.php:208 comments/view.php:221
 msgid "Edit"
 msgstr "Edit"
+
+#: comments/layout_comments_as_updates.php:83 comments/layout_comments.php:54
+msgid "View this comment"
+msgstr "View this comment"
 
 #: comments/layout_comments_as_updates.php:112
 #: comments/layout_comments_as_updates.php:124 comments/view.php:230
