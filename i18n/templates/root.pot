@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-01 00:19+0200\n"
+"POT-Creation-Date: 2013-10-16 16:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,7 @@ msgstr ""
 msgid "%s: %s"
 msgstr ""
 
-#: configure.php:110 index.php:486
+#: configure.php:110 index.php:454
 msgid "Configure"
 msgstr ""
 
@@ -149,7 +149,7 @@ msgstr ""
 msgid "here"
 msgstr ""
 
-#: configure.php:247 index.php:490
+#: configure.php:247 index.php:458
 msgid "Gadget boxes"
 msgstr ""
 
@@ -496,62 +496,62 @@ msgstr ""
 msgid "Waiting for the other person to join"
 msgstr ""
 
-#: faceme.php:351
+#: faceme.php:348
 msgid "Connecting again to OpenTok"
 msgstr ""
 
-#: faceme.php:360
+#: faceme.php:355
 msgid "A webcam is required to be visible"
 msgstr ""
 
-#: faceme.php:369
+#: faceme.php:362
 msgid "You are not visible"
 msgstr ""
 
-#: faceme.php:372
+#: faceme.php:365
 msgid "You have been muted"
 msgstr ""
 
-#: faceme.php:380
+#: faceme.php:372
 msgid "Full-duplex mode"
 msgstr ""
 
-#: faceme.php:383
+#: faceme.php:375
 msgid "No echo cancellation"
 msgstr ""
 
-#: faceme.php:393
+#: faceme.php:384
 msgid "Error while connecting to OpenTok"
 msgstr ""
 
-#: faceme.php:433
+#: faceme.php:424
 msgid "Connecting to OpenTok"
 msgstr ""
 
-#: faceme.php:448
+#: faceme.php:439
 msgid "This system is not supported by OpenTok"
 msgstr ""
 
-#: faceme.php:483
+#: faceme.php:474
 msgid "Adding local video stream"
 msgstr ""
 
-#: faceme.php:544
+#: faceme.php:535
 #, php-format
 msgid "%s is talking"
 msgstr ""
 
-#: faceme.php:546
+#: faceme.php:537
 #, php-format
 msgid "%s is listening"
 msgstr ""
 
-#: faceme.php:551
+#: faceme.php:542
 #, php-format
 msgid "%s is not visible"
 msgstr ""
 
-#: faceme.php:566
+#: faceme.php:557
 msgid "Adding remote video streams"
 msgstr ""
 
@@ -588,62 +588,57 @@ msgstr ""
 msgid "Nick name"
 msgstr ""
 
-#: go.php:158 search.php:149
+#: go.php:157
 msgid "Please type something to search for"
 msgstr ""
 
-#: go.php:175
+#: go.php:173
 #, php-format
 msgid "Submit \"%s\" to our %s in case some pages could match this keyword."
 msgstr ""
 
-#: go.php:175
+#: go.php:173
 msgid "search engine"
 msgstr ""
 
-#: index.php:343 index.php:410
-#, php-format
-msgid "Warning: No script exists for the customized layout %s"
-msgstr ""
-
-#: index.php:434
+#: index.php:402
 msgid "No page to display."
 msgstr ""
 
-#: index.php:436
+#: index.php:404
 #, php-format
 msgid "Use the %s to populate this server."
 msgstr ""
 
-#: index.php:436 setup.php:332
+#: index.php:404 setup.php:332
 msgid "Content Assistant"
 msgstr ""
 
-#: index.php:445 query.php:160
+#: index.php:413 query.php:160
 msgid "All pages"
 msgstr ""
 
-#: index.php:456
+#: index.php:424
 msgid "Recent Pages"
 msgstr ""
 
-#: index.php:488
+#: index.php:456
 msgid "Cover page"
 msgstr ""
 
-#: index.php:492
+#: index.php:460
 msgid "Extra boxes"
 msgstr ""
 
-#: index.php:494
+#: index.php:462
 msgid "Navigation boxes"
 msgstr ""
 
-#: index.php:509
+#: index.php:477
 msgid "featured"
 msgstr ""
 
-#: index.php:513 index.php:521
+#: index.php:481 index.php:489
 msgid "Featured pages"
 msgstr ""
 
@@ -663,7 +658,7 @@ msgstr ""
 msgid "Page content"
 msgstr ""
 
-#: query.php:44 query.php:323 search.php:374
+#: query.php:44 query.php:319 search.php:373
 msgid "Help"
 msgstr ""
 
@@ -795,23 +790,23 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: query.php:279
+#: query.php:278
 msgid "Please give your first and last names"
 msgstr ""
 
-#: query.php:286
+#: query.php:284
 msgid "Please give your e-mail address"
 msgstr ""
 
-#: query.php:293
+#: query.php:290
 msgid "Please provide a meaningful title."
 msgstr ""
 
-#: query.php:299
+#: query.php:296
 msgid "The description should not exceed 64000 characters."
 msgstr ""
 
-#: query.php:313
+#: query.php:309
 msgid ""
 "<p>Use this form to submit any kind of request you can have, from simple "
 "suggestions to complex questions.</p><p>Hearty discussion and unpopular "
@@ -820,27 +815,27 @@ msgid ""
 "the right to delete any post for any reason. Don't make us do it.</p>"
 msgstr ""
 
-#: query.php:315
+#: query.php:311
 msgid ""
 "If you paste some existing HTML content and want to avoid the implicit "
 "formatting insert the code <code>[formatted]</code> at the very beginning of "
 "the description field."
 msgstr ""
 
-#: query.php:317
+#: query.php:313
 msgid "Most HTML tags are removed."
 msgstr ""
 
-#: query.php:318
+#: query.php:314
 #, php-format
 msgid "You can use %s to beautify your post"
 msgstr ""
 
-#: query.php:318
+#: query.php:314
 msgid "YACS codes"
 msgstr ""
 
-#: query.php:321
+#: query.php:317
 msgid "Mandatory fields are marked with a *"
 msgstr ""
 
@@ -869,11 +864,15 @@ msgstr ""
 msgid "Look in all or only one section."
 msgstr ""
 
-#: search.php:239
+#: search.php:148
+msgid "Please type something to search for."
+msgstr ""
+
+#: search.php:237
 msgid "Get more results"
 msgstr ""
 
-#: search.php:262
+#: search.php:261
 #, php-format
 msgid ""
 "<p>No page has been found. This will happen with very short words (less than "
@@ -882,51 +881,51 @@ msgid ""
 "words and to suppress \"noise\" words.</p>"
 msgstr ""
 
-#: search.php:265
+#: search.php:264
 msgid "Results"
 msgstr ""
 
-#: search.php:277
+#: search.php:276
 msgid "Search all of the Internet"
 msgstr ""
 
-#: search.php:284
+#: search.php:283
 msgid "Google"
 msgstr ""
 
-#: search.php:288
+#: search.php:287
 msgid "Bing"
 msgstr ""
 
-#: search.php:292
+#: search.php:291
 msgid "Yahoo!"
 msgstr ""
 
-#: search.php:296
+#: search.php:295
 msgid "Ask Jeeves"
 msgstr ""
 
-#: search.php:299
+#: search.php:298
 msgid "Extended search"
 msgstr ""
 
-#: search.php:311
+#: search.php:310
 msgid "At partner sites"
 msgstr ""
 
-#: search.php:361
+#: search.php:360
 msgid "Remember this search"
 msgstr ""
 
-#: search.php:365
+#: search.php:364
 msgid "Search in all sections"
 msgstr ""
 
-#: search.php:369
+#: search.php:368
 msgid "Look for a named page"
 msgstr ""
 
-#: search.php:374
+#: search.php:373
 msgid ""
 "This search engine only display pages that have all words in it. <p>Also, "
 "only exact matches will be listed. Therefore \"category\" and \"categories\" "
@@ -934,15 +933,15 @@ msgid ""
 "different results.</p>"
 msgstr ""
 
-#: search.php:379
+#: search.php:378
 msgid "Matching pages"
 msgstr ""
 
-#: search.php:380
+#: search.php:379
 msgid "Monitor"
 msgstr ""
 
-#: search.php:386
+#: search.php:385
 msgid "Recent searches"
 msgstr ""
 
