@@ -1284,9 +1284,10 @@ function render_skin($with_last_modified=TRUE) {
 
 	// help Javascript scripts to locate files
 	$script = JS_PREFIX
-		.'	var url_to_root = "'.$context['url_to_home'].$context['url_to_root'].'";'."\n"
-		.'	var url_to_skin = "'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/";'."\n"
-		.'	var surfer_lang = "'.$context['language'].'";'."\n"
+		.'	var url_to_root	    = "'.$context['url_to_home'].$context['url_to_root'].'";'."\n"
+		.'	var url_to_skin	    = "'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/";'."\n"
+		.'	var url_to_master   = "'.$context['url_to_master'].$context['url_to_root'].'";'."\n"
+		.'	var surfer_lang	    = "'.$context['language'].'";'."\n"
 		.JS_SUFFIX;
 	
 	if($whole_rendering) {
