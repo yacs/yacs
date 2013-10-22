@@ -332,7 +332,7 @@ $context['host_name'] = strip_tags($context['host_name']);
 if($here = strrpos($context['host_name'], ':'))
 	$context['host_name'] = substr($context['host_name'], 0, $here);
 
-// master host name, won't be override by vhost 
+// master host name, won't be override by vhost
 $context['master_host'] = isset($context['main_host'])?$context['main_host']:$context['host_name'];
 
 // load skins parameters, if any
@@ -406,7 +406,7 @@ if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == '')) {
 	if(!isset($_COOKIE['PHPSESSID']) && isset($context['virtual_domains']) && count($context['virtual_domains'])) {
 
 		$_SESSION['cross_domain_login_required'] = true;
-				
+
 	}
 
 }
@@ -580,16 +580,16 @@ if(isset($_REQUEST['text']) && $_REQUEST['text']) {
 }
 
 
-/** 
+/**
  * autoloader of main classes
- * 
+ *
  * this function give a chance to use a class if file wasn't included
  */
 function core_autoload($class) {
     global $context;
-    
+
     $class = strtolower($class);
-    
+
     switch($class) {
 	case 'article':
 	    include_once $context['path_to_root'].'/articles/article.php';
@@ -608,9 +608,12 @@ function core_autoload($class) {
 	    break;
 	case 'codes':
 	    include_once $context['path_to_root'].'/shared/codes.php';
-	    break;	
+	    break;
 	case 'image':
 	    include_once $context['path_to_root'].'/images/image.php';
+	    break;
+	case 'activities' :
+	    include_once $context['path_to_root'].'/users/activities.php';
 	    break;
 	default :
 	    // this is default architecture of Yacs
@@ -722,16 +725,7 @@ if(!defined('NO_MODEL_PRELOAD')) {
 
 }
 
-//
-// All containers that will be referred in shared/anchors.php afterwards
-//
 if(!defined('NO_MODEL_PRELOAD')) {
-	include_once $context['path_to_root'].'articles/articles.php';
-	include_once $context['path_to_root'].'categories/categories.php';
-	include_once $context['path_to_root'].'files/files.php';
-	include_once $context['path_to_root'].'sections/sections.php';
-	include_once $context['path_to_root'].'users/users.php';
-	include_once $context['path_to_root'].'users/activities.php';
 
 	// load users parameters -- see users/configure.php
 	Safe::load('parameters/users.include.php');
@@ -960,7 +954,7 @@ function render_skin($with_last_modified=TRUE) {
 	if(isset($rendering_fuse))
 		return;
 	$rendering_fuse = TRUE;
-	
+
 	if(!isset($render_overlaid))
 	    $whole_rendering = true;
 	elseif($render_overlaid)
@@ -1289,7 +1283,7 @@ function render_skin($with_last_modified=TRUE) {
 		.'	var url_to_master   = "'.$context['url_to_master'].$context['url_to_root'].'";'."\n"
 		.'	var surfer_lang	    = "'.$context['language'].'";'."\n"
 		.JS_SUFFIX;
-	
+
 	if($whole_rendering) {
 	    // --in header, because of potential use by in-the-middle javascript snippet
 	    $metas[] = $script;
@@ -1301,8 +1295,8 @@ function render_skin($with_last_modified=TRUE) {
 	// activate tinyMCE, if available
 	if(isset($context['javascript']['tinymce'])) {
 
-		Page::defer_script('included/tiny_mce/tinymce.min.js');	
-		Page::insert_script('Yacs.tinymceInit();');				
+		Page::defer_script('included/tiny_mce/tinymce.min.js');
+		Page::insert_script('Yacs.tinymceInit();');
 
 	}
 
@@ -1314,7 +1308,7 @@ function render_skin($with_last_modified=TRUE) {
 	if(isset($context['site_head']))
 		$metas[] = $context['site_head'];
 
-	// provide a page reference to Javascript --e.g., for reporting activity from this page		
+	// provide a page reference to Javascript --e.g., for reporting activity from this page
 	$js_script = 'Yacs.current_item = "'
 		.((isset($context['current_item']) && $context['current_item'])?$context['current_item']:'').'"; '
 		.'Yacs.current_action = "'
@@ -1371,7 +1365,7 @@ function render_skin($with_last_modified=TRUE) {
 	// load occasional libraries declared through scripts
 	if(isset($context['javascript']['header']))
 	    $context['page_header'] .= $context['javascript']['header'];
-	
+
 	// load occasional libraries declared through scripts
 	if(isset($context['javascript']['defer']))
 		$context['page_footer'] .= $context['javascript']['defer'];
@@ -1401,19 +1395,19 @@ function render_skin($with_last_modified=TRUE) {
 //	else
 		$context['content_type'] = 'text/html';
 	Safe::header('Content-Type: '.$context['content_type'].'; charset='.$context['charset']);
-	
+
 	if(isset($render_overlaid) && $render_overlaid ) {
-	    
-	    Js_css::prepare_scripts_for_overlaying();	    
-	    
+
+	    Js_css::prepare_scripts_for_overlaying();
+
 	    if(isset($context['page_header']))
 		echo $context['page_header'];
 	    echo '<h2>'.$context['page_title'].'</h2>';
-	    echo $context['text'];	    
+	    echo $context['text'];
 	    if(isset($context['javascript']['footer']))
 		echo $context['javascript']['footer'];
 	    return;
-	}	
+	}
 
 	// load a template for this module -- php version
 	if(isset($context['skin_variant']) && is_readable($context['path_to_root'].$context['skin'].'/template_'.$context['skin_variant'].'.php'))
