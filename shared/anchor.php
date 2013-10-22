@@ -1356,7 +1356,7 @@ abstract class Anchor {
 		// get the related overlay, if any
 		$this->overlay = NULL;
 		if(isset($this->item['overlay']))
-			$this->overlay = Overlay::load($this->item, $this->get_reference());
+			$this->overlay = Overlay::load($this);
 
 	}
 
