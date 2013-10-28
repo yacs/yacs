@@ -1301,6 +1301,10 @@ var Yacs = {
 		Yacs.doNotCloseModal = true;
 		return;
 	    }
+	    
+	    // ask explicitly tinyMCE to save content
+	    if( typeof tinyMCE != "undefined" )
+		tinyMCE.triggerSave();
 
 	    // trigger submission
 	    //form.submit();
@@ -1318,7 +1322,7 @@ var Yacs = {
 		url:form.attr('action'),
 		type:form.attr('method'),
 		data:form.serialize()
-	    }).done(function(html){
+	    }).done(function(html){		
 		// var html = $(html);
 		// replace content element
 		// $('h1').replaceWith(html.find('h1'));
