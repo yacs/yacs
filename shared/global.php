@@ -955,9 +955,8 @@ function render_skin($with_last_modified=TRUE) {
 		return;
 	$rendering_fuse = TRUE;
 
-	if(!isset($render_overlaid))
-	    $whole_rendering = true;
-	elseif($render_overlaid)
+	$whole_rendering = true;
+	if(isset($render_overlaid) && $render_overlaid)
 	    $whole_rendering = false;
 
 	// ensure we have a fake skin, at least

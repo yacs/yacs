@@ -187,15 +187,16 @@ elseif(isset($item['id']) && Articles::allow_modification($item, $anchor))
 else
 	$permitted = FALSE;
 
+global $render_overlaid;
+$render_overlaid = false;
+$whole_rendering = true;
 // request may ask for overlaid content only
 if(isset($_REQUEST['overlaid']) && $_REQUEST['overlaid'] == 'Y') {
     $whole_rendering = false;   
     // warn also render_skin() for limited output
     // @see shared/global.php
-    global $render_overlaid;
     $render_overlaid = true;
-} else
-    $whole_rendering = true;
+} 
 
 // cascade empowerment
 if(Articles::is_owned($item, $anchor) || Surfer::is_associate())
@@ -429,8 +430,15 @@ if(Surfer::is_crawler()) {
 			// the page has been modified
 			$context['text'] .= '<p>'.i18n::s('The page has been successfully updated.').'</p>';
 
+			$recipients = Mailer::build_recipients('article:'.$item['id']);
+			
+			if($render_overlaid) {
+			    echo 'post done';
+			    die;
+			}
+			
 			// display the updated page
-			if(!$recipients = Mailer::build_recipients('article:'.$item['id']) && !$render_overlaid)
+			if(!$recipients)
 				Safe::redirect(Articles::get_permalink($item));
 						
 			// list persons that have been notified
