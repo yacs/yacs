@@ -628,8 +628,8 @@ class Safe {
 		global $context;
 
 		// maybe we have a native extension
-//		if(is_callable('json_encode'))
-//			return json_encode($data);
+		if(is_callable('json_encode'))
+			return json_encode($data);
 
 		// load the PHP library
 		if(file_exists($context['path_to_root'].'included/json.php')) {
