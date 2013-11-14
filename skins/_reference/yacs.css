@@ -962,7 +962,9 @@ div.menu_bar a.button,
 input[type="submit"],
 button.bigButton,
 div.menu_bar .button button { /* [button]url[/button], [button=label]url[/button] -- a link that mimic a form button */
-	background: -moz-linear-gradient(center top , #FFFFFF, #CCCCCC) repeat scroll 0 0 transparent;
+    background: -moz-linear-gradient(center top , #FFFFFF, #CCCCCC);
+    background: -webkit-linear-gradient(center top , #FFFFFF, #CCCCCC);
+    background: linear-gradient(center top , #FFFFFF, #CCCCCC);
     border: 1px solid #AAAAAA;
     border-radius: 12px 12px 12px 12px;
     color: #111111;
