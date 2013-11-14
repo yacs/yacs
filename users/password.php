@@ -249,10 +249,16 @@ if($with_form) {
 	// build the form
 	$context['text'] .= Skin::build_form($fields);
 
+	// cancel link
+	if(!isset($item['id']))
+	    $cancel_url = $context['url_to_home'].$context['url_to_root'];
+	else
+	    $cancel_url = Users::get_permalink($item);
+	
 	// bottom commands
 	$context['text'] .= Skin::finalize_list(array(
 		Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's'),
-		Skin::build_link(Users::get_permalink($item), i18n::s('Cancel'), 'span')
+		Skin::build_link($cancel_url, i18n::s('Cancel'), 'span')
 		), 'assistant_bar');
 
 	// hidden field that have to be saved as well
