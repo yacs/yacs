@@ -1360,6 +1360,20 @@ function render_skin($with_last_modified=TRUE) {
 		Page::defer_script('included/jscalendar/calendar-setup.min.js');
 
 	}
+        
+        if(isset($context['javascript']['timepicker'])) {
+
+                
+		Page::load_style('included/timepicker/jquery-ui-timepicker-addon.min.css');
+		Page::defer_script('included/timepicker/jquery-ui-timepicker-addon.min.js');
+                if($context['language'] == 'fr')
+                    Page::defer_script('included/timepicker/i18n/jquery-ui-timepicker-fr.js');
+                
+                // we may use :
+                // <script src="https://rawgithub.com/trentrichardson/jQuery-Timepicker-Addon/master/jquery-ui-timepicker-addon.js"></script>
+	}
+        
+        
 
 	// load occasional libraries declared through scripts
 	if(isset($context['javascript']['header']))
