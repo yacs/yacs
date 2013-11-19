@@ -1412,25 +1412,28 @@ Class Skin_Skeleton {
 				$value = '';
 
 			// date stamps are handled in regular text fields
-			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="20" maxlength="255" '.$onchange.' />'
-				.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" alt="" />';
-
-			// these are enhanced with jsCalendar
-			Page::insert_script(
-				'$(function() { Calendar.setup({'."\n"
-				.'	inputField	:	"'.$name.'",'."\n"
-				.'	ifFormat	:	"%Y-%m-%d %H:%M",'."\n"
-				.'	showsTime	:	true,'."\n"
-				.'	timeFormat	:	"24",'."\n"
-				.'	button		:	 "'.$name.'_trigger",'."\n"
-				.'	align		:	 "CC",'."\n"
-				.'	singleClick :	 true'."\n"
-				.'}); });'."\n"				
-				);
-
-			// load the jscalendar library
-			$context['javascript']['calendar'] = TRUE;
+			$text = '<input type="text" name="'.$name.'" id="'.$name.'" class="datetimepicker" value="'.encode_field($value).'" size="20" maxlength="255" '.$onchange.' />';
 			
+                        // fuse not to load script twice
+                        static $fuse_datetime = false;
+                        
+                        if(!$fuse_datetime) {
+                            // load fr localization
+                            if($context['language'] == 'fr')
+                                Page::defer_script('included/timepicker/i18n/jquery.ui.datepicker-fr.js');
+                         
+                            // initialize datetimepicker on page loading    
+                            Page::insert_script(
+                                '$(function() {'."\n"
+                                .'      $(".datetimepicker").datetimepicker({dateFormat: "yy-mm-dd"});'."\n"
+                                .'});'."\n"    
+                                );
+                            
+                            // load the timepicker library to extend datepicker
+                            $context['javascript']['timepicker'] = TRUE;
+                        }
+                        
+                        $fuse_datetime = true;
 
 			return $text;
 
