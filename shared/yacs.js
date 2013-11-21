@@ -1687,11 +1687,22 @@ var Yacs = {
 		}
 		// behavior of buttons for tabs used as step by step form, if any
 		$("#tabs_panels .step").click(function() {
+                    
+                    // call any validation step function
+                    if($(this).hasClass('next') && typeof Yacs.tabsValidateStep == 'function') {
+                        var valid = (Yacs.tabsValidateStep)(Yacs.tabs_current);
+                        if(!valid) 
+                            return false;
+                    }
+                    
 		    // display tab associate with button
 		    Yacs.tabsDisplay($(this).data("target"));
 		    // smooth scroll to title (begin of form)
 		    $('#main_panel h1').scrollMinimal(true);
 		});
+                // if we have steps, that mean to hide validation button before surfer reached the last one
+                if($("#tabs_panels .step").length) 
+                    $("#main_form .bottom").css('visibility','hidden');
 
 		// where are we?
 		if(window.location.hash.length > 1) {
@@ -1766,6 +1777,10 @@ var Yacs = {
 		if(Yacs.tabs_list[newCurrent].length > 1) {
 			Yacs.updateOnce(panel, Yacs.tabs_list[newCurrent][1], Yacs.tabs_args);
 		}
+                
+                // make validation button visible on last tab displaying
+                if( Yacs.tabs_current == iterator )
+                    $("#main_form .bottom").css('visibility','visible');
 
 		// dispatch custom event (e.g., for tooltips, Google Maps, etc)
 		$('body').trigger('yacs');
