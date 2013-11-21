@@ -962,9 +962,18 @@ div.menu_bar a.button,
 input[type="submit"],
 button.bigButton,
 div.menu_bar .button button { /* [button]url[/button], [button=label]url[/button] -- a link that mimic a form button */
-    background: -moz-linear-gradient(center top , #FFFFFF, #CCCCCC);
-    background: -webkit-linear-gradient(center top , #FFFFFF, #CCCCCC);
-    background: linear-gradient(center top , #FFFFFF, #CCCCCC);
+        background: -webkit-gradient(
+            linear,
+            left top,
+            left bottom,
+            color-stop(0, #FFF),
+            color-stop(1, #CCC)
+        );
+        background: -o-linear-gradient(bottom, #FFF 0%, #CCC 100%);
+        background: -moz-linear-gradient(bottom, #FFF 0%, #CCC 100%);
+        background: -webkit-linear-gradient(bottom, #FFF 0%, #CCC 100%);
+        background: -ms-linear-gradient(bottom, #FFF 0%, #CCC 100%);
+        background: linear-gradient(to bottom, #FFF 0%, #CCC 100%);
     border: 1px solid #AAAAAA;
     border-radius: 12px 12px 12px 12px;
     color: #111111;
@@ -995,9 +1004,18 @@ div.menu_bar a.button:hover,
 input[type="submit"]:hover,
 button.bigButton:hover,
 div.menu_bar .button button:hover { /* hover a button */
-	background: -moz-linear-gradient(center top , #CCCCCC, #DDDDDD);
-        background: -webkit-linear-gradient(center top , #CCCCCC, #DDDDDD);
-        background: linear-gradient(center top , #CCCCCC, #DDDDDD);
+	background: -webkit-gradient(
+            linear,
+            left top,
+            left bottom,
+            color-stop(0, #CCCCCC),
+            color-stop(1, #DDDDDD)
+        );
+        background: -o-linear-gradient(bottom, #CCCCCC 0%, #DDDDDD 100%);
+        background: -moz-linear-gradient(bottom, #CCCCCC 0%, #DDDDDD 100%);
+        background: -webkit-linear-gradient(bottom, #CCCCCC 0%, #DDDDDD 100%);
+        background: -ms-linear-gradient(bottom, #CCCCCC 0%, #DDDDDD 100%);
+        background: linear-gradient(to bottom, #CCCCCC 0%, #DDDDDD 100%);
 	cursor: pointer;
 	position: relative;	
 	text-decoration: none;
