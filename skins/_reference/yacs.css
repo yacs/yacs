@@ -995,7 +995,9 @@ div.menu_bar a.button:hover,
 input[type="submit"]:hover,
 button.bigButton:hover,
 div.menu_bar .button button:hover { /* hover a button */
-	background: -moz-linear-gradient(center top , #CCCCCC, #DDDDDD) repeat scroll 0 0 transparent;
+	background: -moz-linear-gradient(center top , #CCCCCC, #DDDDDD);
+        background: -webkit-linear-gradient(center top , #CCCCCC, #DDDDDD);
+        background: linear-gradient(center top , #CCCCCC, #DDDDDD);
 	cursor: pointer;
 	position: relative;	
 	text-decoration: none;
