@@ -783,17 +783,19 @@ if($with_form) {
 	// associates may decide to not stamp changes -- complex command
 	if(isset($item['id']) && Surfer::is_associate() && Surfer::has_all())
 		$suffix[] = '<input type="checkbox" name="silent" value="Y" />'.' '.i18n::s('Do not change modification date.');
+        
+        // link to privacy statement
+	if(!isset($item['id']) && !Surfer::is_associate())
+		$suffix[] = '<span>'.sprintf(i18n::s('By clicking submit, you agree to the terms and conditions outlined in the %s.'), Skin::build_link(Articles::get_url('privacy'), i18n::s('privacy statement'), 'basic')).'</span>';
 
 	// validate page content
-	$suffix[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
+        if(Surfer::is_associate())
+            $suffix[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
 
-	// an assistant-like rendering at page bottom
+        // an assistant-like rendering at page bottom
 	$context['text'] .= Skin::build_assistant_bottom('', $menu, $suffix, isset($item['tags'])?$item['tags']:'');
 
-	// link to privacy statement
-	if(!isset($item['id']) && !Surfer::is_associate())
-		$context['text'] .= '<p>'.sprintf(i18n::s('By clicking submit, you agree to the terms and conditions outlined in the %s.'), Skin::build_link(Articles::get_url('privacy'), i18n::s('privacy statement'), 'basic')).'</p>';
-
+	
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])
 		$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
