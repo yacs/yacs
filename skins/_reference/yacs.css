@@ -52,6 +52,9 @@ input {
 	font-size: 13px;
 }
 
+.input-bad  {background:    tomato      !important;}
+.input-good {background:    lightgreen  !important;}
+
 textarea {
 	padding: 2px;
 	font-family: Georgia, Times, serif;

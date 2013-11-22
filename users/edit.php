@@ -806,6 +806,12 @@ if($with_form) {
 
 	// end of the form
 	$context['text'] .= '</div></form>';
+        
+        
+        // check nickname and email dynamicaly
+        Page::insert_script('$("#nick_name, input[name=email]").keyup(function(){
+            Yacs.checkNickEmail($(this));
+        });');
 
 	// append the script used for data checking on the browser
 	$js_script =
@@ -814,6 +820,13 @@ if($with_form) {
 			// name is mandatory
 		.'	if(!container.nick_name.value) {'."\n"
 		.'		alert("'.i18n::s('You must provide a nick name.').'");'."\n"
+		.'		Yacs.stopWorking();'."\n"
+		.'		return false;'."\n"
+		.'	}'."\n";
+        
+        
+        $js_script .='	if($("#nick_name").hasClass("input-bad")) {'."\n"
+		.'		alert("'.i18n::s('You must provide a valid and unused nick name.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n";
@@ -826,14 +839,23 @@ if($with_form) {
 			.'		Yacs.stopWorking();'."\n"
 			.'		return false;'."\n"
 			.'	}'."\n";
-	if(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
+	if(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y')) {
 		$js_script .= 
 				// email is mandatory'
 			'	if(!container.email.value) {'."\n"
-			.'		alert("'.i18n::s('You must provide a valid e-mail address.').'");'."\n"
+			.'		alert("'.i18n::s('You must provide a e-mail address.').'");'."\n"
 			.'		Yacs.stopWorking();'."\n"
 			.'		return false;'."\n"
 			.'	}'."\n";
+        
+                $js_script .='	if($("input[name=email]").hasClass("input-bad")) {'."\n"
+                        .'		alert("'.i18n::s('You must provide a valid and unused email address.').'");'."\n"
+                        .'		Yacs.stopWorking();'."\n"
+                        .'		return false;'."\n"
+                        .'	}'."\n";        
+        }
+        
+        
 	$js_script .= 
 			// successful check
 		'	return true;'."\n"
