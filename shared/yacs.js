@@ -213,6 +213,31 @@ var Yacs = {
 			}
 		});
 	},
+        
+        /**
+         * Perform a ajax request to check nickname or email syntax
+         * and availablility. Usefull for dynamic check in profil creation.
+         * 
+         * @param object $input jquery handle to input field for email or nick_name
+         * @returns {undefined}
+         */
+        checkNickEmail:function($input) {
+           
+           var options = new Object;
+           options[$input.attr('name')] = $input.val();
+           var url = url_to_root + 'users/check_unused.php';
+           
+           // ajax request 
+           $.get(url,options)
+           .done(function(data) {
+      
+                if(data === 'USED' || data === 'BAD')
+                    $input.addClass('input-bad').removeClass('input-good');
+                else if(data === 'FREE')
+                    $input.addClass('input-good').removeClass('input-bad');
+           
+           });
+        },
 
 	/**
 	 * clear one cookie
@@ -223,42 +248,6 @@ var Yacs = {
 		if(Yacs.getCookie(name)) {
 			document.cookie = name + "=; expires=Thu, 01-Jan-70 00:00:01 GMT";
 		}
-	},
-    
-	/**
-	 * called after page loading to perform session openning
-	 * on other virtual hosts declared on the server
-	 * perform a ajax request to get the list of virtual hosts,
-	 * then a ajax request for each host.
-	 * 
-	 * Job done is memorised in session storage to avoid extra 
-	 * request
-	 */
-	multiDomainLogin: function() {
-	   
-	   if(sessionStorage.getItem('multilogin') == 'done')
-	       return;
-	   
-	   // send query to ask if crossDomainLogin is required
-	   $.get( url_to_root + 'tools/check_multi_login.php')
-	   .done(function(reply){
-	       
-	       if(reply.login == true) {
-		   
-		    // start an cross-domain ajax transaction
-		    // @see https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS
-		    // @see tools/session.php
-		    $.each(reply.domains, function(i,url){
-			$.ajax({"url": url + "tools/session.php",
-				"type": "GET",
-				"data": {"id": reply.sessid,"origin": reply.origin },
-				"xhrFields": { "withCredentials": true}
-
-			});
-		    });
-	       } else
-		   sessionStorage.setItem('multilogin','done');
-	   });
 	},
 
 	/**
@@ -905,6 +894,42 @@ var Yacs = {
 	mouseOver: function(handle) {
 		$(handle + ' .onHoverLeft, ' + handle + ' .onHoverRight')
 			.css('visibility', 'visible');
+	},
+        
+        /**
+	 * called after page loading to perform session openning
+	 * on other virtual hosts declared on the server
+	 * perform a ajax request to get the list of virtual hosts,
+	 * then a ajax request for each host.
+	 * 
+	 * Job done is memorised in session storage to avoid extra 
+	 * request
+	 */
+	multiDomainLogin: function() {
+	   
+	   if(sessionStorage.getItem('multilogin') == 'done')
+	       return;
+	   
+	   // send query to ask if crossDomainLogin is required
+	   $.get( url_to_root + 'tools/check_multi_login.php')
+	   .done(function(reply){
+	       
+	       if(reply.login == true) {
+		   
+		    // start an cross-domain ajax transaction
+		    // @see https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS
+		    // @see tools/session.php
+		    $.each(reply.domains, function(i,url){
+			$.ajax({"url": url + "tools/session.php",
+				"type": "GET",
+				"data": {"id": reply.sessid,"origin": reply.origin },
+				"xhrFields": { "withCredentials": true}
+
+			});
+		    });
+	       } else
+		   sessionStorage.setItem('multilogin','done');
+	   });
 	},
 
 	tinymceInit: function() {
