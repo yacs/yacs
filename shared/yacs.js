@@ -213,29 +213,29 @@ var Yacs = {
 			}
 		});
 	},
-        
+
         /**
          * Perform a ajax request to check nickname or email syntax
          * and availablility. Usefull for dynamic check in profil creation.
-         * 
+         *
          * @param object $input jquery handle to input field for email or nick_name
          * @returns {undefined}
          */
         checkNickEmail:function($input) {
-           
+
            var options = new Object;
            options[$input.attr('name')] = $input.val();
            var url = url_to_root + 'users/check_unused.php';
-           
-           // ajax request 
+
+           // ajax request
            $.get(url,options)
            .done(function(data) {
-      
+
                 if(data === 'USED' || data === 'BAD')
                     $input.addClass('input-bad').removeClass('input-good');
                 else if(data === 'FREE')
                     $input.addClass('input-good').removeClass('input-bad');
-           
+
            });
         },
 
@@ -608,8 +608,8 @@ var Yacs = {
 		// function will be called by Yacs.updateModalBox
 		Yacs.callAfterDisplayModal = function() {
 		    if(typeof scripts_to_load != 'undefined') {
-			// get all the scripts			
-			Yacs.getScriptS(scripts_to_load, function() {			    
+			// get all the scripts
+			Yacs.getScriptS(scripts_to_load, function() {
 			    // execute all snipets (like a $.ready(...)  )
 			    if( typeof execute_after_loading == 'function')
 				(execute_after_loading)();
@@ -755,21 +755,21 @@ var Yacs = {
 	    idx = 0;
 
 	    for ( ; idx < length; idx++ ) {
-		
-		// skip if script already present in the page		
+
+		// skip if script already present in the page
 		if(Yacs.loadedJs.indexOf(resources[ idx ]) > -1 )
-		    continue;				
-		
+		    continue;
+
 		deferreds.push(
 		    $.getScript( resources[ idx ], handler )
 		);
-	    }	    
-	    
+	    }
+
 	    $.when.apply( null, deferreds ).then(function() {
-				
+
 		// memorize this loading
-		Yacs.loadedJs = Yacs.loadedJs.concat(resources);		
-		
+		Yacs.loadedJs = Yacs.loadedJs.concat(resources);
+
 		callback && callback();
 	    });
 	},
@@ -895,27 +895,27 @@ var Yacs = {
 		$(handle + ' .onHoverLeft, ' + handle + ' .onHoverRight')
 			.css('visibility', 'visible');
 	},
-        
+
         /**
 	 * called after page loading to perform session openning
 	 * on other virtual hosts declared on the server
 	 * perform a ajax request to get the list of virtual hosts,
 	 * then a ajax request for each host.
-	 * 
-	 * Job done is memorised in session storage to avoid extra 
+	 *
+	 * Job done is memorised in session storage to avoid extra
 	 * request
 	 */
 	multiDomainLogin: function() {
-	   
+
 	   if(sessionStorage.getItem('multilogin') == 'done')
 	       return;
-	   
+
 	   // send query to ask if crossDomainLogin is required
 	   $.get( url_to_root + 'tools/check_multi_login.php')
 	   .done(function(reply){
-	       
+
 	       if(reply.login == true) {
-		   
+
 		    // start an cross-domain ajax transaction
 		    // @see https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS
 		    // @see tools/session.php
@@ -1075,14 +1075,14 @@ var Yacs = {
 
 		// back to normal rate on focus
 		$(window).focus(Yacs.getFocus);
-		
+
 		// store loaded scripts names in a list
 		Yacs.loadedJs = new Array();
 		var loaded_scripts = $('script[src]');
 		$.each(loaded_scripts, function() {
 		    Yacs.loadedJs.push($(this).attr('src'));
 		});
-		
+
 		// check for virtual host automatic login
 		Yacs.multiDomainLogin();
 
@@ -1326,7 +1326,7 @@ var Yacs = {
 		Yacs.doNotCloseModal = true;
 		return;
 	    }
-	    
+
 	    // ask explicitly tinyMCE to save content
 	    if( typeof tinyMCE != "undefined" )
 		tinyMCE.triggerSave();
@@ -1347,13 +1347,13 @@ var Yacs = {
 		url:form.attr('action'),
 		type:form.attr('method'),
 		data:form.serialize()
-	    }).done(function(html){		
+	    }).done(function(html){
 		// var html = $(html);
 		// replace content element
 		// $('h1').replaceWith(html.find('h1'));
 		// Yacs.stopWorking();
 		window.location.reload();
-	    });	   
+	    });
 
 	},
 
@@ -1712,21 +1712,21 @@ var Yacs = {
 		}
 		// behavior of buttons for tabs used as step by step form, if any
 		$("#tabs_panels .step").click(function() {
-                    
+
                     // call any validation step function
                     if($(this).hasClass('next') && typeof Yacs.tabsValidateStep == 'function') {
                         var valid = (Yacs.tabsValidateStep)(Yacs.tabs_current);
-                        if(!valid) 
+                        if(!valid)
                             return false;
                     }
-                    
+
 		    // display tab associate with button
 		    Yacs.tabsDisplay($(this).data("target"));
 		    // smooth scroll to title (begin of form)
 		    $('#main_panel h1').scrollMinimal(true);
 		});
                 // if we have steps, that mean to hide validation button before surfer reached the last one
-                if($("#tabs_panels .step").length) 
+                if($("#tabs_panels .step").length)
                     $("#main_form .bottom").css('visibility','hidden');
 
 		// where are we?
@@ -1802,7 +1802,7 @@ var Yacs = {
 		if(Yacs.tabs_list[newCurrent].length > 1) {
 			Yacs.updateOnce(panel, Yacs.tabs_list[newCurrent][1], Yacs.tabs_args);
 		}
-                
+
                 // make validation button visible on last tab displaying
                 if( Yacs.tabs_current == iterator )
                     $("#main_form .bottom").css('visibility','visible');
@@ -2084,6 +2084,11 @@ var Yacs = {
 		    // update position and fit the box at top and bottom
 		    $modal_centered.animate({top:'5%',bottom:'5%',left: '+=' + xShift}, 0.2);
 		}
+
+                // show tips
+		$('#modal_content input.tip').each(function() {
+			$(this).tipsy({title: 'title', gravity: $.fn.tipsy.autoNS, fade: true}).tipsy("show");
+		});
 
 		// lock modal_content height, display the updated box
 		$('#modal_content').css({height: '100%', visibility:'visible'}).fadeTo(0.3, 1.0);
