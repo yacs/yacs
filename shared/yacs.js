@@ -983,7 +983,7 @@ var Yacs = {
 		});
 
 		// show tips
-		$('a[title].tip').each(function() {
+		$('a[title].tip, input.tip').each(function() {
 			$(this).tipsy({title: 'title', gravity: $.fn.tipsy.autoNS, fade: true}).tipsy("show");
 		});
 
