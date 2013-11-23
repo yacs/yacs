@@ -547,6 +547,11 @@ var Yacs = {
 		else
 		    $('#modal_close').hide();
 
+                // flag for first display, used for sizing
+                if(typeof Yacs.modalFirstDisplay == 'undefined') {
+                    Yacs.modalFirstDisplay = true;
+                }
+
 		// paint or repaint box content
 		$('#modal_content').fadeTo(0.1, 0.3,
 			function() {
@@ -2092,6 +2097,14 @@ var Yacs = {
 
 		// lock modal_content height, display the updated box
 		$('#modal_content').css({height: '100%', visibility:'visible'}).fadeTo(0.3, 1.0);
+
+                // recall sizing on first load of modal box
+                // because sometimes some loading are late.
+                // and content does'nt have the proper width
+                if(Yacs.modalFirstDisplay) {
+                    Yacs.modalFirstDisplay = false;
+                    Yacs.startResizeModal();
+                }
 
 	},
 
