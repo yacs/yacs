@@ -1,12 +1,12 @@
-/* 
+/*
  * script for accordion layout
- * 
+ *
  * @author: alexis Raimbault
  * @author : Bernard Paques
  */
 
 var accordion = {
-	
+
 	/**
 	 * toggle a box in an accordion
 	 *
@@ -24,11 +24,17 @@ var accordion = {
                 // refold each opened gusset in selected accordion
                 $('.'+accordion).each(function(i,gusset) {
                     // gusset == this
-                    var panel = $(gusset).children(".accordion_content");
+
+		    // remove open state class
+		    $(gusset).children('.accordion_link').removeClass('accordion-open');
+
+		    // get the movable panel
+		    var panel = $(gusset).children(".accordion_content");
                     // detect unfolded panel
                     if(panel.css("display") != 'none') {
-                        // slide up panel
-                        $(panel).slideUp({duration: 'slow', scaleContent:false});
+			panel.removeClass('accordion-open');
+			// slide up panel
+                        panel.slideUp({duration: 'slow', scaleContent:false});
                         // change icon to unfold visual
                         $(gusset).find('.handle').attr('src', down_href);
                         // clicked box has been closed
@@ -41,7 +47,11 @@ var accordion = {
                 // only extend closed elements that have not been processed (closed) during this click
                 if((toggled.css("display") == 'none') && !processed) {
                         // slide down panel
-						$(toggled).slideDown({duration: 'slow', scaleContent:false});
+			toggled.slideDown({duration: 'slow', scaleContent:false});
+
+			// add open state class
+			toggled.addClass('accordion-open');
+			$(handle).addClass('accordion-open');
                         // change the image to fold visual
                         $(handle).find(".handle").attr('src', up_href);
                 }
