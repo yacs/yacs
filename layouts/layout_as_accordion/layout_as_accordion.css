@@ -15,7 +15,7 @@
 	width: 99%; /* avoid horizontal slider */
 }
 
-.accordion_handle .accordion_link {
+.accordion_link {
 	display: block;
 	font-size: 1.2em;
 	text-decoration: none;
@@ -29,12 +29,12 @@
 	z-index: 10;
 }
 
-.accordion_handle .accordion_link .handle {
+.accordion_link .handle {
 	float: right;
 	padding-right: 0;
 }
 
-.accordion_handle .accordion_link:hover, .accordion-toggle-active {
+.accordion_link:hover, .accordion-toggle-active {
 	text-decoration: none;
 	color: #666;
 	background-color:#ddd;
