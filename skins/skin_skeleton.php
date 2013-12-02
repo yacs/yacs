@@ -1825,7 +1825,12 @@ Class Skin_Skeleton {
 				.' onkeypress="window.open(this.href); return false;" rel="nofollow"><span>'.$label.'</span></a>';
 			break;
 
-		case 'internal': // like external, but stay in the same window
+                case 'overlaid': // openned by ajax on popup
+                    
+                        $text = '<a href="'.$url.'"'.$href_title.' class="open-overlaid"'.$attributes.'>'.$label.'</a>';
+                        break;
+                    
+                case 'internal': // like external, but stay in the same window
 
 			// count external clicks
 //			$url = $context['url_to_root'].'links/click.php?url='.urlencode($url);

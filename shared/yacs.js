@@ -1070,7 +1070,7 @@ var Yacs = {
 		}
 
 		// prepare edition link to ajax call of overlaid edition
-		$("a.edit").click(function(e){
+		$("a.edit, .open-overlaid").click(function(e){
 		    e.preventDefault();
 		    Yacs.displayOverlaid($(this).attr("href"),true, true);
 		});
