@@ -1232,7 +1232,6 @@ Class Surfer {
 			return FALSE;
 
                 include_once $context['path_to_root'].'included/securimage/securimage.php';
-
                 $securimage = new Securimage();
 
                 if ($securimage->check($_REQUEST['captcha_code']) == TRUE) {
