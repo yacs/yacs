@@ -580,7 +580,7 @@ Class Surfer {
 				.'<textarea name="'.$name.'" id="'.$name.'"'
 				.	' rows="1" cols="50" class="tip" >'
 				.	'</textarea>'."\n";
-				
+
 			Page::insert_script(
 				'$(function(){'
 				.	'$("textarea#'.$name.'").autogrow();'
@@ -814,17 +814,16 @@ Class Surfer {
 		if(Surfer::is_logged())
 			return NULL;
 
-		// build a random string --  1, l, o, O and 0 are confusing
-		$pool = 'abcdefghijkmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ23456789';
-		$_SESSION['salt'] = $pool[mt_rand(0, strlen($pool)-1)]
-			.$pool[mt_rand(0, strlen($pool)-1)]
-			.$pool[mt_rand(0, strlen($pool)-1)]
-			.$pool[mt_rand(0, strlen($pool)-1)]
-			.$pool[mt_rand(0, strlen($pool)-1)];
 
-		// add salt and pepper to the form
-		$label = i18n::s('Robot stopper').' *';
-		$input = i18n::s('Type exactly the following 5 chars:').' '.$_SESSION['salt'].' <input type="text" name="pepper" size="7" />';
+                $label = i18n::s('Robot stopper').' *';
+
+                $input  = '<img id="captcha" src="'.$context['url_to_root'].'included/securimage/securimage_show.php" alt="CAPTCHA Image" />'."\n";
+
+                $input .= '<input type="text" name="captcha_code" size="10" maxlength="6" />'."\n"
+                        .'<a class="details" href="#" onclick="document.getElementById(\'captcha\').src= \''
+                        .$context['url_to_root'].
+                        'included/securimage/securimage_show.php?\' + Math.random(); return false">['.i18n::s('Update image').']</a>';
+
 		return array($label, $input);
 	}
 
@@ -1232,12 +1231,11 @@ Class Surfer {
 		if(Surfer::is_logged())
 			return FALSE;
 
-		// salt could have been hacked
-		if(!isset($_SESSION['salt']))
-			return TRUE;
+                include_once $context['path_to_root'].'included/securimage/securimage.php';
 
-		// salt and pepper are ok
-		if(isset($_REQUEST['pepper']) && !strcmp($_REQUEST['pepper'], $_SESSION['salt'])) {
+                $securimage = new Securimage();
+
+                if ($securimage->check($_REQUEST['captcha_code']) == TRUE) {
 
 			// remember this, to not challenge the surfer again
 			$_SESSION['surfer_is_not_a_robot'] = TRUE;
