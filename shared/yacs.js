@@ -1070,9 +1070,13 @@ var Yacs = {
 		}
 
 		// prepare edition link to ajax call of overlaid edition
-		$("a.edit, .open-overlaid").click(function(e){
+		$(".edit-overlaid").click(function(e){
 		    e.preventDefault();
 		    Yacs.displayOverlaid($(this).attr("href"),true, true);
+		});
+		$(".open-overlaid").click(function(e){
+		    e.preventDefault();
+		    Yacs.displayOverlaid($(this).attr("href"));
 		});
 
 		// slow down notifications on window blur
