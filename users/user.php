@@ -179,6 +179,27 @@ Class User extends Anchor {
 		return array($previous_url, $previous_label, $next_url, $next_label, $option_url, $option_label);
 	}
 
+        
+        /**
+	 * get the focus for this anchor
+	 *
+	 * This function lists containers of the content tree,
+	 * from top level down to this item.
+	 *
+	 * @return array of anchor references (e.g., array('section:123', 'article:456') )
+	 */
+	function get_focus() {
+		
+		$focus = array();
+
+		// append this level
+		if(isset($this->item['id']))
+			$focus[] = $this->get_reference();
+
+		return $focus;
+	}
+        
+        
 	/**
 	 * get the path bar for this anchor
 	 *
