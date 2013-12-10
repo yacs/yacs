@@ -679,7 +679,12 @@ if(!isset($item['id'])) {
 			$information .= $overlay->get_text('view', $item);
 
 		// the full text
-		$information .= Skin::build_block($item['description'], 'description');
+                if(is_object($overlay))
+                    $description = $overlay->get_text('description', $item);
+                else
+                    $description = $item['description'];
+                
+                $information .= Skin::build_block($description, 'description');
 
 		// birth date, if any, and only for authenticated surfers
 		if(isset($item['birth_date']) && ($item['birth_date'] > NULL_DATE) && Surfer::is_logged())
