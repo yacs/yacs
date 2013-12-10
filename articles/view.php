@@ -170,15 +170,8 @@ elseif(isset($context['arguments'][1]) && isset($context['arguments'][2])) {
 	$zoom_index = $context['arguments'][2];
 }
 
-// request may ask for overlaid content only
-if(isset($_REQUEST['overlaid']) && $_REQUEST['overlaid'] == 'Y') {
-    $whole_rendering = false;   
-    // warn also render_skin() for limited output
-    // @see shared/global.php
-    global $render_overlaid;
-    $render_overlaid = true;
-} else
-    $whole_rendering = true;
+global $render_overlaid;
+$whole_rendering = !$render_overlaid;
 
 // view.php/12/nick name induces no particular processing
 

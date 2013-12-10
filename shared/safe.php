@@ -905,6 +905,14 @@ class Safe {
 	 */
 	public static function redirect($reference) {
 		global $context;
+                
+                // include overlaid directive if was asked 
+                if(isset($_REQUEST['overlaid']) && $_REQUEST['overlaid']=='Y') {
+                    if(strcmp('?', $reference) != NULL) {
+                        $reference .= '&overlaid=Y';
+                    } else
+                        $reference .= '?overlaid=Y';
+                }
 
 		// the actual redirection directive
 		Safe::header('Location: '.$reference);

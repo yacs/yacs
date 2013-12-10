@@ -579,6 +579,17 @@ if(isset($_REQUEST['text']) && $_REQUEST['text']) {
 
 }
 
+//
+// Overlaid displaying
+//
+global $render_overlaid;
+$render_overlaid = false;
+// request may ask for overlaid content only
+if(isset($_REQUEST['overlaid']) && $_REQUEST['overlaid'] == 'Y') {   
+    // this warn also render_skin() for limited output
+    $render_overlaid = true;
+} 
+
 
 /**
  * autoloader of main classes

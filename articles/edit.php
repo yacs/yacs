@@ -188,15 +188,7 @@ else
 	$permitted = FALSE;
 
 global $render_overlaid;
-$render_overlaid = false;
-$whole_rendering = true;
-// request may ask for overlaid content only
-if(isset($_REQUEST['overlaid']) && $_REQUEST['overlaid'] == 'Y') {
-    $whole_rendering = false;   
-    // warn also render_skin() for limited output
-    // @see shared/global.php
-    $render_overlaid = true;
-} 
+$whole_rendering = !$render_overlaid;
 
 // cascade empowerment
 if(Articles::is_owned($item, $anchor) || Surfer::is_associate())
