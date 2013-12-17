@@ -1830,6 +1830,11 @@ Class Skin_Skeleton {
                         $text = '<a href="'.$url.'"'.$href_title.' class="open-overlaid"'.$attributes.'>'.$label.'</a>';
                         break;
                     
+                case 'overlaid-edit': // openned by ajax on popup
+                    
+                        $text = '<a href="'.$url.'"'.$href_title.' class="edit-overlaid"'.$attributes.'>'.$label.'</a>';
+                        break;    
+                    
                 case 'internal': // like external, but stay in the same window
 
 			// count external clicks

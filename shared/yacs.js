@@ -961,6 +961,80 @@ var Yacs = {
 	toggleProperties: function(handle) {
         $(handle).children('.properties').toggle('slide');
 	},
+	
+	
+	/**
+	 * general initialization
+	 */
+	onModalBoxLoad: function() {
+
+		// change the behavior of buttons used for data submission, except those with style 'no_spin_on_click'
+		$('#modal_content button').each(function() {
+			var buttonType = String($(this).attr('type'));
+			if(buttonType.toLowerCase().match('submit') && !$(this).hasClass('no_spin_on_click')) {
+				$(this).click(Yacs.startWorking);
+			}
+		});
+
+		// show tips
+		$("#modal_content").find('a[title].tip, input.tip').each(function() {
+			$(this).tipsy({title: 'title', gravity: $.fn.tipsy.autoNS, fade: true}).tipsy("show");
+		});
+
+		// close all tooltips on tabbing, etc
+		$("body").bind("yacs", function(e) {
+			$("#modal_content").find('a.tip,input.tip,textarea.tip').each(function() {$(this).tipsy("hide");});
+		});
+
+		// load the link in a scaled-down iframe
+		$("#modal_content").find('a.tipsy_preview').each(function() {
+			$(this).tipsy({fallback: '<div class="tipsy_thumbnail"><iframe class="tipsy_iframe" src="'+$(this).attr('href')+'" /></div>',
+				html: true,
+				gravity: $.fn.tipsy.autoWE,
+				fade: true,
+				offset: 8,
+				opacity: 1.0});
+		});
+
+		// beautify links titles in menu bars
+		$("#modal_content").find('.menu_bar a[title]').each(function() {
+			$(this).tipsy({fallback: $(this).attr('title'), gravity: $.fn.tipsy.autoNS, fade: true});
+		});
+
+		// identify all elements that should be tiled
+		$("#modal_content").find('.floating_box').addClass('tile');
+		$("#modal_content").find('div.description .thumbnail_image').addClass('tile');
+
+		// create groups of adjacent tiles
+		var siblingsLast = null;
+		$("#modal_content").find('.tile').each(function(){
+
+			// head of a group of tiles
+			if(!siblingsLast)
+				siblingsLast = $(this).nextUntil(':not(.tile)').andSelf().wrapAll('<div class="tiler" />').last();
+
+			// tail of the group
+			if( $(this).is(siblingsLast) )
+				siblingsLast = null;
+		});
+
+		// do the tiling
+		var $tiled = $("#modal_content").find('.tiler');
+		$tiled.masonry({
+		    itemSelector: '.tile'
+		});
+
+		// prepare edition link to ajax call of overlaid edition
+		$("#modal_content").find(".edit-overlaid").click(function(e){
+		    e.preventDefault();
+		    Yacs.displayOverlaid($(this).attr("href"),true, true);
+		});
+		$("#modal_content").find(".open-overlaid").click(function(e){
+		    e.preventDefault();
+		    Yacs.displayOverlaid($(this).attr("href"));
+		});
+
+	},
 
 	/**
 	 * general initialization
@@ -2050,6 +2124,9 @@ var Yacs = {
 		    (Yacs.callAfterDisplayModal)();
 		    return;
 		}
+		
+		// general js initialization
+		Yacs.onModalBoxLoad();
 
 		/*
 		 * images add additionnal loadings (js) done, do the sizing
