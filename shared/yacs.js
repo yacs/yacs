@@ -1431,11 +1431,23 @@ var Yacs = {
 		type:form.attr('method'),
 		data:form.serialize()
 	    }).done(function(html){
-		// var html = $(html);
-		// replace content element
-		// $('h1').replaceWith(html.find('h1'));
-		// Yacs.stopWorking();
-		window.location.reload();
+		var $html = $(html);
+		// look for elements to replace
+		var $update = $html.find('.modal-post-update');
+		if($update.length) {
+		    // update title
+		    $('.modal-title').replaceWith($html.find('.modal-title'));
+		    
+		    // update content, to designated targets
+		    $.each($update, function() {
+			target = $(this).data('update-tar');
+			$(target).replaceWith($(this));
+		    });
+		   
+		   Yacs.stopWorking();
+		} else
+		    // no update directives, reload everything 
+		    window.location.reload();
 	    });
 
 	},
