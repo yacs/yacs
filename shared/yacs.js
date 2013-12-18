@@ -1442,7 +1442,7 @@ var Yacs = {
 		if(overlaid) {
 		    
 		    var content={
-			body: $html
+			body: $html.html()
 		    };
 		    
 		    Yacs.stopWorking();
