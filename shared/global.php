@@ -1426,8 +1426,8 @@ function render_skin($with_last_modified=TRUE) {
 
 	    if(isset($context['page_header']))
 		echo $context['page_header'];
-	    echo '<h2 class="modal-title">'.$context['page_title'].'</h2>'."\n";
-	    echo '<div class="modal-text">'.$context['text'].'</div>'."\n";
+	    echo '<h2 class="boxTitle">'.$context['page_title'].'</h2>'."\n";
+	    echo '<div class="boxBody">'.$context['text'].'</div>'."\n";
 	    if(isset($context['javascript']['footer']))
 		echo $context['javascript']['footer'];
 	    return;

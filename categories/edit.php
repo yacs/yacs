@@ -896,15 +896,18 @@ if($with_form) {
 	//
 	$menu = array();
 
-	// the submit button
-	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+        if($whole_rendering) {
+            // the submit button
+            $menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
 
-	// cancel button
-	if(isset($item['id']))
-		$menu[] = Skin::build_link(Categories::get_permalink($item), i18n::s('Cancel'), 'span');
+            // cancel button
+            if(isset($item['id']))
+                    $menu[] = Skin::build_link(Categories::get_permalink($item), i18n::s('Cancel'), 'span');
 
-	// insert the menu in the page
-	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+            // insert the menu in the page
+            $context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+
+        }
 
 	// several options to check
 	$input = array();

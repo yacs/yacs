@@ -597,16 +597,19 @@ if($with_form) {
 	// available commands
 	$menu = array();
 
-	// the submit button
-	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+        if($whole_rendering) {
+            // the submit button
+            $menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
 
-	// cancel button
-	if(isset($item['id']))
-		$menu[] = Skin::build_link(Articles::get_permalink($item), i18n::s('Cancel'), 'span');
-	elseif(is_object($anchor))
-		$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
+            // cancel button
+            if(isset($item['id']))
+                    $menu[] = Skin::build_link(Articles::get_permalink($item), i18n::s('Cancel'), 'span');
+            elseif(is_object($anchor))
+                    $menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
 
-	// several options to check
+        }
+
+        // several options to check
 	$suffix = array();
 
 	// keep as draft
