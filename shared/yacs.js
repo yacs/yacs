@@ -1432,21 +1432,36 @@ var Yacs = {
 		data:form.serialize()
 	    }).done(function(html){
 		var $html = $(html);
-		// look for elements to replace
+		
+		// look if overlaid is required
+		var overlaid = $html.find('.require-overlaid').length;
+		// or look for elements to replace
 		var $update = $html.find('.modal-post-update');
-		if($update.length) {
-		    // update title
-		    $('.modal-title').replaceWith($html.find('.modal-title'));
+		
+		// display result in overlaid view
+		if(overlaid) {
 		    
-		    // update content, to designated targets
+		    var content={
+			body: $html
+		    };
+		    
+		    Yacs.stopWorking();
+		   
+		    Yacs.displayModalBox(content, null);
+		
+		// replace targeted element in page
+		} else if($update.length) {
+		    
+		    // update content, to targets
 		    $.each($update, function() {
 			target = $(this).data('update-tar');
 			$(target).replaceWith($(this));
 		    });
 		   
 		   Yacs.stopWorking();
-		} else
-		    // no update directives, reload everything 
+		
+		// no update directives, reload everything
+		} else     
 		    window.location.reload();
 	    });
 
