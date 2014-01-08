@@ -978,7 +978,7 @@ var Yacs = {
 
 		// show tips
 		$("#modal_content").find('a[title].tip, input.tip').each(function() {
-			$(this).tipsy({title: 'title', gravity: $.fn.tipsy.autoNS, fade: true}).tipsy("show");
+			$(this).tipsy({title: 'title', gravity: $.fn.tipsy.autoNS, fade: true});
 		});
 
 		// close all tooltips on tabbing, etc
@@ -1063,7 +1063,7 @@ var Yacs = {
 
 		// show tips
 		$('a[title].tip, input.tip').each(function() {
-			$(this).tipsy({title: 'title', gravity: $.fn.tipsy.autoNS, fade: true}).tipsy("show");
+			$(this).tipsy({title: 'title', gravity: $.fn.tipsy.autoNS, fade: true});
 		});
 
 		// close all tooltips on tabbing, etc
@@ -2197,11 +2197,6 @@ var Yacs = {
 		    // update position and fit the box at top and bottom
 		    $modal_centered.animate({top:'5%',bottom:'5%',left: '+=' + xShift}, 0.2);
 		}
-
-                // show tips
-		$('#modal_content input.tip').each(function() {
-			$(this).tipsy({title: 'title', gravity: $.fn.tipsy.autoNS, fade: true}).tipsy("show");
-		});
 
 		// lock modal_content height, display the updated box
 		$('#modal_content').css({height: '100%', visibility:'visible'}).fadeTo(0.3, 1.0);
