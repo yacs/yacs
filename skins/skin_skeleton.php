@@ -121,6 +121,29 @@ Class Skin_Skeleton {
 		// job done
 		return $text;
 	}
+        
+        /**
+         * build a text field with autocompletion base on tags under a given mother category
+         * 
+         * @param string $tags, to initialize input with former values
+         * @param string $input_id , html id to give to input
+         * @param string $input_name, html name attribute to give to input
+         * @param type $mothercat, id or nickname of a cat to limit the scope of proposed tags
+         */
+        public static function build_autocomplete_tag_input($input_id, $input_name, $tags ='' , $mothercat= '') {
+            global $context;
+
+            $text = '<input type="text" name="'.$input_name.'" id="'.$input_id.'" value="'.encode_field($tags).'" size="45" maxlength="255" />';
+            
+            // set mothercat as url param
+            if($mothercat)
+                $mothercat = '?cat='.$mothercat;
+            
+            // js for autocompletion
+            Page::insert_script('Yacs.autocomplete_m("'.$input_id.'","'.$context['url_to_root'].'categories/complete.php'.$mothercat.'")');
+            
+            return $text;
+        }
 
 	/**
 	 * decorate some text

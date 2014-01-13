@@ -82,6 +82,12 @@ $context['text'] .= '<p style="margin-bottom: 1em;"><b>'.i18n::s('Interactive fi
 	.'<p><input type="text" size="6" onkeypress="return Yacs.filterFloat(this, event)" /> - '.i18n::s('Enter a floating number').'</p>'
 	.'</form>'."\n";
 
+// autocompletion field
+$context['text'] .= '<p style="margin-bottom: 1em;"><b>'.i18n::s('autocompletion').'</b></p>'
+        .'<form>'
+        .'<p>'.Skin::build_autocomplete_tag_input('test_auto', 'test_auto', '', 'keywords').'</p>'
+        .'</form>'."\n";
+
 // calling raw content of a page
 $context['text'] .= '<p>';
 $context['text'] .= '<a class="button" id="view_1"><span>Press to open article 1 viewing page</span></a>';

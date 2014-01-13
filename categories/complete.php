@@ -11,6 +11,7 @@
  * - complete.php?term=abc
  *
  * @author Bernard Paques
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -41,11 +42,16 @@ if(!isset($_REQUEST['term']) || !$_REQUEST['term']) {
 // just for sanity
 $_REQUEST['term'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['term']);
 
+// may focus tag under a mothercat
+$mothercat = NULL;
+if(isset($_REQUEST['cat']))
+    $mothercat = $_REQUEST['cat'];
+
 // we return some text
 $output = '';
 
 // look for matching items
-$items = Categories::list_keywords($_REQUEST['term']);
+$items = Categories::list_keywords($_REQUEST['term'], $mothercat);
 
 // build an unordered list
 if(count($items)) {

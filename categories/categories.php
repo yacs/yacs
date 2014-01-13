@@ -1065,11 +1065,12 @@ Class Categories {
 	 * This function is used to list all keywords starting with provided letters.
 	 *
 	 * @param string prefix to consider
+         * @paral string or int nickname or ID of category keywords have to be child to
 	 * @return an array of matching $keyword => $introduction
 	 *
 	 * @see categories/complete.php
 	 */
-	public static function &list_keywords($prefix) {
+	public static function &list_keywords($prefix, $mothercat = NULL) {
 		global $context;
 
 		// we return an array
@@ -1077,10 +1078,17 @@ Class Categories {
 
 		// ensure proper unicode encoding
 		$prefix = utf8::encode($prefix);
+                
+                // look for mothercat
+                if($mothercat = categories::get($mothercat))
+                    $more = ' AND categories.anchor = "category:'.$mothercat['id'].'"';
+                else
+                    $more = '';
 
 		// select among available items
 		$query = "SELECT keywords, introduction FROM ".SQL::table_name('categories')." AS categories"
 			." WHERE categories.keywords LIKE '".SQL::escape($prefix)."%'"
+                        .$more
 			." ORDER BY keywords LIMIT 100";
 		$result = SQL::query($query);
 
