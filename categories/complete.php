@@ -65,6 +65,9 @@ if(count($items)) {
 	}
 
 	$output .= ']';
+} else {
+    // empty array
+    $output = json_encode(array());
 }
 
 // allow for data compression
