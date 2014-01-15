@@ -982,8 +982,10 @@ var Yacs = {
 		});
 
 		// close all tooltips on tabbing, etc
+                // and resize modalbox
 		$("body").bind("yacs", function(e) {
 			$("#modal_content").find('a.tip,input.tip,textarea.tip').each(function() {$(this).tipsy("hide");});
+                        Yacs.startResizeModal();
 		});
 
 		// load the link in a scaled-down iframe
