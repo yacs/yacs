@@ -505,14 +505,16 @@ var Yacs = {
 			    if(new Date() - Yacs.resizeTime < 200 )
 			       setTimeout(Yacs.endResizeModal, 200);
 			    else {
-				console.log('endresize');
+				
 				Yacs.resizeTimeout = false;
 				// remove height limitation if it was set
 				$('#modal_centered').css('bottom','');
+                                // memorize box size
+                                Yacs.modalWidth = $('#modal_content').width();
 				// free the box size
 				$('#modal_content').css({width:'auto', height: 'auto'});
 				// size the box
-				Yacs.updateModalBox(true);
+				Yacs.updateModalBox("sizing");
 			    }
 			}
 
@@ -620,13 +622,13 @@ var Yacs = {
 				(execute_after_loading)();
 			    else
 				// continue with modal box sizing
-				Yacs.updateModalBox(true);
+				Yacs.updateModalBox("sizing");
 			});
 		    } else if( typeof execute_after_loading == 'function')
 			(execute_after_loading)();
 		    else
 			// modal box sizing
-			Yacs.updateModalBox(true);
+			Yacs.updateModalBox("sizing");
 		}
 
 		// display the modalBox
@@ -985,6 +987,8 @@ var Yacs = {
                 // and resize modalbox
 		$("body").bind("yacs", function(e) {
 			$("#modal_content").find('a.tip,input.tip,textarea.tip').each(function() {$(this).tipsy("hide");});
+                        // activate tabbing flag for speficic sizing (no reduction)
+                        Yacs.modalTabbing = true;
                         Yacs.startResizeModal();
 		});
 
@@ -2117,8 +2121,8 @@ var Yacs = {
 	 *
 	 * steps are done by callbacks on this function with different parameters
 	 * 1: content = XHTML
-	 * 3: content = false, and callAfterDisplayModal function is defined
-	 * 4: content = true or no js to load in previous step
+	 * 3: content = "execute", and callAfterDisplayModal function is defined
+	 * 4: content = "sizing" or no js to load in previous step
 	 *
 	 * @param mixed XHTML content of the box,
 	 * or flag false to load js if any, flag true to resize
@@ -2126,7 +2130,7 @@ var Yacs = {
 	updateModalBox: function(content) {
 
 		// first, update box content
-		if(content !== false && content !==true) {
+		if(content !== "execute" && content !== "sizing" && content !== true) {
 		    // actual content update
 		    $('#modal_content').html(content);
 
@@ -2141,15 +2145,15 @@ var Yacs = {
 		    $( window ).on('resize', Yacs.startResizeModal);
 
 		    // recall itself when images are loaded, with "false" parameter
-		    imagesLoaded('#modal_content', function(){Yacs.updateModalBox(false);});
+		    imagesLoaded('#modal_content', function(){Yacs.updateModalBox("execute");});
 		    return;
 		}
 
 		// callback after displaying, if defined
 		// for example to load javascript files
 		// @see Yacs.displayOverlaid()
-		if(typeof Yacs.callAfterDisplayModal == 'function' && content === false) {
-		    // this function should recall updateModalBox with "true" parameter
+		if(typeof Yacs.callAfterDisplayModal == 'function' && content === "execute") {
+		    // this function should recall updateModalBox with "sizing" parameter
 		    (Yacs.callAfterDisplayModal)();
 		    return;
 		}
@@ -2167,10 +2171,19 @@ var Yacs = {
 		var pos_modal = $modal_centered.position();
 
 		// adjust box size to needed width, but max is 90% of window width
+                // and do not reduce with on tabbing
 		var modal_width = $modal_centered.width();
-		var max_width = $(window).width()*.9
+		var max_width = $(window).width()*.9;
+                var min_width = 0;
+                if(Yacs.modalTabbing === true) {
+                    var min_width = Yacs.modalWidth;
+                    // reset flag
+                    Yacs.modalTabbing = false;
+                }
 		if(modal_width > max_width)
 		    modal_width = max_width;
+                if(modal_width < min_width)
+                    modal_width = min_width;
 
 		$('#modal_content').css({width: modal_width + 'px'});
 
