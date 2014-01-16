@@ -626,6 +626,8 @@ function core_autoload($class) {
 	case 'activities' :
 	    include_once $context['path_to_root'].'/users/activities.php';
 	    break;
+        case 'page' :
+            include_once $context['path_to_root'].'/skins/page.php';
 	default :
 	    // this is default architecture of Yacs
 	    if(is_readable($context['path_to_root'].$class.'/'.$class.'.php'))
