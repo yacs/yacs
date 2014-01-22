@@ -505,13 +505,16 @@ var Yacs = {
 			    if(new Date() - Yacs.resizeTime < 200 )
 			       setTimeout(Yacs.endResizeModal, 200);
 			    else {
-				
+
 				Yacs.resizeTimeout = false;
-				// remove height limitation if it was set
-				$('#modal_centered').css('bottom','');
+
                                 // memorize box size
-                                Yacs.modalWidth = $('#modal_content').width();
+                                Yacs.modalWidth     = $('#modal_content').width();
+                                Yacs.modalHeight    = $('#modal_centered').height();
+
 				// free the box size
+				$('#modal_centered').css('bottom','');
+                                $('#modal_centered').css('height','');
 				$('#modal_content').css({width:'auto', height: 'auto'});
 				// size the box
 				Yacs.updateModalBox("sizing");
@@ -963,8 +966,8 @@ var Yacs = {
 	toggleProperties: function(handle) {
         $(handle).children('.properties').toggle('slide');
 	},
-	
-	
+
+
 	/**
 	 * general initialization
 	 */
@@ -1438,36 +1441,36 @@ var Yacs = {
 		data:form.serialize()
 	    }).done(function(html){
 		var $html = $(html);
-		
+
 		// look if overlaid is required
 		var overlaid = $html.find('.require-overlaid').length;
 		// or look for elements to replace
 		var $update = $html.find('.modal-post-update');
-		
+
 		// display result in overlaid view
 		if(overlaid) {
-		    
+
 		    var content={
 			body: html
 		    };
-		    
+
 		    Yacs.stopWorking();
-		   
+
 		    Yacs.displayModalBox(content, null);
-		
+
 		// replace targeted element in page
 		} else if($update.length) {
-		    
+
 		    // update content, to targets
 		    $.each($update, function() {
 			target = $(this).data('update-tar');
 			$(target).replaceWith($(this));
 		    });
-		   
+
 		   Yacs.stopWorking();
-		
+
 		// no update directives, reload everything
-		} else     
+		} else
 		    window.location.reload();
 	    });
 
@@ -2136,6 +2139,7 @@ var Yacs = {
 
 		    // remove height limitation if it was set
 		    $('#modal_centered').css('bottom','');
+                    $('#modal_centered').css('height','');
 		    // free the box size
 		    $('#modal_content').css({width:'auto', height: 'auto'});
 
@@ -2149,17 +2153,19 @@ var Yacs = {
 		    return;
 		}
 
-		// callback after displaying, if defined
-		// for example to load javascript files
-		// @see Yacs.displayOverlaid()
-		if(typeof Yacs.callAfterDisplayModal == 'function' && content === "execute") {
-		    // this function should recall updateModalBox with "sizing" parameter
-		    (Yacs.callAfterDisplayModal)();
-		    return;
-		}
-		
-		// general js initialization
-		Yacs.onModalBoxLoad();
+                if(content === "execute") {
+                    // general js initialization
+                    Yacs.onModalBoxLoad();
+
+                    // callback after displaying, if defined
+                    // for example to load javascript files
+                    // @see Yacs.displayOverlaid()
+                    if(typeof Yacs.callAfterDisplayModal == 'function') {
+                        // this function should recall updateModalBox with "sizing" parameter
+                        (Yacs.callAfterDisplayModal)();
+                        return;
+                    }
+                }
 
 		/*
 		 * images add additionnal loadings (js) done, do the sizing
@@ -2173,10 +2179,14 @@ var Yacs = {
 		// adjust box size to needed width, but max is 90% of window width
                 // and do not reduce with on tabbing
 		var modal_width = $modal_centered.width();
-		var max_width = $(window).width()*.9;
-                var min_width = 0;
+                var modal_height = $modal_centered.height();
+
+		var max_width   = $(window).width()*.9;
+                var min_width   = 0;
+                var min_height  = 0;
                 if(Yacs.modalTabbing === true) {
-                    var min_width = Yacs.modalWidth;
+                    min_width = Yacs.modalWidth;
+                    min_height = Yacs.modalHeight;
                     // reset flag
                     Yacs.modalTabbing = false;
                 }
@@ -2184,6 +2194,9 @@ var Yacs = {
 		    modal_width = max_width;
                 if(modal_width < min_width)
                     modal_width = min_width;
+
+                if(modal_height < min_height)
+                    $modal_centered.height(min_height);
 
 		$('#modal_content').css({width: modal_width + 'px'});
 
@@ -2236,6 +2249,8 @@ var Yacs = {
 	 * Look at Yacs.tabs() above for a practical example of use
 	 *
 	 * @param string id of the target CSS container
+         *
+         *
 	 * @param string web address to fetch new snippet
 	 * @param mixed additional parameters to transmit to Ajax
 	 *
