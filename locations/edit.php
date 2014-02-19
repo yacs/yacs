@@ -240,21 +240,19 @@ if($with_form) {
 		
 		Page::defer_script("http://maps.google.com/maps?file=api&amp;v=2&amp;key=".$context['google_api_key']);
 			
-		// TODO  : update this with google API V3
 		Page::insert_script(
 			'var geocoder = null;'."\n"
 			.'function lookupAddress(address) {'."\n"
 			.'	if(!geocoder) {'."\n"
-			.'		geocoder = new GClientGeocoder();'."\n"
+			.'		geocoder = new google.maps.Geocoder();'."\n"
 			.'	}'."\n"
 			.'	if(geocoder) {'."\n"
-			.'		geocoder.getLatLng('."\n"
-			.'			address,'."\n"
-			.'			function(point) {'."\n"
+			.'		geocoder.geocode( { "address":container.geo_place_name.value},'."\n"
+			.'			function(point,status) {'."\n"
 			.'				if (!point) {'."\n"
 			.'					alert("'.i18n::s('This address has not been found').'");'."\n"
 			.'				} else {'."\n"
-			.'					$(\'#geo_position\').val( point.y.toString() + ", " + point.x.toString() );'."\n"
+			.'					$(\'#geo_position\').val( point[0].geometry.location.lat() + ", " + point[0].geometry.location.lng() );'."\n"
 			.'					alert("'.i18n::s('This address has been encoded as').'\n" + point.y.toString() + ", " + point.x.toString());'."\n"
 			.'				}'."\n"
 			.'			}'."\n"
