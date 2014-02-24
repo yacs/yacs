@@ -238,7 +238,7 @@ if($with_form) {
 		// encode on click
 		$input .= '<button type="button" id="encode" onclick="lookupAddress($(\'#geo_place_name\').val()); return false;">'.encode_field(i18n::s('Encode this address')).'</button>'."\n";
 		
-		Page::defer_script("http://maps.google.com/maps?file=api&amp;v=2&amp;key=".$context['google_api_key']);
+		Page::defer_script("http://maps.google.com/maps?file=api&amp;v=3&amp;key=".$context['google_api_key']);
 			
 		Page::insert_script(
 			'var geocoder = null;'."\n"
@@ -254,7 +254,7 @@ if($with_form) {
 			.'				} else {'."\n"
 
 			.'					$(\'#geo_position\').val( point[0].geometry.location.lat() + ", " + point[0].geometry.location.lng() );'."\n"
-			.'					alert("'.i18n::s('This address has been encoded as').'\n" + point.y.toString() + ", " + point.x.toString());'."\n"
+			.'					alert("'.i18n::s('This address has been encoded as').'\n" + point[0].geometry.location.lat() + ", " +  point[0].geometry.location.lat());'."\n"
 			.'				}'."\n"
 			.'			}'."\n"
 			.'		)'."\n"
