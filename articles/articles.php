@@ -1504,18 +1504,36 @@ Class Articles {
 			return $cache[$id];
 
 		// search by id
-		if(is_numeric($id))
+		if(is_numeric($id)) {
 			$query = "SELECT ".SQL::escape($attributes)." FROM ".SQL::table_name('articles')
 				." WHERE (id = ".SQL::escape((integer)$id).")";
-
+			// do the job
+			$output = SQL::query_first($query);
+		}
 		// or look for given name of handle
-		else
+		else {
 			$query = "SELECT ".SQL::escape($attributes)." FROM ".SQL::table_name('articles')
-				." WHERE (nick_name LIKE '".SQL::escape($id)."') OR (handle LIKE '".SQL::escape($id)."')"
-				." ORDER BY publish_date DESC LIMIT 1";
+				." WHERE (nick_name LIKE '".SQL::escape($id)."') OR (handle LIKE '".SQL::escape($id)."')";
+			$count=SQL::query_count($query);
+			if($count==1)
+				// do the job
+				$output = SQL::query_first($query);
+			elseif ($count>1) {// result depending language give by $context['page_language']
+				if (($_SESSION['surfer_language']=='none'))	
+					$language=$context['language'];
+				else 
+					$language=$_SESSION['surfer_language'];
+				$result = SQL::query($query);
+				while($item = SQL::fetch($result)) {
+				 	$output=$item; // return last by default
+					if ($item['language'] == $language) {
+					 	$output=$item;
+					 	break;
+					}
+				}
+			}
 
-		// do the job
-		$output = SQL::query_first($query);
+		}
 
 		// save in cache, but only on generic request
 		if(isset($output['id']) && ($attributes == '*') && (count($cache) < 1000))
