@@ -1251,13 +1251,17 @@ if(!isset($item['id'])) {
 	    // delete command
 	    if(Articles::allow_deletion($item, $anchor)) {
 		    Skin::define_img('ARTICLES_DELETE_IMG', 'articles/delete.gif');
-		    $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'delete'), ARTICLES_DELETE_IMG.i18n::s('Delete this page'));
+		    if(!is_object($overlay) || (!$label = $overlay->get_label('delete_command', 'articles')))
+			    $label = i18n::s('Delete this page');
+		    $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'delete'), ARTICLES_DELETE_IMG.$label);
 	    }
 
 	    // duplicate command provided to container owners
 	    if(Articles::is_owned(NULL, $anchor)) {
 		    Skin::define_img('ARTICLES_DUPLICATE_IMG', 'articles/duplicate.gif');
-		    $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'duplicate'), ARTICLES_DUPLICATE_IMG.i18n::s('Duplicate this page'));
+		    if(!is_object($overlay) || (!$label = $overlay->get_label('duplicate_command', 'articles')))
+			    $label = i18n::s('Duplicate this page');
+		    $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'duplicate'), ARTICLES_DUPLICATE_IMG.$label);
 	    }
 	}
 
