@@ -86,9 +86,13 @@
  * Following functions are aiming to simplify external calls:
  * - [code]export()[/code] -- to generate some XML
  * - [code]save()[/code] -- to serialize overlay content
- *
+ * 
+ * Other function that may be implemented in your overlay
+ * [code]filter_invite_message()[/code] -- to send a specific message when owner send invitation. @see articles/invite.php
+ * 
  * @author Bernard Paques
  * @author GnapZ
+ * @author Alexis Raimbault
  * @tester Neige1963
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
