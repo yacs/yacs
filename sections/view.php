@@ -1540,7 +1540,9 @@ if(!isset($item['id'])) {
 
 		// delete the page
 		Skin::define_img('SECTIONS_DELETE_IMG', 'sections/delete.gif');
-		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'delete'), SECTIONS_DELETE_IMG.i18n::s('Delete this section'), 'basic');
+		if(!is_object($overlay) || (!$label = $overlay->get_label('delete_command', 'sections')))
+			$label = i18n::s('Delete this section');
+		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'delete'), SECTIONS_DELETE_IMG.$label, 'basic');
 
 		// manage content
 		if($has_content) {
