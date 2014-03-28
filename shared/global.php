@@ -630,8 +630,13 @@ function core_autoload($class) {
             include_once $context['path_to_root'].'/skins/page.php';
 	default :
 	    // this is default architecture of Yacs
-	    if(is_readable($context['path_to_root'].$class.'/'.$class.'.php'))
+	    if(is_readable($context['path_to_root'].$class.'/'.$class.'.php')) {
 		include_once $context['path_to_root'].$class.'/'.$class.'.php';
+            } 
+            // check in overlays files
+            elseif(is_readable($context['path_to_root'].'overlays/'.$class.'.php')) {
+                include_once $context['path_to_root'].'overlays/'.$class.'.php';
+            }
     }
 }
 // declare upper function as a autoloader to php
