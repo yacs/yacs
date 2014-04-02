@@ -487,6 +487,8 @@ Class Comments {
 
 		// option to add a file
 		if(Surfer::may_upload()) {
+                    
+                        include_once $context['path_to_root'].'files/files.php';
 
 			// input field to appear on demand
 			$text .= '<p id="comment_upload" class="details" style="display: none;">'
