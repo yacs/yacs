@@ -102,7 +102,7 @@ if(!isset($item['id'])) {
 	if(Images::delete($item['id'])) {
 		Images::clear($item);
 		if(is_object($anchor))
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
+			Safe::redirect($anchor->get_url());
 		else
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].'images/');
 	}
