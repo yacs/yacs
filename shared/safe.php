@@ -904,14 +904,15 @@ class Safe {
 	 * @param string the target full web address
 	 */
 	public static function redirect($reference) {
-		global $context;
+		global $render_overlaid;
                 
-                // include overlaid directive if was asked 
-                if(isset($_REQUEST['overlaid']) && $_REQUEST['overlaid']=='Y') {
-                    if(strcmp('?', $reference) != NULL) {
+                // stay overlaid if it was asked 
+                if($render_overlaid) {
+                    if(strpos($reference,'?') !== FALSE) {
                         $reference .= '&overlaid=Y';
-                    } else
+                    } else {
                         $reference .= '?overlaid=Y';
+                    }
                 }
 
 		// the actual redirection directive
