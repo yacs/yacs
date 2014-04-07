@@ -548,6 +548,15 @@ class Overlay {
 	function get_type() {
 		return $this->attributes['overlay_type'];
 	}
+        
+        
+        /** 
+         * retrieve url where to go after anchor is deleted.
+         * if null then YACS will proceed to default behaviour
+         */
+        public function get_url_after_deleting() {
+            return null;
+        }
 
 	/**
 	 * get the value of one attribute

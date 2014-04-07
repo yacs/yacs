@@ -95,7 +95,9 @@ if(!isset($item['id'])) {
 		Cache::clear();
 
 		// back to the anchor page or to the index page
-		if(!is_object($anchor))
+                if($back_url = $overlay->get_url_after_deleting()) {
+                        Safe::redirect($back_url);
+                } elseif(!is_object($anchor))
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].'articles/');
 		elseif($anchor->is_viewable())
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
