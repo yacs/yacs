@@ -903,6 +903,9 @@ if($with_form) {
 	$help .= '</select></p></form>';
 
 	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
+        
+        // we are editing
+        $context['current_action'] = 'edit';
 
 }
 
