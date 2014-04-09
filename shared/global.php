@@ -1294,20 +1294,17 @@ function render_skin($with_last_modified=TRUE) {
 	}
 
 	// help Javascript scripts to locate files
-	$script = JS_PREFIX
-		.'	var url_to_root	    = "'.$context['url_to_home'].$context['url_to_root'].'";'."\n"
-		.'	var url_to_skin	    = "'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/";'."\n"
-		.'	var url_to_master   = "'.$context['url_to_master'].$context['url_to_root'].'";'."\n"
-		.'	var surfer_lang	    = "'.$context['language'].'";'."\n"
-		.JS_SUFFIX;
-
-	if($whole_rendering) {
+        if($whole_rendering) {
+            $script = JS_PREFIX
+                    .'	var url_to_root	    = "'.$context['url_to_home'].$context['url_to_root'].'";'."\n"
+                    .'	var url_to_skin	    = "'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/";'."\n"
+                    .'	var url_to_master   = "'.$context['url_to_master'].$context['url_to_root'].'";'."\n"
+                    .'	var surfer_lang	    = "'.$context['language'].'";'."\n"
+                    .JS_SUFFIX;
+	
 	    // --in header, because of potential use by in-the-middle javascript snippet
 	    $metas[] = $script;
-	} else {
-	    // at the top of content
-	    $context['text'] = $script.$context['text'];
-	}
+	} 
 
 	// activate tinyMCE, if available
 	if(isset($context['javascript']['tinymce'])) {
@@ -1325,15 +1322,21 @@ function render_skin($with_last_modified=TRUE) {
 	if(isset($context['site_head']))
 		$metas[] = $context['site_head'];
 
-	// provide a page reference to Javascript --e.g., for reporting activity from this page
-	$js_script = 'Yacs.current_item = "'
+	////// provide a page reference to Javascript --e.g., for reporting activity from this page
+        
+        // variable name will change if overlaid view
+        $display_context = ($render_overlaid)?'current_overlaid':'current';
+        
+        // build the script
+	$js_script = 'Yacs.'.$display_context.'_item = "'
 		.((isset($context['current_item']) && $context['current_item'])?$context['current_item']:'').'"; '
-		.'Yacs.current_action = "'
+		.'Yacs.'.$display_context.'_action = "'
 		.((isset($context['current_action']) && $context['current_action'])?$context['current_action']:'').'";';
-	$type = (SKIN_HTML5)?'':' type="text/javascript" ';
+	/*$type = (SKIN_HTML5)?'':' type="text/javascript" ';
 	$js_script = '<script'.$type.'> '.$js_script.'</script>'."\n";
-	// put directly in page footer, before snippets of ['javascript']['footer']
-	$context['page_footer'] .= $js_script;
+	// put in page footer, before snippets of ['javascript']['footer']
+	$context['javascript']['footer'] = $js_script.$context['javascript']['footer'];*/
+        Page::insert_script($js_script);
 
 	// jquery-ui stylesheet
 	if($whole_rendering)
