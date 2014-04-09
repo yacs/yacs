@@ -1993,20 +1993,21 @@ var Yacs = {
          * @returns string or null
          */
         tabsLast : function(tabid) {
-	
+            // retrieve stored tabs or create var
             var memoTabs = sessionStorage.getItem('memoTabs');
             if( memoTabs != null ) 
                     memoTabs = JSON.parse(memoTabs);
             else
                     memoTabs = new Object;
 
+            // get current page
             var page = '';
             if( typeof Yacs.current_overlaid_item != 'undefined' )
-                    page = Yacs.current_overlaid_item;
+                    page = Yacs.current_overlaid_item + Yacs.current_overlaid_action;
             else
-                    page = Yacs.current_item;
+                    page = Yacs.current_item + Yacs.current_action;
 
-            // record a tab
+            // with parameter : record a tab
             if(typeof tabid != 'undefined') {
 
 
@@ -2015,7 +2016,7 @@ var Yacs = {
                             sessionStorage.setItem('memoTabs', JSON.stringify(memoTabs));
                     }
             }
-            // get a tab
+            // without parameter : get a tab
             else {
                     if(page != '') {
                             var tab = memoTabs[page];
