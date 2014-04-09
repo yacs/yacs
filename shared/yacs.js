@@ -1859,24 +1859,37 @@ var Yacs = {
                 if($("#tabs_panels .step").length)
                     $("#main_form .bottom").css('visibility','hidden');
 
-		// where are we?
-		if(window.location.hash.length > 1) {
-			var hash = document.location.hash.substr(1,document.location.hash.length);
+                /**
+                 * Get starting tab
+                 * 1) from url
+                 * 2) from script
+                 * 3) from last tab in sessionStorage 
+                 */  
+                var startTab = null;
+                if(window.location.hash.length > 1)
+                    startTab = document.location.hash.substr(1,document.location.hash.length);
+                else if(typeof Yacs.startTabs != 'undefined')
+                    startTab = Yacs.startTabs;
+                else
+                    startTab = Yacs.tabsLast();
+		
+                // where are we?
+		if( startTab != null) {
 
 			// are we already there?
-			if(Yacs.tabs_current == hash)
+			if(Yacs.tabs_current == startTab)
 				return;
 
 			// change to this tab
 			for(id in tabs) {
-				if(id == hash) {
+				if(id == startTab) {
 					Yacs.tabsDisplay(id);
 					break;
 				}
 			}
 
 			// wait until next change of hash
-			Yacs.tabs_current = hash;
+			Yacs.tabs_current = startTab;
 		}
 
 	},
@@ -1916,6 +1929,9 @@ var Yacs = {
 
 		// remember our state
 		Yacs.tabs_current = id;
+                
+                // remember it for next visit to this page
+                Yacs.tabsLast(id)
 
 		// update the tab
 		$("#"+newCurrent).removeClass('tab-background');
@@ -1966,6 +1982,48 @@ var Yacs = {
 		e.stopPropagation();
 		return false;
 	},
+        
+        /**
+         * record or retrieve last tab displayed for a given page
+         * use sessionStorage.
+         * if a parameter tabid is given, it is reccorded for the current page
+         * elsewhere the function provide last tab for the current page if any
+         * 
+         * @param tabid qtring
+         * @returns string or null
+         */
+        tabsLast : function(tabid) {
+	
+            var memoTabs = sessionStorage.getItem('memoTabs');
+            if( memoTabs != null ) 
+                    memoTabs = JSON.parse(memoTabs);
+            else
+                    memoTabs = new Object;
+
+            var page = '';
+            if( typeof Yacs.current_overlaid_item != 'undefined' )
+                    page = Yacs.current_overlaid_item;
+            else
+                    page = Yacs.current_item;
+
+            // record a tab
+            if(typeof tabid != 'undefined') {
+
+
+                    if(page != '') {	
+                            memoTabs[page] = tabid;
+                            sessionStorage.setItem('memoTabs', JSON.stringify(memoTabs));
+                    }
+            }
+            // get a tab
+            else {
+                    if(page != '') {
+                            var tab = memoTabs[page];
+                            return tab
+                    }
+            }
+            return null
+        },
 
 	/**
 	 * change text size
