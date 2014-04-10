@@ -934,52 +934,6 @@ Class Comments {
 	}
 
 	/**
-	* build a small form to reply to a comment
-	*
-	* @param array attributes of the comment to be replied
-	* @param string the place to come back when complete
-	* @return string the HTML tags to put in the page
-	*/
-	public static function get_reply_form($item, $follow_up='comments') {
-		global $context;
-
-		// the form to post a comment
-		$text = '<form method="post" action="'.$context['url_to_root'].'comments/edit.php" enctype="multipart/form-data" id="comment_form"><div style="margin: 1em 0;">';
-
-		// use the right editor, maybe wysiwyg
-		$text .= Surfer::get_editor('description', '', TRUE);
-
-		// bottom commands
-		$menu = array();
-
-		// option to add a file
-		if(Surfer::may_upload()) {
-
-			// input field to appear on demand
-			$text .= '<p id="comment_upload" class="details" style="display: none;"><input type="file" name="upload" size="30" />'
-			.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
-			.'<input type="hidden" name="file_type" value="upload" /></p>';
-
-			// the command to add a file
-			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-			$menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600); return false;"><span>'.FILES_UPLOAD_IMG.i18n::s('Add a file').'</span></a>';
-		}
-
-		// the submit button
-		$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
-
-		// finalize the form
-		$text .= '<input type="hidden" name="anchor" value="'.$item['anchor'].'" />'
-			.'<input type="hidden" name="follow_up" value="'.$follow_up.'" />'
-			.'<input type="hidden" name="notify_watchers" value="Y" />'
-			.Skin::finalize_list($menu, 'menu_bar')
-			.'</div></form>';
-
-		// done
-		return $text;
-	}
-
-	/**
 	 * get a default title from the type selected
 	 *
 	 * @param the type ('suggestion', etc.')
