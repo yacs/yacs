@@ -908,10 +908,14 @@ class Safe {
                 
                 // stay overlaid if it was asked 
                 if($render_overlaid) {
-                    if(strpos($reference,'?') !== FALSE) {
-                        $reference .= '&overlaid=Y';
+                    $param = ((strpos($reference,'?') !== FALSE)?'&':'?').'overlaid=Y';
+                   
+                    // insert param before anchor if any
+                    // or append to end of url
+                    if((strpos($reference,'#') !== FALSE)) {
+                        $reference = substr_replace($reference, $param, strpos($reference,'#'), 0);
                     } else {
-                        $reference .= '?overlaid=Y';
+                        $reference .= $param;
                     }
                 }
 
