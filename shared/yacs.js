@@ -1420,10 +1420,10 @@ var Yacs = {
 	    // get the form
 	    var form = $("#main_form");
             // may be a comment form
-            if (!form.lenght)
+            if (!form.length)
                 form = $("#comment_form");
             
-            if(!form.lenght) {
+            if(!form.length) {
                 console.log('cannot post cause did not find form');
                 return;
             }
