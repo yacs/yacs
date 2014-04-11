@@ -1044,7 +1044,7 @@ var Yacs = {
 		});
                 $("#modal_content").find(".submit-overlaid").click(function(e){
 		    e.preventDefault();
-		    Yacs.modalPost(true, false);
+		    Yacs.modalPost(true);
 		});
 
 	},
@@ -1411,7 +1411,7 @@ var Yacs = {
          * @param {boolean} valid, depending OK or CANCEL is pressed on the page
          * @param {boolean} checkValid, to bypass validateDocumentPost call
          */
-	modalPost: function(valid, checkValid) {
+	modalPost: function(valid) {
 
 	    // action canceled
 	    if(!valid)
@@ -1428,8 +1428,8 @@ var Yacs = {
                 return;
             }
 
-	    // call page validation
-            if(checkValid)
+	    // call page validation if any
+            if(typeof validateDocumentPost === 'function')
                 valid = validateDocumentPost(form.get(0));
 
 	    // not valid yet, but keep the modal box openned
