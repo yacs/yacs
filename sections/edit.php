@@ -190,6 +190,14 @@ if(Surfer::is_crawler()) {
 		$_REQUEST['overlay'] = $overlay->save();
 		$_REQUEST['overlay_id'] = $overlay->get_id();
 	}
+        // branch to another script to save data
+        if(isset($_REQUEST['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $_REQUEST['options'], $matches) && is_readable($matches[0].'.php')) {
+		include $matches[0].'.php';
+		return;
+	} elseif(is_object($overlay) && ($deputy = $overlay->get_value('edit_as')) && is_readable('edit_as_'.$deputy.'.php')) {
+		include 'edit_as_'.$deputy.'.php';
+		return;
+	} 
 
 	// update an existing page
 	if(isset($_REQUEST['id'])) {
@@ -358,6 +366,16 @@ if(Surfer::is_crawler()) {
 
 // display the form
 if($with_form) {
+    
+    
+         // branch to another script to save data
+        if(isset($_REQUEST['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $_REQUEST['options'], $matches) && is_readable($matches[0].'.php')) {
+		include $matches[0].'.php';
+		return;
+	} elseif(is_object($overlay) && ($deputy = $overlay->get_value('edit_as')) && is_readable('edit_as_'.$deputy.'.php')) {
+		include 'edit_as_'.$deputy.'.php';
+		return;
+	} 
 
 	// the form to edit a section
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form" enctype="multipart/form-data"><div>';
