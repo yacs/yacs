@@ -2661,36 +2661,6 @@ div.recent div.east { /* the second newest item */
 
 
 /**
- * smartlist layout
- *
- * <ul class=smartlist>
- * 		<li><div class=icon>image</div><div class=label>title<span=detail>intro</span></div></li>
- * 		...
- * </ul>
-*/
-
-
-/* <li> contain already icons */
-.smartlist {list-style:none;}
-
-/*ensure floating element are overlapped*/
-.smartlist li {
-	overflow: hidden;
-	background : none; /* avoid icons putted by some reference theme */
-	}
-
-/*contain title and intro*/
-.smartlist .label {
-	overflow: hidden;	/*content don't go under icon*/
-	}
-
-/*contain icon, float left*/
-.smartlist .icon {
-	float: left;
-	margin-right: 0.6em;
-	}
-
-/**
  * spray layout: a nice layout to report on status
  *
  * @see articles/layout_articles_as_spray.php
