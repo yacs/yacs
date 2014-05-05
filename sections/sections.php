@@ -940,7 +940,7 @@ Class Sections {
                 
                 // filter id from reference if parameter given that way
                 if(substr($id, 0, 8) === 'section:')
-                      $id = strstr ($id, ':');
+                      $id = substr ($id, 8);
 
 		// cache previous answers
 		static $cache;
@@ -3018,14 +3018,16 @@ Class Sections {
 		// other fields
 		if(isset($fields['anchor']))
 			$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
-		if(isset($fields['articles_canvas']))
+		if(isset($fields['articles_canvas']) && surfer::is_associate())
 			$query[] = "articles_canvas='".SQL::escape($fields['articles_canvas'])."'";
 		if(isset($fields['articles_layout']))
 			$query[] = "articles_layout='".SQL::escape($fields['articles_layout'])."'";
-		if(isset($fields['articles_templates']))
+		if(isset($fields['articles_templates']) && surfer::is_associate())
 			$query[] = "articles_templates='".SQL::escape($fields['articles_templates'])."'";
-		if(isset($fields['behaviors']))
+		if(isset($fields['behaviors']) && surfer::is_associate())
 			$query[] = "behaviors='".SQL::escape($fields['behaviors'])."'";
+                if(isset($fields['content_overlay']) && surfer::is_associate())
+			$query[] = "content_overlay='".SQL::escape($fields['content_overlay'])."'";
 		if(isset($fields['content_options']))
 			$query[] = "content_options='".SQL::escape($fields['content_options'])."'";
 		if(isset($fields['description']))
@@ -3052,7 +3054,7 @@ Class Sections {
 			$query[] = "nick_name='".SQL::escape($fields['nick_name'])."'";
 		if(isset($fields['options']))
 			$query[] = "options='".SQL::escape($fields['options'])."'";
-		if(isset($fields['overlay']))
+		if(isset($fields['overlay']) )
 			$query[] = "overlay='".SQL::escape($fields['overlay'])."'";
 		if(isset($fields['overlay_id']))
 			$query[] = "overlay_id='".SQL::escape($fields['overlay_id'])."'";

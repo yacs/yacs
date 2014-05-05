@@ -848,7 +848,7 @@ Class Files {
                 
                 // filter id from reference if parameter given that way
                 if(substr($id, 0, 5) === 'file:')
-                      $id = strstr ($id, ':');
+                      $id = substr ($id, 5);
 
 		// cache previous answers
 		static $cache;

@@ -314,7 +314,7 @@ Class Categories {
                 
                 // filter id from reference if parameter given that way
                 if(substr($id, 0, 9) === 'category:')
-                      $id = strstr ($id, ':');
+                      $id = substr ($id, 9);
 
 		// cache previous answers
 		static $cache;
