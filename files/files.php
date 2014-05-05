@@ -845,6 +845,10 @@ Class Files {
 		// ensure proper unicode encoding
 		$id = (string)$id;
 		$id = utf8::encode($id);
+                
+                // filter id from reference if parameter given that way
+                if(substr($id, 0, 5) === 'file:')
+                      $id = strstr ($id, ':');
 
 		// cache previous answers
 		static $cache;

@@ -1493,6 +1493,10 @@ Class Articles {
 		// ensure proper unicode encoding
 		$id = (string)$id;
 		$id = utf8::encode($id);
+                
+                // filter id from reference if parameter given that way
+                if(substr($id, 0, 8) === 'article:')
+                      $id = strstr ($id, ':');
 
 		// cache previous answers
 		static $cache;
