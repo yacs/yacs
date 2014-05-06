@@ -9,6 +9,9 @@
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
+
+include_once $context['url_to_root'].'files/files.php';
+
 class Embed extends Overlay {
 
 	/**
