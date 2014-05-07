@@ -71,11 +71,11 @@ $cur_section->anchor    = $anchor;
 $cur_section->overlay   = $overlay;
 
 // we are allowed to add a new section
-if(!isset($item['id']) && $anchor->allow('creation','section'))
+if(!isset($item['id']) && $anchor->allows('creation','section'))
 	$permitted = TRUE;
 
 // we are allowed to modify an existing section
-elseif(isset($item['id']) && $cur_section->allow('modification'))
+elseif(isset($item['id']) && $cur_section->allows('modification'))
 	$permitted = TRUE;
 
 // the default is to disallow access
