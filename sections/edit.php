@@ -64,12 +64,18 @@ elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
 } elseif(!isset($item['id']) && is_object($anchor))
 	$overlay = $anchor->get_overlay('section_overlay');
 
+// current edited section as object
+$cur_section = new section();
+$cur_section->item      = $item;
+$cur_section->anchor    = $anchor;
+$cur_section->overlay   = $overlay;
+
 // we are allowed to add a new section
-if(!isset($item['id']) && Sections::allow_creation(NULL, $anchor))
+if(!isset($item['id']) && $anchor->allow('creation','section'))
 	$permitted = TRUE;
 
 // we are allowed to modify an existing section
-elseif(isset($item['id']) && Sections::allow_modification($item, $anchor))
+elseif(isset($item['id']) && $cur_section->allow('modification'))
 	$permitted = TRUE;
 
 // the default is to disallow access
