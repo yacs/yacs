@@ -84,7 +84,7 @@ Class File extends Anchor {
 	 *
 	 * @see shared/anchor.php
 	 */
-	 function get_title() {
+	 function get_title($use_overlay=true) {
 		if(!isset($this->item['id']))
 			return NULL;
 		if(isset($this->item['title']) && $this->item['title'])
