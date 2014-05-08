@@ -173,7 +173,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 			}
 
 			// discuss
-			if(Comments::allow_creation($anchor, $item))
+			if(Comments::allow_creation($item, $anchor))
 				$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
 
 			// info on related links

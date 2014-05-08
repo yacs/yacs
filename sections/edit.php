@@ -834,7 +834,7 @@ if($with_form) {
 
 		// images
 		$box = '';
-		if(Images::allow_creation($anchor, $item, 'section')) {
+		if(Images::allow_creation($item, $anchor, 'section')) {
 			$menu = array( 'images/edit.php?anchor='.urlencode('section:'.$item['id']) => i18n::s('Add an image') );
 			$box .= Skin::build_list($menu, 'menu_bar');
 		}
@@ -856,7 +856,7 @@ if($with_form) {
 
 		// locations
 		$box = '';
-		if(Locations::allow_creation($anchor, $item, 'section')) {
+		if(Locations::allow_creation($item, $anchor, 'section')) {
 			$menu = array( 'locations/edit.php?anchor='.urlencode('section:'.$item['id']) => i18n::s('Add a location') );
 			$box .= Skin::build_list($menu, 'menu_bar');
 		}
@@ -867,7 +867,7 @@ if($with_form) {
 
 		// tables
 		$box = '';
-		if(Tables::allow_creation($anchor, $item, 'section')) {
+		if(Tables::allow_creation($item, $anchor, 'section')) {
 			$menu = array( 'tables/edit.php?anchor='.urlencode('section:'.$item['id']) => i18n::s('Add a table') );
 			$box .= Skin::build_list($menu, 'menu_bar');
 		}

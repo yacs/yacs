@@ -180,17 +180,32 @@ abstract class Anchor {
 		// delegate the validation to the overlay
 		if(isset($this->overlay) && is_object($this->overlay) && is_callable(array($this->overlay, 'allows'))) {
 			$reply =  $this->overlay->allows($action, $type);
-			if($reply != 'PASS')
+			if($reply !== null)
 			    return $reply;
 		}
 			
 		$allow_func = 'allow_'.$action;
-		// delegate validation to legacy group class function, depending on 'action'
-		$group_class = $this->get_static_group_class();		
-		if(is_callable(array($group_class,$allow_func)))
+                $group_class = '';
+		//// delegate validation to legacy group class function, depending on 'action' and type
+                //// TODO : move all legacy code to child class. Make all class as child of anchor
+                if($action == 'creation' && $type) { 
+                    // special case of creation
+                    if(class_exists($type) && is_callable(array($type,'get_static_group_class'))) {
+                        $maycreate      = new $type();
+                        $group_class    = $maycreate->get_static_group_class();
+                    } else {
+                        // last chance (for links, images, comments, locations...)
+                        $group_class = $type.'s';
+                    }
+                    // this object class type became the variant for allow_creation function    
+                    $type = $this->get_type();
+                } else
+                    $group_class = $this->get_static_group_class();		
+		
+                if(is_callable(array($group_class,$allow_func)))
 			return $group_class::$allow_func($this->item, $this->anchor, $type);
 		
-		// delegate validation to class
+		// delegate validation to child class
 		if(is_callable(array($this,$allow_func)))
 			return $this->$allow_func($type);
 
@@ -1231,7 +1246,7 @@ abstract class Anchor {
 			return FALSE;
 
 		// associates can always do it, except if not cascading
-		if(($user_id == Surfer::get_id()) && Surfer::is_associate())
+		if(Surfer::is($user_id) && Surfer::is_associate())
 			return TRUE;
 
 		// if surfer manages parent container it's ok too

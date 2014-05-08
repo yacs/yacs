@@ -312,7 +312,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		//
 
 		// discuss this page, if the index page can be commented, and comments are accepted at the article level
-		if(Comments::allow_creation($anchor, $item))
+		if(Comments::allow_creation($item, $anchor))
 			$this->menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Post a comment'), 'span');
 
 		// info on related comments

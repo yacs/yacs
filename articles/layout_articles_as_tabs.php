@@ -171,7 +171,7 @@ Class Layout_articles_as_tabs extends Layout_interface {
 			$box = array('bar' => array(), 'prefix_bar' => array(), 'text' => '');
 
 			// feed the wall
-			if(Comments::allow_creation($anchor, $item))
+			if(Comments::allow_creation($item, $anchor))
 				$box['text'] .= Comments::get_form('article:'.$item['id']);
 
 			// a navigation bar for these comments

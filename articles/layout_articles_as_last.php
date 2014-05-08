@@ -165,7 +165,7 @@ Class Layout_articles_as_last extends Layout_interface {
 				$bottom_menu[] = sprintf(i18n::s('By %s'), $contributor).' '.Skin::build_date($comment['create_date']).$flag;
 
 				// offer to reply
-				if(Comments::allow_creation($anchor, $item)) {
+				if(Comments::allow_creation($item, $anchor)) {
 					$link = Comments::get_url($comment['id'], 'reply');
 					$bottom_menu[] = Skin::build_link($link, i18n::s('Reply'), 'basic');
 				}

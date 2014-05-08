@@ -319,7 +319,7 @@ if($with_form) {
 
 		// images
 		$box = '';
-		if(Images::allow_creation($anchor, $item)) {
+		if(Images::allow_creation($item, $anchor)) {
 			$menu = array( 'images/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add an image') );
 			$box .= Skin::build_list($menu, 'menu_bar');
 		}
@@ -341,7 +341,7 @@ if($with_form) {
 
 		// tables
 		$box = '';
-		if(Tables::allow_creation($anchor, $item)) {
+		if(Tables::allow_creation($item, $anchor)) {
 			$menu = array( 'tables/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a table') );
 			$box .= Skin::build_list($menu, 'menu_bar');
 		}

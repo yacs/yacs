@@ -112,7 +112,7 @@ if(!count($context['error']) && isset($item['id'])) {
 
 	// upload an image
 	//
-	if(Images::allow_creation(NULL, $item, 'user')) {
+	if(Images::allow_creation($item, null, 'user')) {
 
 		// the form to post an image
 		$text = '<form method="post" action="'.$context['url_to_root'].'images/edit.php" id="main_form" enctype="multipart/form-data"><div>'

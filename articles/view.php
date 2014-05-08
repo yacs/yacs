@@ -711,7 +711,7 @@ if(!isset($item['id'])) {
 		    $lines[] = Skin::build_link($context['url_to_home'].$context['url_to_root'].Files::get_url('article:'.$item['id'], 'feed'), i18n::s('Recent files'), 'xml');
 
 		    // comments are allowed
-		    if(Comments::allow_creation($anchor, $item)) {
+		    if(Comments::allow_creation($item, $anchor)) {
 			    $lines[] = Skin::build_link($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'), i18n::s('Recent comments'), 'xml');
 		    }
 	    }
@@ -972,7 +972,7 @@ if(!isset($item['id'])) {
 		$box = array('bar' => array(), 'prefix_bar' => array(), 'text' => '');
 
 		// feed the wall
-		if(Comments::allow_creation($anchor, $item))
+		if(Comments::allow_creation($item, $anchor))
 			$box['text'] .= Comments::get_form('article:'.$item['id']);
 
 		// a navigation bar for these comments
@@ -1124,7 +1124,7 @@ if(!isset($item['id'])) {
 			$box['bar'] += Skin::navigate($home, $prefix, $count, LINKS_PER_PAGE, $zoom_index);
 
 			// new links are allowed
-			if(Links::allow_creation($anchor, $item)) {
+			if(Links::allow_creation($item, $anchor)) {
 				Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 				$box['bar'] += array( 'links/edit.php?anchor='.urlencode('article:'.$item['id']) => LINKS_ADD_IMG.i18n::s('Add a link') );
 			}
@@ -1187,7 +1187,7 @@ if(!isset($item['id'])) {
 	//
 	if($whole_rendering) {
 	    // comment this page if anchor does not prevent it --anonymous surfers will have it in main area
-	    if(Comments::allow_creation($anchor, $item) && Surfer::get_id()) {
+	    if(Comments::allow_creation($item, $anchor) && Surfer::get_id()) {
 		    Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 		    $context['page_tools'][] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 	    }
@@ -1199,13 +1199,13 @@ if(!isset($item['id'])) {
 	    }
 
 	    // add a link
-	    if(Links::allow_creation($anchor, $item)) {
+	    if(Links::allow_creation($item, $anchor)) {
 		    Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 		    $context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('article:'.$item['id']), LINKS_ADD_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
 	    }
 
 	    // post an image, if upload is allowed
-	    if(Images::allow_creation($anchor, $item)) {
+	    if(Images::allow_creation($item, $anchor)) {
 		    Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
 		    $context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 	    }

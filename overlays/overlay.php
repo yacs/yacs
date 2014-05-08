@@ -122,11 +122,11 @@ class Overlay {
 	 *
 	 * @param string the foreseen operation ('edit', 'new', ...)
 	 * @param string the kind of item to handle ('approval', ...)
-	 * @return TRUE if the operation is accepted, FALSE otherwise, 'PASS' 
-	 * if overlay should not decide
+	 * @return TRUE if the operation is accepted, FALSE otherwise,
+         *  null to leave decision to yacs core 
 	 */
 	function allows($action, $type ='') {
-		return 'PASS';
+		return null;
 	}
 
 	/**
