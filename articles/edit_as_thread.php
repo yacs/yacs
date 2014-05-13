@@ -280,7 +280,7 @@ if($with_form) {
 		;
 
 	// the active flag: Yes/public, Restricted/logged, No/associates
-	elseif(Articles::is_owned($item, $anchor)) {
+	elseif($cur_article->is_owned()) {
 		$label = i18n::s('Access');
 		$input = Skin::build_active_set_input($item);
 		$hint = Skin::build_active_set_hint($anchor);
@@ -314,7 +314,7 @@ if($with_form) {
 
 		// images
 		$box = '';
-		if(Images::allow_creation($item, $anchor)) {
+		if($cur_article->allows('creation','image')) {
 			$menu = array( 'images/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add an image') );
 			$box .= Skin::build_list($menu, 'menu_bar');
 		}
@@ -325,7 +325,7 @@ if($with_form) {
 
 		// files
 		$box = '';
-		if(Files::allow_creation($item, $anchor, 'article')) {
+		if($cur_article->allows('creation','file')) {
 			$menu = array( 'files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a file') );
 			$box .= Skin::build_list($menu, 'menu_bar');
 		}
@@ -369,7 +369,7 @@ if($with_form) {
 		}
 
 		// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
-		if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+		if($cur_article->is_owned() || Surfer::is_associate()) {
 			$label = i18n::s('Access');
 			$input = Skin::build_active_set_input($item);
 			$hint = Skin::build_active_set_hint($anchor);
@@ -417,7 +417,7 @@ if($with_form) {
 		}
 
 		// the rank
-		if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+		if($cur_article->is_owned() || Surfer::is_associate()) {
 
 			// the default value
 			if(!isset($item['rank']))
@@ -484,7 +484,7 @@ if($with_form) {
 		$fields[] = array($label, $input, $hint);
 
 		// the nick name
-		if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+		if($cur_article->is_owned() || Surfer::is_associate()) {
 			$label = i18n::s('Nick name');
 			$value = '';
 			if(isset($item['nick_name']) && $item['nick_name'])
@@ -497,7 +497,7 @@ if($with_form) {
 		}
 
 		// rendering options
-		if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+		if($cur_article->is_owned() || Surfer::is_associate()) {
 			$label = i18n::s('Rendering');
 			$input = Articles::build_options_input($item);
 			$hint = Articles::build_options_hint($item);
