@@ -810,7 +810,8 @@ if($with_form) {
         
         // check nickname and email dynamicaly
         Page::insert_script('$("#nick_name, input[name=email]").keyup(function(){
-            Yacs.checkNickEmail($(this));
+            var inputkeyup = $(this);
+            delay(function(){Yacs.checkNickEmail(inputkeyup);},600);
         });');
 
 	// append the script used for data checking on the browser

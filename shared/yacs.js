@@ -2448,6 +2448,29 @@ jQuery.fn.extend({
     
 }); //end jQuery extends
 
+/** 
+ * delay tools
+ * use it to call a function after
+ * a certain time of inactivity.
+ * Timer is reset each time function is recalled
+ * Usefull to cooldown keyup event for example.
+ * 
+ * Usage :
+ * $('input').keyup(function() {
+ *  delay(function(){
+ *    alert('Time elapsed!');
+ *  }, 1000 );
+ * });
+*/
+var delay = (function(){
+  var timer = 0;
+  return function(callback, ms){
+    clearTimeout (timer);
+    timer = setTimeout(callback, ms);
+  };
+})();
+
+
 // initialize yacs
 $(document).ready(Yacs.onWindowLoad);
 
