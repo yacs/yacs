@@ -93,8 +93,9 @@ if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
 // current item
-if(isset($item['id']))
-	$context['current_item'] = 'section:'.$item['id'];
+if(isset($item['id'])) {
+	$context['current_item']    = 'section:'.$item['id'];
+}
 
 // path to this page
 if(is_object($anchor)&& $anchor->is_viewable())
@@ -377,8 +378,10 @@ if(Surfer::is_crawler()) {
 // display the form
 if($with_form) {
     
-    
-         // branch to another script to save data
+        // give context
+        $context['current_action'] = 'edit';
+        
+        // branch to another script to save data
         if(isset($_REQUEST['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $_REQUEST['options'], $matches) && is_readable($matches[0].'.php')) {
 		include $matches[0].'.php';
 		return;
