@@ -1540,6 +1540,9 @@ Class Skin_Skeleton {
 	 * - 'tee' - like button, but also reload the current page
 	 * - 'user' - a person profile
 	 * - 'year' - a full year calendar
+         * 
+         * You may define a id attributes to the link by adding #<yourID> to the variant
+         * example : button#foobar
 	 *
 	 * @link http://www.texastar.com/tips/2004/target_blank.shtml XHTML 1.1 Modularization Anchor Element Target Attribute
 	 *
@@ -1566,7 +1569,10 @@ Class Skin_Skeleton {
 		if(!strncmp($label, 'http:', 5) || !strncmp($label, 'https:', 6) || !strncmp($label, 'ftp:', 4)) {
 			if(strlen($label) > 50)
 				$label = substr_replace($label, '...', 30, -15);
-		}
+                }
+                
+                // more attributes to give to the link
+                $attributes = '';
 
 		// guess the type of this link
 		if(!$variant) {
@@ -1627,13 +1633,15 @@ Class Skin_Skeleton {
 			elseif(!strncmp($url, 'mailto:', 7))
 				$variant = 'email';
 
-		}
+		} elseif($pos = strpos($variant,'#')) {
+                    // separate id from variant if any
+                    $attributes .= ' id="'.substr($variant,$pos+1).'"';
+                    $variant = substr($variant, 0, $pos );
+                }
 
 		// open in a separate window if asked explicitly or on file streaming
 		if($new_window || (strpos($url, 'files/stream.php') !== FALSE) || (strpos($url, 'file-stream/') !== FALSE))
-			$attributes = ' onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;"';
-		else
-			$attributes = '';
+			$attributes .= ' onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;"';
 
 		// access key
 		if($access_key)
@@ -1646,12 +1654,6 @@ Class Skin_Skeleton {
 		// force tip display for this link
 		if($variant == 'tip') {
 			$attributes .= ' class="tip"';
-			$variant = 'basic';
-		}
-		
-		// edition link, set overlaid edition if required
-		if($variant == 'edit') {
-			$attributes .= ' class="edit"';
 			$variant = 'basic';
 		}
 
@@ -1833,7 +1835,7 @@ Class Skin_Skeleton {
 
 		case 'external':
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="external" onclick="window.open(this.href); return false;">'.$label.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="external" '.$attributes.' onclick="window.open(this.href); return false;">'.$label.'</a>';
 			break;
 
 		case 'file':
