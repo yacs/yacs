@@ -2033,6 +2033,47 @@ var Yacs = {
             }
             return null
         },
+        
+        /**
+         * when using tabs for a step by step form
+         * and custom tabsValidateStep() function,
+         * this function help you to test all tabs.
+         * Usefull if for example your form is later
+         * not displayed step by step but with standard tabs.
+         * 
+         * the function stops on the first error and display
+         * the tab with the error;
+         * 
+         * @returns boolean
+         */
+        tabsValidateAll: function() {
+            // we suppose everything is ok
+            var result = true;
+
+            // sanity check
+            if(typeof Yacs.tabsValidateStep !== 'function') return result;
+
+            // get all tabs
+            var $tabs = $('#tabs_bar li');
+
+            // fetch tabs
+            $.each($tabs, function(){
+
+                var tab_id = $(this).attr('id');
+                // test the tab
+                if(Yacs.tabsValidateStep(tab_id))
+                    return; 
+                else {
+                    // failed, display the tab
+                    Yacs.stopWorking();
+                    Yacs.tabsDisplay(tab_id);
+                    result = false;
+                    return false; // break the "each" loop
+                }
+            });
+
+            return result;
+        },
 
 	/**
 	 * change text size
