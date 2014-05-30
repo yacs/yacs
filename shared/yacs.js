@@ -1024,6 +1024,20 @@ var Yacs = {
 		$tiled.masonry({
 		    itemSelector: '.tile'
 		});
+                
+                // prepare edition link to ajax call of overlaid edition
+                $("#modal_content").find(".edit-overlaid").click(function(e){
+                    e.preventDefault();
+                    Yacs.displayOverlaid($(this).attr("href"),true, true);
+                });
+                $("#modal_content").find(".open-overlaid").click(function(e){
+                    e.preventDefault();
+                    Yacs.displayOverlaid($(this).attr("href"));
+                });
+                $("#modal_content").find(".submit-overlaid").click(function(e){
+                     e.preventDefault();
+                    Yacs.modalPost(true);
+                });
 
 	},
 
@@ -1130,18 +1144,14 @@ var Yacs = {
 		}
 
 		// prepare edition link to ajax call of overlaid edition
-		$('body').delegate(".edit-overlaid",'click', function(){
-		    Yacs.displayOverlaid($(this).attr("href"),true, true);
-                    return false; // stop propagation
-		});
-		$('body').delegate(".open-overlaid",'click', function(){
-		    Yacs.displayOverlaid($(this).attr("href"));
-                    return false; // stop propagation
-		});
-                $('body').delegate(".submit-overlaid",'click', function(){
-		    Yacs.modalPost(true);
-                    return false; // stop propagation
-		});
+                $(".edit-overlaid").click(function(e){
+                    e.preventDefault();
+                    Yacs.displayOverlaid($(this).attr("href"),true, true);
+                });
+                $(".open-overlaid").click(function(e){
+                    e.preventDefault();
+                    Yacs.displayOverlaid($(this).attr("href"));
+                });
 
 		// slow down notifications on window blur
 		$(window).blur(Yacs.looseFocus);
