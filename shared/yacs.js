@@ -1012,7 +1012,7 @@ var Yacs = {
 
 			// head of a group of tiles
 			if(!siblingsLast)
-				siblingsLast = $(this).nextUntil(':not(.tile)').andSelf().wrapAll('<div class="tiler" />').last();
+				siblingsLast = $(this).nextUntil(':not(.tile)').addBack().wrapAll('<div class="tiler" />').last();
 
 			// tail of the group
 			if( $(this).is(siblingsLast) )
@@ -1045,7 +1045,7 @@ var Yacs = {
 		Yacs.detectFlash();
 
 		// change the behavior of buttons used for data submission, except those with style 'no_spin_on_click'
-                $('button[type=submit]').not('.no_spin_on_click').live('click', function(){Yacs.startWorking();});
+                $('body').delegate('button[type=submit]:not(.no_spin_on_click)','click', function(){Yacs.startWorking();});
 
 		// show tips
 		$('a[title].tip, input.tip').each(function() {
@@ -1098,7 +1098,7 @@ var Yacs = {
 
 			// head of a group of tiles
 			if(!siblingsLast)
-				siblingsLast = $(this).nextUntil(':not(.tile)').andSelf().wrapAll('<div class="tiler" />').last();
+				siblingsLast = $(this).nextUntil(':not(.tile)').addBack().wrapAll('<div class="tiler" />').last();
 
 			// tail of the group
 			if( $(this).is(siblingsLast) )
@@ -1130,17 +1130,17 @@ var Yacs = {
 		}
 
 		// prepare edition link to ajax call of overlaid edition
-		$(".edit-overlaid").live('click', function(e){
-		    e.preventDefault();
+		$('body').delegate(".edit-overlaid",'click', function(){
 		    Yacs.displayOverlaid($(this).attr("href"),true, true);
+                    return false; // stop propagation
 		});
-		$(".open-overlaid").live('click', function(e){
-		    e.preventDefault();
+		$('body').delegate(".open-overlaid",'click', function(){
 		    Yacs.displayOverlaid($(this).attr("href"));
+                    return false; // stop propagation
 		});
-                $(".submit-overlaid").live('click', function(e){
-		    e.preventDefault();
+                $('body').delegate(".submit-overlaid",'click', function(){
 		    Yacs.modalPost(true);
+                    return false; // stop propagation
 		});
 
 		// slow down notifications on window blur
