@@ -973,14 +973,6 @@ var Yacs = {
 	 */
 	onModalBoxLoad: function() {
 
-		// change the behavior of buttons used for data submission, except those with style 'no_spin_on_click'
-		$('#modal_content button').each(function() {
-			var buttonType = String($(this).attr('type'));
-			if(buttonType.toLowerCase().match('submit') && !$(this).hasClass('no_spin_on_click')) {
-				$(this).click(Yacs.startWorking);
-			}
-		});
-
 		// show tips
 		$("#modal_content").find('a[title].tip, input.tip').each(function() {
 			$(this).tipsy({title: 'title', gravity: $.fn.tipsy.autoNS, fade: true});
@@ -1033,20 +1025,6 @@ var Yacs = {
 		    itemSelector: '.tile'
 		});
 
-		// prepare edition link to ajax call of overlaid edition
-		$("#modal_content").find(".edit-overlaid").click(function(e){
-		    e.preventDefault();
-		    Yacs.displayOverlaid($(this).attr("href"),true, true);
-		});
-		$("#modal_content").find(".open-overlaid").click(function(e){
-		    e.preventDefault();
-		    Yacs.displayOverlaid($(this).attr("href"));
-		});
-                $("#modal_content").find(".submit-overlaid").click(function(e){
-		    e.preventDefault();
-		    Yacs.modalPost(true);
-		});
-
 	},
 
 	/**
@@ -1067,12 +1045,7 @@ var Yacs = {
 		Yacs.detectFlash();
 
 		// change the behavior of buttons used for data submission, except those with style 'no_spin_on_click'
-		$('button').each(function() {
-			var buttonType = String($(this).attr('type'));
-			if(buttonType.toLowerCase().match('submit') && !$(this).hasClass('no_spin_on_click')) {
-				$(this).click(Yacs.startWorking);
-			}
-		});
+                $('button[type=submit]').not('.no_spin_on_click').live('click', function(){Yacs.startWorking();});
 
 		// show tips
 		$('a[title].tip, input.tip').each(function() {
@@ -1157,13 +1130,17 @@ var Yacs = {
 		}
 
 		// prepare edition link to ajax call of overlaid edition
-		$(".edit-overlaid").click(function(e){
+		$(".edit-overlaid").live('click', function(e){
 		    e.preventDefault();
 		    Yacs.displayOverlaid($(this).attr("href"),true, true);
 		});
-		$(".open-overlaid").click(function(e){
+		$(".open-overlaid").live('click', function(e){
 		    e.preventDefault();
 		    Yacs.displayOverlaid($(this).attr("href"));
+		});
+                $(".submit-overlaid").live('click', function(e){
+		    e.preventDefault();
+		    Yacs.modalPost(true);
 		});
 
 		// slow down notifications on window blur
