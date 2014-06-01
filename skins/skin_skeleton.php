@@ -2949,7 +2949,7 @@ Class Skin_Skeleton {
 			$label = i18n::s('Submit');
 
 		// this is an input button
-		$text = '<span class="button"><button type="submit"';
+		$text = '<button type="submit"';
 
 		// hovering title
 		if($title)
@@ -2971,7 +2971,7 @@ Class Skin_Skeleton {
 		$text .= '>'.$label;
 
 		// end of button
-		$text .= '</button></span>';
+		$text .= '</button>';
 
 		return $text;
 	}
