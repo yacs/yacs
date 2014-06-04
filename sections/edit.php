@@ -408,11 +408,7 @@ if($with_form) {
 	if(!is_object($overlay) || !($label = $overlay->get_label('title', isset($item['id'])?'edit':'new')))
 		$label = i18n::s('Title').' *';
 
-	// copy this as compact title on initial edit
-	if((!isset($item['index_title']) || !$item['index_title']) && isset($item['title']))
-		$item['index_title'] = $item['title'];
-
-	$input = '<textarea name="index_title" id="index_title" rows="2" cols="50" accesskey="t">'.encode_field(isset($item['index_title']) ? $item['index_title'] : '').'</textarea>';
+	$input = '<textarea name="title" id="title" rows="2" cols="50" accesskey="t">'.encode_field(isset($item['title']) ? $item['title'] : '').'</textarea>';
 	if(!is_object($overlay) || !($hint = $overlay->get_label('title_hint', isset($item['id'])?'edit':'new')))
 		$hint = i18n::s('Please provide a meaningful title.');
 	$fields[] = array($label, $input, $hint);
@@ -1079,10 +1075,14 @@ if($with_form) {
 	$input = '<input type="text" name="family" size="50" value="'.encode_field(isset($item['family']) ? $item['family'] : '').'" maxlength="255" />';
 	$hint = i18n::s('Comes before the title; Used to categorize sections in forums');
 	$fields[] = array($label, $input, $hint);
+        
+        // copy this as compact title on initial edit
+	if((!isset($item['index_title']) || !$item['index_title']) && isset($item['title']))
+		$item['index_title'] = $item['title'];
 
 	// compact title
 	$label = i18n::s('Compact title');
-	$input = '<textarea name="title" id="title" rows="2" cols="50">'.encode_field(isset($item['title']) ? $item['title'] : '').'</textarea>';
+	$input = '<textarea name="index_title" id="index_title" rows="2" cols="50">'.encode_field(isset($item['index_title']) ? $item['index_title'] : '').'</textarea>';
 	$hint = i18n::s('Alternate title used in lists and in the contextual menu');
 	$fields[] = array($label, $input, $hint);
 
@@ -1256,7 +1256,7 @@ if($with_form) {
 		// check that main fields are not empty
 		'func'.'tion validateDocumentPost(container) {'."\n"
 			// title is mandatory
-		.'	if(!Yacs.trim(container.index_title.value)) {'."\n"
+		.'	if(!Yacs.trim(container.title.value)) {'."\n"
 		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
@@ -1264,23 +1264,23 @@ if($with_form) {
 			// successful check
 		.'	return true;'."\n"
 		.'}'."\n"
-		// if title is empty of equal to index_title
-		.'if( $("#title").val()=="" || $("#title").val()==$("#index_title").val()) {'."\n"
+		// if index_title is empty of equal to title
+		.'if( $("#index_title").val()=="" || $("#index_title").val()==$("#title").val()) {'."\n"
 		      // then synchronise index_title and title
-		.'      $("#index_title").change(function() {'."\n"
-		.'              $("#title").val($("#index_title").val());'."\n"
+		.'      $("#title").change(function() {'."\n"
+		.'              $("#index_title").val($("#title").val());'."\n"
 		.'      });'."\n"
 		.'}'."\n"
-		//stop updating title from index_title if edited by surfer
-		.'$("#title").change( function() {'."\n"
-		.'      $("#index_title").unbind("change");'."\n"
+		//stop updating index_title from title if edited by surfer
+		.'$("#index_title").change( function() {'."\n"
+		.'      $("#title").unbind("change");'."\n"
 		.'});'."\n"
 		// disable editor selection on change in form
 		.'$("#main_form textarea, #main_form input, #main_form select").change(function() {'."\n"
 		.'      $("#preferred_editor").attr("disabled",true);'."\n"
 		.'});'."\n"
 		// set the focus on first form field
-		.'$("#index_title").focus();'."\n"
+		.'$("#title").focus();'."\n"
 		// enable tags autocompletion
 		.'$(function() {'."\n"
 		.'  Yacs.autocomplete_m("tags", "'.$context['url_to_root'].'categories/complete.php");'."\n"

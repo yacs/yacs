@@ -297,17 +297,12 @@ if(isset($item['active']) && ($item['active'] == 'R'))
 	$context['page_title'] .= RESTRICTED_FLAG;
 elseif(isset($item['active']) && ($item['active'] == 'N'))
 	$context['page_title'] .= PRIVATE_FLAG;
-if(isset($item['index_title']) && $item['index_title']) {
-	if(is_object($overlay))
-		$context['page_title'] .= $overlay->get_text('title', $item);
-	elseif(isset($item['index_title']) && $item['index_title'])
-		$context['page_title'] .= $item['index_title'];
-} elseif(isset($item['title']) && $item['title']) {
-	if(is_object($overlay))
-		$context['page_title'] .= $overlay->get_text('title', $item);
-	elseif(isset($item['title']) && $item['title'])
-		$context['page_title'] .= $item['title'];
-}
+
+if(is_object($overlay))
+	$context['page_title'] .= $overlay->get_text('title', $item);
+elseif(isset($item['title']) && $item['title'])
+	$context['page_title'] .= $item['title'];
+
 if(isset($item['locked']) && ($item['locked'] == 'Y') && $cur_section->is_owned())
 	$context['page_title'] .= ' '.LOCKED_FLAG;
 

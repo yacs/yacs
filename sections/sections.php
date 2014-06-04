@@ -3042,6 +3042,8 @@ Class Sections {
 			$query[] = "index_map='".SQL::escape($fields['index_map'])."'";
 		if(isset($fields['introduction']))
 			$query[] = "introduction='".SQL::escape($fields['introduction'])."'";
+                if(isset($fields['index_title']))
+			$query[] = "index_title='".SQL::escape($fields['index_title'])."'";
 		if(isset($fields['language']))
 			$query[] = "language='".SQL::escape($fields['language'])."'";
 		if(isset($fields['locked']))
