@@ -481,6 +481,13 @@ var Yacs = {
 			    Yacs.closeModalBox();
 			});
 			$(objCentered).prepend(objBoxClose);
+                        
+                        // handle ESC key
+                        $(document).keydown(function(e) {
+                            if (e.keyCode == 27 && $("#modal_close").is(':visible')) {
+                                  $("#modal_close").trigger('click');
+                            }
+                        });
 
 
 			Yacs.modalOverlay = document.createElement("div");
