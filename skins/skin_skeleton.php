@@ -2178,12 +2178,23 @@ Class Skin_Skeleton {
 
 			// ease the handling of css, but only for links
 			if(($variant == 'tabs') || ($variant == 'page_menu')) {
+                            
+                                // avoid invalid HTML if label contain a div
+                                if(strpos($label, '<div ') !== FALSE ) {
+                                    $tag = 'div';
+                                    $style = ' style="display:inline;"';
+                                } else {
+                                    $tag = 'span';
+                                    $style = '';
+                                }
+                                    
+                            
 				if(count($list) == 0)
-					$label = '<span class="first">'.$label.'</span>';
+					$label = '<'.$tag.$style.' class="first">'.$label.'</'.$tag.'>';
 				elseif(count($list)+1 == count($items))
-					$label = '<span class="last">'.$label.'</span>';
+					$label = '<'.$tag.$style.' class="last">'.$label.'</'.$tag.'>';
 				else
-					$label = '<span>'.$label.'</span>';
+					$label = '<'.$tag.$style.'>'.$label.'</'.$tag.'>';
 			}
 
 			// the beautified link --if $url is '_', Skin::build_link() will return the label alone
@@ -2884,7 +2895,9 @@ Class Skin_Skeleton {
 			$down = ', true';
 
 		// title is optional
-		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slidePanel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\''.$onLeft.$down.'); return false;"><span>'.$title.'</span>'.$img.'</a>';
+		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slidePanel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\''.$onLeft.$down.'); return false;">'."\n"
+                      .'<span>'.$title.'</span>'.$img."\n"
+                      .'</a>'."\n";
 
 		// box content has no div, it is already structured
 		$text .= '<div class="panel" style="display: none;">'.$content.'</div>';
@@ -3977,8 +3990,11 @@ Class Skin_Skeleton {
 
 					$text .= $label;
 				}
-
-				$text = '<p id="page_menu">'.PAGE_MENU_PREFIX.$text.PAGE_MENU_SUFFIX."</p>\n";
+                                
+                                // prevent invalid html if div inside text
+                                $tag = (strpos($text, '<div ') !== FALSE)?'div':'p';
+                                
+				$text = '<'.$tag.' id="page_menu">'.PAGE_MENU_PREFIX.$text.PAGE_MENU_SUFFIX."</".$tag.">\n";
 				break;
 
 			// items are stacked; use css selectors: div.odd, div.even
