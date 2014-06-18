@@ -819,6 +819,10 @@ Class Sections {
 		$query = "DELETE FROM ".SQL::table_name('sections')." WHERE id = ".SQL::escape($item['id']);
 		if(SQL::query($query) === FALSE)
 			return FALSE;
+                
+                // remember overlay deletion
+                if(isset($item['overlay']) && ($overlay = Overlay::load($item, 'section:'.$item['id'])))
+                        $overlay->remember('delete', $item, 'section:'.$item['id']);
 
 		// job done
 		return TRUE;
