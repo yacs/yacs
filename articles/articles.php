@@ -2216,7 +2216,7 @@ Class Articles {
 		// avoid articles pushed away from the front page
 		$sections_where = '';
 		if(isset($context['skin_variant']) && ($context['skin_variant'] == 'home')) {
-			$sections_where .= " AND (sections.index_map != 'N')";
+			$sections_where .= " AND (sections.index_map != 'N') AND (sections.home_panel = 'main')";
 		}
 
 		// composite fields

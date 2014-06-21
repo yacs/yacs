@@ -174,8 +174,9 @@
  *
  * By default top most sections (aka, not anchored to another section) are publicly listed at the site map.
  * Change the field 'index_map' to 'N' to prevent this behaviour. Hidden sections are listed among other special sections to preserve access from associates.
- *
- * When 'index_map' is set to 'N', content of related section is not displayed at the front page.
+ * 
+ * By default section content is automatically featured at the front page.
+ * This can be changed through the 'home_panel' field.
  *
  * @author Bernard Paques
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
@@ -2663,6 +2664,8 @@ Class Sections {
 			$fields['active_set'] = 'Y';
 		if(isset($fields['edit_action']))
 			$fields['edit_action'] = preg_replace('/import$/i', 'update', $fields['edit_action']);
+                if(!isset($fields['home_panel']) || !$fields['home_panel'])
+			$fields['home_panel'] = 'main';
 		if(!isset($fields['index_map']) || !$fields['index_map'])
 			$fields['index_map'] = 'Y';
 		if(!isset($fields['index_news']) || !$fields['index_news'])
@@ -2747,6 +2750,7 @@ Class Sections {
 			."family='".SQL::escape(isset($fields['family']) ? $fields['family'] : '')."',"
 			.$handle
 			."hits=".SQL::escape(isset($fields['hits']) ? $fields['hits'] : 0).","
+                        ."home_panel='".SQL::escape(isset($fields['home_panel']) ? $fields['home_panel'] : 'main')."',"
 			."icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."',"
 			."index_map='".SQL::escape(isset($fields['index_map']) ? $fields['index_map'] : 'Y')."',"
 			."index_news='".SQL::escape(isset($fields['index_news']) ? $fields['index_news'] : 'static')."',"
@@ -2869,6 +2873,8 @@ Class Sections {
 			$fields['active_set'] = 'Y';
 		if(isset($fields['edit_action']))
 			$fields['edit_action'] = preg_replace('/import$/i', 'update', $fields['edit_action']);
+                if(!isset($fields['home_panel']) || !$fields['home_panel'])
+			$fields['home_panel'] = 'main';
 		if(!isset($fields['index_map']) || !$fields['index_map'])
 			$fields['index_map'] = 'Y';
 		if(!isset($fields['index_news']) || !$fields['index_news'])
@@ -2952,6 +2958,7 @@ Class Sections {
 			$query[] = "articles_templates='".SQL::escape(isset($fields['articles_templates']) ? $fields['articles_templates'] : '')."'";
 			$query[] = "behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."'";
 			$query[] = "content_overlay='".SQL::escape(isset($fields['content_overlay']) ? $fields['content_overlay'] : '')."'";
+                        $query[] = "home_panel='".SQL::escape(isset($fields['home_panel']) ? $fields['home_panel'] : 'main')."'";
 			$query[] = "overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."'";
 			$query[] = "overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."'";
 		}
@@ -3042,7 +3049,9 @@ Class Sections {
 			$query[] = "handle='".SQL::escape($fields['handle'])."'";
 		if(isset($fields['icon_url']))
 			$query[] = "icon_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['icon_url']))."'";
-		if(isset($fields['index_map']))
+		if(isset($fields['home_panel']))
+			$query[] = "home_panel='".SQL::escape($fields['home_panel'])."'";
+                if(isset($fields['index_map']))
 			$query[] = "index_map='".SQL::escape($fields['index_map'])."'";
 		if(isset($fields['introduction']))
 			$query[] = "introduction='".SQL::escape($fields['introduction'])."'";
@@ -3298,6 +3307,7 @@ Class Sections {
 		$fields['family']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['handle']		= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
+                $fields['home_panel']	= "VARCHAR(10) DEFAULT 'main' NOT NULL";
 		$fields['icon_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['index_map']	= "ENUM('Y', 'N') DEFAULT 'Y' NOT NULL";
 		$fields['index_news']	= "VARCHAR(255) DEFAULT 'static' NOT NULL";
@@ -3330,19 +3340,17 @@ Class Sections {
 		$indexes['INDEX active']		= "(active)";
 		$indexes['INDEX anchor']		= "(anchor)";
 		$indexes['INDEX create_date']	= "(create_date)";
-		$indexes['INDEX create_id'] 	= "(create_id)";
 		$indexes['INDEX edit_date'] 	= "(edit_date)";
-		$indexes['INDEX edit_id']		= "(edit_id)";
 		$indexes['INDEX expiry_date']	= "(expiry_date)";
 		$indexes['INDEX handle']		= "(handle)";
 		$indexes['INDEX hits']			= "(hits)";
+                $indexes['INDEX home_panel']	= "(home_panel)";
 		$indexes['INDEX index_map'] 	= "(index_map)";
 		$indexes['INDEX language']		= "(language)";
-		$indexes['INDEX locked']		= "(locked)";
 		$indexes['INDEX nick_name'] 	= "(nick_name)";
 		$indexes['INDEX overlay_id']	= "(overlay_id)";
 		$indexes['INDEX rank']			= "(rank)";
-		$indexes['INDEX title'] 		= "(title(255))";
+		$indexes['INDEX title'] 		= "(title(12))";
 		$indexes['FULLTEXT INDEX']		= "full_text(title, introduction, description)";
 
 		return SQL::setup_table('sections', $fields, $indexes);
@@ -3460,6 +3468,7 @@ Class Sections {
 			'family',
 			'handle',
 			'hits',
+                        'home_panel',
 			'icon_url',
 			'index_map',
 			'index_news',
