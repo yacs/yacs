@@ -7,136 +7,7 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 Class Js_Css {
-
-    /**
-     * prepare a link to .js or .css file for declare in final template
-     * will search of a minified version in production mode
-     *
-     * @global type $context
-     * @param string $path, relative from yacs root, or external url
-     * @param string $forced_type = 'js' or 'css', if path does not end by .js or .css
-     * @param string $forced_position = 'header', 'defer' of 'footer' to specify where to
-     * load a js file (defer always before footer).
-     * @return false if unsucceed
-     */
-    public static function link_file($path, $forced_type='',$forced_position='') {
-	global $context;
-
-	// avoid linking twice the same file
-	$key = md5($path);
-	if(isset($context['linked_files'][$key]))
-	    return true;
-	else
-	    $context['linked_files'][$key] = $path;
-
-	// gather info on file
-	$path_parts = pathinfo($path);
-
-	// just to avoid warnings
-	if(!isset($path_parts['extension'])) $path_parts['extension']='';
-
-	// how the script will be considered ?
-	$ext = ($forced_type)?$forced_type:$path_parts['extension'];
-
-	// we need a extension
-	if(!isset($ext)) {
-	    // TODO : log error
-	    return false;
-	}
-
-	// if path is a local file
-	if(strncmp($path, 'http', 4)!=0) {
-
-	    // check if file exists
-	    if(!file_exists($context['path_to_root'].$path)) return false;
-
-	    // and we are in production mode
-	    // and file not already minified
-	    if ( $context['with_debug']=='N'
-		&& !preg_match('/\.min\./', $path_parts['filename'])) {
-
-		// minified version path
-		$min_v = $path_parts['dirname'].'/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
-
-		if(file_exists($min_v)) $path = $min_v;
-
-	    // TODO : warning case exept if .core. ;
-	    }
-
-            // get last revision date
-            $revision  = Js_css::get_revision($context['path_to_root'].$path);
-
-	    // add root url
-	    $path = $context['url_to_master'].$context['url_to_root'].$path;
-	} else
-            // we can't know the revision date of external files
-            $revision = '';
-
-	// css ou js ?
-	switch($ext) {
-
-	    case 'css' :
-		Js_css::add_css(Js_css::build_css_declaration($path.$revision));
-		break;
-	    case 'js' :
-		// target is header if .head. is part of filename
-		if(!$forced_position && preg_match('/\.head\./', $path_parts['filename']))
-			$forced_position = 'header';
-
-		// by default .js goes to page footer
-		$target = ($forced_position)?$forced_position:'defer';
-
-		Js_css::add_js(Js_css::build_js_declaration($path.$revision),$target);
-		break;
-	    default :
-		// error
-		return false;
-	}
-
-
-	// count files calls over time
-	if($context['with_debug']=='Y'&& !defined('NO_MODEL_PRELOAD')) {
-	    $query = 'INSERT INTO '.SQL::table_name('js_css_calls').' SET'
-		    .' id = "'.$key.'",'
-		    .' path = "'.$path.'",'
-		    .' calls = 1'
-		    .' ON DUPLICATE KEY UPDATE calls=calls+1';
-
-	    SQL::query($query, TRUE);
-	}
-
-
-    }
-
-    /**
-     * This function insert some javascript of css styles in the page
-     *
-     * @param string $script javascript code or css rules
-     * @param string $type to tell the function what can of script it is
-     * by default 'js' because it is the main use.
-     */
-    public static function insert($script, $type='js') {
-	global $context;
-
-	switch($type) {
-	    case 'css' :
-
-		Js_css::add_css('<style> '.$script.' </style>');
-		break;
-	    case 'js' :
-
-		$type = (SKIN_HTML5)?'':' type="text/javascript" ';
-		// minification lib
-		//include_once $context['path_to_root'].'included/jsmin.php';
-
-		Js_css::add_js('<script'.$type.'> '.$script.'</script>', 'footer');
-
-		break;
-	    default :
-		break;
-	}
-    }
-
+    
     /**
      * Add declaration of a css file to the preparation of the page
      *
@@ -171,7 +42,7 @@ Class Js_Css {
 
 	$context['javascript'][$target] .= $js;
     }
-
+    
     /**
      * build declaration of a css style sheet
      *
@@ -201,7 +72,18 @@ Class Js_Css {
 	$html = '<script'.$type.' src="'.$path.'"></script>'."\n";
 	return $html;
     }
-
+    
+    public static function call_skin_css() {
+        global $context;
+        
+        if(!isset($context['skin'])) return '';
+        
+        // retrieve base name of the skin (remove "skin/")
+        $skin = substr($context['skin'],5);
+            
+        return Js_css::link_file($context['skin'].$skin.'.css','now');
+        
+    }
 
     /**
      * This function takes all urls of script that should be deferred
@@ -233,7 +115,7 @@ Class Js_Css {
 
 	Js_css::insert($to_load);
     }
-
+    
     /**
      * return <script> html tags to declare external js libraries stored
      * in a given folder
@@ -314,6 +196,171 @@ Class Js_Css {
 
             return $revision;
     }
+    
+    /**
+     * This function insert some javascript of css styles in the page
+     *
+     * @param string $script javascript code or css rules
+     * @param string $type to tell the function what can of script it is
+     * by default 'js' because it is the main use.
+     */
+    public static function insert($script, $type='js') {
+	global $context;
+
+	switch($type) {
+	    case 'css' :
+
+		Js_css::add_css('<style> '.$script.' </style>');
+		break;
+	    case 'js' :
+
+		$type = (SKIN_HTML5)?'':' type="text/javascript" ';
+		// minification lib
+		//include_once $context['path_to_root'].'included/jsmin.php';
+
+		Js_css::add_js('<script'.$type.'> '.$script.'</script>', 'footer');
+
+		break;
+	    default :
+		break;
+	}
+    }
+    
+    /**
+     * internal function to exit link_file with boolean or string output
+     * 
+     * @param boolean $goodorbad the state of the reply
+     * @param string $path the file that was looked for
+     * @param boolean $reply_as_string , do like this if true
+     * @return mixed boolean or string
+     */
+    private static function link_exit ($goodorbad, $path, $reply_as_string) {
+        
+        if($goodorbad === true)
+            return ( ($reply_as_string)? '' : true );
+        else {
+            if( $reply_as_string)
+                return '<!-- error with file "'.$path.'" --->';
+            else 
+                return false;
+        }
+    }
+
+    /**
+     * prepare a link to .js or .css file for declare in final template
+     * will search of a minified version in production mode
+     *
+     * @global type $context
+     * @param string $path, relative from yacs root, or external url
+     * @param string $forced_type = 'js' or 'css', if path does not end by .js or .css.
+     * @param string $forced_position = 'header', 'defer' of 'footer' to specify where to
+     * load a js file (defer always before footer).
+     * @param boolean $straitnow to get the link without adding it to stack
+     * @return false if unsucceed
+     */
+    public static function link_file($path, $forced_type='',$forced_position='', $straitnow=false) {
+	global $context;
+        
+        // enable shorter function call
+        if (strtolower($forced_type) === 'now') {
+            $straitnow = true;
+            $forced_type='';
+        }
+
+	// avoid linking twice the same file
+	$key = md5($path);
+	if(isset($context['linked_files'][$key])) {
+                return Js_Css::link_exit(true, $path, $straitnow);
+        } else {
+	    $context['linked_files'][$key] = $path;
+        }
+        
+	// gather info on file
+	$path_parts = pathinfo($path);
+
+	// just to avoid warnings
+	if(!isset($path_parts['extension'])) $path_parts['extension']='';
+
+	// how the script will be considered ?
+	$ext = ($forced_type)?$forced_type:$path_parts['extension'];
+
+	// we need a extension
+	if(!isset($ext)) {
+	    return Js_Css::link_exit(false, $path, $straitnow);
+	}
+
+	// if path is a local file
+	if(strncmp($path, 'http', 4)!=0) {
+
+	    // check if file exists
+	    if(!file_exists(Safe::realpath($path))) return Js_Css::link_exit(false, $path, $straitnow);
+
+	    // and we are in production mode
+	    // and file not already minified
+	    if ( $context['with_debug']=='N'
+		&& !preg_match('/\.min\./', $path_parts['filename'])) {
+
+		// minified version path
+		$min_v = $path_parts['dirname'].'/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
+
+		if(file_exists($min_v)) $path = $min_v;
+
+	    // TODO : warning case exept if .core. ;
+	    }
+
+            // get last revision date
+            $revision  = Js_css::get_revision(Safe::realpath($path));
+
+	    // add root url
+	    $path = $context['url_to_master'].$context['url_to_root'].$path;
+	} else
+            // we can't know the revision date of external files
+            $revision = '';
+
+	// css or js ?
+	switch($ext) {
+
+	    case 'css' :
+                $tag = Js_css::build_css_declaration($path.$revision);
+                
+                if($straitnow) return $tag;
+                  
+		Js_css::add_css($tag);
+		break;
+	    case 'js' :
+                
+                $tag = Js_css::build_js_declaration($path.$revision);
+                
+                if($straitnow) return $tag;
+                
+		// target is header if .head. is part of filename
+		if(!$forced_position && preg_match('/\.head\./', $path_parts['filename']))
+			$forced_position = 'header';
+
+		// by default .js goes to page footer
+		$target = ($forced_position)?$forced_position:'defer';
+
+		Js_css::add_js($tag,$target);
+		break;
+	    default :
+		// error
+		return Js_Css::link_exit(false, $path, $straitnow);
+	}
+
+
+	// count files calls over time
+	if($context['with_debug']=='Y'&& !defined('NO_MODEL_PRELOAD')) {
+	    $query = 'INSERT INTO '.SQL::table_name('js_css_calls').' SET'
+		    .' id = "'.$key.'",'
+		    .' path = "'.$path.'",'
+		    .' calls = 1'
+		    .' ON DUPLICATE KEY UPDATE calls=calls+1';
+
+	    SQL::query($query, TRUE);
+	}
+
+        return Js_Css::link_exit(true, $path, $straitnow);
+    }
 
     /**
      * overlaying a page thru a ajax call needs special preparation
@@ -330,7 +377,6 @@ Class Js_Css {
 	Js_css::extract_src_from_deferred_scripts();
 
     }
-
 
     /**
      * create table for js_css

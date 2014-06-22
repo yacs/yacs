@@ -1210,6 +1210,10 @@ function render_skin($with_last_modified=TRUE) {
 	// more meta information
 	if($whole_rendering) {
 	    $metas = array();
+            
+            // main css file of the current skin
+            $metas[] = Js_css::call_skin_css();
+
 
 	    // we support Dublin Core too
 	    $metas[] = '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />';
