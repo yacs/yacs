@@ -180,9 +180,10 @@
 	 * 
 	 * @param string $path 
 	 */
-	public static function defer_script($path) {
+	public static function defer_script($path,$now=false) {
 	    
-	    Js_css::link_file($path, 'js');
+	    $job = Js_css::link_file($path, 'js');
+            if($now) echo $job;
 	}
 
 	/**
@@ -675,9 +676,10 @@
 	 * 
 	 * @param string $path 
 	 */
-	public static function load_script($path) {
+	public static function load_script($path,$now=false) {
 	    
-	    Js_css::link_file($path,'js','header');	    
+	    $job = Js_css::link_file($path,'js','header',$now);
+            if($now) echo $job;
 	}
 	
 	/**
@@ -685,9 +687,10 @@
 	 * 
 	 * @param string $path 
 	 */
-	public static function load_style($path) {
+	public static function load_style($path,$now=false) {
 	    
-	    js_css::link_file($path,'css');
+            $job = js_css::link_file($path,'css','',$now);
+            if($now) echo $job;
 	}
 
 	/**
