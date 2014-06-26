@@ -1073,7 +1073,7 @@ Class Skin_Skeleton {
 	 * @param the visual variant
 	 * @return an HTML string to be displayed
 	 */
-	public static function &build_form(&$fields, $variant='2-columns') {
+	public static function build_form(&$fields, $variant='2-columns') {
 
 		// we return some text
 		$text = '';
@@ -1083,7 +1083,7 @@ Class Skin_Skeleton {
 			return $text;
 
 		// use a table for the layout
-		$text .= Skin::table_prefix('layout');
+		//$text .= Skin::table_prefix('layout');
 		$lines = 1;
 
 		// parse each field
@@ -1092,7 +1092,7 @@ Class Skin_Skeleton {
 
 			// if this is only a label, make a title out of it
 			if(!is_array($field)) {
-				$text .= Skin::table_suffix().Skin::build_block($field, 'title').Skin::table_prefix('form');
+				$text .= Skin::build_block($field, 'title').Skin::table_prefix('form');
 				continue;
 			}
 
@@ -1114,10 +1114,10 @@ Class Skin_Skeleton {
 
 			// put the hint after the field
 			if($hint)
-				$input .= '<br style="clear: both;" /><span class="tiny">'.$hint.'</span>';
+				$input .= '<p class="yc-form-hint">'.$hint.'</p>';
 
-			$cells = array();
-			switch($variant) {
+			//$cells = array();
+			/*switch($variant) {
 			case '1-column':
 				$cells[] = $label.BR."\n".$input;
 				break;
@@ -1126,12 +1126,13 @@ Class Skin_Skeleton {
 				$cells[] = 'west='.$label;
 				$cells[] = 'east='.$input;
 				break;
-			}
-			$text .= Skin::table_row($cells, $lines++);
+			}*/
+			//$text .= Skin::table_row($cells, $lines++);*
+                        $text .= Skin::build_form_row($label, $input, $lines++, $variant);
 		}
 
 		// end of the table
-		$text .= Skin::table_suffix();
+		//$text .= Skin::table_suffix();
 
 		// append hidden fields, if any
 		$text .= $hidden;
@@ -1139,6 +1140,34 @@ Class Skin_Skeleton {
 		// return the whole string
 		return $text;
 	}
+        
+        public static function build_form_row ($label, $input, $line_nb, $variant="2-columns") {
+            
+            // we return text
+            $row = '';
+            
+            // odd or even
+            $parity = ($line_nb%2)? ' odd ' : ' even ';
+            
+            // start row
+            $row  .= '<div class="yc-form-row '.$parity.'">'."\n";
+            
+            // label
+            if($label) {
+                $moreclass = ($variant === "2-columns")? ' west' : '';
+                $row .= '<div class="yc-form-label '.$moreclass.'">'.$label.'</div>'."\n";
+            }
+            // input
+            if($input) {
+                $moreclass = ($variant === "2-columns")? ' east' : '';
+                $row .= '<div class="yc-form-input '.$moreclass.'">'.$input.'</div>'."\n";
+            }
+            
+            // end row
+            $row .= '</div>'."\n";
+            
+            return $row;
+        }
 
 	/**
 	 * build a gadget box
