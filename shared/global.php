@@ -1434,14 +1434,20 @@ function render_skin($with_last_modified=TRUE) {
 		$context['content_type'] = 'text/html';
 	Safe::header('Content-Type: '.$context['content_type'].'; charset='.$context['charset']);
 
+        // Build Overlaid content
 	if(isset($render_overlaid) && $render_overlaid ) {
 
 	    Js_css::prepare_scripts_for_overlaying();
-
+            // css and/or js
 	    if(isset($context['page_header']))
 		echo $context['page_header'];
-	    echo '<h2 class="boxTitle">'.$context['page_title'].'</h2>'."\n";
+	    // title
+            echo '<h2 class="boxTitle">'.$context['page_title'].'</h2>'."\n";
+            // display error messages, if any
+            Page::echo_error();
+            // content
 	    echo '<div class="boxBody">'.$context['text'].'</div>'."\n";
+            // js
 	    if(isset($context['javascript']['footer']))
 		echo $context['javascript']['footer'];
 	    return;
