@@ -182,7 +182,7 @@
 	 */
 	public static function defer_script($path,$now=false) {
 	    
-	    $job = Js_css::link_file($path, 'js');
+	    $job = Js_css::link_file($path, 'js','footer',$now);
             if($now) echo $job;
 	}
 
