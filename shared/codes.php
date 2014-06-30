@@ -792,9 +792,15 @@ Class Codes {
 	 */
 	public static function initialize($main_target=NULL) {
 		global $context;
+                
+                if(!strncmp($main_target, 'http://', 7))
+                      ;
+                else
+                    $main_target = $context['url_to_root'].$main_target;
 
 		if($main_target)
-			$context['self_url'] = $context['url_to_root'].$main_target;
+			//$context['self_url'] = $context['url_to_root'].$main_target;
+                        $context['self_url'] = $main_target;
 
 	}
 
