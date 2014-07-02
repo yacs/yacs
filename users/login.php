@@ -142,6 +142,10 @@ if($credentials && ($credentials = base64_decode($credentials))) {
 
 }
 
+// load localized strings
+if(is_callable(array('i18n', 'bind')))
+    i18n::bind('users');
+
 // load the skin
 load_skin('users');
 
