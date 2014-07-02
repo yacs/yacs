@@ -1865,14 +1865,14 @@ var Yacs = {
                  * Get starting tab
                  * 1) from url
                  * 2) from script
-                 * 3) from last tab in sessionStorage 
+                 * 3) from last tab in sessionStorage if we are not using step by step tab 
                  */  
                 var startTab = null;
                 if(window.location.hash.length > 1)
                     startTab = document.location.hash.substr(1,document.location.hash.length);
                 else if(typeof Yacs.startTabs != 'undefined')
                     startTab = Yacs.startTabs;
-                else
+                else if(!$('.yc-tab-steps').length)
                     startTab = Yacs.tabsLast();
 		
                 // where are we?
