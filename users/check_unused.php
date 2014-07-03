@@ -44,8 +44,10 @@ $output = '';
 $syntax = TRUE;
 if(isset($_REQUEST['nick_name']) && (preg_match(FORBIDDEN_IN_NAMES, $_REQUEST['nick_name']) || !$_REQUEST['nick_name'])) {
         $syntax = FALSE;
+        $searchin = 'nick_name';
 } elseif (isset($_REQUEST['email']) && (!preg_match(VALID_RECIPIENT, $_REQUEST['email']) || !$_REQUEST['email'])) {
         $syntax = FALSE;
+         $searchin   = 'email';
 }
 
 if($syntax) {
@@ -53,9 +55,11 @@ if($syntax) {
     if(isset($_REQUEST['nick_name'])) {
         $searchin = 'nick_name';
         $searchfor = $_REQUEST['nick_name'];
+        $search_label = i18n::s('nick name');
     } else {
         $searchin   = 'email';
         $searchfor  = $_REQUEST['email'];
+        $search_label = i18n::s('e-mail');
     }
 
     $query = "SELECT id FROM ".SQL::table_name('users')." WHERE ".$searchin
@@ -65,14 +69,20 @@ if($syntax) {
 
     if($found) {
 
-        $output     = 'USED';
+        $output['can']      = false;
+        $output['message']  = sprintf(i18n::s('Sorry this %s is already used.'),$search_label);
     } else {
 
-        $output     = 'FREE';
+        $output['can']      = true;
+        $output['message'] = i18n::s('Ok, you can use this');
     }
 } else {
         // bad syntax
-        $output     = 'BAD';
+        $output['can']      = false;
+        if($searchin === 'nick_name')
+            $output['message']  = i18n::s('Sorry some characters are forbidden here.');
+        else
+            $output['message']  = i18n::s('Incomplete or illegal character used');
 }
 
 $output = json_encode($output);

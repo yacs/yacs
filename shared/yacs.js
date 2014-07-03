@@ -229,12 +229,27 @@ var Yacs = {
 
            // ajax request
            $.get(url,options)
-           .done(function(data) {
+           .done(function(reply) {
 
-                if(data === 'USED' || data === 'BAD')
+                if(reply.can === false)
                     $input.addClass('input-bad').removeClass('input-good');
-                else if(data === 'FREE')
+                else if(reply.can === true )
                     $input.addClass('input-good').removeClass('input-bad');
+                
+                
+                // show message if any, in hint following the input
+                if(reply.message) {
+                    var $hint = $input.nextAll('.yc-form-hint').first();
+                    // create hint if does not exist
+                    if(!$hint.length) {
+                        $hint = $('<span class="yc-form-hint"><span>');
+                        $hint.insertAfter($input);
+                    }
+                    $hint.text(reply.message);
+                } else {
+                    // clean msg
+                    $input.nextAll('.tiny').first().text('');
+                }
 
            });
         },
