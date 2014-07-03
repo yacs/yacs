@@ -12,7 +12,8 @@ feeds       feeds/*.php       feeds/flash/*.php
 files       files/*.php
 help        help/*.php
 i18n        i18n/*.php
-images      images/*.php
+images      images/*.phpu
+layouts     layouts/*.php  layouts/layout_as_*/*.php
 letters     letters/*.php
 links       links/*.php
 locations   locations/*.php
