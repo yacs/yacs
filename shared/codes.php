@@ -600,6 +600,37 @@ Class Codes {
 		// return by reference
 		return $output;
 	}
+        
+        /**
+         * function to format meta desc. Enable the use of newline
+         * and [lang=xx] formatting code.
+         * @see shared/global.php
+         * 
+         * @param string $text
+         * @return string
+         */
+        public static function beautify_meta_desc($text) {
+            
+            // streamline newlines, even if this has been done elsewhere
+            $text = str_replace(array("\r\n", "\r"), "\n", $text);
+            
+            // formatting patterns
+            $search = array(
+                    "|<br\s*/>\n+|i",                               // don't insert additional \n after <br /> 
+                    "|\n\n+|i",                                     // force an html space between paragraphs 
+                    '/\[lang=([^\]]+?)\](.*?)\[\/lang\]/ise'        // [lang=xy]...[/lang]
+                    );
+
+            $replace = array(
+                    BR,
+                    BR.BR,
+                    "i18n::filter(Codes::fix_tags('$2'), '$1')"     // [lang=xy]...[/lang]
+                    );
+            
+            $formatted = preg_replace($search, $replace, $text);
+            
+            return $formatted;
+        }
 
 	/**
 	 * format a title

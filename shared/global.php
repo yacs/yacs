@@ -1240,13 +1240,16 @@ function render_skin($with_last_modified=TRUE) {
 	    $metas[] = '<link rel="help" href="'.$context['url_to_root'].'help/" type="text/html" />';
 
 	    // page meta description
+            $meta_desc = '';
 	    if(isset($context['page_meta']) && $context['page_meta']) {
-		    $metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['page_meta'])).'" />';
-		    $metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['page_meta'])).'" />';
+                    $meta_desc = encode_field(strip_tags(Codes::beautify_meta_desc($context['page_meta'])));
 	    } elseif(isset($context['site_description']) && $context['site_description']) {
-		    $metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['site_description'])).'" />';
-		    $metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['site_description'])).'" />';
+                    $meta_desc = encode_field(strip_tags(Codes::beautify_meta_desc($context['site_description'])));
 	    }
+            if($meta_desc) {
+                $metas[] = '<meta name="description" content="'.$meta_desc.'" />';
+                $metas[] = '<meta name="DC.description" content="'.$meta_desc.'" />';
+            }
 
 	    // page copyright
 	    if(isset($context['site_copyright']) && $context['site_copyright'])
