@@ -34,7 +34,7 @@ var accordion = {
                     if(panel.css("display") != 'none') {
 			panel.removeClass('accordion-open');
 			// slide up panel
-                        panel.slideUp({duration: 'slow', scaleContent:false});
+                        panel.slideUp({duration: 300, scaleContent:false});
                         // change icon to unfold visual
                         $(gusset).find('.handle').attr('src', down_href);
                         // clicked box has been closed
@@ -47,7 +47,7 @@ var accordion = {
                 // only extend closed elements that have not been processed (closed) during this click
                 if((toggled.css("display") == 'none') && !processed) {
                         // slide down panel
-			toggled.slideDown({duration: 'slow', scaleContent:false});
+			toggled.slideDown({duration: 300, scaleContent:false});
 
 			// add open state class
 			toggled.addClass('accordion-open');
@@ -57,6 +57,6 @@ var accordion = {
                 }
 
 	}
-}
+};
 
 

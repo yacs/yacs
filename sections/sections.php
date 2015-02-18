@@ -312,6 +312,30 @@ Class Sections {
 		// the default is to not allow for new sections
 		return FALSE;
 	}
+        
+        public static function allow_deletion($item, $anchor=NULL) {
+            
+            global $context;
+
+            // sanity check
+            if(!isset($item['id']))
+                    return FALSE;
+
+            // surfer is an associate
+            if(Surfer::is_associate())
+                    return TRUE;
+
+            // surfer owns the page
+            if(isset($item['owner_id']) && Surfer::is($item['owner_id']))
+                    return TRUE;
+
+            // surfer owns the container
+            if(is_object($anchor) && $anchor->is_owned())
+                    return TRUE;
+            
+            // default case
+            return FALSE;
+        }
 
 	/**
 	 * check if a surfer can send a message to group participants
@@ -987,7 +1011,7 @@ Class Sections {
 	 * @param string the reference of the target section (e.g., 'section:123')
 	 * @return an array of references (e.g., array('section:123', 'section:456', 'section:789'))
 	 */
-	public static function get_branch_at_anchor($anchor=NULL) {
+	public static function get_branch_at_anchor($anchor=NULL, $with_top=true) {
 		global $context;
 
 		// look for children
@@ -1022,7 +1046,8 @@ Class Sections {
 		}
 
 		// also include the top level, of course
-		$anchors[] = $anchor;
+                if($with_top)
+                    $anchors[] = $anchor;
 
 		// all children included, from several levels
 		return $anchors;
@@ -2748,6 +2773,7 @@ Class Sections {
 			."expiry_date='".SQL::escape($fields['expiry_date'])."',"
 			."extra='".SQL::escape(isset($fields['extra']) ? $fields['extra'] : '')."',"
 			."family='".SQL::escape(isset($fields['family']) ? $fields['family'] : '')."',"
+            ."file_overlay='".SQL::escape(isset($fields['file_overlay']) ? $fields['file_overlay'] : '')."',"
 			.$handle
 			."hits=".SQL::escape(isset($fields['hits']) ? $fields['hits'] : 0).","
                         ."home_panel='".SQL::escape(isset($fields['home_panel']) ? $fields['home_panel'] : 'main')."',"
@@ -2931,6 +2957,7 @@ Class Sections {
 		$query[] = "expiry_date='".SQL::escape($fields['expiry_date'])."'";
 		$query[] = "extra='".SQL::escape(isset($fields['extra']) ? $fields['extra'] : '')."'";
 		$query[] = "family='".SQL::escape(isset($fields['family']) ? $fields['family'] : '')."'";
+        $query[] = "file_overlay='".SQL::escape(isset($fields['file_overlay']) ? $fields['file_overlay'] : '')."'";
 		$query[] = "icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."'";
 		$query[] = "index_map='".SQL::escape(isset($fields['index_map']) ? $fields['index_map'] : 'Y')."'";
 		$query[] = "index_news='".SQL::escape(isset($fields['index_news']) ? $fields['index_news'] : 'static')."'";
@@ -3029,15 +3056,15 @@ Class Sections {
 		// other fields
 		if(isset($fields['anchor']))
 			$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
-		if(isset($fields['articles_canvas']) && surfer::is_associate())
+		if(isset($fields['articles_canvas']) )
 			$query[] = "articles_canvas='".SQL::escape($fields['articles_canvas'])."'";
 		if(isset($fields['articles_layout']))
 			$query[] = "articles_layout='".SQL::escape($fields['articles_layout'])."'";
-		if(isset($fields['articles_templates']) && surfer::is_associate())
+		if(isset($fields['articles_templates']) )
 			$query[] = "articles_templates='".SQL::escape($fields['articles_templates'])."'";
-		if(isset($fields['behaviors']) && surfer::is_associate())
+		if(isset($fields['behaviors']) )
 			$query[] = "behaviors='".SQL::escape($fields['behaviors'])."'";
-                if(isset($fields['content_overlay']) && surfer::is_associate())
+                if(isset($fields['content_overlay']) )
 			$query[] = "content_overlay='".SQL::escape($fields['content_overlay'])."'";
 		if(isset($fields['content_options']))
 			$query[] = "content_options='".SQL::escape($fields['content_options'])."'";
@@ -3045,6 +3072,8 @@ Class Sections {
 			$query[] = "description='".SQL::escape($fields['description'])."'";
 		if(isset($fields['extra']))
 			$query[] = "extra='".SQL::escape($fields['extra'])."'";
+        if(isset($fields['file_overlay']) )
+			$query[] = "file_overlay='".SQL::escape($fields['file_overlay'])."'";
 		if(isset($fields['handle']) && $fields['handle'])
 			$query[] = "handle='".SQL::escape($fields['handle'])."'";
 		if(isset($fields['icon_url']))
@@ -3305,9 +3334,10 @@ Class Sections {
 		$fields['expiry_date']	= "DATETIME";
 		$fields['extra']		= "TEXT NOT NULL";
 		$fields['family']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+        $fields['file_overlay']	= "VARCHAR(64) DEFAULT '' NOT NULL";
 		$fields['handle']		= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
-                $fields['home_panel']	= "VARCHAR(10) DEFAULT 'main' NOT NULL";
+        $fields['home_panel']	= "VARCHAR(10) DEFAULT 'main' NOT NULL";
 		$fields['icon_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['index_map']	= "ENUM('Y', 'N') DEFAULT 'Y' NOT NULL";
 		$fields['index_news']	= "VARCHAR(255) DEFAULT 'static' NOT NULL";

@@ -383,7 +383,7 @@ if(Surfer::is_crawler()) {
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
-                if($_REQUEST['action'] == 'set_as_avatar') {
+                if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'set_as_avatar') {
                     $menu = array_merge($menu, array($anchor->get_url() => i18n::s('View profile')));
                     $menu = array_merge($menu, array($anchor->get_url('edit') => i18n::s('Edit this profile')));
                     $menu = array_merge($menu, array('users/select_avatar.php?id='.$anchor->item['id'] => i18n::s('Change picture')));

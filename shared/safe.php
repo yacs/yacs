@@ -511,6 +511,9 @@ class Safe {
 		// sanity check
 		if(!file_exists($path))
 			return FALSE;
+		
+		if(isset($_SESSION['last_uploaded']['pathes']) && in_array($path, $_SESSION['last_uploaded']['pathes']))
+			return TRUE;
 
 		// ensure call is allowed
 		if(is_callable('is_uploaded_file'))
@@ -767,6 +770,12 @@ class Safe {
 
 		// translate the path
 		$destination = Safe::realpath($destination);
+		
+		
+		// file may have been already loaded through ajax
+		if(file_exists($source)) {
+		    return Safe::rename($source, $destination);
+		}
 
 		// ensure call is allowed
 		if(is_callable('move_uploaded_file'))
@@ -908,6 +917,13 @@ class Safe {
                 
                 // stay overlaid if it was asked 
                 if($render_overlaid) {
+                    
+                    // stop redirect if param follow_up set to 'close'
+                    if(isset($_REQUEST['follow_up']) && $_REQUEST['follow_up'] === 'close' ) {
+                        exit('job done');
+                    }
+                    
+                    // include overlay param
                     $param = ((strpos($reference,'?') !== FALSE)?'&':'?').'overlaid=Y';
                    
                     // insert param before anchor if any

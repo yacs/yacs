@@ -103,8 +103,9 @@ Class Members {
 		// don't go further if the membership already exists
 		$query = "SELECT id  FROM ".SQL::table_name('members')
 			." WHERE (anchor LIKE '".SQL::escape($anchor)."') AND (member LIKE '".SQL::escape($member)."') LIMIT 0, 1";
-		if(SQL::query_count($query))
+		if(SQL::query_count($query)) {
 			return false;
+		}
 
 		// clear the cache
 		Cache::clear(array($anchor, $member));
@@ -811,6 +812,7 @@ Class Members {
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
+	 * @param string anchor for restricted category parent, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 * @see articles/view.php
@@ -820,7 +822,7 @@ Class Members {
 	 * @see categories/select.php
 	 * @see services/blog.php
 	 */
-	public static function &list_categories_by_title_for_member($member, $offset=0, $count=10, $variant='full') {
+	public static function &list_categories_by_title_for_member($member, $offset=0, $count=10, $variant='full',$focus=NULL) {
 		global $context;
 
 		// display active and restricted items
@@ -839,6 +841,9 @@ Class Members {
 		if($variant == 'raw')
 			$where .= " AND (categories.nick_name NOT LIKE 'week%') AND (categories.nick_name NOT LIKE '".i18n::c('weekly')."')"
 				." AND (categories.nick_name NOT LIKE 'month%') AND (categories.nick_name NOT LIKE '".i18n::c('monthly')."')";
+
+		if(isset($focus))
+			$where .= " AND (categories.anchor  = '".$focus."' )";
 
 		// the list of categories
 		$query = "SELECT categories.* FROM"
@@ -1003,6 +1008,55 @@ Class Members {
 		$output =& Sections::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
+        
+        public static function list_shared_thread_for_user($user,$offset=0,$count=50,$variant=NULL) {
+            global $context;
+            
+            if(!$threads = Sections::lookup('threads'))
+                    return null;
+            
+            $query = "SELECT articles.* FROM ".SQL::table_name('articles')." AS articles "
+                    
+                    ." INNER JOIN ".SQL::table_name('members')." AS member_his"
+                    ." ON member_his.anchor = CONCAT('article:',articles.id)"
+                    
+                    ." INNER JOIN ".SQL::table_name('members')." AS member_mine"
+                    ." ON member_mine.anchor = CONCAT('article:',articles.id)"
+                    
+                    ." WHERE"
+                    ." articles.anchor                  = '".$threads."'"
+                    ." AND member_his.member            = 'user:".$user."'"
+                    ." AND member_mine.member           = 'user:".Surfer::get_id()."'"
+                    
+                    ." ORDER BY articles.edit_date DESC LIMIT ".$offset.','.$count;
+                    
+            
+            // use existing listing facility
+            $output = Users::list_selected(SQL::query($query), $variant);
+            return $output;
+        }
+        
+        public static function list_surfer_threads($offset=0, $count=50, $variant= NULL) {
+            
+            if(!$threads = Sections::lookup('threads'))
+                    return null;
+            
+            $query = "SELECT articles.* FROM ".SQL::table_name('articles')." AS articles "
+                    
+                    ." INNER JOIN ".SQL::table_name('members')." AS member_mine"
+                    ." ON member_mine.anchor = CONCAT('article:',articles.id)"
+                    
+                    ." WHERE"
+                    ." articles.anchor              = '".$threads."'"
+                    ." AND member_mine.member           = 'user:".Surfer::get_id()."'"
+                    
+                    ." ORDER BY articles.edit_date DESC LIMIT ".$offset.','.$count;
+                    
+            
+            // use existing listing facility
+            $output = Users::list_selected(SQL::query($query), $variant);
+            return $output;
+        }
 
 	/**
 	 * list alphabetically the readers related to a given member
@@ -1130,6 +1184,42 @@ Class Members {
 			."	AND (users.id = members.member_id)"
 			."	AND ".$where
 			." GROUP BY users.id ORDER BY users.full_name, users.nick_name LIMIT ".$offset.','.$count;
+
+		// use existing listing facility
+		$output =& Users::list_selected(SQL::query($query), $variant);
+		return $output;
+	}
+
+	public static function &list_users_by_random_for_anchor($anchor, $count=10, $variant=NULL, $to_avoid=NULL) {
+		global $context;
+
+		// locate where we are
+		if(!$variant)
+			$variant = $anchor;
+
+		// limit the scope of the request
+		$where = "users.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR users.active='R'";
+		if(Surfer::is_associate())
+			$where .= " OR users.active='N'";
+		$where = '('.$where.')';
+
+		// do not list blocked users
+		$where .= " AND (users.capability IN ('S', 'M', 'A'))";
+
+		// avoid this one
+		if($to_avoid)
+			$where .= " AND (users.id != ".SQL::escape($to_avoid).")";
+
+		// the list of users
+		$query = "SELECT users.*	FROM ".SQL::table_name('members')." AS members"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
+			." WHERE (members.anchor LIKE '".SQL::escape($anchor)."')"
+			."	AND (members.member_type LIKE 'user')"
+			."	AND (users.id = members.member_id)"
+			."	AND ".$where
+			." GROUP BY users.id ORDER BY Rand() LIMIT ".$count;
 
 		// use existing listing facility
 		$output =& Users::list_selected(SQL::query($query), $variant);

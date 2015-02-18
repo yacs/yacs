@@ -808,7 +808,7 @@ dl#contextual_menu ul.tree li a.open { /* item has the current focus */
 
 /* tipsy -- see http://onehackoranother.com/projects/jquery/tipsy/ */
 
-.tipsy { padding: 5px; font-size: 10px; position: absolute; z-index: 1000; }
+.tipsy { padding: 5px; font-size: 10px; position: absolute; z-index: 6000; }
   .tipsy-inner { padding: 5px 8px 4px 8px; background-color: black; color: white; max-width: 200px; text-align: center; }
   .tipsy-inner { border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px; }
   .tipsy-arrow { position: absolute; background: url('tools/tipsy.gif') no-repeat top left; width: 9px; height: 5px; }
@@ -1030,6 +1030,10 @@ a.button.wide { /* a button spanning most of the available space */
 	text-align: center;
 }
 
+button.disabled {
+    color : #AAAAAA !important;
+}
+
 @media screen { /* not on printers */
 
 	#main_panel a.category { /* the image near a link to a category -- [category=id], [category=id, label] */
@@ -1088,7 +1092,7 @@ a.button.wide { /* a button spanning most of the available space */
 		color: #888;
 	}
 
-	#main_panel a.next { /* shortcut to next page -- [next=id], [next=id, label] */
+	#main_panel a.next, #modal_panel a.next { /* shortcut to next page -- [next=id], [next=id, label] */
 		background-color: #ddd;
 		color: black;
 		font-size: 1em;
@@ -1098,7 +1102,7 @@ a.button.wide { /* a button spanning most of the available space */
 		margin: 2px;
 	}
 
-	#main_panel a.next:hover { /* about to click */
+	#main_panel a.next:hover, #modal_panel a.next:hover { /* about to click */
 		color: black;
 		cursor: pointer;
 		position: relative;
@@ -1106,7 +1110,7 @@ a.button.wide { /* a button spanning most of the available space */
 		text-decoration: none;
 	}
 
-	#main_panel a.previous { /* shortcut to previous page -- [previous=id], [previous=id, label] */
+	#main_panel a.previous, #modal_panel a.previous { /* shortcut to previous page -- [previous=id], [previous=id, label] */
 		background-color: #ddd;
 		color: black;
 		font-size: 1em;
@@ -1116,7 +1120,7 @@ a.button.wide { /* a button spanning most of the available space */
 		margin: 2px;
 	}
 
-	#main_panel a.previous:hover { /* about to click */
+	#main_panel a.previous:hover, #modal_panel a.previous:hover { /* about to click */
 		color: black;
 		cursor: pointer;
 		position: relative;

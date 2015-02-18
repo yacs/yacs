@@ -858,7 +858,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 	// select a file
 	$context['text'] .= '<p>'.i18n::s('Select the file to upload')
-		.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'.BR
+		.((isset($context['file_maximum_size']))?' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')':'').BR
 		.'<input type="file" name="upload" size="30" /></p>';
 
 	// find available database files

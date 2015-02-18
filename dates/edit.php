@@ -191,7 +191,7 @@ if($with_form) {
 
 	// date
 	$label = i18n::s('Target date');
-	$input = Skin::build_input('date_stamp', $item['date_stamp'], 'date');
+	$input = Skin::build_input_time('date_stamp', $item['date_stamp'], 'date');
 	$hint = i18n::s('YYYY-MM-DD');
 	$fields[] = array($label, $input, $hint);
 

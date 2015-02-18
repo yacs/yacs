@@ -225,6 +225,10 @@ if($zoom_index < 1)
 // get the item from the database
 $item = Sections::get($id);
 
+if(!$item) {
+    Safe::redirect($context['url_to_root'].'error.php');
+}
+
 // get the related overlay, if any
 $overlay = NULL;
 if(isset($item['overlay']))
@@ -1170,35 +1174,53 @@ if(!isset($item['id'])) {
 		$box = array('bar' => array(), 'text' => '');
 
 		// count the number of files in this section
-		if($count = Files::count_for_anchor('section:'.$item['id'], FALSE, $embedded)) {
-			if($count > 20)
-				$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
+		//if($count = Files::count_for_anchor('section:'.$item['id'], FALSE, $embedded)) {
+                $count = Files::count_for_anchor('section:'.$item['id'], FALSE, $embedded);
+                
+                if($count > 20)
+                        $box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
-			// list files by date (default) or by title (option 'files_by_title')
-			$offset = ($zoom_index - 1) * FILES_PER_PAGE;
-			if(preg_match('/\bfiles_by_title\b/i', $item['options']))
-				$items = Files::list_by_title_for_anchor('section:'.$item['id'], $offset, FILES_PER_PAGE, 'section:'.$item['id'], $embedded);
-			else
-				$items = Files::list_by_date_for_anchor('section:'.$item['id'], $offset, FILES_PER_PAGE, 'section:'.$item['id'], $embedded);
+                // get overlay for files if any
+                $file_overlay = NULL;
+                if(isset($item['file_overlay']))
+                        $file_overlay = Overlay::bind($item['file_overlay']);
 
-			// actually render the html
-			if(is_array($items))
-				$box['text'] .= Skin::build_list($items, 'decorated');
-			elseif(is_string($items))
-				$box['text'] .= $items;
+                // delegate rendering to the overlay, where applicable
+                if(is_object($file_overlay) && ($overlaid = $file_overlay->render('files', 'section:'.$item['id'], $zoom_index))) {
+                    $box['text'] .= $overlaid;
+                } elseif($count) {
 
-			// navigation commands for files
-			$home = Sections::get_permalink($item);
-			$prefix = Sections::get_url($item['id'], 'navigate', 'files');
-			$box['bar'] = array_merge($box['bar'],
-				Skin::navigate($home, $prefix, $count, FILES_PER_PAGE, $zoom_index));
+                    // list files by date (default) or by title (option 'files_by_title')
+                    $offset = ($zoom_index - 1) * FILES_PER_PAGE;
+                    if(preg_match('/\bfiles_by_title\b/i', $item['options']))
+                            $items = Files::list_by_title_for_anchor('section:'.$item['id'], $offset, FILES_PER_PAGE, 'section:'.$item['id'], $embedded);
+                    else
+                            $items = Files::list_by_date_for_anchor('section:'.$item['id'], $offset, FILES_PER_PAGE, 'section:'.$item['id'], $embedded);
 
-		}
+                    // actually render the html
+                    if(is_array($items))
+                            $box['text'] .= Skin::build_list($items, 'decorated');
+                    elseif(is_string($items))
+                            $box['text'] .= $items;
+                }
+
+                // navigation commands for files
+                $home = Sections::get_permalink($item);
+                $prefix = Sections::get_url($item['id'], 'navigate', 'files');
+                $box['bar'] = array_merge($box['bar'],
+                        Skin::navigate($home, $prefix, $count, FILES_PER_PAGE, $zoom_index));
 
 		// the command to post a new file -- check 'with_files' option
 		if($cur_section->allows('creation','file')) {
+                        
+                        // get add button label
+                        if(!is_object($file_overlay) || !$add_label = $file_overlay->get_label('new_command','file')) {
+                            $add_label = FILES_UPLOAD_IMG.i18n::s('Add a file');
+                        }
+                        
+                    
 			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-			$box['bar'] += array('files/edit.php?anchor='.urlencode('section:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Add a file') );
+			$box['bar'] += array('files/edit.php?anchor='.urlencode('section:'.$item['id']) => $add_label );
 		}
 
 		// integrate the nemu bar
@@ -1540,10 +1562,12 @@ if(!isset($item['id'])) {
 		}
 
 		// delete the page
-		Skin::define_img('SECTIONS_DELETE_IMG', 'sections/delete.gif');
-		if(!is_object($overlay) || (!$label = $overlay->get_label('delete_command', 'sections')))
-			$label = i18n::s('Delete this section');
-		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'delete'), SECTIONS_DELETE_IMG.$label, 'basic');
+                if($cur_section->allows('deletion')) {
+                    Skin::define_img('SECTIONS_DELETE_IMG', 'sections/delete.gif');
+                    if(!is_object($overlay) || (!$label = $overlay->get_label('delete_command', 'sections')))
+                            $label = i18n::s('Delete this section');
+                    $context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'delete'), SECTIONS_DELETE_IMG.$label, 'basic');
+                }
 
 		// manage content
 		if($has_content) {

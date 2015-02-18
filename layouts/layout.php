@@ -152,7 +152,7 @@ abstract Class Layout_interface {
 	 *
 	 * @param type $myclass, argument used by the recursive call.
 	 */
-	final protected function load_scripts_n_styles($myclass='') {	    
+	final function load_scripts_n_styles($myclass='') {	    
 	   
 	    // fuse not to search twice for bound files	
 	    static $fuse_called = false;
@@ -181,4 +181,9 @@ abstract Class Layout_interface {
 
 }
 
-?>
+// stop hackers
+defined('YACS') or exit('Script must be included');
+
+// load localized strings
+if(is_callable(array('i18n', 'bind')))
+    i18n::bind('layouts');

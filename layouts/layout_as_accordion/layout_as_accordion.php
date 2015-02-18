@@ -325,7 +325,7 @@ Class Layout_as_accordion extends Layout_interface {
 		}
 
 		// Yacs.toggle_folder() is in shared/yacs.js -- div.accordion_content div is required for slide effect to work
-		$text = '<div class="accordion_handle '.$id.'"><a href="#" class="accordion_link'.$more_class.'" onclick="javascript:accordion.toggle(this, \''.ACCORDION_OPEN_IMG_HREF.'\', \''.ACCORDION_CLOSE_IMG_HREF.'\', \''.$id.'\'); return false;">'.$img.$title.'</a>'
+		$text = '<div class="accordion_handle '.$id.'"><div class="accordion_link'.$more_class.'" onclick="javascript:accordion.toggle(this, \''.ACCORDION_OPEN_IMG_HREF.'\', \''.ACCORDION_CLOSE_IMG_HREF.'\', \''.$id.'\');">'.$img.$title.'</div>'
 			.'<div class="accordion_content'.$more_class.'"'.$style.'><div>'.$content."</div></div></div>\n";
 
 		// pass by reference

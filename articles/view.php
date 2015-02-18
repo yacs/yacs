@@ -170,8 +170,13 @@ elseif(isset($context['arguments'][1]) && isset($context['arguments'][2])) {
 	$zoom_index = $context['arguments'][2];
 }
 
+// wrapper tag you may use in template (html5, microdata...)
+$context['content_wrap'] = 'article';
+
 global $render_overlaid;
 $whole_rendering = !$render_overlaid;
+if($render_overlaid) 
+    $context['text'] .= '<div class="hidden require-overlaid"></div>'."\n";
 
 // view.php/12/nick name induces no particular processing
 
@@ -449,7 +454,12 @@ if(!isset($item['id'])) {
 	    $context['page_header'] .= "\n".'<link rel="service.comment" href="'.$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'service.comment').'" title="Comment Interface" type="text/xml" />';
 
 	    // set specific headers
-	    if(isset($item['introduction']) && $item['introduction'])
+		if(is_object($overlay) && is_callable(array($overlay,'get_meta_introduction_text')) && ($more = $overlay->get_text('meta_introduction', $item))) {
+			$order   = array("\r\n", "\n", "\r");
+			$replace = ' ';
+			$context['page_meta'] = str_replace($order, $replace,strip_tags(Codes::beautify_introduction($more)));
+			}
+	    elseif(isset($item['introduction']) && $item['introduction'])
 		    $context['page_meta'] = strip_tags(Codes::beautify_introduction($item['introduction']));
 	    if(isset($item['create_name']) && $item['create_name'])
 		    $context['page_author'] = $item['create_name'];
@@ -531,7 +541,7 @@ if(!isset($item['id'])) {
 
 		// signal articles to be published
 		if(($item['publish_date'] <= NULL_DATE)) {
-			if(Articles::allow_publication($item,$anchor))
+			if($cur_article->allows('publication'))
 				$label = Skin::build_link(Articles::get_url($item['id'], 'publish'), i18n::s('not published'));
 			else
 				$label = i18n::s('not published');
@@ -940,7 +950,7 @@ if(!isset($item['id'])) {
 	$discussion = '';
 
 	// the list of related comments, if not at another follow-up page
-	if(!$zoom_type || ($zoom_type == 'comments')) {
+	if(!$render_overlaid && !$zoom_type || ($zoom_type == 'comments')) {
 
 		// title label
 		$title_label = '';
@@ -977,10 +987,6 @@ if(!isset($item['id'])) {
 		// build a complete box
 		$box = array('bar' => array(), 'prefix_bar' => array(), 'text' => '');
 
-		// feed the wall
-		if($cur_article->allows('creation','comment'))
-			$box['text'] .= Comments::get_form('article:'.$item['id']);
-
 		// a navigation bar for these comments
 		if($count = Comments::count_for_anchor('article:'.$item['id'])) {
 			if($count > 20)
@@ -1000,6 +1006,10 @@ if(!isset($item['id'])) {
 			$box['bar'] = array_merge($box['bar'],
 				Skin::navigate(NULL, $prefix, $count, $items_per_page, $zoom_index));
 		}
+                
+        // feed the wall
+		if($cur_article->allows('creation','comment'))
+            $box['text'] .= Comments::get_form('article:'.$item['id'], 'json', ucfirst(i18n::s('comment')), false);
 
 		// show commands
 		if(count($box['bar'])) {
@@ -1231,10 +1241,12 @@ if(!isset($item['id'])) {
 	    }
 
 	    // publish this page
-	    if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && $cur_article->allows('publication')) {
-		    Skin::define_img('ARTICLES_PUBLISH_IMG', 'articles/publish.gif');
-		    $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), ARTICLES_PUBLISH_IMG.i18n::s('Publish'));
-	    }
+        if($cur_article->allows('publication')) {
+             if(!isset($item['publish_date'] || ($item['publish_date'] <= NULL_DATE)) {
+                     Skin::define_img('ARTICLES_PUBLISH_IMG', 'articles/publish.gif');
+                     $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), ARTICLES_PUBLISH_IMG.i18n::s('Publish'));
+             }
+         }
 
 	    // review various dates
 	    if($cur_article->allows('publication')) {
@@ -1243,7 +1255,7 @@ if(!isset($item['id'])) {
 	    }
 
 	    // lock command provided to container and page owners
-	    if($cur_article->is_owned()) {
+	    if($cur_article->allows('locking')) {
 
 		    if(!isset($item['locked']) || ($item['locked'] == 'N')) {
 			    Skin::define_img('ARTICLES_LOCK_IMG', 'articles/lock.gif');
@@ -1263,7 +1275,7 @@ if(!isset($item['id'])) {
 	    }
 
 	    // duplicate command provided to container owners
-	    if($cur_article->anchor->is_owned()) {
+	    if($cur_article->allows('duplicate')) {
 		    Skin::define_img('ARTICLES_DUPLICATE_IMG', 'articles/duplicate.gif');
 		    if(!is_object($overlay) || (!$label = $overlay->get_label('duplicate_command', 'articles')))
 			    $label = i18n::s('Duplicate this page');
@@ -1275,5 +1287,3 @@ if(!isset($item['id'])) {
 
 // render the skin
 render_skin();
-
-?>

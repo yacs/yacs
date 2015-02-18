@@ -688,7 +688,7 @@ Class Dates {
 		}
 
 		// the request
-		$query = "SELECT dates.date_stamp as date_stamp, articles.id as id, articles.title as title, articles.nick_name as nick_name, articles.active, articles.edit_date, articles.publish_date, articles.introduction, articles.thumbnail_url FROM ".SQL::table_name('dates')." as dates"
+		$query = "SELECT dates.date_stamp as date_stamp, articles.* FROM ".SQL::table_name('dates')." as dates"
 			.", ".SQL::table_name('articles')." AS articles"
 			." WHERE ((dates.anchor_type LIKE 'article') AND (dates.anchor_id = articles.id))"
 			."	AND (articles.anchor LIKE '".SQL::escape($anchor)."') AND ".$where
@@ -944,7 +944,7 @@ Class Dates {
 		$match = gmstrftime('%Y-%m-%d');
 
 		// the request
-		$query = "SELECT dates.date_stamp as date_stamp, articles.id, articles.title, articles.nick_name, articles.active, articles.edit_date, articles.publish_date, articles.introduction, articles.thumbnail_url FROM ".SQL::table_name('dates')." as dates"
+		$query = "SELECT dates.date_stamp as date_stamp, articles.* FROM ".SQL::table_name('dates')." as dates"
 			.", ".SQL::table_name('articles')." AS articles"
 			." WHERE ((dates.anchor_type LIKE 'article') AND (dates.anchor_id = articles.id))"
 			."	AND (dates.date_stamp < '".SQL::escape($match)."') AND (articles.anchor LIKE '".SQL::escape($anchor)."') AND ".$where

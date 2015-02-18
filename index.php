@@ -242,7 +242,8 @@ if(isset($context['root_sections_at_home']) && ($context['root_sections_at_home'
 }
 
 // load the cover page
-if((!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] != 'none'))) {
+if( (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] != 'none'))
+	&& ( $context['master_host'] == $context['main_host']) ) {
 
 	// look for a named page
 	if($cover_page = Articles::get('cover'))
@@ -311,6 +312,13 @@ elseif(($target_section = Sections::get($context['root_sections_at_home'])) && i
 
 	// re-use the existing script to render this specific section
 	$context['arguments'][0] = $target_section['id'];
+        // force variant to "sections"
+        $context['skin_variant'] = 'sections';
+        // or use section's variant
+        $target = new Section($target_section);
+	if(is_object($target) && ($variant = $target->has_option('variant', FALSE)) && is_string($variant))
+		$context['skin_variant'] = $variant;
+        
 	include_once $context['path_to_root'].'sections/view.php';
 
 // section(s) at the front page

@@ -489,7 +489,7 @@ Class Article extends Anchor {
 	 * [/php]
 	 *
 	 * @see agents/messages.php
-	 $ @see agents/uploads.php
+	 * @see agents/uploads.php
 	 * @see services/blog.php
 	 *
 	 * @param string the input text

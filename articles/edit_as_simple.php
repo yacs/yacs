@@ -292,7 +292,7 @@ if($with_form) {
 		$fields[] = array($label, $input, $hint);
 
 	// else preserve attribute given by template, if any
-	} else
+	} elseif(isset($item['active_set']))
 		$context['text'] .= '<input type="hidden" name="active_set" value="'.$item['active_set'].'" />';
 
 	// end of regular fields

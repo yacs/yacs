@@ -122,6 +122,44 @@ Class Skin_Skeleton {
 		return $text;
 	}
         
+        public static function build_audioplayer($url_to_play) {
+            global $context;
+            
+            $text = '';
+            
+            static $counter;
+            if(!isset($counter))
+                    $counter = 1;
+            else
+                    $counter++;
+            
+            if(strtolower(substr($url_to_play, -3)) === 'mp3' 
+                  && file_exists($context['path_to_root'].'included/browser/dewplayer.swf')) {
+                
+                // the player
+                $dewplayer_url = $context['url_to_root'].'included/browser/dewplayer.swf';
+                $flashvars = 'son='.$url_to_play;
+                
+                // combine the two in a single object
+                $text .= '<div id="player_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+                
+                Page::insert_script(
+                    'var params = {};'."\n"
+                    .'params.base = "'.dirname($url_to_play).'/";'."\n"
+                    .'params.quality = "high";'."\n"
+                    .'params.wmode = "transparent";'."\n"
+                    .'params.menu = "false";'."\n"
+                    .'params.flashvars = "'.$flashvars.'";'."\n"
+                    .'swfobject.embedSWF("'.$dewplayer_url.'", "player_'.$counter.'", "200", "20", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
+                    );
+                
+                
+            }
+            
+            return $text;
+            
+        }
+        
         /**
          * build a text field with autocompletion base on tags under a given mother category
          * 
@@ -664,9 +702,9 @@ Class Skin_Skeleton {
 			return $output;
 
 		// surfer offset, except on 'day' and 'iso8601'
-		if(($variant == 'day') || ($variant == 'iso8601') || ($variant == 'standalone'))
+		if(($variant == 'day') || ($variant == 'iso8601') || ($variant == 'standalone') || $variant == 'local') {
 			$surfer_offset = 0;
-		else
+        } else
 			$surfer_offset = Surfer::get_gmt_offset();
 
 		// YYMMDD-HH:MM:SS GMT -- this one is natively GMT
@@ -704,7 +742,7 @@ Class Skin_Skeleton {
 		// if undefined language, use preferred language for absolute formats
 		if($language)
 			;
-		elseif(($variant == 'full') || ($variant == 'iso8601'))
+		elseif(($variant == 'full') || ($variant == 'iso8601') || ($variant == 'local'))
 			$language = $context['preferred_language'];
 		else
 			$language = $context['language'];
@@ -740,13 +778,13 @@ Class Skin_Skeleton {
 			$time = '';
 		else {
 			$trailer = '';
-			if(!$surfer_offset)
+			if(!$surfer_offset && $variant !== 'local')
 				$trailer = ' GMT';
 			$time = sprintf(i18n::s(' at %s%s'), date(i18n::s('h:i a'), $actual_stamp), $trailer);
 		}
 
 		// format a date as an absolute string
-		if($variant == 'full') {
+		if($variant == 'full' || $variant == 'local') {
 			if($language == 'fr')
 				$output .= $items['mday'].' '.$months[$items['mon']].' '.($items['year']).$time;
 			else
@@ -884,14 +922,14 @@ Class Skin_Skeleton {
 		// date in fr: le dd mmm yy
 		} elseif($language == 'fr') {
 			$output .= 'le '.$items['mday'].' '.$months[$items['mon']].' '.($items['year']);
-			return $output;
 
 		// date in en: on mmm dd yy
 		} else {
 			$output .= 'on '.$months[$items['mon']].' '.$items['mday'].' '.($items['year']);
-			return $output;
 		}
-
+                
+                $output .= ($time)?' '.$time:'';
+                return $output;
 	}
 
 	/**
@@ -1155,7 +1193,7 @@ Class Skin_Skeleton {
             // label
             if($label) {
                 $moreclass = ($variant === "2-columns")? ' west' : '';
-                $row .= '<div class="yc-form-label '.$moreclass.'">'.$label.'</div>'."\n";
+                $row .= '<div class="yc-form-label '.$moreclass.'">'.ucfirst($label).'</div>'."\n";
             }
             // input
             if($input) {
@@ -1235,12 +1273,7 @@ Class Skin_Skeleton {
 		}
 
 		// allow for stacked boxes
-		if(strpos($variant, 'even'))
-			$class = ' even';
-		elseif(strpos($variant, 'odd'))
-			$class = ' odd';
-		else
-			$class = '';
+                $class = ($variant)?' '.$variant:'';
 
 		// external div boundary
 		$text = '<div class="box'.$class.'"'.$id.'>'."\n";
@@ -1402,9 +1435,32 @@ Class Skin_Skeleton {
 		return $text;
 
 	}
+	
+	/**
+	 * build an input field to ajax-upload a file
+	 * 
+	 * @param string the field name and id
+	 */ 
+	public static function build_input_file($name="upload", $onchange='', $more_class='') {
+	    
+	    $text   = '';
+	    
+	    if($onchange)
+		$onchange= ' onchange="'.$onchange.'" ';
+	    
+	    // file selector
+	    $text  .= '<input type="file" name="'.$name.'" id="'.$name.'" class="yc-upload '.$more_class.'"'.$onchange.'/>'."\n";
+	    // send button
+	    $text  .= '<label for="'.$name.'" class="yc-upload-button button" >'.i18n::s('upload').'</label>'."\n";
+	    // progress bar
+	    
+	    
+	    return $text;
+	}
+	
 
 	/**
-	 * build an input field in a form
+	 * build an input field in a form to select date and/or time
 	 *
 	 * Type can have one of following values:
 	 * - 'date' - to enter a date
@@ -1419,7 +1475,7 @@ Class Skin_Skeleton {
 	 * @return the HTML to display
 	 *
 	 */
-	public static function &build_input($name, $value, $type, $onchange=NULL) {
+	public static function &build_input_time($name, $value, $type, $onchange=NULL) {
 		global $context;
 
 		// some javascript to call on change
@@ -1434,25 +1490,26 @@ Class Skin_Skeleton {
 			// do not display 0s on screen
 			if($value <= '0000-00-00')
 				$value = '';
+                        
+                        // date stamps are handled in regular text fields
+			$text = '<input type="text" name="'.$name.'" id="'.$name.'" class="date-picker" value="'.encode_field($value).'" size="20" maxlength="255" '.$onchange.' />';
 
-			// date stamps are handled in regular text fields
-			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="15" maxlength="15" '.$onchange.'/>'
-				.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" alt="" >';
-
-			// these are enhanced with jsCalendar
-			Page::insert_script(
-				'$(function() { Calendar.setup({'."\n"
-				.'	inputField	:	"'.$name.'",'."\n"
-				.'	ifFormat	:	"%Y-%m-%d",'."\n"
-				.'	showsTime	:	false,'."\n"
-				.'	button		:	 "'.$name.'_trigger",'."\n"
-				.'	align		:	 "CC",'."\n"
-				.'	singleClick :	 true'."\n"
-				.'}); });'
-				);
-
-			// load the jscalendar library
-			$context['javascript']['calendar'] = TRUE;
+			  // fuse not to load script twice
+                        static $fuse_date = false;
+                        
+                        if(!$fuse_date) {
+                            // load fr localization
+                         
+                            // initialize datetimepicker on page loading    
+                            Page::insert_script(
+                                '$(function() {'."\n"
+                                .'      $(".date-picker").datepicker({dateFormat: "yy-mm-dd"});'."\n"
+                                .'});'."\n"    
+                                );
+                            
+                        }
+                        
+                        $fuse_date = true;
 			
 
 			return $text;
@@ -1464,20 +1521,18 @@ Class Skin_Skeleton {
 				$value = '';
 
 			// date stamps are handled in regular text fields
-			$text = '<input type="text" name="'.$name.'" id="'.$name.'" class="datetimepicker" value="'.encode_field($value).'" size="20" maxlength="255" '.$onchange.' />';
+			$text = '<input type="text" name="'.$name.'" id="'.$name.'" class="date-time-picker" value="'.encode_field($value).'" size="20" maxlength="255" '.$onchange.' />';
 			
                         // fuse not to load script twice
                         static $fuse_datetime = false;
                         
                         if(!$fuse_datetime) {
                             // load fr localization
-                            if($context['language'] == 'fr')
-                                Page::defer_script('included/timepicker/i18n/jquery.ui.datepicker-fr.js');
                          
                             // initialize datetimepicker on page loading    
                             Page::insert_script(
                                 '$(function() {'."\n"
-                                .'      $(".datetimepicker").datetimepicker({dateFormat: "yy-mm-dd"});'."\n"
+                                .'      $(".date-time-picker").datetimepicker({dateFormat: "yy-mm-dd"});'."\n"
                                 .'});'."\n"    
                                 );
                             
@@ -1511,23 +1566,61 @@ Class Skin_Skeleton {
 				$value = '';
 
 			// date stamps are handled in regular text fields
-			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="15" maxlength="15" />'
-			.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\'; javascript:Calendar.setup({inputField:\''.$name.'\',ifFormat:\'%b-%Y\',showsTime:true,timeFormat:\'24\',button:\''.$name.'_trigger\',align:\'CC\',singleClick:true});"  onmouseout="this.style.background=\'\'" alt="" />';
-			;
+                        $text = '<input type="text" name="'.$name.'" id="'.$name.'" class="month-year-picker" value="'.encode_field($value).'" size="20" maxlength="255" '.$onchange.' />';
 
 			Page::insert_script(
-			    '$(function() { Calendar.setup({'."\n"
-			    .'	inputField	:	"'.$name.'",'."\n"
-			    .'	displayArea :	"'.$name.'",'."\n"
-			    .'	ifFormat	:	"%b-%Y"'."\n"
-			    .'}); });'."\n"
+			    '$(function() {'."\n"
+			    .'$(".month-year-picker").datepicker({'
+                              . 'changeMonth:true, '
+                              . 'changeYear:true,'
+                              . 'showButtonPanel:true,'
+                              . 'dateFormat: "yy-mm",'
+                              . 'beforeShow: function(el, dp) {
+                                    $("#ui-datepicker-div").addClass("hide-calendar");
+                                    var datestr;
+                                    if ((datestr = $(this).val()).length > 0) {
+                                        year = datestr.substring(0, 4);
+                                        month = parseInt(datestr.substring(5));
+                                        console.log(year + " " + month);
+                                        $(this).datepicker("option", "defaultDate", new Date(year, month-1, 1));
+                                    }
+                                },'
+                              . 'onClose: function(dateText, inst) { 
+                                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                                    $(this).datepicker("setDate", new Date(year, month, 1));
+                                    }'
+                              . '});'."\n"
+			    .'});'."\n"
 			    );
-
-			// load the jscalendar library
-			$context['javascript']['calendar'] = TRUE;
+                        
+                        Page::insert_style(".hide-calendar .ui-datepicker-calendar {display: none;}");
 			
 
 			return $text;
+                        
+                case 'time':
+                    
+                    $text = '<input type="text" name="'.$name.'" id="'.$name.'" class="time-picker" value="'.encode_field($value).'" size="20" maxlength="255" '.$onchange.' />';
+                    
+                    // fuse not to load script twice
+                    static $fuse_time = false;
+                    
+                    if(!$fuse_time) {
+                            // load fr localization
+                         
+                            // initialize datetimepicker on page loading    
+                            Page::insert_script(
+                                '$(function() {'."\n"
+                                .'      $(".time-picker").timepicker();'."\n"
+                                .'});'."\n"    
+                                );
+                            
+                            // load the timepicker library to extend datepicker
+                            $context['javascript']['timepicker'] = TRUE;
+                    }
+                    
+                    return $text;
 
 		default:
 
@@ -1602,6 +1695,12 @@ Class Skin_Skeleton {
                 
                 // more attributes to give to the link
                 $attributes = '';
+                
+                // check no_follow
+                if(strpos($variant,'nofollow') !== false) {
+                    $variant     = trim(str_replace('nofollow', '', $variant));
+                    $attributes .= ' rel="nofollow"';
+                }
 
 		// guess the type of this link
 		if(!$variant) {
@@ -3071,7 +3170,7 @@ Class Skin_Skeleton {
 			}
 
 			// populate panels
-			$panels_text .= '<div id="'.$tab[2].'"';
+			$panels_text .= '<div id="'.$tab[2].'" data-tab="_'.$tab[0].'"';
 
 			if(!$index)
 				$panels_text .= ' class="panel-foreground"';
@@ -3082,16 +3181,21 @@ Class Skin_Skeleton {
 			
 			// next and prev buttons (HTML5 only), if required
 			if($as_steps) {
-			    // next button but not on last step
-			    if($index < count($tabs)-1)
-				$panels_text .= '<a class="next step right" data-target="_'.$tabs[$index+1][0].'">'.i18n::s('Next').'</a>';
 			    
-			    // provide current step and total steps
-			    $panels_text .= '<p class="details">'.sprintf(i18n::s('Step %d of %d'),$index+1,count($tabs)).'</p>';
-			    
+                            $panels_text .= '<nav class="yc-tab-steps">'."\n";
+                            
 			    // prev button but not on first step
 			    if($index)
-				$panels_text .= '<a class="previous step" data-target="_'.$tabs[$index-1][0].'">'.i18n::s('Previous').'</a>';
+				$panels_text .= '<a class="previous step" data-target="_'.$tabs[$index-1][0].'">'.i18n::s('Previous').'</a>'."\n";
+                            
+                            // provide current step and total steps
+			    $panels_text .= '<p class="details step">'.sprintf(i18n::s('Step %d of %d'),$index+1,count($tabs)).'</p>'."\n";
+                            
+                             // next button but not on last step
+			    if($index < count($tabs)-1)
+				$panels_text .= '<a class="next step" style="visibility:hidden;" data-target="_'.$tabs[$index+1][0].'">'.i18n::s('Next').'</a>'."\n";
+                            
+                            $panels_text .= '</nav>'."\n";
 				
 			}
 
@@ -3117,10 +3221,10 @@ Class Skin_Skeleton {
 
 		// finalize tabs
 		if(!$as_steps)
-		$tabs_text = "\n".'<div id="tabs_bar"><ul>'."\n".$tabs_text.'</ul></div>'."\n";
+		$tabs_text = "\n".'<div class="tabs_bar"><ul>'."\n".$tabs_text.'</ul><a class="tabs-mini-toggle">o</a></div>'."\n";
 
 		// finalize panels
-		$panels_text = "\n".'<div id="tabs_panels">'."\n".$panels_text.'</div>'."\n";
+		$panels_text = "\n".'<div class="tabs_panels">'."\n".$panels_text.'</div>'."\n";
 
 		// finalize javascript loader
 		Page::insert_script(
@@ -4566,13 +4670,13 @@ Class Skin_Skeleton {
 
 					// adjust alignment if required
 					if(!strncmp($token, 'left=', 5))
-						$text .= '<td class="'.$style.'"><div style="text-align: left;">'.substr($token, 5).'</div></td>';
+						$text .= '<div class="'.$style.'"><div style="text-align: left;">'.substr($token, 5).'</div></div>';
 					elseif(!strncmp($token, 'center=', 7))
-						$text .= '<td class="'.$style.'"><div style="text-align: center;">'.substr($token, 7).'</div></td>';
+						$text .= '<div class="'.$style.'"><div style="text-align: center;">'.substr($token, 7).'</div></div>';
 					elseif(!strncmp($token, 'right=', 6))
-						$text .= '<td class="'.$style.'"><div style="text-align: right;">'.substr($token, 6).'</div></td>';
+						$text .= '<div class="'.$style.'"><div style="text-align: right;">'.substr($token, 6).'</div></div>';
 					else
-						$text .= '<td class="'.$style.'">'.$token.'</td>';
+						$text .= '<div class="'.$style.'">'.$token.'</div>';
 
 					// move to the center
 					$style = 'center';
@@ -4585,13 +4689,13 @@ Class Skin_Skeleton {
 
 				// adjust alignment if required
 				if(!strncmp($argument, 'left=', 5))
-					$text .= '<td class="'.$style.'"><div style="text-align: left;">'.substr($argument, 5).'</div></td>';
+					$text .= '<div class="'.$style.'"><div style="text-align: left;">'.substr($argument, 5).'</div></div>';
 				elseif(!strncmp($argument, 'center=', 7))
-					$text .= '<td class="'.$style.'"><div style="text-align: center;">'.substr($argument, 7).'</div></td>';
+					$text .= '<div class="'.$style.'"><div style="text-align: center;">'.substr($argument, 7).'</div></div>';
 				elseif(!strncmp($argument, 'right=', 6))
-					$text .= '<td class="'.$style.'"><div style="text-align: right;">'.substr($argument, 6).'</div></td>';
+					$text .= '<div class="'.$style.'"><div style="text-align: right;">'.substr($argument, 6).'</div></div>';
 				else
-					$text .= '<td class="'.$style.'">'.$argument.'</td>';
+					$text .= '<div class="'.$style.'">'.$argument.'</div>';
 			}
 
 			// move from west to center
@@ -4602,7 +4706,7 @@ Class Skin_Skeleton {
 
 		// package the resulting string
 		if($text)
-			$text = '<table class="layout"><tbody><tr>'.$text.'</tr></tbody></table>';
+			$text = '<div class="layout-horiz">'.$text.'</div>';
 
 		// job is done
 		return $text;

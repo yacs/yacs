@@ -212,7 +212,7 @@
 	 *
 	 * @param mixed a string of tokens, or a boolean
 	 */
-	public static function content($names=NULL) {
+	public static function content($names=NULL, $wrap = true) {
 		global $context;
 
 		// display the prefix, if any
@@ -238,9 +238,19 @@
 		if(is_string($names))
 			$names = explode(' ', $names);
 
+		if (isset( $context['content_wrap'] ) && $wrap ) {
+			if (isset($context['content_wrap_attributes']))
+			echo '<'.$context['content_wrap'].' '.$context['content_wrap_attributes'].'>';
+			else
+			echo '<'.$context['content_wrap'].'>';
+		}
+
 		// actual component generation
 		foreach($names as $name)
 			Page::component($name);
+
+		if (isset( $context['content_wrap'] ) && $wrap)
+			echo '</'.$context['content_wrap'].'>';
 
 		// display the suffix, if any
 		if(isset($context['suffix']) && $context['suffix'])

@@ -894,8 +894,7 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 		$context['skin_variant'] = $variant;
 
 	// initialize skin constants
-	if(!defined('BR'))
-		Skin::load();
+	Skin::load();
 
 }
 
@@ -1221,10 +1220,10 @@ function render_skin($with_last_modified=TRUE) {
 	    // page title
 	    $page_title = ucfirst(strip_tags($context['page_title']));
 	    $context['page_header'] .= '<title>'.$page_title;
-	    if($context['site_name'] && !preg_match('/'.str_replace('/', ' ', strip_tags($context['site_name'])).'/', strip_tags($context['page_title']))) {
+	    if($context['host_name'] && !preg_match('/'.str_replace('/', ' ', strip_tags($context['host_name'])).'/', strip_tags($context['page_title']))) {
 		    if($page_title)
 			    $context['page_header'] .= ' - ';
-		    $context['page_header'] .= strip_tags($context['site_name']);
+		    $context['page_header'] .= strip_tags($context['host_name']);
 	    }
 	    $context['page_header'] .= "</title>\n";
 	    if($page_title)
@@ -1339,11 +1338,13 @@ function render_skin($with_last_modified=TRUE) {
 		.((isset($context['current_item']) && $context['current_item'])?$context['current_item']:'').'"; '
 		.'Yacs.'.$display_context.'_action = "'
 		.((isset($context['current_action']) && $context['current_action'])?$context['current_action']:'').'";';
-	/*$type = (SKIN_HTML5)?'':' type="text/javascript" ';
+	$type = (SKIN_HTML5)?'':' type="text/javascript" ';
 	$js_script = '<script'.$type.'> '.$js_script.'</script>'."\n";
 	// put in page footer, before snippets of ['javascript']['footer']
-	$context['javascript']['footer'] = $js_script.$context['javascript']['footer'];*/
-        Page::insert_script($js_script);
+        if(!isset($context['javascript']['footer'])) $context['javascript']['footer'] = '';
+        
+	$context['javascript']['footer'] = $js_script.$context['javascript']['footer'];
+        // Page::insert_script($js_script);
 
 	// jquery-ui stylesheet
 	if($whole_rendering)
@@ -1394,8 +1395,10 @@ function render_skin($with_last_modified=TRUE) {
                 
 		Page::load_style('included/timepicker/jquery-ui-timepicker-addon.min.css');
 		Page::defer_script('included/timepicker/jquery-ui-timepicker-addon.min.js');
-                if($context['language'] == 'fr')
+                if($context['language'] == 'fr') {
                     Page::defer_script('included/timepicker/i18n/jquery-ui-timepicker-fr.js');
+                    Page::defer_script('included/timepicker/i18n/jquery.ui.datepicker-fr.js');
+                }
                 
                 // we may use :
                 // <script src="https://rawgithub.com/trentrichardson/jQuery-Timepicker-Addon/master/jquery-ui-timepicker-addon.js"></script>

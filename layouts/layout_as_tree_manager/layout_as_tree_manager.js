@@ -26,7 +26,7 @@ var TreeManager = {
 		containment:".tm-ddz",
 		cursor: 'move',
 		distance: 20,
-		revert: true,  // by defaut a dragged object will return to it's possition
+		revert: true,  // by defaut a dragged object will return to it's position
 		revertDuration: 700,
 		zIndex : 100,
 		start: function(e, ui) {
@@ -41,7 +41,7 @@ var TreeManager = {
 		hoverClass: "tm-hoverdrop",
 		tolerance: 'pointer',
 		drop : TreeManager.elemDropped	// function to call when dropping is done
-	    }
+	    };
 
 	$().ready(function() {
 

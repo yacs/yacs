@@ -545,9 +545,11 @@ Class Surfer {
 	 * @param string the name of the editing field
 	 * @param string content to be put in the editor
 	 * @param boolean TRUE to grow the control on focus
+	 * @param integer give heigh for textearea
+         * @param boolean to shunt tinymce if false
 	 * @return string to be inserted in the XHTML flow
 	 */
-	public static function get_editor($name='description', $value='', $spring=FALSE) {
+	public static function get_editor($name='description', $value='', $spring=FALSE, $rows=25, $rich=TRUE, $placeholder='') {
 		global $context;
 
 		// returned string
@@ -558,18 +560,21 @@ Class Surfer {
 			$_SESSION['surfer_editor'] = $context['users_default_editor'];
 
 		// tinymce
-		if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce') && is_readable($context['path_to_root'].'included/tiny_mce/tinymce.min.js') && !$spring) {
+		// CHL suppression test $spring ci-dessous car le $spring est testé à l'intérieur
+		if($rich && isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce') && is_readable($context['path_to_root'].'included/tiny_mce/tinymce.min.js') ) {
 
 			// load the TinyMCE script -- see shared/global.php
 			$context['javascript']['tinymce'] = TRUE;
 
 			// a growing control
+			// CHL pourquoi cette syntaxe en js ? et ce 60% ?
+			// on ne reprend pas $value ?
 			if($spring)
-				$text .= '<textarea name="description" id="description" rows="1" cols="50" style="width: 60%;" onfocus="Yacs.growPanel(this); if(navigator.appName==\'Microsoft Internet Explorer\'){initialize_editor()};tinyMCE.execCommand(\'mceAddControl\', true, \'description\');tinyMCE.get(\'description\').focus();"></textarea>';
+				$text .= '<textarea name="description" id="description" rows="1" cols="50" style="width: 60%;" onfocus="Yacs.growPanel(this); if(navigator.appName==\'Microsoft Internet Explorer\'){initialize_editor()};tinyMCE.execCommand(\'mceAddControl\', true, \'description\');tinyMCE.get(\'description\').focus();">'.encode_field($value).'</textarea>';
 
 			// the textarea that will be handled by TinyMCE
 			else
-				$text .= '<div><textarea name="'.$name.'" class="tinymce" rows="25" cols="50" accesskey="c">'.encode_field($value).'</textarea></div>';
+				$text .= '<div><textarea name="'.$name.'" class="tinymce" rows="'.$rows.'" cols="50" accesskey="c">'.encode_field($value).'</textarea></div>';
 
 			// signal an advanced editor
 			$text .= '<input type="hidden" name="editor" value="tinymce" />';
@@ -577,20 +582,21 @@ Class Surfer {
 		// a textarea that grow automatically
 		} elseif($spring) {
 			$text .= '<script type="text/javascript">var fuse'.$name.'=1;</script>'
-				.'<textarea name="'.$name.'" id="'.$name.'"'
-				.	' rows="1" cols="50" class="tip" >'
+				.'<textarea name="'.$name.'" class="autogrow left" style="margin:3px 3px 0 0"'
+				.	' rows="'.$rows.'" cols="50" placeholder="'.$placeholder.'" >'
+                                .       encode_field($value)
 				.	'</textarea>'."\n";
 
-			Page::insert_script(
+                        static $fuse = false;
+			if(!$fuse) {
+                            Page::insert_script(
 				'$(function(){'
-				.	'$("textarea#'.$name.'").autogrow();'
-				.	'setTimeout(function() {'
-				.		'$("textarea#'.$name.'")'
-				.			'.tipsy({fallback: "'.i18n::s('Contribute to this page!').'", gravity: "s", fade: true})'
-				.			'.tipsy("show");'
-				.	'}, 5000);'
+				.	'$(".autogrow").autogrow();'
 				.'});'."\n"
 				);
+                        }
+                        $fuse = true;
+                        
 
 		// default to plain editor -- BR after the Textarea is mandatory
 		} else {
@@ -602,11 +608,11 @@ Class Surfer {
 					if(file_exists($context['path_to_root'].'smileys/edit.js'))
 						$text .= '<script type="text/javascript" src="'.$context['url_to_root'].'smileys/edit.js"></script>';
 				}
-				$text .= '<textarea name="description" id="edit_area" rows="25" cols="50" accesskey="c">'.encode_field($value).'</textarea>'.BR;
+				$text .= '<textarea name="description" id="edit_area" rows="'.$rows.'" cols="50" accesskey="c">'.encode_field($value).'</textarea>'.BR;
 
 			// a secondary textarea
 			} else
-				$text .= '<textarea name="'.$name.'" rows="25" cols="50">'.encode_field($value).'</textarea>'.BR;
+				$text .= '<textarea name="'.$name.'" rows="'.$rows.'" cols="50">'.encode_field($value).'</textarea>'.BR;
 
 			// hint
 			if(Surfer::is_associate())
@@ -819,10 +825,11 @@ Class Surfer {
 
                 $input  = '<img id="captcha" src="'.$context['url_to_root'].'included/securimage/securimage_show.php" alt="CAPTCHA Image" />'."\n";
 
-                $input .= '<input type="text" name="captcha_code" size="10" maxlength="6" />'."\n"
-                        .'<a class="details" href="#" onclick="document.getElementById(\'captcha\').src= \''
+                $input .= '<input type="text" name="captcha_code" size="10" maxlength="6" />'."\n";
+                
+                $input .= BR.'<a class="details" href="#" onclick="document.getElementById(\'captcha\').src= \''
                         .$context['url_to_root'].
-                        'included/securimage/securimage_show.php?\' + Math.random(); return false">['.i18n::s('Update image').']</a>';
+                        'included/securimage/securimage_show.php?\' + Math.random(); return false">['.i18n::s('Update image').']</a>'."\n";
 
 		return array($label, $input);
 	}

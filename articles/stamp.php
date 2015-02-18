@@ -218,7 +218,7 @@ if($with_form) {
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" name="form_2"><div>'."\n";
 
 		// catch user input
-		$context['text'] .= sprintf(i18n::s('Expire the page after the %s'), Skin::build_input('expiry_date', $value, 'date_time'));
+		$context['text'] .= sprintf(i18n::s('Expire the page after the %s'), Skin::build_input_time('expiry_date', $value, 'date_time'));
 
 		// the submit button
 		$context['text'] .= Skin::build_submit_button(i18n::s('Save the date'))."\n"
@@ -241,7 +241,7 @@ if($with_form) {
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" name="form_2"><div>'."\n";
 
 		// catch user input
-		$context['text'] .= sprintf(i18n::s('Expire the page after the %s'), Skin::build_input('expiry_date', NULL, 'date_time'));
+		$context['text'] .= sprintf(i18n::s('Expire the page after the %s'), Skin::build_input_time('expiry_date', NULL, 'date_time'));
 
 		// the submit button
 		$context['text'] .= Skin::build_submit_button(i18n::s('Save the date'))."\n"
@@ -264,7 +264,7 @@ if($with_form) {
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" name="form_3"><div>'."\n";
 
 		// catch user input
-		$context['text'] .= sprintf(i18n::s('Change the publication date to %s'), Skin::build_input('publish_date', $value, 'date_time'));
+		$context['text'] .= sprintf(i18n::s('Change the publication date to %s'), Skin::build_input_time('publish_date', $value, 'date_time'));
 
 		// the submit button
 		$context['text'] .= Skin::build_submit_button(i18n::s('Save the date'))."\n"

@@ -11,7 +11,11 @@
  * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+ * 
  */
+
+if(!defined('TM_MAX_ITEM')) define('TM_MAX_ITEM',500);
+
 class Layout_as_tree_manager extends Layout_interface {     
     
     
@@ -124,7 +128,7 @@ class Layout_as_tree_manager extends Layout_interface {
 	
 	if(!$no_folders) {
 	    // look for sub-containers, should be either categories or sections
-	    $data = $entity->get_childs($class,0,200,'raw');	    	   			
+	    $data = $entity->get_childs($class,0,TM_MAX_ITEM,'raw');	    	   			
 
 	    // layout hierarchy
 	    if(isset($data [$class])) {
@@ -151,7 +155,7 @@ class Layout_as_tree_manager extends Layout_interface {
 	
 	// look for section as pages, but only for categories browsing
 	if($this->listed_type == 'category' && !$this->tree_only) {
-	    $data = $entity->get_childs('section', 0, 200, 'raw');
+	    $data = $entity->get_childs('section', 0, TM_MAX_ITEM, 'raw');
 	    
 	    // layout sections
 	    if(isset($data ['section'])) {
@@ -176,7 +180,7 @@ class Layout_as_tree_manager extends Layout_interface {
 	
 	// look for articles and users of this level
 	if( !$this->tree_only ) {
-	    $data = $entity->get_childs('article, user', 0, 200, 'raw');
+	    $data = $entity->get_childs('article, user', 0, TM_MAX_ITEM, 'raw');
 
 	    // layout articles
 	    if(isset($data ['article'])) {

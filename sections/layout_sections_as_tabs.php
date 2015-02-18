@@ -86,7 +86,7 @@ Class Layout_sections_as_tabs extends Layout_interface {
 			}
 
 			// delegate rendering to the overlay, where applicable
-			if(is_object($content_overlay) && ($overlaid = $content_overlay->render('articles', 'section:'.$item['id'], $zoom_index))) {
+			if(is_object($content_overlay) && ($overlaid = $content_overlay->render('articles', 'section:'.$item['id'], 1))) {
 				$text .= $overlaid;
 
 			// regular rendering
@@ -122,7 +122,8 @@ Class Layout_sections_as_tabs extends Layout_interface {
 				$box = array('top_bar' => array(), 'text' => '', 'bottom_bar' => array());
 
 				// the command to post a new page
-				if(Articles::allow_creation($item, $anchor)) {
+				//if(Articles::allow_creation($item, $anchor)) {
+                                if($anchor->allows('creation','article')) {
 
 					Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 					$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
@@ -207,7 +208,8 @@ Class Layout_sections_as_tabs extends Layout_interface {
 				$box = array('top_bar' => array(), 'text' => '', 'bottom_bar' => array());
 
 				// the command to add a new section
-				if(Sections::allow_creation($item, $anchor)) {
+				//if(Sections::allow_creation($item, $anchor)) {
+                                if($anchor->allows('creation','section')) {
 					Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
 					$box['top_bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => SECTIONS_ADD_IMG.i18n::s('Add a section'));
 				}
@@ -270,7 +272,10 @@ Class Layout_sections_as_tabs extends Layout_interface {
 		}
 
 		// format tabs
-		$text = Skin::build_tabs($panels);
+                if($this->has_variant('as_array')) {
+                    $text = $panels;
+                } else
+                    $text = Skin::build_tabs($panels);
 
 		// end of processing
 		SQL::free($result);

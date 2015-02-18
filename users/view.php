@@ -84,11 +84,11 @@ Safe::define('ARTICLES_PER_PAGE', 30);
 // look for the id
 $id = NULL;
 if(isset($_REQUEST['id']))
-	$id = $_REQUEST['id'];
+    $id = $_REQUEST['id'];
 elseif(isset($context['arguments'][0]))
-	$id = $context['arguments'][0];
+    $id = $context['arguments'][0];
 elseif(Surfer::is_logged())
-	$id = Surfer::get_id();
+    $id = Surfer::get_id();
 $id = strip_tags($id);
 
 // no follow-up page yet
@@ -97,37 +97,48 @@ $zoom_index = 1;
 
 // view.php?id=12&articles=2
 if(isset($_REQUEST['articles']) && ($zoom_index = $_REQUEST['articles']))
-	$zoom_type = 'articles';
+    $zoom_type = 'articles';
 
 // view.php?id=12&files=2
 elseif(isset($_REQUEST['files']) && ($zoom_index = $_REQUEST['files']))
-	$zoom_type = 'files';
+    $zoom_type = 'files';
 
 // view.php?id=12&links=2
 elseif(isset($_REQUEST['links']) && ($zoom_index = $_REQUEST['links']))
-	$zoom_type = 'links';
+    $zoom_type = 'links';
 
 // view.php?id=12&sections=2
 elseif(isset($_REQUEST['sections']) && ($zoom_index = $_REQUEST['sections']))
-	$zoom_type = 'sections';
+    $zoom_type = 'sections';
 
 // view.php?id=12&users=2
 elseif(isset($_REQUEST['users']) && ($zoom_index = $_REQUEST['users']))
-	$zoom_type = 'users';
+    $zoom_type = 'users';
 
 // view.php?id=12&bookmarks=2
 elseif(isset($_REQUEST['bookmarks']) && ($zoom_index = $_REQUEST['bookmarks']))
-	$zoom_type = 'bookmarks';
+    $zoom_type = 'bookmarks';
 
 // view.php/12/files/2
 elseif(isset($context['arguments'][1]) && isset($context['arguments'][2])) {
-	$zoom_type = $context['arguments'][1];
-	$zoom_index = $context['arguments'][2];
+    $zoom_type = $context['arguments'][1];
+    $zoom_index = $context['arguments'][2];
 }
+
+// balise englobante <article>
+$context['content_wrap'] = 'article';
+
+// flag that say we are called from map infowindow
+$map = false;
+if(isset($_REQUEST['map']) && $_REQUEST['map'] == 'Y') 
+    $map = true;
+
+global $render_overlaid;
+$whole_rendering = !$render_overlaid;
 
 // sanity check
 if($zoom_index < 1)
-	$zoom_index = 1;
+    $zoom_index = 1;
 
 // get the item from the database
 $item = Users::get($id);
@@ -135,38 +146,38 @@ $item = Users::get($id);
 // get the related overlay, if any
 $overlay = NULL;
 if(isset($item['overlay']))
-	$overlay = Overlay::load($item, 'user:'.$item['id']);
+    $overlay = Overlay::load($item, 'user:'.$item['id']);
 
 // actual capability of current surfer
 if(isset($item['id']) && Surfer::get_id() && ($item['id'] == Surfer::get_id()) && ($item['capability'] != '?'))
-	Surfer::empower();
+    Surfer::empower();
 
 // associates can do what they want
 if(Surfer::is_associate())
-	$permitted = TRUE;
+    $permitted = TRUE;
 
 // the record of the authenticated surfer
 elseif(isset($item['id']) && Surfer::is($item['id']))
-	$permitted = TRUE;
+    $permitted = TRUE;
 
 // access is restricted to authenticated member
 elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_member())
-	$permitted = TRUE;
+    $permitted = TRUE;
 
 // public access is allowed
 elseif(isset($item['active']) && ($item['active'] == 'Y'))
-	$permitted = TRUE;
+    $permitted = TRUE;
 
 // the default is to disallow access
 else
-	$permitted = FALSE;
+    $permitted = FALSE;
 
 // load the skin
 load_skin('users');
 
 // current item
 if(isset($item['id']))
-	$context['current_item'] = 'user:'.$item['id'];
+    $context['current_item'] = 'user:'.$item['id'];
 
 // the path to this page
 $context['path_bar'] = array( 'users/' => i18n::s('People') );
@@ -182,138 +193,141 @@ if(isset($item['full_name']) && $item['full_name']) {
 	else
 		$context['page_title'] .= $item['full_name'];
 } elseif(isset($item['nick_name']))
-	$context['page_title'] .= $item['nick_name'];
+    $context['page_title'] .= $item['nick_name'];
 
 // not found -- help web crawlers
 if(!isset($item['id'])) {
-	include '../error.php';
+    include '../error.php';
 
 // permission denied
 } elseif(!$permitted) {
 
-	// anonymous users are invited to log in or to register
-	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Users::get_permalink($item)));
+    // anonymous users are invited to log in or to register
+    if(!Surfer::is_logged())
+        Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Users::get_permalink($item)));
 
-	// permission denied to authenticated user
-	Safe::header('Status: 401 Unauthorized', TRUE, 401);
-	Logger::error(i18n::s('You are not allowed to perform this operation.'));
+    // permission denied to authenticated user
+    Safe::header('Status: 401 Unauthorized', TRUE, 401);
+    Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // re-enforce the canonical link
 } elseif(!$zoom_type && $context['self_url'] && ($canonical = Users::get_permalink($item)) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
-	Safe::header('Status: 301 Moved Permanently', TRUE, 301);
-	Safe::header('Location: '.$canonical);
-	Logger::error(Skin::build_link($canonical));
+    Safe::header('Status: 301 Moved Permanently', TRUE, 301);
+    Safe::header('Location: '.$canonical);
+    Logger::error(Skin::build_link($canonical));
 
 // display the user profile
 } else {
 
-	// remember surfer visit
-	Surfer::is_visiting(Users::get_permalink($item), $item['full_name']?$item['full_name']:$item['nick_name'], 'user:'.$item['id'], $item['active']);
+        if ($whole_rendering) {
+            // remember surfer visit
+            Surfer::is_visiting(Users::get_permalink($item), $item['full_name']?$item['full_name']:$item['nick_name'], 'user:'.$item['id'], $item['active']);
 
-	// initialize the rendering engine
-	Codes::initialize(Users::get_permalink($item));
+            // initialize the rendering engine
+            Codes::initialize(Users::get_permalink($item));
 
-	//
-	// meta-information -- $context['page_header'], etc.
-	//
+            //
+            // meta-information -- $context['page_header'], etc.
+            //
 
-	// prevent search engines to present cache versions of this page
-	if($item['active'] != 'Y')
-		$context['page_header'] .= "\n".'<meta name="robots" content="noarchive" />';
+            // prevent search engines to present cache versions of this page
+            if($item['active'] != 'Y')
+                    $context['page_header'] .= "\n".'<meta name="robots" content="noarchive" />';
 
-	// add canonical link
-	if(!$zoom_type)
-		$context['page_header'] .= "\n".'<link rel="canonical" href="'.Users::get_permalink($item).'" />';
+            // add canonical link
+            if(!$zoom_type)
+                    $context['page_header'] .= "\n".'<link rel="canonical" href="'.Users::get_permalink($item).'" />';
 
-	// a meta link to a feeding page
-	$context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_root'].Users::get_url($item['id'], 'feed').'" title="RSS" type="application/rss+xml" />';
+            // a meta link to a feeding page
+            $context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_root'].Users::get_url($item['id'], 'feed').'" title="RSS" type="application/rss+xml" />';
 
-	// a meta link to a description page (actually, rdf)
-	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Users::get_url($item['id'], 'describe').'" title="FOAF" type="application/rdf+xml" />';
+            // a meta link to a description page (actually, rdf)
+            $context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Users::get_url($item['id'], 'describe').'" title="FOAF" type="application/rdf+xml" />';
 
-	// set specific headers
-	if(isset($item['introduction']) && $item['introduction'])
-		$context['page_meta'] = strip_tags(Codes::beautify_introduction($item['introduction']));
-	if(isset($item['create_name']) && $item['create_name'])
-		$context['page_author'] = $item['create_name'];
-	if(isset($item['edit_date']) && $item['edit_date'])
-		$context['page_date'] = $item['edit_date'];
+            // set specific headers
+            if(isset($item['introduction']) && $item['introduction'])
+                    $context['page_meta'] = strip_tags(Codes::beautify_introduction($item['introduction']));
+            if(isset($item['create_name']) && $item['create_name'])
+                    $context['page_author'] = $item['create_name'];
+            if(isset($item['edit_date']) && $item['edit_date'])
+                    $context['page_date'] = $item['edit_date'];
+        
+        }
 
-	//
-	// page details -- $context['page_details']
-	//
+    //
+    // page details -- $context['page_details']
+    //
 
-	// do not mention details to crawlers
-	if(!Surfer::is_crawler()) {
+    // do not mention details to crawlers
+    if(!Surfer::is_crawler() && $whole_rendering) {
 
-		// tags, if any
-		if(isset($item['tags']))
-			$context['page_tags'] =& Skin::build_tags($item['tags']);
+        // tags, if any
+        if(isset($item['tags']))
+            $context['page_tags'] =& Skin::build_tags($item['tags']);
 
-		// one detail per line
-		$context['page_details'] .= '<p class="details">';
-		$details = array();
+        // one detail per line
+        $context['page_details'] .= '<p class="details">';
+        $details = array();
 
-		// add details from the overlay, if any
-		if(is_object($overlay) && ($more = $overlay->get_text('details', $item)))
-			$details[] = $more;
+        // add details from the overlay, if any
+        if(is_object($overlay) && ($more = $overlay->get_text('details', $item)))
+            $details[] = $more;
 
-		// the capability field is displayed only to logged users
-		if(!Surfer::is_logged())
-			;
-		elseif($item['capability'] == 'A')
-			$details[] = i18n::s('Associate');
+        // the capability field is displayed only to logged users
+        if(!Surfer::is_logged())
+            ;
+        elseif($item['capability'] == 'A')
+            $details[] = i18n::s('Associate');
 
-		elseif($item['capability'] == 'M')
-			$details[] = i18n::s('Member');
+        elseif($item['capability'] == 'M')
+            $details[] = i18n::s('Member');
 
-		elseif($item['capability'] == 'S')
-			$details[] = i18n::s('Subscriber');
+        elseif($item['capability'] == 'S')
+            $details[] = i18n::s('Subscriber');
 
-		elseif($item['capability'] == '?') {
-			$details[] = EXPIRED_FLAG.i18n::s('Blocked');
+        elseif($item['capability'] == '?') {
+            $details[] = EXPIRED_FLAG.i18n::s('Blocked');
 
-			// also make it clear to community member
-			Skin::error('This person has been blocked and cannot authenticate anymore.');
-		}
+            // also make it clear to community member
+            Skin::error('This person has been blocked and cannot authenticate anymore.');
+        }
 
-		// the number of posts
-		if(isset($item['posts']) && ($item['posts'] > 1))
-			$details[] = sprintf(i18n::s('%d posts'), $item['posts']);
+        // the number of posts
+        if(isset($item['posts']) && ($item['posts'] > 1))
+            $details[] = sprintf(i18n::s('%d posts'), $item['posts']);
 
-		// the date of last login
-		if(Surfer::is_associate() && isset($item['login_date']) && $item['login_date'])
-			$details[] = sprintf(i18n::s('last login %s'), Skin::build_date($item['login_date']));
+        // the date of last login
+        if(Surfer::is_associate() && isset($item['login_date']) && $item['login_date'])
+            $details[] = sprintf(i18n::s('last login %s'), Skin::build_date($item['login_date']));
 
-		// the date of registration
-		if(isset($item['create_date']) && $item['create_date'])
-			$details[] = sprintf(i18n::s('registered %s'), Skin::build_date($item['create_date']));
+        // the date of registration
+        if(isset($item['create_date']) && $item['create_date'])
+            $details[] = sprintf(i18n::s('registered %s'), Skin::build_date($item['create_date']));
 
-		// combine these three items into one
-		if(count($details))
-			$context['page_details'] .= ucfirst(implode(', ', $details));
+        // combine these three items into one
+        if(count($details))
+            $context['page_details'] .= ucfirst(implode(', ', $details));
 
-		// reference this item
-		if(Surfer::is_member())
-			$context['page_details'] .= BR.sprintf(i18n::s('Code to reference this user: %s'), '[user='.$item['nick_name'].']');
+        // reference this item
+        if(Surfer::is_member())
+            $context['page_details'] .= BR.sprintf(i18n::s('Code to reference this user: %s'), '[user='.$item['nick_name'].']');
 
-		$context['page_details'] .= '</p>';
+        $context['page_details'] .= '</p>';
 
 	}
 
-	//
-	// tabbed panels
-	//
-	$panels = array();
+    //
+    // tabbed panels
+    //
+    $panels = array();
 
-	//
-	// the stream of activities
-	//
-	$stream = '';
+    //
+    // the stream of activities
+    //
+    $stream = '';
 
-	// my pages
-	//
+    // my pages
+    //
 
 	// the list of contributed articles if not at another follow-up page
 	if(!$zoom_type || ($zoom_type == 'articles')) {

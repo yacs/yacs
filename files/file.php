@@ -138,6 +138,24 @@ Class File extends Anchor {
 	function get_static_group_class() {
 	    return 'Files';
 	}
+        
+        /**
+	 * change some attributes of an anchor
+	 *
+	 * @see shared/anchor.php
+	 *
+	 * @param array of (name, value)
+	 * @return TRUE on success, FALSE otherwise
+	 */
+	function set_values($fields) {
+
+		// add our id
+		$fields['id'] = $this->item['id'];
+
+		// save in the database
+		return Files::put_attributes($fields);
+
+	}
 
 	/**
 	 * remember the last action for this file

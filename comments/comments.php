@@ -481,20 +481,24 @@ Class Comments {
 	* @param string the place to come back when complete
 	* @return string the HTML tags to put in the page
 	*/
-	public static function get_form($reference, $follow_up='comments') {
-		global $context;
+	public static function get_form($reference, $follow_up='comments', $placeholder = null, $file_attachement = true) {
+		global $context, $render_overlaid;
+                
+        // default placeholder
+        if(!$placeholder) $placeholder = i18n::s('Reply');
 
 		// the form to post a comment
-		$text = '<form method="post" action="'.$context['url_to_root'].'comments/edit.php" enctype="multipart/form-data" id="comment_form"><div style="margin: 1em 0;">';
+		$text = '<form method="post" action="'.$context['url_to_root'].'comments/edit.php" enctype="multipart/form-data" class="comment_form"><div style="margin: 1em 0;">';
 
 		// use the right editor, maybe wysiwyg
-		$text .= Surfer::get_editor('description', '', TRUE);
+		$text .= Surfer::get_editor('description', '', TRUE, 3, FALSE, $placeholder);
 
 		// bottom commands
 		$menu = array();
 
 		// option to add a file
-		if(Surfer::may_upload()) {
+        $anchor = Anchors::get($reference);
+		if($file_attachement && $anchor->allows('creation','file')) {
                     
                         include_once $context['path_to_root'].'files/files.php';
 
@@ -513,7 +517,18 @@ Class Comments {
 		}
 
 		// the submit button
-		$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+        $class_submit   = ( $render_overlaid  && $follow_up !== 'json' )?'submit-overlaid':'button';
+		$menu[] = Skin::build_submit_button(i18n::s('Send'), i18n::s('Press [s] to submit data'), 's', null, $class_submit);
+                
+        // case of a ajax submission
+        if( $follow_up === 'json') {
+            // insert js only once
+            static $ajax_comment_form = false;
+            if(!$ajax_comment_form) {
+               Page::insert_script('Yacs.initAjaxComments();');
+               $ajax_comment_form = true;
+            }
+        }
 
 		// finalize the form
 		$text .= '<input type="hidden" name="anchor" value="'.$reference.'" />'

@@ -823,41 +823,46 @@ if($with_form) {
 		.'		alert("'.i18n::s('You must provide a nick name.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
+		.'	}'."\n"
+                        // extend validation --used in overlays
+		.'	if(typeof validateOnSubmit == "function") {'."\n"
+		.'		return validateOnSubmit(container);'."\n"
 		.'	}'."\n";
-        
-        
+
+
         $js_script .='	if($("#nick_name").hasClass("input-bad")) {'."\n"
 		.'		alert("'.i18n::s('You must provide a valid and unused nick name.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n";
-	
+
 	if(!isset($item['id']))
-		$js_script .= 
+		$js_script .=
 				// password is mandatory'
 			'	if(!container.password.value) {'."\n"
 			.'		alert("'.i18n::s('You must provide a password.').'");'."\n"
 			.'		Yacs.stopWorking();'."\n"
 			.'		return false;'."\n"
 			.'	}'."\n";
+
 	if(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y')) {
-		$js_script .= 
+
+		$js_script .=
 				// email is mandatory'
 			'	if(!container.email.value) {'."\n"
 			.'		alert("'.i18n::s('You must provide a e-mail address.').'");'."\n"
 			.'		Yacs.stopWorking();'."\n"
 			.'		return false;'."\n"
 			.'	}'."\n";
-        
+
                 $js_script .='	if($("input[name=email]").hasClass("input-bad")) {'."\n"
                         .'		alert("'.i18n::s('You must provide a valid and unused email address.').'");'."\n"
                         .'		Yacs.stopWorking();'."\n"
                         .'		return false;'."\n"
-                        .'	}'."\n";        
+                        .'	}'."\n";
         }
-        
-        
-	$js_script .= 
+
+	$js_script .=
 			// successful check
 		'	return true;'."\n"
 		.'}'."\n"

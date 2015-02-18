@@ -17,7 +17,7 @@
  * $overlay = Overlay::bind($overlay_type);
  *
  * // get form fields used to updated the overlay
- * $fields = $overlay->get_fields($item);
+ * $fields = $overlay->get_fields($item,$field_pos);
  *
  * // get a label for some ordinary field
  * $label = $overlay->get_label('title', 'edit');
@@ -309,6 +309,8 @@ class Overlay {
 	 * If $this->anchor is an object, then you can call $this->anchor->is_owned() to adapt to
 	 * specific access rules. Else you have to assume that the surfer is creating a new item,
 	 * and that he is the actual owner.
+	 * 
+	 * could call get_field whith differents $field_pos in an overlay
 	 *
 	 * To be overloaded into derived class.
 	 *
@@ -321,7 +323,7 @@ class Overlay {
 	 * @param the hosting attributes
 	 * @return a list of ($label, $input, $hint) to be integrated into the form.
 	 */
-	function get_fields($host) {
+	function get_fields($host,$field_pos=NULL) {
 		return array();
 	}
 
@@ -428,7 +430,11 @@ class Overlay {
 	 */
 	function &get_live_title($host=NULL) {
 
-		$text = $this->anchor->get_title(false);
+                if (is_object($this->anchor)) {
+                    $text = $this->anchor->get_title(false);
+                } elseif(isset($host['title'])) {
+                    return $host['title'];
+                }
 
 		return $text;
 	}

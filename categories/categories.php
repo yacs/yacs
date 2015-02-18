@@ -1136,6 +1136,10 @@ Class Categories {
 		// or dead categories
 		$where = '('.$where.')'
 			." OR ((categories.expiry_date > '".NULL_DATE."') AND (categories.expiry_date <= '".$context['now']."'))";
+		
+		// limit the scope to root categories
+		$where = '('.$where.')'
+			." AND categories.anchor = ''";
 
 		// the list of categories
 		$query = "SELECT categories.* FROM ".SQL::table_name('categories')." AS categories"
@@ -1565,7 +1569,7 @@ Class Categories {
 			."expiry_date='".SQL::escape($fields['expiry_date'])."',"
 			."extra='".SQL::escape(isset($fields['extra']) ? $fields['extra'] : '')."',"
 			."icon_url='".SQL::escape($fields['icon_url'])."',"
-			."introduction='".SQL::escape($fields['introduction'])."',"
+			."introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."',"
 			."keywords='".SQL::escape($fields['keywords'])."',"
 			."options='".SQL::escape($fields['options'])."',"
 			."overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."',"

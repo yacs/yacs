@@ -648,7 +648,7 @@ abstract class Anchor {
 			$parent = $this->anchor->get_path_bar();
 
 		// this item
-		$url = $this->get_url();
+		$url = $this->get_permalink();
 		$label = Codes::beautify_title($this->get_title());
 		$path = array_merge($parent, array($url => $label));
 
@@ -875,6 +875,9 @@ abstract class Anchor {
 	public function get_thumbnail_url() {
 		if(isset($this->item['thumbnail_url']) && $this->item['thumbnail_url'])
 			return $this->item['thumbnail_url'];
+                elseif(is_object($this->overlay)) {
+                    return $this->overlay->get_value('default_thumbnail');
+                }
 		return NULL;
 	}
 

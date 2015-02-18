@@ -15,6 +15,10 @@
 var startWatch = new Date();
 
 var Yacs = {
+    
+    urlMoveFile	: 'files/move.php',
+    urlSortFile	: 'files/sort.php',
+	urlUploadFile	: 'files/upload.php',
 
 	/**
 	 * alert the surfer
@@ -154,9 +158,13 @@ var Yacs = {
 	 **/
 	autocomplete_names: function(target, unique, source_url, callback) {
 
-		if(!source_url) {
-			source_url = url_to_root + 'users/complete.php';
-		}
+            // sanity check
+            if ($('#'+target).length === 0)
+                return;
+
+            if(!source_url) {
+                    source_url = url_to_root + 'users/complete.php';
+            }
 
 	    // use the multiple entries autocomplete exept if unique user required
 	    if(unique) {
@@ -277,8 +285,8 @@ var Yacs = {
 	 * close the modal box
 	 */
 	closeModalBox: function() {
-
-	        if(typeof Yacs.doNotCloseModal != 'undefined' && Yacs.doNotCloseModal == true) {
+	    
+		if(typeof Yacs.doNotCloseModal != 'undefined' && Yacs.doNotCloseModal === true) {
 		    Yacs.doNotCloseModal = false;
 		    return;
 		}
@@ -298,6 +306,9 @@ var Yacs = {
 				$( window ).off('resize', Yacs.startResizeModal);
 
 			} );
+                        
+                // fire event for someone
+                $(document).trigger('modalbox-close');
 	},
 
 	/**
@@ -483,8 +494,8 @@ var Yacs = {
 
 			var objCentered = document.createElement("div");
 			$(objCentered).attr('id','modal_centered');
+            $(objCentered).addClass('ui-front');
 			$(objCentered).append(objContent);
-			$(objCentered).click(function(e){e.stopPropagation();});
 
 			// small cross for closing modal box on right corner
 			var objBoxClose = document.createElement("a");
@@ -562,7 +573,8 @@ var Yacs = {
 		// click at the back of the overlay close it,
 		// exept if option confirmClose is setted
 		if(!content.confirmClose) {
-		    $('#modal_panel').click(function() {
+		    $('#modal_panel').click(function(e) {
+                        if($(e.target).attr('id') !== 'modal_panel') return; // don't do anything if a child was click
 			if(typeof Yacs.modalCallBack == 'function'){(Yacs.modalCallBack)(false);}
 			Yacs.closeModalBox();
 		    });
@@ -578,6 +590,9 @@ var Yacs = {
                 if(typeof Yacs.modalFirstDisplay == 'undefined') {
                     Yacs.modalFirstDisplay = true;
                 }
+                
+                // fire event for someone
+                $(document).trigger('modalbox-open');
 
 		// paint or repaint box content
 		$('#modal_content').fadeTo(0.1, 0.3,
@@ -605,6 +620,17 @@ var Yacs = {
 	 * for example in the case of a form.
 	 */
 	displayOverlaid:function(url, withButtons, confirmClose) {
+            
+            
+            // memorize param
+            Yacs.recallOverlaid = {
+                url : url,
+                withButtons : withButtons,
+                confirmClose : confirmClose
+            }
+            
+            // clean previous validation
+            validateDocumentPost = undefined;
 
 	    // add overlaid=Y as parameter
 	    if(url.indexOf('?') > -1)
@@ -613,16 +639,19 @@ var Yacs = {
 		url += '?';
 
 	    url	    += 'overlaid=Y';
+            
+            Yacs.startWorking();
 
 	    // start ajax request
 	    $.get(url)
 	    .done(function(data){
-		var content={
+		        
+                var content={
 		    body: data
 		};
 
 		if(withButtons) {
-		    content.button_TRUE	    = 'Send',
+		    content.button_TRUE	    = 'OK',
 		    content.button_FALSE    = 'Cancel'
 		}
 		if(confirmClose) {
@@ -656,6 +685,7 @@ var Yacs = {
 			Yacs.updateModalBox("sizing");
 		}
 
+                Yacs.stopWorking();
 		// display the modalBox
 		Yacs.displayModalBox(content,Yacs.modalPost);
 	    });
@@ -734,6 +764,35 @@ var Yacs = {
 		if(end == -1) {end = document.cookie.length;}
 		return unescape(document.cookie.substring(begin + prefix.length, end));
 
+	},
+        
+        /**
+         * get the extension of a filename
+         * @returns string
+         */
+        getFileExt:function(filename){
+            var ext = filename.toLowerCase();
+            if(ext !== '') {
+                var file_array = ext.split('.');
+                ext = file_array[file_array.length-1]; // extension is at last part
+            }
+            
+            return ext;
+        },
+
+	// Get function from string, with or without scopes (by Nicolas Gauthier)
+	getFunctionFromString: function(string) {
+
+	    var scope = window;
+	    var scopeSplit = string.split('.');
+	    for (i = 0; i < scopeSplit.length - 1; i++)
+	    {
+		scope = scope[scopeSplit[i]];
+
+		if (scope == undefined) return;
+	    }
+
+	    return scope[scopeSplit[scopeSplit.length - 1]];
 	},
 
 	/**
@@ -882,6 +941,54 @@ var Yacs = {
 			Yacs.confirm(response.dialog_text, function(choice) {if(choice) {window.open(response.address);}});
 		}
 	},
+        
+        /**
+         * Initialize submit button of comment forms
+         * for a ajax query
+         * 
+         * @returns {undefined}
+         */
+        initAjaxComments : function() {
+            
+            $('.comment_form button[type=submit]').not('.ajax-post').click(function(e){
+
+                e.preventDefault();
+                
+                //Yacs.closeModalBox();
+                Yacs.startWorking();
+                
+                var $form = $(this).parents('.comment_form');
+                
+                // use FormData object for XMLHttpRequest level 2
+                // (enable ajax file upload)
+                var formData = new FormData($form[0]);
+                // ajax post of the comment
+                $.ajax({
+                    url:$form.attr('action'),
+                    type:$form.attr('method'),
+                    data:formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                }).done(function(newComment){
+                    
+                    // clear input
+                    $('.comment_form textarea').val('');
+                    
+                    // store received formated comment for other js
+                    Yacs.newComment = newComment;
+                    // fire a event
+                    $('body').trigger('yc-newComment');
+                    
+                    Yacs.stopWorking();
+                });
+                
+                return false;
+            });
+            
+            $('.comment_form button[type=submit]').addClass('ajax-post');
+            
+        },
 
 	/**
 	 * prepare for mouse hovering
@@ -954,8 +1061,8 @@ var Yacs = {
 		    $.each(reply.domains, function(i,url){
 			$.ajax({"url": url + "tools/session.php",
 				"type": "GET",
-				"data": {"id": reply.sessid,"origin": reply.origin },
-				"xhrFields": { "withCredentials": true}
+				"data": {"id": reply.sessid,"origin": reply.origin},
+				"xhrFields": {"withCredentials": true}
 
 			});
 		    });
@@ -976,12 +1083,17 @@ var Yacs = {
 	    // @see http://www.tinymce.com/wiki.php/Controls
 	    // @see http://www.tinymce.com/wiki.php/configuration:formats
 	    tinymce.init({
-		    selector: "textarea.tinymce",
-		    menubar:false,
-		    width : '90.5%',
-		    plugins: "charmap, textcolor, fullscreen, code, link",
-		    toolbar: "undo redo | styleselect | charmap | bold italic underline strikethrough | alignleft aligncenter alignright | bullist numlist outdent indent | forecolor backcolor | link | fullscreen code",
-		    language : surfer_lang
+		    selector	: "textarea.tinymce",
+		    menubar	:false,
+		    width	: '90.5%',
+		    resize	: false,
+		    plugins	: "charmap, textcolor, fullscreen, code, link",
+		    toolbar	: "undo redo | styleselect charmap styleselect| bold italic underline strikethrough | alignleft aligncenter alignright | bullist numlist outdent indent | forecolor backcolor | link | fullscreen code",
+   style_formats: [
+        {title: 'h2', block: 'h2'},
+        {title: 'h3', block: 'h3'}
+    ],
+		    language	: surfer_lang
 		});
 	},
 
@@ -996,14 +1108,14 @@ var Yacs = {
 	onModalBoxLoad: function() {
 
 		// show tips
-		$("#modal_content").find('a[title].tip, input.tip').each(function() {
+		$("#modal_content").find('a[title].tip, input.tip, label.tip').each(function() {
 			$(this).tipsy({title: 'title', gravity: $.fn.tipsy.autoNS, fade: true});
 		});
 
 		// close all tooltips on tabbing, etc
                 // and resize modalbox
 		$("body").bind("yacs", function(e) {
-			$("#modal_content").find('a.tip,input.tip,textarea.tip').each(function() {$(this).tipsy("hide");});
+			$("#modal_content").find('a.tip,input.tip,textarea.tip, label.tip').each(function() {$(this).tipsy("hide");});
                         // activate tabbing flag for speficic sizing (no reduction)
                         Yacs.modalTabbing = true;
                         Yacs.startResizeModal();
@@ -1084,13 +1196,13 @@ var Yacs = {
                 $('body').delegate('button[type=submit]:not(.no_spin_on_click)','click', function(){Yacs.startWorking();});
 
 		// show tips
-		$('a[title].tip, input.tip').each(function() {
+		$('a[title].tip, input.tip, label.tip').each(function() {
 			$(this).tipsy({title: 'title', gravity: $.fn.tipsy.autoNS, fade: true});
 		});
 
 		// close all tooltips on tabbing, etc
 		$("body").bind("yacs", function(e) {
-			$('a.tip,input.tip,textarea.tip').each(function() {$(this).tipsy("hide");});
+			$('a.tip,input.tip,textarea.tip, label.tip').each(function() {$(this).tipsy("hide");});
 		});
 
 		// load the link in a scaled-down iframe
@@ -1151,30 +1263,23 @@ var Yacs = {
 		});
 
 		// prepare for a nice slideshow
-		var anchors = $('.image_show');
-		for(index = 0; index < anchors.length; index++) {
-			var anchor = anchors[index];
-			anchor.onclick = Yacs.clickImage;
-			if(index > 0) {
-				anchor.previousAnchor = anchors[index - 1];
-			}
-			if(index+1 < anchors.length) {
-				anchor.nextAnchor = anchors[index + 1];
-			}
-
-			anchor = null; // no memory leak
-		}
+		Yacs.prepareSlideShow();
 
 		// prepare edition link to ajax call of overlaid edition
                 $(".edit-overlaid").click(function(e){
                     e.preventDefault();
                     Yacs.displayOverlaid($(this).attr("href"),true, true);
+                    return false; // stop propagation
                 });
                 $(".open-overlaid").click(function(e){
                     e.preventDefault();
                     Yacs.displayOverlaid($(this).attr("href"));
+                    return false; // stop propagation
                 });
-
+		
+		// prepare input to ajax-upload a file
+        $('body').on('change','.yc-upload',function(){Yacs.prepareUpload($(this))});
+                
 		// slow down notifications on window blur
 		$(window).blur(Yacs.looseFocus);
 
@@ -1202,6 +1307,28 @@ var Yacs = {
 	looseFocus: function() {
 		Yacs.hasFocus = false;
 	},
+        
+        /**
+         * tool load a css
+         * @returns {undefined}
+         */
+        loadCSS:function(url) {
+            
+            var file = url.split( "/" ).pop();
+            
+            var cssId = file.replace('.','');  
+            if (!document.getElementById(cssId))
+            {
+                var head  = document.getElementsByTagName('head')[0];
+                var link  = document.createElement('link');
+                link.id   = cssId;
+                link.rel  = 'stylesheet';
+                link.type = 'text/css';
+                link.href = url_to_root + url;
+                link.media = 'all';
+                head.appendChild(link);
+            }
+        },
 
 	/**
 	 * open a popup window
@@ -1281,6 +1408,54 @@ var Yacs = {
 		});
 
 	},
+	
+	/**
+	 * initialize a input for ajax upload
+	 */
+	prepareUpload: function(input) {
+	    
+	    // get associated label
+	    var $label	    = $('label[for='+input.attr('id')+']');
+	    var activate    = input.val() !== ''  && !input.hasClass('input-bad'); 
+	    
+	    // make label visible or not
+	    $label.toggle(activate);
+	    
+	    // click on label start upload
+	    if(activate) {
+		$label.click(function(e){
+                    e.preventDefault();
+                    e.stopPropagation();
+                    Yacs.upload($(this).attr('for'))
+                    return false;
+                });
+                    
+	    } else
+		$label.unbind('click');
+            
+            $label.trigger("click"); // autolaunch
+	    
+	},
+        
+        prepareSlideShow: function(selector) {
+            
+            if(typeof(selector) !== 'string' )
+                selector = '.image_show';
+            
+            var anchors = $(selector);
+		for(index = 0; index < anchors.length; index++) {
+			var anchor = anchors[index];
+			anchor.onclick = Yacs.clickImage;
+			if(index > 0) {
+				anchor.previousAnchor = anchors[index - 1];
+			}
+			if(index+1 < anchors.length) {
+				anchor.nextAnchor = anchors[index + 1];
+			}
+
+			anchor = null; // no memory leak
+            }
+        },
 
 	/**
 	 * set a new cookie
@@ -1382,8 +1557,10 @@ var Yacs = {
 			// a neighbour on the left
 			if(anchor.previousAnchor) {
 				Yacs.modalCallPrevious = function() {Yacs.showImage(anchor.previousAnchor);};
+                                button_PREVIOUS = '<<';
 			} else {
 				Yacs.modalCallPrevious = null;
+                                button_PREVIOUS = null;
 			}
 
 			// a neighbour on the right
@@ -1393,17 +1570,20 @@ var Yacs = {
 				// do not wait for user click to load the image
 				var nextLoader = new Image();
 				nextLoader.src = $(anchor.nextAnchor).attr('href');
+                                
+                                button_NEXT = '>>';
 
 			} else {
 				Yacs.modalCallNext = null;
+                                button_NEXT = null;
 			}
 
 			// display the image on screen
 			Yacs.displayModalBox({title: imageTitle,
 				body: imageReference,
-				button_PREVIOUS: '<<',
+				button_PREVIOUS: button_PREVIOUS,
 				button_TRUE: 'X',
-				button_NEXT: '>>'});
+				button_NEXT: button_NEXT}, Yacs.closeImage);
 
 			//	clear onLoad, IE behaves erratically with animated gifs otherwise
 			loader.onload = function(){};
@@ -1413,18 +1593,30 @@ var Yacs = {
 		loader.src = $(anchor).attr('href');
 
 	},
+        
+        closeImage: function() {
+            
+            if(typeof(Yacs.recallOverlaid) !== 'undefined') {
+                
+                Yacs.displayOverlaid(Yacs.recallOverlaid['url'],Yacs.recallOverlaid['withButtons'],Yacs.recallOverlaid['confirmClose']);
+            }
+        },
 
         /**
          * Post a form with ajax, and update the page with the respons
          * 
-         * @param {boolean} valid, depending OK or CANCEL is pressed on the page
-         * @param {boolean} checkValid, to bypass validateDocumentPost call
+         * @param valid boolean, depending OK or CANCEL is pressed on the page
          */
 	modalPost: function(valid) {
 
 	    // action canceled
-	    if(!valid)
-		return;
+	    if(!valid) {
+                // destroy uploaded files if any
+		if(typeof Yacs.uploaded !== 'undefined')
+                    Yacs.uploadDestroy("all");
+                
+                return;
+            }
 
 	    // get the form
 	    var form = $("#main_form");
@@ -1461,12 +1653,19 @@ var Yacs = {
 	     */
 	    // append a input to the form to tell this is a ajax post
 	    $('<input type="hidden" name="overlaid" value="Y" />').appendTo(form);
+            
+            // use FormData object for XMLHttpRequest level 2
+            // (enable ajax file upload)
+            var formData = new FormData(form[0]);
 
 	    // we are ok, send a ajax request
 	    $.ajax({
 		url:form.attr('action'),
 		type:form.attr('method'),
-		data:form.serialize()
+		data:formData,
+                cache: false,
+                contentType: false,
+                processData: false
 	    }).done(function(html){
 		var $html = $(html);
 
@@ -1479,7 +1678,9 @@ var Yacs = {
 		if(overlaid) {
 
 		    var content={
-			body: html
+			body: html,
+                        withBoxClose : true,
+                        confirmClose : false
 		    };
 
 		    Yacs.stopWorking();
@@ -1617,7 +1818,7 @@ var Yacs = {
 
 		Yacs.workingOverlay = document.createElement("div");
 		$(Yacs.workingOverlay).attr('id','yacsWorkingOverlay');
-		$(Yacs.workingOverlay).css({position: 'fixed', top: '0', left: '0', zIndex: '1000', width: '100%', height: '100%', minHeight: '100%', backgroundColor: '#000', filter: 'alpha(opacity=20)', opacity: '0.2', display: 'block'});
+		$(Yacs.workingOverlay).css({position: 'fixed', top: '0', left: '0', zIndex: '9000', width: '100%', height: '100%', minHeight: '100%', backgroundColor: '#e6e6ff', filter: 'alpha(opacity=50)', opacity: '0.2', display: 'block'});
 		$(Yacs.workingOverlay).click(function() {$(Yacs.workingOverlay).css({display: 'none'});});
 		$(Yacs.workingOverlay).append(objCentered);
 
@@ -1845,36 +2046,39 @@ var Yacs = {
 
 		// react to clicks
 		var id;
-		for(id in tabs) {
-			if(tabs.hasOwnProperty(id)) {
 
-				// instrument this tab
-				$("#"+id).click(Yacs.tabsEvent);
-
-				// we are on first tab
-				if(!Yacs.tabs_current) {
-					Yacs.tabs_current = id;
-				}
-			}
-		}
+                
+                // tabs
+                //$('body').on('click','.tabs_bar li',function(e){Yacs.tabsEvent(this, e);});
+                $('.tabs_bar').not('.ready').find('li').click(function(e){Yacs.tabsEvent(this, e);});
+                $('.tabs_bar').addClass('ready');
+                
 		// behavior of buttons for tabs used as step by step form, if any
-		$("#tabs_panels .step").click(function() {
+		$(".tabs_panels .step").click(function() {
 
                     // call any validation step function
                     if($(this).hasClass('next') && typeof Yacs.tabsValidateStep == 'function') {
                         var valid = (Yacs.tabsValidateStep)(Yacs.tabs_current);
                         if(!valid)
                             return false;
+                        else
+                            // make upper next button visible
+                            $('.panel-foreground').find('.next').css('visibility','visible');    
                     }
 
 		    // display tab associate with button
 		    Yacs.tabsDisplay($(this).data("target"));
 		    // smooth scroll to title (begin of form)
-		    $('#main_panel h1').scrollMinimal(true);
+		    $('.previous').scrollMinimal(true);
 		});
                 // if we have steps, that mean to hide validation button before surfer reached the last one
-                if($("#tabs_panels .step").length)
-                    $("#main_form .bottom").css('visibility','hidden');
+                if($(".tabs_panels .step").length)
+                    $("#main_form .bottom").hide();
+                
+                // button for responsive menu
+                $('.tabs-mini-toggle').click(function(){
+                    $('.tab-background').toggle();
+                });
 
                 /**
                  * Get starting tab
@@ -1900,6 +2104,9 @@ var Yacs = {
 			// change to this tab
 			for(id in tabs) {
 				if(id == startTab) {
+                                        // scroll to page title
+                                        $().ready( function() {$('h1').first().scrollMinimal(true);});
+                                        // display the tab
 					Yacs.tabsDisplay(id);
 					break;
 				}
@@ -1917,32 +2124,36 @@ var Yacs = {
 	tabsDisplay: function(id) {
 
 		// fade away all other tabs
-		var newCurrent;
+		var newCurrent =id;
 		var iterator;
 		var panel;
-		for(iterator in Yacs.tabs_list) {
 
-			panel = Yacs.tabs_list[iterator][0];
-			if(id == iterator) {
-				newCurrent = iterator;
+                
+                // tabs
+                $('#'+id).siblings().removeClass('tab-foreground').addClass('tab-background');
+                $('#'+id).removeClass('tab-background').addClass('tab-foreground');
+                // get panels
+                //var panels = $('#'+id).parents('.tabs_bar').next('.tabs_panels');
+                // if no "panels" found get them other way (step by step form case)
+                var panels = $('[data-tab="'+id+'"]').parent();
 
-			} else {
-
-			    // update the tab
-			    $("#"+iterator).removeClass('tab-foreground');
-			    $("#"+iterator).addClass('tab-background');
-
-			    // update the panel
-			    if($("#"+panel).css("display") != 'none') {
-				    $("#"+panel).fadeOut(.1);
-			    }
-			$("#"+panel).removeClass('panel-foreground');
-			$("#"+panel).addClass('panel-background');
-			}
-		}
+                // panels
+                panels.find('.panel-foreground').not('[data-tab="'+id+'"]')
+                        .fadeOut(.1)
+                        .removeClass('panel-foreground')
+                        .addClass('panel-background');
+                iterator = panels.find('.panel-foreground').length;
+                
+                var newpanel = panels.find('.panel-background[data-tab="'+id+'"]');
+                panel = newpanel.attr('id');
+                newpanel.fadeIn(.1)
+                        .removeClass('panel-background')
+                        .addClass('panel-foreground');
+                //if(newpanel.length)
+                //    Yacs.updateOnce(panel,Yacs.tabs_list[newCurrent][1], Yacs.tabs_args);
 
 		// activate the clicked tab -- see skins/_reference/ajax.css
-		panel = Yacs.tabs_list[newCurrent][0];
+		// panel = Yacs.tabs_list[newCurrent][0];
 
 		// remember our state
 		Yacs.tabs_current = id;
@@ -1951,24 +2162,16 @@ var Yacs = {
                 Yacs.tabsLast(id)
 
 		// update the tab
-		$("#"+newCurrent).removeClass('tab-background');
-		$("#"+newCurrent).addClass('tab-foreground');
 
-		// update the panel
-		if($("#"+panel).css("display") == 'none') {
-			$("#"+panel).fadeIn(.1);
-		}
-		$("#"+panel).removeClass('panel-background');
-		$("#"+panel).addClass('panel-foreground');
 
 		// load panel content, if necessary
-		if(Yacs.tabs_list[newCurrent].length > 1) {
-			Yacs.updateOnce(panel, Yacs.tabs_list[newCurrent][1], Yacs.tabs_args);
-		}
+                
+                // set focus on first input
+                $("#"+panel+" .yc-form-input input").first().not('.date-time-picker').focus();
 
                 // make validation button visible on last tab displaying
                 if( Yacs.tabs_current == iterator )
-                    $("#main_form .bottom").css('visibility','visible');
+                    $("#main_form .bottom").show();
 
 		// dispatch custom event (e.g., for tooltips, Google Maps, etc)
 		$('body').trigger('yacs');
@@ -1977,10 +2180,10 @@ var Yacs = {
 	/**
 	 * click on a tab
 	 */
-	tabsEvent: function(e) {
-
+	tabsEvent: function(clicked, e) {
+            
 		// target the clicked tab
-		var clicked = this;
+		//var clicked = this;
 
 		// if we click on a link, move upwards to list item -- 'a' is for XHTML strict, 'A' for other cases
 		if((clicked.tagName == 'a') || (clicked.tagName == 'A')) {
@@ -1996,6 +2199,7 @@ var Yacs = {
 		Yacs.tabsDisplay(clicked.id);
 
 		// do not propagate event
+                e.preventDefault();
 		e.stopPropagation();
 		return false;
 	},
@@ -2063,12 +2267,13 @@ var Yacs = {
             if(typeof Yacs.tabsValidateStep !== 'function') return result;
 
             // get all tabs
-            var $tabs = $('#tabs_bar li');
+            var $tabs = $('.panel-foreground, .panel-background');
 
             // fetch tabs
             $.each($tabs, function(){
 
                 var tab_id = $(this).attr('id');
+                tab_id = "_" + tab_id.substr(0, tab_id.indexOf('_panel'));
                 // test the tab
                 if(Yacs.tabsValidateStep(tab_id))
                     return; 
@@ -2200,9 +2405,13 @@ var Yacs = {
 	 * @return string without leading and ending spaces
 	 */
 	trim: function(str) {
-		var	str = str.replace(/^\s\s*/, ''),
-			ws = /\s/,
-			i = str.length;
+                // sanity check
+                if(typeof str === 'undefined' || str === '')
+                    return '';
+            
+                str = str.replace(/^\s\s*/, ''),
+                ws = /\s/,
+                i = str.length;
 		while(ws.test(str.charAt(--i)));
 		return str.slice(0, i + 1);
 	},
@@ -2264,6 +2473,7 @@ var Yacs = {
 		if(content !== "execute" && content !== "sizing" && content !== true) {
 		    // actual content update
 		    $('#modal_content').html(content);
+		    $('#modal_content').animate({scrollTop: 0});
 
 		    // remove height limitation if it was set
 		    $('#modal_centered').css('bottom','');
@@ -2362,7 +2572,7 @@ var Yacs = {
                 // and content does'nt have the proper width
                 if(Yacs.modalFirstDisplay) {
                     Yacs.modalFirstDisplay = false;
-                    Yacs.startResizeModal();
+                    setTimeout(Yacs.startResizeModal,200);
                 }
 
 	},
@@ -2391,6 +2601,123 @@ var Yacs = {
 		}
 
 	},
+	
+	/**
+	 * Start an ajax upload of a file
+	 */
+	upload: function(id) {
+	    
+	    
+	    // create a progress bar
+	    var $progress = $('<div class="yc-upload-progress-outer"></div>');
+	    $progress.append('<div class="yc-upload-progress" id="'+id+'_progress"></div>');
+            // cancel button
+            var $cancel = $('<a class="yc-upload-cancel">x</a>');
+            $progress.append($cancel);
+	    
+	    $('label[for='+id+']').replaceWith($progress);
+	    $('#'+id).hide();
+	    // get name of file field
+	    var name = $('#'+id).attr('name');
+	    
+	    
+	    // send file
+	    var _file = document.getElementById(id);
+	    
+	    // sanity check
+	    if(_file.files.length === 0){
+		return;
+	    }
+	    
+	    var data = new FormData();
+	    data.append('name',name);
+	    data.append(name, _file.files[0]);
+
+	    var request = new XMLHttpRequest();
+	    // reply from server
+	    request.onreadystatechange = function(){
+		if(request.readyState == 4){
+		    try {
+			var resp = JSON.parse(request.response);
+		    } catch (e){
+			var resp = {
+			    status: 'error',
+			    data: 'Unknown error occurred: [' + request.responseText + ']'
+			};
+		    }
+		    console.log(resp.status + ': ' + resp.data);
+                    // remove file selector but not if upload was aborded
+                    if($('#'+id+'_progress').length) {
+                        $('#'+id).remove();
+                        
+                        if(typeof Yacs.uploaded == 'undefined')
+                            Yacs.uploaded = {};
+                        // remember this upload
+                        Yacs.uploaded[id] = true;
+                    }
+                    
+                    
+                    
+                    // show preview
+                    if(typeof resp.preview !== 'undefined') {
+                        $('#'+id+'_progress').parent().replaceWith(resp.preview);
+                    }
+                    
+                    if(typeof resp.js !== 'undefined') {
+                        $('body').append(resp.js);
+                        if(typeof scripts_to_load !== 'undefined') {
+                            // get all the scripts
+                            Yacs.getScriptS(scripts_to_load, function() {
+                                // execute all snipets (like a $.ready(...)  )
+                                if( typeof execute_after_loading === 'function')
+                                    (execute_after_loading)();
+                            });
+                        } else if( typeof execute_after_loading === 'function') {
+                            (execute_after_loading)();
+                        }
+                                
+                    }
+		}
+	    };
+	    // animate progress bar
+	    request.upload.addEventListener('progress', function(e){
+		$('#'+id+'_progress').width(Math.ceil((e.loaded/e.total) * 100) + '%');
+	    }, false);
+            
+            // cancel
+            $('#'+id+'_progress').next('.yc-upload-cancel').click(function(){
+                // reshow file selector
+                $(this).parent().remove();
+                $('#'+id).show().val('');
+                // aborting
+                request.abort();
+            });
+	    
+	    // send data
+	    request.open('POST', url_to_root+ Yacs.urlUploadFile);
+	    request.send(data);
+	    
+	},
+        
+        /**
+         * destroy a file just uploaded thru ajax
+         * 
+         * @param {string} name of the file
+         * @returns {undefined}
+         */
+        uploadDestroy: function(name, $destroylink) {
+            
+            $.post(url_to_root + Yacs.urlUploadFile,{'name':name, 'action':'destroy'})
+             .done(function(reply){
+                 console.log(reply.data);
+                 if(typeof $destroylink !== "undefined" && reply.preview !== "undefined") {
+                     $destroylink.parents(".yc-preview").replaceWith(reply.preview);
+                 }
+                 
+                 delete Yacs.uploaded[name];
+                 if(name==='all') delete Yacs.uploaded;
+             });
+        },
 
 	/**
 	 * determine id of an element
@@ -2476,23 +2803,35 @@ jQuery.fn.extend({
      * @param boolean smooth to have a slow scroll;
      */
     scrollMinimal:function(smooth) {
-	var cTop = this.offset().top;
+
+	// behavior changes if overlaid view is active
+	if(!$('#modal_centered').length || $('#modal_centered').is('hidden')) {
+	    var cTop = this.offset().top;
+	    var wind = $('html, body');
+	    var windowTop = $(window).scrollTop();
+	    var visibleHeight = $(window).height();
+	} else {
+            // overlaid view
+	    var cTop = this.position().top;
+	    var wind = $('#modal_content');
+	    var windowTop = wind.scrollTop();
+	    var visibleHeight = wind.height();
+	}
+
 	var cHeight = this.outerHeight(true);
-	var windowTop = $(window).scrollTop();
-	var visibleHeight = $(window).height();
 
 	if (cTop < windowTop) {
-	if (smooth) {
-	    $('html, body').animate({'scrollTop': cTop}, 'slow', 'swing');
-	} else {
-	    $(window).scrollTop(cTop);
-	}
+	    if (smooth)
+		wind.animate({'scrollTop': cTop}, 'slow', 'swing');
+	    else
+		$(window).scrollTop(cTop);
+
 	} else if (cTop + cHeight > windowTop + visibleHeight) {
-	    if (smooth) {
-		$('html, body').animate({'scrollTop': cTop - visibleHeight + cHeight}, 'slow', 'swing');
-	    } else {
+	    if (smooth)
+		wind.animate({'scrollTop': cTop - visibleHeight + cHeight}, 'slow', 'swing');
+	    else
 		$(window).scrollTop(cTop - visibleHeight + cHeight);
-	    }
+
 	}
     }
     
@@ -2533,3 +2872,20 @@ Yacs.spinningImage.src = url_to_root + 'skins/_reference/ajax/ajax_spinner.gif';
 // pre-load the image used at the working overlay
 Yacs.workingImage = new Image();
 Yacs.workingImage.src = url_to_root + 'skins/_reference/ajax/ajax_working.gif';
+
+///// RESPONSIVE TABS
+// subscibe to tabs event for behavior when minified
+$('body').on('yacs', function(){
+    if($('.tabs-mini-toggle').is(':visible'))
+        $('.tab-background').hide();
+});
+
+// redisplay tabs in case of window resizing
+$( window ).resize(function() {
+    delay(function(){
+        if($('#tabs_bar').length && !$('.tabs-mini-toggle').is(':visible')) { 
+               $('#tabs_bar li').css('display',''); // remove inline display directive
+        }
+   }, 200 );
+});
+

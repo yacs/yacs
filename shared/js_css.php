@@ -203,9 +203,16 @@ Class Js_Css {
      * @param string $script javascript code or css rules
      * @param string $type to tell the function what can of script it is
      * by default 'js' because it is the main use.
+     * you may force position for example "js:header"
      */
     public static function insert($script, $type='js') {
 	global $context;
+        
+        // separate type from target position, if any
+        if(strpos($type, ":") !== FALSE)
+                list($type,$target) = explode (':', $type);
+        else
+                $target = 'footer';
 
 	switch($type) {
 	    case 'css' :
@@ -218,7 +225,7 @@ Class Js_Css {
 		// minification lib
 		//include_once $context['path_to_root'].'included/jsmin.php';
 
-		Js_css::add_js('<script'.$type.'> '.$script.'</script>', 'footer');
+		Js_css::add_js('<script'.$type.'> '.$script.'</script>', $target);
 
 		break;
 	    default :

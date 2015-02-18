@@ -691,7 +691,7 @@ if($with_form) {
 	if(isset($item['expiry_date']) && ($item['expiry_date'] > NULL_DATE))
 		$value = Surfer::from_GMT($item['expiry_date']);
 
-	$input = Skin::build_input('expiry_date', $value, 'date_time');
+	$input = Skin::build_input_time('expiry_date', $value, 'date_time');
 	$hint = i18n::s('Remove content on dead-line - automatically');
 	$fields[] = array($label, $input, $hint);
 

@@ -855,6 +855,90 @@ Class Images {
 		$output = SQL::query_first($query);
 		return $output;
 	}
+        
+        /** 
+         * record several image than may have been uploaded with standard or ajax post request
+         * 
+         * @param object $anchor that will host the images
+         * @param bool $postnow order to record it strait in the database or only feed $_RESQUEST
+         * if the post will be done later
+         */
+        public static function upload_bunch($anchor, $postnow=false) {
+            
+            $count = Files::count_uploaded();
+            for($i=0 ; $i < $count ; $i++ ) {
+                
+                $indice = ($i==0)?'':(string) $i;
+                
+                if($img = Files::get_uploaded('upload'.$indice)) {
+                    $as_thumb = ($indice=='')?true:false;
+                    Images::upload_to($anchor, $img, $as_thumb, $postnow);
+                }
+            }
+        }
+        
+        /**
+         * upload a file as a image attach to a given anchor
+         * to be used in custom "edit_as" script
+         * 
+         * @global string $context
+         * @param object $anchor
+         * @param array $file (from $_FILES)
+         * @param bool $set_as_thumb
+         * @param bool $put
+         */
+        public static function upload_to($anchor, $file, $set_as_thumb=false, $put=false) {
+            global $context;
+            
+            // attach some image
+            $path = Files::get_path($anchor->get_reference(),'images');
+            // $_REQUEST['action'] = 'set_as_icon'; // instruction for image::upload
+            if(isset($file) && ($uploaded = Files::upload($file, $path, array('Image', 'upload')))) {
+
+                    // prepare image informations
+                    $image = array();
+                    $image['image_name'] = $uploaded;
+                    $image['image_size'] = $file['size'];
+                    $image['thumbnail_name'] = 'thumbs/'.$uploaded;
+                    $image['anchor'] = $anchor->get_reference();
+                    //$combined = array_merge($image, $_FILES);
+
+                    // post the image which was uploaded
+                    if($image['id'] = Images::post($image)) {
+
+                            // successfull post
+                            $context['text'] .= '<p>'.i18n::s('Following image has been added:').'</p>'
+                                    .Codes::render_object('image', $image['id']).'<br style="clear:left;" />'."\n";
+
+                            // set image as icon and thumbnail
+                            if($set_as_thumb) {
+                                
+                                // delete former icon if any
+                                /*if(isset($anchor->item['icon_url'])
+                                        && $anchor->item['icon_url']
+                                        && $match = Images::get_by_anchor_and_name($anchor->get_reference(), pathinfo($anchor->item['icon_url'],PATHINFO_BASENAME))) {
+
+
+                                    if($match['id'] != $image['id'])
+                                        Images::delete($match['id']);
+                                }*/
+                                
+                                $fields = array(
+                                    'thumbnail_url' => Images::get_thumbnail_href($image),
+                                    'icon_url'      => Images::get_icon_href($image)
+                                    );
+                                if($put) {
+                                    $fields['id'] = $_REQUEST['id'];
+                                    $class = $anchor->get_static_group_class();
+                                    $class::put_attributes($fields);
+                                } else
+                                    $_REQUEST = array_merge($_REQUEST, $fields);
+                            
+                            }
+                    }
+
+            }
+        }
 
 }
 

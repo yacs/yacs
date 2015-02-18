@@ -45,6 +45,11 @@ $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor = Anchors::get($item['anchor']);
 
+// get the related overlay, if any
+$overlay = NULL;
+if(isset($item['overlay']))
+	$overlay = Overlay::load($item, 'file:'.$item['id']);
+
 // the surfer can proceed
 if(Files::allow_deletion($item, $anchor)) {
 	Surfer::empower();
@@ -108,9 +113,14 @@ if(!isset($item['id'])) {
 		Logger::remember('files/delete.php: '.$label, $description);
 
 		Files::clear($item);
+                
+        if($render_overlaid) {
+            echo 'delete done';
+            die;
+        }
 
 		if(is_object($anchor))
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#_attachments');
+			Safe::redirect($anchor->get_url().'#_attachments');
 		else
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].'files/');
 	}
@@ -124,9 +134,18 @@ else {
 
 	// commands
 	$menu = array();
-	$menu[] = Skin::build_submit_button(i18n::s('Yes, I want to delete this file'), NULL, NULL, 'confirmed');
-	if(isset($item['id']))
+        
+        $class_submit   = ( $render_overlaid )?'submit-overlaid':'button';
+        
+        if(!is_object($overlay) || !$delete_text = strtolower($overlay->get_label('delete_command')))
+             $delete_text = i18n::s('delete this file');
+        
+	$menu[] = Skin::build_submit_button(sprintf(i18n::s('Yes, I want to %s'),$delete_text), NULL, NULL,  'confirmed', $class_submit);
+        if(!$render_overlaid) {
+            if(isset($item['id']))
 		$menu[] = Skin::build_link(Files::get_permalink($item), i18n::s('Cancel'), 'span');
+        } else
+                $menu[] = '<span><a href="javascript:;" onclick="Yacs.closeModalBox();">'.i18n::s('Cancel').'</a></span>';
 
 	// the submit button
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
