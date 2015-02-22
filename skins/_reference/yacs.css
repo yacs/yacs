@@ -3191,7 +3191,7 @@ div.top { /* poster information, when placed at page top */
  * @link http://www.dynamicdrive.com/style/csslibrary/item/shade-image-tabs-menu/P30/
  */
 
-div#tabs_bar {
+.tabs_bar {
 	clear: both; /* because of floating images inserted before tabs */
 	position: relative;
 	margin: 2em 0 1em 0;
@@ -3201,24 +3201,24 @@ div#tabs_bar {
 	border-bottom: 1px solid #c0c0c0;
 }
 
-div#tabs_bar ul {
+.tabs_bar ul {
 	font-family:	Arial,sans-serif;
 	font-size: 12px;
 	font-weight: normal;
 	line-height: 21px;
 	list-style-type: none;
 	text-align: left; /* change to left, center, or right to align the menu as desired */
-	margin: 1px 0 0 0;
-	padding: 6px 0 0 0;
+	margin: 1px 0 0 0 !important;
+	padding: 6px 0 0 0 !important;
 }
 
-div#tabs_bar ul li {
+.tabs_bar ul li {
 	display: inline;
 	margin: 0;
 	padding: 0;
 }
 
-div#tabs_bar ul li a {
+.tabs_bar ul li a {
 	text-decoration: none;
 	padding: 3px 7px;
 	margin: 0;
@@ -3226,18 +3226,18 @@ div#tabs_bar ul li a {
 	border-bottom: none;
 }
 
-div#tabs_bar ul li.tab-background a {
+.tabs_bar ul li.tab-background a {
 	color: #2d2b2b;
 	background: white url("ajax/ajax_tab_bg.gif") top left repeat-x;
 }
 
-div#tabs_bar ul li.tab-foreground a {
+.tabs_bar ul li.tab-foreground a {
 	color: #0066CC;
 	background: white url("ajax/ajax_tab_bg_active.gif") top left repeat-x;
 	border-bottom: 1px solid #fff;
 }
 
-div#tabs_panels {
+.tabs_panels {
 	width: auto;
 	padding: 2px 0;
 	margin: 1em 0 0 0;
@@ -3246,24 +3246,28 @@ div#tabs_panels {
 	position: relative; /* we have absolute positioning inside! */
 }
 
-div#tabs_panels div.panel-foreground {
+.tabs_panels div.panel-foreground {
 	display: block;
 	position: relative;
 	max-width: 3000px; /* avoid overlap between tabbed panels in FF */
 }
 
-div#tabs_panels div.panel-foreground div.sidebar_box { /* show sidebars in visible tabs */
+.tabs_panels div.panel-foreground div.sidebar_box { /* show sidebars in visible tabs */
 	display: block;
 }
 
-div#tabs_panels div.panel-background {
+.tabs_panels div.panel-background {
 	display: none;
 	position: relative;
 	max-width: 3000px; /* avoid overlap between tabbed panels in FF */
 }
 
-div#tabs_panels div.panel-background div.sidebar_box { /* mask sidebars in hidden tabs */
+.tabs_panels div.panel-background div.sidebar_box { /* mask sidebars in hidden tabs */
 	display: none;
+}
+
+.tabs-mini-toggle {
+    display:none;
 }
 
 /**
