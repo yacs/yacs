@@ -52,6 +52,7 @@ Class Layout_as_smartlist extends Layout_interface {
         // getting variants
         $show_icon = !$this->has_variant('no_icon');
         $show_intro = !$this->has_variant('no_intro');
+        $show_update = !$this->has_variant('no_flag');
 
         // we calculate an array of ($url => $attributes)
         $items = array();
@@ -76,7 +77,7 @@ Class Layout_as_smartlist extends Layout_interface {
             if (isset($item['activation_date']) && $item['activation_date'] >= $context['now'])
                 $prefix .= DRAFT_FLAG;
             // signal entity to be published
-	    if(isset($item['publish_date']) && (($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > $context['now'])))
+	        if(isset($item['publish_date']) && (($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > $context['now'])))
                 $prefix .= DRAFT_FLAG;
             if (($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
                 $prefix .= EXPIRED_FLAG;
@@ -87,11 +88,13 @@ Class Layout_as_smartlist extends Layout_interface {
             elseif ($item['active'] == 'R')
                 $prefix .= RESTRICTED_FLAG;
 
-            // flag items updated recently
-            if ($item['create_date'] >= $context['fresh'])
-                $suffix .= NEW_FLAG;
-            elseif ($item['edit_date'] >= $context['fresh'])
-                $suffix .= UPDATED_FLAG;
+            if ($show_update) {
+                // flag items updated recently
+                if ($item['create_date'] >= $context['fresh'])
+                    $suffix .= NEW_FLAG;
+                elseif ($item['edit_date'] >= $context['fresh'])
+                    $suffix .= UPDATED_FLAG;
+            }
 
             // use the title to label the link
             if (is_object($entity->overlay))
@@ -114,7 +117,8 @@ Class Layout_as_smartlist extends Layout_interface {
                 // the introductory text, strip to 10 words, preserve Yacs Code
                 if ($introduction)
                     $suffix .= BR . '<span class="details">'
-                          . Codes::beautify_introduction(Skin::strip($introduction, 10, NULL, NULL, TRUE))
+                          //. Codes::beautify_introduction(Skin::strip($introduction, 10, NULL, NULL, TRUE))
+                          . Codes::beautify_introduction(Skin::strip($introduction, 10, NULL, '<a><br><img><span>', TRUE))
                           . '</span>';
             }
 
@@ -125,12 +129,16 @@ Class Layout_as_smartlist extends Layout_interface {
             // list all components for this item
             $items[$url] = array($prefix, $label, $suffix, 'basic', $icon, NULL);
         }
-
+        
+        // merge prefix and suffix if any
+        if(isset($this->data['prefix']) && is_array($this->data['prefix'])) $items = array_merge ($this->data['prefix'], $items);
+        if(isset($this->data['suffix']) && is_array($this->data['suffix'])) $items = array_merge ($items, $this->data['suffix']);
+        
         // end of processing
         SQL::free($result);
 
         //prepare HTML result, give default icon if required, provide callback function for final rendering
-        $text = & Skin::build_list($items, 'dropmenu', ($show_icon) ? DECORATED_IMG : NULL, FALSE, 'Layout_as_smartlist::finalize_list');
+        $text = & Skin::build_list($items, $this->layout_variant, ($show_icon) ? DECORATED_IMG : NULL, FALSE, 'Layout_as_smartlist::finalize_list');
         
         // we have bounded styles and scripts
         $this->load_scripts_n_styles();
@@ -153,14 +161,25 @@ Class Layout_as_smartlist extends Layout_interface {
         $text = '';
 
         if ($list) {
+            
+            // use a layout to parse variant
+            $lay = new Layout_as_smartlist;
+            $lay->layout_variant = $variant;
+            $li_class   = $lay->has_variant("li_class");
+            $ul_id      = $lay->has_variant("ul_id");
+            
             $first = TRUE;
             foreach ($list as $label) {
 
-                $class = '';
+                $class = ($li_class)?$li_class:'';
+                
                 if ($first) {
-                    $class = ' class="first"';
+                    $class .= ' first';
                     $first = FALSE;
                 }
+                
+                if(trim($class))
+                    $class = ' class="'.$class.'"';
 
                 $icon = '';
                 if (is_array($label))
@@ -169,7 +188,7 @@ Class Layout_as_smartlist extends Layout_interface {
                 $text .= '<li' . $class . '><div class="icon">' . $icon . '</div><div class="label">' . $label . '</div></li>' . "\n";
             }
 
-            $text = '<ul class="smartlist">' . "\n" . $text . '</ul>' . "\n";
+            $text = '<ul class="smartlist" '.(($ul_id)?' id="'.$ul_id.'" ':'').'>' . "\n" . $text . '</ul>' . "\n";
         }
 
         return $text;

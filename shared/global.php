@@ -80,7 +80,7 @@ if(!defined('JS_SUFFIX'))
 
 // PHP5 could complain about not settings TZ correctly
 if(function_exists("date_default_timezone_set") and function_exists("date_default_timezone_get"))
-	@date_default_timezone_set(@date_default_timezone_get());
+	date_default_timezone_set(date_default_timezone_get());
 
 // store attributes for this request, including global parameters and request-specific variables
 global $context;

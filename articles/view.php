@@ -1242,7 +1242,7 @@ if(!isset($item['id'])) {
 
 	    // publish this page
         if($cur_article->allows('publication')) {
-             if(!isset($item['publish_date'] || ($item['publish_date'] <= NULL_DATE)) {
+             if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) {
                      Skin::define_img('ARTICLES_PUBLISH_IMG', 'articles/publish.gif');
                      $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), ARTICLES_PUBLISH_IMG.i18n::s('Publish'));
              }

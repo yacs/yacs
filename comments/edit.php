@@ -385,34 +385,43 @@ if(Surfer::is_crawler()) {
 		Comments::clear($_REQUEST);
 
 		// forward to the updated thread
-        if(!isset($_REQUEST['follow_up']) || $_REQUEST['follow_up'] !== 'json')
-            Safe::redirect($anchor->get_url('comments'));
+                if(!isset($_REQUEST['follow_up'])) {
+                    Safe::redirect($anchor->get_url('comments'));
 
-	}
-        
-        // provide a json version of the new comment.
-        if(isset($_REQUEST['follow_up']) && $_REQUEST['follow_up'] === 'json') {
-                    
-                    // get last comment rendering
-                    $layout     = Comments::get_layout($anchor);
-                    $layout->set_variant('no_wrap');
-                    $rendering  = Comments::list_by_date_for_anchor($anchor, 0, 1, $layout, true);
-                    
-                    $output = json_encode(array(
-                        'entity'    => 'comment',
-                        'id'        => $_REQUEST['id'],
-                        'anchor'    => $anchor->get_reference(),
-                        'html'      => $rendering
-                        ));
-                    
-                    // allow for data compression
-                    render_raw('application/json');
-                    
-                    echo $output;
+                } else {
 
-                    // the post-processing hook, then exit
-                    finalize_page(TRUE);
+                    switch ($_REQUEST['follow_up']) {
+                        case 'json':
+                            // provide a json version of the new comment.
+
+                            // get last comment rendering
+                            $layout     = Comments::get_layout($anchor);
+                            $layout->set_variant('no_wrap');
+                            $rendering  = Comments::list_by_date_for_anchor($anchor, 0, 1, $layout, true);
+
+                            $output = json_encode(array(
+                                'entity'    => 'comment',
+                                'id'        => $_REQUEST['id'],
+                                'anchor'    => $anchor->get_reference(),
+                                'html'      => $rendering
+                                ));
+
+                            // allow for data compression
+                            render_raw('application/json');
+
+                            echo $output;
+
+                            // the post-processing hook, then exit
+                            finalize_page(TRUE);
+
+                            break;
+                        case 'close':
+                            echo "edit done";
+                            finalize_page(true);
+                        default:
+                    }
                 }
+        }
 
 // display the form on GET
 } else

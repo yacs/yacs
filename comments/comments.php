@@ -496,39 +496,39 @@ Class Comments {
 		// bottom commands
 		$menu = array();
 
-		// option to add a file
-        $anchor = Anchors::get($reference);
-		if($file_attachement && $anchor->allows('creation','file')) {
-                    
-                        include_once $context['path_to_root'].'files/files.php';
+                        // option to add a file
+                $anchor = Anchors::get($reference);
+                        if($file_attachement && $anchor->allows('creation','file')) {
 
-			// input field to appear on demand
-			$text .= '<p id="comment_upload" class="details" style="display: none;">'
-				.'<input type="file" name="upload" id="upload" size="30" onchange="if(/\\.zip$/i.test($(this).val())){$(\'#upload_option\').slideDown();}else{$(\'#upload_option\').slideUp();}" />'
-				. ' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
-				.'<input type="hidden" name="file_type" value="upload" /></p>'
-				.'<div id="upload_option" style="display: none;" >'
-				.'<input type="checkbox" name="explode_files" checked="checked" /> '.i18n::s('Extract files from the archive')
-				.'</div>';
+                                include_once $context['path_to_root'].'files/files.php';
 
-			// the command to add a file
-			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-			$menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600);$(this).slideUp(); return false;"><span>'.FILES_UPLOAD_IMG.i18n::s('Add a file').'</span></a>';
-		}
+                                // input field to appear on demand
+                                $text .= '<p id="comment_upload" class="details" style="display: none;">'
+                                        .'<input type="file" name="upload" id="upload" size="30" onchange="if(/\\.zip$/i.test($(this).val())){$(\'#upload_option\').slideDown();}else{$(\'#upload_option\').slideUp();}" />'
+                                        . ' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
+                                        .'<input type="hidden" name="file_type" value="upload" /></p>'
+                                        .'<div id="upload_option" style="display: none;" >'
+                                        .'<input type="checkbox" name="explode_files" checked="checked" /> '.i18n::s('Extract files from the archive')
+                                        .'</div>';
 
-		// the submit button
-        $class_submit   = ( $render_overlaid  && $follow_up !== 'json' )?'submit-overlaid':'button';
-		$menu[] = Skin::build_submit_button(i18n::s('Send'), i18n::s('Press [s] to submit data'), 's', null, $class_submit);
-                
-        // case of a ajax submission
-        if( $follow_up === 'json') {
-            // insert js only once
-            static $ajax_comment_form = false;
-            if(!$ajax_comment_form) {
-               Page::insert_script('Yacs.initAjaxComments();');
-               $ajax_comment_form = true;
-            }
-        }
+                                // the command to add a file
+                                Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
+                                $menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600);$(this).slideUp(); return false;"><span>'.FILES_UPLOAD_IMG.i18n::s('Add a file').'</span></a>';
+                        }
+
+                        // the submit button
+                $class_submit   = ( $render_overlaid  && $follow_up !== 'json' )?'submit-overlaid':'button';
+                        $menu[] = Skin::build_submit_button(i18n::s('Send'), i18n::s('Press [s] to submit data'), 's', null, $class_submit);
+
+                // case of a ajax submission
+                if( $follow_up === 'json') {
+                    // insert js only once
+                    static $ajax_comment_form = false;
+                    if(!$ajax_comment_form) {
+                       Page::insert_script('Yacs.initAjaxComments();');
+                       $ajax_comment_form = true;
+                    }
+                }
 
 		// finalize the form
 		$text .= '<input type="hidden" name="anchor" value="'.$reference.'" />'

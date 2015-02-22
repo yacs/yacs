@@ -21,6 +21,10 @@
     background : none; /* avoid icons putted by some reference theme */
 }
 
+#main_panel .smartlist li {
+    margin-bottom: 0.3em;
+}
+
 /*contain title and intro*/
 .smartlist .label {
     overflow: hidden;	/*content don't go under icon*/
