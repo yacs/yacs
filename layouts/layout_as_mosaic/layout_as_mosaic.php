@@ -79,7 +79,9 @@ class Layout_as_mosaic extends Layout_interface {
                 $thumb = Skin::build_link($url, $thumb, 'basic', $title);
 	    
             // use list text of overlay if any
-            $list = $entity->overlay->get_list_text();
+            $list = '';
+            if(is_object($entity->overlay))
+                $list = $entity->overlay->get_text('list');
             
 	    // list articles, if any
 	    $childs = $entity->get_childs('articles', 0, 5, 'alistapart');
