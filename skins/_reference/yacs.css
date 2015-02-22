@@ -3553,12 +3553,12 @@ a img {
  ************************************************ */
 .yc-upload-progress-outer {
      border: 1px solid #232D3B;
-     background: #38485B;
+     background: #CCC;
      position : relative;
     }
 .yc-upload-progress {
     width: 5%;
-    background: #7ACCC8;
+    background: #444;
     height: 12px;  
 }
 
@@ -3566,7 +3566,7 @@ a img {
     display: none;
     pointer : cursor;
     padding: 3px;
-    background: #EF7B47;
+    background: #CCC;
     padding: 4px;
     color: white;
     line-height: 2.2em;
