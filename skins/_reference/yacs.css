@@ -3495,3 +3495,94 @@ a img {
 	position: relative; /* allow for absolute positioning inside */
 	overflow: hidden; /* oversized components should not break the layout */
 }
+
+
+/*******************************************
+ Responsive FORM
+*******************************************/
+
+.yc-form-row {
+    display : table-row;
+}
+
+.yc-form-row .west, .yc-form-row .east {
+    display : table-cell;
+}
+
+.yc-form-row .west {
+    vertical-align: top;
+    padding: 0 1em 1em 0;
+    max-width: 8em;
+}
+
+.yc-form-row .east {
+    padding: 0 0 1em 0;
+}
+
+.yc-form-hint {
+    margin : 0;
+    font-size: 10px;
+    color : #888;
+    font-family: sans-serif;
+}
+
+.yc-tab-steps .next, .yc-tab-steps .previous {
+    width: 70px;
+}
+.yc-tab-steps {
+    display: table;
+    margin-bottom: 1em;
+    width: 100%;
+}
+#main_form .yc-tab-steps .step {
+    display: table-cell;
+    text-align: center;
+}
+
+@media only screen and (max-width: 800px) {
+    
+ 
+    .yc-form-row, .yc-form-row .west, .yc-form-row .east {
+        display: block;
+    }
+    
+}
+
+/* *********************************************
+ * Ajax upload
+ ************************************************ */
+.yc-upload-progress-outer {
+     border: 1px solid #232D3B;
+     background: #38485B;
+     position : relative;
+    }
+.yc-upload-progress {
+    width: 5%;
+    background: #7ACCC8;
+    height: 12px;  
+}
+
+.yc-upload-button {
+    display: none;
+    pointer : cursor;
+    padding: 3px;
+    background: #EF7B47;
+    padding: 4px;
+    color: white;
+    line-height: 2.2em;
+}
+
+.yc-upload-cancel {
+    color : red;
+    font-weight: bold;
+    position : absolute;
+    right : 3px;
+    top:0;
+    line-height: 12px;
+}
+
+.yc-upload-destroy {
+    color : red;
+    font-weight: bold;
+    text-decoration: none;
+}
