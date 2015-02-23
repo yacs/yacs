@@ -1727,7 +1727,7 @@ Class Articles {
 
 		// sanity check
 		if(!isset($item['id']))
-			throw new Exception('bad input parameter');				
+			return null;				
 
 		// get host to this page
 		$vhost = Sections::get_vhost($item['anchor']);		

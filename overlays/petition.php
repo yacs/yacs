@@ -122,7 +122,7 @@ class Petition extends Overlay {
 	 * @param the hosting attributes
 	 * @return a list of ($label, $input, $hint)
 	 */
-	function get_fields($host) {
+	function get_fields($host,$field_pos=NULL) {
 		global $context;
 
 		// accepted voters

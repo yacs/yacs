@@ -12,6 +12,11 @@
  *
  * @see canvas/standard.php
  */
+
+        // stop here on scripts/validate.php
+        if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
+                return;
+        
 	$text = '';
 	
 	// insert anchor prefix
