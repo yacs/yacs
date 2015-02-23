@@ -494,12 +494,14 @@ var Yacs = {
 
 			var objCentered = document.createElement("div");
 			$(objCentered).attr('id','modal_centered');
-            $(objCentered).addClass('ui-front');
+
+                        $(objCentered).addClass('ui-front'); // reference for jquery-ui positionning
+
 			$(objCentered).append(objContent);
 
 			// small cross for closing modal box on right corner
 			var objBoxClose = document.createElement("a");
-			$(objBoxClose).text('x');
+			// $(objBoxClose).text('x');
 			$(objBoxClose).attr('id',"modal_close");
 			$(objBoxClose).click(function(e){
 			    e.stopPropagation();
@@ -981,6 +983,9 @@ var Yacs = {
                     $('body').trigger('yc-newComment');
                     
                     Yacs.stopWorking();
+                    // close modalbox if any
+                    Yacs.closeModalBox();
+                    
                 });
                 
                 return false;
@@ -1158,20 +1163,6 @@ var Yacs = {
 		$tiled.masonry({
 		    itemSelector: '.tile'
 		});
-                
-                // prepare edition link to ajax call of overlaid edition
-                $("#modal_content").find(".edit-overlaid").click(function(e){
-                    e.preventDefault();
-                    Yacs.displayOverlaid($(this).attr("href"),true, true);
-                });
-                $("#modal_content").find(".open-overlaid").click(function(e){
-                    e.preventDefault();
-                    Yacs.displayOverlaid($(this).attr("href"));
-                });
-                $("#modal_content").find(".submit-overlaid").click(function(e){
-                     e.preventDefault();
-                    Yacs.modalPost(true);
-                });
 
 	},
 
@@ -1266,19 +1257,27 @@ var Yacs = {
 		Yacs.prepareSlideShow();
 
 		// prepare edition link to ajax call of overlaid edition
-                $(".edit-overlaid").click(function(e){
+                //$(".edit-overlaid").click(function(e){
+                $('body').on('click',".edit-overlaid", function(e){ 
                     e.preventDefault();
                     Yacs.displayOverlaid($(this).attr("href"),true, true);
                     return false; // stop propagation
                 });
-                $(".open-overlaid").click(function(e){
+                //$(".open-overlaid").click(function(e){
+                $('body').on('click',".open-overlaid", function(e){ 
                     e.preventDefault();
                     Yacs.displayOverlaid($(this).attr("href"));
                     return false; // stop propagation
                 });
+                
+                $('body').on('click',".submit-overlaid", function(e){ 
+                    e.preventDefault();
+                    Yacs.modalPost(true);
+                    return false; // stop propagation
+                });
 		
 		// prepare input to ajax-upload a file
-        $('body').on('change','.yc-upload',function(){Yacs.prepareUpload($(this))});
+                $('body').on('change','.yc-upload',function(){Yacs.prepareUpload($(this))});
                 
 		// slow down notifications on window blur
 		$(window).blur(Yacs.looseFocus);
@@ -1299,6 +1298,8 @@ var Yacs = {
 		// check for asynchronous notifications
 		setTimeout(Yacs.subscribe, 40000);
 	},
+        
+        
 
 	getFocus: function() {
 		Yacs.hasFocus = true;
