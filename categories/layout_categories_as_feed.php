@@ -6,7 +6,9 @@
  *
  * @link http://georss.org/Main_Page GeoRSS
  *
- * made for zicworld.com
+ * @author Alexis Raimbault
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 Class Layout_categories_as_feed extends Layout_interface {
 

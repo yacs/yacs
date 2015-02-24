@@ -27,6 +27,8 @@
  * @link http://blogs.law.harvard.edu/tech/rss RSS 2.0 Specification
  *
  * @author Alexis Raimbault
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
 // common definitions and initial processing

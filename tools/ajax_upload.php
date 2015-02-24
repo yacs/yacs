@@ -5,6 +5,9 @@
  * 
  * this page to search about ajax upload
  * loads file in temporary folder
+ *
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
 // common definitions and initial processing

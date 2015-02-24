@@ -4,7 +4,9 @@
  *
  * @see images/images.php
  *
-* @author Alexis Raimbault
+ * @author Alexis Raimbault
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 Class Layout_images_as_thumb extends Layout_interface {
 

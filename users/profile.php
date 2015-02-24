@@ -2,6 +2,12 @@
 
 /* 
  * Redirect automaticaly a user to its profile
+ * or invite him to log in (and then redirect)
+ * can be a usefull target for a link in email for example.
+ *	
+ * @author Alexis Raimbault
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
 include_once '../shared/global.php';

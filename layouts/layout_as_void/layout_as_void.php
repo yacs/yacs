@@ -5,6 +5,8 @@
  * Sometimes "no layout" does list someting. this is to cancel 
  *  
  * @author Alexis Raimbault
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
 Class Layout_as_void extends Layout_interface {
