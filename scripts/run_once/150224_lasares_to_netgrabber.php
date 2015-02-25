@@ -13,9 +13,15 @@ global $local;
 $local['label_en'] = 'Upgrade from Lasares to Netgrabber';
 $local['label_fr'] = 'Mise à jour de Lasares vers Netgrabber';
 echo get_local('label')."<br />\n";
+
+
+// the reference server to use
+@include_once $context['path_to_root'].'scripts/parameters.include.php';
+if(!isset($context['reference_server']) || !$context['reference_server'])
+	$context['reference_server'] = 'www.yacs.fr';
+
+
 $count = 0;
-
-
 // files to delete, from root path
 $delete = array();
 $delete[] = 'images/upload.php';
@@ -56,6 +62,7 @@ echo $count.' '.get_local('label')."<br />\n";
  *
  */
 function rmdirr($dir) {
+    global $context;
         
     $dir = $context['path_to_root'].$dir;
     // Sanity check
