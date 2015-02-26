@@ -1215,6 +1215,7 @@ if(!isset($item['id'])) {
                         
                         // get add button label
                         if(!is_object($file_overlay) || !$add_label = $file_overlay->get_label('new_command','file')) {
+                            Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
                             $add_label = FILES_UPLOAD_IMG.i18n::s('Add a file');
                         }
                         
