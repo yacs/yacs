@@ -2859,19 +2859,20 @@ Class Files {
                     case 'aac':
                     case 'oog':
                         // audio file
-                        $audio_url = $context['url_to_root'].'temporary/'.$basename;
-                        $preview .= $destroy.BR.Skin::build_audioplayer($audio_url);
+                        $audio_url  = $context['url_to_root'].'temporary/'.$basename;
+                        $preview   .= $destroy.BR.Skin::build_audioplayer($audio_url);
                         break;
                     default:
-
+                        $icon       = Skin::build_image('inline', $context['url_to_master'].$context['url_to_root'].Files::get_icon_url($basename), $basename);
+                        $preview    = $icon.$preview.'&nbsp;'.$destroy;
                         break;
                 }
             }
             
             // add separator 
-            $preview .= '<hr class="clear" />'."\n";
+            $preview   .= '<hr class="clear" />'."\n";
             // wrap
-            $preview = '<div class="yc-preview">'.$preview.'</div>';
+            $preview    = '<div class="yc-preview">'.$preview.'</div>';
             
             return $preview;
         }
