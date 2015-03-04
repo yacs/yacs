@@ -20,7 +20,7 @@ process_si_contact_form();
     <title>Securimage Example Form</title>
     <style type="text/css">
     <!--
-        #success_message { border: 1px solid #000; width: 550px; text-align: left; padding: 10px 7px; background: #33ff33; color: #000; font-weight; bold; font-size: 1.2em; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; }
+        #success_message { border: 1px solid #000; width: 550px; text-align: left; padding: 10px 7px; background: #33ff33; color: #000; font-weight: bold; font-size: 1.2em; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; }
         fieldset { width: 90%; }
         legend { font-size: 24px; }
         .note { font-size: 18px; }
