@@ -58,9 +58,6 @@ echo "\t".'<meta name="viewport" content="width=device-width, initial-scale=1">'
 // Place favicon.ico and apple-touch-icon.png in the root directory:
 // @see mathiasbynens.be/notes/touch-icons
 
-// we have one style sheet for everything, implied media=all
-echo "\t".'<link rel="stylesheet" href="'.$context['url_to_root'].'skins/starterfive/starterfive.css" >'."\n";
-
 // example of CDN google font
 echo "\t".'<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600" rel="stylesheet" >'."\n";
 
@@ -79,7 +76,7 @@ Page::meta();
 // Modernizr enables HTML5 elements & feature detects;
 // Respond is a polyfill for min/max-width CSS3 Media Queries
 // For optimal performance, use a custom Modernizr build: www.modernizr.com/download/
-echo "\t".'<script src="'.$context['url_to_root'].'skins/starterfive/js/modernizr-2.8.3.min.js"></script>'."\n";
+echo "\t".Js_css::link_file('skins/starterfive/js/modernizr-2.8.3.min.js','now')."\n";
 
 // end of the header
 echo '</head>'."\n";
@@ -197,8 +194,8 @@ echo $context['page_footer'];
 
 // CSS3Pie for decoration with old IE browser
 echo '<!--[if lt IE 10]>'."\n";
-echo '<script type="text/javascript" src="'.$context['url_to_root'].'skins/starterfive/js/PIE.js"></script>'."\n";
-echo '<script type="text/javascript" src="'.$context['url_to_root'].'skins/starterfive/js/pie_enhance_ie.js"></script>'."\n";
+echo Js_css::link_file('skins/starterfive/js/PIE.js','now')."\n";
+echo Js_css::link_file('skins/starterfive/js/pie_enhance_ie.js','now')."\n";
 echo '<![endif]-->'."\n";
 
 
