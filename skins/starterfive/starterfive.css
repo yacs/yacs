@@ -1,21 +1,4 @@
 
-/*
- * ==|== base stylesheets ==========================================================
- */
-
-/* html5boilerplate normalization */
-@import url("css/normalize.css");
-
-/* yacs base rules */
-@import url("../_reference/yacs.css");
-
-/* html5boilerplate base rules */
-@import url("css/main-top.css");
-
-/* knacss rules */
-@import url("css/knacss-garni.css");
-
-
 /* ==|== Author's custom styles================================================
    Put your rules here
    ========================================================================== */
@@ -341,10 +324,4 @@ dl.gadget_box {width : 45%;}
        only screen and (min-resolution: 144dpi) {
     /* Style adjustments for high resolution devices */
 }
-
-/* ==|== non-semantic helper classes ========================================
-   Please define your styles before this section.
-   ========================================================================== */
-
-@import url("css/main-bottom.css");
 
