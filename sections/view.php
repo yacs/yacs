@@ -239,6 +239,10 @@ $content_overlay = NULL;
 if(isset($item['content_overlay']))
 	$content_overlay = Overlay::bind($item['content_overlay']);
 
+$section_overlay = NULL;
+if(isset($item['section_overlay']))
+        $section_overlay = Overlay::bind($item['section_overlay']);
+
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
@@ -1388,8 +1392,15 @@ if(!isset($item['id'])) {
 
 			// the command to add a new section
 			if($cur_section->allows('creation','section')) {
+                            
+                                if(is_object($section_overlay) && ($label = $section_overlay->get_label('new_command', 'section'))) {
+                                      ;
+                                } else {
+                                    $label = i18n::s('Add a section');
+                                }
+                            
 				Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
-				$box['top_bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => SECTIONS_ADD_IMG.i18n::s('Add a section'));
+				$box['top_bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => SECTIONS_ADD_IMG.$label);
 			}
 
 			// list items by family then title
