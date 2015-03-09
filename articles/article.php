@@ -673,7 +673,7 @@ Class Article extends Anchor {
 			return;
                 
                 // delegate to overlay
-                if(is_object($this->overlay) && $overlay->touch($action, $origin, $silently) === false) {
+                if(is_object($this->overlay) && $this->overlay->touch($action, $origin, $silently) === false) {
                         return; // stop on false
                 }
 
