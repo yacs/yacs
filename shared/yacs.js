@@ -16,9 +16,9 @@ var startWatch = new Date();
 
 var Yacs = {
     
-    urlMoveFile	: 'files/move.php',
-    urlSortFile	: 'files/sort.php',
-	urlUploadFile	: 'files/upload.php',
+    urlMoveFile     : url_to_root + 'files/move.php',
+    urlSortFile     : url_to_root + 'files/sort.php',
+    urlUploadFile   : url_to_root + 'files/upload.php',
 
 	/**
 	 * alert the surfer
