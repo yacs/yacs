@@ -153,16 +153,6 @@ if(is_readable('../shared/global.php')) {
 	$context['page_title'] = '';
 }
 
-// common definitions and initial processing
-include_once $context['path_to_root'].'behaviors/behaviors.php';
-include_once $context['path_to_root'].'comments/comments.php';		// attached comments and notes
-include_once $context['path_to_root'].'images/images.php';			// attached images
-include_once $context['path_to_root'].'links/links.php';			// related pages
-include_once $context['path_to_root'].'files/files.php';			// attached files
-include_once $context['path_to_root'].'servers/servers.php';
-include_once $context['path_to_root'].'versions/versions.php';		// back in history
-include_once $context['path_to_root'].'sections/section.php';
-
 // look for the id
 $id = NULL;
 if(isset($_REQUEST['id']))
