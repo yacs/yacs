@@ -1670,13 +1670,23 @@ var Yacs = {
 	    }).done(function(html){
 		var $html = $(html);
 
+                // look if redirect is required
+                var redirect = $html.find('#redirect-to');
 		// look if overlaid is required
 		var overlaid = $html.find('.require-overlaid').length;
 		// or look for elements to replace
 		var $update = $html.find('.modal-post-update');
-
+                
+                // redirect to a new page
+                if(redirect.length) {
+                    
+                    var link = redirect.data('url');
+                    if(link) {
+                        console.log('redirecting to '+link);
+                        window.location.href = link;
+                    }
 		// display result in overlaid view
-		if(overlaid) {
+                } else if(overlaid) {
 
 		    var content={
 			body: html,
@@ -1819,8 +1829,8 @@ var Yacs = {
 
 		Yacs.workingOverlay = document.createElement("div");
 		$(Yacs.workingOverlay).attr('id','yacsWorkingOverlay');
-		$(Yacs.workingOverlay).css({position: 'fixed', top: '0', left: '0', zIndex: '9000', width: '100%', height: '100%', minHeight: '100%', backgroundColor: '#e6e6ff', filter: 'alpha(opacity=50)', opacity: '0.2', display: 'block'});
-		$(Yacs.workingOverlay).click(function() {$(Yacs.workingOverlay).css({display: 'none'});});
+		$(Yacs.workingOverlay).css({position: 'fixed', top: '0', left: '0', zIndex: '9000', width: '100%', height: '100%', minHeight: '100%', backgroundColor: '#646464', opacity: '0.2', display: 'block'});
+		// $(Yacs.workingOverlay).click(function() {$(Yacs.workingOverlay).css({display: 'none'});});
 		$(Yacs.workingOverlay).append(objCentered);
 
 		var objBody = document.getElementsByTagName("body").item(0);
