@@ -78,7 +78,7 @@ if($output['success'] === null) {
         $to     = $dir.'/'.$file->item['file_name'];
 
         // check that dir exists
-        if(!is_dir($dir)) Safe::mkdir ($dir);
+        if(!is_dir($dir)) Safe::make_path ($dir);
         Safe::rename($from, $to);
 
         // move thumb if any
