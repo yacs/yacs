@@ -839,6 +839,20 @@ class Overlay {
 		}
 
 	}
+        
+        /**
+         * This function allow to overide or complete
+         * overlayed item behavior while receiving a "touch" event
+         * 
+         * if false is returned the standard processing will stop
+         * 
+         * @param string $action code name
+         * @param string $origin, usually a ref
+         * @param boolean $silently, if the request requires the action to be recorded as a update
+         */
+        function touch($action, $origin=NULL, $silently=FALSE) {
+            return null;
+        }
 
 	/**
 	 * embed embeddable files or not?

@@ -898,6 +898,11 @@ Class Section extends Anchor {
 		// no section bound
 		if(!isset($this->item['id']))
 			return;
+                
+                // delegate to overlay
+                if(is_object($this->overlay) && $overlay->touch($action, $origin, $silently) === false) {
+                        return; // stop on false
+                }
 
 		// sanity check
 		if(!$origin) {
