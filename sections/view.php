@@ -144,7 +144,7 @@
  */
 
 // this script can be included into another one, i.e., /index.hp
-if(is_readable('../shared/global.php')) {
+if(!defined('YACS')) {
 	include_once '../shared/global.php';
 	define('NOT_INCLUDED', true);
 
