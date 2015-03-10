@@ -2136,7 +2136,7 @@ var Yacs = {
 
 		// fade away all other tabs
 		var newCurrent =id;
-		var iterator;
+		var lastpanel;
 		var panel;
 
                 
@@ -2153,7 +2153,8 @@ var Yacs = {
                         .fadeOut(.1)
                         .removeClass('panel-foreground')
                         .addClass('panel-background');
-                iterator = panels.find('.panel-foreground').length;
+                // get last panel id
+                lastpanel = panels.find('.panel-foreground, .panel-background').last().data('tab');
                 
                 var newpanel = panels.find('.panel-background[data-tab="'+id+'"]');
                 panel = newpanel.attr('id');
@@ -2181,7 +2182,7 @@ var Yacs = {
                 $("#"+panel+" .yc-form-input input").first().not('.date-time-picker').focus();
 
                 // make validation button visible on last tab displaying
-                if( Yacs.tabs_current == iterator )
+                if( Yacs.tabs_current === lastpanel )
                     $("#main_form .bottom").show();
 
 		// dispatch custom event (e.g., for tooltips, Google Maps, etc)
