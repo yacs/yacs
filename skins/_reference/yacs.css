@@ -1414,17 +1414,17 @@ th { /* an ordinary table header -- headers in [table]headers[body]content[/tabl
 
 }
 
-table.grid,
+table.yc-grid,
 table.exhibit-tabularView-body { /* [table=grid]...[/table] - enhance table borders*/
 	border: none;
 	margin: 1em 0;
 }
 
-table.grid tbody tr td,
-table.grid tbody tr.even td,
-table.grid tbody tr.odd td,
-table.grid tbody tr th,
-table.grid thead tr th,
+table.yc-grid tbody tr td,
+table.yc-grid tbody tr.even td,
+table.yc-grid tbody tr.odd td,
+table.yc-grid tbody tr th,
+table.yc-grid thead tr th,
 table.exhibit-tabularView-body tbody tr td,
 table.exhibit-tabularView-body tbody tr th { /* a cell in a grid */
 	border: 2px ridge #bfbfbf;
@@ -2198,7 +2198,7 @@ dl.poll dt { /* label of one answer */
  * @see tables/tables.php
  */
 
-table.grid caption {
+table.yc-grid caption {
 	text-align: left;
 }
 
