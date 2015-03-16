@@ -277,7 +277,7 @@ if(Surfer::is_crawler()) {
 		}
 
 	// a file has been uploaded
-	} elseif(Files::get_uploaded('upload','name') != 'none') {
+	} elseif(Files::get_uploaded('upload','name')) {
 		$file_path = Files::get_path($_REQUEST['anchor']);
 
 		// update an existing file record
@@ -449,7 +449,7 @@ if(Surfer::is_crawler()) {
 		}
 
 		// forward to the anchor page
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url('files'));
+		Safe::redirect($anchor->get_url('files'));
 
 	}
 
@@ -594,10 +594,9 @@ if($with_form) {
         if(!is_object($overlay) || ($hint = $overlay->get_label('description_hint')) === null)
               $hint = i18n::s('What is new in this file?');
         if($hint) $hint .= BR;
-        if(!isset($item['description'])) $item['description'] = '';
-	$input = '<span class="details">'.$hint.'</span>'.Surfer::get_editor('description', $item['description'], TRUE, 5, FALSE); 
-	//if(isset($item['description']))
-	//	$input .= Skin::build_box(i18n::s('More information'), Skin::build_block($item['description'], 'description'), 'folded');
+	$input = '<span class="details">'.$hint.'</span>'.Surfer::get_editor('version', '', TRUE, 5, FALSE); 
+	if(isset($item['description']))
+            $input .= Skin::build_box(i18n::s('More information'), Skin::build_block($item['description'], 'description'), 'folded');
 	$fields[] = array($label, $input);
 
 	// build the form
