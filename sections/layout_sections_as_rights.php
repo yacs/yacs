@@ -171,7 +171,7 @@ Class Layout_sections_as_rights extends Layout_interface {
 		$headers = array(i18n::s('Section'), i18n::s('Watcher'), i18n::s('Editor'), i18n::s('Owner'));
 
 		// return a sortable table
-		$text .= Skin::table($headers, $rows, 'grid');
+		$text .= Skin::table($headers, $rows, 'yc-grid');
 		return $text;
 	}
 }
