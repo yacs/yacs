@@ -1546,7 +1546,7 @@ Class Users {
 			return NULL;
 
 		// do the check again
-		if($item =& Users::get($user['nick_name']))
+		if($item = Users::get($user['nick_name']))
 			return $item;
 
 		// tough luck
