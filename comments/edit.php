@@ -365,8 +365,13 @@ if(Surfer::is_crawler()) {
 		Logger::notify('comments/edit.php: '.$label, $description);
                 
         // forward to the updated thread
-        if(!isset($_REQUEST['follow_up']) || $_REQUEST['follow_up'] !== 'json')
+        if(!isset($_REQUEST['follow_up'])) {
+            // redirect
             Safe::redirect($anchor->get_url('comments'));
+        }elseif($_REQUEST['follow_up'] === 'json') {
+            // provide a json version of the new comment.
+            Comments::render_json($_REQUEST['id'], $anchor);
+        }
 
 	// update of an existing comment
 	} else {
@@ -393,26 +398,7 @@ if(Surfer::is_crawler()) {
                     switch ($_REQUEST['follow_up']) {
                         case 'json':
                             // provide a json version of the new comment.
-
-                            // get last comment rendering
-                            $layout     = Comments::get_layout($anchor);
-                            $layout->set_variant('no_wrap');
-                            $rendering  = Comments::list_by_date_for_anchor($anchor, 0, 1, $layout, true);
-
-                            $output = json_encode(array(
-                                'entity'    => 'comment',
-                                'id'        => $_REQUEST['id'],
-                                'anchor'    => $anchor->get_reference(),
-                                'html'      => $rendering
-                                ));
-
-                            // allow for data compression
-                            render_raw('application/json');
-
-                            echo $output;
-
-                            // the post-processing hook, then exit
-                            finalize_page(TRUE);
+                            Comments::render_json($_REQUEST['id'], $anchor);
 
                             break;
                         case 'close':

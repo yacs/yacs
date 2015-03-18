@@ -1774,6 +1774,38 @@ Class Comments {
 		SQL::free($result);
 
 	}
+        
+        /**
+         * render comment as json format
+         * 
+         * @param int $id of the comment
+         * @param object $anchor of the comment
+         */
+        public static function render_json($id, $anchor){
+            
+            // we'll return json
+            $output = '';
+            
+            // get layout and render last comment
+            $layout     = Comments::get_layout($anchor);
+            $layout->set_variant('no_wrap');
+            $rendering  = Comments::list_by_date_for_anchor($anchor, 0, 1, $layout, true);
+            
+            $output = json_encode(array(
+                'entity'    => 'comment',
+                'id'        => $id,
+                'anchor'    => $comment['anchor'],
+                'html'      => $rendering
+            ));
+            
+            // allow for data compression
+            render_raw('application/json');
+            
+            echo output;
+            
+            // the post-processing hook, then exit
+            finalize_page(TRUE);
+        }
 
 	/**
 	 * create tables for comments
