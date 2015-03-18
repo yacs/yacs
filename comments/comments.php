@@ -1794,7 +1794,7 @@ Class Comments {
             $output = json_encode(array(
                 'entity'    => 'comment',
                 'id'        => $id,
-                'anchor'    => $comment['anchor'],
+                'anchor'    => $anchor->get_reference(),
                 'html'      => $rendering
             ));
             
