@@ -1801,7 +1801,7 @@ Class Comments {
             // allow for data compression
             render_raw('application/json');
             
-            echo output;
+            echo $output;
             
             // the post-processing hook, then exit
             finalize_page(TRUE);
