@@ -310,7 +310,7 @@ Class Js_Css {
 		// minified version path
 		$min_v = $path_parts['dirname'].'/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
 
-		if(file_exists($min_v)) $path = $min_v;
+		if(file_exists(Safe::realpath($min_v))) $path = $min_v;
 
 	    // TODO : warning case exept if .core. ;
 	    }
