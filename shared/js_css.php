@@ -319,7 +319,10 @@ Class Js_Css {
             $revision  = Js_css::get_revision(Safe::realpath($path));
 
 	    // add root url
-	    $path = $context['url_to_master'].$context['url_to_root'].$path;
+            if(isset($context['static_subdom']) && $context['static_subdom'] )
+                $path = $context['static_subdom'].$path;
+            else
+                $path = $context['url_to_master'].$context['url_to_root'].$path;
 	} else
             // we can't know the revision date of external files
             $revision = '';
