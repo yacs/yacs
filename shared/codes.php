@@ -1683,7 +1683,7 @@ Class Codes {
 	 * @param string the label
 	 * @return string the rendered text
 	**/
-	public static function &render_email($address, $text) {
+	public static function &render_email($address, $text=null) {
 
 		// be sure to display something
 		if(!$text)
