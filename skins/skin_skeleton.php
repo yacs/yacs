@@ -1870,6 +1870,11 @@ Class Skin_Skeleton {
 
 			// default processing for external links
 			if($external) {
+                            
+                                //check we have full link
+                                if(!preg_match("/^(?:[a-z]+:)?\/\//i", $url)) {
+                                    $url = "http://".$url;
+                                }
 
 				// finalize the hovering title
 				if(!$href_title)
