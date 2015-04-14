@@ -3379,6 +3379,9 @@ Class Articles {
 
 		if(!SQL::query($query))
 			return FALSE;
+                
+                // list the article in categories
+		Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
 
 		// clear the cache
 		Articles::clear($fields);
