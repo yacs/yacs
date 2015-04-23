@@ -349,6 +349,13 @@ p#page_menu a span.last { /* last command on the right */
 	}
 }
 
+/* local switcher */
+
+#local_switcher ul {
+    list-style: none;
+    padding: 0;
+}
+
 /* gadget boxes */
 
 dl.gadget_box { /* container of one gadget box -- also see #gadget_1, etc. -- from index.php, sections/view.php */

@@ -343,6 +343,50 @@
 
 		}
 	}
+        
+        /**
+         * echo switcher to other language version for the page, if any
+         */
+        
+        public static function echo_local_switcher($legend=true) {
+            global $context;
+            
+            $switch = '';
+            
+            // only for articles and sections
+            if(!strstr($context['current_item'],'article') && !strstr($context['current_item'],'section'))
+                return '';
+            
+            $sisters = array();
+            
+            // get the entity
+            if($anchor = Anchors::get($context['current_item'])) {
+                
+                // if anchor as a little name
+                if($nick = $anchor->get_nick_name()){
+                        $class = $anchor->get_static_group_class();
+                        $sisters = $class::list_for_name($nick,$anchor->item['id'],'raw');
+                }
+            }
+            
+            if(count($sisters)) {
+                foreach($sisters as $page) {
+                    if($lang = $page['language']) {
+                        
+                        $text = ($legend)?'&nbsp;'.i18n::s(sprintf('to_local_%s',$lang)):'';
+                        $switch .= '<li>'.'<a href="'.$class::get_permalink($page).'?lang='.$lang.'">'.Codes::beautify('['.$lang.']').$text.'</a>'.'</li>'."\n";
+                    }
+                }
+             
+            }
+            
+            // wrap
+            if($switch)
+                $switch = '<div id="local_switcher"><ul>'.$switch.'</ul></div>'."\n";
+            
+            
+            echo $switch;
+        }
 
 	/**
 	 * echo the site menu
