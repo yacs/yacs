@@ -7,10 +7,34 @@
  * @link http://redbot.org/
  *
  * @author Bernard Paques
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 class http {
+    
+    
+         /**
+          * add a parameter to a given url
+          * 
+          * @param string $url with or without existing parameters
+          * @param string the parameter name to add
+          * @param string the parameter value
+          * @return string to new formed url
+          */
+          public static function add_url_param($url,$param_name,$param_value) {
+              
+              // determine & or ? separator to add param
+              $separator = (strpos($url,"?")!==false)?'&':'?';
+              
+              // determine param insertion, in case of #anchor in url
+              $insert_pos = (strpos($url,"#")!==false)?strpos($url,"#"):strlen($url); 
+              
+              // Build the new url
+              $new_url = substr_replace($url,$separator.urlencode($param_name.'='.$param_value).'"',$insert_pos,0);
+              
+              return $new_url;
+          }
 
 	/**
 	 * remember headers of the last response
