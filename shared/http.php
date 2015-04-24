@@ -28,15 +28,15 @@ class http {
 
         // if param already present, just replace it
         $matches = array();
-        if (preg_match("/(\?|&)$param_name(\[\])*=/", $url, $matches)) {
+        if (preg_match("/(\?|&)$param_name(\[\])*=/", $new_url, $matches)) {
             
             $insert_pos = strpos($url, $matches[0]);
             $insert_end = strpos($url,'&',$insert_pos);
             
             if($insert_end) {
-                $new_url = substr_replace($url, $matches[0] . urlencode($param_value), $insert_pos, $insert_end - $insert_pos);
+                $new_url = substr_replace($url, $matches[0] . rawurlencode($param_value), $insert_pos, $insert_end - $insert_pos);
             } else {
-                $new_url = substr_replace($url, $matches[0] . urlencode($param_value), $insert_pos);
+                $new_url = substr_replace($url, $matches[0] . rawurlencode($param_value), $insert_pos);
             }
             
         } else {
@@ -48,7 +48,7 @@ class http {
             $insert_pos = (strpos($url, "#") !== false) ? strpos($url, "#") : strlen($url);
 
             // Build the new url
-            $new_url    = substr_replace($url, $separator . urlencode($param_name) . '=' . urlencode($param_value) . '"', $insert_pos, 0);
+            $new_url    = substr_replace($url, $separator . rawurlencode($param_name) . '=' . rawurlencode($param_value) . '"', $insert_pos, 0);
         }
 
         return $new_url;
