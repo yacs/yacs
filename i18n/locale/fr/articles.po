@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-16 11:22+0200\n"
-"PO-Revision-Date: 2013-10-16 12:55+0100\n"
+"POT-Creation-Date: 2015-04-24 15:28+0200\n"
+"PO-Revision-Date: 2015-04-24 15:30+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: none\n"
 "Language: fr\n"
@@ -49,8 +49,8 @@ msgstr "Emplacement %d de %d"
 #: articles/edit_as_simple.php:170
 #: articles/edit_as_thread.php:62
 #: articles/edit_as_thread.php:162
-#: articles/edit.php:442
-#: articles/edit.php:510
+#: articles/edit.php:445
+#: articles/edit.php:513
 #: articles/invite.php:253
 #: articles/layout_articles_as_boxes.php:60
 #: articles/layout_articles_as_boxes.php:89
@@ -83,7 +83,7 @@ msgstr "Emplacement %d de %d"
 msgid "View the page"
 msgstr "Voir la page"
 
-#: articles/article.php:714
+#: articles/article.php:719
 msgid "Several files have been added"
 msgstr "Plusieurs fichiers ont été ajoutés"
 
@@ -165,7 +165,7 @@ msgstr "Par %s"
 #: articles/layout_articles.php:169
 #: articles/view_as_tabs.php:298
 #: articles/view_as_wiki.php:261
-#: articles/view.php:988
+#: articles/view.php:993
 #, php-format
 msgid "%d comment"
 msgid_plural "%d comments"
@@ -181,7 +181,7 @@ msgstr "%d fichiers, dont :"
 #: articles/articles.php:790
 #: articles/edit_as_simple.php:340
 #: articles/edit_as_thread.php:335
-#: articles/edit.php:925
+#: articles/edit.php:929
 #: articles/fetch_as_msword.php:134
 #: articles/fetch_as_pdf.php:136
 #: articles/layout_articles_as_alistapart.php:295
@@ -191,7 +191,7 @@ msgstr "%d fichiers, dont :"
 #: articles/view_as_chat.php:510
 #: articles/view_as_tabs.php:372
 #: articles/view_as_wiki.php:153
-#: articles/view.php:1095
+#: articles/view.php:1104
 msgid "Files"
 msgstr "Fichiers"
 
@@ -224,7 +224,7 @@ msgstr "Fichiers"
 #: articles/layout_articles.php:161
 #: articles/view_as_tabs.php:348
 #: articles/view_as_wiki.php:129
-#: articles/view.php:1047
+#: articles/view.php:1056
 #, php-format
 msgid "%d file"
 msgid_plural "%d files"
@@ -259,7 +259,7 @@ msgstr[1] "%d fichiers"
 #: articles/layout_articles.php:165
 #: articles/view_as_tabs.php:381
 #: articles/view_as_wiki.php:161
-#: articles/view.php:1113
+#: articles/view.php:1122
 #, php-format
 msgid "%d link"
 msgid_plural "%d links"
@@ -344,11 +344,11 @@ msgid "You may combine several keywords:"
 msgstr "Vous pouvez combiner plusieurs mots-clés :"
 
 #: articles/articles.php:1078
-#: articles/articles.php:3097
-#: articles/articles.php:3239
-#: articles/articles.php:3375
-#: articles/articles.php:3591
-#: articles/articles.php:3905
+#: articles/articles.php:3121
+#: articles/articles.php:3265
+#: articles/articles.php:3406
+#: articles/articles.php:3625
+#: articles/articles.php:3939
 #: articles/element.php:96
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
@@ -356,12 +356,12 @@ msgstr "Identifiant inconnu."
 #: articles/articles.php:1228
 #: articles/articles.php:1316
 #: articles/articles.php:1397
-#: articles/delete.php:68
+#: articles/delete.php:73
 #: articles/duplicate.php:70
-#: articles/view.php:300
-#: articles/view.php:514
-#: articles/view.php:518
-#: articles/view.php:522
+#: articles/view.php:304
+#: articles/view.php:523
+#: articles/view.php:527
+#: articles/view.php:531
 #, php-format
 msgid "%s: %s"
 msgstr "%s : %s"
@@ -404,22 +404,22 @@ msgstr "Mise à jour : %s"
 msgid "Updated by %s in %s"
 msgstr "Mis à jour par %s dans %s"
 
-#: articles/articles.php:2872
-#: articles/articles.php:3103
+#: articles/articles.php:2894
+#: articles/articles.php:3127
 msgid "No title has been provided."
 msgstr "Aucun titre n'a été fourni."
 
-#: articles/articles.php:2881
-#: articles/articles.php:3112
-#: articles/articles.php:3254
-#: articles/edit.php:270
+#: articles/articles.php:2903
+#: articles/articles.php:3136
+#: articles/articles.php:3280
+#: articles/edit.php:269
 #: articles/move.php:96
 #: articles/publish.php:106
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
-#: articles/articles.php:3624
-#: articles/articles.php:3649
+#: articles/articles.php:3658
+#: articles/articles.php:3683
 #, php-format
 msgid "\"%s\" is not a valid date"
 msgstr "\"%s\" n'est pas une date valide"
@@ -439,12 +439,12 @@ msgid "Maintenance"
 msgstr "Maintenance"
 
 #: articles/check.php:31
-#: articles/delete.php:77
+#: articles/delete.php:85
 #: articles/describe.php:86
 #: articles/duplicate.php:79
-#: articles/edit.php:265
-#: articles/edit.php:290
-#: articles/edit.php:534
+#: articles/edit.php:264
+#: articles/edit.php:289
+#: articles/edit.php:537
 #: articles/element.php:101
 #: articles/export.php:66
 #: articles/fetch_as_msword.php:59
@@ -513,28 +513,35 @@ msgstr "Détecter les enregistrements orphelins"
 msgid "Start"
 msgstr "Commencer"
 
-#: articles/delete.php:68
+#: articles/delete.php:73
 msgid "Delete"
 msgstr "Supprimer"
 
-#: articles/delete.php:90
+#: articles/delete.php:98
 #, php-format
 msgid "Deletion: %s"
 msgstr "Suppression : %s"
 
-#: articles/delete.php:111
+#: articles/delete.php:121
 #: articles/duplicate.php:177
 msgid "The action has not been confirmed."
 msgstr "L'action n'a pas été confirmée."
 
-#: articles/delete.php:123
-msgid "Yes, I want to delete this page"
-msgstr "Oui, je veux supprimer cette page"
+#: articles/delete.php:138
+msgid "delete this page"
+msgstr "supprimer cette page"
 
-#: articles/delete.php:125
+#: articles/delete.php:140
+#, php-format
+msgid "Yes, I want to %s"
+msgstr "Oui, je veux %s"
+
+#: articles/delete.php:142
+#: articles/delete.php:145
+#: articles/delete.php:147
 #: articles/duplicate.php:191
-#: articles/edit.php:605
-#: articles/edit.php:607
+#: articles/edit.php:609
+#: articles/edit.php:611
 #: articles/invite.php:419
 #: articles/mail.php:254
 #: articles/publish.php:261
@@ -542,13 +549,13 @@ msgstr "Oui, je veux supprimer cette page"
 msgid "Cancel"
 msgstr "Annuler"
 
-#: articles/delete.php:152
+#: articles/delete.php:177
 #: articles/duplicate.php:218
 #, php-format
 msgid "edited by %s %s"
 msgstr "modifié par %s %s"
 
-#: articles/delete.php:157
+#: articles/delete.php:182
 #: articles/duplicate.php:222
 #: articles/layout_articles_as_hardboiled.php:177
 #: articles/layout_articles_as_manage.php:138
@@ -557,22 +564,22 @@ msgstr "modifié par %s %s"
 #: articles/layout_articles.php:104
 #: articles/layout_articles.php:157
 #: articles/view_as_tabs.php:123
-#: articles/view.php:553
+#: articles/view.php:562
 msgid "hits"
 msgstr "lectures"
 
-#: articles/delete.php:174
+#: articles/delete.php:199
 #: articles/duplicate.php:239
 #: articles/fetch_as_msword.php:95
 #: articles/fetch_as_pdf.php:189
 #: articles/print.php:90
 #: articles/view_as_tabs.php:79
-#: articles/view.php:492
+#: articles/view.php:501
 #, php-format
 msgid "Source: %s"
 msgstr "Source : %s"
 
-#: articles/delete.php:178
+#: articles/delete.php:203
 msgid "Following items are attached to this record and will be deleted as well."
 msgstr "Les éléments suivants vont aussi être supprimés."
 
@@ -588,7 +595,7 @@ msgstr "Copie de %s"
 #: articles/duplicate.php:138
 #: articles/edit_as_simple.php:87
 #: articles/edit_as_thread.php:82
-#: articles/edit.php:462
+#: articles/edit.php:465
 #: articles/rate.php:183
 msgid "Thank you for your contribution"
 msgstr "Merci de votre contribution"
@@ -602,14 +609,14 @@ msgstr "La page a été dupliquée."
 #: articles/edit_as_simple.php:168
 #: articles/edit_as_thread.php:60
 #: articles/edit_as_thread.php:160
-#: articles/edit.php:440
-#: articles/edit.php:508
+#: articles/edit.php:443
+#: articles/edit.php:511
 #: articles/stamp.php:107
 msgid "What do you want to do now?"
 msgstr "Que souhaitez-vous faire maintenant ?"
 
 #: articles/duplicate.php:147
-#: articles/edit.php:511
+#: articles/edit.php:514
 msgid "Edit the page"
 msgstr "Modifier la page"
 
@@ -618,14 +625,14 @@ msgstr "Modifier la page"
 #: articles/edit_as_simple.php:426
 #: articles/edit_as_thread.php:318
 #: articles/edit_as_thread.php:410
-#: articles/edit.php:517
-#: articles/edit.php:861
-#: articles/edit.php:908
-#: articles/edit.php:1020
+#: articles/edit.php:520
+#: articles/edit.php:865
+#: articles/edit.php:912
+#: articles/edit.php:1024
 #: articles/view_as_chat.php:412
 #: articles/view_as_tabs.php:581
 #: articles/view_as_wiki.php:326
-#: articles/view.php:1217
+#: articles/view.php:1226
 msgid "Add an image"
 msgstr "Ajouter une image"
 
@@ -638,9 +645,9 @@ msgstr "Ajouter une image"
 #: articles/edit_as_thread.php:164
 #: articles/edit_as_thread.php:262
 #: articles/edit_as_thread.php:329
-#: articles/edit.php:444
-#: articles/edit.php:518
-#: articles/edit.php:919
+#: articles/edit.php:447
+#: articles/edit.php:521
+#: articles/edit.php:923
 #: articles/layout_articles_as_alistapart.php:265
 #: articles/layout_articles_as_alistapart.php:327
 #: articles/layout_articles_as_tabs.php:113
@@ -650,8 +657,8 @@ msgstr "Ajouter une image"
 #: articles/view_as_tabs.php:569
 #: articles/view_as_wiki.php:146
 #: articles/view_as_wiki.php:314
-#: articles/view.php:1075
-#: articles/view.php:1205
+#: articles/view.php:1084
+#: articles/view.php:1214
 msgid "Add a file"
 msgstr "Ajouter un fichier"
 
@@ -661,8 +668,8 @@ msgstr "Ajouter un fichier"
 #: articles/view_as_tabs.php:575
 #: articles/view_as_wiki.php:178
 #: articles/view_as_wiki.php:320
-#: articles/view.php:1136
-#: articles/view.php:1211
+#: articles/view.php:1145
+#: articles/view.php:1220
 msgid "Add a link"
 msgstr "Ajouter un lien"
 
@@ -681,7 +688,7 @@ msgstr "Si vous continuez, les éléments suivants seront aussi dupliqués dans 
 
 #: articles/edit_as_simple.php:55
 #: articles/edit_as_thread.php:50
-#: articles/edit.php:430
+#: articles/edit.php:426
 msgid "The page has been successfully updated."
 msgstr "La page a été mise à jour."
 
@@ -689,15 +696,15 @@ msgstr "La page a été mise à jour."
 #: articles/edit_as_simple.php:174
 #: articles/edit_as_thread.php:66
 #: articles/edit_as_thread.php:166
-#: articles/edit.php:446
-#: articles/edit.php:513
+#: articles/edit.php:449
+#: articles/edit.php:516
 #: articles/stamp.php:287
 msgid "Publish the page"
 msgstr "Publier la page"
 
 #: articles/edit_as_simple.php:91
 #: articles/edit_as_thread.php:86
-#: articles/edit.php:466
+#: articles/edit.php:469
 msgid "The page has been successfully posted. Please review it now to ensure that it reflects your mind."
 msgstr "La page a été postée avec succès. Merci de vous relire afin d'éviter toute erreur involontaire."
 
@@ -705,14 +712,14 @@ msgstr "La page a été postée avec succès. Merci de vous relire afin d'évite
 #: articles/edit_as_simple.php:99
 #: articles/edit_as_thread.php:90
 #: articles/edit_as_thread.php:94
-#: articles/edit.php:470
-#: articles/edit.php:474
+#: articles/edit.php:473
+#: articles/edit.php:477
 msgid "<p>Don't forget to publish the new page someday. Review the page, enhance it and then click on the Publish command to make it publicly available.</p>"
 msgstr "<p>N'oubliez pas de publier la nouvelle page un jour ou l'autre. Editez la page, améliorez la, puis cliquez sur la commande Publier pour la rendre disponible à tous.</p>"
 
 #: articles/edit_as_simple.php:103
 #: articles/edit_as_thread.php:98
-#: articles/edit.php:478
+#: articles/edit.php:481
 msgid "<p>The new page will now be reviewed before its publication. It is likely that this will be done within the next 24 hours at the latest.</p>"
 msgstr "<p>La nouvelle page va être controlée avant sa publication. Normalement ce processus prend moins de 24 heures, en fonction de la disponibilité des uns et des autres.</p>"
 
@@ -726,19 +733,19 @@ msgstr "Le fichier suivant a été ajouté :"
 
 #: articles/edit_as_simple.php:165
 #: articles/edit_as_thread.php:157
-#: articles/edit.php:505
+#: articles/edit.php:508
 msgid "Servers that have been notified"
 msgstr "Serveurs notifiés"
 
 #: articles/edit_as_simple.php:176
 #: articles/edit_as_thread.php:168
-#: articles/edit.php:522
+#: articles/edit.php:525
 msgid "Add another page"
 msgstr "Ajouter une autre page"
 
 #: articles/edit_as_simple.php:213
 #: articles/edit_as_thread.php:205
-#: articles/edit.php:774
+#: articles/edit.php:778
 #: articles/invite.php:305
 #, php-format
 msgid "If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields."
@@ -746,49 +753,49 @@ msgstr "Si vous avez ouvert un compte sur ce site, merci de vous %s. Le serveur 
 
 #: articles/edit_as_simple.php:216
 #: articles/edit_as_thread.php:208
-#: articles/edit.php:777
+#: articles/edit.php:781
 #: articles/invite.php:308
 msgid "Your name"
 msgstr "Votre nom"
 
 #: articles/edit_as_simple.php:218
 #: articles/edit_as_thread.php:210
-#: articles/edit.php:779
+#: articles/edit.php:783
 #: articles/invite.php:310
 msgid "Let us a chance to know who you are"
 msgstr "Donnez-nous une chance de savoir qui vous êtes"
 
 #: articles/edit_as_simple.php:222
 #: articles/edit_as_thread.php:214
-#: articles/edit.php:783
+#: articles/edit.php:787
 #: articles/invite.php:314
 msgid "Your e-mail address"
 msgstr "Votre adresse électronique"
 
 #: articles/edit_as_simple.php:224
 #: articles/edit_as_thread.php:216
-#: articles/edit.php:785
+#: articles/edit.php:789
 #: articles/invite.php:316
 msgid "Put your e-mail address to receive feed-back"
 msgstr "Pour être notifié des réactions"
 
 #: articles/edit_as_simple.php:235
 #: articles/edit_as_thread.php:227
-#: articles/edit.php:796
+#: articles/edit.php:800
 msgid "Title"
 msgstr "Titre"
 
 #: articles/edit_as_simple.php:243
 #: articles/edit_as_thread.php:235
-#: articles/edit.php:698
-#: articles/edit.php:804
+#: articles/edit.php:704
+#: articles/edit.php:808
 #: articles/invite.php:439
 #: articles/mail.php:274
 msgid "Please provide a meaningful title."
 msgstr "Merci d'indiquer un titre significatif."
 
 #: articles/edit_as_simple.php:252
-#: articles/edit.php:826
+#: articles/edit.php:830
 msgid "Description"
 msgstr "Description"
 
@@ -808,13 +815,13 @@ msgstr "Extraire les fichiers de l'archive"
 #: articles/edit_as_simple.php:389
 #: articles/edit_as_thread.php:284
 #: articles/edit_as_thread.php:373
-#: articles/edit.php:983
+#: articles/edit.php:987
 msgid "Access"
 msgstr "Accès"
 
 #: articles/edit_as_simple.php:304
 #: articles/edit_as_thread.php:299
-#: articles/edit.php:885
+#: articles/edit.php:889
 #: articles/layout_articles_as_spray.php:170
 #: articles/view_as_tabs.php:240
 msgid "Information"
@@ -822,39 +829,39 @@ msgstr "Information"
 
 #: articles/edit_as_simple.php:329
 #: articles/edit_as_thread.php:324
-#: articles/edit.php:914
+#: articles/edit.php:918
 msgid "Images"
 msgstr "Images"
 
 #: articles/edit_as_simple.php:345
-#: articles/edit.php:941
+#: articles/edit.php:945
 msgid "Add a table"
 msgstr "Ajouter une table"
 
 #: articles/edit_as_simple.php:351
-#: articles/edit.php:947
+#: articles/edit.php:951
 msgid "Tables"
 msgstr "Tables"
 
 #: articles/edit_as_simple.php:357
 #: articles/edit_as_thread.php:341
-#: articles/edit.php:953
+#: articles/edit.php:957
 msgid "Resources"
 msgstr "Resources"
 
 #: articles/edit_as_simple.php:370
 #: articles/edit_as_thread.php:354
-#: articles/edit.php:964
+#: articles/edit.php:968
 #: articles/layout_articles_as_rights.php:167
 #: articles/layout_articles_as_spray.php:170
 #: articles/view_as_tabs.php:501
-#: articles/view.php:514
+#: articles/view.php:523
 msgid "Owner"
 msgstr "Propriétaire"
 
 #: articles/edit_as_simple.php:376
 #: articles/edit_as_thread.php:360
-#: articles/edit.php:970
+#: articles/edit.php:974
 msgid "No owner has been found."
 msgstr "Aucun propriétaire n'a été trouvé."
 
@@ -862,77 +869,77 @@ msgstr "Aucun propriétaire n'a été trouvé."
 #: articles/edit_as_simple.php:423
 #: articles/edit_as_thread.php:365
 #: articles/edit_as_thread.php:407
-#: articles/edit.php:858
-#: articles/edit.php:975
-#: articles/edit.php:1017
+#: articles/edit.php:862
+#: articles/edit.php:979
+#: articles/edit.php:1021
 msgid "Change"
 msgstr "Changer"
 
 #: articles/edit_as_simple.php:396
 #: articles/edit_as_thread.php:380
-#: articles/edit.php:990
+#: articles/edit.php:994
 msgid "Locker"
 msgstr "Verrou"
 
 #: articles/edit_as_simple.php:400
 #: articles/edit_as_thread.php:384
-#: articles/edit.php:994
+#: articles/edit.php:998
 msgid "Contributions are accepted"
 msgstr "Les contributions sont acceptées."
 
 #: articles/edit_as_simple.php:405
 #: articles/edit_as_thread.php:389
-#: articles/edit.php:999
+#: articles/edit.php:1003
 msgid "Only owners and associates can add content"
 msgstr "Seuls les propriétaires et les associés peuvent ajouter du contenu"
 
 #: articles/edit_as_simple.php:407
 #: articles/edit_as_thread.php:391
-#: articles/edit.php:1001
+#: articles/edit.php:1005
 msgid "Only assigned persons, owners and associates can add content"
 msgstr "Seuls les personnes assignées, les propriétaires et les associés peuvent ajouter du contenu"
 
 #: articles/edit_as_simple.php:416
 #: articles/edit_as_thread.php:400
-#: articles/edit.php:1010
+#: articles/edit.php:1014
 msgid "Thumbnail"
 msgstr "Vignette"
 
 #: articles/edit_as_simple.php:425
 #: articles/edit_as_thread.php:409
-#: articles/edit.php:1019
+#: articles/edit.php:1023
 msgid "Upload a small image to illustrate this page when it is listed into parent page."
 msgstr "Téléverser une petite image pour illustrer cette page au niveau de son parent."
 
 #: articles/edit_as_simple.php:442
 #: articles/edit_as_thread.php:426
-#: articles/edit.php:1036
+#: articles/edit.php:1040
 #: articles/layout_articles_as_manage.php:49
 msgid "Rank"
 msgstr "Rang"
 
 #: articles/edit_as_simple.php:444
 #: articles/edit_as_thread.php:428
-#: articles/edit.php:1038
+#: articles/edit.php:1042
 #, php-format
 msgid "For %s pages; regular pages are ranked at %s."
 msgstr "Pour les pages %s ; par défaut égal à %s."
 
 #: articles/edit_as_simple.php:445
 #: articles/edit_as_thread.php:429
-#: articles/edit.php:1039
+#: articles/edit.php:1043
 msgid "sticky"
 msgstr "classées"
 
 #: articles/edit_as_simple.php:446
 #: articles/edit_as_thread.php:430
-#: articles/edit.php:1040
+#: articles/edit.php:1044
 msgid "10000"
 msgstr "10000"
 
 #: articles/edit_as_simple.php:451
 #: articles/edit_as_thread.php:435
-#: articles/edit.php:1045
+#: articles/edit.php:1049
 #: articles/publish.php:185
 #: articles/stamp.php:255
 msgid "Publication date"
@@ -940,27 +947,27 @@ msgstr "Date de publication"
 
 #: articles/edit_as_simple.php:456
 #: articles/edit_as_thread.php:440
-#: articles/edit.php:1050
+#: articles/edit.php:1054
 #: articles/view_as_chat.php:434
 #: articles/view_as_tabs.php:601
 #: articles/view_as_wiki.php:346
-#: articles/view.php:1237
+#: articles/view.php:1247
 msgid "Publish"
 msgstr "Publier"
 
 #: articles/edit_as_simple.php:459
 #: articles/edit_as_thread.php:443
-#: articles/edit.php:1053
+#: articles/edit.php:1057
 #: articles/view_as_tabs.php:106
 #: articles/view_as_tabs.php:108
-#: articles/view.php:536
-#: articles/view.php:538
+#: articles/view.php:545
+#: articles/view.php:547
 msgid "not published"
 msgstr "à publier"
 
 #: articles/edit_as_simple.php:464
 #: articles/edit_as_thread.php:448
-#: articles/edit.php:1058
+#: articles/edit.php:1062
 #: articles/publish.php:243
 #: articles/stamp.php:209
 msgid "Expiry date"
@@ -968,93 +975,93 @@ msgstr "Date d'expiration"
 
 #: articles/edit_as_simple.php:468
 #: articles/edit_as_thread.php:452
-#: articles/edit.php:1062
+#: articles/edit.php:1066
 msgid "never"
 msgstr "jamais"
 
 #: articles/edit_as_simple.php:475
 #: articles/edit_as_thread.php:459
-#: articles/edit.php:1069
+#: articles/edit.php:1073
 msgid "Section"
 msgstr "Section"
 
 #: articles/edit_as_simple.php:476
 #: articles/edit_as_thread.php:460
-#: articles/edit.php:1070
+#: articles/edit.php:1074
 msgid "Select parent container"
 msgstr "Choisir la section parente"
 
 #: articles/edit_as_simple.php:485
 #: articles/edit_as_thread.php:469
-#: articles/edit.php:1079
+#: articles/edit.php:1083
 #, php-format
 msgid "Contribution to \"%s\""
 msgstr "Contribution à \"%s\""
 
 #: articles/edit_as_simple.php:487
 #: articles/edit_as_thread.php:471
-#: articles/edit.php:1081
+#: articles/edit.php:1085
 msgid "Contribution to parent container"
 msgstr "Contribution à la section parente"
 
 #: articles/edit_as_simple.php:492
 #: articles/edit_as_thread.php:476
-#: articles/edit.php:1086
+#: articles/edit.php:1090
 msgid "Source"
 msgstr "Source"
 
 #: articles/edit_as_simple.php:499
 #: articles/edit_as_thread.php:483
-#: articles/edit.php:1093
+#: articles/edit.php:1097
 msgid "Mention your source, if any. Web link (http://...), internal reference ([user=tom]), or free text."
 msgstr "Mentionnez vos sources s'il y a lieu. Lien web (http://...), référence interne ([user=tom]), ou texte libre."
 
 #: articles/edit_as_simple.php:504
 #: articles/edit_as_thread.php:488
-#: articles/edit.php:1098
+#: articles/edit.php:1102
 msgid "Nick name"
 msgstr "Surnom"
 
 #: articles/edit_as_simple.php:511
 #: articles/edit_as_thread.php:495
-#: articles/edit.php:1105
+#: articles/edit.php:1109
 #, php-format
 msgid "To designate a page by its name in the %s"
 msgstr "Pour désigner une page par son nom avec le %s"
 
 #: articles/edit_as_simple.php:517
 #: articles/edit_as_thread.php:501
-#: articles/edit.php:1111
+#: articles/edit.php:1115
 msgid "Rendering"
 msgstr "Rendu"
 
 #: articles/edit_as_simple.php:524
 #: articles/edit_as_thread.php:508
-#: articles/edit.php:1118
+#: articles/edit.php:1122
 msgid "Language"
 msgstr "Langue"
 
 #: articles/edit_as_simple.php:526
 #: articles/edit_as_thread.php:510
-#: articles/edit.php:1120
+#: articles/edit.php:1124
 msgid "Select the language used for this page"
 msgstr "Choisissez la langue employée pour cette page"
 
 #: articles/edit_as_simple.php:530
 #: articles/edit_as_thread.php:514
-#: articles/edit.php:1124
+#: articles/edit.php:1128
 msgid "Meta information"
 msgstr "Meta-information"
 
 #: articles/edit_as_simple.php:532
 #: articles/edit_as_thread.php:516
-#: articles/edit.php:1126
+#: articles/edit.php:1130
 msgid "Type here any XHTML tags to be put in page header."
 msgstr "Tapez ici les balises XHTML additionnelles à placer dans l'en-tête de page."
 
 #: articles/edit_as_simple.php:544
 #: articles/edit_as_thread.php:528
-#: articles/edit.php:1162
+#: articles/edit.php:1166
 msgid "Change the overlay"
 msgstr "Changer d'overlay"
 
@@ -1062,69 +1069,69 @@ msgstr "Changer d'overlay"
 #: articles/edit_as_simple.php:551
 #: articles/edit_as_thread.php:531
 #: articles/edit_as_thread.php:535
-#: articles/edit.php:1165
 #: articles/edit.php:1169
+#: articles/edit.php:1173
 msgid "none"
 msgstr "aucun"
 
 #: articles/edit_as_simple.php:548
 #: articles/edit_as_thread.php:532
-#: articles/edit.php:1166
+#: articles/edit.php:1170
 msgid "If you change the overlay you may loose some data."
 msgstr "Vous pouvez perdre des informations si vous changez l'overlay."
 
 #: articles/edit_as_simple.php:550
 #: articles/edit_as_thread.php:534
-#: articles/edit.php:1168
+#: articles/edit.php:1172
 msgid "No overlay has been selected yet."
 msgstr "Aucun overlay n'a été sélectionné."
 
 #: articles/edit_as_simple.php:589
 #: articles/edit_as_thread.php:573
-#: articles/edit.php:1252
+#: articles/edit.php:1256
 msgid "More options"
 msgstr "Plus d'options"
 
 #: articles/edit_as_simple.php:594
 #: articles/edit_as_thread.php:578
-#: articles/edit.php:1257
+#: articles/edit.php:1261
 msgid "Options"
 msgstr "Options"
 
 #: articles/edit_as_thread.php:249
-#: articles/edit.php:809
+#: articles/edit.php:813
 msgid "Introduction"
 msgstr "Introduction"
 
-#: articles/edit.php:227
+#: articles/edit.php:226
 #, php-format
 msgid "Edit: %s"
 msgstr "Modifier : %s"
 
-#: articles/edit.php:229
+#: articles/edit.php:228
 #: articles/index.php:122
 msgid "Add a page"
 msgstr "Ajouter une page"
 
-#: articles/edit.php:303
+#: articles/edit.php:302
 #, php-format
 msgid "This page is currently edited by %s. You have to wait for a new version to be released."
 msgstr "Cette page est modifiée par %s. Vous devez attendre qu'une nouvelle version soit disponible."
 
-#: articles/edit.php:380
+#: articles/edit.php:379
 #: articles/invite.php:134
 msgid "Please prove you are not a robot."
 msgstr "Merci de prouver que vous n'êtes pas un robot."
 
-#: articles/edit.php:519
+#: articles/edit.php:522
 msgid "Add a thumbnail"
 msgstr "Ajouter une vignette"
 
-#: articles/edit.php:579
+#: articles/edit.php:582
 msgid "Please carefully select a model for your page."
 msgstr "Choisissez le modèle de page à utiliser."
 
-#: articles/edit.php:601
+#: articles/edit.php:605
 #: articles/invite.php:415
 #: articles/own.php:105
 #: articles/publish.php:260
@@ -1132,7 +1139,7 @@ msgstr "Choisissez le modèle de page à utiliser."
 msgid "Submit"
 msgstr "Enregistrer"
 
-#: articles/edit.php:601
+#: articles/edit.php:605
 #: articles/invite.php:415
 #: articles/mail.php:250
 #: articles/publish.php:260
@@ -1140,121 +1147,121 @@ msgstr "Enregistrer"
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
-#: articles/edit.php:625
+#: articles/edit.php:631
 msgid "This is a draft document. Do not notify watchers nor followers."
 msgstr "Cette page est un brouillon. Ne pas notifier les observateurs, ni les abonnés."
 
-#: articles/edit.php:641
+#: articles/edit.php:647
 #: articles/mail.php:70
 #: articles/publish.php:265
 msgid "Notify watchers"
 msgstr "Alerter les observateurs"
 
-#: articles/edit.php:646
+#: articles/edit.php:652
 msgid "Do not change modification date."
 msgstr "Ne pas changer la date de modification."
 
-#: articles/edit.php:650
+#: articles/edit.php:656
 msgid "Ensure this post is valid XHTML."
 msgstr "Vérifier que le contenu est du XHTML valide."
 
-#: articles/edit.php:666
+#: articles/edit.php:672
 msgid "Please type the text of your new page and hit the submit button. You will then be able to post images, files and links on subsequent forms."
 msgstr "Merci de taper le texte de votre nouvelle page et de cliquer sur le bouton en bas du formulaire. L'envoi des images, des fichiers et des liens se fait dans un deuxième temps."
 
-#: articles/edit.php:669
+#: articles/edit.php:675
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr "Utilisez %s et %s pour embellir le texte."
 
-#: articles/edit.php:669
+#: articles/edit.php:675
 msgid "YACS codes"
 msgstr "les codes YACS"
 
-#: articles/edit.php:669
+#: articles/edit.php:675
 msgid "smileys"
 msgstr "les emoticons"
 
-#: articles/edit.php:672
+#: articles/edit.php:678
 msgid "Mandatory fields are marked with a *"
 msgstr "* signale les champs obligatoires"
 
-#: articles/edit.php:679
+#: articles/edit.php:685
 msgid "TinyMCE"
 msgstr "TinyMCE"
 
-#: articles/edit.php:683
+#: articles/edit.php:689
 msgid "Textarea"
 msgstr "Textarea"
 
-#: articles/edit.php:687
+#: articles/edit.php:693
 #: articles/invite.php:460
 msgid "Help"
 msgstr "Aide"
 
-#: articles/edit.php:711
+#: articles/edit.php:717
 msgid "Page content exceeds 64,000 characters. Do you confirm you are intended to post a jumbo page?"
 msgstr "Le contenu de votre page excède 64 000 caractères. Confirmez-vous votre intention d'envoyer une page énorme ?"
 
-#: articles/edit.php:774
+#: articles/edit.php:778
 #: articles/invite.php:305
 msgid "authenticate"
 msgstr "authentifier"
 
-#: articles/edit.php:817
+#: articles/edit.php:821
 msgid "Also complements the title in lists featuring this page"
 msgstr "Complète le titre dans les listes où la page apparait"
 
-#: articles/edit.php:844
+#: articles/edit.php:848
 msgid "Trailer"
 msgstr "Bas de page"
 
-#: articles/edit.php:846
+#: articles/edit.php:850
 msgid "Text to be appended at the bottom of the page, after all other elements attached to this page."
 msgstr "Texte à ajouter en bas de page, après tous les éléments attachés à cette page."
 
-#: articles/edit.php:851
+#: articles/edit.php:855
 msgid "Image"
 msgstr "Image"
 
-#: articles/edit.php:860
+#: articles/edit.php:864
 msgid "Image to be displayed in the panel aside the page."
 msgstr "Image qui sera affichée dans un panneau de coté"
 
-#: articles/edit.php:874
+#: articles/edit.php:878
 msgid "Extra"
 msgstr "Extra"
 
-#: articles/edit.php:876
+#: articles/edit.php:880
 msgid "Text to be inserted in the panel aside the page. Use [box.extra=title]content[/box] or plain HTML."
 msgstr "Texte inséré dans le panneau extra, sur le côté de la page. Utiliser [box.extra=titre]contenu[/box] ou des balises HTML."
 
-#: articles/edit.php:880
+#: articles/edit.php:884
 msgid "More content"
 msgstr "Contenu additionnel"
 
-#: articles/edit.php:900
+#: articles/edit.php:904
 msgid "Submit the new item, and you will be able to add resources afterwards."
 msgstr "Créez le nouvel élément, et vous pourrez ajouter des ressources par la suite."
 
-#: articles/edit.php:930
+#: articles/edit.php:934
 msgid "Add a location"
 msgstr "Ajouter un emplacement"
 
-#: articles/edit.php:936
+#: articles/edit.php:940
 msgid "Locations"
 msgstr "Emplacements"
 
-#: articles/edit.php:1213
+#: articles/edit.php:1217
 msgid "Change the canvas"
 msgstr "Changer le canevas"
 
-#: articles/edit.php:1215
+#: articles/edit.php:1219
 #, php-format
 msgid "%s used for this article"
 msgstr "%s utilisé pour cette page"
 
-#: articles/edit.php:1215
+#: articles/edit.php:1219
 msgid "Canvas"
 msgstr "Canvas"
 
@@ -1262,13 +1269,13 @@ msgstr "Canvas"
 #: articles/fetch_as_pdf.php:147
 #: articles/layout_articles_as_tabs.php:140
 #: articles/print.php:140
-#: articles/view.php:951
+#: articles/view.php:960
 msgid "Comments"
 msgstr "Commentaires"
 
 #: articles/fetch_as_msword.php:160
 #: articles/fetch_as_pdf.php:162
-#: articles/view.php:788
+#: articles/view.php:797
 msgid "See also"
 msgstr "Voir aussi"
 
@@ -1326,7 +1333,7 @@ msgstr "Voir la catégorie"
 #: articles/invite.php:326
 #: articles/view_as_chat.php:474
 #: articles/view_as_tabs.php:480
-#: articles/view.php:640
+#: articles/view.php:649
 msgid "Invite participants"
 msgstr "Inviter des participants"
 
@@ -1467,14 +1474,14 @@ msgstr "Notez cette page"
 #: articles/layout_articles_as_tabs.php:150
 #: articles/view_as_tabs.php:563
 #: articles/view_as_wiki.php:308
-#: articles/view.php:958
-#: articles/view.php:1199
+#: articles/view.php:967
+#: articles/view.php:1208
 msgid "Post a comment"
 msgstr "Ajouter un commentaire"
 
 #: articles/layout_articles_as_alistapart.php:311
 #: articles/layout_articles_as_daily.php:187
-#: articles/view.php:658
+#: articles/view.php:667
 msgid "Reference this page"
 msgstr "Référencer cette page"
 
@@ -1512,7 +1519,7 @@ msgstr "Accès restreint aux membres authentifiés"
 #: articles/view_as_chat.php:82
 #: articles/view_as_tabs.php:180
 #: articles/view_as_wiki.php:60
-#: articles/view.php:903
+#: articles/view.php:912
 #, php-format
 msgid "%s vote"
 msgid_plural "%s votes"
@@ -1523,7 +1530,7 @@ msgstr[1] "%s votes"
 #: articles/view_as_chat.php:84
 #: articles/view_as_tabs.php:182
 #: articles/view_as_wiki.php:62
-#: articles/view.php:905
+#: articles/view.php:914
 msgid "No vote"
 msgstr "Aucun vote"
 
@@ -1531,7 +1538,7 @@ msgstr "Aucun vote"
 #: articles/view_as_chat.php:93
 #: articles/view_as_tabs.php:191
 #: articles/view_as_wiki.php:71
-#: articles/view.php:914
+#: articles/view.php:923
 msgid "Rate it"
 msgstr "Voter"
 
@@ -1693,12 +1700,12 @@ msgid "Details"
 msgstr "Détails"
 
 #: articles/layout_articles_as_tabs.php:124
-#: articles/view.php:1086
+#: articles/view.php:1095
 msgid "Zip 20 first files"
 msgstr "Zip des 20 premiers fichiers"
 
 #: articles/layout_articles_as_tabs.php:126
-#: articles/view.php:1088
+#: articles/view.php:1097
 msgid "Zip all files"
 msgstr "Zip de tous les fichiers"
 
@@ -1707,7 +1714,7 @@ msgstr "Zip de tous les fichiers"
 #: articles/view_as_tabs.php:588
 #: articles/view_as_wiki.php:45
 #: articles/view_as_wiki.php:333
-#: articles/view.php:1224
+#: articles/view.php:1233
 msgid "Edit this page"
 msgstr "Modifier cette page"
 
@@ -1740,13 +1747,13 @@ msgid "Last post"
 msgstr "Mise à jour"
 
 #: articles/layout_articles.php:184
-#: articles/view.php:699
+#: articles/view.php:708
 msgid "Stop notifications"
 msgstr "Arrêter les notifications"
 
 #: articles/layout_articles.php:186
 #: articles/view_as_tabs.php:474
-#: articles/view.php:701
+#: articles/view.php:710
 msgid "Watch this page"
 msgstr "Surveiller cette page"
 
@@ -1754,7 +1761,7 @@ msgstr "Surveiller cette page"
 #: articles/view_as_chat.php:450
 #: articles/view_as_tabs.php:615
 #: articles/view_as_wiki.php:360
-#: articles/view.php:1251
+#: articles/view.php:1262
 msgid "Lock"
 msgstr "Verrouiller"
 
@@ -1764,7 +1771,7 @@ msgstr "L'opération a échoué."
 
 #: articles/mail.php:68
 #: articles/view_as_tabs.php:486
-#: articles/view.php:646
+#: articles/view.php:655
 msgid "Notify participants"
 msgstr "Notifier les participants"
 
@@ -1838,7 +1845,7 @@ msgstr "Pour transférer la propriété à une autre personne, taper quelques le
 #: articles/view_as_chat.php:535
 #: articles/view_as_tabs.php:405
 #: articles/view_as_wiki.php:185
-#: articles/view.php:1142
+#: articles/view.php:1151
 msgid "Links"
 msgstr "Liens"
 
@@ -1854,7 +1861,7 @@ msgstr "La page a été publiée avec succès."
 #: articles/publish.php:161
 #: articles/stamp.php:145
 #: articles/stamp.php:181
-#: articles/view.php:318
+#: articles/view.php:322
 msgid "Where do you want to go now?"
 msgstr "Où voulez-vous aller maintenant ?"
 
@@ -2060,57 +2067,57 @@ msgstr "Vous n'êtes pas sur la liste des inscrits à cette discussion."
 #: articles/view_as_chat.php:412
 #: articles/view_as_tabs.php:581
 #: articles/view_as_wiki.php:326
-#: articles/view.php:1217
+#: articles/view.php:1226
 msgid "You can upload a camera shot, a drawing, or another image file."
 msgstr "Vous pouvez télécharger une photo, un dessin ou une image."
 
 #: articles/view_as_chat.php:420
 #: articles/view_as_tabs.php:589
 #: articles/view_as_wiki.php:334
-#: articles/view.php:1225
+#: articles/view.php:1234
 msgid "Press [e] to edit"
 msgstr "Appuyer sur [e] pour modifier"
 
 #: articles/view_as_chat.php:426
 #: articles/view_as_tabs.php:595
 #: articles/view_as_wiki.php:340
-#: articles/view.php:1231
+#: articles/view.php:1240
 msgid "Versions"
 msgstr "Versions"
 
 #: articles/view_as_chat.php:426
 #: articles/view_as_tabs.php:595
 #: articles/view_as_wiki.php:340
-#: articles/view.php:1231
+#: articles/view.php:1240
 msgid "Restore a previous version if necessary"
 msgstr "Restaurer une version précédente si nécessaire"
 
 #: articles/view_as_chat.php:442
 #: articles/view_as_tabs.php:607
 #: articles/view_as_wiki.php:352
-#: articles/view.php:1243
+#: articles/view.php:1254
 msgid "Stamp"
 msgstr "Dater"
 
 #: articles/view_as_chat.php:453
 #: articles/view_as_tabs.php:618
 #: articles/view_as_wiki.php:363
-#: articles/view.php:1254
+#: articles/view.php:1265
 msgid "Unlock"
 msgstr "Déverrouiller"
 
 #: articles/view_as_chat.php:460
 #: articles/view_as_tabs.php:625
 #: articles/view_as_wiki.php:370
-#: articles/view.php:1261
+#: articles/view.php:1273
 msgid "Delete this page"
 msgstr "Supprimer cette page"
 
 #: articles/view_as_chat.php:474
-#: articles/view.php:625
-#: articles/view.php:629
-#: articles/view.php:633
-#: articles/view.php:640
+#: articles/view.php:634
+#: articles/view.php:638
+#: articles/view.php:642
+#: articles/view.php:649
 msgid "Spread the word"
 msgstr "Diffuser l'information"
 
@@ -2130,40 +2137,40 @@ msgstr[0] "%d note"
 msgstr[1] "%d notes"
 
 #: articles/view_as_tabs.php:84
-#: articles/view.php:497
+#: articles/view.php:506
 msgid "Community - Access is granted to any identified surfer"
 msgstr "Communauté - Accès autorisé à toute personne identifiée"
 
 #: articles/view_as_tabs.php:88
-#: articles/view.php:501
+#: articles/view.php:510
 msgid "Private - Access is restricted to selected persons"
 msgstr "Privé - Accès limité à quelques personnes"
 
 #: articles/view_as_tabs.php:93
-#: articles/view.php:506
+#: articles/view.php:515
 #, php-format
 msgid "Page has expired %s"
 msgstr "La page a expiré %s"
 
 #: articles/view_as_tabs.php:136
-#: articles/view.php:566
+#: articles/view.php:575
 msgid "page is locked."
 msgstr "la page est verrouillée."
 
 #: articles/view_as_tabs.php:144
-#: articles/view.php:574
+#: articles/view.php:583
 #, php-format
 msgid "Code to reference this page: %s"
 msgstr "Code pour référencer cette page : %s"
 
 #: articles/view_as_tabs.php:148
-#: articles/view.php:578
+#: articles/view.php:587
 #, php-format
 msgid "Name: %s"
 msgstr "Nom : %s"
 
 #: articles/view_as_tabs.php:152
-#: articles/view.php:582
+#: articles/view.php:591
 #, php-format
 msgid "Shortcut: %s"
 msgstr "Raccourci : %s"
@@ -2185,12 +2192,12 @@ msgstr[0] "%d participant"
 msgstr[1] "%d participants"
 
 #: articles/view_as_tabs.php:492
-#: articles/view.php:652
+#: articles/view.php:661
 msgid "Manage participants"
 msgstr "Gérer les participants"
 
 #: articles/view_as_tabs.php:497
-#: articles/view.php:711
+#: articles/view.php:720
 msgid "Leave this page"
 msgstr "Quitter cette page"
 
@@ -2204,25 +2211,25 @@ msgstr "Personnes"
 
 #: articles/view_as_tabs.php:563
 #: articles/view_as_wiki.php:308
-#: articles/view.php:1199
+#: articles/view.php:1208
 msgid "Express yourself, and say what you think."
 msgstr "Exprimez-vous, et dites ce que vous en pensez."
 
 #: articles/view_as_tabs.php:569
 #: articles/view_as_wiki.php:314
-#: articles/view.php:1205
+#: articles/view.php:1214
 msgid "Attach related files."
 msgstr "Attacher les fichiers en rapport avec cette page."
 
 #: articles/view_as_tabs.php:575
 #: articles/view_as_wiki.php:320
-#: articles/view.php:1211
+#: articles/view.php:1220
 msgid "Contribute to the web and link to relevant pages."
 msgstr "Participez à l'extension du web et indiquez les autres pages pertinentes."
 
 #: articles/view_as_tabs.php:631
 #: articles/view_as_wiki.php:376
-#: articles/view.php:1267
+#: articles/view.php:1281
 msgid "Duplicate this page"
 msgstr "Dupliquer cette page"
 
@@ -2230,106 +2237,110 @@ msgstr "Dupliquer cette page"
 msgid "Article"
 msgstr "Article"
 
-#: articles/view.php:300
+#: articles/view.php:304
 msgid "Request"
 msgstr "Requête"
 
-#: articles/view.php:312
+#: articles/view.php:316
 #, php-format
 msgid "Your request has been transmitted to %s. Check your mailbox for feed-back."
 msgstr "Votre requête a été transmise à %s, qui vous répondra par courrier électronique."
 
-#: articles/view.php:320
+#: articles/view.php:324
 msgid "Front page"
 msgstr "Page d'accueil"
 
-#: articles/view.php:321
+#: articles/view.php:325
 msgid "My profile"
 msgstr "Mon profil"
 
-#: articles/view.php:328
+#: articles/view.php:332
 msgid "You are not allowed to access this page."
 msgstr "Vous n'êtes pas autorisé à voir cette page."
 
-#: articles/view.php:349
+#: articles/view.php:353
 msgid "Following person is entitled to invite you to participate:"
 msgid_plural "Following persons are entitled to invite you to participate:"
 msgstr[0] "La personne suivante peut vous inviter à participer :"
 msgstr[1] "Les personnes suivantes peuvent vous inviter à participer :"
 
-#: articles/view.php:354
+#: articles/view.php:358
 msgid "Submit a request to get access"
 msgstr "Demander l'accès"
 
-#: articles/view.php:518
+#: articles/view.php:527
 msgid "Editors"
 msgstr "Editeurs"
 
-#: articles/view.php:522
+#: articles/view.php:531
 msgid "Watchers"
 msgstr "Observateurs"
 
-#: articles/view.php:625
+#: articles/view.php:634
 msgid "Post to Facebook"
 msgstr "Partager sur Facebook"
 
-#: articles/view.php:629
+#: articles/view.php:638
 msgid "Tweet about this"
 msgstr "Poster sur Twitter"
 
-#: articles/view.php:633
+#: articles/view.php:642
 msgid "Share at LinkedIn"
 msgstr "Partager sur LinkedIn"
 
-#: articles/view.php:658
+#: articles/view.php:667
 msgid "Various means to link to this page"
 msgstr "Différents moyens de lier cette page"
 
-#: articles/view.php:670
+#: articles/view.php:679
 msgid "Save as PDF"
 msgstr "Sauver en PDF"
 
-#: articles/view.php:674
+#: articles/view.php:683
 msgid "Copy in MS-Word"
 msgstr "Copier dans MS-Word"
 
-#: articles/view.php:682
+#: articles/view.php:691
 msgid "Print this page"
 msgstr "Imprimer cette page"
 
-#: articles/view.php:682
+#: articles/view.php:691
 msgid "Get a paper copy of this page."
 msgstr "Obtenir une copie papier de cette page."
 
-#: articles/view.php:687
+#: articles/view.php:696
 msgid "Share"
 msgstr "Partager"
 
-#: articles/view.php:704
+#: articles/view.php:713
 msgid "Manage your watch list"
 msgstr "Gérer votre liste de surveillance"
 
-#: articles/view.php:718
+#: articles/view.php:727
 msgid "Recent files"
 msgstr "Fichiers récents"
 
-#: articles/view.php:722
+#: articles/view.php:731
 msgid "Recent comments"
 msgstr "Commentaires récents"
 
-#: articles/view.php:728
+#: articles/view.php:737
 msgid "Monitor"
 msgstr "Surveiller"
 
-#: articles/view.php:743
+#: articles/view.php:752
 msgid "Related"
 msgstr "A ce sujet"
 
-#: articles/view.php:758
+#: articles/view.php:767
 msgid "Navigation"
 msgstr "Navigation"
 
-#: articles/view.php:780
+#: articles/view.php:789
 msgid "Assign categories"
 msgstr "Associer des catégories"
+
+#: articles/view.php:1012
+msgid "comment"
+msgstr "commentaire"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-16 16:36+0200\n"
+"POT-Creation-Date: 2015-04-24 15:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,7 +50,7 @@ msgstr ""
 #: overlays/event.php:554 overlays/event.php:558 overlays/event.php:560
 #: overlays/event.php:564 overlays/event.php:566 overlays/event.php:570
 #: overlays/event.php:692 overlays/event.php:696 overlays/event.php:698
-#: overlays/event.php:702 overlays/events/apply.php:128
+#: overlays/event.php:702 overlays/thread.php:93 overlays/events/apply.php:128
 #: overlays/events/apply.php:188 overlays/events/enroll.php:85
 #: overlays/events/enroll.php:154
 #, php-format
@@ -166,56 +166,56 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: overlays/embed.php:28
+#: overlays/embed.php:31
 msgid "Share"
 msgstr ""
 
-#: overlays/embed.php:37
+#: overlays/embed.php:40
 msgid "a web address"
 msgstr ""
 
-#: overlays/embed.php:44
+#: overlays/embed.php:47
 msgid "a file"
 msgstr ""
 
-#: overlays/embed.php:50
+#: overlays/embed.php:53
 msgid "some information"
 msgstr ""
 
-#: overlays/embed.php:57
+#: overlays/embed.php:60
 msgid "Paste the address of a web page that you have visited"
 msgstr ""
 
-#: overlays/embed.php:59
+#: overlays/embed.php:62
 #, php-format
 msgid "Some sites are recognized automatically: %s"
 msgstr ""
 
-#: overlays/embed.php:107
+#: overlays/embed.php:110
 #, php-format
 msgid "Select a file of less than %s"
 msgstr ""
 
-#: overlays/embed.php:107
+#: overlays/embed.php:110
 msgid "bytes"
 msgstr ""
 
-#: overlays/embed.php:490 overlays/embed.php:522
+#: overlays/embed.php:493 overlays/embed.php:525
 #, php-format
 msgid "%s has shared a link"
 msgstr ""
 
-#: overlays/embed.php:494
+#: overlays/embed.php:497
 #, php-format
 msgid "%s has shared a photo"
 msgstr ""
 
-#: overlays/embed.php:498
+#: overlays/embed.php:501
 #, php-format
 msgid "%s has shared some information"
 msgstr ""
 
-#: overlays/embed.php:502
+#: overlays/embed.php:505
 #, php-format
 msgid "%s has shared a video"
 msgstr ""
@@ -990,6 +990,11 @@ msgstr ""
 msgid "Overlay identifier"
 msgstr ""
 
+#: overlays/overlay.php:528
+#, php-format
+msgid "function %s not found for overlay %s"
+msgstr ""
+
 #: overlays/overlay_test.php:22
 msgid "Extra box"
 msgstr ""
@@ -1293,6 +1298,23 @@ msgstr ""
 #: overlays/thread.php:33
 #, php-format
 msgid "with %s"
+msgstr ""
+
+#: overlays/thread.php:57
+msgid "View the message"
+msgstr ""
+
+#: overlays/thread.php:73
+#, php-format
+msgid "%s has replied"
+msgstr ""
+
+#: overlays/thread.php:83
+msgid "View the reply"
+msgstr ""
+
+#: overlays/thread.php:93
+msgid "Reply in the discussion"
 msgstr ""
 
 #: overlays/ustream_meeting.php:83

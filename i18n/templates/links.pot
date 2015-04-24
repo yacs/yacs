@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-16 16:36+0200\n"
+"POT-Creation-Date: 2015-04-24 15:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -142,7 +142,7 @@ msgstr ""
 msgid "Start"
 msgstr ""
 
-#: links/click.php:101 links/links.php:1125 links/links.php:1234
+#: links/click.php:101 links/links.php:1133 links/links.php:1242
 msgid "No link URL has been provided."
 msgstr ""
 
@@ -184,7 +184,7 @@ msgstr ""
 msgid "Add a link"
 msgstr ""
 
-#: links/edit.php:286 links/links.php:1131 links/links.php:1240
+#: links/edit.php:286 links/links.php:1139 links/links.php:1248
 msgid "No anchor has been found."
 msgstr ""
 
@@ -404,22 +404,22 @@ msgstr ""
 msgid "delete"
 msgstr ""
 
-#: links/links.php:267
+#: links/links.php:275
 msgid "Clicks"
 msgstr ""
 
-#: links/links.php:268
+#: links/links.php:276
 msgid "Clicked links are referenced here."
 msgstr ""
 
-#: links/links.php:269
+#: links/links.php:277
 msgid ""
 "YACS ties automatically external links to this section on use. Therefore, "
 "you will have below a global picture of external sites that are referenced "
 "through your site."
 msgstr ""
 
-#: links/links.php:1228
+#: links/links.php:1236
 msgid "No item has the provided id."
 msgstr ""
 
