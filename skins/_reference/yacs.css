@@ -351,7 +351,7 @@ p#page_menu a span.last { /* last command on the right */
 
 /* local switcher */
 
-#local_switcher ul {
+.local_switcher ul {
     list-style: none;
     padding: 0;
 }

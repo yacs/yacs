@@ -382,7 +382,7 @@
             
             // wrap
             if($switch)
-                $switch = '<div id="local_switcher"><ul>'.$switch.'</ul></div>'."\n";
+                $switch = '<div class="local_switcher"><ul>'.$switch.'</ul></div>'."\n";
             
             
             echo $switch;
