@@ -112,7 +112,7 @@ if($context['site_name'])
 
 // site slogan -- can be replaced, through CSS, by an image
 if(isset($context['site_slogan']))
-	echo '<p id="header_slogan" class="item"><span>'.$context['site_slogan']."</span></p>\n";
+	echo '<p id="header_slogan" class="item"><span>'.$context['site_slogan']."</span><br /></p>\n";
 
 // horizontal tabs with Home, and second level drop-down menu displayed as smartlist
 Page::tabs(TRUE, FALSE, NULL, NULL, 'smartlist');
@@ -154,6 +154,7 @@ echo '</div>'."\n";
 
 // display complementary information, if any
 echo '<aside id="extra_panel" class="col w20 medium-row tiny-inbl mod item">'."\n";
+Page::echo_local_switcher(array('en','fr'));
 Page::extra_panel(NULL, FALSE);
 echo '</aside>'."\n";
 

@@ -922,17 +922,9 @@ class Safe {
                     if(isset($_REQUEST['follow_up']) && $_REQUEST['follow_up'] === 'close' ) {
                         exit('job done');
                     }
+                    // add overlaid param
+                    $reference = http::add_url_param($reference, "overlaid", "Y");
                     
-                    // include overlay param
-                    $param = ((strpos($reference,'?') !== FALSE)?'&':'?').'overlaid=Y';
-                   
-                    // insert param before anchor if any
-                    // or append to end of url
-                    if((strpos($reference,'#') !== FALSE)) {
-                        $reference = substr_replace($reference, $param, strpos($reference,'#'), 0);
-                    } else {
-                        $reference .= $param;
-                    }
                 }
 
 		// the actual redirection directive

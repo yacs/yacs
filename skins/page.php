@@ -346,21 +346,26 @@
         
         /**
          * echo switcher to other language version for the page, if any
+         * as a country flag for each language.
+         * 
+         * @param array $displayed, ['en, 'fr' ...] containing entries you wish to propose to switch language even if current page does not exist with those version
+         * @param boolean $legend to add a text next to the flag ('In English, En Français ...)
          */
         
-        public static function echo_local_switcher($legend=true) {
+        public static function echo_local_switcher($displayed=null, $legend=false) {
             global $context;
             
-            $switch = '';
+            $switch             = '';       // html rendering
+            $page_languages     = array();  // to memorize detected language, completed with $displayed
+            $get_item           = true;     // do we need to get current item
+            $sisters            = array();  // array of sister page in other languages
             
             // only for articles and sections
             if(!strstr($context['current_item'],'article') && !strstr($context['current_item'],'section'))
-                return '';
-            
-            $sisters = array();
+                $get_item = false;
             
             // get the entity
-            if($anchor = Anchors::get($context['current_item'])) {
+            if($get_item && $anchor = Anchors::get($context['current_item'])) {
                 
                 // if anchor as a little name
                 if($nick = $anchor->get_nick_name()){
@@ -373,11 +378,23 @@
                 foreach($sisters as $page) {
                     if($lang = $page['language']) {
                         
-                        $text = ($legend)?'&nbsp;'.i18n::s(sprintf('to_local_%s',$lang)):'';
-                        $switch .= '<li>'.'<a href="'.$class::get_permalink($page).'?lang='.$lang.'">'.Codes::beautify('['.$lang.']').$text.'</a>'.'</li>'."\n";
+                        $text               = ($legend)?'&nbsp;'.i18n::s(sprintf('to_local_%s',$lang)):'';
+                        $switch            .= '<li>'.'<a href="'.http::add_url_param($class::get_permalink($page), "lang", $lang).'">'.Codes::beautify('['.$lang.']').$text.'</a>'.'</li>'."\n";
+                        // memorize as proposed language
+                        $page_languages[]   = $lang;
                     }
                 }
              
+            }
+            
+            if(is_array($displayed) && count($displayed)) {
+                // language that are not already proposed
+                $to_add = array_diff($displayed, $page_languages); 
+                foreach ($to_add as $lang) {
+                    
+                    $text               = ($legend)?'&nbsp;'.i18n::s(sprintf('to_local_%s',$lang)):'';
+                    $switch            .= '<li>'.'<a href="'.http::add_url_param($_SERVER['REQUEST_URI'], "lang", $lang).'">'.Codes::beautify('['.$lang.']').$text.'</a>'.'</li>'."\n";
+                }
             }
             
             // wrap
