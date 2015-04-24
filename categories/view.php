@@ -545,6 +545,8 @@ if(!isset($item['id'])) {
 				$items = Files::list_by_date_for_anchor('category:'.$item['id'], $offset, FILES_PER_PAGE, 'category:'.$item['id']);
 			if(is_array($items))
 				$box['text'] .= Skin::build_list($items, 'decorated');
+                        else
+                                $box['text'] .= $items;
 
 			// navigation commands for files
 			$home = Categories::get_permalink($item);
@@ -562,7 +564,7 @@ if(!isset($item['id'])) {
 
 		// actually render the html for the section
 		if($box['bar'])
-			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
+			$box['text'] = Skin::build_list($box['bar'], 'menu_bar').$box['text'];
 
 		// in a separate panel
 		if($box['text'])
