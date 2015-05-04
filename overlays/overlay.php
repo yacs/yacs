@@ -552,7 +552,7 @@ class Overlay {
 	 * @returns string
 	 */
 	function get_type() {
-		return $this->attributes['overlay_type'];
+		return strtolower($this->attributes['overlay_type']);
 	}
         
         
