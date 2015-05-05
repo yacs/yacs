@@ -48,7 +48,7 @@ class http {
             $insert_pos = (strpos($url, "#") !== false) ? strpos($url, "#") : strlen($url);
 
             // Build the new url
-            $new_url    = substr_replace($url, $separator . rawurlencode($param_name) . '=' . rawurlencode($param_value) . '"', $insert_pos, 0);
+            $new_url    = substr_replace($url, $separator . rawurlencode($param_name) . '=' . rawurlencode($param_value) , $insert_pos, 0);
         }
 
         return $new_url;
