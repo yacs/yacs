@@ -924,6 +924,8 @@ Class i18n {
 
 		// else guess surfer language
 		} else {
+                        // no choosen language
+                        $_SESSION['surfer_language'] = 'none';
 
 			// languages accepted by browser
 			if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && $_SERVER['HTTP_ACCEPT_LANGUAGE'])

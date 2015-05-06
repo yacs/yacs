@@ -1518,7 +1518,8 @@ Class Articles {
 		else {
 			$query = "SELECT ".SQL::escape($attributes)." FROM ".SQL::table_name('articles')
 				." WHERE (nick_name LIKE '".SQL::escape($id)."') OR (handle LIKE '".SQL::escape($id)."')";
-			$count=SQL::query_count($query);
+			
+                        $count = SQL::query_count($query);
 			if($count==1)
 				// do the job
 				$output = SQL::query_first($query);
@@ -1529,9 +1530,9 @@ Class Articles {
 					$language=$_SESSION['surfer_language'];
 				$result = SQL::query($query);
 				while($item = SQL::fetch($result)) {
-				 	$output=$item; // return last by default
+				 	$output = $item; // return last by default
 					if ($item['language'] == $language) {
-					 	$output=$item;
+					 	$output = $item;
 					 	break;
 					}
 				}

@@ -219,6 +219,11 @@ if(!$item) {
     Safe::redirect($context['url_to_root'].'error.php');
 }
 
+// redirect to another section with a better suitable language, if any
+if($item['nick_name']) {
+    Anchors::check_better_lang('section:'.$item['id'], $item['nick_name']);
+}
+
 // get the related overlay, if any
 $overlay = NULL;
 if(isset($item['overlay']))

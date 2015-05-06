@@ -981,18 +981,37 @@ Class Sections {
 			return $cache[$id];
 
 		// search by id
-		if(is_numeric($id))
+		if(is_numeric($id)) {
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
 				." WHERE (sections.id = ".SQL::escape((integer)$id).")";
+                        
+                        $output = SQL::query_first($query);
 
 		// or look for given name of handle
-		else
+                } else {
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
-				." WHERE (sections.nick_name LIKE '".SQL::escape($id)."') OR (handle LIKE '".SQL::escape($id)."')"
-				." ORDER BY edit_date DESC LIMIT 1";
-
-		// do the job
-		$output = SQL::query_first($query);
+				." WHERE (sections.nick_name LIKE '".SQL::escape($id)."') OR (handle LIKE '".SQL::escape($id)."')";
+                        
+                        $count = SQL::query_count($query);
+                        if($count==1)
+                            // do the job
+                            $output = SQL::query_first($query);
+                        elseif ($count>1) {// result depending language give by $context['page_language']
+                            if (($_SESSION['surfer_language']=='none'))	
+					$language=$context['language'];
+				else 
+					$language=$_SESSION['surfer_language'];
+				$result = SQL::query($query);
+				while($item = SQL::fetch($result)) {
+				 	$output = $item; // return last by default
+					if ($item['language'] == $language) {
+					 	$output = $item;
+					 	break;
+					}
+				}
+                        }
+                
+                }
 
 		// save in cache
 		if(isset($output['id']) && (count($cache) < 1000))

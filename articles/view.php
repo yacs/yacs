@@ -187,6 +187,11 @@ if($zoom_index < 1)
 // get the item from the database
 $item = Articles::get($id);
 
+// redirect to another article with a better suitable language, if any
+if($item['nick_name']) {
+    Anchors::check_better_lang('article:'.$item['id'], $item['nick_name']);
+}
+
 // get owner profile, if any
 $owner = array();
 if(isset($item['owner_id']))
