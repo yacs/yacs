@@ -116,8 +116,8 @@ class Anchors {
             // get item from nickname, will chose best language
             $anchor     = $familly::get($nickname);
             
-            // compare id, if != the redirect surfer
-            if($anchor['id'] !== $id) {
+            // compare id, if != the redirect surfer but not crawlers
+            if($anchor['id'] !== $id && !Surfer::is_crawler()) {
                 
                 $url    = $familly::get_permalink($anchor);
                 Safe::redirect($url);
