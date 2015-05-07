@@ -3589,6 +3589,18 @@ Class Codes {
 			$output = '<p>'.Skin::build_link($link).'</p>';
 			return $output;
 		}
+                
+                // redirect to a reference
+                if(preg_match('/^(article|section|category):[0-9]+$/',$link)) {
+                    $anchor = Anchors::get($link);
+                    if($anchor)
+                        Safe::redirect($anchor->get_permalink());
+                    else {
+                        Logger::error(sprintf(i18n::s('redirection to unknown reference : %s'),$link));
+                        $output = '';
+                        return $output;
+                    }
+                }
 
 		// check path to the file
 		while(TRUE) {
