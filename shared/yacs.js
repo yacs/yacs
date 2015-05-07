@@ -1160,9 +1160,11 @@ var Yacs = {
 
 		// do the tiling
 		var $tiled = $("#modal_content").find('.tiler');
-		$tiled.masonry({
-		    itemSelector: '.tile'
-		});
+		$tiled.imagesLoaded(function(){
+                    $tiled.masonry({
+				itemSelector: '.tile'
+                    });
+                });
 
 	},
 
@@ -1246,12 +1248,11 @@ var Yacs = {
 
 		// do the tiling
 		var $tiled = $('.tiler');
-
-		$().ready(function(){
-			$tiled.masonry({
+		$tiled.imagesLoaded(function(){
+                    $tiled.masonry({
 				itemSelector: '.tile'
-			});
-		});
+                    });
+                });
 
 		// prepare for a nice slideshow
 		Yacs.prepareSlideShow();
