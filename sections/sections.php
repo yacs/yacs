@@ -957,6 +957,8 @@ Class Sections {
 	public static function get($id, $mutable=FALSE) {
 		global $context;
                 
+                $output = array();
+                
 		// sanity check
 		if(!$id) {
 			$output = NULL;
