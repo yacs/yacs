@@ -956,7 +956,7 @@ Class Sections {
 	 */
 	public static function get($id, $mutable=FALSE) {
 		global $context;
-
+                
 		// sanity check
 		if(!$id) {
 			$output = NULL;
@@ -1014,7 +1014,7 @@ Class Sections {
                 }
 
 		// save in cache
-		if(isset($output['id']) && (count($cache) < 1000))
+		if(is_array($output) && isset($output['id']) && (count($cache) < 1000))
 			$cache[$id] = $output;
 
 		// return by reference
