@@ -42,10 +42,21 @@ $id = strip_tags($id);
 // get the item from the database
 $item = Articles::get($id);
 
+// get the related overlay, if any
+$overlay = NULL;
+if(isset($item['overlay']))
+	$overlay = Overlay::load($item, 'article:'.$item['id']);
+
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
 	$anchor = Anchors::get($item['anchor']);
+
+// current viewed article as object
+$cur_article = new article();
+$cur_article->item      = $item;
+$cur_article->anchor    = $anchor;
+$cur_article->overlay   = $overlay;
 
 // do not always show the edition form
 $with_form = FALSE;
@@ -74,7 +85,7 @@ if(Surfer::is_crawler()) {
 	include '../error.php';
 
 // publication is restricted to some people
-} elseif(!Articles::allow_publication($item,$anchor)) {
+} elseif(!$cur_article->allows('publication')) {
 
 	// anonymous users are invited to log in
 	if(!Surfer::is_logged())
