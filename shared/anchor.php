@@ -953,6 +953,11 @@ abstract class Anchor {
 		// attribute has a value
 		if(isset($this->item[$name]))
 			return $this->item[$name];
+                
+                // maybe in overlay
+                if(is_object($this->overlay)) {
+                    return $this->overlay->get_value($name, $default_value);
+                }
 
 		// use default value
 		return $default_value;
