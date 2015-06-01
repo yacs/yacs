@@ -455,6 +455,37 @@ Class Article extends Anchor {
 		// by default, limit to direct watchers of this anchor
 		return $containers;
 	}	
+        
+        
+        public function is_published(&$status = '') {
+            global $context;
+            
+            $item = $this->item;
+            // sanity check
+            if(!$item) {
+                    $status = 'UNSET';
+                    return false;
+            }
+            
+            if( !isset($item['expiry_date']) && !isset($item['publish_date'])) {
+                $status = 'UNSET';
+                return false;
+            }
+            
+            if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now'])) {
+                    $status = 'EXPIRED';
+                    return false;
+            }
+
+            if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S'))) {
+                    $status = 'UNPUBLISHED';
+                    return false;
+            }
+            
+            $status = 'PUBLISHED';
+            return true;
+            
+        }
 
 	/**
 	 * load the related item

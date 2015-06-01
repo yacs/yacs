@@ -826,6 +826,31 @@ Class Section extends Anchor {
 		// no match
 		return FALSE;
 	}	
+        
+        public function is_published(&$status = '') {
+            global $context;
+            
+            $item = $this->item;
+            // sanity check
+            if(!$item) {
+                    $status = 'UNSET';
+                    return false;
+            }
+            
+            if( !isset($item['activation_date'])) {
+                $status = 'UNSET';
+                return false;
+            }
+
+            if(($item['activation_date'] > NULL_DATE) || ($item['activation_date'] > gmstrftime('%Y-%m-%d %H:%M:%S'))) {
+                    $status = 'UNPUBLISHED';
+                    return false;
+            }
+            
+            $status = 'PUBLISHED';
+            return true;
+            
+        }
 
 	/**
 	 * load the related item

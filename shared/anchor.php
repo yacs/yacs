@@ -1315,6 +1315,21 @@ abstract class Anchor {
 		// sorry
 		return $this->is_public_cache = FALSE;
 	}
+        
+        function is_published(&$status='') {       
+            global $context;
+            
+            $item = $this->item;
+            // sanity check
+            if(!$item) {
+                    $status = 'UNSET';
+                    return false;
+            }
+            
+            $status = 'PUBLISHED';
+            return true;
+       
+        }
 
 	/**
 	 * check that the surfer is allowed to display the anchor
