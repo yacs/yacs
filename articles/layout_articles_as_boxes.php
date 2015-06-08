@@ -24,7 +24,7 @@ Class Layout_articles_as_boxes extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array( $title => $content )
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;

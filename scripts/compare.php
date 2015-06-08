@@ -87,10 +87,7 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '</div></form>';
 
 	// set the focus
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#original").focus();'."\n"
-		.JS_SUFFIX."\n";
+	Page::insert_script('$("#original").focus();');		
 
 // the original script has to be there
 } elseif(!file_exists($context['path_to_root'].$original)) {

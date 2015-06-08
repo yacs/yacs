@@ -345,45 +345,39 @@ if(Surfer::is_crawler()) {
 	$text .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$text .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// url is mandatory'."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// url is mandatory'
 		.'	if(!container.url.value) {'."\n"
 		.'		alert("'.i18n::s('Please type a valid link.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// title is mandatory'."\n"
+			// title is mandatory
 		.'	if(!container.title.value) {'."\n"
 		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// exceprt is mandatory'."\n"
+			// exceprt is mandatory'
 		.'	if(!container.exceprt.value) {'."\n"
 		.'		alert("'.i18n::s('You must type an excerpt of the referencing page.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// blog_name is mandatory'."\n"
+			// blog_name is mandatory
 		.'	if(!container.blog_name.value) {'."\n"
 		.'		alert("'.i18n::s('You must name the originating blog.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
+			// successful check
 		.'	return true;'."\n"
 		.'}'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'$("#url").focus();'."\n"
-		.JS_SUFFIX."\n";
+		);
 
 	// trackback link
 	$label = i18n::s('Trackback address:');

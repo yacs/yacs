@@ -19,6 +19,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Alexis Raimbault
  * @see shared/anchor.php
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -61,24 +62,8 @@ Class User extends Anchor {
 		// initialize components
 		$previous_url = $previous_label = $next_url = $next_label = $option_url = $option_label ='';
 
-		// previous and next actions
-		if($type == 'action') {
-
-			// load the adequate library
-			include_once $context['path_to_root'].'actions/actions.php';
-
-			$order = 'date';
-
-			// get previous url
-			if($previous_url = Actions::get_previous_url($item, 'user:'.$this->item['id'], $order))
-				$previous_label = i18n::s('Previous action');
-
-			// get next url
-			if($next_url = Actions::get_next_url($item, 'user:'.$this->item['id'], $order))
-				$next_label = i18n::s('Next action');
-
 		// previous and next comments
-		} elseif($type == 'comment') {
+		if($type == 'comment') {
 
 			// load the adequate library
 			include_once $context['path_to_root'].'comments/comments.php';
@@ -194,6 +179,27 @@ Class User extends Anchor {
 		return array($previous_url, $previous_label, $next_url, $next_label, $option_url, $option_label);
 	}
 
+        
+        /**
+	 * get the focus for this anchor
+	 *
+	 * This function lists containers of the content tree,
+	 * from top level down to this item.
+	 *
+	 * @return array of anchor references (e.g., array('section:123', 'article:456') )
+	 */
+	function get_focus() {
+		
+		$focus = array();
+
+		// append this level
+		if(isset($this->item['id']))
+			$focus[] = $this->get_reference();
+
+		return $focus;
+	}
+        
+        
 	/**
 	 * get the path bar for this anchor
 	 *
@@ -224,18 +230,25 @@ Class User extends Anchor {
 		// return an array of ($url => $label)
 		 return $output;
 	 }
-
-	/**
-	 * get the reference for this anchor
-	 *
-	 * @return 'user:&lt;id&gt;', or NULL
-	 *
-	 * @see shared/anchor.php
+	 
+	 /**
+	 * get permalink to item
 	 */
-	function get_reference() {
-		if(isset($this->item['id']))
-			return 'user:'.$this->item['id'];
-		return NULL;
+	function get_permalink() {
+	    if(!isset($this->item['id']))
+		    return NULL;
+	    
+	    $link = Users::get_permalink($this->item);
+	    return $link;
+	}
+	
+	/**
+	 * provide classe name with all static functions on this kind of anchor
+	 * 
+	 * @return a class name
+	 */
+	function get_static_group_class() {
+	    return 'Users';
 	}
 
 	/**
@@ -245,7 +258,7 @@ Class User extends Anchor {
 	 *
 	 * @see shared/anchor.php
 	 */
-	 function get_title() {
+	 function get_title($use_overlay=true) {
 		if(!isset($this->item['id']))
 			return '???';
 
@@ -368,6 +381,23 @@ Class User extends Anchor {
 	function load_by_id($id, $mutable=FALSE) {
 		$this->item = Users::get($id, $mutable);
 	}
+	
+	/**
+	 * change some attributes of an anchor
+	 * 
+	 * @see shared/anchor.php
+	 *
+	 * @param array of (name, value)
+	 * @return TRUE on success, FALSE otherwise 
+	 */
+	function set_values($fields) {
+
+		// add our id
+		$fields['id'] = $this->item['id'];
+
+		// save in the database
+		return users::put_attributes($fields);
+	}
 
 	/**
 	 * remember the last action for this user
@@ -401,14 +431,20 @@ Class User extends Anchor {
 		// append a reference to a new image to the description
 		if($action == 'image:create') {
 			if(!Codes::check_embedded($this->item['description'], 'image', $origin)) {
+			    
+				// the overlay may prevent embedding
+				if(is_object($this->overlay) && !$this->overlay->should_embed_files())
+					;
 
-				// list has already started
-				if(preg_match('/\[image=[^\]]+?\]\s*$/', $this->item['description']))
-					$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
+				else {
+				    // list has already started
+				    if(preg_match('/\[image=[^\]]+?\]\s*$/', $this->item['description']))
+					    $query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
 
-				// starting a new list of images
-				else
-					$query[] = "description = '".SQL::escape($this->item['description']."\n\n".'[image='.$origin.']')."'";
+				    // starting a new list of images
+				    else
+					    $query[] = "description = '".SQL::escape($this->item['description']."\n\n".'[image='.$origin.']')."'";
+				}
 			}
 
 			// refresh stamp only if image update occurs within 6 hours after last edition
@@ -540,7 +576,7 @@ Class User extends Anchor {
 		// always clear the cache, even on no update
 		Users::clear($this->item);
 
-	}
+	}		
 
 }
 

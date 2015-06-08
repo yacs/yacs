@@ -871,18 +871,61 @@ Class i18n {
 	/**
 	 * initialize the localization engine
 	 *
-	 * This function analyzes data provided by the browser to automate surfer localization.
+	 * Language management in yacs is based on following data:
+	 * - $context['preferred_language'] is the community language.
+	 * - $context['language'] is the language adapted to current surfer.
+	 * - $context['page_language'] is the language of web content returned to the browser.
+	 *
+	 * The variable $context['preferred_language'] is used for information generated
+	 * automatically by the server, e.g., mail notifications, RSS feed, etc.
+	 * It can be changed in control/configure.php, and default value is 'en' for English.
+	 *
+	 * The variable $context['language'] is used while building information returned
+	 * interactively to the browser. This variable is determined based on following
+	 * algorithm:
+	 * - if parameter 'without_language_detection' equals 'Y', then 'language' is
+	 * set to the same value than 'preferred_language',
+	 * - else if the surfer has set a preferred language for himself from his profile,
+	 * 'language' is set to this value,
+	 * - else 'language' is set from HTTM attribute Accept-Language provided by the
+	 * browser on each request to the server.
+	 *
+	 * The variable $context['page_language'] is coming, usually, from items
+	 * displayed. For example, each page has an attribute to record the main language used
+	 * to write it, and $context['page_language'] is set to this attribute in script
+	 * articles/view.php. The same applies to sections, etc. For other scripts such as the
+	 * control panel at control/index.php, $context['page_language'] is set to adapt to
+	 * surfer language, i.e., $context['language'].
 	 *
 	 */
 	public static function initialize() {
 		global $context;
 
-		// user language is explicit
-		if(isset($_SESSION['surfer_language']) && $_SESSION['surfer_language'] && ($_SESSION['surfer_language'] != 'none'))
+		// english is the default community language, if not defined in system configuration panel
+		if(!isset($context['preferred_language']) || !$context['preferred_language'])
+			$context['preferred_language'] = 'en';
+
+		// the default for the user is to use the community language
+		$context['language'] = $context['preferred_language'];
+
+		// yacs should not adapt to surfer language
+		if(isset($context['without_language_detection']) && ($context['without_language_detection'] == 'Y'))
+			;
+		
+		// language is imposed by request
+		elseif(isset($_REQUEST['lang'])) {
+			$context['language'] = $_REQUEST['lang']; 
+			// remember this over the session
+			$_SESSION['surfer_language'] = $context['language'];
+
+		// else user may have set language preference from his profile
+		} elseif(isset($_SESSION['surfer_language']) && trim($_SESSION['surfer_language']) && ($_SESSION['surfer_language'] != 'none')) {
 			$context['language'] = $_SESSION['surfer_language'];
 
-		// guess surfer language
-		else {
+		// else guess surfer language
+		} else {
+                        // no choosen language
+                        $_SESSION['surfer_language'] = 'none';
 
 			// languages accepted by browser
 			if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && $_SERVER['HTTP_ACCEPT_LANGUAGE'])
@@ -900,69 +943,101 @@ Class i18n {
 					$scores[$parts[0]] = (float)1.0;
 			}
 
-			// process each wish in sequence --most preferred language comes first without sorting data
+			// sort languages by descending score (highest first)
+			arsort($scores);
+
+			// language with highest score comes first
 			foreach($scores as $locale => $score) {
 
 				// ensure full locale availability
 				$path = 'i18n/locale/'.$locale.'/i18n.mo';
 				if(file_exists($context['path_to_root'].$path) || file_exists($context['path_to_root'].$path.'.php')) {
 
-						// this is guessed surfer locale
+						// ok, we have guessed the best possible language for this surfer
 						$context['language'] = $locale;
-
-						// drop other accepted languages
 						break;
 
 				}
 
-				// locale has no country code
+				// continue to next language if there is no country code, e.g., fr, not fr-FR
 				if(!$position = strpos($locale, '-'))
 					continue;
 
-				// check for availability of basic language file
+				// check for availability of basic language file, e.g., en-US --> en
 				$locale = substr($locale, 0, $position);
 				$path = 'i18n/locale/'.$locale.'/i18n.mo';
 				if(file_exists($context['path_to_root'].$path) || file_exists($context['path_to_root'].$path.'.php')) {
 
-						// this is guessed surfer locale
+						// ok, we have guessed the best possible language for this surfer
 						$context['language'] = $locale;
-
-						// drop other accepted languages
 						break;
 
 				}
 			}
 		}
 
-		// set community language
-		if(isset($context['preferred_language']))
-			;
+		// page language is adapted to surfer, but canbe changed afterwards based on content --e.g., articles/view.php
+		$context['page_language'] = $context['language'];
 
-		// use surfer guessed language, if any
-		elseif(isset($context['language']) && $context['language'])
-			$context['preferred_language'] = $context['language'];
-
-		// english is the default
-		else
-			$context['preferred_language'] = 'en';
-
-		// automatic detection has been disallowed
-		if(isset($context['without_language_detection']) && ($context['without_language_detection'] == 'Y'))
-			$context['language'] = $context['preferred_language'];
-
-		// English is the default
-		elseif(!isset($context['language']))
-			$context['language'] = 'en';
-
-		// maybe the target language does not exist --fallback to English
-		elseif(!file_exists($context['path_to_root'].'i18n/locale/'.$context['language'].'/i18n.mo'))
-			$context['language'] = 'en';
+		// set the continent, if known
+		if(isset($_SERVER['GEOIP_CONTINENT_CODE'])) {
+			$context['continent_code'] = $_SERVER['GEOIP_CONTINENT_CODE'];
+			$context['continent'] = i18n::get_country_label($_SERVER['GEOIP_CONTINENT_CODE']);
+		}
 
 		// set the country, if known
 		if(isset($_SERVER['GEOIP_COUNTRY_CODE'])) {
 			$context['country_code'] = $_SERVER['GEOIP_COUNTRY_CODE'];
 			$context['country'] = i18n::get_country_label($_SERVER['GEOIP_COUNTRY_CODE']);
 		}
+
+		// set the city, if known
+		if(isset($_SERVER['GEOIP_CITY'])) {
+			$context['city'] = $_SERVER['GEOIP_CITY'];
+		}
+
+		// set latitude and longitude, if known
+		if(isset($_SERVER['GEOIP_LATITUDE'])) {
+			$context['latitude'] = $_SERVER['GEOIP_LATITUDE'];
+			$context['longitude'] = $_SERVER['GEOIP_LONGITUDE'];
+		}
+
+		// initialize first day of week to display calendar
+		i18n::initialize_Fdof_Week ();
+
+	}
+
+	/**
+	 * initialize the first day of week from surfer's origin
+	 * the function define a constant that could be use by other's script
+	 */
+
+	static function initialize_Fdof_Week () {
+	    global $context;
+
+	    // choice has been manualy setted for the server somewhere
+	    if(defined('WEEK_START_MONDAY'))
+			return;
+
+		// deduce first day of week from country, if provided
+	    if(isset($_SERVER['GEOIP_COUNTRY_CODE'])) {
+			$start_sunday_countries = 'AS AZ BW CA CN FO GE GL GU HK IE IL IN IS JM JP KG KR LA MH MN MO MP MT NZ PH PK SG SY TH TT TW UM US UZ VI ZW ET MW NG TJ';
+			if(preg_match('/'.$_SERVER['GEOIP_COUNTRY_CODE'].'/', $start_sunday_countries))
+				define('WEEK_START_MONDAY',FALSE);
+			else
+				define('WEEK_START_MONDAY',TRUE);
+
+		// deduce it from language
+	    } elseif(isset($context['language'])) {
+			$start_sunday_lang = 'az en fo mo th vi';
+			if(preg_match('/'.$context['language'].'/', $start_sunday_lang))
+				define('WEEK_START_MONDAY',FALSE);
+			else
+				define('WEEK_START_MONDAY',TRUE);
+
+		// default is french standard, due to yacs'users
+	    } else
+			define('WEEK_START_MONDAY',TRUE);
 
 	}
 
@@ -1164,7 +1239,6 @@ Class i18n {
 				.' * cache localized strings'."\n"
 				.' *'."\n"
 				.' * This file has been created by the script i18n/i18n.php. Please do not modify it manually.'."\n"
-				.' * @reference'."\n"
 				.' */'."\n";
 
 		}

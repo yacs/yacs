@@ -222,7 +222,7 @@ if(Surfer::is_crawler()) {
 		// headline
 		$headline = sprintf(i18n::c('%s has invited you to %s'),
 			Surfer::get_link(),
-			'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>');
+			'<a href="'.Articles::get_permalink($item).'">'.$item['title'].'</a>');
 
 		// build the full message
 		if(isset($_REQUEST['message']))
@@ -230,7 +230,7 @@ if(Surfer::is_crawler()) {
 
 		else
 			$message = '<p>'.i18n::c('I would like to invite you to the following page.').'</p>'
-				.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a></p>';
+				.'<p><a href="'.Articles::get_permalink($item).'">'.$item['title'].'</a></p>';
 
 		// change content for message poster
 		if(strpos(Surfer::from(), $user['email']) !== FALSE) {
@@ -248,7 +248,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 
 		// call for action
-		$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
+		$link = Articles::get_permalink($item);
 		if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'articles', FALSE)))
 			$label = i18n::c('View the page');
 		$menu[] = Skin::build_mail_button($link, $label, TRUE);
@@ -261,8 +261,8 @@ if(Surfer::is_crawler()) {
 		$message .= Skin::build_mail_menu($menu);
 
 		// provide a link that also authenticates surfers on click-through --see users/login.php
-		$message = str_replace(array($context['url_to_root'].Articles::get_permalink($item),
-			str_replace('&', '&amp;', $context['url_to_root'].Articles::get_permalink($item))),
+		$message = str_replace(array(Articles::get_permalink($item),
+			str_replace('&', '&amp;', Articles::get_permalink($item))),
 			$context['url_to_root'].Users::get_login_url('visit', 'article:'.$item['id'], $user['id'], $item['handle']), $message);
 
 		// threads messages
@@ -339,8 +339,7 @@ if(Surfer::is_crawler()) {
 	}
 
 	// get a customized layout
-	include_once '../users/layout_users_as_mail.php';
-	$layout = new Layout_users_as_mail();
+	$layout = Layouts::new_('mail', 'user');
 
 	// avoid links to this page
 	if(is_object($layout) && is_callable(array($layout, 'set_variant')))
@@ -395,7 +394,7 @@ if(Surfer::is_crawler()) {
 		$content = $overlay->get_invite_default_message();
 	if(!$content)
 		$content = '<p>'.i18n::c('I would like to invite you to the following page.').'</p>'
-			.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a></p>'
+			.'<p><a href="'.Articles::get_permalink($item).'">'.$item['title'].'</a></p>'
 			.'<p>'.i18n::c('Please let me thank you for your involvement.').'</p>'
 			.'<p>'.Surfer::get_name().'</p>';
 
@@ -432,33 +431,29 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= '</div></form>';
 
 	// append the script used for data checking on the browser
-	$context['text'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// title is mandatory'."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'
+			// title is mandatory'."\n"
 		.'	if(!container.subject.value) {'."\n"
 		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// body is mandatory'."\n"
+			// body is mandatory
 		.'	if(!container.message.value) {'."\n"
 		.'		alert("'.i18n::s('Message content can not be empty.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
+			// successful check
 		.'	return true;'."\n"
 		.'}'."\n"
-		."\n"
 		.'$(function() {'."\n"
 		.'	$("#names").focus();'."\n" // set the focus on first form field
 		.'	Yacs.autocomplete_names("names");'."\n" // enable names autocompletion
 		.'});  '."\n"
-		.JS_SUFFIX;
+		);
 
 	// help message
 	$help = '<p>'.i18n::s('New e-mail addresses are converted to new user profiles. Because of this, you should not use e-mail addresses that have multiple recipients.').'</p>';

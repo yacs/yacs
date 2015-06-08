@@ -7,7 +7,7 @@
  *
  * It handles the same building blocks than [script]sections/view.php[/script],
  * except that they are featured in tabbed panels:
- * - Information - with details, introduction, main text and gadget boxes.
+ * - Information - with details, introduction, main text
  * - Pages - for contained articles
  * - Attachments - with files and links
  * - Discussion - A thread of contributions, not in real-time
@@ -53,41 +53,19 @@ if(!$zoom_type && !Surfer::is_crawler()) {
 	// index panel
 	if(Surfer::is_empowered() && Surfer::is_logged()) {
 
-		// at the parent index page
-		if($item['anchor']) {
+		// content of this section is not pushed upwards
+		if(isset($item['index_map']) && ($item['index_map'] != 'Y')) {
 
-			if(isset($item['index_panel']) && ($item['index_panel'] == 'extra'))
-				$details[] = i18n::s('Is displayed at the parent section page among other extra boxes.');
-			elseif(isset($item['index_panel']) && ($item['index_panel'] == 'extra_boxes'))
-				$details[] = i18n::s('Topmost articles are displayed at the parent section page in distinct extra boxes.');
-			elseif(isset($item['index_panel']) && ($item['index_panel'] == 'gadget'))
-				$details[] = i18n::s('Is displayed in the middle of the parent section page, among other gadget boxes.');
-			elseif(isset($item['index_panel']) && ($item['index_panel'] == 'gadget_boxes'))
-				$details[] = i18n::s('First articles are displayed at the parent section page in distinct gadget boxes.');
-			elseif(isset($item['index_panel']) && ($item['index_panel'] == 'news'))
-				$details[] = i18n::s('Articles are listed at the parent section page, in the area reserved to flashy news.');
+			// at the parent index page
+			if($item['anchor'])
+				$details[] = i18n::s('Content does not flow to parent section. Is listed with special sections, but only to associates.');
 
-		// at the site map
-		} else {
-
-			if(isset($item['index_map']) && ($item['index_map'] != 'Y'))
+			// at the site map
+			else
 				$details[] = i18n::s('Is not publicly listed at the Site Map. Is listed with special sections, but only to associates.');
+
 		}
 
-	}
-
-	// home panel
-	if(Surfer::is_empowered() && Surfer::is_logged()) {
-		if(isset($item['home_panel']) && ($item['home_panel'] == 'extra'))
-			$details[] = i18n::s('Is displayed at the front page, among other extra boxes.');
-		elseif(isset($item['home_panel']) && ($item['home_panel'] == 'extra_boxes'))
-			$details[] = i18n::s('First articles are displayed at the front page in distinct extra boxes.');
-		elseif(isset($item['home_panel']) && ($item['home_panel'] == 'gadget'))
-			$details[] = i18n::s('Is displayed in the middle of the front page, among other gadget boxes.');
-		elseif(isset($item['home_panel']) && ($item['home_panel'] == 'gadget_boxes'))
-			$details[] = i18n::s('First articles are displayed at the front page in distinct gadget boxes.');
-		elseif(isset($item['home_panel']) && ($item['home_panel'] == 'news'))
-			$details[] = i18n::s('Articles are listed at the front page, in the area reserved to recent news.');
 	}
 
 	// signal sections to be activated
@@ -227,82 +205,6 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 		}
 	}
 
-	// gadget boxes
-	$content = '';
-
-	// one gadget box per article, from sub-sections
-	if($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'gadget_boxes')) {
-
-		// up to 6 articles to be displayed as gadget boxes
-		if($items =& Articles::list_for_anchor_by('edition', $anchors, 0, 7, 'boxes')) {
-			foreach($items as $title => $attributes)
-				$content .= Skin::build_box($title, $attributes['content'], 'gadget', $attributes['id'])."\n";
-		}
-	}
-
-	// one gadget box per section, from sub-sections
-	if($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'gadget')) {
-
-		// one box per section
-		foreach($anchors as $anchor) {
-			// sanity check
-			if(!$section = Anchors::get($anchor))
-				continue;
-
-			$box = array( 'title' => '', 'list' => array(), 'text' => '');
-
-			// link to the section page from box title
-			$box['title'] =& Skin::build_box_title($section->get_title(), $section->get_url(), i18n::s('View the section'));
-
-			// add sub-sections, if any
-			if($related = Sections::list_by_title_for_anchor($anchor, 0, COMPACT_LIST_SIZE+1, 'compact')) {
-				foreach($related as $url => $label) {
-					if(is_array($label))
-						$label = $label[0].' '.$label[1];
-					$box['list'] = array_merge($box['list'], array($url => array('', $label, '', 'basic')));
-				}
-			}
-
-			// list matching articles
-			if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items =& Articles::list_for_anchor_by('edition', $anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
-				$box['list'] = array_merge($box['list'], $items);
-
-			// add matching links, if any
-			if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items = Links::list_by_date_for_anchor($anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
-				$box['list'] = array_merge($box['list'], $items);
-
-			// more at the section page
-			if(count($box['list']) > COMPACT_LIST_SIZE) {
-				@array_splice($box['list'], COMPACT_LIST_SIZE);
-
-				// link to the section page
-				$box['list'] = array_merge($box['list'], array($section->get_url() => i18n::s('More pages').MORE_IMG));
-			}
-
-			// render the html for the box
-			if(count($box['list']))
-				$box['text'] =& Skin::build_list($box['list'], 'compact');
-
-			// display content of the section itself
-			elseif($description = $section->get_value('description')) {
-				$box['text'] .= Skin::build_block($description, 'description', '', $item['options']);
-
-			// give a chance to associates to populate empty sections
-			 } elseif(Surfer::is_empowered())
-				$box['text'] = Skin::build_link($section->get_url(), i18n::s('View the section'), 'shortcut');
-
-			// append a box
-			if($box['text'])
-				$content .= Skin::build_box($box['title'], $box['text'], 'gadget');
-
-		}
-
-	}
-
-	// leverage CSS
-	if($content)
-		$text .= '<p id="gadgets_prefix"> </p>'."\n".$content.'<p id="gadgets_suffix"> </p>'."\n";
-
 	// the list of related articles if not at another follow-up page
 	if(!$zoom_type || ($zoom_type == 'articles')) {
 
@@ -315,31 +217,14 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 
 			// select a layout
 			if(!isset($item['articles_layout']) || !$item['articles_layout']) {
-				include_once '../articles/layout_articles.php';
+				include_once $context['path_to_root'].'articles/layout_articles.php';
 				$layout = new Layout_articles();
-			} elseif($item['articles_layout'] == 'decorated') {
-				include_once '../articles/layout_articles.php';
-				$layout = new Layout_articles();
-			} elseif($item['articles_layout'] == 'map') {
-				include_once '../articles/layout_articles_as_yahoo.php';
-				$layout = new Layout_articles_as_yahoo();
-			} elseif(is_readable($context['path_to_root'].'articles/layout_articles_as_'.$item['articles_layout'].'.php')) {
-				$name = 'layout_articles_as_'.$item['articles_layout'];
-				include_once $context['path_to_root'].'articles/'.$name.'.php';
-				$layout = new $name;
-			} else {
-
-				// useful warning for associates
-				if(Surfer::is_associate())
-					Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $item['articles_layout']));
-
-				include_once '../articles/layout_articles.php';
-				$layout = new Layout_articles();
-			}
+			} else
+			    $layout = Layouts::new_ ($item['articles_layout'], 'article');
 
 			// avoid links to this page
-			if(is_object($layout) && is_callable(array($layout, 'set_variant')))
-				$layout->set_variant('section:'.$item['id']);
+			if(is_object($layout))
+				$layout->set_focus('section:'.$item['id']);
 
 			// the maximum number of articles per page
 			if(is_object($layout))
@@ -427,12 +312,11 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 		&& Surfer::is_empowered() ) {
 
 		// make a compact list
-		include_once '../articles/layout_articles_as_compact.php';
-		$layout = new Layout_articles_as_compact();
+		$layout = Layouts::new_('compact', 'article');
 
 		// avoid links to this page
-		if(is_object($layout) && is_callable(array($layout, 'set_variant')))
-			$layout->set_variant('section:'.$item['id']);
+		if(is_object($layout))
+			$layout->set_focus('section:'.$item['id']);
 
 		// the maximum number of articles per page
 		if(is_object($layout))
@@ -485,7 +369,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 	$box = array('bar' => array(), 'text' => '');
 
 	// new comments are allowed
-	if(Comments::allow_creation($anchor, $item, 'section'))
+	if(Comments::allow_creation($item, $anchor, 'section'))
 		$box['text'] .= Comments::get_form('section:'.$item['id']);
 
 	// a navigation bar for these comments
@@ -535,36 +419,15 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 	// if not at another follow-up page
 	if(!$zoom_type || ($zoom_type == 'sections')) {
 
-		// display sub-sections as a Freemind map, except to search engines
-		if(isset($item['sections_layout']) && ($item['sections_layout'] == 'freemind') && !Surfer::is_crawler()) {
-			$text .= Codes::render_freemind('section:'.$item['id'].', 100%, 400px');
-
-		// use a regular layout
-		} elseif(!isset($item['sections_layout']) || ($item['sections_layout'] != 'none')) {
+		// layout sub-sections
+		if(!isset($item['sections_layout']) || ($item['sections_layout'] != 'none')) {
 
 			// select a layout
 			if(!isset($item['sections_layout']) || !$item['sections_layout']) {
-				include_once 'layout_sections.php';
+				include_once $context['path_to_root'].'sections/layout_sections.php';
 				$layout = new Layout_sections();
-			} elseif($item['sections_layout'] == 'decorated') {
-				include_once 'layout_sections.php';
-				$layout = new Layout_sections();
-			} elseif($item['sections_layout'] == 'map') {
-				include_once 'layout_sections_as_yahoo.php';
-				$layout = new Layout_sections_as_yahoo();
-			} elseif(is_readable($context['path_to_root'].'sections/layout_sections_as_'.$item['sections_layout'].'.php')) {
-				$name = 'layout_sections_as_'.$item['sections_layout'];
-				include_once $name.'.php';
-				$layout = new $name;
-			} else {
-
-				// useful warning for associates
-				if(Surfer::is_associate())
-					Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $item['sections_layout']));
-
-				include_once '../sections/layout_sections.php';
-				$layout = new Layout_sections();
-			}
+			} else
+				$layout = Layouts::new_ ($item['sections_layout'], 'section');
 
 			// the maximum number of sections per page
 			if(is_object($layout))
@@ -624,15 +487,8 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 	// associates may list special sections as well
 	if(!$zoom_type && Surfer::is_empowered()) {
 
-		// no special item yet
-		$items = array();
-
-		// if sub-sections are rendered by Freemind applet, also provide regular links to empowered surfers
-		if(isset($item['sections_layout']) && ($item['sections_layout'] == 'freemind'))
-			$items = Sections::list_by_title_for_anchor('section:'.$item['id'], 0, 50, 'compact');
-
-		// append inactive sections, if any
-		$items = array_merge($items, Sections::list_inactive_by_title_for_anchor('section:'.$item['id'], 0, 50, 'compact'));
+		// inactive sections, if any
+		$items = Sections::list_inactive_by_title_for_anchor('section:'.$item['id'], 0, 50, 'compact');
 
 		// we have an array to format
 		if(count($items))
@@ -717,7 +573,7 @@ if(!$zoom_type || ($zoom_type == 'files')) {
 	}
 
 	// the command to post a new file -- check 'with_files' option
-	if(Files::allow_creation($anchor, $item, 'section')) {
+	if(Files::allow_creation($item, $anchor, 'section')) {
 		Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 		$box['bar'] += array('files/edit.php?anchor='.urlencode('section:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Add a file') );
 	}
@@ -766,7 +622,7 @@ if(!$zoom_type || ($zoom_type == 'links')) {
 	}
 
 	// new links are allowed -- check option 'with_links'
-	if(Links::allow_creation($anchor, $item, 'section')) {
+	if(Links::allow_creation($item, $anchor, 'section')) {
 		Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 		$box['bar'] += array('links/edit.php?anchor='.urlencode('section:'.$item['id']) => LINKS_ADD_IMG.i18n::s('Add a link') );
 	}
@@ -941,25 +797,25 @@ if(Sections::allow_creation($item, $anchor)) {
 }
 
 // comment this page if anchor does not prevent it
-if(Comments::allow_creation($anchor, $item, 'section')) {
+if(Comments::allow_creation($item, $anchor, 'section')) {
 	Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 	$context['page_tools'][] = Skin::build_link(Comments::get_url('section:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 }
 
 // add a file, if upload is allowed
-if(Files::allow_creation($anchor, $item, 'section')) {
+if(Files::allow_creation($item, $anchor, 'section')) {
 	Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 	$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
 }
 
 // add a link
-if(Links::allow_creation($anchor, $item, 'section')) {
+if(Links::allow_creation($item, $anchor, 'section')) {
 	Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 	$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('section:'.$item['id']), LINKS_ADD_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
 }
 
 // post an image, if upload is allowed
-if(Images::allow_creation($anchor, $item, 'section')) {
+if(Images::allow_creation($item, $anchor, 'section')) {
 	Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
 	$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 }

@@ -329,6 +329,10 @@ Class Surfer {
 			// the password
 			$content .= i18n::s('Password').BR.'<input type="password" name="login_password" size="10" maxlength="255" />'.BR;
 
+			// Remember me ?
+			if($context['users_with_permanent_authentication'] == 'U')
+			    $content .= '<span class="details"><input type="checkbox" name="remember" value="Y" />&nbsp;'.i18n::s('Stay connected').'</span>'.BR;
+
 			// the button
 			$content .= Skin::build_submit_button(i18n::s('Login'));
 
@@ -360,7 +364,6 @@ Class Surfer {
 	 *
 	 * @param array attributes to check
 	 *
-	 * @see actions/actions.php
 	 * @see articles/articles.php
 	 * @see categories/categories.php
 	 * @see comments/comments.php
@@ -535,18 +538,18 @@ Class Surfer {
 	 *
 	 * Curently YACS supports following choices:
 	 * - 'yacs' - the default, plain, code-based textarea
-	 * - 'fckeditor' - WYSIWYG editor
 	 * - 'tinymce' - WYSIWYG editor
 	 *
-	 * @link http://www.fckeditor.net/ FCKEditor
 	 * @link http://tinymce.moxiecode.com/ TinyMCE
 	 *
 	 * @param string the name of the editing field
 	 * @param string content to be put in the editor
 	 * @param boolean TRUE to grow the control on focus
+	 * @param integer give heigh for textearea
+         * @param boolean to shunt tinymce if false
 	 * @return string to be inserted in the XHTML flow
 	 */
-	public static function get_editor($name='description', $value='', $spring=FALSE) {
+	public static function get_editor($name='description', $value='', $spring=FALSE, $rows=25, $rich=TRUE, $placeholder='') {
 		global $context;
 
 		// returned string
@@ -556,33 +559,22 @@ Class Surfer {
 		if(!isset($_SESSION['surfer_editor']) && isset($context['users_default_editor']))
 			$_SESSION['surfer_editor'] = $context['users_default_editor'];
 
-		// fckeditor
-		if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor') && is_readable($context['path_to_root'].'included/fckeditor/fckeditor.php') && !$spring) {
-
-			include_once($context['path_to_root'].'included/fckeditor/fckeditor.php');
-			$handle = new FCKeditor($name);
-			$handle->BasePath = $context['url_to_root'].'included/fckeditor/';
-			$handle->Value = $value;
-			$handle->Height = '400' ;
-			$handle->ToolbarSet = 'YACS'; // see fckconfig.js
-			$text .= $handle->CreateHtml() ;
-
-			// signal an advanced editor
-			$text .= '<input type="hidden" name="editor" value="fckeditor" />';
-
 		// tinymce
-		} elseif(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce') && is_readable($context['path_to_root'].'included/tiny_mce/tiny_mce.js') && !$spring) {
+		// CHL suppression test $spring ci-dessous car le $spring est testé à l'intérieur
+		if($rich && isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce') && is_readable($context['path_to_root'].'included/tiny_mce/tinymce.min.js') ) {
 
 			// load the TinyMCE script -- see shared/global.php
 			$context['javascript']['tinymce'] = TRUE;
 
 			// a growing control
+			// CHL pourquoi cette syntaxe en js ? et ce 60% ?
+			// on ne reprend pas $value ?
 			if($spring)
-				$text .= '<textarea name="description" id="description" rows="1" cols="50" style="width: 60%;" onfocus="Yacs.growPanel(this); if(navigator.appName==\'Microsoft Internet Explorer\'){initialize_editor()};tinyMCE.execCommand(\'mceAddControl\', true, \'description\');tinyMCE.get(\'description\').focus();"></textarea>';
+				$text .= '<textarea name="description" id="description" rows="1" cols="50" style="width: 60%;" onfocus="Yacs.growPanel(this); if(navigator.appName==\'Microsoft Internet Explorer\'){initialize_editor()};tinyMCE.execCommand(\'mceAddControl\', true, \'description\');tinyMCE.get(\'description\').focus();">'.encode_field($value).'</textarea>';
 
 			// the textarea that will be handled by TinyMCE
 			else
-				$text .= '<div><textarea name="'.$name.'" class="tinymce" rows="25" cols="50" accesskey="c">'.encode_field($value).'</textarea></div>';
+				$text .= '<div><textarea name="'.$name.'" class="tinymce" rows="'.$rows.'" cols="50" accesskey="c">'.encode_field($value).'</textarea></div>';
 
 			// signal an advanced editor
 			$text .= '<input type="hidden" name="editor" value="tinymce" />';
@@ -590,19 +582,21 @@ Class Surfer {
 		// a textarea that grow automatically
 		} elseif($spring) {
 			$text .= '<script type="text/javascript">var fuse'.$name.'=1;</script>'
-				.'<textarea name="'.$name.'" id="'.$name.'"'
-				.	' rows="1" cols="50" class="tip" >'
-				.	'</textarea>'."\n"
-				.JS_PREFIX
-				.'$(function(){'
-				.	'$("textarea#'.$name.'").autogrow();'
-				.	'setTimeout(function() {'
-				.		'$("textarea#'.$name.'")'
-				.			'.tipsy({fallback: "'.i18n::s('Contribute to this page!').'", gravity: "s", fade: true})'
-				.			'.tipsy("show");'
-				.	'}, 5000);'
+				.'<textarea name="'.$name.'" class="autogrow left" style="margin:3px 3px 0 0"'
+				.	' rows="'.$rows.'" cols="50" placeholder="'.$placeholder.'" >'
+                                .       encode_field($value)
+				.	'</textarea>'."\n";
+
+                        static $fuse = false;
+			if(!$fuse) {
+                            Page::insert_script(
+				'$(function(){'
+				.	'$(".autogrow").autogrow();'
 				.'});'."\n"
-				.JS_SUFFIX;
+				);
+                        }
+                        $fuse = true;
+                        
 
 		// default to plain editor -- BR after the Textarea is mandatory
 		} else {
@@ -614,11 +608,11 @@ Class Surfer {
 					if(file_exists($context['path_to_root'].'smileys/edit.js'))
 						$text .= '<script type="text/javascript" src="'.$context['url_to_root'].'smileys/edit.js"></script>';
 				}
-				$text .= '<textarea name="description" id="edit_area" rows="25" cols="50" accesskey="c">'.encode_field($value).'</textarea>'.BR;
+				$text .= '<textarea name="description" id="edit_area" rows="'.$rows.'" cols="50" accesskey="c">'.encode_field($value).'</textarea>'.BR;
 
 			// a secondary textarea
 			} else
-				$text .= '<textarea name="'.$name.'" rows="25" cols="50">'.encode_field($value).'</textarea>'.BR;
+				$text .= '<textarea name="'.$name.'" rows="'.$rows.'" cols="50">'.encode_field($value).'</textarea>'.BR;
 
 			// hint
 			if(Surfer::is_associate())
@@ -767,8 +761,10 @@ Class Surfer {
 	 * @return string web link to the target user profile, or NULL
 	 */
 	public static function get_permalink() {
+		global $context;
+
 		if(Surfer::get_id() && is_callable(array('Users', 'get_url')))
-			return Users::get_url(Surfer::get_id(), 'view', Surfer::get_name());
+			return $context['url_to_home'].$context['url_to_root'].Users::get_url(Surfer::get_id(), 'view', Surfer::get_name());
 		return NULL;
 	}
 
@@ -824,17 +820,17 @@ Class Surfer {
 		if(Surfer::is_logged())
 			return NULL;
 
-		// build a random string --  1, l, o, O and 0 are confusing
-		$pool = 'abcdefghijkmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ23456789';
-		$_SESSION['salt'] = $pool[mt_rand(0, strlen($pool)-1)]
-			.$pool[mt_rand(0, strlen($pool)-1)]
-			.$pool[mt_rand(0, strlen($pool)-1)]
-			.$pool[mt_rand(0, strlen($pool)-1)]
-			.$pool[mt_rand(0, strlen($pool)-1)];
 
-		// add salt and pepper to the form
-		$label = i18n::s('Robot stopper').' *';
-		$input = i18n::s('Type exactly the following 5 chars:').' '.$_SESSION['salt'].' <input type="text" name="pepper" size="7" />';
+                $label = i18n::s('Robot stopper').' *';
+
+                $input  = '<img id="captcha" src="'.$context['url_to_root'].'included/securimage/securimage_show.php" alt="CAPTCHA Image" />'."\n";
+
+                $input .= '<input type="text" name="captcha_code" size="10" maxlength="6" />'."\n";
+                
+                $input .= BR.'<a class="details" href="#" onclick="document.getElementById(\'captcha\').src= \''
+                        .$context['url_to_root'].
+                        'included/securimage/securimage_show.php?\' + Math.random(); return false">['.i18n::s('Update image').']</a>'."\n";
+
 		return array($label, $input);
 	}
 
@@ -1242,12 +1238,10 @@ Class Surfer {
 		if(Surfer::is_logged())
 			return FALSE;
 
-		// salt could have been hacked
-		if(!isset($_SESSION['salt']))
-			return TRUE;
+                include_once $context['path_to_root'].'included/securimage/securimage.php';
+                $securimage = new Securimage();
 
-		// salt and pepper are ok
-		if(isset($_REQUEST['pepper']) && !strcmp($_REQUEST['pepper'], $_SESSION['salt'])) {
+                if ($securimage->check($_REQUEST['captcha_code']) == TRUE) {
 
 			// remember this, to not challenge the surfer again
 			$_SESSION['surfer_is_not_a_robot'] = TRUE;
@@ -1524,7 +1518,7 @@ Class Surfer {
 			// attempt to set this cookie while answering the current request
 			Surfer::set_cookie('screening', $token);
 
-			// path to this instance			// we will do it again on next transaction, to take care of redirections, if any
+			// we will do it again on next transaction, to take care of redirections, if any
 			$_SESSION['surfer_token'] = $token;
 
 		}
@@ -1648,7 +1642,7 @@ if(isset($_SERVER['REMOTE_ADDR'])) {
 	Safe::ini_set('url_rewriter.tags', '');
 }
 
-// set the permanent cookie on the transaction that folows the login, in case a redirection would have happened
+// set the permanent cookie on the transaction that follows the login, in case a redirection would have happened
 if(isset($_SESSION['surfer_token'])) {
 
 	// set it
@@ -1661,12 +1655,9 @@ if(isset($_SESSION['surfer_token'])) {
 // retrieve session data, but not if run from the command line, and not from robot nor spider
 if(isset($_SERVER['REMOTE_ADDR']) && !Surfer::is_crawler() && !headers_sent()) {
 
-	// we have moved to another instance on the same host
-	if(isset($_SESSION['server_id']) && isset($_SESSION['url_to_root']) && strcmp($_SESSION['server_id'], $context['url_to_root']))
-		Surfer::reset();
-
 	// permanent identification has been selected
-	elseif(isset($context['users_with_permanent_authentication']) && ($context['users_with_permanent_authentication'] == 'Y')) {
+	if(isset($context['users_with_permanent_authentication']) && ($context['users_with_permanent_authentication'] != 'N')) {
+
 
 		// use cookie to identify user -- user id, time of login, gmt offset, salt
 		if(!Surfer::is_logged() && isset($_COOKIE['screening']) && ($nouns = explode('|', $_COOKIE['screening'], 4)) && (count($nouns) == 4)) {
@@ -1709,8 +1700,8 @@ if(@count($_REQUEST) && (!isset($context['allow_html_input']) || ($context['allo
 	if(Surfer::is_associate())
 		;
 
-	// from fckeditor or tinymce
-	elseif(isset($_REQUEST['editor']) && (($_REQUEST['editor'] == 'fckeditor') || ($_REQUEST['editor'] == 'tinymce')))
+	// from tinymce
+	elseif(isset($_REQUEST['editor']) && ($_REQUEST['editor'] == 'tinymce'))
 		;
 
 	// strip most tags, except those that have been explicitly allowed

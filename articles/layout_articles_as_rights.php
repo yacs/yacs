@@ -22,7 +22,7 @@ Class Layout_articles_as_rights extends Layout_interface {
 	 *
 	 * @return 50
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 50;
@@ -46,8 +46,8 @@ Class Layout_articles_as_rights extends Layout_interface {
 
 		// we list pages for one surfer
 		// sanity check
-		if(!isset($this->layout_variant))
-			$this->layout_variant = Surfer::get_id();
+		if(!isset($this->focus))
+			$this->focus = Surfer::get_id();
 
 		// build a list of articles
 		Skin::define_img('CHECKED_IMG', 'ajax/accept.png', '*');
@@ -124,7 +124,7 @@ Class Layout_articles_as_rights extends Layout_interface {
 				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 			// the main anchor link
-			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
+			if(is_object($anchor) && (!isset($this->focus) || ($item['anchor'] != $this->focus)))
 				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'basic'));
 
 			// combine in-line details
@@ -139,15 +139,15 @@ Class Layout_articles_as_rights extends Layout_interface {
 //			$update = '<span class="details">'.join(BR, Articles::build_dates($anchor, $item)).'</span>';
 
 			// watcher
-			if(Articles::is_watched($item['id'], $this->layout_variant))
+			if(Articles::is_watched($item['id'], $this->focus))
 				$watcher = CHECKED_IMG;
 
 			// editor
-			if(Articles::is_assigned($item['id'], $this->layout_variant))
+			if(Articles::is_assigned($item['id'], $this->focus))
 				$editor = CHECKED_IMG;
 
 			// owner
-			if(isset($item['owner_id']) && ($item['owner_id'] == $this->layout_variant))
+			if(isset($item['owner_id']) && ($item['owner_id'] == $this->focus))
 				$owner = CHECKED_IMG;
 
 			// this is another row of the output

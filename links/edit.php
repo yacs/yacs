@@ -155,7 +155,7 @@ if(is_object($anchor) && $anchor->is_owned()) {
 	$permitted = TRUE;
 
 // editors can move forward
-} elseif(!isset($item['id']) && Links::allow_creation($anchor, $item))
+} elseif(!isset($item['id']) && Links::allow_creation($item, $anchor))
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer
@@ -519,24 +519,21 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= JS_PREFIX
-		.'	// check that main fields are not empty'."\n"
-		.'	func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'		// link_url is mandatory'."\n"
+	Page::insert_script(
+			// check that main fields are not empty
+		'	func'.'tion validateDocumentPost(container) {'."\n"
+				// link_url is mandatory
 		.'		if(!container.link_url.value) {'."\n"
 		.'			alert("'.i18n::s('Please type a valid link.').'");'."\n"
 		.'			Yacs.stopWorking();'."\n"
 		.'			return false;'."\n"
 		.'		}'."\n"
-		."\n"
-		.'		// successful check'."\n"
+				// successful check
 		.'		return true;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'$("#link_url").focus();'."\n"
-		.JS_SUFFIX."\n";
+		);
 
 	// clear session data now we have populated the form
 	unset($_SESSION['pasted_link']);

@@ -73,7 +73,7 @@ else {
 
 	// suggest a download
 	if(!headers_sent()) {
-		$file_name = utf8::to_ascii(Skin::strip($anchor->get_title()).'.ics');
+		$file_name = utf8::to_ascii(Skin::strip($anchor->get_title(false)).'.ics');
 		Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $file_name).'"');
 	}
 

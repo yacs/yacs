@@ -161,7 +161,7 @@ case 'yabb':
 		$context['text'] .= $items;
 
 	// allow for contribution
-	if(Comments::allow_creation($anchor, $item))
+	if(Comments::allow_creation($item, $anchor))
 		$context['text'] .= Comments::get_form('article:'.$item['id']);
 
 	$context ['text'] .= '</div>';
@@ -208,7 +208,7 @@ default:
 		$context['text'] .= '</div>'."\n";
 
 	// surfer cannot contribute
-	} elseif(!Comments::allow_creation($anchor, $item))
+	} elseif(!Comments::allow_creation($item, $anchor))
 		;
 
 	// the input panel is where logged surfers can post data
@@ -226,7 +226,7 @@ default:
 		$menu = array();
 
 		// option to add a file
-		if(Files::allow_creation($anchor, $item, 'article')) {
+		if(Files::allow_creation($item,$anchor, 'article')) {
 
 			// intput field to appear on demand
 			$context['text'] .= '<div id="comment_upload" style="display: none;">'
@@ -263,9 +263,8 @@ default:
 	$context['text'] .= '</div>'."\n";
 
 	// the AJAX part
-	$context['page_footer'] .= JS_PREFIX
-		."\n"
-		.'var Comments = {'."\n"
+	$js_script = 
+		'var Comments = {'."\n"
 		."\n"
 		.'	url: "'.$context['url_to_home'].$context['url_to_root'].Comments::get_url($item['id'], 'thread').'",'."\n"
 		.'	timestamp: 0,'."\n"
@@ -357,24 +356,21 @@ default:
 		.	'$("#description").tipsy("show");'
 		.	'setTimeout("$(\'#description\').tipsy(\'hide\');", 10000);'
 		.	'$("textarea#description").autogrow();' // let the field grow progressively if needed
-		.'});'."\n"
-		."\n";
+		.'});'."\n";
 
 	// only authenticated surfers can contribute
-	if(Surfer::is_logged() && Comments::allow_creation($anchor, $item))
-		$context['page_footer'] .= "\n"
-			.'// load past contributions asynchronously'."\n"
-			.'$(function() {'
+	if(Surfer::is_logged() && Comments::allow_creation($item, $anchor))
+		$js_script .=
+			// load past contributions asynchronously
+			'$(function() {'
 			.	'$("#description").focus();'
 			.'});'."\n"
-			."\n"
-			.'// send contribution on Enter'."\n"
+			// send contribution on Enter
 			.'$(\'#description\').keypress( Comments.keypress );'."\n";
 
-	// end of the AJAX part
-	$context['page_footer'] .= JS_SUFFIX;
-
 	break;
+	
+	Page::insert_script($js_script);
 
 case 'excluded': // surfer is not
 
@@ -411,7 +407,7 @@ if(is_object($anchor))
 //
 
 // post an image, if upload is allowed
-if(Images::allow_creation($anchor, $item)) {
+if(Images::allow_creation($item, $anchor)) {
 	Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
 	$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 }
@@ -431,7 +427,7 @@ if($has_versions && Articles::is_owned($item, $anchor)) {
 }
 
 // publish this page
-if(Articles::allow_publication($anchor, $item)) {
+if(Articles::allow_publication($item,$anchor)) {
 
 	if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) {
 		Skin::define_img('ARTICLES_PUBLISH_IMG', 'articles/publish.gif');
@@ -487,7 +483,7 @@ if(!isset($item['locked']) || ($item['locked'] != 'Y'))
 
 // the command to post a new file -- do that in this window, since the surfer will be driven back here
 $invite = '';
-if(Files::allow_creation($anchor, $item, 'article')) {
+if(Files::allow_creation($item, $anchor, 'article')) {
 	Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 	$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
 	$invite = Skin::build_link($link, FILES_UPLOAD_IMG.i18n::s('Add a file'), 'basic').BR;
@@ -518,7 +514,7 @@ if($items || $invite)
 
 // new links are allowed
 $invite = '';
-if(Links::allow_creation($anchor, $item)) {
+if(Links::allow_creation($item, $anchor)) {
 	Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 	$link = 'links/edit.php?anchor='.urlencode('article:'.$item['id']);
 	$invite = Skin::build_link($link, LINKS_ADD_IMG.i18n::s('Add a link'));

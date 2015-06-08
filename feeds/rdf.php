@@ -65,6 +65,9 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 
+// ensure we only provide public content through newsfeeds
+$context['users_without_teasers'] = 'Y';
+
 // load the rendering skin
 load_skin('feeds');
 

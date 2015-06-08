@@ -87,7 +87,7 @@ if(!isset($item['id'])) {
 
 		// log item deletion
 		$label = sprintf(i18n::c('Deletion: %s'), strip_tags($item['title']));
-		$description = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item);
+		$description = Categories::get_permalink($item);
 		Logger::remember('categories/delete.php: '.$label, $description);
 
 		// this can appear anywhere
@@ -95,7 +95,7 @@ if(!isset($item['id'])) {
 
 		// back to the anchor page or to the index page
 		if(is_object($anchor))
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
+			Safe::redirect($anchor->get_url());
 		else
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].'categories/');
 	}
@@ -121,10 +121,7 @@ else {
 		.'</p></form>'."\n";
 
 	// set the focus
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#confirmed").focus();'."\n"
-		.JS_SUFFIX;
+	Page::insert_script('$("#confirmed").focus();');
 
 	// the title of the category
 	if($item['title'])

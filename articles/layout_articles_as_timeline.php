@@ -28,7 +28,7 @@ Class Layout_articles_as_timeline extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -41,8 +41,8 @@ Class Layout_articles_as_timeline extends Layout_interface {
 			return $text;
 
 		// sanity check
-		if(!isset($this->layout_variant))
-			$this->layout_variant = NULL;
+		if(!isset($this->focus))
+			$this->focus = NULL;
 
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
@@ -124,7 +124,7 @@ Class Layout_articles_as_timeline extends Layout_interface {
 
 			// insert overlay data, if any
 			if(is_object($overlay))
-				$suffix .= $overlay->get_text('list', $item, $this->layout_variant);
+				$suffix .= $overlay->get_text('list', $item, $this->focus);
 
 			// the hovering title
 			if($item['introduction'] && ($context['skins_with_details'] == 'Y'))

@@ -21,7 +21,7 @@ Class Layout_articles_as_digest extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -45,9 +45,6 @@ Class Layout_articles_as_digest extends Layout_interface {
 
 			// the url to view this item
 			$url = Articles::get_permalink($item);
-
-			// provide an absolute link
-			$url = $context['url_to_home'].$context['url_to_root'].$url;
 
 			// build a title
 			if(is_object($overlay))
@@ -73,7 +70,7 @@ Class Layout_articles_as_digest extends Layout_interface {
 			elseif($item['anchor'] && ($anchor = Anchors::get($item['anchor'])))
 				$icon = $anchor->get_thumbnail_url();
 			if($icon)
-				$icon = $context['url_to_home'].$context['url_to_home'].$icon;
+				$icon = $context['url_to_home'].$context['url_to_root'].$icon;
 
 			// the author(s) is an e-mail address, according to rss 2.0 spec
 			$author = '';

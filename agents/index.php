@@ -107,7 +107,7 @@ elseif(!Surfer::is_associate()) {
 	if(!$result = SQL::query($query)) {
 		$values .= Logger::error_pop().BR."\n";
 	} else {
-		$values .= Skin::table_prefix('grid');
+		$values .= Skin::table_prefix('yc-grid');
 		while($row = SQL::fetch($result)) {
 			$values .= '<tr><td>'.$row['id'].'</td><td>'.str_replace("\n", BR, $row['value']).'</td><td>'.Surfer::from_GMT($row['edit_date'])."</td></tr>\n";
 		}

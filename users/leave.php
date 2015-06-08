@@ -126,10 +126,7 @@ elseif(!$permitted) {
 	$context['text'] .= Skin::build_block($bottom, 'bottom');
 
 	// set the focus
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("confirmed").focus();'."\n"
-		.JS_SUFFIX;
+	Page::insert_script('$("confirmed").focus();');
 
 
 }

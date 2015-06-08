@@ -174,7 +174,7 @@ Class Cache {
 	 * @param string the id of the text to be retrieved
 	 * @return string cached information, or NULL if the no accurate information is available for this id
 	 */
-	public static function get($id) {
+	public static function get($id, $f_capa=true, $f_lang=true,$f_gmt_off=true) {
 		global $context;
 
 		// return by reference
@@ -200,13 +200,16 @@ Class Cache {
 			return $output;
 
 		// cached content depends on surfer capability
-		$id .= '/'.Surfer::get_capability();
+                if($f_capa)
+                    $id .= '/'.Surfer::get_capability();
 
 		// cached content depends on selected language
-		$id .= '/'.$context['language'];
+                if($f_lang)
+                    $id .= '/'.$context['language'];
 
 		// cached content depends on time offset
-		$id .= '/'.Surfer::get_gmt_offset();
+                if($f_gmt_off)
+                    $id .= '/'.Surfer::get_gmt_offset();
 
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('cache')." AS cache"
@@ -289,7 +292,7 @@ Class Cache {
 	 * @param string the topic related to this item
 	 * @param int the maximum time before expiration, in seconds
 	 */
-	public static function put($id, &$text, $topic='global', $duration=1200) {
+	public static function put($id, &$text, $topic='global', $duration=1200, $f_capa=true, $f_lang=true,$f_gmt_off=true) {
 		global $context;
 
 		// maybe we don't have to cache
@@ -305,13 +308,16 @@ Class Cache {
 			return;
 
 		// cached content depends on surfer capability
-		$id .= '/'.Surfer::get_capability();
+                if($f_capa)
+                    $id .= '/'.Surfer::get_capability();
 
 		// cached content depends on selected language
-		$id .= '/'.$context['language'];
+                if($f_lang)
+                    $id .= '/'.$context['language'];
 
 		// cached content depends on time offset
-		$id .= '/'.Surfer::get_gmt_offset();
+                if($f_gmt_off)
+                    $id .= '/'.Surfer::get_gmt_offset();
 
 		// don't cache more than expected
 		$expiry = gmstrftime('%Y-%m-%d %H:%M:%S', time() + $duration);

@@ -146,7 +146,7 @@ if(!isset($item['id'])) {
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // re-enforce the canonical link
-} elseif($context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($item)) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
+} elseif($context['self_url'] && ($canonical = Files::get_permalink($item)) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
 	Safe::header('Status: 301 Moved Permanently', TRUE, 301);
 	Safe::header('Location: '.$canonical);
 	Logger::error(Skin::build_link($canonical));
@@ -165,7 +165,7 @@ if(!isset($item['id'])) {
 		$context['page_header'] .= "\n".'<meta name="robots" content="noarchive" />';
 
 	// add canonical link
-	$context['page_header'] .= "\n".'<link rel="canonical" href="'.$context['url_to_home'].$context['url_to_root'].Files::get_permalink($item).'" />';
+	$context['page_header'] .= "\n".'<link rel="canonical" href="'.Files::get_permalink($item).'" />';
 
 	// do not mention details to crawlers
 	if(!Surfer::is_crawler()) {
@@ -498,7 +498,7 @@ if(!isset($item['id'])) {
 	$description = '';
 
 	// the list of people who have fetched this file, for owners and associates
-	if(Files::allow_modification($anchor, $item) && ($users = Activities::list_users_at('file:'.$item['id'], 'fetch', 30, 'comma'))) {
+	if(Files::allow_modification($item, $anchor) && ($users = Activities::list_users_at('file:'.$item['id'], 'fetch', 30, 'comma'))) {
 
 		$count = Activities::count_users_at('file:'.$item['id'], 'fetch');
 		if($count > 30)
@@ -832,7 +832,7 @@ if(!isset($item['id'])) {
 	$context['text'] .= '<p>'.i18n::s('While every care has been taken to ensure that files published on this server have not been infected by any known virus, please always use and activate specialized software on your computer to achieve an optimal protection.')."</p>\n";
 
 	// file is also available for detach
-	if(Files::allow_modification($anchor, $item) && Surfer::get_id() && (!isset($item['assign_id']) || ($item['assign_id'] < 1))) {
+	if(Files::allow_modification($item, $anchor) && Surfer::get_id() && (!isset($item['assign_id']) || ($item['assign_id'] < 1))) {
 
 		// the detach link
 		$link = $context['url_to_root'].Files::get_url($item['id'], 'reserve');
@@ -861,14 +861,14 @@ if(!isset($item['id'])) {
 	//
 
 	// update tools
-	if(Files::allow_modification($anchor, $item)) {
+	if(Files::allow_modification($item, $anchor)) {
 
 		// modify this page
 		Skin::define_img('FILES_EDIT_IMG', 'files/edit.gif');
 		$context['page_tools'][] = Skin::build_link(Files::get_url($item['id'], 'edit'), FILES_EDIT_IMG.i18n::s('Update this file'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		// post an image, if upload is allowed
-		if(Images::allow_creation($anchor, $item, 'file')) {
+		if(Images::allow_creation($item, $anchor, 'file')) {
 			Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
 			$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic');
 		}

@@ -13,7 +13,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 	 *
 	 * @return string to be used in requests to the database
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_order() {
 		return 'publication';
@@ -24,7 +24,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 	 *
 	 * @return 10
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 10;
@@ -36,7 +36,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -149,7 +149,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 				$menu = array_merge($menu, array( Comments::get_url('article:'.$item['id'], 'list') => sprintf(i18n::ns('%d comment', '%d comments', $count), $count) ));
 
 			// discuss
-			if(Comments::allow_creation($anchor, $item))
+			if(Comments::allow_creation($item, $anchor))
 				$menu = array_merge($menu, array( Comments::get_url('article:'.$item['id'], 'comment') => i18n::s('Discuss') ));
 
 			// info on related links

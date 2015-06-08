@@ -27,7 +27,7 @@ Class Layout_articles_as_compact extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;

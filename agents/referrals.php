@@ -170,15 +170,12 @@ class Referrals {
 	 * @param int the number of items to display
 	 *
 	 * @see index.php
-	 * @see actions/index.php
-	 * @see actions/view.php
 	 * @see agents/index.php
 	 * @see articles/index.php
 	 * @see articles/view.php
 	 * @see categories/index.php
 	 * @see categories/view.php
 	 * @see codes/index.php
-	 * @see collections/index.php
 	 * @see comments/index.php
 	 * @see comments/view.php
 	 * @see feeds/index.php

@@ -23,7 +23,7 @@ Class Layout_articles_as_contents extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array, or NULL
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -48,7 +48,7 @@ Class Layout_articles_as_contents extends Layout_interface {
 			$anchor = Anchors::get($item['anchor']);
 
 			// provide an absolute link
-			$url = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
+			$url = Articles::get_permalink($item);
 
 			// time of last update
 			$time = SQL::strtotime($item['edit_date']);
@@ -71,7 +71,7 @@ Class Layout_articles_as_contents extends Layout_interface {
 			elseif($item['anchor'] && ($anchor = Anchors::get($item['anchor'])))
 				$icon = $anchor->get_thumbnail_url();
 			if($icon)
-				$icon = $context['url_to_home'].$context['url_to_home'].$icon;
+				$icon = $context['url_to_home'].$context['url_to_root'].$icon;
 
 			// the author(s) is an e-mail address, according to rss 2.0 spec
 			$author = '';

@@ -20,24 +20,109 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 Class Category extends Anchor {
-
+	
 	/**
-	 * get the url to display the icon for this anchor
-	 *
-	 * @return an anchor to the icon image
-	 *
-	 * @see shared/anchor.php
+	 * check if this category allow surfer to categorize a given anchor into it
+	 * @see layouts/layout_as_tree_manager/tree_manager_ajax.php
+	 * 
+	 * This is different than categorizing with tags.
+	 * 
+	 * @param object $anchor to categorize
 	 */
-	function get_icon_url() {
-		if(isset($this->item['icon_url']) && $this->item['icon_url'])
-			return $this->item['icon_url'];
-		return $this->get_thumbnail_url();
+	function allow_categorization ($anchor=NULL) {
+	    
+	    // surfer as to be a associate or editor of the category
+	    if(!$this->is_assigned() && !Surfer::is_associate())
+		    return FALSE;
+	    
+	    if(is_object($anchor) && $anchor->has_option('no_categories'))
+		return FALSE;
+	    
+	    return TRUE;	    	    
+	}	
+	
+	
+	/**
+	 * Check if surfer is allowed to add sub-categories
+	 * 
+	 * @param string $type
+	 * @return boolean 
+	 */
+	function allow_creation($type='') {
+	    
+	    // surfer as to be a associate or editor of the category
+	    if($this->is_assigned() || Surfer::is_associate())
+		    return TRUE;
+	    
+	    return FALSE;	    
 	}
-
+    
+    
+	/**
+	 * list childs of this anchor, with or without type filters
+	 * 
+	 * @param string set of desired childs (articles, sections...) separted by comma, or "all" keyword
+	 * @param int offset to start listing
+	 * @param int the maximum of items returned per type
+	 * @param mixed string or object the layout to use
+	 * @return an array of array with raw items sorted by type
+	 */
+	function get_childs($filter = 'all',$offset = 0, $max= 50, $layout='raw') {
+	    
+	    // we return a array
+	    $childs = array();
+	    
+	    // sub-categories
+	    if($filter == 'all' || preg_match('/\bcategor(y|ies)\b/i', $filter)) {
+		$childs['category'] = Categories::list_by_title_for_anchor($this, $offset, $max, $layout);
+	    }
+	    
+	    // related articles
+	    if($filter == 'all' || preg_match('/\barticles?\b/i', $filter)) {
+		$childs['article'] = Members::list_articles_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
+	    }
+	    
+	    // related sections
+	    if($filter == 'all' || preg_match('/\bsections?\b/i', $filter)) {
+		$childs['section'] = Members::list_sections_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
+	    }	    	    
+	    
+	    // related users
+	    if($filter == 'all' || preg_match('/\busers?\b/i', $filter)) {
+		$childs['user'] = Members::list_users_by_name_for_anchor($this->get_reference(), $offset, $max, $layout);
+	    }	
+	    
+	    // files
+	    if($filter == 'all' || preg_match('/\bfiles?\b/i', $filter)) {
+		$childs['file'] = Files::list_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
+	    }	
+		    
+	    
+	    return $childs;
+	 }
+         
+         
+         public function get_listed_lang() {
+             global $context;
+             
+             $lang = $this->has_option("lang");
+             
+             if( $lang !== true) {
+                 
+                 if($lang === 'self') {
+                     $lang = $context['language'];
+                 }
+                 return $lang;
+             }
+             
+             return false;
+         }
+    
 	/**
 	 * get the path bar for this anchor
 	 *
@@ -55,67 +140,20 @@ Class Category extends Anchor {
 	 * @see shared/anchor.php
 	 */
 	function get_path_bar() {
-
+	    	   		    
 		// no item bound
 		if(!isset($this->item['id']))
-			return NULL;
-
-		// the parent level
-		$anchor = Anchors::get($this->item['anchor']);
-		if(is_object($anchor))
-			$top_bar = $anchor->get_path_bar();
-		else
-			$top_bar = array( 'categories/' => i18n::s('Categories') );
-
-		// then the category title
-		$url = $this->get_url();
-		$label = $this->get_title();
-
-		// return an array of ($url => $label)
-		if(is_array($top_bar))
-			return array_merge($top_bar, array($url => $label));
-		return array($url => $label);
-	}
-
-	/**
-	 * get the reference for this anchor
-	 *
-	 * @return 'category:&lt;id&gt;', or NULL on error
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_reference() {
-		if(isset($this->item['id']))
-			return 'category:'.$this->item['id'];
-		return NULL;
-	}
-
-	/**
-	 * get the suffix text
-	 *
-	 * @param string a variant string transmitted by the caller
-	 * @return a string to be inserted in the final page
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_suffix($variant='') {
-		if(isset($this->item['suffix']))
-			return $this->item['suffix'];
-		return '';
-	}
-
-	/**
-	 * get the url to display the thumbnail for this anchor
-	 *
-	 * @return an anchor to the thumbnail image, or NULL
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_thumbnail_url() {
-		if(isset($this->item['thumbnail_url']))
-			return $this->item['thumbnail_url'];
-		return NULL;
-	}
+			return NULL;		
+		
+		// standard path
+		$path = Anchor::get_path_bar();
+		
+		// add categories root
+		if(!$this->item['anchor'])		
+		    $path = array_merge(array( 'categories/' => i18n::s('Categories') ), $path);
+		
+		return $path;		
+	}	
 
 	/**
 	 * get the url to display the main page for this anchor
@@ -134,6 +172,26 @@ Class Category extends Anchor {
 		}
 		return NULL;
 	}
+	
+	/**
+	 * get permalink to item
+	 */
+	function get_permalink() {
+	    if(!isset($this->item['id']))
+		    return NULL;
+	    
+	    $link = Categories::get_permalink($this->item);
+	    return $link;
+	}
+	
+	/**
+	 * provide classe name with all static functions on this kind of anchor
+	 * 
+	 * @return a class name
+	 */
+	function get_static_group_class() {
+	    return 'Categories';
+	}
 
 	/**
 	 * load the related item
@@ -145,6 +203,24 @@ Class Category extends Anchor {
 	 */
 	function load_by_id($id, $mutable=FALSE) {
 		$this->item = Categories::get($id, $mutable);
+	}
+	
+	/**
+	 * change some attributes of an anchor
+	 *
+	 * @see shared/anchor.php
+	 *
+	 * @param array of (name, value)
+	 * @return TRUE on success, FALSE otherwise
+	 */
+	function set_values($fields) {
+
+		// add our id
+		$fields['id'] = $this->item['id'];
+
+		// save in the database
+		return Categories::put_attributes($fields);
+
 	}
 
 	/**
@@ -179,14 +255,19 @@ Class Category extends Anchor {
 		// append a reference to a new image to the description
 		if($action == 'image:create') {
 			if(!Codes::check_embedded($this->item['description'], 'image', $origin)) {
+			    
+				// the overlay may prevent embedding
+				if(is_object($this->overlay) && !$this->overlay->should_embed_files())
+						;
+				else {
+				    // list has already started
+				    if(preg_match('/\[image=[^\]]+?\]\s*$/', $this->item['description']))
+					    $query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
 
-				// list has already started
-				if(preg_match('/\[image=[^\]]+?\]\s*$/', $this->item['description']))
-					$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
-
-				// starting a new list of images
-				else
-					$query[] = "description = '".SQL::escape($this->item['description']."\n\n".'[image='.$origin.']')."'";
+				    // starting a new list of images
+				    else
+					    $query[] = "description = '".SQL::escape($this->item['description']."\n\n".'[image='.$origin.']')."'";
+				}
 			}
 
 			// also use it as thumnail if none has been defined yet
@@ -333,7 +414,7 @@ Class Category extends Anchor {
 		$this->item['description'] = preg_replace($from, $to, $this->item['description']);
 
 		// update the database
-		$query = "UPDATE ".SQL::table_name('articles')." SET "
+		$query = "UPDATE ".SQL::table_name('categories')." SET "
 			." introduction = '".SQL::escape($this->item['introduction'])."',"
 			." description = '".SQL::escape($this->item['description'])."'"
 			." WHERE id = ".SQL::escape($this->item['id']);

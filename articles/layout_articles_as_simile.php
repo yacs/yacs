@@ -15,7 +15,7 @@ Class Layout_articles_as_simile extends Layout_interface {
 	 *
 	 * @return int 1000 - this layout has no navigation bar
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 1000;
@@ -27,7 +27,7 @@ Class Layout_articles_as_simile extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -43,11 +43,11 @@ Class Layout_articles_as_simile extends Layout_interface {
 		$context['javascript']['timeline'] = TRUE;
 
 		// sanity check
-		if(!isset($this->layout_variant))
-			$this->layout_variant = 'default';
+		if(!isset($this->focus))
+			$this->focus = 'default';
 
 		// put in cache
-		$cache_id = Cache::hash('articles/layout_articles_as_simile:'.$this->layout_variant).'.xml';
+		$cache_id = Cache::hash('articles/layout_articles_as_simile:'.$this->focus).'.xml';
 
 		// save for one minute
 		if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path_to_root'].$cache_id)+60 < time())) {
@@ -155,7 +155,7 @@ Class Layout_articles_as_simile extends Layout_interface {
 					$introduction = str_replace(array('<', '&'), array('&lt;', '&amp;'), $introduction);
 
 				// add to the list
-				$content .= '	<event start="'.$first.'"'.$last.' title="'.encode_field(str_replace(array("&nbsp;", '"'), ' ', $title)).'" link="'.$context['url_to_home'].$context['url_to_root'].$url.'"'.$image.'>'."\n"
+				$content .= '	<event start="'.$first.'"'.$last.' title="'.encode_field(str_replace(array("&nbsp;", '"'), ' ', $title)).'" link="'.$url.'"'.$image.'>'."\n"
 					.'		'.$introduction."\n"
 					.'	</event>'."\n";
 
@@ -180,9 +180,9 @@ Class Layout_articles_as_simile extends Layout_interface {
 		$now = gmdate('M d Y H:i:s', time()-7*24*60*60);
 
 		// load the right file
-		$text = '<div id="articles_as_simile_'.$count.'" style="height: 300px; border: 1px solid #aaa; font-size: 10px"></div>'."\n"
-			.JS_PREFIX
-			.'var simile_handle_'.$count.';'."\n"
+		$text = '<div id="articles_as_simile_'.$count.'" style="height: 300px; border: 1px solid #aaa; font-size: 10px"></div>'."\n";
+		Page::insert_script(
+			'var simile_handle_'.$count.';'."\n"
 			.'function onLoad'.$count.'() {'."\n"
 			.'  var eventSource = new Timeline.DefaultEventSource();'."\n"
 			.'  var bandInfos = ['."\n"
@@ -224,7 +224,7 @@ Class Layout_articles_as_simile extends Layout_interface {
 			.'// observe page major events'."\n"
 			.'$(document).ready( onLoad'.$count.');'."\n"
 			.'$(window).resize(onResize'.$count.');'."\n"
-			.JS_SUFFIX;
+			);
 
 		// end of processing
 		SQL::free($result);

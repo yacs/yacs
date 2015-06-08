@@ -109,8 +109,7 @@ if($page > 10) {
 	if(!$text = Cache::get($cache_id)) {
 
 		// load the layout to use
-		include_once 'layout_sections_as_yahoo.php';
-		$layout = new Layout_sections_as_yahoo();
+		$layout = Layouts::new_('yahoo', 'section');
 		$layout->set_variant(20); // show more elements at the site map
 
 		// the list of active sections
@@ -149,8 +148,7 @@ if($page > 10) {
 		if(($page == 1) && Surfer::is_associate()) {
 
 			// load the layout to use
-			include_once 'layout_sections_as_yahoo.php';
-			$layout = new Layout_sections_as_yahoo();
+			$layout = Layouts::new_('yahoo', 'section');
 			$layout->set_variant(20); // show more elements at the site map
 
 			// query the database and layout that stuff
@@ -219,17 +217,6 @@ if(!$text = Cache::get($cache_id)) {
 	Cache::put($cache_id, $text, 'stable', 300);
 }
 $context['components']['boxes'] = $text;
-
-// download content
-if(Surfer::is_associate() && (!isset($context['pages_without_freemind']) || ($context['pages_without_freemind'] != 'Y')) ) {
-
-	// box content
-	$content = Skin::build_link(Sections::get_url('all', 'freemind', utf8::to_ascii($context['site_name']).'.mm'), i18n::s('Freemind map'), 'basic');
-
-	// in a sidebar box
-	$context['components']['download'] .= Skin::build_box(i18n::s('Download'), $content, 'download');
-
-}
 
 // referrals, if any
 $context['components']['referrals'] = Skin::build_referrals('sections/index.php');

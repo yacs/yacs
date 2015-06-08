@@ -16,7 +16,7 @@ Class Layout_dates_as_compact extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -61,8 +61,11 @@ Class Layout_dates_as_compact extends Layout_interface {
 			} else
 				$label = Skin::build_date($item['date_stamp'], 'day');
 
+            // may have variant overlay for links
+            $link_type = ($this->has_variant('overlaid'))?'overlaid':'basic';
+                        
 			// list all components for this item
-			$items[$url] = array($prefix, $label, $suffix, 'basic', NULL, $item['date_stamp']);
+			$items[$url] = array($prefix, $label, $suffix, $link_type, NULL, $item['date_stamp']);
 
 		}
 

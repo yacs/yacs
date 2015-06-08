@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-20 23:52+0100\n"
+"POT-Creation-Date: 2015-04-24 15:28+0200\n"
 "PO-Revision-Date: 2012-04-28 01:15+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -100,7 +100,7 @@ msgstr "Oui, je veux supprimer cette table"
 msgid "Cancel"
 msgstr "Annuler"
 
-#: tables/delete.php:138 tables/layout_tables.php:104 tables/view.php:129
+#: tables/delete.php:135 tables/layout_tables.php:104 tables/view.php:129
 #, php-format
 msgid "edited by %s %s"
 msgstr "modifié par %s %s"
@@ -113,7 +113,7 @@ msgstr "Modifier une table"
 msgid "Add a table"
 msgstr "Ajouter une table"
 
-#: tables/edit.php:101 tables/tables.php:954 tables/tables.php:960
+#: tables/edit.php:101 tables/tables.php:962 tables/tables.php:968
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
@@ -189,39 +189,39 @@ msgstr "Ne pas changer la date de modification de la page principale."
 msgid "Ensure this post is valid XHTML."
 msgstr "Vérifier que le contenu est du XHTML valide."
 
-#: tables/edit.php:270
+#: tables/edit.php:269
 msgid "Please type a valid SQL query."
 msgstr "Merci d'indiquer une requête SQL valide"
 
-#: tables/edit.php:284
+#: tables/edit.php:281
 msgid ""
 "Please ensure you are using a compliant and complete SQL SELECT statement."
 msgstr ""
 "Assurez-vous de fournir une commande MySQL SELECT correcte et complète."
 
-#: tables/edit.php:285
+#: tables/edit.php:282
 #, php-format
 msgid "For more information check the %s."
 msgstr "Pour plus d'information référez-vous à %s"
 
-#: tables/edit.php:285
+#: tables/edit.php:282
 msgid "MySQL reference page"
 msgstr "la page de référence MySQL"
 
-#: tables/edit.php:286
+#: tables/edit.php:283
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr "Utilisez %s et %s pour embellir le texte."
 
-#: tables/edit.php:286
+#: tables/edit.php:283
 msgid "YACS codes"
 msgstr "codes YACS"
 
-#: tables/edit.php:286
+#: tables/edit.php:283
 msgid "smileys"
 msgstr "emoticons"
 
-#: tables/edit.php:287
+#: tables/edit.php:284
 msgid "Help"
 msgstr "Aide"
 
@@ -376,7 +376,7 @@ msgstr "Pages récentes"
 msgid "details"
 msgstr "détails"
 
-#: tables/layout_tables.php:110 tables/tables.php:313
+#: tables/layout_tables.php:110 tables/tables.php:321
 msgid "edit"
 msgstr "modifier"
 
@@ -384,16 +384,16 @@ msgstr "modifier"
 msgid "delete"
 msgstr "supprimer"
 
-#: tables/tables.php:77
+#: tables/tables.php:85
 #, php-format
 msgid "Error in table query %s"
 msgstr "Erreur dans la requête de la table %s"
 
-#: tables/tables.php:948
+#: tables/tables.php:956
 msgid "Please add some SQL query."
 msgstr "Merci d'indiquer une requête SQL valide"
 
-#: tables/tables.php:976
+#: tables/tables.php:984
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 

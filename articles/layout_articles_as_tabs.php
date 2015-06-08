@@ -18,7 +18,7 @@ Class Layout_articles_as_tabs extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return a string to be displayed
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -108,7 +108,7 @@ Class Layout_articles_as_tabs extends Layout_interface {
 					$box['text'] .= $items;
 
 				// the command to post a new file
-				if(Files::allow_creation($anchor, $item, 'article')) {
+				if(Files::allow_creation($item, $anchor, 'article')) {
 					Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 					$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Add a file'));
 				}
@@ -154,7 +154,7 @@ Class Layout_articles_as_tabs extends Layout_interface {
 
 			// provide author information to layout
 			if(is_object($layout) && isset($item['create_id']) && $item['create_id'])
-				$layout->set_variant('user:'.$item['create_id']);
+				$layout->set_focus('user:'.$item['create_id']);
 
 			// the maximum number of comments per page
 			if(is_object($layout))
@@ -171,7 +171,7 @@ Class Layout_articles_as_tabs extends Layout_interface {
 			$box = array('bar' => array(), 'prefix_bar' => array(), 'text' => '');
 
 			// feed the wall
-			if(Comments::allow_creation($anchor, $item))
+			if(Comments::allow_creation($item, $anchor))
 				$box['text'] .= Comments::get_form('article:'.$item['id']);
 
 			// a navigation bar for these comments

@@ -10,6 +10,7 @@
  *
  * @author Bernard Paques
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
+ * @author Alexis Raimbault
  * @tester Olivier
  * @tester Nuxwin
  * @tester ClaireFormatrice
@@ -17,70 +18,12 @@
  * @tester Mordread Wallas
  * @tester Ghjmora
  * @tester Thierry Pinelli (ThierryP)
- * @tester Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 Class Skin_Skeleton {
 
-	/**
-	 * build a box part of one accordion
-	 *
-	 * @param string the box title, if any
-	 * @param string the box content
-	 * @param string the accordion id, used as CSS class
-	 * @return the HTML to display
-	 */
-	public static function &build_accordion_box($title, $content, $id) {
-		global $context;
-
-		// we need a clickable title
-		if(!$title)
-			$title = i18n::s('Click to slide');
-
-		// maybe we have an image to enhance rendering
-		$img = '';
-
-		// the icon to close accordion boxes
-		Skin::define_img_href('ACCORDION_CLOSE_IMG_HREF', 'layouts/accordion_minus.jpg');
-
-		// the icon to open accordion boxes
-		Skin::define_img_href('ACCORDION_OPEN_IMG_HREF', 'layouts/accordion_plus.jpg');
-
-		// detect first box of the accordion
-		static $fused;
-		if(!isset($fused))
-			$fused = array();
-
-		// first box is always open
-		if(!isset($fused[ $id ])) {
-
-			$style = '';
-
-			if(ACCORDION_CLOSE_IMG_HREF)
-				$img = '<img src="'.ACCORDION_CLOSE_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" class="handle" /> ';
-
-			// close following boxes
-			$fused[ $id ] = TRUE;
-
-		// following boxes are closed
-		} else {
-
-			$style = ' style="display: none"';
-
-			if(ACCORDION_OPEN_IMG_HREF)
-				$img = '<img src="'.ACCORDION_OPEN_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" class="handle" /> ';
-
-		}
-
-		// Yacs.toggle_folder() is in shared/yacs.js -- div.accordion_content div is required for slide effect to work
-		$text = '<div class="accordion_handle '.$id.'"><a href="#" class="accordion_link" onclick="javascript:Yacs.toggle_accordion(this, \''.ACCORDION_OPEN_IMG_HREF.'\', \''.ACCORDION_CLOSE_IMG_HREF.'\', \''.$id.'\'); return false;">'.$img.$title.'</a>'
-			.'<div class="accordion_content"'.$style.'><div>'.$content."</div></div></div>\n";
-
-		// pass by reference
-		return $text;
-
-	}
+	
 
 	/**
 	 * build the field to restrict access
@@ -97,19 +40,19 @@ Class Skin_Skeleton {
 		$text = '<input type="radio" name="active_set" value="Y" accesskey="v"';
 		if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
 			$text .= ' checked="checked"';
-		$text .= '/> '.i18n::s('Public - Everybody, including anonymous surfers').BR;
+		$text .= EOT.i18n::s('Public - Everybody, including anonymous surfers').BR;
 
 		// maybe a restricted item
 		$text .= '<input type="radio" name="active_set" value="R"';
 		if(isset($item['active_set']) && ($item['active_set'] == 'R'))
 			$text .= ' checked="checked"';
-		$text .= '/> '.i18n::s('Community - Access is granted to any identified surfer').BR;
+		$text .= EOT.i18n::s('Community - Access is granted to any identified surfer').BR;
 
 		// or a hidden item
 		$text .= '<input type="radio" name="active_set" value="N"';
 		if(isset($item['active_set']) && ($item['active_set'] == 'N'))
 			$text .= ' checked="checked"';
-		$text .= '/> '.i18n::s('Private - Access is restricted to selected persons')."\n";
+		$text .= EOT.i18n::s('Private - Access is restricted to selected persons')."\n";
 
 		return $text;
 	}
@@ -178,6 +121,67 @@ Class Skin_Skeleton {
 		// job done
 		return $text;
 	}
+        
+        public static function build_audioplayer($url_to_play) {
+            global $context;
+            
+            $text = '';
+            
+            static $counter;
+            if(!isset($counter))
+                    $counter = 1;
+            else
+                    $counter++;
+            
+            if(strtolower(substr($url_to_play, -3)) === 'mp3' 
+                  && file_exists($context['path_to_root'].'included/browser/dewplayer.swf')) {
+                
+                // the player
+                $dewplayer_url = $context['url_to_root'].'included/browser/dewplayer.swf';
+                $flashvars = 'son='.$url_to_play;
+                
+                // combine the two in a single object
+                $text .= '<div id="player_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+                
+                Page::insert_script(
+                    'var params = {};'."\n"
+                    .'params.base = "'.dirname($url_to_play).'/";'."\n"
+                    .'params.quality = "high";'."\n"
+                    .'params.wmode = "transparent";'."\n"
+                    .'params.menu = "false";'."\n"
+                    .'params.flashvars = "'.$flashvars.'";'."\n"
+                    .'swfobject.embedSWF("'.$dewplayer_url.'", "player_'.$counter.'", "200", "20", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
+                    );
+                
+                
+            }
+            
+            return $text;
+            
+        }
+        
+        /**
+         * build a text field with autocompletion base on tags under a given mother category
+         * 
+         * @param string $tags, to initialize input with former values
+         * @param string $input_id , html id to give to input
+         * @param string $input_name, html name attribute to give to input
+         * @param type $mothercat, id or nickname of a cat to limit the scope of proposed tags
+         */
+        public static function build_autocomplete_tag_input($input_id, $input_name, $tags ='' , $mothercat= '') {
+            global $context;
+
+            $text = '<input type="text" name="'.$input_name.'" id="'.$input_id.'" value="'.encode_field($tags).'" size="45" maxlength="255" />';
+            
+            // set mothercat as url param
+            if($mothercat)
+                $mothercat = '?cat='.$mothercat;
+            
+            // js for autocompletion
+            Page::insert_script('Yacs.autocomplete_m("'.$input_id.'","'.$context['url_to_root'].'categories/complete.php'.$mothercat.'")');
+            
+            return $text;
+        }
 
 	/**
 	 * decorate some text
@@ -586,7 +590,7 @@ Class Skin_Skeleton {
 		$tree = array();
 
 		// list underneath level
-		if($children =& Sections::get_children_of_anchor($anchors[count($anchors)-1], 'index')) {
+		if($children = Sections::get_children_of_anchor($anchors[count($anchors)-1])) {
 
 			// place children
 			foreach($children as $child) {
@@ -611,7 +615,7 @@ Class Skin_Skeleton {
 		for($index=count($anchors)-2; $index >= 0; $index--) {
 
 			// get nibbles
-			if($nibbles =& Sections::get_children_of_anchor($anchors[$index], 'index')) {
+			if($nibbles = Sections::get_children_of_anchor($anchors[$index])) {
 
 				// list nibbles
 				$insert = TRUE;
@@ -698,9 +702,9 @@ Class Skin_Skeleton {
 			return $output;
 
 		// surfer offset, except on 'day' and 'iso8601'
-		if(($variant == 'day') || ($variant == 'iso8601') || ($variant == 'standalone'))
+		if(($variant == 'day') || ($variant == 'iso8601') || ($variant == 'standalone') || $variant == 'local') {
 			$surfer_offset = 0;
-		else
+        } else
 			$surfer_offset = Surfer::get_gmt_offset();
 
 		// YYMMDD-HH:MM:SS GMT -- this one is natively GMT
@@ -738,7 +742,7 @@ Class Skin_Skeleton {
 		// if undefined language, use preferred language for absolute formats
 		if($language)
 			;
-		elseif(($variant == 'full') || ($variant == 'iso8601'))
+		elseif(($variant == 'full') || ($variant == 'iso8601') || ($variant == 'local'))
 			$language = $context['preferred_language'];
 		else
 			$language = $context['language'];
@@ -774,13 +778,13 @@ Class Skin_Skeleton {
 			$time = '';
 		else {
 			$trailer = '';
-			if(!$surfer_offset)
+			if(!$surfer_offset && $variant !== 'local')
 				$trailer = ' GMT';
 			$time = sprintf(i18n::s(' at %s%s'), date(i18n::s('h:i a'), $actual_stamp), $trailer);
 		}
 
 		// format a date as an absolute string
-		if($variant == 'full') {
+		if($variant == 'full' || $variant == 'local') {
 			if($language == 'fr')
 				$output .= $items['mday'].' '.$months[$items['mon']].' '.($items['year']).$time;
 			else
@@ -918,14 +922,14 @@ Class Skin_Skeleton {
 		// date in fr: le dd mmm yy
 		} elseif($language == 'fr') {
 			$output .= 'le '.$items['mday'].' '.$months[$items['mon']].' '.($items['year']);
-			return $output;
 
 		// date in en: on mmm dd yy
 		} else {
 			$output .= 'on '.$months[$items['mon']].' '.$items['mday'].' '.($items['year']);
-			return $output;
 		}
-
+                
+                $output .= ($time)?' '.$time:'';
+                return $output;
 	}
 
 	/**
@@ -1107,7 +1111,7 @@ Class Skin_Skeleton {
 	 * @param the visual variant
 	 * @return an HTML string to be displayed
 	 */
-	public static function &build_form(&$fields, $variant='2-columns') {
+	public static function build_form(&$fields, $variant='2-columns') {
 
 		// we return some text
 		$text = '';
@@ -1117,7 +1121,7 @@ Class Skin_Skeleton {
 			return $text;
 
 		// use a table for the layout
-		$text .= Skin::table_prefix('layout');
+		//$text .= Skin::table_prefix('layout');
 		$lines = 1;
 
 		// parse each field
@@ -1126,7 +1130,7 @@ Class Skin_Skeleton {
 
 			// if this is only a label, make a title out of it
 			if(!is_array($field)) {
-				$text .= Skin::table_suffix().Skin::build_block($field, 'title').Skin::table_prefix('form');
+				$text .= Skin::build_block($field, 'title').Skin::table_prefix('form');
 				continue;
 			}
 
@@ -1148,10 +1152,10 @@ Class Skin_Skeleton {
 
 			// put the hint after the field
 			if($hint)
-				$input .= '<br style="clear: both;" /><span class="tiny">'.$hint.'</span>';
+				$input .= '<p class="yc-form-hint">'.$hint.'</p>';
 
-			$cells = array();
-			switch($variant) {
+			//$cells = array();
+			/*switch($variant) {
 			case '1-column':
 				$cells[] = $label.BR."\n".$input;
 				break;
@@ -1160,12 +1164,13 @@ Class Skin_Skeleton {
 				$cells[] = 'west='.$label;
 				$cells[] = 'east='.$input;
 				break;
-			}
-			$text .= Skin::table_row($cells, $lines++);
+			}*/
+			//$text .= Skin::table_row($cells, $lines++);*
+                        $text .= Skin::build_form_row($label, $input, $lines++, $variant);
 		}
 
 		// end of the table
-		$text .= Skin::table_suffix();
+		//$text .= Skin::table_suffix();
 
 		// append hidden fields, if any
 		$text .= $hidden;
@@ -1173,6 +1178,34 @@ Class Skin_Skeleton {
 		// return the whole string
 		return $text;
 	}
+        
+        public static function build_form_row ($label, $input, $line_nb, $variant="2-columns") {
+            
+            // we return text
+            $row = '';
+            
+            // odd or even
+            $parity = ($line_nb%2)? ' odd ' : ' even ';
+            
+            // start row
+            $row  .= '<div class="yc-form-row '.$parity.'">'."\n";
+            
+            // label
+            if($label) {
+                $moreclass = ($variant === "2-columns")? ' west' : '';
+                $row .= '<div class="yc-form-label '.$moreclass.'">'.ucfirst($label).'</div>'."\n";
+            }
+            // input
+            if($input) {
+                $moreclass = ($variant === "2-columns")? ' east' : '';
+                $row .= '<div class="yc-form-input '.$moreclass.'">'.$input.'</div>'."\n";
+            }
+            
+            // end row
+            $row .= '</div>'."\n";
+            
+            return $row;
+        }
 
 	/**
 	 * build a gadget box
@@ -1240,12 +1273,7 @@ Class Skin_Skeleton {
 		}
 
 		// allow for stacked boxes
-		if(strpos($variant, 'even'))
-			$class = ' even';
-		elseif(strpos($variant, 'odd'))
-			$class = ' odd';
-		else
-			$class = '';
+                $class = ($variant)?' '.$variant:'';
 
 		// external div boundary
 		$text = '<div class="box'.$class.'"'.$id.'>'."\n";
@@ -1348,7 +1376,8 @@ Class Skin_Skeleton {
 			$complement = '';
 
 		// wrapper begins --don't use div, because of surrounding link
-		$text = "\n".'<span class="'.encode_field($variant).'_image">';
+		$tag_wrapper = (SKIN_HTML5)?'figure':'span';
+		$text = "\n".'<'.$tag_wrapper.' class="'.encode_field($variant).'_image">';
 
 		// styling freedom --outside anchor, which is inline
 		if($complement)
@@ -1364,7 +1393,7 @@ Class Skin_Skeleton {
 			$more_styles = ' class="'.encode_field($context['classes_for_avatar_images']).'"';
 
 		// the image itself
-		$image = '<span><img src="'.$href.'" alt=""  title="'.encode_field(strip_tags($hover)).'"'.$more_styles.' /></span>';
+		$image = '<img src="'.$href.'" alt=""  title="'.encode_field(strip_tags($hover)).'"'.$more_styles.' />';
 
 		// add a link
 		if($link && preg_match('/\.(gif|jpeg|jpg|png)$/i', $link) && !preg_match('/\blarge\b/', $variant))
@@ -1385,8 +1414,9 @@ Class Skin_Skeleton {
 			$text .= $image;
 
 		// make the title visible as a caption
+		$tag_caption = (SKIN_HTML5)?'figcaption':'span';
 		if($title && $with_caption)
-			$text .= '<span class="image_caption">'.ucfirst($title).'</span>';
+			$text .= '<'.$tag_caption.' class="image_caption">'.ucfirst($title).'</'.$tag_caption.'>';
 
 		// end of freedom
 		if($complement)
@@ -1399,15 +1429,38 @@ Class Skin_Skeleton {
 		}
 
 		// end of wrapper
-		$text .= '</span>';
+		$text .= '</'.$tag_wrapper.'>';
 
 		// job done
 		return $text;
 
 	}
+	
+	/**
+	 * build an input field to ajax-upload a file
+	 * 
+	 * @param string the field name and id
+	 */ 
+	public static function build_input_file($name="upload", $onchange='', $more_class='') {
+	    
+	    $text   = '';
+	    
+	    if($onchange)
+		$onchange= ' onchange="'.$onchange.'" ';
+	    
+	    // file selector
+	    $text  .= '<input type="file" name="'.$name.'" id="'.$name.'" class="yc-upload '.$more_class.'"'.$onchange.'/>'."\n";
+	    // send button
+	    $text  .= '<label for="'.$name.'" class="yc-upload-button button" >'.i18n::s('upload').'</label>'."\n";
+	    // progress bar
+	    
+	    
+	    return $text;
+	}
+	
 
 	/**
-	 * build an input field in a form
+	 * build an input field in a form to select date and/or time
 	 *
 	 * Type can have one of following values:
 	 * - 'date' - to enter a date
@@ -1422,7 +1475,7 @@ Class Skin_Skeleton {
 	 * @return the HTML to display
 	 *
 	 */
-	public static function &build_input($name, $value, $type, $onchange=NULL) {
+	public static function &build_input_time($name, $value, $type, $onchange=NULL) {
 		global $context;
 
 		// some javascript to call on change
@@ -1437,27 +1490,27 @@ Class Skin_Skeleton {
 			// do not display 0s on screen
 			if($value <= '0000-00-00')
 				$value = '';
+                        
+                        // date stamps are handled in regular text fields
+			$text = '<input type="text" name="'.$name.'" id="'.$name.'" class="date-picker" value="'.encode_field($value).'" size="20" maxlength="255" '.$onchange.' />';
 
-			// date stamps are handled in regular text fields
-			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="15" maxlength="15" '.$onchange.'/>'
-				.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" alt="" />';
-
-			// these are enhanced with jsCalendar, if present
-			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
-				$text .= JS_PREFIX
-					.'$(function() { Calendar.setup({'."\n"
-					.'	inputField	:	"'.$name.'",'."\n"
-					.'	ifFormat	:	"%Y-%m-%d",'."\n"
-					.'	showsTime	:	false,'."\n"
-					.'	button		:	 "'.$name.'_trigger",'."\n"
-					.'	align		:	 "CC",'."\n"
-					.'	singleClick :	 true'."\n"
-					.'}); });'."\n"
-					.JS_SUFFIX."\n";
-
-				// load the jscalendar library
-				$context['javascript']['calendar'] = TRUE;
-			}
+			  // fuse not to load script twice
+                        static $fuse_date = false;
+                        
+                        if(!$fuse_date) {
+                            // load fr localization
+                         
+                            // initialize datetimepicker on page loading    
+                            Page::insert_script(
+                                '$(function() {'."\n"
+                                .'      $(".date-picker").datepicker({dateFormat: "yy-mm-dd"});'."\n"
+                                .'});'."\n"    
+                                );
+                            
+                        }
+                        
+                        $fuse_date = true;
+			
 
 			return $text;
 
@@ -1468,26 +1521,26 @@ Class Skin_Skeleton {
 				$value = '';
 
 			// date stamps are handled in regular text fields
-			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="20" maxlength="255" '.$onchange.' />'
-				.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" alt="" />';
-
-			// these are enhanced with jsCalendar, if present
-			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
-				$text .= JS_PREFIX
-					.'$(function() { Calendar.setup({'."\n"
-					.'	inputField	:	"'.$name.'",'."\n"
-					.'	ifFormat	:	"%Y-%m-%d %H:%M",'."\n"
-					.'	showsTime	:	true,'."\n"
-					.'	timeFormat	:	"24",'."\n"
-					.'	button		:	 "'.$name.'_trigger",'."\n"
-					.'	align		:	 "CC",'."\n"
-					.'	singleClick :	 true'."\n"
-					.'}); });'."\n"
-					.JS_SUFFIX."\n";
-
-				// load the jscalendar library
-				$context['javascript']['calendar'] = TRUE;
-			}
+			$text = '<input type="text" name="'.$name.'" id="'.$name.'" class="date-time-picker" value="'.encode_field($value).'" size="20" maxlength="255" '.$onchange.' />';
+			
+                        // fuse not to load script twice
+                        static $fuse_datetime = false;
+                        
+                        if(!$fuse_datetime) {
+                            // load fr localization
+                         
+                            // initialize datetimepicker on page loading    
+                            Page::insert_script(
+                                '$(function() {'."\n"
+                                .'      $(".date-time-picker").datetimepicker({dateFormat: "yy-mm-dd"});'."\n"
+                                .'});'."\n"    
+                                );
+                            
+                            // load the timepicker library to extend datepicker
+                            $context['javascript']['timepicker'] = TRUE;
+                        }
+                        
+                        $fuse_datetime = true;
 
 			return $text;
 
@@ -1513,25 +1566,61 @@ Class Skin_Skeleton {
 				$value = '';
 
 			// date stamps are handled in regular text fields
-			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="15" maxlength="15" />'
-			.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\'; javascript:Calendar.setup({inputField:\''.$name.'\',ifFormat:\'%b-%Y\',showsTime:true,timeFormat:\'24\',button:\''.$name.'_trigger\',align:\'CC\',singleClick:true});"  onmouseout="this.style.background=\'\'" alt="" />';
-			;
+                        $text = '<input type="text" name="'.$name.'" id="'.$name.'" class="month-year-picker" value="'.encode_field($value).'" size="20" maxlength="255" '.$onchange.' />';
 
-			// these are enhanced with jsCalendar, if present
-			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
-				$text .= JS_PREFIX
-					.'$(function() { Calendar.setup({'."\n"
-					.'	inputField	:	"'.$name.'",'."\n"
-					.'	displayArea :	"'.$name.'",'."\n"
-					.'	ifFormat	:	"%b-%Y"'."\n"
-					.'}); });'."\n"
-					.JS_SUFFIX."\n";
-
-				// load the jscalendar library
-				$context['javascript']['calendar'] = TRUE;
-			}
+			Page::insert_script(
+			    '$(function() {'."\n"
+			    .'$(".month-year-picker").datepicker({'
+                              . 'changeMonth:true, '
+                              . 'changeYear:true,'
+                              . 'showButtonPanel:true,'
+                              . 'dateFormat: "yy-mm",'
+                              . 'beforeShow: function(el, dp) {
+                                    $("#ui-datepicker-div").addClass("hide-calendar");
+                                    var datestr;
+                                    if ((datestr = $(this).val()).length > 0) {
+                                        year = datestr.substring(0, 4);
+                                        month = parseInt(datestr.substring(5));
+                                        console.log(year + " " + month);
+                                        $(this).datepicker("option", "defaultDate", new Date(year, month-1, 1));
+                                    }
+                                },'
+                              . 'onClose: function(dateText, inst) { 
+                                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                                    $(this).datepicker("setDate", new Date(year, month, 1));
+                                    }'
+                              . '});'."\n"
+			    .'});'."\n"
+			    );
+                        
+                        Page::insert_style(".hide-calendar .ui-datepicker-calendar {display: none;}");
+			
 
 			return $text;
+                        
+                case 'time':
+                    
+                    $text = '<input type="text" name="'.$name.'" id="'.$name.'" class="time-picker" value="'.encode_field($value).'" size="20" maxlength="255" '.$onchange.' />';
+                    
+                    // fuse not to load script twice
+                    static $fuse_time = false;
+                    
+                    if(!$fuse_time) {
+                            // load fr localization
+                         
+                            // initialize datetimepicker on page loading    
+                            Page::insert_script(
+                                '$(function() {'."\n"
+                                .'      $(".time-picker").timepicker();'."\n"
+                                .'});'."\n"    
+                                );
+                            
+                            // load the timepicker library to extend datepicker
+                            $context['javascript']['timepicker'] = TRUE;
+                    }
+                    
+                    return $text;
 
 		default:
 
@@ -1553,6 +1642,7 @@ Class Skin_Skeleton {
 	 * - 'comment' - jump to a comment page
 	 * - 'day' - a one day calendar
 	 * - 'email' - a mailto: link
+	 * - 'edit' - say this link edit a page, for eg. to call overlaid edition 
 	 * - 'external' - jump to the outside world
 	 * - 'file' - see file details
 	 * - 'internal' - jump to the outside world, but stay in this window
@@ -1572,6 +1662,9 @@ Class Skin_Skeleton {
 	 * - 'tee' - like button, but also reload the current page
 	 * - 'user' - a person profile
 	 * - 'year' - a full year calendar
+         * 
+         * You may define a id attributes to the link by adding #<yourID> to the variant
+         * example : button#foobar
 	 *
 	 * @link http://www.texastar.com/tips/2004/target_blank.shtml XHTML 1.1 Modularization Anchor Element Target Attribute
 	 *
@@ -1598,18 +1691,22 @@ Class Skin_Skeleton {
 		if(!strncmp($label, 'http:', 5) || !strncmp($label, 'https:', 6) || !strncmp($label, 'ftp:', 4)) {
 			if(strlen($label) > 50)
 				$label = substr_replace($label, '...', 30, -15);
-		}
+                }
+                
+                // more attributes to give to the link
+                $attributes = '';
+                
+                // check no_follow
+                if(strpos($variant,'nofollow') !== false) {
+                    $variant     = trim(str_replace('nofollow', '', $variant));
+                    $attributes .= ' rel="nofollow"';
+                }
 
 		// guess the type of this link
 		if(!$variant) {
 
 			if(!strncmp($url, '/', 1))
 				$variant = 'basic';
-
-			elseif(!strncmp($url, 'actions/view.php', 16))
-				$variant = 'action';
-			elseif(!strncmp($url, 'action-', 7))
-				$variant = 'action';
 
 			elseif(!strncmp($url, 'articles/view.php', 17))
 				$variant = 'article';
@@ -1664,13 +1761,15 @@ Class Skin_Skeleton {
 			elseif(!strncmp($url, 'mailto:', 7))
 				$variant = 'email';
 
-		}
+		} elseif($pos = strpos($variant,'#')) {
+                    // separate id from variant if any
+                    $attributes .= ' id="'.substr($variant,$pos+1).'"';
+                    $variant = substr($variant, 0, $pos );
+                }
 
 		// open in a separate window if asked explicitly or on file streaming
 		if($new_window || (strpos($url, 'files/stream.php') !== FALSE) || (strpos($url, 'file-stream/') !== FALSE))
-			$attributes = ' onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;"';
-		else
-			$attributes = '';
+			$attributes .= ' onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;"';
 
 		// access key
 		if($access_key)
@@ -1737,12 +1836,33 @@ Class Skin_Skeleton {
 
 			// flag external links
 			$external = ($variant == 'external');
-			if(!strncmp($url, 'http:', 5) && strncmp($url, 'http://'.$context['host_name'], strlen('http://'.$context['host_name'])))
-				$external = TRUE;
-			elseif(!strncmp($url, 'https:', 6) && strncmp($url, 'https://'.$context['host_name'], strlen('https://'.$context['host_name'])))
-				$external = TRUE;
-			elseif(!strncmp($url, 'ftp:', 4) && strncmp($url, 'ftp://'.$context['host_name'], strlen('ftp://'.$context['host_name'])))
-				$external = TRUE;
+			
+			// if no explict "external" variant but url is absolute, compare
+			// it with all hosted domains to establish if its external or not
+			$matches_ext = array();
+			if(!$external && preg_match('/.+:\/\/(.+)$/',$url, $matches_ext)) {
+			    // the url without the protocol, begins after "://"
+			    $url_path = $matches_ext[1];
+			    // our host name, at least !
+			    $domains[] = $context['host_name'];
+			    // the master host, could be different
+			    $domains[] = $context['master_host'];
+			    // do we have hosted virtual domains ? consider them also
+			    if(isset($context['virtual_domains']))
+				$domains = array_merge($domains, $context['virtual_domains']);			    			    
+			    
+			    // consider the url will not match ...
+			    $internal = FALSE; 
+			    // compare url with each domains
+			    foreach($domains as $domain) {
+				// strncomp = 0 means strings are matching
+				if(!strncmp($url_path,$domain,strlen($domain))) {
+					$internal = TRUE;
+					break;    // one matching is enought
+				}
+			    }
+			    $external = !$internal;
+			}			
 
 			// default tagging for external links
 			if(!$variant && $external)
@@ -1750,6 +1870,11 @@ Class Skin_Skeleton {
 
 			// default processing for external links
 			if($external) {
+                            
+                                //check we have full link
+                                if(!preg_match("/^(?:[a-z]+:)?\/\//i", $url)) {
+                                    $url = "http://".$url;
+                                }
 
 				// finalize the hovering title
 				if(!$href_title)
@@ -1843,7 +1968,7 @@ Class Skin_Skeleton {
 
 		case 'external':
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="external" onclick="window.open(this.href); return false;">'.$label.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="external" '.$attributes.' onclick="window.open(this.href); return false;">'.$label.'</a>';
 			break;
 
 		case 'file':
@@ -1858,7 +1983,17 @@ Class Skin_Skeleton {
 				.' onkeypress="window.open(this.href); return false;" rel="nofollow"><span>'.$label.'</span></a>';
 			break;
 
-		case 'internal': // like external, but stay in the same window
+                case 'overlaid': // openned by ajax on popup
+                    
+                        $text = '<a href="'.$url.'"'.$href_title.' class="open-overlaid"'.$attributes.'>'.$label.'</a>';
+                        break;
+                    
+                case 'overlaid-edit': // openned by ajax on popup
+                    
+                        $text = '<a href="'.$url.'"'.$href_title.' class="edit-overlaid"'.$attributes.'>'.$label.'</a>';
+                        break;    
+                    
+                case 'internal': // like external, but stay in the same window
 
 			// count external clicks
 //			$url = $context['url_to_root'].'links/click.php?url='.urlencode($url);
@@ -1893,7 +2028,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('More')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.$attributes.'>'.$label.'</a>';
+			$text = '<a class="more" href="'.$url.'"'.$href_title.$attributes.'>'.$label.'</a>';
 			break;
 
 		case 'next':
@@ -2078,7 +2213,7 @@ Class Skin_Skeleton {
 	 * @param boolean open links in a separate page if TRUE
 	 * $return the HTML code
 	 */
-	public static function &build_list(&$items, $variant='unordered', $default_icon=NULL, $new_window=FALSE) {
+	public static function &build_list(&$items, $variant='unordered', $default_icon=NULL, $new_window=FALSE, $callback=NULL) {
 		global $context;
 
 		// sanity check
@@ -2105,7 +2240,7 @@ Class Skin_Skeleton {
 			}
 
 			// align columns
-			$text = '<p class="columns_prefix" />';
+			$text = '<p class="columns_prefix"></p>';
 
 			// build the left column
 			$text .= Skin::build_list($column_1, 'column_1', MAP_IMG, $new_window);
@@ -2115,7 +2250,7 @@ Class Skin_Skeleton {
 				$text .= Skin::build_list($column_2, 'column_2', MAP_IMG, $new_window);
 
 			// clear text after columns
-			$text .= '<p class="columns_suffix" />';
+			$text .= '<p class="columns_suffix"></p>';
 
 			// done
 			return $text;
@@ -2176,12 +2311,23 @@ Class Skin_Skeleton {
 
 			// ease the handling of css, but only for links
 			if(($variant == 'tabs') || ($variant == 'page_menu')) {
+                            
+                                // avoid invalid HTML if label contain a div
+                                if(strpos($label, '<div ') !== FALSE ) {
+                                    $tag = 'div';
+                                    $style = ' style="display:inline;"';
+                                } else {
+                                    $tag = 'span';
+                                    $style = '';
+                                }
+                                    
+                            
 				if(count($list) == 0)
-					$label = '<span class="first">'.$label.'</span>';
+					$label = '<'.$tag.$style.' class="first">'.$label.'</'.$tag.'>';
 				elseif(count($list)+1 == count($items))
-					$label = '<span class="last">'.$label.'</span>';
+					$label = '<'.$tag.$style.' class="last">'.$label.'</'.$tag.'>';
 				else
-					$label = '<span>'.$label.'</span>';
+					$label = '<'.$tag.$style.'>'.$label.'</'.$tag.'>';
 			}
 
 			// the beautified link --if $url is '_', Skin::build_link() will return the label alone
@@ -2206,7 +2352,7 @@ Class Skin_Skeleton {
 					$class = 'class="'.$context['classes_for_thumbnail_images'].'" ';
 
 				// build the complete HTML element
-				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field(strip_tags($label)).'" '.$class.'/>';
+				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field(strip_tags($label)).'" '.$class.' />';
 
 			// use default icon if nothing to display
 			} else
@@ -2223,7 +2369,11 @@ Class Skin_Skeleton {
 			$list[] = array($prefix.$link.$suffix, $icon, $id);
 		}
 
-		$text =& Skin::finalize_list($list, $variant);
+		// delegate rendering to callback function or use standard list finalization
+		if(is_callable($callback))
+			$text = call_user_func($callback,$list, $variant);
+		else
+			$text = Skin::finalize_list($list, $variant);
 
 		return $text;
 	}
@@ -2865,7 +3015,7 @@ Class Skin_Skeleton {
 		// an image to enhance rendering
 		$img = '';
 		if(SLIDE_DOWN_IMG_HREF)
-			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
+			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" />';
 
 		if($onLeft === FALSE)
 			$onLeft = ', false';
@@ -2878,7 +3028,9 @@ Class Skin_Skeleton {
 			$down = ', true';
 
 		// title is optional
-		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slidePanel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\''.$onLeft.$down.'); return false;"><span>'.$title.'</span>'.$img.'</a>';
+		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slidePanel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\''.$onLeft.$down.'); return false;">'."\n"
+                      .'<span>'.$title.'</span>'.$img."\n"
+                      .'</a>'."\n";
 
 		// box content has no div, it is already structured
 		$text .= '<div class="panel" style="display: none;">'.$content.'</div>';
@@ -2912,7 +3064,7 @@ Class Skin_Skeleton {
 		// an easy link to addthis bookmarks
 		if(file_exists($context['path_to_root'].'skins/_reference/feeds/addthis0-bm.gif'))
 			$items[] = '<a href="http://www.addthis.com/bookmark.php?pub='.urlencode($context['site_name']).'&amp;url='.urlencode($url).'&amp;title='.urlencode($title).'" onclick="window.open(this.href); return false;">'
-				.'<img src="'.$context['url_to_root'].'skins/_reference/feeds/addthis0-bm.gif" width="83" height="16" alt="AddThis Social Bookmark Button" />'
+				.'<img src="'.$context['url_to_root'].'skins/_reference/feeds/addthis0-bm.gif" width="83" height="16" alt="AddThis Social Bookmark Button" >'
 				.'</a>';
 
 		// an easy link to addthis feeds
@@ -2943,7 +3095,7 @@ Class Skin_Skeleton {
 			$label = i18n::s('Submit');
 
 		// this is an input button
-		$text = '<span class="button"><button type="submit"';
+		$text = '<button type="submit"';
 
 		// hovering title
 		if($title)
@@ -2965,7 +3117,7 @@ Class Skin_Skeleton {
 		$text .= '>'.$label;
 
 		// end of button
-		$text .= '</button></span>';
+		$text .= '</button>';
 
 		return $text;
 	}
@@ -2982,11 +3134,12 @@ Class Skin_Skeleton {
 	 * [/php]
 	 *
 	 * @param array the list of target tabs and panels
+	 * @param boolean true if you want to display tabs as a succession of steps (forms)
 	 * @return string the HTML snippet
 	 *
 	 * @see users/view.php
 	 */
-	public static function &build_tabs($tabs) {
+	public static function &build_tabs($tabs, $as_steps=FALSE) {
 		global $context;
 
 		// the generated text
@@ -3010,27 +3163,54 @@ Class Skin_Skeleton {
 		foreach($tabs as $tab) {
 
 			// populate tabs
-			$tabs_text .= '<li id="_'.$tab[0].'"';
+			if(!$as_steps) {
+			    $tabs_text .= '<li id="_'.$tab[0].'"';
 
-			if(!$index)
-				$tabs_text .= ' class="tab-foreground"';
-			else
-				$tabs_text .= ' class="tab-background"';
+			    if(!$index)
+				    $tabs_text .= ' class="tab-foreground"';
+			    else
+				    $tabs_text .= ' class="tab-background"';
 
-			$tabs_text .= '><a href="#_'.$tab[0].'">'.$tab[1].'</a></li>'."\n";
+			    $tabs_text .= '><a href="#_'.$tab[0].'">'.$tab[1].'</a></li>'."\n";
+			}
 
 			// populate panels
-			$panels_text .= '<div id="'.$tab[2].'"';
+			$panels_text .= '<div id="'.$tab[2].'" data-tab="_'.$tab[0].'"';
 
 			if(!$index)
 				$panels_text .= ' class="panel-foreground"';
 			else
-				$panels_text .= ' class="panel-background"';
+				$panels_text .= ' class="panel-background"';						
 
 			$panels_text .= '>';
+			
+			// next and prev buttons (HTML5 only), if required
+			if($as_steps) {
+			    
+                            $panels_text .= '<nav class="yc-tab-steps">'."\n";
+                            
+			    // prev button but not on first step
+			    if($index)
+				$panels_text .= '<a class="previous step" data-target="_'.$tabs[$index-1][0].'">'.i18n::s('Previous').'</a>'."\n";
+                            
+                            // provide current step and total steps
+			    $panels_text .= '<p class="details step">'.sprintf(i18n::s('Step %d of %d'),$index+1,count($tabs)).'</p>'."\n";
+                            
+                             // next button but not on last step
+			    if($index < count($tabs)-1)
+				$panels_text .= '<a class="next step" style="visibility:hidden;" data-target="_'.$tabs[$index+1][0].'">'.i18n::s('Next').'</a>'."\n";
+                            
+                            $panels_text .= '</nav>'."\n";
+				
+			}
 
+			// panel content
 			if(isset($tab[3]))
 				$panels_text .= $tab[3];
+			
+			// remind next button, if required
+			if($as_steps && ($index < count($tabs)-1)) 			    			 
+				$panels_text .= '<a class="next step right" data-target="_'.$tabs[$index+1][0].'">'.i18n::s('Next').'</a>';			    
 
 			$panels_text .= '</div>'."\n";
 
@@ -3045,21 +3225,22 @@ Class Skin_Skeleton {
 		}
 
 		// finalize tabs
-		$tabs_text = "\n".'<div id="tabs_bar"><ul>'."\n".$tabs_text.'</ul></div>'."\n";
+		if(!$as_steps)
+		$tabs_text = "\n".'<div class="tabs_bar"><ul>'."\n".$tabs_text.'</ul><a class="tabs-mini-toggle">o</a></div>'."\n";
 
 		// finalize panels
-		$panels_text = "\n".'<div id="tabs_panels">'."\n".$panels_text.'</div>'."\n";
+		$panels_text = "\n".'<div class="tabs_panels">'."\n".$panels_text.'</div>'."\n";
 
 		// finalize javascript loader
-		$js_text .= "\n".JS_PREFIX
-			.'// use the YACS AJAX library to manage tabs'."\n"
-			."$(function() { Yacs.tabs({"."\n"
+		Page::insert_script(
+			// use the YACS AJAX library to manage tabs
+			"$(function() { Yacs.tabs({"."\n"
 			."\t".implode(",\n\t", $js_lines)."}, {})\n"
 			."\t});"."\n"
-			.JS_SUFFIX."\n";
+			);
 
 		// package all components together
-		$text = "\n".$tabs_text.$panels_text.$js_text."\n";
+		$text = "\n".$tabs_text.$panels_text."\n";
 		return $text;
 	}
 
@@ -3203,7 +3384,7 @@ Class Skin_Skeleton {
 		// an image to enhance rendering
 		$img = '';
 		if(SLIDE_DOWN_IMG_HREF)
-			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
+			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" />';
 
 		// title is optional
 		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slidePanel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\'); return false;"><span>'.$title.'</span>'.$img.'</a>';
@@ -3383,7 +3564,7 @@ Class Skin_Skeleton {
 		// maybe we have an image to enhance rendering
 		$img = '';
 		if(FOLDER_PACK_IMG_HREF)
-			$img = '<img src="'.FOLDER_PACK_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
+			$img = '<img src="'.FOLDER_PACK_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" />';
 
 		// Yacs.toggle_folder() is in shared/yacs.js
 		$text = '<div class="folder_box"'.$id.'><a href="#" class="folder_header" onclick="javascript:Yacs.toggle_folder(this, \''.FOLDER_EXTEND_IMG_HREF.'\', \''.FOLDER_PACK_IMG_HREF.'\'); return false;">'.$img.$title.'</a>'
@@ -3521,13 +3702,13 @@ Class Skin_Skeleton {
 
 		// sanity check
 		if(defined($name))
-			return;
+			return;		
 
 		// make an absolute path to image, in case of export (freemind, etc.)
 		if($size = Safe::GetImageSize($context['path_to_root'].$context['skin'].'/'.$file))
-			define($name, ' <img src="'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.'/> ');
+			define($name, ' <img src="'.$context['url_to_master'].$context['url_to_root'].$context['skin'].'/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.' />');
 		elseif($size = Safe::GetImageSize($context['path_to_root'].'skins/_reference/'.$file))
-			define($name, ' <img src="'.$context['url_to_home'].$context['url_to_root'].'skins/_reference/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.'/> ');
+			define($name, ' <img src="'.$context['url_to_master'].$context['url_to_root'].'skins/_reference/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.' />');
 		else
 			define($name, $default);
 	}
@@ -3547,11 +3728,11 @@ Class Skin_Skeleton {
 		if(defined($name))
 			return;
 
-		// make an absolute path to image, in case of export (freemind, etc.)
+		// make an absolute path to image, in case of export
 		if(file_exists($context['path_to_root'].$context['skin'].'/'.$file))
-			define($name, $context['url_to_home'].$context['url_to_root'].$context['skin'].'/'.$file);
+			define($name, $context['url_to_master'].$context['url_to_root'].$context['skin'].'/'.$file);
 		elseif(file_exists($context['path_to_root'].'skins/_reference/'.$file))
-			define($name, $context['url_to_home'].$context['url_to_root'].'skins/_reference/'.$file);
+			define($name, $context['url_to_master'].$context['url_to_root'].'skins/_reference/'.$file);
 		else
 			define($name, $default);
 	}
@@ -3947,8 +4128,11 @@ Class Skin_Skeleton {
 
 					$text .= $label;
 				}
-
-				$text = '<p id="page_menu">'.PAGE_MENU_PREFIX.$text.PAGE_MENU_SUFFIX."</p>\n";
+                                
+                                // prevent invalid html if div inside text
+                                $tag = (strpos($text, '<div ') !== FALSE)?'div':'p';
+                                
+				$text = '<'.$tag.' id="page_menu">'.PAGE_MENU_PREFIX.$text.PAGE_MENU_SUFFIX."</".$tag.">\n";
 				break;
 
 			// items are stacked; use css selectors: div.odd, div.even
@@ -4017,7 +4201,8 @@ Class Skin_Skeleton {
 					$text .= '<li'.$id.'>'.TABS_ITEM_PREFIX.$label.TABS_ITEM_SUFFIX.'</li>'."\n";
 				}
 
-				$text = '<div class="tabs"'.$id.'>'.TABS_PREFIX.'<ul>'."\n".$text.'</ul>'.TABS_SUFFIX."</div>\n";
+				$tag_tabs = (SKIN_HTML5)?'nav':'div';
+				$text = '<'.$tag_tabs.' class="tabs">'.TABS_PREFIX.'<ul>'."\n".$text.'</ul>'.TABS_SUFFIX.'</'.$tag_tabs.">\n";
 				break;
 
 			// similar to compact
@@ -4076,10 +4261,6 @@ Class Skin_Skeleton {
 	public static function initialize() {
 		global $context;
 
-		// the maximum number of actions per page
-		if(!defined('ACTIONS_PER_PAGE'))
-			define('ACTIONS_PER_PAGE', 10);
-
 		// the maximum number of articles per page
 		if(!defined('ARTICLES_PER_PAGE'))
 			define('ARTICLES_PER_PAGE', 50);
@@ -4096,9 +4277,14 @@ Class Skin_Skeleton {
 				define('BR', "\n");
 		}
 
-		// end of tags -- we are XHTML
-		if(!defined('EOT'))
-			define('EOT', ' />');
+		// HTML5 flag, set to TRUE in skin.php if required
+		if(!defined('SKIN_HTML5'))
+			define('SKIN_HTML5', FALSE);
+
+		// end of tags
+		if(!defined('EOT'))			
+		    define('EOT', ' />'); //  XHTML or HTML5
+			
 
 		// the HTML to signal an answer
 		if(is_callable(array('i18n', 's')))
@@ -4198,7 +4384,10 @@ Class Skin_Skeleton {
 
 		// the horizontal ruler
 		if(!defined('HORIZONTAL_RULER'))
-			define('HORIZONTAL_RULER', '<hr />');
+			if(!SKIN_HTML5)
+			    define('HORIZONTAL_RULER', '<hr />');
+			else
+			    define('HORIZONTAL_RULER', '<hr >');
 
 		// the prefix icon used for hot threads
 		Skin::define_img('HOT_THREAD_IMG', 'articles/hot_thread.gif');
@@ -4286,7 +4475,7 @@ Class Skin_Skeleton {
 
 		// the HTML string inserted between news items
 		if(!defined('NEWS_SEPARATOR'))
-			define('NEWS_SEPARATOR', '<hr />');
+			define('NEWS_SEPARATOR', HORIZONTAL_RULER);
 
 		// the HTML string appended to news
 		if(!defined('NEWS_SUFFIX'))
@@ -4486,13 +4675,13 @@ Class Skin_Skeleton {
 
 					// adjust alignment if required
 					if(!strncmp($token, 'left=', 5))
-						$text .= '<td class="'.$style.'"><div style="text-align: left;">'.substr($token, 5).'</div></td>';
+						$text .= '<div class="'.$style.'"><div style="text-align: left;">'.substr($token, 5).'</div></div>';
 					elseif(!strncmp($token, 'center=', 7))
-						$text .= '<td class="'.$style.'"><div style="text-align: center;">'.substr($token, 7).'</div></td>';
+						$text .= '<div class="'.$style.'"><div style="text-align: center;">'.substr($token, 7).'</div></div>';
 					elseif(!strncmp($token, 'right=', 6))
-						$text .= '<td class="'.$style.'"><div style="text-align: right;">'.substr($token, 6).'</div></td>';
+						$text .= '<div class="'.$style.'"><div style="text-align: right;">'.substr($token, 6).'</div></div>';
 					else
-						$text .= '<td class="'.$style.'">'.$token.'</td>';
+						$text .= '<div class="'.$style.'">'.$token.'</div>';
 
 					// move to the center
 					$style = 'center';
@@ -4505,13 +4694,13 @@ Class Skin_Skeleton {
 
 				// adjust alignment if required
 				if(!strncmp($argument, 'left=', 5))
-					$text .= '<td class="'.$style.'"><div style="text-align: left;">'.substr($argument, 5).'</div></td>';
+					$text .= '<div class="'.$style.'"><div style="text-align: left;">'.substr($argument, 5).'</div></div>';
 				elseif(!strncmp($argument, 'center=', 7))
-					$text .= '<td class="'.$style.'"><div style="text-align: center;">'.substr($argument, 7).'</div></td>';
+					$text .= '<div class="'.$style.'"><div style="text-align: center;">'.substr($argument, 7).'</div></div>';
 				elseif(!strncmp($argument, 'right=', 6))
-					$text .= '<td class="'.$style.'"><div style="text-align: right;">'.substr($argument, 6).'</div></td>';
+					$text .= '<div class="'.$style.'"><div style="text-align: right;">'.substr($argument, 6).'</div></div>';
 				else
-					$text .= '<td class="'.$style.'">'.$argument.'</td>';
+					$text .= '<div class="'.$style.'">'.$argument.'</div>';
 			}
 
 			// move from west to center
@@ -4522,7 +4711,7 @@ Class Skin_Skeleton {
 
 		// package the resulting string
 		if($text)
-			$text = '<table class="layout"><tbody><tr>'.$text.'</tr></tbody></table>';
+			$text = '<div class="layout-horiz">'.$text.'</div>';
 
 		// job is done
 		return $text;
@@ -4647,8 +4836,6 @@ Class Skin_Skeleton {
 	 * @param string to be appended to each link created by the script
 	 * @return an array of ( $url => $label )
 	 *
-	 * @see actions/index.php
-	 * @see actions/list.php
 	 * @see articles/index.php
 	 * @see articles/view.php
 	 * @see categories/index.php
@@ -4736,9 +4923,12 @@ Class Skin_Skeleton {
 
 			$count = 0;
 			while($range > $last) {
+				$link_type = 'basic';
 				$page_index++;
-				if(!$next_page)
+				if(!$next_page) {
 					$next_page = $prefix.$page_index;
+					$link_type = 'more';
+				}
 
 				$first = ($page_size * ($page_index-1)) + 1;
 				$last = $first + $page_size - 1;
@@ -4750,7 +4940,7 @@ Class Skin_Skeleton {
 				else
 					$label = $first;
 
-				$bar = array_merge($bar, array( $prefix.$page_index.$suffix => array('', $label, '', 'basic') ));
+				$bar = array_merge($bar, array( $prefix.$page_index.$suffix => array('', $label, '', $link_type) ));
 
 				if((++$count >= 2) && ($last + $page_size < $range)) {
 					$bar[] = '...';
@@ -4764,7 +4954,7 @@ Class Skin_Skeleton {
 			if(!$next_page)
 				$next_page = $prefix.$page_index;
 
-			$bar = array_merge($bar, array( $prefix.$page_index.$suffix => array('', i18n::s('More'), '', 'basic') ));
+			$bar = array_merge($bar, array( $prefix.$page_index.$suffix => array('', i18n::s('More'), '', 'more') ));
 
 		}
 
@@ -4786,7 +4976,6 @@ Class Skin_Skeleton {
 	 * @param string describing the intended layout (ie, 'sidebar', 'manual', 'slideshow')
 	 * @result some text to be inserted in the page
 	 *
-	 * @see actions/view.php
 	 * @see articles/view.php
 	 * @see comments/view.php
 	 * @see files/view.php
@@ -5001,6 +5190,13 @@ Class Skin_Skeleton {
 	 */
 	public static function &rotate($text) {
 		global $context;
+		
+		
+		// temporarly by-pass this function
+		// - js script should be moved to end of page
+		// - does not work well togother with masonry.js
+		// - should use a nicer jquery plugin
+		return $text;
 
 		// list news ids
 		preg_match_all('/id="(.*?)"/', $text, $matches);
@@ -5056,6 +5252,11 @@ Class Skin_Skeleton {
 	 */
 	public static function &scroll($content, $direction='vertical', $class='scroller') {
 		global $context;
+		
+		// by pass this function
+		// TODO : find a way to move the js to the end of page
+		// use a jquery plugin
+		return '<div>'.$content.'</div>';
 
 		// horizontal
 		if($direction == 'horizontal') {
@@ -5267,7 +5468,7 @@ Class Skin_Skeleton {
 	 * @param string a variant, if any, as decribed for table_prefix()
 	 * @return a string to be sent to the browser
 	 */
-	public static function &table($headers, &$rows, $variant='grid') {
+	public static function &table($headers, &$rows, $variant='yc-grid') {
 		$text =& Skin::table_prefix($variant);
 		if(isset($headers) && is_array($headers))
 			$text .= Skin::table_row($headers, 'sortable');

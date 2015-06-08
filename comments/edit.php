@@ -159,7 +159,7 @@ if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
 // the path to this page
-if(is_object($anchor) && $anchor->is_viewable())
+if(is_object($anchor) && $anchor->is_viewable() && !$render_overlaid)
 	$context['path_bar'] = $anchor->get_path_bar();
 else
 	$context['path_bar'] = array( 'comments/' => i18n::s('Comments') );
@@ -280,22 +280,27 @@ if(Surfer::is_crawler()) {
 
 	// reward the poster for new posts
 	} elseif(!isset($item['id']) || ($item['id'] != $_REQUEST['id'])) {
+            
+                if(is_object($anchor->overlay) && is_callable(array($anchor->overlay,'get_comment_notification')) ) {
+                    // delegate notification to overlay
+                    $mail = $anchor->overlay->get_comment_notification($_REQUEST);
+                } else {
+                    // regular notification to send by e-mail
+                    $mail = array();
+                    $mail['subject'] = sprintf(i18n::c('%s: %s'), ($_REQUEST['type'] == 'approval')?i18n::c('Approval'):i18n::c('Contribution'), strip_tags($anchor->get_title()));
+                    $mail['notification'] = Comments::build_notification($_REQUEST);
 
-		// notification to send by e-mail
-		$mail = array();
-		$mail['subject'] = sprintf(i18n::c('%s: %s'), ($_REQUEST['type'] == 'approval')?i18n::c('Approval'):i18n::c('Contribution'), strip_tags($anchor->get_title()));
-		$mail['notification'] = Comments::build_notification($_REQUEST);
+                }
+                // send to anchor watchers
+                if(isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'))
+                        $anchor->alert_watchers($mail, $action);
 
-		// send to anchor watchers
-		if(isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y'))
-			$anchor->alert_watchers($mail, $action);
-
-		// send to followers of this user
-		if(isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y')
-			&& Surfer::get_id() && !$anchor->is_hidden()) {
-				$mail['message'] = Mailer::build_notification($mail['notification'], 2);
-				Users::alert_watchers('user:'.Surfer::get_id(), $mail);
-		}
+                // send to followers of this user
+                if(isset($_REQUEST['notify_followers']) && ($_REQUEST['notify_followers'] == 'Y')
+                        && Surfer::get_id() && !$anchor->is_hidden()) {
+                                $mail['message'] = Mailer::build_notification($mail['notification'], 2);
+                                Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+                }
 
 		// touch the related anchor
 		$anchor->touch('comment:create', $_REQUEST['id'],
@@ -358,6 +363,15 @@ if(Surfer::is_crawler()) {
 
 		// notify sysops
 		Logger::notify('comments/edit.php: '.$label, $description);
+                
+        // forward to the updated thread
+        if(!isset($_REQUEST['follow_up'])) {
+            // redirect
+            Safe::redirect($anchor->get_url('comments'));
+        }elseif($_REQUEST['follow_up'] === 'json') {
+            // provide a json version of the new comment.
+            Comments::render_json($_REQUEST['id'], $anchor);
+        }
 
 	// update of an existing comment
 	} else {
@@ -376,9 +390,24 @@ if(Surfer::is_crawler()) {
 		Comments::clear($_REQUEST);
 
 		// forward to the updated thread
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url('comments'));
+                if(!isset($_REQUEST['follow_up'])) {
+                    Safe::redirect($anchor->get_url('comments'));
 
-	}
+                } else {
+
+                    switch ($_REQUEST['follow_up']) {
+                        case 'json':
+                            // provide a json version of the new comment.
+                            Comments::render_json($_REQUEST['id'], $anchor);
+
+                            break;
+                        case 'close':
+                            echo "edit done";
+                            finalize_page(true);
+                        default:
+                    }
+                }
+        }
 
 // display the form on GET
 } else
@@ -430,10 +459,16 @@ if($with_form) {
 	}
 
 	// the form to edit a comment
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form" enctype="multipart/form-data"><div>';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form" class="comment_form" enctype="multipart/form-data"><div>';
 
 	// reference the anchor page
 	$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
+        
+        // set followup to json if overlaid view
+        if($render_overlaid) {
+            $context['text'] .= '<input type="hidden" name="follow_up" value="json" />';
+            Page::insert_script('Yacs.initAjaxComments();');
+        }
 
 	// display info on current version
 	if(isset($item['id']) && !preg_match('/(new|quote|reply)/', $action)) {
@@ -521,7 +556,7 @@ if($with_form) {
 	$label = i18n::s('Your contribution');
 
 	// use the editor if possible
-	$input = Surfer::get_editor('description', isset($item['description']) ? $item['description'] : '');
+	$input = Surfer::get_editor('description', isset($item['description']) ? $item['description'] : '', TRUE, 3, FALSE);
 	$fields[] = array($label, $input);
 
 	// add a file on first post, and if allowed
@@ -548,10 +583,19 @@ if($with_form) {
 	// bottom commands
 	$menu = array();
 	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's', 'submit_button');
-	$menu[] = '<a href="#" onclick="$(\'#preview_flag\').attr(\'value\', \'Y\'); $(\'#submit_button\').click(); return false;" accesskey="p" title="'.i18n::s('Press [p] for preview').'"><span>'.i18n::s('Preview').'</span></a>';
-	if(is_object($anchor))
-		$menu[] = Skin::build_link($anchor->get_url('comments'), i18n::s('Cancel'), 'span');
-	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+        if(!$render_overlaid)
+            // preview link
+            $menu[] = '<a href="#" onclick="$(\'#preview_flag\').attr(\'value\', \'Y\'); $(\'#submit_button\').click(); return false;" accesskey="p" title="'.i18n::s('Press [p] for preview').'"><span>'.i18n::s('Preview').'</span></a>';
+	
+        if(is_object($anchor)) {
+            // cancel link
+            if( !$render_overlaid )
+                $menu[] = Skin::build_link($anchor->get_url('comments'), i18n::s('Cancel'), 'span');
+            else
+                $menu[] = '<a href="javascript:;" onclick="Yacs.closeModalBox()">'.i18n::s('Cancel').'</a>'."\n";
+        }
+	
+        $context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// optional checkboxes
 	$context['text'] .= '<p>';
@@ -595,27 +639,23 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// description is mandatory, but only if the field is visible'."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// description is mandatory, but only if the field is visible'
 		.'	if(!container.description.value && (container.description.style.display != \'none\')) {'."\n"
 		.'		alert("'.i18n::s('Please type a valid comment').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
+			// successful check'
 		.'	return true;'."\n"
 		.'}'."\n"
-		."\n"
-		.'// disable editor selection on change in form'."\n"
+		// disable editor selection on change in form
                 .'$("#main_form textarea, #main_form input, #main_form select").change(function() {'."\n"
                 .'      $("#preferred_editor").attr("disabled",true);'."\n"
                 .'});'."\n"
-		."\n"
-		.JS_SUFFIX;
+		);
 
 	// reply or quote
 	if(isset($reference_item['description']) && $reference_item['description'] && (($action == 'quote') || ($action == 'reply'))) {
@@ -644,33 +684,31 @@ if($with_form) {
 	}
 
 	// page help
-	$help = '<p>'.i18n::s('Hearty discussion and unpopular viewpoints are welcome, but please keep comments on-category and civil. Flaming, trolling, and smarmy comments are discouraged and may be deleted. In fact, we reserve the right to delete any post for any reason. Don\'t make us do it.').'</p>';
-	if(!Surfer::is_logged())
-		$help .= '<p>'.i18n::s('Since you are posting anonymously, most HTML tags and web addresses are removed.');
-	elseif(!Surfer::is_associate())
-		$help .= '<p>'.i18n::s('Most HTML tags are removed.');
-	else
-		$help .= '<p>';
-	$help .= ' '.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>';
+        if(!$render_overlaid) {
+            $help = '<p>'.i18n::s('Hearty discussion and unpopular viewpoints are welcome, but please keep comments on-category and civil. Flaming, trolling, and smarmy comments are discouraged and may be deleted. In fact, we reserve the right to delete any post for any reason. Don\'t make us do it.').'</p>';
+            if(!Surfer::is_logged())
+                    $help .= '<p>'.i18n::s('Since you are posting anonymously, most HTML tags and web addresses are removed.');
+            elseif(!Surfer::is_associate())
+                    $help .= '<p>'.i18n::s('Most HTML tags are removed.');
+            else
+                    $help .= '<p>';
+            $help .= ' '.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open'), Skin::build_link('smileys/', i18n::s('smileys'), 'open')).'</p>';
 
- 	// change to another editor
-	$help .= '<form action=""><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
-	$selected = '';
-	if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'tinymce'))
-		$selected = ' selected="selected"';
-	$help .= '<option value="tinymce"'.$selected.'>'.i18n::s('TinyMCE')."</option>\n";
-	$selected = '';
-	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
-		$selected = ' selected="selected"';
-	$help .= '<option value="fckeditor"'.$selected.'>'.i18n::s('FCKEditor')."</option>\n";
-	$selected = '';
-	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'yacs'))
-		$selected = ' selected="selected"';
-	$help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
-	$help .= '</select></p></form>';
+            // change to another editor
+            $help .= '<form action=""><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
+            $selected = '';
+            if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'tinymce'))
+                    $selected = ' selected="selected"';
+            $help .= '<option value="tinymce"'.$selected.'>'.i18n::s('TinyMCE')."</option>\n";
+            $selected = '';
+            if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'yacs'))
+                    $selected = ' selected="selected"';
+            $help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
+            $help .= '</select></p></form>';
 
-	// in a sidebar box
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
+            // in a sidebar box
+            $context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
+        }
 
 }
 

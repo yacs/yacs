@@ -12,6 +12,7 @@
  * @author Florent
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -29,8 +30,16 @@ Class Locations {
 	 * @param string the type of item, e.g., 'section'
 	 * @return boolean TRUE or FALSE
 	 */
-	public static function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
+	public static function allow_creation($item=NULL, $anchor=NULL, $variant=NULL) {
 		global $context;
+                
+                // backward compatibility, reverse parameters : 
+                // $anchor is always a object and $item a array
+                if(is_object($item) || is_array($anchor)) {
+                    $permute    = $anchor;
+                    $anchor     = $item;
+                    $item       = $permute;
+                }
 
 		// guess the variant
 		if(!$variant) {
@@ -395,28 +404,41 @@ Class Locations {
 	/**
 	 * list nearest locations to one point
 	 *
-	 * If you are looking for locations near another one, set the offset to one.
+	 * This is based on complex mathematical computations, that have been documented
+	 * as best practice by many developers.
+	 *
+	 * @link http://www.movable-type.co.uk/scripts/latlong.html Latitude and longitude computations
+	 *
+	 * If you are looking for locations near another one, set the offset to one instead of zero.
+	 *
+	 * The maximum distance parameter is used to improve response times on a large set of points.
+	 * If a query returns no result, you may want to redo it again, with a higher maximum distance.
 	 *
 	 * @param float latitude of the target point
 	 * @param float longitude of the target point
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
+	 * @param float maximum distance to focal point, in kilometers
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 * @see locations/view.php
 	 */
-	public static function list_by_distance($latitude, $longitude, $offset=0, $count=20, $variant='compact') {
+	public static function list_by_distance($latitude, $longitude, $offset=0, $count=20, $variant='compact', $max_distance=500) {
 		global $context;
+
+		// one degree means roughly 111 km = 2 * pi * 6371 / 360
+		$half_delta_lat = $max_distance / 222.00;
+		$half_delta_lng = $max_distance / abs(cos(deg2rad($latitude))*222.00);
 
 		// select records by distance to the target point, with a limit to 5,000 km
 		$query = "SELECT id, anchor, geo_place_name, latitude, longitude, geo_country, description,"
 			." edit_name, edit_id, edit_address, edit_date,"
-			." abs( 3956 * acos( sin(radians(".$latitude.")) * sin(radians(latitude)) "
+			." abs( 6371 * acos( sin(radians(".$latitude.")) * sin(radians(latitude)) "
 			." + cos(radians(".$latitude.")) * cos(radians(latitude)) * cos(radians(longitude - ".$longitude.")) ) ) AS distance"
 			." FROM ".SQL::table_name('locations')." AS locations "
-			." WHERE latitude BETWEEN ".$latitude." - 45 AND ".$latitude." + 45"
-			." AND longitude BETWEEN ".$longitude." - 45 AND ".$longitude." + 45"
+			." WHERE latitude BETWEEN ".$latitude." - ".$half_delta_lat." AND ".$latitude." + ".$half_delta_lat
+			." AND longitude BETWEEN ".$longitude." - ".$half_delta_lng." AND ".$longitude." + ".$half_delta_lng
 			." ORDER BY distance, locations.edit_date DESC, locations.geo_place_name "
 			." LIMIT ".$offset.','.$count;
 
@@ -596,13 +618,13 @@ Class Locations {
 		$longitude_middle = $longitudes / max(1, $index);
 
 		// create this map
-		$text .= JS_PREFIX
-			.'var mapOptions = {'."\n"
+		$js_script = 
+			'var mapOptions = {'."\n"
 			.'	zoom: 13,'."\n"
 			.'	center: new google.maps.LatLng(parseFloat("'.$latitude_middle.'"), parseFloat("'.$longitude_middle.'")),'."\n"
 			.'	mapTypeId: google.maps.MapTypeId.ROADMAP'."\n"
 			.'};'."\n"
-			.'var map = new google.maps.Map($("#'.$handle.'")[0], mapOptions);'."\n";
+			.'var map = new google.maps.Map($("#'.$handle.'")[0], mapOptions);';
 
 		// add all markers
 		$index = 1;
@@ -637,7 +659,7 @@ Class Locations {
 				$icon = 'iconBlue';
 
 			// add one marker for this item
-			$text .= '	var point = new google.maps.LatLng(parseFloat("'.$item['latitude'].'"), parseFloat("'.$item['longitude'].'"));'."\n"
+			$js_script .= '	var point = new google.maps.LatLng(parseFloat("'.$item['latitude'].'"), parseFloat("'.$item['longitude'].'"));'."\n"
 				.'	var marker'.$map_index.$index.' = new google.maps.Marker({ position: point, map: map });'."\n"
 				.'	var infoWindow = new google.maps.InfoWindow();'."\n"
 				.'google.maps.event.addDomListener(marker'.$map_index.$index.', "click", function() {'."\n"
@@ -655,7 +677,7 @@ Class Locations {
 		}
 
 		// the postamble
-		$text .= JS_SUFFIX;
+		Page::insert_script($js_script);
 
 		// job done
 		return $text;
@@ -682,8 +704,8 @@ Class Locations {
 		$text .= '<script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>'."\n";
 
 		// load some icons from Google
-		$text .= JS_PREFIX
-			.'if(typeof google.maps.Icon != "undefined") {'."\n"
+		Page::insert_script(
+			'if(typeof google.maps.Icon != "undefined") {'."\n"
 			.'	var iconBlue = new google.maps.Icon();'."\n"
 			.'	iconBlue.image = "http://labs.google.com/ridefinder/images/mm_20_blue.png";'."\n"
 			.'	iconBlue.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";'."\n"
@@ -700,7 +722,7 @@ Class Locations {
 			.'	iconRed.iconAnchor = new google.maps.Point(6, 20);'."\n"
 			.'	iconRed.infoWindowAnchor = new google.maps.Point(5, 1);'."\n"
 			.'}'
-			.JS_SUFFIX;
+			);
 
 		// done
 		return $text;

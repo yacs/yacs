@@ -52,7 +52,6 @@ if(!$anchor = Anchors::get('section:queries')) {
 	$fields['description'] =& i18n::c('<p>This section has been created automatically on query submission. It\'s aiming to capture feedback directly from surfers. It is highly recommended to delete pages below after their processing. Of course you can edit submitted queries to assign them to other sections if necessary.</p>');
 	$fields['locked'] = 'Y'; // no direct contributions
 	$fields['active_set'] = 'N'; // for associates only
-	$fields['home_panel'] = 'none'; // content is not pushed at the front page
 	$fields['index_map'] = 'N'; // listed only to associates
 
 	// reference the new section
@@ -271,25 +270,22 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// append the script used for data checking on the browser
-	$context['page_footer'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// edit_name is mandatory'."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// edit_name is mandatory'
 		.'	if(!container.edit_name.value) {'."\n"
 		.'		alert("'.i18n::s('Please give your first and last names').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// edit_address is mandatory'."\n"
+			// edit_address is mandatory
 		.'	if(!container.edit_address.value) {'."\n"
 		.'		alert("'.i18n::s('Please give your e-mail address').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// title is mandatory'."\n"
+			// title is mandatory
 		.'	if(!container.title.value) {'."\n"
 		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
@@ -302,13 +298,12 @@ if($with_form) {
 		.'		return false;'."\n"
 		.'	}'."\n"
 		."\n"
-		.'	// successful check'."\n"
+			// successful check
 		.'	return true;'."\n"
 		.'}'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'$("#edit_name").focus();'."\n"
-		.JS_SUFFIX."\n";
+		);
 
 	// general help on this form
 	$text = i18n::s('<p>Use this form to submit any kind of request you can have, from simple suggestions to complex questions.</p><p>Hearty discussion and unpopular viewpoints are welcome, but please keep queries civil. Flaming, trolling, and smarmy queries are discouraged and may be deleted. In fact, we reserve the right to delete any post for any reason. Don\'t make us do it.</p>');

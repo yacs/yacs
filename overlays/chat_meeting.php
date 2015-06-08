@@ -232,8 +232,8 @@ class Chat_meeting extends Meeting {
 		$context['javascript']['opentok'] = TRUE;
 
 		// interface with the OpenTok API
-		$context['page_footer'] .= JS_PREFIX
-			.'var OpenTok = {'."\n"
+		$js_script =
+			'var OpenTok = {'."\n"
 			."\n"
 			.'	apiKey: '.$context['opentok_api_key'].','."\n"
 			.'	sessionId: "'.$this->attributes['session_id'].'",'."\n"
@@ -387,7 +387,7 @@ class Chat_meeting extends Meeting {
 			.'		OpenTok.publisher.publishAudio(true);'."\n"
 			."\n"
 			.'		document.getElementById("pushToTalk").onclick = OpenTok.stopTalking;'."\n"
-			.'		document.getElementById("pushToTalk").value = "'.i18n::s('Stop talking').'";'."\n";
+			.'		document.getElementById("pushToTalk").value = "'.i18n::s('Stop talking').'";'."\n";			
 
 		// identify the chairman or, if unknown, the owner of this page
 		$chairman = array();
@@ -398,12 +398,12 @@ class Chat_meeting extends Meeting {
 
 		// if this surfer is the chairman of this meeting, he will take over after three seconds of silence
 		if(isset($chairman['id']) && Surfer::is($chairman['id']))
-			$context['page_footer'] .= 'OpenTok.watchdog = setInterval(function () {'
+			$js_script .= 'OpenTok.watchdog = setInterval(function () {'
 				.	'if(!$("#opentok .talker").length) {OpenTok.startTalking();}'
 				.'}, 3000);'."\n";
 
 		// end of javascript snippet
-		$context['page_footer'] .= '	},'."\n"
+		$js_script .= '	},'."\n"
 			."\n"
 			.'	// i am back to listening mode'."\n"
 			.'	stopTalking: function() {'."\n"
@@ -511,8 +511,9 @@ class Chat_meeting extends Meeting {
 			."\n"
 			.'// bind to OpenTok'."\n"
 			.'$(document).ready(OpenTok.initialize);'."\n"
-			."\n"
-			.JS_SUFFIX;
+			."\n";
+			
+		Page::insert_script($js_script);
 
 		// video streams are put above the chat area
 		$text = '<div id="opentok">'

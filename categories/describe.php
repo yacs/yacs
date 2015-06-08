@@ -114,7 +114,7 @@ if(!isset($item['id'])) {
 } else {
 
 	// compute the url for this category
-	$url = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item);
+	$url = Categories::get_permalink($item);
 
 	// get a description
 	if($item['introduction'])

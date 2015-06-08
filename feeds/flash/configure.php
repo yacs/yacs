@@ -172,10 +172,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= '</div></form>';
 
 	// set the focus
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#flash_font_r").focus();'."\n"
-		.JS_SUFFIX."\n";
+	Page::insert_script('$("#flash_font_r").focus();');
 
 	// general help on this form
 	$help = '<p>'.i18n::s('Do not set any background color to achieve a transparent object.').'</p>';

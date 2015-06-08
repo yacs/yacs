@@ -56,7 +56,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 
 			// display the updated page
 			if(!$recipients = Mailer::build_recipients('article:'.$item['id']))
-				Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
+				Safe::redirect(Articles::get_permalink($item));
 
 			// list persons that have been notified
 			$context['text'] .= $recipients;
@@ -263,7 +263,7 @@ if($with_form) {
 	$fields[] = array($label, $input, $hint);
 
 	// allow for an initial upload, if allowed
-	if(!isset($item['id']) && Surfer::may_upload() && Files::allow_creation($anchor, $item, 'article')) {
+	if(!isset($item['id']) && Surfer::may_upload() && $cur_article->allows('creation','file')) {
 
 		// attachment label
 		$label = i18n::s('Add a file');
@@ -285,14 +285,14 @@ if($with_form) {
 		;
 
 	// the active flag: Yes/public, Restricted/logged, No/associates
-	elseif(Articles::is_owned($item, $anchor)) {
+	elseif($cur_article->is_owned()) {
 		$label = i18n::s('Access');
 		$input = Skin::build_active_set_input($item);
 		$hint = Skin::build_active_set_hint($anchor);
 		$fields[] = array($label, $input, $hint);
 
 	// else preserve attribute given by template, if any
-	} else
+	} elseif(isset($item['active_set']))
 		$context['text'] .= '<input type="hidden" name="active_set" value="'.$item['active_set'].'" />';
 
 	// end of regular fields
@@ -319,7 +319,7 @@ if($with_form) {
 
 		// images
 		$box = '';
-		if(Images::allow_creation($anchor, $item)) {
+		if($cur_article->allows('creation','image')) {
 			$menu = array( 'images/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add an image') );
 			$box .= Skin::build_list($menu, 'menu_bar');
 		}
@@ -330,7 +330,7 @@ if($with_form) {
 
 		// files
 		$box = '';
-		if(Files::allow_creation($anchor, $item, 'article')) {
+		if($cur_article->allows('creation','file')) {
 			$menu = array( 'files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a file') );
 			$box .= Skin::build_list($menu, 'menu_bar');
 		}
@@ -341,7 +341,7 @@ if($with_form) {
 
 		// tables
 		$box = '';
-		if(Tables::allow_creation($anchor, $item)) {
+		if($cur_article->allows('creation','table')) {
 			$menu = array( 'tables/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a table') );
 			$box .= Skin::build_list($menu, 'menu_bar');
 		}
@@ -377,7 +377,7 @@ if($with_form) {
 			}
 
 			// change the owner
-			if(Articles::is_owned($item, $anchor) || Surfer::is_associate())
+			if($cur_article->is_owned() || Surfer::is_associate())
 				$input .= ' <span class="details">'.Skin::build_link(Articles::get_url($item['id'], 'own'), i18n::s('Change'), 'button').'</span>';
 
 			$fields[] = array($label, $input);
@@ -385,7 +385,7 @@ if($with_form) {
 		}
 
 		// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
-		if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+		if($cur_article->is_owned() || Surfer::is_associate()) {
 			$label = i18n::s('Access');
 			$input = Skin::build_active_set_input($item);
 			$hint = Skin::build_active_set_hint($anchor);
@@ -433,7 +433,7 @@ if($with_form) {
 		}
 
 		// the rank
-		if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+		if($cur_article->is_owned() || Surfer::is_associate()) {
 
 			// the default value
 			if(!isset($item['rank']))
@@ -471,7 +471,7 @@ if($with_form) {
 		// the parent section
 		if(is_object($anchor)) {
 
-			if(isset($item['id']) && Articles::is_owned($item, $anchor)) {
+			if(isset($item['id']) && $cur_article->is_owned()) {
 				$label = i18n::s('Section');
 				$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($anchor->get_reference()), 'folded');
 				$fields[] = array($label, $input);
@@ -500,7 +500,7 @@ if($with_form) {
 		$fields[] = array($label, $input, $hint);
 
 		// the nick name
-		if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+		if($cur_article->is_owned() || Surfer::is_associate()) {
 			$label = i18n::s('Nick name');
 			$value = '';
 			if(isset($item['nick_name']) && $item['nick_name'])
@@ -513,7 +513,7 @@ if($with_form) {
 		}
 
 		// rendering options
-		if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+		if($cur_article->is_owned() || Surfer::is_associate()) {
 			$label = i18n::s('Rendering');
 			$input = Articles::build_options_input($item);
 			$hint = Articles::build_options_hint($item);
@@ -595,7 +595,7 @@ if($with_form) {
 
 		// preserve attributes coming from template duplication
 		if(!isset($item['id'])) {
-			$hidden = array('behaviors', 'extra', 'icon_url', 'home_panel', 'prefix', 'suffix', 'trailer');
+			$hidden = array('behaviors', 'extra', 'icon_url', 'index_map', 'prefix', 'suffix', 'trailer');
 			foreach($hidden as $name) {
 				if(isset($item[ $name ]))
 					$context['text'] .= '<input type="hidden" name="'.$name.'" value="'.$item[ $name ].'" />';
@@ -611,7 +611,7 @@ if($with_form) {
 
 		// preserve attributes coming from template duplication
 		if(!isset($item['id'])) {
-			$hidden = array('behaviors', 'extra', 'icon_url', 'home_panel', 'locked', 'meta', 'options', 'prefix', 'rank', 'source', 'suffix', 'thumbnail_url', 'trailer');
+			$hidden = array('behaviors', 'extra', 'icon_url', 'index_map', 'locked', 'meta', 'options', 'prefix', 'rank', 'source', 'suffix', 'thumbnail_url', 'trailer');
 			foreach($hidden as $name) {
 				if(isset($item[ $name ]))
 					$context['text'] .= '<input type="hidden" name="'.$name.'" value="'.$item[ $name ].'" />';

@@ -164,10 +164,7 @@ if($id) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#focus").focus();'."\n"
-		.JS_SUFFIX."\n";
+	Page::insert_script('$("#focus").focus();');
 
 	// use an available archive
 	$context['text'] .= '<p>'.i18n::s('Alternatively, this script is able to handle archives that have been put in the directory <code>inbox/skins</code>.').'</p>';

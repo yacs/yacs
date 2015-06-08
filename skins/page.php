@@ -28,7 +28,7 @@
 	 * The class is set to 'extra' if [code]$context['extra'][/code] is not empty.
 	 *
 	 */
-	public static function body() {
+	public static function body($classes='') {
 		global $context;
 
 		// body id is derived from skin variant
@@ -37,9 +37,11 @@
 			$id = ' id="'.$context['skin_variant'].'"';
 
 		// we do have some extra content to render
-		$classes = '';
 		if($context['extra'])
-			$classes = ' class="extra"';
+			$classes .= ' extra';
+
+		// build classes declaration
+		$classes = ' class="'.$classes.'"';
 
 		// start the body
 		echo '<body'.$id.$classes.'>'."\n";
@@ -172,6 +174,17 @@
 		// this component is unknown
 		return FALSE;
 	}
+	
+	/**
+	 * link a javascript file in the bottom of the page
+	 * 
+	 * @param string $path 
+	 */
+	public static function defer_script($path,$now=false) {
+	    
+	    $job = Js_css::link_file($path, 'js','defer',$now);
+            if($now) echo $job;
+	}
 
 	/**
 	 * send the main content of the page
@@ -199,7 +212,7 @@
 	 *
 	 * @param mixed a string of tokens, or a boolean
 	 */
-	public static function content($names=NULL) {
+	public static function content($names=NULL, $wrap = true) {
 		global $context;
 
 		// display the prefix, if any
@@ -225,9 +238,19 @@
 		if(is_string($names))
 			$names = explode(' ', $names);
 
+		if (isset( $context['content_wrap'] ) && $wrap ) {
+			if (isset($context['content_wrap_attributes']))
+			echo '<'.$context['content_wrap'].' '.$context['content_wrap_attributes'].'>';
+			else
+			echo '<'.$context['content_wrap'].'>';
+		}
+
 		// actual component generation
 		foreach($names as $name)
 			Page::component($name);
+
+		if (isset( $context['content_wrap'] ) && $wrap)
+			echo '</'.$context['content_wrap'].'>';
 
 		// display the suffix, if any
 		if(isset($context['suffix']) && $context['suffix'])
@@ -320,6 +343,67 @@
 
 		}
 	}
+        
+        /**
+         * echo switcher to other language version for the page, if any
+         * as a country flag for each language.
+         * 
+         * @param array $displayed, ['en, 'fr' ...] containing entries you wish to propose to switch language even if current page does not exist with those version
+         * @param boolean $legend to add a text next to the flag ('In English, En Français ...)
+         */
+        
+        public static function echo_local_switcher($displayed=null, $legend=false) {
+            global $context;
+            
+            $switch             = '';       // html rendering
+            $page_languages     = array();  // to memorize detected language, completed with $displayed
+            $get_item           = true;     // do we need to get current item
+            $sisters            = array();  // array of sister page in other languages
+            
+            // only for articles and sections
+            if(!strstr($context['current_item'],'article') && !strstr($context['current_item'],'section'))
+                $get_item = false;
+            
+            // get the entity
+            if($get_item && $anchor = Anchors::get($context['current_item'])) {
+                
+                // if anchor as a little name
+                if($nick = $anchor->get_nick_name()){
+                        $class = $anchor->get_static_group_class();
+                        $sisters = $class::list_for_name($nick,$anchor->item['id'],'raw');
+                }
+            }
+            
+            if(count($sisters)) {
+                foreach($sisters as $page) {
+                    if($lang = $page['language']) {
+                        
+                        $text               = ($legend)?'&nbsp;'.i18n::s(sprintf('to_local_%s',$lang)):'';
+                        $switch            .= '<li>'.'<a href="'.http::add_url_param($class::get_permalink($page), "lang", $lang).'">'.Codes::beautify('['.$lang.']').$text.'</a>'.'</li>'."\n";
+                        // memorize as proposed language
+                        $page_languages[]   = $lang;
+                    }
+                }
+             
+            }
+            
+            if(is_array($displayed) && count($displayed)) {
+                // language that are not already proposed
+                $to_add = array_diff($displayed, $page_languages); 
+                foreach ($to_add as $lang) {
+                    
+                    $text               = ($legend)?'&nbsp;'.i18n::s(sprintf('to_local_%s',$lang)):'';
+                    $switch            .= '<li>'.'<a href="'.http::add_url_param($_SERVER['REQUEST_URI'], "lang", $lang).'">'.Codes::beautify('['.$lang.']').$text.'</a>'.'</li>'."\n";
+                }
+            }
+            
+            // wrap
+            if($switch)
+                $switch = '<div class="local_switcher"><ul>'.$switch.'</ul></div>'."\n";
+            
+            
+            echo $switch;
+        }
 
 	/**
 	 * echo the site menu
@@ -468,10 +552,12 @@
 		$names = str_replace('extra', '', $names);
 
 		// in a separate division
-		if($in_division)
-			echo '<div id="extra_panel">';
+		if($in_division) {
+		    $tag = (SKIN_HTML5)?'aside':'div';
+		    echo '<'.$tag.' id="extra_panel">';
+		}
 
-		// a list of components
+		// a list of component
 		if(is_string($names))
 			$names = explode(' ', $names);
 
@@ -485,7 +571,7 @@
 
 		// close the extra panel
 		if($in_division)
-			echo "</div>\n";
+			echo '</'.$tag.">\n";
 
 	}
 
@@ -595,6 +681,9 @@
 	public static function header_panel($images=NULL, $attributes='top left repeat-x', $with_name=TRUE, $with_slogan=TRUE, $with_tabs=TRUE) {
 		global $context;
 
+		// change rendering according to skin
+		$tag = (SKIN_HTML5)?'header':'div';
+
 		// put an image in panel background
 		if($images) {
 
@@ -610,11 +699,11 @@
 			$index = array_rand($images);
 
 			// the header panel comes before everything
-			echo '<div id="header_panel" style="background: transparent url('.$context['url_to_root'].$context['skin'].'/images/'.$images[$index].') '.$attributes.';">'."\n";
+			echo '<'.$tag.' id="header_panel" style="background: transparent url('.$context['url_to_root'].$context['skin'].'/images/'.$images[$index].') '.$attributes.';">'."\n";
 
 		// no image in the background
 		} else
-			echo '<div id="header_panel">'."\n";
+			echo '<'.$tag.' id="header_panel">'."\n";
 
 		// the site name -- can be replaced, through CSS, by an image -- access key 1
 		if($context['site_name'] && $with_name)
@@ -629,8 +718,50 @@
 			Page::tabs();
 
 		// end of the header panel
-		echo '</div>'."\n";
+		echo '</'.$tag.'>'."\n";
 
+	}
+	
+	/**
+	 * insert javascript to the end of the page
+	 * 
+	 * @param string $js_script the javascript code without html tag around
+	 */
+	public static function insert_script($js_script) {
+	    
+	    Js_css::insert($js_script);
+	}
+	
+	/**
+	 * insert css rules into the header of the page
+	 * 
+	 * @param string $css_style without html tag around
+	 */
+	public static function insert_style($css_style) {
+	    
+	    Js_css::insert($css_style,'css');
+	}
+	
+	/**
+	 * link a javascript file in the header of the page
+	 * 
+	 * @param string $path 
+	 */
+	public static function load_script($path,$now=false) {
+	    
+	    $job = Js_css::link_file($path,'js','header',$now);
+            if($now) echo $job;
+	}
+	
+	/**
+	 * link a cascading style sheet in the header of the page
+	 * 
+	 * @param string $path 
+	 */
+	public static function load_style($path,$now=false) {
+	    
+            $job = js_css::link_file($path,'css','',$now);
+            if($now) echo $job;
 	}
 
 	/**
@@ -676,17 +807,22 @@
 	 * @param boolean TRUE to reverse order of tabs, FALSE otherwise
 	 * @param array of links to be used as tabs before the regular set
 	 * @param array of links to be used as tabs after the regular set
+	 * @param string layout name to use for listing sub-sections (horizontal drop down menu)
 	 */
-	public static function tabs($with_home=TRUE, $with_reverse=FALSE, $prefix=NULL, $suffix=NULL) {
+	public static function tabs($with_home=TRUE, $with_reverse=FALSE, $prefix=NULL, $suffix=NULL, $layout_subsections=NULL) {
 		global $context;
 
-		// only for live servers
-		if(!file_exists($context['path_to_root'].'parameters/switch.on'))
+		// only for live servers Or Associate
+		if(!file_exists($context['path_to_root'].'parameters/switch.on') && !Surfer::is_associate())
 			return;
 
 		// we have no database back-end
 		if(!is_callable(array('sql', 'query')))
 			return;
+
+		// limit listing for drop-down menu
+		if (!defined('TABS_DROP_LIST_SIZE'))
+			define('TABS_DROP_LIST_SIZE',5);
 
 		// cache this across requests
 		$cache_id = 'skins/page.php#tabs';
@@ -708,8 +844,44 @@
 				$context['root_sections_count_at_home'] = 5;
 
 			// query the database to get dynamic tabs
-			if(is_callable(array('Sections', 'list_by_title_for_anchor')) && ($items =& Sections::list_by_title_for_anchor(NULL, 0, $context['root_sections_count_at_home'], 'main_tabs')))
-				$site_bar = array_merge($site_bar, $items);
+			if(is_callable(array('Sections', 'list_by_title_for_anchor')) && ($items = Sections::list_by_title_for_anchor(NULL, 0, $context['root_sections_count_at_home'], 'main_tabs')))
+				if(count($items)) {
+					//query subsections if layout is provided
+					if($layout_subsections) {
+						//Parse mother-sections previously selected to get sub-sections
+						foreach($items as $url => $item) {
+							//get id of mother section
+							$mother_id = str_replace('_',':',$item[3]);
+
+							//get subsections list
+							$subsections = '';
+							$subsections =  Sections::list_by_title_for_anchor($mother_id, 0, TABS_DROP_LIST_SIZE, $layout_subsections);
+
+							//transform list into string if necessary (depend layout output)
+							if(is_array($subsections))
+								$subsections = Skin::build_list($subsections, $layout_subsections);
+
+							//get real number of subsections
+							$nb_subsections = Sections::count_for_anchor($mother_id);
+							//hint unlisted subsections if any
+							$hint = '<p class="details" id="dropcount">';
+							if($nb_subsections > TABS_DROP_LIST_SIZE) {
+								$hint .= '( ';
+								$hint .= sprintf(i18n::ns('%d section', '%d sections', $nb_subsections), $nb_subsections);
+								$hint .= ' )</p>';
+							} else
+								// provide empty <p> to preserve alignment
+								$hint .= '&nbsp;</p>';
+							$subsections = $hint.$subsections;
+
+							//store sub-sections list into "suffix" of this tab's label
+							if($subsections)
+								$items[$url][2] = "\n<div class=dropmenu>".$subsections.'</div>';
+
+						}
+					}
+					$site_bar = array_merge($site_bar, $items);
+				}
 
 			// suffix tabs, if any
 			if(is_array($suffix) && count($suffix))
@@ -720,7 +892,9 @@
 				$site_bar = array_reverse($site_bar);
 
 			// shape tabs
-			$text =& Skin::build_list($site_bar, 'tabs')."\n";
+			$text = Skin::build_list($site_bar, 'tabs')."\n";
+
+			// cache result
 			Cache::put($cache_id, $text, 'sections');
 		}
 		echo $text;

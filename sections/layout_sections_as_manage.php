@@ -16,7 +16,7 @@ Class Layout_sections_as_manage extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -29,16 +29,16 @@ Class Layout_sections_as_manage extends Layout_interface {
 			return $text;
 
 		// the script used to check all pages at once
-		$text .= JS_PREFIX
-			.'function cascade_selection_to_all_section_rows(handle) {'."\n"
+		Page::insert_script(
+			'function cascade_selection_to_all_section_rows(handle) {'."\n"
 			.'	$("div#sections_panel input[type=\'checkbox\'].row_selector").each('."\n"
 			.'		function() { $(this).attr("checked", $(handle).is(":checked"));}'."\n"
 			.'	);'."\n"
 			.'}'."\n"
-			.JS_SUFFIX."\n";
+			);
 
 		// table prefix
-		$text .= Skin::table_prefix('grid');
+		$text .= Skin::table_prefix('yc-grid');
 
 		// table headers
 		$main = '<input type="checkbox" class="row_selector" onclick="cascade_selection_to_all_section_rows(this);" />';
@@ -139,7 +139,7 @@ Class Layout_sections_as_manage extends Layout_interface {
 			if(count($details))
 				$suffix .= ucfirst(trim(implode(', ', $details))).BR;
 
-			// list up to three categories by title, if any, and if not on a mobile
+			// list up to three categories by title, if any
 			$anchors = array();
 			if($members =& Members::list_categories_by_title_for_member('section:'.$item['id'], 0, 7, 'raw')) {
 				foreach($members as $id => $attributes) {

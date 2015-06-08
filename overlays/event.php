@@ -125,9 +125,8 @@ class Event extends Overlay {
 		$input = '<input type="text" name="chairman" id="chairman" value ="'.encode_field($value).'" size="25" maxlength="32" />'
 			.BR.'<span class="small">'.i18n::s('Type some letters of the name and select in the list').'</span></div>';
 		// append the script used for autocompletion
-		$context['page_footer'] .= JS_PREFIX
-			.'$(function() { Yacs.autocomplete_names("chairman",true); });'."\n" // enable chairman autocompletion
-			.JS_SUFFIX;
+		Page::insert_script('$(function() { Yacs.autocomplete_names("chairman",true); });'); // enable chairman autocompletion
+		
 		// done
 		return $input;
 	}
@@ -205,7 +204,7 @@ class Event extends Overlay {
 	 * @param array hosting attributes
 	 * @return a list of ($label, $input, $hint)
 	 */
-	function get_fields($host) {
+	function get_fields($host, $field_pos=NULL) {
 		global $context;
 
 		// default value is now
@@ -306,7 +305,7 @@ class Event extends Overlay {
 		else
 			$options .= '<option>08:00</option>';
 		if(($hours == '08') && ($minutes == '30'))
-			$options .= '<option selected="selected">08:030</option>';
+			$options .= '<option selected="selected">08:30</option>';
 		else
 			$options .= '<option>08:30</option>';
 
@@ -449,25 +448,23 @@ class Event extends Overlay {
 
 		// event time
 		$label = i18n::s('Date');
-		$input = Skin::build_input('date_stamp', $date, 'date').$options;
+		$input = Skin::build_input_time('date_stamp', $date, 'date').$options;
 		$hint = i18n::s('Use format YYYY-MM-DD');
 		$fields[] = array($label, $input, $hint);
 
 		// ensure that we do have a date
-		$context['page_footer'] .= JS_PREFIX
-			.'// ensure that some overlay fields are not empty'."\n"
-			.'func'.'tion validateOnSubmit(container) {'."\n"
-			."\n"
+		Page::insert_script(
+			// ensure that some overlay fields are not empty
+			'func'.'tion validateOnSubmit(container) {'."\n"
 			.'	if(!Yacs.trim(container.date_stamp.value)) {'."\n"
 			.'		alert("'.i18n::s('Please provide a date.').'");'."\n"
 			.'		container.date_stamp.focus();'."\n"
 			.'		Yacs.stopWorking();'."\n"
 			.'		return false;'."\n"
-			.'	}'."\n\n"
+			.'	}'."\n"
 			.'	return true;'."\n"
 			.'}'."\n"
-			."\n"
-			.JS_SUFFIX;
+			);
 
 		// duration
 		$label = i18n::s('Duration');
@@ -1300,10 +1297,10 @@ class Event extends Overlay {
 
 		// we have to refresh the page
 		if($this->feed_back['reload_this_page']) {
-			$reload_through_javascript = '<img alt="*" src="'.$context['url_to_home'].$context['url_to_root'].'skins/_reference/ajax/ajax_spinner.gif" style="vertical-align:-3px" /> '
-					.JS_PREFIX
-					.'window.location.reload(true);'."\n"
-					.JS_SUFFIX;
+			$reload_through_javascript = '<img alt="*" src="'.$context['url_to_home'].$context['url_to_root'].'skins/_reference/ajax/ajax_spinner.gif" style="vertical-align:-3px" /> ';
+					
+			Page::insert_script('window.location.reload(true);');
+			
 			$rows[] = array(i18n::s('Status'), $reload_through_javascript);
 
 		// display the status line and/or buttons
@@ -2161,8 +2158,8 @@ class Event extends Overlay {
 			if($this->with_start_button()) {
 
 				// refresh the page if a comment is posted by someone waiting in the lobby
-				$lobby = JS_PREFIX
-					.'var Lobby = {'."\n"
+				Page::insert_script(
+					'var Lobby = {'."\n"
 					."\n"
 					.'	url: "'.$context['url_to_home'].$context['url_to_root'].'services/check.php?id='.$this->anchor->get_reference().'",'."\n"
 					.'	timestamp: 0,'."\n"
@@ -2178,11 +2175,10 @@ class Event extends Overlay {
 					.'	}'."\n"
 					."\n"
 					.'}'."\n"
-					."\n"
-					.'// reload the page when it changes, or when meeting is started'."\n"
+					// reload the page when it changes, or when meeting is started
 					.'Lobby.subscribe();'."\n"
 					.'Lobby.subscribeTimer = setInterval("Lobby.subscribe()", 20000);'."\n"
-					.JS_SUFFIX;
+					);
 
 				// reload this page and go to a new one, or just follow the link
 				if($this->with_new_window())
@@ -2191,7 +2187,7 @@ class Event extends Overlay {
 					$type = 'button';
 
 				// add the button
-				$this->feed_back['commands'][] = Skin::build_link($this->get_url('start'), i18n::s('Start the meeting'), $type).$lobby;
+				$this->feed_back['commands'][] = Skin::build_link($this->get_url('start'), i18n::s('Start the meeting'), $type);
 
 			}
 
@@ -2205,9 +2201,10 @@ class Event extends Overlay {
 
 			// refresh the page on meeting start
 			$this->feed_back['status'][] = '<img alt="*" src="'.$context['url_to_home'].$context['url_to_root'].'skins/_reference/ajax/ajax_spinner.gif" style="vertical-align:-3px" /> '
-				.i18n::s('Please wait until the meeting begins')
-				.JS_PREFIX
-				.'var Lobby = {'."\n"
+				.i18n::s('Please wait until the meeting begins');
+				
+			Page::insert_script(
+				'var Lobby = {'."\n"
 				."\n"
 				.'	url: "'.$context['url_to_home'].$context['url_to_root'].'services/check.php?id='.$this->anchor->get_reference().'",'."\n"
 				.'	timestamp: 0,'."\n"
@@ -2221,13 +2218,12 @@ class Event extends Overlay {
 				.'				window.location.reload(true);'."\n"
 				.'		}, "json");'."\n"
 				.'	}'."\n"
-				."\n"
 				.'}'."\n"
 				."\n"
-				.'// reload the page when it changes, or when meeting is started'."\n"
+				// reload the page when it changes, or when meeting is started
 				.'Lobby.subscribe();'."\n"
 				.'Lobby.subscribeTimer = setInterval("Lobby.subscribe()", 20000);'."\n"
-				.JS_SUFFIX;
+				);
 
 		}
 	}
@@ -2280,15 +2276,18 @@ class Event extends Overlay {
 				$this->feed_back['status'][] = i18n::s('You have asked for an invitation');
 
 			// reload the page in case pending invitation would be validated after the start of the meeting
-			else
+			else {
 				$this->feed_back['status'][] = '<img alt="*" src="'.$context['url_to_home'].$context['url_to_root'].'skins/_reference/ajax/ajax_spinner.gif" style="vertical-align:-3px" /> '
-					.i18n::s('You have asked for an invitation')
-					.JS_PREFIX
-					.'function reload_until_enrolment() {'."\n"
+					.i18n::s('You have asked for an invitation');
+					
+				Page::insert_script(	
+					'function reload_until_enrolment() {'."\n"
 					.'	window.location.reload(true);'."\n"
 					.'}'."\n"
 					.'window.setInterval("reload_until_enrolment()",20000);'."\n"
-					.JS_SUFFIX;
+					);
+					
+			}
 
 		// surfer should express his participation
 		} elseif(isset($this->attributes['enrolment']) && ($this->attributes['enrolment'] == 'none')) {

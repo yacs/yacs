@@ -16,7 +16,7 @@ Class Layout_users_as_mail extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -107,13 +107,13 @@ Class Layout_users_as_mail extends Layout_interface {
 		}
 
 		// the script used to check all items at once
-		$text .= JS_PREFIX
-			.'function check_user_as_mail_panel_'.$serial.'(scope, handle) {'."\n"
+		Page::insert_script(
+			'function check_user_as_mail_panel_'.$serial.'(scope, handle) {'."\n"
 			.'	$(scope + " input[type=\'checkbox\'].row_selector").each('."\n"
 			.'		function() { $(this).attr("checked", $(handle).is(":checked"));}'."\n"
 			.'	);'."\n"
 			.'}'."\n"
-			.JS_SUFFIX."\n";
+			);
 
 		// div suffix
 		$text .= '</div>';

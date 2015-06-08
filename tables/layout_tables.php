@@ -23,7 +23,7 @@ Class Layout_tables extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array one item per image
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -51,7 +51,7 @@ Class Layout_tables extends Layout_interface {
 			$url = Tables::get_url($item['id']);
 
 			// codes to embed this image
-			if($anchor && ($this->layout_variant == $anchor->get_reference())) {
+			if($anchor && ($this->focus == $anchor->get_reference())) {
 
 				// codes
 				$codes = array();
@@ -73,7 +73,7 @@ Class Layout_tables extends Layout_interface {
 			}
 
 			// we are listing tables attached to an chor
-			if($anchor && ($this->layout_variant == $anchor->get_reference())) {
+			if($anchor && ($this->focus == $anchor->get_reference())) {
 
 				$label = '_';
 

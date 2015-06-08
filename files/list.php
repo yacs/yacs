@@ -98,12 +98,11 @@ if(!is_object($anchor)) {
 	// insert anchor prefix and suffix, plus any available icon
 	$context['prefix'] .= $anchor->get_prefix();
 
-	include_once '../files/layout_files.php';
-	$layout = new Layout_files();
+	$layout = Layouts::new_('decorated', 'file');
 
 	// provide anthor information to layout
 	if(is_object($layout))
-		$layout->set_variant($anchor->get_reference());
+		$layout->set_focus($anchor->get_reference());
 
 	// the maximum number of files per page
 	if(is_object($layout))
@@ -151,7 +150,7 @@ if(!is_object($anchor)) {
 		$parent =&  Anchors::get($parent);
 
 	// the command to post a new file, if this is allowed
-	if(is_object($anchor) && Files::allow_creation($parent, $anchor->get_values(), $anchor->get_type())) {
+	if(is_object($anchor) && Files::allow_creation($anchor->get_values(), $parent, $anchor->get_type())) {
 		Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 		$context['page_menu'][] = Skin::build_link(Files::get_url($anchor->get_reference(), 'file'), FILES_UPLOAD_IMG.i18n::s('Add a file'));
 	}
@@ -164,7 +163,7 @@ if(!is_object($anchor)) {
 	//
 
 	// the command to post a new file, if this is allowed
-	if(is_object($anchor) && Files::allow_creation($parent, $anchor->get_values(), $anchor->get_type()))
+	if(is_object($anchor) && Files::allow_creation($anchor->get_values(), $parent, $anchor->get_type()))
 		$context['page_tools'][] = Skin::build_link(Files::get_url($anchor->get_reference(), 'file'), i18n::s('Add a file'));
 
 	// back to main page

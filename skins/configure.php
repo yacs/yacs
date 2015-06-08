@@ -155,9 +155,6 @@
  *
  * Parameters for freemind:
  *
- * [*] [code]pages_without_freemind[/code] - Do not feature links to download
- * section content as Freemind maps.
- *
  * [*] [code]skins_freemind_canvas_size[/code] - Width and height of embedded
  * mind maps. Default is "100%, 500px".
  *
@@ -382,7 +379,6 @@ elseif(!Surfer::is_associate()) {
 	$keywords[] = 'categories - '.i18n::s('Assign categories, for associates');
 	$keywords[] = 'bookmarklets - '.i18n::s('Links to contribute, if any');
 	$keywords[] = 'servers - '.i18n::s('Feeding servers, for associates');
-	$keywords[] = 'download - '.i18n::s('Get section content as a Freemind map');
 	$keywords[] = 'referrals - '.i18n::s('Links to this page, if any');
 	$keywords[] = 'visited - '.i18n::s('Visited pages, if any');
 	$hint = i18n::s('Recommended components:').Skin::finalize_list($keywords, 'compact');
@@ -648,12 +644,25 @@ elseif(!Surfer::is_associate()) {
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Only provide a hovering title, but no caption').'</p>';
 	$fields[] = array($label, $input);
-
+        
+        // library
+	$label = i18n::s('Graphic library');
+        $input = '<p>'.i18n::s('Used to resize large pictures, and to create thumbnail images.').'</p>'."\n";
+	$input .= '<input type="radio" name="image_use_imagemagick" value="N"';
+	if(!isset($context['image_use_imagemagick']) || ($context['image_use_imagemagick'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Use GD module of PHP');
+	$input .= BR.'<input type="radio" name="image_use_imagemagick" value="Y"';
+	if(isset($context['image_use_imagemagick']) && ($context['image_use_imagemagick'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Use ImageMagick (must be installed on your server)');
+        
+        $input .= '<p class="details">'.i18n::s('Detection of image magick : ').((class_exists('imagick'))?'Yes':'No').'</p>'."\n";
+        $fields[] = array($label, $input);
+        
 	// build the form
 	$images = Skin::build_form($fields);
 	$fields = array();
-
-	$images .= '<p class="details">'.i18n::s('YACS uses the GD module of PHP to resize large pictures, and to create thumbnail images.')."</p>\n";
 
 	// google map parameters
 	$gmap = '';
@@ -686,18 +695,6 @@ elseif(!Surfer::is_associate()) {
 	// handling freemind
 	//
 	$freemind = '';
-
-	// without freemind
-// 	$label = i18n::s('Download');
-// 	$input = '<input type="radio" name="pages_without_freemind" value="N"';
-// 	if(!isset($context['pages_without_freemind']) || ($context['pages_without_freemind'] != 'Y'))
-// 		$input .= ' checked="checked"';
-// 	$input .= '/> '.i18n::s('Content of sections can be downloaded as Freemind maps');
-// 	$input .= BR.'<input type="radio" name="pages_without_freemind" value="Y"';
-// 	if(isset($context['pages_without_freemind']) && ($context['pages_without_freemind'] == 'Y'))
-// 		$input .= ' checked="checked"';
-// 	$input .= '/> '.i18n::s('Do not offer links to get Freemind maps');
-// 	$fields[] = array($label, $input);
 
 	// freemind canvas
 	if(!isset($context['skins_freemind_canvas_height']))
@@ -850,8 +847,6 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'content_without_details\']=\''.addcslashes($_REQUEST['content_without_details'], "\\'")."';\n";
 	if(isset($_REQUEST['pages_without_bookmarklets']))
 		$content .= '$context[\'pages_without_bookmarklets\']=\''.addcslashes($_REQUEST['pages_without_bookmarklets'], "\\'")."';\n";
-// 	if(isset($_REQUEST['pages_without_freemind']))
-// 		$content .= '$context[\'pages_without_freemind\']=\''.addcslashes($_REQUEST['pages_without_freemind'], "\\'")."';\n";
 	if(isset($_REQUEST['pages_without_history']))
 		$content .= '$context[\'pages_without_history\']=\''.addcslashes($_REQUEST['pages_without_history'], "\\'")."';\n";
 	if(isset($_REQUEST['site_extra_maximum']) && intval($_REQUEST['site_extra_maximum']))
@@ -864,6 +859,8 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'skins_with_details\']=\''.addcslashes($_REQUEST['skins_with_details'], "\\'")."';\n";
 	if(isset($_REQUEST['thumbnails_without_caption']))
 		$content .= '$context[\'thumbnails_without_caption\']=\''.addcslashes($_REQUEST['thumbnails_without_caption'], "\\'")."';\n";
+    if(isset($_REQUEST['image_use_imagemagick']))
+		$content .= '$context[\'image_use_imagemagick\']=\''.addcslashes($_REQUEST['image_use_imagemagick'], "\\'")."';\n";
 	if(isset($_REQUEST['with_anonymous_export_tools']))
 		$content .= '$context[\'with_anonymous_export_tools\']=\''.addcslashes($_REQUEST['with_anonymous_export_tools'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_delegate_search']) && $_REQUEST['skins_delegate_search'])

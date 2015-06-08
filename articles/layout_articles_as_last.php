@@ -19,7 +19,7 @@ Class Layout_articles_as_last extends Layout_interface {
 	 *
 	 * @return 25
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 20;
@@ -165,7 +165,7 @@ Class Layout_articles_as_last extends Layout_interface {
 				$bottom_menu[] = sprintf(i18n::s('By %s'), $contributor).' '.Skin::build_date($comment['create_date']).$flag;
 
 				// offer to reply
-				if(Comments::allow_creation($anchor, $item)) {
+				if(Comments::allow_creation($item, $anchor)) {
 					$link = Comments::get_url($comment['id'], 'reply');
 					$bottom_menu[] = Skin::build_link($link, i18n::s('Reply'), 'basic');
 				}
@@ -215,7 +215,7 @@ Class Layout_articles_as_last extends Layout_interface {
 				$menu[] = sprintf(i18n::ns('%d link', '%d links', $count), $count);
 
 			// the main anchor link
-			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
+			if(is_object($anchor) && (!isset($this->focus) || ($item['anchor'] != $this->focus)))
 				$menu[] = Skin::build_link($anchor->get_url(), sprintf(i18n::s('in %s'), ucfirst($anchor->get_title())), 'span', i18n::s('View the section'));
 
 			// actually insert details

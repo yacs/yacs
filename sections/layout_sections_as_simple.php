@@ -18,7 +18,7 @@ Class Layout_sections_as_simple extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array of resulting items, or NULL
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -95,7 +95,7 @@ Class Layout_sections_as_simple extends Layout_interface {
 				$details[] = sprintf(i18n::ns('%d link', '%d links', $count), $count);
 
 			// the main anchor link
-			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
+			if(is_object($anchor) && (!isset($this->focus) || ($item['anchor'] != $this->focus)))
 				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'section'));
 
 			// combine in-line details

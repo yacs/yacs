@@ -18,7 +18,7 @@ Class Layout_sections_as_tabs extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return a string to be displayed
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -86,7 +86,7 @@ Class Layout_sections_as_tabs extends Layout_interface {
 			}
 
 			// delegate rendering to the overlay, where applicable
-			if(is_object($content_overlay) && ($overlaid = $content_overlay->render('articles', 'section:'.$item['id'], $zoom_index))) {
+			if(is_object($content_overlay) && ($overlaid = $content_overlay->render('articles', 'section:'.$item['id'], 1))) {
 				$text .= $overlaid;
 
 			// regular rendering
@@ -96,29 +96,12 @@ Class Layout_sections_as_tabs extends Layout_interface {
 				if(!isset($item['articles_layout']) || !$item['articles_layout']) {
 					include_once '../articles/layout_articles.php';
 					$layout = new Layout_articles();
-				} elseif($item['articles_layout'] == 'decorated') {
-					include_once '../articles/layout_articles.php';
-					$layout = new Layout_articles();
-				} elseif($item['articles_layout'] == 'map') {
-					include_once '../articles/layout_articles_as_yahoo.php';
-					$layout = new Layout_articles_as_yahoo();
-				} elseif(is_readable($context['path_to_root'].'articles/layout_articles_as_'.$item['articles_layout'].'.php')) {
-					$name = 'layout_articles_as_'.$item['articles_layout'];
-					include_once $context['path_to_root'].'articles/'.$name.'.php';
-					$layout = new $name;
-				} else {
-
-					// useful warning for associates
-					if(Surfer::is_associate())
-						Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $item['articles_layout']));
-
-					include_once '../articles/layout_articles.php';
-					$layout = new Layout_articles();
-				}
+				} else
+				    $layout = Layouts::new_ ($item['articles_layout'], 'article');
 
 				// avoid links to this page
 				if(is_object($layout) && is_callable(array($layout, 'set_variant')))
-					$layout->set_variant('section:'.$item['id']);
+					$layout->set_focus('section:'.$item['id']);
 
 				// the maximum number of articles per page
 				if(is_object($layout))
@@ -139,7 +122,8 @@ Class Layout_sections_as_tabs extends Layout_interface {
 				$box = array('top_bar' => array(), 'text' => '', 'bottom_bar' => array());
 
 				// the command to post a new page
-				if(Articles::allow_creation($item, $anchor)) {
+				//if(Articles::allow_creation($item, $anchor)) {
+                                if($anchor->allows('creation','article')) {
 
 					Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 					$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
@@ -204,36 +188,15 @@ Class Layout_sections_as_tabs extends Layout_interface {
 
 			}
 
-			// display sub-sections as a Freemind map, except to search engines
-			if(isset($item['sections_layout']) && ($item['sections_layout'] == 'freemind') && !Surfer::is_crawler()) {
-				$text .= Codes::render_freemind('section:'.$item['id'].', 100%, 400px');
-
-			// use a regular layout
-			} elseif(!isset($item['sections_layout']) || ($item['sections_layout'] != 'none')) {
+			// layout sub-sections
+			if(!isset($item['sections_layout']) || ($item['sections_layout'] != 'none')) {
 
 				// select a layout
 				if(!isset($item['sections_layout']) || !$item['sections_layout']) {
 					include_once 'layout_sections.php';
 					$layout = new Layout_sections();
-				} elseif($item['sections_layout'] == 'decorated') {
-					include_once 'layout_sections.php';
-					$layout = new Layout_sections();
-				} elseif($item['sections_layout'] == 'map') {
-					include_once 'layout_sections_as_yahoo.php';
-					$layout = new Layout_sections_as_yahoo();
-				} elseif(is_readable($context['path_to_root'].'sections/layout_sections_as_'.$item['sections_layout'].'.php')) {
-					$name = 'layout_sections_as_'.$item['sections_layout'];
-					include_once $name.'.php';
-					$layout = new $name;
-				} else {
-
-					// useful warning for associates
-					if(Surfer::is_associate())
-						Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $item['sections_layout']));
-
-					include_once '../sections/layout_sections.php';
-					$layout = new Layout_sections();
-				}
+				} else
+				    $layout = Layouts::new_ ($item['sections_layout'], 'section');
 
 				// the maximum number of sections per page
 				if(is_object($layout))
@@ -245,7 +208,8 @@ Class Layout_sections_as_tabs extends Layout_interface {
 				$box = array('top_bar' => array(), 'text' => '', 'bottom_bar' => array());
 
 				// the command to add a new section
-				if(Sections::allow_creation($item, $anchor)) {
+				//if(Sections::allow_creation($item, $anchor)) {
+                                if($anchor->allows('creation','section')) {
 					Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
 					$box['top_bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => SECTIONS_ADD_IMG.i18n::s('Add a section'));
 				}
@@ -308,7 +272,10 @@ Class Layout_sections_as_tabs extends Layout_interface {
 		}
 
 		// format tabs
-		$text = Skin::build_tabs($panels);
+                if($this->has_variant('as_array')) {
+                    $text = $panels;
+                } else
+                    $text = Skin::build_tabs($panels);
 
 		// end of processing
 		SQL::free($result);

@@ -51,7 +51,7 @@ class Day extends Event {
 	 * @param array hosting attributes
 	 * @return a list of ($label, $input, $hint)
 	 */
-	function get_fields($host) {
+	function get_fields($host, $field_pos=NULL) {
 		global $context;
 
 		$options = '<input type="hidden" name="time_stamp" value="12:00" />'
@@ -70,14 +70,13 @@ class Day extends Event {
 
 		// event time
 		$label = i18n::s('Date');
-		$input = Skin::build_input('date_stamp', $date, 'date').$options;
+		$input = Skin::build_input_time('date_stamp', $date, 'date').$options;
 		$hint = i18n::s('Use format YYYY-MM-DD');
 		$fields[] = array($label, $input, $hint);
 
 		// ensure that we do have a date
-		$context['page_footer'] .= JS_PREFIX
-			.'// ensure that some overlay fields are not empty'."\n"
-			.'func'.'tion validateOnSubmit(container) {'."\n"
+		Page::insert_script(			
+			'func'.'tion validateOnSubmit(container) {'."\n"
 			."\n"
 			.'	if(!Yacs.trim(container.date_stamp.value)) {'."\n"
 			.'		alert("'.i18n::s('Please provide a date.').'");'."\n"
@@ -86,9 +85,8 @@ class Day extends Event {
 			.'		return false;'."\n"
 			.'	}'."\n\n"
 			.'	return true;'."\n"
-			.'}'."\n"
-			."\n"
-			.JS_SUFFIX;
+			.'}'."\n"			
+			);
 
 		return $fields;
 	}

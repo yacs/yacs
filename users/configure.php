@@ -13,8 +13,8 @@
  * authenticator plugin, as defined in interface users/authenticator.php.
  *
  * [*] [code]users_default_editor[/code] - The default editor to select for new
- * users. The default value is to use a bare textarea, but FCKEditor and TinyMCE
- * are also available. A companion checkbox can be used in the configuration
+ * users. The default value is to use a bare textarea, but TinyMCE
+ * is also available. A companion checkbox can be used in the configuration
  * form to force a global change of all user profiles.
  *
  * [*] [code]users_maximum_managed_sections[/code] - The maximum number of
@@ -212,10 +212,6 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['users_default_editor']) || ($context['users_default_editor'] == 'tinymce'))
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('TinyMCE');
-	$input .= BR.'<input type="radio" name="users_default_editor" value="fckeditor"';
-	if(isset($context['users_default_editor']) && ($context['users_default_editor'] == 'fckeditor'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('FCKEditor');
 	$input .= BR.'<input type="radio" name="users_default_editor" value="yacs"';
 	if(isset($context['users_default_editor']) && ($context['users_default_editor'] == 'yacs'))
 		$input .= ' checked="checked"';
@@ -312,13 +308,17 @@ elseif(!Surfer::is_associate()) {
 	// permanent authentication
 	$label = i18n::s('Identification');
 	$input = '<input type="radio" name="users_with_permanent_authentication" value="N"';
-	if(!isset($context['users_with_permanent_authentication']) || ($context['users_with_permanent_authentication'] != 'Y'))
+	if(!isset($context['users_with_permanent_authentication']) || ($context['users_with_permanent_authentication'] == 'N'))
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Ask for authentication on every web session (public site).');
 	$input .= BR.'<input type="radio" name="users_with_permanent_authentication" value="Y"';
 	if(isset($context['users_with_permanent_authentication']) && ($context['users_with_permanent_authentication'] == 'Y'))
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Set a long-lasting cookie on successful login and do not bother people afterwards (intranet site).');
+	$input .= BR.'<input type="radio" name="users_with_permanent_authentication" value="U"';
+	if(isset($context['users_with_permanent_authentication']) && ($context['users_with_permanent_authentication'] == 'U'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Let members decide for themselves to stay connected or not (checkbox on login form).');
 	$fields[] = array($label, $input);
 
 	// trusted hosts

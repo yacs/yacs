@@ -16,7 +16,7 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -29,11 +29,11 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 			return $text;
 
 		// sanity check
-		if(!isset($this->layout_variant))
-			$this->layout_variant = 'map';
+		if(!isset($this->focus))
+			$this->focus = 'map';
 
 		// put in cache
-		$cache_id = Cache::hash('articles/layout_articles_as_carrousel:'.$this->layout_variant).'.xml';
+		$cache_id = Cache::hash('articles/layout_articles_as_carrousel:'.$this->focus).'.xml';
 
 		// save for one minute
 		if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path_to_root'].$cache_id)+60 < time())) {
@@ -120,7 +120,7 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 
 				// fix relative path
 				if(!preg_match('/^(\/|http:|https:|ftp:)/', $image))
-					$image = $context['url_to_root'].$image;
+					$image = $context['url_to_home'].$context['url_to_root'].$image;
 
 				// build a title
 				if(is_object($overlay))
@@ -134,8 +134,8 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 				// add to the list
 				$content .= '	<photo>'."\n"
 					.'		<title>'.$title.'</title>'."\n"
-					.'		<src>'.$context['url_to_home'].$image.'</src>'."\n"
-					.'		<href>'.$context['url_to_home'].$context['url_to_root'].$url.'</href>'."\n"
+					.'		<src>'.$image.'</src>'."\n"
+					.'		<href>'.$url.'</href>'."\n"
 					.'		<target>_self</target>'."\n"
 					.'	</photo>'."\n";
 
@@ -158,9 +158,8 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 
 		// load the right file
 		$text = '<div id="articles_as_carrousel_'.$count.'"></div>'."\n";
-		$context['page_footer'] .=
-			JS_PREFIX
-			.'swfobject.embedSWF("'.$context['url_to_home'].$context['url_to_root'].'included/browser/carrousel.swf",'."\n"  // flash file
+		Page::insert_script(
+			'swfobject.embedSWF("'.$context['url_to_home'].$context['url_to_root'].'included/browser/carrousel.swf",'."\n"  // flash file
 			.'"articles_as_carrousel_'.$count.'",'."\n"		// div id
 			.'"100%",'."\n"			// width
 			.'"150",'."\n"			// height
@@ -169,7 +168,7 @@ Class Layout_articles_as_carrousel extends Layout_interface {
 			.'{xmlfile:"'.$context['url_to_home'].$context['url_to_root'].$cache_id.'", loaderColor:"0x666666"},'."\n"		// flashvars
 			.'{wmode: "transparent"},'."\n" // parameter
 			.'{});'."\n"			// attributes
-			.JS_SUFFIX;
+			);
 
 		// end of processing
 		SQL::free($result);

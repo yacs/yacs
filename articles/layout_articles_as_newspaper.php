@@ -15,7 +15,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 	/**
 	 * the preferred order for items
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 *
 	 * @return string to be used in requests to the database
 	 */
@@ -26,7 +26,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 	/**
 	 * the preferred number of items for this layout
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 100;
@@ -38,7 +38,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -208,7 +208,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 			$details[] = Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 
 		// discuss
-		if(Comments::allow_creation($anchor, $item))
+		if(Comments::allow_creation($item, $anchor))
 			$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
 
 		// info on related links
@@ -309,7 +309,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 			$details[] = Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 
 		// discuss
-		if(Comments::allow_creation($anchor, $item))
+		if(Comments::allow_creation($item, $anchor))
 			$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
 
 		// info on related links
@@ -389,7 +389,7 @@ Class Layout_articles_as_newspaper extends Layout_interface {
 			$details[] = Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 
 		// discuss
-		if(Comments::allow_creation($anchor, $item))
+		if(Comments::allow_creation($item, $anchor))
 			$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
 
 		// info on related links

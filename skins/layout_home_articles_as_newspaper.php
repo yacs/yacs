@@ -18,7 +18,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 	 *
 	 * @return string to be used in requests to the database
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_order() {
 		return 'publication';
@@ -29,7 +29,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 	 *
 	 * @return 11 - One first article, then a row of three, plus 7 other links
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 11;
@@ -41,7 +41,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -215,7 +215,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$menu[] = Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 
 		// discuss
-		if(Comments::allow_creation($anchor, $item))
+		if(Comments::allow_creation($item, $anchor))
 			$menu = array_merge($menu, array( Comments::get_url('article:'.$item['id'], 'comment') => i18n::s('Discuss') ));
 
 		// info on related links
@@ -302,7 +302,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		$text .= '<p class="details right">'.Skin::build_link($url, i18n::s('View the page'), 'basic');
 
 		// discuss
-		if(Comments::allow_creation($anchor, $item))
+		if(Comments::allow_creation($item, $anchor))
 			$text .= BR.Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
 
 		// info on related comments

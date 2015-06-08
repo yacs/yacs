@@ -107,7 +107,7 @@ if(!$item['id']) {
 				$menu = array();
 
 				// call for action
-				$link = $context['url_to_home'].$context['url_to_root'].Surfer::get_permalink();
+				$link = Surfer::get_permalink();
 				$menu[] = Skin::build_mail_button($link, ucfirst(strip_tags(Surfer::get_name())), TRUE);
 
 				// finalize links

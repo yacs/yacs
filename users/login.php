@@ -28,8 +28,6 @@
  *
  * @link http://www.olate.com/articles/254 Use PHP and JavaScript to Display Local Time
  *
- * [*] List of on-going actions, if any. See [script]actions/index.php[/script] for more information on actions.
- *
  * [*] Shortcuts are displayed in the extra section to streamline navigation and contribution efforts.
  *
  *
@@ -144,11 +142,18 @@ if($credentials && ($credentials = base64_decode($credentials))) {
 
 }
 
+// load localized strings
+if(is_callable(array('i18n', 'bind')))
+    i18n::bind('users');
+
 // load the skin
 load_skin('users');
 
 // page title
-$context['page_title'] = i18n::s('Who are you?');
+if(!Surfer::is_logged())
+    $context['page_title'] = i18n::s('Who are you?');
+else
+    $context['page_title'] = i18n::s('You are').' '.Surfer::get_name();
 
 // stop crawlers
 if(Surfer::is_crawler()) {
@@ -293,6 +298,10 @@ if(Surfer::is_crawler()) {
 
 	// the surfer has been authenticated
 	if($user = Users::login($name, $_REQUEST['login_password'])) {
+	    
+		// surfer request long validity authentication
+		if(isset($_REQUEST['remember']) && $_REQUEST['remember'] =='Y')
+			$context['users_with_permanent_authentication'] = 'Y';
 
 		// set permanent name shown from top level
 		Safe::setcookie('surfer_name', $user['nick_name'], time()+60*60*24*500, '/');
@@ -360,14 +369,6 @@ if(Surfer::is_crawler()) {
 		// display in a separate panel
 		$panels[] = array('information', i18n::s('You'), 'information_panel', $information);
 
-		// on-going actions, if any
-		include_once '../actions/actions.php';
-		if($items = Actions::list_by_date_for_anchor('user:'.Surfer::get_id(), 0, ACTIONS_PER_PAGE)) {
-			if(is_array($items) && @count($items))
-				$items = Skin::build_list($items, 'decorated');
-			$panels[] = array('actions', i18n::s('Actions'), 'actions', $items);
-		}
-
 		//
 		// assemble all tabs
 		//
@@ -432,7 +433,7 @@ if(Surfer::is_crawler()) {
 	}
 
 // provide the empty form by default
-} else {
+} elseif(!Surfer::is_logged()) {
 
 	// the page title
 	if(isset($_REQUEST['url']))
@@ -461,6 +462,13 @@ if(Surfer::is_crawler()) {
 	$label = i18n::s('Password');
 	$input = '<input type="password" name="login_password" size="45" maxlength="255" />'."\n";
 	$main_column .= '<p>'.$label.BR.$input.'</p>';
+	
+	// remember me ?
+	if($context['users_with_permanent_authentication'] == 'U') {
+	    $label = i18n::s('Stay connected');
+	    $input = '<input type="checkbox" name="remember" value="Y" />'."\n";
+	    $main_column .= '<p>'.$input.'&nbsp;'.$label.'</p>';
+	}
 
 	// bottom commands
 	$menu = array();
@@ -506,44 +514,53 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= $main_column;
 
 	// the script used for data checking on the browser
-	$context['text'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// email is mandatory'."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// email is mandatory
 		.'	if(!container.login_name.value) {'."\n"
 		.'		alert("'.i18n::s('You must provide a nick name or an email address.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
+			// successful check
 		.'	return true;'."\n"
 		.'}'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'$("#login_name").focus();'."\n"
 		."\n"
-		.JS_SUFFIX."\n";
+		);
 
 	// a place holder for cookies activation
 	$context['text'] .= '<p id="ask_for_cookies" style="display: none; color: red; text-decoration: blink;"></p>';
 
 	// the script used to check that cookies are activated
-	$context['text'] .= JS_PREFIX
-		.'document.cookie = \'CookiesEnabled=1\';'."\n"
+	Page::insert_script(
+		'document.cookie = \'CookiesEnabled=1\';'."\n"
 		.'if((document.cookie == "") && document.getElementById) {'."\n"
 		."\t".'$("#ask_for_cookies").html("'.i18n::s('Your browser must accept cookies in order to successfully register and log in.').'");'."\n"
 		."\t".'$("#ask_for_cookies").style.display = \'block\';'."\n"
 		."\t".'$("#login_button").disabled = true;'."\n"
 		.'}'."\n"
-		.JS_SUFFIX."\n";
+		);
 
 	// the help panel
 	$help = '<p>'.i18n::s('Your browser must accept cookies in order to successfully register and log in.').'</p>'
 		.'<p>'.sprintf(i18n::s('If you already are a registered member, but do not remember your username and/or password, %s.'), Skin::build_link('users/password.php', i18n::s('click here'))).'</p>';
 	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
+} else {
+    
+    if(isset($_REQUEST['url'])) {
+	if(!strncmp($_REQUEST['url'], 'http', 4))
+	    $url = encode_field($_REQUEST['url']);
+	else
+	    $url = $context['url_to_root'].$_REQUEST['url'];
+	
+	Safe::redirect($url);
+    }
+    
+    $context['text'] = i18n::s('... and you are already logged in !');
 }
 
 // render the skin

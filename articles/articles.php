@@ -23,7 +23,6 @@
  * while others can be used with related items as well.
  *
  * Specific options to be processed by advanced overlays are not described hereafter.
- * One example of this is the optional keyword '[code]home_with_results[/code]' for the rendering of polls.
  * Please check documentation pages for any overlay you use, like [script]overlays/poll.php[/script].
  *
  * You can combine any of following keywords in the field for options, with the separator (spaces, tabs, commas) of your choice:
@@ -144,6 +143,15 @@ Class Articles {
 				$order = 'overlay_id, rating_sum DESC, publish_date DESC';
 			else
 				$order = 'overlay_id, rank, rating_sum DESC, publish_date DESC';
+			break;
+
+		case 'reverse_overlay' : // Same but DESC for overlay_id, then by number of points
+
+		        // avoid side effects of ranking across several sections
+			if($multiple_anchor)
+				$order = 'overlay_id DESC, rating_sum DESC, publish_date DESC';
+			else
+				$order = 'overlay_id DESC, rank, rating_sum DESC, publish_date DESC';
 			break;
 
 		case 'publication': // order by rank, then by reverse date of publication
@@ -487,12 +495,12 @@ Class Articles {
 	 *
 	 * This function returns TRUE if the page can be published,
 	 * and FALSE otherwise.
-	 *
-	 * @param object an instance of the Anchor interface
+	 *	 
 	 * @param array a set of item attributes, aka, the target article
+	 * @param object an instance of the Anchor interface
 	 * @return TRUE or FALSE
 	 */
-	public static function allow_publication($anchor, $item) {
+	public static function allow_publication($item,$anchor) {
 		global $context;
 
 		// sanity check
@@ -636,7 +644,7 @@ Class Articles {
 		switch($action) {
 		case 'apply':
 			$template = i18n::c('%s is requesting access to %s');
-			$headline_link = '<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$title.'</a>';
+			$headline_link = '<a href="'.Articles::get_permalink($item).'">'.$title.'</a>';
 			break;
 		case 'publish':
 			$template = i18n::c('%s has posted a page in %s');
@@ -810,7 +818,7 @@ Class Articles {
 			$menu[] = Skin::build_mail_button($link, $label, TRUE);
 
 			// link to user profile
-			$link = $context['url_to_home'].$context['url_to_root'].Surfer::get_permalink();
+			$link = Surfer::get_permalink();
 			$label = sprintf(i18n::c('View the profile of %s'), Surfer::get_name());
 			$menu[] = Skin::build_mail_button($link, $label, FALSE);
 
@@ -818,7 +826,7 @@ Class Articles {
 		} else {
 
 			// call for action
-			$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
+			$link = Articles::get_permalink($item);
 			if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'articles', FALSE)))
 				$label = i18n::c('View the page');
 			$menu[] = Skin::build_mail_button($link, $label, TRUE);
@@ -880,8 +888,8 @@ Class Articles {
 		$keywords[] = 'variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular template');
 		$text = i18n::s('You may combine several keywords:').'<div id="options_list">'.Skin::finalize_list($keywords, 'compact').'</div>';
 
-		$context['page_footer'] .= JS_PREFIX
-			.'function append_to_options(keyword) {'."\n"
+		Page::insert_script(
+			'function append_to_options(keyword) {'."\n"
 			.'	var target = $("#options");'."\n"
 			.'	target.val(target.val() + " " + keyword);'."\n"
 			.'}'."\n"
@@ -890,7 +898,7 @@ Class Articles {
 			.'		append_to_options($(this).text());'."\n"
 			.'	}).css("cursor","pointer");'."\n"
 			.'});'
-			.JS_SUFFIX;
+			);
 
 		return $text;
 	}
@@ -1211,6 +1219,10 @@ Class Articles {
 	public static function finalize_publication($anchor, $item, $overlay=NULL, $silently=FALSE, $with_followers=FALSE) {
 		global $context;
 
+		// sanity check
+		if(!isset($item['options']))
+			$item['options'] = '';
+
 		// notification to send by e-mail
 		$mail = array();
 		$mail['subject'] = sprintf(i18n::c('%s: %s'), strip_tags($anchor->get_title()), strip_tags($item['title']));
@@ -1270,7 +1282,7 @@ Class Articles {
 			$description = sprintf(i18n::c('Sent by %s in %s'), $poster, $anchor->get_title());
 		else
 			$description = sprintf(i18n::c('Sent by %s'), $poster);
-		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
+		$description .= "\n\n".'<a href="'.Articles::get_permalink($item).'">'.$item['title'].'</a>';
 		Logger::notify('articles/articles.php: '.$label, $description);
 
 	}
@@ -1343,7 +1355,7 @@ Class Articles {
 			$description = sprintf(i18n::c('Sent by %s in %s'), $poster, $anchor->get_title());
 		else
 			$description = sprintf(i18n::c('Sent by %s'), $poster);
-		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
+		$description .= "\n\n".'<a href="'.Articles::get_permalink($item).'">'.$item['title'].'</a>';
 		Logger::notify('articles/articles.php: '.$label, $description);
 
 	}
@@ -1444,7 +1456,7 @@ Class Articles {
 		$label = sprintf(i18n::c('Update: %s'), strip_tags($item['title']));
 		$poster = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
 		$description = sprintf(i18n::c('Updated by %s in %s'), $poster, $anchor->get_title());
-		$description .= "\n\n".'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>';
+		$description .= "\n\n".'<a href="'.Articles::get_permalink($item).'">'.$item['title'].'</a>';
 		Logger::notify('articles/articles.php: '.$label, $description);
 
 	}
@@ -1481,6 +1493,10 @@ Class Articles {
 		// ensure proper unicode encoding
 		$id = (string)$id;
 		$id = utf8::encode($id);
+                
+                // filter id from reference if parameter given that way
+                if(substr($id, 0, 8) === 'article:')
+                      $id = substr ($id, 8);
 
 		// cache previous answers
 		static $cache;
@@ -1492,18 +1508,37 @@ Class Articles {
 			return $cache[$id];
 
 		// search by id
-		if(is_numeric($id))
+		if(is_numeric($id)) {
 			$query = "SELECT ".SQL::escape($attributes)." FROM ".SQL::table_name('articles')
 				." WHERE (id = ".SQL::escape((integer)$id).")";
-
+			// do the job
+			$output = SQL::query_first($query);
+		}
 		// or look for given name of handle
-		else
+		else {
 			$query = "SELECT ".SQL::escape($attributes)." FROM ".SQL::table_name('articles')
-				." WHERE (nick_name LIKE '".SQL::escape($id)."') OR (handle LIKE '".SQL::escape($id)."')"
-				." ORDER BY publish_date DESC LIMIT 1";
+				." WHERE (nick_name LIKE '".SQL::escape($id)."') OR (handle LIKE '".SQL::escape($id)."')";
+			
+                        $count = SQL::query_count($query);
+			if($count==1)
+				// do the job
+				$output = SQL::query_first($query);
+			elseif ($count>1) {// result depending language give by $context['page_language']
+				if (($_SESSION['surfer_language']=='none'))	
+					$language=$context['language'];
+				else 
+					$language=$_SESSION['surfer_language'];
+				$result = SQL::query($query);
+				while($item = SQL::fetch($result)) {
+				 	$output = $item; // return last by default
+					if ($item['language'] == $language) {
+					 	$output = $item;
+					 	break;
+					}
+				}
+			}
 
-		// do the job
-		$output = SQL::query_first($query);
+		}
 
 		// save in cache, but only on generic request
 		if(isset($output['id']) && ($attributes == '*') && (count($cache) < 1000))
@@ -1667,7 +1702,7 @@ Class Articles {
             return "unknown order '".$order."'";
 
 		// query the database
-		$query = "SELECT id, title, nick_name FROM ".SQL::table_name('articles')." AS articles "
+		$query = "SELECT id, title, nick_name, anchor FROM ".SQL::table_name('articles')." AS articles "
 			." WHERE (articles.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (".$where.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
 		if(!$result = SQL::query($query))
@@ -1689,8 +1724,17 @@ Class Articles {
 	 * @return string the permanent web address to this item, relative to the installation path
 	 */
 	public static function get_permalink($item) {
-		$output = Articles::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
-		return $output;
+		global $context;
+
+		// sanity check
+		if(!isset($item['id']))
+			return null;				
+
+		// get host to this page
+		$vhost = Sections::get_vhost($item['anchor']);		
+
+		// absolute link
+		return $vhost.Articles::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
 	}
 
 	/**
@@ -1755,7 +1799,7 @@ Class Articles {
             return "unknown order '".$order."'";
 
 		// query the database
-		$query = "SELECT id, title, nick_name FROM ".SQL::table_name('articles')." AS articles "
+		$query = "SELECT id, title, nick_name, anchor FROM ".SQL::table_name('articles')." AS articles "
 			." WHERE (articles.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (".$where.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
 		if(!$result = SQL::query($query))
@@ -2173,7 +2217,7 @@ Class Articles {
 		// avoid articles pushed away from the front page
 		$sections_where = '';
 		if(isset($context['skin_variant']) && ($context['skin_variant'] == 'home')) {
-			$sections_where .= " AND (sections.home_panel LIKE 'main')";
+			$sections_where .= " AND (sections.index_map != 'N') AND (sections.home_panel = 'main')";
 		}
 
 		// composite fields
@@ -2627,32 +2671,8 @@ Class Articles {
 			return $output;
 		}
 
-		// no layout yet
-		$layout = NULL;
-
-		// separate options from layout name
-		$attributes = explode(' ', $variant, 2);
-
 		// instanciate the provided name
-		if($attributes[0]) {
-			$name = 'layout_articles_as_'.$attributes[0];
-			if(is_readable($context['path_to_root'].'articles/'.$name.'.php')) {
-				include_once $context['path_to_root'].'articles/'.$name.'.php';
-				$layout = new $name;
-
-				// provide parameters to the layout
-				if(isset($attributes[1]))
-					$layout->set_variant($attributes[1]);
-
-			}
-		}
-
-		// use default layout
-		if(!$layout) {
-			include_once $context['path_to_root'].'articles/layout_articles.php';
-			$layout = new Layout_articles();
-			$layout->set_variant($variant);
-		}
+		$layout = Layouts::new_($variant, 'article',false, true);						
 
 		// do the job
 		$output = $layout->layout($result);
@@ -2910,6 +2930,10 @@ Class Articles {
 		if(!isset($fields['nick_name']))
 			$fields['nick_name'] = '';
 
+		// set canvas default value
+		if(!isset($fields['canvas']) || !$fields['canvas'])
+			$fields['canvas'] = 'standard';
+
 		// clean provided tags
 		if(isset($fields['tags']))
 			$fields['tags'] = trim($fields['tags'], " \t.:,!?");
@@ -2928,6 +2952,7 @@ Class Articles {
 		if(Surfer::is_associate()) {
 			$query[] = "prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."'";
 			$query[] = "suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."'";
+			$query[] = "canvas='".SQL::escape(isset($fields['canvas']) ? $fields['canvas'] : '')."'";
 		}
 
 		$query[] = "nick_name='".SQL::escape(isset($fields['nick_name']) ? $fields['nick_name'] : '')."'";
@@ -2952,6 +2977,7 @@ Class Articles {
 		$query[] = "source='".SQL::escape(isset($fields['source']) ? $fields['source'] : '')."'";
 		$query[] = "introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."'";
 		$query[] = "description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."'";
+        $query[] = "file_overlay='".SQL::escape(isset($fields['file_overlay']) ? $fields['file_overlay'] : '')."'";
 		$query[] = "language='".SQL::escape(isset($fields['language']) ? $fields['language'] : '')."'";
 		$query[] = "locked='".SQL::escape(isset($fields['locked']) ? $fields['locked'] : 'N')."'";
 		$query[] = "overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."'";
@@ -2988,10 +3014,11 @@ Class Articles {
 		if(!isset($fields['handle']) || (strlen($fields['handle']) < 32))
 			$fields['handle'] = md5(mt_rand());
 		$query[] = "handle='".SQL::escape($fields['handle'])."'";
+		$query[] = "rating_count='".SQL::escape(isset($fields['rating_count']) ? $fields['rating_count'] : '0')."'";
 
 		// allow anonymous surfer to access this page during his session
 		if(!Surfer::get_id())
-			Surfer::add_handle($fields['handle']);
+			Surfer::add_handle($fields['handle']);		
 
 		// insert a new record
 		$query = "INSERT INTO ".SQL::table_name('articles')." SET ".implode(', ', $query);
@@ -3130,6 +3157,10 @@ Class Articles {
 		if(!isset($fields['rank']))
 			$fields['rank'] = 10000;
 
+		// set canvas default value
+		if(!isset($fields['canvas']) || !$fields['canvas'])
+			$fields['canvas'] = 'standard';
+
 		// clean provided tags
 		if(isset($fields['tags']))
 			$fields['tags'] = trim($fields['tags'], " \t.:,!?");
@@ -3144,6 +3175,7 @@ Class Articles {
 		if(Surfer::is_associate()) {
 			$query[] = "prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."'";
 			$query[] = "suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."'";
+			$query[] = "canvas='".SQL::escape(isset($fields['canvas']) ? $fields['canvas'] : '')."'";
 		}
 
 		// fields that are visible only to associates and to editors -- see articles/edit.php
@@ -3151,6 +3183,7 @@ Class Articles {
 			$query[] = "nick_name='".SQL::escape(isset($fields['nick_name']) ? $fields['nick_name'] : '')."'";
 			$query[] = "behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."'";
 			$query[] = "extra='".SQL::escape(isset($fields['extra']) ? $fields['extra'] : '')."'";
+            $query[] = "file_overlay='".SQL::escape(isset($fields['file_overlay']) ? $fields['file_overlay'] : '')."'";
 			$query[] = "icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."'";
 			$query[] = "thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."'";
 			$query[] = "rank='".SQL::escape($fields['rank'])."'";
@@ -3198,6 +3231,7 @@ Class Articles {
 		$query[] = "assign_id=0";
 		$query[] = "assign_address=''";
 		$query[] = "assign_date='".SQL::escape(NULL_DATE)."'";
+		$query[] = "rating_count='".SQL::escape(isset($fields['rating_count']) ? $fields['rating_count'] : '0')."'";
 
 		// update an existing record
 		$query = "UPDATE ".SQL::table_name('articles')." SET ".implode(', ', $query)." WHERE id = ".SQL::escape($fields['id']);
@@ -3274,6 +3308,8 @@ Class Articles {
 			$query[] = "extra='".SQL::escape($fields['extra'])."'";
 		if(isset($fields['description']))
 			$query[] = "description='".SQL::escape($fields['description'])."'";
+        if(isset($fields['file_overlay']) )
+			$query[] = "file_overlay='".SQL::escape($fields['file_overlay'])."'";
 		if(isset($fields['handle']) && $fields['handle'])
 			$query[] = "handle='".SQL::escape($fields['handle'])."'";
 		if(isset($fields['icon_url']))
@@ -3344,6 +3380,9 @@ Class Articles {
 
 		if(!SQL::query($query))
 			return FALSE;
+                
+                // list the article in categories
+		Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
 
 		// clear the cache
 		Articles::clear($fields);
@@ -3396,7 +3435,8 @@ Class Articles {
 	}
 
 	/**
-	 * search for some keywords articles anchored to one precise section
+	 * search for some keywords articles anchored to one precise section 
+     * (and its subsections) or array of sections.
 	 *
 	 * This function also searches in sub-sections, with up to three levels of depth.
 	 *
@@ -3406,7 +3446,7 @@ Class Articles {
 	 *
 	 * @link http://www.artfulcode.net/articles/full-text-searching-mysql/
 	 *
-	 * @param int the id of the section to look in
+	 * @param mixed the id of the section or array of sections to look in 
 	 * @param string the search string
 	 * @param float maximum score to look at
 	 * @param int the number of items to display
@@ -3426,47 +3466,17 @@ Class Articles {
 		$where = Articles::get_sql_where();
 
 		// search is restricted to one section
-		$sections_where = '';
-		if($section_id) {
+		if(is_numeric($section_id)) {
 
 			// look for children
-			$anchors = array();
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor('section:'.$section_id, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// also include the top level, of course
-			$anchors[] = 'section:'.$section_id;
+			$anchors = Sections::get_branch_at_anchor('section:'.$section_id);
 
 			// the full set of sections searched
 			$where .= " AND (anchor IN ('".join("', '", $anchors)."'))";
 
-		}
+		} elseif(is_array($section_id)) {
+                        $where .= " AND (anchor IN ('".join("', '", $section_id)."'))";
+        }
 
 		// anonymous surfers and subscribers will see only published articles
 		if(!Surfer::is_member())
@@ -3510,6 +3520,7 @@ Class Articles {
 		$fields['assign_id']	= "MEDIUMINT DEFAULT 0 NOT NULL";
 		$fields['assign_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['behaviors']	= "TEXT NOT NULL";
+		$fields['canvas']		= "VARCHAR(255) DEFAULT 'standard' NOT NULL";
 		$fields['create_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['create_date']	= "DATETIME";
 		$fields['create_id']	= "MEDIUMINT DEFAULT 0 NOT NULL";
@@ -3522,6 +3533,7 @@ Class Articles {
 		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['expiry_date']	= "DATETIME";
 		$fields['extra']		= "TEXT NOT NULL";
+        $fields['file_overlay']	= "VARCHAR(64) DEFAULT '' NOT NULL";
 		$fields['handle']		= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['icon_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
@@ -3545,7 +3557,7 @@ Class Articles {
 		$fields['review_date']	= "DATETIME";
 		$fields['source']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['suffix']		= "TEXT NOT NULL";
-		$fields['tags'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['tags'] 		= "TEXT DEFAULT '' NOT NULL";
 		$fields['thumbnail_url']= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['trailer']		= "TEXT NOT NULL";
@@ -3738,7 +3750,7 @@ Class Articles {
 				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$context['now']."'))";
 
 		// avoid articles pushed away from the front page
-		$where .= ' AND ((sections.home_panel = "main") OR (sections.home_panel = "none"))';
+		$where .= ' AND (sections.index_map != "N")';
 
 
 		// select among available items
@@ -3833,6 +3845,7 @@ Class Articles {
 			'active',
 			'active_set',
 			'behaviors',
+			'canvas',
 			'create_address',
 			'create_date',
 			'create_id',

@@ -17,7 +17,7 @@ Class Layout_sections_as_compact extends Layout_interface {
 	 *
 	 * @return int the optimised count of items for this layout
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return COMPACT_LIST_SIZE;
@@ -29,7 +29,7 @@ Class Layout_sections_as_compact extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -45,6 +45,9 @@ Class Layout_sections_as_compact extends Layout_interface {
 
 		// process all items in the list
 		while($item = SQL::fetch($result)) {
+
+			// get the related overlay, if any
+			$overlay = Overlay::load($item, 'section:'.$item['id']);
 
 			// the url to view this item
 			$url = Sections::get_permalink($item);
@@ -75,7 +78,10 @@ Class Layout_sections_as_compact extends Layout_interface {
 //				$label = ucfirst(Skin::strip($item['family'], 30)).' - ';
 
 			// use the title to label the link
-			$label .= ucfirst(Skin::strip($item['title'], 30));
+			if(is_object($overlay))
+				$label = ucfirst(Codes::beautify_title($overlay->get_text('title', $item)));
+			else
+				$label .= ucfirst(Skin::strip($item['index_title'], 30));
 
 			// the hovering title
 			if($item['introduction'] && ($context['skins_with_details'] == 'Y'))

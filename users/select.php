@@ -278,14 +278,14 @@ elseif(!$permitted) {
 		.'</form>'."\n";
 
 	// enable autocompletion
-	$form .= JS_PREFIX
-		.'$(function() {'."\n"
+	Page::insert_script(
+		'$(function() {'."\n"
 		.'	// set the focus on first form field'."\n"
 		.'	$("#assigned_name").focus();'."\n"
 		.'	// enable name autocompletion'."\n"
 		.'	Yacs.autocomplete_names("assigned_name",true, "", function(data) { Yacs.startWorking(); $("#submit_button").show().click(); });'."\n"
 		.'});  '."\n"
- 		.JS_SUFFIX;
+ 		);
 
 	// title says it all
 	if(!strncmp($anchor->get_reference(), 'user:', 5)) {

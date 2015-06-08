@@ -152,31 +152,6 @@
  *
  * @see articles/layout_articles_as_yabb.php
  *
- *
- * [title]Handling sections at the index page[/title]
- *
- * This applies to sections that are not at the top level of the hierarchy.
- * For anchored sections, the parameter 'index_panel' defines how their content is handled on index pages of their parent section.
- *
- * [*] '[code]main[/code]' - The default value.
- * Use the layout specified in the field 'articles_layout' of the parent section ('daily', etc.)
- *
- * [*] '[code]extra[/code]' - Summarize most recent entries in an extra box at the index page.
- * May prove to be useful with discussion boards.
- *
- * [*] '[code]extra_boxes[/code]' - Same as the previous one, except that YACS creates one extra box per article.
- *
- * [*] '[code]gadget[/code]' - Summarize most recent entries in a gadget box at the index page.
- * May prove to be useful with discussion boards for example.
- *
- * [*] '[code]gadget_boxes[/code]' - Same as the previous one, except that YACS creates one gadget box per article.
- *
- * [*] '[code]news[/code]' - List articles in the area dedicated to flashy news
- *
- * [*] '[code]none[/code]' - Do not list section content at the front page.
- * Useful to cache some sections, such as the archives newsletters.
- *
- *
  * [title]How to order sections?[/title]
  *
  * Usually sections are ranked by edition date, with the most recent section coming first.
@@ -195,38 +170,13 @@
  * [*] More than 10000 - To reject sections at the end of the site map.
  *
  *
- * [title]Handling sections at the front page[/title]
- *
- * By default section content is automatically featured at the front page.
- * This can be changed through the 'home_panel' field.
- *
- * [*] '[code]main[/code]' - The default value.
- * Use the main layout specified in the configuration panel for skins ('alistapart', etc.)
- *
- * [*] '[code]extra[/code]' - Summarize most recent entries in an extra box at the front page.
- * May prove to be useful with discussion boards.
- *
- * [*] '[code]extra_boxes[/code]' - Same as the previous one, except that YACS creates one extra box per article.
- *
- * [*] '[code]gadget[/code]' - Summarize most recent entries in a gadget box at the front page.
- * May prove to be useful with discussion boards for example.
- *
- * [*] '[code]gadget_boxes[/code]' - Same as the previous one, except that YACS creates one gadget box per article.
- *
- * [*] '[code]icon[/code]' - List thumbnails of related articles at the bottom of the page.
- * Useful to feature logos of partners at the front page.
- *
- * [*] '[code]news[/code]' - List articles in the area dedicated to flashy news
- * Actual rendering depends of parameters 'root_news_layout' and 'root_news_count', set in [script]configure.php[/script]
- *
- * [*] '[code]none[/code]' - Do not list section content at the front page.
- * Useful to cache some sections, such as the archives newsletters.
- *
- *
- * [title]Handling sections at the site map[/title]
+ * [title]Handling sections at the site map, or at the index of parent[/title]
  *
  * By default top most sections (aka, not anchored to another section) are publicly listed at the site map.
  * Change the field 'index_map' to 'N' to prevent this behaviour. Hidden sections are listed among other special sections to preserve access from associates.
+ * 
+ * By default section content is automatically featured at the front page.
+ * This can be changed through the 'home_panel' field.
  *
  * @author Bernard Paques
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
@@ -362,6 +312,30 @@ Class Sections {
 		// the default is to not allow for new sections
 		return FALSE;
 	}
+        
+        public static function allow_deletion($item, $anchor=NULL) {
+            
+            global $context;
+
+            // sanity check
+            if(!isset($item['id']))
+                    return FALSE;
+
+            // surfer is an associate
+            if(Surfer::is_associate())
+                    return TRUE;
+
+            // surfer owns the page
+            if(isset($item['owner_id']) && Surfer::is($item['owner_id']))
+                    return TRUE;
+
+            // surfer owns the container
+            if(is_object($anchor) && $anchor->is_owned())
+                    return TRUE;
+            
+            // default case
+            return FALSE;
+        }
 
 	/**
 	 * check if a surfer can send a message to group participants
@@ -551,7 +525,7 @@ Class Sections {
 		// headline
 		$headline = sprintf($template,
 			Surfer::get_link(),
-			'<a href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'">'.$title.'</a>');
+			'<a href="'.Sections::get_permalink($item).'">'.$title.'</a>');
 
 		// panel content
 		$content = '';
@@ -657,7 +631,7 @@ Class Sections {
 			$menu[] = Skin::build_mail_button($link, $label, TRUE);
 
 			// link to user profile
-			$link = $context['url_to_home'].$context['url_to_root'].Surfer::get_permalink();
+			$link = Surfer::get_permalink();
 			$label = sprintf(i18n::c('View the profile of %s'), Surfer::get_name());
 			$menu[] = Skin::build_mail_button($link, $label, FALSE);
 
@@ -665,7 +639,7 @@ Class Sections {
 		} else {
 
 			// call for action
-			$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
+			$link = Sections::get_permalink($item);
 			if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'sections', FALSE)))
 				$label = i18n::c('View the section');
 			$menu[] = Skin::build_mail_button($link, $label, TRUE);
@@ -712,7 +686,7 @@ Class Sections {
 	/**
 	 * count records for some anchor
 	 *
-	 * Only sections matching following criteria are returned:
+	 * Only sections matching following criteria are counted:
 	 * - section is visible (active='Y')
 	 * - section is restricted (active='R'), but surfer is a logged user
 	 * - section is hidden (active='N'), but surfer is an associate
@@ -753,9 +727,6 @@ Class Sections {
 		}
 
 		$where .= ")";
-
-		// hide sections removed from index maps
-//		$where .= " AND (sections.index_map = 'Y')";
 
 		// non-associates will have only live sections
 		if($anchor && !Surfer::is_empowered()) {
@@ -873,6 +844,10 @@ Class Sections {
 		$query = "DELETE FROM ".SQL::table_name('sections')." WHERE id = ".SQL::escape($item['id']);
 		if(SQL::query($query) === FALSE)
 			return FALSE;
+                
+                // remember overlay deletion
+                if(isset($item['overlay']) && ($overlay = Overlay::load($item, 'section:'.$item['id'])))
+                        $overlay->remember('delete', $item, 'section:'.$item['id']);
 
 		// job done
 		return TRUE;
@@ -981,7 +956,9 @@ Class Sections {
 	 */
 	public static function get($id, $mutable=FALSE) {
 		global $context;
-
+                
+                $output = array();
+                
 		// sanity check
 		if(!$id) {
 			$output = NULL;
@@ -991,6 +968,10 @@ Class Sections {
 		// ensure proper unicode encoding
 		$id = (string)$id;
 		$id = utf8::encode($id);
+                
+                // filter id from reference if parameter given that way
+                if(substr($id, 0, 8) === 'section:')
+                      $id = substr ($id, 8);
 
 		// cache previous answers
 		static $cache;
@@ -1002,21 +983,40 @@ Class Sections {
 			return $cache[$id];
 
 		// search by id
-		if(is_numeric($id))
+		if(is_numeric($id)) {
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
 				." WHERE (sections.id = ".SQL::escape((integer)$id).")";
+                        
+                        $output = SQL::query_first($query);
 
 		// or look for given name of handle
-		else
+                } else {
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
-				." WHERE (sections.nick_name LIKE '".SQL::escape($id)."') OR (handle LIKE '".SQL::escape($id)."')"
-				." ORDER BY edit_date DESC LIMIT 1";
-
-		// do the job
-		$output = SQL::query_first($query);
+				." WHERE (sections.nick_name LIKE '".SQL::escape($id)."') OR (handle LIKE '".SQL::escape($id)."')";
+                        
+                        $count = SQL::query_count($query);
+                        if($count==1)
+                            // do the job
+                            $output = SQL::query_first($query);
+                        elseif ($count>1) {// result depending language give by $context['page_language']
+                            if (($_SESSION['surfer_language']=='none'))	
+					$language=$context['language'];
+				else 
+					$language=$_SESSION['surfer_language'];
+				$result = SQL::query($query);
+				while($item = SQL::fetch($result)) {
+				 	$output = $item; // return last by default
+					if ($item['language'] == $language) {
+					 	$output = $item;
+					 	break;
+					}
+				}
+                        }
+                
+                }
 
 		// save in cache
-		if(isset($output['id']) && (count($cache) < 1000))
+		if(is_array($output) && isset($output['id']) && (count($cache) < 1000))
 			$cache[$id] = $output;
 
 		// return by reference
@@ -1024,138 +1024,69 @@ Class Sections {
 	}
 
 	/**
-	 * list sections as anchors
+	 * get containers of one branch of the content tree
 	 *
-	 * This function is mainly used to build the front page and section index pages.
-	 * It is call to list sections and, in a second time, articles related to these
-	 * sections are actually listed.
+	 * This function provides references to the target section, and also of sub-sections.
+	 * It looks iteratively into up to 5 levels of sub-sections.
 	 *
-	 * If the anchor parameter is null, this function will locate sections having the given variant
-	 * in the field 'home_panel'.
-	 * Else it will locate sections having the given variant in the field 'index_panel'.
-	 *
-	 * It accepts following variants:
-	 * - 'extra' - one extra box per section
-	 * - 'extra_boxes' - one extra box per article
-	 * - 'gadget' - one gadget box per section
-	 * - 'gadget_boxes' - one gadget box per article
-	 * - 'main' - the main part of the index page
-	 * - 'news' - flashy news
-	 * - 'none' - sections are not displayed at all
-	 *
-	 * Normally this function is used before listing related articles. Ths is why we are not checking 'index_map' here.
-	 *
-	 * @param string the main anchor (e.g., 'section:123')
-	 * @param string the target area (e.g., 'main')
-	 * @return an array of anchors (e.g., array('section:456', 'section:789'))
-	 *
-	 * @see index.php
-	 * @see sections/view.php
+	 * @param string the reference of the target section (e.g., 'section:123')
+	 * @return an array of references (e.g., array('section:123', 'section:456', 'section:789'))
 	 */
-	public static function &get_anchors_for_anchor($anchor=NULL, $variant='main') {
+	public static function get_branch_at_anchor($anchor=NULL, $with_top=true) {
 		global $context;
 
-		$criteria = array();
-
-		// we are targeting a section index page
-		if($anchor) {
-			$criteria[] = "sections.anchor LIKE '".SQL::escape($anchor)."'";
-			$target = 'index_panel';
-
-		// we are targeting the front page
-		} else {
-			$target = 'home_panel';
-		}
-
-		// target a index area
-		switch($variant) {
-		case 'extra':
-			$criteria[] = "(sections.".$target." = 'extra')";
-			break;
-
-		case 'extra_boxes':
-			$criteria[] = "(sections.".$target." = 'extra_boxes')";
-			break;
-
-		case 'gadget':
-			$criteria[] = "(sections.".$target." = 'gadget')";
-			break;
-
-		case 'gadget_boxes':
-			$criteria[] = "(sections.".$target." = 'gadget_boxes')";
-			break;
-
-		case 'main':
-		default:
-			$criteria[] = "((sections.".$target." IS NULL) OR (sections.".$target." = '') OR (sections.".$target." = 'main'))";
-			break;
-
-		case 'news':
-			$criteria[] = "(sections.".$target." = 'news')";
-			break;
-
-		case 'none':
-			$criteria[] = "(sections.".$target." = 'none')";
-			break;
-
-		}
-
-		// display active items
-		$active = "(sections.active='Y'";
-
-		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || Surfer::is_teased())
-			$active .= " OR sections.active='R'";
-
-		// include hidden sections for associates, or if teasers are allowed
-		if(Surfer::is_associate() || Surfer::is_teased())
-			$active .= " OR sections.active='N'";
-
-		// end of filter on active field
-		$criteria[] = $active.")";
-
-		// use only live sections
-		$criteria[] = "((sections.activation_date is NULL)"
-			." OR (sections.activation_date <= '".$context['now']."'))"
-			." AND ((sections.expiry_date is NULL)"
-			." OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
-
-		// limit the number of results
-		$query = "SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE ".implode(' AND', $criteria)
-			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 5000";
-		if(!$result = SQL::query($query)) {
-			$output = NULL;
-			return $output;
-		}
-
-		// process all matching sections
+		// look for children
 		$anchors = array();
-		while($item = SQL::fetch($result))
-			$anchors[] = 'section:'.$item['id'];
 
-		// return a list of anchors
+		// first level of depth
+		$children = Sections::get_children_of_anchor($anchor);
+		$anchors = array_merge($anchors, $children);
+
+		// second level of depth
+		if(count($children) && (count($anchors) < 2000)) {
+			$children = Sections::get_children_of_anchor($children);
+			$anchors = array_merge($anchors, $children);
+		}
+
+		// third level of depth
+		if(count($children) && (count($anchors) < 2000)) {
+			$children = Sections::get_children_of_anchor($children);
+			$anchors = array_merge($anchors, $children);
+		}
+
+		// fourth level of depth
+		if(count($children) && (count($anchors) < 2000)) {
+			$children = Sections::get_children_of_anchor($children);
+			$anchors = array_merge($anchors, $children);
+		}
+
+		// fifth level of depth
+		if(count($children) && (count($anchors) < 2000)) {
+			$children = Sections::get_children_of_anchor($children);
+			$anchors = array_merge($anchors, $children);
+		}
+
+		// also include the top level, of course
+                if($with_top)
+                    $anchors[] = $anchor;
+
+		// all children included, from several levels
 		return $anchors;
 	}
 
 	/**
-	 * list anchors that are part of the content tree
+	 * list children of a given section
 	 *
-	 * This function is mainly used to list all containers of the content tree at once.
+	 * This function is mainly used to locate sub-sections with visible content.
 	 * It is called to list sections and, in a second time, articles related to these
 	 * sections are actually listed.
 	 *
-	 * The variant is used to filter sections, as follows:
-	 * - 'main' - list sections that send articles in main panel
-	 * - 'index' - list sections that are listed in the main panel
-	 *
-	 * @param string the main anchor (e.g., 'section:123')
-	 * @param string filter to apply
-	 * @return an array of anchors (e.g., array('section:456', 'section:789'))
+	 * @param mixed one or several references of sections to look at (e.g., 'section:123')
+	 * @return an array of references (e.g., array('section:456', 'section:789'))
 	 *
 	 * @see sections/feed.php
 	 */
-	public static function &get_children_of_anchor($anchor=NULL, $variant='main') {
+	public static function get_children_of_anchor($anchor=NULL) {
 		global $context;
 
 		$criteria = array();
@@ -1166,25 +1097,13 @@ Class Sections {
 			foreach($anchor as $token)
 				$items[] = "sections.anchor LIKE '".SQL::escape($token)."'";
 			$criteria[] = join(' OR ', $items);
-			$target = 'index_panel';
 
 		// we are targeting a section index page
-		} elseif(is_string($anchor)) {
+		} elseif(is_string($anchor))
 			$criteria[] = "sections.anchor LIKE '".SQL::escape($anchor)."'";
-			$target = 'index_panel';
 
-		// we are targeting the front page
-		} else {
-			$target = 'home_panel';
-		}
-
-		// list sections listed in the main panel
-		if($variant == 'index')
-			$criteria[] = "(sections.index_map = 'Y')";
-
-		// list sections that produce main content
-		else
-			$criteria[] = "((sections.".$target." IS NULL) OR (sections.".$target." = '') OR (sections.".$target." = 'main') OR (sections.".$target." = 'none'))";
+		// consider only sections that contribute to main content
+		$criteria[] = "(sections.index_map = 'Y')";
 
 		// display active items
 		$active = "(sections.active='Y'";
@@ -1355,52 +1274,6 @@ Class Sections {
 	}
 
 	/**
-	 * get one section layout
-	 *
-	 * @param string name of the layout to load
-	 * @return object
-	 */
-	public static function &get_layout($variant='full') {
-		global $context;
-
-		// special layouts
-		if(is_object($variant)) {
-			$output = $variant;
-			return $output;
-		}
-
-		// no layout yet
-		$layout = NULL;
-
-		// separate options from layout name
-		$attributes = explode(' ', $variant, 2);
-
-		// instanciate the provided name
-		if($attributes[0]) {
-			$name = 'layout_sections_as_'.$attributes[0];
-			if(is_readable($context['path_to_root'].'sections/'.$name.'.php')) {
-				include_once $context['path_to_root'].'sections/'.$name.'.php';
-				$layout = new $name;
-
-				// provide parameters to the layout
-				if(isset($attributes[1]))
-					$layout->set_variant($attributes[1]);
-
-			}
-		}
-
-		// use default layout
-		if(!$layout) {
-			include_once $context['path_to_root'].'sections/layout_sections.php';
-			$layout = new Layout_sections();
-			$layout->set_variant($variant);
-		}
-
-		// do the job
-		return $layout;
-	}
-
-	/**
 	 * get sections as options of a &lt;SELECT&gt; field
 	 *
 	 * Only sections matching following criteria are returned:
@@ -1554,9 +1427,25 @@ Class Sections {
 	 * @return string the permanent web address to this item, relative to the installation path
 	 */
 	public static function get_permalink($item) {
+		global $context;
+
+		// sanity check
 		if(!isset($item['id']))
 			throw new Exception('bad input parameter');
-		return Sections::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
+		
+		// get host to this page
+		$vhost = Sections::get_vhost('section:'.$item['id']);	
+		
+		// if top-level section with bounded vhost, provide a root link
+		if((!isset($item['anchor']) || !$item['anchor'] ) 
+			&& file_exists($context['path_to_root'].'parameters/virtual_'.$item['nick_name'].'.include.php')) {
+		    
+		        return $vhost;	
+		    
+		}  
+
+		// absolute link
+		return $vhost.Sections::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
 	}
 
 	/**
@@ -1934,11 +1823,65 @@ Class Sections {
 		}
 
 		// check the target action
-		if(!preg_match('/^(delete|describe|duplicate|edit|export|feed|freemind|import|invite|lock|mail|navigate|own|print|view|view_as_freemind)$/', $action))
+		if(!preg_match('/^(delete|describe|duplicate|edit|export|feed|import|invite|lock|mail|navigate|own|print|view)$/', $action))
 			return 'sections/'.$action.'.php?id='.urlencode($id).'&action='.urlencode($name);
 
 		// normalize the link
 		return normalize_url(array('sections', 'section'), $action, $id, $name);
+	}
+	
+	/**
+	 * get virtual host url from sections tree,
+	 * used to build permalink to items.
+	 * @see sections::get_permalinks()
+	 * @see articles::get_permalinks()
+	 * 
+	 * item may be child of a mother section bounded to a virtual host 
+	 * 
+	 * @global type $context
+	 * @staticvar type $cache
+	 * @param string $reference section:<id> where to start sections tree climbing
+	 * @return string, url to build permalinks
+	 */
+	public static function get_vhost($reference) {
+	    global $context;
+	    
+	    // cache previous answers
+	    static $cache;
+	    if(!is_array($cache))
+		    $cache = array();
+	    
+	    // cache hit
+	    if(isset($cache[$reference]))
+		return $cache[$reference];
+	    
+	    // get the section or return standard host
+	    if(!$reference || !$section = Anchors::get($reference))
+		return $context['url_to_home'].$context['url_to_root'];
+	    
+	    // find the mother section
+	    $focus = $section->get_focus();
+	    $top = Anchors::get($focus[0]);
+	    
+	    // check if mother section is bounded to a virtual host thru its nick_name
+	    if(file_exists($context['path_to_root'].'parameters/virtual_'.$top->item['nick_name'].'.include.php')) {
+		$vhost = $top->item['nick_name'].$context['url_to_root'];
+		
+		if(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == 443))
+				$protocol = 'https://';
+			else
+				$protocol = 'http://';
+			
+		$vhost = $protocol.$vhost;
+	    } else
+		// no virtual host, provide standard host
+		$vhost = $context['url_to_home'].$context['url_to_root'];
+	    	    	   
+	   // cache result
+	   $cache[$reference] = $vhost;
+	   
+	   // done
+	   return $vhost;
 	}
 
 	/**
@@ -2255,7 +2198,7 @@ Class Sections {
 	}
 
 	/**
-	 * list sections by title at a given level of the hierarchy
+	 * list sections by title at a given level of the content tree
 	 *
 	 * Actually list sections by rank, then by title, then by edition date.
 	 * If you select to not use the ranking system, sections will be ordered by title only.
@@ -2291,9 +2234,6 @@ Class Sections {
 		// limit the scope of the request
 		$where .= " AND ".Sections::get_sql_where();
 
-		// limit to regular sections
-		$where .= " AND (sections.index_panel LIKE 'main')";
-
 		// hide sections removed from index maps
 		$where .= " AND (sections.index_map = 'Y')";
 
@@ -2321,18 +2261,10 @@ Class Sections {
 		else
 			$silent = FALSE;
 
-		static $depth;
-		if(!isset($depth))
-			$depth = 0;
-		$depth++;
-		$output = '';
-		if(($variant == 'freemind') && ($depth > 3))
-			return $output;
-
 		// provide context to layout
-		$layout =& Sections::get_layout($variant);
+		$layout = Layouts::new_($variant,'section',false,true);
 		if($anchor)
-			$layout->set_variant($anchor);
+			$layout->set_focus($anchor);
 
 		// do the job
 		$output =& Sections::list_selected(SQL::query($query, $silent), $layout);
@@ -2434,9 +2366,6 @@ Class Sections {
 			$where .= "(sections.activation_date >= '".$context['now']."')"
 				." OR ((sections.expiry_date > '".NULL_DATE."') AND (sections.expiry_date <= '".$context['now']."'))";
 
-			// add sections not listed in main panel
-			$where .= " OR (sections.index_panel != 'main')";
-
 			// add sections removed from normal index map
 			$where .= " OR (sections.index_map != 'Y')";
 
@@ -2483,7 +2412,7 @@ Class Sections {
 		}
 
 		// get a layout
-		$layout =& Sections::get_layout($variant);
+		$layout = Layouts::new_($variant,'section',false,true);
 
 		// do the job
 		$output = $layout->layout($result);
@@ -2781,19 +2710,17 @@ Class Sections {
 			$fields['active_set'] = 'Y';
 		if(isset($fields['edit_action']))
 			$fields['edit_action'] = preg_replace('/import$/i', 'update', $fields['edit_action']);
-		if(!isset($fields['home_panel']) || !$fields['home_panel'])
+                if(!isset($fields['home_panel']) || !$fields['home_panel'])
 			$fields['home_panel'] = 'main';
 		if(!isset($fields['index_map']) || !$fields['index_map'])
 			$fields['index_map'] = 'Y';
 		if(!isset($fields['index_news']) || !$fields['index_news'])
 			$fields['index_news'] = 'none'; // save on requests
-		if(!isset($fields['index_panel']) || !$fields['index_panel'])
-			$fields['index_panel'] = 'main';
 		if(!isset($fields['rank']) || !$fields['rank'])
 			$fields['rank'] = 10000;
 
 		// set layout for sections
-		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/^(accordion|carrousel|compact|custom|decorated|directory|folded|freemind|inline|jive|map|slashdot|tabs|titles|yabb|none)$/', $fields['sections_layout']))
+		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/^(accordion|carrousel|compact|custom|decorated|directory|folded|inline|jive|map|slashdot|tabs|titles|yabb|none)$/', $fields['sections_layout']))
 			$fields['sections_layout'] = 'none';
 		elseif($fields['sections_layout'] == 'custom') {
 			if(isset($fields['sections_custom_layout']) && $fields['sections_custom_layout'])
@@ -2811,6 +2738,11 @@ Class Sections {
 			else
 				$fields['articles_layout'] = 'decorated';
 		}
+
+
+		// set canvas for articles
+		if(!isset($fields['articles_canvas']) || !$fields['articles_canvas'])
+			$fields['articles_canvas'] = 'standard';
 
 		// clean provided tags
 		if(isset($fields['tags']))
@@ -2843,6 +2775,7 @@ Class Sections {
 			."activation_date='".SQL::escape($fields['activation_date'])."',"
 			."active='".SQL::escape($fields['active'])."',"
 			."active_set='".SQL::escape($fields['active_set'])."',"
+			."articles_canvas='".SQL::escape(isset($fields['articles_canvas']) ? $fields['articles_canvas'] : 'null')."',"
 			."articles_layout='".SQL::escape(isset($fields['articles_layout']) ? $fields['articles_layout'] : 'decorated')."',"
 			."articles_templates='".SQL::escape(isset($fields['articles_templates']) ? $fields['articles_templates'] : '')."',"
 			."behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."',"
@@ -2861,14 +2794,14 @@ Class Sections {
 			."expiry_date='".SQL::escape($fields['expiry_date'])."',"
 			."extra='".SQL::escape(isset($fields['extra']) ? $fields['extra'] : '')."',"
 			."family='".SQL::escape(isset($fields['family']) ? $fields['family'] : '')."',"
+            ."file_overlay='".SQL::escape(isset($fields['file_overlay']) ? $fields['file_overlay'] : '')."',"
 			.$handle
 			."hits=".SQL::escape(isset($fields['hits']) ? $fields['hits'] : 0).","
-			."home_panel='".SQL::escape(isset($fields['home_panel']) ? $fields['home_panel'] : 'main')."',"
+                        ."home_panel='".SQL::escape(isset($fields['home_panel']) ? $fields['home_panel'] : 'main')."',"
 			."icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."',"
 			."index_map='".SQL::escape(isset($fields['index_map']) ? $fields['index_map'] : 'Y')."',"
 			."index_news='".SQL::escape(isset($fields['index_news']) ? $fields['index_news'] : 'static')."',"
 			."index_news_count=".SQL::escape(isset($fields['index_news_count']) ? $fields['index_news_count'] : 5).","
-			."index_panel='".SQL::escape(isset($fields['index_panel']) ? $fields['index_panel'] : 'main')."',"
 			."index_title='".SQL::escape(isset($fields['index_title']) ? $fields['index_title'] : '')."',"
 			."introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."',"
 			."language='".SQL::escape(isset($fields['language']) ? $fields['language'] : '')."',"
@@ -2987,19 +2920,17 @@ Class Sections {
 			$fields['active_set'] = 'Y';
 		if(isset($fields['edit_action']))
 			$fields['edit_action'] = preg_replace('/import$/i', 'update', $fields['edit_action']);
-		if(!isset($fields['home_panel']) || !$fields['home_panel'])
+                if(!isset($fields['home_panel']) || !$fields['home_panel'])
 			$fields['home_panel'] = 'main';
 		if(!isset($fields['index_map']) || !$fields['index_map'])
 			$fields['index_map'] = 'Y';
 		if(!isset($fields['index_news']) || !$fields['index_news'])
 			$fields['index_news'] = 'static';
-		if(!isset($fields['index_panel']) || !$fields['index_panel'])
-			$fields['index_panel'] = 'main';
 		if(!isset($fields['rank']) || !$fields['rank'])
 			$fields['rank'] = 10000;
 
 		// set layout for sections
-		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/^(accordion|carrousel|compact|custom|decorated|directory|folded|freemind|inline|jive|map|slashdot|tabs|titles|yabb|none)$/', $fields['sections_layout']))
+		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/^(accordion|carrousel|compact|custom|decorated|directory|folded|inline|jive|map|slashdot|tabs|titles|yabb|none)$/', $fields['sections_layout']))
 			$fields['sections_layout'] = 'map';
 		elseif($fields['sections_layout'] == 'custom') {
 			if(isset($fields['sections_custom_layout']) && $fields['sections_custom_layout'])
@@ -3017,6 +2948,10 @@ Class Sections {
 			else
 				$fields['articles_layout'] = 'decorated';
 		}
+
+		// set canvas for articles
+		if(!isset($fields['articles_canvas']) || !$fields['articles_canvas'])
+			$fields['articles_canvas'] = 'standard';
 
 		// clean provided tags
 		if(isset($fields['tags']))
@@ -3043,11 +2978,11 @@ Class Sections {
 		$query[] = "expiry_date='".SQL::escape($fields['expiry_date'])."'";
 		$query[] = "extra='".SQL::escape(isset($fields['extra']) ? $fields['extra'] : '')."'";
 		$query[] = "family='".SQL::escape(isset($fields['family']) ? $fields['family'] : '')."'";
+        $query[] = "file_overlay='".SQL::escape(isset($fields['file_overlay']) ? $fields['file_overlay'] : '')."'";
 		$query[] = "icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."'";
 		$query[] = "index_map='".SQL::escape(isset($fields['index_map']) ? $fields['index_map'] : 'Y')."'";
 		$query[] = "index_news='".SQL::escape(isset($fields['index_news']) ? $fields['index_news'] : 'static')."'";
 		$query[] = "index_news_count=".SQL::escape(isset($fields['index_news_count']) ? $fields['index_news_count'] : 5);
-		$query[] = "index_panel='".SQL::escape(isset($fields['index_panel']) ? $fields['index_panel'] : 'main')."'";
 		$query[] = "index_title='".SQL::escape(isset($fields['index_title']) ? $fields['index_title'] : '')."'";
 		$query[] = "introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."'";
 		$query[] = "description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."'";
@@ -3063,14 +2998,15 @@ Class Sections {
 		$query[] = "suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."'";
 		$query[] = "tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."'";
 		$query[] = "thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."'";
-		$query[] = "trailer='".SQL::escape(isset($fields['trailer']) ? $fields['trailer'] : '')."'";
+		$query[] = "trailer='".SQL::escape(isset($fields['trailer']) ? $fields['trailer'] : '')."'";		
 
 		// fields visible only to associates
 		if(Surfer::is_associate()) {
+			$query[] = "articles_canvas='".SQL::escape(isset($fields['articles_canvas']) ? $fields['articles_canvas'] : '')."'";
 			$query[] = "articles_templates='".SQL::escape(isset($fields['articles_templates']) ? $fields['articles_templates'] : '')."'";
 			$query[] = "behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."'";
 			$query[] = "content_overlay='".SQL::escape(isset($fields['content_overlay']) ? $fields['content_overlay'] : '')."'";
-			$query[] = "home_panel='".SQL::escape(isset($fields['home_panel']) ? $fields['home_panel'] : 'main')."'";
+                        $query[] = "home_panel='".SQL::escape(isset($fields['home_panel']) ? $fields['home_panel'] : 'main')."'";
 			$query[] = "overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."'";
 			$query[] = "overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."'";
 		}
@@ -3141,26 +3077,36 @@ Class Sections {
 		// other fields
 		if(isset($fields['anchor']))
 			$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
+		if(isset($fields['articles_canvas']) )
+			$query[] = "articles_canvas='".SQL::escape($fields['articles_canvas'])."'";
 		if(isset($fields['articles_layout']))
 			$query[] = "articles_layout='".SQL::escape($fields['articles_layout'])."'";
-		if(isset($fields['articles_templates']))
+		if(isset($fields['articles_templates']) )
 			$query[] = "articles_templates='".SQL::escape($fields['articles_templates'])."'";
-		if(isset($fields['behaviors']))
+		if(isset($fields['behaviors']) )
 			$query[] = "behaviors='".SQL::escape($fields['behaviors'])."'";
+                if(isset($fields['content_overlay']) )
+			$query[] = "content_overlay='".SQL::escape($fields['content_overlay'])."'";
 		if(isset($fields['content_options']))
 			$query[] = "content_options='".SQL::escape($fields['content_options'])."'";
 		if(isset($fields['description']))
 			$query[] = "description='".SQL::escape($fields['description'])."'";
 		if(isset($fields['extra']))
 			$query[] = "extra='".SQL::escape($fields['extra'])."'";
+        if(isset($fields['file_overlay']) )
+			$query[] = "file_overlay='".SQL::escape($fields['file_overlay'])."'";
 		if(isset($fields['handle']) && $fields['handle'])
 			$query[] = "handle='".SQL::escape($fields['handle'])."'";
 		if(isset($fields['icon_url']))
 			$query[] = "icon_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['icon_url']))."'";
-		if(isset($fields['index_map']))
+		if(isset($fields['home_panel']))
+			$query[] = "home_panel='".SQL::escape($fields['home_panel'])."'";
+                if(isset($fields['index_map']))
 			$query[] = "index_map='".SQL::escape($fields['index_map'])."'";
 		if(isset($fields['introduction']))
 			$query[] = "introduction='".SQL::escape($fields['introduction'])."'";
+                if(isset($fields['index_title']))
+			$query[] = "index_title='".SQL::escape($fields['index_title'])."'";
 		if(isset($fields['language']))
 			$query[] = "language='".SQL::escape($fields['language'])."'";
 		if(isset($fields['locked']))
@@ -3173,7 +3119,7 @@ Class Sections {
 			$query[] = "nick_name='".SQL::escape($fields['nick_name'])."'";
 		if(isset($fields['options']))
 			$query[] = "options='".SQL::escape($fields['options'])."'";
-		if(isset($fields['overlay']))
+		if(isset($fields['overlay']) )
 			$query[] = "overlay='".SQL::escape($fields['overlay'])."'";
 		if(isset($fields['overlay_id']))
 			$query[] = "overlay_id='".SQL::escape($fields['overlay_id'])."'";
@@ -3336,39 +3282,8 @@ Class Sections {
 		$sections_where = '';
 		if($section_id) {
 
-			// look for children
-			$anchors = array();
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor('section:'.$section_id, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// also include the top level, of course
-			$anchors[] = $section_id;
+			// look within this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor('section:'.$section_id);
 
 			// the full set of sections searched
 			$where .= " AND (sections.id IN (".str_replace('section:', '', join(", ", $anchors))."))";
@@ -3421,6 +3336,7 @@ Class Sections {
 		$fields['active']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
 		$fields['active_set']	= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
 		$fields['anchor']		= "VARCHAR(64)";
+		$fields['articles_canvas']	= "VARCHAR(255) DEFAULT 'standard' NOT NULL";
 		$fields['articles_layout']	= "VARCHAR(255) DEFAULT 'decorated' NOT NULL";
 		$fields['articles_templates']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['behaviors']	= "TEXT NOT NULL";
@@ -3439,14 +3355,14 @@ Class Sections {
 		$fields['expiry_date']	= "DATETIME";
 		$fields['extra']		= "TEXT NOT NULL";
 		$fields['family']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+        $fields['file_overlay']	= "VARCHAR(64) DEFAULT '' NOT NULL";
 		$fields['handle']		= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
-		$fields['home_panel']	= "VARCHAR(255) DEFAULT 'main' NOT NULL";
+        $fields['home_panel']	= "VARCHAR(10) DEFAULT 'main' NOT NULL";
 		$fields['icon_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['index_map']	= "ENUM('Y', 'N') DEFAULT 'Y' NOT NULL";
 		$fields['index_news']	= "VARCHAR(255) DEFAULT 'static' NOT NULL";
 		$fields['index_news_count'] = "SMALLINT UNSIGNED DEFAULT 5 NOT NULL";
-		$fields['index_panel']	= "VARCHAR(255) DEFAULT 'main' NOT NULL";
 		$fields['index_title']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['introduction'] = "TEXT NOT NULL";
 		$fields['language'] 	= "VARCHAR(64) DEFAULT '' NOT NULL";
@@ -3475,21 +3391,17 @@ Class Sections {
 		$indexes['INDEX active']		= "(active)";
 		$indexes['INDEX anchor']		= "(anchor)";
 		$indexes['INDEX create_date']	= "(create_date)";
-		$indexes['INDEX create_id'] 	= "(create_id)";
 		$indexes['INDEX edit_date'] 	= "(edit_date)";
-		$indexes['INDEX edit_id']		= "(edit_id)";
 		$indexes['INDEX expiry_date']	= "(expiry_date)";
 		$indexes['INDEX handle']		= "(handle)";
 		$indexes['INDEX hits']			= "(hits)";
-		$indexes['INDEX home_panel']	= "(home_panel)";
+                $indexes['INDEX home_panel']	= "(home_panel)";
 		$indexes['INDEX index_map'] 	= "(index_map)";
-		$indexes['INDEX index_panel']	= "(index_panel)";
 		$indexes['INDEX language']		= "(language)";
-		$indexes['INDEX locked']		= "(locked)";
 		$indexes['INDEX nick_name'] 	= "(nick_name)";
 		$indexes['INDEX overlay_id']	= "(overlay_id)";
 		$indexes['INDEX rank']			= "(rank)";
-		$indexes['INDEX title'] 		= "(title(255))";
+		$indexes['INDEX title'] 		= "(title(12))";
 		$indexes['FULLTEXT INDEX']		= "full_text(title, introduction, description)";
 
 		return SQL::setup_table('sections', $fields, $indexes);
@@ -3586,6 +3498,7 @@ Class Sections {
 			'activation_date',
 			'active',
 			'active_set',
+			'articles_canvas',
 			'articles_layout',
 			'articles_template',
 			'behaviors',
@@ -3606,12 +3519,11 @@ Class Sections {
 			'family',
 			'handle',
 			'hits',
-			'home_panel',
+                        'home_panel',
 			'icon_url',
 			'index_map',
 			'index_news',
 			'index_news_count',
-			'index_panel',
 			'index_title',
 			'introduction',
 			'language',

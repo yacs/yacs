@@ -98,13 +98,12 @@ elseif(isset($_REQUEST['assigned_name']) && ($user = Users::get($_REQUEST['assig
 		.'</p></form>'."\n";
 
 	// enable autocompletion
-	$context['text'] .= JS_PREFIX
-		."\n"
-		.'$(function() {'."\n"
+	Page::insert_script(
+		'$(function() {'."\n"
 		.'	$("#name").focus();'."\n" // set the focus on first form field
 		.'	Yacs.autocomplete_names("name",true);'."\n" // enable name autocompletion
 		.'});'."\n"
-		.JS_SUFFIX;
+		);
 
 	// back to the anchor page
 	$links = array();

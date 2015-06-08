@@ -816,10 +816,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 		.'</p></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#confirmed").focus();'."\n"
-		.JS_SUFFIX;
+	Page::insert_script('$("#confirmed").focus();');
 
 	// this may take several minutes
 	$context['text'] .= '<p>'.i18n::s('When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.').'</p>';

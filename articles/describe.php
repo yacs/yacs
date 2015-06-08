@@ -92,7 +92,7 @@ if(!isset($item['id'])) {
 	Codes::initialize(Articles::get_permalink($item));
 
 	// compute the url for this article
-	$permanent_link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
+	$permanent_link = Articles::get_permalink($item);
 
 	// the trackback link
 	$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=article:'.$item['id'];
@@ -116,8 +116,9 @@ if(!isset($item['id'])) {
 		.'		<dc:description>'.encode_field(Skin::strip($description)).'</dc:description>'."\n"
 		.'		<dc:creator>'.$item['create_name'].'</dc:creator>'."\n"
 		.'		<dc:date>'.gmdate('Y-m-d').'</dc:date>'."\n"
-		.'		<dc:format>text/html</dc:format>'."\n"
-		.'		<dc:language>'.$context['preferred_language'].'</dc:language>'."\n";
+		.'		<dc:format>text/html</dc:format>'."\n";
+	if(isset($item['language']) && $item['language'] && ($item['language'] != 'none'))
+		$text .= '		<dc:language>'.$item['language'].'</dc:language>'."\n";
 	if(is_object($anchor))
 		$text .= '	<dc:subject>'.encode_field($anchor->get_title()).'</dc:subject>'."\n";
 	$text .= '	</rdf:Description>'."\n"

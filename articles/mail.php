@@ -115,7 +115,7 @@ if(Surfer::is_crawler()) {
 	// headline
 	$headline = sprintf(i18n::c('%s is notifying you from %s'),
 		Surfer::get_link(),
-		'<a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a>');
+		'<a href="'.Articles::get_permalink($item).'">'.$item['title'].'</a>');
 
 	// enable yacs codes in messages
 	$content = Codes::beautify($_REQUEST['message']);
@@ -163,7 +163,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 
 		// call for action
-		$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
+		$link = Articles::get_permalink($item);
 		if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'articles', FALSE)))
 			$label = i18n::c('View the page');
 		$menu[] = Skin::build_mail_button($link, $label, TRUE);
@@ -229,7 +229,7 @@ if(Surfer::is_crawler()) {
 		$content = $overlay->get_invite_default_message();
 	if(!$content)
 		$content = '<p>'.i18n::c('Can you review the following page and contribute to it where applicable?').'</p>'
-			.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'">'.$item['title'].'</a></p>'
+			.'<p><a href="'.Articles::get_permalink($item).'">'.$item['title'].'</a></p>'
 			.'<p>'.i18n::c('Please let me thank you for your involvement.').'</p>'
 			.'<p>'.Surfer::get_name().'</p>';
 
@@ -266,32 +266,29 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= '</div></form>';
 
 	// append the script used for data checking on the browser
-	$context['text'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// title is mandatory'."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// title is mandatory
 		.'	if(!container.subject.value) {'."\n"
 		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// body is mandatory'."\n"
+			// body is mandatory
 		.'	if(!container.message.value) {'."\n"
 		.'		alert("'.i18n::s('Message content can not be empty').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
+			// successful check
 		.'	return true;'."\n"
 		.'}'."\n"
 		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'$("#subject").focus();'."\n"
 		."\n"
-		.JS_SUFFIX;
+		);
 
 }
 

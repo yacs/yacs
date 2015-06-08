@@ -154,7 +154,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 		$menu[] = Skin::build_mail_button($link, i18n::c('Reply'), TRUE);
 
 		// link to surfer profile
-		$link = $context['url_to_home'].$context['url_to_root'].Surfer::get_permalink();
+		$link = Surfer::get_permalink();
 		$menu[] = Skin::build_mail_button($link, Surfer::get_name(), FALSE);
 
 		// finalize links
@@ -244,25 +244,28 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// append the script used for data checking on the browser
-	$context['text'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// title is mandatory'."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// title is mandatory
 		.'	if(!container.subject.value) {'."\n"
 		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
+			// body is mandatory
+		.'	if(!container.message.value) {'."\n"
+		.'		alert("'.i18n::s('Message content can not be empty').'");'."\n"
+		.'		Yacs.stopWorking();'."\n"
+		.'		return false;'."\n"
+		.'	}'."\n"
+			// successful check
 		.'	return true;'."\n"
 		.'}'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'$("#subject").focus();'."\n"
 		."\n"
-		.JS_SUFFIX;
+		);
 
 }
 

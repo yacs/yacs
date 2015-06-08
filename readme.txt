@@ -19,7 +19,6 @@ A short summary of most important features is given below:
 etc, or even a plain list of articles
 - Overlay interface for PHP developers, to add extra functionality to articles,
 such as polls or cooking recipes
-- Display the content tree in Freemind
 - Comments, with quoting
 - Archives per week and per month
 - The home page is updated automatically on article publishing
@@ -34,10 +33,9 @@ such as polls or cooking recipes
 - File upload to articles , sections or categories
 - Attach links to articles, sections or categories
 - A comprehensive set of UBB-like codes are available to beautify your posts
-- Integrated support of TinyMCE and of FCKEditor
+- Integrated support of TinyMCE
 - Fully customizable skins
 - Easy integration of Google Maps
-- Add a comprehensive web interface to existing collections of files
 - Support audio-on demand and video-on demand
 - Automatic web slideshow for shared photos
 - RSS syndication
@@ -60,7 +58,7 @@ Web server:
 	- mod_deflate for page compression over the wire
 	- mod_rewrite for nice URLs, along rules set in .htaccess files
 	- mod_expire for optimized caching of dynamic objects
-	
+
 Run-time:
    - PHP (version 4.3 or higher) with XML parser
    - The imap extension is necessary for mail integration (SMTP and POP3)

@@ -94,7 +94,7 @@ if(!isset($item['id'])) {
 
 		// log item deletion
 		$label = sprintf(i18n::c('Deletion: %s'), strip_tags($item['nick_name']));
-		$description = $context['url_to_home'].$context['url_to_root'].Users::get_permalink($item);
+		$description = Users::get_permalink($item);
 		Logger::remember('users/delete.php: '.$label, $description);
 
 		// this can appear anywhere
@@ -123,10 +123,7 @@ else {
 		.'</p></form>'."\n";
 
 	// set the focus
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#confirmed").focus();'."\n"
-		.JS_SUFFIX."\n";
+	Page::insert_script('$("#confirmed").focus();');
 
 	// user nick name
 	if($item['nick_name'])

@@ -22,7 +22,7 @@ Class Layout_sections_as_main_tabs extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return an array of $url => (NULL, $title, NULL, 'section_123', NULL, 'visit this section')
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -49,7 +49,7 @@ Class Layout_sections_as_main_tabs extends Layout_interface {
 			$prefix = $suffix = '';
 
 			// list all components for this item
-			$items[$url] = array($prefix, ucfirst(Skin::strip($item['title'], 30)), $suffix, 'section_'.$item['id'], NULL, $href_title);
+			$items[$url] = array($prefix, ucfirst(Skin::strip($item['index_title'], 30)), $suffix, 'section_'.$item['id'], NULL, $href_title);
 
 		}
 

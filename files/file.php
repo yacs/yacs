@@ -8,46 +8,11 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 Class File extends Anchor {
-
-	/**
-	 * get the focus for this anchor
-	 *
-	 * This function retrieve the id of the top anchor.
-	 *
-	 * To be overloaded into derived class
-	 *
-	 * @return a string
-	 */
-	 function get_focus() {
-
-		// get the parent
-		if(!isset($this->anchor))
-			$this->anchor = Anchors::get($this->item['anchor']);
-
-		// the parent level
-		if(is_object($this->anchor))
-			return $this->anchor->get_focus();
-
-		// this level
-		 return array();
-	 }
-
-	/**
-	 * get the url to display the icon for this anchor
-	 *
-	 * @return an anchor to the icon image
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_icon_url() {
-		if(isset($this->item['icon_url']) && $this->item['icon_url'])
-			return $this->item['icon_url'];
-		return $this->get_thumbnail_url();
-	}
 
 	/**
 	 * get next and previous items, if any
@@ -113,74 +78,13 @@ Class File extends Anchor {
 	}
 
 	/**
-	 * get the path bar for this anchor
-	 *
-	 * For files, the path bar is made of one stem for the section, then one stem for the file itself.
-	 *
-	 * @return an array of $url => $label, or NULL
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_path_bar() {
-		global $context;
-
-		// no item bound
-		if(!isset($this->item['id']))
-			return NULL;
-
-		// get the parent
-		if(!isset($this->anchor))
-			$this->anchor = Anchors::get($this->item['anchor']);
-
-		// the parent level
-		$parent = array();
-		if(is_object($this->anchor))
-			$parent = $this->anchor->get_path_bar();
-
-		// this item
-		$url = $this->get_url();
-		$label = $this->get_title();
-		$data = array_merge($parent, array($url => $label));
-
-		// return the result
-		return $data;
-
-	}
-
-	/**
-	 * get the reference for this anchor
-	 *
-	 * @return 'file:&lt;id&gt;'
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_reference() {
-		if(isset($this->item['id']))
-			return 'file:'.$this->item['id'];
-		return NULL;
-	}
-
-	/**
-	 * get the url to display the thumbnail for this anchor
-	 *
-	 * @return an anchor to the thumbnail image
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_thumbnail_url() {
-		if(isset($this->item['thumbnail_url']))
-			return $this->item['thumbnail_url'];
-		return NULL;
-	}
-
-	/**
 	 * get the title for this anchor
 	 *
 	 * @return a string, or NULL if no file is available
 	 *
 	 * @see shared/anchor.php
 	 */
-	 function get_title() {
+	 function get_title($use_overlay=true) {
 		if(!isset($this->item['id']))
 			return NULL;
 		if(isset($this->item['title']) && $this->item['title'])
@@ -213,6 +117,44 @@ Class File extends Anchor {
 	 */
 	function load_by_id($id, $mutable=FALSE) {
 		$this->item = Files::get($id, $mutable);
+	}
+	
+	/**
+	 * get permalink to item
+	 */
+	function get_permalink() {
+	    if(!isset($this->item['id']))
+		    return NULL;
+	    
+	    $link = Files::get_permalink($this->item);
+	    return $link;
+	}
+	
+	/**
+	 * provide classe name with all static functions on this kind of anchor
+	 * 
+	 * @return a class name
+	 */
+	function get_static_group_class() {
+	    return 'Files';
+	}
+        
+        /**
+	 * change some attributes of an anchor
+	 *
+	 * @see shared/anchor.php
+	 *
+	 * @param array of (name, value)
+	 * @return TRUE on success, FALSE otherwise
+	 */
+	function set_values($fields) {
+
+		// add our id
+		$fields['id'] = $this->item['id'];
+
+		// save in the database
+		return Files::put_attributes($fields);
+
 	}
 
 	/**

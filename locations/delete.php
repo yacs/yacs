@@ -125,10 +125,7 @@ if(!isset($item['id'])) {
 		.'</p></form>'."\n";
 
 	// set the focus
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#confirmed").focus();'."\n"
-		.JS_SUFFIX."\n";
+	Page::insert_script('$("#confirmed").focus();');
 
 	// the geo_place_name of the location
 	$context['text'] .= Skin::build_block($item['geo_place_name'], 'title');

@@ -10,6 +10,9 @@ footprints.php
 # ignore uploaded images (in sub-folders)
 images/*/
 
+# ignore compiled i18n files
+i18n/locale/*/*.mo.php
+
 # ignore uploaded archives
 /inbox
 
@@ -35,7 +38,7 @@ scripts/staging/
 *~
 *.swp
 *.svn
-.DS_Store?
+.DS_Store
 ehthumbs.db
 Icon?
 Thumbs.db

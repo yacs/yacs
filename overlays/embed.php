@@ -9,6 +9,9 @@
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
+
+include_once $context['path_to_root'].'files/files.php';
+
 class Embed extends Overlay {
 
 	/**
@@ -19,7 +22,7 @@ class Embed extends Overlay {
 	 * @param the hosting attributes
 	 * @return a list of ($label, $input, $hint)
 	 */
-	function get_fields($host) {
+	function get_fields($host, $field_pos=NULL) {
 		global $context;
 
 		$fields = array();
@@ -79,9 +82,10 @@ class Embed extends Overlay {
 					.'<span>rd.io</span>'
 					.'</span>')
 				.'</p>'
-				.'</div>'
-				.JS_PREFIX
-				.'$(function() {'."\n"
+				.'</div>';
+				
+			Page::insert_script(
+				'$(function() {'."\n"
 				.'	var obj = $("#provider_ticker");'."\n"
 				.'	var list = obj.children();'."\n"
 				.'	list.not(":first").hide();'."\n"
@@ -97,7 +101,7 @@ class Embed extends Overlay {
 				.'		});'."\n"
 				.'	}, 2000);'."\n"
 				.'});'."\n"
-				.JS_SUFFIX;
+				);
 
 			// uploading a file
 			if(Surfer::may_upload())
@@ -107,8 +111,8 @@ class Embed extends Overlay {
 					.'</div>';
 
 			// change the display on selection
-			$input .= JS_PREFIX
-				.'$(function() {'."\n"
+			Page::insert_script(
+				'$(function() {'."\n"
 				.'	$("input[name=embed_type]").change(function() {'."\n"
 				.'		if($("#share_href").attr("checked")) {'."\n"
 				.'			$("#embed_a_link").slideDown();'."\n"
@@ -124,7 +128,7 @@ class Embed extends Overlay {
 				.'		}'."\n"
 				.'	});'."\n"
 				.'});'."\n"
-				.JS_SUFFIX;
+				);
 
 		// nothing to do
 		} elseif(!isset($this->attributes['embed_type']))
@@ -209,10 +213,11 @@ class Embed extends Overlay {
 					// render this link
 					$text .= '<div style="margin: 80px auto 90px auto">'
 						.'<a class="button tipsy_showme" href="'.$this->attributes['embed_href'].'"><span>'.$label.'</span></a>'
-						.'</div>'
-						.JS_PREFIX
-						.'// load the link in a scaled-down iframe'."\n"
-						.'$(function() {'."\n"
+						.'</div>';
+						
+					Page::insert_script(
+						// load the link in a scaled-down iframe'."\n"
+						'$(function() {'."\n"
 						.'	$("a.tipsy_showme").each(function() {'."\n"
 						.'		$(this).tipsy({fallback: \'<div class="tipsy_thumbnail"><iframe class="tipsy_iframe" src="\'+$(this).attr("href")+\'" /></div>\','."\n"
 						.	'		 html: true,'."\n"
@@ -223,7 +228,7 @@ class Embed extends Overlay {
 						.	'		 opacity: 1.0}).tipsy("show");'."\n"
 						.'	});'."\n"
 						.'});'."\n"
-						.JS_SUFFIX;
+						);
 
 					break;
 

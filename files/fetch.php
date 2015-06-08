@@ -289,10 +289,7 @@ if(!isset($item['id']) || !$item['id']) {
 		.'</div></form>'."\n";
 
 	// set the focus
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#confirmed").focus();'."\n"
-		.JS_SUFFIX."\n";
+	Page::insert_script('$("#confirmed").focus();');
 
 //actual transfer
 } elseif($item['id'] && $item['anchor']) {
@@ -303,6 +300,7 @@ if(!isset($item['id']) || !$item['id']) {
 
 	// record surfer activity
 	Activities::post('file:'.$item['id'], 'fetch');
+        $anchor->touch('file:fetch', 'file:'.$item['id'], true);
 
 	// if we have an external reference, use it
 	if(isset($item['file_href']) && $item['file_href']) {

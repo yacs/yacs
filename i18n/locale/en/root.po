@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-06 20:59+0100\n"
-"PO-Revision-Date: 2012-12-06 21:24+0100\n"
+"POT-Creation-Date: 2015-04-24 15:28+0200\n"
+"PO-Revision-Date: 2013-10-16 16:36+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
 "Language: \n"
@@ -17,392 +17,369 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Country: UNITED KINGDO\\vX-Poedit-Language: English\n"
 
-#: configure.php:126
-#: configure.php:516
-#: configure.php:661
-#: setup.php:290
-#: setup.php:336
-#: setup.php:350
+#: configure.php:107 configure.php:425 configure.php:552 setup.php:287
+#: setup.php:333 setup.php:347
 msgid "Control Panel"
 msgstr "Control Panel"
 
-#: configure.php:129
+#: configure.php:110
 #, php-format
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: configure.php:129
-#: index.php:695
+#: configure.php:110 index.php:462
 msgid "Configure"
 msgstr "Configure"
 
-#: configure.php:129
-#: configure.php:520
-#: configure.php:658
-#: query.php:160
+#: configure.php:110 configure.php:429 configure.php:549 query.php:159
 msgid "Front page"
 msgstr "Front page"
 
-#: configure.php:138
-#: query.php:67
-#: setup.php:84
+#: configure.php:119 query.php:66 setup.php:84
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
 
-#: configure.php:145
-msgid "You can use default values and change these later on. Hit the button at the bottom of the page to move forward."
-msgstr "You can use default values and change these later on. Hit the button at the bottom of the page to move forward."
+#: configure.php:126
+msgid ""
+"You can use default values and change these later on. Hit the button at the "
+"bottom of the page to move forward."
+msgstr ""
+"You can use default values and change these later on. Hit the button at the "
+"bottom of the page to move forward."
 
-#: configure.php:155
+#: configure.php:136
 msgid "Cover article"
 msgstr "Cover article"
 
-#: configure.php:159
+#: configure.php:140
 msgid "Display the cover article at the front page."
 msgstr "Display the cover article at the front page."
 
-#: configure.php:163
+#: configure.php:144
 msgid "Display the main part of the cover article, but not the title."
 msgstr "Display the main part of the cover article, but not the title."
 
-#: configure.php:167
+#: configure.php:148
 msgid "Do not use the cover article at the front page."
 msgstr "Do not use the cover article at the front page."
 
-#: configure.php:171
+#: configure.php:152
 msgid "Sections"
 msgstr "Sections"
 
-#: configure.php:178
+#: configure.php:159
 #, php-format
 msgid "List up to %s sections:"
 msgstr "List up to %s sections:"
 
-#: configure.php:182
+#: configure.php:163
 msgid "List top-level sections."
 msgstr "List top-level sections."
 
-#: configure.php:190
-msgid "List only section with the following id"
-msgstr "List only section with the following id"
+#: configure.php:171
+msgid "List only section with the following id or nick name"
+msgstr "List only section with the following id or nick name"
 
-#: configure.php:194
-msgid "Do not list sections explicitly -- Useful for skins that feature tabbed sections."
-msgstr "Do not list sections explicitly -- Useful for skins that feature tabbed sections."
+#: configure.php:175
+msgid ""
+"Do not list sections explicitly -- Useful for skins that feature tabbed "
+"sections."
+msgstr ""
+"Do not list sections explicitly -- Useful for skins that feature tabbed "
+"sections."
 
-#: configure.php:197
+#: configure.php:178
 msgid "Following layouts can be used for selected sections:"
 msgstr "Following layouts can be used for selected sections:"
 
-#: configure.php:212
+#: configure.php:193
 msgid "menu - List sections in the menu bar."
 msgstr "menu - List sections in the menu bar."
 
-#: configure.php:216
+#: configure.php:197
 msgid "decorated - A list decorated with images"
 msgstr "decorated - A list decorated with images"
 
-#: configure.php:220
+#: configure.php:201
 msgid "map - Map in two columns, like Yahoo!"
 msgstr "map - Map in two columns, like Yahoo!"
 
-#: configure.php:224
-msgid "freemind - Build an interactive mind map"
-msgstr "freemind - Build an interactive mind map"
-
-#: configure.php:228
+#: configure.php:205
 msgid "jive - List 5 threads per board"
 msgstr "jive - List 5 threads per board"
 
-#: configure.php:232
+#: configure.php:209
 msgid "yabb - A discussion forum"
 msgstr "yabb - A discussion forum"
 
-#: configure.php:236
+#: configure.php:213
 msgid "inline - List sections and related pages"
 msgstr "inline - List sections and related pages"
 
-#: configure.php:240
+#: configure.php:217
 msgid "folded - One folded box per section, with content"
 msgstr "folded - One folded box per section, with content"
 
-#: configure.php:244
+#: configure.php:221
 msgid "compact - A compact list"
 msgstr "compact - A compact list"
 
-#: configure.php:248
+#: configure.php:225
 msgid "titles - Use only titles and thumbnails"
 msgstr "titles - Use only titles and thumbnails"
 
-#: configure.php:252
-#: configure.php:353
+#: configure.php:229 configure.php:330
 #, php-format
 msgid "Use the customized layout %s"
 msgstr "Use the customized layout %s"
 
-#: configure.php:256
+#: configure.php:233
 msgid "Flash"
 msgstr "Flash"
 
-#: configure.php:260
+#: configure.php:237
 msgid "Do not list recent pages in an animated Flash object."
 msgstr "Do not list recent pages in an animated Flash object."
 
-#: configure.php:264
+#: configure.php:241
 #, php-format
-msgid "List most recent pages in a dynamic and clickable Flash panel. Check this option only if the %s module has been installed. This is the case if you have some text displayed %s."
-msgstr "List most recent pages in a dynamic and clickable Flash panel. Check this option only if the %s module has been installed. This is the case if you have some text displayed %s."
+msgid ""
+"List most recent pages in a dynamic and clickable Flash panel. Check this "
+"option only if the %s module has been installed. This is the case if you "
+"have some text displayed %s."
+msgstr ""
+"List most recent pages in a dynamic and clickable Flash panel. Check this "
+"option only if the %s module has been installed. This is the case if you "
+"have some text displayed %s."
 
-#: configure.php:266
+#: configure.php:243
 msgid "here"
 msgstr "here"
 
-#: configure.php:270
-#: index.php:699
+#: configure.php:247 index.php:466
 msgid "Gadget boxes"
 msgstr "Gadget boxes"
 
-#: configure.php:274
+#: configure.php:251
 #, php-format
-msgid "Display up to 6 gadget boxes. Post articles in %s to add more boxes. You can also flag some sections or some categories to list their content in gadget boxes."
-msgstr "Display up to 6 gadget boxes. Post articles in %s to add more boxes. You can also flag some sections or some categories to list their content in gadget boxes."
+msgid "Display up to 6 gadget boxes. Post articles in %s to add more boxes."
+msgstr "Display up to 6 gadget boxes. Post articles in %s to add more boxes."
 
-#: configure.php:274
+#: configure.php:251
 msgid "the section dedicated to gadget boxes"
 msgstr "the section dedicated to gadget boxes"
 
-#: configure.php:278
+#: configure.php:255
 msgid "Do not show gadget boxes at the front page."
 msgstr "Do not show gadget boxes at the front page."
 
-#: configure.php:282
+#: configure.php:259
 msgid "Pages"
 msgstr "Pages"
 
-#: configure.php:285
+#: configure.php:262
 msgid "Following layouts can be used for recent pages:"
 msgstr "Following layouts can be used for recent pages:"
 
-#: configure.php:300
+#: configure.php:277
 msgid "For weblogs and blogmarks."
 msgstr "For weblogs and blogmarks."
 
-#: configure.php:301
-#: configure.php:308
-#: configure.php:315
-#: configure.php:322
-#: configure.php:347
+#: configure.php:278 configure.php:285 configure.php:292 configure.php:299
+#: configure.php:324
 msgid "Preview"
 msgstr "Preview"
 
-#: configure.php:307
-msgid "Focus on the last published article, and on the three articles published previously."
-msgstr "Focus on the last published article, and on the three articles published previously."
+#: configure.php:284
+msgid ""
+"Focus on the last published article, and on the three articles published "
+"previously."
+msgstr ""
+"Focus on the last published article, and on the three articles published "
+"previously."
 
-#: configure.php:314
-msgid "Focus on the last two most recent articles, then list previous pages. Click on article titles to read full text."
-msgstr "Focus on the last two most recent articles, then list previous pages. Click on article titles to read full text."
+#: configure.php:291
+msgid ""
+"Focus on the last two most recent articles, then list previous pages. Click "
+"on article titles to read full text."
+msgstr ""
+"Focus on the last two most recent articles, then list previous pages. Click "
+"on article titles to read full text."
 
-#: configure.php:321
+#: configure.php:298
 msgid "List most recent pages equally."
 msgstr "List most recent pages equally."
 
-#: configure.php:328
-msgid "A decorated list of pages that have been most rated by community members."
-msgstr "A decorated list of pages that have been most rated by community members."
+#: configure.php:305
+msgid ""
+"A decorated list of pages that have been most rated by community members."
+msgstr ""
+"A decorated list of pages that have been most rated by community members."
 
-#: configure.php:334
-msgid "A decorated list of most recent pages. This layout is suitable for sites with a long cover article at the front page."
-msgstr "A decorated list of most recent pages. This layout is suitable for sites with a long cover article at the front page."
+#: configure.php:311
+msgid ""
+"A decorated list of most recent pages. This layout is suitable for sites "
+"with a long cover article at the front page."
+msgstr ""
+"A decorated list of most recent pages. This layout is suitable for sites "
+"with a long cover article at the front page."
 
-#: configure.php:340
-msgid "A compact list of most recent pages. This layout is suitable for sites with a lot of items (gadget boxes, etc.) at the front page."
-msgstr "A compact list of most recent pages. This layout is suitable for sites with a lot of items (gadget boxes, etc.) at the front page."
+#: configure.php:317
+msgid ""
+"A compact list of most recent pages. This layout is suitable for sites with "
+"a lot of items (gadget boxes, etc.) at the front page."
+msgstr ""
+"A compact list of most recent pages. This layout is suitable for sites with "
+"a lot of items (gadget boxes, etc.) at the front page."
 
-#: configure.php:346
-msgid "Display only the most recent published page. Previous articles may be accessed through a menu. This layout is suitable for sites with a low number of heavy publications."
-msgstr "Display only the most recent published page. Previous articles may be accessed through a menu. This layout is suitable for sites with a low number of heavy publications."
+#: configure.php:323
+msgid ""
+"Display only the most recent published page. Previous articles may be "
+"accessed through a menu. This layout is suitable for sites with a low number "
+"of heavy publications."
+msgstr ""
+"Display only the most recent published page. Previous articles may be "
+"accessed through a menu. This layout is suitable for sites with a low number "
+"of heavy publications."
 
-#: configure.php:359
+#: configure.php:336
 #, php-format
-msgid "Do not list recent pages. The layout of the front page is solely based on a %s, on %s, plus %s."
-msgstr "Do not list recent pages. The layout of the front page is solely based on a %s, on %s, plus %s."
+msgid ""
+"Do not list recent pages. The layout of the front page is solely based on a "
+"%s, on %s, plus %s."
+msgstr ""
+"Do not list recent pages. The layout of the front page is solely based on a "
+"%s, on %s, plus %s."
 
-#: configure.php:360
+#: configure.php:337
 msgid "cover article"
 msgstr "cover article"
 
-#: configure.php:361
+#: configure.php:338
 msgid "the site map"
 msgstr "the site map"
 
-#: configure.php:362
+#: configure.php:339
 msgid "gadget boxes"
 msgstr "gadget boxes"
 
-#: configure.php:367
+#: configure.php:344
 #, php-format
-msgid "Display %s articles at the front page. Put a number if you wish to override the default value for the selected layout."
-msgstr "Display %s articles at the front page. Put a number if you wish to override the default value for the selected layout."
+msgid ""
+"Display %s articles at the front page. Put a number if you wish to override "
+"the default value for the selected layout."
+msgstr ""
+"Display %s articles at the front page. Put a number if you wish to override "
+"the default value for the selected layout."
 
-#: configure.php:372
-msgid "Options"
-msgstr "Options"
-
-#: configure.php:375
-msgid "Following elements can be added to the main panel:"
-msgstr "Following elements can be added to the main panel:"
-
-#: configure.php:381
-msgid "Include the list of recent files"
-msgstr "Include the list of recent files"
-
-#: configure.php:387
-msgid "Include the list of recent links"
-msgstr "Include the list of recent links"
-
-#: configure.php:400
+#: configure.php:357
 msgid "Featured"
 msgstr "Featured"
 
-#: configure.php:406
+#: configure.php:363
 #, php-format
 msgid "List up to %s featured pages aside."
 msgstr "List up to %s featured pages aside."
 
-#: configure.php:410
-#: configure.php:432
-msgid "Similar to the first option, except that displayed information is scrolling."
-msgstr "Similar to the first option, except that displayed information is scrolling."
+#: configure.php:367 configure.php:389
+msgid ""
+"Similar to the first option, except that displayed information is scrolling."
+msgstr ""
+"Similar to the first option, except that displayed information is scrolling."
 
-#: configure.php:414
+#: configure.php:371
 msgid "Similar to the first option, except that featured are rotated."
 msgstr "Similar to the first option, except that featured are rotated."
 
-#: configure.php:418
+#: configure.php:375
 msgid "Do not list featured pages."
 msgstr "Do not list featured pages."
 
-#: configure.php:422
-#: index.php:794
+#: configure.php:379
 msgid "News"
 msgstr "News"
 
-#: configure.php:428
+#: configure.php:385
 #, php-format
 msgid "List up to %s news aside."
 msgstr "List up to %s news aside."
 
-#: configure.php:436
+#: configure.php:393
 msgid "Similar to the first option, except that news are rotated."
 msgstr "Similar to the first option, except that news are rotated."
 
-#: configure.php:440
+#: configure.php:397
 msgid "Do not list news."
 msgstr "Do not list news."
 
-#: configure.php:444
-msgid "Extra"
-msgstr "Extra"
-
-#: configure.php:445
-msgid "Following elements can be added to the extra panel:"
-msgstr "Following elements can be added to the extra panel:"
-
-#: configure.php:451
-msgid "Include the last recent poll"
-msgstr "Include the last recent poll"
-
-#: configure.php:457
-msgid "Include the list of servers that ping us"
-msgstr "Include the list of servers that ping us"
-
-#: configure.php:463
-msgid "List older articles as well"
-msgstr "List older articles as well"
-
-#: configure.php:469
-msgid "Include the list of most read articles"
-msgstr "Include the list of most read articles"
-
-#: configure.php:475
-msgid "Include the list of most popular files"
-msgstr "Include the list of most popular files"
-
-#: configure.php:481
-msgid "Include the list of most popular links"
-msgstr "Include the list of most popular links"
-
-#: configure.php:487
-msgid "Include a sample of random articles"
-msgstr "Include a sample of random articles"
-
-#: configure.php:499
+#: configure.php:408
 msgid "Main panel"
 msgstr "Main panel"
 
-#: configure.php:500
+#: configure.php:409
 msgid "Side panel"
 msgstr "Side panel"
 
-#: configure.php:512
-#: panel.php:77
-#: query.php:261
-#: search.php:121
+#: configure.php:421 panel.php:77 query.php:260 search.php:121
 msgid "Submit"
 msgstr "Submit"
 
-#: configure.php:512
-#: panel.php:77
-#: query.php:261
-#: search.php:121
+#: configure.php:421 panel.php:77 query.php:260 search.php:121
 msgid "Press [s] to submit data"
 msgstr "Press [s] to submit data"
 
-#: configure.php:531
+#: configure.php:440
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr "You are not allowed to perform this operation in demonstration mode."
 
-#: configure.php:617
+#: configure.php:508
 #, php-format
-msgid "ERROR: Impossible to write to the file %s. The configuration has not been saved."
-msgstr "ERROR: Impossible to write to the file %s. The configuration has not been saved."
+msgid ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+msgstr ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
 
-#: configure.php:620
+#: configure.php:511
 #, php-format
-msgid "To actually change the configuration, please copy and paste following lines by yourself in file %s."
-msgstr "To actually change the configuration, please copy and paste following lines by yourself in file %s."
+msgid ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+msgstr ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
 
-#: configure.php:625
+#: configure.php:516
 #, php-format
 msgid "The following configuration has been saved into the file %s."
 msgstr "The following configuration has been saved into the file %s."
 
-#: configure.php:629
-msgid "Review provided information and go to the bottom of the page to move forward."
-msgstr "Review provided information and go to the bottom of the page to move forward."
+#: configure.php:520
+msgid ""
+"Review provided information and go to the bottom of the page to move forward."
+msgstr ""
+"Review provided information and go to the bottom of the page to move forward."
 
-#: configure.php:635
+#: configure.php:526
 #, php-format
 msgid "%s has been updated"
 msgstr "%s has been updated"
 
-#: configure.php:640
+#: configure.php:531
 msgid "Configuration parameters"
 msgstr "Configuration parameters"
 
-#: configure.php:645
+#: configure.php:536
 msgid "Switch the server on"
 msgstr "Switch the server on"
 
-#: configure.php:652
-#: query.php:158
+#: configure.php:543 query.php:157
 msgid "Where do you want to go now?"
 msgstr "Where do you want to go now?"
 
-#: configure.php:664
+#: configure.php:555
 msgid "Configure again"
 msgstr "Configure again"
 
@@ -410,8 +387,7 @@ msgstr "Configure again"
 msgid "You are not authorized to access this page (401)"
 msgstr "You are not authorized to access this page (401)"
 
-#: error.php:74
-#: error.php:98
+#: error.php:74 error.php:98
 #, php-format
 msgid "We're sorry. You are not authorized to view %s"
 msgstr "We're sorry. You are not authorized to view %s"
@@ -453,17 +429,18 @@ msgstr "Update your bookmark"
 
 #: error.php:130
 #, php-format
-msgid "It is likely that we have changed the content of this site without warning you. Thank you for browsing %s and to refresh your bookmark."
-msgstr "It is likely that we have changed the content of this site without warning you. Thank you for browsing %s and to refresh your bookmark."
+msgid ""
+"It is likely that we have changed the content of this site without warning "
+"you. Thank you for browsing %s and to refresh your bookmark."
+msgstr ""
+"It is likely that we have changed the content of this site without warning "
+"you. Thank you for browsing %s and to refresh your bookmark."
 
 #: error.php:130
 msgid "the site front page"
 msgstr "the site front page"
 
-#: error.php:133
-#: go.php:163
-#: query.php:163
-#: search.php:112
+#: error.php:133 go.php:147 query.php:162 search.php:112
 msgid "Search"
 msgstr "Search"
 
@@ -482,8 +459,14 @@ msgstr "Browse index pages"
 
 #: error.php:138
 #, php-format
-msgid "Index of %1$s, %2$s, %3$s and %4$s will show you instantaneously the freshest pages and the most read pages on this site. This can be an efficient way for you to reach the information you are looking after."
-msgstr "Index of %1$s, %2$s, %3$s and %4$s will show you instantaneously the freshest pages and the most read pages on this site. This can be an efficient way for you to reach the information you are looking after."
+msgid ""
+"Index of %1$s, %2$s, %3$s and %4$s will show you instantaneously the "
+"freshest pages and the most read pages on this site. This can be an "
+"efficient way for you to reach the information you are looking after."
+msgstr ""
+"Index of %1$s, %2$s, %3$s and %4$s will show you instantaneously the "
+"freshest pages and the most read pages on this site. This can be an "
+"efficient way for you to reach the information you are looking after."
 
 #: error.php:138
 msgid "pages"
@@ -510,9 +493,7 @@ msgstr "Page not found (404) at %s"
 msgid "Face Me"
 msgstr "Face Me"
 
-#: faceme.php:47
-#: faceme.php:132
-#: faceme.php:136
+#: faceme.php:47 faceme.php:132 faceme.php:136
 msgid "The service is not available"
 msgstr "The service is not available"
 
@@ -521,8 +502,12 @@ msgid "Invite one person"
 msgstr "Invite one person"
 
 #: faceme.php:252
-msgid "Click the button to start a face-to-face meeting. Each meeting has a unique web address."
-msgstr "Click the button to start a face-to-face meeting. Each meeting has a unique web address."
+msgid ""
+"Click the button to start a face-to-face meeting. Each meeting has a unique "
+"web address."
+msgstr ""
+"Click the button to start a face-to-face meeting. Each meeting has a unique "
+"web address."
 
 #: faceme.php:254
 msgid "Start a session"
@@ -548,224 +533,151 @@ msgstr "Copy and paste this link into an email or instant message:"
 msgid "Waiting for the other person to join"
 msgstr "Waiting for the other person to join"
 
-#: faceme.php:351
+#: faceme.php:348
 msgid "Connecting again to OpenTok"
 msgstr "Connecting again to OpenTok"
 
-#: faceme.php:360
+#: faceme.php:355
 msgid "A webcam is required to be visible"
 msgstr "A webcam is required to be visible"
 
-#: faceme.php:369
+#: faceme.php:362
 msgid "You are not visible"
 msgstr "You are not visible"
 
-#: faceme.php:372
+#: faceme.php:365
 msgid "You have been muted"
 msgstr "You have been muted"
 
-#: faceme.php:380
+#: faceme.php:372
 msgid "Full-duplex mode"
 msgstr "Full-duplex mode"
 
-#: faceme.php:383
+#: faceme.php:375
 msgid "No echo cancellation"
 msgstr "No echo cancellation"
 
-#: faceme.php:393
+#: faceme.php:384
 msgid "Error while connecting to OpenTok"
 msgstr "Error while connecting to OpenTok"
 
-#: faceme.php:433
+#: faceme.php:424
 msgid "Connecting to OpenTok"
 msgstr "Connecting to OpenTok"
 
-#: faceme.php:448
+#: faceme.php:439
 msgid "This system is not supported by OpenTok"
 msgstr "This system is not supported by OpenTok"
 
-#: faceme.php:483
+#: faceme.php:474
 msgid "Adding local video stream"
 msgstr "Adding local video stream"
 
-#: faceme.php:544
+#: faceme.php:535
 #, php-format
 msgid "%s is talking"
 msgstr "%s is talking"
 
-#: faceme.php:546
+#: faceme.php:537
 #, php-format
 msgid "%s is listening"
 msgstr "%s is listening"
 
-#: faceme.php:551
+#: faceme.php:542
 #, php-format
 msgid "%s is not visible"
 msgstr "%s is not visible"
 
-#: faceme.php:566
+#: faceme.php:557
 msgid "Adding remote video streams"
 msgstr "Adding remote video streams"
 
-#: go.php:80
+#: go.php:79
 msgid "Page locator"
 msgstr "Page locator"
 
-#: go.php:84
+#: go.php:83
 msgid "Please indicate a nick name to look for."
 msgstr "Please indicate a nick name to look for."
 
-#: go.php:104
+#: go.php:103
 msgid "Select below among available sections."
 msgstr "Select below among available sections."
 
-#: go.php:123
-#: go.php:138
+#: go.php:122
 msgid "Select below among available pages."
 msgstr "Select below among available pages."
 
-#: go.php:149
+#: go.php:133
 #, php-format
 msgid "Sorry, no page has the provided name: %s"
 msgstr "Sorry, no page has the provided name: %s"
 
-#: go.php:152
+#: go.php:136
 msgid "Add a page with this name"
 msgstr "Add a page with this name"
 
-#: go.php:159
+#: go.php:143
 msgid "Look for"
 msgstr "Look for"
 
-#: go.php:161
+#: go.php:145
 msgid "Nick name"
 msgstr "Nick name"
 
-#: go.php:174
-#: search.php:149
+#: go.php:157
 msgid "Please type something to search for"
 msgstr "Please type something to search for"
 
-#: go.php:191
+#: go.php:173
 #, php-format
 msgid "Submit \"%s\" to our %s in case some pages could match this keyword."
 msgstr "Submit \"%s\" to our %s in case some pages could match this keyword."
 
-#: go.php:191
+#: go.php:173
 msgid "search engine"
 msgstr "search engine"
 
-#: index.php:349
-#: index.php:899
-msgid "View the category"
-msgstr "View the category"
-
-#: index.php:360
-#: index.php:418
-#: index.php:873
-#: index.php:921
-msgid "More pages"
-msgstr "More pages"
-
-#: index.php:375
-#: index.php:660
-msgid "More links"
-msgstr "More links"
-
-#: index.php:396
-#: index.php:427
-#: index.php:837
-#: index.php:883
-msgid "View the section"
-msgstr "View the section"
-
-#: index.php:491
-#: index.php:565
-#, php-format
-msgid "Warning: No script exists for the customized layout %s"
-msgstr "Warning: No script exists for the customized layout %s"
-
-#: index.php:606
+#: index.php:410
 msgid "No page to display."
 msgstr "No page to display."
 
-#: index.php:608
+#: index.php:412
 #, php-format
 msgid "Use the %s to populate this server."
 msgstr "Use the %s to populate this server."
 
-#: index.php:608
-#: setup.php:335
+#: index.php:412 setup.php:332
 msgid "Content Assistant"
 msgstr "Content Assistant"
 
-#: index.php:617
-#: index.php:972
-#: query.php:161
+#: index.php:421 query.php:160
 msgid "All pages"
 msgstr "All pages"
 
-#: index.php:628
-#: index.php:975
+#: index.php:432
 msgid "Recent Pages"
 msgstr "Recent Pages"
 
-#: index.php:642
-msgid "Recent files"
-msgstr "Recent files"
-
-#: index.php:645
-msgid "Files"
-msgstr "Files"
-
-#: index.php:657
-msgid "Recent links"
-msgstr "Recent links"
-
-#: index.php:697
+#: index.php:464
 msgid "Cover page"
 msgstr "Cover page"
 
-#: index.php:701
+#: index.php:468
 msgid "Extra boxes"
 msgstr "Extra boxes"
 
-#: index.php:703
+#: index.php:470
 msgid "Navigation boxes"
 msgstr "Navigation boxes"
 
-#: index.php:718
+#: index.php:485
 msgid "featured"
 msgstr "featured"
 
-#: index.php:722
-#: index.php:730
+#: index.php:489 index.php:497
 msgid "Featured pages"
 msgstr "Featured pages"
-
-#: index.php:943
-msgid "Polls"
-msgstr "Polls"
-
-#: index.php:1002
-msgid "Peers"
-msgstr "Peers"
-
-#: index.php:1008
-msgid "Popular Pages"
-msgstr "Popular Pages"
-
-#: index.php:1014
-msgid "Popular Files"
-msgstr "Popular Files"
-
-#: index.php:1021
-msgid "Popular Links"
-msgstr "Popular Links"
-
-#: index.php:1027
-msgid "Random Pages"
-msgstr "Random Pages"
 
 #: panel.php:50
 msgid "New page"
@@ -783,9 +695,7 @@ msgstr "Introduction"
 msgid "Page content"
 msgstr "Page content"
 
-#: query.php:44
-#: query.php:324
-#: search.php:374
+#: query.php:44 query.php:319 search.php:373
 msgid "Help"
 msgstr "Help"
 
@@ -798,148 +708,196 @@ msgid "Submitted to the webmaster by any surfers"
 msgstr "Submitted to the webmaster by any surfers"
 
 #: query.php:52
-msgid "<p>This section has been created automatically on query submission. It's aiming to capture feedback directly from surfers. It is highly recommended to delete pages below after their processing. Of course you can edit submitted queries to assign them to other sections if necessary.</p>"
-msgstr "<p>This section has been created automatically on query submission. It's aiming to capture feedback directly from surfers. It is highly recommended to delete pages below after their processing. Of course you can edit submitted queries to assign them to other sections if necessary.</p>"
+msgid ""
+"<p>This section has been created automatically on query submission. It's "
+"aiming to capture feedback directly from surfers. It is highly recommended "
+"to delete pages below after their processing. Of course you can edit "
+"submitted queries to assign them to other sections if necessary.</p>"
+msgstr ""
+"<p>This section has been created automatically on query submission. It's "
+"aiming to capture feedback directly from surfers. It is highly recommended "
+"to delete pages below after their processing. Of course you can edit "
+"submitted queries to assign them to other sections if necessary.</p>"
 
-#: query.php:72
+#: query.php:71
 msgid "No anchor has been found."
 msgstr "No anchor has been found."
 
-#: query.php:97
+#: query.php:96
 msgid "(anonymous)"
 msgstr "(anonymous)"
 
-#: query.php:108
+#: query.php:107
 #, php-format
 msgid "Sent by %s"
 msgstr "Sent by %s"
 
-#: query.php:108
+#: query.php:107
 msgid "e-mail"
 msgstr "e-mail"
 
-#: query.php:113
+#: query.php:112
 msgid "Please prove you are not a robot."
 msgstr "Please prove you are not a robot."
 
-#: query.php:127
+#: query.php:126
 msgid "Your query has been registered"
 msgstr "Your query has been registered"
 
-#: query.php:149
+#: query.php:148
 msgid "<p>You can check the status of your query at the following address:</p>"
-msgstr "<p>You can check the status of your query at the following address:</p>"
+msgstr ""
+"<p>You can check the status of your query at the following address:</p>"
 
-#: query.php:150
+#: query.php:149
 msgid "The permanent address for your query"
 msgstr "The permanent address for your query"
 
-#: query.php:154
-msgid "<p>Your query will now be reviewed by one of the associates of this community. It is likely that this will be done within the next 24 hours at the latest.</p>"
-msgstr "<p>Your query will now be reviewed by one of the associates of this community. It is likely that this will be done within the next 24 hours at the latest.</p>"
+#: query.php:153
+msgid ""
+"<p>Your query will now be reviewed by one of the associates of this "
+"community. It is likely that this will be done within the next 24 hours at "
+"the latest.</p>"
+msgstr ""
+"<p>Your query will now be reviewed by one of the associates of this "
+"community. It is likely that this will be done within the next 24 hours at "
+"the latest.</p>"
 
-#: query.php:162
+#: query.php:161
 msgid "Site map"
 msgstr "Site map"
 
-#: query.php:164
-#: setup.php:340
+#: query.php:163 setup.php:337
 msgid "Help index"
 msgstr "Help index"
 
-#: query.php:175
+#: query.php:174
 #, php-format
 msgid "Your query: %s"
 msgstr "Your query: %s"
 
-#: query.php:178
+#: query.php:177
 #, php-format
-msgid "<p>Your query will now be reviewed by one of the associates of this community. It is likely that this will be done within the next 24 hours at the latest.</p><p>You can check the status of your query at the following address:</p><p>%s</p><p>We would like to thank you for your interest in our web site.</p>"
-msgstr "<p>Your query will now be reviewed by one of the associates of this community. It is likely that this will be done within the next 24 hours at the latest.</p><p>You can check the status of your query at the following address:</p><p>%s</p><p>We would like to thank you for your interest in our web site.</p>"
+msgid ""
+"<p>Your query will now be reviewed by one of the associates of this "
+"community. It is likely that this will be done within the next 24 hours at "
+"the latest.</p><p>You can check the status of your query at the following "
+"address:</p><p>%s</p><p>We would like to thank you for your interest in our "
+"web site.</p>"
+msgstr ""
+"<p>Your query will now be reviewed by one of the associates of this "
+"community. It is likely that this will be done within the next 24 hours at "
+"the latest.</p><p>You can check the status of your query at the following "
+"address:</p><p>%s</p><p>We would like to thank you for your interest in our "
+"web site.</p>"
 
-#: query.php:196
+#: query.php:195
 #, php-format
 msgid "New query: %s"
 msgstr "New query: %s"
 
-#: query.php:213
-msgid "Please fill out the form and it will be sent automatically to the site managers. Be as precise as possible, and mention your e-mail address to let us a chance to contact you back."
-msgstr "Please fill out the form and it will be sent automatically to the site managers. Be as precise as possible, and mention your e-mail address to let us a chance to contact you back."
+#: query.php:212
+msgid ""
+"Please fill out the form and it will be sent automatically to the site "
+"managers. Be as precise as possible, and mention your e-mail address to let "
+"us a chance to contact you back."
+msgstr ""
+"Please fill out the form and it will be sent automatically to the site "
+"managers. Be as precise as possible, and mention your e-mail address to let "
+"us a chance to contact you back."
 
-#: query.php:221
+#: query.php:220
 msgid "Your name"
 msgstr "Your name"
 
-#: query.php:223
+#: query.php:222
 msgid "Let us a chance to know who you are"
 msgstr "Let us a chance to know who you are"
 
-#: query.php:229
+#: query.php:228
 msgid "Your e-mail address"
 msgstr "Your e-mail address"
 
-#: query.php:231
+#: query.php:230
 msgid "To be alerted during the processing of your request"
 msgstr "To be alerted during the processing of your request"
 
-#: query.php:241
+#: query.php:240
 msgid "Query object"
 msgstr "Query object"
 
-#: query.php:243
+#: query.php:242
 msgid "The main object of your query"
 msgstr "The main object of your query"
 
-#: query.php:249
+#: query.php:248
 msgid "Details of your request"
 msgstr "Details of your request"
 
-#: query.php:251
-msgid "Please mention any reference information required to process the request"
-msgstr "Please mention any reference information required to process the request"
+#: query.php:250
+msgid ""
+"Please mention any reference information required to process the request"
+msgstr ""
+"Please mention any reference information required to process the request"
 
-#: query.php:265
+#: query.php:264
 msgid "Cancel"
 msgstr "Cancel"
 
-#: query.php:280
+#: query.php:278
 msgid "Please give your first and last names"
 msgstr "Please give your first and last names"
 
-#: query.php:287
+#: query.php:284
 msgid "Please give your e-mail address"
 msgstr "Please give your e-mail address"
 
-#: query.php:294
+#: query.php:290
 msgid "Please provide a meaningful title."
 msgstr "Please provide a meaningful title."
 
-#: query.php:300
+#: query.php:296
 msgid "The description should not exceed 64000 characters."
 msgstr "The description should not exceed 64000 characters."
 
-#: query.php:314
-msgid "<p>Use this form to submit any kind of request you can have, from simple suggestions to complex questions.</p><p>Hearty discussion and unpopular viewpoints are welcome, but please keep queries civil. Flaming, trolling, and smarmy queries are discouraged and may be deleted. In fact, we reserve the right to delete any post for any reason. Don't make us do it.</p>"
-msgstr "<p>Use this form to submit any kind of request you can have, from simple suggestions to complex questions.</p><p>Hearty discussion and unpopular viewpoints are welcome, but please keep queries civil. Flaming, trolling, and smarmy queries are discouraged and may be deleted. In fact, we reserve the right to delete any post for any reason. Don't make us do it.</p>"
+#: query.php:309
+msgid ""
+"<p>Use this form to submit any kind of request you can have, from simple "
+"suggestions to complex questions.</p><p>Hearty discussion and unpopular "
+"viewpoints are welcome, but please keep queries civil. Flaming, trolling, "
+"and smarmy queries are discouraged and may be deleted. In fact, we reserve "
+"the right to delete any post for any reason. Don't make us do it.</p>"
+msgstr ""
+"<p>Use this form to submit any kind of request you can have, from simple "
+"suggestions to complex questions.</p><p>Hearty discussion and unpopular "
+"viewpoints are welcome, but please keep queries civil. Flaming, trolling, "
+"and smarmy queries are discouraged and may be deleted. In fact, we reserve "
+"the right to delete any post for any reason. Don't make us do it.</p>"
 
-#: query.php:316
-msgid "If you paste some existing HTML content and want to avoid the implicit formatting insert the code <code>[formatted]</code> at the very beginning of the description field."
-msgstr "If you paste some existing HTML content and want to avoid the implicit formatting insert the code <code>[formatted]</code> at the very beginning of the description field."
+#: query.php:311
+msgid ""
+"If you paste some existing HTML content and want to avoid the implicit "
+"formatting insert the code <code>[formatted]</code> at the very beginning of "
+"the description field."
+msgstr ""
+"If you paste some existing HTML content and want to avoid the implicit "
+"formatting insert the code <code>[formatted]</code> at the very beginning of "
+"the description field."
 
-#: query.php:318
+#: query.php:313
 msgid "Most HTML tags are removed."
 msgstr "Most HTML tags are removed."
 
-#: query.php:319
+#: query.php:314
 #, php-format
 msgid "You can use %s to beautify your post"
 msgstr "You can use %s to beautify your post"
 
-#: query.php:319
+#: query.php:314
 msgid "YACS codes"
 msgstr "YACS codes"
 
-#: query.php:322
+#: query.php:317
 msgid "Mandatory fields are marked with a *"
 msgstr "Mandatory fields are marked with a *"
 
@@ -968,72 +926,92 @@ msgstr "-- All sections"
 msgid "Look in all or only one section."
 msgstr "Look in all or only one section."
 
-#: search.php:239
+#: search.php:148
+msgid "Please type something to search for."
+msgstr "Please type something to search for."
+
+#: search.php:237
 msgid "Get more results"
 msgstr "Get more results"
 
-#: search.php:262
+#: search.php:261
 #, php-format
-msgid "<p>No page has been found. This will happen with very short words (less than %d letters), that are not fully indexed. This can happen as well if more than half of pages contain the searched words. Try to use most restrictive words and to suppress \"noise\" words.</p>"
-msgstr "<p>No page has been found. This will happen with very short words (less than %d letters), that are not fully indexed. This can happen as well if more than half of pages contain the searched words. Try to use most restrictive words and to suppress \"noise\" words.</p>"
+msgid ""
+"<p>No page has been found. This will happen with very short words (less than "
+"%d letters), that are not fully indexed. This can happen as well if more "
+"than half of pages contain the searched words. Try to use most restrictive "
+"words and to suppress \"noise\" words.</p>"
+msgstr ""
+"<p>No page has been found. This will happen with very short words (less than "
+"%d letters), that are not fully indexed. This can happen as well if more "
+"than half of pages contain the searched words. Try to use most restrictive "
+"words and to suppress \"noise\" words.</p>"
 
-#: search.php:265
+#: search.php:264
 msgid "Results"
 msgstr "Results"
 
-#: search.php:277
+#: search.php:276
 msgid "Search all of the Internet"
 msgstr "Search all of the Internet"
 
-#: search.php:284
+#: search.php:283
 msgid "Google"
 msgstr "Google"
 
-#: search.php:288
+#: search.php:287
 msgid "Bing"
 msgstr "Bing"
 
-#: search.php:292
+#: search.php:291
 msgid "Yahoo!"
 msgstr "Yahoo!"
 
-#: search.php:296
+#: search.php:295
 msgid "Ask Jeeves"
 msgstr "Ask Jeeves"
 
-#: search.php:299
+#: search.php:298
 msgid "Extended search"
 msgstr "Extended search"
 
-#: search.php:311
+#: search.php:310
 msgid "At partner sites"
 msgstr "At partner sites"
 
-#: search.php:361
+#: search.php:360
 msgid "Remember this search"
 msgstr "Remember this search"
 
-#: search.php:365
+#: search.php:364
 msgid "Search in all sections"
 msgstr "Search in all sections"
 
-#: search.php:369
+#: search.php:368
 msgid "Look for a named page"
 msgstr "Look for a named page"
 
-#: search.php:374
-msgid "This search engine only display pages that have all words in it. <p>Also, only exact matches will be listed. Therefore \"category\" and \"categories\" won't give the same results. Note that \"red\" and \"reds\" may also give different results.</p>"
-msgstr "This search engine only display pages that have all words in it. <p>Also, only exact matches will be listed. Therefore \"category\" and \"categories\" won't give the same results. Note that \"red\" and \"reds\" may also give different results.</p>"
+#: search.php:373
+msgid ""
+"This search engine only display pages that have all words in it. <p>Also, "
+"only exact matches will be listed. Therefore \"category\" and \"categories\" "
+"won't give the same results. Note that \"red\" and \"reds\" may also give "
+"different results.</p>"
+msgstr ""
+"This search engine only display pages that have all words in it. <p>Also, "
+"only exact matches will be listed. Therefore \"category\" and \"categories\" "
+"won't give the same results. Note that \"red\" and \"reds\" may also give "
+"different results.</p>"
 
-#: search.php:379
+#: search.php:378
 msgid "Matching pages"
 msgstr "Matching pages"
 
-#: search.php:380
+#: search.php:379
 msgid "Monitor"
 msgstr "Monitor"
 
-#: search.php:386
+#: search.php:385
 msgid "Recent searches"
 msgstr "Recent searches"
 
@@ -1043,25 +1021,21 @@ msgstr "Setup assistant"
 
 #: setup.php:96
 #, php-format
-msgid "ERROR: YACS requires at least PHP version 5.3. The server runs version %s."
-msgstr "ERROR: YACS requires at least PHP version 5.3. The server runs version %s."
+msgid ""
+"ERROR: YACS requires at least PHP version 5.3. The server runs version %s."
+msgstr ""
+"ERROR: YACS requires at least PHP version 5.3. The server runs version %s."
 
 #: setup.php:98
 msgid "Check PHP version again"
 msgstr "Check PHP version again"
 
-#: setup.php:101
-#: setup.php:119
-#: setup.php:139
+#: setup.php:101 setup.php:119 setup.php:139
 msgid "ERROR"
 msgstr "ERROR"
 
-#: setup.php:104
-#: setup.php:123
-#: setup.php:143
-#: setup.php:160
-#: setup.php:176
-#: setup.php:231
+#: setup.php:104 setup.php:123 setup.php:143 setup.php:160 setup.php:176
+#: setup.php:228
 msgid "OK"
 msgstr "OK"
 
@@ -1077,15 +1051,11 @@ msgstr "ERROR: YACS requires the MySQL PHP extension."
 msgid "Check the MySQL PHP extension again"
 msgstr "Check the MySQL PHP extension again"
 
-#: setup.php:118
-#: setup.php:138
-#: setup.php:155
+#: setup.php:118 setup.php:138 setup.php:155
 msgid "Absent"
 msgstr "Absent"
 
-#: setup.php:122
-#: setup.php:142
-#: setup.php:159
+#: setup.php:122 setup.php:142 setup.php:159
 msgid "Present"
 msgstr "Present"
 
@@ -1113,9 +1083,7 @@ msgstr "WARNING: You will not be able to upload zip files."
 msgid "Check the ZIP PHP extension again"
 msgstr "Check the ZIP PHP extension again"
 
-#: setup.php:156
-#: setup.php:172
-#: setup.php:227
+#: setup.php:156 setup.php:172 setup.php:224
 msgid "WARNING"
 msgstr "WARNING"
 
@@ -1124,8 +1092,12 @@ msgid "zip"
 msgstr "zip"
 
 #: setup.php:168
-msgid "WARNING: This server runs in safe mode, and YACS may be prevented to perform a number of key operations."
-msgstr "WARNING: This server runs in safe mode, and YACS may be prevented to perform a number of key operations."
+msgid ""
+"WARNING: This server runs in safe mode, and YACS may be prevented to perform "
+"a number of key operations."
+msgstr ""
+"WARNING: This server runs in safe mode, and YACS may be prevented to perform "
+"a number of key operations."
 
 #: setup.php:171
 msgid "Yes"
@@ -1139,57 +1111,64 @@ msgstr "No"
 msgid "Safe mode"
 msgstr "Safe mode"
 
-#: setup.php:209
+#: setup.php:206
 #, php-format
 msgid "Impossible to write to %s."
 msgstr "Impossible to write to %s."
 
-#: setup.php:218
-msgid "WARNING: YACS cannot write to files. If you are running some Unix, please ensure that permissions have been properly set. This issue can also be due to server running in safe mode."
-msgstr "WARNING: YACS cannot write to files. If you are running some Unix, please ensure that permissions have been properly set. This issue can also be due to server running in safe mode."
+#: setup.php:215
+msgid ""
+"WARNING: YACS cannot write to files. If you are running some Unix, please "
+"ensure that permissions have been properly set. This issue can also be due "
+"to server running in safe mode."
+msgstr ""
+"WARNING: YACS cannot write to files. If you are running some Unix, please "
+"ensure that permissions have been properly set. This issue can also be due "
+"to server running in safe mode."
 
-#: setup.php:220
+#: setup.php:217
 #, php-format
 msgid "Check the provided %s file to find more help on file permissions."
 msgstr "Check the provided %s file to find more help on file permissions."
 
-#: setup.php:220
-#: setup.php:248
+#: setup.php:217 setup.php:245
 msgid "readme.txt"
 msgstr "readme.txt"
 
-#: setup.php:222
+#: setup.php:219
 msgid "Check again our ability to write to files"
 msgstr "Check again our ability to write to files"
 
-#: setup.php:226
+#: setup.php:223
 msgid "Configuration files cannot be changed"
 msgstr "Configuration files cannot be changed"
 
-#: setup.php:230
+#: setup.php:227
 msgid "May change configuration files"
 msgstr "May change configuration files"
 
-#: setup.php:235
+#: setup.php:232
 msgid "Permissions"
 msgstr "Permissions"
 
-#: setup.php:238
+#: setup.php:235
 msgid "Pre-installation checks"
 msgstr "Pre-installation checks"
 
-#: setup.php:248
+#: setup.php:245
 #, php-format
 msgid "Check the provided %s file to ensure prerequisites are fulfilled."
 msgstr "Check the provided %s file to ensure prerequisites are fulfilled."
 
-#: setup.php:254
+#: setup.php:251
 msgid "Ready to start the installation"
 msgstr "Ready to start the installation"
 
-#: setup.php:257
+#: setup.php:254
 msgid ""
-"<p>At the moment no configuration file has been found. You will now have to pass through several steps in order to achieve the setup of your server:</p>\n"
+"<p>At the moment no configuration file has been found. You will now have to "
+"pass through several steps in order to achieve the setup of your server:</"
+"p>\n"
 "<ul>\n"
 "<li>Configure parameters related to the database.</li>\n"
 "<li>Load extension hooks.</li>\n"
@@ -1197,9 +1176,13 @@ msgid ""
 "<li>Add one user profile and populate the database.</li>\n"
 "<li>Configure the theme of your server.</li>\n"
 "</ul>\n"
-"In normal conditions this will take only some minutes. If you have any problems, please consult <a href=\"http://www.yacs.fr/\">www.yacs.fr</a> for additional support.<p>Thank you for having selected the YACS solution.</p>"
+"In normal conditions this will take only some minutes. If you have any "
+"problems, please consult <a href=\"http://www.yacs.fr/\">www.yacs.fr</a> for "
+"additional support.<p>Thank you for having selected the YACS solution.</p>"
 msgstr ""
-"<p>At the moment no configuration file has been found. You will now have to pass through several steps in order to achieve the setup of your server:</p>\n"
+"<p>At the moment no configuration file has been found. You will now have to "
+"pass through several steps in order to achieve the setup of your server:</"
+"p>\n"
 "<ul>\n"
 "<li>Configure parameters related to the database.</li>\n"
 "<li>Load extension hooks.</li>\n"
@@ -1207,35 +1190,52 @@ msgstr ""
 "<li>Add one user profile and populate the database.</li>\n"
 "<li>Configure the theme of your server.</li>\n"
 "</ul>\n"
-"In normal conditions this will take only some minutes. If you have any problems, please consult <a href=\"http://www.yacs.fr/\">www.yacs.fr</a> for additional support.<p>Thank you for having selected the YACS solution.</p>"
+"In normal conditions this will take only some minutes. If you have any "
+"problems, please consult <a href=\"http://www.yacs.fr/\">www.yacs.fr</a> for "
+"additional support.<p>Thank you for having selected the YACS solution.</p>"
 
-#: setup.php:261
+#: setup.php:258
 msgid "Start the installation process"
 msgstr "Start the installation process"
 
-#: setup.php:271
-msgid "You must enable cookies to manage this server. Change settings of your browser accordingly, then revisit this page afterwards."
-msgstr "You must enable cookies to manage this server. Change settings of your browser accordingly, then revisit this page afterwards."
+#: setup.php:268
+msgid ""
+"You must enable cookies to manage this server. Change settings of your "
+"browser accordingly, then revisit this page afterwards."
+msgstr ""
+"You must enable cookies to manage this server. Change settings of your "
+"browser accordingly, then revisit this page afterwards."
 
-#: setup.php:287
-msgid "Some configuration files are missing. Please follow the link to complete the installation process."
-msgstr "Some configuration files are missing. Please follow the link to complete the installation process."
+#: setup.php:284
+msgid ""
+"Some configuration files are missing. Please follow the link to complete the "
+"installation process."
+msgstr ""
+"Some configuration files are missing. Please follow the link to complete the "
+"installation process."
+
+#: setup.php:302
+msgid ""
+"ERROR: YACS cannot create the file parameters/switch.on to activate the "
+"server."
+msgstr ""
+"ERROR: YACS cannot create the file parameters/switch.on to activate the "
+"server."
 
 #: setup.php:305
-msgid "ERROR: YACS cannot create the file parameters/switch.on to activate the server."
-msgstr "ERROR: YACS cannot create the file parameters/switch.on to activate the server."
-
-#: setup.php:308
 #, php-format
-msgid "To actually switch on the server, please copy and paste following lines by yourself in file %s."
-msgstr "To actually switch on the server, please copy and paste following lines by yourself in file %s."
+msgid ""
+"To actually switch on the server, please copy and paste following lines by "
+"yourself in file %s."
+msgstr ""
+"To actually switch on the server, please copy and paste following lines by "
+"yourself in file %s."
 
-#: setup.php:326
-#: setup.php:341
+#: setup.php:323 setup.php:338
 msgid "www.yacs.fr"
 msgstr "www.yacs.fr"
 
-#: setup.php:333
+#: setup.php:330
 #, php-format
 msgid ""
 "<p>You have passed through the several installation steps.</p>\n"
@@ -1264,35 +1264,124 @@ msgstr ""
 "</ul>\n"
 "<p>Thank you for having selected to use YACS for your web site.</p>\n"
 
-#: setup.php:334
+#: setup.php:331
 msgid "another skin"
 msgstr "another skin"
 
-#: setup.php:337
+#: setup.php:334
 msgid "front page"
 msgstr "front page"
 
-#: setup.php:338
+#: setup.php:335
 msgid "your profile"
 msgstr "your profile"
 
-#: setup.php:339
+#: setup.php:336
 msgid "Add a page"
 msgstr "Add a page"
 
-#: setup.php:341
+#: setup.php:338
 msgid "http://www.yacs.fr/"
 msgstr "http://www.yacs.fr/"
 
-#: setup.php:347
-msgid "<p>Since basic configuration files exist on your server, it is likely that the installation has been achieved successfully. Click on the link below to modify the running parameters of your server.</p>"
-msgstr "<p>Since basic configuration files exist on your server, it is likely that the installation has been achieved successfully. Click on the link below to modify the running parameters of your server.</p>"
+#: setup.php:344
+msgid ""
+"<p>Since basic configuration files exist on your server, it is likely that "
+"the installation has been achieved successfully. Click on the link below to "
+"modify the running parameters of your server.</p>"
+msgstr ""
+"<p>Since basic configuration files exist on your server, it is likely that "
+"the installation has been achieved successfully. Click on the link below to "
+"modify the running parameters of your server.</p>"
+
+#~ msgid "Warning: No script exists for the customized layout %s"
+#~ msgstr "Warning: No script exists for the customized layout %s"
+
+#~ msgid "freemind - Build an interactive mind map"
+#~ msgstr "freemind - Build an interactive mind map"
+
+#~ msgid "Options"
+#~ msgstr "Options"
+
+#~ msgid "Following elements can be added to the main panel:"
+#~ msgstr "Following elements can be added to the main panel:"
+
+#~ msgid "Include the list of recent files"
+#~ msgstr "Include the list of recent files"
+
+#~ msgid "Include the list of recent links"
+#~ msgstr "Include the list of recent links"
+
+#~ msgid "Extra"
+#~ msgstr "Extra"
+
+#~ msgid "Following elements can be added to the extra panel:"
+#~ msgstr "Following elements can be added to the extra panel:"
+
+#~ msgid "Include the last recent poll"
+#~ msgstr "Include the last recent poll"
+
+#~ msgid "Include the list of servers that ping us"
+#~ msgstr "Include the list of servers that ping us"
+
+#~ msgid "List older articles as well"
+#~ msgstr "List older articles as well"
+
+#~ msgid "Include the list of most read articles"
+#~ msgstr "Include the list of most read articles"
+
+#~ msgid "Include the list of most popular files"
+#~ msgstr "Include the list of most popular files"
+
+#~ msgid "Include the list of most popular links"
+#~ msgstr "Include the list of most popular links"
+
+#~ msgid "Include a sample of random articles"
+#~ msgstr "Include a sample of random articles"
+
+#~ msgid "View the category"
+#~ msgstr "View the category"
+
+#~ msgid "More pages"
+#~ msgstr "More pages"
+
+#~ msgid "More links"
+#~ msgstr "More links"
+
+#~ msgid "View the section"
+#~ msgstr "View the section"
+
+#~ msgid "Recent files"
+#~ msgstr "Recent files"
+
+#~ msgid "Files"
+#~ msgstr "Files"
+
+#~ msgid "Recent links"
+#~ msgstr "Recent links"
+
+#~ msgid "Polls"
+#~ msgstr "Polls"
+
+#~ msgid "Peers"
+#~ msgstr "Peers"
+
+#~ msgid "Popular Pages"
+#~ msgstr "Popular Pages"
+
+#~ msgid "Popular Files"
+#~ msgstr "Popular Files"
+
+#~ msgid "Popular Links"
+#~ msgstr "Popular Links"
+
+#~ msgid "Random Pages"
+#~ msgstr "Random Pages"
 
 #~ msgid "Matching articles"
 #~ msgstr "Matching articles"
 
 #~ msgid "%d result"
-
 #~ msgid_plural "%d results"
 #~ msgstr[0] "%d result"
 #~ msgstr[1] "%d results"

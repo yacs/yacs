@@ -80,8 +80,6 @@
  * This is achieved through the field 'display', which is actually an anchor to the target page.
  * Following anchors are recognized for categories:
  * - 'site:all' - build one navigation box for the category, in skins/your_skin/template.php
- * - 'home:extra' - build one extra box for the category at the front page, in index.php
- * - 'home:gadget' - build one gadget box in the middle of the front page, in index.php
  * - 'article:index' - a sidebar at articles/index.php
  * - 'file:index' - a sidebar at files/index.php
  * - 'link:index' - a sidebar at links/index.php
@@ -117,25 +115,19 @@
 Class Categories {
 
 	/**
-	 * check if new categories can be added or assigned
+	 * Check if new categories can be assigned
 	 *
-	 * This function returns TRUE if categories can be added to some place,
-	 * and FALSE otherwise.
+	 * This function returns TRUE if assign categories command could be displayed
+	 * (share component), and FALSE otherwise.
 	 *
-	 * The function prevents the creation of new categories when:
-	 * - the surfer is not an associate
-	 * - item has some option 'no_categories' that prevents new categories
-	 * - the anchor has some option 'no_categories' that prevents new categories
-	 * - global parameter 'users_without_submission' has been set to 'Y'
-	 *
-	 * Locked items can be further categorized.
-	 *
-	 * @param object an instance of the Anchor interface, if any
+	 * Note this is different from categorizing with tags. 
+	 *	 
 	 * @param array a set of item attributes, if any
+	 * @param object an instance of the Anchor interface, if any
 	 * @param string the type of item, e.g., 'section'
 	 * @return boolean TRUE or FALSE
 	 */
-	public static function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
+	public static function allow_assign($item=NULL, $anchor=NULL, $variant=NULL) {
 		global $context;
 
 		// surfer has to be an associate
@@ -319,6 +311,10 @@ Class Categories {
 		// ensure proper unicode encoding
 		$id = (string)$id;
 		$id = utf8::encode($id);
+                
+                // filter id from reference if parameter given that way
+                if(substr($id, 0, 9) === 'category:')
+                      $id = substr ($id, 9);
 
 		// cache previous answers
 		static $cache;
@@ -678,8 +674,14 @@ Class Categories {
 	 * @return string the permanent web address to this item, relative to the installation path
 	 */
 	public static function get_permalink($item) {
-		$output = Categories::get_url($item['id'], 'view', $item['title']);
-		return $output;
+		global $context;
+
+		// sanity check
+		if(!isset($item['id']))
+			throw new Exception('bad input parameter');
+
+		// absolute link
+		return $context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'view', $item['title']);
 	}
 
 	/**
@@ -784,11 +786,19 @@ Class Categories {
 	 */
 	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=10, $variant='full') {
 		global $context;
+		
+		if($anchor && !is_object($anchor)) {
+		    $anchor = Anchors::get($anchor);
+		}
 
 		// restricted to active and restricted items
 		$where = "categories.active='Y'";
 		if(Surfer::is_member())
 			$where .= " OR categories.active='R'";
+		
+		// list hidden categories to associates and to editors
+		if(Surfer::is_associate() || $anchor->is_assigned())
+			$where .= " OR categories.active='N'";
 
 		// only consider live categories
 		$where = '('.$where.')'
@@ -976,10 +986,14 @@ Class Categories {
 		if(Surfer::is_member())
 			$where .= " OR categories.active='R'";
 
-		// list hidden categories to associates, but not on the category tree
+		// list hidden categories to associates or editors, but not on the category tree
 		// they will be listed through a call to list_inactive_by_title() -- see categories/index.php
-		if($anchor && Surfer::is_associate())
-			$where .= " OR categories.active='N'";
+		if($anchor && !is_object($anchor)) {
+		    $anchor = Anchors::get($anchor);
+		}
+		if($anchor && (Surfer::is_associate() || $anchor->is_assigned()))
+		    $where .= " OR categories.active='N'";
+					
 
 		// only consider live categories
 		$where = "(".$where.")"
@@ -1018,6 +1032,10 @@ Class Categories {
 	 */
 	public static function &list_for_anchor($anchor, $variant='decorated') {
 		global $context;
+		
+		if($anchor && !is_object($anchor)) {
+		    $anchor = Anchors::get($anchor);
+		}
 
 		// limit the scope to one section
 		$where = "(categories.anchor LIKE '".SQL::escape($anchor)."')";
@@ -1030,7 +1048,7 @@ Class Categories {
 			$where .= " OR categories.active='R'";
 
 		// list hidden categories to associates and to editors
-		if(Surfer::is_empowered())
+		if(Surfer::is_associate() || $anchor->is_assigned())
 			$where .= " OR categories.active='N'";
 
 		// end of scope
@@ -1051,11 +1069,12 @@ Class Categories {
 	 * This function is used to list all keywords starting with provided letters.
 	 *
 	 * @param string prefix to consider
+         * @paral string or int nickname or ID of category keywords have to be child to
 	 * @return an array of matching $keyword => $introduction
 	 *
 	 * @see categories/complete.php
 	 */
-	public static function &list_keywords($prefix) {
+	public static function &list_keywords($prefix, $mothercat = NULL) {
 		global $context;
 
 		// we return an array
@@ -1063,10 +1082,17 @@ Class Categories {
 
 		// ensure proper unicode encoding
 		$prefix = utf8::encode($prefix);
+                
+                // look for mothercat
+                if($mothercat = categories::get($mothercat))
+                    $more = ' AND categories.anchor = "category:'.$mothercat['id'].'"';
+                else
+                    $more = '';
 
 		// select among available items
 		$query = "SELECT keywords, introduction FROM ".SQL::table_name('categories')." AS categories"
 			." WHERE categories.keywords LIKE '".SQL::escape($prefix)."%'"
+                        .$more
 			." ORDER BY keywords LIMIT 100";
 		$result = SQL::query($query);
 
@@ -1110,6 +1136,10 @@ Class Categories {
 		// or dead categories
 		$where = '('.$where.')'
 			." OR ((categories.expiry_date > '".NULL_DATE."') AND (categories.expiry_date <= '".$context['now']."'))";
+		
+		// limit the scope to root categories
+		$where = '('.$where.')'
+			." AND categories.anchor = ''";
 
 		// the list of categories
 		$query = "SELECT categories.* FROM ".SQL::table_name('categories')." AS categories"
@@ -1224,32 +1254,8 @@ Class Categories {
 			return $output;
 		}
 
-		// no layout yet
-		$layout = NULL;
-
-		// separate options from layout name
-		$attributes = explode(' ', $variant, 2);
-
 		// instanciate the provided name
-		if($attributes[0]) {
-			$name = 'layout_categories_as_'.$attributes[0];
-			if(is_readable($context['path_to_root'].'categories/'.$name.'.php')) {
-				include_once $context['path_to_root'].'categories/'.$name.'.php';
-				$layout = new $name;
-
-				// provide parameters to the layout
-				if(isset($attributes[1]))
-					$layout->set_variant($attributes[1]);
-
-			}
-		}
-
-		// use default layout
-		if(!$layout) {
-			include_once $context['path_to_root'].'categories/layout_categories.php';
-			$layout = new Layout_categories();
-			$layout->set_variant($variant);
-		}
+		$layout = Layouts::new_($variant, 'category',false, true);
 
 		// do the job
 		$output = $layout->layout($result);
@@ -1283,6 +1289,7 @@ Class Categories {
 	**/
 	public static function post(&$fields) {
 		global $context;
+		$anchor = $overlay = NULL;
 
 		// title cannot be empty
 		if(!isset($fields['title']) || !$fields['title']) {
@@ -1314,6 +1321,24 @@ Class Categories {
 			$fields['active'] = $anchor->ceil_rights($fields['active_set']);
 		else
 			$fields['active'] = $fields['active_set'];
+		
+		// create overlay from anchor if not done previously
+		if(!isset($fields['overlay']) && is_object($anchor)) {
+		    $overlay = $anchor->get_overlay('categories_overlay');
+		    
+		    if(is_object($overlay)) {
+
+			// allow for change detection
+			$overlay->snapshot();
+
+			// update the overlay from form content
+			$overlay->parse_fields($fields);
+
+			// save content of the overlay in the category itself
+			$fields['overlay'] = $overlay->save();
+			$fields['overlay_id'] = $overlay->get_id();
+		    }
+		}
 
 		// set default values for this editor
 		Surfer::check_default_editor($fields);
@@ -1332,7 +1357,7 @@ Class Categories {
 
 		// set layout for categories
 		if(!isset($fields['categories_layout']) || !$fields['categories_layout'])
-			$fields['categories_layout'] = 'decorated';
+			$fields['categories_layout'] = ($anchor)?$anchor->item['categories_layout']:'decorated';
 		elseif($fields['categories_layout'] == 'custom') {
 			if(isset($fields['categories_custom_layout']) && $fields['categories_custom_layout'])
 				$fields['categories_layout'] = $fields['categories_custom_layout'];
@@ -1342,7 +1367,7 @@ Class Categories {
 
 		// set layout for sections
 		if(!isset($fields['sections_layout']) || !$fields['sections_layout'])
-			$fields['sections_layout'] = 'decorated';
+			$fields['sections_layout'] = ($anchor)?$anchor->item['sections_layout']:'decorated';
 		elseif($fields['sections_layout'] == 'custom') {
 			if(isset($fields['sections_custom_layout']) && $fields['sections_custom_layout'])
 				$fields['sections_layout'] = $fields['sections_custom_layout'];
@@ -1352,7 +1377,7 @@ Class Categories {
 
 		// set layout for articles
 		if(!isset($fields['articles_layout']) || !$fields['articles_layout'])
-			$fields['articles_layout'] = 'decorated';
+			$fields['articles_layout'] = ($anchor)?$anchor->item['articles_layout']:'decorated';
 		elseif($fields['articles_layout'] == 'custom') {
 			if(isset($fields['articles_custom_layout']) && $fields['articles_custom_layout'])
 				$fields['articles_layout'] = $fields['articles_custom_layout'];
@@ -1362,13 +1387,17 @@ Class Categories {
 
 		// set layout for users
 		if(!isset($fields['users_layout']) || !$fields['users_layout'])
-			$fields['users_layout'] = 'decorated';
+			$fields['users_layout'] = ($anchor)?$anchor->item['users_layout']:'decorated';
 		elseif($fields['users_layout'] == 'custom') {
 			if(isset($fields['users_custom_layout']) && $fields['users_custom_layout'])
 				$fields['users_layout'] = $fields['users_custom_layout'];
 			else
 				$fields['users_layout'] = 'decorated';
 		}
+		
+		// set overlay for sub-categories
+		if(!isset($fields['categories_overlay']))
+		    $fields['categories_overlay'] = ($anchor)?$anchor->item['categories_overlay']:'';
 
 		// insert a new record
 		$query = "INSERT INTO ".SQL::table_name('categories')." SET ";
@@ -1421,6 +1450,11 @@ Class Categories {
 
 		// remember the id of the new item
 		$fields['id'] = SQL::get_last_id($context['connection']);
+		
+		// call remember for the overlay if any intancied here
+		if(is_object($overlay)) {
+		    $overlay->remember('insert',$fields,'category:'.$fields['id']);
+		}
 
 		// clear the whole cache, because a rendering option for things anchored to this category could being changed
 		Categories::clear($fields);
@@ -1535,7 +1569,7 @@ Class Categories {
 			."expiry_date='".SQL::escape($fields['expiry_date'])."',"
 			."extra='".SQL::escape(isset($fields['extra']) ? $fields['extra'] : '')."',"
 			."icon_url='".SQL::escape($fields['icon_url'])."',"
-			."introduction='".SQL::escape($fields['introduction'])."',"
+			."introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."',"
 			."keywords='".SQL::escape($fields['keywords'])."',"
 			."options='".SQL::escape($fields['options'])."',"
 			."overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."',"
@@ -1569,6 +1603,118 @@ Class Categories {
 
 		// end of job
 		return NULL;
+	}
+	
+	/**
+	 * change only some attributes
+	 *
+	 * @param array an array of fields
+	 * @return TRUE on success, or FALSE on error
+	**/
+	public static function put_attributes(&$fields) {
+		global $context;
+
+		// id cannot be empty
+		if(!isset($fields['id']) || !is_numeric($fields['id'])) {
+			Logger::error(i18n::s('No item has the provided id.'));
+			return FALSE;
+		}
+
+		// set default values for this editor
+		Surfer::check_default_editor($fields);
+
+		// quey components
+		$query = array();
+
+		// change access rights
+		if(isset($fields['active_set'])) {
+
+			// cascade anchor access rights
+			Anchors::cascade('category:'.$fields['id'], $fields['active']);
+
+			// remember these in this record
+			$query[] = "active='".SQL::escape($fields['active'])."'";
+			$query[] = "active_set='".SQL::escape($fields['active_set'])."'";
+
+		}
+
+		// other fields
+		if(isset($fields['anchor']))
+			$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
+		if(isset($fields['articles_layout']))
+			$query[] = "articles_layout='".SQL::escape($fields['articles_layout'])."'";
+		if(isset($fields['description']))
+			$query[] = "description='".SQL::escape($fields['description'])."'";
+		if(isset($fields['extra']))
+			$query[] = "extra='".SQL::escape($fields['extra'])."'";		
+		if(isset($fields['icon_url']))
+			$query[] = "icon_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['icon_url']))."'";		
+		if(isset($fields['introduction']))
+			$query[] = "introduction='".SQL::escape($fields['introduction'])."'";				
+		if(isset($fields['options']))
+			$query[] = "options='".SQL::escape($fields['options'])."'";
+		if(isset($fields['overlay']))
+			$query[] = "overlay='".SQL::escape($fields['overlay'])."'";
+		if(isset($fields['overlay_id']))
+			$query[] = "overlay_id='".SQL::escape($fields['overlay_id'])."'";
+		if(isset($fields['prefix']) && Surfer::is_associate())
+			$query[] = "prefix='".SQL::escape($fields['prefix'])."'";
+		if(isset($fields['rank']))
+			$query[] = "rank='".SQL::escape($fields['rank'])."'";
+		if(isset($fields['sections_layout']))
+			$query[] = "sections_layout='".SQL::escape($fields['sections_layout'])."'";
+		if(isset($fields['suffix']) && Surfer::is_associate())
+			$query[] = "suffix='".SQL::escape($fields['suffix'])."'";
+		if(isset($fields['keywords']))
+			$query[] = "keywords='".SQL::escape($fields['keywords'])."'";
+		if(isset($fields['thumbnail_url']))
+			$query[] = "thumbnail_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['thumbnail_url']))."'";
+		if(isset($fields['title'])) {
+			$fields['title'] = strip_tags($fields['title'], '<br>');
+			$query[] = "title='".SQL::escape($fields['title'])."'";
+		}
+		if(isset($fields['trailer']))
+			$query[] = "trailer='".SQL::escape($fields['trailer'])."'";
+		if(isset($fields['users_layout']))
+			$query[] = "users_layout='".SQL::escape($fields['users_layout'])."'";
+		if(isset($fields['categories_layout']))
+			$query[] = "categories_layout='".SQL::escape($fields['categories_layout'])."'";
+		if(isset($fields['display']))
+			$query[] = "display='".SQL::escape($fields['display'])."'";
+		if(isset($fields['background_color']))
+			$query[] = "background_color='".SQL::escape($fields['background_color'])."'";
+		if(isset($fields['categories_overlay']))
+			$query[] = "categories_overlay='".SQL::escape($fields['categories_overlay'])."'";
+		if(isset($fields['expiry_date']))
+			$query[] = "expiry_date='".SQL::escape($fields['expiry_date'])."'";
+		if(isset($fields['path']))
+			$query[] = "path='".SQL::escape($fields['path'])."'";
+
+		// nothing to update
+		if(!count($query))
+			return TRUE;
+
+		// maybe a silent update
+		if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
+			$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
+			$query[] = "edit_id=".SQL::escape($fields['edit_id']);
+			$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
+			$query[] = "edit_action='category:update'";
+			$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
+		}
+
+		// actual update query
+		$query = "UPDATE ".SQL::table_name('categories')
+			." SET ".implode(', ', $query)
+			." WHERE id = ".SQL::escape($fields['id']);
+		if(!SQL::query($query))
+			return FALSE;
+
+		// clear the cache
+		Categories::clear($fields);
+
+		// end of job
+		return TRUE;
 	}
 
 	/**
@@ -1622,10 +1768,9 @@ Class Categories {
 				}
 
 				// link the reference to this weekly category
-				if($category) {
-					if($error = Members::assign($category, $reference))
-						Logger::error($error);
-				}
+				if($category) 
+				    Members::assign($category, $reference);
+						
 
 				// months are starting on day 1
 				$month = mktime(0,0,0, $stamp['mon'], 1, $stamp['year']);
@@ -1646,10 +1791,8 @@ Class Categories {
 				}
 
 				// link the reference to this monthly category
-				if($category) {
-					if($error = Members::assign($category, $reference))
-						Logger::error($error);
-				}
+				if($category)
+				    Members::assign($category, $reference);									
 			}
 		}
 

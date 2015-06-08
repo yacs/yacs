@@ -42,10 +42,21 @@ $id = strip_tags($id);
 // get the item from the database
 $item = Articles::get($id);
 
+// get the related overlay, if any
+$overlay = NULL;
+if(isset($item['overlay']))
+	$overlay = Overlay::load($item, 'article:'.$item['id']);
+
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
 	$anchor = Anchors::get($item['anchor']);
+
+// current viewed article as object
+$cur_article = new article();
+$cur_article->item      = $item;
+$cur_article->anchor    = $anchor;
+$cur_article->overlay   = $overlay;
 
 // do not always show the edition form
 $with_form = FALSE;
@@ -74,7 +85,7 @@ if(Surfer::is_crawler()) {
 	include '../error.php';
 
 // publication is restricted to some people
-} elseif(!Articles::allow_publication($anchor, $item)) {
+} elseif(!$cur_article->allows('publication')) {
 
 	// anonymous users are invited to log in
 	if(!Surfer::is_logged())
@@ -218,7 +229,7 @@ if($with_form) {
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" name="form_2"><div>'."\n";
 
 		// catch user input
-		$context['text'] .= sprintf(i18n::s('Expire the page after the %s'), Skin::build_input('expiry_date', $value, 'date_time'));
+		$context['text'] .= sprintf(i18n::s('Expire the page after the %s'), Skin::build_input_time('expiry_date', $value, 'date_time'));
 
 		// the submit button
 		$context['text'] .= Skin::build_submit_button(i18n::s('Save the date'))."\n"
@@ -241,7 +252,7 @@ if($with_form) {
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" name="form_2"><div>'."\n";
 
 		// catch user input
-		$context['text'] .= sprintf(i18n::s('Expire the page after the %s'), Skin::build_input('expiry_date', NULL, 'date_time'));
+		$context['text'] .= sprintf(i18n::s('Expire the page after the %s'), Skin::build_input_time('expiry_date', NULL, 'date_time'));
 
 		// the submit button
 		$context['text'] .= Skin::build_submit_button(i18n::s('Save the date'))."\n"
@@ -264,7 +275,7 @@ if($with_form) {
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" name="form_3"><div>'."\n";
 
 		// catch user input
-		$context['text'] .= sprintf(i18n::s('Change the publication date to %s'), Skin::build_input('publish_date', $value, 'date_time'));
+		$context['text'] .= sprintf(i18n::s('Change the publication date to %s'), Skin::build_input_time('publish_date', $value, 'date_time'));
 
 		// the submit button
 		$context['text'] .= Skin::build_submit_button(i18n::s('Save the date'))."\n"

@@ -17,7 +17,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 	 *
 	 * @return int 100 - this layout has no navigation bar
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 100;
@@ -29,7 +29,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -260,7 +260,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		if($count = Files::count_for_anchor('article:'.$item['id'])) {
 
 			// the command to post a new file, if allowed
-			if(Files::allow_creation($anchor, $item, 'article')) {
+			if(Files::allow_creation($item,$anchor, 'article')) {
 				$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
 				$box['top_bar'] += array( $link => i18n::s('Add a file') );
 			}
@@ -299,7 +299,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		//
 
 		// discuss this page, if the index page can be commented, and comments are accepted at the article level
-		if(Comments::allow_creation($anchor, $item))
+		if(Comments::allow_creation($item, $anchor))
 			$this->menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Post a comment'), 'span');
 
 		// info on related comments
@@ -319,7 +319,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 			 && !($anchor->has_option('no_files') || preg_match('/\bno_files\b/i', $item['options']))) {
 
 			// attach a file
-			if(Files::allow_creation($anchor, $item, 'article')) {
+			if(Files::allow_creation($item,$anchor, 'article')) {
 				if($context['with_friendly_urls'] == 'Y')
 					$link = 'files/edit.php/article/'.$item['id'];
 				else

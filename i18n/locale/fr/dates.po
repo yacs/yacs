@@ -2,10 +2,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-22 09:33+0100\n"
+"POT-Creation-Date: 2015-04-24 15:28+0200\n"
 "PO-Revision-Date: 2010-08-11 17:30+0100\n"
 "Last-Translator: Bernard Paques\n"
-"Language-Team: Agnès Rambaud, Bernard Paques\n"
+"Language-Team: Agnès Rambaud, Alexis Raimbault, Bernard Paques\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -78,91 +78,91 @@ msgstr "Détecter les enregistrements orphelins"
 msgid "Start"
 msgstr "Commencer"
 
-#: dates/dates.php:26
+#: dates/dates.php:40
 msgid "sunday"
 msgstr "dimanche"
 
-#: dates/dates.php:27
+#: dates/dates.php:41
 msgid "monday"
 msgstr "lundi"
 
-#: dates/dates.php:28
+#: dates/dates.php:42
 msgid "tuesday"
 msgstr "mardi"
 
-#: dates/dates.php:29
+#: dates/dates.php:43
 msgid "wednesday"
 msgstr "mercredi"
 
-#: dates/dates.php:30
+#: dates/dates.php:44
 msgid "thursday"
 msgstr "jeudi"
 
-#: dates/dates.php:31
+#: dates/dates.php:45
 msgid "friday"
 msgstr "vendredi"
 
-#: dates/dates.php:32
+#: dates/dates.php:46
 msgid "saturday"
 msgstr "samedi"
 
-#: dates/dates.php:493
+#: dates/dates.php:538
 msgid "January"
 msgstr "Janvier"
 
-#: dates/dates.php:494
+#: dates/dates.php:539
 msgid "February"
 msgstr "Février"
 
-#: dates/dates.php:495
+#: dates/dates.php:540
 msgid "March"
 msgstr "Mars"
 
-#: dates/dates.php:496
+#: dates/dates.php:541
 msgid "April"
 msgstr "Avril"
 
-#: dates/dates.php:497
+#: dates/dates.php:542
 msgid "May"
 msgstr "Mai"
 
-#: dates/dates.php:498
+#: dates/dates.php:543
 msgid "June"
 msgstr "Juin"
 
-#: dates/dates.php:499
+#: dates/dates.php:544
 msgid "July"
 msgstr "Juillet"
 
-#: dates/dates.php:500
+#: dates/dates.php:545
 msgid "August"
 msgstr "Août"
 
-#: dates/dates.php:501
+#: dates/dates.php:546
 msgid "September"
 msgstr "Septembre"
 
-#: dates/dates.php:502
+#: dates/dates.php:547
 msgid "October"
 msgstr "Octobre"
 
-#: dates/dates.php:503
+#: dates/dates.php:548
 msgid "November"
 msgstr "Novembre"
 
-#: dates/dates.php:504
+#: dates/dates.php:549
 msgid "December"
 msgstr "Décembre"
 
-#: dates/dates.php:1013 dates/edit.php:226
+#: dates/dates.php:1058 dates/edit.php:225
 msgid "Please provide a date."
 msgstr "Merci d'indiquer une date."
 
-#: dates/dates.php:1019 dates/edit.php:91
+#: dates/dates.php:1064 dates/edit.php:91
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
-#: dates/dates.php:1031
+#: dates/dates.php:1076
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 
@@ -190,17 +190,17 @@ msgstr "Oui, je veux supprimer cette date"
 msgid "Cancel"
 msgstr "Annuler"
 
-#: dates/delete.php:127 dates/edit.php:124 dates/view.php:76
+#: dates/delete.php:124 dates/edit.php:124 dates/view.php:76
 #, php-format
 msgid "%s: %s"
 msgstr "%s : %s"
 
-#: dates/delete.php:127 dates/edit.php:124 dates/edit.php:193
+#: dates/delete.php:124 dates/edit.php:124 dates/edit.php:193
 #: dates/view.php:76
 msgid "Target date"
 msgstr "Date cible"
 
-#: dates/delete.php:134 dates/layout_dates.php:70 dates/view.php:83
+#: dates/delete.php:131 dates/layout_dates.php:70 dates/view.php:83
 #, php-format
 msgid "edited by %s %s"
 msgstr "modifié par %s %s"
@@ -258,20 +258,20 @@ msgstr "Enregistrer"
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
-#: dates/edit.php:240
+#: dates/edit.php:237
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr "Utilisez %s et %s pour embellir le texte."
 
-#: dates/edit.php:240
+#: dates/edit.php:237
 msgid "YACS codes"
 msgstr "codes YACS"
 
-#: dates/edit.php:240
+#: dates/edit.php:237
 msgid "smileys"
 msgstr "emoticons"
 
-#: dates/edit.php:241
+#: dates/edit.php:238
 msgid "Help"
 msgstr "Aide"
 

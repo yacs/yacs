@@ -236,29 +236,30 @@ if($with_form) {
 	if(isset($context['google_api_key']) && $context['google_api_key']) {
 
 		// encode on click
-		$input .= '<button type="button" id="encode" onclick="lookupAddress($(\'#geo_place_name\').val()); return false;">'.encode_field(i18n::s('Encode this address')).'</button>'."\n"
-			.'<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key='.$context['google_api_key'].'" type="text/javascript"></script>'."\n"
-			.JS_PREFIX
-			.'var geocoder = null;'."\n"
+		$input .= '<button type="button" id="encode" onclick="lookupAddress($(\'#geo_place_name\').val()); return false;">'.encode_field(i18n::s('Encode this address')).'</button>'."\n";
+		
+		Page::defer_script("http://maps.google.com/maps?file=api&amp;v=3&amp;key=".$context['google_api_key']);
+			
+		Page::insert_script(
+			'var geocoder = null;'."\n"
 			.'function lookupAddress(address) {'."\n"
 			.'	if(!geocoder) {'."\n"
-			.'		geocoder = new GClientGeocoder();'."\n"
+			.'		geocoder = new google.maps.Geocoder();'."\n"
 			.'	}'."\n"
 			.'	if(geocoder) {'."\n"
-			.'		geocoder.getLatLng('."\n"
-			.'			address,'."\n"
-			.'			function(point) {'."\n"
+			.'		geocoder.geocode( { "address":container.geo_place_name.value},'."\n"
+			.'			function(point,status) {'."\n"
 			.'				if (!point) {'."\n"
 			.'					alert("'.i18n::s('This address has not been found').'");'."\n"
 			.'				} else {'."\n"
-			.'					$(\'#geo_position\').val( point.y.toString() + ", " + point.x.toString() );'."\n"
-			.'					alert("'.i18n::s('This address has been encoded as').'\n" + point.y.toString() + ", " + point.x.toString());'."\n"
+			.'					$(\'#geo_position\').val( point[0].geometry.location.lat() + ", " + point[0].geometry.location.lng() );'."\n"
+			.'					alert("'.i18n::s('This address has been encoded as').'\n" + point[0].geometry.location.lat() + ", " +  point[0].geometry.location.lat());'."\n"
 			.'				}'."\n"
 			.'			}'."\n"
 			.'		)'."\n"
 			.'	}'."\n"
 			.'}'."\n"
-			.JS_SUFFIX."\n";
+			);
 
 	}
 
@@ -309,31 +310,27 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= JS_PREFIX
-		.'	// check that main fields are not empty'."\n"
-		.'	func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'		// geo_place_name is mandatory'."\n"
+	Page::insert_script(
+			// check that main fields are not empty
+		'	func'.'tion validateDocumentPost(container) {'."\n"
+				// geo_place_name is mandatory
 		.'		if(!container.geo_place_name.value) {'."\n"
 		.'			alert("'.i18n::s('You must give a name to this location.').'");'."\n"
 		.'			Yacs.stopWorking();'."\n"
 		.'			return false;'."\n"
 		.'		}'."\n"
-		."\n"
-		.'		// geo_position is mandatory'."\n"
+				// geo_position is mandatory
 		.'		if(!container.geo_position.value) {'."\n"
 		.'			alert("'.i18n::s('Please type some geographical coordinates.').'");'."\n"
 		.'			Yacs.stopWorking();'."\n"
 		.'			return false;'."\n"
 		.'		}'."\n"
-		."\n"
-		.'		// successful check'."\n"
+				// successful check
 		.'		return true;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'$("#geo_place_name").focus();'."\n"
-		.JS_SUFFIX."\n";
+		);
 
 	// general help on this form
 	$help = '<p>'.i18n::s('Latitude and longitude are numbers separated by a comma and spaces, for example: 47.98481,-71.42124.').'</p>'

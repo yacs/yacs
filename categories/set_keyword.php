@@ -80,14 +80,12 @@ if(isset($articles) && (!isset($category) || !$category))
 elseif(isset($articles) && is_array($articles)) {
 
 	foreach($articles as $id => $not_used)
-		if($error = Members::assign('category:'.$category['id'], 'article:'.$id)) {
-			Logger::error($error);
-			break;
-		}
+		if(!Members::assign('category:'.$category['id'], 'article:'.$id))			
+		    break;		
 
 	// redirect to the updated category, if no error has happened
 	if(!count($context['error']))
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Categories::get_permalink($category));
+		Safe::redirect(Categories::get_permalink($category));
 
 }
 

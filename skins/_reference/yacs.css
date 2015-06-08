@@ -52,6 +52,9 @@ input {
 	font-size: 13px;
 }
 
+.input-bad  {background:    tomato      !important;}
+.input-good {background:    lightgreen  !important;}
+
 textarea {
 	padding: 2px;
 	font-family: Georgia, Times, serif;
@@ -64,54 +67,136 @@ textarea {
 
 /* some tabs */
 
-div.tabs {
+.tabs {
       float:left;
       width:100%;
       line-height: 1em;
 }
 
-div.tabs,
-div.tabs a { /* text appearance in tabs */
+.tabs,
+.tabs a { /* text appearance in tabs */
 }
 
-div.tabs ul { /* position tabs */
+.tabs ul { /* position tabs */
 	margin: 0;
 	padding: 10px 10px 0 15px;
 	list-style: none;
 }
 
-div.tabs ul li {
+.tabs ul li {
       display: inline;
       margin: 0;
       padding: 0;
 }
 
-div.tabs li a { /* tab top left corner */
+.tabs li a { /* tab top left corner */
       float: left;
       margin: 0;
       padding: 0 0 0 4px;
       text-decoration: none;
 }
 
-div.tabs li a span { /* tab top right corner */
+.tabs li a span { /* tab top right corner */
       float: left;
       display: block;
       padding: 5px 12px 4px 6px;
       color: #666;
 }
 
-div.tabs li a:hover,
-div.tabs li a.current { /* change tab background on hovering */
+.tabs li a:hover,
+.tabs li a.current { /* change tab background on hovering */
 	background-position: 0% -42px;
 	cursor: pointer; /* else ie 6 is lost */
 }
 
-div.tabs li a:hover span,
-div.tabs li a.current span { /* change tab background on hovering */
+.tabs li a:hover span,
+.tabs li a.current span { /* change tab background on hovering */
 	background-position: 100% -42px;
 	color:#FF9834;
 }
 
+
+/**
+* styles for drop down menu within tabs
+* <ul>
+*	<li>level 1 entry
+*		<div class="dropmenu">
+			<p class ="details" id="dropcount">(xx sections)</p>
+*			<ul>
+*				<li>level 2 entry</li>
+*			</ul>
+*		</div>
+*	</li>
+* </ul>
+*
+* !Important : if within header_panel, set overflow to visible
+* for this tag in your style sheet.
+* you can't see second-level <ul> either !
+*/
+
+/* li elements of first level <ul> have to be block and set
+ * as reference for absolute positionning of second level <ul> */
+.tabs ul li {
+	position:relative;
+	display: block;
+	float: left; 		/*to appear as a horizontal menu*/
+}
+
+/* rule for second level list
+ * list should be right under first level <li>
+ * with side and bottom padding so not disapearing to fast*/
+.tabs ul li .dropmenu {
+	position:absolute; 			/*from first level <li>*/
+	top:100%; 					/*start the top of second-level <ul> at the bottom of first-level <li>*/
+	left : 0; 					/*align left, but set as you need*/
+	display : none; 			/*showed only when first level <ul> is hovered*/
+	z-index: 10; 				/*ensure it's over other following "relative" tags*/
+	padding:0 8px 8px 8px; 		/* ensure displaying doesn't dispear to fast while moving the mouse away */
+	border : 1px solid #888; 	/* basic to delimitate the dropmenu */
+	border-top : none;
+	/*margin-top: 2px; 			/* equals ul li border bottom; */
+}
+
+/* display second level <ul> when first-level <li> is hovered*/
+.tabs ul li:hover .dropmenu {
+	display : block;
+}
+
+.tabs .dropmenu li {
+	float:none;		/* prevent inheritage from tabs' rules*/
+	display : block;	/* prevent inheritage from tabs' rules*/
+	background-color : #FFF;/* distinguish from background*/
+	background-image : none;/* prevent inheritage from tabs' rules*/
+	width : 130px; 		/* 152px - padding 2x8px + 2x2px - border 2x1px */
+	height : auto;		/* prevent inheritage from tabs' rules*/
+	min-height : 1.5em;	/* ensure good appearence*/
+	border : none;		/* prevent inheritage from tabs' rules*/
+	padding : 2px;		/* ensure good appearence*/
+	margin-right: 0px;
+}
+
+/*not all second-level <li> content may be a link*/
+.tabs ul li ul li:hover {
+	cursor: default;	/* prevent inheritage from tabs' rules*/
+	background : #DEE; /* basic to make pleasant hovering */
+}
+
+/* prevent inheritage from tabs' rules*/
+.tabs ul li ul li a, div.tabs ul li ul li a span {
+	display : inline;
+	float : none;
+	background : none;
+	padding: 0px;
+}
+
+/*minimize icon size */
+.dropmenu .icon img {
+	max-height: 40px;
+	max-width: 40px;
+}
+
+/* format hint that display count of total subsections */
+#dropcount {text-align:center;margin: 0 5px 5px;padding:0;}
 
 /* navigation boxes (in the side panel) */
 
@@ -262,6 +347,13 @@ p#page_menu a span.last { /* last command on the right */
 	p#page_menu {
 		display: none;
 	}
+}
+
+/* local switcher */
+
+.local_switcher ul {
+    list-style: none;
+    padding: 0;
 }
 
 /* gadget boxes */
@@ -723,7 +815,7 @@ dl#contextual_menu ul.tree li a.open { /* item has the current focus */
 
 /* tipsy -- see http://onehackoranother.com/projects/jquery/tipsy/ */
 
-.tipsy { padding: 5px; font-size: 10px; position: absolute; z-index: 1000; }
+.tipsy { padding: 5px; font-size: 10px; position: absolute; z-index: 6000; }
   .tipsy-inner { padding: 5px 8px 4px 8px; background-color: black; color: white; max-width: 200px; text-align: center; }
   .tipsy-inner { border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px; }
   .tipsy-arrow { position: absolute; background: url('tools/tipsy.gif') no-repeat top left; width: 9px; height: 5px; }
@@ -880,7 +972,18 @@ div.menu_bar a.button,
 input[type="submit"],
 button.bigButton,
 div.menu_bar .button button { /* [button]url[/button], [button=label]url[/button] -- a link that mimic a form button */
-	background: -moz-linear-gradient(center top , #FFFFFF, #CCCCCC) repeat scroll 0 0 transparent;
+        background: -webkit-gradient(
+            linear,
+            left top,
+            left bottom,
+            color-stop(0, #FFF),
+            color-stop(1, #CCC)
+        );
+        background: -o-linear-gradient(bottom, #FFF 0%, #CCC 100%);
+        background: -moz-linear-gradient(bottom, #FFF 0%, #CCC 100%);
+        background: -webkit-linear-gradient(bottom, #FFF 0%, #CCC 100%);
+        background: -ms-linear-gradient(bottom, #FFF 0%, #CCC 100%);
+        background: linear-gradient(to bottom, #FFF 0%, #CCC 100%);
     border: 1px solid #AAAAAA;
     border-radius: 12px 12px 12px 12px;
     color: #111111;
@@ -911,10 +1014,20 @@ div.menu_bar a.button:hover,
 input[type="submit"]:hover,
 button.bigButton:hover,
 div.menu_bar .button button:hover { /* hover a button */
-	background: -moz-linear-gradient(center top , #CCCCCC, #DDDDDD) repeat scroll 0 0 transparent;
+	background: -webkit-gradient(
+            linear,
+            left top,
+            left bottom,
+            color-stop(0, #CCCCCC),
+            color-stop(1, #DDDDDD)
+        );
+        background: -o-linear-gradient(bottom, #CCCCCC 0%, #DDDDDD 100%);
+        background: -moz-linear-gradient(bottom, #CCCCCC 0%, #DDDDDD 100%);
+        background: -webkit-linear-gradient(bottom, #CCCCCC 0%, #DDDDDD 100%);
+        background: -ms-linear-gradient(bottom, #CCCCCC 0%, #DDDDDD 100%);
+        background: linear-gradient(to bottom, #CCCCCC 0%, #DDDDDD 100%);
 	cursor: pointer;
-	position: relative;
-	box-shadow: 0 2px 6px #FFFFFF inset, 0 3px 3px rgba(0, 0, 0, 0.6);
+	position: relative;	
 	text-decoration: none;
 }
 
@@ -922,6 +1035,10 @@ a.button.wide { /* a button spanning most of the available space */
 	display: block;
 	width: 98%;
 	text-align: center;
+}
+
+button.disabled {
+    color : #AAAAAA !important;
 }
 
 @media screen { /* not on printers */
@@ -982,7 +1099,7 @@ a.button.wide { /* a button spanning most of the available space */
 		color: #888;
 	}
 
-	#main_panel a.next { /* shortcut to next page -- [next=id], [next=id, label] */
+	#main_panel a.next, #modal_panel a.next { /* shortcut to next page -- [next=id], [next=id, label] */
 		background-color: #ddd;
 		color: black;
 		font-size: 1em;
@@ -992,7 +1109,7 @@ a.button.wide { /* a button spanning most of the available space */
 		margin: 2px;
 	}
 
-	#main_panel a.next:hover { /* about to click */
+	#main_panel a.next:hover, #modal_panel a.next:hover { /* about to click */
 		color: black;
 		cursor: pointer;
 		position: relative;
@@ -1000,7 +1117,7 @@ a.button.wide { /* a button spanning most of the available space */
 		text-decoration: none;
 	}
 
-	#main_panel a.previous { /* shortcut to previous page -- [previous=id], [previous=id, label] */
+	#main_panel a.previous, #modal_panel a.previous { /* shortcut to previous page -- [previous=id], [previous=id, label] */
 		background-color: #ddd;
 		color: black;
 		font-size: 1em;
@@ -1010,7 +1127,7 @@ a.button.wide { /* a button spanning most of the available space */
 		margin: 2px;
 	}
 
-	#main_panel a.previous:hover { /* about to click */
+	#main_panel a.previous:hover, #modal_panel a.previous:hover { /* about to click */
 		color: black;
 		cursor: pointer;
 		position: relative;
@@ -1130,9 +1247,7 @@ table.decorated tbody tr td.image { /* the cell with image */
 table.decorated tbody tr td.image img {
 	margin: 2px;	/* align the decorating image with decorated text */
 	max-width: 50px;		/* ensure that the image is not too large */
-	width: expression(this.width > 50 ? 50: true); /* just for IE 6 */
 	max-height: 50px;
-	height: expression(this.height > 50 ? 50: true); /* just for IE 6 */
 }
 
 div.caution { /* [caution]...[/caution] -- draw attention to a warning message */
@@ -1161,7 +1276,6 @@ pre { /* [php]...[/php] and [snippet]...[/snippet] -- pre-formatted text */
 	white-space: pre;
 	overflow: auto; /* add an horizontal bar to browse long lines of code, if necessary */
 	max-width: 410px; /* ensure we fit in narrowed layouts */
-	width: expression(this.width > 410 ? 410: true); /* just for IE 6 */
 }
 
 blockquote { /* [quote]...[/quote] -- to cite someone */
@@ -1307,17 +1421,17 @@ th { /* an ordinary table header -- headers in [table]headers[body]content[/tabl
 
 }
 
-table.grid,
+table.yc-grid,
 table.exhibit-tabularView-body { /* [table=grid]...[/table] - enhance table borders*/
 	border: none;
 	margin: 1em 0;
 }
 
-table.grid tbody tr td,
-table.grid tbody tr.even td,
-table.grid tbody tr.odd td,
-table.grid tbody tr th,
-table.grid thead tr th,
+table.yc-grid tbody tr td,
+table.yc-grid tbody tr.even td,
+table.yc-grid tbody tr.odd td,
+table.yc-grid tbody tr th,
+table.yc-grid thead tr th,
 table.exhibit-tabularView-body tbody tr td,
 table.exhibit-tabularView-body tbody tr th { /* a cell in a grid */
 	border: 2px ridge #bfbfbf;
@@ -1621,55 +1735,6 @@ div.autocomplete ul li,
 }
 
 /**
- * forms with Ajax -- see forms/edit.php
- */
-
-div.captured { /* some text provided in the form */
-	border: 1px dotted #ddd;
-	margin: 1em auto 1em 0;
-	padding: 0.5em;
-}
-
-div.dropmarker { /* the horizontal line to track position during drag */
-	height: 6px;
-	width: 100px;
-	border-top: 3px solid #666;
-	color: #fff;
-	z-index: 1000;
-	margin: 0 0 30px 20px;
-}
-
-.sortable {
-	position: relative;
-/*	border: 1px solid #ccc; */
-	margin: 0.3em 0 0 0;
-	padding: 0.5em 0 0.5em 0;
-	width: 500px;
-}
-
-.sortable:hover {background-color: #edf6dd;}
-
-div#form_input_panel {
-	margin-top: 2em;
-	padding-top: 1em;
-}
-
-div#form_panel {
-	position: relative;
-}
-
-div#form_panel h2,
-div#form_panel h3 { /* align title with dragging handle */
-	clear: none;
-}
-
-div#form_wrapper { /* the panel where fields are handled */
-	margin-bottom: 2em;
-	padding-bottom: 0.5em;
-	min-height: 5em;
-}
-
-/**
  * on-demand toolbox
  */
 
@@ -1705,14 +1770,17 @@ div#modal_centered { /* the centered container */
 	position: absolute;
 	top: 30%;	/* top and left will be adjusted dynamically through javascript */
 	left: 30%;
-	display: block;
-	text-align: center;
+	display: block;	
 	color: #444;
 	background-color: #fff;
 	border: 2px solid #888;
 	margin: 0 auto;
-	padding: 4px;
+	padding: 4px;	
 	z-index: 2000;
+}
+
+#modal_content {
+    overflow-y : auto;
 }
 
 div#modal_content div.boxButtons {
@@ -1727,8 +1795,26 @@ div#modal_content h2.boxTitle {
 	text-align: center;
 }
 
+#modal_centered #modal_close {
+    position : absolute;
+    top: -14px;
+    right: -13px;   
+    
+    background: #111;
+    color : #EEE;
+    font-weight: bold;
+    
+    padding : 0 5px 2px;
+    border : 2px solid #EEE;
+    border-radius : 9px;
+    
+    cursor : pointer;
+    text-decoration: none;
+}
+
 div#modal_image_panel {
 	padding: 6px;
+	text-align: center;
 }
 
 div#modal_panel {	/* the grey overlay that sits behind the modal box */
@@ -1740,9 +1826,48 @@ div#modal_panel {	/* the grey overlay that sits behind the modal box */
 	height: 100%;
 	min-height: 100%;
 	background: transparent url('ajax/overlay_background.png') repeat; /* transparent image generated at http://apps.everamber.com/alpha/ */
-	text-align: center;
 	z-index: 1999; /* just below modal_centered */
 }
+
+
+/*******************************************
+ Responsive FORM
+*******************************************/
+
+.yc-form-row {
+    display : table-row;
+}
+
+.yc-form-row .west, .yc-form-row .east {
+    display : table-cell;
+}
+
+.yc-form-row .west {
+    vertical-align: top;
+    padding: 0 1em 1em 0;
+    max-width: 8em;
+}
+
+.yc-form-row .east {
+    padding: 0 0 1em 0;
+}
+
+.yc-form-hint {
+    margin : 0;
+    font-size: 10px;
+    color : #888;
+    font-family: sans-serif;
+}
+
+@media only screen and (max-width: 800px) {
+    
+ 
+    .yc-form-row, .yc-form-row .west, .yc-form-row .east {
+        display: block;
+    }
+    
+}
+
 
 
 
@@ -1836,7 +1961,6 @@ body#faceme div#sharingPanel input { /* display the link to share */
 div#opentok { /* for videos above the chat area */
 	position: relative;
 	max-width: 720px; /* limit the width */
-	width: expression(this.width > 720 ? 720: true); /* just for IE 6 */
 	margin: 0;
 	padding: 0;
 }
@@ -1880,7 +2004,6 @@ div#opentok .subscriber.talker { /* each talker has a red border at the top */
 div#thread_wrapper { /* around text and input field */
 	position: relative;
 	max-width: 720px; /* limit the width */
-	width: expression(this.width > 720 ? 720: true); /* just for IE 6 */
 	margin: 0;
 	padding: 0 0 6px 0;
 }
@@ -1954,37 +2077,6 @@ div#thread_text_panel dl dt.thread_other { /* details about other contributor */
 div.follow_up { /* comments from page author */
 	border: none;
 	background-color: #ffffe5;
-}
-
-/**
- * files in a collection
- *
- * @see collections/browse.php
- * @see shared/codes.php
- */
-
-table.collections { /* content of a directory */
-	border-spacing: 0;
-	border: none;
-}
-
-table.collections a img {
-	border: none;
-}
-
-table.collections td {
-	border: none;
-	margin: 0;
-	padding: 0.3em 8px 0.3em 8px;
-}
-
-table.collections th {
-	border: none;
-	margin: 0;
-	padding: 0.3em 8px 0.3em 8px;
-}
-
-ul.collections { /* a list of collections, in [collections] */
 }
 
 /**
@@ -2113,7 +2205,7 @@ dl.poll dt { /* label of one answer */
  * @see tables/tables.php
  */
 
-table.grid caption {
+table.yc-grid caption {
 	text-align: left;
 }
 
@@ -2184,59 +2276,9 @@ tr.odd td.sorted {
 }
 
 
-/****************************** styles generated by layouts, see skins/layout.php ************************************/
+/****************************** styles generated by layouts, see layouts/layout.php ************************************/
 
-/**
- * accordion layout: a list of boxes, each box having the following structure:
- *
- * <div class="accordion_handle"><a class="accordion_link">box title</a>
- * 		<div class="accordion_content"><div>box content</div></div></div>
- *
- * @see articles/layout_articles_as_accordion.php
- * @see sections/layout_sections_as_accordion.php
- */
 
-div.accordion_handle {
-	width: 99%; /* avoid horizontal slider */
-}
-
-div.accordion_handle a.accordion_link {
-	display: block;
-	font-size: 1.2em;
-	text-decoration: none;
-	background-color: #F5F5F5;
-	border-top: 1px solid #FFFFFF;
-	border-bottom: none;
-	color: #666;
-	cursor: pointer;
-	margin-bottom: 1px;
-	padding: 9px 1em 6px 1em;
-	z-index: 10;
-}
-
-div.accordion_handle a.accordion_link img.handle {
-	float: right;
-	padding-right: 0;
-}
-
-div.accordion_handle a.accordion_link:hover, div.accordion-toggle-active {
-	text-decoration: none;
-	color: #666;
-	background-color:#ddd;
-}
-
-div.accordion_content {
-	border-left: 2px solid #F5F5F5;
-	border-bottom: none;
-	border-right: 2px solid #F5F5F5;
-	overflow:hidden;
-	padding: 1em;
-	margin-bottom: 0;
-}
-
-div.accordion_content div.introduction {
-	margin: 0 0 4px 0; /* no space at the top of the introduction text */
-}
 
 /**
  * daily layout: first box is shaped as follows:
@@ -2344,6 +2386,8 @@ div.date .year { /* year of the post */
 	left: 3px;
 	top: 43px;
 }
+
+
 
 /**
  * hardboiled layout: two boxes aligned at the top, then decorated items
@@ -2660,6 +2704,7 @@ div.recent div.east { /* the second newest item */
  *
  * @see articles/layout_articles_as_slashdot.php
  */
+
 
 /**
  * spray layout: a nice layout to report on status
@@ -3135,9 +3180,7 @@ img.avatar { /* an image representing a member -- do not float it! */
 }
 
 td.author img.avatar {
-	height: expression(this.height > 60 ? 60: true); /* just for IE 6 */
 	max-height: 60px;
-	width: expression(this.width > 60 ? 60: true); /* just for IE 6 */
 	max-width: 60px;
 }
 
@@ -3155,7 +3198,7 @@ div.top { /* poster information, when placed at page top */
  * @link http://www.dynamicdrive.com/style/csslibrary/item/shade-image-tabs-menu/P30/
  */
 
-div#tabs_bar {
+.tabs_bar {
 	clear: both; /* because of floating images inserted before tabs */
 	position: relative;
 	margin: 2em 0 1em 0;
@@ -3165,24 +3208,24 @@ div#tabs_bar {
 	border-bottom: 1px solid #c0c0c0;
 }
 
-div#tabs_bar ul {
+.tabs_bar ul {
 	font-family:	Arial,sans-serif;
 	font-size: 12px;
 	font-weight: normal;
 	line-height: 21px;
 	list-style-type: none;
 	text-align: left; /* change to left, center, or right to align the menu as desired */
-	margin: 1px 0 0 0;
-	padding: 6px 0 0 0;
+	margin: 1px 0 0 0 !important;
+	padding: 6px 0 0 0 !important;
 }
 
-div#tabs_bar ul li {
+.tabs_bar ul li {
 	display: inline;
 	margin: 0;
 	padding: 0;
 }
 
-div#tabs_bar ul li a {
+.tabs_bar ul li a {
 	text-decoration: none;
 	padding: 3px 7px;
 	margin: 0;
@@ -3190,18 +3233,18 @@ div#tabs_bar ul li a {
 	border-bottom: none;
 }
 
-div#tabs_bar ul li.tab-background a {
+.tabs_bar ul li.tab-background a {
 	color: #2d2b2b;
 	background: white url("ajax/ajax_tab_bg.gif") top left repeat-x;
 }
 
-div#tabs_bar ul li.tab-foreground a {
+.tabs_bar ul li.tab-foreground a {
 	color: #0066CC;
 	background: white url("ajax/ajax_tab_bg_active.gif") top left repeat-x;
 	border-bottom: 1px solid #fff;
 }
 
-div#tabs_panels {
+.tabs_panels {
 	width: auto;
 	padding: 2px 0;
 	margin: 1em 0 0 0;
@@ -3210,26 +3253,28 @@ div#tabs_panels {
 	position: relative; /* we have absolute positioning inside! */
 }
 
-div#tabs_panels div.panel-foreground {
+.tabs_panels div.panel-foreground {
 	display: block;
 	position: relative;
 	max-width: 3000px; /* avoid overlap between tabbed panels in FF */
-	width: expression(this.width > 3000 ? 3000: true); /* just for IE 6 */
 }
 
-div#tabs_panels div.panel-foreground div.sidebar_box { /* show sidebars in visible tabs */
+.tabs_panels div.panel-foreground div.sidebar_box { /* show sidebars in visible tabs */
 	display: block;
 }
 
-div#tabs_panels div.panel-background {
+.tabs_panels div.panel-background {
 	display: none;
 	position: relative;
 	max-width: 3000px; /* avoid overlap between tabbed panels in FF */
-	width: expression(this.width > 3000 ? 3000: true); /* just for IE 6 */
 }
 
-div#tabs_panels div.panel-background div.sidebar_box { /* mask sidebars in hidden tabs */
+.tabs_panels div.panel-background div.sidebar_box { /* mask sidebars in hidden tabs */
 	display: none;
+}
+
+.tabs-mini-toggle {
+    display:none;
 }
 
 /**
@@ -3456,4 +3501,95 @@ a img {
 #header_panel {
 	position: relative; /* allow for absolute positioning inside */
 	overflow: hidden; /* oversized components should not break the layout */
+}
+
+
+/*******************************************
+ Responsive FORM
+*******************************************/
+
+.yc-form-row {
+    display : table-row;
+}
+
+.yc-form-row .west, .yc-form-row .east {
+    display : table-cell;
+}
+
+.yc-form-row .west {
+    vertical-align: top;
+    padding: 0 1em 1em 0;
+    max-width: 8em;
+}
+
+.yc-form-row .east {
+    padding: 0 0 1em 0;
+}
+
+.yc-form-hint {
+    margin : 0;
+    font-size: 10px;
+    color : #888;
+    font-family: sans-serif;
+}
+
+.yc-tab-steps .next, .yc-tab-steps .previous {
+    width: 70px;
+}
+.yc-tab-steps {
+    display: table;
+    margin-bottom: 1em;
+    width: 100%;
+}
+#main_form .yc-tab-steps .step {
+    display: table-cell;
+    text-align: center;
+}
+
+@media only screen and (max-width: 800px) {
+    
+ 
+    .yc-form-row, .yc-form-row .west, .yc-form-row .east {
+        display: block;
+    }
+    
+}
+
+/* *********************************************
+ * Ajax upload
+ ************************************************ */
+.yc-upload-progress-outer {
+     border: 1px solid #232D3B;
+     background: #CCC;
+     position : relative;
+    }
+.yc-upload-progress {
+    width: 5%;
+    background: #444;
+    height: 12px;  
+}
+
+.yc-upload-button {
+    display: none;
+    pointer : cursor;
+    padding: 3px;
+    background: #CCC;
+    padding: 4px;
+    color: white;
+    line-height: 2.2em;
+}
+
+.yc-upload-cancel {
+    color : red;
+    font-weight: bold;
+    position : absolute;
+    right : 3px;
+    top:0;
+    line-height: 12px;
+}
+
+.yc-upload-destroy {
+    color : red;
+    font-weight: bold;
+    text-decoration: none;
 }

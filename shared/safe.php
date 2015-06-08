@@ -511,6 +511,9 @@ class Safe {
 		// sanity check
 		if(!file_exists($path))
 			return FALSE;
+		
+		if(isset($_SESSION['last_uploaded']['pathes']) && in_array($path, $_SESSION['last_uploaded']['pathes']))
+			return TRUE;
 
 		// ensure call is allowed
 		if(is_callable('is_uploaded_file'))
@@ -628,8 +631,8 @@ class Safe {
 		global $context;
 
 		// maybe we have a native extension
-//		if(is_callable('json_encode'))
-//			return json_encode($data);
+		if(is_callable('json_encode'))
+			return json_encode($data);
 
 		// load the PHP library
 		if(file_exists($context['path_to_root'].'included/json.php')) {
@@ -767,6 +770,12 @@ class Safe {
 
 		// translate the path
 		$destination = Safe::realpath($destination);
+		
+		
+		// file may have been already loaded through ajax
+		if(file_exists($source)) {
+		    return Safe::rename($source, $destination);
+		}
 
 		// ensure call is allowed
 		if(is_callable('move_uploaded_file'))
@@ -904,7 +913,19 @@ class Safe {
 	 * @param string the target full web address
 	 */
 	public static function redirect($reference) {
-		global $context;
+		global $render_overlaid;
+                
+                // stay overlaid if it was asked 
+                if($render_overlaid) {
+                    
+                    // stop redirect if param follow_up set to 'close'
+                    if(isset($_REQUEST['follow_up']) && $_REQUEST['follow_up'] === 'close' ) {
+                        exit('job done');
+                    }
+                    // add overlaid param
+                    $reference = http::add_url_param($reference, "overlaid", "Y");
+                    
+                }
 
 		// the actual redirection directive
 		Safe::header('Location: '.$reference);
@@ -993,17 +1014,26 @@ class Safe {
 	 * @return TRUE on success, FALSE otherwise
 	 */
 	public static function setcookie($name, $value, $expire, $path, $domain=NULL) {
+		global $context;
 
 		// no way to send something back
 		if(headers_sent())
 			return FALSE;
 
-		// ensure call is allowed
-		if(is_callable('setcookie'))
-			return setcookie($name, $value, $expire, $path, $domain);
-
 		// tough luck
-		return FALSE;
+		if(!is_callable('setcookie'))
+			return FALSE;
+
+		// sanity check
+		if(!$domain)
+			$domain = $context['host_name'];
+
+		// enable sub-domains, using only last two name components: www.mydomain.com -> .mydomain.com
+		if(($parent_domain = strstr($domain, '.')) && strpos($parent_domain, '.', 1))
+			$domain = $parent_domain;
+
+		// do the job
+		return setcookie($name, $value, $expire, $path, $domain);
 
 	}
 

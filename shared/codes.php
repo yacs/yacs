@@ -94,8 +94,6 @@
  * - &#91;article=&lt;id>] - use article title as link label
  * - &#91;article=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;article.description=&lt;id>] - insert article description
- * - &#91;form=&lt;id>] - use form title as link label
- * - &#91;form=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;next=&lt;id>] - shortcut to next article
  * - &#91;next=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;previous=&lt;id>] - shortcut to previous article
@@ -120,8 +118,6 @@
  * - &#91;script]&lt;path/script.php&gt;[/script] - to the phpDoc page for script 'path/script.php'
  * - &#91;search] - a search form
  * - &#91;search=&lt;word&gt;] - hit Enter to search for 'word'
- * - &#91;action=&lt;id>] - use action title as link label
- * - &#91;action=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;wikipedia=&lt;keyword] - search Wikipedia
  * - &#91;wikipedia=&lt;keyword, foo bar] - search Wikipedia, with label 'foo bar'
  * - &#91;proxy]&lt;url&gt;[/proxy] - proxy a remote address
@@ -183,7 +179,6 @@
  * - &#91;voted=section:&lt;id>] - articles of fame in the given section
  * - &#91;voted=self] - personal hits
  * - &#91;voted=user:&lt;id>] - personal hits
- * - &#91;collections] - list available collections
  * - &#91;users=present] - list of users present on site
  *
  * @see codes/live.php
@@ -194,9 +189,6 @@
  * - &#91;twitter=id] - twitter updates of one person
  * - &#91;tsearch=token] - twitter search on a given topic
  * - &#91;iframe=&lt;width&gt;, &lt;height&gt;]&lt;url&gt;[/iframe] - include some external page
- * - &#91;freemind] - a Freemind map of site content
- * - &#91;freemind=section:&lt;id>] - a Freemind map of a section and its content
- * - &#91;freemind=section:&lt;id>, width, height] - a Freemind map of a section and its content
  * - &#91;cloud] - the tags used at this site
  * - &#91;cloud=12] - maximum count of tags used at this site
  * - &#91;calendar] - events for this month
@@ -240,7 +232,6 @@
  * In-line elements:
  * - &#91;embed=&lt;id>, &lt;width>, &lt;height>, &lt;flashparams>] - embed a multimedia file
  * - &#91;embed=&lt;id>, window] - render a multimedia file in a separate window
- * - &#91;freemind=&lt;id>] - a Freemind map out of given file
  * - &#91;sound=&lt;id>] - play a sound
  * - &#91;image=&lt;id>] - an inline image
  * - &#91;image=&lt;id>,left] - a left-aligned image
@@ -482,8 +473,8 @@ Class Codes {
 				"|</h2>\n+|i",
 				"|</h3>\n+|i",
 				"|</h4>\n+|i",
-				'/http:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+)[a-zA-Z0-9_\-&=]*/i', // YouTube link
-				'/http:\/\/youtu\.be\/([a-zA-Z0-9_\-]+)/i', // YouTube link too
+				'/http[s]*:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+)[a-zA-Z0-9_\-&=]*/i', // YouTube link
+				'/http[s]*:\/\/youtu\.be\/([a-zA-Z0-9_\-]+)/i', // YouTube link too
 				"#([\n\t \(])([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t \(])www\.([a-z0-9\-]+)\.([a-z0-9_\-\.\~]+)((?:/[^,< \r\n\)]*)?)#ie",	/* web server */
 				"/\n[ \t]*(From|To|cc|bcc|Subject|Date):(\s*)/i",	/* common message headers */
@@ -609,6 +600,37 @@ Class Codes {
 		// return by reference
 		return $output;
 	}
+        
+        /**
+         * function to format meta desc. Enable the use of newline
+         * and [lang=xx] formatting code.
+         * @see shared/global.php
+         * 
+         * @param string $text
+         * @return string
+         */
+        public static function beautify_meta_desc($text) {
+            
+            // streamline newlines, even if this has been done elsewhere
+            $text = str_replace(array("\r\n", "\r"), "\n", $text);
+            
+            // formatting patterns
+            $search = array(
+                    "|<br\s*/>\n+|i",                               // don't insert additional \n after <br /> 
+                    "|\n\n+|i",                                     // force an html space between paragraphs 
+                    '/\[lang=([^\]]+?)\](.*?)\[\/lang\]/ise'        // [lang=xy]...[/lang]
+                    );
+
+            $replace = array(
+                    BR,
+                    BR.BR,
+                    "i18n::filter(Codes::fix_tags('$2'), '$1')"     // [lang=xy]...[/lang]
+                    );
+            
+            $formatted = preg_replace($search, $replace, $text);
+            
+            return $formatted;
+        }
 
 	/**
 	 * format a title
@@ -758,7 +780,7 @@ Class Codes {
 	}
 
 	/**
-	 * fix line breaks introduced by FCKEditor
+	 * fix line breaks
 	 *
 	 * This function moves unclosed tags to the beginning of content.
 	 *
@@ -801,9 +823,15 @@ Class Codes {
 	 */
 	public static function initialize($main_target=NULL) {
 		global $context;
+                
+                if(!strncmp($main_target, 'http://', 7))
+                      ;
+                else
+                    $main_target = $context['url_to_root'].$main_target;
 
 		if($main_target)
-			$context['self_url'] = $context['url_to_root'].$main_target;
+			//$context['self_url'] = $context['url_to_root'].$main_target;
+                        $context['self_url'] = $main_target;
 
 	}
 
@@ -898,17 +926,19 @@ Class Codes {
 		$text = preg_replace('#^<p>(\[.+\])</p>$#m', '$1', $text);
 
  		// initialize only once
-		static $pattern;
-		static $replace;
+		static $patterns_map;
+               
+		if(!isset($patterns_map) ) {
 
-		if(!isset($pattern) || !isset($replace)) {
-
-			// remove HTML comments
-			$pattern = array("|<!-- .* -->|i");
-			$replace = array('');
+			
+			$patterns_map['|<!-- .* -->|i']                             = '';                          // remove HTML comments
+                        $patterns_map['/\[escape\](.*?)\[\/escape\]/is']            = 'Codes::render_escaped'   ;  // [escape]...[/escape] (before everything)
+                        $patterns_map['/\[php\](.*?)\[\/php\]/is']                  = 'Codes::render_pre'       ;  // [escape]...[/escape] (before everything)
+                        
+                        
 
 			// load formatting codes from files
-			$dir = $context['path_to_root'].'codes/';
+			/*$dir = $context['path_to_root'].'codes/';
 			if ($handle = Safe::opendir($dir)) {
 
 				while (false !== ($file = Safe::readdir($handle))) {
@@ -928,13 +958,400 @@ Class Codes {
 				  //get formatting code patterns from this class
 				  $classname = stristr($file,'.',TRUE);
 				  $code = new $classname;
-				  $code->get_pattern_replace($pattern,$replace);
+				  $code->get_pattern($patterns);
 				  unset($code);
 				}
 				Safe::closedir($handle);
-			}
-		} // end setting $pattern & $replace
+			
+		} // end setting $patterns*/
 
+			$old=	array(
+				'/\[snippet\](.*?)\[\/snippet\]/ise',	// [snippet]...[/snippet]
+				'/(\[page\].*)$/is',					// [page] (provide only the first one)
+				'/\[associate\](.*?)\[\/associate\]/ise', 	// [associate]...[/associate] (save some cycles if at the beginning)
+				'/\[hidden\](.*?)\[\/hidden\]/ise', 	// [hidden]...[/hidden] obsolete, replaced by [associate]...[/associate]
+				'/\[authenticated\](.*?)\[\/authenticated\]/ise', // [authenticated]...[/authenticated] (save some cycles if at the beginning)
+				'/\[restricted\](.*?)\[\/restricted\]/ise', 	// [restricted]...[/restricted] obsolete, replaced by [authenticated]...[/authenticated]
+				'/\[anonymous\](.*?)\[\/anonymous\]/ise', // [anonymous]...[/anonymous] (save some cycles if at the beginning)
+				'/\[redirect=([^\]]+?)\]/ise', 			// [redirect=<link>]
+				'/\[execute=([^\]]+?)\]/ise', 			// [execute=<name>]
+				'/\[parameter=([^\]]+?)\]/ise', 		// [parameter=<name>]
+				'/\[lang=([^\]]+?)\](.*?)\[\/lang\]/ise',		// [lang=xy]...[/lang]
+				'/\[csv=(.)\](.*?)\[\/csv\]/ise',		// [csv=;]...[/csv] (before [table])
+				'/\[csv\](.*?)\[\/csv\]/ise',			// [csv]...[/csv] (before [table])
+				'/\[table=([^\]]+?)\](.*?)\[\/table\]/ise', // [table=variant]...[/table]
+				'/\[table\](.*?)\[\/table\]/ise',		// [table]...[/table]
+				'/\[images=([^\]]+?)\]/ie', 				// [images=<ids>] (before other links)
+				'/\[image\](.*?)\[\/image\]/ise',		// [image]src[/image]
+				'/\[image=([^\]]+?)\](.*?)\[\/image\]/ise', // [image=alt]src[/image]
+				'/\[img\](.*?)\[\/img\]/ise',			// [img]src[/img]
+				'/\[img=([^\]]+?)\](.*?)\[\/img\]/ise', 	// [img=alt]src[/img]
+				'/\[image=([^\]]+?)\]/ie',					// [image=<id>]
+				'/##(\S.*?\S)##/is',					// ##...##
+				'/\[code\](.*?)\[\/code\]/is',			// [code]...[/code]
+				'/\[indent\](.*?)\[\/indent\]/ise', 	// [indent]...[/indent]
+				'/\[quote\](.*?)\[\/quote\]/ise',		// [quote]...[/quote]
+				'/\[folded=([^\]]+?)\](.*?)\[\/folded\]\s*/ise',	// [folded=...]...[/folded]
+				'/\[folded\](.*?)\[\/folded\]\s*/ise',	// [folded]...[/folded]
+				'/\[folder=([^\]]+?)\](.*?)\[\/folder\]\s*/ise',	// [folder=...]...[/folder]
+				'/\[folder\](.*?)\[\/folder\]\s*/ise',	// [folder]...[/folder]
+				'/\[unfolded=([^\]]+?)\](.*?)\[\/unfolded\]\s*/ise',	// [unfolded=...]...[/unfolded]
+				'/\[unfolded\](.*?)\[\/unfolded\]\s*/ise',	// [unfolded]...[/unfolded]
+				'/\[sidebar=([^\]]+?)\](.*?)\[\/sidebar\]\s*/ise',	// [sidebar=...]...[/sidebar]
+				'/\[sidebar\](.*?)\[\/sidebar\]\s*/ise',	// [sidebar]...[/sidebar]
+				'/\[note\](.*?)\[\/note\]\s*/ise',		// [note]...[/note]
+				'/\[caution\](.*?)\[\/caution\]\s*/ise', // [caution]...[/caution]
+				'/\[search=([^\]]+?)\]/ise',				// [search=words]
+				'/\[search\]/ise',						// [search]
+				'/\[cloud=(\d+?)\]/ise',				// [cloud=12]
+				'/\[cloud\]/ise',						// [cloud]
+				'/\[login=([^\]]+?)\]/is',				// [login=words] --obsoleted
+				'/\[login\]/is',						// [login] --obsoleted
+				'/\[center\](.*?)\[\/center\]/ise', 	// [center]...[/center]
+				'/\[right\](.*?)\[\/right\]/ise',		// [right]...[/right]
+				'/\[decorated\](.*?)\[\/decorated\]/ise',// [decorated]...[/decorated]
+				'/\[style=([^\]]+?)\](.*?)\[\/style\]/ise', // [style=variant]...[/style]
+				'/\[hint=([^\]]+?)\](.*?)\[\/hint\]/is',	// [hint=help]...[/hint]
+				'/\[tiny\](.*?)\[\/tiny\]/ise', 		// [tiny]...[/tiny]
+				'/\[small\](.*?)\[\/small\]/ise',		// [small]...[/small]
+				'/\[big\](.*?)\[\/big\]/ise',			// [big]...[/big]
+				'/\[huge\](.*?)\[\/huge\]/ise', 		// [huge]...[/huge]
+				'/\[subscript\](.*?)\[\/subscript\]/is',// [subscript]...[/subscript]
+				'/\[superscript\](.*?)\[\/superscript\]/is',// [superscript]...[/superscript]
+				'/\+\+(\S.*?\S)\+\+(?!([^<]+)?>)/is',	// ++...++
+				'/\[(---+|___+)\]\s*/ise',				// [---], [___] --- before inserted
+				'/^-----*/me',							// ----
+				'/\[inserted\](.*?)\[\/inserted\]/is',	// [inserted]...[/inserted]
+				'/ --(\S.*?\S)--(?!([^<]+)?>)/is',		// --...--
+				'/\[deleted\](.*?)\[\/deleted\]/is',	// [deleted]...[/deleted]
+				'/\*\*(\S.*?\S)\*\*/is',				// **...**
+				'/\[b\](.*?)\[\/b\]/is',				// [b]...[/b]
+				'/ \/\/(\S.*?\w)\/\/(?!([^<]+)?>)/is',				// //...//
+				'/\[i\](.*?)\[\/i\]/is',				// [i]...[/i]
+				'/__(\S.*?\S)__(?!([^<]+)?>)/is',		// __...__
+				'/\[u\](.*?)\[\/u\]/is',				// [u]...[/u]
+				'/\[color=([^\]]+?)\](.*?)\[\/color\]/is',	// [color=<color>]...[/color]
+				'/\[new\]/ie',							// [new]
+				'/\[popular\]/ie',						// [popular]
+				'/\[flag=([^\]]+?)\]/ie',				// [flag=<flag>]
+				'/\[flag\](.*?)\[\/flag\]/ise', 		// [flag]...[/flag]
+				'/\[list\](.*?)\[\/list\]/ise', 		// [list]...[/list]
+				'/\[list=([^\]]+?)\](.*?)\[\/list\]/ise',	// [list=1]...[/list]
+				'/\n\n+[ \t]*\[\*\][ \t]*/ie',			// [*] (outside [list]...[/list])
+				'/\n?[ \t]*\[\*\][ \t]*/ie',
+				'/\[li\](.*?)\[\/li\]/is',				// [li]...[/li] (outside [list]...[/list])
+				'/\[chart=([^\]]+?)\](.*?)\[\/chart\]/ise',	// [chart=<width>, <height>, <params>]...[/chart]
+				'/\[embed=([^\]]+?)\]/ie',					// [embed=<id>, <width>, <height>, <params>] or [embed=<id>, window]
+				'/\[flash=([^\]]+?)\]/ie',					// [flash=<id>, <width>, <height>, <params>] or [flash=<id>, window]
+				'/\[sound=([^\]]+?)\]/ie',					// [sound=<id>]
+				'/\[go=([^\]]+?)\]/ie', 					// [go=<name>]
+				'/\[\[([^\]]+?)\]\]/ie', 					// [[<name>]]
+				'/\[article\.description=([^\]]+?)\]/ie',	// [article.description=<id>]
+				'/\[article=([^\]]+?)\]/ie',				// [article=<id>] or [article=<id>, title]
+				'/\[next=([^\]]+?)\]/ie',					// [next=<id>]
+				'/\[previous=([^\]]+?)\]/ie',				// [previous=<id>]
+				'/\[random\]/ie',							// [random]
+				'/\[random\.description=([^\]]+?)\]/ie',	// [random.description=section:<id>]
+				'/\[random=([^\]]+?)\]/ie',					// [random=section:<id>] or [random=category:<id>]
+				'/\[form=([^\]]+?)\]/ie',					// [form=<id>] or [form=<id>, title]
+				'/\[section=([^\]]+?)\]/ie',				// [section=<id>] or [section=<id>, title]
+				'/\[category\.description=([^\]]+?)\]\n*/ise',	// [category.description=<id>]
+				'/\[category=([^\]]+?)\]/ie',				// [category=<id>] or [category=<id>, title]
+				'/\[user=([^\]]+?)\]/ie',					// [user=<id>] or [user=<id>, title]
+				'/\[server=([^\]]+?)\]/ie', 				// [server=<id>]
+				'/\[file=([^\]]+?)\]/ie',					// [file=<id>] or [file=<id>, title]
+				'/\[download=([^\]]+?)\]/ie',				// [download=<id>] or [download=<id>, title]
+				'/\[comment=([^\]]+?)\]/ie',				// [comment=<id>] or [comment=<id>, title]
+				'/\[url=([^\]]+?)\](.*?)\[\/url\]/ise', 	// [url=url]label[/url] (deprecated by [link])
+				'/\[url\](.*?)\[\/url\]/ise',				// [url]url[/url] (deprecated by [link])
+				'/\[link=([^\]]+?)\](.*?)\[\/link\]/ise',	// [link=label]url[/link]
+				'/\[link\](.*?)\[\/link\]/ise', 			// [link]url[/link]
+				'/\[proxy\](.*?)\[\/proxy\]/ise', 			// [proxy]url[/proxy]
+				'/\[button=([^\]]+?)\](.*?)\[\/button\]/ise',	// [button=label]url[/button]
+				'/\[button=([^\|]+?)\|([^\]]+?)]/ise',		// [button=label|url]
+				'/\[click=([^\|]+?)\|([^\]]+?)]/ise',		// [click=label|url]
+				'/\[clicks=([^\]]+?)]/ise',					// [clicks=url]
+				'/\[script\](.*?)\[\/script\]/ise', 		// [script]url[/script]
+				'/\[menu\](.*?)\[\/menu\]\n*/ise',			// [menu]url[/menu]
+				'/\[menu=([^\]]+?)\](.*?)\[\/menu\]\n{0,1}/ise',	// [menu=label]url[/menu]
+				'/\[submenu\](.*?)\[\/submenu\]\n{0,1}/ise',	// [submenu]url[/submenu]
+				'/\[submenu=([^\]]+?)\](.*?)\[\/submenu\]\n*/ise', // [submenu=label]url[/submenu]
+				'/\[email=([^\]]+?)\](.*?)\[\/email\]/ise', // [email=label]url[/email]
+				'/\[email\](.*?)\[\/email\]/ise',			// [email]url[/email]
+				'/\[([^ ][^\]\|]+?[^ ])\|([^ ][^\]]+?[^ ])\]/ise',			// [label|url]
+				'/\[question\](.*?)\[\/question\]\n*/ise',	// [question]...[/question]
+				'/\[question\]/ise',						// [question]
+				'/\[answer\]/ise',							// [answer]
+				'/\[newsfeed=([^\]]+?)\]/ise',				// [newsfeed=url]
+				'/\[newsfeed\.([^=\]]+?)=([^\]]+?)\]/ise',	// [newsfeed.variant=url]
+				'/\[twitter=([^\]]+?)\]/ise',				// [twitter=id]
+				'/\[tsearch=([^\]]+?)\]/ise',				// [tsearch=id]
+				'/\[retweet\]/ise',							// [retweet]
+				'/\[iframe\](.*?)\[\/iframe\]/ise',			// [iframe]<url>[/iframe]
+				'/\[iframe=([^\]]+?)\](.*?)\[\/iframe\]/ise',	// [iframe=<width>, <height>]<url>[/iframe]
+				'/\[scroller\](.*?)\[\/scroller\]/ise', 	// [scroller]...[/scroller]
+				'/\[toq\]\n*/ise',							// [toq] (table of questions)
+				'/\[title\](.*?)\[\/title\]\n*/is', 		// [title]...[/title]
+				'/\[subtitle\](.*?)\[\/subtitle\]\n*/is',	// [subtitle]...[/subtitle]
+				'#\[(header[1-5])\](.*?)\[/\1\]\n*#ise',	// [header1]...[/header1] ... [header5]...[/header5]
+				'/^======(\S.*?\S)======/me',				// ======...====== level 5 headline
+				'/<(br \/|p)>======(\S.*?\S)======<(br \/|\/p)>/me',		// ======...====== level 5 headline
+				'/^=====(\S.*?\S)=====/me',					// =====...===== level 4 headline
+				'/<(br \/|p)>=====(\S.*?\S)=====<(br \/|\/p)>/me',			// =====...===== level 4 headline
+				'/^====(\S.*?\S)====/me',					// ====...==== level 3 headline
+				'/<(br \/|p)>====(\S.*?\S)====<(br \/|\/p)>/me',			// ====...==== level 3 headline
+				'/^===(\S.*?\S)===/me',						// ===...=== level 2 headline
+				'/<(br \/|p)>===(\S.*?\S)===<(br \/|\/p)>/me',				// ===...=== level 2 headline
+				'/^==(\S.*?\S)==/me',						// ==...== level 1 headline
+				'/<(br \/|p)>==(\S.*?\S)==<(br \/|\/p)>/me',				// ==...== level 1 headline
+				'/\[toc\]\n*/ise',							// [toc] (table of content)
+				'/\[published\.([^\]=]+?)=([^\]]+?)\]\n*/ise',	// [published.decorated=section:4029]
+				'/\[published\.([^\]]+?)\]\n*/ise',			// [published.decorated]
+				'/\[published=([^\]]+?)\]\n*/ise',			// [published=section:4029]
+				'/\[published\]\n*/ise',					// [published]
+				'/\[read\.([^\]=]+?)=([^\]]+?)\]\n*/ise',	// [read.decorated=section:4029]
+				'/\[read\.([^\]]+?)\]\n*/ise',				// [read.decorated]
+				'/\[read=([^\]]+?)\]\n*/ise',				// [read=section:4029]
+				'/\[read\]\n*/ise', 						// [read]
+				'/\[updated\.([^\]=]+?)=([^\]]+?)\]\n*/ise', // [updated.simple=section:4029] (a list of recent updates)
+				'/\[updated\.([^\]]+?)\]\n*/ise', 			// [updated.simple] (a list of recent updates)
+				'/\[updated=([^\]]+?)\]\n*/ise', 			// [updated=section:4029] (a compact list of recent updates)
+				'/\[updated\]\n*/ise',						// [updated] (a compact list of recent updates)
+				'/\[voted\.([^\]=]+?)=([^\]]+?)\]\n*/ise',	// [voted.decorated=section:4029]
+				'/\[voted\.([^\]]+?)\]\n*/ise',				// [voted.decorated]
+				'/\[voted=([^\]]+?)\]\n*/ise',				// [voted=section:4029]
+				'/\[voted\]\n*/ise', 						// [voted]
+				'/\[sections\]\n*/ise',						// [sections] (site map)
+				'/\[sections\.([^\]=]+?)\]\n*/ise',			// [sections.folded] (site map)
+				'/\[sections=([^\]]+?)\]\n*/ise',			// [sections=section:4029] (sub-sections)
+				'/\[sections\.([^\]=]+?)=([^\]]+?)\]\n*/ise',	// [sections.simple=self] (assigned)
+				'/\[categories\]\n*/ise',					// [categories] (category tree)
+				'/\[categories\.([^\]=]+?)\]\n*/ise',		// [categories.folded] (category tree)
+				'/\[categories=([^\]]+?)\]\n*/ise',			// [categories=section:4029] (sub-categories)
+				'/\[categories\.([^\]=]+?)=([^\]]+?)\]\n*/ise',	// [categories.simple=self] (assigned)
+				'/\[calendar\]\n*/ise',					// [calendar]
+				'/\[calendar=([^\]]+?)\]\n*/ise',		// [calendar=section:4029]
+				'/\[users=([^\]]+?)\]/ie',					// [users=present]
+				'/\[news=([^\]]+?)\]/ise',				// [news=flash]
+				'/\[table=([^\]]+?)\]/ise', 			// [table=<id>]
+				'/\[table\.([^=\]]+?)=([^\]]+?)\]/ise', // [table.json=<id>]  [table.timeplot=<id>]
+				'/\[locations=([^\]]+?)\]/ise', 		// [locations=<id>]
+				'/\[location=([^\]]+?)\]/ise',			// [location=<id>]
+				'/\[wikipedia=([^\]]+?)\]/ise', 		// [wikipedia=keyword] or [wikipedia=keyword, title]
+				'/\[digraph\](.*?)\[\/digraph\]/ise',	// [digraph]url[/digraph]
+				'/\[be\]/i',							// [be] belgian flag
+				'/\[ca\]/i',							// [ca] canadian flag
+				'/\[ch\]/i',							// [ch] swiss flag
+				'/\[de\]/i',							// [de] german flag
+				'/\[en\]/i',							// [en] english flag
+				'/\[es\]/i',							// [es] spanish flag
+				'/\[fr\]/i',							// [fr] french flag
+				'/\[gb\]/i',							// [gb] gb flag
+				'/\[gr\]/i',							// [gr] greek flag
+				'/\[it\]/i',							// [it] italian flag
+				'/\[pt\]/i',							// [pt] portuguese flag
+				'/\[us\]/i',							// [pt] us flag
+				'/\[clear\]\n*/i',						// [clear]
+				'/\[nl\]\n*/si',						// [nl] (after tables)
+				'/\[br\]/i' 							// [br] (deprecated by [nl])
+			);
+		}
+
+		// initialize only once
+		static $replace;
+		if(!isset($replace)) {
+			$replace = array(
+
+				"Codes::render_pre(Codes::fix_tags('$1'), 'snippet')",				// [snippet]...[/snippet]
+				'', 																// [page]
+				"Codes::render_hidden(Codes::fix_tags('$1'), 'associate')",			// [associate]...[/associate]
+				"Codes::render_hidden(Codes::fix_tags('$1'), 'associate')",			// [hidden]...[/hidden]
+				"Codes::render_hidden(Codes::fix_tags('$1'), 'authenticated')",		// [authenticated]...[/authenticated]
+				"Codes::render_hidden(Codes::fix_tags('$1'), 'authenticated')",		// [restricted]...[/restricted]
+				"Codes::render_hidden(Codes::fix_tags('$1'), 'anonymous')",			// [anonymous]...[/anonymous]
+				"Codes::render_redirect('$1')",									// [redirect=<link>]
+				"Codes::render_execute('$1')",										// [execute=<name>]
+				"Codes::render_parameter('$1')",									// [parameter=<name>]
+				"i18n::filter(Codes::fix_tags('$2'), '$1')", 						// [lang=xy]...[/lang]
+				"utf8::encode(str_replace('$1', '|', utf8::from_unicode(Codes::fix_tags('$2'))))",	// [csv=;]...[/csv]
+				"str_replace(',', '|', Codes::fix_tags('$1'))",						// [csv]...[/csv]
+				"Codes::render_static_table(Codes::fix_tags('$2'), '$1')",			// [table=variant]...[/table]
+				"Codes::render_static_table(Codes::fix_tags('$1'), '')",			// [table]...[/table]
+				"Codes::render_object('images', '$1')",								// [images=<ids>]
+				"'<div class=\"external_image\"><img src=\"'.encode_link('$1').'\" alt=\"\" /></div>'",	// [image]src[/image]
+				"'<div class=\"external_image\"><img src=\"'.encode_link('$2').'\" alt=\"'.encode_link('$1').'\" /></div>'", // [image=alt]src[/image]
+				"'<div class=\"external_image\"><img src=\"'.encode_link('$1').'\" alt=\"\" /></div>'",	// [img]src[/img]
+				"'<div class=\"external_image\"><img src=\"'.encode_link('$2').'\" alt=\"'.encode_link('$1').'\" /></div>'", // [img=alt]src[/img]
+				"Codes::render_object('image', Codes::fix_tags('$1'))",				// [image=<id>]
+				'<code>$1</code>', 												// ##...##
+				'<code>$1</code>', 												// [code]...[/code]
+				"Skin::build_block(Codes::fix_tags('$1'), 'indent')", 				// [indent]...[indent]
+				"Skin::build_block(Codes::fix_tags('$1'), 'quote')",				// [quote]...[/quote]
+				"Skin::build_box('$1', Codes::fix_tags('$2'), 'folded')",			// [folded=title]...[/folded]
+				"Skin::build_box(NULL, Codes::fix_tags('$1'), 'folded')", 			// [folded]...[/folded]
+				"Skin::build_box('$1', Codes::fix_tags('$2'), 'folded')",			// [folder=title]...[/folder]
+				"Skin::build_box(NULL, Codes::fix_tags('$1'), 'folded')", 			// [folder]...[/folder]
+				"Skin::build_box('$1', Codes::fix_tags('$2'), 'unfolded')",			// [unfolded=title]...[/unfolded]
+				"Skin::build_box(NULL, Codes::fix_tags('$1'), 'unfolded')", 		// [unfolded]...[/unfolded]
+				"Skin::build_box('$1', Codes::fix_tags('$2'), 'sidebar')",			// [sidebar=title]...[/sidebar]
+				"Skin::build_box(NULL, Codes::fix_tags('$1'), 'sidebar')",			// [sidebar]...[/sidebar]
+				"Skin::build_block(Codes::fix_tags('$1'), 'note')",					// [note]...[/note]
+				"Skin::build_block(Codes::fix_tags('$1'), 'caution')",				// [caution]...[/caution]
+				"Skin::build_block('$1', 'search')",								// [search=<words>]
+				"Skin::build_block(NULL, 'search')",								// [search]
+				"Codes::render_cloud('$1')",										// [cloud=12]
+				"Codes::render_cloud(20)",											// [cloud]
+				'', 																// [login=<words>] --obsoleted
+				'', 																// [login] --obsoleted
+				"Skin::build_block(Codes::fix_tags('$1'), 'center')", 				// [center]...[/center]
+				"Skin::build_block(Codes::fix_tags('$1'), 'right')",				// [right]...[/right]
+				"Skin::build_block(Codes::fix_tags('$1'), 'decorated')",			// [decorated]...[/decorated]
+				"Skin::build_block(Codes::fix_tags('$2'), '$1')", 					// [style=variant]...[/style]
+				'<acronym title="$1">$2</acronym>',									// [hint=help]...[/hint]
+				"Skin::build_block(Codes::fix_tags('$1'), 'tiny')",					// [tiny]...[/tiny]
+				"Skin::build_block(Codes::fix_tags('$1'), 'small')",				// [small]...[/small]
+				"Skin::build_block(Codes::fix_tags('$1'), 'big')",					// [big]...[/big]
+				"Skin::build_block(Codes::fix_tags('$1'), 'huge')",					// [huge]...[/huge]
+				'<sub>$1</sub>',													// [subscript]...[/subscript]
+				'<sup>$1</sup>',													// [superscript]...[/superscript]
+				'<ins>$1</ins>',													// ++...++
+				"HORIZONTAL_RULER", 												// [---], [___]
+				"HORIZONTAL_RULER", 												// ----
+				'<ins>$1</ins>',													// [inserted]...[/inserted]
+				' <del>$1</del>',													// --...--
+				'<del>$1</del>',													// [deleted]...[/deleted]
+				'<b>$1</b>',														// **...**
+				'<b>$1</b>',														// [b]...[/b]
+				' <i>$1</i>',														// //...//
+				'<i>$1</i>',														// [i]...[/i]
+				'<span style="text-decoration: underline">$1</span>',				// __...__
+				'<span style="text-decoration: underline">$1</span>',				// [u]...[/u]
+				'<span style="color: $1">$2</span>',								// [color]...[/color]
+				"NEW_FLAG", 														// [new]
+				"POPULAR_FLAG", 													// [popular]
+				"Skin::build_flag('$1')",											// [flag=....]
+				"Skin::build_flag('$1')",											// [flag]...[/flag]
+				"Codes::render_list(Codes::fix_tags('$1'), NULL)",					// [list]...[/list]
+				"Codes::render_list(Codes::fix_tags('$2'), '$1')",					// [list=?]...[/list]
+				"BR.BR.BULLET_IMG.'&nbsp;'",										// standalone [*]
+				"BR.BULLET_IMG.'&nbsp;'",
+				'<li>$1</li>', 														// [li]...[/li]
+				"Codes::render_chart(Codes::fix_tags('$2'), '$1')",					// [chart=<width>, <height>, <params>]...[/chart]
+				"Codes::render_embed(Codes::fix_tags('$1'))",						// [embed=<id>, <width>, <height>, <params>]
+				"Codes::render_embed(Codes::fix_tags('$1'))",						// [flash=<id>, <width>, <height>, <params>] -- obsoleted by 'embed'
+				"Codes::render_object('sound', Codes::fix_tags('$1'))",				// [sound=<id>]
+				"Codes::render_object('go', Codes::fix_tags('$1'))",				// [go=<name>]
+				"Codes::render_object('go', Codes::fix_tags('$1'))",				// [[<name>]]
+				"Codes::render_object('article.description', Codes::fix_tags('$1'))",// [article.description=<id>]
+				"Codes::render_object('article', Codes::fix_tags('$1'))",			// [article=<id>]
+				"Codes::render_object('next', Codes::fix_tags('$1'))",				// [next=<id>]
+				"Codes::render_object('previous', Codes::fix_tags('$1'))",			// [previous=<id>]
+				"Codes::render_random()",											// [random]
+				"Codes::render_random('$1', 'description')",						// [random.description=section:<id>]
+				"Codes::render_random('$1')",										// [random=section:<id>]
+				"Codes::render_object('form', Codes::fix_tags('$1'))",				// [form=<id>]
+				"Codes::render_object('section', Codes::fix_tags('$1'))",			// [section=<id>]
+				"Codes::render_object('category.description', '$1')", 				// [category.description=<id>]
+				"Codes::render_object('category', Codes::fix_tags('$1'))",	 		// [category=<id>]
+				"Codes::render_object('user', Codes::fix_tags('$1'))",				// [user=<id>]
+				"Codes::render_object('server', Codes::fix_tags('$1'))",			// [server=<id>]
+				"Codes::render_object('file', Codes::fix_tags('$1'))",				// [file=<id>] or [file=<id>, title]
+				"Codes::render_object('download', Codes::fix_tags('$1'))",			// [download=<id>] or [download=<id>, title]
+				"Codes::render_object('comment', Codes::fix_tags('$1'))",			// [comment=<id>] or [comment=<id>, title]
+				"Skin::build_link(encode_link('$1'), Codes::fix_tags('$2'))",		// [url=url]label[/link] (deprecated by [link])
+				"Skin::build_link(encode_link('$1'), NULL)",						// [url]url[/url] (deprecated by [link])
+				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'))",		// [link=label]url[/link]
+				"Skin::build_link(encode_link('$1'), NULL)",						// [link]url[/link]
+				"proxy(encode_link('$1'))",											// [proxy]url[/proxy]
+				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'button')",	// [button=label]url[/button]
+				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'button')",	// [button=label|url]
+				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'click')",	// [click=label|url]
+				"Codes::render_clicks('$1')",										// [clicks=url]
+				"Skin::build_link(encode_link('$1'), '$1', 'script')",				// [script]url[/script]
+				"Skin::build_link(encode_link('$1'), '$1', 'menu_1')",				// [menu]url[/menu]
+				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'menu_1')",	// [menu=label]url[/menu]
+				"Skin::build_link(encode_link('$1'), '$1', 'menu_2')",				// [submenu]url[/submenu]
+				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'menu_2')",	// [submenu=label]url[/submenu]
+				"Codes::render_email(encode_link('$2'), Codes::fix_tags('$1'))",	// [email=label]url[/email]
+				"Codes::render_email(encode_link('$1'), '$1')",						// [email]url[/email]
+				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'))",		// [label|url]
+				"Codes::render_title(Codes::fix_tags('$1'), 'question')", 			// [question]...[/question]
+				"QUESTION_FLAG",													// [question]
+				"ANSWER_FLAG",														// [answer]
+				"Codes::render_newsfeed('$1', 'ajax')",								// [newsfeed=url]
+				"Codes::render_newsfeed('$2', '$1')",								// [newsfeed=url]
+				"Codes::render_twitter('$1')",										// [twitter=id]
+				"Codes::render_twitter_search('$1')",								// [tsearch=id]
+				"Codes::render_retweet()",											// [retweet]
+				"Codes::render_iframe(Codes::fix_tags('$1'), '500, 320')",			// [iframe]<url>[/iframe]
+				"Codes::render_iframe(Codes::fix_tags('$2'), '$1')",				// [iframe=<width>, <height>]<url>[/iframe]
+				"Codes::render_animated(Codes::fix_tags('$1'), 'scroller')",		// [scroller]...[/scroller]
+				"Codes::render_table_of('questions')",								// [toq]
+				'[header1]$1[/header1]',											// [title]...[/title]
+				'[header2]$1[/header2]',											// [subtitle]...[/subtitle]
+				"Codes::render_title(Codes::fix_tags('$2'), '$1')",					// [header1]...[/header1] ... [header5]...[/header5]
+				"Codes::render_title(Codes::fix_tags('$1'), 'header5')",			// ======...====== level 5 header
+				"Codes::render_title(Codes::fix_tags('$2'), 'header5')",			// ======...====== level 5 header
+				"Codes::render_title(Codes::fix_tags('$1'), 'header4')",			// =====...===== level 4 header
+				"Codes::render_title(Codes::fix_tags('$2'), 'header4')",			// =====...===== level 4 header
+				"Codes::render_title(Codes::fix_tags('$1'), 'header3')",			// ====...==== level 3 header
+				"Codes::render_title(Codes::fix_tags('$2'), 'header3')",			// ====...==== level 3 header
+				"Codes::render_title(Codes::fix_tags('$1'), 'header2')",			// ===...=== level 2 header
+				"Codes::render_title(Codes::fix_tags('$2'), 'header2')",			// ===...=== level 2 header
+				"Codes::render_title(Codes::fix_tags('$1'), 'header1')",			// ==...== level 1 header
+				"Codes::render_title(Codes::fix_tags('$2'), 'header1')",			// ==...== level 1 header
+				"Codes::render_table_of('content')",								// [toc]
+				"Codes::render_published('$2', '$1')",								// [published.decorated=section:4029]
+				"Codes::render_published('', '$1')",								// [published.decorated]
+				"Codes::render_published('$1', 'simple')",							// [published=section:4029]
+				"Codes::render_published('', 'simple')",							// [published]
+				"Codes::render_read('$2', '$1')",									// [read.decorated=section:4029]
+				"Codes::render_read('', '$1')",										// [read.decorated]
+				"Codes::render_read('$1', 'hits')",									// [read=section:4029]
+				"Codes::render_read('', 'hits')",									// [read]
+				"Codes::render_updated('$2', '$1')",								// [updated.simple=section:4029]
+				"Codes::render_updated('', '$1')",									// [updated.simple]
+				"Codes::render_updated('$1', 'simple')",							// [updated=section:4029]
+				"Codes::render_updated('', 'simple')",								// [updated]
+				"Codes::render_voted('$2', '$1')",									// [voted.decorated=section:4029]
+				"Codes::render_voted('', '$1')",									// [voted.decorated]
+				"Codes::render_voted('$1', 'simple')",								// [voted=section:4029]
+				"Codes::render_voted('', 'simple')",								// [voted]
+				"Codes::render_sections()", 										// [sections] (site map)
+				"Codes::render_sections('', '$1')",									// [sections.folded] (site map)
+				"Codes::render_sections('$1')", 									// [sections=section:4029] (sub-sections)
+				"Codes::render_sections('$2', '$1')",								// [sections.simple=self] (assigned)
+				"Codes::render_categories()", 										// [categories] (category tree)
+				"Codes::render_categories('', '$1')",								// [categories.folded] (category tree)
+				"Codes::render_categories('$1')", 									// [categories=category:4029] (sub-categories)
+				"Codes::render_categories('$2', '$1')",								// [categories.simple=self] (assigned)
+				"Codes::render_calendar()", 										// [calendar]
+				"Codes::render_calendar('$1')", 									// [calendar=section:4029]
+				"Codes::render_users('$1')", 										// [users=present]
+				"Codes::render_news('$1')", 										// [news=flash]
+				"Codes::render_dynamic_table('$1')",								// [table=<id>]
+				"Codes::render_dynamic_table('$2', '$1')",							// [table.json=<id>] [table.timeplot=<id>]
+				"Codes::render_locations('$1')",									// [locations=<id>]
+				"Codes::render_location('$1')",										// [location=<id>]
+				"Codes::render_wikipedia(Codes::fix_tags('$1'))",					// [wikipedia=keyword] or [wikipedia=keyword, title]
+				"Codes::render_graphviz('$1', 'digraph')",							// [digraph]...[/digraph]
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/be.gif" alt="" /> ', // [be] belgian flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/ca.gif" alt="" /> ', // [ca] canadian flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/ch.gif" alt="" /> ', // [ch] swiss flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/de.gif" alt="" /> ', // [de] german flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/gb.gif" alt="" /> ', // [en] english flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/es.gif" alt="" /> ', // [es] spanish flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/fr.gif" alt="" /> ', // [fr] french flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/gb.gif" alt="" /> ', // [gb] english flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/gr.gif" alt="" /> ', // [gr] greek flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/it.gif" alt="" /> ', // [it] italian flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/pt.gif" alt="" /> ', // [pt] portuguese flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/us.gif" alt="" /> ', // [us] us flag
+				' <br style="clear: both;" /> ',									// [clear]
+				BR, 																// [nl]
+				BR																	// [br] (deprecated by [nl])
+			);
+		}
 
 		// include code extensions
 //		include_once $context['path_to_root'].'scripts/scripts.php';
@@ -944,10 +1361,44 @@ Class Codes {
 		Safe::set_time_limit(30);
 
 		// do it globally
-		$text = preg_replace($pattern, $replace, $text);
+		//$text = preg_replace($pattern, $replace, $text);
+                foreach($patterns_map as $pattern => $action) {
+                    
+                    $text = preg_replace_callback($pattern, function($matches) use ($pattern, $action) {
+                    
+                        // returned text
+                        $text = '';
+                        
+                        // function to call
+                        $func = '';
+                        // array of captured element
+                        $capture    = array_shift($matches);
+                        
+                        // test if map is a callable function
+                        if(is_callable($action)) { 
+                            $func   = $action;
+                        // test if map is a class
+                        }elseif(class_exists($action)) { 
+                            $func   = $action.'::render';
+                        }
 
-		// FCKEditor optimisation
-		$text = str_replace("</pre>\n<pre>", "\n", $text);
+                        if($func) {
+                            if( count($capture)) {
+                                $text  .= call_user_func_array($func, $capture);
+                            } else {
+                                $text  .= $func($matches[0]);
+                            }
+                        } else {
+                            // regular preg_replace
+                            $text   .= preg_replace($pattern, $action, $matches[0]);
+                        }
+                        
+                        return $text;
+                    
+                    }
+                    , $text);
+                }
+               
 
 		// done
 		return $text;
@@ -1046,9 +1497,10 @@ Class Codes {
 			$chart_index++;
 
 		$url = $context['url_to_home'].$context['url_to_root'].'included/browser/open-flash-chart.swf';
-		$text = '<div id="open_flash_chart_'.$chart_index.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-			.JS_PREFIX
-			.'var params = {};'."\n"
+		$text = '<div id="open_flash_chart_'.$chart_index.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+			
+		Page::insert_script(
+			'var params = {};'."\n"
 			.'params.base = "'.dirname($url).'/";'."\n"
 			.'params.quality = "high";'."\n"
 			.'params.wmode = "opaque";'."\n"
@@ -1062,7 +1514,7 @@ Class Codes {
 			.'function get_open_flash_chart_'.$chart_index.'() {'."\n"
 			.'	return $.toJSON(chart_data_'.$chart_index.');'."\n"
 			.'}'."\n"
-			.JS_SUFFIX;
+			);
 
 		return $text;
 
@@ -1120,70 +1572,6 @@ Class Codes {
 		// we have an array to format
 		if(is_array($text))
 			$text =& Skin::build_list($text, '2-columns');
-
-		// job done
-		return $text;
-
-	}
-
-	/**
-	 * list available collections
-	 *
-	 * @return string the rendered text
-	**/
-	public static function &render_collections() {
-		global $context;
-
-		// has one collection been defined?
-		Safe::load('parameters/collections.include.php');
-		if(!isset($context['collections']) || !is_array($context['collections'])) {
-			$output = NULL;
-			return $output;
-		}
-
-		// use attributes set for each collection
-		$text = '';
-		foreach($context['collections'] as $name => $attributes) {
-
-			// retrieve collection information
-			list($title, $path, $url, $introduction, $description, $prefix, $suffix, $visibility) = $attributes;
-
-			// skip protected collections
-			if(($visibility == 'N') && !Surfer::is_associate())
-				continue;
-			if(($visibility == 'R') && !Surfer::is_member())
-				continue;
-
-			// ensure we have a title for this collection
-			if(!trim($title))
-				$title = str_replace(array('.', '_', '%20'), ' ', $name);
-
-			// build some hovering title
-			$hover = ' title="'.encode_field(i18n::s('Access collection')." '".strip_tags($title)."'").'"';
-
-			// signal restricted and private collections
-			if($visibility == 'N')
-				$title = PRIVATE_FLAG.$title;
-			elseif($visibility == 'R')
-				$title = RESTRICTED_FLAG.$title;
-
-			// link to collection index page
-			if($context['with_friendly_urls'] == 'Y')
-				$link = 'collections/browse.php/'.rawurlencode($name);
-			else
-				$link = 'collections/browse.php?path='.urlencode($name);
-			$text .= '<li><a href="'.$context['url_to_root'].$link.'"'.$hover.'>'.$title.'</a>';
-
-			// add introduction text, if any
-			if($introduction)
-				$text .= ' - '.Codes::beautify($introduction);
-
-			$text .= "</li>\n";
-		}
-
-		// finalize the list
-		if($text)
-			$text = '<ul class="collections">'."\n".$text."</ul>\n";
 
 		// job done
 		return $text;
@@ -1266,9 +1654,10 @@ Class Codes {
 
 			// load it through Javascript
 			$url = $context['url_to_home'].$context['url_to_root'].'included/browser/open-flash-chart.swf';
-			$text = '<div id="table_chart_'.$chart_index.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-				.JS_PREFIX
-				.'var params = {};'."\n"
+			$text = '<div id="table_chart_'.$chart_index.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+			
+			Page::insert_script(
+				'var params = {};'."\n"
 				.'params.base = "'.dirname($url).'/";'."\n"
 				.'params.quality = "high";'."\n"
 				.'params.wmode = "opaque";'."\n"
@@ -1282,7 +1671,7 @@ Class Codes {
 				.'function table_chart_'.$chart_index.'() {'."\n"
 				.'	return $.toJSON(chart_data_'.$chart_index.');'."\n"
 				.'}'."\n"
-				.JS_SUFFIX;
+				);
 
 		// build sparkline
 		} elseif($variant == 'line') {
@@ -1303,7 +1692,7 @@ Class Codes {
 	 * @param string the label
 	 * @return string the rendered text
 	**/
-	public static function &render_email($address, $text) {
+	public static function &render_email($address, $text=null) {
 
 		// be sure to display something
 		if(!$text)
@@ -1419,13 +1808,14 @@ Class Codes {
 			if(Surfer::has_flash()) {
 
 				// the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
-				$output = '<div id="flv_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-					.JS_PREFIX
-					.'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showfullscreen:1, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
+				$output = '<div id="flv_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+					
+				Page::insert_script(
+					'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showfullscreen:1, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
 					.'var params = { allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
 					.'var attributes = { id: "file_'.$item['id'].'", name: "file_'.$item['id'].'"}'."\n"
 					.'swfobject.embedSWF("'.$flvplayer_url.'", "flv_'.$item['id'].'", "'.$width.'", "'.$height.'", "9", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params);'."\n"
-					.JS_SUFFIX."\n";
+					);
 
 			// native support
  			} else {
@@ -1475,9 +1865,10 @@ Class Codes {
 			$now = gmdate('M d Y H:i:s', time()-7*24*60*60);
 
 			// load the right file
-			$output = '<div id="gantt" style="height: '.$height.'; width: '.$width.'; border: 1px solid #aaa; font-family: Trebuchet MS, Helvetica, Arial, sans serif; font-size: 8pt"></div>'."\n"
-				.JS_PREFIX
-				.'var simile_handle;'."\n"
+			$output = '<div id="gantt" style="height: '.$height.'; width: '.$width.'; border: 1px solid #aaa; font-family: Trebuchet MS, Helvetica, Arial, sans serif; font-size: 8pt"></div>'."\n";
+			
+			Page::insert_script(
+				'var simile_handle;'."\n"
 				.'function onLoad() {'."\n"
 				.'  var eventSource = new Timeline.DefaultEventSource();'."\n"
 				.'	var theme = Timeline.ClassicTheme.create();'."\n"
@@ -1526,7 +1917,7 @@ Class Codes {
 				.'// observe page major events'."\n"
 				.'$(document).ready( onLoad);'."\n"
 				.'$(window).resize(onResize);'."\n"
-				.JS_SUFFIX;
+				);
 
 			// job done
 			return $output;
@@ -1567,16 +1958,17 @@ Class Codes {
 			// variables
 			$flashvars = 'initLoadFile='.$target_href.'&openUrl=_self';
 
-			$output = '<div id="freemind_viewer_'.$freemind_viewer_index.'">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-				.JS_PREFIX
-				.'var params = {};'."\n"
+			$output = '<div id="freemind_viewer_'.$freemind_viewer_index.'">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+			
+			Page::insert_script(
+				'var params = {};'."\n"
 				.'params.base = "'.dirname($url).'/";'."\n"
 				.'params.quality = "high";'."\n"
 				.'params.wmode = "transparent";'."\n"
 				.'params.menu = "false";'."\n"
 				.'params.flashvars = "'.$flashvars.'";'."\n"
 				.'swfobject.embedSWF("'.$url.'", "freemind_viewer_'.$freemind_viewer_index.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-				.JS_SUFFIX."\n";
+				);
 
 			// offer to download a copy of the map
 			$menu = array($target_href => i18n::s('Browse this map with Freemind'));
@@ -1598,9 +1990,10 @@ Class Codes {
 			else
 				$url = $context['url_to_home'].$context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
 
-			$output = '<div id="swf_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-				.JS_PREFIX
-				.'var params = {};'."\n"
+			$output = '<div id="swf_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+				
+			Page::insert_script(
+				'var params = {};'."\n"
 				.'params.base = "'.dirname($url).'/";'."\n"
 				.'params.quality = "high";'."\n"
 				.'params.wmode = "transparent";'."\n"
@@ -1608,7 +2001,8 @@ Class Codes {
 				.'params.allowscriptaccess = "always";'."\n"
 				.'params.flashvars = "'.$flashvars.'";'."\n"
 				.'swfobject.embedSWF("'.$url.'", "swf_'.$item['id'].'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-				.JS_SUFFIX."\n";
+				);
+			
 			return $output;
 
 		// link to file page
@@ -1717,139 +2111,6 @@ Class Codes {
 
 		// display the text where the script was included
 		return $output;
-	}
-
-	/**
-	 * render an interactive Freemind map
-	 *
-	 * The id can be:
-	 * - 'sections' - the entire content tree
-	 * - 'section:123' - some branch of the content tree
-	 * - '123' - the file with the provided id, if it is a Freemind map
-	 * - 'http://link/to/a/map.mm' - has to reference this server
-	 *
-	 * The id can also include width and height of the target canvas, as in
-	 * following examples:
-	 * - '100%, 250px' - actual id is assumed to be 'sections'
-	 * - 'section:4059, 100%, 250px'
-	 *
-	 * The Flash viewer is available at http://evamoraga.net/efectokiwano/mm/index.mm
-	 *
-	 * @link http://evamoraga.net/efectokiwano/mm/index.mm
-	 *
-	 * @param string id of the target map
-	 * @return string the rendered string
-	**/
-	public static function &render_freemind($id) {
-		global $context;
-
-		// process parameters
-		$attributes = preg_split("/\s*,\s*/", $id, 3);
-		switch(count($attributes)) {
-		case 3: // id, width, height
-			$id = $attributes[0];
-			$width = $attributes[1];
-			$height = $attributes[2];
-			break;
-		case 2: // width, height
-			$id = 'sections';
-			$width = $attributes[0];
-			$height = $attributes[1];
-			break;
-		case 1: // id
-			$id = $attributes[0];
-			$width = isset($context['skins_freemind_canvas_width']) ? $context['skins_freemind_canvas_width'] : '100%';
-			$height = isset($context['skins_freemind_canvas_height']) ? $context['skins_freemind_canvas_height'] : '500px';
-			break;
-		}
-
-		// additional commands
-		$menu = array();
-
-		// web reference to site full content
-		if($id == 'sections') {
-			$target_href = $context['url_to_home'].$context['url_to_root'].Sections::get_url('all', 'freemind', utf8::to_ascii($context['site_name'].'.mm'));
-			$menu = array_merge($menu, array(Sections::get_url('all', 'view_as_freemind', utf8::to_ascii($context['site_name'].'.mm')) => i18n::s('Full-size')));
-
-		// content of one section
-		} elseif(($position = strpos($id, 'section:')) !== FALSE) {
-
-			if(!$item = Sections::get(substr($id, $position + strlen('section:')))) {
-				$text = '[freemind='.$id.']';
-				return $text;
-			}
-
-			$target_href = $context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'freemind', utf8::to_ascii($context['site_name'].' - '.strip_tags(Codes::beautify(trim($item['title']))).'.mm'));
-
-			$menu = array_merge($menu, array(Sections::get_url($item['id'], 'view_as_freemind', utf8::to_ascii($context['site_name'].' - '.strip_tags(Codes::beautify(trim($item['title']))).'.mm')) => i18n::s('Full-size')));
-
-		// direct reference to the target file
-		} elseif(strpos($id, $context['url_to_home']) === 0) {
-			$target_href = $id;
-
-		// one file, as a freemind map
-		} elseif(($item = Files::get($id)) && isset($item['id'])) {
-
-			// if we have an external reference, use it
-			if(isset($item['file_href']) && $item['file_href']) {
-				$target_href = $item['file_href'];
-
-			// else redirect to ourself
-			} else {
-
-				// ensure a valid file name
-				$file_name = utf8::to_ascii($item['file_name']);
-
-				// where the file is
-				$path = Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']);
-
-				// map the file on the regular web space
-				$url_prefix = $context['url_to_home'].$context['url_to_root'];
-
-				// redirect to the actual file
-				$target_href = $url_prefix.$path;
-			}
-
-		// no way to render this id
-		} else {
-			$text = '[freemind='.$id.']';
-			return $text;
-		}
-
-		// allow several viewers to co-exist in the same page
-		static $freemind_viewer_index;
-		if(!isset($freemind_viewer_index))
-			$freemind_viewer_index = 1;
-		else
-			$freemind_viewer_index++;
-
-		// load flash player
-		$url = $context['url_to_home'].$context['url_to_root'].'included/browser/visorFreemind.swf';
-
-		// variables
-		$flashvars = 'initLoadFile='.$target_href.'&openUrl=_self';
-
-		$text = '<div id="freemind_viewer_'.$freemind_viewer_index.'">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-			.JS_PREFIX
-			.'var params = {};'."\n"
-			.'params.base = "'.dirname($url).'/";'."\n"
-			.'params.quality = "high";'."\n"
-			.'params.wmode = "transparent";'."\n"
-			.'params.menu = "false";'."\n"
-			.'params.flashvars = "'.$flashvars.'";'."\n"
-			.'swfobject.embedSWF("'.$url.'", "freemind_viewer_'.$freemind_viewer_index.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-			.JS_SUFFIX."\n";
-
-		// offer to download a copy of the map
-		$menu = array_merge($menu, array($target_href => i18n::s('Browse this map with Freemind')));
-
-		// display menu commands below the viewer
-		if(count($menu))
-			$text .= Skin::build_list($menu, 'menu_bar');
-
-		// job done
-		return $text;
-
 	}
 
 	/**
@@ -2165,16 +2426,17 @@ Class Codes {
 			else {
 				$url = $context['url_to_home'].$context['url_to_root'].'feeds/flash/slashdot.php';
 				$flashvars = '';
-				$text = '<div id="local_news" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-					.JS_PREFIX
-					.'var params = {};'."\n"
+				$text = '<div id="local_news" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+					
+				Page::insert_script(
+					'var params = {};'."\n"
 					.'params.base = "'.dirname($url).'/";'."\n"
 					.'params.quality = "high";'."\n"
 					.'params.wmode = "transparent";'."\n"
 					.'params.menu = "false";'."\n"
 					.'params.flashvars = "'.$flashvars.'";'."\n"
 					.'swfobject.embedSWF("'.$url.'", "local_news", "80%", "50", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-					.JS_SUFFIX;
+					);
 			}
 
 			return $text;
@@ -2210,10 +2472,8 @@ Class Codes {
 		case 'ajax': // asynchronous loading
 		default:
 
-			$text = '<div id="newsfeed_'.$count.'" class="no_print"></div>'."\n"
-			.JS_PREFIX
-			.'$(function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\' }, id: 1 }, function(s) { if(s.text) { $("#newsfeed_'.$count.'").html(s.text.toString()); } else { $("#newsfeed_'.$count.'").html("***error***"); } } ) } );'."\n"
-			.JS_SUFFIX;
+			$text = '<div id="newsfeed_'.$count.'" class="no_print"></div>'."\n";
+			Page::insert_script('$(function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\' }, id: 1 }, function(s) { if(s.text) { $("#newsfeed_'.$count.'").html(s.text.toString()); } else { $("#newsfeed_'.$count.'").html("***error***"); } } ) } );');			
 
 			return $text;
 
@@ -2233,7 +2493,6 @@ Class Codes {
 	 * render a link to an object
 	 *
 	 * Following types are supported:
-	 * - action - link to an action page
 	 * - article - link to an article page
 	 * - category - link to a category page
 	 * - comment - link to a comment page
@@ -2258,35 +2517,6 @@ Class Codes {
 
 		// depending on type
 		switch($type) {
-
-		// link to an action
-		case 'action':
-			include_once $context['path_to_root'].'actions/actions.php';
-
-			// maybe an alternate title has been provided
-			$attributes = preg_split("/\s*,\s*/", $id, 2);
-			$id = $attributes[0];
-
-			// load the record from the database
-			if(!$item = Actions::get($id))
-				$output = '[action='.$id.']';
-
-			else {
-
-				// ensure we have a label for this link
-				if(isset($attributes[1]))
-					$text = $attributes[1];
-				else
-					$text =& Skin::strip($item['title']);
-
-				// make a link to the target page
-				$url = $context['url_to_home'].$context['url_to_root'].Actions::get_url($item['id']);
-
-				// return a complete anchor
-				$output =& Skin::build_link($url, $text, 'basic');
-			}
-
-			return $output;
 
 		// link to an article
 		case 'article':
@@ -2581,36 +2811,6 @@ Class Codes {
 
 				}
 			}
-			return $output;
-
-		// link to a form
-		case 'form':
-			include_once $context['path_to_root'].'forms/forms.php';
-
-			// maybe an alternate title has been provided
-			$attributes = preg_split("/\s*,\s*/", $id, 2);
-			$id = $attributes[0];
-
-			// load the record from the database
-			if(!$item = Forms::get($id))
-				$output = '[form='.$id.']';
-
-			else {
-
-				// ensure we have a label for this link
-				if(isset($attributes[1])) {
-					$text = $attributes[1];
-					$type = 'basic';
-				} else
-					$text = Skin::strip($item['title']);
-
-				// make a link to the target page
-				$url = $context['url_to_home'].$context['url_to_root'].Forms::get_url($item['id']);
-
-				// return a complete anchor
-				$output =& Skin::build_link($url, $text, $type);
-			}
-
 			return $output;
 
 		// invoke the selector
@@ -2965,16 +3165,17 @@ Class Codes {
 				else
 					$flashvars = 'son='.$url;
 
-				$output = '<div id="sound_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-					.JS_PREFIX
-					.'var params = {};'."\n"
+				$output = '<div id="sound_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+				
+				Page::insert_script(
+					'var params = {};'."\n"
 					.'params.base = "'.dirname($url).'/";'."\n"
 					.'params.quality = "high";'."\n"
 					.'params.wmode = "transparent";'."\n"
 					.'params.menu = "false";'."\n"
 					.'params.flashvars = "'.$flashvars.'";'."\n"
 					.'swfobject.embedSWF("'.$dewplayer_url.'", "sound_'.$item['id'].'", "200", "20", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-					.JS_SUFFIX."\n";
+					);
 				return $output;
 
 			// link to file page
@@ -3159,36 +3360,8 @@ Class Codes {
 		// scope is limited to one section
 		if(strpos($anchor, 'section:') === 0) {
 
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
+			// look at this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
 			$text =& Articles::list_for_anchor_by('publication', $anchors, 0, $count, $layout);
@@ -3207,25 +3380,25 @@ Class Codes {
 
 			// second level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// third level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// fourth level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// fifth level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
@@ -3293,36 +3466,8 @@ Class Codes {
 		// scope is limited to one section
 		if(!strncmp($anchor, 'section:', 8)) {
 
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
+			// look at this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
 			$items =& Articles::list_for_anchor_by('random', $anchors, 0, 1, 'raw');
@@ -3409,36 +3554,8 @@ Class Codes {
 		// scope is limited to one section
 		if(strpos($anchor, 'section:') === 0) {
 
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
+			// look at this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
 			$text =& Articles::list_for_anchor_by('hits', $anchors, 0, $count, $layout);
@@ -3481,6 +3598,18 @@ Class Codes {
 			$output = '<p>'.Skin::build_link($link).'</p>';
 			return $output;
 		}
+                
+                // redirect to a reference
+                if(preg_match('/^(article|section|category):[0-9]+$/',$link)) {
+                    $anchor = Anchors::get($link);
+                    if($anchor)
+                        Safe::redirect($anchor->get_permalink());
+                    else {
+                        Logger::error(sprintf(i18n::s('redirection to unknown reference : %s'),$link));
+                        $output = '';
+                        return $output;
+                    }
+                }
 
 		// check path to the file
 		while(TRUE) {
@@ -3520,10 +3649,8 @@ Class Codes {
 		global $context;
 
 		// we return some text --$context['self_url'] already has $context['url_to_root'] in it
-		$text = JS_PREFIX
-			.'tweetmeme_url = "'.$context['url_to_home'].$context['self_url'].'";'."\n"
-			.JS_SUFFIX
-			.'<script type="text/javascript" src="http://tweetmeme.com/i/scripts/button.js"></script>';
+		Page::insert_script('tweetmeme_url = "'.$context['url_to_home'].$context['self_url'].'";');			
+		Page::defer_script("http://tweetmeme.com/i/scripts/button.js");			
 
 		// job done
 		return $text;
@@ -3944,36 +4071,8 @@ Class Codes {
 		// scope is limited to one section
 		if(strpos($anchor, 'section:') === 0) {
 
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
+			// look at this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
 			$text =& Articles::list_for_anchor_by('edition', $anchors, 0, $count, $layout);
@@ -3992,25 +4091,25 @@ Class Codes {
 
 			// second level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// third level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// fourth level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// fifth level of depth
 			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($anchors, 'main');
+				$topics = Sections::get_children_of_anchor($anchors);
 				$anchors = array_merge($anchors, $topics);
 			}
 
@@ -4112,36 +4211,8 @@ Class Codes {
 		// scope is limited to one section
 		if(strpos($anchor, 'section:') === 0) {
 
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fourth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// fifth level of depth
-			if(count($topics) && (count($anchors) < 2000)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
+			// look at this branch of the content tree
+			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
 			$text =& Articles::list_for_anchor_by('rating', $anchors, 0, $count, $layout);

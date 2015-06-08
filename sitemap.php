@@ -66,7 +66,7 @@ if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path
 	if($items = Sections::list_by_title_for_anchor(NULL, 0, 25, 'raw'))
 		foreach($items as $id => $item)
 			$text .= '	<url>'."\n"
-				.'		<loc>'.encode_link($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item)).'</loc>'."\n"
+				.'		<loc>'.encode_link(Sections::get_permalink($item)).'</loc>'."\n"
 				.'		<changefreq>weekly</changefreq>'."\n"
 				.'	</url>'."\n\n";
 
@@ -81,7 +81,7 @@ if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path
 	if($items = Categories::list_by_date(0, 25, 'raw'))
 		foreach($items as $id => $item)
 			$text .= '	<url>'."\n"
-				.'		<loc>'.encode_link($context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item)).'</loc>'."\n"
+				.'		<loc>'.encode_link(Categories::get_permalink($item)).'</loc>'."\n"
 				.'		<changefreq>weekly</changefreq>'."\n"
 				.'	</url>'."\n\n";
 
@@ -101,8 +101,8 @@ if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path
 	// the postamble
 	$text .= '</urlset>'."\n";
 
-	// put in cache
-	Safe::file_put_contents($cache_id, $text);
+    // put in cache
+    Safe::file_put_contents($cache_id, $text);
 
 }
 
@@ -116,7 +116,7 @@ render_raw('text/xml; charset='.$context['charset']);
 // suggest a name on download
 $file_name = utf8::to_ascii($context['site_name'].'.sitemap.xml');
 if(!headers_sent())
-	Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
+    Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 
 // enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download
 http::expire(1800);
@@ -126,11 +126,11 @@ $etag = '"'.md5($text).'"';
 
 // manage web cache
 if(http::validate(NULL, $etag))
-	return;
+    return;
 
 // actual transmission except on a HEAD request
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
-	echo $text;
+    echo $text;
 
 // the post-processing hook
 //finalize_page();

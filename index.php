@@ -52,8 +52,6 @@
  * - A list of sections. Several layouts are available?
  * - Text produced by hooks included on id 'index.php'
  * - The list of most recent articles. Several layouts are available, as explained below.
- * - The list of most recent files
- * - The list of most recent links
  * - Bottom icons
  * - Text produced by hooks included on id 'index.php#suffix'
  *
@@ -81,17 +79,8 @@
  * Change parameter [code]root_gadget_boxes_at_home[/code] to disable the display of
  * gadget boxes. Up to 6 gadget boxes can be displayed at the front page.
  *
- * - The most straightforward way to create gadget boxes is to post articles
- * in the section dedicated to gadget boxes. Each article will be put in a
- * separate box.
- *
- * - Moreover, categories can also be configured to list their content in
- * gadget boxes. In this case each category will have its own box,
- * and up to 5 pages and 5 links will be listed per box.
- *
- * - Configure some sections to list their content in gadget boxes. You can
- * select to have either one box per section, with up to 7 pages or links will
- * be listed per box, or to have every article in its own separate box.
+ * To create gadget boxes, just post articles in the section dedicated to gadget boxes.
+ * Each article will be put in a separate box.
  *
  * Activate the display of the Site Map (actually, a downsize version of it) to introduce
  * top-level sections of your site.
@@ -131,16 +120,11 @@
  * For example, the alistapart layout displays one single full-page, while slashdot summarizes several articles.
  * To override this number set the parameter [code]root_articles_count_at_home[/code] in the configuration panel for page factory.
  *
- * This front page is also able to display the content of one single section, if its id is specified in the parameter ##root_sections_at_home##.
+ * This front page is also able to display the content of one single section, if its id
+ * or nick name is specified in the parameter ##root_sections_at_home##.
  * In this case, the list of recent pages may be affected by any overlay that has been activated for the target section.
  * For example, if a section has been overlaid with ##day##, and if its id has been set in ##root_sections_at_home##, then a pretty calendar of coming events will
  * be displayed at the front page.
- *
- * The list of most recent public files can be added as well,
- * by changing explicitly parameter [code]home_with_recent_files[/code].
- *
- * The list of most recent public links can be added as well,
- * by changing explicitly parameter [code]home_with_recent_links[/code].
  *
  * Bottom and trailing icons are clickable images linked to related articles.
  * For example, you would use this to show logos of your partners at the front page,
@@ -160,23 +144,11 @@
  *
  * Following components are displayed as boxes in the extra panel:
  * - The list of featured articles, if any
- * - News
  * - Articles featured as extra boxes (one box per article) -- see the '[code]extra_boxes[/code]' section
- * - Sections featured as extra boxes (one box per section), if any
- * - Categories configured to appear here, if any - one box per category, with a list of related articles
- * - A list of older pages
  *
  * Featured pages are those articles that have been assigned to the category dedicated to that purpose.
  * To feature one particular article, display it, then use side links to change assigned categories.
  * Select the category named Featured in the drop list and click on the button.
- *
- * [title]The navigation panel[/title]
- * Following items are put in the navigation panel:
- * - The list of most popular pages, if configured in [script]configure.php[/script]
- * - The list of most popular files, if configured in [script]configure.php[/script]
- * - The list of most popular links, if configured in [script]configure.php[/script]
- * - A list of articles selected randomly, if configured in [script]configure.php[/script]
- *
  *
  * [title]Customized templates[/title]
  *
@@ -269,414 +241,209 @@ if(isset($context['root_sections_at_home']) && ($context['root_sections_at_home'
 		$context['page_menu'] = $items;
 }
 
-//
 // load the cover page
-//
+if( (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] != 'none'))
+	&& ( $context['master_host'] == $context['main_host']) ) {
 
-// lookup a named page
-if($cover_page = Articles::get('cover'))
-	;
-elseif($anchor = Sections::lookup('covers'))
-	$cover_page =& Articles::get_newest_for_anchor($anchor);
+	// look for a named page
+	if($cover_page = Articles::get('cover'))
+		;
 
-//
-// compute page title -- $context['page_title']
-//
+	// else take newest page from section of covers
+	elseif($anchor = Sections::lookup('covers'))
+		$cover_page =& Articles::get_newest_for_anchor($anchor);
 
-if(isset($cover_page['title']) && (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] == 'full')))
-	$context['page_title'] = $cover_page['title'];
+	// compute page title -- $context['page_title']
+	if(isset($cover_page['title']) && (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] == 'full')))
+		$context['page_title'] = $cover_page['title'];
 
-
-// define this constant in theme's skin.php to bypass mobile version
-if(!defined('MOBILES_USE_IUI'))
-	define('MOBILES_USE_IUI', true);
-
-// use mobile version
-if(!Surfer::is_desktop() && MOBILES_USE_IUI) {
-	include 'index_on_mobile.php';
-	return;
-}
-
-//
-// compute main panel -- $context['text']
-//
-
-// the cover article is not displayed on a mobile device
-if((!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] != 'none'))) {
-
-	// load the cover page --  may be changed in skin.php if necessary
+	// layout content of cover page -- may be changed in skin.php if necessary
 	if(isset($cover_page['id']))
 		$context['text'] .= Skin::layout_cover_article($cover_page);
 
 }
 
-// save some database requests
-$cache_id = 'index.php#text';
-if(!$text = Cache::get($cache_id)) {
+// the prefix hook
+if(is_callable(array('Hooks', 'include_scripts')))
+	$context['text'] .= Hooks::include_scripts('index.php#prefix');
 
-	// the prefix hook
-	if(is_callable(array('Hooks', 'include_scripts')))
-		$text .= Hooks::include_scripts('index.php#prefix');
+// most recent articles listed in flash, if ming module is available
+if(isset($context['root_flash_at_home']) && ($context['root_flash_at_home'] == 'Y'))
+	$context['text'] .= Codes::beautify('[news=flash]');
 
-	// most recent articles listed in flash, if ming module is available
-	if(isset($context['root_flash_at_home']) && ($context['root_flash_at_home'] == 'Y'))
-		$text .= Codes::beautify('[news=flash]');
+// gadget boxes
+if((!isset($context['root_gadget_boxes_at_home']) || ($context['root_gadget_boxes_at_home'] == 'Y'))) {
 
-	// gadget boxes, but not on mobiles
-	if((!isset($context['root_gadget_boxes_at_home']) || ($context['root_gadget_boxes_at_home'] == 'Y'))) {
+	// build an array of boxes
+	$gadget_boxes = array();
 
-		// build an array of boxes
-		$gadget_boxes = array();
+	// articles to be displayed as gadget boxes
+	if($anchor = Sections::lookup('gadget_boxes')) {
 
-		// articles to be displayed as gadget boxes
-		if($anchors =& Sections::get_anchors_for_anchor(NULL, 'gadget_boxes')) {
-
-			// up to 6 articles to be displayed as gadget boxes
-			if($items =& Articles::list_for_anchor_by('publication', $anchors, 0, 6, 'boxes')) {
-				foreach($items as $title => $attributes)
-					$gadget_boxes[] = array($title, $attributes['content'], $attributes['id']);
-			}
-
-		}
-
-		// up to 6 categories to be displayed as gadget boxes
-		if($categories = Categories::list_by_date_for_display('home:gadget', 0, 6, 'raw')) {
-
-			// one box per category
-			foreach($categories as $id => $attributes) {
-
-				// link to the category page from the box title
-				$label =& Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_permalink($attributes), i18n::s('View the category'));
-
-				// articles for this category
-				if($items =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE+1, 'compact')) {
-
-					// more at the category page
-					if(count($items) > COMPACT_LIST_SIZE) {
-						@array_splice($items, COMPACT_LIST_SIZE);
-
-						// link to the category page
-						$url = Categories::get_permalink($attributes);
-						$items[$url] = i18n::s('More pages').MORE_IMG;
-					}
-
-					// one box per category
-					$gadget_boxes[] = array($label, Skin::build_list($items, 'compact'), '');
-
-				// else links for this category
-				} elseif($items = Links::list_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE+1, 'compact')) {
-
-					// limit to five pages only
-					if(count($items) > COMPACT_LIST_SIZE) {
-						@array_splice($items, COMPACT_LIST_SIZE);
-
-						// link to the category page
-						$url = Categories::get_permalink($attributes);
-						$items[$url] = i18n::s('More links').MORE_IMG;
-					}
-
-					$gadget_boxes[] = array($label, Skin::build_list($items, 'compact'), '');
-
-				}
-			}
-		}
-
-		// sections to be displayed as gadget boxes
-		if($anchors =& Sections::get_anchors_for_anchor(NULL, 'gadget')) {
-
-			// one box per section
-			foreach($anchors as $anchor) {
-				$box = array();
-
-				// sanity check
-				if(!$section = Anchors::get($anchor))
-					continue;
-
-				// link to the section page from box title
-				$box['title'] =& Skin::build_box_title($section->get_title(), $section->get_url(), i18n::s('View the section'));
-
-				// build a compact list
-				$box['list'] = array();
-
-				// add matching sections, if any
-				if($items = Sections::list_by_title_for_anchor($anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact'))
-					$box['list'] = array_merge($box['list'], $items);
-
-				// add matching articles
-				if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items =& Articles::list_for_anchor_by('publication', $anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
-					$box['list'] = array_merge($box['list'], $items);
-
-				// add matching links, if any
-				if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items = Links::list_by_date_for_anchor($anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
-					$box['list'] = array_merge($box['list'], $items);
-
-				// more at the section page
-				if(count($box['list']) > COMPACT_LIST_SIZE) {
-					@array_splice($box['list'], COMPACT_LIST_SIZE);
-
-					// link to the section page
-					$box['list'] = array_merge($box['list'], array($section->get_url() => i18n::s('More pages').MORE_IMG));
-				}
-
-				// render the html for the box
-				if(count($box['list']))
-					$box['text'] =& Skin::build_list($box['list'], 'compact');
-
-				// give a chance to associates to populate empty sections
-				elseif(Surfer::is_associate())
-					$box['text'] = Skin::build_link($section->get_url(), i18n::s('View the section'), 'shortcut');
-
-				// append a box
-				if(isset($box['text']) && $box['text'])
-					$gadget_boxes[] = array($box['title'], $box['text'], $section->get_nick_name());
-
-			}
-		}
-
-		// we do have some boxes to display
-		if(count($gadget_boxes)) {
-
-			// limit the number of boxes displayed
-			@array_splice($gadget_boxes, 6);
-
-			// gadget box rendering
-			$text .= "\n".'<p id="gadgets_prefix"> </p>'."\n";
-			foreach($gadget_boxes as $gadget_box)
-				$text .= Skin::build_box($gadget_box[0], $gadget_box[1], 'gadget', isset($gadget_box[2])?$gadget_box[2]:NULL);
-			$text .= '<p id="gadgets_suffix"> </p>'."\n";
+		// up to 6 articles to be displayed as gadget boxes
+		if($items =& Articles::list_for_anchor_by('publication', $anchor, 0, 6, 'boxes')) {
+			foreach($items as $title => $attributes)
+				$gadget_boxes[] = array($title, $attributes['content'], $attributes['id']);
 		}
 
 	}
 
-	// show content of only one section
-	$target_section = NULL;
-	if(isset($context['root_sections_at_home']) && ((int)$context['root_sections_at_home'] > 0)) {
+	// we do have some boxes to display
+	if(count($gadget_boxes)) {
 
-		// get the item from the database --do not cast to int, because of following UTF-8 to unicode conversion
-		$target_section = Sections::get($context['root_sections_at_home']);
+		// limit the number of boxes displayed
+		@array_splice($gadget_boxes, 6);
 
+		// gadget box rendering
+		$context['text'] .= "\n".'<p id="gadgets_prefix"> </p>'."\n";
+		foreach($gadget_boxes as $gadget_box)
+			$context['text'] .= Skin::build_box($gadget_box[0], $gadget_box[1], 'gadget', isset($gadget_box[2])?$gadget_box[2]:NULL);
+		$context['text'] .= '<p id="gadgets_suffix"> </p>'."\n";
 	}
 
-	// display sections as a freemind map
-	if(isset($context['root_sections_at_home']) && ($context['root_sections_at_home'] != 'none') && isset($context['root_sections_layout']) && ($context['root_sections_layout'] == 'freemind'))
-		$text .= Codes::render_freemind('sections');
+}
 
-	// sections at the front page
-	elseif(isset($context['root_sections_at_home']) && ($context['root_sections_at_home'] != 'none')) {
+// no section should be featured at the home page
+if(!isset($context['root_sections_at_home']) || ($context['root_sections_at_home'] == 'none'))
+	;
 
-		// load the layout to use
-		switch($context['root_sections_layout']) {
-		case 'decorated':
-			include_once $context['path_to_root'].'sections/layout_sections.php';
-			$layout = new Layout_sections();
-			break;
-		case 'map':
-			include_once $context['path_to_root'].'sections/layout_sections_as_yahoo.php';
-			$layout = new Layout_sections_as_yahoo();
-			$layout->set_variant(20); // show more elements at the front page
-			break;
-		default:
+// look at only one section
+elseif(($target_section = Sections::get($context['root_sections_at_home'])) && isset($target_section['id'])) {
 
-			// load layout, if one exists
-			if(is_readable($context['path_to_root'].'sections/layout_sections_as_'.$context['root_sections_layout'].'.php')) {
-				$name = 'layout_sections_as_'.$context['root_sections_layout'];
-				include_once $context['path_to_root'].'sections/'.$name.'.php';
-				$layout = new $name;
+	// re-use the existing script to render this specific section
+	$context['arguments'][0] = $target_section['id'];
+        // force variant to "sections"
+        $context['skin_variant'] = 'sections';
+        // or use section's variant
+        $target = new Section($target_section);
+	if(is_object($target) && ($variant = $target->has_option('variant', FALSE)) && is_string($variant))
+		$context['skin_variant'] = $variant;
+        
+	include_once $context['path_to_root'].'sections/view.php';
 
-			// no layout to use
-			} else {
+// section(s) at the front page
+} else {
 
-				// useful warning for associates
-				if(Surfer::is_associate())
-					Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $context['root_sections_layout']));
+	// load the layout to use
+	$layout = Layouts::new_($context['root_sections_layout'], 'section');
 
-				// load default layout
-				include_once $context['path_to_root'].'sections/layout_sections_as_yahoo.php';
-				$layout = new Layout_sections_as_yahoo();
-			}
-		}
-
-		// the maximum number of sections
-		if(is_object($layout))
-			$items_per_page = $layout->items_per_page();
-		else
-			$items_per_page = SECTIONS_PER_PAGE;
-
-		// list top sections
-		$anchor = NULL;
-
-		// look at only one section
-		if(isset($target_section['id']))
-			$anchor = 'section:'.$target_section['id'];
-
-		// query the database and layout that stuff
-		$items = '';
-		if($context['root_sections_layout'] != 'menu')
-			$items = Sections::list_by_title_for_anchor($anchor, 0, $items_per_page, $layout);
-
-		// we have an array to format
-		if(is_array($items)) {
-
-			// two columns
-			if($context['root_sections_layout'] == 'map')
-				$items =& Skin::build_list($items, '2-columns');
-
-			// decorated
-			else
-				$items =& Skin::build_list($items, 'decorated');
-		}
-
-		// make a box
-		if($items)
-			$text .= $items;
-
-	}
-
-	// the main hook
-	if(is_callable(array('Hooks', 'include_scripts')))
-		$text .= Hooks::include_scripts('index.php');
-
-	// the list of most recent articles
-	switch($context['root_articles_layout']) {
-	case 'compact':
-		include_once $context['path_to_root'].'articles/layout_articles_as_compact.php';
-		$layout = new Layout_articles_as_compact();
-		break;
-	case 'decorated':
-		include_once $context['path_to_root'].'articles/layout_articles.php';
-		$layout = new Layout_articles();
-		break;
-	case 'no_articles':
-		$layout = NULL;
-		break;
-	default:
-
-		// load layout, if one exists, for the home page
-		if(is_readable($context['path_to_root'].'skins/layout_home_articles_as_'.$context['root_articles_layout'].'.php')) {
-			$name = 'layout_home_articles_as_'.$context['root_articles_layout'];
-			include_once $context['path_to_root'].'skins/'.$name.'.php';
-			$layout = new $name;
-
-		// no layout to use
-		} else {
-
-			// useful warning for associates
-			if(Surfer::is_associate())
-				Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $context['root_articles_layout']));
-
-			// load default layout
-			include_once $context['path_to_root'].'skins/layout_home_articles_as_daily.php';
-			$layout = new Layout_home_articles_as_daily();
-		}
-	}
-
-	// the maximum number of articles
-	if(isset($context['root_articles_count_at_home']) && ($context['root_articles_count_at_home'] > 0))
-		$items_per_page = $context['root_articles_count_at_home'];
-	elseif(is_object($layout))
+	// the maximum number of sections
+	if(is_object($layout))
 		$items_per_page = $layout->items_per_page();
 	else
-		$items_per_page = ARTICLES_PER_PAGE;
+		$items_per_page = SECTIONS_PER_PAGE;
 
-	// look for articles in only one section
-	if(isset($target_section['id'])) {
-
-		// get the overlay for content of this section, if any
-		$content_overlay = NULL;
-		if(isset($target_section['content_overlay']))
-			$content_overlay = Overlay::bind($target_section['content_overlay']);
-
-		// delegate rendering to the overlay, where applicable
-		if(is_object($content_overlay) && ($overlaid = $content_overlay->render('articles', 'section:'.$target_section['id']))) {
-			$text .= $overlaid;
-			$items = '';
-
-		// else use the regular layout
-		} else
-			$items =& Articles::list_for_anchor('section:'.(int)$context['root_sections_at_home'], 0, $items_per_page, $layout);
-
-	// no layout
-	} elseif($layout === NULL)
-		$items = '';
-
-	// look for recent articles across all sections
-	elseif(!$items =& Articles::list_(0, $items_per_page, $layout)) {
-
-		// no article yet
-		$items = '<p>'.i18n::s('No page to display.');
-		if(Surfer::is_associate())
-			$items .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut'));
-		$items .= '</p>';
-
-	}
+	// query the database and layout that stuff
+	$items = '';
+	if($context['root_sections_layout'] != 'menu')
+		$items = Sections::list_by_title_for_anchor(NULL, 0, $items_per_page, $layout);
 
 	// we have an array to format
 	if(is_array($items)) {
 
-		// add a link to articles index
-		$items['articles/'] = array('', i18n::s('All pages'), '', 'shortcut');
+		// two columns
+		if($context['root_sections_layout'] == 'map')
+			$items =& Skin::build_list($items, '2-columns');
 
-		// make a string out of the array
-		if(isset($context['root_articles_layout']) && ($context['root_articles_layout'] == 'compact'))
-			$items =& Skin::build_list($items, 'compact');
+		// decorated
 		else
 			$items =& Skin::build_list($items, 'decorated');
-
-		// add a title in case of complex page
-		$title = '';
-		if(preg_match('/<h2>|<h3>/', $context['text'].$text)) {
-			$title = i18n::s('Recent Pages');
-		}
-
-		// make a box
-		if($items)
-			$items =& Skin::build_box($title, $items, 'header1', 'recent_articles');
-
-	}
-	$text .= $items;
-
-	// list recent files, except on mobiles
-	if(isset($context['home_with_recent_files']) && ($context['home_with_recent_files'] == 'Y')){
-
-		// box title
-		$title = i18n::s('Recent files');
-
-		// link to the index page from the box title
-		$title =& Skin::build_box_title($title, 'files/', i18n::s('Files'));
-
-		// list most recent files
-		if($items = Files::list_by_date(0, COMPACT_LIST_SIZE, 'dates'))
-			$text .= Skin::build_box($title, Skin::build_list($items, 'compact'), 'header1', 'recent_files');
-
 	}
 
-	// list recent links, except on mobiles
-	if(isset($context['home_with_recent_links']) && ($context['home_with_recent_links'] == 'Y')){
+	// make a box
+	if($items)
+		$context['text'] .= $items;
 
-		// box title
-		$title = i18n::s('Recent links');
-
-		// link to the index page from the box title
-		$title =& Skin::build_box_title($title, 'links/', i18n::s('More links'));
-
-		// list most recent links
-		if($items = Links::list_by_date(0, COMPACT_LIST_SIZE, 'dates'))
-			$text .= Skin::build_box($title, Skin::build_list($items, 'compact'), 'header1', 'recent_links');
-
-	}
-
-	// the suffix hook
-	if(is_callable(array('Hooks', 'include_scripts')))
-		$text .= Hooks::include_scripts('index.php#suffix');
-
-	// save in cache, whatever change, for 1 minute
-	Cache::put($cache_id, $text, 'stable', 60);
 }
 
-// page content
-$context['text'] .= $text;
+// the main hook
+if(is_callable(array('Hooks', 'include_scripts')))
+	$context['text'] .= Hooks::include_scripts('index.php');
 
-// the cover article is not displayed on a mobile device
+// the list of most recent articles
+switch($context['root_articles_layout']) {
+case 'compact':
+case 'decorated':
+	$layout = Layouts::new_($context['root_articles_layout'], 'article');
+	break;
+case 'no_articles':
+	$layout = NULL;
+	break;
+default:
+
+	// load layout, if one exists, for the home page
+        $layout = Layouts::new_($context['root_articles_layout'], 'article',true);
+	/*if(is_readable($context['path_to_root'].'skins/layout_home_articles_as_'.$context['root_articles_layout'].'.php')) {
+		$name = 'layout_home_articles_as_'.$context['root_articles_layout'];
+		include_once $context['path_to_root'].'skins/'.$name.'.php';
+		$layout = new $name;
+
+	// no layout to use
+	} else {
+
+		// useful warning for associates
+		if(Surfer::is_associate())
+			Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $context['root_articles_layout']));
+
+		// load default layout
+		include_once $context['path_to_root'].'skins/layout_home_articles_as_daily.php';
+		$layout = new Layout_home_articles_as_daily();
+	}*/
+}
+
+// the maximum number of articles
+if(isset($context['root_articles_count_at_home']) && ($context['root_articles_count_at_home'] > 0))
+	$items_per_page = $context['root_articles_count_at_home'];
+elseif(is_object($layout))
+	$items_per_page = $layout->items_per_page();
+else
+	$items_per_page = ARTICLES_PER_PAGE;
+
+// no layout
+if($layout === NULL)
+	$items = '';
+
+// look for recent articles across all sections
+elseif(!$items =& Articles::list_(0, $items_per_page, $layout)) {
+
+	// no article yet
+	$items = '<p>'.i18n::s('No page to display.');
+	if(Surfer::is_associate())
+		$items .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut'));
+	$items .= '</p>';
+
+}
+
+// we have an array to format
+if(is_array($items)) {
+
+	// add a link to articles index
+	$items['articles/'] = array('', i18n::s('All pages'), '', 'shortcut');
+
+	// make a string out of the array
+	if(isset($context['root_articles_layout']) && ($context['root_articles_layout'] == 'compact'))
+		$items =& Skin::build_list($items, 'compact');
+	else
+		$items =& Skin::build_list($items, 'decorated');
+
+	// add a title in case of complex page
+	$title = '';
+	if(preg_match('/<h2>|<h3>/', $context['text'].$items)) {
+		$title = i18n::s('Recent Pages');
+	}
+
+	// make a box
+	if($items)
+		$items =& Skin::build_box($title, $items, 'header1', 'recent_articles');
+
+}
+$context['text'] .= $items;
+
+// the suffix hook
+if(is_callable(array('Hooks', 'include_scripts')))
+	$context['text'] .= Hooks::include_scripts('index.php#suffix');
+
+// the trail of the cover article
 if((!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] != 'none'))) {
 
 	// may be changed in skin.php if necessary
@@ -754,48 +521,6 @@ if(!$text = Cache::get($cache_id)) {
 		}
 	}
 
-	// show news -- set in configure.php
-	if(isset($context['root_news_layout']) && ($context['root_news_layout'] != 'none')) {
-
-		// list news from sections where home_map == 'news'
-		if($anchors =& Sections::get_anchors_for_anchor(NULL, 'news')) {
-
-			// build a complete box
-			$box['bar'] = array();
-			$box['text'] = '';
-
-			// set in configure.php
-			if(!isset($context['root_news_count']) || ($context['root_news_count'] < 1))
-				$context['root_news_count'] = 7;
-
-			// list articles by date
-			$items =& Articles::list_for_anchor_by('publication', $anchors, 0, $context['root_news_count'], 'news');
-
-			// render html
-			if(is_array($items))
-				$box['text'] .= Skin::build_list($items, 'news');
-			elseif(is_string($items))
-				$box['text'] .= $items;
-
-			// we do have something to display
-			if($box['text']) {
-
-				// animate the text if required to do so
-				if($context['root_news_layout'] == 'scroll') {
-					$box['text'] = Skin::scroll($box['text']);
-					$box['id'] = 'scrolling_news';
-				} elseif($context['root_news_layout'] == 'rotate') {
-					$box['text'] = Skin::rotate($box['text']);
-					$box['id'] = 'rotating_news';
-				} else
-					$box['id'] = 'news';
-
-				// make an extra box -- the css id is either #news, #scrolling_news or #rotating_news
-				$text .= Skin::build_box(i18n::s('News'), $box['text'], 'news', $box['id']);
-			}
-		}
-	}
-
 	// save in cache, whatever change, for 5 minutes
 	Cache::put($cache_id, $text, 'stable', 300);
 }
@@ -803,184 +528,23 @@ if(!$text = Cache::get($cache_id)) {
 // news
 $context['components']['news'] = $text;
 
-// save some database requests
-$cache_id = 'index.php#extra';
-if(!$text = Cache::get($cache_id)) {
+// list extra boxes
+$text = '';
+if($anchor = Sections::lookup('extra_boxes')) {
 
-	// list extra boxes
-	if($anchors =& Sections::get_anchors_for_anchor(NULL, 'extra_boxes')) {
+	// the maximum number of boxes is a global parameter
+	if(!isset($context['site_extra_maximum']) || !$context['site_extra_maximum'])
+		$context['site_extra_maximum'] = 7;
 
-		// the maximum number of boxes is a global parameter
-		if(!isset($context['site_extra_maximum']) || !$context['site_extra_maximum'])
-			$context['site_extra_maximum'] = 7;
-
-		// articles to be displayed as extra boxes
-		if($items =& Articles::list_for_anchor_by('publication', $anchors, 0, $context['site_extra_maximum'], 'boxes')) {
-			foreach($items as $title => $attributes)
-				$text .= Skin::build_box($title, $attributes['content'], 'boxes', $attributes['id'])."\n";
-		}
-
+	// articles to be displayed as extra boxes
+	if($items =& Articles::list_for_anchor_by('publication', $anchor, 0, $context['site_extra_maximum'], 'boxes')) {
+		foreach($items as $title => $attributes)
+			$text .= Skin::build_box($title, $attributes['content'], 'boxes', $attributes['id'])."\n";
 	}
 
-	// one extra box per section, from sub-sections
-	if($anchors =& Sections::get_anchors_for_anchor(NULL, 'extra')) {
-
-		// one box per section
-		foreach($anchors as $anchor) {
-			$box = array();
-
-			// sanity check
-			if(!$section = Anchors::get($anchor))
-				continue;
-
-			// link to the section page from box title
-			$box['title'] =& Skin::build_box_title($section->get_title(), $section->get_url(), i18n::s('View the section'));
-
-			// build a compact list
-			$box['list'] = array();
-
-			// list matching sections, if any
-			if($items = Sections::list_by_title_for_anchor($anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact'))
-				$box['list'] = array_merge($box['list'], $items);
-
-			// add matching articles
-			if(COMPACT_LIST_SIZE >= count($box['list'])) {
-
-				// use ordering options set for the section
-				if($section->has_option('articles_by_title'))
-					$items =& Articles::list_for_anchor_by('title', $anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact');
-				elseif($section->has_option('articles_by_publication'))
-					$items =& Articles::list_for_anchor_by('publication', $anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact');
-				elseif($section->has_option('articles_by_rating'))
-					$items =& Articles::list_for_anchor_by('rating', $anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact');
-				else
-					$items =& Articles::list_for_anchor($anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact');
-
-				if($items)
-					$box['list'] = array_merge($box['list'], $items);
-
-			}
-
-			// add matching links, if any
-			if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items = Links::list_by_date_for_anchor($anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
-				$box['list'] = array_merge($box['list'], $items);
-
-			// more at the section page
-			if(count($box['list']) > COMPACT_LIST_SIZE) {
-				@array_splice($box['list'], COMPACT_LIST_SIZE);
-
-				// link to the section page
-				$box['list'] = array_merge($box['list'], array($section->get_url() => i18n::s('More pages').MORE_IMG));
-			}
-
-			// render the html for the box
-			$box['text'] = '';
-			if(count($box['list']))
-				$box['text'] =& Skin::build_list($box['list'], 'compact');
-
-			// give a chance to associates to populate empty sections
-			elseif(Surfer::is_associate())
-				$box['text'] = Skin::build_link($section->get_url(), i18n::s('View the section'), 'shortcut');
-
-			// append a box
-			if($box['text'])
-				$text .= Skin::build_box($box['title'], $box['text'], 'boxes');
-
-		}
-	}
-
-	// list categories to display among extra boxes
-	if($categories = Categories::list_by_date_for_display('home:extra', 0, 7, 'raw')) {
-
-		// one box per category
-		foreach($categories as $id => $attributes) {
-
-			// link to the category page from the box title
-			$label =& Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_permalink($attributes), i18n::s('View the category'));
-
-			// build a compact list
-			$box['list'] = array();
-
-			// list matching categories, if any
-			if($items = Categories::list_by_title_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact'))
-				$box['list'] = array_merge($box['list'], $items);
-
-			// add matching articles, if any
-			if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
-				$box['list'] = array_merge($box['list'], $items);
-
-			// add matching links, if any
-			if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items = Links::list_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
-				$box['list'] = array_merge($box['list'], $items);
-
-			// more at the category page
-			if(count($box['list']) > COMPACT_LIST_SIZE) {
-				@array_splice($box['list'], COMPACT_LIST_SIZE);
-
-				// link to the category page
-				$box['list'] = array_merge($box['list'], array(Categories::get_permalink($attributes) => i18n::s('More pages').MORE_IMG));
-			}
-
-			$text .= Skin::build_box($label, Skin::build_list($box['list'], 'compact'), 'boxes')."\n";
-
-		}
-	}
-
-	// show last poll, if any
-	if(isset($context['home_with_recent_poll']) && ($context['home_with_recent_poll'] == 'Y')) {
-
-		$anchor = Anchors::get('section:polls');
-		if(is_object($anchor) && ($item =& Articles::get_newest_for_anchor($anchor->get_reference()))) {
-
-			// build a box
-			$box = array();
-			$box['text'] = '';
-
-			// get a title
-			$box['title'] = Codes::beautify_title($item['title']);
-
-			// link to the index page for polls
-			$box['title'] =& Skin::build_box_title($box['title'], $anchor->get_url(), i18n::s('Polls'));
-
-			// the introductory text
-			if($item['introduction'])
-				$box['text'] .= Codes::beautify($item['introduction']);
-
-			// get the related overlay, if any
-			$overlay = NULL;
-			if(isset($item['overlay']))
-				$overlay = Overlay::load($item, 'article:'.$item['id']);
-
-			// insert overlay data, if any
-			if(is_object($overlay))
-				$box['text'] .= $overlay->get_text('box', $item);
-
-			if($content)
-				$text .= Skin::build_box($box['title'], $box['text'], 'boxes', 'extra_poll');
-		}
-	}
-
-	// list recent pages
-	if(isset($context['home_with_older_articles']) && ($context['home_with_older_articles'] == 'Y')) {
-
-		if($items =& Articles::list_by('publication', $items_per_page, COMPACT_LIST_SIZE+1, 'compact')) {
-
-			// more at the index page
-			if(count($items) > COMPACT_LIST_SIZE) {
-				@array_splice($items, COMPACT_LIST_SIZE);
-
-				$items['articles/'] = i18n::s('All pages').MORE_IMG;
-			}
-
-			$text .= Skin::build_box(i18n::s('Recent Pages'), Skin::build_list($items, 'compact'), 'boxes');
-		}
-	}
-
-	// save in cache, whatever change, for 5 minutes
-	Cache::put($cache_id, $text, 'stable', 300);
 }
 
-// page extra content
+// boxes
 $context['components']['boxes'] = $text;
 
 // referrals, if any
@@ -990,49 +554,6 @@ if(Surfer::is_associate() || (isset($context['with_referrals']) && ($context['wi
 //
 // compute navigation information -- $context['navigation']
 //
-
-// save some database requests
-$cache_id = 'index.php#navigation';
-if(!$text = Cache::get($cache_id)) {
-
-	// list most recent peering servers
-	if(isset($context['home_with_peering_servers']) && ($context['home_with_peering_servers'] == 'Y')) {
-		include_once $context['path_to_root'].'servers/servers.php';
-		if($items = Servers::list_by_date(0, COMPACT_LIST_SIZE, 'compact'))
-			$text .= Skin::build_box(i18n::s('Peers'), Skin::build_list($items, 'compact'), 'navigation', 'recent_servers');
-	}
-
-	// list most popular articles
-	if(isset($context['home_with_top_articles']) && ($context['home_with_top_articles'] == 'Y')) {
-		if($items =& Articles::list_by('hits', 0, COMPACT_LIST_SIZE, 'compact'))
-			$text .= Skin::build_box(i18n::s('Popular Pages'), Skin::build_list($items, 'compact'), 'navigation', 'popular_articles');
-	}
-
-	// list most popular files
-	if(isset($context['home_with_top_files']) && ($context['home_with_top_files'] == 'Y')) {
-		if($items = Files::list_by_hits(0, COMPACT_LIST_SIZE, 'compact'))
-			$text .= Skin::build_box(i18n::s('Popular Files'), Skin::build_list($items, 'compact'), 'navigation', 'popular_files');
-	}
-
-	// list most popular links
-	if(isset($context['home_with_top_links']) && ($context['home_with_top_links'] == 'Y')) {
-		include_once $context['path_to_root'].'links/links.php';
-		if($items = Links::list_by_hits(0, COMPACT_LIST_SIZE, 'compact'))
-			$text .= Skin::build_box(i18n::s('Popular Links'), Skin::build_list($items, 'compact'), 'navigation', 'popular_links');
-	}
-
-	// list random articles
-	if(isset($context['home_with_random_articles']) && ($context['home_with_random_articles'] == 'Y')) {
-		if($items =& Articles::list_by('random', 0, COMPACT_LIST_SIZE, 'compact'))
-			$text .= Skin::build_box(i18n::s('Random Pages'), Skin::build_list($items, 'compact'), 'navigation', 'random_articles');
-	}
-
-	// save in cache, whatever change, for 5 minutes
-	Cache::put($cache_id, $text, 'stable', 300);
-}
-
-// page navigation content
-$context['navigation'] .= $text;
 
 // a meta link to a feeding page
 $context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_root'].Feeds::get_url('rss').'" title="RSS" type="application/rss+xml" />';

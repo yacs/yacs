@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-22 09:33+0100\n"
+"POT-Creation-Date: 2013-10-15 15:34+0200\n"
 "PO-Revision-Date: 2010-05-12 16:29+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -16,9 +16,9 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: scripts/browse.php:62 scripts/build.php:83 scripts/build.php:98
-#: scripts/build.php:415 scripts/check.php:32 scripts/check.php:51
+#: scripts/build.php:413 scripts/check.php:32 scripts/check.php:51
 #: scripts/compare.php:40 scripts/configure.php:43 scripts/configure.php:101
-#: scripts/configure.php:167 scripts/fetch.php:62 scripts/index.php:99
+#: scripts/configure.php:164 scripts/fetch.php:62 scripts/index.php:99
 #: scripts/parse.php:48 scripts/parse.php:80 scripts/stage.php:74
 #: scripts/stage.php:231 scripts/stage.php:250 scripts/stage.php:336
 #: scripts/stage.php:345 scripts/update.php:48 scripts/update.php:67
@@ -90,8 +90,8 @@ msgstr ""
 "Permettre aux serveurs distants de se synchroniser sur le nouveau "
 "référentiel."
 
-#: scripts/build.php:128 scripts/update.php:212 scripts/validate.php:72
-#: scripts/validate.php:201
+#: scripts/build.php:126 scripts/update.php:212 scripts/validate.php:70
+#: scripts/validate.php:199
 msgid ""
 "When you will click on the button the server will be immediately requested "
 "to proceed. However, because of the so many things to do on the back-end, "
@@ -103,86 +103,86 @@ msgstr ""
 "attendre plusieurs minutes avant d'obtenir une réponse à l'écran. Merci de "
 "votre patience."
 
-#: scripts/build.php:132
+#: scripts/build.php:130
 #, php-format
 msgid "Current content of %s"
 msgstr "Contenu actuel de %s"
 
-#: scripts/build.php:137 scripts/configure.php:121 scripts/update.php:73
+#: scripts/build.php:135 scripts/configure.php:118 scripts/update.php:73
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr ""
 "Vous n'êtes pas autorisé à faire cette opération en mode démonstration."
 
-#: scripts/build.php:143
+#: scripts/build.php:141
 msgid ""
 "Please go to the end of this page to check results of the building process."
 msgstr ""
 "Merci d'aller jusqu'à la fin de cette page pour vérifier les résultats de la "
 "construction du nouveau référentiel."
 
-#: scripts/build.php:146
+#: scripts/build.php:144
 msgid "Suppressing the footprints file to disable remote updates..."
 msgstr ""
 "Suppression du fichier des empreintes pour empêcher les mises à jour "
 "distantes..."
 
-#: scripts/build.php:150 scripts/build.php:223 scripts/validate.php:81
+#: scripts/build.php:148 scripts/build.php:221 scripts/validate.php:79
 msgid "Listing files..."
 msgstr "Inventaire des fichiers ..."
 
-#: scripts/build.php:155 scripts/validate.php:86
+#: scripts/build.php:153 scripts/validate.php:84
 #, php-format
 msgid "%d scripts have been found."
 msgstr "%d scripts ont été trouvés."
 
-#: scripts/build.php:159
+#: scripts/build.php:157
 msgid "Copying files..."
 msgstr "Copie des fichiers ..."
 
-#: scripts/build.php:171
+#: scripts/build.php:169
 #, php-format
 msgid "%s is not a reference script"
 msgstr "%s n'est pas un script du référentiel"
 
-#: scripts/build.php:183 scripts/update.php:148
+#: scripts/build.php:181 scripts/update.php:148
 #, php-format
 msgid "Impossible to create path %s."
 msgstr "Impossible de créer le chemin %s."
 
-#: scripts/build.php:187
+#: scripts/build.php:185
 #, php-format
 msgid "Impossible to copy file %s."
 msgstr "Impossible de lire le fichier %s."
 
-#: scripts/build.php:209
+#: scripts/build.php:207
 #, php-format
 msgid "%d reference scripts have been copied."
 msgstr "%d scripts de référence ont été copiés"
 
-#: scripts/build.php:213
+#: scripts/build.php:211
 msgid "Purging the documentation pages..."
 msgstr "Suppression des pages de documentation..."
 
-#: scripts/build.php:228
+#: scripts/build.php:226
 #, php-format
 msgid "%d files have been found."
 msgstr "%d fichiers ont été trouvés."
 
-#: scripts/build.php:232
+#: scripts/build.php:230
 msgid "Building documentation pages..."
 msgstr "Création des pages de documentation..."
 
-#: scripts/build.php:255
+#: scripts/build.php:253
 #, php-format
 msgid "*** %s has no documentation block"
 msgstr "***%s n'a pas de bloc de documentation"
 
-#: scripts/build.php:274
+#: scripts/build.php:272
 #, php-format
 msgid "%d scripts have been parsed."
 msgstr "%d scripts ont été analysés."
 
-#: scripts/build.php:327
+#: scripts/build.php:325
 #, php-format
 msgid ""
 "The file %s has not been generated and the reference store can only be used "
@@ -191,27 +191,27 @@ msgstr ""
 "Le fichier %s n'a pas été généré et les données du référentiel sont "
 "utilisables seulement pour test."
 
-#: scripts/build.php:331 scripts/stage.php:236 scripts/stage.php:313
+#: scripts/build.php:329 scripts/stage.php:236 scripts/stage.php:313
 #: scripts/update.php:140 scripts/update.php:165
 #, php-format
 msgid "Impossible to write to %s."
 msgstr "Impossible d'écrire dans %s."
 
-#: scripts/build.php:335
+#: scripts/build.php:333
 #, php-format
 msgid "Meta data have been saved in %s"
 msgstr "Les méta-données ont été sauvées dans le fichier %s."
 
-#: scripts/build.php:346
+#: scripts/build.php:344
 msgid "On-going archive preparation..."
 msgstr "Constitution de l'archive de référence..."
 
-#: scripts/build.php:412 scripts/run_once.php:203 scripts/validate.php:193
+#: scripts/build.php:410 scripts/run_once.php:203 scripts/validate.php:191
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminé en %.2f secondes."
 
-#: scripts/build.php:419
+#: scripts/build.php:417
 msgid "The reference store has been rebuilt"
 msgstr "Les scripts de référence ont été reconstruits"
 
@@ -265,7 +265,7 @@ msgstr "Format"
 msgid "tabular"
 msgstr "tabulaire"
 
-#: scripts/compare.php:74 scripts/compare.php:116 scripts/compare.php:145
+#: scripts/compare.php:74 scripts/compare.php:113 scripts/compare.php:142
 msgid "gdiff"
 msgstr "gdiff"
 
@@ -277,20 +277,20 @@ msgstr "combiné"
 msgid "Compare"
 msgstr "Comparer"
 
-#: scripts/compare.php:97 scripts/compare.php:101
+#: scripts/compare.php:94 scripts/compare.php:98
 #, php-format
 msgid "Script %s does not exist"
 msgstr "Le script %s n'existe pas"
 
-#: scripts/compare.php:124 scripts/compare.php:166
+#: scripts/compare.php:121 scripts/compare.php:163
 msgid "Merge"
 msgstr "Combiné"
 
-#: scripts/compare.php:137 scripts/compare.php:158
+#: scripts/compare.php:134 scripts/compare.php:155
 msgid "Tabular"
 msgstr "Tabulaire"
 
-#: scripts/configure.php:40 scripts/configure.php:97 scripts/configure.php:168
+#: scripts/configure.php:40 scripts/configure.php:97 scripts/configure.php:165
 #: scripts/run_once.php:88 scripts/run_once.php:208 scripts/run_once.php:213
 msgid "Control Panel"
 msgstr "Panneau de contrôle"
@@ -341,11 +341,11 @@ msgstr "Enregistrer"
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
-#: scripts/configure.php:116
+#: scripts/configure.php:113
 msgid "Indicate only the DNS name or IP address of the reference server."
 msgstr "Indiquez seulement le nom DNS ou l'adresse IP du serveur de référence."
 
-#: scripts/configure.php:141
+#: scripts/configure.php:138
 #, php-format
 msgid ""
 "ERROR: Impossible to write to the file %s. The configuration has not been "
@@ -354,7 +354,7 @@ msgstr ""
 "ERREUR : impossible d'écrire dans le fichier %s. La configuration n'a pas "
 "été sauvegardée."
 
-#: scripts/configure.php:144
+#: scripts/configure.php:141
 #, php-format
 msgid ""
 "To actually change the configuration, please copy and paste following lines "
@@ -363,30 +363,30 @@ msgstr ""
 "Pour changer la configuration merci de copier et de coller les lignes "
 "suivantes dans le fichier %s :"
 
-#: scripts/configure.php:149
+#: scripts/configure.php:146
 #, php-format
 msgid "The following configuration has been saved into the file %s."
 msgstr "La configuration suivante a été enregistrée dans le fichier %s."
 
-#: scripts/configure.php:155 scripts/update.php:135 scripts/update.php:160
+#: scripts/configure.php:152 scripts/update.php:135 scripts/update.php:160
 #, php-format
 msgid "%s has been updated"
 msgstr "%s a été mis à jour"
 
-#: scripts/configure.php:161
+#: scripts/configure.php:158
 msgid "Configuration parameters"
 msgstr "Paramètres de configuration"
 
-#: scripts/configure.php:164
+#: scripts/configure.php:161
 msgid "Where do you want to go now?"
 msgstr "Où voulez-vous aller à présent ?"
 
-#: scripts/configure.php:166 scripts/stage.php:77 scripts/update.php:233
+#: scripts/configure.php:163 scripts/stage.php:77 scripts/update.php:233
 #: scripts/update.php:315
 msgid "Stage updated scripts"
 msgstr "Commencer la mise à jour des scripts"
 
-#: scripts/configure.php:169
+#: scripts/configure.php:166
 msgid "Configure again"
 msgstr "Configurer de nouveau"
 
@@ -874,7 +874,7 @@ msgstr ""
 msgid "Yes, I want to validate scripts"
 msgstr "Oui, je veux valider les scripts"
 
-#: scripts/validate.php:78
+#: scripts/validate.php:76
 msgid ""
 "All reference scripts are included, to show evidence of possible syntax "
 "errors."
@@ -882,35 +882,35 @@ msgstr ""
 "Tous les scripts de référence sont inclus afin de mettre en évidence les "
 "erreurs de syntaxe potentielles."
 
-#: scripts/validate.php:92
+#: scripts/validate.php:90
 msgid "Including reference scripts..."
 msgstr "Inclusion des scripts de référence..."
 
-#: scripts/validate.php:129 scripts/validate.php:135
+#: scripts/validate.php:127 scripts/validate.php:133
 #, php-format
 msgid "%s has no readable content."
 msgstr "%s n'a pas de contenu"
 
-#: scripts/validate.php:161
+#: scripts/validate.php:159
 #, php-format
 msgid "inclusion of %s"
 msgstr "inclusion de %s"
 
-#: scripts/validate.php:178
+#: scripts/validate.php:176
 #, php-format
 msgid "%d files have been included."
 msgstr "%d fichiers ont été inclus."
 
-#: scripts/validate.php:182
+#: scripts/validate.php:180
 msgid "Following scripts have to be included separately:"
 msgstr "Les scripts suivants doivent être inclus séparément :"
 
-#: scripts/validate.php:188
+#: scripts/validate.php:186
 #, php-format
 msgid "%d files to be checked manually."
 msgstr "%d fichiers à traiter manuellement."
 
-#: scripts/validate.php:197
+#: scripts/validate.php:195
 msgid "If no error has popped up, build the reference set >>"
 msgstr "Si aucune erreur n'est apparue, construisez le référentiel >>"
 

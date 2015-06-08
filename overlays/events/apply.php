@@ -152,7 +152,7 @@ elseif(!Surfer::get_id()) {
 		$menu[] = Skin::build_mail_button($link, $title, TRUE);
 
 		// surfer profile
-		$link = $context['url_to_home'].$context['url_to_root'].Surfer::get_permalink();
+		$link = Surfer::get_permalink();
 		$menu[] = Skin::build_mail_button($link, Surfer::get_name(), FALSE);
 
 		// add the menu
@@ -167,7 +167,7 @@ elseif(!Surfer::get_id()) {
 	}
 
 	// socialize self-applications
-	if(($overlay->get_value('enrolment') == 'none') && !$this->anchor->has_option('no_comments')) {
+	if(($overlay->get_value('enrolment') == 'none') && !$anchor->has_option('no_comments')) {
 		include_once $context['path_to_root'].'comments/comments.php';
 		$fields = array();
 		$fields['anchor'] = $anchor->get_reference();

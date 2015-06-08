@@ -121,10 +121,11 @@
  * - [script]users/user.php[/script]
  *
  * @author Bernard Paques
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
-class Anchor {
+abstract class Anchor {
 
 	// the related item
 	var $item;
@@ -134,6 +135,122 @@ class Anchor {
 
 	// its related anchor, if any
 	var $anchor;
+	
+	/** 
+	 * class constructor 
+	 * 
+	 * may accept data
+	 * @param array $item
+	 */
+	function __construct($item=NULL) {
+	    
+	    if($item) {		
+		if(isset($item['anchor']))
+		    $anchor = Anchors::get($item['anchor']);
+		else
+		    $anchor = NULL;
+		// bind item, anchor and overlay data to object
+		$this->load_by_content($item, $anchor);
+	    }
+	}
+	
+	/**
+	 * Using object like a string get its reference
+	 * 
+	 * @return string 
+	 */
+	function __toString() {
+	    return $this->get_reference();
+	}
+	
+	/**
+	 * allow or block operations to current surfer
+	 *	 
+	 * @param string the foreseen operation ('modification', 'creation', 'your keyword'...)
+	 * @param string the kind of sub-item to handle, if needed
+	 * @return TRUE if the operation is accepted, FALSE otherwise
+	 */
+	final function allows($action, $type ='') {
+		global $context;
+
+		// cache the overlay, if any
+		if(!isset($this->overlay) && isset($this->item['overlay']))
+			$this->overlay = Overlay::load($this->item, $this->get_type().':'.$this->item['id']);
+
+		// delegate the validation to the overlay
+		if(isset($this->overlay) && is_object($this->overlay) && is_callable(array($this->overlay, 'allows'))) {
+			$reply =  $this->overlay->allows($action, $type);
+			if($reply !== null)
+			    return $reply;
+		}
+			
+		$allow_func = 'allow_'.$action;
+                $group_class = '';
+		//// delegate validation to legacy group class function, depending on 'action' and type
+                //// TODO : move all legacy code to child class. Make all class as child of anchor
+                if($action == 'creation' && $type) { 
+                    // special case of creation
+                    if(class_exists($type) && is_callable(array($type,'get_static_group_class'))) {
+                        $maycreate      = new $type();
+                        $group_class    = $maycreate->get_static_group_class();
+                    } else {
+                        // last chance (for links, images, comments, locations...)
+                        $group_class = $type.'s';
+                    }
+                    // this object class type became the variant for allow_creation function    
+                    $type = $this->get_type();
+                } else
+                    $group_class = $this->get_static_group_class();		
+		
+                if(is_callable(array($group_class,$allow_func)))
+			return $group_class::$allow_func($this->item, $this->anchor, $type);
+		
+		// delegate validation to child class
+		if(is_callable(array($this,$allow_func)))
+			return $this->$allow_func($type);
+
+		// blocked by default
+		return FALSE;
+	}
+		
+	/**
+	 * creation rights on anchor. By default a associate can do everything on a anchor
+	 * To be derivated in child class for other rules
+	 *  
+	 */
+	function allow_creation($type='') {
+	    
+	    if(Surfer::is_associate())
+		return true;
+	    
+	    return false;
+	}
+	
+	/**
+	 * deletion rights on anchor. By default a associate can do everything on a anchor
+	 * To be derivated in child class for other rules
+	 *  
+	 */
+	function allow_deletion($type='') {
+	    
+	    if(Surfer::is_associate())
+		return true;
+	    
+	    return false;
+	}
+	
+	/**
+	 * modification rights on anchor. By default a associate can do everything on a anchor
+	 * To be derivated in child class for other rules
+	 *  
+	 */
+	function allow_modification($type='') {
+	    
+	    if(Surfer::is_associate())
+		return true;
+	    
+	    return false;
+	}
 
 	/**
 	 * alert watchers of this anchor
@@ -220,6 +337,30 @@ class Anchor {
 
 		return $response;
 	}
+	
+	/**
+	 * delete this entry from database
+	 * 
+	 * @return boolean success of operation
+	 */
+	function delete() {
+	    
+	    // nothing to delete
+	    if(!isset($this->item['id']))
+		    return false;
+	    
+	    $group_class = $this->get_static_group_class();
+	    
+	    if($result =  $group_class::delete($this->item['id'])) {
+		
+		// be coherent with database
+		$this->item = NULL;
+		$this->anchor = NULL;
+		$this->overlay = NULL;
+	    }
+	    
+	    return $result;
+	}
 
 	/**
 	 * visualize differences for some attribute
@@ -296,6 +437,23 @@ class Anchor {
 		// cache and return the result
 		return $this->get_behaviors_cache =& $text;
 	}
+	
+	/**
+	 * list childs of this anchor, with or without types filter
+	 * 
+	 * to be overloaded in child classes
+	 * 
+	 * @todo : add optional order parameter as this : "articles by_name, sections by_title, ..."
+	 * 
+	 * @param string set of desired childs (articles, sections...) separted by comma, or "all" keyword
+	 * @param int offset to start listing
+	 * @param int the maximum of items returned per type
+	 * @param mixed string or object the layout to use
+	 * @return an array of layouted items sorted by type
+	 */
+	function get_childs($filter = 'all',$offset, $max, $layout='raw') {
+	     return NULL;
+	 }
 
 	/**
 	 * get the focus for this anchor
@@ -306,7 +464,21 @@ class Anchor {
 	 * @return array of anchor references (e.g., array('section:123', 'article:456') )
 	 */
 	function get_focus() {
-		 return NULL;
+		 // get the parent
+		if(!isset($this->anchor))
+			$this->anchor = Anchors::get($this->item['anchor']);
+
+		// the parent level
+		if(is_object($this->anchor))
+			$focus = $this->anchor->get_focus();
+		else
+			$focus = array();
+
+		// append this level
+		if(isset($this->item['id']))
+			$focus[] = $this->get_reference();
+
+		return $focus;
 	}
 
 	/**
@@ -316,8 +488,6 @@ class Anchor {
 	 * One example of this situation is a web form sent by mail.
 	 * In this case, the surfer has not been authenticated to the form,
 	 * but if the handle is provided he will be granted access to it.
-	 *
-	 * @see actions/accept.php
 	 *
 	 * @return a secret handle, or NULL
 	 */
@@ -342,12 +512,30 @@ class Anchor {
 	 *	 $context['text'] .= '<img src="'.$icon.'" alt="" />';
 	 * [/php]
 	 *
-	 * To be overloaded into derived class
 	 *
 	 * @return a valid url to be used in an <img> tag
 	 */
-	function get_icon_url() {
-		 return NULL;
+	public function get_icon_url() {
+		if(isset($this->item['icon_url']) && $this->item['icon_url'])
+			return $this->item['icon_url'];
+		return $this->get_thumbnail_url();
+	}
+	
+	/**
+	 * get the introduction of this anchor
+	 * 
+	 * @return a string
+	 */
+	function get_introduction() {
+	    
+	    // use overlay if any
+	    if(is_object($this->overlay))
+		return $this->overlay->get_text('introduction', $this->item);
+	    elseif(isset($this->item['introduction']))
+		return trim($this->item['introduction']);
+	    
+	    return NULL;
+	    
 	}
 
 	/**
@@ -355,11 +543,12 @@ class Anchor {
 	 *
 	 * If the anchor as been named, this function returns the related url.
 	 *
-	 * To be overloaded into derived class
 	 *
 	 * @return an url to view the anchor page, or NULL
 	 */
 	function get_named_url() {
+		if(isset($this->item['nick_name']) && $this->item['nick_name'])
+			return normalize_shortcut($this->item['nick_name']);
 		return NULL;
 	}
 
@@ -443,7 +632,35 @@ class Anchor {
 	 * @return an array of $url => $label
 	 */
 	function get_path_bar() {
-		return array();
+		global $context;
+
+		// no item bound
+		if(!isset($this->item['id']))
+			return NULL;
+
+		// get the parent
+		if(!isset($this->anchor))
+			$this->anchor = Anchors::get($this->item['anchor']);
+
+		// the parent level
+		$parent = array();
+		if(is_object($this->anchor))
+			$parent = $this->anchor->get_path_bar();
+
+		// this item
+		$url = $this->get_permalink();
+		$label = Codes::beautify_title($this->get_title());
+		$path = array_merge($parent, array($url => $label));
+
+		// return the result
+		return $path;
+	}
+	
+	/**
+	 * get permalink to anchor
+	 */
+	function get_permalink() {
+	    return NULL;
 	}
 
 	/**
@@ -536,12 +753,15 @@ class Anchor {
 	 * $context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 	 * [/php]
 	 *
-	 * To be overloaded into derived class
 	 *
 	 * @return a string such as 'article:123', or 'section:456', etc.
 	 */
-	function get_reference() {
-		return NULL;
+	final public function get_reference() {
+	    $reference = NULL;
+	    if(isset($this->item['id']))
+		    $reference = $this->get_type().":".$this->item['id'];
+	    
+	    return $reference;
 	}
 
 	/**
@@ -555,6 +775,15 @@ class Anchor {
 	 */
 	function get_short_url() {
 		return NULL;
+	}
+	
+	/**
+	 * provide classe name with all static functions on this kind of anchor
+	 * 
+	 * @return a class name
+	 */
+	function get_static_group_class() {
+	    return 'Anchors';
 	}
 
 	/**
@@ -605,8 +834,8 @@ class Anchor {
 			$text = NULL;
 
 		// use the introduction field, if any
-		elseif(isset($this->item['introduction']) && trim($this->item['introduction']))
-			$text = Codes::beautify($this->item['introduction'], $this->item['options']);
+		elseif($intro = $this->get_introduction ())
+			$text = Codes::beautify($intro, $this->item['options']);
 
 		// else use the description field
 		else
@@ -614,7 +843,7 @@ class Anchor {
 
 		// done
 		return $text;
-	}
+	}		
 
 	/**
 	 * get available templates
@@ -640,11 +869,15 @@ class Anchor {
 	 * NOT display anchor thumbnails throughout the server. In this case, he/she
 	 * has just to suppress the thumbnail URL in each anchor and that's it.
 	 *
-	 * To be overloaded into derived class
 	 *
-	 * @return a valid url to be used in an &lt;img&gt; tag
+	 * @return a valid url to be used in an <img> tag
 	 */
-	function get_thumbnail_url() {
+	public function get_thumbnail_url() {
+		if(isset($this->item['thumbnail_url']) && $this->item['thumbnail_url'])
+			return $this->item['thumbnail_url'];
+                elseif(is_object($this->overlay)) {
+                    return $this->overlay->get_value('default_thumbnail');
+                }
 		return NULL;
 	}
 
@@ -664,10 +897,15 @@ class Anchor {
 	 *
 	 * @return a string
 	 */
-	function get_title() {
-		if($this->item)
-			return trim(str_replace('& ', '&amp; ', $this->item['title']));
-		return $this->get_reference();
+	function get_title($use_overlay=true) {
+	        
+	    // use overlay if any
+	    if(is_object($this->overlay) && $use_overlay)
+		return $this->overlay->get_text('title', $this->item);
+	    elseif(isset($this->item['title']))
+		return trim(str_replace('& ', '&amp; ', $this->item['title']));
+	    else
+		return $this->get_reference();	    
 	}
 
 	/**
@@ -675,10 +913,10 @@ class Anchor {
 	 *
 	 * @return string e.g., 'article', 'category', 'section'
 	 */
-	function get_type() {
-		if(($reference = $this->get_reference()) && ($position = strpos($reference, ':')))
-			return substr($reference, 0, $position);
-		 return NULL;
+	final public function get_type() {
+		
+		 $type = strtolower(get_class($this));
+		 return $type;		 
 	}
 
 	/**
@@ -715,6 +953,11 @@ class Anchor {
 		// attribute has a value
 		if(isset($this->item[$name]))
 			return $this->item[$name];
+                
+                // maybe in overlay
+                if(is_object($this->overlay)) {
+                    return $this->overlay->get_value($name, $default_value);
+                }
 
 		// use default value
 		return $default_value;
@@ -910,7 +1153,7 @@ class Anchor {
 			return FALSE;
 
 		// id of requesting user
-		if(!$user_id && Surfer::get_id())
+		if(!$user_id)
 			$user_id = Surfer::get_id();
 
 		// anonymous is allowed
@@ -931,6 +1174,18 @@ class Anchor {
 
 		// surfer owns this item
 		if($user_id && isset($this->item['owner_id']) && ($user_id == $this->item['owner_id']))
+			return $this->is_assigned_cache[$user_id] = TRUE;
+		
+		// anchor has been assigned to this surfer
+		if($user_id && Members::check('user:'.$user_id, $this->get_reference()))
+			return $this->is_assigned_cache[$user_id] = TRUE;
+		
+		// anonymous edition is allowed
+		if(($this->item['active'] == 'Y') && $this->has_option('anonymous_edit'))
+			return $this->is_assigned_cache[$user_id] = TRUE;
+		
+		// members edition is allowed
+		if(($this->item['active'] == 'Y') && Surfer::is_empowered('M') && $this->has_option('members_edit'))
 			return $this->is_assigned_cache[$user_id] = TRUE;
 
 		// check parent container
@@ -999,7 +1254,7 @@ class Anchor {
 			return FALSE;
 
 		// associates can always do it, except if not cascading
-		if(($user_id == Surfer::get_id()) && Surfer::is_associate())
+		if(Surfer::is($user_id) && Surfer::is_associate())
 			return TRUE;
 
 		// if surfer manages parent container it's ok too
@@ -1029,11 +1284,17 @@ class Anchor {
 	 *
 	 * @return TRUE or FALSE
 	 */
-	 function is_public() {
+	 function is_public() {	     
+
+		// cache the answer
+		if(isset($this->is_public_cache))
+			return $this->is_public_cache;    
+	     
 
 		// not set
 		if(!is_array($this->item))
-			return FALSE;
+			return $this->is_public_cache = FALSE;
+		
 
 		// ensure the container allows for public access
 		if(isset($this->item['anchor'])) {
@@ -1043,21 +1304,32 @@ class Anchor {
 				$this->anchor = Anchors::get($this->item['anchor']);
 
 			if(is_object($this->anchor) && !$this->anchor->is_public())
-				return FALSE;
+				return $this->is_public_cache = FALSE;
 
 		}
 
-		// not at the front page
-		if(isset($this->item['home_panel']) && ($this->item['home_panel'] == 'none'))
-			return FALSE;
-
 		// the anchor is public
 		if(isset($this->item['active']) && ($this->item['active'] == 'Y'))
-			return TRUE;
+			return $this->is_public_cache = TRUE;
 
 		// sorry
-		return FALSE;
+		return $this->is_public_cache = FALSE;
 	}
+        
+        function is_published(&$status='') {       
+            global $context;
+            
+            $item = $this->item;
+            // sanity check
+            if(!$item) {
+                    $status = 'UNSET';
+                    return false;
+            }
+            
+            $status = 'PUBLISHED';
+            return true;
+       
+        }
 
 	/**
 	 * check that the surfer is allowed to display the anchor
@@ -1085,8 +1357,8 @@ class Anchor {
 			return TRUE;
 
 		// id of requesting user
-		if(!$user_id && Surfer::get_id())
-			$user_id = Surfer::get_id();
+		if(!$user_id )
+		    $user_id = Surfer::get_id();
 
 		// anonymous is allowed
 		if(!$user_id)
@@ -1099,7 +1371,7 @@ class Anchor {
 		// anchor has to be assigned
 		return ($this->is_assigned($user_id) || Surfer::is_associate());
 
-	 }
+	 }	 	
 
 	/**
 	 * load the related item
@@ -1122,7 +1394,7 @@ class Anchor {
 		// get the related overlay, if any
 		$this->overlay = NULL;
 		if(isset($this->item['overlay']))
-			$this->overlay = Overlay::load($this->item, $this->get_reference());
+			$this->overlay = Overlay::load($this);
 
 	}
 
@@ -1136,6 +1408,58 @@ class Anchor {
 	 */
 	function load_by_id($id, $mutable=FALSE) {
 		return NULL;
+	}
+	
+	/**
+	 * post a new item
+	 * 
+	 * @param mixed object or string the anchor where to post
+	 * @param string the title of the new item
+	 * @return boolean success of operation
+	 */
+	function post($anchor=NULL,$title='') {
+	    
+	    // we have already a id
+	    if(isset($this->item['id']))
+		    return false;
+	    
+	    // check the anchor ...
+	    
+	    // .. use provided object, will crush previous one if any
+	    if(is_object($anchor)) {
+		$this->anchor = $anchor;	
+	    }
+	    
+	    // .. use object
+	    if(isset($this->anchor))
+		$anchor = $this->anchor->get_reference();	 	    
+	    // .. nothing provided
+	    elseif(!isset($anchor))
+		return false;
+	    // .. checking given reference
+	    elseif($anchor && !is_object($anchor) && !$this->anchor = Anchors::get($anchor))
+		return false;	    
+	    
+	    $this->item['anchor'] = $anchor; // now a valid reference or empty string for root anchor
+	   
+	    // check the title
+	    if($title)
+		// use provided one
+		$this->item['title'] = $title;
+	    elseif(!isset($this->item['title']))
+		// make a defaut one    
+		$this->item['title'] = $this->get_type ();
+		   		    		
+	    
+	    $group_class = $this->get_static_group_class();	    
+	    if($id = $group_class::post($this->item)) {
+		// re-get all fields from database 
+		$this->load_by_id($id);			
+		return true;
+	    }
+	
+	    // bad luck
+	    return false;	   
 	}
 
 	/**

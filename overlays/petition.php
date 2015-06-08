@@ -22,7 +22,7 @@ class Petition extends Overlay {
 	 * @param string the foreseen operation ('edit', 'new', ...)
 	 * @return TRUE if the operation is accepted, FALSE otherwise
 	 */
-	function allows($type, $action) {
+	function allows($action, $type = '') {
 		global $context;
 
 		// we filter only approvals
@@ -122,7 +122,7 @@ class Petition extends Overlay {
 	 * @param the hosting attributes
 	 * @return a list of ($label, $input, $hint)
 	 */
-	function get_fields($host) {
+	function get_fields($host,$field_pos=NULL) {
 		global $context;
 
 		// accepted voters

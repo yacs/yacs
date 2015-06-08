@@ -208,7 +208,7 @@ if(Surfer::is_crawler()) {
 			Users::clear($_REQUEST);
 
 			// display the updated page
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_permalink($item));
+			Safe::redirect(Users::get_permalink($item));
 
 		}
 
@@ -268,7 +268,7 @@ if(Surfer::is_crawler()) {
 
 				// associates are redirected to the new user page
 				if(Surfer::is_associate())
-					Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_permalink($_REQUEST));
+					Safe::redirect(Users::get_permalink($_REQUEST));
 
 				// welcome message
 				else {
@@ -298,7 +298,7 @@ if(Surfer::is_crawler()) {
 						$follow_up .= '<ul><li>'.sprintf(i18n::s('%s, maybe with some images and/or files'), '<a href="'.$context['url_to_root'].'articles/edit.php">'.i18n::s('Add a page').'</a>').'</li></ul>';
 
 					// edit profile
-					$follow_up .= '<ul><li>'.sprintf(i18n::s('%s, to let others have a better understanding of who I am'), '<a href="'.$context['url_to_root'].Users::get_permalink($_REQUEST).'">'.i18n::s('Edit my profile').'</a>').'</li></ul>';
+					$follow_up .= '<ul><li>'.sprintf(i18n::s('%s, to let others have a better understanding of who I am'), '<a href="'.Users::get_permalink($_REQUEST).'">'.i18n::s('Edit my profile').'</a>').'</li></ul>';
 
 					// more help
 					$follow_up .= '<ul><li>'.sprintf(i18n::s('%s, and get basic directions'), '<a href="'.$context['url_to_root'].'help/">'.i18n::s('Go the main help page').'</a>').'</li></ul>';
@@ -318,8 +318,8 @@ if(Surfer::is_crawler()) {
 						$label = sprintf(i18n::c('New subscriber: %s'), $item['nick_name']);
 						break;
 					}
-					$link = $context['url_to_home'].$context['url_to_root'].Users::get_permalink($item);
-                                        $description = '<a href="'.$link.'">'.$link.'</a>';
+					$link = Users::get_permalink($item);
+                	$description = '<a href="'.$link.'">'.$link.'</a>';
 					Logger::notify('users/edit.php: '.$label, $description);
 				}
 			}
@@ -483,9 +483,8 @@ if($with_form) {
 	$fields = array();
 
 	// append the script used for data checking on the browser
-	$text .= JS_PREFIX
-		.'$(function() { Yacs.autocomplete_names("vcard_agent",true); });'."\n" // enable autocompletion for user names
-		.JS_SUFFIX;
+	// enable autocompletion for user names
+	Page::insert_script('$(function() { Yacs.autocomplete_names("vcard_agent",true); });');
 
 	// instant messaging
 	//
@@ -665,7 +664,7 @@ if($with_form) {
 
 	// editor
 	$label = i18n::s('Preferred editor');
-	$input = '<select name="selected_editor">';	// hack because of FCKEditor already uses 'editor'
+	$input = '<select name="selected_editor">';
 	if(isset($item['editor']))
 		;
 	elseif(!isset($context['users_default_editor']))
@@ -676,10 +675,6 @@ if($with_form) {
 	if($item['editor'] == 'tinymce')
 		$input .= ' selected="selected"';
 	$input .= '>'.i18n::s('TinyMCE')."</option>\n";
-	$input .= '<option value="fckeditor"';
-	if($item['editor'] == 'fckeditor')
-		$input .= ' selected="selected"';
-	$input .= '>'.i18n::s('FCKEditor')."</option>\n";
 	$input .= '<option value="yacs"';
 	if($item['editor'] == 'yacs')
 		$input .= ' selected="selected"';
@@ -740,14 +735,14 @@ if($with_form) {
 			$text .= Skin::build_box(i18n::s('Files'), Skin::build_list($items, 'decorated'), 'unfolded');
 
 		// locations are reserved to authenticated members
-		if(Locations::allow_creation(NULL, $item)) {
+		if(Locations::allow_creation($item, null)) {
 			$menu = array( 'locations/edit.php?anchor='.urlencode('user:'.$item['id']) => i18n::s('Add a location') );
 			$items = Locations::list_by_date_for_anchor('user:'.$item['id'], 0, 50, 'user:'.$item['id']);
 			$text .= Skin::build_box(i18n::s('Locations'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
 		}
 
 		// tables are reserved to associates
-		if(Tables::allow_creation(NULL, $item)) {
+		if(Tables::allow_creation($item, null)) {
 			$menu = array( 'tables/edit.php?anchor='.urlencode('user:'.$item['id']) => i18n::s('Add a table') );
 			$items = Tables::list_by_date_for_anchor('user:'.$item['id'], 0, 50, 'user:'.$item['id']);
 			$text .= Skin::build_box(i18n::s('Tables'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
@@ -788,17 +783,19 @@ if($with_form) {
 	// associates may decide to not stamp changes -- complex command
 	if(isset($item['id']) && Surfer::is_associate() && Surfer::has_all())
 		$suffix[] = '<input type="checkbox" name="silent" value="Y" />'.' '.i18n::s('Do not change modification date.');
+        
+        // link to privacy statement
+	if(!isset($item['id']) && !Surfer::is_associate())
+		$suffix[] = '<span>'.sprintf(i18n::s('By clicking submit, you agree to the terms and conditions outlined in the %s.'), Skin::build_link(Articles::get_url('privacy'), i18n::s('privacy statement'), 'basic')).'</span>';
 
 	// validate page content
-	$suffix[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
+        if(Surfer::is_associate())
+            $suffix[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
 
-	// an assistant-like rendering at page bottom
+        // an assistant-like rendering at page bottom
 	$context['text'] .= Skin::build_assistant_bottom('', $menu, $suffix, isset($item['tags'])?$item['tags']:'');
 
-	// link to privacy statement
-	if(!isset($item['id']) && !Surfer::is_associate())
-		$context['text'] .= '<p>'.sprintf(i18n::s('By clicking submit, you agree to the terms and conditions outlined in the %s.'), Skin::build_link(Articles::get_url('privacy'), i18n::s('privacy statement'), 'basic')).'</p>';
-
+	
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])
 		$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
@@ -809,57 +806,86 @@ if($with_form) {
 
 	// end of the form
 	$context['text'] .= '</div></form>';
+        
+        
+        // check nickname and email dynamicaly
+        Page::insert_script('$("#nick_name, input[name=email]").keyup(function(){
+            var inputkeyup = $(this);
+            delay(function(){Yacs.checkNickEmail(inputkeyup);},600);
+        });');
 
 	// append the script used for data checking on the browser
-	$context['text'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// name is mandatory'."\n"
+	$js_script =
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// name is mandatory
 		.'	if(!container.nick_name.value) {'."\n"
 		.'		alert("'.i18n::s('You must provide a nick name.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
+		.'	}'."\n"
+                        // extend validation --used in overlays
+		.'	if(typeof validateOnSubmit == "function") {'."\n"
+		.'		return validateOnSubmit(container);'."\n"
 		.'	}'."\n";
+
+
+        $js_script .='	if($("#nick_name").hasClass("input-bad")) {'."\n"
+		.'		alert("'.i18n::s('You must provide a valid and unused nick name.').'");'."\n"
+		.'		Yacs.stopWorking();'."\n"
+		.'		return false;'."\n"
+		.'	}'."\n";
+
 	if(!isset($item['id']))
-		$context['text'] .= "\n"
-			.'	// password is mandatory'."\n"
-			.'	if(!container.password.value) {'."\n"
+		$js_script .=
+				// password is mandatory'
+			'	if(!container.password.value) {'."\n"
 			.'		alert("'.i18n::s('You must provide a password.').'");'."\n"
 			.'		Yacs.stopWorking();'."\n"
 			.'		return false;'."\n"
 			.'	}'."\n";
-	if(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
-		$context['text'] .= "\n"
-			.'	// email is mandatory'."\n"
-			.'	if(!container.email.value) {'."\n"
-			.'		alert("'.i18n::s('You must provide a valid e-mail address.').'");'."\n"
+
+	if(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y')) {
+
+		$js_script .=
+				// email is mandatory'
+			'	if(!container.email.value) {'."\n"
+			.'		alert("'.i18n::s('You must provide a e-mail address.').'");'."\n"
 			.'		Yacs.stopWorking();'."\n"
 			.'		return false;'."\n"
 			.'	}'."\n";
-	$context['text'] .= "\n"
-		.'	// successful check'."\n"
-		.'	return true;'."\n"
+
+                $js_script .='	if($("input[name=email]").hasClass("input-bad")) {'."\n"
+                        .'		alert("'.i18n::s('You must provide a valid and unused email address.').'");'."\n"
+                        .'		Yacs.stopWorking();'."\n"
+                        .'		return false;'."\n"
+                        .'	}'."\n";
+        }
+
+	$js_script .=
+			// successful check
+		'	return true;'."\n"
 		.'}'."\n"
 		."\n"
-		.'// disable editor selection on change in form'."\n"
+		// disable editor selection on change in form
                 .'$("#main_form textarea, #main_form input, #main_form select").change(function() {'."\n"
                 .'      $("#preferred_editor").attr("disabled",true);'."\n"
                 .'});'."\n"
 		."\n";
 	if(isset($item['full_name']) && $item['full_name'])
-		$context['text'] .= '// set the focus on first form field'."\n"
-	 		.'$("#full_name").focus();'."\n"
+		$js_script .= // set the focus on first form field
+	 		'$("#full_name").focus();'."\n"
 	 		."\n";
 	else
-		$context['text'] .= '// set the focus on first form field'."\n"
-	 		.'$("#first_name").focus();'."\n"
+		$js_script .= // set the focus on first form field
+	 		'$("#first_name").focus();'."\n"
 	 		."\n";
-	$context['text'] .= '// enable tags autocompletion'."\n"
-		.'$(function() {'."\n"
+	$js_script .= // enable tags autocompletion'
+		'$(function() {'."\n"
 		.'  Yacs.autocomplete_m("tags", "'.$context['url_to_root'].'categories/complete.php");'."\n"
-		.'});  '."\n"
-		.JS_SUFFIX;
+		.'});  '."\n";
+	
+	Page::insert_script($js_script);
 
 	// the help panel
 	$help = '<p>'.i18n::s('The nick name has to be unique throughout the database of users.').'</p>';
@@ -873,13 +899,9 @@ if($with_form) {
  	// change to another editor
 	$help .= '<form action=""><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
 	$selected = '';
-	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
+	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce'))
 		$selected = ' selected="selected"';
 	$help .= '<option value="tinymce"'.$selected.'>'.i18n::s('TinyMCE')."</option>\n";
-	$selected = '';
-	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
-		$selected = ' selected="selected"';
-	$help .= '<option value="fckeditor"'.$selected.'>'.i18n::s('FCKEditor')."</option>\n";
 	$selected = '';
 	if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))
 		$selected = ' selected="selected"';
@@ -887,6 +909,9 @@ if($with_form) {
 	$help .= '</select></p></form>';
 
 	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
+        
+        // we are editing
+        $context['current_action'] = 'edit';
 
 }
 

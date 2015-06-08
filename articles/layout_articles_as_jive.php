@@ -152,7 +152,7 @@ Class Layout_articles_as_jive extends Layout_interface {
 				$details[] = Skin::build_link($url.'#_discussion', sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'span');
 
 			// the command to reply
-			if(Comments::allow_creation($anchor, $item)) {
+			if(Comments::allow_creation($item, $anchor)) {
 				Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 				$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'span');
 			}

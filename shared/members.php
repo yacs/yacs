@@ -65,6 +65,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -76,7 +77,7 @@ Class Members {
 	 * @param string the anchor id (e.g., 'category:123')
 	 * @param string the member id (e.g., 'article:456')
 	 * @param string the father id, if any (e.g., 'category:456')
-	 * @return string either a null string, or some text describing an error to be inserted into the html response
+	 * @return boolean or int, failure of operation or affected rows
 	 *
 	 * @see articles/articles.php
 	 * @see categories/categories.php
@@ -88,18 +89,23 @@ Class Members {
 		global $context;
 
 		// anchor cannot be empty
-		if(!$anchor)
-			return i18n::s('An anchor is required for this operation.');
+		if(!$anchor) {
+			Logger::error(i18n::s('An anchor is required for this operation.'));
+			return false;
+		}
 
 		// member cannot be empty
-		if(!$member)
-			return i18n::s('A member is required for this operation.');
+		if(!$member) {
+			Logger::error(i18n::s('A member is required for this operation.'));
+			return false;
+		}
 
 		// don't go further if the membership already exists
 		$query = "SELECT id  FROM ".SQL::table_name('members')
 			." WHERE (anchor LIKE '".SQL::escape($anchor)."') AND (member LIKE '".SQL::escape($member)."') LIMIT 0, 1";
-		if(SQL::query_count($query))
-			return NULL;
+		if(SQL::query_count($query)) {
+			return false;
+		}
 
 		// clear the cache
 		Cache::clear(array($anchor, $member));
@@ -114,17 +120,17 @@ Class Members {
 			." member_type='".SQL::escape($member_type)."',"
 			." member_id='".SQL::escape($member_id)."',"
 			." edit_date='".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'";
-		SQL::query($query);
+		$result = SQL::query($query);
 
 		// delete father membership, if instructed to do so
 		if($father) {
 			$query = "DELETE FROM ".SQL::table_name('members')
 				." WHERE (anchor LIKE '".SQL::escape($father)."') AND (member LIKE '".SQL::escape($member)."')";
-			SQL::query($query);
+			$result += SQL::query($query);
 		}
 
 		// end of job
-		return NULL;
+		return $result;
 	}
 
 	/**
@@ -188,7 +194,7 @@ Class Members {
 	 * @see categories/layout_categories_as_yahoo.php
 	 * @see categories/view.php
 	 */
-	public static function count_articles_for_anchor($anchor) {
+	public static function count_articles_for_anchor($anchor, $lang=false) {
 		global $context;
 
 		// limit the scope of the request
@@ -203,6 +209,11 @@ Class Members {
 			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
 
 		$where .= ")";
+                
+                // limit the scope by language
+                if($lang) {
+                    $where .= " AND ( articles.language='".SQL::escape($lang)."' OR articles.language='')";
+                }
 
 		// always only consider published articles
 		$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
@@ -415,29 +426,33 @@ Class Members {
 	 *
 	 * @param string the anchor id (e.g., 'article:12')
 	 * @param string the member id (e.g., 'file:23')
-	 * @return string either a null string, or some text describing an error to be inserted into the html response
+	 * @return boolean or int, failure of operation or affected rows
 	**/
 	public static function free($anchor, $member) {
 		global $context;
 
 		// anchor cannot be empty
-		if(!$anchor)
-			return i18n::s('An anchor is required for this operation.');
+		if(!$anchor) {
+			Logger::error(i18n::s('An anchor is required for this operation.'));
+			return false;
+		}
 
 		// member cannot be empty
-		if(!$member)
-			return i18n::s('A member is required for this operation.');
+		if(!$member) {
+			Logger::error(i18n::s('A member is required for this operation.'));
+			return false;
+		}
 
 		// delete all matching records in the database
 		$query = "DELETE FROM ".SQL::table_name('members')
 			." WHERE (anchor LIKE '".SQL::escape($anchor)."') AND (member LIKE '".SQL::escape($member)."')";
-		SQL::query($query);
+		$result = SQL::query($query);
 
 		// clear the cache
 		Cache::clear(array($anchor, $member));
 
 		// end of job
-		return NULL;
+		return $result;
 	}
 
 	/**
@@ -511,7 +526,7 @@ Class Members {
 	 * @see users/print.php
 	 * @see users/view.php
 	 */
-	public static function &list_articles_by_date_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
+	public static function &list_articles_by_date_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $lang=false) {
 		global $context;
 
 		// locate where we are
@@ -534,6 +549,11 @@ Class Members {
 			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		$where .= ")";
+                
+                // limit the scope by language
+                if($lang) {
+                    $where .= " AND ( articles.language='".SQL::escape($lang)."' OR articles.language='')";
+                }
 
 		// show only published articles
 		$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
@@ -614,7 +634,7 @@ Class Members {
 	 * @see categories/print.php
 	 * @see categories/view.php
 	 */
-	public static function &list_articles_by_title_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
+	public static function &list_articles_by_title_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $lang=false) {
 		global $context;
 
 		// locate where we are
@@ -637,6 +657,11 @@ Class Members {
 			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		$where .= ")";
+                
+                // limit the scope by language
+                if($lang) {
+                    $where .= " AND ( articles.language='".SQL::escape($lang)."' OR articles.language='')";
+                }
 
 		// see only published articles in categories
 		$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
@@ -682,7 +707,7 @@ Class Members {
 	 * @see categories/print.php
 	 * @see categories/view.php
 	 */
-	public static function &list_articles_by_rating_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
+	public static function &list_articles_by_rating_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $lang=false) {
 		global $context;
 
 		// locate where we are
@@ -705,6 +730,11 @@ Class Members {
 			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		$where .= ")";
+                
+                // limit the scope by language
+                if($lang) {
+                    $where .= " AND ( articles.language='".SQL::escape($lang)."' OR articles.language='')";
+                }
 
 		// see only published articles in categories
 		$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
@@ -802,6 +832,7 @@ Class Members {
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
+	 * @param string anchor for restricted category parent, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 * @see articles/view.php
@@ -811,7 +842,7 @@ Class Members {
 	 * @see categories/select.php
 	 * @see services/blog.php
 	 */
-	public static function &list_categories_by_title_for_member($member, $offset=0, $count=10, $variant='full') {
+	public static function &list_categories_by_title_for_member($member, $offset=0, $count=10, $variant='full',$focus=NULL) {
 		global $context;
 
 		// display active and restricted items
@@ -830,6 +861,9 @@ Class Members {
 		if($variant == 'raw')
 			$where .= " AND (categories.nick_name NOT LIKE 'week%') AND (categories.nick_name NOT LIKE '".i18n::c('weekly')."')"
 				." AND (categories.nick_name NOT LIKE 'month%') AND (categories.nick_name NOT LIKE '".i18n::c('monthly')."')";
+
+		if(isset($focus))
+			$where .= " AND (categories.anchor  = '".$focus."' )";
 
 		// the list of categories
 		$query = "SELECT categories.* FROM"
@@ -994,6 +1028,55 @@ Class Members {
 		$output =& Sections::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
+        
+        public static function list_shared_thread_for_user($user,$offset=0,$count=50,$variant=NULL) {
+            global $context;
+            
+            if(!$threads = Sections::lookup('threads'))
+                    return null;
+            
+            $query = "SELECT articles.* FROM ".SQL::table_name('articles')." AS articles "
+                    
+                    ." INNER JOIN ".SQL::table_name('members')." AS member_his"
+                    ." ON member_his.anchor = CONCAT('article:',articles.id)"
+                    
+                    ." INNER JOIN ".SQL::table_name('members')." AS member_mine"
+                    ." ON member_mine.anchor = CONCAT('article:',articles.id)"
+                    
+                    ." WHERE"
+                    ." articles.anchor                  = '".$threads."'"
+                    ." AND member_his.member            = 'user:".$user."'"
+                    ." AND member_mine.member           = 'user:".Surfer::get_id()."'"
+                    
+                    ." ORDER BY articles.edit_date DESC LIMIT ".$offset.','.$count;
+                    
+            
+            // use existing listing facility
+            $output = Users::list_selected(SQL::query($query), $variant);
+            return $output;
+        }
+        
+        public static function list_surfer_threads($offset=0, $count=50, $variant= NULL) {
+            
+            if(!$threads = Sections::lookup('threads'))
+                    return null;
+            
+            $query = "SELECT articles.* FROM ".SQL::table_name('articles')." AS articles "
+                    
+                    ." INNER JOIN ".SQL::table_name('members')." AS member_mine"
+                    ." ON member_mine.anchor = CONCAT('article:',articles.id)"
+                    
+                    ." WHERE"
+                    ." articles.anchor              = '".$threads."'"
+                    ." AND member_mine.member           = 'user:".Surfer::get_id()."'"
+                    
+                    ." ORDER BY articles.edit_date DESC LIMIT ".$offset.','.$count;
+                    
+            
+            // use existing listing facility
+            $output = Users::list_selected(SQL::query($query), $variant);
+            return $output;
+        }
 
 	/**
 	 * list alphabetically the readers related to a given member
@@ -1121,6 +1204,42 @@ Class Members {
 			."	AND (users.id = members.member_id)"
 			."	AND ".$where
 			." GROUP BY users.id ORDER BY users.full_name, users.nick_name LIMIT ".$offset.','.$count;
+
+		// use existing listing facility
+		$output =& Users::list_selected(SQL::query($query), $variant);
+		return $output;
+	}
+
+	public static function &list_users_by_random_for_anchor($anchor, $count=10, $variant=NULL, $to_avoid=NULL) {
+		global $context;
+
+		// locate where we are
+		if(!$variant)
+			$variant = $anchor;
+
+		// limit the scope of the request
+		$where = "users.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR users.active='R'";
+		if(Surfer::is_associate())
+			$where .= " OR users.active='N'";
+		$where = '('.$where.')';
+
+		// do not list blocked users
+		$where .= " AND (users.capability IN ('S', 'M', 'A'))";
+
+		// avoid this one
+		if($to_avoid)
+			$where .= " AND (users.id != ".SQL::escape($to_avoid).")";
+
+		// the list of users
+		$query = "SELECT users.*	FROM ".SQL::table_name('members')." AS members"
+			." INNER JOIN ".SQL::table_name('users')." AS users"
+			." WHERE (members.anchor LIKE '".SQL::escape($anchor)."')"
+			."	AND (members.member_type LIKE 'user')"
+			."	AND (users.id = members.member_id)"
+			."	AND ".$where
+			." GROUP BY users.id ORDER BY Rand() LIMIT ".$count;
 
 		// use existing listing facility
 		$output =& Users::list_selected(SQL::query($query), $variant);

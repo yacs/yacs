@@ -18,7 +18,7 @@ Class Layout_files_as_simple extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return array of resulting items, or NULL
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -64,7 +64,7 @@ Class Layout_files_as_simple extends Layout_interface {
 				$label = ucfirst(str_replace(array('%20', '-', '_'), ' ', $item['file_name']));
 
 			// the main anchor link, except on user profiles
-			if(is_object($anchor) && ($anchor->get_reference() != $this->layout_variant))
+			if(is_object($anchor) && ($anchor->get_reference() != $this->focus))
 				$suffix .= ' - <span class="details">'.sprintf(i18n::s('in %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()))).'</span>';
 
 			// list all components for this item

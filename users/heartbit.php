@@ -115,7 +115,7 @@ if(!Surfer::get_id()) {
 	$response = Notifications::pull();
 
 	// encode result in JSON
-	$output = Safe::json_encode($response);
+	$output = json_encode($response);
 
 	// allow for data compression
 	render_raw('application/json; charset='.$context['charset']);

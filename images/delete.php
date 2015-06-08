@@ -38,6 +38,16 @@ elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
 $id = strip_tags($id);
 
+// case of strait ajax deletion
+if(isset($_REQUEST['strait'])) {
+    // ensure browser always look for fresh data
+    http::expire(0);
+    // auto-confirm
+    $_REQUEST['confirm'] = 'yes';
+    // prepare output
+    $output = array('success' => false);
+}
+
 // get the item from the database
 $item = Images::get($id);
 
@@ -82,6 +92,9 @@ else
 // the title of the page
 $context['page_title'] = i18n::s('Delete an image');
 
+// handle overlaid view
+global $render_overlaid;
+
 // not found
 if(!isset($item['id'])) {
 	include '../error.php';
@@ -101,8 +114,19 @@ if(!isset($item['id'])) {
 	// if no error, back to the anchor or to the index page
 	if(Images::delete($item['id'])) {
 		Images::clear($item);
-		if(is_object($anchor))
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
+                if(isset($_REQUEST['strait'])) {
+                    $output['success'] = true;
+                    
+                    // provide a new field if required
+                    if(isset($_REQUEST['newfield'] )) {
+                        $indice = ($_REQUEST['newfield'])?$_REQUEST['newfield']:''; 
+                        $output['replace'] = Skin::build_input_file('upload'.$indice);
+                    }
+                    
+                }elseif(isset($_REQUEST['follow_up']))
+                        Safe::redirect($_REQUEST['follow_up']);
+		elseif(is_object($anchor))
+			Safe::redirect($anchor->get_url());
 		else
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].'images/');
 	}
@@ -116,22 +140,31 @@ else {
 
 	// commands
 	$menu = array();
-	$menu[] = Skin::build_submit_button(i18n::s('Yes, I want to delete this image'), NULL, NULL, 'confirmed');
-	if(isset($item['id']))
-		$menu[] = Skin::build_link(Images::get_url($item['id']), i18n::s('Cancel'), 'span');
+        
+        $class_submit   = ( $render_overlaid )?'submit-overlaid':'button';
+	$menu[] = Skin::build_submit_button(i18n::s('Yes, I want to delete this image'), NULL, NULL, 'confirmed', $class_submit);
+	if(isset($item['id'])) {
+            if( $render_overlaid ) {
+                $menu[] = Skin::build_link($anchor->get_permalink(), i18n::s('Cancel'), 'overlaid');
+            } else {
+                $menu[] = Skin::build_link(Images::get_url($item['id']), i18n::s('Cancel'), 'span');
+            }
+        }
 
 	// the submit button
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
 		.Skin::finalize_list($menu, 'menu_bar')
 		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
-		.'<input type="hidden" name="confirm" value="yes" />'."\n"
-		.'</p></form>'."\n";
+		.'<input type="hidden" name="confirm" value="yes" />'."\n";
+		
+        // transmit the follow_up param if any
+        if(isset($_REQUEST['follow_up']))
+            $context['text'] .= '<input type="hidden" name="follow_up" value="'.$_REQUEST['follow_up'].'" />'."\n";
+        
+        $context['text'] .='</p></form>'."\n";
 
 	// set the focus
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("#confirmed").focus();'."\n"
-		.JS_SUFFIX."\n";
+	Page::insert_script('$("#confirmed").focus();');
 
 	// the title of the image
 	if($item['title'])
@@ -182,7 +215,16 @@ else {
 
 }
 
-// render the skin
-render_skin();
+if(isset($_REQUEST['strait'])) {
+    $output = json_encode($output);
+    // allow for data compression
+    render_raw('application/json; charset='.$context['charset']);
 
-?>
+    // actual transmission except on a HEAD request
+    if(!isset($_SERVER['REQUEST_METHOD']) || ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
+	echo $output;
+    
+    finalize_page(true);
+} else
+    // render the skin
+    render_skin();

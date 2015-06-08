@@ -114,9 +114,9 @@ if(!isset($item['id'])) {
 			$type = 'other';
 
 		// do the job
-		$context['page_footer'] .= '	  <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>'."\n"
-			.JS_PREFIX
-			.'var point = new google.maps.LatLng(parseFloat("'.$item['latitude'].'"), parseFloat("'.$item['longitude'].'"));'."\n"
+		Page::defer_script('http://maps.google.com/maps/api/js?v=3&amp;sensor=false');
+		Page::insert_script(
+			'var point = new google.maps.LatLng(parseFloat("'.$item['latitude'].'"), parseFloat("'.$item['longitude'].'"));'."\n"
 			."\n"
 			.'var mapOptions = {'."\n"
 			.'	zoom: 10,'."\n"
@@ -135,7 +135,7 @@ if(!isset($item['id'])) {
 			.'	map.setZoom( map.getZoom() );'."\n"
 			.'	map.setCenter(point);'."\n"
 			.'});'."\n"
-			.JS_SUFFIX;
+			);
 
 	}
 

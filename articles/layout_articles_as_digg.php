@@ -14,7 +14,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 	 *
 	 * @return string to be used in requests to the database
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_order() {
 		return 'rating';
@@ -25,7 +25,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 	 *
 	 * @return 20
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 20;
@@ -37,7 +37,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -173,7 +173,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 			}
 
 			// discuss
-			if(Comments::allow_creation($anchor, $item))
+			if(Comments::allow_creation($item, $anchor))
 				$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
 
 			// info on related links
@@ -181,7 +181,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 				$details[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 			// link to the anchor page
-			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
+			if(is_object($anchor) && (!isset($this->focus) || ($item['anchor'] != $this->focus)))
 				$details[] = Skin::build_link($anchor->get_url(), $anchor->get_title(), 'basic');
 
 			// list categories by title, if any

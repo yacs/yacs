@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-06 21:24+0100\n"
+"POT-Creation-Date: 2015-04-24 15:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -103,7 +103,7 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: tables/delete.php:138 tables/layout_tables.php:104 tables/view.php:129
+#: tables/delete.php:135 tables/layout_tables.php:104 tables/view.php:129
 #, php-format
 msgid "edited by %s %s"
 msgstr ""
@@ -116,7 +116,7 @@ msgstr ""
 msgid "Add a table"
 msgstr ""
 
-#: tables/edit.php:101 tables/tables.php:954 tables/tables.php:960
+#: tables/edit.php:101 tables/tables.php:962 tables/tables.php:968
 msgid "No anchor has been found."
 msgstr ""
 
@@ -191,38 +191,38 @@ msgstr ""
 msgid "Ensure this post is valid XHTML."
 msgstr ""
 
-#: tables/edit.php:270
+#: tables/edit.php:269
 msgid "Please type a valid SQL query."
 msgstr ""
 
-#: tables/edit.php:284
+#: tables/edit.php:281
 msgid ""
 "Please ensure you are using a compliant and complete SQL SELECT statement."
 msgstr ""
 
-#: tables/edit.php:285
+#: tables/edit.php:282
 #, php-format
 msgid "For more information check the %s."
 msgstr ""
 
-#: tables/edit.php:285
+#: tables/edit.php:282
 msgid "MySQL reference page"
 msgstr ""
 
-#: tables/edit.php:286
+#: tables/edit.php:283
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr ""
 
-#: tables/edit.php:286
+#: tables/edit.php:283
 msgid "YACS codes"
 msgstr ""
 
-#: tables/edit.php:286
+#: tables/edit.php:283
 msgid "smileys"
 msgstr ""
 
-#: tables/edit.php:287
+#: tables/edit.php:284
 msgid "Help"
 msgstr ""
 
@@ -374,7 +374,7 @@ msgstr ""
 msgid "details"
 msgstr ""
 
-#: tables/layout_tables.php:110 tables/tables.php:313
+#: tables/layout_tables.php:110 tables/tables.php:321
 msgid "edit"
 msgstr ""
 
@@ -382,16 +382,16 @@ msgstr ""
 msgid "delete"
 msgstr ""
 
-#: tables/tables.php:77
+#: tables/tables.php:85
 #, php-format
 msgid "Error in table query %s"
 msgstr ""
 
-#: tables/tables.php:948
+#: tables/tables.php:956
 msgid "Please add some SQL query."
 msgstr ""
 
-#: tables/tables.php:976
+#: tables/tables.php:984
 msgid "No item has the provided id."
 msgstr ""
 

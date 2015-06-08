@@ -43,6 +43,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Alexis Raimbault
  * @tester Agnes
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -87,21 +88,28 @@ else
 // load the skin, maybe with a variant
 load_skin('comments', $anchor);
 
-// clear the tab we are in, if any
-if(is_object($anchor))
-	$context['current_focus'] = $anchor->get_focus();
+// we may be asked for json output
+$json = (isset($_REQUEST['mode']) && $_REQUEST['mode'] === 'json' )? true : false;
 
-// the path to this page
-if(is_object($anchor) && $anchor->is_viewable())
-	$context['path_bar'] = $anchor->get_path_bar();
-else
-	$context['path_bar'] = array( 'comments/' => i18n::s('Comments') );
+if(!$json) {
 
-// the title of the page
-if(is_object($anchor) && $anchor->is_viewable()) {
-	$context['page_title'] = $anchor->get_title();
-} else
-	$context['page_title'] = i18n::s('Comments');
+    // clear the tab we are in, if any
+    if(is_object($anchor))
+            $context['current_focus'] = $anchor->get_focus();
+
+    // the path to this page
+    if(is_object($anchor) && $anchor->is_viewable() )
+            $context['path_bar'] = $anchor->get_path_bar();
+    else
+            $context['path_bar'] = array( 'comments/' => i18n::s('Comments') );
+
+    // the title of the page
+    if(is_object($anchor) && $anchor->is_viewable()) {
+            $context['page_title'] = $anchor->get_title();
+    } else
+            $context['page_title'] = i18n::s('Comments');
+
+}
 
 // an anchor is mandatory
 if(!is_object($anchor)) {
@@ -125,7 +133,7 @@ if(!is_object($anchor)) {
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the index
-} else {
+} elseif(!$json) {
 
 	// insert anchor prefix and suffix, plus any available icon
 	$context['prefix'] .= $anchor->get_prefix();
@@ -139,10 +147,13 @@ if(!is_object($anchor)) {
 
 		// get a layout from anchor
 		$layout =& Comments::get_layout($anchor);
+                
+        // set variant, if any
+        if(isset($_REQUEST['variant'])) $layout->set_variant($_REQUEST['variant']);
 
 		// provide author information to layout
 		if(is_object($layout) && is_object($anchor) && isset($anchor->item['create_id']))
-			$layout->set_variant('user:'.$anchor->item['create_id']);
+			$layout->set_focus('user:'.$anchor->item['create_id']);
 
 		// the maximum number of comments per page
 		if(is_object($layout))
@@ -242,6 +253,37 @@ if(!is_object($anchor)) {
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_suffix();
 
+} else {
+    ///// json output
+    
+    // get comment layout
+    $layout = Comments::get_layout($anchor);
+    
+    // set variant, if any
+    if(isset($_REQUEST['variant'])) $layout->set_variant($_REQUEST['variant']);
+    
+    // get offset
+    $offset = (isset($_REQUEST['start']) && is_numeric($_REQUEST['start']))? $_REQUEST['start'] : 0;
+    $count  = (isset($_REQUEST['batch']) && is_numeric($_REQUEST['batch']))? $_REQUEST['batch'] : COMMENTS_PER_PAGE;
+    
+    // do the request, get them from the end (reversed)
+    $comments       = Comments::list_by_date_for_anchor($anchor, $offset, $count, $layout, true);
+    // how many left for next batch ?
+    $comment_left   = Comments::count_for_anchor($anchor) - $offset - $count;
+    
+    $output = json_encode(array(
+        'comments'  => $comments,
+        'anchor'    => $anchor->get_reference(),
+        'left'      => $comment_left
+          ));
+    
+    // allow for data compression
+    render_raw('application/json');
+    
+    echo $output;
+    
+    // the post-processing hook, then exit
+    finalize_page(TRUE);
 }
 
 // render the skin

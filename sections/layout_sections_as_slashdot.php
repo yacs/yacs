@@ -13,7 +13,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 	 *
 	 * @return 50
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 50;
@@ -25,7 +25,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -95,8 +95,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 			$menu = array();
 
 			// branches of this tree
-			$anchors =& Sections::get_children_of_anchor('section:'.$item['id']);
-			$anchors[] = 'section:'.$item['id'];
+			$anchors = Sections::get_branch_at_anchor('section:'.$item['id']);
 
 			// get last post
 			$article =& Articles::get_newest_for_anchor($anchors, TRUE);
@@ -161,11 +160,11 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 					$menu[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 				// discuss
-				if(Comments::allow_creation($anchor, $article))
+				if(Comments::allow_creation($article, $anchor))
 					$menu[] = Skin::build_link(Comments::get_url('article:'.$article['id'], 'comment'), i18n::s('Discuss'), 'span');
 
 				// the main anchor link
-				if(is_object($anchor) && (!isset($this->layout_variant) || ($article['anchor'] != $this->layout_variant)))
+				if(is_object($anchor) && (!isset($this->focus) || ($article['anchor'] != $this->focus)))
 					$menu[] = Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'span', i18n::s('View the section'));
 
 				// list up to three categories by title, if any

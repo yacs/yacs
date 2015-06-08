@@ -9,37 +9,24 @@
  * @author Bernard Paques
  * @author GnapZ
  * @author Alexis Raimbault
+ * @author Christophe Battarel
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 Class Section extends Anchor {
 
 	/**
-	 * get the focus for this anchor
+	 * get the canvas for articles of this anchor
 	 *
-	 * This function lists containers of the content tree,
-	 * from top level down to this item.
-	 *
-	 * @return array of anchor references
+	 * @return articles canvas
 	 */
-	 function get_focus() {
+	function get_articles_canvas() {
+		if(isset($this->item['articles_canvas']))
+			return $this->item['articles_canvas'];
 
-		// get the parent
-		if(!isset($this->anchor))
-			$this->anchor = Anchors::get($this->item['anchor']);
-
-		// the parent level
-		if(is_object($this->anchor))
-			$focus = $this->anchor->get_focus();
-		else
-			$focus = array();
-
-		// append this level
-		if(isset($this->item['id']))
-			$focus[] = 'section:'.$this->item['id'];
-
-		return $focus;
-	 }
+		// do not transmit anything instead
+		return NULL;
+	}
 
 	/**
 	 * get the url to display the icon for this anchor
@@ -49,12 +36,45 @@ Class Section extends Anchor {
 	 * @return an anchor to the icon image
 	 */
 	function get_icon_url() {
-		if(isset($this->item['icon_url']))
+		if(isset($this->item['icon_url']) && $this->item['icon_url'])
 			return $this->item['icon_url'];
 
 		// do not transmit the thumbnail instead
 		return NULL;
 	}
+	
+	/**
+	 * list childs of this anchor, with or without type filters
+	 * 
+	 * @param string set of desired childs (articles, sections...) separted by comma, or "all" keyword
+	 * @param int offset to start listing
+	 * @param int the maximum of items returned per type
+	 * @param mixed string or object the layout to use
+	 * @return an array of array with raw items sorted by type
+	 */
+	function get_childs($filter = 'all',$offset = 0, $max= 50, $layout='raw') {
+	    
+	    // we return a array
+	    $childs = array();	
+	    
+	     // sub sections
+	    if($filter == 'all' || preg_match('/\bsections?\b/i', $filter)) {
+		$childs['section'] = Sections::list_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
+	    }
+	    
+	    // sub articles
+	    if($filter == 'all' || preg_match('/\barticles?\b/i', $filter)) {
+		$childs['article'] = Articles::list_for_anchor_by('title', $this->get_reference(), $offset, $max, $layout);
+	    }	    	   	    	    	  
+	    
+	    // files
+	    if($filter == 'all' || preg_match('/\bfiles?\b/i', $filter)) {
+		$childs['file'] = Files::list_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
+	    }	
+		    
+	    
+	    return $childs;
+	 }
 
 	 /**
 	  * provide a custom label
@@ -196,19 +216,6 @@ Class Section extends Anchor {
 		// fall-back on default behavior
 		return parent::get_label($variant, $id, $title);
 
-	}
-
-	/**
-	 * get the named url for this anchor
-	 *
-	 * If the anchor as been named, this function returns the related url.
-	 *
-	 * @return an url to view the anchor page, or NULL
-	 */
-	function get_named_url() {
-		if(isset($this->item['nick_name']) && $this->item['nick_name'])
-			return normalize_shortcut($this->item['nick_name']);
-		return NULL;
 	}
 
 	/**
@@ -376,57 +383,25 @@ Class Section extends Anchor {
 		// return navigation info
 		return array($previous_url, $previous_label, $next_url, $next_label, $option_url, $option_label);
 	}
-
+	
 	/**
-	 * get the path bar for this anchor
-	 *
-	 * This function is used to build a path bar relative to the anchor.
-	 * For example, if you are displaying an article related to a section,
-	 * the path bar has to mention the section. You can use following code
-	 * to do that:
-	 * [php]
-	 * $anchor = Anchors::get($article['anchor']);
-	 * $context['path_bar'] = array_merge($context['path_bar'], $anchor->get_path_bar());
-	 * [/php]
-	 *
-	 * This function uses the cache to save on database requests.
-	 *
-	 * @see shared/anchor.php
-	 *
-	 * @return an array of $url => $label
+	 * get permalink to item
 	 */
-	function get_path_bar() {
-		global $context;
-
-		// get the parent
-		if(!isset($this->anchor))
-			$this->anchor = Anchors::get($this->item['anchor']);
-
-		// the parent level
-		$parent = array();
-		if(is_object($this->anchor) && $this->anchor->is_viewable())
-			$parent = $this->anchor->get_path_bar();
-
-		// this section
-		$url = $this->get_url();
-		$label = Codes::beautify_title($this->get_title());
-		$data = array_merge($parent, array($url => $label));
-
-		// return the result
-		return $data;
+	function get_permalink() {
+	    if(!isset($this->item['id']))
+		    return NULL;
+	    
+	    $link = Sections::get_permalink($this->item);
+	    return $link;
 	}
-
+	
 	/**
-	 * get the reference for this anchor
-	 *
-	 * @see shared/anchor.php
-	 *
-	 * @return 'section:&lt;id&gt;', or NULL
+	 * provide classe name with all static functions on this kind of anchor
+	 * 
+	 * @return a class name
 	 */
-	function get_reference() {
-		if(isset($this->item['id']))
-			return 'section:'.$this->item['id'];
-		return NULL;
+	function get_static_group_class() {
+	    return 'Sections';
 	}
 
 	/**
@@ -622,29 +597,7 @@ Class Section extends Anchor {
 
 		// done
 		return $output;
-	}
-
-	/**
-	 * get the url to display the thumbnail for this anchor
-	 *
-	 * A common concern of modern webmaster is to apply a reduced set of icons throughout all pages.
-	 * This function is aiming to retrieve the small-size icon characterizing one anchor.
-	 * It should be used in pages to display several images into lists of anchored items.
-	 *
-	 * Note: This function returns a URL to the thumbnail that is created by default
-	 * when an icon is set for the section. However, the webmaster can decide to
-	 * NOT display section thumbnails throughout the server. In this case, he/she
-	 * has just to suppress the thumbnail URL in each section and that's it.
-	 *
-	 * @see shared/anchor.php
-	 *
-	 * @return an anchor to the thumbnail image
-	 */
-	function get_thumbnail_url() {
-		if(isset($this->item['thumbnail_url']))
-			return $this->item['thumbnail_url'];
-		return NULL;
-	}
+	}	
 
 	/**
 	 * get the url to display the main page for this anchor
@@ -666,7 +619,7 @@ Class Section extends Anchor {
 		case 'comments':
 			if($this->has_option('view_as_tabs', FALSE))
 				return $this->get_url().'#_discussion';
-			return Sections::get_permalink($this->item).'#comments';
+			return Sections::get_url($this->item['id'], 'view', $this->item['title'], $this->item['nick_name']).'#comments';
 
 		// list of files
 		case 'files':
@@ -675,10 +628,6 @@ Class Section extends Anchor {
 		// list of links
 		case 'links':
 			return $this->get_url().'#_attachments';
-
-		// the permalink page
-		case 'view':
-			return Sections::get_permalink($this->item);
 
 		// another action
 		default:
@@ -876,129 +825,32 @@ Class Section extends Anchor {
 
 		// no match
 		return FALSE;
-	}
+	}	
+        
+        public function is_published(&$status = '') {
+            global $context;
+            
+            $item = $this->item;
+            // sanity check
+            if(!$item) {
+                    $status = 'UNSET';
+                    return false;
+            }
+            
+            if( !isset($item['activation_date'])) {
+                $status = 'UNSET';
+                return false;
+            }
 
-	/**
-	 * check that the surfer can edit this section
-	 *
-	 * This function is used to control the authority delegation from the anchor.
-	 * For example, if some editor is assigned to a complete section of the
-	 * web site, he/she should be able to edit all articles in this section.
-	 * you can use following code to check that:
-	 * [php]
-	 * $anchor = Anchors::get($article['anchor']);
-	 * if($anchor->is_assigned() {
-	 *	 ...
-	 * }
-	 * [/php]
-	 *
-	 * Compared to the original member function in shared/anchor.php, this one also
-	 * checks rights of managing editors, and allows for anonymous changes.
-	 *
-	 * @param int optional reference to some user profile
-	 * @param boolean TRUE to climb the list of containers up to the top
-	 * @return TRUE or FALSE
-	 */
-	 function is_assigned($user_id=NULL, $cascade=TRUE) {
-		global $context;
-
-		// we need some data to proceed
-		if(!isset($this->item['id']))
-			return FALSE;
-
-		// id of requesting user
-		if(!$user_id)
-			$user_id = Surfer::get_id();
-
-		// anonymous is allowed
-		if(!$user_id)
-			$user_id = 0;
-
-		// create the cache
-		if(!isset($this->is_assigned_cache))
-			$this->is_assigned_cache = array();
-
-		// cache the answer
-		if(isset($this->is_assigned_cache[$user_id]))
-			return $this->is_assigned_cache[$user_id];
-
-		// anonymous surfer has provided the secret handle
-		if(isset($this->item['handle']) && Surfer::may_handle($this->item['handle']))
-			return $this->is_assigned_cache[$user_id] = TRUE;
-
-		// surfer owns this item
-		if($user_id && isset($this->item['owner_id']) && ($user_id == $this->item['owner_id']))
-			return $this->is_assigned_cache[$user_id] = TRUE;
-
-		// section has been assigned to this surfer
-		if($user_id && Members::check('user:'.$user_id, 'section:'.$this->item['id']))
-			return $this->is_assigned_cache[$user_id] = TRUE;
-
-		// anonymous edition is allowed
-		if(($this->item['active'] == 'Y') && $this->has_option('anonymous_edit'))
-			return $this->is_assigned_cache[$user_id] = TRUE;
-
-		// members edition is allowed
-		if(($this->item['active'] == 'Y') && Surfer::is_empowered('M') && $this->has_option('members_edit'))
-			return $this->is_assigned_cache[$user_id] = TRUE;
-
-		// check the upper level container
-		if($cascade && isset($this->item['anchor'])) {
-
-			// save requests
-			if(!isset($this->anchor) || !$this->anchor)
-				$this->anchor = Anchors::get($this->item['anchor']);
-
-			// check for ownership
-			if(is_object($this->anchor))
-				return $this->is_assigned_cache[$user_id] = $this->anchor->is_assigned($user_id);
-
-		}
-
-		// sorry
-		return $this->is_assigned_cache[$user_id] = FALSE;
-	 }
-
-	/**
-	 * determine if public access is allowed to the anchor
-	 *
-	 * This function is used to enable additional processing steps on public pages only.
-	 * For example, only public pages are pinged on publication.
-	 *
-	 * @see articles/publish.php
-	 *
-	 * @return TRUE or FALSE
-	 */
-	 function is_public() {
-		global $context;
-
-		// cache the answer
-		if(isset($this->is_public_cache))
-			return $this->is_public_cache;
-
-		if(isset($this->item['id'])) {
-
-			// ensure the container allows for public access
-			if(isset($this->item['anchor'])) {
-
-				// save requests
-				if(!isset($this->anchor) || !$this->anchor)
-					$this->anchor = Anchors::get($this->item['anchor']);
-
-				if(is_object($this->anchor) && !$this->anchor->is_viewable())
-					return $this->is_public_cache = FALSE;
-
-			}
-
-			// publicly available
-			if(isset($this->item['active']) && ($this->item['active'] == 'Y'))
-				return $this->is_public_cache = TRUE;
-
-		}
-
-		// sorry
-		return $this->is_public_cache = FALSE;
-	}
+            if(($item['activation_date'] > NULL_DATE) || ($item['activation_date'] > gmstrftime('%Y-%m-%d %H:%M:%S'))) {
+                    $status = 'UNPUBLISHED';
+                    return false;
+            }
+            
+            $status = 'PUBLISHED';
+            return true;
+            
+        }
 
 	/**
 	 * load the related item
@@ -1071,6 +923,11 @@ Class Section extends Anchor {
 		// no section bound
 		if(!isset($this->item['id']))
 			return;
+                
+                // delegate to overlay
+                if(is_object($this->overlay) && $this->overlay->touch($action, $origin, $silently) === false) {
+                        return; // stop on false
+                }
 
 		// sanity check
 		if(!$origin) {
@@ -1121,7 +978,7 @@ Class Section extends Anchor {
 						$label = '[embed='.$origin.']';
 
 				// else add a comment to take note of the upload
-				} elseif(Comments::allow_creation(NULL, $this->item, 'section')) {
+				} elseif(Comments::allow_creation($this->item, null, 'section')) {
 					$fields = array();
 					$fields['anchor'] = 'section:'.$this->item['id'];
 					if($action == 'file:create')
@@ -1153,14 +1010,19 @@ Class Section extends Anchor {
 		// append a reference to a new image to the description
 		} elseif($action == 'image:create') {
 			if(!Codes::check_embedded($this->item['description'], 'image', $origin)) {
+			    
+				// the overlay may prevent embedding
+				if(is_object($this->overlay) && !$this->overlay->should_embed_files())
+						;    
+				else {
+				    // list has already started
+				    if(preg_match('/\[image=[^\]]+?\]\s*$/', $this->item['description']))
+					    $query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
 
-				// list has already started
-				if(preg_match('/\[image=[^\]]+?\]\s*$/', $this->item['description']))
-					$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
-
-				// starting a new list of images
-				else
-					$query[] = "description = '".SQL::escape($this->item['description']."\n\n".'[image='.$origin.']')."'";
+				    // starting a new list of images
+				    else
+					    $query[] = "description = '".SQL::escape($this->item['description']."\n\n".'[image='.$origin.']')."'";
+				}
 			}
 
 			// also use it as thumnail if none has been defined yet
@@ -1318,7 +1180,7 @@ Class Section extends Anchor {
 		$this->item['description'] = preg_replace($from, $to, $this->item['description']);
 
 		// update the database
-		$query = "UPDATE ".SQL::table_name('articles')." SET "
+		$query = "UPDATE ".SQL::table_name('sections')." SET "
 			." introduction = '".SQL::escape($this->item['introduction'])."',"
 			." description = '".SQL::escape($this->item['description'])."'"
 			." WHERE id = ".SQL::escape($this->item['id']);

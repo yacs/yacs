@@ -118,7 +118,7 @@ Class Files {
 			return TRUE;
 
 		// the anchor or overlay-in-anchor allows for file download --see overlays/bbb_meeting.php for example
-		if(is_object($anchor) && is_callable(array($anchor, 'allows')) && $anchor->allows('file', 'fetch'))
+		if(is_object($anchor) && is_callable(array($anchor, 'allows')) && $anchor->allows('fetch','file'))
 			return TRUE;
 
 		// anonymous surfer has provided the secret handle
@@ -159,12 +159,12 @@ Class Files {
 	 * This function returns TRUE if files can be added to some place,
 	 * and FALSE otherwise.
 	 *
-	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
+	 * @param object an instance of the Anchor interface, if any
 	 * @param string the type of item, e.g., 'article' or 'section'
 	 * @return boolean TRUE or FALSE
 	 */
-	public static function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
+	public static function allow_creation($item=NULL, $anchor=NULL, $variant=NULL) {
 		global $context;
 
 		// guess the variant
@@ -311,12 +311,12 @@ Class Files {
 	 *
 	 * This function returns TRUE if the file can be modified,
 	 * and FALSE otherwise.
-	 *
-	 * @param object an instance of the Anchor interface
+	 *	 
 	 * @param array a set of item attributes, aka, the target file
+	 * @param object an instance of the Anchor interface
 	 * @return TRUE or FALSE
 	 */
-	public static function allow_modification($anchor, $item) {
+	public static function allow_modification($item, $anchor) {
 		global $context;
 
 		// sanit check
@@ -537,7 +537,7 @@ Class Files {
 
 		// link to the file
 		if(isset($item['id'])) {
-			$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($item);
+			$link = Files::get_permalink($item);
 			$menu[] = Skin::build_mail_button($link, i18n::c('View file details'), TRUE);
 		}
 
@@ -599,6 +599,9 @@ Class Files {
 
 		// clear the cache
 		Cache::clear($topics);
+		
+		// clear last uploaded through ajax if any
+		unset ($_SESSION['last_uploaded']);
 
 	}
 
@@ -845,6 +848,10 @@ Class Files {
 		// ensure proper unicode encoding
 		$id = (string)$id;
 		$id = utf8::encode($id);
+                
+                // filter id from reference if parameter given that way
+                if(substr($id, 0, 5) === 'file:')
+                      $id = substr ($id, 5);
 
 		// cache previous answers
 		static $cache;
@@ -915,6 +922,7 @@ Class Files {
 			// icons related to file types
 			$files_icons = array(
 				'3gp' => $files_icons_url.'film_icon.gif',
+                'aac' => $files_icons_url.'sound_icon.png',
 				'ace' => $files_icons_url.'zip_icon.gif',
 				'ai' => $files_icons_url.'postscript_icon.gif',
 				'aif' => $files_icons_url.'sound_icon.png', 		// audio/aiff
@@ -957,6 +965,7 @@ Class Files {
 				'jpg' => $files_icons_url.'image_icon.gif',
 				'latex' => $files_icons_url.'tex_icon.gif',
 				'm3u' => $files_icons_url.'midi_icon.gif',			// playlist
+                'm4a' => $files_icons_url.'sound_icon.png',
 				'm4v' => $files_icons_url.'mov_icon.gif',			// video/x-m4v
 				'mdb' => $files_icons_url.'access_icon.gif',
 				'mid' => $files_icons_url.'midi_icon.gif',
@@ -1135,6 +1144,7 @@ Class Files {
 			// file types
 			$file_types = array(
 				'3gp' => 'video/3gpp',
+                'aac' => 'audio/mp4',
 				'ace' => 'application/x-ace',
 				'ai' => 'application/postscript',	// postscript
 				'aif' => 'audio/aiff',
@@ -1178,6 +1188,7 @@ Class Files {
 				'jpg' => 'image/jpeg',
 				'latex' => 'application/x-latex',
 				'm3u' => 'audio/x-mpegurl', // playlist
+                'm4a' => 'audio/mp4',
 				'm4v' => 'video/x-m4v',
 				'mdb' => 'application/x-msaccess',
 				'mid' => 'audio/mid',
@@ -1402,7 +1413,7 @@ Class Files {
 	public static function get_path($reference, $space='files') {
 		global $context;
 
-		return $space.'/'.$context['virtual_path'].str_replace(':', '/', $reference);
+		return $space.'/'.str_replace(':', '/', $reference);
 	}
 
 	/**
@@ -1412,8 +1423,14 @@ Class Files {
 	 * @return string the permanent web address to this item, relative to the installation path
 	 */
 	public static function get_permalink($item) {
-		$output = Files::get_url($item['id'], 'view', $item['file_name']);
-		return $output;
+		global $context;
+
+		// sanity check
+		if(!isset($item['id']))
+			throw new Exception('bad input parameter');
+
+		// absolute link
+		return $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'view', $item['file_name']);
 	}
 
 	/**
@@ -1488,6 +1505,52 @@ Class Files {
 		// job done
 		return $where;
 	}
+	
+	public static function get_uploaded($name, $field=null) {
+	    
+	    if($field == null) {
+		if(isset($_SESSION['last_uploaded'][$name])) {
+		    return $_SESSION['last_uploaded'][$name];
+		} elseif (isset($_FILES[$name])) {
+		    return $_FILES[$name];
+		}
+		
+	    } else {
+	    
+		if(isset($_SESSION['last_uploaded'][$name][$field])) {
+		    return $_SESSION['last_uploaded'][$name][$field];
+		} elseif (isset($_FILES[$name][$field]))
+		    return $_FILES[$name][$field];
+	    
+	    
+	    }
+		
+	    // no match
+	    return null;
+		
+	}
+	
+	public static function set_uploaded($name, $field, $value) {
+	    
+	    if(isset($_SESSION['last_uploaded'][$name])) {
+		$_SESSION['last_uploaded'][$name][$field] = $value;
+	    } else {
+		$_FILES[$name][$field] = $value;
+	    }
+	}
+        
+        /*
+         * return true if a file has been uploaded
+         */
+        public static function count_uploaded() {
+            
+            $regular        = count($_FILES);
+            $ajax           = (isset($_SESSION['last_uploaded']))?count($_SESSION['last_uploaded']):0;
+            
+            $count_uploaded = $regular + $ajax; 
+            
+            return $count_uploaded;
+        }
 
 	/**
 	 * build a reference to a file
@@ -1546,6 +1609,15 @@ Class Files {
 			$action = 'fetch';
 			$name = 'reserve';
 		}
+                
+                // direct access to the file
+                if($action == 'direct') {
+                    // get file data
+                    $file = Files::get($id);
+                    // get path to the file
+                    $url = Files::get_path($file['anchor']).'/'.rawurlencode($file['file_name']);
+                    return $url;
+                }
 
 		// check the target action
 		if(!preg_match('/^(author|delete|edit|fetch|list|stream|thread|view)$/', $action))
@@ -1665,17 +1737,22 @@ Class Files {
 				$flashvars = 'son='.$mp3_url;
 
 				// combine the two in a single object
-				return '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-					.$title
-					.JS_PREFIX
-					.'var params = {};'."\n"
+				$output = '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
+					.$title;
+				
+				Page::insert_script(
+					'var params = {};'."\n"
 					.'params.base = "'.dirname($mp3_url).'/";'."\n"
 					.'params.quality = "high";'."\n"
 					.'params.wmode = "transparent";'."\n"
 					.'params.menu = "false";'."\n"
 					.'params.flashvars = "'.$flashvars.'";'."\n"
 					.'swfobject.embedSWF("'.$dewplayer_url.'", "interact_'.$counter.'", "200", "20", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-					.JS_SUFFIX."\n";
+					);
+				
+				return $output;
+					
+				
 
 			}
 
@@ -1691,9 +1768,10 @@ Class Files {
 				$url = $context['url_to_home'].$context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
 
 			$output = '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div><br />'."\n"
-				.$title
-				.JS_PREFIX
-				.'var params = {};'."\n"
+				.$title;
+				
+			Page::insert_script(
+				'var params = {};'."\n"
 				.'params.base = "'.dirname($url).'/";'."\n"
 				.'params.quality = "high";'."\n"
 				.'params.wmode = "transparent";'."\n"
@@ -1701,7 +1779,8 @@ Class Files {
 				.'params.allowscriptaccess = "always";'."\n"
 				.'params.flashvars = "'.$flashvars.'";'."\n"
 				.'swfobject.embedSWF("'.$url.'", "interact_'.$counter.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-				.JS_SUFFIX;
+				);
+			
 			return $output;
 
 		// stream a video
@@ -1732,13 +1811,14 @@ Class Files {
 
 				// the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
 				$output = '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-					.$title
-					.JS_PREFIX
-					.'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
+					.$title;
+					
+				Page::insert_script(
+					'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
 					.'var params = { allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
 					.'var attributes = { id: "interact_'.$counter.'", name: "file_'.$item['id'].'"}'."\n"
 					.'swfobject.embedSWF("'.$flvplayer_url.'", "interact_'.$counter.'", "'.$width.'", "'.$height.'", "9", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params);'."\n"
-					.JS_SUFFIX."\n";
+					);
 
 			// native support
 			} else {
@@ -1968,7 +2048,7 @@ Class Files {
 		$query .= Files::get_sql_where();
 
 		// list freshest files
-		$query .= " ORDER BY files.edit_date DESC, files.title LIMIT ".$offset.','.$count;
+		$query .= " ORDER BY files.rank, files.edit_date DESC, files.title LIMIT ".$offset.','.$count;
 
 		$output =& Files::list_selected(SQL::query($query), $variant);
 		return $output;
@@ -2072,7 +2152,7 @@ Class Files {
 		} else
 			$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
 				." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND ".$where
-				." ORDER BY edit_date DESC, files.title LIMIT ".$offset.','.$count;
+				." ORDER BY files.rank, edit_date DESC, files.title LIMIT ".$offset.','.$count;
 
 		// the list of files
 		$output =& Files::list_selected(SQL::query($query), $variant);
@@ -2432,32 +2512,8 @@ Class Files {
 			return $output;
 		}
 
-		// no layout yet
-		$layout = NULL;
-
-		// separate options from layout name
-		$attributes = explode(' ', $variant, 2);
-
 		// instanciate the provided name
-		if($attributes[0]) {
-			$name = 'layout_files_as_'.$attributes[0];
-			if(is_readable($context['path_to_root'].'files/'.$name.'.php')) {
-				include_once $context['path_to_root'].'files/'.$name.'.php';
-				$layout = new $name;
-
-				// provide parameters to the layout
-				if(isset($attributes[1]))
-					$layout->set_variant($attributes[1]);
-
-			}
-		}
-
-		// use default layout
-		if(!$layout) {
-			include_once $context['path_to_root'].'files/layout_files.php';
-			$layout = new Layout_files();
-			$layout->set_variant($variant);
-		}
+		$layout = Layouts::new_($variant, 'file',false, true);
 
 		// do the job
 		$output = $layout->layout($result);
@@ -2588,8 +2644,11 @@ Class Files {
 			$query[] = "behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."'";
 			if(isset($fields['description']))
 				$query[] = "description='".SQL::escape($fields['description'])."'";
+            $query[] = "overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."'";
+            $query[] = "overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."'";
 			$query[] = "file_href='".SQL::escape(isset($fields['file_href']) ? $fields['file_href'] : '')."'";
 			$query[] = "keywords='".SQL::escape(isset($fields['keywords']) ? $fields['keywords'] : '')."'";
+            $query[] = "rank='".SQL::escape(isset($fields['rank']) ? $fields['rank'] : '10000')."'";
 			$query[] = "source='".SQL::escape(isset($fields['source']) ? $fields['source'] : '')."'";
 			$query[] = "title='".SQL::escape(isset($fields['title']) ? $fields['title'] : '')."'";
 
@@ -2626,6 +2685,9 @@ Class Files {
 			$query[] = "hits=0";
 			$query[] = "icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."'";
 			$query[] = "keywords='".SQL::escape(isset($fields['keywords']) ? $fields['keywords'] : '')."'";
+            $query[] = "overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."'";
+            $query[] = "overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."'";
+            $query[] = "rank='".SQL::escape(isset($fields['rank']) ? $fields['rank'] : '10000')."'";
 			$query[] = "source='".SQL::escape(isset($fields['source']) ? $fields['source'] : '')."'";
 			$query[] = "thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."'";
 			$query[] = "title='".SQL::escape(isset($fields['title']) ? $fields['title'] : '')."'";
@@ -2652,6 +2714,168 @@ Class Files {
 		// end of job
 		return $fields['id'];
 	}
+        
+    /**
+	 * change only some attributes
+	 *
+	 * @param array an array of fields
+	 * @return TRUE on success, or FALSE on error
+	**/
+	public static function put_attributes(&$fields) {
+		global $context;
+
+		// id cannot be empty
+		if(!isset($fields['id']) || !is_numeric($fields['id'])) {
+			Logger::error(i18n::s('No item has the provided id.'));
+			return FALSE;
+		}
+
+		// set default values for this editor
+		Surfer::check_default_editor($fields);
+
+		// quey components
+		$query = array();
+
+		// change access rights
+		if(isset($fields['active_set'])) {
+
+			// anchor cannot be empty
+			if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor = Anchors::get($fields['anchor']))) {
+				Logger::error(i18n::s('No anchor has been found.'));
+				return FALSE;
+			}
+
+			// determine the actual right
+			$fields['active'] = $anchor->ceil_rights($fields['active_set']);
+
+			// remember these in this record
+			$query[] = "active='".SQL::escape($fields['active'])."'";
+			$query[] = "active_set='".SQL::escape($fields['active_set'])."'";
+
+			// cascade anchor access rights
+			Anchors::cascade('file:'.$fields['id'], $fields['active']);
+
+		}
+
+		// anchor this page to another place
+		if(isset($fields['anchor'])) {
+			$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
+			$query[] = "anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1)";
+			$query[] = "anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1)";
+		}
+
+		// other fields that can be modified individually
+		if(isset($fields['behaviors']))
+			$query[] = "behaviors='".SQL::escape($fields['behaviors'])."'";
+		if(isset($fields['description']))
+			$query[] = "description='".SQL::escape($fields['description'])."'";
+		if(isset($fields['icon_url']))
+			$query[] = "icon_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['icon_url']))."'";
+		if(isset($fields['overlay']))
+			$query[] = "overlay='".SQL::escape($fields['overlay'])."'";
+		if(isset($fields['overlay_id']))
+			$query[] = "overlay_id='".SQL::escape($fields['overlay_id'])."'";
+		if(isset($fields['rank']))
+			$query[] = "rank='".SQL::escape($fields['rank'])."'";
+		if(isset($fields['source']))
+			$query[] = "source='".SQL::escape($fields['source'])."'";
+		if(isset($fields['thumbnail_url']))
+			$query[] = "thumbnail_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['thumbnail_url']))."'";
+		if(isset($fields['keywords']))
+			$query[] = "keywords='".SQL::escape($fields['keywords'])."'";
+		if(isset($fields['title'])) {
+			$fields['title'] = strip_tags($fields['title'], '<br>');
+			$query[] = "title='".SQL::escape($fields['title'])."'";
+		}
+
+		// nothing to update
+		if(!count($query))
+			return TRUE;
+
+		// maybe a silent update
+		if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
+			$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
+			$query[] = "edit_id=".SQL::escape($fields['edit_id']);
+			$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
+			$query[] = "edit_action='article:update'";
+			$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
+		}
+
+		// actual update query
+		$query = "UPDATE ".SQL::table_name('files')
+			." SET ".implode(', ', $query)
+			." WHERE id = ".SQL::escape($fields['id']);
+
+		if(!SQL::query($query))
+			return FALSE;
+
+		// clear the cache
+		Files::clear($fields);
+
+		// end of job
+		return TRUE;
+	}
+        
+        /**
+         * give a preview of file rendering
+         * used after ajax uploading in forms
+         * 
+         * @param string $url string where is the file
+         * @param string $input_name the input that what used to upload
+         */
+        Public static function preview($url, $input_name) {
+            global $context;
+            
+            // get file ext.
+            $ext       = pathinfo($url, PATHINFO_EXTENSION);
+            $basename  = basename($url);  
+            
+            // at least show file's name
+            $preview = $basename;
+            // destroy link, put it where you want
+            $destroy = '<a class="yc-upload-destroy" data-del="'.$input_name.'" href="javascript:void(0);" title="'.i18n::s('Delete').'" onclick="Yacs.uploadDestroy($(this).data(\'del\'),$(this))" >x</a>'."\n";
+            
+            // file is a image
+            if(Files::is_image($url) && $image_information = Safe::GetImageSize($url)) {
+                
+                // make a temp thumb name
+                $thumb      = uniqid().'.'.$ext;
+                $thumbpath  =  $context['path_to_root'].'temporary/'.$thumb;
+                $thumburl   =  $context['url_to_root'].'temporary/'.$thumb; 
+                
+                // make a thumb
+                Image::shrink($url, $thumbpath, true);
+                
+                // build image
+                $preview = Skin::build_image('left', $thumburl, '').'<span style="line-height:34px"> '.$basename.'</span>'."\n".$destroy;
+                
+            } else {
+            
+                // file is a reconnized audio format
+                switch($ext) {
+
+                    case 'mp3':
+                    case 'm4a':
+                    case 'aac':
+                    case 'oog':
+                        // audio file
+                        $audio_url  = $context['url_to_root'].'temporary/'.$basename;
+                        $preview   .= $destroy.BR.Skin::build_audioplayer($audio_url);
+                        break;
+                    default:
+                        $icon       = Skin::build_image('inline', $context['url_to_master'].$context['url_to_root'].Files::get_icon_url($basename), $basename);
+                        $preview    = $icon.$preview.'&nbsp;'.$destroy;
+                        break;
+                }
+            }
+            
+            // add separator 
+            $preview   .= '<hr class="clear" />'."\n";
+            // wrap
+            $preview    = '<div class="yc-preview">'.$preview.'</div>';
+            
+            return $preview;
+        }
 
 	/**
 	 * search for some keywords in all files
@@ -2753,6 +2977,9 @@ Class Files {
 		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['icon_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['keywords'] 	= "TEXT NOT NULL";
+        $fields['overlay']		= "TEXT NOT NULL";
+		$fields['overlay_id']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+        $fields['rank'] 		= "INT UNSIGNED DEFAULT 10000 NOT NULL";
 		$fields['source']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['thumbnail_url']= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
@@ -2761,15 +2988,12 @@ Class Files {
 		$indexes['PRIMARY KEY'] 		= "(id)";
 		$indexes['INDEX active']		= "(active)";
 		$indexes['INDEX anchor']		= "(anchor)";
-		$indexes['INDEX anchor_id'] 	= "(anchor_id)";
-		$indexes['INDEX anchor_type']	= "(anchor_type)";
-		$indexes['INDEX create_date']	= "(create_date)";
-		$indexes['INDEX create_id'] 	= "(create_id)";
-		$indexes['INDEX edit_date'] 	= "(edit_date)";
-		$indexes['INDEX edit_id']		= "(edit_id)";
-		$indexes['INDEX file_size'] 	= "(file_size)";
+		$indexes['INDEX edit_date']     = "(edit_date)";
+		$indexes['INDEX file_size']     = "(file_size)";
 		$indexes['INDEX hits']			= "(hits)";
-		$indexes['INDEX title'] 		= "(title(255))";
+        $indexes['INDEX overlay_id']    = "(overlay_id)";
+		$indexes['INDEX rank']			= "(rank)";
+		$indexes['INDEX title'] 		= "(title(25))";
 		$indexes['FULLTEXT INDEX']		= "full_text(title, source, keywords)";
 
 		return SQL::setup_table('files', $fields, $indexes);
@@ -2980,8 +3204,28 @@ Class Files {
 	 * @param mixed reference to the target anchor, of a function to parse every file individually
 	 * @return mixed file name or array of file names or FALSE if an error has occured
 	 */
-	public static function upload($input, $file_path, $target=NULL) {
+	public static function upload($input, $file_path, $target=NULL, $overlay=NULL) {
 		global $context, $_REQUEST;
+		
+		// size exceeds php.ini settings -- UPLOAD_ERR_INI_SIZE
+		if(isset($input['error']) && ($input['error'] == 1))
+			Logger::error(i18n::s('The size of this file is over limit.'));
+
+		// size exceeds form limit -- UPLOAD_ERR_FORM_SIZE
+		elseif(isset($input['error']) && ($input['error'] == 2))
+			Logger::error(i18n::s('The size of this file is over limit.'));
+
+		// partial transfer -- UPLOAD_ERR_PARTIAL
+		elseif(isset($input['error']) && ($input['error'] == 3))
+			Logger::error(i18n::s('No file has been transmitted.'));
+
+		// no file -- UPLOAD_ERR_NO_FILE
+		elseif(isset($input['error']) && ($input['error'] == 4))
+			Logger::error(i18n::s('No file has been transmitted.'));
+
+		// zero bytes transmitted
+		elseif(!$input['size'])
+			Logger::error(i18n::s('No file has been transmitted.'));
 
 		// do we have a file?
 		if(!isset($input['name']) || !$input['name'] || ($input['name'] == 'none'))
@@ -3016,25 +3260,6 @@ Class Files {
 		elseif(!Files::is_authorized($input['name']))
 			Logger::error(i18n::s('This type of file is not allowed.'));
 
-		// size exceeds php.ini settings -- UPLOAD_ERR_INI_SIZE
-		elseif(isset($input['error']) && ($input['error'] == 1))
-			Logger::error(i18n::s('The size of this file is over limit.'));
-
-		// size exceeds form limit -- UPLOAD_ERR_FORM_SIZE
-		elseif(isset($input['error']) && ($input['error'] == 2))
-			Logger::error(i18n::s('The size of this file is over limit.'));
-
-		// partial transfer -- UPLOAD_ERR_PARTIAL
-		elseif(isset($input['error']) && ($input['error'] == 3))
-			Logger::error(i18n::s('No file has been transmitted.'));
-
-		// no file -- UPLOAD_ERR_NO_FILE
-		elseif(isset($input['error']) && ($input['error'] == 4))
-			Logger::error(i18n::s('No file has been transmitted.'));
-
-		// zero bytes transmitted
-		elseif(!$input['size'])
-			Logger::error(i18n::s('No file has been transmitted.'));
 
 		// are there some risk to move this file?
 		elseif($file_path && !Safe::is_uploaded_file($file_upload))
@@ -3202,6 +3427,19 @@ Class Files {
 						// change alternate_href
 						if(isset($_REQUEST['alternate_href']))
 							$fields['alternate_href'] = $_REQUEST['alternate_href'];
+                                                
+                                                // overlay, if any
+                                                if(is_object($overlay)) {
+                                                    // allow for change detection
+                                                    $overlay->snapshot();
+
+                                                    // update the overlay from form content
+                                                    $overlay->parse_fields($_REQUEST);
+
+                                                    // save content of the overlay in this item
+                                                    $fields['overlay'] = $overlay->save();
+                                                    $fields['overlay_id'] = $overlay->get_id();
+                                                }
 
 						// create the record in the database
 						if(!$fields['id'] = Files::post($fields))

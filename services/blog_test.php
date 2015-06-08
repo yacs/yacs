@@ -54,9 +54,7 @@ $context['text'] .= Skin::build_form($fields);
 $context['text'] .= '</div></form>';
 
 // set the focus at the first field
-$context['text'] .= JS_PREFIX
-	.'$("#target").focus();'."\n"
-	.JS_SUFFIX."\n";
+Page::insert_script('$("#target").focus();');	
 
 // do the test
 if(isset($_REQUEST['target'])) {

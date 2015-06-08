@@ -140,24 +140,22 @@ $fields = array();
 $context['text'] .= '</div></form>';
 
 // the script used for form handling at the browser
-$context['text'] .= JS_PREFIX
-	.'	// check that main fields are not empty'."\n"
-	.'	func'.'tion validateDocumentPost(container) {'."\n"
-	."\n"
-	.'		// search is mandatory'."\n"
+Page::insert_script(
+		// check that main fields are not empty
+	'	func'.'tion validateDocumentPost(container) {'."\n"
+			// search is mandatory'
 	.'		if(!container.search.value) {'."\n"
-	.'			alert("'.i18n::s('Please type something to search for').'");'."\n"
-		.'		Yacs.stopWorking();'."\n"
+	.'			alert("'.i18n::s('Please type something to search for.').'");'."\n"
+	.'			Yacs.stopWorking();'."\n"
 	.'			return false;'."\n"
 	.'		}'."\n"
-	."\n"
-	.'		// successful check'."\n"
+			// successful check
 	.'		return true;'."\n"
 	.'	}'."\n"
 	."\n"
-	.'// set the focus on first form field'."\n"
+	// set the focus on first form field
 	.'$("#search").focus();'."\n"
-	.JS_SUFFIX."\n";
+	);
 
 // various panels
 $panels = array();
@@ -236,9 +234,10 @@ if($result) {
 		$id = str_replace('.', '_', $last_offset);
 
 		// the button to get more results
-		$text .= '<div style="margin-top: 1em; text-align: center;" id="div'.$id.'"><a href="#" class="button wide" id="a'.$id.'">'.i18n::s('Get more results').'</a></div>'
-			.JS_PREFIX
-			.'$(function(){'
+		$text .= '<div style="margin-top: 1em; text-align: center;" id="div'.$id.'"><a href="#" class="button wide" id="a'.$id.'">'.i18n::s('Get more results').'</a></div>';
+			
+		Page::insert_script(
+			'$(function(){'
 			.	'$("#div'.$id.' a").click( function() {'
 			.		'Yacs.update("div'.$id.'", "'.$context['self_url'].'", {'
 			.			'data: "offset='.$last_offset.'",'
@@ -249,7 +248,7 @@ if($result) {
 			.		'return false;'
 			.	'});'
 			.'});'
-			.JS_SUFFIX;
+			);
 	}
 
 	// return a slice of results to update the search page through ajax call

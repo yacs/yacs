@@ -9,7 +9,6 @@
  *
  * The structure of each table in described into related database abstractions.
  * Look for the [code]setup()[/code] function in following scripts:
- * - [script]actions/actions.php[/script]
  * - [script]agents/profiles.php[/script]
  * - [script]agents/referrals.php[/script]
  * - [script]articles/articles.php[/script]
@@ -17,7 +16,6 @@
  * - [script]comments/comments.php[/script]
  * - [script]dates/dates.php[/script]
  * - [script]files/files.php[/script]
- * - [script]forms/forms.php[/script]
  * - [script]images/images.php[/script]
  * - [script]links/links.php[/script]
  * - [script]locations/locations.php[/script]
@@ -206,17 +204,9 @@ function send_body() {
 		include_once '../shared/members.php';
 		echo Members::setup();
 
-		// create tables for actions
-		include_once '../actions/actions.php';
-		echo Actions::setup();
-
 		// create tables for dates
 		include_once '../dates/dates.php';
 		echo Dates::setup();
-
-		// create tables for forms
-		include_once '../forms/forms.php';
-		echo Forms::setup();
 
 		// create tables for servers
 		include_once '../servers/servers.php';
@@ -296,10 +286,7 @@ function send_body() {
 			.'</p></form>';
 
 		// the script used for form handling at the browser
-		echo JS_PREFIX
-			.'// set the focus on first form field'."\n"
-			.'$("#confirmed").focus();'."\n"
-			.JS_SUFFIX;
+		Page::insert_script('$("#confirmed").focus();');
 
 		// this may take several minutes
 		echo '<p>'.i18n::s('When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.').'</p>';

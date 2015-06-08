@@ -23,7 +23,7 @@ class Poll extends Overlay {
 	 * @param the hosting attributes
 	 * @return a list of ($label, $input, $hint)
 	 */
-	function get_fields($host) {
+	function get_fields($host,$field_pos=NULL) {
 		global $context;
 
 		// a placeholder for new answers
@@ -194,7 +194,7 @@ class Poll extends Overlay {
 
 		// if this article cannot be modified anymore, go to the permalink
 		else
-			$text = '<form method="post" action="'.$context['url_to_root'].Articles::get_permalink($host).'">';
+			$text = '<form method="post" action="'.Articles::get_permalink($host).'">';
 
 		// layout poll elements
 		$text .= '<dl class="poll">';
@@ -261,7 +261,7 @@ class Poll extends Overlay {
 			$text .= '<p>'.Skin::build_submit_button(i18n::s('Cast your vote'))."\n";
 
 			// a link to see results
-			$text .= ' <a class="details" href="'.$context['url_to_root'].Articles::get_permalink($host).'">'.i18n::s('View results').'</a>'."</p>\n";
+			$text .= ' <a class="details" href="'.Articles::get_permalink($host).'">'.i18n::s('View results').'</a>'."</p>\n";
 
 		// view results only
 		} else {
@@ -394,7 +394,7 @@ class Poll extends Overlay {
 
 		// if this article cannot be modified anymore, go to the permalink
 		else
-			$text = '<form method="post" action="'.$context['url_to_root'].Articles::get_permalink($host).'">';
+			$text = '<form method="post" action="'.Articles::get_permalink($host).'">';
 
 		$text .= '<p class="poll">';
 
@@ -417,7 +417,7 @@ class Poll extends Overlay {
 			$text .= Skin::build_submit_button(i18n::s('Vote'))."\n";
 
 			// a link to see results
-			$text .= ' <a class="details" href="'.$context['url_to_root'].Articles::get_permalink($host).'">'.i18n::s('View results').'</a>'."\n";
+			$text .= ' <a class="details" href="'.Articles::get_permalink($host).'">'.i18n::s('View results').'</a>'."\n";
 
 		// display results only
 		} else {

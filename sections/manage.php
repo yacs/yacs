@@ -285,7 +285,7 @@ if(Surfer::is_crawler()) {
 		// do the action, and clear the cache
 		$count = 0;
 		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
-			if(!$error = Members::assign($_REQUEST['associate_to'], 'article:'.$id))
+			if(Members::assign($_REQUEST['associate_to'], 'article:'.$id))
 				$count++;
 		}
 
@@ -307,7 +307,7 @@ if(Surfer::is_crawler()) {
 		// do it, and clear the cache
 		$count = 0;
 		foreach($_REQUEST['selected_sections'] as $dummy => $id) {
-			if(!$error = Members::assign($_REQUEST['associate_to'], 'section:'.$id))
+			if(Members::assign($_REQUEST['associate_to'], 'section:'.$id))
 				$count++;
 		}
 
@@ -1048,12 +1048,11 @@ if(Surfer::is_crawler()) {
 	$text = '';
 
 	// managed articles
-	include_once '../articles/layout_articles_as_manage.php';
-	$layout = new Layout_articles_as_manage();
+	$layout = Layouts::new_('manage', 'article');
 
 	// avoid links to this page
 	if(is_object($layout) && is_callable(array($layout, 'set_variant')))
-		$layout->set_variant('section:'.$item['id']);
+		$layout->set_focus('section:'.$item['id']);
 
 	// the maximum number of articles per page
 	if(is_object($layout))
@@ -1072,8 +1071,8 @@ if(Surfer::is_crawler()) {
 		$text .= $items;
 
 		// some script to actually do the job
-		$text .= JS_PREFIX
-			.'function count_selected_articles() {'."\n"
+		Page::insert_script(
+			'function count_selected_articles() {'."\n"
 			.'	var count = 0;'."\n"
 			.'	$("div#articles_panel input[type=\'checkbox\'].row_selector").each('."\n"
 			.'		function() { count++;}'."\n"
@@ -1088,8 +1087,7 @@ if(Surfer::is_crawler()) {
 			.'		$("#main_form").submit();'."\n"
 			.'	}'."\n"
 			.'}'."\n"
-			."\n"
-			.JS_SUFFIX."\n";
+			);
 
 		// a list of commands
 		$options = '<select name="act_on_articles" id="act_on_articles"><option>'.i18n::s('For the selection:').'</option>';
@@ -1160,12 +1158,11 @@ if(Surfer::is_crawler()) {
 	$text = '';
 
 	// managed sections
-	include_once '../sections/layout_sections_as_manage.php';
-	$layout = new Layout_sections_as_manage();
+	$layout = Layouts::new_('manage', 'section');
 
 	// avoid links to this page
 	if(is_object($layout) && is_callable(array($layout, 'set_variant')))
-		$layout->set_variant('section:'.$item['id']);
+		$layout->set_focus('section:'.$item['id']);
 
 	// the maximum number of articles per page
 	if(is_object($layout))
@@ -1184,8 +1181,8 @@ if(Surfer::is_crawler()) {
 		$text .= $items;
 
 		// some script to actually do the job
-		$text .= JS_PREFIX
-			.'function count_selected_sections() {'."\n"
+		Page::insert_script(
+			'function count_selected_sections() {'."\n"
 			.'	var count = 0;'."\n"
 			.'	$("div#sections_panel input[type=\'checkbox\'].row_selector").each('."\n"
 			.'		function() { count++;}'."\n"
@@ -1200,8 +1197,7 @@ if(Surfer::is_crawler()) {
 			.'		$("#main_form").submit();'."\n"
 			.'	}'."\n"
 			.'}'."\n"
-			."\n"
-			.JS_SUFFIX."\n";
+			);
 
 		// a list of commands
 		$options = '<select name="act_on_sections" id="act_on_sections"><option>'.i18n::s('For the selection:').'</option>';

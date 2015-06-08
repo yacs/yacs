@@ -15,7 +15,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 	 *
 	 * @return string to be used in requests to the database
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_order() {
 		return 'publication';
@@ -26,7 +26,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 	 *
 	 * @return 8 - the last recent article is displayed entirely, plus 7 other pages
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	 */
 	function items_per_page() {
 		return 8;
@@ -38,7 +38,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -294,7 +294,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			$box['bar'] += Skin::navigate($url, $prefix, $count, FILES_PER_PAGE, 0);
 
 			// the command to post a new file, if allowed
-			if(Files::allow_creation($anchor, $item, 'article')) {
+			if(Files::allow_creation($item, $anchor, 'article')) {
 				$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
 				$box['bar'] += array( $link => i18n::s('Add a file') );
 			}
@@ -312,7 +312,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		//
 
 		// discuss this page, if the index page can be commented, and comments are accepted at the article level
-		if(Comments::allow_creation($anchor, $item))
+		if(Comments::allow_creation($item, $anchor))
 			$this->menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Post a comment'), 'span');
 
 		// info on related comments
@@ -332,7 +332,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			 && !($anchor->has_option('no_files') || preg_match('/\bno_files\b/i', $item['options']))) {
 
 			// add a file
-			if(Files::allow_creation($anchor, $item, 'article')) {
+			if(Files::allow_creation($item, $anchor, 'article')) {
 				if($context['with_friendly_urls'] == 'Y')
 					$link = 'files/edit.php/article/'.$item['id'];
 				else

@@ -215,7 +215,6 @@ class xml {
 	 * @param string the string to check
 	 * @return boolean TRUE on success, FALSE otherwise
 	 *
-	 * @see actions/edit.php
 	 * @see articles/edit.php
 	 * @see comments/edit.php
 	 * @see locations/edit.php

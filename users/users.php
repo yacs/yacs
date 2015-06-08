@@ -31,6 +31,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Alexis Raimbault
  * @tester Jan Boen
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -92,7 +93,7 @@ Class Users {
 			$recipient = Mailer::encode_recipient($user['email'], $user['nick_name']);
 
 		// post a message to this particular user
-		return Mailer::notify(Surfer::from(), $recipient, $mail['subject'], $mail['message'], isset($mail['headers'])?$mail['headers']:'');
+		return Mailer::notify(Surfer::from(), $recipient, $mail['subject'], $mail['message'], isset($mail['headers'])?$mail['headers']:'',isset($mail['attachement'])?$mail['attachement']:null);
 
 	}
 
@@ -340,6 +341,10 @@ Class Users {
 		if(SQL::query($query, FALSE, $context['users_connection']) === FALSE)
 			return FALSE;
 
+		// remember overlay deletion
+		if(isset($item['overlay']) && ($overlay = Overlay::load($item, 'user:'.$item['id'])))
+			$overlay->remember('delete', $item, 'user:'.$item['id']);
+
 		// job done
 		return TRUE;
 	}
@@ -464,10 +469,10 @@ Class Users {
 				.'</span>'
 				.'<span id="f_'.$id.'" style="display: none;">'
 				.	SPINNER_IMG.i18n::s('Stopping the call...')
-				.'</span>'
-				.JS_PREFIX
-				."\n"
-				.'var ClickToCall = {'."\n"
+				.'</span>';
+
+			Page::insert_script(
+				'var ClickToCall = {'."\n"
 				."\n"
 				.'	start: function(id) {'."\n"
 
@@ -508,7 +513,7 @@ Class Users {
 				.'	}'."\n"
 				."\n"
 				.'}'."\n"
-				.JS_SUFFIX;
+				);
 		}
 
 		// job done
@@ -648,9 +653,104 @@ Class Users {
 	 * @return string the permanent web address to this item, relative to the installation path
 	 */
 	public static function get_permalink($item) {
-		$output = Users::get_url($item['id'], 'view', isset($item['full_name'])?$item['full_name']:( isset($item['nick_name'])?$item['nick_name']:'' ));
-		return $output;
+		global $context;
+
+		// sanity check
+		if(!isset($item['id']))
+			throw new Exception('bad input parameter');
+
+		// absolute link
+		return $context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', isset($item['full_name'])?$item['full_name']:( isset($item['nick_name'])?$item['nick_name']:'' ));
 	}
+        
+        /**
+         * 
+         * @param int $usr id of targeted profile
+         * @param boolean $upload to display a field to include a file
+         * @return string the form to start the thread
+         */
+        public static function get_thread_creation_form($usr, $upload = FALSE) {
+                global $context, $render_overlaid;
+            
+                // start a new private page
+                //
+                $text = '<form method="post" id="main_form" enctype="multipart/form-data" action="'.$context['url_to_root'].'users/contact.php" onsubmit="return validateDocumentPost(this)" ><div>';
+
+                // on my page, engage with anybody
+                if(Surfer::get_id() == $usr) {
+
+                        // recipients
+                        $label = i18n::s('Who do you want to involve?');
+                        $input = '<textarea name="id" id="id" rows="1" cols="50"></textarea><div><span class="tiny">'.i18n::s('Enter nick names, or email addresses, separated by commas.').'</span></div>';
+                        $text .= '<div>'.$label.BR.$input.'</div>';
+
+                // engage the browsed surfer
+                } else
+                        $text .= '<input type="hidden" name="id" value="'.$usr.'" />';
+
+                // thread title
+                // $label = i18n::s('What do you want to talk about?');
+                $label = '';
+                $input = '<input type="text" name="title" style="width: 90%" maxlength="255" placeholder = "'.i18n::s('Subject').'" />';
+                $text .= '<p>'.$label.BR.$input.'</p>';
+
+                // thread first contribution
+                // $label = i18n::s('Provide context, and start the conversation');
+                $label = '';
+                $input = '<textarea name="message" rows="6" cols="50" placeholder = "'.i18n::s('Your message').'"></textarea>';
+                $text .= '<p>'.$label.BR.$input.'</p>';
+
+                // uploads are allowed
+                if(Surfer::may_upload() && $upload) {
+                        $label = sprintf(i18n::s('You may attach a file of up to %sbytes'), $context['file_maximum_size']);
+                        $input = '<input type="file" name="upload" style="width: 30em" />';
+                        $text .= '<p class="details">'.$label.BR.$input.'</p>';
+                }
+
+                // bottom commands
+                if(!$render_overlaid) {
+                    $menu = array();
+                    $menu[] = Skin::build_submit_button(i18n::s('Send'), i18n::s('Press [s] to submit data'), 's');
+                    $text .= Skin::finalize_list($menu, 'menu_bar');
+                }
+
+                // end of the form
+                $text .= '</div></form>';
+
+                // in a folded box
+                /*Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
+                if(Surfer::get_id() == $item['id'])
+                        $box['top'] += array('_new_thread' => Skin::build_sliding_box(ARTICLES_ADD_IMG.i18n::s('Start a thread'), $text, 'new_thread', TRUE));
+                else
+                        $box['top'] += array('_new_thread' => Skin::build_sliding_box(ARTICLES_ADD_IMG.sprintf(i18n::s('Start a thread with %s'), $item['full_name']?$item['full_name']:$item['nick_name']), $text, 'new_thread', TRUE));
+
+                */        
+                // append the script used for data checking on the browser
+                Page::insert_script(
+                        // check that main fields are not empty
+                        'func'.'tion validateDocumentPost(container) {'."\n"
+                        ."\n"
+                        	// title is mandatory
+                        .'	if(!container.title.value) {'."\n"
+                        .'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
+                        .'		Yacs.stopWorking();'."\n"
+                        .'		return false;'."\n"
+                        .'	}'."\n"
+                        ."\n"
+                        	// successful check'
+                        .'	return true;'."\n"
+                        .'}'."\n"
+                        
+                        // enable autocompletion
+                        .((Surfer::get_id() == $usr)?'$(function() {'."\n"
+                            .'	Yacs.autocomplete_names("id");'."\n" // enable names autocompletion
+                            .'});  '."\n":'')
+                        );
+                
+                return $text;
+
+            
+        }
 
 	/**
 	 * get signature of some user
@@ -741,7 +841,6 @@ Class Users {
 	 *
 	 * @param the id of the user to update
 	 *
-	 * @see actions/edit.php
 	 * @see articles/edit.php
 	 * @see categories/edit.php
 	 * @see comments/edit.php
@@ -1152,32 +1251,8 @@ Class Users {
 			return $output;
 		}
 
-		// no layout yet
-		$layout = NULL;
-
-		// separate options from layout name
-		$attributes = explode(' ', $variant, 2);
-
 		// instanciate the provided name
-		if($attributes[0]) {
-			$name = 'layout_users_as_'.$attributes[0];
-			if(is_readable($context['path_to_root'].'users/'.$name.'.php')) {
-				include_once $context['path_to_root'].'users/'.$name.'.php';
-				$layout = new $name;
-
-				// provide parameters to the layout
-				if(isset($attributes[1]))
-					$layout->set_variant($attributes[1]);
-
-			}
-		}
-
-		// use default layout
-		if(!$layout) {
-			include_once $context['path_to_root'].'users/layout_users.php';
-			$layout = new Layout_users();
-			$layout->set_variant($variant);
-		}
+		$layout = Layouts::new_($variant, 'user',false, true);
 
 		// do the job
 		$output = $layout->layout($result);
@@ -1471,7 +1546,7 @@ Class Users {
 			return NULL;
 
 		// do the check again
-		if($item =& Users::get($user['nick_name']))
+		if($item = Users::get($user['nick_name']))
 			return $item;
 
 		// tough luck
@@ -1609,7 +1684,7 @@ Class Users {
 		$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
 
 		if(isset($fields['selected_editor']))
-			$fields['editor'] = $fields['selected_editor'];	// hack because of FCKEditor already uses 'editor'
+			$fields['editor'] = $fields['selected_editor'];
 		elseif(isset($context['users_default_editor']))
 			$fields['editor'] = $context['users_default_editor'];
 		else
@@ -1824,7 +1899,7 @@ Class Users {
 			if(!isset($fields['active']) || !$fields['active'])
 				$fields['active'] = 'Y';
 			if(isset($fields['selected_editor']))
-				$fields['editor'] = $fields['selected_editor'];	// hack because of FCKEditor already uses 'editor'
+				$fields['editor'] = $fields['selected_editor'];
 			elseif(isset($context['users_default_editor']))
 				$fields['editor'] = $context['users_default_editor'];
 			else
@@ -1950,13 +2025,13 @@ Class Users {
 
 			// message body
 			$message = '<p>'.sprintf(i18n::s('This message has been automatically sent to you to confirm a change of your profile at %s.'),
-					'<a href="'.$context['url_to_home'].$context['url_to_root'].'">'.strip_tags($context['site_name']).'</a>').'</p>'
+					'<a href="'.$context['url_to_master'].$context['url_to_root'].'">'.strip_tags($context['site_name']).'</a>').'</p>'
 				.'<p>'.sprintf(i18n::s('Your nick name is %s'), $item['nick_name'])
 				.BR.sprintf(i18n::s('Authenticate with password %s'), $fields['confirm']).'</p>' 	// $fields['password'] has been hashed
 				.'<p>'.sprintf(i18n::s('On-line help is available at %s'),
 						'<a href="'.$context['url_to_home'].$context['url_to_root'].'help/'.'">'.$context['url_to_home'].$context['url_to_root'].'help/'.'</a>').'</p>'
 				.'<p>'.sprintf(i18n::s('Thank you for your interest into %s.'),
-					'<a href="'.$context['url_to_home'].$context['url_to_root'].'">'.strip_tags($context['site_name']).'</a>').'</p>';
+					'<a href="'.$context['url_to_master'].$context['url_to_root'].'">'.strip_tags($context['site_name']).'</a>').'</p>';
 
 			// enable threading
 			$headers = Mailer::set_thread('user:'.$item['id']);
@@ -1972,6 +2047,73 @@ Class Users {
 
 		// end of job
 		return TRUE;
+	}
+
+	/**
+	 * change only some (minor) attributes
+	 */
+	public static function put_attributes(&$fields) {
+	    global $context;
+
+	    // id cannot be empty
+	    if(!isset($fields['id']) || !is_numeric($fields['id'])) {
+		    Logger::error(i18n::s('No item has the provided id.'));
+		    return FALSE;
+	    }
+
+	    // following fields are forbidden with this function
+	    if(isset($fields['password'])
+		    || isset($fields['nickname'])
+		    || isset($field['editor'])
+		    ) {
+		Logger::error(i18n::s('This action is forbidden with users::put_attributes function.'));
+		return FALSE;
+	    }
+
+	    // remember who is changing this record
+	    Surfer::check_default_editor($fields);
+
+	    // query components
+	    $query = array();
+
+	    // clean provided tags
+	    if(isset($fields['tags'])) {
+		    $fields['tags'] = trim($fields['tags'], " \t.:,!?");
+	    }
+
+	    // protect from hackers
+	    if(isset($fields['avatar_url'])) {
+		$fields['avatar_url'] = encode_link($fields['avatar_url']);
+	    }
+
+	    // build SET part of the query
+	    foreach($fields as $key => $field) {
+		if($key == 'id') continue;
+
+		$query[] = $key."='".SQL::escape($field)."'";
+	    }
+
+	    // nothing to update
+	    if(!count($query))
+		return TRUE;
+
+	    // actual update query
+	    $query = "UPDATE ".SQL::table_name('users')
+		." SET ".implode(', ', $query)
+		." WHERE id = ".SQL::escape($fields['id']);
+
+	    if(!SQL::query($query))
+		return FALSE;
+
+	    // list the user in categories
+	    if(isset($fields['tags']) && $fields['tags'])
+		Categories::remember('user:'.$fields['id'], NULL_DATE, $fields['tags']);
+
+	    // clear the cache
+	    Articles::clear($fields);
+
+	    // end of job
+	    return TRUE;
 	}
 
 	/**

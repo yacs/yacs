@@ -103,7 +103,7 @@ if(Surfer::is_crawler()) {
 	// headline
 	$headline = sprintf(i18n::c('%s is notifying you from %s'),
 		Surfer::get_link(),
-		'<a href="'.$context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item).'">'.$item['title'].'</a>');
+		'<a href="'.Categories::get_permalink($item).'">'.$item['title'].'</a>');
 
 	// enable yacs codes in messages
 	$message = Codes::beautify($_REQUEST['message']);
@@ -115,7 +115,7 @@ if(Surfer::is_crawler()) {
 	$menu = array();
 
 	// call for action
-	$link = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item);
+	$link = Categories::get_permalink($item);
 	if(!is_object($overlay) || (!$label = $overlay->get_label('permalink_command', 'categories', FALSE)))
 		$label = i18n::c('View the category');
 	$menu[] = Skin::build_mail_button($link, $label, TRUE);
@@ -171,7 +171,7 @@ if(Surfer::is_crawler()) {
 
 	// the message
 	$label = i18n::s('Message content');
-	$input = Surfer::get_editor('message', '<p>'.$item['title'].BR.$context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item).'</p>');
+	$input = Surfer::get_editor('message', '<p>'.$item['title'].BR.Categories::get_permalink($item).'</p>');
 	$fields[] = array($label, $input);
 
 	// build the form
@@ -199,32 +199,28 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= '</div></form>';
 
 	// append the script used for data checking on the browser
-	$context['text'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// title is mandatory'."\n"
+	Page::insert_script(
+		// check that main fields are not empty
+		'func'.'tion validateDocumentPost(container) {'."\n"
+			// title is mandatory
 		.'	if(!container.subject.value) {'."\n"
 		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// body is mandatory'."\n"
+			// body is mandatory
 		.'	if(!container.message.value) {'."\n"
 		.'		alert("'.i18n::s('Message content can not be empty').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
+			// successful check
 		.'	return true;'."\n"
 		.'}'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
+		// set the focus on first form field
 		.'$("#subject").focus();'."\n"
 		."\n"
-		.JS_SUFFIX;
+		);
 
 }
 

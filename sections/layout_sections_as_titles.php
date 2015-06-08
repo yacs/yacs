@@ -28,7 +28,7 @@ Class Layout_sections_as_titles extends Layout_interface {
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
-	 * @see skins/layout.php
+	 * @see layouts/layout.php
 	**/
 	function layout($result) {
 		global $context;
@@ -280,9 +280,10 @@ Class Layout_sections_as_titles extends Layout_interface {
 				$icon = MAP_IMG;
 
 			// use tipsy on hover
-			$content = '<a href="'.$context['url_to_root'].$url.'" id="titles_'.$item['id'].'">'.$icon.BR.$prefix.$title.'</a>'
-				.JS_PREFIX
-				.'$(function() {'."\n"
+			$content = '<a href="'.$url.'" id="titles_'.$item['id'].'">'.$icon.BR.$prefix.$title.'</a>';
+				
+			Page::insert_script(
+				'$(function() {'."\n"
 				.'	$("a#titles_'.$item['id'].'").each(function() {'."\n"
 				.'		$(this).tipsy({fallback: \'<div style="text-align: left;">'.str_replace(array("'", "\n"), array('"', '<br />'), $hover).'</div>\','."\n"
 				.	'		 html: true,'."\n"
@@ -292,7 +293,7 @@ Class Layout_sections_as_titles extends Layout_interface {
 				.	'		 opacity: 1.0});'."\n"
 				.'	});'."\n"
 				.'});'."\n"
-				.JS_SUFFIX;
+				);
 
 			// add a floating box
 			$text .= Skin::build_box(NULL, $content, 'floating');

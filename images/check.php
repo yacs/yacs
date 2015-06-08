@@ -2,12 +2,12 @@
 /**
  * check the integrity of the database for images
  *
- * @todo check existence of related files (fw_crocodile)
  *
  * This page is used to check and update the database. Its usage is restricted to associates.
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -163,6 +163,57 @@ if(!Surfer::is_associate()) {
 	$menu = array('images/' => i18n::s('Images'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
+} elseif (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'missing')) {
+
+
+	// scan up to 10000 items
+	$count = 0;
+	$query = "SELECT id, anchor, image_name FROM ".SQL::table_name('images')
+		." ORDER BY anchor LIMIT 0, 10000";
+	if(!($result = SQL::query($query))) {
+		$context['text'] .= Logger::error_pop().BR."\n";
+		return;
+
+	// parse the whole list
+	} else {
+
+		// fetch one anchor and the linked member
+		$errors_count = 0;
+		while($row = SQL::fetch($result)) {
+
+			// animate user screen and take care of time
+			$count++;
+			if(!($count%100)) {
+				$context['text'] .= sprintf(i18n::s('%d records have been processed'), $count).BR."\n";
+
+				// ensure enough execution time
+				Safe::set_time_limit(30);
+
+			}
+
+			if(!Images::get_icon_href($row)) {
+				$errors_count++;
+				$anchor = Anchors::get($row['anchor']);
+
+				$context['text'] .= sprintf(i18n::s('Missing: %s'), 'image '.Skin::build_link(Images::get_url($row['id']), $row['id'].' '.$row['image_name'])).' '.i18n::s('in').' '.((is_object($anchor))?Skin::build_link($anchor->get_url(), $row['anchor']):'').BR."\n";
+			}
+
+		}
+
+	}
+
+	// ending message
+	$context['text'] .= sprintf(i18n::s('%d records have been processed'), $count).BR."\n";
+	$context['text'] .= sprintf(i18n::s('%d missing files'), $errors_count).BR."\n";
+
+	// display the execution time
+	$time = round(get_micro_time() - $context['start_time'], 2);
+	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
+
+	// forward to the index page
+	$menu = array('images/' => i18n::s('Images'));
+	$context['text'] .= Skin::build_list($menu, 'menu_bar');
+
 // which check?
 } else {
 
@@ -181,6 +232,9 @@ if(!Surfer::is_associate()) {
 	// look for orphan records
 	$context['text'] .= '<p><input type="radio" name="action" value="orphans" /> '.i18n::s('Look for orphan records').'</p>';
 
+	// look for missing files
+	$context['text'] .= '<p><input type="radio" name="action" value="missing" /> '.i18n::s('Look for missing files').'</p>';
+
 	// the submit button
 	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Start')).'</p>'."\n";
 
@@ -188,10 +242,7 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '</form>';
 
 	// set the focus on the button
-	$context['text'] .= JS_PREFIX
-		.'$("#action").focus();'."\n"
-		.JS_SUFFIX."\n";
-
+	Page::insert_script('$("#action").focus();');
 }
 
 // render the skin

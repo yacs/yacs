@@ -125,9 +125,7 @@ if(($page > 1) && (($page - 1) * USERS_PER_PAGE > $stats['count'])) {
 		."</form>\n";
 
 	// set the focus on the button
-	$context['text'] .= JS_PREFIX
-		.'$("#search").focus();'."\n"
-		.JS_SUFFIX;
+	Page::insert_script('$("#search").focus();');
 
 
 
