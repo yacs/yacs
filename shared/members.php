@@ -194,7 +194,7 @@ Class Members {
 	 * @see categories/layout_categories_as_yahoo.php
 	 * @see categories/view.php
 	 */
-	public static function count_articles_for_anchor($anchor) {
+	public static function count_articles_for_anchor($anchor, $lang=false) {
 		global $context;
 
 		// limit the scope of the request
@@ -209,6 +209,11 @@ Class Members {
 			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
 
 		$where .= ")";
+                
+                // limit the scope by language
+                if($lang) {
+                    $where .= " AND ( articles.language='".SQL::escape($lang)."' OR articles.language='')";
+                }
 
 		// always only consider published articles
 		$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
@@ -521,7 +526,7 @@ Class Members {
 	 * @see users/print.php
 	 * @see users/view.php
 	 */
-	public static function &list_articles_by_date_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
+	public static function &list_articles_by_date_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $lang=false) {
 		global $context;
 
 		// locate where we are
@@ -544,6 +549,11 @@ Class Members {
 			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		$where .= ")";
+                
+                // limit the scope by language
+                if($lang) {
+                    $where .= " AND ( articles.language='".SQL::escape($lang)."' OR articles.language='')";
+                }
 
 		// show only published articles
 		$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
@@ -624,7 +634,7 @@ Class Members {
 	 * @see categories/print.php
 	 * @see categories/view.php
 	 */
-	public static function &list_articles_by_title_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
+	public static function &list_articles_by_title_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $lang=false) {
 		global $context;
 
 		// locate where we are
@@ -647,6 +657,11 @@ Class Members {
 			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		$where .= ")";
+                
+                // limit the scope by language
+                if($lang) {
+                    $where .= " AND ( articles.language='".SQL::escape($lang)."' OR articles.language='')";
+                }
 
 		// see only published articles in categories
 		$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
@@ -692,7 +707,7 @@ Class Members {
 	 * @see categories/print.php
 	 * @see categories/view.php
 	 */
-	public static function &list_articles_by_rating_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
+	public static function &list_articles_by_rating_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $lang=false) {
 		global $context;
 
 		// locate where we are
@@ -715,6 +730,11 @@ Class Members {
 			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		$where .= ")";
+                
+                // limit the scope by language
+                if($lang) {
+                    $where .= " AND ( articles.language='".SQL::escape($lang)."' OR articles.language='')";
+                }
 
 		// see only published articles in categories
 		$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"

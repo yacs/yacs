@@ -105,6 +105,23 @@ Class Category extends Anchor {
 	    
 	    return $childs;
 	 }
+         
+         
+         public function get_listed_lang() {
+             global $context;
+             
+             $lang = $this->has_option("lang");
+             
+             if( $lang !== true) {
+                 
+                 if($lang === 'self') {
+                     $lang = $context['language'];
+                 }
+                 return $lang;
+             }
+             
+             return false;
+         }
     
 	/**
 	 * get the path bar for this anchor

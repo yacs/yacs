@@ -489,7 +489,7 @@ if(!isset($item['id'])) {
 		$layout_articles->set_focus('category:'.$item['id']);
 
 		// count the number of articles in this category
-		$count = Members::count_articles_for_anchor('category:'.$item['id']);
+		$count = Members::count_articles_for_anchor('category:'.$item['id'], $this_cat->get_listed_lang());
 		if($count)
 			$box['bar'] = array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count));
 
@@ -502,11 +502,11 @@ if(!isset($item['id'])) {
 		// list items by date (default) or by title (option 'articles_by_title') or by rating_sum (option article_by_rating)
 		$offset = ($zoom_index - 1) * ARTICLES_PER_PAGE;
 		if(isset($order) && preg_match('/\barticles_by_rating\b/i', $order))
-			$items =& Members::list_articles_by_rating_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles);
+			$items =& Members::list_articles_by_rating_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles, $this_cat->get_listed_lang());
 		elseif(isset($item['options']) && preg_match('/\barticles_by_title\b/i', $item['options']))
-			$items =& Members::list_articles_by_title_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles);
+			$items =& Members::list_articles_by_title_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles, $this_cat->get_listed_lang());
 		else
-			$items =& Members::list_articles_by_date_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles);
+			$items =& Members::list_articles_by_date_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles, $this_cat->get_listed_lang());
 
 		// actually render the html for the section
 		if(is_array($items))
