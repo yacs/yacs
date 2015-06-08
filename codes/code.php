@@ -9,22 +9,23 @@
  */
 
 abstract class Code {
+    
+    //$pattern[] = 'your regular expressions';
+    var $patterns = array();
 
     /** 
-     * Give the patterns to detect formatting codes in text, 
-     * and the corresponding replacement texts (or function to call)
+     * function called to build patterns detection array
+     * for formatting code
+     * @see codes::render()
      * 
-     * Works with regular expression.
-     *
-     * To be overloaded into derivated class
-     * 
-     * @param array $pattern, add your patterns at it
-     * @param array $replace, add your replacement-texts at it
+     * @param array $patterns_map of whole formatting code
      */
-    function get_pattern_replace(&$pattern,&$replace) {
-
-        //$pattern[] = 'your regular expression';
-        //$replace[] = "code_yourclass::render($1...)";
+    final function get_pattern(&$patterns_map) {
+        
+        $r = array_fill(0, count($this->patterns), get_class($this));
+        $p = array_combine($this->patterns, $r);
+        
+        $patterns = array_merge($patterns_map, $p);
     }
 
     /**
@@ -36,10 +37,7 @@ abstract class Code {
      * @param string the argument of formatting code (could be more than one)
      * @return string the replacement text
      */
-    function render($text) {
-
-        return $text;
-    }
+    abstract function render($matches);
 
     function get_samples($variant) {
         $text = '';
