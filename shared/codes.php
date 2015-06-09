@@ -346,7 +346,7 @@ Class Codes {
 		//
 
 		// render codes
-		$text =& Codes::render($text);
+		$text = Codes::render($text);
 
 		// render smileys after codes, else it will break escaped strings
 		if(is_callable(array('Smileys', 'render_smileys')))
@@ -787,7 +787,7 @@ Class Codes {
 	 * @param string input
 	 * @return string original or modified content
 	 */
-	public static function &fix_tags($text) {
+	public static function fix_tags($text) {
 
 		// look for opening tag at content end
 		$last_open = strrpos($text, '<p>');
@@ -913,7 +913,7 @@ Class Codes {
 	 * @param string the input string
 	 * @return string the transformed string
 	 */
-	public static function &render($text) {
+	public static function render($text) {
 		global $context;
 
                 // the formatting code interface
@@ -930,13 +930,42 @@ Class Codes {
                
 		if(!isset($patterns_map) ) {
 
-			
-			$patterns_map['|<!-- .* -->|i']                             = '';                          // remove HTML comments
-                        $patterns_map['/\[escape\](.*?)\[\/escape\]/is']            = 'Codes::render_escaped'   ;  // [escape]...[/escape] (before everything)
-                        $patterns_map['/\[php\](.*?)\[\/php\]/is']                  = 'Codes::render_pre'       ;  // [escape]...[/escape] (before everything)
+			// core patterns
+			$patterns_map['|<!-- .* -->|i']                                             = '';                          // remove HTML comments
+                        $patterns_map['/\[escape\](.*?)\[\/escape\]/is']                            = 'Codes::render_escaped'   ;  // [escape]...[/escape] (before everything)
+                        $patterns_map['/\[php\](.*?)\[\/php\]/is']                                  = 'Codes::render_pre_php'   ;  // [php]...[/php]
+                        $patterns_map['/\[snippet\](.*?)\[\/snippet\]/is']                          = 'Codes::render_pre'       ;  // [snippet]...[/snippet]
+                        $patterns_map['/(\[page\].*)$/is']                                          = ''                        ;  // [page] (provide only the first one)
+                        $patterns_map['/\[associate\](.*?)\[\/(associate)\]/is']                    = 'Codes::render_hidden'    ;  // [associate]...[/associate] 
+                        $patterns_map['/\[member\](.*?)\[\/(member)\]/is']                          = 'Codes::render_hidden'    ;  // [member]...[/member] 
+                        $patterns_map['/\[anonymous\](.*?)\[\/(anonymous)\]/is']                    = 'Codes::render_hidden'    ;  // [anonymous]...[/anonymous] 
+                        $patterns_map['/\[redirect=([^\]]+?)\]/is']                                 = 'Codes::render_redirect'  ;  // [redirect=<link>]
+                        $patterns_map['/\[execute=([^\]]+?)\]/is']                                  = 'Codes::render_execute'   ;  // [execute=<name>]
+                        $patterns_map['/\[parameter=([^\]]+?)\]/is']                                = 'Codes::render_parameter' ;  // [parameter=<name>]
+                        $patterns_map['/\[lang=([^\]]+?)\](.*?)\[\/lang\]/is']                      = 'Codes::render_lang'      ;  // [lang=xy]...[/lang]
+                        $patterns_map['/\[(images)=([^\]]+?)\]/i']                                  = 'Codes::render_object'    ;  // [images=<ids>] (before other links)
+                        $patterns_map['/\[(image)=([^\]]+?)\]/i']                                   = 'Codes::render_object'    ;  // [image=<id>]
+                        $patterns_map['/##(\S.*?\S)##/is']                                          = '<code>$1</code>'         ;  // ##...##
+                        $patterns_map['/\[code\](.*?)\[\/code\]/is']                                = '<code>$1</code>'         ;  // [code]...[/code]
+                        $patterns_map['/\[indent\](.*?)\[\/(indent)\]/is']                          = 'Skin::build_block'       ;  // [indent]...[indent]
+                        $patterns_map['/\[quote\](.*?)\[\/(quote)\]/is']                            = 'Skin::build_block'       ;  // [quote]...[quote]
+                        $patterns_map['/\[folded(?:=([^\]]+?))?\](.*?)\[\/(folded)\]\s*/is']        = 'Skin::build_box'         ;  // [folded=title]...[/folded],[folded]...[/folded] 
+                        $patterns_map['/\[unfolded(?:=([^\]]+?))?\](.*?)\[\/(unfolded)\]\s*/is']    = 'Skin::build_box'         ;  // [unfolded=title]...[/unfolded],[unfolded]...[/unfolded]
+                        $patterns_map['/\[sidebar(?:=([^\]]+?))?\](.*?)\[\/(sidebar)\]\s*/is']      = 'Skin::build_box'         ;  // [sidebar=title]...[/sidebar],[sidebar]...[/sidebar]
+                        $patterns_map['/\[note\](.*?)\[\/(note)\]\s*/is']                           = 'Skin::build_block'       ;  // [note]...[/note]
+                        $patterns_map['/\[caution\](.*?)\[\/(caution)\]\s*/is']                     = 'Skin::build_block'       ;  // [caution]...[/caution]
+                        $patterns_map['/\[center\](.*?)\[\/(center)\]/is']                          = 'Skin::build_block'       ;  // [center]...[/center]
+                        $patterns_map['/\[right\](.*?)\[\/(right)\]/is']                            = 'Skin::build_block'       ;  // [right]...[/right]
+                        $patterns_map['/\[(go)=([^\]]+?)\]/i']                                      = 'Codes::render_object'    ;  // [go=<name>]
+                        $patterns_map['/\[(article\.description)=([^\]]+?)\]/i']                    = 'Codes::render_object'    ;  // [article.description=<id>]
+                        $patterns_map['/\[(article)=([^\]]+?)\]/i']                                 = 'Codes::render_object'    ;  // [article=<id>] or [article=<id>, title]
+                        $patterns_map['/\[(next)=([^\]]+?)\]/i']                                    = 'Codes::render_object'    ;  // [next=<id>]
+                        $patterns_map['/\[(previous)=([^\]]+?)\]/i']                                = 'Codes::render_object'    ;  // [previous=<id>]
+                        $patterns_map['/\[random(?:=([^\]]+?))?\]/i']                               = 'Codes::render_random'    ;  // [random], [random=section:<id>] or [random=category:<id>]
+                        $patterns_map['/\[(section)=([^\]]+?)\]/i']                                 = 'Codes::render_object'    ;  // [section=<id>] or [section=<id>, title]
+                        $patterns_map['/\[(category(?:\.description)?)=([^\]]+?)\]\n*/is']          = 'Codes::render_object'    ;  // [category=<id>], [category=<id>, title] or [category.description=<id>]
+                        $patterns_map['/\[(user)=([^\]]+?)\]/i']                                    = 'Codes::render_object'    ;  // [user=<id>]
                         
-                        
-
 			// load formatting codes from files
 			/*$dir = $context['path_to_root'].'codes/';
 			if ($handle = Safe::opendir($dir)) {
@@ -966,98 +995,8 @@ Class Codes {
 		} // end setting $patterns*/
 
 			$old=	array(
-				'/\[snippet\](.*?)\[\/snippet\]/ise',	// [snippet]...[/snippet]
-				'/(\[page\].*)$/is',					// [page] (provide only the first one)
-				'/\[associate\](.*?)\[\/associate\]/ise', 	// [associate]...[/associate] (save some cycles if at the beginning)
-				'/\[hidden\](.*?)\[\/hidden\]/ise', 	// [hidden]...[/hidden] obsolete, replaced by [associate]...[/associate]
-				'/\[authenticated\](.*?)\[\/authenticated\]/ise', // [authenticated]...[/authenticated] (save some cycles if at the beginning)
-				'/\[restricted\](.*?)\[\/restricted\]/ise', 	// [restricted]...[/restricted] obsolete, replaced by [authenticated]...[/authenticated]
-				'/\[anonymous\](.*?)\[\/anonymous\]/ise', // [anonymous]...[/anonymous] (save some cycles if at the beginning)
-				'/\[redirect=([^\]]+?)\]/ise', 			// [redirect=<link>]
-				'/\[execute=([^\]]+?)\]/ise', 			// [execute=<name>]
-				'/\[parameter=([^\]]+?)\]/ise', 		// [parameter=<name>]
-				'/\[lang=([^\]]+?)\](.*?)\[\/lang\]/ise',		// [lang=xy]...[/lang]
-				'/\[csv=(.)\](.*?)\[\/csv\]/ise',		// [csv=;]...[/csv] (before [table])
-				'/\[csv\](.*?)\[\/csv\]/ise',			// [csv]...[/csv] (before [table])
-				'/\[table=([^\]]+?)\](.*?)\[\/table\]/ise', // [table=variant]...[/table]
-				'/\[table\](.*?)\[\/table\]/ise',		// [table]...[/table]
-				'/\[images=([^\]]+?)\]/ie', 				// [images=<ids>] (before other links)
-				'/\[image\](.*?)\[\/image\]/ise',		// [image]src[/image]
-				'/\[image=([^\]]+?)\](.*?)\[\/image\]/ise', // [image=alt]src[/image]
-				'/\[img\](.*?)\[\/img\]/ise',			// [img]src[/img]
-				'/\[img=([^\]]+?)\](.*?)\[\/img\]/ise', 	// [img=alt]src[/img]
-				'/\[image=([^\]]+?)\]/ie',					// [image=<id>]
-				'/##(\S.*?\S)##/is',					// ##...##
-				'/\[code\](.*?)\[\/code\]/is',			// [code]...[/code]
-				'/\[indent\](.*?)\[\/indent\]/ise', 	// [indent]...[/indent]
-				'/\[quote\](.*?)\[\/quote\]/ise',		// [quote]...[/quote]
-				'/\[folded=([^\]]+?)\](.*?)\[\/folded\]\s*/ise',	// [folded=...]...[/folded]
-				'/\[folded\](.*?)\[\/folded\]\s*/ise',	// [folded]...[/folded]
-				'/\[folder=([^\]]+?)\](.*?)\[\/folder\]\s*/ise',	// [folder=...]...[/folder]
-				'/\[folder\](.*?)\[\/folder\]\s*/ise',	// [folder]...[/folder]
-				'/\[unfolded=([^\]]+?)\](.*?)\[\/unfolded\]\s*/ise',	// [unfolded=...]...[/unfolded]
-				'/\[unfolded\](.*?)\[\/unfolded\]\s*/ise',	// [unfolded]...[/unfolded]
-				'/\[sidebar=([^\]]+?)\](.*?)\[\/sidebar\]\s*/ise',	// [sidebar=...]...[/sidebar]
-				'/\[sidebar\](.*?)\[\/sidebar\]\s*/ise',	// [sidebar]...[/sidebar]
-				'/\[note\](.*?)\[\/note\]\s*/ise',		// [note]...[/note]
-				'/\[caution\](.*?)\[\/caution\]\s*/ise', // [caution]...[/caution]
-				'/\[search=([^\]]+?)\]/ise',				// [search=words]
-				'/\[search\]/ise',						// [search]
-				'/\[cloud=(\d+?)\]/ise',				// [cloud=12]
-				'/\[cloud\]/ise',						// [cloud]
-				'/\[login=([^\]]+?)\]/is',				// [login=words] --obsoleted
-				'/\[login\]/is',						// [login] --obsoleted
-				'/\[center\](.*?)\[\/center\]/ise', 	// [center]...[/center]
-				'/\[right\](.*?)\[\/right\]/ise',		// [right]...[/right]
-				'/\[decorated\](.*?)\[\/decorated\]/ise',// [decorated]...[/decorated]
-				'/\[style=([^\]]+?)\](.*?)\[\/style\]/ise', // [style=variant]...[/style]
-				'/\[hint=([^\]]+?)\](.*?)\[\/hint\]/is',	// [hint=help]...[/hint]
-				'/\[tiny\](.*?)\[\/tiny\]/ise', 		// [tiny]...[/tiny]
-				'/\[small\](.*?)\[\/small\]/ise',		// [small]...[/small]
-				'/\[big\](.*?)\[\/big\]/ise',			// [big]...[/big]
-				'/\[huge\](.*?)\[\/huge\]/ise', 		// [huge]...[/huge]
-				'/\[subscript\](.*?)\[\/subscript\]/is',// [subscript]...[/subscript]
-				'/\[superscript\](.*?)\[\/superscript\]/is',// [superscript]...[/superscript]
-				'/\+\+(\S.*?\S)\+\+(?!([^<]+)?>)/is',	// ++...++
-				'/\[(---+|___+)\]\s*/ise',				// [---], [___] --- before inserted
-				'/^-----*/me',							// ----
-				'/\[inserted\](.*?)\[\/inserted\]/is',	// [inserted]...[/inserted]
-				'/ --(\S.*?\S)--(?!([^<]+)?>)/is',		// --...--
-				'/\[deleted\](.*?)\[\/deleted\]/is',	// [deleted]...[/deleted]
-				'/\*\*(\S.*?\S)\*\*/is',				// **...**
-				'/\[b\](.*?)\[\/b\]/is',				// [b]...[/b]
-				'/ \/\/(\S.*?\w)\/\/(?!([^<]+)?>)/is',				// //...//
-				'/\[i\](.*?)\[\/i\]/is',				// [i]...[/i]
-				'/__(\S.*?\S)__(?!([^<]+)?>)/is',		// __...__
-				'/\[u\](.*?)\[\/u\]/is',				// [u]...[/u]
-				'/\[color=([^\]]+?)\](.*?)\[\/color\]/is',	// [color=<color>]...[/color]
-				'/\[new\]/ie',							// [new]
-				'/\[popular\]/ie',						// [popular]
-				'/\[flag=([^\]]+?)\]/ie',				// [flag=<flag>]
-				'/\[flag\](.*?)\[\/flag\]/ise', 		// [flag]...[/flag]
-				'/\[list\](.*?)\[\/list\]/ise', 		// [list]...[/list]
-				'/\[list=([^\]]+?)\](.*?)\[\/list\]/ise',	// [list=1]...[/list]
-				'/\n\n+[ \t]*\[\*\][ \t]*/ie',			// [*] (outside [list]...[/list])
-				'/\n?[ \t]*\[\*\][ \t]*/ie',
-				'/\[li\](.*?)\[\/li\]/is',				// [li]...[/li] (outside [list]...[/list])
-				'/\[chart=([^\]]+?)\](.*?)\[\/chart\]/ise',	// [chart=<width>, <height>, <params>]...[/chart]
-				'/\[embed=([^\]]+?)\]/ie',					// [embed=<id>, <width>, <height>, <params>] or [embed=<id>, window]
-				'/\[flash=([^\]]+?)\]/ie',					// [flash=<id>, <width>, <height>, <params>] or [flash=<id>, window]
-				'/\[sound=([^\]]+?)\]/ie',					// [sound=<id>]
-				'/\[go=([^\]]+?)\]/ie', 					// [go=<name>]
-				'/\[\[([^\]]+?)\]\]/ie', 					// [[<name>]]
-				'/\[article\.description=([^\]]+?)\]/ie',	// [article.description=<id>]
-				'/\[article=([^\]]+?)\]/ie',				// [article=<id>] or [article=<id>, title]
-				'/\[next=([^\]]+?)\]/ie',					// [next=<id>]
-				'/\[previous=([^\]]+?)\]/ie',				// [previous=<id>]
-				'/\[random\]/ie',							// [random]
-				'/\[random\.description=([^\]]+?)\]/ie',	// [random.description=section:<id>]
-				'/\[random=([^\]]+?)\]/ie',					// [random=section:<id>] or [random=category:<id>]
-				'/\[form=([^\]]+?)\]/ie',					// [form=<id>] or [form=<id>, title]
-				'/\[section=([^\]]+?)\]/ie',				// [section=<id>] or [section=<id>, title]
-				'/\[category\.description=([^\]]+?)\]\n*/ise',	// [category.description=<id>]
-				'/\[category=([^\]]+?)\]/ie',				// [category=<id>] or [category=<id>, title]
-				'/\[user=([^\]]+?)\]/ie',					// [user=<id>] or [user=<id>, title]
+
+				
 				'/\[server=([^\]]+?)\]/ie', 				// [server=<id>]
 				'/\[file=([^\]]+?)\]/ie',					// [file=<id>] or [file=<id>, title]
 				'/\[download=([^\]]+?)\]/ie',				// [download=<id>] or [download=<id>, title]
@@ -1162,98 +1101,8 @@ Class Codes {
 		if(!isset($replace)) {
 			$replace = array(
 
-				"Codes::render_pre(Codes::fix_tags('$1'), 'snippet')",				// [snippet]...[/snippet]
-				'', 																// [page]
-				"Codes::render_hidden(Codes::fix_tags('$1'), 'associate')",			// [associate]...[/associate]
-				"Codes::render_hidden(Codes::fix_tags('$1'), 'associate')",			// [hidden]...[/hidden]
-				"Codes::render_hidden(Codes::fix_tags('$1'), 'authenticated')",		// [authenticated]...[/authenticated]
-				"Codes::render_hidden(Codes::fix_tags('$1'), 'authenticated')",		// [restricted]...[/restricted]
-				"Codes::render_hidden(Codes::fix_tags('$1'), 'anonymous')",			// [anonymous]...[/anonymous]
-				"Codes::render_redirect('$1')",									// [redirect=<link>]
-				"Codes::render_execute('$1')",										// [execute=<name>]
-				"Codes::render_parameter('$1')",									// [parameter=<name>]
-				"i18n::filter(Codes::fix_tags('$2'), '$1')", 						// [lang=xy]...[/lang]
-				"utf8::encode(str_replace('$1', '|', utf8::from_unicode(Codes::fix_tags('$2'))))",	// [csv=;]...[/csv]
-				"str_replace(',', '|', Codes::fix_tags('$1'))",						// [csv]...[/csv]
-				"Codes::render_static_table(Codes::fix_tags('$2'), '$1')",			// [table=variant]...[/table]
-				"Codes::render_static_table(Codes::fix_tags('$1'), '')",			// [table]...[/table]
-				"Codes::render_object('images', '$1')",								// [images=<ids>]
-				"'<div class=\"external_image\"><img src=\"'.encode_link('$1').'\" alt=\"\" /></div>'",	// [image]src[/image]
-				"'<div class=\"external_image\"><img src=\"'.encode_link('$2').'\" alt=\"'.encode_link('$1').'\" /></div>'", // [image=alt]src[/image]
-				"'<div class=\"external_image\"><img src=\"'.encode_link('$1').'\" alt=\"\" /></div>'",	// [img]src[/img]
-				"'<div class=\"external_image\"><img src=\"'.encode_link('$2').'\" alt=\"'.encode_link('$1').'\" /></div>'", // [img=alt]src[/img]
-				"Codes::render_object('image', Codes::fix_tags('$1'))",				// [image=<id>]
-				'<code>$1</code>', 												// ##...##
-				'<code>$1</code>', 												// [code]...[/code]
-				"Skin::build_block(Codes::fix_tags('$1'), 'indent')", 				// [indent]...[indent]
-				"Skin::build_block(Codes::fix_tags('$1'), 'quote')",				// [quote]...[/quote]
-				"Skin::build_box('$1', Codes::fix_tags('$2'), 'folded')",			// [folded=title]...[/folded]
-				"Skin::build_box(NULL, Codes::fix_tags('$1'), 'folded')", 			// [folded]...[/folded]
-				"Skin::build_box('$1', Codes::fix_tags('$2'), 'folded')",			// [folder=title]...[/folder]
-				"Skin::build_box(NULL, Codes::fix_tags('$1'), 'folded')", 			// [folder]...[/folder]
-				"Skin::build_box('$1', Codes::fix_tags('$2'), 'unfolded')",			// [unfolded=title]...[/unfolded]
-				"Skin::build_box(NULL, Codes::fix_tags('$1'), 'unfolded')", 		// [unfolded]...[/unfolded]
-				"Skin::build_box('$1', Codes::fix_tags('$2'), 'sidebar')",			// [sidebar=title]...[/sidebar]
-				"Skin::build_box(NULL, Codes::fix_tags('$1'), 'sidebar')",			// [sidebar]...[/sidebar]
-				"Skin::build_block(Codes::fix_tags('$1'), 'note')",					// [note]...[/note]
-				"Skin::build_block(Codes::fix_tags('$1'), 'caution')",				// [caution]...[/caution]
-				"Skin::build_block('$1', 'search')",								// [search=<words>]
-				"Skin::build_block(NULL, 'search')",								// [search]
-				"Codes::render_cloud('$1')",										// [cloud=12]
-				"Codes::render_cloud(20)",											// [cloud]
-				'', 																// [login=<words>] --obsoleted
-				'', 																// [login] --obsoleted
-				"Skin::build_block(Codes::fix_tags('$1'), 'center')", 				// [center]...[/center]
-				"Skin::build_block(Codes::fix_tags('$1'), 'right')",				// [right]...[/right]
-				"Skin::build_block(Codes::fix_tags('$1'), 'decorated')",			// [decorated]...[/decorated]
-				"Skin::build_block(Codes::fix_tags('$2'), '$1')", 					// [style=variant]...[/style]
-				'<acronym title="$1">$2</acronym>',									// [hint=help]...[/hint]
-				"Skin::build_block(Codes::fix_tags('$1'), 'tiny')",					// [tiny]...[/tiny]
-				"Skin::build_block(Codes::fix_tags('$1'), 'small')",				// [small]...[/small]
-				"Skin::build_block(Codes::fix_tags('$1'), 'big')",					// [big]...[/big]
-				"Skin::build_block(Codes::fix_tags('$1'), 'huge')",					// [huge]...[/huge]
-				'<sub>$1</sub>',													// [subscript]...[/subscript]
-				'<sup>$1</sup>',													// [superscript]...[/superscript]
-				'<ins>$1</ins>',													// ++...++
-				"HORIZONTAL_RULER", 												// [---], [___]
-				"HORIZONTAL_RULER", 												// ----
-				'<ins>$1</ins>',													// [inserted]...[/inserted]
-				' <del>$1</del>',													// --...--
-				'<del>$1</del>',													// [deleted]...[/deleted]
-				'<b>$1</b>',														// **...**
-				'<b>$1</b>',														// [b]...[/b]
-				' <i>$1</i>',														// //...//
-				'<i>$1</i>',														// [i]...[/i]
-				'<span style="text-decoration: underline">$1</span>',				// __...__
-				'<span style="text-decoration: underline">$1</span>',				// [u]...[/u]
-				'<span style="color: $1">$2</span>',								// [color]...[/color]
-				"NEW_FLAG", 														// [new]
-				"POPULAR_FLAG", 													// [popular]
-				"Skin::build_flag('$1')",											// [flag=....]
-				"Skin::build_flag('$1')",											// [flag]...[/flag]
-				"Codes::render_list(Codes::fix_tags('$1'), NULL)",					// [list]...[/list]
-				"Codes::render_list(Codes::fix_tags('$2'), '$1')",					// [list=?]...[/list]
-				"BR.BR.BULLET_IMG.'&nbsp;'",										// standalone [*]
-				"BR.BULLET_IMG.'&nbsp;'",
-				'<li>$1</li>', 														// [li]...[/li]
-				"Codes::render_chart(Codes::fix_tags('$2'), '$1')",					// [chart=<width>, <height>, <params>]...[/chart]
-				"Codes::render_embed(Codes::fix_tags('$1'))",						// [embed=<id>, <width>, <height>, <params>]
-				"Codes::render_embed(Codes::fix_tags('$1'))",						// [flash=<id>, <width>, <height>, <params>] -- obsoleted by 'embed'
-				"Codes::render_object('sound', Codes::fix_tags('$1'))",				// [sound=<id>]
-				"Codes::render_object('go', Codes::fix_tags('$1'))",				// [go=<name>]
-				"Codes::render_object('go', Codes::fix_tags('$1'))",				// [[<name>]]
-				"Codes::render_object('article.description', Codes::fix_tags('$1'))",// [article.description=<id>]
-				"Codes::render_object('article', Codes::fix_tags('$1'))",			// [article=<id>]
-				"Codes::render_object('next', Codes::fix_tags('$1'))",				// [next=<id>]
-				"Codes::render_object('previous', Codes::fix_tags('$1'))",			// [previous=<id>]
-				"Codes::render_random()",											// [random]
-				"Codes::render_random('$1', 'description')",						// [random.description=section:<id>]
-				"Codes::render_random('$1')",										// [random=section:<id>]
-				"Codes::render_object('form', Codes::fix_tags('$1'))",				// [form=<id>]
-				"Codes::render_object('section', Codes::fix_tags('$1'))",			// [section=<id>]
-				"Codes::render_object('category.description', '$1')", 				// [category.description=<id>]
-				"Codes::render_object('category', Codes::fix_tags('$1'))",	 		// [category=<id>]
-				"Codes::render_object('user', Codes::fix_tags('$1'))",				// [user=<id>]
+
+	
 				"Codes::render_object('server', Codes::fix_tags('$1'))",			// [server=<id>]
 				"Codes::render_object('file', Codes::fix_tags('$1'))",				// [file=<id>] or [file=<id>, title]
 				"Codes::render_object('download', Codes::fix_tags('$1'))",			// [download=<id>] or [download=<id>, title]
@@ -1367,12 +1216,12 @@ Class Codes {
                     $text = preg_replace_callback($pattern, function($matches) use ($pattern, $action) {
                     
                         // returned text
-                        $text = '';
+                        $replace = '';
                         
                         // function to call
                         $func = '';
                         // array of captured element
-                        $capture    = array_shift($matches);
+                        $capture    = array_slice($matches, 1);
                         
                         // test if map is a callable function
                         if(is_callable($action)) { 
@@ -1384,16 +1233,16 @@ Class Codes {
 
                         if($func) {
                             if( count($capture)) {
-                                $text  .= call_user_func_array($func, $capture);
+                                $replace  .= call_user_func_array($func, $capture);
                             } else {
-                                $text  .= $func($matches[0]);
+                                $replace  .= call_user_func($func);
                             }
                         } else {
                             // regular preg_replace
-                            $text   .= preg_replace($pattern, $action, $matches[0]);
+                            $replace   .= preg_replace($pattern, $action, $matches[0]);
                         }
                         
-                        return $text;
+                        return $replace;
                     
                     }
                     , $text);
@@ -1418,7 +1267,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	public static function &render_categories($anchor='', $layout='compact') {
+	public static function render_categories($anchor='', $layout='compact') {
 		global $context;
 
 		// we return some text;
@@ -2028,7 +1877,9 @@ Class Codes {
 	 * @param string the text
 	 * @return string the rendered text
 	**/
-	public static function &render_escaped($text) {
+	public static function render_escaped($text) {
+            
+                $text = Codes::fix_tags($text);
 
 		// replace strings --initialize only once
 		static $from, $to;
@@ -2072,7 +1923,7 @@ Class Codes {
 	 * @param mixed default value, if any
 	 * @return text generated during the inclusion
 	 */
-	public static function &render_execute($name) {
+	public static function render_execute($name) {
 		global $context;
 
 		// check path to the file
@@ -2194,7 +2045,9 @@ Class Codes {
 	 * @param either 'anonymous', or 'restricted' or 'hidden'
 	 * @return string the rendered text
 	**/
-	public static function &render_hidden($text, $variant) {
+	public static function render_hidden($text, $variant) {
+            
+                $text = Codes::fix_tags($text);
 
 		// this block should only be visible from non-logged surfers
 		if($variant == 'anonymous') {
@@ -2242,6 +2095,14 @@ Class Codes {
 		return $text;
 
 	}
+        
+        public static function render_lang($lang, $text) {
+            
+            $text = Codes::fix_tags($text);
+            
+            return i18n::filter($text, $lang);
+        }
+             
 
 	/**
 	 * render a list
@@ -2315,7 +2176,7 @@ Class Codes {
 	 * @param string the id, with possible options or variant
 	 * @return string the rendered text
 	**/
-	public static function &render_location($id) {
+	public static function render_location($id) {
 		global $context;
 
 		// the required library
@@ -2370,7 +2231,7 @@ Class Codes {
 	 * @param string 'all' or 'users'
 	 * @return string the rendered text
 	**/
-	public static function &render_locations($id='all') {
+	public static function render_locations($id='all') {
 		global $context;
 
 		// the required library
@@ -2413,7 +2274,7 @@ Class Codes {
 	 * @param string the variant - default is 'flash'
 	 * @return string the rendered text
 	**/
-	public static function &render_news($variant) {
+	public static function render_news($variant) {
 		global $context;
 
 		switch($variant) {
@@ -2457,7 +2318,7 @@ Class Codes {
 	 * @param string address of the newsfeed to get
 	 * @return string the rendered text
 	**/
-	public static function &render_newsfeed($url, $variant='ajax') {
+	public static function render_newsfeed($url, $variant='ajax') {
 		global $context;
 
 		// we allow multiple calls
@@ -2512,8 +2373,10 @@ Class Codes {
 	 * @param string the id, with possible options or variant
 	 * @return string the rendered text
 	**/
-	public static function &render_object($type, $id) {
+	public static function render_object($type, $id) {
 		global $context;
+                
+                $id = Codes::fix_tags($id);
 
 		// depending on type
 		switch($type) {
@@ -3243,7 +3106,7 @@ Class Codes {
 	 * @param mixed default value, if any
 	 * @return the actual value of this parameter, else the default value, else ''
 	 */
-	public static function &render_parameter($name, $default='') {
+	public static function render_parameter($name, $default='') {
 		global $context;
 
 		if(!strncmp($name, 'page_', 5) && isset($context[$name])) {
@@ -3266,7 +3129,9 @@ Class Codes {
 	 * @param string the text
 	 * @return string the rendered text
 	**/
-	public static function &render_pre($text, $variant='snippet') {
+	public static function render_pre($text, $variant='snippet') {
+            
+                $text = Codes::fix_tags($text);
 
 		// change new lines
 		$text = trim(str_replace("\r", '', str_replace(array("<br>\n", "<br/>\n", "<br />\n", '<br>', '<br/>', '<br />'), "\n", $text)));
@@ -3317,6 +3182,10 @@ Class Codes {
 		return $output;
 
 	}
+        
+        public static function render_pre_php($text) {
+            return Codes::render_pre($text,'php');
+        }
 
 	/**
 	 * render a compact list of recent publications
@@ -3332,7 +3201,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	public static function &render_published($anchor='', $layout='compact') {
+	public static function render_published($anchor='', $layout='compact') {
 		global $context;
 
 		// we return some text;
@@ -3441,7 +3310,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	public static function &render_random($anchor='', $layout='') {
+	public static function render_random($anchor='', $layout='') {
 		global $context;
 
 		// we return some text;
@@ -3584,7 +3453,7 @@ Class Codes {
 	 * @param string target link
 	 * @return text generated during the inclusion
 	 */
-	public static function &render_redirect($link) {
+	public static function render_redirect($link) {
 		global $context;
 
 		// turn external links to clickable things

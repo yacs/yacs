@@ -232,6 +232,8 @@ Class Skin_Skeleton {
 	**/
 	public static function &build_block($text, $variant='', $id='', $options=NULL) {
 		global $context;
+                
+                $text = Codes::fix_tags($text);
 
 		// turn list to a string
 		if(is_array($text)) {
@@ -434,6 +436,8 @@ Class Skin_Skeleton {
 	 */
 	public static function &build_box($title, $content, $variant='header1', $id='', $url='', $popup='') {
 		global $context;
+                
+                $content = Codes::fix_tags($content);
 
 		// accept line breaks in box titles
 		$title = str_replace("\n", BR, $title);
