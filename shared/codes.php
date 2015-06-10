@@ -588,10 +588,10 @@ Class Codes {
 	 * @param string raw introduction
 	 * @return string finalized title
 	 */
-	public static function &beautify_introduction($text) {
+	public static function beautify_introduction($text) {
 
 		// render codes
-		$output =& Codes::render($text);
+		$output = Codes::render($text);
 
 		// render smileys after codes, else it will break escaped strings
 		if(is_callable(array('Smileys', 'render_smileys')))
@@ -965,8 +965,38 @@ Class Codes {
                         $patterns_map['/\[(section)=([^\]]+?)\]/i']                                 = 'Codes::render_object'    ;  // [section=<id>] or [section=<id>, title]
                         $patterns_map['/\[(category(?:\.description)?)=([^\]]+?)\]\n*/is']          = 'Codes::render_object'    ;  // [category=<id>], [category=<id>, title] or [category.description=<id>]
                         $patterns_map['/\[(user)=([^\]]+?)\]/i']                                    = 'Codes::render_object'    ;  // [user=<id>]
+                        $patterns_map['/\[(users)=([^\]]+?)\]/i']                                   = 'Codes::render_users'     ;  // [users=present]
+                        $patterns_map['/\[(file|download)=([^\]]+?)\]/i']                           = 'Codes::render_object'    ;  // [file=<id>] or [file=<id>, title] or download=<id>] or [download=<id>, title]
+                        $patterns_map['/\[(comment)=([^\]]+?)\]/i']                                 = 'Codes::render_object'    ;  // [comment=<id>] or [comment=<id>, title]
+                        $patterns_map['/\[(link)(?:=([^\]]+?))?\](.*?)\[\/link\]/is']               = 'Codes::render_link'      ;  // [link]url[/link] or [link=label]url[/link]
+                        $patterns_map['/\[(button)=([^\]]+?)\](.*?)\[\/button\]/is']                = 'Codes::render_link'      ;  // [button=label]url[/button]
+                        $patterns_map['/\[(button)=([^\|]+?)\|([^\]]+?)]/is']                       = 'Codes::render_link'      ;  // [button=label|url]
+                        $patterns_map['/\[(click)=([^\|]+?)\|([^\]]+?)]/is']                        = 'Codes::render_link'      ;  // [click=label|url]
+                        $patterns_map['/(\[)([^ ][^\]\|]+?[^ ])\|([^ ][^\]]+?[^ ])\]/is']           = 'Codes::render_link'      ;  // [label|url]
+                        $patterns_map['/\[clicks=([^\]]+?)]/is']                                    = 'Codes::render_clicks'    ;  // [clicks=url]  // @TODO: put in extension
+                        $patterns_map['/\[email\](.*?)\[\/email\]/is']                              = 'Codes::render_email'     ;  // [email]url[/email]
+                        $patterns_map['/\[published(?:\.([^\]=]+?))?(?:=([^\]]+?))?\]\n*/is']       = 'Codes::render_published' ;  // [published(.decorated)], [published=section:4029], [published.decorated=section:4029,x]
+                        $patterns_map['/\[updated(?:\.([^\]=]+?))?(?:=([^\]]+?))?\]\n*/is']         = 'Codes::render_updated'   ;  // [updated(.decorated)], [updated(.decorated)=section:4029,x]
+                        $patterns_map['/\[sections(?:\.([^\]=]+?))?(?:=([^\]]+?))?\]\n*/is']        = 'Codes::render_sections'  ;  // [sections(.decorated)] (site map), [sections(.decorated)=section:4029] (sub-sections), [sections.simple=self] (assigned)
+                        $patterns_map['/\[categories(?:\.([^\]=]+?))?(?:=([^\]]+?))?\]\n*/is']      = 'Codes::render_categories';  // [categories(.decorated)] (category tree), [categories(.decorated)=categories:4029] (sub-categories)
+                        $patterns_map['/\[wikipedia=([^\]]+?)\]/is']                                = 'Codes::render_wikipedia' ;  // [wikipedia=keyword] or [wikipedia=keyword, title]
+                        $patterns_map['/\[be\]/i']                                                  = ' <img src="'.$context['url_to_root'].'skins/_reference/flags/be.gif" alt="belgian flag" /> ' ;   // [be] belgian flag
+                        $patterns_map['/\[ca\]/i']                                                  = ' <img src="'.$context['url_to_root'].'skins/_reference/flags/ca.gif" alt="canadian flag" /> ' ;  // [ca] canadian flag
+                        $patterns_map['/\[ch\]/i']                                                  = ' <img src="'.$context['url_to_root'].'skins/_reference/flags/ch.gif" alt="swiss flag" /> ' ;     // [ch] swiss flag
+                        $patterns_map['/\[de\]/i']                                                  = ' <img src="'.$context['url_to_root'].'skins/_reference/flags/de.gif" alt="german flag" /> ' ;    // [de] german flag
+                        $patterns_map['/\[en\]/i']                                                  = ' <img src="'.$context['url_to_root'].'skins/_reference/flags/gb.gif" alt="english flag" /> ' ;   // [en] english flag
+                        $patterns_map['/\[es\]/i']                                                  = ' <img src="'.$context['url_to_root'].'skins/_reference/flags/es.gif" alt="spanish flag" /> ' ;   // [es] spanish flag
+                        $patterns_map['/\[fr\]/i']                                                  = ' <img src="'.$context['url_to_root'].'skins/_reference/flags/fr.gif" alt="french flag" /> '  ;   // [fr] french flag
+                        $patterns_map['/\[gr\]/i']                                                  = ' <img src="'.$context['url_to_root'].'skins/_reference/flags/gr.gif" alt="greek flag" /> '   ;   // [gr] greek flag
+                        $patterns_map['/\[it\]/i']                                                  = ' <img src="'.$context['url_to_root'].'skins/_reference/flags/it.gif" alt="italian flag" /> ';    // [it] italian flag
+                        $patterns_map['/\[pt\]/i']                                                  = ' <img src="'.$context['url_to_root'].'skins/_reference/flags/pt.gif" alt="portugal flag" /> ';   // [pt] portugal flag
+                        $patterns_map['/\[us\]/i']                                                  = ' <img src="'.$context['url_to_root'].'skins/_reference/flags/us.gif" alt="us flag" /> ';         // [us] us flag
+                        $patterns_map['/\[clear\]\n*/i']                                            = ' <br style="clear: both;" /> ';  // [clear]
+                        $patterns_map['/\[nl\]\n*/i']                                               = BR;  // [nl] new line
                         
-			// load formatting codes from files
+                        
+                        
+                        // load formatting codes from files
 			/*$dir = $context['path_to_root'].'codes/';
 			if ($handle = Safe::opendir($dir)) {
 
@@ -994,212 +1024,6 @@ Class Codes {
 			
 		} // end setting $patterns*/
 
-			$old=	array(
-
-				
-				'/\[server=([^\]]+?)\]/ie', 				// [server=<id>]
-				'/\[file=([^\]]+?)\]/ie',					// [file=<id>] or [file=<id>, title]
-				'/\[download=([^\]]+?)\]/ie',				// [download=<id>] or [download=<id>, title]
-				'/\[comment=([^\]]+?)\]/ie',				// [comment=<id>] or [comment=<id>, title]
-				'/\[url=([^\]]+?)\](.*?)\[\/url\]/ise', 	// [url=url]label[/url] (deprecated by [link])
-				'/\[url\](.*?)\[\/url\]/ise',				// [url]url[/url] (deprecated by [link])
-				'/\[link=([^\]]+?)\](.*?)\[\/link\]/ise',	// [link=label]url[/link]
-				'/\[link\](.*?)\[\/link\]/ise', 			// [link]url[/link]
-				'/\[proxy\](.*?)\[\/proxy\]/ise', 			// [proxy]url[/proxy]
-				'/\[button=([^\]]+?)\](.*?)\[\/button\]/ise',	// [button=label]url[/button]
-				'/\[button=([^\|]+?)\|([^\]]+?)]/ise',		// [button=label|url]
-				'/\[click=([^\|]+?)\|([^\]]+?)]/ise',		// [click=label|url]
-				'/\[clicks=([^\]]+?)]/ise',					// [clicks=url]
-				'/\[script\](.*?)\[\/script\]/ise', 		// [script]url[/script]
-				'/\[menu\](.*?)\[\/menu\]\n*/ise',			// [menu]url[/menu]
-				'/\[menu=([^\]]+?)\](.*?)\[\/menu\]\n{0,1}/ise',	// [menu=label]url[/menu]
-				'/\[submenu\](.*?)\[\/submenu\]\n{0,1}/ise',	// [submenu]url[/submenu]
-				'/\[submenu=([^\]]+?)\](.*?)\[\/submenu\]\n*/ise', // [submenu=label]url[/submenu]
-				'/\[email=([^\]]+?)\](.*?)\[\/email\]/ise', // [email=label]url[/email]
-				'/\[email\](.*?)\[\/email\]/ise',			// [email]url[/email]
-				'/\[([^ ][^\]\|]+?[^ ])\|([^ ][^\]]+?[^ ])\]/ise',			// [label|url]
-				'/\[question\](.*?)\[\/question\]\n*/ise',	// [question]...[/question]
-				'/\[question\]/ise',						// [question]
-				'/\[answer\]/ise',							// [answer]
-				'/\[newsfeed=([^\]]+?)\]/ise',				// [newsfeed=url]
-				'/\[newsfeed\.([^=\]]+?)=([^\]]+?)\]/ise',	// [newsfeed.variant=url]
-				'/\[twitter=([^\]]+?)\]/ise',				// [twitter=id]
-				'/\[tsearch=([^\]]+?)\]/ise',				// [tsearch=id]
-				'/\[retweet\]/ise',							// [retweet]
-				'/\[iframe\](.*?)\[\/iframe\]/ise',			// [iframe]<url>[/iframe]
-				'/\[iframe=([^\]]+?)\](.*?)\[\/iframe\]/ise',	// [iframe=<width>, <height>]<url>[/iframe]
-				'/\[scroller\](.*?)\[\/scroller\]/ise', 	// [scroller]...[/scroller]
-				'/\[toq\]\n*/ise',							// [toq] (table of questions)
-				'/\[title\](.*?)\[\/title\]\n*/is', 		// [title]...[/title]
-				'/\[subtitle\](.*?)\[\/subtitle\]\n*/is',	// [subtitle]...[/subtitle]
-				'#\[(header[1-5])\](.*?)\[/\1\]\n*#ise',	// [header1]...[/header1] ... [header5]...[/header5]
-				'/^======(\S.*?\S)======/me',				// ======...====== level 5 headline
-				'/<(br \/|p)>======(\S.*?\S)======<(br \/|\/p)>/me',		// ======...====== level 5 headline
-				'/^=====(\S.*?\S)=====/me',					// =====...===== level 4 headline
-				'/<(br \/|p)>=====(\S.*?\S)=====<(br \/|\/p)>/me',			// =====...===== level 4 headline
-				'/^====(\S.*?\S)====/me',					// ====...==== level 3 headline
-				'/<(br \/|p)>====(\S.*?\S)====<(br \/|\/p)>/me',			// ====...==== level 3 headline
-				'/^===(\S.*?\S)===/me',						// ===...=== level 2 headline
-				'/<(br \/|p)>===(\S.*?\S)===<(br \/|\/p)>/me',				// ===...=== level 2 headline
-				'/^==(\S.*?\S)==/me',						// ==...== level 1 headline
-				'/<(br \/|p)>==(\S.*?\S)==<(br \/|\/p)>/me',				// ==...== level 1 headline
-				'/\[toc\]\n*/ise',							// [toc] (table of content)
-				'/\[published\.([^\]=]+?)=([^\]]+?)\]\n*/ise',	// [published.decorated=section:4029]
-				'/\[published\.([^\]]+?)\]\n*/ise',			// [published.decorated]
-				'/\[published=([^\]]+?)\]\n*/ise',			// [published=section:4029]
-				'/\[published\]\n*/ise',					// [published]
-				'/\[read\.([^\]=]+?)=([^\]]+?)\]\n*/ise',	// [read.decorated=section:4029]
-				'/\[read\.([^\]]+?)\]\n*/ise',				// [read.decorated]
-				'/\[read=([^\]]+?)\]\n*/ise',				// [read=section:4029]
-				'/\[read\]\n*/ise', 						// [read]
-				'/\[updated\.([^\]=]+?)=([^\]]+?)\]\n*/ise', // [updated.simple=section:4029] (a list of recent updates)
-				'/\[updated\.([^\]]+?)\]\n*/ise', 			// [updated.simple] (a list of recent updates)
-				'/\[updated=([^\]]+?)\]\n*/ise', 			// [updated=section:4029] (a compact list of recent updates)
-				'/\[updated\]\n*/ise',						// [updated] (a compact list of recent updates)
-				'/\[voted\.([^\]=]+?)=([^\]]+?)\]\n*/ise',	// [voted.decorated=section:4029]
-				'/\[voted\.([^\]]+?)\]\n*/ise',				// [voted.decorated]
-				'/\[voted=([^\]]+?)\]\n*/ise',				// [voted=section:4029]
-				'/\[voted\]\n*/ise', 						// [voted]
-				'/\[sections\]\n*/ise',						// [sections] (site map)
-				'/\[sections\.([^\]=]+?)\]\n*/ise',			// [sections.folded] (site map)
-				'/\[sections=([^\]]+?)\]\n*/ise',			// [sections=section:4029] (sub-sections)
-				'/\[sections\.([^\]=]+?)=([^\]]+?)\]\n*/ise',	// [sections.simple=self] (assigned)
-				'/\[categories\]\n*/ise',					// [categories] (category tree)
-				'/\[categories\.([^\]=]+?)\]\n*/ise',		// [categories.folded] (category tree)
-				'/\[categories=([^\]]+?)\]\n*/ise',			// [categories=section:4029] (sub-categories)
-				'/\[categories\.([^\]=]+?)=([^\]]+?)\]\n*/ise',	// [categories.simple=self] (assigned)
-				'/\[calendar\]\n*/ise',					// [calendar]
-				'/\[calendar=([^\]]+?)\]\n*/ise',		// [calendar=section:4029]
-				'/\[users=([^\]]+?)\]/ie',					// [users=present]
-				'/\[news=([^\]]+?)\]/ise',				// [news=flash]
-				'/\[table=([^\]]+?)\]/ise', 			// [table=<id>]
-				'/\[table\.([^=\]]+?)=([^\]]+?)\]/ise', // [table.json=<id>]  [table.timeplot=<id>]
-				'/\[locations=([^\]]+?)\]/ise', 		// [locations=<id>]
-				'/\[location=([^\]]+?)\]/ise',			// [location=<id>]
-				'/\[wikipedia=([^\]]+?)\]/ise', 		// [wikipedia=keyword] or [wikipedia=keyword, title]
-				'/\[digraph\](.*?)\[\/digraph\]/ise',	// [digraph]url[/digraph]
-				'/\[be\]/i',							// [be] belgian flag
-				'/\[ca\]/i',							// [ca] canadian flag
-				'/\[ch\]/i',							// [ch] swiss flag
-				'/\[de\]/i',							// [de] german flag
-				'/\[en\]/i',							// [en] english flag
-				'/\[es\]/i',							// [es] spanish flag
-				'/\[fr\]/i',							// [fr] french flag
-				'/\[gb\]/i',							// [gb] gb flag
-				'/\[gr\]/i',							// [gr] greek flag
-				'/\[it\]/i',							// [it] italian flag
-				'/\[pt\]/i',							// [pt] portuguese flag
-				'/\[us\]/i',							// [pt] us flag
-				'/\[clear\]\n*/i',						// [clear]
-				'/\[nl\]\n*/si',						// [nl] (after tables)
-				'/\[br\]/i' 							// [br] (deprecated by [nl])
-			);
-		}
-
-		// initialize only once
-		static $replace;
-		if(!isset($replace)) {
-			$replace = array(
-
-
-	
-				"Codes::render_object('server', Codes::fix_tags('$1'))",			// [server=<id>]
-				"Codes::render_object('file', Codes::fix_tags('$1'))",				// [file=<id>] or [file=<id>, title]
-				"Codes::render_object('download', Codes::fix_tags('$1'))",			// [download=<id>] or [download=<id>, title]
-				"Codes::render_object('comment', Codes::fix_tags('$1'))",			// [comment=<id>] or [comment=<id>, title]
-				"Skin::build_link(encode_link('$1'), Codes::fix_tags('$2'))",		// [url=url]label[/link] (deprecated by [link])
-				"Skin::build_link(encode_link('$1'), NULL)",						// [url]url[/url] (deprecated by [link])
-				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'))",		// [link=label]url[/link]
-				"Skin::build_link(encode_link('$1'), NULL)",						// [link]url[/link]
-				"proxy(encode_link('$1'))",											// [proxy]url[/proxy]
-				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'button')",	// [button=label]url[/button]
-				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'button')",	// [button=label|url]
-				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'click')",	// [click=label|url]
-				"Codes::render_clicks('$1')",										// [clicks=url]
-				"Skin::build_link(encode_link('$1'), '$1', 'script')",				// [script]url[/script]
-				"Skin::build_link(encode_link('$1'), '$1', 'menu_1')",				// [menu]url[/menu]
-				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'menu_1')",	// [menu=label]url[/menu]
-				"Skin::build_link(encode_link('$1'), '$1', 'menu_2')",				// [submenu]url[/submenu]
-				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'menu_2')",	// [submenu=label]url[/submenu]
-				"Codes::render_email(encode_link('$2'), Codes::fix_tags('$1'))",	// [email=label]url[/email]
-				"Codes::render_email(encode_link('$1'), '$1')",						// [email]url[/email]
-				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'))",		// [label|url]
-				"Codes::render_title(Codes::fix_tags('$1'), 'question')", 			// [question]...[/question]
-				"QUESTION_FLAG",													// [question]
-				"ANSWER_FLAG",														// [answer]
-				"Codes::render_newsfeed('$1', 'ajax')",								// [newsfeed=url]
-				"Codes::render_newsfeed('$2', '$1')",								// [newsfeed=url]
-				"Codes::render_twitter('$1')",										// [twitter=id]
-				"Codes::render_twitter_search('$1')",								// [tsearch=id]
-				"Codes::render_retweet()",											// [retweet]
-				"Codes::render_iframe(Codes::fix_tags('$1'), '500, 320')",			// [iframe]<url>[/iframe]
-				"Codes::render_iframe(Codes::fix_tags('$2'), '$1')",				// [iframe=<width>, <height>]<url>[/iframe]
-				"Codes::render_animated(Codes::fix_tags('$1'), 'scroller')",		// [scroller]...[/scroller]
-				"Codes::render_table_of('questions')",								// [toq]
-				'[header1]$1[/header1]',											// [title]...[/title]
-				'[header2]$1[/header2]',											// [subtitle]...[/subtitle]
-				"Codes::render_title(Codes::fix_tags('$2'), '$1')",					// [header1]...[/header1] ... [header5]...[/header5]
-				"Codes::render_title(Codes::fix_tags('$1'), 'header5')",			// ======...====== level 5 header
-				"Codes::render_title(Codes::fix_tags('$2'), 'header5')",			// ======...====== level 5 header
-				"Codes::render_title(Codes::fix_tags('$1'), 'header4')",			// =====...===== level 4 header
-				"Codes::render_title(Codes::fix_tags('$2'), 'header4')",			// =====...===== level 4 header
-				"Codes::render_title(Codes::fix_tags('$1'), 'header3')",			// ====...==== level 3 header
-				"Codes::render_title(Codes::fix_tags('$2'), 'header3')",			// ====...==== level 3 header
-				"Codes::render_title(Codes::fix_tags('$1'), 'header2')",			// ===...=== level 2 header
-				"Codes::render_title(Codes::fix_tags('$2'), 'header2')",			// ===...=== level 2 header
-				"Codes::render_title(Codes::fix_tags('$1'), 'header1')",			// ==...== level 1 header
-				"Codes::render_title(Codes::fix_tags('$2'), 'header1')",			// ==...== level 1 header
-				"Codes::render_table_of('content')",								// [toc]
-				"Codes::render_published('$2', '$1')",								// [published.decorated=section:4029]
-				"Codes::render_published('', '$1')",								// [published.decorated]
-				"Codes::render_published('$1', 'simple')",							// [published=section:4029]
-				"Codes::render_published('', 'simple')",							// [published]
-				"Codes::render_read('$2', '$1')",									// [read.decorated=section:4029]
-				"Codes::render_read('', '$1')",										// [read.decorated]
-				"Codes::render_read('$1', 'hits')",									// [read=section:4029]
-				"Codes::render_read('', 'hits')",									// [read]
-				"Codes::render_updated('$2', '$1')",								// [updated.simple=section:4029]
-				"Codes::render_updated('', '$1')",									// [updated.simple]
-				"Codes::render_updated('$1', 'simple')",							// [updated=section:4029]
-				"Codes::render_updated('', 'simple')",								// [updated]
-				"Codes::render_voted('$2', '$1')",									// [voted.decorated=section:4029]
-				"Codes::render_voted('', '$1')",									// [voted.decorated]
-				"Codes::render_voted('$1', 'simple')",								// [voted=section:4029]
-				"Codes::render_voted('', 'simple')",								// [voted]
-				"Codes::render_sections()", 										// [sections] (site map)
-				"Codes::render_sections('', '$1')",									// [sections.folded] (site map)
-				"Codes::render_sections('$1')", 									// [sections=section:4029] (sub-sections)
-				"Codes::render_sections('$2', '$1')",								// [sections.simple=self] (assigned)
-				"Codes::render_categories()", 										// [categories] (category tree)
-				"Codes::render_categories('', '$1')",								// [categories.folded] (category tree)
-				"Codes::render_categories('$1')", 									// [categories=category:4029] (sub-categories)
-				"Codes::render_categories('$2', '$1')",								// [categories.simple=self] (assigned)
-				"Codes::render_calendar()", 										// [calendar]
-				"Codes::render_calendar('$1')", 									// [calendar=section:4029]
-				"Codes::render_users('$1')", 										// [users=present]
-				"Codes::render_news('$1')", 										// [news=flash]
-				"Codes::render_dynamic_table('$1')",								// [table=<id>]
-				"Codes::render_dynamic_table('$2', '$1')",							// [table.json=<id>] [table.timeplot=<id>]
-				"Codes::render_locations('$1')",									// [locations=<id>]
-				"Codes::render_location('$1')",										// [location=<id>]
-				"Codes::render_wikipedia(Codes::fix_tags('$1'))",					// [wikipedia=keyword] or [wikipedia=keyword, title]
-				"Codes::render_graphviz('$1', 'digraph')",							// [digraph]...[/digraph]
-				' <img src="'.$context['url_to_root'].'skins/_reference/flags/be.gif" alt="" /> ', // [be] belgian flag
-				' <img src="'.$context['url_to_root'].'skins/_reference/flags/ca.gif" alt="" /> ', // [ca] canadian flag
-				' <img src="'.$context['url_to_root'].'skins/_reference/flags/ch.gif" alt="" /> ', // [ch] swiss flag
-				' <img src="'.$context['url_to_root'].'skins/_reference/flags/de.gif" alt="" /> ', // [de] german flag
-				' <img src="'.$context['url_to_root'].'skins/_reference/flags/gb.gif" alt="" /> ', // [en] english flag
-				' <img src="'.$context['url_to_root'].'skins/_reference/flags/es.gif" alt="" /> ', // [es] spanish flag
-				' <img src="'.$context['url_to_root'].'skins/_reference/flags/fr.gif" alt="" /> ', // [fr] french flag
-				' <img src="'.$context['url_to_root'].'skins/_reference/flags/gb.gif" alt="" /> ', // [gb] english flag
-				' <img src="'.$context['url_to_root'].'skins/_reference/flags/gr.gif" alt="" /> ', // [gr] greek flag
-				' <img src="'.$context['url_to_root'].'skins/_reference/flags/it.gif" alt="" /> ', // [it] italian flag
-				' <img src="'.$context['url_to_root'].'skins/_reference/flags/pt.gif" alt="" /> ', // [pt] portuguese flag
-				' <img src="'.$context['url_to_root'].'skins/_reference/flags/us.gif" alt="" /> ', // [us] us flag
-				' <br style="clear: both;" /> ',									// [clear]
-				BR, 																// [nl]
-				BR																	// [br] (deprecated by [nl])
-			);
 		}
 
 		// include code extensions
@@ -1267,7 +1091,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	public static function render_categories($anchor='', $layout='compact') {
+	public static function render_categories($layout='compact', $anchor='') {
 		global $context;
 
 		// we return some text;
@@ -1294,19 +1118,19 @@ Class Codes {
 
 		// scope is limited to one category
 		if(strpos($anchor, 'category:') === 0)
-			$text =& Categories::list_by_title_for_anchor($anchor, 0, $count, $layout);
+			$text = Categories::list_by_title_for_anchor($anchor, 0, $count, $layout);
 
 		// scope is limited to one author
 		elseif(strpos($anchor, 'user:') === 0)
-			$text =& Members::list_categories_by_title_for_member($anchor, 0, $count, $layout);
+			$text = Members::list_categories_by_title_for_member($anchor, 0, $count, $layout);
 
 		// consider all pages
 		if(!$text)
-			$text =& Categories::list_by_title_for_anchor(NULL, 0, $count, $layout);
+			$text = Categories::list_by_title_for_anchor(NULL, 0, $count, $layout);
 
 		// we have an array to format
 		if(is_array($text))
-			$text =& Skin::build_list($text, $layout);
+			$text = Skin::build_list($text, $layout);
 
 		// job done
 		return $text;
@@ -1541,7 +1365,11 @@ Class Codes {
 	 * @param string the label
 	 * @return string the rendered text
 	**/
-	public static function &render_email($address, $text=null) {
+	public static function render_email($address, $text=null) {
+            
+                // be sure to have a address
+                if(!$address && $text) 
+                    $address = encode_link($text);
 
 		// be sure to display something
 		if(!$text)
@@ -2102,6 +1930,28 @@ Class Codes {
             
             return i18n::filter($text, $lang);
         }
+        
+        public static function render_link($type,$label,$url) {
+            
+            $url = encode_link($url);
+            $label = Codes::fix_tags($label);
+            
+            if($type === 'link') {
+                return Skin::build_link($url, $label);
+            } else {
+                return Skin::build_link($url, $label, $type);
+            }
+            
+            switch ($type) {
+                case 'link':
+                case '[':
+                    return Skin::build_link($url, $label);
+                    break;
+                default:
+                    return Skin::build_link($url, $label, $type);
+            }
+
+        }
              
 
 	/**
@@ -2111,7 +1961,7 @@ Class Codes {
 	 * @param string the variant, if any
 	 * @return string the rendered text
 	**/
-	public static function &render_list($content, $variant='') {
+	public static function render_list($content, $variant='') {
 		global $context;
 
 		if(!$content = trim($content)) {
@@ -3201,7 +3051,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	public static function render_published($anchor='', $layout='compact') {
+	public static function render_published($layout='simple', $anchor='') {
 		global $context;
 
 		// we return some text;
@@ -3233,7 +3083,7 @@ Class Codes {
 			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
-			$text =& Articles::list_for_anchor_by('publication', $anchors, 0, $count, $layout);
+			$text = Articles::list_for_anchor_by('publication', $anchors, 0, $count, $layout);
 
 		// scope is limited to one category
 		} elseif(strpos($anchor, 'category:') === 0) {
@@ -3242,7 +3092,7 @@ Class Codes {
 			$anchors = array();
 
 			// get sections linked to this category
-			if($topics =& Members::list_sections_by_title_for_anchor($anchor, 0, 50, 'raw')) {
+			if($topics = Members::list_sections_by_title_for_anchor($anchor, 0, 50, 'raw')) {
 				foreach($topics as $id => $not_used)
 					$anchors = array_merge($anchors, array('section:'.$id));
 			}
@@ -3278,19 +3128,19 @@ Class Codes {
 			$anchors = array_unique($anchors);
 
 			// query the database and layout that stuff
-			$text =& Members::list_articles_by_date_for_anchor($anchors, 0, $count, $layout);
+			$text = Members::list_articles_by_date_for_anchor($anchors, 0, $count, $layout);
 
 		// scope is limited to one author
 		} elseif(strpos($anchor, 'user:') === 0)
-			$text =& Articles::list_for_author_by('publication', str_replace('user:', '', $anchor), 0, $count, $layout);
+			$text = Articles::list_for_author_by('publication', str_replace('user:', '', $anchor), 0, $count, $layout);
 
 		// consider all pages
 		else
-			$text =& Articles::list_by('publication', 0, $count, $layout);
+			$text = Articles::list_by('publication', 0, $count, $layout);
 
 		// we have an array to format
 		if(is_array($text))
-			$text =& Skin::build_list($text, $layout);
+			$text = Skin::build_list($text, $layout);
 
 		// job done
 		return $text;
@@ -3395,7 +3245,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	public static function &render_read($anchor='', $layout='hits') {
+	public static function render_read($layout='hits', $anchor='') {
 		global $context;
 
 		// we return some text;
@@ -3427,19 +3277,19 @@ Class Codes {
 			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
-			$text =& Articles::list_for_anchor_by('hits', $anchors, 0, $count, $layout);
+			$text = Articles::list_for_anchor_by('hits', $anchors, 0, $count, $layout);
 
 		// scope is limited to pages of one surfer
 		} elseif(strpos($anchor, 'user:') === 0)
-			$text =& Articles::list_for_user_by('hits', substr($anchor, 5), 0, $count, $layout);
+			$text = Articles::list_for_user_by('hits', substr($anchor, 5), 0, $count, $layout);
 
 		// consider all pages
 		if(!$text)
-			$text =& Articles::list_by('hits', 0, $count, $layout);
+			$text = Articles::list_by('hits', 0, $count, $layout);
 
 		// we have an array to format
 		if(is_array($text))
-			$text =& Skin::build_list($text, $layout);
+			$text = Skin::build_list($text, $layout);
 
 		// job done
 		return $text;
@@ -3538,7 +3388,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	public static function &render_sections($anchor='', $layout='simple') {
+	public static function render_sections($layout='simple', $anchor='') {
 		global $context;
 
 		// we return some text;
@@ -3565,19 +3415,19 @@ Class Codes {
 
 		// scope is limited to one section
 		if(strpos($anchor, 'section:') === 0)
-			$text =& Sections::list_by_title_for_anchor($anchor, 0, $count, $layout);
+			$text = Sections::list_by_title_for_anchor($anchor, 0, $count, $layout);
 
 		// scope is limited to one author
 		elseif(strpos($anchor, 'user:') === 0)
-			$text =& Members::list_sections_by_title_for_anchor($anchor, 0, $count, $layout);
+			$text = Members::list_sections_by_title_for_anchor($anchor, 0, $count, $layout);
 
 		// consider all pages
 		else
-			$text =& Sections::list_by_title_for_anchor(NULL, 0, $count, $layout);
+			$text = Sections::list_by_title_for_anchor(NULL, 0, $count, $layout);
 
 		// we have an array to format
 		if(is_array($text))
-			$text =& Skin::build_list($text, $layout);
+			$text = Skin::build_list($text, $layout);
 
 		// job done
 		return $text;
@@ -3912,7 +3762,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	public static function &render_updated($anchor='', $layout='compact') {
+	public static function render_updated($layout='simple', $anchor='') {
 		global $context;
 
 		// we return some text;
@@ -3944,7 +3794,7 @@ Class Codes {
 			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
-			$text =& Articles::list_for_anchor_by('edition', $anchors, 0, $count, $layout);
+			$text = Articles::list_for_anchor_by('edition', $anchors, 0, $count, $layout);
 
 		// scope is limited to one category
 		} elseif(strpos($anchor, 'category:') === 0) {
@@ -3953,7 +3803,7 @@ Class Codes {
 			$anchors = array();
 
 			// get sections linked to this category
-			if($topics =& Members::list_sections_by_title_for_anchor($anchor, 0, 50, 'raw')) {
+			if($topics = Members::list_sections_by_title_for_anchor($anchor, 0, 50, 'raw')) {
 				foreach($topics as $id => $not_used)
 					$anchors = array_merge($anchors, array('section:'.$id));
 			}
@@ -3989,19 +3839,19 @@ Class Codes {
 			$anchors = array_unique($anchors);
 
 			// query the database and layout that stuff
-			$text =& Members::list_articles_by_date_for_anchor($anchors, 0, $count, $layout);
+			$text = Members::list_articles_by_date_for_anchor($anchors, 0, $count, $layout);
 
 		// scope is limited to pages of one surfer
 		} elseif(strpos($anchor, 'user:') === 0)
-			$text =& Articles::list_for_user_by('edition', substr($anchor, 5), 0, $count, $layout);
+			$text = Articles::list_for_user_by('edition', substr($anchor, 5), 0, $count, $layout);
 
 		// consider all pages
 		else
-			$text =& Articles::list_by('edition', 0, $count, $layout);
+			$text = Articles::list_by('edition', 0, $count, $layout);
 
 		// we have an array to format
 		if(is_array($text))
-			$text =& Skin::build_list($text, $layout);
+			$text = Skin::build_list($text, $layout);
 
 		// job done
 		return $text;
@@ -4108,8 +3958,10 @@ Class Codes {
 	 * @param string the id, with possible options or variant
 	 * @return string the rendered text
 	**/
-	public static function &render_wikipedia($id) {
+	public static function render_wikipedia($id) {
 		global $context;
+                
+                $id = Codes::fix_tags($id);
 
 		// maybe an alternate title has been provided
 		$attributes = preg_split("/\s*,\s*/", $id, 2);
@@ -4132,7 +3984,7 @@ Class Codes {
 		$url = 'http://'.$language.'.wikipedia.org/wiki/Special:Search?search='.preg_replace('[\s]', '_', $id);
 
 		// return a complete anchor
-		$output =& Skin::build_link($url, $text, 'wikipedia');
+		$output = Skin::build_link($url, $text, 'wikipedia');
 		return $output;
 
 	}
