@@ -1033,8 +1033,6 @@ Class Codes {
 		// ensure we have enough time to execute
 		Safe::set_time_limit(30);
 
-		// do it globally
-		//$text = preg_replace($pattern, $replace, $text);
                 foreach($patterns_map as $pattern => $action) {
                     
                     $text = preg_replace_callback($pattern, function($matches) use ($pattern, $action) {
