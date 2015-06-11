@@ -298,7 +298,7 @@ Class Codes {
 	 *
 	 * @see articles/view.php
 	 */
-	public static function &beautify($text, $options='') {
+	public static function beautify($text, $options='') {
 		global $context;
 
 		// save CPU cycles
@@ -337,14 +337,6 @@ Class Codes {
 		} elseif(preg_match('/\bhardcoded\b/i', $options))
 			$new_lines = 'hardcoded';
 
-		// implicit formatting
-		else
-			$text =& Codes::beautify_implied($text, 'text');
-
-		//
-		// translate codes
-		//
-
 		// render codes
 		$text = Codes::render($text);
 
@@ -364,8 +356,11 @@ Class Codes {
 			$text = nl2br($text);
 
 		// implicit formatting
-		elseif($new_lines == 'proceed')
-			$text =& Codes::beautify_implied($text, 'newlines');
+		elseif($new_lines == 'proceed') {
+                        
+                        $text = preg_replace(array("|<br\s*/>\n+|i", "|\n\n+|i"), array( BR, BR.BR ), $text );
+                        
+                }
 
 		return $text;
 	}
@@ -378,208 +373,21 @@ Class Codes {
 	 *
 	 * @see articles/view.php
 	 */
-	public static function &beautify_extra($text) {
+	public static function beautify_extra($text) {
 		global $context;
 
-		$search = array();
-		$replace = array();
-
-		// [box.extra=title]...[/box]
-		$search[] = '/\[box\.(extra)=([^\]]+?)\](.*?)\[\/box\]/ise';
-		$replace[] = "Skin::build_box(stripslashes('$2'), stripslashes('$3'), '$1')";
-
-		// [box.navigation=title]...[/box]
-		$search[] = '/\[box\.(navigation)=([^\]]+?)\](.*?)\[\/box\]/ise';
-		$replace[] = "Skin::build_box(stripslashes('$2'), stripslashes('$3'), '$1')";
-
-		// process all codes
-		$text = preg_replace($search, $replace, $text);
+		// process extra and navigation boxes
+                $text = preg_replace_callback('/\[box\.(navigation|extra)=([^\]]+?)\](.*?)\[\/box\]/is', function($matches) {
+                    
+                    return Skin::build_box(stripslashes($matches[2]), stripslashes($matches[3]), $matches[1]);
+                    
+                }, $text);
 
 		// regular rendering
-		$text =& Codes::beautify($text);
+		$text = Codes::beautify($text);
 
 		return $text;
 
-	}
-
-	/**
-	 * render some basic formatting
-	 *
-	 * - suppress multiple newlines
-	 * - render empty lines
-	 * - render simple bulleted lines
-	 * - make URL clickable (http://..., www.foo.bar, foo.bar@foo.com)
-	 *
-	 * Now this function looks for the keyword [escape] in order
-	 * to avoid for formatting pre-formatted areas.
-	 *
-	 * For example, if you type:
-	 * [snippet]
-	 * hello
-	 * world
-	 *
-	 * how are
-	 * you doing?
-	 *
-	 * - my first item
-	 * - my second item
-	 *
-	 * > quoted from
-	 * > a previous message
-	 * [/snippet]
-	 *
-	 * This will be rendered visually in the browser as:
-	 * [snippet]
-	 * hello world
-	 *
-	 * how are you doing?
-	 *
-	 * - my first item
-	 * - my second item
-	 *
-	 * > quoted from
-	 * > a previous message
-	 * [/snippet]
-	 *
-	 * @param string the text to transform
-	 * @param sring either 'text' or 'newlines'
-	 * @return the modified string
-	 */
-	public static function &beautify_implied($text, $variant='text') {
-
-		// streamline newlines, even if this has been done elsewhere
-		$text = str_replace(array("\r\n", "\r"), "\n", $text);
-
-		// only change end of lines
-		if($variant == 'newlines') {
-
-			// formatting patterns
-			$search = array(
-				"|<br\s*/>\n+|i",		/* don't insert additional \n after <br /> */
-				"|\n\n+|i"				/* force an html space between paragraphs */
-				);
-
-			$replace = array(
-				BR,
-				BR.BR
-				);
-
-		// change everything, except new lines
-		} else {
-
-			// formatting patterns
-			$search = array(
-				"|</h1>\n+|i",			/* strip \n after title */
-				"|</h2>\n+|i",
-				"|</h3>\n+|i",
-				"|</h4>\n+|i",
-				'/http[s]*:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+)[a-zA-Z0-9_\-&=]*/i', // YouTube link
-				'/http[s]*:\/\/youtu\.be\/([a-zA-Z0-9_\-]+)/i', // YouTube link too
-				"#([\n\t \(])([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
-				"#([\n\t \(])www\.([a-z0-9\-]+)\.([a-z0-9_\-\.\~]+)((?:/[^,< \r\n\)]*)?)#ie",	/* web server */
-				"/\n[ \t]*(From|To|cc|bcc|Subject|Date):(\s*)/i",	/* common message headers */
-				"|\n[ \t]*-(\s+)|i",		/* - list item > */
-				"|\n[ \t]*>(\s*)|i",		/* quoted by > */
-				"|\n[ \t]*\|(\s*)|i",		/* quoted by | */
-				"#([\n\t ])(mailto:|)([a-z0-9_\-\.\~]+?)@([a-z0-9_\-\.\~]+\.[a-z0-9_\-\.\~]+)([\n\t ]*)#ie" /* mail address*/
-				);
-
-			$replace = array(
-				"</h1>",
-				"</h2>",
-				"</h3>",
-				"</h4>",
-				'<iframe class="youtube-player" type="text/html" width="445" height="364" src="http://www.youtube.com/embed/$1" frameborder="0"></iframe>', // YouTube link
-				'<iframe class="youtube-player" type="text/html" width="445" height="364" src="http://www.youtube.com/embed/$1" frameborder="0"></iframe>', // YouTube link too
-				"'$1'.Skin::build_link('$2://$3', '$2://$3')",
-				"'$1'.Skin::build_link('http://www.$2.$3$4', 'www.$2.$3$4')",
-				BR."$1:$2",
-				BR."-$1",
-				BR.">$1",
-				BR."|$1",
-				"'$1'.Skin::build_link('mailto:$3@$4', '$3@$4', 'email').'$5'"
-				);
-		}
-
-		// preserve escaped areas
-		$text = str_replace(array('[escape]', '[/escape]', '[list]', '[/list]', '[php]', '[/php]', '[snippet]', '[/snippet]'),
-			array('<escape>', '</escape>', '<list>', '</list>', '<php>', '</php>', '<snippet>', '</snippet>'), $text);
-
-		// locate pre-formatted areas
-		$areas = preg_split('#<(code|escape|list|php|snippet|pre)>(.*?)</\1>#is', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
-
-		// format only adequate areas
-		$index = 0;
-		$formatted = '';
-		$inside = FALSE;
-		$target = '';
-		foreach($areas as $area) {
-
-			switch($index%3) {
-			case 0: // area to be formatted
-
-				// do not rewrite tags
-				$items = preg_split('/<(.+?)>/is', $area, -1, PREG_SPLIT_DELIM_CAPTURE);
-				$where = 0;
-				foreach($items as $item) {
-
-					switch($where%2) {
-
-					case 0: // outside a tag
-						if($inside)
-							$target .= $item;
-						else
-							$formatted .= preg_replace($search, $replace, $item);
-						break;
-
-					case 1: // inside a tag
-
-						// inside or outside a link
-						if($inside && !strncmp($item, '/a', 2)) {
-							$formatted .= preg_replace($search, $replace, $target).'<'.$item.'>';
-							$target = '';
-							$inside = FALSE;
-						} elseif($inside)
-							$target .= '<'.$item.'>';
-						elseif(!strncmp($item, 'a ', 2)) {
-							$formatted .= '<'.$item.'>';
-							$inside = TRUE;
-						} else
-							$formatted .= '<'.$item.'>';
-						break;
-
-					}
-					$where++;
-				}
-				break;
-
-			case 1: // area boundary
-				$tag = $area;
-				break;
-
-			case 2: // pre-formatted area - left unmodified
-
-				// inside a link, or regular text
-				if($inside)
-					$target .= '<'.$tag.'>'.$area.'</'.$tag.'>';
-				else
-					$formatted .= '<'.$tag.'>'.$area.'</'.$tag.'>';
-				break;
-
-			}
-			$index++;
-		}
-
-		// post-optimization
-		if($variant == 'text')
-			$formatted = preg_replace('#</ul>\n{0,1}<ul>#', '', $formatted);
-		$formatted = preg_replace('#\n\n+<ul#', "\n<ul", $formatted);
-
-		// restore escaped areas
-		$formatted = str_replace(array('<escape>', '</escape>', '<list>', '</list>', '<php>', '</php>', '<snippet>', '</snippet>'),
-			array('[escape]', '[/escape]', '[list]', '[/list]', '[php]', '[/php]', '[snippet]', '[/snippet]'), $formatted);
-
-		return $formatted;
 	}
 
 	/**
@@ -614,20 +422,13 @@ Class Codes {
             // streamline newlines, even if this has been done elsewhere
             $text = str_replace(array("\r\n", "\r"), "\n", $text);
             
-            // formatting patterns
-            $search = array(
-                    "|<br\s*/>\n+|i",                               // don't insert additional \n after <br /> 
-                    "|\n\n+|i",                                     // force an html space between paragraphs 
-                    '/\[lang=([^\]]+?)\](.*?)\[\/lang\]/ise'        // [lang=xy]...[/lang]
-                    );
-
-            $replace = array(
-                    BR,
-                    BR.BR,
-                    "i18n::filter(Codes::fix_tags('$2'), '$1')"     // [lang=xy]...[/lang]
-                    );
+            $patterns_map = array(
+                "/<br\s*/>\n+/i"                            =>      BR,
+                "/\n\n+/i"                                  =>      BR.BR,
+                "'/\[lang=([^\]]+?)\](.*?)\[\/lang\]/is"    =>      'Codes::render_lang'
+            );
             
-            $formatted = preg_replace($search, $replace, $text);
+            $formatted = Codes::process($text, $patterns_map);
             
             return $formatted;
         }
@@ -893,6 +694,51 @@ Class Codes {
 		// job done
 		return $ids;
 	}
+        
+        private static function process($text, $patterns_map) {
+            
+            // ensure we have enough time to execute
+            Safe::set_time_limit(30);
+
+            foreach($patterns_map as $pattern => $action) {
+
+                $text = preg_replace_callback($pattern, function($matches) use ($pattern, $action) {
+
+                    // returned text
+                    $replace = '';
+
+                    // function to call
+                    $func = '';
+                    // array of captured element
+                    $capture    = array_slice($matches, 1);
+
+                    // test if mapped action is a callable function
+                    if(is_callable($action)) { 
+                        $func   = $action;
+                    // test if map is a class
+                    }elseif(class_exists($action)) { 
+                        $func   = $action.'::render';
+                    }
+
+                    if($func) {
+                        if( count($capture) ) {
+                            $replace  .= call_user_func_array($func, $capture);
+                        } else {
+                            $replace  .= call_user_func($func);
+                        }
+                    } else {
+                        // regular preg_replace
+                        $replace   .= preg_replace($pattern, $action, $matches[0]);
+                    }
+
+                    return $replace;
+
+                }
+                , $text);
+            }
+            
+            return $text;
+        }
 
 	/**
 	 * transform codes to html
@@ -932,6 +778,8 @@ Class Codes {
 
 			// core patterns
 			$patterns_map['|<!-- .* -->|i']                                             = '';                          // remove HTML comments
+                        $patterns_map['|</h(\d)>\n+|i']                                             = '</h$1>'                  ;  // strip \n after title
+                        $patterns_map['/\n[ \t]*(From|To|cc|bcc|Subject|Date):(\s*)/i']             = BR.'$1:$2'                ;  // common message headers
                         $patterns_map['/\[escape\](.*?)\[\/escape\]/is']                            = 'Codes::render_escaped'   ;  // [escape]...[/escape] (before everything)
                         $patterns_map['/\[php\](.*?)\[\/php\]/is']                                  = 'Codes::render_pre_php'   ;  // [php]...[/php]
                         $patterns_map['/\[snippet\](.*?)\[\/snippet\]/is']                          = 'Codes::render_pre'       ;  // [snippet]...[/snippet]
@@ -973,8 +821,13 @@ Class Codes {
                         $patterns_map['/\[(button)=([^\|]+?)\|([^\]]+?)]/is']                       = 'Codes::render_link'      ;  // [button=label|url]
                         $patterns_map['/\[(click)=([^\|]+?)\|([^\]]+?)]/is']                        = 'Codes::render_link'      ;  // [click=label|url]
                         $patterns_map['/(\[)([^ ][^\]\|]+?[^ ])\|([^ ][^\]]+?[^ ])\]/is']           = 'Codes::render_link'      ;  // [label|url]
+                        $patterns_map['#(\s)([a-z]+?://[a-z0-9_\-\.\~\/@&;:=%$\?]+)#']              = 'Codes::render_link'      ;  // make URL clickable
+                        $patterns_map['#(\s)(www\.[a-z0-9\-]+\.[a-z0-9_\-\.\~]+(?:/[^,< \r\n\)]*)?)#i'] = 'Codes::render_link'  ;  // web server url
+                        $patterns_map['/http[s]*:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+)[a-zA-Z0-9_\-&=]*/i'] = '<iframe class="youtube-player" type="text/html" width="445" height="364" src="http://www.youtube.com/embed/$1" frameborder="0"></iframe>'; // YouTube link
+                        $patterns_map['/http[s]*:\/\/youtu\.be\/([a-zA-Z0-9_\-]+)/i']               = '<iframe class="youtube-player" type="text/html" width="445" height="364" src="http://www.youtube.com/embed/$1" frameborder="0"></iframe>'; // YouTube link too
                         $patterns_map['/\[clicks=([^\]]+?)]/is']                                    = 'Codes::render_clicks'    ;  // [clicks=url]  // @TODO: put in extension
                         $patterns_map['/\[email\](.*?)\[\/email\]/is']                              = 'Codes::render_email'     ;  // [email]url[/email]
+                        $patterns_map['/(\s)([a-z0-9_\-\.\~]+?@[a-z0-9_\-\.\~]+\.[a-z0-9_\-\.\~]+)/i']  = 'Codes::render_email' ;  //  mail address
                         $patterns_map['/\[published(?:\.([^\]=]+?))?(?:=([^\]]+?))?\]\n*/is']       = 'Codes::render_published' ;  // [published(.decorated)], [published=section:4029], [published.decorated=section:4029,x]
                         $patterns_map['/\[updated(?:\.([^\]=]+?))?(?:=([^\]]+?))?\]\n*/is']         = 'Codes::render_updated'   ;  // [updated(.decorated)], [updated(.decorated)=section:4029,x]
                         $patterns_map['/\[sections(?:\.([^\]=]+?))?(?:=([^\]]+?))?\]\n*/is']        = 'Codes::render_sections'  ;  // [sections(.decorated)] (site map), [sections(.decorated)=section:4029] (sub-sections), [sections.simple=self] (assigned)
@@ -1030,46 +883,8 @@ Class Codes {
 //		include_once $context['path_to_root'].'scripts/scripts.php';
 //		Scripts::load_scripts_at('codes/extensions');
 
-		// ensure we have enough time to execute
-		Safe::set_time_limit(30);
-
-                foreach($patterns_map as $pattern => $action) {
-                    
-                    $text = preg_replace_callback($pattern, function($matches) use ($pattern, $action) {
-                    
-                        // returned text
-                        $replace = '';
-                        
-                        // function to call
-                        $func = '';
-                        // array of captured element
-                        $capture    = array_slice($matches, 1);
-                        
-                        // test if map is a callable function
-                        if(is_callable($action)) { 
-                            $func   = $action;
-                        // test if map is a class
-                        }elseif(class_exists($action)) { 
-                            $func   = $action.'::render';
-                        }
-
-                        if($func) {
-                            if( count($capture)) {
-                                $replace  .= call_user_func_array($func, $capture);
-                            } else {
-                                $replace  .= call_user_func($func);
-                            }
-                        } else {
-                            // regular preg_replace
-                            $replace   .= preg_replace($pattern, $action, $matches[0]);
-                        }
-                        
-                        return $replace;
-                    
-                    }
-                    , $text);
-                }
-               
+		
+                $text = Codes::process($text, $patterns_map);
 
 		// done
 		return $text;
@@ -1366,7 +1181,7 @@ Class Codes {
 	public static function render_email($address, $text=null) {
             
                 // be sure to have a address
-                if(!$address && $text) 
+                if((!$address && $text) || preg_match('/^\s$/', $address)) 
                     $address = encode_link($text);
 
 		// be sure to display something
@@ -1929,24 +1744,25 @@ Class Codes {
             return i18n::filter($text, $lang);
         }
         
-        public static function render_link($type,$label,$url) {
+        public static function render_link($type,$label,$url='') {
             
-            $url = encode_link($url);
+            $url = ($url)?encode_link($url):encode_link($label);
             $label = Codes::fix_tags($label);
+            $whitespace = '';
             
-            if($type === 'link') {
-                return Skin::build_link($url, $label);
-            } else {
-                return Skin::build_link($url, $label, $type);
+            if(preg_match('/^\s$/', $type)) {
+                $whitespace = $type;
+                $type = 'standalone';
             }
             
             switch ($type) {
                 case 'link':
                 case '[':
-                    return Skin::build_link($url, $label);
+                case 'standalone':
+                    return $whitespace.Skin::build_link($url, $label);
                     break;
                 default:
-                    return Skin::build_link($url, $label, $type);
+                    return $whitespace.Skin::build_link($url, $label, $type);
             }
 
         }
