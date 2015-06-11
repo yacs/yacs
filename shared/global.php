@@ -869,7 +869,7 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 	}
 
 	// the codes library
-	include_once $context['path_to_root'].'shared/codes.php';
+	include_once $context['path_to_root'].'codes/codes.php';
 
 	// the library of smileys
 	include_once $context['path_to_root'].'smileys/smileys.php';
