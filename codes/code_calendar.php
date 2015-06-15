@@ -1,9 +1,4 @@
 <?php
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * [calendar]
  *
@@ -12,16 +7,8 @@
 
 class Code_Calendar extends Code {
     
-    function get_pattern_replace(&$pattern,&$replace) {
-
-        // [calendar]
-        $pattern[] = '/\[calendar\]\n*/ise'; 
-        $replace[] = "Code_Calendar::render()";
-
-        // [calendar=section:4029]
-        $pattern[] = '/\[calendar=([^\]]+?)\]\n*/ise';
-        $replace[] = "Code_Calendar::render('$1')";
-    }
+    // [calendar] or [calendar=section:4029]
+    var $patterns = array('/\[calendar(?:=([^\]]+?))?\]\n*/is');
 
     /**
      * render a calendar
@@ -33,26 +20,22 @@ class Code_Calendar extends Code {
      * @param string the anchor (e.g. 'section:123')
      * @return string the rendered text
     **/
-    function &render($anchor='') {
+    public static function render($anchor=null) {
             global $context;
 
-		// a list of dates
-		include_once $context['path_to_root'].'dates/dates.php';
+            // a list of dates
+            include_once $context['path_to_root'].'dates/dates.php';
 
-		// sanity check
-		$anchor = trim($anchor);
+            // get records
+            if($anchor && strpos($anchor, 'section:') === 0)
+                    $items = Dates::list_for_prefix(NULL, 'compact', trim($anchor));
+            else
+                    $items = Dates::list_for_prefix(NULL, 'compact', NULL);
 
-		// get records
-		if(strpos($anchor, 'section:') === 0)
-			$items =& Dates::list_for_prefix(NULL, 'compact', $anchor);
-		else
-			$items =& Dates::list_for_prefix(NULL, 'compact', NULL);
+            // build calendar for current month
+            $text = Dates::build_months($items, FALSE, TRUE, FALSE, TRUE, gmstrftime('%Y'), gmstrftime('%m'), 'compact calendar');
 
-		// build calendar for current month
-		$text =& Dates::build_months($items, FALSE, TRUE, FALSE, TRUE, gmstrftime('%Y'), gmstrftime('%m'), 'compact calendar');
-
-		// job done
-		return $text;
+            // job done
+            return $text;
     }
 }
-?>

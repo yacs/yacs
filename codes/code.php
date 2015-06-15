@@ -10,7 +10,7 @@
 
 abstract class Code {
     
-    //$pattern[] = 'your regular expressions';
+    //$patterns = 'your regular expressions';
     var $patterns = array();
 
     /** 
@@ -25,19 +25,21 @@ abstract class Code {
         $r = array_fill(0, count($this->patterns), get_class($this));
         $p = array_combine($this->patterns, $r);
         
-        $patterns = array_merge($patterns_map, $p);
+        $patterns_map = array_merge($patterns_map, $p);
     }
 
     /**
      * Perform calculation to give replacement text
      * To be overloaded into derivated class
      *
-     * Create a render function if you need and call it within get_pattern_replace
      *
-     * @param string the argument of formatting code (could be more than one)
+     * @param string (0 to N) corresponding to capturing parenthesis in you regular expression
      * @return string the replacement text
      */
-    abstract function render($matches);
+    public static function render($matches) {
+        
+        ;
+    }
 
     function get_samples($variant) {
         $text = '';
