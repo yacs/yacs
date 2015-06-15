@@ -36,10 +36,7 @@ abstract class Code {
      * @param string (0 to N) corresponding to capturing parenthesis in you regular expression
      * @return string the replacement text
      */
-    public static function render($matches) {
-        
-        ;
-    }
+    abstract function render($matches);
 
     function get_samples($variant) {
         $text = '';

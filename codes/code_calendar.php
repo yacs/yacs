@@ -20,8 +20,10 @@ class Code_Calendar extends Code {
      * @param string the anchor (e.g. 'section:123')
      * @return string the rendered text
     **/
-    public static function render($anchor=null) {
+    public function render($matches) {
             global $context;
+            
+            $anchor = (count($matches))?$matches[0]:'';
 
             // a list of dates
             include_once $context['path_to_root'].'dates/dates.php';

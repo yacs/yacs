@@ -717,7 +717,10 @@ Class Codes {
                         $func   = $action;
                     // test if map is a class
                     }elseif(class_exists($action)) { 
-                        $func   = $action.'::render';
+                        $code = new $action();
+                        $replace = $code->render($capture);
+                        unset($code);
+                        return $replace;
                     }
 
                     if($func) {

@@ -17,7 +17,9 @@ class Code_Location extends Code {
      * @param string the anchor (e.g. 'section:123')
      * @return string the rendered text
     **/
-    public static function render($multiple, $id) {
+    public function render($matches) {
+        
+            list($multiple, $id) = $matches;
 
             if($multiple) {
                 $text = self::render_locations($id);
