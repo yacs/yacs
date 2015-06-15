@@ -442,10 +442,10 @@ Class Codes {
 	 * @param string raw title
 	 * @return string finalized title
 	 */
-	public static function &beautify_title($text) {
+	public static function beautify_title($text) {
 
 		// suppress pairing codes
-		$output =& Codes::strip($text, FALSE);
+		$output = Codes::strip($text, FALSE);
 
 		// the only code transformed in titles
 		$output = str_replace(array('[nl]', '[NL]'), '<br />', $output);
@@ -696,13 +696,14 @@ Class Codes {
 	}
         
         private static function process($text, $patterns_map) {
+            global $context;
             
             // ensure we have enough time to execute
             Safe::set_time_limit(30);
 
             foreach($patterns_map as $pattern => $action) {
 
-                $text = preg_replace_callback($pattern, function($matches) use ($pattern, $action) {
+                $text = preg_replace_callback($pattern, function($matches) use ($pattern, $action, $context) {
 
                     // returned text
                     $replace = '';
@@ -716,7 +717,8 @@ Class Codes {
                     if(is_callable($action)) { 
                         $func   = $action;
                     // test if map is a class
-                    }elseif(class_exists($action)) { 
+                    }elseif(Safe::filesize('codes/'.$action.'.php')) { 
+                        include_once $context['path_to_root'].'codes/'.$action.'.php';
                         $code = new $action();
                         $replace = $code->render($capture);
                         unset($code);
@@ -778,6 +780,11 @@ Class Codes {
 		static $patterns_map;
                
 		if(!isset($patterns_map) ) {
+                    
+                    if(Safe::filesize('codes/auto.patterns.php')) {
+                    
+                        include_once $context['path_to_root'].'codes/auto.patterns.php';
+                    }else{
 
 			// core patterns
 			$patterns_map['|<!-- .* -->|i']                                             = '';                          // remove HTML comments
@@ -877,14 +884,14 @@ Class Codes {
 				  unset($code);
 				}
 				Safe::closedir($handle);
+                        }
+                        // cache all patterns in one unique file for next time
+                        Codes::save_patterns($patterns_map);
 			
+                    } // end generating patterns from scratch
+                    
+
 		} // end setting $patterns
-
-		}
-
-		// include code extensions
-//		include_once $context['path_to_root'].'scripts/scripts.php';
-//		Scripts::load_scripts_at('codes/extensions');
 
 		
                 $text = Codes::process($text, $patterns_map);
@@ -1606,74 +1613,6 @@ Class Codes {
 
 		// display the text where the script was included
 		return $output;
-	}
-
-	/**
-	 * render a graphviz
-	 *
-	 * @param string the text
-	 * @param string the variant
-	 * @return string the rendered text
-	**/
-	public static function &render_graphviz($text, $variant='digraph') {
-		global $context;
-
-		// sanity check
-		if(!$text)
-			$text = 'Hello->World!';
-
-		// remove tags put by WYSIWYG editors
-		$text = strip_tags(str_replace(array('&gt;', '&lt;', '&amp;', '&quot;', '\"'), array('>', '<', '&', '"', '"'), str_replace(array('<br />', '</p>'), "\n", $text)));
-
-		// build the .dot content
-		switch($variant) {
-		case 'digraph':
-		default:
-			$text = 'digraph G { '.$text.' }'."\n";
-			break;
-		}
-
-		// id for this object
-		$hash = md5($text);
-
-		// path to cached files
-		$path = $context['path_to_root'].'temporary/graphviz.';
-
-		// we cache content
-		if($content = Safe::file_get_contents($path.$hash.'.html'))
-			return $content;
-
-		// build a .dot file
-		if(!Safe::file_put_contents($path.$hash.'.dot', $text)) {
-			$content = '[error writing .dot file]';
-			return $content;
-		}
-
-		// process the .dot file
-		if(isset($context['dot.command']))
-			$command = $context['dot.command'];
-		else
-			$command = 'dot';
-//		$font = '"/System/Library/Fonts/Times.dfont"';
-//		$command = '/sw/bin/dot -v -Nfontname='.$font
-		$command .= ' -Tcmapx -o "'.$path.$hash.'.map"'
-			.' -Tpng -o "'.$path.$hash.'.png"'
-			.' "'.$path.$hash.'.dot"';
-
-		if(Safe::shell_exec($command) == NULL) {
-			$content = '[error while using graphviz]';
-			return $content;
-		}
-
-		// produce the HTML
-		$content = '<img src="'.$context['url_to_root'].'temporary/graphviz.'.$hash.'.png" usemap="#mainmap" />';
-		$content .= Safe::file_get_contents($path.$hash.'.map');
-
-		// put in cache
-		Safe::file_put_contents($path.$hash.'.html', $content);
-
-		// done
-		return $content;
 	}
 
 
@@ -3711,6 +3650,29 @@ Class Codes {
 		return $output;
 
 	}
+        
+        private static function save_patterns($patterns_map) {
+            global $context;
+            
+            // backup the old version
+            Safe::unlink($context['path_to_root'].'codes/auto.patterns.php.bak');
+            Safe::rename($context['path_to_root'].'codes/auto.patterns.php', $context['path_to_root'].'codes/auto.patterns.php.bak');
+            
+            $content = '<?php'."\n"
+		.'// This file has been created by the script codes/codes.php'."\n"
+		.'// on '.gmdate("F j, Y, g:i a").' GMT, Please do not modify it manually.'."\n";
+            
+            foreach($patterns_map as $pattern => $action) {
+                $content .= '$patterns_map[\'' . $pattern . '\']="' . addcslashes(str_replace("\n",'\n',$action),'"') . "\";\n";
+            }
+            
+            if(!Safe::file_put_contents('codes/auto.patterns.php', $content)) {
+
+		Logger::error(sprintf(i18n::s('ERROR: Impossible to write to the file %s. The configuration has not been saved.'), 'codes/auto.patterns.php'));
+            }
+            
+            
+        }
 
 
 	/**
@@ -3720,7 +3682,7 @@ Class Codes {
 	 * @param boolean FALSE to remove only only pairing codes, TRUE otherwise
 	 * @return a purged string
 	 */
-	public static function &strip($text, $suppress_all_brackets=TRUE) {
+	public static function strip($text, $suppress_all_brackets=TRUE) {
 		global $context;
 
 		// suppress pairing codes
