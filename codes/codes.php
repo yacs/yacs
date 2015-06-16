@@ -186,9 +186,9 @@ Class Codes {
             $text = str_replace(array("\r\n", "\r"), "\n", $text);
             
             $patterns_map = array(
-                "/<br\s*/>\n+/i"                            =>      BR,
-                "/\n\n+/i"                                  =>      BR.BR,
-                "'/\[lang=([^\]]+?)\](.*?)\[\/lang\]/is"    =>      'Codes::render_lang'
+                "|<br\s*/>\n+|i"                            =>      BR,
+                "|\n\n+|i"                                  =>      BR.BR,
+                "/\[lang=([^\]]+?)\](.*?)\[\/lang\]/is"    =>      'Codes::render_lang'
             );
             
             $formatted = Codes::process($text, $patterns_map);
