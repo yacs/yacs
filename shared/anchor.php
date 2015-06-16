@@ -202,9 +202,11 @@ abstract class Anchor {
                 } else
                     $group_class = $this->get_static_group_class();		
 		
-                if(is_callable(array($group_class,$allow_func)))
-			return $group_class::$allow_func($this->item, $this->anchor, $type);
-		
+                if(is_callable(array($group_class,$allow_func))) {
+                    $this->load_anchor();
+                    return $group_class::$allow_func($this->item, $this->anchor, $type);
+                }
+                
 		// delegate validation to child class
 		if(is_callable(array($this,$allow_func)))
 			return $this->$allow_func($type);
@@ -1409,6 +1411,16 @@ abstract class Anchor {
 	function load_by_id($id, $mutable=FALSE) {
 		return NULL;
 	}
+        
+        /**
+         * load anchor if it wasn't already done
+         */
+        private function load_anchor() {
+            
+            if(!$this->anchor && $anchor = $this->get_value('anchor') ) {
+                $this->anchor = Anchors::get($anchor);
+            }
+        }
 	
 	/**
 	 * post a new item
