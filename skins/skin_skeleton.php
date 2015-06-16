@@ -1370,7 +1370,7 @@ Class Skin_Skeleton {
 
 		// remove YACS codes from alternate label and hovering title
 		if(is_callable(array('Codes', 'strip')))
-			$hover =& Codes::strip($hover, FALSE);
+			$hover = Codes::strip($hover, FALSE);
 
 		// split components of the variant
 		if($position = strpos($variant, ' ')) {
