@@ -14,244 +14,6 @@
  *
  * This module uses the Skin class for the actual rendering.
  *
- * Basic codes, demonstrated into [link]codes/basic.php[/link]:
- * - **...** - wiki bold text
- * - &#91;b]...[/b] - bold text
- * - //...// - italics
- * - &#91;i]...[/i] - italics
- * - __...__ - underlined
- * - &#91;u]...[/u] - underlined
- * - ##...## - monospace
- * - &#91;code]...[/code] - a short sample of fixed-size text (e.g. a file name)
- * - &#91;color]...[/color] - change font color
- * - &#91;tiny]...[/tiny] - tiny size
- * - &#91;small]...[/small] - small size
- * - &#91;big]...[/big] - big size
- * - &#91;huge]...[/huge] - huge size
- * - &#91;subscript]...[/subscript] - subscript
- * - &#91;superscript]...[/superscript] - superscript
- * - ++...++ - inserted
- * - &#91;inserted]...[/inserted] - inserted
- * - --...-- - deleted
- * - &#91;deleted]...[/deleted] - deleted
- * - &#91;flag]...[/flag] - draw attention
- * - &#91;lang=xy]...[/lang] - show some text only on matching language
- * - &#91;style=sans-serif]...[/style] - use a sans-serif font
- * - &#91;style=serif]...[/style] - use a serif font
- * - &#91;style=cursive]...[/style] - mimic hand writing
- * - &#91;style=comic]...[/style] - make it funny
- * - &#91;style=fantasy]...[/style] - guess what will appear
- * - &#91;style=my_style]...[/style] - translated to &lt;span class="my_style"&gt;...&lt;/span&gt;
- *
- * @see codes/basic.php
- *
- * Block codes, demonstrated in [link]codes/blocks.php[/link]:
- * - &#91;indent]...[/indent] - shift text to the right
- * - &#91;center]...[/center] - some centered text
- * - &#91;right]...[/right] - some right-aligned text
- * - &#91;decorated]...[/decorated] - some pretty paragraphs
- * - &#91;caution]...[/caution] - a warning paragraph
- * - &#91;note]...[/note] - a noticeable paragraph
- * - &#91;php]...[/php] - a snippet of php
- * - &#91;snippet]...[/snippet] - a snippet of fixed font data
- * - &#91;quote]...[/quote] - a block of quoted text
- * - &#91;folded]...[/folded] - click to view its content, or to fold it away
- * - &#91;folded=foo bar]...[/folded] - with title 'foo bar'
- * - &#91;unfolded]...[/unfolded] - click to fold
- * - &#91;unfolded=foo bar]...[/unfolded] - with title 'foo bar'
- * - &#91;sidebar]...[/sidebar] - a nice box aside
- * - &#91;sidebar=foo bar]...[/sidebar] - with title 'foo bar'
- * - &#91;scroller]...[/scroller] - some scrolling text
- *
- * @see codes/blocks.php
- *
- * List codes, demonstrated in [link]codes/lists.php[/link]:
- * - &#91;*] - for simple lists
- * - &#91;list]...[/list] - bulleted list
- * - &#91;list=1]...[/list] - numbered list, use numbers
- * - &#91;list=a]...[/list] - numbered list, use letters
- * - &#91;list=A]...[/list] - numbered list, use capital letters
- * - &#91;list=i]...[/list] - numbered list, use roman numbers
- * - &#91;list=I]...[/list] - numbered list, use upper case roman numbers
- *
- * @see codes/lists.php
- *
- * Codes for links, demonstrated in [link]codes/links.php[/link]:
- * - &lt;url&gt; - &lt;a href="url">url&lt;/a> or &lt;a href="url" class="external">url&lt;/a>
- * - &#91;link]&lt;url&gt;[/link] - &lt;a href="url">url&lt;/a> or &lt;a href="url" class="external">url&lt;/a>
- * - &#91;&lt;label&gt;|&lt;url&gt;] - &lt;a href="url">label&lt;/a> or &lt;a href="url" class="external">label&lt;/a>
- * - &#91;link=&lt;label&gt;]&lt;url&gt;[/link] - &lt;a href="url">label&lt;/a> or &lt;a href="url" class="external">label&lt;/a>
- * - &#91;url]&lt;url&gt;[/url] - deprecated by &#91;link]
- * - &#91;url=&lt;url&gt;]&lt;label&gt;[/url] - deprecated by &#91;link]
- * - &#91;button=&lt;label&gt;|&lt;url&gt;] - build simple buttons with css
- * - &#91;click=&lt;label&gt;|&lt;url&gt;] - a button that counts clicks
- * - &#91;clicks=&lt;url&gt;] - lists people who have clicked
- * - &lt;address&gt; - &lt;a href="mailto:address" class="email">address&lt;/a>
- * - &#91;email]&lt;address&gt;[/email] - &lt;a href="mailto:address" class="email">address&lt;/a>
- * - &#91;email=&lt;name&gt;]&lt;address&gt;[/email] - &lt;a href="mailto:address" class="email">name&lt;/a>
- * - &#91;go=&lt;name&gt;, &lt;label&gt;] - trigger the selector on 'name'
- * - &#91;&#91;&lt;name&gt;, &lt;label&gt;]] - Wiki selector
- * - &#91;article=&lt;id>] - use article title as link label
- * - &#91;article=&lt;id>, foo bar] - with label 'foo bar'
- * - &#91;article.description=&lt;id>] - insert article description
- * - &#91;next=&lt;id>] - shortcut to next article
- * - &#91;next=&lt;id>, foo bar] - with label 'foo bar'
- * - &#91;previous=&lt;id>] - shortcut to previous article
- * - &#91;previous=&lt;id>, foo bar] - with label 'foo bar'
- * - &#91;random] - pick up one page randomly
- * - &#91;random=&lt;section:id>] - one page in this section
- * - &#91;section=&lt;id>] - use section title as link label
- * - &#91;section=&lt;id>, foo bar] - with label 'foo bar'
- * - &#91;category=&lt;id>] - use category title as link label
- * - &#91;category=&lt;id>, foo bar] - with label 'foo bar'
- * - &#91;category.description=&lt;id>] - insert category description
- * - &#91;user=&lt;id>] - use nick name as link label
- * - &#91;user=&lt;id>, foo bar] - with label 'foo bar'
- * - &#91;server=&lt;id>] - use server title as link label
- * - &#91;server=&lt;id>, foo bar] - with label 'foo bar'
- * - &#91;file=&lt;id>] - use file title as link label
- * - &#91;file=&lt;id>, foo bar] - with label 'foo bar'
- * - &#91;download=&lt;id>] - a link to download a file
- * - &#91;download=&lt;id>, foo bar] - with label 'foo bar'
- * - &#91;comment=&lt;id>] - use comment id in link label
- * - &#91;comment=&lt;id>, foo bar] - with label 'foo bar'
- * - &#91;script]&lt;path/script.php&gt;[/script] - to the phpDoc page for script 'path/script.php'
- * - &#91;search] - a search form
- * - &#91;search=&lt;word&gt;] - hit Enter to search for 'word'
- * - &#91;wikipedia=&lt;keyword] - search Wikipedia
- * - &#91;wikipedia=&lt;keyword, foo bar] - search Wikipedia, with label 'foo bar'
- * - &#91;proxy]&lt;url&gt;[/proxy] - proxy a remote address
- *
- * @see codes/links.php
- *
- * Titles and questions, demonstrated in [link]codes/titles.php[/link]:
- * - &#91;toc] - table of contents
- * - ==...== - a level 1 headline
- * - &#91;title]...[/title] - a level 1 headline, put in the table of contents
- * - ===...=== - a level 2 headline
- * - &#91;subtitle]...[/subtitle] - a level 2 headline
- * - &#91;header1]...[/header1] - a level 1 headline
- * - &#91;header2]...[/header2] - a level 2 headline
- * - &#91;header3]...[/header3] - a level 3 headline
- * - &#91;header4]...[/header4] - a level 4 headline
- * - &#91;header5]...[/header5] - a level 5 headline
- * - &#91;toq] - the table of questions for this page
- * - &#91;question]...[/question] - a question-title
- * - &#91;question] - a simple question
- * - &#91;answer] - some answer in a FAQ
- *
- * @see codes/titles.php
- *
- * Tables, demonstrated in [link]codes/tables.php[/link]:
- * - &#91;table]...[/table] - one simple table
- * - &#91;table=grid]...[/table] - add a grid
- * - &#91;table].[body].[/table] - a table with headers
- * - &#91;csv]...[/csv] - import some data from a spreadsheet
- * - &#91;csv=;]...[/csv] - import some data from a spreadsheet
- * - &#91;table.json] - format a table as json
- *
- * @see codes/tables.php
- *
- * Live codes, demonstrated in [link]codes/live.php[/link]:
- * - &#91;sections] - site map
- * - &#91;sections=section:&lt;id>] - sub-sections
- * - &#91;sections=self] - sections assigned to current surfer
- * - &#91;sections=user:&lt;id>] - sections assigned to given user
- * - &#91;categories] - category tree
- * - &#91;categories=category:&lt;id>] - sub-categories
- * - &#91;categories=self] - categories assigned to current surfer
- * - &#91;categories=user:&lt;id>] - categories assigned to given user
- * - &#91;published] - most recent published pages, in a compact list
- * - &#91;published=section:&lt;id>] - articles published most recently in the given section
- * - &#91;published=category:&lt;id>] - articles published most recently in the given category
- * - &#91;published=user:&lt;id>] - articles published most recently created by given user
- * - &#91;published.decorated=self, 20] - 20 most recent pages from current surfer, as a decorated list
- * - &#91;updated] - most recent updated pages, in a compact list
- * - &#91;updated=section:&lt;id>] - articles updated most recently in the given section
- * - &#91;updated=category:&lt;id>] - articles updated most recently in the given category
- * - &#91;updated=user:&lt;id>] - articles updated most recently created by given user
- * - &#91;updated.simple=self, 12] - articles updated most recently created by current surfer, as a simple list
- * - &#91;read] - most read articles, in a compact list
- * - &#91;read=section:&lt;id>] - articles of fame in the given section
- * - &#91;read=self] - personal hits
- * - &#91;read=user:&lt;id>] - personal hits
- * - &#91;voted] - most voted articles, in a compact list
- * - &#91;voted=section:&lt;id>] - articles of fame in the given section
- * - &#91;voted=self] - personal hits
- * - &#91;voted=user:&lt;id>] - personal hits
- * - &#91;users=present] - list of users present on site
- *
- * @see codes/live.php
- *
- * Widgets, demonstrated in [link]codes/widgets.php[/link]:
- * - &#91;newsfeed=url] - integrate a newsfeed dynamically
- * - &#91;newsfeed.embed=url] - integrate a newsfeed dynamically
- * - &#91;twitter=id] - twitter updates of one person
- * - &#91;tsearch=token] - twitter search on a given topic
- * - &#91;iframe=&lt;width&gt;, &lt;height&gt;]&lt;url&gt;[/iframe] - include some external page
- * - &#91;cloud] - the tags used at this site
- * - &#91;cloud=12] - maximum count of tags used at this site
- * - &#91;calendar] - events for this month
- * - &#91;calendar=section:&lt;id>] - dates in one section
- * - &#91;locations=all] - newest locations
- * - &#91;locations=users] - map user locations on Google maps
- * - &#91;location=latitude, longitude, label] - to build a dynamic map
- *
- * @see codes/widgets.php
- *
- * Miscellaneous codes, demonstrated in [link]codes/misc.php[/link]:
- * - &#91;hint=&lt;help popup]...[/hint] - &lt;acronym tite="help popup">...&lt;/acronym>
- * - &#91;nl] - new line
- * - ----... - line break
- * - &#91;---] or &#91;___] - horizontal rule
- * - &#91;new] - something new
- * - &#91;popular] - people love it
- * - &#91;be] - country flag
- * - &#91;ca] - country flag
- * - &#91;ch] - country flag
- * - &#91;de] - country flag
- * - &#91;en] - country flag
- * - &#91;es] - country flag
- * - &#91;fr] - country flag
- * - &#91;gb] - country flag
- * - &#91;gr] - country flag
- * - &#91;it] - country flag
- * - &#91;pt] - country flag
- * - &#91;us] - country flag
- * - &#91;chart]...[/chart] - draw a dynamic chart
- * - &#91;execute=script] - include another local script
- * - &#91;redirect=link] - jump to another local page
- * - &#91;parameter=name] - value of one attribute of the global context
- * - &#91;escape]...[/escape]
- * - &#91;anonymous]...[/anonymous] - for non-logged people only
- * - &#91;authenticated]...[/authenticated] - for logged members only
- * - &#91;associate]...[/associate] - for associates only
- *
- * @see codes/misc.php
- *
- * In-line elements:
- * - &#91;embed=&lt;id>, &lt;width>, &lt;height>, &lt;flashparams>] - embed a multimedia file
- * - &#91;embed=&lt;id>, window] - render a multimedia file in a separate window
- * - &#91;sound=&lt;id>] - play a sound
- * - &#91;image=&lt;id>] - an inline image
- * - &#91;image=&lt;id>,left] - a left-aligned image
- * - &#91;image=&lt;id>,center] - a centered image
- * - &#91;image=&lt;id>,right] - a right-aligned image
- * - &#91;image]src[/image]
- * - &#91;image=&lt;alt>]src[/image]
- * - &#91;images=&lt;id1>, &lt;id2>, ...] - a stack of images
- * - &#91;img]src[/img] (deprecated)
- * - &#91;img=&lt;alt>]src[/img] (deprecated)
- * - &#91;table=&lt;id>] - an inline table
- * - &#91;location=&lt;id>] - embed a map
- * - &#91;location=&lt;id>, foo bar] - with label 'foo bar'
- * - &#91;clear] - to introduce breaks after floating elements
- *
- * @link http://www.estvideo.com/dew/index/2005/02/16/370-player-flash-mp3-leger-comme-une-plume the dewplayer page
- *
- * Other codes:
- * - &#91;menu=label]url[/menu] - one of the main menu command
- * - &#91;submenu=label]url[/submenu] - one of the second-level menu commands
  *
  * This script attempts to fight bbCode code injections by filtering strings to be used
  * as [code]src[/code] or as [code]href[/code] attributes (Thank you Mordread).
@@ -260,6 +22,7 @@
  * @author Mordread Wallas
  * @author GnapZ
  * @author Alain Lesage (Lasares)
+ * @author Alexis Raimbault
  * @tester Viviane Zaniroli
  * @tester Agnes
  * @tester Pat
@@ -695,6 +458,20 @@ Class Codes {
 		return $ids;
 	}
         
+        /**
+         * Internal function to process text replacement according
+         * to codes' patterns.
+         * uses preg_replace_callback and do the following treatment with priority :
+         * 1. try to find a function among loaded script ( could be this class, or Skin class)
+         * 2. try to find a class within codes extensions (in /codes/code_*.php) to perform the rendering
+         * 3. perform a regular preg_replace
+         * 4. let the text as is 
+         * 
+         * @global array $context
+         * @param string $text to transform
+         * @param array $patterns_map all the patterns to check and action to do with them
+         * @return string transformed text.
+         */
         private static function process($text, $patterns_map) {
             global $context;
             
@@ -702,7 +479,7 @@ Class Codes {
             Safe::set_time_limit(30);
 
             foreach($patterns_map as $pattern => $action) {
-
+                // use of preg_replace_callback with an anonymous function
                 $text = preg_replace_callback($pattern, function($matches) use ($pattern, $action, $context) {
 
                     // returned text
@@ -713,11 +490,12 @@ Class Codes {
                     // array of captured element
                     $capture    = array_slice($matches, 1);
 
-                    // test if mapped action is a callable function
+                    // test if mapped action is a callable function (case 1)
                     if(is_callable($action)) { 
                         $func   = $action;
                     // test if map is a class
                     }elseif(Safe::filesize('codes/'.$action.'.php')) { 
+                        // delegate rendering to an extension (case 2)
                         include_once $context['path_to_root'].'codes/'.$action.'.php';
                         $code = new $action();
                         $replace = $code->render($capture);
@@ -725,14 +503,16 @@ Class Codes {
                         return $replace;
                     }
 
+                    
                     if($func) {
+                        // call of class Codes method, with or without parameters (case 1)
                         if( count($capture) ) {
                             $replace  .= call_user_func_array($func, $capture);
                         } else {
                             $replace  .= call_user_func($func);
                         }
                     } else {
-                        // regular preg_replace
+                        // regular preg_replace (case 3 and 4)
                         $replace   .= preg_replace($pattern, $action, $matches[0]);
                     }
 
@@ -1022,7 +802,7 @@ Class Codes {
 	 * @param string web address that is monitored
 	 * @return string the rendered text
 	**/
-	public static function &render_clicks($url) {
+	public static function render_clicks($url) {
 		global $context;
 
 		$text = '';
@@ -1679,6 +1459,13 @@ Class Codes {
 
 	}
         
+        /**
+         * render [lang] formatting code
+         * 
+         * @param string $lang declared
+         * @param string $text to filter
+         * @return string
+         */
         public static function render_lang($lang, $text) {
             
             $text = Codes::fix_tags($text);
@@ -1686,6 +1473,21 @@ Class Codes {
             return i18n::filter($text, $lang);
         }
         
+        /**
+         * render links formatting codes
+         * [link]...[link]
+         * [link=label]...
+         * [label|url]
+         * and standalone url
+         * 
+         * standalone links detection won't provide label+url so 
+         * their url is received in $label parameter
+         * 
+         * @param string $type detected of the link
+         * @param string $label for the link
+         * @param string $url for the link
+         * @return string the formatted link
+         */
         public static function render_link($type,$label,$url='') {
             
             $url = ($url)?encode_link($url):encode_link($label);
@@ -2695,6 +2497,12 @@ Class Codes {
 
 	}
         
+        /**
+         * render [php]...[php] code
+         * 
+         * @param string $text
+         * @return string the formatted block
+         */
         public static function render_pre_php($text) {
             return Codes::render_pre($text,'php');
         }
@@ -3525,7 +3333,7 @@ Class Codes {
 	 * @param string the anchor (e.g. 'present')
 	 * @return string the rendered text
 	**/
-	public static function &render_users($anchor='') {
+	public static function render_users($anchor='') {
 		global $context;
 
 		// we return some text;
@@ -3651,6 +3459,14 @@ Class Codes {
 
 	}
         
+        /**
+         * internal method to store patterns of this serveur in a file
+         * this to spare time for parsing each extension in /codes at page loading
+         * @see method render
+         * 
+         * @global array $context
+         * @param array $patterns_map
+         */
         private static function save_patterns($patterns_map) {
             global $context;
             
