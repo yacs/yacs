@@ -3,12 +3,12 @@
  * render a graphviz
  * @see graphviz.org
  * 
- * 
- * 
- * @author Bernard Paques
- * @author Alexis Raimbault
- * 
  * note : seems to need a soft installed on server
+ * 
+ * @author Bernard Paques (rendering)
+ * @author Alexis Raimbault (factoring)
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
 class Code_graphviz extends Code {

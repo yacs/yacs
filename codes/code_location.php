@@ -2,7 +2,10 @@
 /**
  * [calendar]
  *
- * @author Alexis Raimbault
+ * @author Bernard Paques (rendering)
+ * @author Alexis Raimbault (factoring)
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
 class Code_Location extends Code {
