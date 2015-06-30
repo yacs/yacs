@@ -17,11 +17,12 @@ Class Code_bb extends Code {
         '/\[(tiny|small|big|huge|sub|sup|ins|del)\](.*?)\[\/\1\]/is',                           // [tiny]...[/tiny] ... explicit effects
         '/\[(---+|___+)\]\s*/is',                                                               // [---], [___] --- ( declare before inserted ) horiz. rule
         '/^(-----*)/m',                                                                         // ---- horiz. rule
-        '/ (--)(\S.*?\S)--(?!([^<]+)?>)/is',                                                    // --...-- barred
+        '/ (--)(\S.*?\S)--/is',                                                                 // --...-- barred
         '/(\*\*)(\S.*?\S)\*\*/is',                                                              // **...** bold
+        '/(\+\+)(\S.*?\S)\+\+/is',                                                              // ++...++ insert
         '/\[(b|i|u|li)\](.*?)\[\/\1\]/is',                                                      // [b]...[/b] : bold, italic, underlined, list elem
-        '/(\/\/)(\S.*?\w)\/\/(?!([^<]+)?>)/is',                                                // //...// italic
-        '/(__)(\S.*?\S)__(?!([^<]+)?>)/is',                                                     // __...__ underlined
+        '/(\/\/)(\S.*?\w)\/\//is',                                                              // //...// italic
+        '/(__)(\S.*?\S)__/is',                                                                  // __...__ underlined
         '/\[(list)(?:=([^\]]+?))?\](.*?)\[\/list\]/is',                                         // [list]...[/list] [list=1]...[/list] list encaps
         '/\n\n+[ \t]*\[(\*)\][ \t]*/i',                                                         // [*] (outside [list]...[/list]) add a bullet icon
         '/\n?[ \t]*\[(\*)\][ \t]*/i'
@@ -77,6 +78,9 @@ Class Code_bb extends Code {
                 break;
             case '--':
                 $text = '<del>'.$matches[1].'</del>';
+                break;
+            case '++':
+                $text = '<ins>'.$matches[1].'</ins>';
                 break;
             case '**':
             case 'b':
