@@ -1960,63 +1960,6 @@ Class Codes {
 	}
 
 	/**
-	 * render a compact list of hits
-	 *
-	 * @param string the anchor (e.g. 'section:123')
-	 * @param string layout to use
-	 * @return string the rendered text
-	**/
-	public static function render_read($layout='hits', $anchor='') {
-		global $context;
-
-		// we return some text;
-		$text = '';
-
-		// number of items to display
-		$count = COMPACT_LIST_SIZE;
-		if(($position = strpos($anchor, ',')) !== FALSE) {
-			$count = (integer)trim(substr($anchor, $position+1));
-			if(!$count)
-				$count = COMPACT_LIST_SIZE;
-
-			$anchor = trim(substr($anchor, 0, $position));
-		}
-
-		// scope is limited to current surfer
-		if(($anchor == 'self') && Surfer::get_id()) {
-			$anchor = 'user:'.Surfer::get_id();
-
-			// refresh on every page load
-			Cache::poison();
-
-		}
-
-		// scope is limited to one section
-		if(strpos($anchor, 'section:') === 0) {
-
-			// look at this branch of the content tree
-			$anchors = Sections::get_branch_at_anchor($anchor);
-
-			// query the database and layout that stuff
-			$text = Articles::list_for_anchor_by('hits', $anchors, 0, $count, $layout);
-
-		// scope is limited to pages of one surfer
-		} elseif(strpos($anchor, 'user:') === 0)
-			$text = Articles::list_for_user_by('hits', substr($anchor, 5), 0, $count, $layout);
-
-		// consider all pages
-		if(!$text)
-			$text = Articles::list_by('hits', 0, $count, $layout);
-
-		// we have an array to format
-		if(is_array($text))
-			$text = Skin::build_list($text, $layout);
-
-		// job done
-		return $text;
-	}
-
-	/**
 	 * redirect dynamically from this page to any local web address
 	 *
 	 * This is typically useful to have a regular yacs page redirected to a specific PHP script.
@@ -2282,63 +2225,6 @@ Class Codes {
 		// we have an array to format
 		if(is_array($text))
 			$text =& Skin::build_list($text, 'compact');
-
-		// job done
-		return $text;
-	}
-
-	/**
-	 * render a compact list of voted pages
-	 *
-	 * @param string the anchor (e.g. 'section:123')
-	 * @param string layout to use
-	 * @return string the rendered text
-	**/
-	public static function &render_voted($anchor='', $layout='simple') {
-		global $context;
-
-		// we return some text;
-		$text = '';
-
-		// number of items to display
-		$count = COMPACT_LIST_SIZE;
-		if(($position = strpos($anchor, ',')) !== FALSE) {
-			$count = (integer)trim(substr($anchor, $position+1));
-			if(!$count)
-				$count = COMPACT_LIST_SIZE;
-
-			$anchor = trim(substr($anchor, 0, $position));
-		}
-
-		// scope is limited to current surfer
-		if(($anchor == 'self') && Surfer::get_id()) {
-			$anchor = 'user:'.Surfer::get_id();
-
-			// refresh on every page load
-			Cache::poison();
-
-		}
-
-		// scope is limited to one section
-		if(strpos($anchor, 'section:') === 0) {
-
-			// look at this branch of the content tree
-			$anchors = Sections::get_branch_at_anchor($anchor);
-
-			// query the database and layout that stuff
-			$text =& Articles::list_for_anchor_by('rating', $anchors, 0, $count, $layout);
-
-		// scope is limited to pages of one surfer
-		} elseif(strpos($anchor, 'user:') === 0)
-			$text =& Articles::list_for_user_by('rating', substr($anchor, 5), 0, $count, $layout);
-
-		// consider all pages
-		else
-			$text =& Articles::list_by('rating', 0, $count, $layout);
-
-		// we have an array to format
-		if(is_array($text))
-			$text =& Skin::build_list($text, $layout);
 
 		// job done
 		return $text;
