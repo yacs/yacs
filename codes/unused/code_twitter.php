@@ -4,6 +4,7 @@
  * twitter widgets
  * 
  * needs jquery.livetwitter.js (in included/browser/js_endpage)
+ * NOTE : seems to be obsolete !! twitter's API has changed !
  * 
  * @author Bernard Paques (rendering)
  * @author Alexis Raimbault (factoring)
