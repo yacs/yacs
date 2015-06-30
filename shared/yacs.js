@@ -307,6 +307,12 @@ var Yacs = {
 
 			} );
                         
+                 // free background
+                 $('body').css({
+                    height:'',
+                    overflow:''
+                });
+                        
                 // fire event for someone
                 $(document).trigger('modalbox-close');
 	},
@@ -604,6 +610,12 @@ var Yacs = {
 				Yacs.updateModalBox(boxContent);
 
 			});
+                        
+                // no scroll on background
+                $('body').css({
+                    height:'100%',
+                    overflow:'hidden'
+                });
 
 	},
 
