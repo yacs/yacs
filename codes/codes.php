@@ -772,32 +772,6 @@ Class Codes {
 	}
 
 	/**
-	 * render the cloud of tags
-	 *
-	 * @param string the number of items to list
-	 * @return string the rendered text
-	**/
-	public static function &render_cloud($count=40) {
-		global $context;
-
-		// sanity check
-		if(!(int)$count)
-			$count = 40;
-
-		// query the database and layout that stuff
-		if(!$text =& Members::list_categories_by_count_for_anchor(NULL, 0, $count, 'cloud'))
-			$text = '<p>'.i18n::s('No item has been found.').'</p>';
-
-		// we have an array to format
-		if(is_array($text))
-			$text =& Skin::build_list($text, '2-columns');
-
-		// job done
-		return $text;
-
-	}
-
-	/**
 	 * render an email address
 	 *
 	 * @param string the address
