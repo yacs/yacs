@@ -926,33 +926,6 @@ Class Codes {
 		$text = '';
 		return $text;
 	}
-
-	/**
-	 * render an iframe
-	 *
-	 * @param string URL to be embedded
-	 * @param string iframe parameters
-	 * @return string the rendered text
-	**/
-	public static function &render_iframe($url, $variant) {
-		global $context;
-
-		// split parameters
-		$attributes = preg_split("/\s*,\s*/", $variant, 2);
-
-		// set a default size
-		if(!isset($attributes[0]))
-			$attributes[0] = 320;
-		if(!isset($attributes[1]))
-			$attributes[1] = 240;
-
-		$text = '<iframe src="'.$url.'" style="width: '.$attributes[0].'px; height: '.$attributes[1].'px" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0">'."\n"
-			.i18n::s('Your browser does not accept iframes')
-			.'</iframe>';
-
-		return $text;
-
-	}
         
         /**
          * render [lang] formatting code
