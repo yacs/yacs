@@ -479,6 +479,10 @@ Class Codes {
             Safe::set_time_limit(30);
 
             foreach($patterns_map as $pattern => $action) {
+                
+                // use lowercase, we may look for a file with this
+                $action = strtolower($action);
+                
                 // use of preg_replace_callback with an anonymous function
                 $text = preg_replace_callback($pattern, function($matches) use ($pattern, $action, $context) {
 
