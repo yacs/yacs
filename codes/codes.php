@@ -574,9 +574,7 @@ Class Codes {
                         $patterns_map['/\[php\](.*?)\[\/php\]/is']                                  = 'Codes::render_pre_php'   ;  // [php]...[/php]
                         $patterns_map['/\[snippet\](.*?)\[\/snippet\]/is']                          = 'Codes::render_pre'       ;  // [snippet]...[/snippet]
                         $patterns_map['/(\[page\].*)$/is']                                          = ''                        ;  // [page] (provide only the first one)
-                        $patterns_map['/\[associate\](.*?)\[\/(associate)\]/is']                    = 'Codes::render_hidden'    ;  // [associate]...[/associate] 
-                        $patterns_map['/\[member\](.*?)\[\/(member)\]/is']                          = 'Codes::render_hidden'    ;  // [member]...[/member] 
-                        $patterns_map['/\[anonymous\](.*?)\[\/(anonymous)\]/is']                    = 'Codes::render_hidden'    ;  // [anonymous]...[/anonymous] 
+                        $patterns_map['/\[(associate|member|anonymous|hidden|restricted|authenticated)\](.*?)\[\/\1\]/is']  = 'Codes::render_hidden'    ;  // [associate]...[/associate] 
                         $patterns_map['/\[redirect=([^\]]+?)\]/is']                                 = 'Codes::render_redirect'  ;  // [redirect=<link>]
                         $patterns_map['/\[execute=([^\]]+?)\]/is']                                  = 'Codes::render_execute'   ;  // [execute=<name>]
                         $patterns_map['/\[parameter=([^\]]+?)\]/is']                                = 'Codes::render_parameter' ;  // [parameter=<name>]
@@ -903,7 +901,7 @@ Class Codes {
 	 * @param either 'anonymous', or 'restricted' or 'hidden'
 	 * @return string the rendered text
 	**/
-	public static function render_hidden($text, $variant) {
+	public static function render_hidden($variant, $text ) {
             
                 $text = Codes::fix_tags($text);
 
@@ -919,7 +917,7 @@ Class Codes {
 			return $text;
 
 		// this block is restricted to members
-		if(Surfer::is_member() && ($variant == 'authenticated'))
+		if(Surfer::is_member() && ($variant == 'member' || $variant == 'restricted' || $variant == 'authenticated'))
 			return $text;
 
 		// tough luck
