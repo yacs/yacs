@@ -238,9 +238,14 @@ class xml {
 		if(!$input)
 			return TRUE;
 
-		// do not validate code nor snippet --do it in two steps to make it work
-		$input = preg_replace('/<code>(.+?)<\/code>/ise', "'<code>'.str_replace('<', '&lt;', '$1').'</code>'", $input);
-		$input = preg_replace('/<pre>(.+?)<\/pre>/ise', "'<pre>'.str_replace('<', '&lt;', '$1').'</pre>'", $input);
+		// do not validate code nor snippet --do it in two steps to make it work                
+                $input = preg_replace_callback(
+                           '/<(code|pre)>(.+?)<\/\1>/is',
+                           function($matches){
+                               return '<'.$matches[1].'>'.str_replace('<', '&lt;', $matches[2]).'</'.$matches[1].'>';
+                           },
+                           $input
+                       );
 
 		// make a supposedly valid xml snippet
 		$snippet = '<?xml version=\'1.0\'?>'."\n".'<snippet>'."\n".preg_replace(array('/&(?!(amp|#\d+);)/i', '/ < /i', '/ > /i'), array('&amp;', ' &lt; ', ' &gt; '), $input)."\n".'</snippet>'."\n";

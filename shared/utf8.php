@@ -25,7 +25,7 @@ Class Utf8 {
                 $output = preg_replace_callback(
                             '/%u([0-9a-z]{4})/is',
                             function($matches){
-                                '&#'.hexdec($matches[1]);
+                                return '&#'.hexdec($matches[1]);
                             },
                             $input
                         );
@@ -623,7 +623,13 @@ Class Utf8 {
 		}
 
 		// transcode explicit unicode entities %u2019 -> &#8217;
-		$output = preg_replace('/%u([0-9a-z]{4})/ise', "'&#'.hexdec('$1').';'", $output);
+                $output = preg_replace_callback(
+                           '/%u([0-9a-z]{4})/is',
+                           function($matches){
+                               return '&#'.hexdec($matches[1]);
+                           },
+                           $output
+                       );
 
 		// transcode HTML entities to Unicode entities
 		$output =& utf8::transcode($output);
