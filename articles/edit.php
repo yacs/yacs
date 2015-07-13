@@ -224,7 +224,7 @@ if($whole_rendering) {
 // page title
 if(isset($item['id']))
 	$context['page_title'] = sprintf(i18n::s('Edit: %s'), $item['title']);
-elseif(!is_object($overlay) || (!$context['page_title'] = $overlay->get_label('new_command', 'articles')))
+elseif(!is_object($overlay) || (!$context['page_title'] = $overlay->get_label('page_title', 'new')))
 	$context['page_title'] = i18n::s('Add a page');
 
 
