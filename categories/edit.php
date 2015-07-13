@@ -111,7 +111,7 @@ if($whole_rendering) {
 // the title of the page
 if(isset($item['title']))
 	$context['page_title'] = sprintf(i18n::s('Edit: %s'), $item['title']);
-else
+elseif(!is_object($overlay) || (!$context['page_title'] = $overlay->get_label('page_title', 'new')))
 	$context['page_title'] = i18n::s('Add a category');
 
 // validate input syntax

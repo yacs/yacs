@@ -119,7 +119,7 @@ if(isset($item['id']) && isset($item['title']))
 // page title
 if(isset($item['title']))
 	$context['page_title'] = sprintf(i18n::s('Edit: %s'), $item['title']);
-elseif(!is_object($overlay) || (!$context['page_title'] = $overlay->get_label('new_command', 'sections')))
+elseif(!is_object($overlay) || (!$context['page_title'] = $overlay->get_label('page_title', 'new')))
 	$context['page_title'] = i18n::s('Add a section');
 
 // validate input syntax only if required

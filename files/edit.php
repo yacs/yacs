@@ -148,7 +148,7 @@ if(isset($item['title']) && $item['title'])
 	$context['page_title'] = sprintf(i18n::s('Update: %s'), $item['title']);
 elseif(isset($item['file_name']))
 	$context['page_title'] = sprintf(i18n::s('Update: %s'), str_replace('_', ' ', $item['file_name']));
-else
+elseif(!is_object($overlay) || (!$context['page_title'] = $overlay->get_label('page_title', 'new')))
 	$context['page_title'] = i18n::s('Add a file');
 
 // validate input syntax only if required
