@@ -44,6 +44,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Alexis Raimbault
  * @tester Paddy
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -443,6 +444,23 @@ if(!Surfer::is_associate()) {
 	// forward to the control panel
 	$menu = array('control/' => i18n::s('Control Panel'), 'control/purge.php' => i18n::s('Purge again'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
+        
+// delete formatting code patterns, will be rebuild automaticaly
+} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'codeyacs')) {
+
+
+        $context['text'] .= '<p>'.i18n::s('Deleting formatting codes cache...')."</p>\n";
+        Safe::unlink($context['path_to_root'].'codes/patterns.auto.php');
+
+        // display the execution time
+        $time_end = get_micro_time();
+        $time = round($time_end - $context['start_time'], 2);
+        $context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
+
+
+        // forward to the control panel
+        $menu = array('control/' => i18n::s('Control Panel'), 'control/purge.php' => i18n::s('Purge again'));
+        $context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // which check?
 } else {
@@ -490,6 +508,10 @@ if(!Surfer::is_associate()) {
 	if(file_exists($context['path_to_reference'].'footprints.php'))
 		$context['text'] .= '<p><input type="radio" name="action" value="reference" /> '.i18n::s('Delete the repository of reference scripts and related documentation. This can be rebuild from the scripts index page.').'</p>';
 
+        // purge formatting code patterns cache
+        if(file_exists($context['path_to_root'].'codes/patterns.auto.php'))
+                $context['text'] .= '<p><input type="radio" name="action" value="codeyacs" /> '.i18n::s('Rebuild formatting codes cache patterns').'</p>';
+        
 	// the submit button
 	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Start'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
 
