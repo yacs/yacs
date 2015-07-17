@@ -565,9 +565,9 @@ Class Codes {
                
 		if(!isset($patterns_map) ) {
                     
-                    if(Safe::filesize('codes/auto.patterns.php')) {
+                    if(Safe::filesize('codes/patterns.auto.php')) {
                     
-                        include_once $context['path_to_root'].'codes/auto.patterns.php';
+                        include_once $context['path_to_root'].'codes/patterns.auto.php';
                     }else{
 
 			// core patterns
@@ -2281,8 +2281,8 @@ Class Codes {
             global $context;
             
             // backup the old version
-            Safe::unlink($context['path_to_root'].'codes/auto.patterns.php.bak');
-            Safe::rename($context['path_to_root'].'codes/auto.patterns.php', $context['path_to_root'].'codes/auto.patterns.php.bak');
+            Safe::unlink($context['path_to_root'].'codes/patterns.auto.php.bak');
+            Safe::rename($context['path_to_root'].'codes/patterns.auto.php', $context['path_to_root'].'codes/auto.patterns.auto.php.bak');
             
             $content = '<?php'."\n"
 		.'// This file has been created by the script codes/codes.php'."\n"
@@ -2292,9 +2292,9 @@ Class Codes {
                 $content .= '$patterns_map[\'' . $pattern . '\']="' . addcslashes(str_replace("\n",'\n',$action),'"') . "\";\n";
             }
             
-            if(!Safe::file_put_contents('codes/auto.patterns.php', $content)) {
+            if(!Safe::file_put_contents('codes/patterns.auto.php', $content)) {
 
-		Logger::error(sprintf(i18n::s('ERROR: Impossible to write to the file %s. The configuration has not been saved.'), 'codes/auto.patterns.php'));
+		Logger::error(sprintf(i18n::s('ERROR: Impossible to write to the file %s. The configuration has not been saved.'), 'codes/patterns.auto.php'));
             }
             
             
