@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-24 15:28+0200\n"
+"POT-Creation-Date: 2015-07-17 17:56+0200\n"
 "PO-Revision-Date: 2012-11-20 23:54+0100\n"
 "Last-Translator: Bernard Paques <bernard.paques@gmail.com>\n"
 "Language-Team: Bernard Paques\n"
@@ -69,7 +69,7 @@ msgstr ""
 "This category is a specialized glossary of terms, made out of tags added to "
 "pages, and out of search requests."
 
-#: categories/category.php:136 categories/check.php:27 categories/check.php:38
+#: categories/category.php:153 categories/check.php:27 categories/check.php:38
 #: categories/check.php:95 categories/check.php:151 categories/check.php:261
 #: categories/delete.php:61 categories/edit.php:105 categories/feed.php:88
 #: categories/index.php:61 categories/mail.php:55 categories/print.php:70

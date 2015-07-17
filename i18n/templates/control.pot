@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-24 15:54+0200\n"
+"POT-Creation-Date: 2015-07-17 18:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,18 +23,18 @@ msgstr ""
 #: control/configure.php:228 control/configure.php:745
 #: control/configure.php:979 control/index.php:195 control/info.php:42
 #: control/info.php:61 control/populate.php:105 control/populate.php:122
-#: control/populate.php:859 control/purge.php:67 control/purge.php:204
-#: control/purge.php:223 control/purge.php:243 control/purge.php:261
-#: control/purge.php:278 control/purge.php:297 control/purge.php:314
-#: control/purge.php:331 control/purge.php:365 control/purge.php:387
-#: control/purge.php:406 control/purge.php:425 control/purge.php:444
-#: control/scan.php:167 control/scan.php:224 control/scan.php:449
-#: control/scan.php:802 control/setup.php:97 control/setup.php:259
-#: control/switch.php:40 control/switch.php:53 control/switch.php:83
-#: control/switch.php:143 control/test.php:88 control/virtual.php:54
-#: control/virtual.php:94 control/virtual.php:120 control/virtual.php:208
-#: control/virtual.php:231 control/htaccess/index.php:94
-#: control/htaccess/index.php:137
+#: control/populate.php:859 control/purge.php:68 control/purge.php:205
+#: control/purge.php:224 control/purge.php:244 control/purge.php:262
+#: control/purge.php:279 control/purge.php:298 control/purge.php:315
+#: control/purge.php:332 control/purge.php:366 control/purge.php:388
+#: control/purge.php:407 control/purge.php:426 control/purge.php:445
+#: control/purge.php:462 control/scan.php:167 control/scan.php:224
+#: control/scan.php:449 control/scan.php:802 control/setup.php:97
+#: control/setup.php:259 control/switch.php:40 control/switch.php:53
+#: control/switch.php:83 control/switch.php:143 control/test.php:88
+#: control/virtual.php:54 control/virtual.php:94 control/virtual.php:120
+#: control/virtual.php:208 control/virtual.php:231
+#: control/htaccess/index.php:94 control/htaccess/index.php:137
 msgid "Control Panel"
 msgstr ""
 
@@ -45,7 +45,7 @@ msgstr ""
 
 #: control/backup.php:107 control/chmod.php:39 control/configure.php:225
 #: control/import.php:32 control/info.php:58 control/populate.php:119
-#: control/purge.php:201 control/scan.php:221 control/setup.php:114
+#: control/purge.php:202 control/scan.php:221 control/setup.php:114
 #: control/switch.php:50 control/test.php:66 control/virtual.php:66
 #: control/htaccess/index.php:29
 msgid "You are not allowed to perform this operation."
@@ -77,8 +77,8 @@ msgstr ""
 msgid "Purging..."
 msgstr ""
 
-#: control/backup.php:463 control/purge.php:235 control/purge.php:289
-#: control/purge.php:357 control/purge.php:379
+#: control/backup.php:463 control/purge.php:236 control/purge.php:290
+#: control/purge.php:358 control/purge.php:380
 #, php-format
 msgid "%d items have been deleted"
 msgstr ""
@@ -127,7 +127,7 @@ msgstr ""
 msgid "No item has been found."
 msgstr ""
 
-#: control/backup.php:817 control/info.php:221 control/purge.php:451
+#: control/backup.php:817 control/info.php:221 control/purge.php:469
 msgid "Please select the action to perform."
 msgstr ""
 
@@ -210,7 +210,7 @@ msgid "Apply these SQL statements"
 msgstr ""
 
 #: control/backup.php:903 control/backup.php:929 control/configure.php:741
-#: control/populate.php:158 control/purge.php:494 control/virtual.php:147
+#: control/populate.php:158 control/purge.php:516 control/virtual.php:147
 msgid "Press [s] to submit data"
 msgstr ""
 
@@ -293,11 +293,12 @@ msgstr ""
 msgid "%d files have been updated."
 msgstr ""
 
-#: control/chmod.php:82 control/purge.php:220 control/purge.php:240
-#: control/purge.php:258 control/purge.php:275 control/purge.php:294
-#: control/purge.php:311 control/purge.php:328 control/purge.php:362
-#: control/purge.php:384 control/purge.php:403 control/purge.php:422
-#: control/purge.php:441 control/scan.php:446 control/scan.php:778
+#: control/chmod.php:82 control/purge.php:221 control/purge.php:241
+#: control/purge.php:259 control/purge.php:276 control/purge.php:295
+#: control/purge.php:312 control/purge.php:329 control/purge.php:363
+#: control/purge.php:385 control/purge.php:404 control/purge.php:423
+#: control/purge.php:442 control/purge.php:458 control/scan.php:446
+#: control/scan.php:778
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr ""
@@ -1381,7 +1382,7 @@ msgstr ""
 msgid "%s - clear the cache or delete what can be safely deleted"
 msgstr ""
 
-#: control/index.php:864 control/purge.php:70
+#: control/index.php:864 control/purge.php:71
 msgid "Purge"
 msgstr ""
 
@@ -2147,131 +2148,140 @@ msgstr ""
 msgid "Launch the Content Assistant again"
 msgstr ""
 
-#: control/purge.php:99 control/purge.php:140 control/purge.php:182
-#: control/purge.php:348
+#: control/purge.php:100 control/purge.php:141 control/purge.php:183
+#: control/purge.php:349
 #, php-format
 msgid "Deleting %s"
 msgstr ""
 
-#: control/purge.php:210
+#: control/purge.php:211
 msgid "Deleting agents data..."
 msgstr ""
 
-#: control/purge.php:223 control/purge.php:243 control/purge.php:261
-#: control/purge.php:278 control/purge.php:297 control/purge.php:314
-#: control/purge.php:331 control/purge.php:365 control/purge.php:387
-#: control/purge.php:406 control/purge.php:425 control/purge.php:444
+#: control/purge.php:224 control/purge.php:244 control/purge.php:262
+#: control/purge.php:279 control/purge.php:298 control/purge.php:315
+#: control/purge.php:332 control/purge.php:366 control/purge.php:388
+#: control/purge.php:407 control/purge.php:426 control/purge.php:445
+#: control/purge.php:462
 msgid "Purge again"
 msgstr ""
 
-#: control/purge.php:229
+#: control/purge.php:230
 msgid "Deleting previous versions of scripts..."
 msgstr ""
 
-#: control/purge.php:249
+#: control/purge.php:250
 msgid "Deleting all cached items..."
 msgstr ""
 
-#: control/purge.php:267
+#: control/purge.php:268
 msgid "Deleting debug data..."
 msgstr ""
 
-#: control/purge.php:284
+#: control/purge.php:285
 msgid "Deleting links received from newsfeeds..."
 msgstr ""
 
-#: control/purge.php:303
+#: control/purge.php:304
 msgid "Deleting log data..."
 msgstr ""
 
-#: control/purge.php:320
+#: control/purge.php:321
 msgid "Recovering overhead space from the database..."
 msgstr ""
 
-#: control/purge.php:338
+#: control/purge.php:339
 msgid "Deleting the documentation pages..."
 msgstr ""
 
-#: control/purge.php:346
+#: control/purge.php:347
 msgid "Deleting the reference repository..."
 msgstr ""
 
-#: control/purge.php:372
+#: control/purge.php:373
 msgid "Deleting staging files..."
 msgstr ""
 
-#: control/purge.php:393
+#: control/purge.php:394
 msgid "Deleting referall data..."
 msgstr ""
 
-#: control/purge.php:412
+#: control/purge.php:413
 msgid "Deleting scripts data..."
 msgstr ""
 
-#: control/purge.php:431
+#: control/purge.php:432
 msgid "Deleting old versions..."
 msgstr ""
 
-#: control/purge.php:457
+#: control/purge.php:452
+msgid "Deleting formatting codes cache..."
+msgstr ""
+
+#: control/purge.php:475
 msgid "Purge the server cache."
 msgstr ""
 
-#: control/purge.php:460
+#: control/purge.php:478
 msgid "Delete all files with the suffix .bak."
 msgstr ""
 
-#: control/purge.php:464
+#: control/purge.php:482
 msgid "Delete files staged during software update."
 msgstr ""
 
-#: control/purge.php:468
+#: control/purge.php:486
 msgid "Delete file temporary/debug.txt to purge debug data."
 msgstr ""
 
-#: control/purge.php:471
+#: control/purge.php:489
 msgid ""
 "Purge links received via newsfeeds. These will be recreated progressively "
 "during future feeding."
 msgstr ""
 
-#: control/purge.php:474
+#: control/purge.php:492
 #, php-format
 msgid ""
 "Delete all referrals from the database. These will be recreated "
 "progressively during future browsing. You may prefer to %s."
 msgstr ""
 
-#: control/purge.php:474
+#: control/purge.php:492
 msgid "check referrals"
 msgstr ""
 
-#: control/purge.php:477
+#: control/purge.php:495
 msgid ""
 "Purge script performance data from the database. These will be recreated "
 "progressively during future browsing."
 msgstr ""
 
-#: control/purge.php:481
+#: control/purge.php:499
 msgid "Delete file temporary/log.txt to purge events data."
 msgstr ""
 
-#: control/purge.php:484
+#: control/purge.php:502
 msgid "Recover overhead disk space from the database."
 msgstr ""
 
-#: control/purge.php:487
+#: control/purge.php:505
 msgid ""
 "Delete versioning information saved more than six months ago. Preserve "
 "recent versions."
 msgstr ""
 
-#: control/purge.php:491
+#: control/purge.php:509
 msgid ""
 "Delete the repository of reference scripts and related documentation. This "
 "can be rebuild from the scripts index page."
 msgstr ""
 
-#: control/purge.php:494
+#: control/purge.php:513
+msgid "Rebuild formatting codes cache patterns"
+msgstr ""
+
+#: control/purge.php:516
 msgid "Start"
 msgstr ""
 

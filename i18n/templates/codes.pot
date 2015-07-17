@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-24 15:54+0200\n"
+"POT-Creation-Date: 2015-07-17 18:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: codes/basic.php:52 codes/blocks.php:41 codes/index.php:21
 #: codes/links.php:79 codes/lists.php:33 codes/live.php:51 codes/misc.php:54
@@ -496,6 +497,56 @@ msgstr ""
 msgid "Scroller"
 msgstr ""
 
+#: codes/code_embed.php:64
+msgid "Play in a separate window"
+msgstr ""
+
+#: codes/code_embed.php:303
+msgid "Browse this map with Freemind"
+msgstr ""
+
+#: codes/codes.php:767
+#, php-format
+msgid "%d named person has followed the link: %s"
+msgid_plural "%d named persons have followed the link: %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: codes/codes.php:770
+msgid "No authenticated person has used this link yet"
+msgstr ""
+
+#: codes/codes.php:1182
+msgid "View this comment"
+msgstr ""
+
+#: codes/codes.php:1205 codes/codes.php:1261
+msgid "[this file has been deleted]"
+msgstr ""
+
+#: codes/codes.php:1226 codes/codes.php:1285
+msgid "[this file has been replaced]"
+msgstr ""
+
+#: codes/codes.php:1993
+#, php-format
+msgid "redirection to unknown reference : %s"
+msgstr ""
+
+#: codes/codes.php:2225
+#, php-format
+msgid "%d active now"
+msgid_plural "%d active now"
+msgstr[0] ""
+msgstr[1] ""
+
+#: codes/codes.php:2297
+#, php-format
+msgid ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+msgstr ""
+
 #: codes/codes_test.php:22
 msgid "Codes test"
 msgstr ""
@@ -513,6 +564,10 @@ msgstr ""
 #: codes/codes_test.php:58
 #, php-format
 msgid "Script terminated in %.2f seconds."
+msgstr ""
+
+#: codes/code_table.php:65
+msgid "Filter"
 msgstr ""
 
 #: codes/index.php:24
