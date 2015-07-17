@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-24 15:54+0200\n"
+"POT-Creation-Date: 2015-07-17 18:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,7 +67,7 @@ msgid ""
 "pages, and out of search requests."
 msgstr ""
 
-#: categories/category.php:136 categories/check.php:27 categories/check.php:38
+#: categories/category.php:153 categories/check.php:27 categories/check.php:38
 #: categories/check.php:95 categories/check.php:151 categories/check.php:261
 #: categories/delete.php:61 categories/edit.php:105 categories/feed.php:88
 #: categories/index.php:61 categories/mail.php:55 categories/print.php:70
