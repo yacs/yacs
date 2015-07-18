@@ -65,26 +65,28 @@ echo $count.' '.get_local('label')."<br />\n";
  * Delete a file, or a folder and its contents (recursive algorithm)
  *
  */
-function rmdirr($dir) {
-    global $context;
-        
-    $dir = $context['path_to_root'].$dir;
-    // Sanity check
-    if (!file_exists($dir)) {
-        return false;
-    }
-  
-    $it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
-    $files = new RecursiveIteratorIterator($it,
-                 RecursiveIteratorIterator::CHILD_FIRST);
-    foreach($files as $file) {
-        if ($file->isDir()){
-            rmdir($file->getRealPath());
-        } else {
-            unlink($file->getRealPath());
+if(!is_callable(rmdirr)) {
+    function rmdirr($dir) {
+        global $context;
+
+        $dir = $context['path_to_root'].$dir;
+        // Sanity check
+        if (!file_exists($dir)) {
+            return false;
         }
+
+        $it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
+        $files = new RecursiveIteratorIterator($it,
+                     RecursiveIteratorIterator::CHILD_FIRST);
+        foreach($files as $file) {
+            if ($file->isDir()){
+                rmdir($file->getRealPath());
+            } else {
+                unlink($file->getRealPath());
+            }
+        }
+        rmdir($dir);
     }
-    rmdir($dir);
 }
 
 /*if(rmdirr('included/browser/css/redmond/images')) {
