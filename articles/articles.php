@@ -1524,7 +1524,7 @@ Class Articles {
 				// do the job
 				$output = SQL::query_first($query);
 			elseif ($count>1) {// result depending language give by $context['page_language']
-				if (($_SESSION['surfer_language']=='none'))	
+				if ((!isset($_SESSION['surfer_language']) || $_SESSION['surfer_language']=='none'))	
 					$language=$context['language'];
 				else 
 					$language=$_SESSION['surfer_language'];

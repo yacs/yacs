@@ -6,6 +6,8 @@
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
+include_once('global.php');
+
 Class Js_Css {
     
     /**
