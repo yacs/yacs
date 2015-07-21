@@ -2679,6 +2679,7 @@ var Yacs = {
                             Yacs.uploaded = {};
                         // remember this upload
                         Yacs.uploaded[id] = true;
+                        $('document').trigger('yc-upload-done');
                     }
                     
                     
