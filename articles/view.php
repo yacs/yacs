@@ -1145,7 +1145,7 @@ if(!isset($item['id'])) {
 			$box['bar'] += Skin::navigate($home, $prefix, $count, LINKS_PER_PAGE, $zoom_index);
 
 			// new links are allowed
-			if($article->allows('creation','link')) {
+			if($cur_article->allows('creation','link')) {
 				Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 				$box['bar'] += array( 'links/edit.php?anchor='.urlencode('article:'.$item['id']) => LINKS_ADD_IMG.i18n::s('Add a link') );
 			}
