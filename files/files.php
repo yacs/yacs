@@ -1637,6 +1637,9 @@ Class Files {
 	 */
 	public static function has_virus($file) {
 		global $context;
+                
+                // file scanning must be configured
+                if(!isset($context['clamav_check']) || $context['clamav_check'] === 'N') return 'N';
 
 		// we can't connect to clamav daemon
 		$server = 'localhost';
