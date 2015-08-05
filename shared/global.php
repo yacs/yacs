@@ -549,8 +549,8 @@ if(@count($_COOKIE) && get_magic_quotes_gpc())
 	$_COOKIE = stripslashes_recursively($_COOKIE);
 
 // always disable magic quote runtime
-if(is_callable('set_magic_quotes_runtime'))
-	@set_magic_quotes_runtime(0);
+//if(is_callable('set_magic_quotes_runtime'))
+//	@set_magic_quotes_runtime(0);
 
 // support utf-8
 include_once $context['path_to_root'].'shared/utf8.php';
