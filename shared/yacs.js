@@ -15,7 +15,7 @@
 var startWatch = new Date();
 
 var Yacs = {
-    
+
     urlMoveFile     :  'files/move.php',
     urlSortFile     :  'files/sort.php',
     urlUploadFile   :  'files/upload.php',
@@ -243,8 +243,8 @@ var Yacs = {
                     $input.addClass('input-bad').removeClass('input-good');
                 else if(reply.can === true )
                     $input.addClass('input-good').removeClass('input-bad');
-                
-                
+
+
                 // show message if any, in hint following the input
                 if(reply.message) {
                     var $hint = $input.nextAll('.yc-form-hint').first();
@@ -285,7 +285,7 @@ var Yacs = {
 	 * close the modal box
 	 */
 	closeModalBox: function() {
-	    
+
 		if(typeof Yacs.doNotCloseModal != 'undefined' && Yacs.doNotCloseModal === true) {
 		    Yacs.doNotCloseModal = false;
 		    return;
@@ -306,13 +306,13 @@ var Yacs = {
 				$( window ).off('resize', Yacs.startResizeModal);
 
 			} );
-                        
+
                  // free background
                  $('body').css({
                     height:'',
                     overflow:''
                 });
-                        
+
                 // fire event for someone
                 $(document).trigger('modalbox-close');
 	},
@@ -515,7 +515,7 @@ var Yacs = {
 			    Yacs.closeModalBox();
 			});
 			$(objCentered).prepend(objBoxClose);
-                        
+
                         // handle ESC key
                         $(document).keydown(function(e) {
                             if (e.keyCode == 27 && $("#modal_close").is(':visible')) {
@@ -598,7 +598,7 @@ var Yacs = {
                 if(typeof Yacs.modalFirstDisplay == 'undefined') {
                     Yacs.modalFirstDisplay = true;
                 }
-                
+
                 // fire event for someone
                 $(document).trigger('modalbox-open');
 
@@ -610,7 +610,7 @@ var Yacs = {
 				Yacs.updateModalBox(boxContent);
 
 			});
-                        
+
                 // no scroll on background
                 $('body').css({
                     height:'100%',
@@ -634,15 +634,15 @@ var Yacs = {
 	 * for example in the case of a form.
 	 */
 	displayOverlaid:function(url, withButtons, confirmClose) {
-            
-            
+
+
             // memorize param
             Yacs.recallOverlaid = {
                 url : url,
                 withButtons : withButtons,
                 confirmClose : confirmClose
             }
-            
+
             // clean previous validation
             validateDocumentPost = undefined;
 
@@ -653,13 +653,13 @@ var Yacs = {
 		url += '?';
 
 	    url	    += 'overlaid=Y';
-            
+
             Yacs.startWorking();
 
 	    // start ajax request
 	    $.get(url)
 	    .done(function(data){
-		        
+
                 var content={
 		    body: data
 		};
@@ -779,7 +779,7 @@ var Yacs = {
 		return unescape(document.cookie.substring(begin + prefix.length, end));
 
 	},
-        
+
         /**
          * get the extension of a filename
          * @returns string
@@ -790,7 +790,7 @@ var Yacs = {
                 var file_array = ext.split('.');
                 ext = file_array[file_array.length-1]; // extension is at last part
             }
-            
+
             return ext;
         },
 
@@ -955,24 +955,24 @@ var Yacs = {
 			Yacs.confirm(response.dialog_text, function(choice) {if(choice) {window.open(response.address);}});
 		}
 	},
-        
+
         /**
          * Initialize submit button of comment forms
          * for a ajax query
-         * 
+         *
          * @returns {undefined}
          */
         initAjaxComments : function() {
-            
+
             $('.comment_form button[type=submit]').not('.ajax-post').click(function(e){
 
                 e.preventDefault();
-                
+
                 //Yacs.closeModalBox();
                 Yacs.startWorking();
-                
+
                 var $form = $(this).parents('.comment_form');
-                
+
                 // use FormData object for XMLHttpRequest level 2
                 // (enable ajax file upload)
                 var formData = new FormData($form[0]);
@@ -985,26 +985,26 @@ var Yacs = {
                     contentType: false,
                     processData: false
                 }).done(function(newComment){
-                    
+
                     // clear input
                     $('.comment_form textarea').val('');
-                    
+
                     // store received formated comment for other js
                     Yacs.newComment = newComment;
                     // fire a event
                     $('body').trigger('yc-newComment');
-                    
+
                     Yacs.stopWorking();
                     // close modalbox if any
                     Yacs.closeModalBox();
-                    
+
                 });
-                
+
                 return false;
             });
-            
+
             $('.comment_form button[type=submit]').addClass('ajax-post');
-            
+
         },
 
 	/**
@@ -1107,10 +1107,11 @@ var Yacs = {
                     past_as_text    : true,
 		    plugins         : "charmap, textcolor, fullscreen, code, link",
 		    toolbar         : "undo redo | styleselect charmap styleselect| bold italic underline strikethrough | alignleft aligncenter alignright | bullist numlist outdent indent | forecolor backcolor | link | fullscreen code",
-   style_formats: [
-        {title: 'h2', block: 'h2'},
-        {title: 'h3', block: 'h3'}
-    ],
+
+                    style_formats: [
+                         {title: 'h2', block: 'h2'},
+                         {title: 'h3', block: 'h3'}
+                     ],
 		    language	: surfer_lang
 		});
 	},
@@ -1272,27 +1273,27 @@ var Yacs = {
 
 		// prepare edition link to ajax call of overlaid edition
                 //$(".edit-overlaid").click(function(e){
-                $('body').on('click',".edit-overlaid", function(e){ 
+                $('body').on('click',".edit-overlaid", function(e){
                     e.preventDefault();
                     Yacs.displayOverlaid($(this).attr("href"),true, true);
                     return false; // stop propagation
                 });
                 //$(".open-overlaid").click(function(e){
-                $('body').on('click',".open-overlaid", function(e){ 
+                $('body').on('click',".open-overlaid", function(e){
                     e.preventDefault();
                     Yacs.displayOverlaid($(this).attr("href"));
                     return false; // stop propagation
                 });
-                
-                $('body').on('click',".submit-overlaid", function(e){ 
+
+                $('body').on('click',".submit-overlaid", function(e){
                     e.preventDefault();
                     Yacs.modalPost(true);
                     return false; // stop propagation
                 });
-		
+
 		// prepare input to ajax-upload a file
                 $('body').on('change','.yc-upload',function(){Yacs.prepareUpload($(this))});
-                
+
 		// slow down notifications on window blur
 		$(window).blur(Yacs.looseFocus);
 
@@ -1312,8 +1313,8 @@ var Yacs = {
 		// check for asynchronous notifications
 		setTimeout(Yacs.subscribe, 40000);
 	},
-        
-        
+
+
 
 	getFocus: function() {
 		Yacs.hasFocus = true;
@@ -1322,16 +1323,16 @@ var Yacs = {
 	looseFocus: function() {
 		Yacs.hasFocus = false;
 	},
-        
+
         /**
          * tool load a css
          * @returns {undefined}
          */
         loadCSS:function(url) {
-            
+
             var file = url.split( "/" ).pop();
-            
-            var cssId = file.replace('.','');  
+
+            var cssId = file.replace('.','');
             if (!document.getElementById(cssId))
             {
                 var head  = document.getElementsByTagName('head')[0];
@@ -1423,19 +1424,19 @@ var Yacs = {
 		});
 
 	},
-	
+
 	/**
 	 * initialize a input for ajax upload
 	 */
 	prepareUpload: function(input) {
-	    
+
 	    // get associated label
 	    var $label	    = $('label[for='+input.attr('id')+']');
-	    var activate    = input.val() !== ''  && !input.hasClass('input-bad'); 
-	    
+	    var activate    = input.val() !== ''  && !input.hasClass('input-bad');
+
 	    // make label visible or not
 	    $label.toggle(activate);
-	    
+
 	    // click on label start upload
 	    if(activate) {
 		$label.click(function(e){
@@ -1444,19 +1445,19 @@ var Yacs = {
                     Yacs.upload($(this).attr('for'))
                     return false;
                 });
-                    
+
 	    } else
 		$label.unbind('click');
-            
+
             $label.trigger("click"); // autolaunch
-	    
+
 	},
-        
+
         prepareSlideShow: function(selector) {
-            
+
             if(typeof(selector) !== 'string' )
                 selector = '.image_show';
-            
+
             var anchors = $(selector);
 		for(index = 0; index < anchors.length; index++) {
 			var anchor = anchors[index];
@@ -1585,7 +1586,7 @@ var Yacs = {
 				// do not wait for user click to load the image
 				var nextLoader = new Image();
 				nextLoader.src = $(anchor.nextAnchor).attr('href');
-                                
+
                                 button_NEXT = '>>';
 
 			} else {
@@ -1608,18 +1609,18 @@ var Yacs = {
 		loader.src = $(anchor).attr('href');
 
 	},
-        
+
         closeImage: function() {
-            
+
             if(typeof(Yacs.recallOverlaid) !== 'undefined') {
-                
+
                 Yacs.displayOverlaid(Yacs.recallOverlaid['url'],Yacs.recallOverlaid['withButtons'],Yacs.recallOverlaid['confirmClose']);
             }
         },
 
         /**
          * Post a form with ajax, and update the page with the respons
-         * 
+         *
          * @param valid boolean, depending OK or CANCEL is pressed on the page
          */
 	modalPost: function(valid) {
@@ -1629,7 +1630,7 @@ var Yacs = {
                 // destroy uploaded files if any
 		if(typeof Yacs.uploaded !== 'undefined')
                     Yacs.uploadDestroy("all");
-                
+
                 return;
             }
 
@@ -1638,7 +1639,7 @@ var Yacs = {
             // may be a comment form
             if (!form.length)
                 form = $(".comment_form");
-            
+
             if(!form.length) {
                 console.log('cannot post cause did not find form');
                 return;
@@ -1668,7 +1669,7 @@ var Yacs = {
 	     */
 	    // append a input to the form to tell this is a ajax post
 	    $('<input type="hidden" name="overlaid" value="Y" />').appendTo(form);
-            
+
             // use FormData object for XMLHttpRequest level 2
             // (enable ajax file upload)
             var formData = new FormData(form[0]);
@@ -1690,10 +1691,10 @@ var Yacs = {
 		var overlaid = $html.find('.require-overlaid').length;
 		// or look for elements to replace
 		var $update = $html.find('.modal-post-update');
-                
+
                 // redirect to a new page
                 if(redirect.length) {
-                    
+
                     var link = redirect.data('url');
                     if(link) {
                         console.log('redirecting to '+link);
@@ -2072,12 +2073,12 @@ var Yacs = {
 		// react to clicks
 		var id;
 
-                
+
                 // tabs
                 //$('body').on('click','.tabs_bar li',function(e){Yacs.tabsEvent(this, e);});
                 $('.tabs_bar').not('.ready').find('li').click(function(e){Yacs.tabsEvent(this, e);});
                 $('.tabs_bar').addClass('ready');
-                
+
 		// behavior of buttons for tabs used as step by step form, if any
 		$(".tabs_panels .step").click(function() {
 
@@ -2088,7 +2089,7 @@ var Yacs = {
                             return false;
                         else
                             // make upper next button visible
-                            $('.panel-foreground').find('.next').css('visibility','visible');    
+                            $('.panel-foreground').find('.next').css('visibility','visible');
                     }
 
 		    // display tab associate with button
@@ -2099,7 +2100,7 @@ var Yacs = {
                 // if we have steps, that mean to hide validation button before surfer reached the last one
                 if($(".tabs_panels .step").length)
                     $("#main_form .bottom").hide();
-                
+
                 // button for responsive menu
                 $('.tabs-mini-toggle').click(function(){
                     $('.tab-background').toggle();
@@ -2109,8 +2110,8 @@ var Yacs = {
                  * Get starting tab
                  * 1) from url
                  * 2) from script
-                 * 3) from last tab in sessionStorage if we are not using step by step tab 
-                 */  
+                 * 3) from last tab in sessionStorage if we are not using step by step tab
+                 */
                 var startTab = null;
                 if(window.location.hash.length > 1)
                     startTab = document.location.hash.substr(1,document.location.hash.length);
@@ -2118,7 +2119,7 @@ var Yacs = {
                     startTab = Yacs.startTabs;
                 else if(!$('.yc-tab-steps').length)
                     startTab = Yacs.tabsLast();
-		
+
                 // where are we?
 		if( startTab != null) {
 
@@ -2153,7 +2154,7 @@ var Yacs = {
 		var lastpanel;
 		var panel;
 
-                
+
                 // tabs
                 $('#'+id).siblings().removeClass('tab-foreground').addClass('tab-background');
                 $('#'+id).removeClass('tab-background').addClass('tab-foreground');
@@ -2169,7 +2170,7 @@ var Yacs = {
                         .addClass('panel-background');
                 // get last panel id
                 lastpanel = panels.find('.panel-foreground, .panel-background').last().data('tab');
-                
+
                 var newpanel = panels.find('.panel-background[data-tab="'+id+'"]');
                 panel = newpanel.attr('id');
                 newpanel.fadeIn(.1)
@@ -2183,7 +2184,7 @@ var Yacs = {
 
 		// remember our state
 		Yacs.tabs_current = id;
-                
+
                 // remember it for next visit to this page
                 Yacs.tabsLast(id)
 
@@ -2191,7 +2192,7 @@ var Yacs = {
 
 
 		// load panel content, if necessary
-                
+
                 // set focus on first input
                 $("#"+panel+" .yc-form-input input").first().not('.date-time-picker').focus();
 
@@ -2207,7 +2208,7 @@ var Yacs = {
 	 * click on a tab
 	 */
 	tabsEvent: function(clicked, e) {
-            
+
 		// target the clicked tab
 		//var clicked = this;
 
@@ -2229,20 +2230,20 @@ var Yacs = {
 		e.stopPropagation();
 		return false;
 	},
-        
+
         /**
          * record or retrieve last tab displayed for a given page
          * use sessionStorage.
          * if a parameter tabid is given, it is reccorded for the current page
          * elsewhere the function provide last tab for the current page if any
-         * 
+         *
          * @param tabid qtring
          * @returns string or null
          */
         tabsLast : function(tabid) {
             // retrieve stored tabs or create var
             var memoTabs = sessionStorage.getItem('memoTabs');
-            if( memoTabs != null ) 
+            if( memoTabs != null )
                     memoTabs = JSON.parse(memoTabs);
             else
                     memoTabs = new Object;
@@ -2258,7 +2259,7 @@ var Yacs = {
             if(typeof tabid != 'undefined') {
 
 
-                    if(page != '') {	
+                    if(page != '') {
                             memoTabs[page] = tabid;
                             sessionStorage.setItem('memoTabs', JSON.stringify(memoTabs));
                     }
@@ -2272,17 +2273,17 @@ var Yacs = {
             }
             return null
         },
-        
+
         /**
          * when using tabs for a step by step form
          * and custom tabsValidateStep() function,
          * this function help you to test all tabs.
          * Usefull if for example your form is later
          * not displayed step by step but with standard tabs.
-         * 
+         *
          * the function stops on the first error and display
          * the tab with the error;
-         * 
+         *
          * @returns boolean
          */
         tabsValidateAll: function() {
@@ -2302,7 +2303,7 @@ var Yacs = {
                 tab_id = "_" + tab_id.substr(0, tab_id.indexOf('_panel'));
                 // test the tab
                 if(Yacs.tabsValidateStep(tab_id))
-                    return; 
+                    return;
                 else {
                     // failed, display the tab
                     Yacs.stopWorking();
@@ -2434,7 +2435,7 @@ var Yacs = {
                 // sanity check
                 if(typeof str === 'undefined' || str === '')
                     return '';
-            
+
                 str = str.replace(/^\s\s*/, ''),
                 ws = /\s/,
                 i = str.length;
@@ -2627,34 +2628,34 @@ var Yacs = {
 		}
 
 	},
-	
+
 	/**
 	 * Start an ajax upload of a file
 	 */
 	upload: function(id) {
-	    
-	    
+
+
 	    // create a progress bar
 	    var $progress = $('<div class="yc-upload-progress-outer"></div>');
 	    $progress.append('<div class="yc-upload-progress" id="'+id+'_progress"></div>');
             // cancel button
             var $cancel = $('<a class="yc-upload-cancel">x</a>');
             $progress.append($cancel);
-	    
+
 	    $('label[for='+id+']').replaceWith($progress);
 	    $('#'+id).hide();
 	    // get name of file field
 	    var name = $('#'+id).attr('name');
-	    
-	    
+
+
 	    // send file
 	    var _file = document.getElementById(id);
-	    
+
 	    // sanity check
 	    if(_file.files.length === 0){
 		return;
 	    }
-	    
+
 	    var data = new FormData();
 	    data.append('name',name);
 	    data.append(name, _file.files[0]);
@@ -2675,20 +2676,20 @@ var Yacs = {
                     // remove file selector but not if upload was aborded
                     if($('#'+id+'_progress').length) {
                         $('#'+id).remove();
-                        
+
                         if(typeof Yacs.uploaded == 'undefined')
                             Yacs.uploaded = {};
                         // remember this upload
                         Yacs.uploaded[id] = true;
                     }
-                    
-                    
-                    
+
+
+
                     // show preview
                     if(typeof resp.preview !== 'undefined') {
                         $('#'+id+'_progress').parent().replaceWith(resp.preview);
                     }
-                    
+
                     if(typeof resp.js !== 'undefined') {
                         $('body').append(resp.js);
                         if(typeof scripts_to_load !== 'undefined') {
@@ -2701,7 +2702,7 @@ var Yacs = {
                         } else if( typeof execute_after_loading === 'function') {
                             (execute_after_loading)();
                         }
-                                
+
                     }
                     // allow for reaction
                     $('body').trigger('yc-upload-done');
@@ -2711,7 +2712,7 @@ var Yacs = {
 	    request.upload.addEventListener('progress', function(e){
 		$('#'+id+'_progress').width(Math.ceil((e.loaded/e.total) * 100) + '%');
 	    }, false);
-            
+
             // cancel
             $('#'+id+'_progress').next('.yc-upload-cancel').click(function(){
                 // reshow file selector
@@ -2720,28 +2721,28 @@ var Yacs = {
                 // aborting
                 request.abort();
             });
-	    
+
 	    // send data
 	    request.open('POST', url_to_root+ Yacs.urlUploadFile);
 	    request.send(data);
-	    
+
 	},
-        
+
         /**
          * destroy a file just uploaded thru ajax
-         * 
+         *
          * @param {string} name of the file
          * @returns {undefined}
          */
         uploadDestroy: function(name, $destroylink) {
-            
+
             $.post(url_to_root + Yacs.urlUploadFile,{'name':name, 'action':'destroy'})
              .done(function(reply){
                  console.log(reply.data);
                  if(typeof $destroylink !== "undefined" && reply.preview !== "undefined") {
                      $destroylink.parents(".yc-preview").replaceWith(reply.preview);
                  }
-                 
+
                  delete Yacs.uploaded[name];
                  if(name==='all') delete Yacs.uploaded;
              });
@@ -2862,16 +2863,16 @@ jQuery.fn.extend({
 
 	}
     }
-    
+
 }); //end jQuery extends
 
-/** 
+/**
  * delay tools
  * use it to call a function after
  * a certain time of inactivity.
  * Timer is reset each time function is recalled
  * Usefull to cooldown keyup event for example.
- * 
+ *
  * Usage :
  * $('input').keyup(function() {
  *  delay(function(){
@@ -2911,7 +2912,7 @@ $('body').on('yacs', function(){
 // redisplay tabs in case of window resizing
 $( window ).resize(function() {
     delay(function(){
-        if($('#tabs_bar').length && !$('.tabs-mini-toggle').is(':visible')) { 
+        if($('#tabs_bar').length && !$('.tabs-mini-toggle').is(':visible')) {
                $('#tabs_bar li').css('display',''); // remove inline display directive
         }
    }, 200 );
