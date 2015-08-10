@@ -1100,12 +1100,13 @@ var Yacs = {
 	    // @see http://www.tinymce.com/wiki.php/Controls
 	    // @see http://www.tinymce.com/wiki.php/configuration:formats
 	    tinymce.init({
-		    selector	: "textarea.tinymce",
-		    menubar	:false,
-		    width	: '90.5%',
-		    resize	: false,
-		    plugins	: "charmap, textcolor, fullscreen, code, link",
-		    toolbar	: "undo redo | styleselect charmap styleselect| bold italic underline strikethrough | alignleft aligncenter alignright | bullist numlist outdent indent | forecolor backcolor | link | fullscreen code",
+		    selector        : "textarea.tinymce",
+		    menubar         : false,
+		    width           : '90.5%',
+		    resize          : false,
+                    past_as_text    : true,
+		    plugins         : "charmap, textcolor, fullscreen, code, link",
+		    toolbar         : "undo redo | styleselect charmap styleselect| bold italic underline strikethrough | alignleft aligncenter alignright | bullist numlist outdent indent | forecolor backcolor | link | fullscreen code",
    style_formats: [
         {title: 'h2', block: 'h2'},
         {title: 'h3', block: 'h3'}
