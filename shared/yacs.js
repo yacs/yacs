@@ -1104,9 +1104,8 @@ var Yacs = {
 		    menubar         : false,
 		    width           : '90.5%',
 		    resize          : false,
-                    past_as_text    : true,
-		    plugins         : "charmap, textcolor, fullscreen, code, link",
-		    toolbar         : "undo redo | styleselect charmap styleselect| bold italic underline strikethrough | alignleft aligncenter alignright | bullist numlist outdent indent | forecolor backcolor | link | fullscreen code",
+		    plugins         : "charmap, textcolor, fullscreen, code, link, paste",
+		    toolbar         : "undo redo | styleselect charmap styleselect| bold italic underline strikethrough | alignleft aligncenter alignright | bullist numlist outdent indent | forecolor backcolor | link | pastetext fullscreen code",
 
                     style_formats: [
                          {title: 'h2', block: 'h2'},
