@@ -46,6 +46,10 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
+// path for temporary file uploaded via ajax
+if(!defined('UPLOAD_PATH')) define ('UPLOAD_PATH', 'temporary/uploaded/');
+define('TEMPORARY_UPD_LIFE', 3600);
+
 Class Files {
 
 	/**
@@ -578,6 +582,27 @@ Class Files {
 		return $text;
 
 	}
+        
+        /**
+        * unlink old files in temporary uploading repo
+        * 
+        * @global array $context
+        */
+        public static function clean_uploaded() {
+           global $context;
+
+           include_once 'files.php';
+
+           $folder = new DirectoryIterator($context['path_to_root'].UPLOAD_PATH);
+           foreach($folder as $file) {
+                   // leave blanck page
+                   if($file->getBasename() === 'index.php') continue;
+
+                   if($file->isFile() && !$file->isDot() && (time() - $file->getMTime() > TEMPORARY_UPD_LIFE))
+                           unlink($file->getPathname());
+           }
+
+       }
 
 	/**
 	 * clear cache entries for one item
@@ -2843,8 +2868,8 @@ Class Files {
                 
                 // make a temp thumb name
                 $thumb      = uniqid().'.'.$ext;
-                $thumbpath  =  $context['path_to_root'].'temporary/'.$thumb;
-                $thumburl   =  $context['url_to_root'].'temporary/'.$thumb; 
+                $thumbpath  =  $context['path_to_root'].UPLOAD_PATH.$thumb;
+                $thumburl   =  $context['url_to_root'].UPLOAD_PATH.$thumb; 
                 
                 // make a thumb
                 Image::shrink($url, $thumbpath, true);
@@ -2862,7 +2887,7 @@ Class Files {
                     case 'aac':
                     case 'oog':
                         // audio file
-                        $audio_url  = $context['url_to_root'].'temporary/'.$basename;
+                        $audio_url  = $context['url_to_root'].UPLOAD_PATH.$basename;
                         $preview   .= $destroy.BR.Skin::build_audioplayer($audio_url);
                         break;
                     default:

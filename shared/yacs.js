@@ -18,7 +18,7 @@ var Yacs = {
 
     urlMoveFile     :  'files/move.php',
     urlSortFile     :  'files/sort.php',
-    urlUploadFile   :  'files/upload.php',
+    urlUploadFile   :  'files/upload.ajax.php',
 
 	/**
 	 * alert the surfer

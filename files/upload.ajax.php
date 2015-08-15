@@ -58,6 +58,8 @@ function outputJSON($msg, $status = 'error', $preview = ''){
 
 load_skin();
 
+safe::make_path('temporary/uploaded/');
+
 // we need a file
 if(isset($_FILES[$name]) && count($_FILES[$name])) {
         // Check for errors
@@ -82,13 +84,13 @@ if(isset($_FILES[$name]) && count($_FILES[$name])) {
         }*/
 
         // Check if the file exists
-        if(file_exists('temporary/' . $_FILES[$name]['name'])){
+        if(file_exists(UPLOAD_PATH . $_FILES[$name]['name'])){
 	    Safe::header('Status: 500 Internal server error', TRUE, 500);
             outputJSON(i18n::s('File with that name already exists in temporary folder.'));
         }
 
         // Upload file
-	$path = $context['path_to_root'].'temporary/' . $_FILES[$name]['name'];
+	$path = $context['path_to_root'].UPLOAD_PATH . $_FILES[$name]['name'];
         if(!Safe::move_uploaded_file($_FILES[$name]['tmp_name'], $path)){
 	    Safe::header('Status: 500 Internal server error', TRUE, 500);
             outputJSON(i18n::s('Error uploading file - check destination is writeable.'));
@@ -104,7 +106,7 @@ if(isset($_FILES[$name]) && count($_FILES[$name])) {
             $preview = Files::preview($path, $name);
 	    
 	    // Success!
-	    outputJSON('File uploaded successfully to "' . 'temporary/' . $_FILES[$name]['name'] . '".', 'success', $preview);
+	    outputJSON('File uploaded successfully to "' . UPLOAD_PATH . $_FILES[$name]['name'] . '".', 'success', $preview);
 	}
 
         
