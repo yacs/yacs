@@ -1237,6 +1237,9 @@ function render_skin($with_last_modified=TRUE) {
 
 	    // a meta-link to our help page
 	    $metas[] = '<link rel="help" href="'.$context['url_to_root'].'help/" type="text/html" />';
+            
+            // meta-links to alternate language
+            $metas = array_merge($metas, Page::meta_hreflang());
 
 	    // page meta description
             $meta_desc = '';

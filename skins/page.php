@@ -357,32 +357,23 @@
             
             $switch             = '';       // html rendering
             $page_languages     = array();  // to memorize detected language, completed with $displayed
-            $get_item           = true;     // do we need to get current item
-            $sisters            = array();  // array of sister page in other languages
             
-            // only for articles and sections
-            if(!strstr($context['current_item'],'article') && !strstr($context['current_item'],'section'))
-                $get_item = false;
-            
-            // get the entity
-            if($get_item && $anchor = Anchors::get($context['current_item'])) {
+            if(is_array($context['hreflang']) && count($context['hreflang'])) {
                 
-                // if anchor as a little name
-                if($nick = $anchor->get_nick_name()){
-                        $class = $anchor->get_static_group_class();
-                        $sisters = $class::list_for_name($nick,$anchor->item['id'],'raw');
-                }
-            }
-            
-            if(count($sisters)) {
-                foreach($sisters as $page) {
-                    if($lang = $page['language']) {
-                        
+                // get current id, to exclude it
+                list($cur_type,$cur_id) = explode(":", $context['current_item']);
+                
+                foreach($context['hreflang'] as $page) {
+                    
+                        // do not include current page
+                        if($cur_id == $page['id']) continue;
+                    
+                        $lang               = $page['lang'];
                         $text               = ($legend)?'&nbsp;'.i18n::s(sprintf('to_local_%s',$lang)):'';
-                        $switch            .= '<li>'.'<a href="'.http::add_url_param($class::get_permalink($page), "lang", $lang).'">'.Codes::beautify('['.$lang.']').$text.'</a>'.'</li>'."\n";
+                        $switch            .= '<li>'.'<a href="'.$page['url'].'">'.Codes::beautify('['.$lang.']').$text.'</a>'.'</li>'."\n";
                         // memorize as proposed language
                         $page_languages[]   = $lang;
-                    }
+                    
                 }
              
             }
@@ -648,6 +639,44 @@
 			send_meta();
 
 	}
+        
+        public static function meta_hreflang() {
+            global $context;
+            
+            $meta_hreflang          = array();
+            $context['hreflang']    = $meta_hreflang;
+            $sisters                = array();
+            
+            //// detect other language for articles or sections
+            if(strpos($context['current_item'],'article') === FALSE && strpos($context['current_item'],'section') === FALSE )
+                return $meta_hreflang;
+            
+            // get the entity
+            if($anchor = Anchors::get($context['current_item'])) {
+                
+                // if anchor as a little name
+                if($nick = $anchor->get_nick_name()){
+                        $class = $anchor->get_static_group_class();
+                        $sisters = $class::list_for_name($nick,null,'raw');
+                }
+            }
+            
+            if(count($sisters)) {
+                foreach($sisters as $page) {
+                    if($page['language'] && $page['language'] != 'none') {
+                        
+                        $url                    = http::add_url_param($class::get_permalink($page), "lang", $page['language']);
+                        $meta_hreflang[]        = '<link rel="alternate" hreflang="'.$page['language'].'" href="'.$url.'" />';
+                        // memorize this for page::echo_local_switcher()
+                        $context['hreflang'][]  = array('lang' => $page['language'], 'url' => $url, 'id' => $page['id']);
+                    }
+                }
+
+             
+            }
+            
+            return $meta_hreflang;
+        }
 
 	/**
 	 * build a header panel with background
