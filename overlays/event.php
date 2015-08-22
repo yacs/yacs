@@ -444,7 +444,7 @@ class Event extends Overlay {
 		else
 			$options .= '<option>23:30</option>';
 
-		$options .= '</options>';
+		$options .= '</select>';
 
 		// event time
 		$label = i18n::s('Date');
