@@ -443,7 +443,7 @@ if($with_form) {
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form" enctype="multipart/form-data"><div>';
 	$fields = array();
 
-	// the section
+	// the anchor
 	if($anchor)
 		$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 
@@ -604,7 +604,8 @@ if($with_form) {
 	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
 	if(is_object($anchor) && $anchor->is_viewable())
 		$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
-	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+       
+        $context['text'] .= Skin::build_assistant_bottom('', $menu, '', isset($item['tags'])?$item['tags']:'');
 
 	// associates may decide to not stamp changes -- complex command
 	if(isset($item['id']) && $item['id'] && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned())) && Surfer::has_all())
