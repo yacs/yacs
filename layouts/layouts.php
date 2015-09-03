@@ -54,6 +54,11 @@ abstract Class Layouts {
 		case 'file':
 		    $family = 'files';
 		    break;
+                case 'images':
+                    $item_type = 'image';
+                case 'image':
+                    $family = 'images';
+                    break;
 		case 'users' :
 		    $item_type = 'user';
 		case 'user':

@@ -14,7 +14,7 @@
 if(!defined('IMG_JPEG_QUALITY'))
     define('IMG_JPEG_QUALITY', 90);
 
-Class Image {
+Class Image extends Anchor {
 
 	/**
 	 * maintain image size within limits
@@ -132,6 +132,27 @@ Class Image {
                 }
 		return TRUE;
 
+	}
+        
+        /**
+	 * provide classe name with all static functions on this kind of anchor
+	 * 
+	 * @return a class name
+	 */
+	function get_static_group_class() {
+	    return 'Images';
+	}
+        
+        /**
+	 * load the related item
+	 *
+	 * @see shared/anchor.php
+	 *
+	 * @param int the id of the record to load
+	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
+	 */
+	function load_by_id($id, $mutable=FALSE) {
+		$this->item = Images::get($id);
 	}
 
 	/**

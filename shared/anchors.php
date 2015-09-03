@@ -320,7 +320,12 @@ class Anchors {
 			include_once $context['path_to_root'].'files/file.php';
 			$anchor = new File();
 			$anchor->load_by_id($attributes[1], $mutable);
-			break;;
+			break;
+                case 'image':
+                        include_once $context['path_to_root'].'images/image.php';
+                        $anchor = new Image();
+                        $anchor->load_by_id($attributes[1], $mutable);
+                        break;
 		case 'section':
 			include_once $context['path_to_root'].'sections/section.php';
 			$anchor = new Section();

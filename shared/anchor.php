@@ -301,10 +301,10 @@ abstract class Anchor {
 	 */
 	function ceil_rights($set) {
 
-		if($this->item['active'] == 'N')
+		if($this->get_active() == 'N')
 			return 'N';
 
-		if($this->item['active'] == 'R')
+		if($this->get_active() == 'R')
 			if($set == 'N')
 				return 'N';
 			else
@@ -494,7 +494,7 @@ abstract class Anchor {
 	 * @return a secret handle, or NULL
 	 */
 	function get_handle() {
-		if(is_array($this->item))
+		if(isset($this->item['handle']))
 			return $this->item['handle'];
 		return NULL;
 	}
@@ -1221,7 +1221,7 @@ abstract class Anchor {
 			return FALSE;
 
 		// the anchor is public
-		if(isset($this->item['active']) && ($this->item['active'] == 'N'))
+		if($this->get_active() == 'N')
 			return TRUE;
 
 		// not hidden
@@ -1311,7 +1311,7 @@ abstract class Anchor {
 		}
 
 		// the anchor is public
-		if(isset($this->item['active']) && ($this->item['active'] == 'Y'))
+		if($this->get_active() == 'Y')
 			return $this->is_public_cache = TRUE;
 
 		// sorry
@@ -1355,7 +1355,7 @@ abstract class Anchor {
 			return TRUE;
 
 		// section is public
-		if(isset($this->item['active']) && ($this->item['active'] == 'Y'))
+		if($this->get_active() == 'Y')
 			return TRUE;
 
 		// id of requesting user
@@ -1367,7 +1367,7 @@ abstract class Anchor {
 			$user_id = 0;
 
 		// section is opened to members
-		if($user_id && isset($this->item['active']) && ($this->item['active'] == 'R'))
+		if($user_id && $this->get_active() == 'R')
 			return TRUE;
 
 		// anchor has to be assigned
