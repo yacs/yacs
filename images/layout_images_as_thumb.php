@@ -102,6 +102,8 @@ Class Layout_images_as_thumb extends Layout_interface {
 			   $text .= Skin::build_image($variant, $href, $title, $link);
 
 		}
+                
+                $text .= '<div class="clear"></div>'."\n";
 
 		// end of processing
 		SQL::free($result);

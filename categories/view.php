@@ -520,8 +520,36 @@ if(!isset($item['id'])) {
 		if($box['text'])
 			$panels[] = array('articles', i18n::s('Pages'), 'articles_panel', $box['text']);
 	}
-
-
+        
+        // images linked with this category
+        if((!$zoom_type) || ($zoom_type == 'images')) {
+         
+                // build a complete box
+		$box = array('bar' => array(), 'text' => '');
+                if($count = Members::list_images_for_anchor('category:'.$item['id'], null, null, null, 'count')) {
+                    
+                    if($count > 20)
+                        $box['bar'] = array('_count' => sprintf(i18n::ns('%d image', '%d images', $count), $count));
+                    
+                    $offset = ($zoom_index - 1) * FILES_PER_PAGE;
+                    $order  = $this_cat->has_option('images_by');
+                    
+                    $items  = Members::list_images_for_anchor('category:'.$item['id'], $offset, FILES_PER_PAGE, $order, 'thumb');
+                    
+                    if(is_array($items))
+                            $box['text'] .= Skin::build_list($items, 'decorated');
+                    else
+                            $box['text'] .= $items;
+                }
+                
+                if($box['bar'])
+			$box['text'] = Skin::build_list($box['bar'], 'menu_bar').$box['text'];
+                
+                // in a separate panel
+		if($box['text'])
+			$panels[] = array('images', i18n::s('Images'), 'Images_panel', $box['text']);
+            
+        }
 	//
 	// files attached to this category
 	//
