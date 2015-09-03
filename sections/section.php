@@ -495,7 +495,7 @@ Class Section extends Anchor {
 
 			// render all codes
 			if(is_callable(array('Codes', 'beautify')))
-				$text =& Codes::beautify($text, $this->item['options']);
+				$text = Codes::beautify($text, $this->item['options']);
 
 			// remove most html
 			$text = xml::strip_visible_tags($text);
