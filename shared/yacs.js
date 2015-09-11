@@ -1172,7 +1172,7 @@ var Yacs = {
 		});
                 
                 // fit videos
-                if($.fn.fitVids) $('#modal_content .youtube-player').fitVids();
+                if($.fn.fitVids) $('.youtube-player').parent().fitVids();
 
 		// do the tiling
 		var $tiled = $("#modal_content").find('.tiler');
@@ -1294,7 +1294,7 @@ var Yacs = {
                 });
                 
                 // fit videos
-                if($.fn.fitVids) $('.youtube-player').fitVids();
+                if($.fn.fitVids) $('.youtube-player').parent().fitVids();
 
 		// prepare input to ajax-upload a file
                 $('body').on('change','.yc-upload',function(){Yacs.prepareUpload($(this))});
