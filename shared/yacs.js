@@ -1170,6 +1170,9 @@ var Yacs = {
 			if( $(this).is(siblingsLast) )
 				siblingsLast = null;
 		});
+                
+                // fit videos
+                if($.fn.fitVids) $('#modal_content .youtube-player').fitVids();
 
 		// do the tiling
 		var $tiled = $("#modal_content").find('.tiler');
@@ -1289,6 +1292,9 @@ var Yacs = {
                     Yacs.modalPost(true);
                     return false; // stop propagation
                 });
+                
+                // fit videos
+                if($.fn.fitVids) $('.youtube-player').fitVids();
 
 		// prepare input to ajax-upload a file
                 $('body').on('change','.yc-upload',function(){Yacs.prepareUpload($(this))});
