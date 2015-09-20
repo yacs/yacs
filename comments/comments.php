@@ -482,10 +482,10 @@ Class Comments {
 	* @return string the HTML tags to put in the page
 	*/
 	public static function get_form($reference, $follow_up='comments', $placeholder = null, $file_attachement = true) {
-		global $context, $render_overlaid;
+            global $context, $render_overlaid;
                 
-        // default placeholder
-        if(!$placeholder) $placeholder = i18n::s('Reply');
+            // default placeholder
+            if(!$placeholder) $placeholder = i18n::s('Reply');
 
 		// the form to post a comment
 		$text = '<form method="post" action="'.$context['url_to_root'].'comments/edit.php" enctype="multipart/form-data" class="comment_form"><div style="margin: 1em 0;">';

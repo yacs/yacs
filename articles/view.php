@@ -1012,9 +1012,9 @@ if(!isset($item['id'])) {
 				Skin::navigate(NULL, $prefix, $count, $items_per_page, $zoom_index));
 		}
                 
-        // feed the wall
-		if($cur_article->allows('creation','comment'))
-            $box['text'] .= Comments::get_form('article:'.$item['id'], 'json', ucfirst(i18n::s('comment')), false);
+                // feed the wall
+                if($cur_article->allows('creation','comment'))
+                    $box['text'] = Comments::get_form('article:'.$item['id'], 'comments', ucfirst(i18n::s('comment')), false) . $box['text'];
 
 		// show commands
 		if(count($box['bar'])) {
