@@ -2722,7 +2722,7 @@ Class Sections {
 
 		// set layout for sections
 		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/^(accordion|carrousel|compact|custom|decorated|directory|folded|inline|jive|map|slashdot|tabs|titles|yabb|none)$/', $fields['sections_layout']))
-			$fields['sections_layout'] = 'none';
+			$fields['sections_layout'] = 'compact';
 		elseif($fields['sections_layout'] == 'custom') {
 			if(isset($fields['sections_custom_layout']) && $fields['sections_custom_layout'])
 				$fields['sections_layout'] = $fields['sections_custom_layout'];
