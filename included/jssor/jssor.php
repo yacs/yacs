@@ -81,7 +81,7 @@ Class jssor {
             // thumb
             
             // close slide
-            $slider .= '</div>'."n";
+            $slider .= '</div>'."\n";
         }  
         
         // end slider container
@@ -93,16 +93,59 @@ Class jssor {
         // javascript initalization
         $js_options = (isset($option['js']))? $option['js'] : array('$AutoPlay' => 'true');
         $rootname   = 'slider'.$slidenum.'_';
-        Page::insert_script(
+        $js_script  = 
               '$(document).ready(function ($) {'."\n"
               . 'var '.$rootname.'options = '.  json_encode($js_options).";\n"
-              . 'var '.$rootname.'jssor = new $JssorSlider$("'.$rootname.'container", '.$rootname.'options );'
-              . '});'
-              );
+              . 'var '.$rootname.'jssor = new $JssorSlider$("'.$rootname.'container", '.$rootname.'options );'."\n";
+        
+        if(isset($options['fullwidth'])) {
+               $js_script  .= Jssor::Makefullwidth($slidenum, $options['fullwidth']);
+        }
+         
+        $js_script .= '});'."\n";
+        
+        Page::insert_script($js_script);
+              
         
         return $slider;
     }
     
-    
+    private static function Makefullwidth($id, $fitTo) {
+        
+        
+        $js_script = 'function ScaleSlider'.$id.'() {'."\n";
+        
+        
+        switch ($fitTo) {
+            case 'parent':
+                
+                $js_script .= 'var sliderW = slider'.$id.'_jssor.$Elmt.parentNode.clientWidth;'."\n";
+
+                break;
+            case 'body':
+            default:
+                
+                 $js_script .= 'var sliderW = document.body.clientWidth;'."\n";
+                
+                break;
+        }
+        
+        $js_script .= 
+                'if(sliderW)'."\n"
+              . '   slider'.$id.'_jssor.$ScaleWidth(Math.min(sliderW, 1920));'."\n"
+              . 'else'."\n"
+              . '   window.setTimeout(ScaleSlider'.$id.', 30);'."\n";
+        
+        $js_script .= '}'."\n";
+        
+        $js_script .= 'ScaleSlider'.$id.'();'
+
+                   . '$(window).bind("load", ScaleSlider'.$id.');'."\n"
+                   . '$(window).bind("resize", ScaleSlider'.$id.');'."\n"
+                   . '$(window).bind("orientationchange", ScaleSlider'.$id.');'."\n";
+        
+        return $js_script;
+        
+    }
 }
 
