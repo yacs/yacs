@@ -1,7 +1,6 @@
 <?php
 /**
- * Update files netgrabber alpha v1 to v2
- * Use this only on lasares stable archive
+ * Updated files netgrabber alpha v1 to v2
  *
  * @author Alexis Raimbault
  * @reference
@@ -10,8 +9,8 @@
 
 // splash message
 global $local;
-$local['label_en'] = 'Upgrade from Netgrabber alpha';
-$local['label_fr'] = 'Mise à jour de Netgrabber alpha';
+$local['label_en'] = 'Upgrade from Netgrabber alpha #1';
+$local['label_fr'] = 'Mise à jour de Netgrabber alpha #2';
 echo get_local('label')."<br />\n";
 
 
