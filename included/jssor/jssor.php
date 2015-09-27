@@ -67,7 +67,7 @@ Class jssor {
         // Parse $slides to make slides
         Foreach($slides as $slide) {
             // start slide
-             $slider .= '<div>'."n";
+             $slider .= '<div>'."\n";
             // main image
             if(isset($slide['image_src'])) {
                 $slider .= '<img data-u="image" src="'.$slide['image_src'].'" />'."\n";
