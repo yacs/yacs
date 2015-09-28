@@ -613,10 +613,10 @@ Class Codes {
                         $patterns_map['/\[(button)=([^\|]+?)\|([^\]]+?)]/is']                       = 'Codes::render_link'      ;  // [button=label|url]
                         $patterns_map['/\[(click)=([^\|]+?)\|([^\]]+?)]/is']                        = 'Codes::render_link'      ;  // [click=label|url]
                         $patterns_map['/(\[)([^ ][^\]\|]+?[^ ])\|([^ ][^\]]+?[^ ])\]/is']           = 'Codes::render_link'      ;  // [label|url]
-                        $patterns_map['#(\s)([a-z]+?://[a-z0-9_\-\.\~\/@&;:=%$\?]+)#']              = 'Codes::render_link'      ;  // make URL clickable
-                        $patterns_map['#(\s)(www\.[a-z0-9\-]+\.[a-z0-9_\-\.\~]+(?:/[^,< \r\n\)]*)?)#i'] = 'Codes::render_link'  ;  // web server url
                         $patterns_map['/http[s]*:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+)[a-zA-Z0-9_\-&=]*/i'] = '<iframe class="youtube-player" type="text/html" width="445" height="364" src="http://www.youtube.com/embed/$1" frameborder="0"></iframe>'; // YouTube link
                         $patterns_map['/http[s]*:\/\/youtu\.be\/([a-zA-Z0-9_\-]+)/i']               = '<iframe class="youtube-player" type="text/html" width="445" height="364" src="http://www.youtube.com/embed/$1" frameborder="0"></iframe>'; // YouTube link too
+                        $patterns_map['#(\s)([a-z]+?://[a-z0-9_\-\.\~\/@&;:=%$\?]+)#']              = 'Codes::render_link'      ;  // make URL clickable
+                        $patterns_map['#(\s)(www\.[a-z0-9\-]+\.[a-z0-9_\-\.\~]+(?:/[^,< \r\n\)]*)?)#i'] = 'Codes::render_link'  ;  // web server url                        
                         $patterns_map['/\[clicks=([^\]]+?)]/is']                                    = 'Codes::render_clicks'    ;  // [clicks=url]  // @TODO: put in extension
                         $patterns_map['/\[email\](.*?)\[\/email\]/is']                              = 'Codes::render_email'     ;  // [email]url[/email]
                         $patterns_map['/(\s)([a-z0-9_\-\.\~]+?@[a-z0-9_\-\.\~]+\.[a-z0-9_\-\.\~]+)/i']  = 'Codes::render_email' ;  //  mail address
