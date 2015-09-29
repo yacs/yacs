@@ -1376,7 +1376,7 @@ Class Codes {
 				include_once $context['path_to_root'].'/links/links.php';
 				$attributes = Links::transform_reference($image['link_url']);
 				if($attributes[0])
-					$link = $context['url_to_root'].$attributes[0];
+					$link = $attributes[0];
 
 				// direct use of this link
 				else
@@ -1463,7 +1463,7 @@ Class Codes {
 						include_once $context['path_to_root'].'/links/links.php';
 						$attributes = Links::transform_reference($image['link_url']);
 						if($attributes[0])
-							$link = $context['url_to_root'].$attributes[0];
+							$link = $attributes[0];
 
 						// direct use of this link
 						else
