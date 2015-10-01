@@ -97,7 +97,7 @@ Class jssor {
         $slider .= '</div>'."\n";
         
         // javascript initalization
-        $js_options = (isset($option['js']))? $option['js'] : array('$AutoPlay' => 'true');
+        $js_options = (isset($options['js']))? $options['js'] : array('$AutoPlay' => 'true');
         $rootname   = 'slider'.$slidenum.'_';
         $js_script  = 
               '$(document).ready(function ($) {'."\n"
