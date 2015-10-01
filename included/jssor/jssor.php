@@ -41,7 +41,7 @@ Class jssor {
      * @param array $options to provide with this instance
      * @return string formated HTML
      */
-    public static function Make($slides, $options=null) {
+    public static function Make($slides, $options=array()) {
         
         $slider = '';
         
@@ -49,8 +49,20 @@ Class jssor {
         static $slidenum;
         $slidenum = (isset($slidenum))? $slidenum+1 : 1;
         
+        // width and/or height are setted
+        $container_style = '';
+        if(isset($options['width'])) {
+            $container_style        .= 'with='.$options['width'].'px;';
+            $options['js']['$SlideWidth']  = $options['width'];
+        }
+        if(isset($options['height'])) {
+            $container_style        .= 'height='.$options['height'].'px;';
+            $options['js']['$SlideHeight']  = $options['height'];
+        }
+        if($container_style) $container_style = 'style="'.$container_style.'"';
+        
         // main div
-        $slider .= '<div id="slider'.$slidenum.'_container" class="sor-container" >'."\n";
+        $slider .= '<div id="slider'.$slidenum.'_container" class="sor-container" '.$container_style.'>'."\n";
         
         // loading screen, if required
         if(isset($option['loading_screen'])) {
