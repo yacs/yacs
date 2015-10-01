@@ -72,6 +72,12 @@ Class jssor {
             if(isset($slide['image_src'])) {
                 $slider .= '<img data-u="image" src="'.$slide['image_src'].'" />'."\n";
             }
+            
+            // HTML slide content 
+            if(isset($slide['html'])) {
+                $slider .= '<div data-u="slide">'."\n".$slide['html'].'</div>'."\n";
+            }
+            
             // caption
             if(isset($slide['caption'])) {
                 $slider .= '<div data-u="caption" data-t="caption-transition-name" class="sor-caption">'."\n"
