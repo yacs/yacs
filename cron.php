@@ -112,7 +112,7 @@ echo 'Checking ticks...'.BR;
 $record = Values::get_record('cron.tick', NULL_DATE);
 
 // wait at least 5 minutes = 300 seconds between ticks
-if(isset($record['edit_date']))
+if(isset($record['edit_date']) && !isset($_REQUEST['test']))
 	$target = SQL::strtotime($record['edit_date']) + 300;
 else
 	$target = time();
@@ -147,7 +147,7 @@ echo 'Checking hourly jobs...'.BR;
 $record = Values::get_record('cron.hourly', NULL_DATE);
 
 // wait at least 1 hour = 3600 seconds between runs
-if(isset($record['edit_date']))
+if(isset($record['edit_date']) && !isset($_REQUEST['test']))
 	$target = SQL::strtotime($record['edit_date']) + 3600;
 else
 	$target = time();
@@ -182,7 +182,7 @@ echo 'Checking daily jobs...'.BR;
 $record = Values::get_record('cron.daily', NULL_DATE);
 
 // wait at least 1 day = 86400 seconds between runs
-if(isset($record['edit_date']))
+if(isset($record['edit_date']) && !isset($_REQUEST['test']))
 	$target = SQL::strtotime($record['edit_date']) + 86400;
 else
 	$target = time();
