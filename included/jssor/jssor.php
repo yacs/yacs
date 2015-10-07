@@ -157,7 +157,7 @@ Class jssor {
         }
         
         // arrow navigator
-        if(isset($options['Arrows'])) {
+        if(isset($options['arrows'])) {
             $slider .= '<!-- Arrow Navigator Skin Begin -->'."\n";
             $slider .= '<span data-u="arrowleft" class="jssora21l" style="top: 123px; left: 8px;">'."\n";
             $slider .= '</span>'."\n";
@@ -189,7 +189,7 @@ Class jssor {
         }
         
         // option for Arrow Navigator
-        if(isset($options['Arrows'])) {
+        if(isset($options['arrows'])) {
             $js_options['$ArrowNavigatorOptions'] = array(
                 '$Class'              => '$JssorArrowNavigator$',         //[Requried] Class to create arrow navigator instance
                 '$ChanceToShow'       => 1,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
