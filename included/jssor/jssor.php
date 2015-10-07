@@ -11,6 +11,47 @@
 Class jssor {
     
     /**
+     * transform array into json object. Used internaly to set options for js
+     * string values that begins by "$" must not be quoted
+     * (jssor syntaxe)
+     * 
+     * @param array $data
+     * @return string
+     */
+    private static function array_2_js_object( array $data ) {
+
+        $result = '{';
+
+        $separator = '';
+        foreach( $data as $key=>$val ) {
+           $result .= $separator . $key . ':';
+
+           if( is_int( $val ) ) {
+              $result .= $val;
+           } elseif( is_string( $val ) ) {
+              if($val[0] === '$') {
+                    $result .= $val;
+              } else {
+                    $result .= '"' . str_replace( '"', '\"', $val) . '"';
+              }
+           } elseif( is_bool( $val ) ) {
+              $result .= $val ? 'true' : 'false';
+           } elseif( is_array( $val )) {
+               $result .= Jssor::array_2_js_object($val);
+           } else {
+              $result .= $val;
+           }
+
+           $separator = ', ';
+        }
+
+        $result .= '}';
+
+        return $result;
+     }
+
+    
+    /**
      * Load jssor libs 
      * 
      * @global array $context
@@ -30,7 +71,7 @@ Class jssor {
         }
         
         if($withCSS) {
-            Page::load_style('included/jssor/jssor.css');
+            Page::load_style('included/jssor/css/jssor.css');
         }
     }
     
@@ -105,16 +146,64 @@ Class jssor {
         // end slider container
         $slider .= '</div>'."\n";
         
+        // bullet navigator
+        if(isset($options['bullets'])) {
+            $slider .= '<!-- bullet navigator container -->'."\n";
+            $slider .= '<div data-u="navigator" class="jssorb21" style="bottom: 26px; right: 6px;">'."\n";
+            $slider .= '<!-- bullet navigator item prototype -->'."\n";
+            $slider .= '<div data-u="prototype"></div>'."\n";
+            $slider .= '</div>'."\n";
+            $slider .= '<!--#endregion Bullet Navigator Skin End -->'."\n";
+        }
+        
+        // arrow navigator
+        if(isset($options['Arrows'])) {
+            $slider .= '<!-- Arrow Navigator Skin Begin -->'."\n";
+            $slider .= '<span data-u="arrowleft" class="jssora21l" style="top: 123px; left: 8px;">'."\n";
+            $slider .= '</span>'."\n";
+            $slider .= '<!-- Arrow Right -->'."\n";
+            $slider .= '<span data-u="arrowright" class="jssora21r" style="top: 123px; right: 8px;">'."\n";
+            $slider .= '</span>'."\n";
+            $slider .= '<!-- Arrow Navigator Skin End -->'."\n";
+        }
+        
         // end main div
         $slider .= '</div>'."\n";
         
         // javascript initalization
-        $js_options = (isset($options['js']))? $options['js'] : array('$AutoPlay' => true);
+        //$js_options = new stdClass();
+        $js_options = (isset($options['js']))? $options['js'] : array('$AutoPlay' => false);
+        
+        // options for bullet navigator
+        if(isset($options['bullets'])) {
+            $js_options['$BulletNavigatorOptions'] = array(
+                '$Class'              => '$JssorBulletNavigator$',        //[Required] Class to create navigator instance
+                '$ChanceToShow'       => 2,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
+                '$AutoCenter'         => 1,                               //[Optional] Auto center navigator in parent container, 0 None, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
+                '$Steps'              => 1,                               //[Optional] Steps to go for each navigation request, default value is 1
+                '$Lanes'              => 1,                               //[Optional] Specify lanes to arrange items, default value is 1
+                '$SpacingX'           => 8,                               //[Optional] Horizontal space between each item in pixel, default value is 0
+                '$SpacingY'           => 8,                               //[Optional] Vertical space between each item in pixel, default value is 0
+                '$Orientation'        => 1                                //[Optional] The orientation of the navigator, 1 horizontal, 2 vertical, default value is 1
+            );
+        }
+        
+        // option for Arrow Navigator
+        if(isset($options['Arrows'])) {
+            $js_options['$ArrowNavigatorOptions'] = array(
+                '$Class'              => '$JssorArrowNavigator$',         //[Requried] Class to create arrow navigator instance
+                '$ChanceToShow'       => 1,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
+                '$AutoCenter'         => 2,                               //[Optional] Auto center arrows in parent container, 0 No, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
+                '$Steps'              => 1                                //[Optional] Steps to go for each navigation request, default value is 1
+            );
+        }
+        
         $rootname   = 'slider'.$slidenum.'_';
         $js_script  = 
-              '$(document).ready(function ($) {'."\n"
-              . 'var '.$rootname.'options = '.  json_encode($js_options).";\n"
-              . 'var '.$rootname.'jssor = new $JssorSlider$("'.$rootname.'container", '.$rootname.'options );'."\n";
+              'var '.$rootname.'options = {};var '.$rootname.'jssor = {};'
+              . '$(document).ready(function ($) {'."\n"
+              . $rootname.'options = '.  Jssor::array_2_js_object( $js_options ) .";\n"
+              . $rootname.'jssor = new $JssorSlider$("'.$rootname.'container", '.$rootname.'options );'."\n";
         
         if(isset($options['fullwidth'])) {
                $js_script  .= Jssor::Makefullwidth($slidenum, $options['fullwidth']);
