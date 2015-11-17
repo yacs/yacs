@@ -157,8 +157,8 @@ else {
 	$context['text'] .= '<div style="margin: 1em 0;">'.Codes::beautify($item['introduction']).'</div>'."\n";
 
 	// get text related to the overlay, if any
-	//if(is_object($overlay))
-	//	$context['text'] .= $overlay->get_text('view', $item);
+	if(is_object($overlay))
+		$context['text'] .= $overlay->get_text('delete', $item);
 
 	// details
 	$details = array();
