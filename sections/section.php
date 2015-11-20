@@ -628,6 +628,10 @@ Class Section extends Anchor {
 		// list of links
 		case 'links':
 			return $this->get_url().'#_attachments';
+                    
+                // the permalink page
+		case 'view':
+			return Sections::get_permalink($this->item);
 
 		// another action
 		default:
