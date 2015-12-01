@@ -705,6 +705,22 @@ function encode_link($link) {
 	return $output;
 }
 
+
+/**
+ *  Ensure that a link is absolute
+ * @param string a web reference to check
+ * @return string a absolute reference
+ */
+function full_link($link) {
+    
+    //check we have full link
+    if(!preg_match("/^(?:[a-z]+:)?\/\//i", $link)) {
+        $link = "http://".$link;
+    }
+    
+    return $link;
+}
+
 //
 // Localization and internationalization
 //

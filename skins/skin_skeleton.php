@@ -1876,9 +1876,7 @@ Class Skin_Skeleton {
 			if($external) {
                             
                                 //check we have full link
-                                if(!preg_match("/^(?:[a-z]+:)?\/\//i", $url)) {
-                                    $url = "http://".$url;
-                                }
+                                $url = full_link($url);
 
 				// finalize the hovering title
 				if(!$href_title)
