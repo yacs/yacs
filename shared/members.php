@@ -999,7 +999,7 @@ Class Members {
                   .SQL::table_name('members')." AS members"
                   ." ON images.id = members.member_id"
                   ." WHERE members.anchor='".SQL::escape($anchor)."'"
-                  ." AND members.member_type = 'image";
+                  ." AND members.member_type = 'image'";
             
             if($variant !== 'count') {
                   if(!$order) $order = 'edit_date DESC';
