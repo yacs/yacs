@@ -307,7 +307,7 @@ Class Js_Css {
 	    // and we are in production mode
 	    // and file not already minified
 	    if ( $context['with_debug']=='N'
-		&& !preg_match('/\.min\./', $path_parts['filename'])) {
+		&& !preg_match('/\.min\.?/', $path_parts['filename'])) {
 
 		// minified version path
 		$min_v = $path_parts['dirname'].'/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
