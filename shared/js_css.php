@@ -312,7 +312,12 @@ Class Js_Css {
 		// minified version path
 		$min_v = $path_parts['dirname'].'/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
 
-		if(file_exists(Safe::realpath($min_v))) $path = $min_v;
+		if(file_exists(Safe::realpath($min_v))) 
+                    $path = $min_v; 
+                else {
+                    // minify it for next time, but as a background process
+                    proceed_bckg('tools/minifier.php?script='.Safe::realpath($path));
+                }
 
 	    // TODO : warning case exept if .core. ;
 	    }
@@ -372,6 +377,71 @@ Class Js_Css {
 	}
 
         return Js_Css::link_exit(true, $path, $straitnow);
+    }
+    
+    /**
+     * Minify a script using a external API service
+     * 
+     * @param string $path local to the file to minify
+     * @param string $ext of the file
+     */
+    public static function minify($path) {
+        
+        // get file content
+        $to_minify = safe::file_get_contents($path);
+        
+        // sanity check
+        if(!$to_minify) {
+            logger::remember('shared/js_css.php', 'cannot get file to minify : '.$path);
+            return false;
+        }
+        
+        // gather info on file
+        $path_parts = pathinfo($path);
+        
+        // build http query depending on file extension
+        switch ($path_parts['extension']) {
+            case 'css':
+                $url = 'http://cssminifier.com/raw';
+
+                break;
+            case 'js':
+                $url = 'https://javascript-minifier.com/raw';
+
+                break;
+            default:
+                $url = '';
+                break;
+        }
+        
+        if($url) {
+            
+            $data = array('input' => $to_minify);
+                    
+
+            $postdata = array('http' => array(
+	        'method'  => 'POST',
+	        'header'  => 'Content-type: application/x-www-form-urlencoded',
+	        'content' => http_build_query( array('input' => $to_minify) ) ) );
+            
+            $minified = file_get_contents($url, false, stream_context_create($postdata));
+            
+
+            ///// save the $minified version
+            // build the path
+            $min_path = $path_parts['dirname'].'/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
+            
+            // delete previous one
+            Safe::unlink($min_path);
+            
+            // save new
+            if($minified) {
+                return Safe::file_put_contents($min_path, $minified);
+            }
+            
+        }
+        
+        return false;
     }
 
     /**
