@@ -2011,4 +2011,35 @@ function proxy($url) {
 	return $context['url_to_home'].$context['url_to_root'].'services/proxy.php?url='.urlencode($url);
 }
 
+/**
+ * Do background treatment using a asynchronous cURL Request
+ * 
+ * @see http://www.paul-norman.co.uk/2009/06/asynchronous-curl-requests
+ * 
+ * @param $script string the path (and parameters) of the internal script to call
+ */
+function proceed_bckg ($script) {
+    global $context;
+    
+    // sanity check
+    if (!is_callable('curl_init')) {
+        if ($context['with_debug'] == 'Y')
+            Logger::remember('shared/global.php', 'CURL is not implemented', 'debug');
+        return FALSE;
+    }
+    
+    $ch = curl_init();
+ 
+    curl_setopt($ch, CURLOPT_URL, $context['url_to_master'].$context['url_to_root'].$script);
+    curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT_MS, 1);
+    
+    Logger::remember('Asynchronous call"', $script);
+
+    curl_exec($ch);
+    curl_close($ch);
+    
+    return TRUE;
+}
+
 ?>
