@@ -311,15 +311,20 @@ Class Js_Css {
 
 		// minified version path
 		$min_v = $path_parts['dirname'].'/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
+                
+                $date_src = $date_min = filemtime($path);
+                if(file_exists(Safe::realpath($min_v))) {
+                    $date_min = filemtime($min_v);
+                }
 
-		if(file_exists(Safe::realpath($min_v))) 
+                // compare minified file last update to original src file
+		if($date_src < $date_min) 
                     $path = $min_v; 
                 else {
-                    // minify it for next time, but as a background process
+                    // need minification for next time, but launch it as a background process
                     proceed_bckg('tools/minifier.php?script='.Safe::realpath($path));
                 }
 
-	    // TODO : warning case exept if .core. ;
 	    }
 
             // get last revision date
