@@ -2034,9 +2034,11 @@ function proceed_bckg ($script) {
     curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
     curl_setopt($ch, CURLOPT_TIMEOUT_MS, 1);
     
-    Logger::remember('Asynchronous call"', $script);
+    Logger::remember('Asynchronous call', $script);
 
-    curl_exec($ch);
+    if(curl_exec($ch) === false && $context['with_debug'] == 'Y') {
+        Logger::remember('Asynchronous call', 'Error : '.curl_error($ch));
+    }
     curl_close($ch);
     
     return TRUE;

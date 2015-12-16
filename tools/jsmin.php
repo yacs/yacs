@@ -105,7 +105,7 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 
 	// do the same with included/browser/js_endpage, including shared/yacs.js
 	$minified ='';
-	/*$files = Safe::glob($context['path_to_root'].'included/browser/js_endpage/*.js');
+	$files = Safe::glob($context['path_to_root'].'included/browser/js_endpage/*.js');
 	if(is_array($files)  && count($files))
 	    foreach( $files as $name) {
 
@@ -141,7 +141,7 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 	    Safe::file_put_contents($file_min, $minified);
 	} else {
 	    Safe:unlink ($file_min);
-	}/*
+	}
 
 	// do the same in included/calendar
 	/* if($names = Safe::glob($context['path_to_root'].'included/jscalendar/*.js')) {
