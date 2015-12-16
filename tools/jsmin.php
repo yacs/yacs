@@ -63,8 +63,6 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 
 	// list running scripts
 	$context['text'] .= '<p>'.i18n::s('Compressing Javascript files...').BR."\n";
-        
-        Js_css::minify($context['path_to_root'].'shared/yacs.js');
 
 	// script to not compress (provide name1.ext, name2.ext...)
 	$to_avoid = array(
