@@ -300,9 +300,11 @@ Class Js_Css {
 
 	// if path is a local file
 	if(strncmp($path, 'http', 4)!=0) {
+            
+            $realpath = Safe::realpath($path);
 
 	    // check if file exists
-	    if(!file_exists(Safe::realpath($path))) return Js_Css::link_exit(false, $path, $straitnow);
+	    if(!file_exists($realpath)) return Js_Css::link_exit(false, $path, $straitnow);
 
 	    // and we are in production mode
 	    // and file not already minified
@@ -310,17 +312,18 @@ Class Js_Css {
 		&& !preg_match('/\.min\.?/', $path_parts['filename'])) {
 
 		// minified version path
-		$min_v = $path_parts['dirname'].'/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
+		$min_v      = $path_parts['dirname'].'/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
+                $real_min_v = Safe::realpath($min_v);
                 
-                $date_src = $date_min = filemtime($path);
-                if(file_exists(Safe::realpath($min_v))) {
-                    $date_min = filemtime($min_v);
+                $date_src = $date_min = filemtime($realpath);
+                if(file_exists($real_min_v)) {
+                    $date_min = filemtime($real_min_v);
                 }
-
+                
                 // compare minified file last update to original src file
-		if($date_src < $date_min) 
+		if($date_src < $date_min) {
                     $path = $min_v; 
-                else {
+                } else {
                     // need minification for next time, but launch it as a background process
                     proceed_bckg('tools/minifier.php?script='.Safe::realpath($path));
                 }
