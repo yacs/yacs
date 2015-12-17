@@ -424,15 +424,37 @@ Class Js_Css {
         
         if($url) {
             
-            $data = array('input' => $to_minify);
-                    
+            // try with cURL 
+            if(is_callable(curl_init)) {
+                $data = 'input='.$to_minify;
+                
+                $ch = curl_init();
 
-            $postdata = array('http' => array(
-	        'method'  => 'POST',
-	        'header'  => 'Content-type: application/x-www-form-urlencoded',
-	        'content' => http_build_query( array('input' => $to_minify) ) ) );
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                
+                $minified = curl_exec($ch);
+    
+                if($minified === false) {
+                    logger::remember('shared/js_css','cURL error: ' . curl_error($ch));
+                } 
+                
             
-            $minified = file_get_contents($url, false, stream_context_create($postdata));
+            // try with file_get_contents, must have allow_url_fopen = yes
+            } else {
+                $data = array('input' => $to_minify);
+
+
+                $postdata = array('http' => array(
+                    'method'  => 'POST',
+                    'header'  => 'Content-type: application/x-www-form-urlencoded',
+                    'content' => http_build_query( array('input' => $to_minify) ) ) );
+
+                $minified = file_get_contents($url, false, stream_context_create($postdata));
+            }
+            
             
 
             ///// save the $minified version
