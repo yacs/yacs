@@ -2012,17 +2012,23 @@ function proxy($url) {
 }
 
 /**
- * Do background treatment using a asynchronous cURL Request
+ * Do background treatment using a asynchronous Request
  * 
  * @see http://www.paul-norman.co.uk/2009/06/asynchronous-curl-requests
+ * @see http://stackoverflow.com/questions/124462/asynchronous-php-calls
  * 
  * @param $script string the path (and parameters) of the internal script to call
  */
 function proceed_bckg ($script) {
     global $context;
     
+    $target = $context['url_to_master'].$context['url_to_root'].$script;
+    Logger::remember('Asynchronous call', $script);
+    
+    ////    DO IT WITH CURL, But need AsyncDNS option activated.
+    //      Depend on host configuration
     // sanity check
-    if (!is_callable('curl_init')) {
+    /*if (!is_callable('curl_init')) {
         if ($context['with_debug'] == 'Y')
             Logger::remember('shared/global.php', 'CURL is not implemented', 'debug');
         return FALSE;
@@ -2030,16 +2036,33 @@ function proceed_bckg ($script) {
     
     $ch = curl_init();
  
-    curl_setopt($ch, CURLOPT_URL, $context['url_to_master'].$context['url_to_root'].$script);
+    curl_setopt($ch, CURLOPT_URL, $target);
     curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
     curl_setopt($ch, CURLOPT_TIMEOUT_MS, 1);
     
-    Logger::remember('Asynchronous call', $script);
+    
 
-    if(curl_exec($ch) === false && $context['with_debug'] == 'Y') {
-        Logger::remember('Asynchronous call', 'Error : '.curl_error($ch));
-    }
-    curl_close($ch);
+    curl_exec($ch);
+    curl_close($ch);*/
+    
+    // DO IT WITH a socket
+    $parts  = parse_url($target);
+    $errno  = 0;
+    $errstr = '';
+    
+    $fp = fsockopen($parts['host'],
+        isset($parts['port'])?$parts['port']:80,
+        $errno, $errstr, 30);
+    
+    $out = "POST ".$parts['path']." HTTP/1.1\r\n";
+    $out.= "Host: ".$parts['host']."\r\n";
+    $out.= "Content-Type: application/x-www-form-urlencoded\r\n";
+    $out.= "Content-Length: ".strlen($parts['query'])."\r\n";
+    $out.= "Connection: Close\r\n\r\n";
+    if (isset($parts['query'])) $out.= $parts['query'];
+    
+    fwrite($fp, $out);
+    fclose($fp);
     
     return TRUE;
 }
