@@ -438,7 +438,7 @@ Class Js_Css {
             
             // try with cURL 
             if(is_callable(curl_init)) {
-                $data = 'input='.$to_minify;
+                $data = 'input='.urlencode($to_minify);
                 
                 $ch = curl_init();
 
