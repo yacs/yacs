@@ -411,6 +411,18 @@ Class Js_Css {
         switch ($path_parts['extension']) {
             case 'css':
                 $url = 'http://cssminifier.com/raw';
+                
+                //// do a part of minification job to limit the size of transmited content
+                
+                // Normalize whitespace
+                $to_minify = preg_replace( '/\s+/', ' ', $to_minify );
+
+                // Remove spaces before and after comment
+                $to_minify = preg_replace( '/(\s+)(\/\*(.*?)\*\/)(\s+)/', '$2', $to_minify );
+                
+                // Remove comment blocks, everything between /* and */, unless
+                // preserved with /*! ... */ or /** ... */
+                $to_minify = preg_replace( '~/\*(?![\!|\*])(.*?)\*/~', '', $to_minify );
 
                 break;
             case 'js':
