@@ -9,7 +9,7 @@
  */
 abstract Class Layout_interface {
     
-	
+        
 	/**
 	 *  the reference focused by this layout, if any
 	 */
@@ -21,7 +21,7 @@ abstract Class Layout_interface {
 	var $layout_variant;
 	
 	/**
-	 * type of listed objects
+	 * type of currently listed objects
 	 */
 	var $listed_type;
 	

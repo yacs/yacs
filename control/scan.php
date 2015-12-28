@@ -211,7 +211,7 @@ function include_hook($path) {
 global $hooks, $action;
 
 // scan only selected sub-directories
-$scanned = array('', 'agents', 'articles', 'categories', 'control', 'feeds', 'files', 'included', 'overlays', 'parameters', 'sections', 'services', 'shared', 'tools', 'users');
+$scanned = array('', 'agents', 'articles', 'categories', 'control', 'feeds', 'files', 'included', 'overlays', 'parameters', 'sections', 'services', 'shared', 'tools', 'users','layouts');
 
 // ensure that the user is an associate, except on first install
 if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_exists('../parameters/switch.off'))) {
@@ -241,7 +241,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 	// introduce each hook
 	} else {
 
-		$links = $includes = $calls = $services = array();
+		$links = $includes = $calls = $services = $layouts = array();
 
 		// consider each hook
 		foreach($hooks as $hook) {
@@ -395,6 +395,34 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 				$services[ $id ] = $text;
 
 				break;
+                                
+                        case 'layout':
+                            
+                                // form item
+				$input = '<input type="checkbox" name="'.$id.'" value="Y" checked="checked" />';
+
+				// description
+				if($description = i18n::l($hook, 'description'))
+					$description .= BR;
+
+				// user information
+				$text = '<dt>'.$input.' <b>'.i18n::l($hook, 'label').'</b></dt><dd>'.$description."\n";
+
+				if(isset($hook['id']) && $hook['id'])
+					$text .= '- '.sprintf(i18n::s('identifier: %s'), $hook['id']).BR."\n";
+                                
+                                if(isset($hook['supported']))
+                                        $text .= '- '.sprintf(i18n::s('Supported types : %s'), $hook['supported']).BR."\n";
+
+				if(isset($hook['source']) && $hook['source'])
+					$text .= '- '.sprintf(i18n::s('source: %s'), $hook['source']).BR."\n";
+
+				$text .= "</dd>\n\n";
+
+				// remember for later use
+				$layouts[ $id ] = $text;
+                                
+                                break;
 
 			default:
 				// user information
@@ -429,6 +457,12 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 		if(count($services)) {
 			asort($services);
 			$context['text'] .= Skin::build_block(i18n::s('Service hooks'), 'title').'<dl>'.implode('', array_values($services)).'</dl>';
+		}
+                
+                // list layout hooks
+		if(count($layouts)) {
+			asort($layouts);
+			$context['text'] .= Skin::build_block(i18n::s('Layout hooks'), 'title').'<dl>'.implode('', array_values($layouts)).'</dl>';
 		}
 
 		// the submit button
@@ -478,11 +512,12 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 		Safe::rename('../parameters/hooks.include.php', '../parameters/hooks.include.php.bak');
 
 		// what we have to produce
-		$called_items = array();
-		$included_items = array();
+		$called_items           = array();
+		$included_items         = array();
 		$included_items['tick'] = '';
-		$linked_items = array();
-		$served_items = array();
+		$linked_items           = array();
+		$served_items           = array();
+                $layout_items           = array();
 
 		// we will remember a xml file as well
 		$xml = '';
@@ -626,6 +661,22 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 					$served_items[$hook['id']] .= "\t\t\t".'$result = '.$hook['function'].'($parameters);'."\n";
 
 				break;
+                                
+                        case 'layout':
+                            
+                                // user information
+                                $context['text'] .= sprintf(i18n::s('Declaration of layout %s'), $hook['script']).BR."\n";
+                                
+                                $supported_entities = explode(',',$hook['supported']);
+                                
+                                // preparation
+                                foreach($supported_entities as $entity) {
+                                    if(!isset($layout_items[$entity])) $layout_items[$entity] = array();
+                                    
+                                    $layout_items[$entity][] = $hook['id'];
+                                }
+                            
+                                break;
 
 			default:
 				// user information
@@ -741,6 +792,18 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 		// end the serving function
 		$content .= "\t\t}\n\n\t\t".'return $result;'."\n";
 		$content .= "\t".'}'."\n\n";
+                
+                // start layouts list function
+                
+                $content .= "\t".'public static function layout_scripts($type) {'."\n"
+                          ."\t\t".'static $declared_layouts;'."\n\n"
+                          ."\t\t".'if(!isset($declared_layouts))'."\n\n"
+                          ."\t\t\t".'$declared_layouts = json_decode(\''.json_encode($layout_items).'\',true);'."\n\n"
+      
+                          ."\t\t".'$supported_layout = (isset($declared_layouts[$type]))?$declared_layouts[$type]:null;'."\n\n"
+
+                          ."\t\t".'return $supported_layout;'."\n"
+                          ."\t".'}'."\n";
 
 		// the tail section
 		$content .= '}'."\n"
