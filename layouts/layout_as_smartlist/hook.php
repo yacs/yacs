@@ -21,7 +21,7 @@ $hooks[] = array(
 	'supported'	=> 'article,section,category,file',
 	'script'	=> 'layouts/layout_as_smartlist/layout_as_smartlist.php',
 	'label_en'	=> 'Layout items as a unordered list with icon (thumbs) title and introduction',
-	'label_fr'	=> 'Liste les éléments comme une liste non numéroté avec icone (vignette) titre et introduction',
+	'label_fr'	=> 'Liste les éléments avec icone (vignette) titre et introduction',
 
         'source'        => 'http://www.yacs.fr'
 	);

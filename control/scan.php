@@ -518,6 +518,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 		$linked_items           = array();
 		$served_items           = array();
                 $layout_items           = array();
+                $layout_descriptions    = array();
 
 		// we will remember a xml file as well
 		$xml = '';
@@ -675,6 +676,17 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
                                     
                                     $layout_items[$entity][] = $hook['id'];
                                 }
+                                
+                                // get description of each layout
+                                $lang = array();
+                                foreach($hook as $k => $v) {
+                                    if(substr($k,0,6) == 'label_')
+                                          $lang[$k] = $v;
+                                }
+                                
+                                // store that for later compilation
+                                $layout_descriptions[$hook['id']] = $lang;
+                                
                             
                                 break;
 
@@ -794,16 +806,26 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 		$content .= "\t".'}'."\n\n";
                 
                 // start layouts list function
-                
                 $content .= "\t".'public static function layout_scripts($type) {'."\n"
-                          ."\t\t".'static $declared_layouts;'."\n\n"
-                          ."\t\t".'if(!isset($declared_layouts))'."\n\n"
-                          ."\t\t\t".'$declared_layouts = json_decode(\''.json_encode($layout_items).'\',true);'."\n\n"
-      
-                          ."\t\t".'$supported_layout = (isset($declared_layouts[$type]))?$declared_layouts[$type]:null;'."\n\n"
+                        ."\t\t".'static $declared_layouts;'."\n\n"
+                        ."\t\t".'if(!isset($declared_layouts))'."\n"
+                        ."\t\t\t".'$declared_layouts = json_decode(\''.json_encode($layout_items).'\',true);'."\n\n"
 
-                          ."\t\t".'return $supported_layout;'."\n"
-                          ."\t".'}'."\n";
+                        ."\t\t".'$supported_layout = (isset($declared_layouts[$type]))?$declared_layouts[$type]:null;'."\n\n"
+
+                        ."\t\t".'return $supported_layout;'."\n"
+                        ."\t".'}'."\n";
+                
+                // layout description
+                $content .= "\t".'public static function layout_description($layout) {'."\n"
+                        ."\t\t".'static $layout_descriptions;'."\n\n"
+                        ."\t\t".'if(!isset($layout_descriptions))'."\n"
+                        ."\t\t\t".'$layout_descriptions = json_decode(\''.json_encode($layout_descriptions).'\',true);'."\n\n"
+                      
+                        ."\t\t".'$description = (isset($layout_descriptions[$layout]))?i18n::l($layout_descriptions[$layout],\'label\'):$layout;'."\n\n"
+
+                        ."\t\t".'return $description;'."\n"
+                        ."\t".'}'."\n";
 
 		// the tail section
 		$content .= '}'."\n"

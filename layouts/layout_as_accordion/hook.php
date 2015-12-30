@@ -20,8 +20,8 @@ $hooks[] = array(
         'type'		=> 'layout',
 	'supported'	=> 'article,section',
 	'script'	=> 'layouts/layout_as_accordion/layout_as_accordion.php',
-	'label_en'	=> 'layout items as folded boxes in an accordion',
-	'label_fr'	=> 'liste les éléments en tant que boîtes pliantes en accordéon',
+	'label_en'	=> 'Layout items as folded boxes in an accordion',
+	'label_fr'	=> 'Liste les éléments en tant que boîtes pliantes en accordéon',
 
         'source'        => 'http://www.yacs.fr'
 	);

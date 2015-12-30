@@ -458,7 +458,10 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['articles_layout']))
 		$item['articles_layout'] = 'decorated';
-	elseif(!preg_match('/^(accordion|alistapart|carrousel|compact|daily|decorated|digg|directory|hardboiled|jive|map|newspaper|none|simile|slashdot|table|tabs|tagged|titles|yabb)$/', $item['articles_layout'])) {
+        
+        $input = Skin::build_layouts_selector('article',$item['articles_layout']);
+        
+	/*elseif(!preg_match('/^(accordion|alistapart|carrousel|compact|daily|decorated|digg|directory|hardboiled|jive|map|newspaper|none|simile|slashdot|table|tabs|tagged|titles|yabb)$/', $item['articles_layout'])) {
 		$custom_layout = $item['articles_layout'];
 		$item['articles_layout'] = 'custom';
 	}
@@ -546,7 +549,7 @@ if($with_form) {
 		.BR.'<input type="radio" name="articles_layout" value="none"';
 	if($item['articles_layout'] == 'none')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not list pages').BR;
+	$input .= '/> '.i18n::s('Do not list pages').BR;*/
 	$fields[] = array($label, $input);
 
 	// content options

@@ -1633,6 +1633,76 @@ Class Skin_Skeleton {
 
 		}
 	}
+        
+        /**
+         * Build layout list selection
+         * 
+         * $type string the entity type to select a layout for
+         */
+        public static function build_layouts_selector($type, $current) {
+            
+            // get family names
+            switch($type) {
+		case 'article':
+		    $family = 'articles';
+		    break;
+		case 'section':
+		    $family = 'sections';
+		    break;
+		case 'file':
+		    $family = 'files';
+		    break;
+                case 'image':
+                    $family = 'images';
+                    break;
+		case 'user':
+		    $family = 'users';
+		    break;
+		case 'category':
+		    $family = 'categories';
+		    break;
+                default:
+                    $family = 'unknown';
+	    }
+            
+            // get layouts names list
+            $supported_layouts = Hooks::layout_scripts($type);
+            $custom_layout = '';
+            
+            // check if current among this
+            if(array_search($current, $supported_layouts) === false){
+                $custom_layout = $current;
+		$current = 'custom';
+            }
+            
+            // build input
+            $input = '';
+            foreach($supported_layouts as $layout) {
+                
+                $input .= '<input type="radio" name="'.$family.'_layout" value="'.$layout.'"';
+                
+                if($current == $layout)
+                    $input .= ' checked="checked"';
+                $input .= '/> <em>'.$layout.'</em> : '.strtolower(Hooks::layout_description($layout)).BR; // todo : description selon langue
+                
+            }
+            
+            $input .= '<input type="radio" name="'.$family.'_layout" value="custom" id="custom_'.$family.'_layout"';
+            
+            if($current == 'custom')
+                $input .= ' checked="checked"';
+            $input .= '/> '.sprintf(i18n::s('Use the customized layout %s'),
+                  '<input type="text" name="'.$family.'_custom_layout" value="'
+                  .encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_'.$family.'_layout\').attr(\'checked\', \'checked\')" />').BR;
+            
+            $input .= '<input type="radio" name="'.$family.'_layout" value="none"';
+            if($current == 'none')
+		$input .= ' checked="checked"';
+            $input .= '/> '.i18n::s('Do not list elements').BR;
+            
+            
+            return $input;
+        } 
 
 	/**
 	 * build a link
