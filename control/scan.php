@@ -274,6 +274,9 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 
 			// item id
 			$id = preg_replace('/([^\w]+)/', '_', $hook['id'].' '.$hook['script']);
+                        
+                        // check if active
+                        $active = ( is_callable(array('Hooks','is_active')) && Hooks::is_active($id) ) || !is_callable(array('Hooks','is_active'));
 
 			// depending on hook type
 			switch($hook['type']) {
@@ -281,7 +284,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 			case 'link':
 
 				// form item
-				$input = '<input type="checkbox" name="'.$id.'" value="Y" checked="checked" />';
+				$input = '<input type="checkbox" name="'.$id.'" value="Y" '.(($active)?'checked="checked"':'').' />';
 
 				// description
 				if($description = i18n::l($hook, 'description'))
@@ -309,7 +312,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 			case 'include':
 
 				// form item
-				$input = '<input type="checkbox" name="'.$id.'" value="Y" checked="checked" />';
+				$input = '<input type="checkbox" name="'.$id.'" value="Y" '.(($active)?'checked="checked"':'').' />';
 
 				// description
 				if($description = i18n::l($hook, 'description'))
@@ -340,7 +343,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 			case 'call':
 
 				// form item
-				$input = '<input type="checkbox" name="'.$id.'" value="Y" checked="checked" />';
+				$input = '<input type="checkbox" name="'.$id.'" value="Y" '.(($active)?'checked="checked"':'').' />';
 
 				// description
 				if($description = i18n::l($hook, 'description'))
@@ -368,7 +371,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 			case 'serve':
 
 				// form item
-				$input = '<input type="checkbox" name="'.$id.'" value="Y" checked="checked" />';
+				$input = '<input type="checkbox" name="'.$id.'" value="Y" '.(($active)?'checked="checked"':'').' />';
 
 				// description
 				if($description = i18n::l($hook, 'description'))
@@ -399,7 +402,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
                         case 'layout':
                             
                                 // form item
-				$input = '<input type="checkbox" name="'.$id.'" value="Y" checked="checked" />';
+				$input = '<input type="checkbox" name="'.$id.'" value="Y" '.(($active)?'checked="checked"':'').' />';
 
 				// description
 				if($description = i18n::l($hook, 'description'))
@@ -512,6 +515,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 		Safe::rename('../parameters/hooks.include.php', '../parameters/hooks.include.php.bak');
 
 		// what we have to produce
+                $active_hooks           = array();
 		$called_items           = array();
 		$included_items         = array();
 		$included_items['tick'] = '';
@@ -565,8 +569,11 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 					$local['name_fr'] = $hook['label_fr'];
 				if(!isset($_REQUEST[$id]) || ($_REQUEST[$id] != 'Y')) {
 					$context['text'] .= sprintf(i18n::s('Disabling extension %s'), $id).BR."\n";
+                                        $active_hooks[$id] = false;
 					continue;
-				}
+				} else {
+                                        $active_hooks[$id] = true;
+                                }
 			}
 
 			// depending on hook type
@@ -711,6 +718,17 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 			.'// on '.gmdate("F j, Y, g:i a").' GMT, for '.Surfer::get_name().'. Please do not modify it manually.'."\n"
 			."\n"
 			.'class Hooks {'."\n\n";
+                
+                // start function to tell if a hook is activated or not ( or is new )
+                $content .= "\t".'public static function is_active($id) {'."\n"
+                            ."\t\t".'static $active_hooks;'."\n\n"
+                            ."\t\t".'if(!isset($active_hooks))'."\n"
+                            ."\t\t\t".'$active_hooks = json_decode(\''.json_encode($active_hooks).'\',true);'."\n\n"
+                            ."\t\t".'if(isset($active_hooks[$id]))'."\n"
+                            ."\t\t\t".'return $active_hooks[$id];'."\n"
+                            ."\t\t".'else'."\n"
+                            ."\t\t\t".'return true;'."\n"
+                            ."\t}\n\n";
 
 		// start the linking function
 		$content .= "\t".'public static function link_scripts($id, $variant=\'list\') {'."\n"
