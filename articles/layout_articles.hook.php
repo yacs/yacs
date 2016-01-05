@@ -1,7 +1,7 @@
 <?php
 
 /**
- * declaration of accordion layout
+ * declaration of decorated layout
  *
  * @author Alexis Raimbault
  * @reference
@@ -20,8 +20,8 @@ $hooks[] = array(
         'type'		=> 'layout',
 	'supported'	=> 'article',
 	'script'	=> 'articles/layout_articles.php',
-	'label_en'	=> 'This is the default layout for articles',
-	'label_fr'	=> 'Layout par défaut pour les articles',
+	'label_en'	=> 'This is the default layout',
+	'label_fr'	=> 'Layout par défaut',
 
         'source'        => 'http://www.yacs.fr'
 	);

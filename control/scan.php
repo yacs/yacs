@@ -829,7 +829,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
                         ."\t\t".'if(!isset($declared_layouts))'."\n"
                         ."\t\t\t".'$declared_layouts = json_decode(\''.json_encode($layout_items).'\',true);'."\n\n"
 
-                        ."\t\t".'$supported_layout = (isset($declared_layouts[$type]))?$declared_layouts[$type]:null;'."\n\n"
+                        ."\t\t".'$supported_layout = (isset($declared_layouts[$type]))?$declared_layouts[$type]:array();'."\n\n"
 
                         ."\t\t".'return $supported_layout;'."\n"
                         ."\t".'}'."\n";

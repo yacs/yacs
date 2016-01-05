@@ -347,156 +347,35 @@ if($with_form) {
 	$fields = array();
 
 	// layout for  related sections
-	$label = i18n::s('Layout');
-	$input = '';
-	$custom_layout = '';
-	if(!isset($item['sections_layout']) || !$item['sections_layout'])
+	$label      = i18n::s('Layout');
+	
+        if(!isset($item['sections_layout']) || !$item['sections_layout'])
 		$item['sections_layout'] = 'map';
-	elseif(!preg_match('/(compact|decorated|folded|inline|jive|map|slashdot|titles|yabb|none)/', $item['sections_layout'])) {
-		$custom_layout = $item['sections_layout'];
-		$item['sections_layout'] = 'custom';
-	}
-	$input .= '<input type="radio" name="sections_layout" value="decorated"';
-	if($item['sections_layout'] == 'decorated')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - A list decorated with images')
-		.BR.'<input type="radio" name="sections_layout" value="slashdot"';
-	if($item['sections_layout'] == 'slashdot')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('slashdot - List most recent pages equally')
-		.BR.'<input type="radio" name="sections_layout" value="map"';
-	if($item['sections_layout'] == 'map')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('map - Map in two columns, like Yahoo!')
-		.BR.'<input type="radio" name="sections_layout" value="jive"';
-	if($item['sections_layout'] == 'jive')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('jive - List 5 threads per board')
-		.BR.'<input type="radio" name="sections_layout" value="yabb"';
-	if($item['sections_layout'] == 'yabb')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('yabb - A discussion forum')
-		.BR.'<input type="radio" name="sections_layout" value="inline"';
-	if($item['sections_layout'] == 'inline')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('inline - List sections and related pages')
-		.BR.'<input type="radio" name="sections_layout" value="folded"';
-	if($item['sections_layout'] == 'folded')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('folded - One folded box per section, with content')
-		.BR.'<input type="radio" name="sections_layout" value="compact"';
-	if($item['sections_layout'] == 'compact')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - A compact list')
-		.BR.'<input type="radio" name="sections_layout" value="titles"';
-	if($item['sections_layout'] == 'titles')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('titles - Use only titles and thumbnails')
-		.BR.'<input type="radio" name="sections_layout" value="custom" id="custom_sections_layout"';
-	if($item['sections_layout'] == 'custom')
-		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_sections_layout\').attr(\'checked\', \'checked\')" />')
-		.BR.'<input type="radio" name="sections_layout" value="none"';
-	if($item['sections_layout'] == 'none')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not list sections');
-	$fields[] = array($label, $input);
+	
+        $input      = Skin::build_layouts_selector('section', $item['sections_layout']);
+	$fields[]   = array($label, $input);
 
 	// append fields
 	$text .= Skin::build_box(i18n::s('Sections'), Skin::build_form($fields), 'folded');
 	$fields = array();
 
 	// layout for related articles
-	$label = i18n::s('Layout');
-	$input = '';
-	$custom_layout = '';
 	if(!isset($item['articles_layout']) || !$item['articles_layout'])
 		$item['articles_layout'] = 'decorated';
-	elseif(!preg_match('/(alistapart|compact|daily|decorated|digg|jive|map|none|slashdot|table|yabb)/', $item['articles_layout'])) {
-		$custom_layout = $item['articles_layout'];
-		$item['articles_layout'] = 'custom';
-	}
-	$input .= '<input type="radio" name="articles_layout" value="decorated"';
-	if($item['articles_layout'] == 'decorated')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - A list decorated with images');
-	$input .= BR.'<input type="radio" name="articles_layout" value="digg"';
-	if($item['articles_layout'] == 'digg')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('digg - To order pages by rating');
-	$input .= BR.'<input type="radio" name="articles_layout" value="slashdot"';
-	if($item['articles_layout'] == 'slashdot')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('slashdot - List most recent pages equally');
-	$input .= BR.'<input type="radio" name="articles_layout" value="map"';
-	if($item['articles_layout'] == 'map')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('map - Map in two columns, like Yahoo!');
-	$input .= BR.'<input type="radio" name="articles_layout" value="table"';
-	if($item['articles_layout'] == 'table')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('table - A table of recent pages');
-	$input .= BR.'<input type="radio" name="articles_layout" value="daily"';
-	if($item['articles_layout'] == 'daily')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('daily - A list of stamped pages (blog)');
-	$input .= BR.'<input type="radio" name="articles_layout" value="jive"';
-	if($item['articles_layout'] == 'jive')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('jive - Display most of articles content');
-	$input .= BR.'<input type="radio" name="articles_layout" value="yabb"';
-	if($item['articles_layout'] == 'yabb')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('yabb - A discussion board');
-	$input .= BR.'<input type="radio" name="articles_layout" value="alistapart"';
-	if($item['articles_layout'] == 'alistapart')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('alistapart - Display entirely the last published page');
-	$input .= BR.'<input type="radio" name="articles_layout" value="compact"';
-	if($item['articles_layout'] == 'compact')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - A compact list');
-	$input .= BR.'<input type="radio" name="articles_layout" value="custom" id="custom_articles_layout"';
-	if($item['articles_layout'] == 'custom')
-		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="articles_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_articles_layout\').attr(\'checked\', \'checked\')" />');
-	$input .= BR.'<input type="radio" name="articles_layout" value="none"';
-	if($item['articles_layout'] == 'none')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not list pages').BR;
-	$fields[] = array($label, $input);
-
-	// append fields
-	$text .= Skin::build_box(i18n::s('Pages'), Skin::build_form($fields), 'folded');
+	
+        $input      = Skin::build_layouts_selector('article', $item['articles_layout']);
+	$fields[]   = array($label, $input);
+        
+        // append fields
+	$text .= Skin::build_box(i18n::s('Articles'), Skin::build_form($fields), 'folded');
 	$fields = array();
-
-	//layout for users
-	$label = i18n::s('Layout');
-	$input = '';
-	$custom_layout = '';
-	if(!isset($item['users_layout']) || !$item['users_layout'])
+        
+        // layout for related users
+        if(!isset($item['users_layout']) || !$item['users_layout'])
 		$item['users_layout'] = 'decorated';
-	elseif(!preg_match('/(decorated|compact)/', $item['users_layout'])) {
-		$custom_layout = $item['users_layout'];
-		$item['users_layout'] = 'custom';
-	}
-	$input .= '<input type="radio" name="users_layout" value="decorated"';
-	if($item['users_layout'] == 'decorated')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - A list decorated with images');
-	$input .= BR.'<input type="radio" name="users_layout" value="compact"';
-	if($item['users_layout'] == 'compact')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - A compact list');
-	$input .= BR.'<input type="radio" name="users_layout" value="custom" id="custom_users_layout"';
-	if($item['users_layout'] == 'custom')
-		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="users_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_users_layout\').attr(\'checked\', \'checked\')" />');
-	$input .= BR.'<input type="radio" name="users_layout" value="none"';
-	if($item['users_layout'] == 'none')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not list persons').BR;
-	$fields[] = array($label, $input);
+        
+        $input      = Skin::build_layouts_selector('user', $item['users_layout']);
+        $fields[]   = array($label, $input);
 
 	// append fields
 	$text .= Skin::build_box(i18n::s('Persons'), Skin::build_form($fields), 'folded');
@@ -504,50 +383,14 @@ if($with_form) {
 
 	// layouts for sub-categories
 	//
-	$label = i18n::s('Layout');
 	if(!isset($item['categories_count']) || ($item['categories_count'] < 1))
 		$item['categories_count'] = 5;
-	$input = sprintf(i18n::s('List up to %s sub-categories with the following layout:'), '<input type="text" name="categories_count" value="'.encode_field($item['categories_count']).'" size="2" />').BR;
-	$custom_layout = '';
+	$input = sprintf(i18n::s('List up to %s sub-categories with the following layout&nbsp;:'), '<input type="text" name="categories_count" value="'.encode_field($item['categories_count']).'" size="2" />').BR;
+
 	if(!isset($item['categories_layout']) || !$item['categories_layout'])
 		$item['categories_layout'] = 'decorated';
-	elseif(!preg_match('/(compact|cloud|decorated|inline|yahoo|none)/', $item['categories_layout'])) {
-		$custom_layout = $item['categories_layout'];
-		$item['categories_layout'] = 'custom';
-	}
-	$input .= BR.'<input type="radio" name="categories_layout" value="decorated"';
-	if($item['categories_layout'] == 'decorated')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - A list decorated with images');
 
-	$input .= BR.'<input type="radio" name="categories_layout" value="yahoo"';
-	if($item['categories_layout'] == 'yahoo')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('yahoo - List these categories on two columns, like Yahoo!');
-
-	$input .= BR.'<input type="radio" name="categories_layout" value="inline"';
-	if($item['categories_layout'] == 'inline')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('inline - List categories and related pages');
-
-	$input .= BR.'<input type="radio" name="categories_layout" value="compact"';
-	if($item['categories_layout'] == 'compact')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - A compact list');
-
-	$input .= BR.'<input type="radio" name="categories_layout" value="cloud"';
-	if($item['categories_layout'] == 'cloud')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('clouds - List sub-categories as clouds.');
-
-	$input .= BR.'<input type="radio" name="categories_layout" value="custom" id="custom_categories_layout"';
-	if($item['categories_layout'] == 'custom')
-		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="categories_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_categories_layout\').attr(\'checked\', \'checked\')" />');
-	$input .= BR.'<input type="radio" name="categories_layout" value="none"';
-	if($item['categories_layout'] == 'none')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not list categories');
+	$input .= BR.Skin::build_layouts_selector('category', $item['categories_layout']);
 	$fields[] = array($label, $input);
 
 	// categories overlay
