@@ -26,9 +26,10 @@
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
-Class Layout_home_articles_as_daily extends Layout_interface {
-
-	/**
+Class Layout_as_daily extends Layout_interface {
+    
+    
+        /**
 	 * the preferred order for items
 	 *
 	 * @return string to be used in requests to the database
@@ -65,11 +66,8 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 		$text = '';
 
 		// empty list
-		if(!SQL::count($result)) {
-			if(Surfer::is_associate())
-				$text .= '<p>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</p>';
+		if(!SQL::count($result))
 			return $text;
-		}
 
 		// build a list of articles
 		include_once $context['path_to_root'].'comments/comments.php';
@@ -187,7 +185,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id']))
-				$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'span');
+				$menu[] = Skin::build_link($url.'#_discussion', sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'span');
 
 			// comment
 			if(Comments::allow_creation($item, $anchor))
@@ -213,6 +211,8 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 				.'</div>';
 
 		}
+                
+                $this->load_scripts_n_styles();
 
 		// end of processing
 		SQL::free($result);
