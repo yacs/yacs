@@ -12,9 +12,20 @@
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
-Class Layout_articles_as_hardboiled extends Layout_interface {
+Class Layout_as_hardboiled extends Layout_interface {
 
-	/**
+        /**
+	 * the preferred order for items
+	 *
+	 * @return string to be used in requests to the database
+	 *
+	 * @see layouts/layout.php
+	 */
+	function items_order() {
+		return 'publication';
+	}    
+    
+        /**
 	 * the preferred number of items for this layout
 	 *
 	 * @return 9 - two last articles first, plus 7 other pages
@@ -202,7 +213,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 
 				// list categories by title, if any
 				$anchors = array();
-				if($members =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 5, 'raw')) {
+				if($members = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 5, 'raw')) {
 					foreach($members as $id => $attributes) {
 
 						// add background color to distinguish this category against others
@@ -250,6 +261,8 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 
 		// end of processing
 		SQL::free($result);
+                
+                $this->load_scripts_n_styles();
 
 		return $text;
 	}
@@ -334,7 +347,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 			$text .= ' ('.Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic').')';
 
 		// list up to three categories by title, if any
-		if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 5, 'raw')) {
+		if($items = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 5, 'raw')) {
 			$text .= BR;
 			$first_category = TRUE;
 			foreach($items as $id => $attributes) {
