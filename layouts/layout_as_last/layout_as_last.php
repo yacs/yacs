@@ -12,7 +12,7 @@
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
-Class Layout_articles_as_last extends Layout_interface {
+Class Layout_as_last extends Layout_interface {
 
 	/**
 	 * the preferred number of items for this layout
@@ -40,29 +40,29 @@ Class Layout_articles_as_last extends Layout_interface {
 		// empty list
 		if(!SQL::count($result))
 			return $text;
+                
+                // type of listed object
+		$items_type = $this->listed_type;
 
 		// allow for complete styling
 		$text = '<div class="last_articles">';
 
 		// build a list of articles
-		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'links/links.php';
 		while($item = SQL::fetch($result)) {
+                    
+                        // get the object interface, this may load parent and overlay
+			$entity = new $items_type($item);	
 
 			// get the related overlay
-			$overlay = Overlay::load($item, 'article:'.$item['id']);
+			$overlay = $entity->overlay;
 
 			// get the anchor
-			$anchor = Anchors::get($item['anchor']);
+			$anchor = $entity->anchors;
 
 			// the url to view this item
-			$url = Articles::get_permalink($item);
-
-			// build a title
-			if(is_object($overlay))
-				$title = Codes::beautify_title($overlay->get_text('title', $item));
-			else
-				$title = Codes::beautify_title($item['title']);
+			$url = $entity->get_permalink($item);
+                        
+                        $title = Codes::beautify_title($entity->get_title());
 
 			// reset everything
 			$prefix = $label = $suffix = $icon = '';
@@ -119,7 +119,7 @@ Class Layout_articles_as_last extends Layout_interface {
 					.' '.Skin::build_date($item['edit_date']);
 
 			// friends
-			if($friends =& Members::list_users_by_posts_for_anchor('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma5', $item['create_id']))
+			if($friends = Members::list_users_by_posts_for_anchor('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma5', $item['create_id']))
 				$details[] = sprintf(i18n::s('with %s'), $friends);
 
 			// people details
@@ -127,11 +127,8 @@ Class Layout_articles_as_last extends Layout_interface {
 				$text .= '<p class="details">'.join(', ', $details)."</p>\n";
 
 			// the introductory text
-			$introduction = '';
-			if(is_object($overlay))
-				$introduction = $overlay->get_text('introduction', $item);
-			elseif($item['introduction'])
-				$introduction = $item['introduction'];
+			$introduction = $entity->get_introduction();
+		
 			if($introduction)
 				$text .= '<div style="margin: 1em 0;">'.Codes::beautify_introduction($introduction).'</div>';
 
@@ -165,7 +162,7 @@ Class Layout_articles_as_last extends Layout_interface {
 				$bottom_menu[] = sprintf(i18n::s('By %s'), $contributor).' '.Skin::build_date($comment['create_date']).$flag;
 
 				// offer to reply
-				if(Comments::allow_creation($item, $anchor)) {
+				if($entity->allows('creation','comment')) {
 					$link = Comments::get_url($comment['id'], 'reply');
 					$bottom_menu[] = Skin::build_link($link, i18n::s('Reply'), 'basic');
 				}
@@ -234,10 +231,10 @@ Class Layout_articles_as_last extends Layout_interface {
 
 		// end of processing
 		SQL::free($result);
+                
+                $this->load_scripts_n_styles();
 
 		// done
 		return $text;
 	}
 }
-
-?>

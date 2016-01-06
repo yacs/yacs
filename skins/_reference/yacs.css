@@ -2304,17 +2304,6 @@ div.last_comment { /* content of last comment to the page */
 }
 
 /**
- * manual layout: a compact list of titles
- *
- * <ul class="manual">
- * <li>title and details</li>
- *  ...
- * </ul>
- *
- * @see articles/layout_articles_as_manual.php
- */
-
-/**
  * map layout: two columns of stacked boxes
  *
  * <p class="columns_prefix" />
