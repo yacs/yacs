@@ -2280,30 +2280,6 @@ tr.odd td.sorted {
 
 
 /**
- * last layout: reflect last contributions to the page
- *
- * @see articles/layout_articles_as_last.php
- */
-
-div.last_articles { /* the overall list of articles */
-	border-bottom: 1px dotted #ccc;
-	padding-bottom: 4px;
-	margin-bottom: 2em;
-}
-
-div.last_article { /* one div per article */
-	border-top: 1px dotted #ccc;
-	padding-top: 4px;
-	margin-bottom: 2em;
-}
-
-div.last_comment { /* content of last comment to the page */
-	border-left: 2px solid #ccc;
-	margin: 7px 10px 20px 7px;
-	padding: 4px 0 0 10px;
-}
-
-/**
  * map layout: two columns of stacked boxes
  *
  * <p class="columns_prefix" />
