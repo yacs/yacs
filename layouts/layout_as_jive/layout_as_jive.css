@@ -1,0 +1,45 @@
+/***
+ * jive layout: a table of items
+ *
+ * <table class="jive">
+ * <tbody>
+ *  <tr class="even">
+ *    <td>title and details</td>
+ *    <td width="70%">content</td>
+ *  </tr>
+ *  <tr class="odd">
+ *    <td>title and details</td>
+ *    <td width="70%">content</td>
+ *  </tr>
+ *  ...
+ * </tbody>
+ * </table>
+ *
+ * @author Bernard Paques
+ * @author Alexis Raimbault
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License 
+ */
+
+.jive { /* to introduce threads and comments 
+	border-collapse: collapse;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	max-width: 90%;
+	width: 90%;
+	margin: 0;
+	padding: 0;
+}
+
+.jive tr td { /* separate lines */
+	margin: 0;
+	padding: 8px;
+	overflow: auto;
+}
+
+.jive tr th { /* table header */
+	font-weight: bold;
+	margin: 0;
+	padding: 8px;
+}
