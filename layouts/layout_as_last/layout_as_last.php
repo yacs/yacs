@@ -57,7 +57,7 @@ Class Layout_as_last extends Layout_interface {
 			$overlay = $entity->overlay;
 
 			// get the anchor
-			$anchor = $entity->anchors;
+			$anchor = $entity->anchor;
 
 			// the url to view this item
 			$url = $entity->get_permalink($item);
