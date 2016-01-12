@@ -79,17 +79,17 @@ abstract Class Layouts {
 	    // folder to files and filename are different for customized layouts on home page
 	    $path = ($home)?'skins':$family;
 	    $home = ($home)?'home_':'';
+            
+            if($name == 'map' || $name == 'yahoo') {
+		$name = 'columns'; // new layout that replaces map and yahoo
+ 	    }
 	    
 	    // lookup for layout file
 	    if($name == 'decorated') {
 		include_once $context['path_to_root'].$family.'/layout_'.$family.'.php';
 		$name = 'Layout_'.$family;
 		$layout = new $name();
-	    } elseif($name == 'map') {
-		include_once $context['path_to_root'].$family.'/layout_'.$family.'_as_yahoo.php';
-		$name = 'Layout_'.$family.'_as_yahoo';
-		$layout = new $name;
- 	    } elseif(is_readable($context['path_to_root'].$path.'/layout_'.$home.$family.'_as_'.$name.'.php')) {
+            } elseif(is_readable($context['path_to_root'].$path.'/layout_'.$home.$family.'_as_'.$name.'.php')) {
 		$name = 'layout_'.$home.$family.'_as_'.$name;
 		include_once $context['path_to_root'].$path.'/'.$name.'.php';
 		$layout = new $name;

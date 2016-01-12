@@ -1,0 +1,87 @@
+/**
+ * map layout: two columns of stacked boxes
+ *
+ * <p class="columns_prefix" />
+ * <dl class="column_1">
+ *  <dt><a><img></a></dt>
+ *  <dd>
+ *    <a><span class="box_header">some title</span></a>
+ *    <br />
+ *    <span class="small">some content, maybe a compact list</span>
+ *  </dd>
+ *  ...
+ * </dl>
+ * <dl class="column_2">
+ *  <dt><a><img></a></dt>
+ *  <dd>
+ *    <a><span class="box_header">some title</span></a>
+ *    <br />
+ *    <span class="small">some content, maybe a compact list</span>
+ *  </dd>
+ *  ...
+ * <p class="columns_suffix" />
+ *
+ * @author Bernard Paques
+ * @author Alexis Raimbault
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+ */
+
+.column_1,
+.column_2 { /* left or right column out of two -- index.php, sections/index.php, sections/view.php, categories/index.php, etc. */
+	margin: 0 20px 8px 0;
+	padding: 0;
+	float: left;
+	width: 270px; /* or 45%? to test with IE */
+}
+
+.column_1 dd,
+.column_2 dd { /* column actual content */
+	margin: 0 0 1em 21px;
+	padding: 2px;
+	text-align: left;
+	overflow: hidden; /* kill oversized links */
+	z-index: 1;
+}
+
+.column_1 dd p,
+.column_1 dd ul,
+.column_2 dd p,
+.column_2 dd ul { /* space around content elements */
+	margin-top: 0.2em;
+	margin-bottom: 0.2em;
+}
+
+.column_1 dd a span.box_header,
+.column_2 dd a span.box_header { /* title in bold */
+	font-weight: bold;
+}
+
+.column_1 dt,
+.column_2 dt { /* the image aside the column */
+	clear: left;
+	text-align: left;
+	border: 0;
+	margin: 0;
+	padding: 2px 0 2px 0;
+	z-index: 2;
+}
+
+.column_1 dt img,
+.column_2 dt img { /* align the image */
+	margin: 0;
+	padding: 0;
+}
+
+.columns_prefix { /* comes before columns */
+	clear: left; /* align properly after site map, if any */
+	margin: 0;
+	padding: 0;
+}
+
+.columns_suffix { /* comes after columns */
+	clear: left; /* compensate for left-floated columns */
+	margin: 0; /* ignored by firefox anyway */
+	padding: 0 0 2em 0; /* make some room below columns */
+}
+
