@@ -11,14 +11,14 @@
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
-Class Layout_home_articles_as_newspaper extends Layout_interface {
+Class Layout_as_newspaper extends Layout_interface {
 
 	/**
 	 * the preferred order for items
 	 *
-	 * @return string to be used in requests to the database
-	 *
 	 * @see layouts/layout.php
+	 *
+	 * @return string to be used in requests to the database
 	 */
 	function items_order() {
 		return 'publication';
@@ -46,21 +46,16 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 	function layout($result) {
 		global $context;
 
+		$text = '';
+
 		// empty list
-		if(!SQL::count($result)) {
-			$label = i18n::s('No page to display.');
-			if(Surfer::is_associate())
-				$label .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut'));
-			$output = '<p>'.$label.'</p>';
-			return $output;
-		}
+		if(!SQL::count($result))
+			return $text;
 
 		// build a list of articles
-		$text = '';
 		$others = array();
 		$item_count = 0;
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'links/links.php';
 		while($item = SQL::fetch($result)) {
 
 			// permalink
@@ -71,9 +66,9 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 
 			// section opening
 			if($item_count == 1) {
-				$text .= '<div class="newest">'."\n";
+				$text .= '<div class="nsp-newest">'."\n";
 			} elseif($item_count == 2) {
-				$text .= '<div class="recent">'."\n";
+				$text .= '<div class="nsp-recent">'."\n";
 			}
 
 			// layout first article
@@ -86,13 +81,13 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 				// the style to apply
 				switch($item_count) {
 				case 2:
-					$text .= '<div class="west">';
+					$text .= '<div class="nsp-west">';
 					break;
 				case 3:
-					$text .= '<div class="center">';
+					$text .= '<div class="nsp-center">';
 					break;
 				case 4:
-					$text .= '<div class="east">';
+					$text .= '<div class="nsp-east">';
 					break;
 				}
 				$text .= $this->layout_newest($item).'</div>';
@@ -118,15 +113,15 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		// build the list of other articles
 		if(count($others)) {
 
-			// link to articles index
-			$others['articles/'] = array('', i18n::s('All pages'), '', 'shortcut');
-
 			// make box
 			$text .= Skin::build_box(i18n::s('Previous pages'), Skin::build_list($others, 'decorated'));
 		}
 
 		// end of processing
 		SQL::free($result);
+                
+                $this->load_scripts_n_styles();
+                
 		return $text;
 	}
 
@@ -164,6 +159,12 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		else
 			$title = Codes::beautify_title($item['title']);
 
+		// signal restricted and private articles
+		if($item['active'] == 'N')
+			$title = PRIVATE_FLAG.$title;
+		elseif($item['active'] == 'R')
+			$title = RESTRICTED_FLAG.$title;
+
 		// rating
 		if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
 			$title .= ' '.Skin::build_link(Articles::get_url($item['id'], 'like'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
@@ -171,14 +172,31 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		// pack in a block
 		$text = '<h2>'.Skin::build_link($url, $icon.$title, 'basic').'</h2>';
 
-		// the introduction
-		$text .= '<p style="margin-top: 0;">';
+		// display all tags
+		if($item['tags'])
+			$text .= ' <p class="tags" style="margin: 3px 0;">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</p>';
 
-		// signal restricted and private articles
-		if($item['active'] == 'N')
-			$text .= PRIVATE_FLAG;
-		elseif($item['active'] == 'R')
-			$text .= RESTRICTED_FLAG;
+		// the introduction
+		$text .= '<div style="margin-top: 3px 0;">';
+
+		// the introductory text
+		if(is_object($overlay))
+			$text .= Codes::beautify_introduction($overlay->get_text('introduction', $item));
+		elseif($item['introduction']) {
+			$text .= Codes::beautify_introduction($item['introduction'])
+				.' '.Skin::build_link($url, i18n::s('More').MORE_IMG, 'basic');
+		} else
+			$text .= Skin::cap(Codes::beautify($item['description'], $item['options']), 70, $url);
+
+		// end of the introduction
+		$text .= '</div>'."\n";
+
+		// insert overlay data, if any
+		if(is_object($overlay))
+			$text .= $overlay->get_text('list', $item);
+
+		// other details
+		$details = array();
 
 		// the author
 		$author = '';
@@ -186,44 +204,27 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$author = sprintf(i18n::s('by %s'), $item['create_name']).' ';
 
 		// date
-		$text .= '<span class="details">'.$author.Skin::build_date($item['publish_date']).' - </span>';
-
-		// the introductory text
-		if($item['introduction']) {
-			$text .= Codes::beautify_introduction($item['introduction'])
-				.' '.Skin::build_link($url, i18n::s('More').MORE_IMG, 'basic');
-		} elseif(!is_object($overlay))
-			$text .= Skin::cap(Codes::beautify($item['description'], $item['options']), 70, $url);
-
-		// end of the introduction
-		$text .= '</p>'."\n";
-
-		// insert overlay data, if any
-		if(is_object($overlay))
-			$text .= $overlay->get_text('list', $item);
-
-		// read the article
-		$menu = array( $url => i18n::s('View the page') );
+		$details[] = $author.Skin::build_date($item['publish_date']);
 
 		// info on related files
 		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-			$menu[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
+			$details[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
 
 		// info on related comments
 		$link = Comments::get_url('article:'.$item['id'], 'list');
 		if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
-			$menu[] = Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
+			$details[] = Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 
 		// discuss
 		if(Comments::allow_creation($item, $anchor))
-			$menu = array_merge($menu, array( Comments::get_url('article:'.$item['id'], 'comment') => i18n::s('Discuss') ));
+			$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
 
 		// info on related links
 		if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-			$menu[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
+			$details[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 		// append a menu
-		$text .= BR.Skin::build_list($menu, 'menu');
+		$text .= Skin::finalize_list($details, 'menu');
 
 		return $text;
 	}
@@ -261,6 +262,12 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		else
 			$title = Codes::beautify_title($item['title']);
 
+		// signal restricted and private articles
+		if($item['active'] == 'N')
+			$title = PRIVATE_FLAG.' '.$title;
+		elseif($item['active'] == 'R')
+			$title = RESTRICTED_FLAG.' '.$title;
+
 		// rating
 		if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
 			$title .= ' '.Skin::build_link(Articles::get_url($item['id'], 'like'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
@@ -268,14 +275,31 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		// pack in a block
 		$text = '<h3>'.Skin::build_link($url, $icon.$title, 'basic').'</h3>';
 
-		// the introduction
-		$text .= '<p style="margin-top: 0;">';
+		// display all tags
+		if($item['tags'])
+			$text .= ' <p class="tags" style="margin: 3px 0;">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</p>';
 
-		// signal restricted and private articles
-		if($item['active'] == 'N')
-			$text .= PRIVATE_FLAG;
-		elseif($item['active'] == 'R')
-			$text .= RESTRICTED_FLAG;
+		// the introduction
+		$text .= '<div style="margin: 3px 0;">';
+
+		// the introductory text
+		if(is_object($overlay))
+			$text .= Codes::beautify_introduction($overlay->get_text('introduction', $item));
+		elseif($item['introduction']) {
+			$text .= Codes::beautify_introduction($item['introduction'])
+				.' '.Skin::build_link($url, i18n::s('More').MORE_IMG, 'basic');
+		} else
+			$text .= Skin::cap(Codes::beautify($item['description'], $item['options']), 25, $url);
+
+		// end of the introduction
+		$text .= '</div>'."\n";
+
+		// insert overlay data, if any
+		if(is_object($overlay))
+			$text .= $overlay->get_text('list', $item);
+
+		// other details
+		$details = array();
 
 		// the author
 		$author = '';
@@ -283,40 +307,27 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$author = sprintf(i18n::s('by %s'), $item['create_name']).' ';
 
 		// date
-		$text .= '<span class="details">'.$author.Skin::build_date($item['publish_date']).'</span>';
+		$details[] = $author.Skin::build_date($item['publish_date']);
 
-		// the introductory text
-		if($item['introduction'])
-			$text .= ' - '.Codes::beautify_introduction($item['introduction']);
-		elseif(!is_object($overlay) && $item['description'])
-			$text .= ' - '.Skin::cap(Codes::beautify($item['description'], $item['options']), 25, $url);
+		// info on related files
+		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
+			$details[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
 
-		// end of the introduction
-		$text .= '</p>'."\n";
-
-		// insert overlay data, if any
-		if(is_object($overlay))
-			$text .= $overlay->get_text('list', $item);
-
-		// read this article
-		$text .= '<p class="details right">'.Skin::build_link($url, i18n::s('View the page'), 'basic');
+		// info on related comments
+		$link = Comments::get_url('article:'.$item['id'], 'list');
+		if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
+			$details[] = Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 
 		// discuss
 		if(Comments::allow_creation($item, $anchor))
-			$text .= BR.Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
-
-		// info on related comments
-		if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE)) {
-			$link = Comments::get_url('article:'.$item['id'], 'list');
-			$text .= ' - '.Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
-		}
+			$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
 
 		// info on related links
 		if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-			$text .= ' - '.Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
+			$details[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
-		// end of details
-		$text .= '</p>';
+		// append a menu
+		$text .= Skin::finalize_list($details, 'menu');
 
 		return $text;
 	}
@@ -359,10 +370,16 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$suffix .= Skin::build_link(Articles::get_url($item['id'], 'like'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 		// the introductory text
-		if(isset($item['introduction']) && $item['introduction'])
-			$suffix .= ' -&nbsp;'.Codes::beautify_introduction($item['introduction']);
-		elseif(isset($item['decription']) && $item['decription'])
-			$suffix .= ' -&nbsp;'.Skin::cap(Codes::beautify($item['description'], $item['options']), 25);
+		$introduction = '';
+		if(is_object($overlay))
+			$introduction = $overlay->get_text('introduction', $item);
+		elseif($item['introduction'])
+			$introduction = $item['introduction'];
+		if($introduction)
+			$suffix .= ' -&nbsp;'.Codes::beautify_introduction($introduction);
+
+		// other details
+		$details = array();
 
 		// the author
 		$author = '';
@@ -370,14 +387,31 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$author = sprintf(i18n::s('by %s'), $item['create_name']).' ';
 
 		// date
-		$suffix .= '<span class="details"> -&nbsp;'.$author.Skin::build_date($item['publish_date']);
+		$details[] = $author.Skin::build_date($item['publish_date']);
 
-		// count comments
+		// info on related files
+		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
+			$details[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
+
+		// info on related comments
+		$link = Comments::get_url('article:'.$item['id'], 'list');
 		if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
-			$suffix .= ' -&nbsp;'.sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
+			$details[] = Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 
-		// end of details
-		$suffix .= '</span>';
+		// discuss
+		if(Comments::allow_creation($item, $anchor))
+			$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
+
+		// info on related links
+		if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
+			$details[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
+
+		// append a menu
+		$suffix .= Skin::finalize_list($details, 'menu');
+
+		// display all tags
+		if($item['tags'])
+			$suffix .= ' <p class="tags" style="margin-top: 3px;">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</p>';
 
 		// insert an array of links
 		return array($prefix, $title, $suffix);
