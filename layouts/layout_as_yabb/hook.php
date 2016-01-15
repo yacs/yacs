@@ -1,7 +1,7 @@
 <?php
 
 /**
- * declaration of titles layout
+ * declaration of yabb layout
  *
  * @author Alexis Raimbault
  * @reference
@@ -16,12 +16,12 @@ if(count(get_included_files()) < 3 || !defined('YACS')) {
 global $hooks;
 
 $hooks[] = array(
-	'id'		=> 'titles',
+	'id'		=> 'yabb',
         'type'		=> 'layout',
-	'supported'	=> 'article,section,category,user',
-	'script'	=> 'layouts/layout_as_titles/layout_as_titles.php',
-	'label_en'	=> 'Layout as a set of titles with thumbnails.',
-	'label_fr'	=> 'Affiche des blocs avec titre et vignette.',
+	'supported'	=> 'article,section',
+	'script'	=> 'layouts/layout_as_yabb/layout_as_yabb.php',
+	'label_en'	=> 'Layout entites as boards in a YaBB forum.',
+	'label_fr'	=> 'Affiche les éléments en panneau dans un forum YaBB.',
 
         'source'        => 'http://www.yacs.fr'
 	);
