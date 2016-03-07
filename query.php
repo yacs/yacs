@@ -104,7 +104,7 @@ if(Surfer::is_crawler()) {
 
 	// show e-mail address of anonymous surfer
 	if($_REQUEST['edit_address'] && !Surfer::is_logged())
-		$_REQUEST['description'] = '<p>'.sprintf(i18n::c('Sent by %s'), '[email='.($_REQUEST['edit_name']?$_REQUEST['edit_name']:i18n::c('e-mail')).']'.$_REQUEST['edit_address'].'[/email]')."</p>\n"
+		$_REQUEST['description'] = '<p>'.sprintf(i18n::c('Sent by %s'), ($_REQUEST['edit_name']?$_REQUEST['edit_name'].' - ':i18n::c('e-mail').' : ').' [email]'.$_REQUEST['edit_address'].'[/email]')."</p>\n"
 			.$_REQUEST['description'];
 
 	// stop robots
@@ -118,7 +118,7 @@ if(Surfer::is_crawler()) {
 
 	// post-processing
 	} else {
-
+            
 		// do whatever is necessary on page publication
 		Articles::finalize_publication($anchor, $_REQUEST);
 
@@ -226,7 +226,7 @@ if($with_form) {
 	if(!isset($item['edit_address']))
 		$item['edit_address'] = Surfer::get_email_address();
 	$label = i18n::s('Your e-mail address').' *';
-	$input = '<input type="text" name="edit_address" size="45" value="'.encode_field($item['edit_address']).'" maxlength="255" />';
+	$input = '<input type="email" name="edit_address" size="45" value="'.encode_field($item['edit_address']).'" maxlength="255" />';
 	$hint = i18n::s('To be alerted during the processing of your request');
 	$fields[] = array($label, $input, $hint);
 
