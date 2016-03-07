@@ -22,44 +22,12 @@
  * standard XHTML tags, in alphabetical order, that are not related to some yacs code
  *************************/
 
-body {
-	font-family: Georgia, Times, serif;
-	font-size: 13px;
-}
 
-form { /* inline rendering for all browsers */
-	margin: 0;
-	padding: 0;
-}
-
-p { /* add some space below each paragraph */
-	clear: none;
-	margin: 0 0 1.3em 0;
-	padding: 0;
-}
-
-h1 { font-size: 5.0em; }
-
-h2 { font-size: 4.0em; }
-
-h3 { font-size: 3.0em; }
-
-h4 { font-size: 2.0em; }
-
-input {
-	padding: 2px;
-	font-family: Georgia, Times, serif;
-	font-size: 13px;
-}
 
 .input-bad  {background:    tomato      !important;}
 .input-good {background:    lightgreen  !important;}
 
-textarea {
-	padding: 2px;
-	font-family: Georgia, Times, serif;
-	font-size: 13px;
-}
+
 
 /*************************
  * styles demonstrated into test page skins/test.php
@@ -382,26 +350,6 @@ dl.gadget_box dt { /* header of one gadget box */
 	border-right: 1px solid #ccc;
 }
 
-dl.gadget_box dt span { /* secondary background image for box title */
-}
-
-dl#gadget_1 dd { /* content of first gadget box */
-}
-
-dl#gadget_2 dd { /* content of second gadget box */
-}
-
-dl#gadget_3 dd { /* content of third gadget box */
-}
-
-dl#gadget_4 dd { /* content of fourth gadget box */
-}
-
-dl#gadget_5 dd { /* content of fifth gadget box */
-}
-
-dl#gadget_6 dd { /* content of sixth gadget box */
-}
 
 p#gadgets_prefix { /* comes before gadget boxes */
 	clear: left; /* align properly after site map, if any */
@@ -416,14 +364,14 @@ p#gadgets_suffix { /* comes after gadget boxes */
 /* standard components of a page */
 
 div.introduction { /* introduction -- before the main part of a page */
-	font-size: 1em;
-	font-weight: normal;
+	/*font-size: 1em;
+	font-weight: normal;*/
 	margin: 1em 0;
 }
 
 div.description { /* description -- main content of an article, or of a section, etc. */
-	font-size: 1em;
-	font-weight: normal;
+	/*font-size: 1em;
+	font-weight: normal;*/
 	margin: 1em 0;
 }
 
@@ -853,22 +801,7 @@ dl#contextual_menu ul.tree li a.open { /* item has the current focus */
  * styles demonstrated into help page codes/basic.php
  *************************/
 
-b { /* **..** or [b]..[/b] -- bold text */
-	font-weight: bold;
-}
 
-i { /* //..// or [i]..[/i] -- italic */
-}
-
-u { /* __..__ or [u]...[/u] -- underlined */
-}
-
-code { /* ##..## or [code]..[/code] -- some script shell */
-	font-family: monospace;
-	font-size: 1em;
-	font-weight: normal;
-	font-style: normal;
-}
 
 a.tiny,
 span.tiny a,
@@ -896,11 +829,7 @@ span.huge { /* [huge]...[/huge] -- bigger than .big */
 	line-height: 1.1em;
 }
 
-sub { /* [subscript]..[/subscript] -- shifted down */
-}
 
-sup { /* [superscript]..[/superscript] -- shifted up */
-}
 
 ins { /* ++..++ or [inserted]..[/inserted] -- added text */
 	color: #644;
@@ -919,39 +848,14 @@ span.flag { /* [flag]foo bar[/flag] -- compact meta-information -- , but also [n
 	font-family: sans-serif;
 }
 
-span.sans-serif { /* [style=sans-serif]...[/style] -- use a sans-serif font */
-    font-family: Tahoma, sans-serif;
-}
 
-span.serif { /* [style=serif]...[/style] -- use a serif font */
-    font-family: serif;
-}
-
-span.cursive { /* [style=cursive]...[/style] -- use a cursive font */
-    font-family: cursive;
-}
-
-span.comic { /* [style=comic]...[/style] -- use a special font */
-    font-family: "Comic Sans MS", cursive;
-}
-
-span.fantasy { /* [style=fantasy]...[/style] -- various rendering, you have been warned */
-    font-family: fantasy;
-}
-
-span.my_style { /* [style=my_style] -- featured in help page codes/basic.php --  */
-	color: blue;
-}
 
 
 /*************************
  * styles demonstrated into help page codes/links.php
  *************************/
 
-a img {
-	margin: 0;
-	padding: 0;
-}
+
 
 @media screen { /* not on printers */
 
@@ -960,10 +864,7 @@ a img {
 		background: transparent url("links/article.png") no-repeat right;
 	}
 
-	* html #main_panel a.article { /* ie6 kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
+	
 
 }
 
@@ -1048,30 +949,21 @@ button.disabled {
 		background: transparent url("links/category.png") no-repeat right;
 	}
 
-	* html #main_panel a.category { /* ie6 kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
+	
 
 	#main_panel a.comment { /* the image near a link to a comment -- [comment=id], [comment=id, label] */
 		padding-right: 17px;
 		background: transparent url("links/comment.png") no-repeat right;
 	}
 
-	* html #main_panel a.comment { /* ie6 kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
+	
 
 	#main_panel a.email { /* the image near a link to an email address -- [email]address[/email], [email=label]address[/email] */
 		padding-right: 18px;
 		background: transparent url("links/email.png") no-repeat right;
 	}
 
-	* html #main_panel a.email { /* ie6i kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
+	
 
 	#main_panel a.external span { /* the image near an external link -- [link]href[/link], [link=label]href[/link] */
 		padding-right: 15px;
@@ -1080,20 +972,14 @@ button.disabled {
 		background-repeat: no-repeat;
 	}
 
-	* html #main_panel a.external span { /* ie6 kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
+	
 
 	#main_panel a.file { /* the image near a link to view file details -- [file=id], [file=id, label] */
 		padding-right: 15px;
 		background: transparent url("links/file.png") no-repeat right;
 	}
 
-	* html #main_panel a.file { /* ie6 kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
+	
 
 	a.idle { /* user is present, yet idle -- always in conjunction with a.user */
 		color: #888;
@@ -1140,67 +1026,40 @@ button.disabled {
 		background: transparent url("links/script.png") no-repeat left;
 	}
 
-	* html #main_panel a.script { /* ie6 kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
+	
 
 	#main_panel a.section { /* the image near a link to a section -- [section=id], [section=id, label] */
 		padding-right: 16px;
 		background: transparent url("links/section.png") no-repeat right;
 	}
 
-	* html #main_panel a.section { /* ie6 kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
+	
 
 	#main_panel a.server { /* the image near a link to a server profile -- [server=id], [server=id, label] */
 		padding-right: 14px;
 		background: transparent url("links/server.png") no-repeat right;
 	}
 
-	* html #main_panel a.server { /* ie6 kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
+	
 
 	#main_panel a.shortcut { /* the image near a local link */
 		padding-right: 15px;
 		background: transparent url("links/shortcut.png") no-repeat right;
 	}
 
-	* html #main_panel a.shortcut { /* ie6 kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
+	
 
 	#main_panel a.user { /* the image near a link to a user profile -- [user=id], [user=id, label] */
 		padding-right: 12px;
 		background: transparent url("links/user.png") no-repeat right;
 	}
 
-	* html #main_panel a.user { /* ie6 kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
+	
 
 }
 
 
-/*************************
- * styles demonstrated into help page codes/lists.php
- *************************/
 
-ul { /* [list]...[/list] -- an ordinary list */
-	margin: 0.5em 0 1em 0;
-	padding: 0 0 0 1.1em;
-}
-
-ol { /* [list=1]...[/list], [list=a]...[/list], [list=A]...[/list], [list=i]...[/list], [list=I]...[/list] -- a numbered list */
-	margin: 0.5em 0 1em 0.5em;
-	padding: 0 0 0 1em;
-}
 
 
 /*************************
@@ -1349,77 +1208,7 @@ div.sidebar_box h3 { /* header of one sidebar box -- the 'foo bar' of [sidebar=f
 	border-right: 1px solid #ccc;
 }
 
-marquee { /* [scroller]...[/scroller] -- horizontal scroller */
-}
 
-
-/*************************
- * styles demonstrated into help page codes/tables.php
- *************************/
-
-table { /* an ordinary table -- [table]...[/table] */
-	border-spacing: 0;
-	border-collapse: collapse;
-	border-bottom: 1px solid #bfbfbf;
-	border-right: 1px solid #bfbfbf;
-	clear: none;	/* IE6 clears tables */
-	margin-left: 2px; /* because rendering glitch in control panel */
-	width: auto;
-}
-
-
-td { /* an ordinary table cell -- cells in [table]headers[body]content[/table] */
-    font-size: 1em;
-	border-top: 1px solid #bfbfbf;
-	border-left: 1px solid #bfbfbf;
-	margin: 0;
-	padding: 8px;
-	vertical-align: top;
-	text-align: left;
-	position: relative;
-}
-
-@media print { /* enhance printed material */
-
-	td { /* make cells visible */
-		margin-left: 0;
-		margin-right: 0;
-		padding-left: 0;
-		padding-right: 0;
-		padding-bottom: 5px;
-		border-left: none;
-		border-top: none;
-		border-right: none;
-		border-bottom: 2px solid #888;
-	}
-
-}
-
-th { /* an ordinary table header -- headers in [table]headers[body]content[/table] */
-    font-size: 1em;
-	font-weight: normal;
-	text-align: left;
-	border-top: 1px solid #bfbfbf;
-	border-left: 1px solid #bfbfbf;
-	margin: 0;
-	padding: 8px;
-	color: #444;
-	background-color: #ddd;
-}
-
-@media print { /* enhance printed material */
-
-	th { /* make cells visible */
-	    font-size: 1em;
-		margin: 0;
-		padding-bottom: 5px;
-		border-left: none;
-		border-top: none;
-		border-right: none;
-		border-bottom: 2px solid #888;
-	}
-
-}
 
 table.yc-grid,
 table.exhibit-tabularView-body { /* [table=grid]...[/table] - enhance table borders*/
@@ -1468,61 +1257,7 @@ table.wide thead tr th { /* a cell in a grid */
 
 
 
-/*************************
- * styles demonstrated into help page codes/titles.php
- *************************/
 
-h1 { /* appears only once, with the page title */
-	font-size: 1.5em;
-	margin: 0.5em 0 0 0;
-	padding: 20px 0 0 0;
-	clear: left;
-}
-
-h2 { /* [header1]...[/header1], [title]...[/title], [question]...[/question] -- first level of heading */
-	font-size: 1.4em;
-	clear: left;
-	margin: 1em 0 0 0;
-}
-
-h2 span { /* for a secondary background image */
-}
-
-h2.question { /* question -- a question in a FAQ - [question]...[/question] */
-}
-
-h3 { /* [header2]...[/header2], [subtitle]...[/subtitle] -- second level of heading*/
-	font-size: 1.3em;
-	margin: 1em 0 0 0;
-	clear: left;
-}
-
-h3 span { /* for a secondary background image */
-}
-
-h4{ /* [header3]...[/header3] -- third level of heading */
-	font-size: 1.2em;
-	margin: 1em 0 0 0;
-}
-
-h4 span { /* for a secondary background image */
-}
-
-h5{ /* [header4]...[/header4] -- fourth level of heading */
-	font-size: 1.1em;
-	margin: 1em 0 0 0;
-}
-
-h5 span { /* for a secondary background image */
-}
-
-h6{ /* [header5]...[/header5] -- fifth level of heading */
-	font-size: 1em;
-	margin: 1em 0 0 0;
-}
-
-h6 span { /* for a secondary background image */
-}
 
 div.toc_box { /* table of content -- [toc] */
 	font-size: 0.8em;;
@@ -1582,10 +1317,6 @@ div.toq_box ul { /* a list of questions */
 
 
 
-/*************************
- * styles demonstrated into help page codes/live.php
- *************************/
-
 
 
 /*************************
@@ -1617,53 +1348,13 @@ dl.newsfeed_item dd img {
 	padding: 0.5em; /* some space between images and text around */
 }
 
-.tweet {
-	background: #fff;
-	margin: 4px 0;
-	width: 500px;
-	padding: 8px;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-}
 
-.tweet img {
-	float: left;
-	margin: 0 8px 4px 0;
-}
-
-.tweet .text {
-	margin: 0;
-}
-
-.tweet .time a {
-	font-size: 80%;
-	color: #888;
-	white-space: nowrap;
-	text-decoration: none;
-}
-
-.tweet .time a:hover {
-	text-decoration: underline;
-}
 
 /*************************
  * styles demonstrated into help page codes/misc.php
  *************************/
 
-acronym { /* help in a popup -- [hint]...[/hint] */
-	border-bottom: 1px dotted #333;
-	cursor: help;
-}
 
-br { /* new line -- [nl] */
-}
-
-hr { /* an ordinary horizontal rule --- [---], [___] */
-	height: 0px;
-	border-width: 1px;
-	border-color: #888;
-	border-style: none none dotted none;
-}
 
 @media screen { /* not on printers */
 
@@ -1734,32 +1425,6 @@ div.autocomplete ul li,
 	background-image:none;
 }
 
-/**
- * on-demand toolbox
- */
-
-div.properties { /* the properties sheet that appears on click */
-	background-color: #eee;
-	display: block;
-	margin: 0;
-	padding: 0.5em;
-	/* do not use display: none here, else it would not appear on-demand */
-}
-
-span.onHoverLeft { /* the little handle on the left for sortable elements */
-	cursor: move;
-	display: block;
-	float: left;
-	padding: 0;
-	visibility: hidden; /* changed in Yacs.mouseOver() and Yacs.mouseOut() */
-}
-
-span.onHoverRight { /* the toolbox on the right */
-	display: block;
-	float: right;
-	padding: 0;
-	visibility: hidden; /* changed in Yacs.mouseOver() and Yacs.mouseOut() */
-}
 
 
  /**
@@ -1827,45 +1492,6 @@ div#modal_panel {	/* the grey overlay that sits behind the modal box */
 	min-height: 100%;
 	background: transparent url('ajax/overlay_background.png') repeat; /* transparent image generated at http://apps.everamber.com/alpha/ */
 	z-index: 1999; /* just below modal_centered */
-}
-
-
-/*******************************************
- Responsive FORM
-*******************************************/
-
-.yc-form-row {
-    display : table-row;
-}
-
-.yc-form-row .west, .yc-form-row .east {
-    display : table-cell;
-}
-
-.yc-form-row .west {
-    vertical-align: top;
-    padding: 0 1em 1em 0;
-    max-width: 8em;
-}
-
-.yc-form-row .east {
-    padding: 0 0 1em 0;
-}
-
-.yc-form-hint {
-    margin : 0;
-    font-size: 10px;
-    color : #888;
-    font-family: sans-serif;
-}
-
-@media only screen and (max-width: 800px) {
-    
- 
-    .yc-form-row, .yc-form-row .west, .yc-form-row .east {
-        display: block;
-    }
-    
 }
 
 
@@ -2847,33 +2473,7 @@ div.panel ul ul { /* second level of the toc */
 
 
 
-a img {
-	border: none; /* no border around clickable images */
-}
 
-@media screen { /* not on printers */
-
-	#main_panel a.day { /* an event in a calendar */
-	}
-
-	#main_panel a.help { /* a link to help information */
-	}
-
-	#main_panel a.month { /* a link to a monthly calendar */
-	}
-
-	#main_panel a.xml { /* a link to some XML version */
-	}
-
-	#main_panel a.year { /* a link to a yearly calendar */
-	}
-
-}
-
-#header_panel {
-	position: relative; /* allow for absolute positioning inside */
-	overflow: hidden; /* oversized components should not break the layout */
-}
 
 
 /*******************************************
