@@ -60,6 +60,9 @@
 include_once '../shared/global.php';
 include_once 'files.php';
 
+// render objects
+include_once '../codes/code_embed.php';
+
 // check network credentials, if any -- used by winamp and other media players
 if($user = Users::authenticate())
 	Surfer::empower($user['capability']);
@@ -210,7 +213,7 @@ if(!$item['id']) {
 			.'<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">'."\n";
 
 		// embed the object
-		$text .= Codes::render_embed($item['id']);
+		$text .= Code_embed::render_embed($item['id']);
 
 		// page postamble
 		$text .= '</body>'."\n"
@@ -238,7 +241,7 @@ if(!$item['id']) {
 			.'<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">'."\n";
 
 		// embed the object into a regular page --100% does not work
-		$text .= Codes::render_embed($item['id'].', 99%, 90%');
+		$text .= Code_embed::render_embed($item['id'].', 99%, 90%');
 
 		// add a link to close the window
 		$text .= '</div>'."\n"
@@ -315,7 +318,7 @@ if(!$item['id']) {
 			.'<div id="live_flash">'."\n";
 
 		// render object full size
-		$text .= Codes::render_embed($item['id'].', 100%, 90%');
+		$text .= Code_embed::render_embed($item['id'].', 100%, 90%');
 
 		// add a link to close the window
 		$text .= '</div>'."\n"
