@@ -2065,7 +2065,11 @@ div.external_image { /* display an image hosted elsewhere -- [img]url[/img] */
 }
 
 /* direct edition link */
+<<<<<<< HEAD
 .thumbnail_image,
+=======
+.thumbnail_image, 
+>>>>>>> next
 .left_image,
 .right_image,
 .center_image,
@@ -2080,7 +2084,11 @@ div.external_image { /* display an image hosted elsewhere -- [img]url[/img] */
 
 .center_image .image_edit {
 	left : 45%;
+<<<<<<< HEAD
 }
+=======
+}  
+>>>>>>> next
 
 .thumbnail_image:hover .image_edit,
 .left_image:hover .image_edit,
@@ -2551,6 +2559,7 @@ div.panel ul ul { /* second level of the toc */
     line-height: 2.2em;
 }
 
+<<<<<<< HEAD
 .yc-upload-cancel {
     color : red;
     font-weight: bold;
@@ -2564,4 +2573,9 @@ div.panel ul ul { /* second level of the toc */
     color : red;
     font-weight: bold;
     text-decoration: none;
+=======
+#header_panel {
+	position: relative; /* allow for absolute positioning inside */
+	overflow: hidden; /* oversized components should not break the layout */
+>>>>>>> next
 }
