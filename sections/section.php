@@ -463,7 +463,7 @@ Class Section extends Anchor {
 
 				// render all codes
 				if(is_callable(array('Codes', 'beautify')))
-					$text =& Codes::beautify($text, $this->item['options']);
+					$text = Codes::beautify($text, $this->item['options']);
 
 			}
 
@@ -495,7 +495,7 @@ Class Section extends Anchor {
 
 			// render all codes
 			if(is_callable(array('Codes', 'beautify')))
-				$text =& Codes::beautify($text, $this->item['options']);
+				$text = Codes::beautify($text, $this->item['options']);
 
 			// remove most html
 			$text = xml::strip_visible_tags($text);
@@ -628,6 +628,10 @@ Class Section extends Anchor {
 		// list of links
 		case 'links':
 			return $this->get_url().'#_attachments';
+                    
+                // the permalink page
+		case 'view':
+			return Sections::get_permalink($this->item);
 
 		// another action
 		default:
@@ -826,6 +830,31 @@ Class Section extends Anchor {
 		// no match
 		return FALSE;
 	}	
+        
+        public function is_published(&$status = '') {
+            global $context;
+            
+            $item = $this->item;
+            // sanity check
+            if(!$item) {
+                    $status = 'UNSET';
+                    return false;
+            }
+            
+            if( !isset($item['activation_date'])) {
+                $status = 'UNSET';
+                return false;
+            }
+
+            if(($item['activation_date'] > NULL_DATE) || ($item['activation_date'] > gmstrftime('%Y-%m-%d %H:%M:%S'))) {
+                    $status = 'UNPUBLISHED';
+                    return false;
+            }
+            
+            $status = 'PUBLISHED';
+            return true;
+            
+        }
 
 	/**
 	 * load the related item
@@ -898,6 +927,11 @@ Class Section extends Anchor {
 		// no section bound
 		if(!isset($this->item['id']))
 			return;
+                
+                // delegate to overlay
+                if(is_object($this->overlay) && $this->overlay->touch($action, $origin, $silently) === false) {
+                        return; // stop on false
+                }
 
 		// sanity check
 		if(!$origin) {
@@ -948,7 +982,7 @@ Class Section extends Anchor {
 						$label = '[embed='.$origin.']';
 
 				// else add a comment to take note of the upload
-				} elseif(Comments::allow_creation(NULL, $this->item, 'section')) {
+				} elseif(Comments::allow_creation($this->item, null, 'section')) {
 					$fields = array();
 					$fields['anchor'] = 'section:'.$this->item['id'];
 					if($action == 'file:create')
@@ -980,14 +1014,19 @@ Class Section extends Anchor {
 		// append a reference to a new image to the description
 		} elseif($action == 'image:create') {
 			if(!Codes::check_embedded($this->item['description'], 'image', $origin)) {
+			    
+				// the overlay may prevent embedding
+				if(is_object($this->overlay) && !$this->overlay->should_embed_files())
+						;    
+				else {
+				    // list has already started
+				    if(preg_match('/\[image=[^\]]+?\]\s*$/', $this->item['description']))
+					    $query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
 
-				// list has already started
-				if(preg_match('/\[image=[^\]]+?\]\s*$/', $this->item['description']))
-					$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
-
-				// starting a new list of images
-				else
-					$query[] = "description = '".SQL::escape($this->item['description']."\n\n".'[image='.$origin.']')."'";
+				    // starting a new list of images
+				    else
+					    $query[] = "description = '".SQL::escape($this->item['description']."\n\n".'[image='.$origin.']')."'";
+				}
 			}
 
 			// also use it as thumnail if none has been defined yet

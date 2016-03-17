@@ -110,7 +110,9 @@ if(!isset($item['id'])) {
 		Cache::clear();
 
 		// back to the anchor page or to the index page
-		if(is_object($anchor))
+		if(is_object($overlay) && $back_url = $overlay->get_url_after_deleting()) {
+                        Safe::redirect($back_url);
+                } elseif(is_object($anchor))
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
 		else
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].'sections/');
@@ -156,7 +158,7 @@ else {
 
 	// get text related to the overlay, if any
 	if(is_object($overlay))
-		$context['text'] .= $overlay->get_text('view', $item);
+		$context['text'] .= $overlay->get_text('delete', $item);
 
 	// details
 	$details = array();

@@ -60,7 +60,7 @@ switch($_REQUEST['action']) {
 	}
 	
 	// check surfer's rights
-	if(!Categories::allow_creation($anchor->item,$anchor->anchor)) {
+	if(!$cat->allows('categorization',$anchor)) {
 	    $output['success'] = false;
 	    break;
 	}
@@ -108,7 +108,13 @@ switch($_REQUEST['action']) {
 	if($output['success'] = $newitem->post($_REQUEST['anchor'],$_REQUEST['title'])) {				   
 	    
 		$output['title'] = $newitem->get_title();
-		$output['ref']	= $newitem->get_reference();	   
+		$output['ref']	= $newitem->get_reference();
+		// ask menu rendering for this new entry
+		$l = Layouts::new_('tree_manager', $type);
+		if(isset($_REQUEST['variant']))
+		    $l->set_variant($_REQUEST['variant']);
+		
+		$output['menu'] = $l->get_interactive_menu();
 	}		
 	
 	break;
@@ -233,7 +239,10 @@ switch($_REQUEST['action']) {
 	
 	// layout the content under this anchor, searching the same kind of objects
 	// we are building a tree hierarchy (sections or categories)
-	$childs = $anchor->get_childs($anchor->get_type(), 0, 200, 'tree_manager');
+	$layout = 'tree_manager';
+	if(isset($_REQUEST['variant']))
+		    $layout .= ' '.$_REQUEST['variant'];
+	$childs = $anchor->get_childs($anchor->get_type(), 0, 200, $layout);
 	
 	// prepare json reply
 	if(isset($childs[$anchor->get_type()])) {		
@@ -243,6 +252,7 @@ switch($_REQUEST['action']) {
 		$output['crumbs_separator'] = CRUMBS_SEPARATOR;
 		$output['crumbs_suffix'] = CRUMBS_SUFFIX;
 		$output['userlevel'] = ($powered)?'powered':'';
+		$output['root_ref'] = $anchor->get_reference(); 
 	} else 
 	    $output['success'] = false;
 	    	

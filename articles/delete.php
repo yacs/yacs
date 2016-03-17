@@ -65,7 +65,15 @@ if(isset($item['id']))
 
 // page title
 if(isset($item['id']))
-	$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Delete'), $item['title']);
+    if(is_object($overlay))
+        $title = $overlay->get_text('title', $item);
+    else 
+    	$title = $item['title'];
+
+$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Delete'), $title);
+
+// handle overlaid view
+global $render_overlaid;
 
 // not found
 if(!isset($item['id'])) {
@@ -95,10 +103,12 @@ if(!isset($item['id'])) {
 		Cache::clear();
 
 		// back to the anchor page or to the index page
-		if(!is_object($anchor))
+        if(is_object($overlay) && $back_url = $overlay->get_url_after_deleting()) {
+            Safe::redirect($back_url);
+        } elseif(!is_object($anchor))
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].'articles/');
 		elseif($anchor->is_viewable())
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
+			Safe::redirect($anchor->get_url());
 		elseif($id = Surfer::get_id())
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_url($id));
 		else
@@ -120,16 +130,31 @@ else {
 
 	// commands
 	$menu = array();
-	$menu[] = Skin::build_submit_button(i18n::s('Yes, I want to delete this page'), NULL, NULL, 'confirmed');
-	if(isset($item['id']))
+        
+        $class_submit   = ( $render_overlaid )?'submit-overlaid':'button';
+        if(is_object($overlay))
+             $delete_text    = strtolower($overlay->get_label('delete_command'));
+  
+        if(!isset($delete_text)) $delete_text = i18n::s('delete this page');
+
+	$menu[] = Skin::build_submit_button(sprintf(i18n::s('Yes, I want to %s'),$delete_text), NULL, NULL,  'confirmed', $class_submit);
+	if(isset($item['id']) && !$render_overlaid) {
 		$menu[] = Skin::build_link(Articles::get_permalink($item), i18n::s('Cancel'), 'span');
+        } else {
+            if(isset($_REQUEST['follow_up']) && $_REQUEST['follow_up'] === 'close')
+                $menu[] = '<a href="javascript:;" onclick="Yacs.closeModalBox()">'.i18n::s('Cancel').'</a>'."\n";
+            else
+                $menu[] = Skin::build_link(Articles::get_permalink($item), i18n::s('Cancel'), 'overlaid');
+        }
+            
 
 	// render commands
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
 		.Skin::finalize_list($menu, 'menu_bar')
 		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
 		.'<input type="hidden" name="action" value="delete" />'."\n"
-		.'</p></form>'."\n";
+        .((isset($_REQUEST['follow_up']))?'<input type="hidden" name="follow_up" value="'.$_REQUEST['follow_up'].'" />'."\n":'')
+        .'</p></form>'."\n";
 
 	// set the focus
 	Page::insert_script('$("#confirmed").focus();');
@@ -142,7 +167,7 @@ else {
 
 	// get text related to the overlay, if any
 	if(is_object($overlay))
-		$context['text'] .= $overlay->get_text('view', $item);
+		$context['text'] .= $overlay->get_text('delete', $item);
 
 	// details
 	$details = array();

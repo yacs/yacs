@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-15 15:34+0200\n"
+"POT-Creation-Date: 2015-04-24 15:28+0200\n"
 "PO-Revision-Date: 2010-08-11 17:31+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -150,7 +150,7 @@ msgstr "Détecter les enregistrements orphelins"
 msgid "Start"
 msgstr "Commencer"
 
-#: links/click.php:101 links/links.php:1125 links/links.php:1234
+#: links/click.php:101 links/links.php:1133 links/links.php:1242
 msgid "No link URL has been provided."
 msgstr "Aucun lien URL n'a été fourni."
 
@@ -192,7 +192,7 @@ msgstr "Modifier un lien"
 msgid "Add a link"
 msgstr "Ajouter un lien"
 
-#: links/edit.php:286 links/links.php:1131 links/links.php:1240
+#: links/edit.php:286 links/links.php:1139 links/links.php:1248
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
@@ -426,15 +426,15 @@ msgstr "modifier"
 msgid "delete"
 msgstr "supprimer"
 
-#: links/links.php:267
+#: links/links.php:275
 msgid "Clicks"
 msgstr "Clics"
 
-#: links/links.php:268
+#: links/links.php:276
 msgid "Clicked links are referenced here."
 msgstr "Les liens utilisés sont référencés ici."
 
-#: links/links.php:269
+#: links/links.php:277
 msgid ""
 "YACS ties automatically external links to this section on use. Therefore, "
 "you will have below a global picture of external sites that are referenced "
@@ -444,7 +444,7 @@ msgstr ""
 "Vous avez ainsi ci-dessous une bonne visibilité des sites externes accèdés à "
 "travers votre site."
 
-#: links/links.php:1228
+#: links/links.php:1236
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 

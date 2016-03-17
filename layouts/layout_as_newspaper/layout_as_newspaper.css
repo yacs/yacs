@@ -1,0 +1,61 @@
+/**
+ * newspaper layout: highlight most recent news
+ *
+ * <div class="recent">
+ *  <div class="left">
+ *   <h3><span>box title</span></h3>
+ *	 box content
+ *	 <p class="details">box details</p>
+ *  </div>
+ *  <div class="right">
+ *   <h3><span>box title</span></h3>
+ *	 box content
+ *	 <p class="details">box details</p>
+ *  </div>
+ * </div>
+ *
+ * <table class="decorated">
+ * <tbody>
+ *  <tr class="even">
+ *    <td class="image">some image</td>
+ *    <td class="content>link and content</td>
+ *  </tr>
+ *  <tr class="odd">
+ *    <td class="image">some image</td>
+ *    <td class="content>link and content</td>
+ *  </tr>
+ *  ...
+ * </tbody>
+ * </table>
+ *
+ * @author Bernard Paques
+ * @author Alexis Raimbault
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+ */
+
+.nsp-recent .nsp-west { /* aligned to the left */
+	margin: 1em 0 1em 0;
+	padding: 0;
+	float: left;
+    width: 32%;
+}
+
+.nsp-recent .nsp-center { /* the second newest item */
+	border-left: 1px dotted #ccc;
+	margin: 1em 0 1em 0.5em;
+	padding: 0 0 0 0.5em;
+	float: left;
+    width: 32%;
+    text-align: left;
+}
+
+.nsp-recent .nsp-east { /* the second newest item */
+	border-left: 1px dotted #ccc;
+	margin: 1em 0 1em 0.5em;
+	padding: 0 0 0 0.5em;
+	float: left;
+    width: 32%;
+    text-align: left;
+}
+

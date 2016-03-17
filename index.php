@@ -96,25 +96,7 @@
  * This function can be overloaded into [code]skin.php[/code] of any skin.
  * The configuration panel for the front page (aka, [script]configure.php[/script]) may be used
  * to adopt another layout depending of your needs.
- * The parameter [code]root_articles_layout[/code] defines the layout to be used at the front page:
- * - [code]daily[/code] - Make titles out of publication dates.
- * This layout is suitable for weblogs. It is the default value. See [script]skins/layout_home_articles_as_daily.php[/script]
- * - [code]newspaper[/code] - Focus on the last published article, and list some articles published previously.
- * This layout is suitable for most sites. See [script]skins/layout_home_articles_as_newspaper.php[/script]
- * - [code]hardboiled[/code] - List the last ten most recent pages.
- * Previous articles may be accessed through sections, or through the index of articles.
- * This layout is suitable for sites providing several different kinds of information. See [script]skins/layout_home_articles_as_hardboiled.php[/script]
- * - [code]slashdot[/code] - List the last ten most recent pages.
- * Previous articles may be accessed through sections, or through the index of articles.
- * This layout is suitable for sites providing several different kinds of information. See [script]skins/layout_home_articles_as_slashdot.php[/script]
- * - [code]decorated[/code] - A compact list of the ten most recent articles.
- * This layout is suitable for sites with a lot of items (gadget boxes, etc.) at the front page. See [script]articles/layout_articles.php[/script]
- * - [code]compact[/code] - A simple list of titles.
- * - [code]alistapart[/code] - Display only the most recent published page.
- * Previous articles may be accessed through a menu.
- * This layout is suitable for small sites with a low activity, maybe with a single section of pages.
- * - [code]no_articles[/code] - Do not mention recent articles.
- * Use this option to fully customize the front page, for example through some hook.
+ * The parameter [code]root_articles_layout[/code] defines the layout to be used at the front page
  *
  * The number of articles displayed depends on the selected layout.
  * For example, the alistapart layout displays one single full-page, while slashdot summarizes several articles.
@@ -242,7 +224,8 @@ if(isset($context['root_sections_at_home']) && ($context['root_sections_at_home'
 }
 
 // load the cover page
-if((!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] != 'none'))) {
+if( (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] != 'none'))
+	&& ( $context['master_host'] == $context['main_host']) ) {
 
 	// look for a named page
 	if($cover_page = Articles::get('cover'))
@@ -311,6 +294,13 @@ elseif(($target_section = Sections::get($context['root_sections_at_home'])) && i
 
 	// re-use the existing script to render this specific section
 	$context['arguments'][0] = $target_section['id'];
+        // force variant to "sections"
+        $context['skin_variant'] = 'sections';
+        // or use section's variant
+        $target = new Section($target_section);
+	if(is_object($target) && ($variant = $target->has_option('variant', FALSE)) && is_string($variant))
+		$context['skin_variant'] = $variant;
+        
 	include_once $context['path_to_root'].'sections/view.php';
 
 // section(s) at the front page

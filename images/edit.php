@@ -383,9 +383,15 @@ if(Surfer::is_crawler()) {
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
-		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('View the page')));
-		$menu = array_merge($menu, array($anchor->get_url('edit') => i18n::s('Edit the page')));
-		$menu = array_merge($menu, array('images/edit.php?anchor='.$anchor->get_reference() => i18n::s('Submit another image')));
+                if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'set_as_avatar') {
+                    $menu = array_merge($menu, array($anchor->get_url() => i18n::s('View profile')));
+                    $menu = array_merge($menu, array($anchor->get_url('edit') => i18n::s('Edit this profile')));
+                    $menu = array_merge($menu, array('users/select_avatar.php?id='.$anchor->item['id'] => i18n::s('Change picture')));
+                } else {
+                    $menu = array_merge($menu, array($anchor->get_url() => i18n::s('View the page')));
+                    $menu = array_merge($menu, array($anchor->get_url('edit') => i18n::s('Edit the page')));
+                    $menu = array_merge($menu, array('images/edit.php?anchor='.$anchor->get_reference() => i18n::s('Submit another image')));
+                }
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
@@ -437,7 +443,7 @@ if($with_form) {
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form" enctype="multipart/form-data"><div>';
 	$fields = array();
 
-	// the section
+	// the anchor
 	if($anchor)
 		$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 
@@ -598,7 +604,8 @@ if($with_form) {
 	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
 	if(is_object($anchor) && $anchor->is_viewable())
 		$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
-	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+       
+        $context['text'] .= Skin::build_assistant_bottom('', $menu, '', isset($item['tags'])?$item['tags']:'');
 
 	// associates may decide to not stamp changes -- complex command
 	if(isset($item['id']) && $item['id'] && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned())) && Surfer::has_all())

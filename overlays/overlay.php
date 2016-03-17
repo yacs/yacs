@@ -17,7 +17,7 @@
  * $overlay = Overlay::bind($overlay_type);
  *
  * // get form fields used to updated the overlay
- * $fields = $overlay->get_fields($item);
+ * $fields = $overlay->get_fields($item,$field_pos);
  *
  * // get a label for some ordinary field
  * $label = $overlay->get_label('title', 'edit');
@@ -86,9 +86,13 @@
  * Following functions are aiming to simplify external calls:
  * - [code]export()[/code] -- to generate some XML
  * - [code]save()[/code] -- to serialize overlay content
- *
+ * 
+ * Other function that may be implemented in your overlay
+ * [code]filter_invite_message()[/code] -- to send a specific message when owner send invitation. @see articles/invite.php
+ * 
  * @author Bernard Paques
  * @author GnapZ
+ * @author Alexis Raimbault
  * @tester Neige1963
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -114,13 +118,15 @@ class Overlay {
 	 * allow or block operations
 	 *
 	 * @see overlays/petition.php
+	 * @see shared/anchor.php
 	 *
 	 * @param string the foreseen operation ('edit', 'new', ...)
 	 * @param string the kind of item to handle ('approval', ...)
-	 * @return TRUE if the operation is accepted, FALSE otherwise
+	 * @return TRUE if the operation is accepted, FALSE otherwise,
+         *  null to leave decision to yacs core 
 	 */
 	function allows($action, $type ='') {
-		return FALSE;
+		return null;
 	}
 
 	/**
@@ -303,6 +309,8 @@ class Overlay {
 	 * If $this->anchor is an object, then you can call $this->anchor->is_owned() to adapt to
 	 * specific access rules. Else you have to assume that the surfer is creating a new item,
 	 * and that he is the actual owner.
+	 * 
+	 * could call get_field whith differents $field_pos in an overlay
 	 *
 	 * To be overloaded into derived class.
 	 *
@@ -315,7 +323,7 @@ class Overlay {
 	 * @param the hosting attributes
 	 * @return a list of ($label, $input, $hint) to be integrated into the form.
 	 */
-	function get_fields($host) {
+	function get_fields($host,$field_pos=NULL) {
 		return array();
 	}
 
@@ -422,7 +430,11 @@ class Overlay {
 	 */
 	function &get_live_title($host=NULL) {
 
-		$text = $this->anchor->get_title();
+                if (is_object($this->anchor)) {
+                    $text = $this->anchor->get_title(false);
+                } elseif(isset($host['title'])) {
+                    return $host['title'];
+                }
 
 		return $text;
 	}
@@ -490,48 +502,31 @@ class Overlay {
 
 		// live description
 		case 'description':
-			$text =& $this->get_live_description($host);
-			return $text;
-
-		// small details
-		case 'details':
-			$text =& $this->get_details_text($host);
-			return $text;
-
-		// diff from a previous version, for e-mail notifications
-		case 'diff':
-			$text = $this->get_diff_text($host);
-			return $text;
-
-		// extra side of the page
-		case 'extra':
-			$text =& $this->get_extra_text($host);
-			return $text;
+			$text = $this->get_live_description($host);
+			return $text;			
 
 		// live introduction
 		case 'introduction':
-			$text =& $this->get_live_introduction($host);
+			$text = $this->get_live_introduction($host);
 			return $text;
-
-		// container is one item of a list
-		case 'list':
-			$text =& $this->get_list_text($host);
-			return $text;
+		
 
 		// live title
 		case 'title':
-			$text =& $this->get_live_title($host);
-			return $text;
+			$text = $this->get_live_title($host);
+			return $text;		
 
-		// at the bottom of the page, after the description field
-		case 'trailer':
-			$text =& $this->get_trailer_text($host);
-			return $text;
-
-		// full page of the container
-		case 'view':
+		// generic get_<something>_text function
+		// eg. view, trailer, detail, list, extra...
+		// or any custom function
 		default:
-			$text =& $this->get_view_text($host);
+			$func = 'get_'.$variant.'_text';
+			if(is_callable(array($this,$func)))
+			    $text = $this->$func($host);
+			else {
+			    $text = '';
+			    Logger::error(sprintf(i18n::s('function %s not found for overlay %s'),$func, get_class($this)));
+			}
 			return $text;
 		}
 	}
@@ -557,8 +552,17 @@ class Overlay {
 	 * @returns string
 	 */
 	function get_type() {
-		return $this->attributes['overlay_type'];
+		return strtolower($this->attributes['overlay_type']);
 	}
+        
+        
+        /** 
+         * retrieve url where to go after anchor is deleted.
+         * if null then YACS will proceed to default behaviour
+         */
+        public function get_url_after_deleting() {
+            return null;
+        }
 
 	/**
 	 * get the value of one attribute
@@ -579,6 +583,10 @@ class Overlay {
 		// attribute has a value
 		if(isset($this->attributes[$name]))
 			return $this->attributes[$name];
+                
+                // value from anchor
+                if(is_object($this->anchor) && isset($this->anchor->item['$name']))
+                        return $this->anchor->item['$name'];
 
 		// use default value
 		return $default_value;
@@ -640,15 +648,20 @@ class Overlay {
 	 * @param string reference of the containing page (e.g., 'article:123')
 	 * @return a restored instance, or NULL
 	 */
-	final public static function load($host, $reference) {
+	final public static function load($host, $reference='') {
 		global $context;
+		
+		if(is_object($host))
+		    $data = $host->item;
+		else
+		    $data = $host;
 
 		// no overlay yet
-		if(!isset($host['overlay']) || !$host['overlay'])
+		if(!isset($data['overlay']) || !$data['overlay'])
 			return NULL;
 
 		// retrieve the content of the overlay
-		if(($attributes = Safe::unserialize($host['overlay'])) === FALSE)
+		if(($attributes = Safe::unserialize($data['overlay'])) === FALSE)
 			return NULL;
 
 		// restore unicode entities
@@ -662,8 +675,8 @@ class Overlay {
 			return NULL;
 
 		// bind this to current page
-		if(isset($host['id']))
-			$attributes['id'] = $host['id'];
+		if(isset($data['id']))
+			$attributes['id'] = $data['id'];
 
 		// use one particular overlay instance
 		$overlay = Overlay::bind($attributes['overlay_type']);
@@ -671,7 +684,10 @@ class Overlay {
 			$overlay->attributes = $attributes;
 
 			// expose all of the anchor interface to the contained overlay
-			$overlay->anchor = Anchors::get($reference);
+			if(!is_object($host))
+			    $overlay->anchor = Anchors::get($reference);
+			else
+			    $overlay->anchor = $host;
 
 			// ready to use!
 			return $overlay;
@@ -697,6 +713,17 @@ class Overlay {
 	 */
 	final protected function load_scripts_n_styles($myclass='') {
 
+	    // fuse not to search twice for bound files	
+	    static $fuse_called = false;
+	    
+	    // function is always called by DEV without specifying the class.
+	    // fuse should not block recursive calls from the firt call,
+	    // which are always done with a classname argument
+	    if(!$myclass && $fuse_called)
+		return;
+	    
+	    $fuse_called = true;
+	    
 	    if(!$myclass)
 		$myclass = get_class($this);
 
@@ -816,6 +843,20 @@ class Overlay {
 		}
 
 	}
+        
+        /**
+         * This function allow to overide or complete
+         * overlayed item behavior while receiving a "touch" event
+         * 
+         * if false is returned the standard processing will stop
+         * 
+         * @param string $action code name
+         * @param string $origin, usually a ref
+         * @param boolean $silently, if the request requires the action to be recorded as a update
+         */
+        function touch($action, $origin=NULL, $silently=FALSE) {
+            return null;
+        }
 
 	/**
 	 * embed embeddable files or not?

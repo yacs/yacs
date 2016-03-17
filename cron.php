@@ -44,6 +44,7 @@
  * This script is not localized, and always provides result in English.
  *
  * @author Bernard Paques
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -111,7 +112,7 @@ echo 'Checking ticks...'.BR;
 $record = Values::get_record('cron.tick', NULL_DATE);
 
 // wait at least 5 minutes = 300 seconds between ticks
-if(isset($record['edit_date']))
+if(isset($record['edit_date']) && !isset($_REQUEST['test']))
 	$target = SQL::strtotime($record['edit_date']) + 300;
 else
 	$target = time();
@@ -146,7 +147,7 @@ echo 'Checking hourly jobs...'.BR;
 $record = Values::get_record('cron.hourly', NULL_DATE);
 
 // wait at least 1 hour = 3600 seconds between runs
-if(isset($record['edit_date']))
+if(isset($record['edit_date']) && !isset($_REQUEST['test']))
 	$target = SQL::strtotime($record['edit_date']) + 3600;
 else
 	$target = time();
@@ -171,6 +172,42 @@ else {
 		Logger::remember('cron.php: hourly processing', $context['text'], 'debug');
 
 }
+
+//
+// daily jobs
+//
+echo 'Checking daily jobs...'.BR;
+
+// get date of last run
+$record = Values::get_record('cron.daily', NULL_DATE);
+
+// wait at least 1 day = 86400 seconds between runs
+if(isset($record['edit_date']) && !isset($_REQUEST['test']))
+	$target = SQL::strtotime($record['edit_date']) + 86400;
+else
+	$target = time();
+
+// request to be delayed
+if($target > time())
+	echo 'Wait until '.gmdate('r', $target).' GMT'.BR;
+
+// remember tick date and avoid racing conditions
+else {
+	Values::set('cron.daily', 'running...');
+
+	// do the job and provide feed-back to user
+	$context['text'] = Hooks::include_scripts('daily');
+	echo $context['text'];
+
+	// remember tick date and resulting text
+	Values::set('cron.daily', $context['text']);
+
+	// log outcome of script execution in debug mode
+	if($context['with_debug'] == 'Y')
+		Logger::remember('cron.php: daily processing', $context['text'], 'debug');
+
+}
+
 
 // all done
 $time = round(get_micro_time() - $context['start_time'], 2);

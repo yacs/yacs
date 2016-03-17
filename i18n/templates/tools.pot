@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-16 16:36+0200\n"
+"POT-Creation-Date: 2015-07-17 18:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -130,6 +130,16 @@ msgstr ""
 
 #: tools/ajax.php:82
 msgid "Enter a floating number"
+msgstr ""
+
+#: tools/ajax.php:86
+msgid "autocompletion"
+msgstr ""
+
+#: tools/check_multi_login.php:20 tools/jsmin.php:47 tools/populate.php:121
+#: tools/populate.php:132 tools/update_thumbs_url.php:48
+#: tools/update_thumbs_url.php:61
+msgid "You are not allowed to perform this operation."
 msgstr ""
 
 #: tools/fat_index.php:67
@@ -257,11 +267,6 @@ msgstr ""
 
 #: tools/jsmin.php:38
 msgid "Finalize Javascript libraries"
-msgstr ""
-
-#: tools/jsmin.php:47 tools/populate.php:121 tools/populate.php:132
-#: tools/update_thumbs_url.php:48 tools/update_thumbs_url.php:61
-msgid "You are not allowed to perform this operation."
 msgstr ""
 
 #: tools/jsmin.php:50 tools/populate.php:1689

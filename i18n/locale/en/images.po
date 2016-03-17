@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-15 15:34+0200\n"
-"PO-Revision-Date: 2012-04-28 00:11+0100\n"
-"Last-Translator: Bernard Paques\n"
+"POT-Creation-Date: 2015-04-24 15:28+0200\n"
+"PO-Revision-Date: 2015-04-24 15:39+0100\n"
+"Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -20,34 +20,54 @@ msgstr ""
 "X-Poedit-Country: UNITED KINGDOM\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: images/check.php:23 images/check.php:34 images/check.php:107
-#: images/check.php:163 images/delete.php:80 images/edit.php:138
-#: images/index.php:62 images/view.php:98
+#: images/check.php:23
+#: images/check.php:34
+#: images/check.php:107
+#: images/check.php:163
+#: images/check.php:214
+#: images/delete.php:90
+#: images/edit.php:138
+#: images/index.php:62
+#: images/view.php:98
 msgid "Images"
 msgstr "Images"
 
-#: images/check.php:26 images/index.php:111
+#: images/check.php:26
+#: images/index.php:111
 msgid "Maintenance"
 msgstr "Maintenance"
 
-#: images/check.php:31 images/delete.php:92 images/edit.php:157
-#: images/edit.php:182 images/index.php:67 images/set_as_icon.php:65
-#: images/set_as_icon.php:80 images/set_as_thumbnail.php:63
-#: images/set_as_thumbnail.php:78 images/view.php:119
+#: images/check.php:31
+#: images/delete.php:105
+#: images/edit.php:157
+#: images/edit.php:182
+#: images/index.php:67
+#: images/set_as_icon.php:65
+#: images/set_as_icon.php:80
+#: images/set_as_thumbnail.php:63
+#: images/set_as_thumbnail.php:78
+#: images/view.php:119
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
 
-#: images/check.php:41 images/images.php:770 images/index.php:96
+#: images/check.php:41
+#: images/images.php:778
+#: images/index.php:96
 msgid "No image has been added."
 msgstr "No image has been added."
 
-#: images/check.php:51 images/check.php:114
+#: images/check.php:51
+#: images/check.php:114
 #, php-format
 msgid "Analyzing table %s..."
 msgstr "Analyzing table %s..."
 
-#: images/check.php:71 images/check.php:100 images/check.php:134
+#: images/check.php:71
+#: images/check.php:100
+#: images/check.php:134
 #: images/check.php:156
+#: images/check.php:187
+#: images/check.php:206
 #, php-format
 msgid "%d records have been processed"
 msgstr "%d records have been processed"
@@ -57,11 +77,14 @@ msgstr "%d records have been processed"
 msgid "Unused: %s"
 msgstr "Unused: %s"
 
-#: images/check.php:89 images/check.php:145
+#: images/check.php:89
+#: images/check.php:145
 msgid "Too many successive errors. Aborted"
 msgstr "Too many successive errors. Aborted"
 
-#: images/check.php:104 images/check.php:160
+#: images/check.php:104
+#: images/check.php:160
+#: images/check.php:211
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminated in %.2f seconds."
@@ -71,53 +94,78 @@ msgstr "Script terminated in %.2f seconds."
 msgid "Orphan: %s"
 msgstr "Orphan: %s"
 
-#: images/check.php:170
+#: images/check.php:198
+#, php-format
+msgid "Missing: %s"
+msgstr "Missing: %s"
+
+#: images/check.php:198
+msgid "in"
+msgstr "in"
+
+#: images/check.php:207
+#, php-format
+msgid "%d missing files"
+msgstr "%d missing files"
+
+#: images/check.php:221
 msgid "Please select the action to perform."
 msgstr "Please select the action to perform."
 
-#: images/check.php:176
+#: images/check.php:227
 msgid "List biggest images"
 msgstr "List biggest images"
 
-#: images/check.php:179
+#: images/check.php:230
 msgid "Look for unused images"
 msgstr "Look for unused images"
 
-#: images/check.php:182
+#: images/check.php:233
 msgid "Look for orphan records"
 msgstr "Look for orphan records"
 
-#: images/check.php:185
+#: images/check.php:236
+msgid "Look for missing files"
+msgstr "Look for missing files"
+
+#: images/check.php:239
 msgid "Start"
 msgstr "Start"
 
-#: images/delete.php:83
+#: images/delete.php:93
 msgid "Delete an image"
 msgstr "Delete an image"
 
-#: images/delete.php:112
+#: images/delete.php:136
 msgid "The action has not been confirmed."
 msgstr "The action has not been confirmed."
 
-#: images/delete.php:119
+#: images/delete.php:145
 msgid "Yes, I want to delete this image"
 msgstr "Yes, I want to delete this image"
 
-#: images/delete.php:121 images/edit.php:600
+#: images/delete.php:148
+#: images/delete.php:150
+#: images/edit.php:606
 msgid "Cancel"
 msgstr "Cancel"
 
-#: images/delete.php:156 images/edit.php:467 images/edit.php:479
+#: images/delete.php:192
+#: images/edit.php:473
+#: images/edit.php:485
 #: images/layout_images.php:99
 msgid "bytes"
 msgstr "bytes"
 
-#: images/delete.php:160 images/layout_images.php:103 images/view.php:223
+#: images/delete.php:196
+#: images/layout_images.php:103
+#: images/view.php:223
 #, php-format
 msgid "edited by %s %s"
 msgstr "edited by %s %s"
 
-#: images/delete.php:177 images/view.php:210
+#: images/delete.php:213
+#: images/view.php:210
 #, php-format
 msgid "Source: %s"
 msgstr "Source: %s"
@@ -130,8 +178,11 @@ msgstr "Update an image"
 msgid "Add an image"
 msgstr "Add an image"
 
-#: images/edit.php:162 images/images.php:696 images/images.php:702
-#: images/set_as_icon.php:75 images/set_as_thumbnail.php:73
+#: images/edit.php:162
+#: images/images.php:704
+#: images/images.php:710
+#: images/set_as_icon.php:75
+#: images/set_as_thumbnail.php:73
 msgid "No anchor has been found."
 msgstr "No anchor has been found."
 
@@ -152,10 +203,8 @@ msgid "This has become the thumbnail image of the page."
 msgstr "This has become the thumbnail image of the page."
 
 #: images/edit.php:301
-msgid ""
-"The image has been added, and it also has been set as the page thumbnail."
-msgstr ""
-"The image has been added, and it also has been set as the page thumbnail."
+msgid "The image has been added, and it also has been set as the page thumbnail."
+msgstr "The image has been added, and it also has been set as the page thumbnail."
 
 #: images/edit.php:304
 msgid "The image has been inserted."
@@ -176,243 +225,232 @@ msgstr "No image has been processed."
 msgid "What do you want to do now?"
 msgstr "What do you want to do now?"
 
-#: images/edit.php:386
+#: images/edit.php:387
+msgid "View profile"
+msgstr "View profile"
+
+#: images/edit.php:388
+msgid "Edit this profile"
+msgstr "Edit this profile"
+
+#: images/edit.php:389
+msgid "Change picture"
+msgstr "Change picture"
+
+#: images/edit.php:391
 msgid "View the page"
 msgstr "View the page"
 
-#: images/edit.php:387
+#: images/edit.php:392
 msgid "Edit the page"
 msgstr "Edit the page"
 
-#: images/edit.php:388
+#: images/edit.php:393
 msgid "Submit another image"
 msgstr "Submit another image"
 
-#: images/edit.php:397
+#: images/edit.php:403
 #, php-format
 msgid "New image in %s"
 msgstr "New image in %s"
 
-#: images/edit.php:399
+#: images/edit.php:405
 #, php-format
 msgid "%s at %s"
 msgstr "%s at %s"
 
-#: images/edit.php:445
+#: images/edit.php:451
 msgid "Image"
 msgstr "Image"
 
-#: images/edit.php:463
+#: images/edit.php:469
 #, php-format
 msgid "posted by %s %s"
 msgstr "posted by %s %s"
 
-#: images/edit.php:477
+#: images/edit.php:483
 msgid "Select another image to replace the current one"
 msgstr "Select another image to replace the current one"
 
-#: images/edit.php:478
+#: images/edit.php:484
 msgid "Press to select a local file"
 msgstr "Press to select a local file"
 
-#: images/edit.php:483 images/edit.php:487
+#: images/edit.php:489
+#: images/edit.php:493
 msgid "Select a picture to illustrate this user profile."
 msgstr "Select a picture to illustrate this user profile."
 
-#: images/edit.php:491
+#: images/edit.php:497
 msgid "Select a thumbnail picture for this page."
 msgstr "Select a thumbnail picture for this page."
 
-#: images/edit.php:495
-msgid ""
-"Select a .png, .gif or .jpeg image, or a .zip file containing several images."
-msgstr ""
-"Select a .png, .gif or .jpeg image, or a .zip file containing several images."
+#: images/edit.php:501
+msgid "Select a .png, .gif or .jpeg image, or a .zip file containing several images."
+msgstr "Select a .png, .gif or .jpeg image, or a .zip file containing several images."
 
-#: images/edit.php:505
+#: images/edit.php:511
 msgid "Title"
 msgstr "Title"
 
-#: images/edit.php:511
+#: images/edit.php:517
 msgid "Description"
 msgstr "Description"
 
-#: images/edit.php:515
+#: images/edit.php:521
 msgid "Source"
 msgstr "Source"
 
-#: images/edit.php:517
-msgid ""
-"If you have got this file from outside sources, please reference these "
-"sources here"
-msgstr ""
-"If you have got this file from outside sources, please reference these "
-"sources here"
+#: images/edit.php:523
+msgid "If you have got this file from outside sources, please reference these sources here"
+msgstr "If you have got this file from outside sources, please reference these sources here"
 
-#: images/edit.php:554
+#: images/edit.php:560
 msgid "Link"
 msgstr "Link"
 
-#: images/edit.php:556
+#: images/edit.php:562
 msgid "You can make this image point to any web page if you wish"
 msgstr "You can make this image point to any web page if you wish"
 
-#: images/edit.php:562
+#: images/edit.php:568
 msgid "Image processing"
 msgstr "Image processing"
 
-#: images/edit.php:563
+#: images/edit.php:569
 msgid "Automatically resize the image if necessary"
 msgstr "Automatically resize the image if necessary"
 
-#: images/edit.php:570
+#: images/edit.php:576
 msgid "Insert a thumbnail"
 msgstr "Insert a thumbnail"
 
-#: images/edit.php:574
-msgid ""
-"Instead of the embedded image, but only for large files (>20&nbsp;kbytes)"
-msgstr ""
-"Instead of the embedded image, but only for large files (>20&nbsp;kbytes)"
+#: images/edit.php:580
+msgid "Instead of the embedded image, but only for large files (>20&nbsp;kbytes)"
+msgstr "Instead of the embedded image, but only for large files (>20&nbsp;kbytes)"
 
-#: images/edit.php:578
+#: images/edit.php:584
 msgid "Always use the thumbnail. Users will click on it to see the full image."
-msgstr ""
-"Always use the thumbnail. Users will click on it to see the full image."
+msgstr "Always use the thumbnail. Users will click on it to see the full image."
 
-#: images/edit.php:582
-msgid ""
-"Never. Response times for surfers using modem links may be degraded on big "
-"images."
-msgstr ""
-"Never. Response times for surfers using modem links may be degraded on big "
-"images."
+#: images/edit.php:588
+msgid "Never. Response times for surfers using modem links may be degraded on big images."
+msgstr "Never. Response times for surfers using modem links may be degraded on big images."
 
-#: images/edit.php:589
+#: images/edit.php:595
 msgid "Options"
 msgstr "Options"
 
-#: images/edit.php:598
+#: images/edit.php:604
 msgid "Submit"
 msgstr "Submit"
 
-#: images/edit.php:598
+#: images/edit.php:604
 msgid "Press [s] to submit data"
 msgstr "Press [s] to submit data"
 
-#: images/edit.php:605
+#: images/edit.php:611
 msgid "Do not change modification date of the main page."
 msgstr "Do not change modification date of the main page."
 
-#: images/edit.php:608
+#: images/edit.php:614
 msgid "Ensure this post is valid XHTML."
 msgstr "Ensure this post is valid XHTML."
 
-#: images/edit.php:624
-msgid ""
-"Large files (i.e. exceeding 20&nbsp;kbytes) are published as thumbnails. By "
-"clicking on thumbnails people can access full-sized pictures. The title is "
-"visible while the mouse is over the thumbnail. The description and the "
-"source information are displayed along the full-sized picture."
-msgstr ""
-"Large files (i.e. exceeding 20&nbsp;kbytes) are published as thumbnails. By "
-"clicking on thumbnails people can access full-sized pictures. The title is "
-"visible while the mouse is over the thumbnail. The description and the "
-"source information are displayed along the full-sized picture."
+#: images/edit.php:630
+msgid "Large files (i.e. exceeding 20&nbsp;kbytes) are published as thumbnails. By clicking on thumbnails people can access full-sized pictures. The title is visible while the mouse is over the thumbnail. The description and the source information are displayed along the full-sized picture."
+msgstr "Large files (i.e. exceeding 20&nbsp;kbytes) are published as thumbnails. By clicking on thumbnails people can access full-sized pictures. The title is visible while the mouse is over the thumbnail. The description and the source information are displayed along the full-sized picture."
 
-#: images/edit.php:625
+#: images/edit.php:631
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr "%s and %s are available to enhance text rendering."
 
-#: images/edit.php:625
+#: images/edit.php:631
 msgid "YACS codes"
 msgstr "YACS codes"
 
-#: images/edit.php:625
+#: images/edit.php:631
 msgid "smileys"
 msgstr "smileys"
 
-#: images/edit.php:626
-msgid ""
-"Smaller files are embedded as-is. The description and the source fields are "
-"more or less useless in this case."
-msgstr ""
-"Smaller files are embedded as-is. The description and the source fields are "
-"more or less useless in this case."
+#: images/edit.php:632
+msgid "Smaller files are embedded as-is. The description and the source fields are more or less useless in this case."
+msgstr "Smaller files are embedded as-is. The description and the source fields are more or less useless in this case."
 
-#: images/edit.php:627 images/view.php:249
+#: images/edit.php:633
+#: images/view.php:249
 msgid "Help"
 msgstr "Help"
 
-#: images/image.php:40
-#, php-format
-msgid "No image information in %s."
-msgstr "No image information in %s."
-
-#: images/image.php:59
-#, php-format
-msgid "No GD support, or unknown image type in %s."
-msgstr "No GD support, or unknown image type in %s."
-
-#: images/image.php:123
+#: images/image.php:105
 #, php-format
 msgid "Impossible to adjust image %s."
 msgstr "Impossible to adjust image %s."
 
-#: images/image.php:137
+#: images/image.php:122
 #, php-format
 msgid "Cannot write adjusted image to %s."
 msgstr "Cannot write adjusted image to %s."
 
-#: images/image.php:201 images/image.php:345
+#: images/image.php:198
 #, php-format
-msgid "No image information in %s"
-msgstr "No image information in %s"
+msgid "No image information in %s."
+msgstr "No image information in %s."
 
-#: images/image.php:220
+#: images/image.php:217
 #, php-format
-msgid "Unknown image type in %s."
-msgstr "Unknown image type in %s."
+msgid "No GD support, or unknown image type in %s."
+msgstr "No GD support, or unknown image type in %s."
 
-#: images/image.php:280
+#: images/image.php:304
 #, php-format
 msgid "Cannot copy image to %s"
 msgstr "Cannot copy image to %s"
 
-#: images/image.php:304
+#: images/image.php:332
 #, php-format
 msgid "Impossible to skrink image %s"
 msgstr "Impossible to skrink image %s"
 
-#: images/image.php:318
+#: images/image.php:349
 #, php-format
 msgid "Impossible to write to %s."
 msgstr "Impossible to write to %s."
 
-#: images/image.php:351
+#: images/image.php:381
+#, php-format
+msgid "No image information in %s"
+msgstr "No image information in %s"
+
+#: images/image.php:387
 #, php-format
 msgid "Rejected file type %s"
 msgstr "Rejected file type %s"
 
-#: images/images.php:242 images/set_as_icon.php:70
+#: images/images.php:250
+#: images/set_as_icon.php:70
 #: images/set_as_thumbnail.php:68
 msgid "No item has been found."
 msgstr "No item has been found."
 
-#: images/images.php:310
+#: images/images.php:318
 #, php-format
 msgid "Impossible to create path %s."
 msgstr "Impossible to create path %s."
 
-#: images/images.php:327
+#: images/images.php:335
 #, php-format
 msgid "Impossible to copy file %s."
 msgstr "Impossible to copy file %s."
 
-#: images/images.php:718
+#: images/images.php:726
 msgid "No item has the provided id."
 msgstr "No item has the provided id."
+
+#: images/images.php:910
+msgid "Following image has been added:"
+msgstr "Following image has been added:"
 
 #: images/index.php:75
 #, php-format
@@ -434,7 +472,8 @@ msgstr "hits"
 msgid "In %s"
 msgstr "In %s"
 
-#: images/layout_images.php:114 images/view.php:237
+#: images/layout_images.php:114
+#: images/view.php:237
 msgid "Update this image"
 msgstr "Update this image"
 
@@ -450,15 +489,18 @@ msgstr "Set as page image"
 msgid "Set as page thumbnail"
 msgstr "Set as page thumbnail"
 
-#: images/layout_images.php:128 images/view.php:243
+#: images/layout_images.php:128
+#: images/view.php:243
 msgid "Delete this image"
 msgstr "Delete this image"
 
-#: images/set_as_icon.php:60 images/set_as_thumbnail.php:58
+#: images/set_as_icon.php:60
+#: images/set_as_thumbnail.php:58
 msgid "Use an image"
 msgstr "Use an image"
 
-#: images/set_as_icon.php:93 images/set_as_thumbnail.php:91
+#: images/set_as_icon.php:93
+#: images/set_as_thumbnail.php:91
 msgid "Operation has failed."
 msgstr "Operation has failed."
 
@@ -476,18 +518,15 @@ msgid "Press [e] to edit"
 msgstr "Press [e] to edit"
 
 #: images/view.php:248
-msgid ""
-"To save this image on your hard drive, drag the mouse above the image and "
-"use the right button. A contextual pop-up menu should appear. Select the "
-"adequate command depending on the browser used."
-msgstr ""
-"To save this image on your hard drive, drag the mouse above the image and "
-"use the right button. A contextual pop-up menu should appear. Select the "
-"adequate command depending on the browser used."
+msgid "To save this image on your hard drive, drag the mouse above the image and use the right button. A contextual pop-up menu should appear. Select the adequate command depending on the browser used."
+msgstr "To save this image on your hard drive, drag the mouse above the image and use the right button. A contextual pop-up menu should appear. Select the adequate command depending on the browser used."
 
 #: images/view.php:255
 msgid "Thumbnail"
 msgstr "Thumbnail"
+
+#~ msgid "Unknown image type in %s."
+#~ msgstr "Unknown image type in %s."
 
 #~ msgid "No image has been uploaded yet."
 #~ msgstr "No image has been uploaded yet."
@@ -686,6 +725,7 @@ msgstr "Thumbnail"
 #~ msgstr "Posted by"
 
 #~ msgid "1&nbsp;image"
+
 #~ msgid_plural "%d&nbsp;images"
 #~ msgstr[0] "1&nbsp;image"
 #~ msgstr[1] "%d&nbsp;images"

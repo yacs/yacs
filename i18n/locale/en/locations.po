@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-15 15:34+0200\n"
+"POT-Creation-Date: 2015-04-24 15:28+0200\n"
 "PO-Revision-Date: 2010-08-11 17:28+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -112,7 +112,7 @@ msgstr "Edit a location"
 msgid "Add a location"
 msgstr "Add a location"
 
-#: locations/edit.php:115 locations/locations.php:744
+#: locations/edit.php:115 locations/locations.php:752
 msgid "No anchor has been found."
 msgstr "No anchor has been found."
 
@@ -167,64 +167,64 @@ msgstr "Place name"
 msgid "Encode this address"
 msgstr "Encode this address"
 
-#: locations/edit.php:255
+#: locations/edit.php:253
 msgid "This address has not been found"
 msgstr "This address has not been found"
 
-#: locations/edit.php:258
+#: locations/edit.php:256
 msgid "This address has been encoded as"
 msgstr "This address has been encoded as"
 
-#: locations/edit.php:268
+#: locations/edit.php:266
 msgid "Street address, city, country"
 msgstr "Street address, city, country"
 
-#: locations/edit.php:272
+#: locations/edit.php:270
 msgid "Coordinates"
 msgstr "Coordinates"
 
-#: locations/edit.php:274
+#: locations/edit.php:272
 msgid "Latitude, Longitude -- west longitudes and south latitudes are negative"
 msgstr ""
 "Latitude, Longitude -- west longitudes and south latitudes are negative"
 
-#: locations/edit.php:278
+#: locations/edit.php:276
 msgid "Country"
 msgstr "Country"
 
-#: locations/edit.php:280
+#: locations/edit.php:278
 msgid "For regional positioning"
 msgstr "For regional positioning"
 
-#: locations/edit.php:284
+#: locations/edit.php:282
 msgid "Description"
 msgstr "Description"
 
-#: locations/edit.php:296
+#: locations/edit.php:294
 msgid "Do not change modification date of the main page."
 msgstr "Do not change modification date of the main page."
 
-#: locations/edit.php:299
+#: locations/edit.php:297
 msgid "Submit"
 msgstr "Submit"
 
-#: locations/edit.php:299
+#: locations/edit.php:297
 msgid "Press [s] to submit data"
 msgstr "Press [s] to submit data"
 
-#: locations/edit.php:302
+#: locations/edit.php:300
 msgid "Ensure this post is valid XHTML."
 msgstr "Ensure this post is valid XHTML."
 
-#: locations/edit.php:320
+#: locations/edit.php:318
 msgid "You must give a name to this location."
 msgstr "You must give a name to this location."
 
-#: locations/edit.php:326
+#: locations/edit.php:324
 msgid "Please type some geographical coordinates."
 msgstr "Please type some geographical coordinates."
 
-#: locations/edit.php:338
+#: locations/edit.php:336
 msgid ""
 "Latitude and longitude are numbers separated by a comma and spaces, for "
 "example: 47.98481,-71.42124."
@@ -232,40 +232,40 @@ msgstr ""
 "Latitude and longitude are numbers separated by a comma and spaces, for "
 "example: 47.98481,-71.42124."
 
-#: locations/edit.php:339
+#: locations/edit.php:337
 msgid "To find coordinates of any emplacement you can visit following sites:"
 msgstr "To find coordinates of any emplacement you can visit following sites:"
 
-#: locations/edit.php:340
+#: locations/edit.php:338
 msgid "http://www.batchgeocode.com/lookup/"
 msgstr "http://www.batchgeocode.com/lookup/"
 
-#: locations/edit.php:340
+#: locations/edit.php:338
 msgid "Address Map Coordinate (Lat/Long) Finder"
 msgstr "Address Map Coordinate (Lat/Long) Finder"
 
-#: locations/edit.php:341
+#: locations/edit.php:339
 msgid "http://www.travelgis.com/geocode/Default.aspx"
 msgstr "http://www.travelgis.com/geocode/Default.aspx"
 
-#: locations/edit.php:341
+#: locations/edit.php:339
 msgid "Free Geocoding Service for 22 Countries"
 msgstr "Free Geocoding Service for 22 Countries"
 
-#: locations/edit.php:343
+#: locations/edit.php:341
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr "%s and %s are available to enhance text rendering."
 
-#: locations/edit.php:343
+#: locations/edit.php:341
 msgid "YACS codes"
 msgstr "YACS codes"
 
-#: locations/edit.php:343
+#: locations/edit.php:341
 msgid "smileys"
 msgstr "smileys"
 
-#: locations/edit.php:344
+#: locations/edit.php:342
 msgid "Help"
 msgstr "Help"
 
@@ -298,15 +298,15 @@ msgstr "Delete"
 msgid "in %s"
 msgstr "in %s"
 
-#: locations/locations.php:596 locations/view.php:98
+#: locations/locations.php:604 locations/view.php:98
 msgid "Loading..."
 msgstr "Loading..."
 
-#: locations/locations.php:738
+#: locations/locations.php:746
 msgid "Please add a geo_place_name for this location"
 msgstr "Please add a geo_place_name for this location"
 
-#: locations/locations.php:760
+#: locations/locations.php:768
 msgid "No item has the provided id."
 msgstr "No item has the provided id."
 

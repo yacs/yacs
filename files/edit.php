@@ -96,6 +96,20 @@ elseif(isset($context['arguments'][1]))
 if(!isset($item['active']) && is_object($anchor))
 	$item['active'] = $anchor->get_active();
 
+// get the related overlay, if any -- overlay_type will be considered later on
+$overlay = NULL;
+if(isset($item['overlay']) && $item['overlay'])
+	$overlay = Overlay::load($item, 'file:'.$item['id']);
+elseif(isset($_REQUEST['variant']) && $_REQUEST['variant'])
+	$overlay = Overlay::bind($_REQUEST['variant']);
+elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
+	$overlay = Overlay::bind($_SESSION['pasted_variant']);
+	unset($_SESSION['pasted_variant']);
+
+// set a new overlay instance, except if some template has been defined for this anchor
+} elseif(!isset($item['id']) && is_object($anchor))
+	$overlay = $anchor->get_overlay('file_overlay');
+
 // get parent of the anchor too
 $parent = NULL;
 if(is_object($anchor) && ($parent = $anchor->get_parent()))
@@ -134,7 +148,7 @@ if(isset($item['title']) && $item['title'])
 	$context['page_title'] = sprintf(i18n::s('Update: %s'), $item['title']);
 elseif(isset($item['file_name']))
 	$context['page_title'] = sprintf(i18n::s('Update: %s'), str_replace('_', ' ', $item['file_name']));
-else
+elseif(!is_object($overlay) || (!$context['page_title'] = $overlay->get_label('page_title', 'new')))
 	$context['page_title'] = i18n::s('Add a file');
 
 // validate input syntax only if required
@@ -188,7 +202,7 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= Skin::build_block(Skin::build_link($anchor->get_url('files'), i18n::s('Done'), 'button'), 'bottom');
 
 // extension is not allowed
-} elseif(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && !Files::is_authorized($_FILES['upload']['name'])) {
+} elseif( Files::get_uploaded('upload','name') && !Files::is_authorized(Files::get_uploaded('upload','name'))) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('This type of file is not allowed.'));
 
@@ -236,6 +250,20 @@ if(Surfer::is_crawler()) {
 
 		// add to file history
 		$_REQUEST['description'] = Files::add_to_history($item, $_REQUEST['version']);
+                
+                // when the file has been overlaid
+                if(is_object($overlay)) {
+
+                        // allow for change detection
+                        $overlay->snapshot();
+
+                        // update the overlay from form content
+                        $overlay->parse_fields($_REQUEST);
+
+                        // save content of the overlay in this item
+                        $_REQUEST['overlay'] = $overlay->save();
+                        $_REQUEST['overlay_id'] = $overlay->get_id();
+                }
 
 		// save in the database
 		Files::post($_REQUEST);
@@ -249,15 +277,15 @@ if(Surfer::is_crawler()) {
 		}
 
 	// a file has been uploaded
-	} elseif(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && ($_FILES['upload']['name'] != 'none')) {
+	} elseif(Files::get_uploaded('upload','name')) {
 		$file_path = Files::get_path($_REQUEST['anchor']);
 
 		// update an existing file record
 		if(isset($item['id']))
-			$_FILES['upload']['id'] = $item['id'];
+			Files::set_uploaded('upload', 'id', $item['id']);
 
 		// attach some file
-		if($uploaded = Files::upload($_FILES['upload'], $file_path, $anchor->get_reference())) {
+		if($uploaded = Files::upload(Files::get_uploaded('upload'), $file_path, $anchor->get_reference(), $overlay)) {    
 
 			// actually, a new file
 			if(!isset($item['id']))
@@ -325,6 +353,20 @@ if(Surfer::is_crawler()) {
 		if(isset($_REQUEST['version']) && $_REQUEST['version'])
 			$_REQUEST['description'] = Files::add_to_history($item, $_REQUEST['version']);
 
+                // when the file has been overlaid
+                if(is_object($overlay)) {
+
+                        // allow for change detection
+                        $overlay->snapshot();
+
+                        // update the overlay from form content
+                        $overlay->parse_fields($_REQUEST);
+
+                        // save content of the overlay in this item
+                        $_REQUEST['overlay'] = $overlay->save();
+                        $_REQUEST['overlay_id'] = $overlay->get_id();
+                }
+                
 		// save in the database
 		Files::post($_REQUEST);
 
@@ -365,6 +407,11 @@ if(Surfer::is_crawler()) {
 			$anchor->touch('file:create', NULL, isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 		}
+                
+                if($render_overlaid) {
+                    echo 'post done';
+                    die;
+		}
 
 		// list persons that have been notified
 		$context['text'] .= Mailer::build_recipients($anchor->get_reference());
@@ -395,9 +442,14 @@ if(Surfer::is_crawler()) {
 
 		// record surfer activity
 		Activities::post('file:'.$_REQUEST['id'], 'upload');
+                
+                if($render_overlaid) {
+                    echo 'post done';
+                    die;
+		}
 
 		// forward to the anchor page
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url('files'));
+		Safe::redirect($anchor->get_url('files'));
 
 	}
 
@@ -443,7 +495,7 @@ if($with_form) {
 			// an upload entry
 			$input .= '<dt><input type="radio" name="file_type" value="upload" checked="checked" onclick="$(\'#href_panel\').slideUp();$(\'#upload_panel\').slideDown();" />&nbsp;'.i18n::s('Add a file').' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'.'</dt>'
 				.'<dd id="upload_panel">'
-				.	'<input type="file" name="upload" id="upload" size="30" onchange="if(/\\.zip$/i.test($(this).val())){$(\'#upload_option\').slideDown();}else{$(\'#upload_option\').slideUp();}" />'
+				.	skin::build_input_file('upload','if(/\\.zip$/i.test($(this).val())){$(\'#upload_option\').slideDown();}else{$(\'#upload_option\').slideUp();}')
 				.	'<div id="upload_option" style="display: none;" >'
 				.		'<input type="checkbox" name="explode_files" checked="checked" /> '.i18n::s('Extract files from the archive')
 				.	'</div>'
@@ -531,12 +583,20 @@ if($with_form) {
 	$label = i18n::s('Title');
 	$input = '<input type="text" name="title" size="50" value="'.encode_field(isset($item['title'])?$item['title']:'').'" maxlength="255" accesskey="t" />';
 	$fields[] = array($label, $input);
+        
+    // include overlay fields, if any
+	if(is_object($overlay))
+		$fields = array_merge($fields, $overlay->get_fields($item));
 
 	// history of changes
-	$label = i18n::s('History');
-	$input = '<span class="details">'.i18n::s('What is new in this file?').'</span>'.BR.'<textarea name="version" rows="3" cols="50"></textarea>';
+        if(!is_object($overlay) || ($label = $overlay->get_label('description')) === null)
+            $label = i18n::s('History');
+        if(!is_object($overlay) || ($hint = $overlay->get_label('description_hint')) === null)
+              $hint = i18n::s('What is new in this file?');
+        if($hint) $hint .= BR;
+	$input = '<span class="details">'.$hint.'</span>'.Surfer::get_editor('version', '', TRUE, 5, FALSE); 
 	if(isset($item['description']))
-		$input .= Skin::build_box(i18n::s('More information'), Skin::build_block($item['description'], 'description'), 'folded');
+            $input .= Skin::build_box(i18n::s('More information'), Skin::build_block($item['description'], 'description'), 'folded');
 	$fields[] = array($label, $input);
 
 	// build the form
@@ -654,34 +714,38 @@ if($with_form) {
 	$context['text'] .= Skin::build_tabs($panels);
 
 	// bottom commands
-	$menu = array();
-	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
-	if(is_object($anchor) && $anchor->is_viewable())
-		$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
-	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+        if(!$render_overlaid) {
+            $menu = array();
+            $menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+            if(is_object($anchor) && $anchor->is_viewable())
+                    $menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
+            $context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+        
+        
+            // optional checkboxes
+            $context['text'] .= '<p>';
 
-	// optional checkboxes
-	$context['text'] .= '<p>';
+            // do not process notifications for draft articles
+            if(strncmp($anchor->get_reference(), 'article:', strlen('article:')) || ($anchor->get_value('publish_date', NULL_DATE) > NULL_DATE)) {
 
-	// do not process notifications for draft articles
-	if(strncmp($anchor->get_reference(), 'article:', strlen('article:')) || ($anchor->get_value('publish_date', NULL_DATE) > NULL_DATE)) {
+                    // notify watchers
+                    $context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers').BR;
 
-		// notify watchers
-		$context['text'] .= '<input type="checkbox" name="notify_watchers" value="Y" checked="checked" /> '.i18n::s('Notify watchers').BR;
+                    // notify people following me
+                    if(Surfer::get_id() && !$anchor->is_hidden())
+                            $context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" /> '.i18n::s('Notify my followers').BR;
 
-		// notify people following me
-		if(Surfer::get_id() && !$anchor->is_hidden())
-			$context['text'] .= '<input type="checkbox" name="notify_followers" value="Y" /> '.i18n::s('Notify my followers').BR;
+            }
 
-	}
+            // associates may decide to not stamp changes, but only for changes -- complex command
+            if(Surfer::is_associate() && isset($anchor) && Surfer::has_all())
+                    if((Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) && Surfer::has_all())
+                            $context['text'] .= '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the main page.').BR;
 
-	// associates may decide to not stamp changes, but only for changes -- complex command
-	if(Surfer::is_associate() && isset($anchor) && Surfer::has_all())
-		if((Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) && Surfer::has_all())
-			$context['text'] .= '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the main page.').BR;
-
-	// validate page content
-	$context['text'] .= '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').'</p>';
+            // validate page content
+            $context['text'] .= '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').'</p>';
+        
+        }
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])

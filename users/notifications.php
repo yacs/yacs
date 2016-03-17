@@ -168,10 +168,9 @@ Class Notifications {
 			." ORDER BY notifications.edit_date"
 			." LIMIT 1";
 
-		// kill the request if there is nothing to return
+		// stop if there is nothing to return
 		if((!$record = SQL::query_first($query)) || !isset($record['data'])) {
-			http::no_content();
-			die('Retry');
+			return 'NTR';
 		}
 
 		// restore the entire record

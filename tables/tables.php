@@ -28,8 +28,16 @@ Class Tables {
 	 * @param array a set of item attributes, if any
 	 * @return boolean TRUE or FALSE
 	 */
-	public static function allow_creation($anchor=NULL, $item=NULL) {
+	public static function allow_creation($item=NULL, $anchor=NULL) {
 		global $context;
+                
+                // backward compatibility, reverse parameters : 
+                // $anchor is always a object and $item a array
+                if(is_object($item) || is_array($anchor)) {
+                    $permute    = $anchor;
+                    $anchor     = $item;
+                    $item       = $permute;
+                }
 
 		// tables are prevented in item
 		if(isset($item['options']) && is_string($item['options']) && preg_match('/\bno_tables\b/i', $item['options']))

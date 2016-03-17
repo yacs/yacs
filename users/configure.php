@@ -480,6 +480,18 @@ elseif(!Surfer::is_associate()) {
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Files can be modified only by their original authors, plus associates and owners.');
 	$fields[] = array($label, $input);
+        
+        // control of file checking
+	$label = i18n::s('Antivirus');
+	$input = '<input type="radio" name="clamav_check" value="N"';
+	if(!isset($context['clamav_check']) || ($context['clamav_check'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Do not check uploaded files for virus');
+	$input .= BR.'<input type="radio" name="clamav_check" value="Y"';
+	if(isset($context['clamav_check']) && ($context['clamav_check'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Use CLAMAV Daemon to check uploaded files ( must be installed )');
+	$fields[] = array($label, $input);
 
 	// with anonymous comments
 	$label = i18n::s('Comments');
@@ -589,6 +601,8 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'users_without_archiving\']=\''.addcslashes($_REQUEST['users_without_archiving'], "\\'")."';\n";
 	if(isset($_REQUEST['users_without_file_overloads']))
 		$content .= '$context[\'users_without_file_overloads\']=\''.addcslashes($_REQUEST['users_without_file_overloads'], "\\'")."';\n";
+        if(isset($_REQUEST['clamav_check']))
+		$content .= '$context[\'clamav_check\']=\''.addcslashes($_REQUEST['clamav_check'], "\\'")."';\n";
 	if(isset($_REQUEST['users_without_login_box']))
 		$content .= '$context[\'users_without_login_box\']=\''.addcslashes($_REQUEST['users_without_login_box'], "\\'")."';\n";
 	if(isset($_REQUEST['users_without_login_welcome']))

@@ -142,11 +142,18 @@ if($credentials && ($credentials = base64_decode($credentials))) {
 
 }
 
+// load localized strings
+if(is_callable(array('i18n', 'bind')))
+    i18n::bind('users');
+
 // load the skin
 load_skin('users');
 
 // page title
-$context['page_title'] = i18n::s('Who are you?');
+if(!Surfer::is_logged())
+    $context['page_title'] = i18n::s('Who are you?');
+else
+    $context['page_title'] = i18n::s('You are').' '.Surfer::get_name();
 
 // stop crawlers
 if(Surfer::is_crawler()) {
@@ -187,7 +194,7 @@ if(Surfer::is_crawler()) {
 			Surfer::set($poster, $update_flag);
 
 			// redirect to target page
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
+			Safe::redirect(full_link($anchor->get_url()));
 
 		}
 
@@ -426,7 +433,7 @@ if(Surfer::is_crawler()) {
 	}
 
 // provide the empty form by default
-} else {
+} elseif(!Surfer::is_logged()) {
 
 	// the page title
 	if(isset($_REQUEST['url']))
@@ -542,6 +549,18 @@ if(Surfer::is_crawler()) {
 		.'<p>'.sprintf(i18n::s('If you already are a registered member, but do not remember your username and/or password, %s.'), Skin::build_link('users/password.php', i18n::s('click here'))).'</p>';
 	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
+} else {
+    
+    if(isset($_REQUEST['url'])) {
+	if(!strncmp($_REQUEST['url'], 'http', 4))
+	    $url = encode_field($_REQUEST['url']);
+	else
+	    $url = $context['url_to_root'].$_REQUEST['url'];
+	
+	Safe::redirect($url);
+    }
+    
+    $context['text'] = i18n::s('... and you are already logged in !');
 }
 
 // render the skin

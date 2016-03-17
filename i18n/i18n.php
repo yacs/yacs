@@ -911,13 +911,33 @@ Class i18n {
 		// yacs should not adapt to surfer language
 		if(isset($context['without_language_detection']) && ($context['without_language_detection'] == 'Y'))
 			;
+		
+		// language is imposed by request
+		elseif(isset($_REQUEST['lang'])) {
+			$context['language'] = $_REQUEST['lang']; 
+			// remember this over the session
+			$_SESSION['surfer_language'] = $context['language'];
+                        
+                        ///// reload page, but removing lang parameter from url (to keep canonical link)
+                        // get params
+                        $url_params = explode('&', $_SERVER['QUERY_STRING']);
+                        // take all except lang
+                        $filtered_params = preg_grep('/^lang=[a-z-A-Z]+$/', $url_params, PREG_GREP_INVERT);
+                        // make redirect address
+                        $url = strstr($context['self_url'], '?', true);
+                        $new_query = implode('&', $filtered_params);
+                        if($new_query) $url .= '?'. $new_query;
+                        // redirect
+                        Safe::redirect($url);
 
 		// else user may have set language preference from his profile
-		elseif(isset($_SESSION['surfer_language']) && trim($_SESSION['surfer_language']) && ($_SESSION['surfer_language'] != 'none')) {
+		} elseif(isset($_SESSION['surfer_language']) && trim($_SESSION['surfer_language']) && ($_SESSION['surfer_language'] != 'none')) {
 			$context['language'] = $_SESSION['surfer_language'];
 
 		// else guess surfer language
 		} else {
+                        // no choosen language
+                        $_SESSION['surfer_language'] = 'none';
 
 			// languages accepted by browser
 			if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && $_SERVER['HTTP_ACCEPT_LANGUAGE'])

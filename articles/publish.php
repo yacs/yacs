@@ -186,7 +186,7 @@ if($with_form) {
 
 	// adjust date from server time zone to surfer time zone
 	$value = strftime('%Y-%m-%d %H:%M:%S', time() + ((Surfer::get_gmt_offset() - intval($context['gmt_offset'])) * 3600));
-	$input = Skin::build_input('publish_date', $value, 'date_time');
+	$input = Skin::build_input_time('publish_date', $value, 'date_time');
 	$hint = i18n::s('Indicate a date (YYYY-MM-DD) in the future and let YACS make the page appear automatically.');
 	$fields[] = array($label, $input, $hint);
 
@@ -247,7 +247,7 @@ if($with_form) {
 	if(isset($item['expiry_date']))
 		$value = Surfer::from_GMT($item['expiry_date']);
 
-	$input = Skin::build_input('expiry_date', $value, 'date_time');
+	$input = Skin::build_input_time('expiry_date', $value, 'date_time');
 	$hint = i18n::s('Use this field to limit the life time of published pages.');
 	$fields[] = array($label, $input, $hint);
 

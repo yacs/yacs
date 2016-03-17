@@ -50,16 +50,13 @@ echo "\t".'<meta charset="'.$context['charset'].'">'."\n";
 //Use the .htaccess and remove these lines to avoid edge case issues.
 // More info: h5bp.com/i/378
 	// force IE6 to use chrome engine
-	echo "\t".'<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">'."\n";
+	echo "\t".'<meta http-equiv="X-UA-Compatible" content="IE=edge">'."\n";
 
 // Mobile viewport optimized: @see h5bp.com/viewport
-echo "\t".'<meta name="viewport" content="width=device-width">'."\n";
+echo "\t".'<meta name="viewport" content="width=device-width, initial-scale=1">'."\n";
 
 // Place favicon.ico and apple-touch-icon.png in the root directory:
 // @see mathiasbynens.be/notes/touch-icons
-
-// we have one style sheet for everything, implied media=all
-echo "\t".'<link rel="stylesheet" href="'.$context['url_to_root'].'skins/starterfive/starterfive.css" >'."\n";
 
 // example of CDN google font
 echo "\t".'<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600" rel="stylesheet" >'."\n";
@@ -70,8 +67,15 @@ if(!$context['site_icon']) {
 	echo "\t".'<link rel="icon" href="'.$context['url_to_root'].'skins/starterfive/favicon.ico" type="image/x-icon" />'."\n";
 }
 
-// other head directives
+echo "\t".Js_css::link_file('skins/starterfive/css/normalize.css','now')."\n";
+echo "\t".Js_css::link_file('skins/_reference/yacs.css','now')."\n";
+echo "\t".Js_css::link_file('skins/starterfive/css/main-top.css','now')."\n";
+echo "\t".Js_css::link_file('skins/starterfive/css/knacss-garni.css','now')."\n";
+
+// other head directives (include skin .css)
 Page::meta();
+
+echo "\t".Js_css::link_file('skins/starterfive/css/main-bottom.css','now')."\n";
 
 // More ideas for your <head> here: h5bp.com/d/head-Tips
 
@@ -79,7 +83,7 @@ Page::meta();
 // Modernizr enables HTML5 elements & feature detects;
 // Respond is a polyfill for min/max-width CSS3 Media Queries
 // For optimal performance, use a custom Modernizr build: www.modernizr.com/download/
-echo "\t".'<script src="'.$context['url_to_root'].'skins/starterfive/js/modernizr-2.6.2.min.js"></script>'."\n";
+echo "\t".Js_css::link_file('skins/starterfive/js/modernizr-2.8.3.min.js','now')."\n";
 
 // end of the header
 echo '</head>'."\n";
@@ -89,8 +93,8 @@ Page::body();
 
 // Prompt IE 6 users to install Chrome Frame. Remove this if you want to support IE 6.
 // @see chromium.org/developers/how-tos/chrome-frame-getting-started
-echo '<!--[if lt IE 7 ]>'."\n";
-echo '<p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>'."\n";
+echo '<!--[if lt IE 8]>'."\n";
+echo '<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>'."\n";
 echo '<![endif]-->'."\n";
 
 // to support decorations
@@ -108,7 +112,7 @@ if($context['site_name'])
 
 // site slogan -- can be replaced, through CSS, by an image
 if(isset($context['site_slogan']))
-	echo '<p id="header_slogan" class="item"><span>'.$context['site_slogan']."</span></p>\n";
+	echo '<p id="header_slogan" class="item"><span>'.$context['site_slogan']."</span><br /></p>\n";
 
 // horizontal tabs with Home, and second level drop-down menu displayed as smartlist
 Page::tabs(TRUE, FALSE, NULL, NULL, 'smartlist');
@@ -150,6 +154,7 @@ echo '</div>'."\n";
 
 // display complementary information, if any
 echo '<aside id="extra_panel" class="col w20 medium-row tiny-inbl mod item">'."\n";
+Page::echo_local_switcher(array('en','fr'));
 Page::extra_panel(NULL, FALSE);
 echo '</aside>'."\n";
 
@@ -185,18 +190,20 @@ echo $context['page_footer'];
 // template layout activation, if needed (http://code.google.com/p/css-template-layout)
 // echo '<script>$(function() {$.setTemplateLayout("'.$context['url_to_root'].'skins/starterfive/starterfive.css", "js");});</script>'."\n";
 
-// google analytics tracker, change UA-XXXXX-X to be your site's ID.
-/*echo '<script>'."\n"
-		."\t"."var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];"."\n"
-		."\t".'(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];'."\n"
-		."\t"."g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js'"."\n"
-		."\t".'s.parentNode.insertBefore(g,s)}(document,'script'))'."\n"
-	.'</script>'."\n";*/
+// Google Analytics: change UA-XXXXX-X to be your site's ID.
+ /*echo '<script>'."\n"
+            ."\t"."(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]="."\n"
+            ."\t"."function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;"."\n"
+            ."\t"."e=o.createElement(i);r=o.getElementsByTagName(i)[0];"."\n"
+            ."\t"."e.src='//www.google-analytics.com/analytics.js';"."\n"
+            ."\t"."r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));"."\n"
+            ."\t"."ga('create','UA-XXXXX-X','auto');ga('send','pageview');"."\n"
+        .'</script>'."\n";*/
 
 // CSS3Pie for decoration with old IE browser
 echo '<!--[if lt IE 10]>'."\n";
-echo '<script type="text/javascript" src="'.$context['url_to_root'].'skins/starterfive/js/PIE.js"></script>'."\n";
-echo '<script type="text/javascript" src="'.$context['url_to_root'].'skins/starterfive/js/pie_enhance_ie.js"></script>'."\n";
+echo Js_css::link_file('skins/starterfive/js/PIE.js','now')."\n";
+echo Js_css::link_file('skins/starterfive/js/pie_enhance_ie.js','now')."\n";
 echo '<![endif]-->'."\n";
 
 

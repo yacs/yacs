@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-30 23:53+0200\n"
+"POT-Creation-Date: 2015-04-24 15:28+0200\n"
 "PO-Revision-Date: 2013-04-30 23:53+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -50,18 +50,18 @@ msgstr ""
 "In the form used to edit the section, select <code>foo</code> in the canvas "
 "field, then save changes."
 
-#: canvas/one_panel.php:73
+#: canvas/one_panel.php:77
 msgid "Comments"
 msgstr "Comments"
 
-#: canvas/one_panel.php:93
+#: canvas/one_panel.php:97
 msgid "Information"
 msgstr "Information"
 
-#: canvas/standard.php:75
+#: canvas/standard.php:80
 msgid "Discussion"
 msgstr "Discussion"
 
-#: canvas/standard.php:105
+#: canvas/standard.php:110
 msgid "Attachments"
 msgstr "Attachments"

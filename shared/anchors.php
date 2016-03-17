@@ -90,6 +90,39 @@ class Anchors {
 			}
 		}
 	}
+        
+        /**
+         * check if a anchor with same nickname exist but with a language
+         * better for the current surfer
+         * if yes, redirect surfer to it
+         * 
+         * @see articles/view.php, sections/view.php
+         * 
+         * @param type $reference of the current item
+         * @param type $nickname of the current item
+         */
+        public static function check_better_lang($reference, $nickname) {
+            
+            // separate class and id
+            list($class,$id) = explode(":", $reference);
+            
+            // sanity check
+            if(!$id || !$nickname) return;
+            
+            // get anchor familly
+            $class      = new $class();
+            $familly    = $class->get_static_group_class();
+            
+            // get item from nickname, will chose best language
+            $anchor     = $familly::get($nickname);
+            
+            // compare id, if != the redirect surfer but not crawlers
+            if($anchor['id'] !== $id && !Surfer::is_crawler()) {
+                
+                $url    = $familly::get_permalink($anchor);
+                Safe::redirect($url);
+            }
+        }
 
 	/**
 	 * maximise access rights
@@ -241,7 +274,7 @@ class Anchors {
 		Cache::clear();
 
 	}
-	
+
 
 	/**
 	 * load one anchor from the database
@@ -287,7 +320,12 @@ class Anchors {
 			include_once $context['path_to_root'].'files/file.php';
 			$anchor = new File();
 			$anchor->load_by_id($attributes[1], $mutable);
-			break;;
+			break;
+                case 'image':
+                        include_once $context['path_to_root'].'images/image.php';
+                        $anchor = new Image();
+                        $anchor->load_by_id($attributes[1], $mutable);
+                        break;
 		case 'section':
 			include_once $context['path_to_root'].'sections/section.php';
 			$anchor = new Section();
@@ -305,6 +343,10 @@ class Anchors {
 		// ensure the object actually exists
 		if(!isset($anchor->item['id']))
 			$anchor = NULL;
+
+		// load overlay if any
+		if(isset($anchor->item['overlay']))
+			$anchor->overlay = Overlay::load($anchor);
 
 		// return by reference
 		return $anchor;
@@ -426,7 +468,7 @@ class Anchors {
 		default:
 			return i18n::s('edited');
 		}
-	}		
+	}
 
 	/**
 	 * count related items

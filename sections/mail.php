@@ -36,6 +36,10 @@ $anchor = NULL;
 if(isset($item['anchor']))
 	$anchor = Anchors::get($item['anchor']);
 
+$overlay = NULL;
+if(isset($item['overlay']))
+	$overlay = Overlay::load($item, 'section:'.$item['id']);
+
 // check surfer capability
 if(Sections::allow_message($item, $anchor))
 	$permitted = TRUE;

@@ -369,7 +369,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 	$box = array('bar' => array(), 'text' => '');
 
 	// new comments are allowed
-	if(Comments::allow_creation($anchor, $item, 'section'))
+	if(Comments::allow_creation($item, $anchor, 'section'))
 		$box['text'] .= Comments::get_form('section:'.$item['id']);
 
 	// a navigation bar for these comments
@@ -622,7 +622,7 @@ if(!$zoom_type || ($zoom_type == 'links')) {
 	}
 
 	// new links are allowed -- check option 'with_links'
-	if(Links::allow_creation($anchor, $item, 'section')) {
+	if(Links::allow_creation($item, $anchor, 'section')) {
 		Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 		$box['bar'] += array('links/edit.php?anchor='.urlencode('section:'.$item['id']) => LINKS_ADD_IMG.i18n::s('Add a link') );
 	}
@@ -797,7 +797,7 @@ if(Sections::allow_creation($item, $anchor)) {
 }
 
 // comment this page if anchor does not prevent it
-if(Comments::allow_creation($anchor, $item, 'section')) {
+if(Comments::allow_creation($item, $anchor, 'section')) {
 	Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 	$context['page_tools'][] = Skin::build_link(Comments::get_url('section:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 }
@@ -809,13 +809,13 @@ if(Files::allow_creation($item, $anchor, 'section')) {
 }
 
 // add a link
-if(Links::allow_creation($anchor, $item, 'section')) {
+if(Links::allow_creation($item, $anchor, 'section')) {
 	Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 	$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('section:'.$item['id']), LINKS_ADD_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
 }
 
 // post an image, if upload is allowed
-if(Images::allow_creation($anchor, $item, 'section')) {
+if(Images::allow_creation($item, $anchor, 'section')) {
 	Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
 	$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 }

@@ -44,8 +44,10 @@ $item = Comments::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
-if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+if(isset($item['anchor']) && $item['anchor']) {
+	$anchor  = Anchors::get($item['anchor']);
+    $overlay = $anchor->overlay;
+}
 
 // load the skin, maybe with a variant
 load_skin('comments', $anchor);
@@ -90,8 +92,12 @@ if(Surfer::is_crawler()) {
 	// if no error, back to the anchor or to the index page
 	if(Comments::delete($item['id'])) {
 		Comments::clear($item);
-		if(is_object($anchor))
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url('comments'));
+                
+        if($render_overlaid && isset($_REQUEST['follow_up']) && $_REQUEST['follow_up'] == 'close') {
+              echo "deleting done";
+              finalize_page(true);
+        }elseif(is_object($anchor))
+			Safe::redirect($anchor->get_url('comments'));
 		else
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].'comments/');
 	}
@@ -110,22 +116,28 @@ else {
 		$delete_label = $overlay->get_label('delete_confirmation', 'comments');
 	if(!$delete_label)
 		$delete_label = i18n::s('Yes, I want to delete this comment');
-	$menu[] = Skin::build_submit_button($delete_label, NULL, NULL, 'confirmed');
-	if(isset($item['id']))
+        
+	$menu[] = Skin::build_submit_button($delete_label, NULL, NULL, 'confirmed',($render_overlaid)?'button submit-overlaid':'button');
+        
+	if(isset($item['id']) && !$render_overlaid) {
 		$menu[] = Skin::build_link(Comments::get_url($item['id']), i18n::s('Cancel'), 'span');
+        } elseif($render_overlaid) {
+                $menu[] = '<a href="javascript:;" onclick="Yacs.closeModalBox()">'.i18n::s('Cancel').'</a>'."\n";
+        }
 
 	// the submit button
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form">'."\n"
 		.Skin::finalize_list($menu, 'menu_bar')
 		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
 		.'<input type="hidden" name="confirm" value="yes" />'."\n"
-		.'</p></form>'."\n";
+        .((isset($_REQUEST['follow_up']))?'<input type="hidden" name="follow_up" value="'.$_REQUEST['follow_up'].'" />'."\n":'')
+		.'</form>'."\n";
 
 	// set the focus
 	Page::insert_script('$("#confirmed").focus();');
 
 	// display the full comment
-	$context['text'] .= '<div style="margin: 1em 0;">'.Codes::beautify($item['description']).'</div>'."\n";
+	$context['text'] .= '<div style="padding: 1em; background-color:#CCC;">'.Codes::beautify($item['description']).'</div>'."\n";
 
 	// details
 	$details = array();

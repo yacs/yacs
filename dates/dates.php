@@ -16,12 +16,13 @@
  * @see i18n/i18n.php
  */
 
-if(!defined('WEEK_START_MONDAY'))
-    define('WEEK_START_MONDAY',TRUE);
+if(!defined('WEEK_START_MONDAY')) // @see i18n
+    define('WEEK_START_MONDAY',TRUE); 
 
 define('W_START_DAY',((WEEK_START_MONDAY)?1:0));
 define('W_END_DAY',((WEEK_START_MONDAY)?8:7));
-define('STRFTIME_FORMAT',((WEEK_START_MONDAY)?'%u':'%w'));
+//define('STRFTIME_FORMAT',((WEEK_START_MONDAY)?'%u':'%w'));
+define('STRFTIME_FORMAT','%a');
 
 
 Class Dates {
@@ -72,8 +73,10 @@ Class Dates {
 		$first_of_month = gmmktime(0, 0, 0, $month, 1, $year);
 
 		// day in week for the first day of the month
-		$day = (int)gmstrftime(STRFTIME_FORMAT, $first_of_month);
-
+		//$day = (int)gmstrftime(STRFTIME_FORMAT, $first_of_month); <= does not work with %u on some system
+                $day = gmstrftime(STRFTIME_FORMAT, $first_of_month);
+                $day = Dates::day2num($day);
+                
 		// draw empty cells at the beginning of the month
 		for($index = W_START_DAY; $index < $day; $index++)
 			$text .= '<td>&nbsp;</td>';
@@ -94,7 +97,9 @@ Class Dates {
 		$days_in_month = (int)gmdate('t', gmmktime(0, 0, 0, $month, 1, $year));
 
 		// day in week for the current date
-		$day_in_week = (int)gmstrftime(STRFTIME_FORMAT, gmmktime(0, 0, 0, $month, $day, $year));
+		//$day_in_week = (int)gmstrftime(STRFTIME_FORMAT, gmmktime(0, 0, 0, $month, $day, $year));
+                $day_in_week = gmstrftime(STRFTIME_FORMAT, gmmktime(0, 0, 0, $month, $day, $year));
+                $day_in_week = Dates::day2num($day_in_week);
 
 		// start a new week on next row
 		if(($day_in_week == W_START_DAY) && ($day <= $days_in_month))
@@ -208,12 +213,12 @@ Class Dates {
 					$icon = $context['url_to_root'].$icon;
 
 				// build the complete HTML element
-				$icon = Skin::build_link($date_link, '<img src="'.$icon.'" alt="" title="'.encode_field($label).'" />', 'basic').BR;
+				$icon = Skin::build_link($date_link, '<img src="'.$icon.'" alt="" title="'.encode_field($label).'" />', 'overlaid').BR;
 			}
 
 
 			// content for this date
-			$day_content[] = $icon.$prefix.Skin::build_link($date_link, $label, $type).$suffix;
+			$day_content[] = $icon.$prefix.Skin::build_link($date_link, $label, 'overlaid').$suffix;
 
 			// close current month
 			if($current_month && ($month != $current_month))
@@ -249,7 +254,9 @@ Class Dates {
 				$first_of_month = gmmktime(0, 0, 0, $month, 1, $year);
 
 				// day in week for the first day of the month
-				$day_in_week = (int)gmstrftime(STRFTIME_FORMAT, $first_of_month);
+				//$day_in_week = (int)gmstrftime(STRFTIME_FORMAT, $first_of_month);
+                                $day_in_week = gmstrftime(STRFTIME_FORMAT, $first_of_month);
+                                $day_in_week = Dates::day2num($day_in_week);
 
 				// start a new month
 				$current_day = 1;
@@ -382,6 +389,26 @@ Class Dates {
 
 		return SQL::query_scalar($query);
 	}
+        
+        /**
+         * transform a short written day into num of day in the week
+         * we need this because of problem with %u format.
+         * @param string $day in english (sun to sat)
+         */
+        private static function day2num($day) {
+            
+             static $day2num;
+                if(!isset($shortday)) {
+                    if(WEEK_START_MONDAY)
+                            $day2num = array('mon' => 1, 'tue' => 2, 'wed' => 3, 'thu' => 4, 'fri' => 5, 'sat' => 6, 'sun' => 7);
+                        else
+			    $day2num = array('sun' => 0, 'mon' => 1, 'tue' => 2, 'wed' => 3, 'thu' => 4, 'fri' => 5, 'sat' => 6);
+                    
+                }
+                
+             $num = $day2num[strtolower($day)];
+             return $num;
+        }
 
 	/**
 	 * delete one date in the database and in the file system
@@ -688,7 +715,7 @@ Class Dates {
 		}
 
 		// the request
-		$query = "SELECT dates.date_stamp as date_stamp, articles.id as id, articles.title as title, articles.nick_name as nick_name, articles.active, articles.edit_date, articles.publish_date, articles.introduction, articles.thumbnail_url FROM ".SQL::table_name('dates')." as dates"
+		$query = "SELECT dates.date_stamp as date_stamp, articles.* FROM ".SQL::table_name('dates')." as dates"
 			.", ".SQL::table_name('articles')." AS articles"
 			." WHERE ((dates.anchor_type LIKE 'article') AND (dates.anchor_id = articles.id))"
 			."	AND (articles.anchor LIKE '".SQL::escape($anchor)."') AND ".$where
@@ -944,7 +971,7 @@ Class Dates {
 		$match = gmstrftime('%Y-%m-%d');
 
 		// the request
-		$query = "SELECT dates.date_stamp as date_stamp, articles.id, articles.title, articles.nick_name, articles.active, articles.edit_date, articles.publish_date, articles.introduction, articles.thumbnail_url FROM ".SQL::table_name('dates')." as dates"
+		$query = "SELECT dates.date_stamp as date_stamp, articles.* FROM ".SQL::table_name('dates')." as dates"
 			.", ".SQL::table_name('articles')." AS articles"
 			." WHERE ((dates.anchor_type LIKE 'article') AND (dates.anchor_id = articles.id))"
 			."	AND (dates.date_stamp < '".SQL::escape($match)."') AND (articles.anchor LIKE '".SQL::escape($anchor)."') AND ".$where

@@ -34,6 +34,13 @@ scripts/staging/
 # ignore backup files
 *.bak
 
+#ignore automatic files
+*.auto.*
+
+#ignore minified files
+*.min.js
+*.min.css
+
 # ignore special files
 *~
 *.swp

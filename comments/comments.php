@@ -37,8 +37,16 @@ Class Comments {
 	 * @param string the type of item, e.g., 'section'
 	 * @return TRUE or FALSE
 	 */
-	public static function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
+	public static function allow_creation($item=NULL, $anchor=NULL, $variant=NULL) {
 		global $context;
+                
+                // backward compatibility, reverse parameters : 
+                // $anchor is always a object and $item a array
+                if(is_object($item) || is_array($anchor)) {
+                    $permute    = $anchor;
+                    $anchor     = $item;
+                    $item       = $permute;
+                }
 
 		// guess the variant
 		if(!$variant) {
@@ -226,7 +234,7 @@ Class Comments {
 		// headline
 		$headline = sprintf(i18n::c('%s has contributed to %s'),
 			Surfer::get_link(),
-			'<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'.$anchor->get_title().'</a>');
+			'<a href="'.$anchor->get_url().'">'.$anchor->get_title().'</a>');
 
 		// content
 		$content = Codes::beautify($item['description']);
@@ -251,9 +259,8 @@ Class Comments {
 		$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($previous_id, 'reply');
 		$menu[] = Skin::build_mail_button($link, i18n::c('Reply'), TRUE);
 
-		// link to the container
-		$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
-		$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
+		// link to the container		
+		$menu[] = Skin::build_mail_button($anchor->get_url(), $anchor->get_title(), FALSE);
 
 		// finalize links
 		$text .= Skin::build_mail_menu($menu);
@@ -474,37 +481,54 @@ Class Comments {
 	* @param string the place to come back when complete
 	* @return string the HTML tags to put in the page
 	*/
-	public static function get_form($reference, $follow_up='comments') {
-		global $context;
+	public static function get_form($reference, $follow_up='comments', $placeholder = null, $file_attachement = true) {
+            global $context, $render_overlaid;
+                
+            // default placeholder
+            if(!$placeholder) $placeholder = i18n::s('Reply');
 
 		// the form to post a comment
-		$text = '<form method="post" action="'.$context['url_to_root'].'comments/edit.php" enctype="multipart/form-data" id="comment_form"><div style="margin: 1em 0;">';
+		$text = '<form method="post" action="'.$context['url_to_root'].'comments/edit.php" enctype="multipart/form-data" class="comment_form"><div style="margin: 1em 0;">';
 
 		// use the right editor, maybe wysiwyg
-		$text .= Surfer::get_editor('description', '', TRUE);
+		$text .= Surfer::get_editor('description', '', TRUE, 3, FALSE, $placeholder);
 
 		// bottom commands
 		$menu = array();
 
-		// option to add a file
-		if(Surfer::may_upload()) {
+                        // option to add a file
+                $anchor = Anchors::get($reference);
+                        if($file_attachement && $anchor->allows('creation','file')) {
 
-			// input field to appear on demand
-			$text .= '<p id="comment_upload" class="details" style="display: none;">'
-				.'<input type="file" name="upload" id="upload" size="30" onchange="if(/\\.zip$/i.test($(this).val())){$(\'#upload_option\').slideDown();}else{$(\'#upload_option\').slideUp();}" />'
-				. ' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
-				.'<input type="hidden" name="file_type" value="upload" /></p>'
-				.'<div id="upload_option" style="display: none;" >'
-				.'<input type="checkbox" name="explode_files" checked="checked" /> '.i18n::s('Extract files from the archive')
-				.'</div>';
+                                include_once $context['path_to_root'].'files/files.php';
 
-			// the command to add a file
-			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-			$menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600);$(this).slideUp(); return false;"><span>'.FILES_UPLOAD_IMG.i18n::s('Add a file').'</span></a>';
-		}
+                                // input field to appear on demand
+                                $text .= '<p id="comment_upload" class="details" style="display: none;">'
+                                        .'<input type="file" name="upload" id="upload" size="30" onchange="if(/\\.zip$/i.test($(this).val())){$(\'#upload_option\').slideDown();}else{$(\'#upload_option\').slideUp();}" />'
+                                        . ' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
+                                        .'<input type="hidden" name="file_type" value="upload" /></p>'
+                                        .'<div id="upload_option" style="display: none;" >'
+                                        .'<input type="checkbox" name="explode_files" checked="checked" /> '.i18n::s('Extract files from the archive')
+                                        .'</div>';
 
-		// the submit button
-		$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+                                // the command to add a file
+                                Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
+                                $menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600);$(this).slideUp(); return false;"><span>'.FILES_UPLOAD_IMG.i18n::s('Add a file').'</span></a>';
+                        }
+
+                        // the submit button
+                $class_submit   = ( $render_overlaid  && $follow_up !== 'json' )?'submit-overlaid':'button';
+                        $menu[] = Skin::build_submit_button(i18n::s('Send'), i18n::s('Press [s] to submit data'), 's', null, $class_submit);
+
+                // case of a ajax submission
+                if( $follow_up === 'json') {
+                    // insert js only once
+                    static $ajax_comment_form = false;
+                    if(!$ajax_comment_form) {
+                       Page::insert_script('Yacs.initAjaxComments();');
+                       $ajax_comment_form = true;
+                    }
+                }
 
 		// finalize the form
 		$text .= '<input type="hidden" name="anchor" value="'.$reference.'" />'
@@ -930,52 +954,6 @@ Class Comments {
 		$content .= '</div>'."\n";
 
 		return $content;
-	}
-
-	/**
-	* build a small form to reply to a comment
-	*
-	* @param array attributes of the comment to be replied
-	* @param string the place to come back when complete
-	* @return string the HTML tags to put in the page
-	*/
-	public static function get_reply_form($item, $follow_up='comments') {
-		global $context;
-
-		// the form to post a comment
-		$text = '<form method="post" action="'.$context['url_to_root'].'comments/edit.php" enctype="multipart/form-data" id="comment_form"><div style="margin: 1em 0;">';
-
-		// use the right editor, maybe wysiwyg
-		$text .= Surfer::get_editor('description', '', TRUE);
-
-		// bottom commands
-		$menu = array();
-
-		// option to add a file
-		if(Surfer::may_upload()) {
-
-			// input field to appear on demand
-			$text .= '<p id="comment_upload" class="details" style="display: none;"><input type="file" name="upload" size="30" />'
-			.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
-			.'<input type="hidden" name="file_type" value="upload" /></p>';
-
-			// the command to add a file
-			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-			$menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600); return false;"><span>'.FILES_UPLOAD_IMG.i18n::s('Add a file').'</span></a>';
-		}
-
-		// the submit button
-		$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
-
-		// finalize the form
-		$text .= '<input type="hidden" name="anchor" value="'.$item['anchor'].'" />'
-			.'<input type="hidden" name="follow_up" value="'.$follow_up.'" />'
-			.'<input type="hidden" name="notify_watchers" value="Y" />'
-			.Skin::finalize_list($menu, 'menu_bar')
-			.'</div></form>';
-
-		// done
-		return $text;
 	}
 
 	/**
@@ -1796,6 +1774,38 @@ Class Comments {
 		SQL::free($result);
 
 	}
+        
+        /**
+         * render comment as json format
+         * 
+         * @param int $id of the comment
+         * @param object $anchor of the comment
+         */
+        public static function render_json($id, $anchor){
+            
+            // we'll return json
+            $output = '';
+            
+            // get layout and render last comment
+            $layout     = Comments::get_layout($anchor);
+            $layout->set_variant('no_wrap');
+            $rendering  = Comments::list_by_date_for_anchor($anchor, 0, 1, $layout, true);
+            
+            $output = json_encode(array(
+                'entity'    => 'comment',
+                'id'        => $id,
+                'anchor'    => $anchor->get_reference(),
+                'html'      => $rendering
+            ));
+            
+            // allow for data compression
+            render_raw('application/json');
+            
+            echo $output;
+            
+            // the post-processing hook, then exit
+            finalize_page(TRUE);
+        }
 
 	/**
 	 * create tables for comments

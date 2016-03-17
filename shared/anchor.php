@@ -140,6 +140,7 @@ abstract class Anchor {
 	 * class constructor 
 	 * 
 	 * may accept data
+	 * @param array $item
 	 */
 	function __construct($item=NULL) {
 	    
@@ -154,6 +155,15 @@ abstract class Anchor {
 	}
 	
 	/**
+	 * Using object like a string get its reference
+	 * 
+	 * @return string 
+	 */
+	function __toString() {
+	    return $this->get_reference();
+	}
+	
+	/**
 	 * allow or block operations to current surfer
 	 *	 
 	 * @param string the foreseen operation ('modification', 'creation', 'your keyword'...)
@@ -165,19 +175,39 @@ abstract class Anchor {
 
 		// cache the overlay, if any
 		if(!isset($this->overlay) && isset($this->item['overlay']))
-			$this->overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
+			$this->overlay = Overlay::load($this->item, $this->get_type().':'.$this->item['id']);
 
 		// delegate the validation to the overlay
-		if(isset($this->overlay) && is_object($this->overlay) && is_callable(array($this->overlay, 'allows')))
-			return $this->overlay->allows($action, $type);
+		if(isset($this->overlay) && is_object($this->overlay) && is_callable(array($this->overlay, 'allows'))) {
+			$reply =  $this->overlay->allows($action, $type);
+			if($reply !== null)
+			    return $reply;
+		}
 			
 		$allow_func = 'allow_'.$action;
-		// delegate validation to legacy group class function, depending on 'action'
-		$group_class = $this->get_static_group_class();		
-		if(is_callable(array($group_class,$allow_func)))
-			return $group_class::$allow_func($this->item, $this->anchor, $type);
+                $group_class = '';
+		//// delegate validation to legacy group class function, depending on 'action' and type
+                //// TODO : move all legacy code to child class. Make all class as child of anchor
+                if($action == 'creation' && $type) { 
+                    // special case of creation
+                    if(class_exists($type) && is_callable(array($type,'get_static_group_class'))) {
+                        $maycreate      = new $type();
+                        $group_class    = $maycreate->get_static_group_class();
+                    } else {
+                        // last chance (for links, images, comments, locations...)
+                        $group_class = $type.'s';
+                    }
+                    // this object class type became the variant for allow_creation function    
+                    $type = $this->get_type();
+                } else
+                    $group_class = $this->get_static_group_class();		
 		
-		// delegate validation to class
+                if(is_callable(array($group_class,$allow_func))) {
+                    $this->load_anchor();
+                    return $group_class::$allow_func($this->item, $this->anchor, $type);
+                }
+                
+		// delegate validation to child class
 		if(is_callable(array($this,$allow_func)))
 			return $this->$allow_func($type);
 
@@ -271,10 +301,10 @@ abstract class Anchor {
 	 */
 	function ceil_rights($set) {
 
-		if($this->item['active'] == 'N')
+		if($this->get_active() == 'N')
 			return 'N';
 
-		if($this->item['active'] == 'R')
+		if($this->get_active() == 'R')
 			if($set == 'N')
 				return 'N';
 			else
@@ -464,7 +494,7 @@ abstract class Anchor {
 	 * @return a secret handle, or NULL
 	 */
 	function get_handle() {
-		if(is_array($this->item))
+		if(isset($this->item['handle']))
 			return $this->item['handle'];
 		return NULL;
 	}
@@ -620,7 +650,7 @@ abstract class Anchor {
 			$parent = $this->anchor->get_path_bar();
 
 		// this item
-		$url = $this->get_url();
+		$url = $this->get_permalink();
 		$label = Codes::beautify_title($this->get_title());
 		$path = array_merge($parent, array($url => $label));
 
@@ -847,6 +877,9 @@ abstract class Anchor {
 	public function get_thumbnail_url() {
 		if(isset($this->item['thumbnail_url']) && $this->item['thumbnail_url'])
 			return $this->item['thumbnail_url'];
+                elseif(is_object($this->overlay)) {
+                    return $this->overlay->get_value('default_thumbnail');
+                }
 		return NULL;
 	}
 
@@ -866,10 +899,10 @@ abstract class Anchor {
 	 *
 	 * @return a string
 	 */
-	function get_title() {
+	function get_title($use_overlay=true) {
 	        
 	    // use overlay if any
-	    if(is_object($this->overlay))
+	    if(is_object($this->overlay) && $use_overlay)
 		return $this->overlay->get_text('title', $this->item);
 	    elseif(isset($this->item['title']))
 		return trim(str_replace('& ', '&amp; ', $this->item['title']));
@@ -922,6 +955,11 @@ abstract class Anchor {
 		// attribute has a value
 		if(isset($this->item[$name]))
 			return $this->item[$name];
+                
+                // maybe in overlay
+                if(is_object($this->overlay)) {
+                    return $this->overlay->get_value($name, $default_value);
+                }
 
 		// use default value
 		return $default_value;
@@ -1183,7 +1221,7 @@ abstract class Anchor {
 			return FALSE;
 
 		// the anchor is public
-		if(isset($this->item['active']) && ($this->item['active'] == 'N'))
+		if($this->get_active() == 'N')
 			return TRUE;
 
 		// not hidden
@@ -1218,7 +1256,7 @@ abstract class Anchor {
 			return FALSE;
 
 		// associates can always do it, except if not cascading
-		if(($user_id == Surfer::get_id()) && Surfer::is_associate())
+		if(Surfer::is($user_id) && Surfer::is_associate())
 			return TRUE;
 
 		// if surfer manages parent container it's ok too
@@ -1273,12 +1311,27 @@ abstract class Anchor {
 		}
 
 		// the anchor is public
-		if(isset($this->item['active']) && ($this->item['active'] == 'Y'))
+		if($this->get_active() == 'Y')
 			return $this->is_public_cache = TRUE;
 
 		// sorry
 		return $this->is_public_cache = FALSE;
 	}
+        
+        function is_published(&$status='') {       
+            global $context;
+            
+            $item = $this->item;
+            // sanity check
+            if(!$item) {
+                    $status = 'UNSET';
+                    return false;
+            }
+            
+            $status = 'PUBLISHED';
+            return true;
+       
+        }
 
 	/**
 	 * check that the surfer is allowed to display the anchor
@@ -1302,7 +1355,7 @@ abstract class Anchor {
 			return TRUE;
 
 		// section is public
-		if(isset($this->item['active']) && ($this->item['active'] == 'Y'))
+		if($this->get_active() == 'Y')
 			return TRUE;
 
 		// id of requesting user
@@ -1314,7 +1367,7 @@ abstract class Anchor {
 			$user_id = 0;
 
 		// section is opened to members
-		if($user_id && isset($this->item['active']) && ($this->item['active'] == 'R'))
+		if($user_id && $this->get_active() == 'R')
 			return TRUE;
 
 		// anchor has to be assigned
@@ -1343,7 +1396,7 @@ abstract class Anchor {
 		// get the related overlay, if any
 		$this->overlay = NULL;
 		if(isset($this->item['overlay']))
-			$this->overlay = Overlay::load($this->item, $this->get_reference());
+			$this->overlay = Overlay::load($this);
 
 	}
 
@@ -1358,6 +1411,16 @@ abstract class Anchor {
 	function load_by_id($id, $mutable=FALSE) {
 		return NULL;
 	}
+        
+        /**
+         * load anchor if it wasn't already done
+         */
+        private function load_anchor() {
+            
+            if(!$this->anchor && $anchor = $this->get_value('anchor') ) {
+                $this->anchor = Anchors::get($anchor);
+            }
+        }
 	
 	/**
 	 * post a new item

@@ -22,7 +22,13 @@ Class Utf8 {
 	public static function &encode($input) {
 
 		// transcode explicit unicode entities e.g., %u2019 -> &#8217;
-		$output = preg_replace('/%u([0-9a-z]{4})/ise', "'&#'.hexdec('$1').';'", $input);
+                $output = preg_replace_callback(
+                            '/%u([0-9a-z]{4})/is',
+                            function($matches){
+                                return '&#'.hexdec($matches[1]);
+                            },
+                            $input
+                        );
 
 		// transcode HTML entities to Unicode entities e.g., &nbsp; -> &#160;
 		$output =& utf8::transcode($output);
@@ -54,7 +60,7 @@ Class Utf8 {
 	 * restore UTF-8 from HTML Unicode entities
 	 *
 	 * This function is triggered by the YACS handler during page rendering.
-	 * It is aiming to transcode HTML Unicode entities (eg, &amp;#8364;) back to actual UTF-8 encoding (eg, €).
+	 * It is aiming to transcode HTML Unicode entities (eg, &amp;#8364;) back to actual UTF-8 encoding (eg, Â€).
 	 *
 	 * @param mixed a string with a mix of UTF-8 and of HTML Unicode entities, or an array
 	 * @return an UTF-8 mixed
@@ -617,7 +623,13 @@ Class Utf8 {
 		}
 
 		// transcode explicit unicode entities %u2019 -> &#8217;
-		$output = preg_replace('/%u([0-9a-z]{4})/ise', "'&#'.hexdec('$1').';'", $output);
+                $output = preg_replace_callback(
+                           '/%u([0-9a-z]{4})/is',
+                           function($matches){
+                               return '&#'.hexdec($matches[1]);
+                           },
+                           $output
+                       );
 
 		// transcode HTML entities to Unicode entities
 		$output =& utf8::transcode($output);

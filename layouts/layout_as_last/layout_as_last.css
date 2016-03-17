@@ -1,0 +1,25 @@
+/**
+ *
+ * @author Bernard Paques
+ * @author Alexis Raimbault
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+ */
+
+.last_articles { /* the overall list of articles */
+	border-bottom: 1px dotted #ccc;
+	padding-bottom: 4px;
+	margin-bottom: 2em;
+}
+
+.last_article { /* one div per article */
+	border-top: 1px dotted #ccc;
+	padding-top: 4px;
+	margin-bottom: 2em;
+}
+
+.last_comment { /* content of last comment to the page */
+	border-left: 2px solid #ccc;
+	margin: 7px 10px 20px 7px;
+	padding: 4px 0 0 10px;
+}

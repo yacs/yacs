@@ -9,7 +9,7 @@
  */
 abstract Class Layout_interface {
     
-	
+        
 	/**
 	 *  the reference focused by this layout, if any
 	 */
@@ -21,7 +21,7 @@ abstract Class Layout_interface {
 	var $layout_variant;
 	
 	/**
-	 * type of listed objects
+	 * type of currently listed objects
 	 */
 	var $listed_type;
 	
@@ -152,24 +152,38 @@ abstract Class Layout_interface {
 	 *
 	 * @param type $myclass, argument used by the recursive call.
 	 */
-	final protected function load_scripts_n_styles($myclass='') {
-	    global $context;
+	final function load_scripts_n_styles($myclass='') {	    
+	   
+	    // fuse not to search twice for bound files	
+	    static $fuse_called = false;
 	    
+	    // function is always called by DEV without specifying the class.
+	    // fuse should not block recursive calls from the firt call,
+	    // which are always done with a classname argument
+	    if(!$myclass && $fuse_called)
+		return;
+	    
+	    $fuse_called = true;
+	    	    
 	    if(!$myclass)
 		$myclass = get_class($this);
-	   
-	    
+	   	    
 	    $parent = get_parent_class($myclass);	    
 	    
 	    // load scripts (if exist)
 	    Page::load_style(strtolower('layouts/'.$myclass.'/'.$myclass.'.css'));
 	    Page::defer_script(strtolower('layouts/'.$myclass.'/'.$myclass.'.js'));
 	    
-	    // recursive call to parent class, stop on "Overlay"
+	    // recursive call to parent class, stop on "Layout_interface"
 	    if($parent!= '' && $parent!='Layout_interface')
 		$parent::load_scripts_n_styles($parent);	    
 	}
 
 }
 
-?>
+// stop hackers
+defined('YACS') or exit('Script must be included');
+
+// load localized strings
+if(is_callable(array('i18n', 'bind')))
+    i18n::bind('layouts');

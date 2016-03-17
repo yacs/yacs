@@ -19,6 +19,9 @@ class Layout_as_mosaic extends Layout_interface {
      function layout($result) {
 	
 	global $context;
+        
+        // load skin for ajax request
+        load_skin();
 	
 	// we return some text
 	$text = '';	
@@ -54,29 +57,37 @@ class Layout_as_mosaic extends Layout_interface {
 	    if($intro)
 		$intro = BR.$intro;
 	    
-	    // image	  	    	   	    
-	    if($thumb = trim($entity->get_thumbnail_url())) {	    	
-		
-		 // use parameter of the control panel for this one
-		$options = '';
-		if(isset($context['classes_for_thumbnail_images']))
-			$options = 'class="'.$context['classes_for_thumbnail_images'].'" ';
-		
-		// build the complete HTML element
-		$thumb = '<img src="'.$thumb.'" alt="" title="'.encode_field($title).'" '.$options.' />'."\n";
+	    // image
+            $thumb = '';
+            if( !$this->has_variant('no_thumb') ) {
+                if($thumb = trim($entity->get_thumbnail_url())) {	    	
 
-		
-	    } else
-		$thumb = MAP_IMG;
-	    
+                     // use parameter of the control panel for this one
+                    $options = '';
+                    if(isset($context['classes_for_thumbnail_images']))
+                            $options = 'class="'.$context['classes_for_thumbnail_images'].'" ';
+
+                    // build the complete HTML element
+                    $thumb = '<img src="'.$thumb.'" alt="" title="'.encode_field($title).'" '.$options.' />'."\n";
+
+
+                } else
+                    $thumb = MAP_IMG;
+            }
 	    // use the image as a link to the target page
-	    $thumb = Skin::build_link($url, $thumb, 'basic', $title);
+            if($thumb)
+                $thumb = Skin::build_link($url, $thumb, 'basic', $title);
 	    
+            // use list text of overlay if any
+            $list = '';
+            if(is_object($entity->overlay))
+                $list = $entity->overlay->get_text('list');
+            
 	    // list articles, if any
 	    $childs = $entity->get_childs('articles', 0, 5, 'alistapart');
 	    
 	    // content
-	    $content = $thumb.$intro;
+	    $content = $thumb.$intro.$list;
 	    if(isset($childs['article']))
 		$content .= $childs['article'];
 	    
@@ -106,18 +117,29 @@ class Layout_as_mosaic extends Layout_interface {
 	if($infinite) $text .= '</div>';
 	$text .= '</div>'."\n";
 	
-	// we have bound styles and scripts
-	$this->load_scripts_n_styles();	
-	
-	// initialize js
-	Page::insert_script('Mosaic.init('.$grid_width.')');
-	
-	// infinite scroll js lib
-	if($infinite) {
-	    Page::defer_script('layouts/layout_as_mosaic/jquery.infinitescroll.min.js');
-	    Page::defer_script('layouts/layout_as_mosaic/imagesloaded.pkgd.min.js');
-	    Page::insert_script('Mosaic.infiniteScroll()');
-	}
+        if(!isset($context['AJAX_REQUEST']) || $context['AJAX_REQUEST'] == false) {
+        
+            // we have bound styles and scripts
+            $this->load_scripts_n_styles();	
+
+            // initialize js
+            Page::insert_script('Mosaic.init('.$grid_width.')');
+
+            // infinite scroll js lib
+            if($infinite) {
+                Page::defer_script('layouts/layout_as_mosaic/jquery.infinitescroll.min.js');	    
+                Page::insert_script('Mosaic.infiniteScroll()');
+            }
+        
+        } else {
+            // insert javascript init at the end of text
+            $text .= '<script>'.'Mosaic.init('.$grid_width.')</script>'."\n";
+            if($infinite) {
+                $text .= '<script>'.'Mosaic.infiniteScroll()</script>'."\n";
+            }
+            
+        } 
+            
 	
 	// end of processing
 	SQL::free($result);

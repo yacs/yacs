@@ -166,6 +166,12 @@ elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
 } elseif(!isset($item['id']) && is_object($anchor) && !$anchor->get_value('articles_templates'))
 	$overlay = $anchor->get_overlay('content_overlay');
 
+// current edited article as object
+$cur_article = new article();
+$cur_article->item      = $item;
+$cur_article->anchor    = $anchor;
+$cur_article->overlay   = $overlay;
+
 // get related behaviors, if any
 $behaviors = NULL;
 if(isset($item['id']))
@@ -176,29 +182,22 @@ if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('articles/e
 	$permitted = FALSE;
 
 // we are allowed to add a new page
-elseif(!isset($item['id']) && Articles::allow_creation(NULL, $anchor))
+elseif(!isset($item['id']) && $anchor->allows('creation','article'))
 	$permitted = TRUE;
 
 // we are allowed to modify an existing page
-elseif(isset($item['id']) && Articles::allow_modification($item, $anchor))
+elseif(isset($item['id']) && $cur_article->allows('modification'))
 	$permitted = TRUE;
 
 // the default is to disallow access
 else
 	$permitted = FALSE;
 
-// request may ask for raw content only
-if(isset($_REQUEST['raw']) && $_REQUEST['raw'] == 'Y') {
-    $whole_rendering = false;   
-    // warn also render_skin() for limited output
-    // @see shared/global.php
-    global $render_body_only;
-    $render_body_only = true;
-} else
-    $whole_rendering = true;
+global $render_overlaid;
+$whole_rendering = !$render_overlaid;
 
 // cascade empowerment
-if(Articles::is_owned($item, $anchor) || Surfer::is_associate())
+if($cur_article->is_owned() || Surfer::is_associate())
 	Surfer::empower();
 
 // do not always show the edition form
@@ -225,7 +224,7 @@ if($whole_rendering) {
 // page title
 if(isset($item['id']))
 	$context['page_title'] = sprintf(i18n::s('Edit: %s'), $item['title']);
-elseif(!is_object($overlay) || (!$context['page_title'] = $overlay->get_label('new_command', 'articles')))
+elseif(!is_object($overlay) || (!$context['page_title'] = $overlay->get_label('page_title', 'new')))
 	$context['page_title'] = i18n::s('Add a page');
 
 
@@ -385,11 +384,8 @@ if(Surfer::is_crawler()) {
 	} elseif(isset($_REQUEST['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $_REQUEST['options'], $matches) && is_readable($matches[0].'.php')) {
 		include $matches[0].'.php';
 		return;
-	} elseif(is_object($overlay) && $overlay->get_value('edit_as_simple')) {
-		include 'edit_as_simple.php';
-		return;
-	} elseif(is_object($overlay) && $overlay->get_value('edit_as_thread')) {
-		include 'edit_as_thread.php';
+	} elseif(is_object($overlay) && ($deputy = $overlay->get_value('edit_as')) && is_readable('edit_as_'.$deputy.'.php')) {
+		include 'edit_as_'.$deputy.'.php';
 		return;
 	} elseif(is_object($anchor) && ($deputy = $anchor->has_option('edit_as')) && is_readable('edit_as_'.$deputy.'.php')) {
 		include 'edit_as_'.$deputy.'.php';
@@ -429,10 +425,17 @@ if(Surfer::is_crawler()) {
 			// the page has been modified
 			$context['text'] .= '<p>'.i18n::s('The page has been successfully updated.').'</p>';
 
+			$recipients = Mailer::build_recipients('article:'.$item['id']);
+			
+			if($render_overlaid) {
+			    echo 'post done';
+			    die;
+			}
+			
 			// display the updated page
-			if(!$recipients = Mailer::build_recipients('article:'.$item['id']))
+			if(!$recipients)
 				Safe::redirect(Articles::get_permalink($item));
-
+						
 			// list persons that have been notified
 			$context['text'] .= $recipients;
 
@@ -597,16 +600,19 @@ if($with_form) {
 	// available commands
 	$menu = array();
 
-	// the submit button
-	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+        if($whole_rendering) {
+            // the submit button
+            $menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
 
-	// cancel button
-	if(isset($item['id']))
-		$menu[] = Skin::build_link(Articles::get_permalink($item), i18n::s('Cancel'), 'span');
-	elseif(is_object($anchor))
-		$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
+            // cancel button
+            if(isset($item['id']))
+                    $menu[] = Skin::build_link(Articles::get_permalink($item), i18n::s('Cancel'), 'span');
+            elseif(is_object($anchor))
+                    $menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
 
-	// several options to check
+        }
+
+        // several options to check
 	$suffix = array();
 
 	// keep as draft
@@ -734,10 +740,8 @@ if($with_form) {
 	$branching = '';
 	if(isset($item['options']) && preg_match('/\bedit_as_[a-zA-Z0-9_\.]+?\b/i', $item['options'], $matches) && is_readable($matches[0].'.php'))
 		$branching = $matches[0].'.php';
-	elseif(is_object($overlay) && $overlay->get_value('edit_as_simple'))
-		$branching = 'edit_as_simple.php';
-	elseif(is_object($overlay) && $overlay->get_value('edit_as_thread'))
-		$branching = 'edit_as_thread.php';
+    elseif(is_object($overlay) && ($deputy = $overlay->get_value('edit_as')) && is_readable('edit_as_'.$deputy.'.php'))
+        $branching = 'edit_as_'.$deputy.'.php';
 	elseif(is_object($anchor) && ($deputy = $anchor->has_option('edit_as')) && is_readable('edit_as_'.$deputy.'.php'))
 		$branching = 'edit_as_'.$deputy.'.php';
 
@@ -904,7 +908,7 @@ if($with_form) {
 
 		// images
 		$box = '';
-		if(Images::allow_creation($anchor, $item)) {
+		if($cur_article->allows('creation','image')) {
 			$menu = array( 'images/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add an image') );
 			$box .= Skin::build_list($menu, 'menu_bar');
 		}
@@ -915,7 +919,7 @@ if($with_form) {
 
 		// files
 		$box = '';
-		if(Files::allow_creation($item, $anchor, 'article')) {
+		if($cur_article->allows('creation','file')) {
 			$menu = array( 'files/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a file') );
 			$box .= Skin::build_list($menu, 'menu_bar');
 		}
@@ -926,7 +930,7 @@ if($with_form) {
 
 		// locations
 		$box = '';
-		if(Locations::allow_creation($anchor, $item)) {
+		if($cur_article->allows('creation','location')) {
 			$menu = array( 'locations/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a location') );
 			$box .= Skin::build_list($menu, 'menu_bar');
 		}
@@ -937,7 +941,7 @@ if($with_form) {
 
 		// tables
 		$box = '';
-		if(Tables::allow_creation($anchor, $item)) {
+		if($cur_article->allows('creation','table')) {
 			$menu = array( 'tables/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a table') );
 			$box .= Skin::build_list($menu, 'menu_bar');
 		}
@@ -979,7 +983,7 @@ if($with_form) {
 	}
 
 	// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
-	if( !isset($item['id']) || Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+	if( !isset($item['id']) || $cur_article->is_owned() || Surfer::is_associate()) {
 		$label = i18n::s('Access');
 		$input = Skin::build_active_set_input($item);
 		$hint = Skin::build_active_set_hint($anchor);
@@ -1027,7 +1031,7 @@ if($with_form) {
 	}
 
 	// the rank
-	if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+	if($cur_article->is_owned() || Surfer::is_associate()) {
 
 		// the default value
 		if(!isset($item['rank']))
@@ -1065,7 +1069,7 @@ if($with_form) {
 	// the parent section
 	if(is_object($anchor)) {
 
-		if(isset($item['id']) && Articles::is_owned($item, $anchor)) {
+		if(isset($item['id']) && $cur_article->is_owned()) {
 			$label = i18n::s('Section');
 			$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($anchor->get_reference()), 'folded');
 			$fields[] = array($label, $input);
@@ -1094,7 +1098,7 @@ if($with_form) {
 	$fields[] = array($label, $input, $hint);
 
 	// the nick name
-	if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+	if($cur_article->is_owned() || Surfer::is_associate()) {
 		$label = i18n::s('Nick name');
 		$value = '';
 		if(isset($item['nick_name']) && $item['nick_name'])
@@ -1107,7 +1111,7 @@ if($with_form) {
 	}
 
 	// rendering options
-	if(Articles::is_owned($item, $anchor) || Surfer::is_associate()) {
+	if($cur_article->is_owned() || Surfer::is_associate()) {
 		$label = i18n::s('Rendering');
 		$input = Articles::build_options_input($item);
 		$hint = Articles::build_options_hint($item);

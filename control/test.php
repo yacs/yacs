@@ -181,6 +181,7 @@ echo '$context[\'language\']='.$context['language'].BR."\n"
 	.'$context[\'script_url\']='.$context['script_url'].BR."\n"
 	.'$context[\'self_url\']='.$context['self_url'].BR."\n"
 	.'$context[\'self_script\']='.$context['self_script'].BR."\n";
+
 if(Surfer::is_associate()) {
 	echo '$context[\'path_to_root\']='.$context['path_to_root'].BR."\n";
 	echo '$context[\'directory_mask\']='.sprintf('0%o', $context['directory_mask']).BR."\n";
@@ -188,6 +189,9 @@ if(Surfer::is_associate()) {
 	echo '$context[\'skin\']='.$context['skin'].BR."\n";
 }
 echo '$context[\'charset\']='.$context['charset'].BR."\n";
+
+if(isset($context['virtual_domains']))
+    echo BR.'virtual domains : '.implode (", ", $context['compagnon_domains']).BR."\n";
 
 // server attributes -- not in demonstration mode
 if(@count($_SERVER) && !file_exists($context['path_to_root'].'parameters/demo.flag')) {

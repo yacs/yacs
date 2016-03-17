@@ -12,9 +12,9 @@
 // default jpeg quality in %, the 
 // lower, the more compressed the image is.
 if(!defined('IMG_JPEG_QUALITY'))
-    define('IMG_JPEG_QUALITY', 70);
+    define('IMG_JPEG_QUALITY', 90);
 
-Class Image {
+Class Image extends Anchor {
 
 	/**
 	 * maintain image size within limits
@@ -31,36 +31,14 @@ Class Image {
 	public static function adjust($original, $verbose=TRUE, $variant='standard') {
 		global $context;
 
-		// get file name
-		$file_name = basename($original);
-
-		// ensure this is a valid file
-		if(!$image_information = Safe::GetImageSize($original)) {
-			if($verbose)
-				Logger::error(sprintf(i18n::s('No image information in %s.'), $file_name));
-			return FALSE;
-		}
-
-		// GIF image
-		if(($image_information[2] == 1) && is_callable('ImageCreateFromGIF'))
-			$image = ImageCreateFromGIF($original);
-
-		// JPEG image
-		elseif(($image_information[2] == 2) && is_callable('ImageCreateFromJPEG'))
-			$image = ImageCreateFromJPEG($original);
-
-		// PNG image
-		elseif(($image_information[2] == 3) && is_callable('ImageCreateFromPNG'))
-			$image = ImageCreateFromPNG($original);
-
-		// sanity check
-		if(!isset($image)) {
-			if($verbose)
-				Logger::error(sprintf(i18n::s('No GD support, or unknown image type in %s.'), $file_name));
-			return FALSE;
-		}
-
-		// actual width
+                $file_name = basename($original);
+                
+		$open = Image::open($original);
+                if($open === FALSE) return FALSE;
+                
+                list($image, $image_information) = $open;
+                
+                // actual width
 		$width = $image_information[0];
 
 		// actual height
@@ -110,12 +88,16 @@ Class Image {
 
 		// create the adjusted image in memory
 		$adjusted = NULL;
-		if(($image_information[2] == 2) && is_callable('ImageCreateTrueColor') && ($adjusted = ImageCreateTrueColor($adjust_width, $adjust_height))) {
-			ImageCopyResampled($adjusted, $image, 0, 0, 0, 0, $adjust_width, $adjust_height, $width, $height);
-		}
-		if((!$adjusted) && is_callable('ImageCreate') && ($adjusted = ImageCreate($adjust_width, $adjust_height))) {
-			ImageCopyResized($adjusted, $image, 0, 0, 0, 0, $adjust_width, $adjust_height, $width, $height);
-		}
+                if(Image::use_magic()) {
+                    $adjusted = $image->resizeImage($adjust_width, $adjust_height, Imagick::FILTER_POINT, 1);
+                } else {
+                    if(($image_information[2] == 2) && is_callable('ImageCreateTrueColor') && ($adjusted = ImageCreateTrueColor($adjust_width, $adjust_height))) {
+                            ImageCopyResampled($adjusted, $image, 0, 0, 0, 0, $adjust_width, $adjust_height, $width, $height);
+                    }
+                    if((!$adjusted) && is_callable('ImageCreate') && ($adjusted = ImageCreate($adjust_width, $adjust_height))) {
+                            ImageCopyResized($adjusted, $image, 0, 0, 0, 0, $adjust_width, $adjust_height, $width, $height);
+                    }
+                }
 
 		// sanity check
 		if(!$adjusted) {
@@ -126,22 +108,51 @@ Class Image {
 
 		// save the adjusted image in the file system
 		$result = FALSE;
-		if(($image_information[2] == 1) && is_callable('ImageGIF'))
-			ImageGIF($adjusted, $original);
-		elseif(($image_information[2] == 2) && is_callable('ImageJPEG'))
-			ImageJPEG($adjusted, $original, IMG_JPEG_QUALITY);
-		elseif((($image_information[2] == 1) || ($image_information[2] == 3)) && is_callable('ImagePNG'))
-			ImagePNG($adjusted, $original);
-		else {
-			if($verbose)
-				Logger::error(sprintf(i18n::s('Cannot write adjusted image to %s.'), $target));
-			return FALSE;
-		}
+                if(Image::use_magic()) {
+                    $result = $image->writeImage($original);
+                } else {
+                    if(($image_information[2] == 1) && is_callable('ImageGIF'))
+                            ImageGIF($adjusted, $original);
+                    elseif(($image_information[2] == 2) && is_callable('ImageJPEG'))
+                            ImageJPEG($adjusted, $original, IMG_JPEG_QUALITY);
+                    elseif((($image_information[2] == 1) || ($image_information[2] == 3)) && is_callable('ImagePNG'))
+                            ImagePNG($adjusted, $original);
+                    else {
+                            if($verbose)
+                                    Logger::error(sprintf(i18n::s('Cannot write adjusted image to %s.'), $target));
+                            return FALSE;
+                    }
+                }
 
 		// job done
-		ImageDestroy($adjusted);
+                if(Image::use_magic()) {
+                    $image->destroy();
+                } else {
+                    ImageDestroy($adjusted);
+                }
 		return TRUE;
 
+	}
+        
+        /**
+	 * provide classe name with all static functions on this kind of anchor
+	 * 
+	 * @return a class name
+	 */
+	function get_static_group_class() {
+	    return 'Images';
+	}
+        
+        /**
+	 * load the related item
+	 *
+	 * @see shared/anchor.php
+	 *
+	 * @param int the id of the record to load
+	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
+	 */
+	function load_by_id($id, $mutable=FALSE) {
+		$this->item = Images::get($id);
 	}
 
 	/**
@@ -179,65 +190,99 @@ Class Image {
 		$text = 'url('.$name.') '.$repeat;
 		return $text;
 	}
+        
+         /**
+         * Open a image and get informations
+         * @param string $path to file image
+         * @return array with image, width and height, or false
+         */
+        private static function open($path) {
+            // get file name
+            $file_name = basename($path);
+            
+            if(Image::use_magic()) {
+                logger::debug('imagick available');
+                
+                $image = new Imagick($path);
+                $image_information = array(
+                    $image->getimagewidth(),
+                    $image->getimageheight(),
+                );
+                
+            } else {
+                logger::debug('imagick NOT available');
+            
+
+                // ensure this is a valid file
+                if(!$image_information = Safe::GetImageSize($path)) {
+                        if($verbose)
+                                Logger::error(sprintf(i18n::s('No image information in %s.'), $file_name));
+                        return FALSE;
+                }
+
+                // GIF image
+                if(($image_information[2] == 1) && is_callable('ImageCreateFromGIF'))
+                        $image = ImageCreateFromGIF($path);
+
+                // JPEG image
+                elseif(($image_information[2] == 2) && is_callable('ImageCreateFromJPEG'))
+                        $image = ImageCreateFromJPEG($path);
+
+                // PNG image
+                elseif(($image_information[2] == 3) && is_callable('ImageCreateFromPNG'))
+                        $image = ImageCreateFromPNG($path);
+
+                // sanity check
+                if(!isset($image)) {
+                        if($verbose)
+                                Logger::error(sprintf(i18n::s('No GD support, or unknown image type in %s.'), $file_name));
+                        return FALSE;
+                }
+            
+            }
+            
+            $info = array($image, $image_information);
+            
+            
+            return $info;
+        }
 
 	/**
 	 * create a thumbnail
 	 *
 	 * @param string the full path to the original file
 	 * @param string the pull path to write the thumbnail
-	 * @param boolean TRUE to resize to 34x34
+	 * @param boolean TRUE to resize to 60x60
 	 * @param boolean TRUE to see error messages, if any
 	 * @return TRUE on success, FALSE on error
 	 */
 	public static function shrink($original, $target, $fixed=FALSE, $verbose=TRUE) {
 		global $context;
+                
+                $file_name = basename($original);
 
-		// get file name
-		$file_name = basename($original);
-
-		// ensure this is a valid file
-		if(!$image_information = Safe::GetImageSize($original)) {
-			if($verbose)
-				Logger::error(sprintf(i18n::s('No image information in %s'), $file_name));
-			return FALSE;
-		}
-
-		// GIF image
-		if(($image_information[2] == 1) && is_callable('ImageCreateFromGIF'))
-			$image = ImageCreateFromGIF($original);
-
-		// JPEG image
-		elseif(($image_information[2] == 2) && is_callable('ImageCreateFromJPEG'))
-			$image = ImageCreateFromJPEG($original);
-
-		// PNG image
-		elseif(($image_information[2] == 3) && is_callable('ImageCreateFromPNG'))
-			$image = ImageCreateFromPNG($original);
-
-		// sanity check
-		if(!isset($image)) {
-			if($verbose)
-				Logger::error(sprintf(i18n::s('Unknown image type in %s.'), $file_name));
-			return FALSE;
-		}
-
-		// actual width
+		$open = Image::open($original);
+                if($open === FALSE) return FALSE;
+                
+                list($image, $image_information) = $open;
+                
+                // actual width
 		$width = $image_information[0];
 
 		// standard width
 		if($fixed)
-			$maximum_width = 34;
+			$maximum_width = 60;
 		elseif(isset($context['thumbnail_width']) && ($context['thumbnail_width'] >= 32))
 			$maximum_width = $context['thumbnail_width'];
 		else
 			$maximum_width = 60;
-
-		// actual height
+                
+        // actual height
 		$height = $image_information[1];
 
 		// standard height
 		if($fixed)
-			$maximum_height = 34;
+			$maximum_height = 60;
 		elseif(isset($context['thumbnail_height']) && ($context['thumbnail_height'] >= 32))
 			$maximum_height = $context['thumbnail_height'];
 		else
@@ -291,12 +336,16 @@ Class Image {
 
 		// create the thumbnail in memory
 		$thumbnail = NULL;
-		if(($image_information[2] == 2) && is_callable('ImageCreateTrueColor') && ($thumbnail = ImageCreateTrueColor($thumbnail_width, $thumbnail_height))) {
-			ImageCopyResampled($thumbnail, $image, 0, 0, 0, 0, $thumbnail_width, $thumbnail_height, $width, $height);
-		}
-		if((!$thumbnail) && is_callable('ImageCreate') && ($thumbnail = ImageCreate($thumbnail_width, $thumbnail_height))) {
-			ImageCopyResized($thumbnail, $image, 0, 0, 0, 0, $thumbnail_width, $thumbnail_height, $width, $height);
-		}
+                if(Image::use_magic()) {
+                    $thumbnail = $image->resizeImage($thumbnail_width, $thumbnail_height, Imagick::FILTER_POINT, 1);
+                } else {
+                    if(($image_information[2] == 2) && is_callable('ImageCreateTrueColor') && ($thumbnail = ImageCreateTrueColor($thumbnail_width, $thumbnail_height))) {
+                            ImageCopyResampled($thumbnail, $image, 0, 0, 0, 0, $thumbnail_width, $thumbnail_height, $width, $height);
+                    }
+                    if((!$thumbnail) && is_callable('ImageCreate') && ($thumbnail = ImageCreate($thumbnail_width, $thumbnail_height))) {
+                            ImageCopyResized($thumbnail, $image, 0, 0, 0, 0, $thumbnail_width, $thumbnail_height, $width, $height);
+                    }
+                }
 
 		// sanity check
 		if(!$thumbnail) {
@@ -307,23 +356,31 @@ Class Image {
 
 		// save the thumbnail in the file system
 		$result = FALSE;
-		if(($image_information[2] == 1) && is_callable('ImageGIF'))
-			ImageGIF($thumbnail, $target);
-		elseif(($image_information[2] == 2) && is_callable('ImageJPEG'))
-			ImageJPEG($thumbnail, $target, IMG_JPEG_QUALITY);
-		elseif((($image_information[2] == 1) || ($image_information[2] == 3)) && is_callable('ImagePNG'))
-			ImagePNG($thumbnail, $target);
-		else {
-			if($verbose)
-				Logger::error(sprintf(i18n::s('Impossible to write to %s.'), $target));
-			return FALSE;
-		}
+                if(Image::use_magic()) {
+                    $result = $image->writeImage($target);
+                } else {
+                    if(($image_information[2] == 1) && is_callable('ImageGIF'))
+                            ImageGIF($thumbnail, $target);
+                    elseif(($image_information[2] == 2) && is_callable('ImageJPEG'))
+                            ImageJPEG($thumbnail, $target, IMG_JPEG_QUALITY);
+                    elseif((($image_information[2] == 1) || ($image_information[2] == 3)) && is_callable('ImagePNG'))
+                            ImagePNG($thumbnail, $target);
+                    else {
+                            if($verbose)
+                                    Logger::error(sprintf(i18n::s('Impossible to write to %s.'), $target));
+                            return FALSE;
+                    }
+                }
 
 		// this will be filtered by umask anyway
 		Safe::chmod($target, $context['file_mask']);
 
 		// job done
-		ImageDestroy($thumbnail);
+                if(Image::use_magic()) {
+                    $image->destroy();
+                } else {
+                    ImageDestroy($thumbnail);
+                }
 		return TRUE;
 
 	}
@@ -384,6 +441,19 @@ Class Image {
 		}
 
 	}
+        
+        /**
+         * Check if imagick class is available
+         * @global type $context
+         * @return boolean
+         */
+        private static function use_magic() {
+            global $context;
+            
+            $use = class_exists('imagick') && isset($context['image_use_imagemagick']) && $context['image_use_imagemagick'] == 'Y';
+            
+            return $use;
+        }
 
 }
 

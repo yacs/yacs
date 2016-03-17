@@ -41,6 +41,7 @@ $id = strip_tags($id);
 
 // get the item from the database
 $item = Users::get($id);
+$user = new User($item);
 
 // associates can do what they want
 if(Surfer::is_associate())
@@ -84,7 +85,7 @@ if(!isset($item['id'])) {
 
 // deletion is confirmed
 } elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes')) {
-
+    
 	// close the session on self-deletion
 	if(Surfer::get_id() == $item['id'])
 		Surfer::reset();
@@ -101,7 +102,10 @@ if(!isset($item['id'])) {
 		Cache::clear();
 
 		// back to the index page
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/');
+                if(!$user->overlay || !$url = $user->overlay->get_url_after_deleting())
+                    Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/');
+                else
+                    Safe::redirect($url);
 	}
 
 // deletion has to be confirmed

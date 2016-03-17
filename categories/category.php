@@ -26,7 +26,43 @@
  */
 Class Category extends Anchor {
 	
-
+	/**
+	 * check if this category allow surfer to categorize a given anchor into it
+	 * @see layouts/layout_as_tree_manager/tree_manager_ajax.php
+	 * 
+	 * This is different than categorizing with tags.
+	 * 
+	 * @param object $anchor to categorize
+	 */
+	function allow_categorization ($anchor=NULL) {
+	    
+	    // surfer as to be a associate or editor of the category
+	    if(!$this->is_assigned() && !Surfer::is_associate())
+		    return FALSE;
+	    
+	    if(is_object($anchor) && $anchor->has_option('no_categories'))
+		return FALSE;
+	    
+	    return TRUE;	    	    
+	}	
+	
+	
+	/**
+	 * Check if surfer is allowed to add sub-categories
+	 * 
+	 * @param string $type
+	 * @return boolean 
+	 */
+	function allow_creation($type='') {
+	    
+	    // surfer as to be a associate or editor of the category
+	    if($this->is_assigned() || Surfer::is_associate())
+		    return TRUE;
+	    
+	    return FALSE;	    
+	}
+    
+    
 	/**
 	 * list childs of this anchor, with or without type filters
 	 * 
@@ -43,7 +79,7 @@ Class Category extends Anchor {
 	    
 	    // sub-categories
 	    if($filter == 'all' || preg_match('/\bcategor(y|ies)\b/i', $filter)) {
-		$childs['category'] = Categories::list_by_title_for_anchor($this->get_reference(), $offset, $max, $layout);
+		$childs['category'] = Categories::list_by_title_for_anchor($this, $offset, $max, $layout);
 	    }
 	    
 	    // related articles
@@ -69,6 +105,23 @@ Class Category extends Anchor {
 	    
 	    return $childs;
 	 }
+         
+         
+         public function get_listed_lang() {
+             global $context;
+             
+             $lang = $this->has_option("lang");
+             
+             if( $lang !== true) {
+                 
+                 if($lang === 'self') {
+                     $lang = $context['language'];
+                 }
+                 return $lang;
+             }
+             
+             return false;
+         }
     
 	/**
 	 * get the path bar for this anchor
@@ -202,14 +255,19 @@ Class Category extends Anchor {
 		// append a reference to a new image to the description
 		if($action == 'image:create') {
 			if(!Codes::check_embedded($this->item['description'], 'image', $origin)) {
+			    
+				// the overlay may prevent embedding
+				if(is_object($this->overlay) && !$this->overlay->should_embed_files())
+						;
+				else {
+				    // list has already started
+				    if(preg_match('/\[image=[^\]]+?\]\s*$/', $this->item['description']))
+					    $query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
 
-				// list has already started
-				if(preg_match('/\[image=[^\]]+?\]\s*$/', $this->item['description']))
-					$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
-
-				// starting a new list of images
-				else
-					$query[] = "description = '".SQL::escape($this->item['description']."\n\n".'[image='.$origin.']')."'";
+				    // starting a new list of images
+				    else
+					    $query[] = "description = '".SQL::escape($this->item['description']."\n\n".'[image='.$origin.']')."'";
+				}
 			}
 
 			// also use it as thumnail if none has been defined yet

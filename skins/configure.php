@@ -644,12 +644,25 @@ elseif(!Surfer::is_associate()) {
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Only provide a hovering title, but no caption').'</p>';
 	$fields[] = array($label, $input);
-
+        
+        // library
+	$label = i18n::s('Graphic library');
+        $input = '<p>'.i18n::s('Used to resize large pictures, and to create thumbnail images.').'</p>'."\n";
+	$input .= '<input type="radio" name="image_use_imagemagick" value="N"';
+	if(!isset($context['image_use_imagemagick']) || ($context['image_use_imagemagick'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Use GD module of PHP');
+	$input .= BR.'<input type="radio" name="image_use_imagemagick" value="Y"';
+	if(isset($context['image_use_imagemagick']) && ($context['image_use_imagemagick'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Use ImageMagick (must be installed on your server)');
+        
+        $input .= '<p class="details">'.i18n::s('Detection of image magick : ').((class_exists('imagick'))?'Yes':'No').'</p>'."\n";
+        $fields[] = array($label, $input);
+        
 	// build the form
 	$images = Skin::build_form($fields);
 	$fields = array();
-
-	$images .= '<p class="details">'.i18n::s('YACS uses the GD module of PHP to resize large pictures, and to create thumbnail images.')."</p>\n";
 
 	// google map parameters
 	$gmap = '';
@@ -846,6 +859,8 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'skins_with_details\']=\''.addcslashes($_REQUEST['skins_with_details'], "\\'")."';\n";
 	if(isset($_REQUEST['thumbnails_without_caption']))
 		$content .= '$context[\'thumbnails_without_caption\']=\''.addcslashes($_REQUEST['thumbnails_without_caption'], "\\'")."';\n";
+    if(isset($_REQUEST['image_use_imagemagick']))
+		$content .= '$context[\'image_use_imagemagick\']=\''.addcslashes($_REQUEST['image_use_imagemagick'], "\\'")."';\n";
 	if(isset($_REQUEST['with_anonymous_export_tools']))
 		$content .= '$context[\'with_anonymous_export_tools\']=\''.addcslashes($_REQUEST['with_anonymous_export_tools'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_delegate_search']) && $_REQUEST['skins_delegate_search'])

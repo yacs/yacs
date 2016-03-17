@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-16 16:36+0200\n"
+"POT-Creation-Date: 2015-07-17 18:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,18 +44,18 @@ msgid ""
 "field, then save changes."
 msgstr ""
 
-#: canvas/one_panel.php:73
+#: canvas/one_panel.php:77
 msgid "Comments"
 msgstr ""
 
-#: canvas/one_panel.php:93
+#: canvas/one_panel.php:97
 msgid "Information"
 msgstr ""
 
-#: canvas/standard.php:75
+#: canvas/standard.php:80
 msgid "Discussion"
 msgstr ""
 
-#: canvas/standard.php:105
+#: canvas/standard.php:110
 msgid "Attachments"
 msgstr ""

@@ -1266,7 +1266,13 @@ class Mailer {
 			$headers = trim($headers."\n".'Subject: '.$subject)."\n";
 
 			// reenforce SMTP specification
-			$headers = str_replace("\n", CRLF, $headers);
+			//$headers = str_replace("\n", CRLF, $headers);
+                        
+                        // Fix any bare linefeeds in the message to make it RFC821 Compliant. 
+                        $message = preg_replace("/(?<!\r)\n/si", "\r\n", $message); 
+
+                        // Make sure there are no bare linefeeds in the headers 
+                        $headers = preg_replace('/(?<!\r)\n/si', "\r\n", $headers);
 
 			// append message body
 			$request = $headers.CRLF.$message.CRLF.'.'.CRLF;

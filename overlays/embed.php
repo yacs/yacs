@@ -9,6 +9,9 @@
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
+
+include_once $context['path_to_root'].'files/files.php';
+
 class Embed extends Overlay {
 
 	/**
@@ -19,7 +22,7 @@ class Embed extends Overlay {
 	 * @param the hosting attributes
 	 * @return a list of ($label, $input, $hint)
 	 */
-	function get_fields($host) {
+	function get_fields($host, $field_pos=NULL) {
 		global $context;
 
 		$fields = array();

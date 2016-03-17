@@ -27,36 +27,6 @@
  * Due to the special layout used for gadget boxes, there is a fixed maximum of 6 gadget boxes.
  *
  * [*] [code]root_articles_layout[/code] - Select the layout to use for articles at the home page.
- * Following values may be selected:
- * - 'alistapart' - Display only the most recent published page.
- * Previous articles may be accessed through a menu.
- * This layout is suitable for small sites with a low activity, maybe with a single section of pages.
- * Implemented at [script]skins/layout_home_articles_as_alistapart.php[/script].
- * - 'hardboiled' - List the last ten most recent pages.
- * Previous articles may be accessed through sections, or through the index of articles.
- * This layout is suitable for sites providing several different kinds of information.
- * Implemented at [script]skins/layout_home_articles_as_hardboiled.php[/script].
- * - 'compact' - A simple list of titles.
- * Implemented at [script]articles/layout_articles_as_compact.php[/script].
- * - 'daily' (this is also the default value) - Make titles out of publication dates.
- * This layout is suitable for weblogs. It is the default value.
- * Implemented at [script]skins/layout_home_articles_as_daily.php[/script].
- * - 'decorated' - A compact table featuring the introduction and thumbnail.
- * This layout is suitable for sites with a lot of items (gadget boxes, etc.) at the front page.
- * Implemented at [script]articles/layout_articles.php[/script].
- * - 'digg' - To show evidence of rating.
- * Implemented at [script]articles/layout_articles_as_digg.php[/script].
- * - 'newspaper' - Focus on the last published article, and list some articles published previously.
- * This layout is suitable for most sites.
- * Implemented at [script]skins/layout_home_articles_as_newspaper.php[/script].
- * - 'no_articles' - Do not mention recent articles.
- * Use this option to fully customize the front page, for example through some hook.
- * - 'slashdot' - List the last ten most recent pages.
- * Previous articles may be accessed through sections, or through the index of articles.
- * This layout is suitable for sites providing several different kinds of information.
- * Implemented at [script]skins/layout_home_articles_as_slashdot.php[/script].
- * - custom value - useful to implement an external layout.
- * YACS expects to have custom layout ##foo## implemented in ##skins/layout_home_articles_as_foo.php##.
  *
  * [*] [code]root_articles_count_at_home[/code] - Specify explicitly the number of articles to list at the front page.
  * By default YACS uses the value related to the selected layout.
@@ -178,55 +148,10 @@ elseif(!Surfer::is_associate()) {
 	$input .= BR.i18n::s('Following layouts can be used for selected sections:');
 
 	// default layout is to map sections
-	$custom_layout = '';
 	if(!isset($context['root_sections_layout']))
 		$context['root_sections_layout'] = 'map';
-	elseif(!preg_match('/(compact|decorated|folded|inline|jive|map|menu|titles|yabb)/', $context['root_sections_layout'])) {
-		$custom_layout = $context['root_sections_layout'];
-		$context['root_sections_layout'] = 'custom';
-	}
-
-	// available layouts for sections
-	$input .= BR.'<input type="radio" name="root_sections_layout" value="menu"';
-	if($context['root_sections_layout'] == 'menu')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('menu - List sections in the menu bar.')
-		.BR.'<input type="radio" name="root_sections_layout" value="decorated"';
-	if($context['root_sections_layout'] == 'decorated')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - A list decorated with images')
-		.BR.'<input type="radio" name="root_sections_layout" value="map"';
-	if($context['root_sections_layout'] == 'map')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('map - Map in two columns, like Yahoo!')
-		.BR.'<input type="radio" name="root_sections_layout" value="jive"';
-	if($context['root_sections_layout'] == 'jive')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('jive - List 5 threads per board')
-		.BR.'<input type="radio" name="root_sections_layout" value="yabb"';
-	if($context['root_sections_layout'] == 'yabb')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('yabb - A discussion forum')
-		.BR.'<input type="radio" name="root_sections_layout" value="inline"';
-	if($context['root_sections_layout'] == 'inline')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('inline - List sections and related pages')
-		.BR.'<input type="radio" name="root_sections_layout" value="folded"';
-	if($context['root_sections_layout'] == 'folded')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('folded - One folded box per section, with content')
-		.BR.'<input type="radio" name="root_sections_layout" value="compact"';
-	if($context['root_sections_layout'] == 'compact')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - A compact list')
-		.BR.'<input type="radio" name="root_sections_layout" value="titles"';
-	if($context['root_sections_layout'] == 'titles')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('titles - Use only titles and thumbnails')
-		.BR.'<input type="radio" name="root_sections_layout" value="custom" id="custom_sections_layout"';
-	if($context['root_sections_layout'] == 'custom')
-		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_sections_layout\').attr(\'checked\', \'checked\')" />');
+	
+        $input   .= Skin::build_layouts_selector('section', $context['root_sections_layout']);
 	$fields[] = array($label, $input);
 
 	// use flash to animate recent pages
@@ -262,81 +187,10 @@ elseif(!Surfer::is_associate()) {
 	$input = i18n::s('Following layouts can be used for recent pages:').BR;
 
 	// default layout is to weblog
-	$custom_layout = '';
 	if(!isset($context['root_articles_layout']) || !$context['root_articles_layout'])
 		$context['root_articles_layout'] = 'daily';
-	elseif(!preg_match('/(alistapart|compact|daily|decorated|digg|hardboiled|newspaper|no_articles|slashdot)/', $context['root_articles_layout'])) {
-		$custom_layout = $context['root_articles_layout'];
-		$context['root_articles_layout'] = 'custom';
-	}
-
-	// daily
-	$input .= '<input type="radio" name="root_articles_layout" value="daily"';
-	if($context['root_articles_layout'] == 'daily')
-		$input .= ' checked="checked"';
-	$input .= '/>daily - '.i18n::s('For weblogs and blogmarks.')
-		.' '.Skin::build_link('skins/layout_home_articles_as_daily.jpg', i18n::s('Preview'), 'open').BR;
-
-	// newspaper
-	$input .= '<input type="radio" name="root_articles_layout" value="newspaper"';
-	if($context['root_articles_layout'] == 'newspaper')
-		$input .= ' checked="checked"';
-	$input .= '/>newspaper - '.i18n::s('Focus on the last published article, and on the three articles published previously.')
-		.' '.Skin::build_link('skins/layout_home_articles_as_newspaper.jpg', i18n::s('Preview'), 'open').BR;
-
-	// hardboiled
-	$input .= '<input type="radio" name="root_articles_layout" value="hardboiled"';
-	if($context['root_articles_layout'] == 'hardboiled')
-		$input .= ' checked="checked"';
-	$input .= '/>hardboiled - '.i18n::s('Focus on the last two most recent articles, then list previous pages. Click on article titles to read full text.')
-		.' '.Skin::build_link('skins/layout_home_articles_as_hardboiled.jpg', i18n::s('Preview'), 'open').BR;
-
-	// slashdot
-	$input .= '<input type="radio" name="root_articles_layout" value="slashdot"';
-	if($context['root_articles_layout'] == 'slashdot')
-		$input .= ' checked="checked"';
-	$input .= '/>slashdot - '.i18n::s('List most recent pages equally.')
-		.' '.Skin::build_link('skins/layout_home_articles_as_slashdot.jpg', i18n::s('Preview'), 'open').BR;
-
-	// digg
-	$input .= '<input type="radio" name="root_articles_layout" value="digg"';
-	if($context['root_articles_layout'] == 'digg')
-		$input .= ' checked="checked"';
-	$input .= '/>digg - '.i18n::s('A decorated list of pages that have been most rated by community members.').BR;
-
-	// decorated
-	$input .= '<input type="radio" name="root_articles_layout" value="decorated"';
-	if($context['root_articles_layout'] == 'decorated')
-		$input .= ' checked="checked"';
-	$input .= '/>decorated - '.i18n::s('A decorated list of most recent pages. This layout is suitable for sites with a long cover article at the front page.').BR;
-
-	// compact
-	$input .= '<input type="radio" name="root_articles_layout" value="compact"';
-	if($context['root_articles_layout'] == 'compact')
-		$input .= ' checked="checked"';
-	$input .= '/>compact - '.i18n::s('A compact list of most recent pages. This layout is suitable for sites with a lot of items (gadget boxes, etc.) at the front page.').BR;
-
-	// alistapart
-	$input .= '<input type="radio" name="root_articles_layout" value="alistapart"';
-	if($context['root_articles_layout'] == 'alistapart')
-		$input .= ' checked="checked"';
-	$input .= '/>alistapart - '.i18n::s('Display only the most recent published page. Previous articles may be accessed through a menu. This layout is suitable for sites with a low number of heavy publications.')
-		.' '.Skin::build_link('skins/layout_home_articles_as_alistapart.jpg', i18n::s('Preview'), 'open').BR;
-
-	// custom
-	$input .= '<input type="radio" name="root_articles_layout" value="custom" id="custom_articles_layout"';
-	if($context['root_articles_layout'] == 'custom')
-		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="home_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_articles_layout\').attr(\'checked\', \'checked\')" />').BR;
-
-	// no article
-	$input .= '<p><input type="radio" name="root_articles_layout" value="no_articles"';
-	if($context['root_articles_layout'] == 'no_articles')
-		$input .= ' checked="checked"';
-	$input .= '/>'.sprintf(i18n::s('Do not list recent pages. The layout of the front page is solely based on a %s, on %s, plus %s.'),
-		Skin::build_link(Sections::get_url('covers'), i18n::s('cover article'), 'shortcut'),
-		Skin::build_link('sections/', i18n::s('the site map'), 'shortcut'),
-		Skin::build_link(Sections::get_url('gadget_boxes'), i18n::s('gadget boxes'), 'shortcut')).'</p>';
+        
+	$input   .= Skin::build_layouts_selector('article', $context['root_articles_layout']);
 
 	// number of entries at the front page
 	if(!isset($context['root_articles_count_at_home']))
@@ -443,23 +297,23 @@ elseif(!Surfer::is_associate()) {
 } else {
 
 	// ensure we have a valid layout for sections
-	if(!isset($_REQUEST['root_sections_layout']) || !$_REQUEST['root_sections_layout'] || !preg_match('/(compact|custom|decorated|folded|inline|jive|map|menu|titles|yabb)/', $_REQUEST['root_sections_layout']))
-		$_REQUEST['root_sections_layout'] = 'map';
-	elseif($_REQUEST['root_sections_layout'] == 'custom') {
+	if(!isset($_REQUEST['sections_layout']) || !$_REQUEST['sections_layout'] )
+		$_REQUEST['sections_layout'] = 'map';
+	elseif($_REQUEST['sections_layout'] == 'custom') {
 		if(isset($_REQUEST['sections_custom_layout']) && $_REQUEST['sections_custom_layout'])
-			$_REQUEST['root_sections_layout'] = basename(strip_tags($_REQUEST['sections_custom_layout']));
+			$_REQUEST['sections_layout'] = basename(strip_tags($_REQUEST['sections_custom_layout']));
 		else
-			$_REQUEST['root_sections_layout'] = 'map';
+			$_REQUEST['sections_layout'] = 'map';
 	}
 
 	// ensure we have a valid layout for articles
-	if(!isset($_REQUEST['root_articles_layout']) || !$_REQUEST['root_articles_layout'] || !preg_match('/(alistapart|compact|custom|daily|decorated|digg|hardboiled|newspaper|no_articles|slashdot)/', $_REQUEST['root_articles_layout']))
-		$_REQUEST['root_articles_layout'] = 'daily';
-	elseif($_REQUEST['root_articles_layout'] == 'custom') {
-		if(isset($_REQUEST['home_custom_layout']) && $_REQUEST['home_custom_layout'])
-			$_REQUEST['root_articles_layout'] = basename(strip_tags($_REQUEST['home_custom_layout']));
+	if(!isset($_REQUEST['articles_layout']) || !$_REQUEST['articles_layout'] )
+		$_REQUEST['articles_layout'] = 'daily';
+	elseif($_REQUEST['articles_layout'] == 'custom') {
+		if(isset($_REQUEST['articles_custom_layout']) && $_REQUEST['articles_custom_layout'])
+			$_REQUEST['articles_layout'] = basename(strip_tags($_REQUEST['articles_custom_layout']));
 		else
-			$_REQUEST['root_articles_layout'] = 'daily';
+			$_REQUEST['articles_layout'] = 'daily';
 	}
 
 	// backup the old version
@@ -471,7 +325,7 @@ elseif(!Surfer::is_associate()) {
 		.'// This file has been created by the configuration script configure.php'."\n"
 		.'// on '.gmdate("F j, Y, g:i a").' GMT, for '.Surfer::get_name().'. Please do not modify it manually.'."\n"
 		.'global $context;'."\n"
-		.'$context[\'root_articles_layout\']=\''.addcslashes($_REQUEST['root_articles_layout'], "\\'")."';\n";
+		.'$context[\'root_articles_layout\']=\''.addcslashes($_REQUEST['articles_layout'], "\\'")."';\n";
 	if(isset($_REQUEST['root_articles_count_at_home']) && intval($_REQUEST['root_articles_count_at_home']))
 		$content .= '$context[\'root_articles_count_at_home\']=\''.intval($_REQUEST['root_articles_count_at_home'])."';\n";
 	if(isset($_REQUEST['root_cover_at_home']))
@@ -499,7 +353,7 @@ elseif(!Surfer::is_associate()) {
 	}
 	if(isset($_REQUEST['root_sections_count_at_home']))
 		$content .= '$context[\'root_sections_count_at_home\']=\''.addcslashes($_REQUEST['root_sections_count_at_home'], "\\'")."';\n";
-	$content .= '$context[\'root_sections_layout\']=\''.addcslashes($_REQUEST['root_sections_layout'], "\\'")."';\n";
+	$content .= '$context[\'root_sections_layout\']=\''.addcslashes($_REQUEST['sections_layout'], "\\'")."';\n";
 	$content .= '?>'."\n";
 
 	// update the parameters file

@@ -180,9 +180,10 @@
 	 * 
 	 * @param string $path 
 	 */
-	public static function defer_script($path) {
+	public static function defer_script($path,$now=false) {
 	    
-	    Js_css::link_file($path, 'js');
+	    $job = Js_css::link_file($path, 'js','defer',$now);
+            if($now) echo $job;
 	}
 
 	/**
@@ -211,7 +212,7 @@
 	 *
 	 * @param mixed a string of tokens, or a boolean
 	 */
-	public static function content($names=NULL) {
+	public static function content($names=NULL, $wrap = true) {
 		global $context;
 
 		// display the prefix, if any
@@ -237,9 +238,19 @@
 		if(is_string($names))
 			$names = explode(' ', $names);
 
+		if (isset( $context['content_wrap'] ) && $wrap ) {
+			if (isset($context['content_wrap_attributes']))
+			echo '<'.$context['content_wrap'].' '.$context['content_wrap_attributes'].'>';
+			else
+			echo '<'.$context['content_wrap'].'>';
+		}
+
 		// actual component generation
 		foreach($names as $name)
 			Page::component($name);
+
+		if (isset( $context['content_wrap'] ) && $wrap)
+			echo '</'.$context['content_wrap'].'>';
 
 		// display the suffix, if any
 		if(isset($context['suffix']) && $context['suffix'])
@@ -332,6 +343,58 @@
 
 		}
 	}
+        
+        /**
+         * echo switcher to other language version for the page, if any
+         * as a country flag for each language.
+         * 
+         * @param array $displayed, ['en, 'fr' ...] containing entries you wish to propose to switch language even if current page does not exist with those version
+         * @param boolean $legend to add a text next to the flag ('In English, En Français ...)
+         */
+        
+        public static function echo_local_switcher($displayed=null, $legend=false) {
+            global $context;
+            
+            $switch             = '';       // html rendering
+            $page_languages     = array();  // to memorize detected language, completed with $displayed
+            
+            if(is_array($context['hreflang']) && count($context['hreflang'])) {
+                
+                // get current id, to exclude it
+                list($cur_type,$cur_id) = explode(":", $context['current_item']);
+                
+                foreach($context['hreflang'] as $page) {
+                    
+                        // do not include current page
+                        if($cur_id == $page['id']) continue;
+                    
+                        $lang               = $page['lang'];
+                        $text               = ($legend)?'&nbsp;'.i18n::s(sprintf('to_local_%s',$lang)):'';
+                        $switch            .= '<li>'.'<a href="'.$page['url'].'">'.Codes::beautify('['.$lang.']').$text.'</a>'.'</li>'."\n";
+                        // memorize as proposed language
+                        $page_languages[]   = $lang;
+                    
+                }
+             
+            }
+            
+            if(is_array($displayed) && count($displayed)) {
+                // language that are not already proposed
+                $to_add = array_diff($displayed, $page_languages); 
+                foreach ($to_add as $lang) {
+                    
+                    $text               = ($legend)?'&nbsp;'.i18n::s(sprintf('to_local_%s',$lang)):'';
+                    $switch            .= '<li>'.'<a href="'.http::add_url_param($_SERVER['REQUEST_URI'], "lang", $lang).'">'.Codes::beautify('['.$lang.']').$text.'</a>'.'</li>'."\n";
+                }
+            }
+            
+            // wrap
+            if($switch)
+                $switch = '<div class="local_switcher"><ul>'.$switch.'</ul></div>'."\n";
+            
+            
+            echo $switch;
+        }
 
 	/**
 	 * echo the site menu
@@ -576,6 +639,44 @@
 			send_meta();
 
 	}
+        
+        public static function meta_hreflang() {
+            global $context;
+            
+            $meta_hreflang          = array();
+            $context['hreflang']    = $meta_hreflang;
+            $sisters                = array();
+            
+            //// detect other language for articles or sections
+            if(strpos($context['current_item'],'article') === FALSE && strpos($context['current_item'],'section') === FALSE )
+                return $meta_hreflang;
+            
+            // get the entity
+            if($anchor = Anchors::get($context['current_item'])) {
+                
+                // if anchor as a little name
+                if($nick = $anchor->get_nick_name()){
+                        $class = $anchor->get_static_group_class();
+                        $sisters = $class::list_for_name($nick,null,'raw');
+                }
+            }
+            
+            if(count($sisters)) {
+                foreach($sisters as $page) {
+                    if($page['language'] && $page['language'] != 'none') {
+                        
+                        $url                    = http::add_url_param($class::get_permalink($page), "lang", $page['language']);
+                        $meta_hreflang[]        = '<link rel="alternate" hreflang="'.$page['language'].'" href="'.$url.'" />';
+                        // memorize this for page::echo_local_switcher()
+                        $context['hreflang'][]  = array('lang' => $page['language'], 'url' => $url, 'id' => $page['id']);
+                    }
+                }
+
+             
+            }
+            
+            return $meta_hreflang;
+        }
 
 	/**
 	 * build a header panel with background
@@ -675,9 +776,10 @@
 	 * 
 	 * @param string $path 
 	 */
-	public static function load_script($path) {
+	public static function load_script($path,$now=false) {
 	    
-	    Js_css::link_file($path,'js','header');	    
+	    $job = Js_css::link_file($path,'js','header',$now);
+            if($now) echo $job;
 	}
 	
 	/**
@@ -685,9 +787,10 @@
 	 * 
 	 * @param string $path 
 	 */
-	public static function load_style($path) {
+	public static function load_style($path,$now=false) {
 	    
-	    js_css::link_file($path,'css');
+            $job = js_css::link_file($path,'css','',$now);
+            if($now) echo $job;
 	}
 
 	/**

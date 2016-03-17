@@ -51,6 +51,51 @@ class Thread extends Overlay {
 		return $text;
 
 	}
+        
+        function get_label($name, $action='view') {
+            if($name == 'permalink_command') {
+                $label = i18n::c('View the message');
+                return $label;
+            } else	
+                return NULL;
+        }
+    
+        public function get_comment_notification($item) {
+            global $context;
+
+            // build a tease notification for simple members
+
+            // sanity check
+            if(!isset($item['anchor']) || (!$anchor = Anchors::get($item['anchor'])))
+                    throw new Exception('no anchor for this comment');
+
+            // headline
+            $headline   = sprintf(i18n::c('%s has replied'), Surfer::get_link());
+            $content    = BR;
+
+            // shape these
+            $tease = Skin::build_mail_content($headline, $content);
+
+            // a set of links
+            $menu = array();
+            // call for action
+            $link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($item['id'], 'view');
+            $menu[] = Skin::build_mail_button($link, i18n::c('View the reply'), TRUE);
+
+            // link to the container
+            $menu[] = Skin::build_mail_button($anchor->get_url(), $anchor->get_title(), FALSE);
+
+            // finalize links
+            $tease .= Skin::build_mail_menu($menu);
+
+            // assemble all parts of the mail
+            $mail = array();
+            $mail['subject']        = sprintf(i18n::c('%s: %s'), i18n::c('Reply in the discussion'), strip_tags($anchor->get_title()));
+            $mail['notification']   = Comments::build_notification($item); // full notification
+            $mail['tease']          = Mailer::build_notification($tease, 1);
+
+            return $mail;
+        }
 
 }
 

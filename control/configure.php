@@ -533,6 +533,14 @@ if(!Surfer::is_associate()) {
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Prevent this server to connect to others.');
 	$fields[] = array($label, $input);
+        
+        // subdomain for static subcontent
+        $label = i18n::s('static subdomain');
+        if(!isset($context['static_subdom']))
+		$context['static_subdom'] = '';
+	$input = '<input type="text" name="static_subdom" size="45" value="'.encode_field($context['static_subdom']).'" maxlength="255" />';
+        $hint = i18n::s('provide full url with trailing slash, e.g. http://static.yourdomain.com/');
+	$fields[] = array($label, $input, $hint);
 
 	// build the form
 	$http .= Skin::build_form($fields);
@@ -864,6 +872,8 @@ if(!Surfer::is_associate()) {
 		$content .= '$context[\'without_language_detection\']=\''.addcslashes($_REQUEST['without_language_detection'], "\\'")."';\n";
 	if(isset($_REQUEST['without_outbound_http']))
 		$content .= '$context[\'without_outbound_http\']=\''.addcslashes($_REQUEST['without_outbound_http'], "\\'")."';\n";
+        if(isset($_REQUEST['static_subdom']))
+		$content .= '$context[\'static_subdom\']=\''.addcslashes($_REQUEST['static_subdom'], "\\'")."';\n";
 	$content .= '?>'."\n";
 
 	// silently attempt to create the database if it does not exist

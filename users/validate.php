@@ -65,7 +65,7 @@ elseif(Users::validate($item['id'])) {
 	$context['text'] .= sprintf(i18n::s('<p>%s,</p><p>Your e-mail address has been validated, and you are now an active member of this community.</p>'), ucfirst($item['nick_name']));
 
 	// set permanent name shown from top level
-	Safe::setcookie('surfer_name', $user['nick_name'], time()+60*60*24*500, '/');
+	Safe::setcookie('surfer_name', $item['nick_name'], time()+60*60*24*500, '/');
 
 	// save surfer profile in session context
 	Surfer::set($item);

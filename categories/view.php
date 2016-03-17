@@ -129,18 +129,18 @@ if($zoom_index < 1)
 
 // get the item from the database
 $item = Categories::get($id);
+// object interface
+$this_cat = new Category($item);
 
 // get the related anchor, if any
-$anchor = NULL;
-if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+$anchor = $this_cat->anchor;
 
 // get the related overlay, if any
-$overlay = NULL;
-if(isset($item['overlay']) && $item['overlay'])
+$overlay = $this_cat->overlay;
+/*if(isset($item['overlay']) && $item['overlay'])
 	$overlay = Overlay::load($item, 'category:'.$item['id']);
 elseif(isset($item['overlay_id']))
-	$overlay = Overlay::bind($item['overlay_id']);
+	$overlay = Overlay::bind($item['overlay_id']);*/
 
 // associates and editors can do what they want
 if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
@@ -489,7 +489,7 @@ if(!isset($item['id'])) {
 		$layout_articles->set_focus('category:'.$item['id']);
 
 		// count the number of articles in this category
-		$count = Members::count_articles_for_anchor('category:'.$item['id']);
+		$count = Members::count_articles_for_anchor('category:'.$item['id'], $this_cat->get_listed_lang());
 		if($count)
 			$box['bar'] = array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count));
 
@@ -502,11 +502,11 @@ if(!isset($item['id'])) {
 		// list items by date (default) or by title (option 'articles_by_title') or by rating_sum (option article_by_rating)
 		$offset = ($zoom_index - 1) * ARTICLES_PER_PAGE;
 		if(isset($order) && preg_match('/\barticles_by_rating\b/i', $order))
-			$items =& Members::list_articles_by_rating_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles);
+			$items =& Members::list_articles_by_rating_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles, $this_cat->get_listed_lang());
 		elseif(isset($item['options']) && preg_match('/\barticles_by_title\b/i', $item['options']))
-			$items =& Members::list_articles_by_title_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles);
+			$items =& Members::list_articles_by_title_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles, $this_cat->get_listed_lang());
 		else
-			$items =& Members::list_articles_by_date_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles);
+			$items =& Members::list_articles_by_date_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles, $this_cat->get_listed_lang());
 
 		// actually render the html for the section
 		if(is_array($items))
@@ -520,8 +520,36 @@ if(!isset($item['id'])) {
 		if($box['text'])
 			$panels[] = array('articles', i18n::s('Pages'), 'articles_panel', $box['text']);
 	}
-
-
+        
+        // images linked with this category
+        if((!$zoom_type) || ($zoom_type == 'images')) {
+         
+                // build a complete box
+		$box = array('bar' => array(), 'text' => '');
+                if($count = Members::list_images_for_anchor('category:'.$item['id'], null, null, null, 'count')) {
+                    
+                    if($count > 20)
+                        $box['bar'] = array('_count' => sprintf(i18n::ns('%d image', '%d images', $count), $count));
+                    
+                    $offset = ($zoom_index - 1) * FILES_PER_PAGE;
+                    $order  = $this_cat->has_option('images_by');
+                    
+                    $items  = Members::list_images_for_anchor('category:'.$item['id'], $offset, FILES_PER_PAGE, $order, 'thumb');
+                    
+                    if(is_array($items))
+                            $box['text'] .= Skin::build_list($items, 'decorated');
+                    else
+                            $box['text'] .= $items;
+                }
+                
+                if($box['bar'])
+			$box['text'] = Skin::build_list($box['bar'], 'menu_bar').$box['text'];
+                
+                // in a separate panel
+		if($box['text'])
+			$panels[] = array('images', i18n::s('Images'), 'Images_panel', $box['text']);
+            
+        }
 	//
 	// files attached to this category
 	//
@@ -545,6 +573,8 @@ if(!isset($item['id'])) {
 				$items = Files::list_by_date_for_anchor('category:'.$item['id'], $offset, FILES_PER_PAGE, 'category:'.$item['id']);
 			if(is_array($items))
 				$box['text'] .= Skin::build_list($items, 'decorated');
+                        else
+                                $box['text'] .= $items;
 
 			// navigation commands for files
 			$home = Categories::get_permalink($item);
@@ -562,7 +592,7 @@ if(!isset($item['id'])) {
 
 		// actually render the html for the section
 		if($box['bar'])
-			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
+			$box['text'] = Skin::build_list($box['bar'], 'menu_bar').$box['text'];
 
 		// in a separate panel
 		if($box['text'])
@@ -604,7 +634,7 @@ if(!isset($item['id'])) {
 		}
 
 		// the command to post a new comment
-		if(Comments::allow_creation($anchor, $item, 'category')) {
+		if(Comments::allow_creation($item, $anchor, 'category')) {
 			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 			$url = 'comments/edit.php?anchor='.urlencode('category:'.$item['id']);
 			$box['bar'] += array( $url => COMMENTS_ADD_IMG.i18n::s('Post a comment') );
@@ -651,7 +681,7 @@ if(!isset($item['id'])) {
 		}
 
 		// the command to post a new link
-		if(Links::allow_creation($anchor, $item, 'category')) {
+		if(Links::allow_creation($item, $anchor, 'category')) {
 			Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 			$url = 'links/edit.php?anchor='.urlencode('category:'.$item['id']);
 			$box['bar'] += array( $url => LINKS_ADD_IMG.i18n::s('Add a link') );
@@ -710,7 +740,7 @@ if(!isset($item['id'])) {
 			Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $zoom_index));
 
 		// the command to post a new category
-		if($stats['count'] && Categories::allow_creation($item,$anchor)) {
+		if($stats['count'] && $this_cat->allow_creation()) {
 			$url = 'categories/edit.php?anchor='.urlencode('category:'.$item['id']);
 			$box['bar'] += array( $url => i18n::s('Add a category') );
 		}
@@ -814,17 +844,17 @@ if(!isset($item['id'])) {
 	// page tools
 	//
 
-	// only on first page, and for associates
-	if(!$zoom_type && Surfer::is_associate()) {
+	// only on first page, and for associates or editors
+	if(!$zoom_type && (Surfer::is_associate() || $this_cat->is_assigned())) {
 
 		// add a category
-		if(Categories::allow_creation($item,$anchor)) {
+		if($this_cat->allow_creation()) {
 			Skin::define_img('CATEGORIES_ADD_IMG', 'categories/add.gif');
 			$context['page_tools'][] = Skin::build_link('categories/edit.php?anchor='.urlencode('category:'.$item['id']), CATEGORIES_ADD_IMG.i18n::s('Add a category'), 'basic');
 		}
 
 		// post an image, if upload is allowed
-		if(Images::allow_creation($anchor, $item, 'category')) {
+		if(Images::allow_creation($item, $anchor, 'category')) {
 			Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
 			$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 		}
@@ -836,13 +866,13 @@ if(!isset($item['id'])) {
 		}
 
 		// comment this page if anchor does not prevent it
-		if(Comments::allow_creation($anchor, $item, 'category')) {
+		if(Comments::allow_creation($item, $anchor, 'category')) {
 			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 			$context['page_tools'][] = Skin::build_link(Comments::get_url('category:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 		}
 
 		// add a link
-		if(Links::allow_creation($anchor, $item, 'category')) {
+		if(Links::allow_creation($item, $anchor, 'category')) {
 			Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 			$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('category:'.$item['id']), LINKS_ADD_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
 		}
@@ -882,7 +912,7 @@ if(!isset($item['id'])) {
 	if(Surfer::is_logged()) {
 		Skin::define_img('TOOLS_PRINT_IMG', 'tools/print.gif');
 		$lines[] = Skin::build_link(Categories::get_url($item['id'], 'print'), TOOLS_PRINT_IMG.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
-	}
+	}		
 
 	// in a side box
 	if(count($lines))

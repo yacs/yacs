@@ -455,6 +455,37 @@ Class Article extends Anchor {
 		// by default, limit to direct watchers of this anchor
 		return $containers;
 	}	
+        
+        
+        public function is_published(&$status = '') {
+            global $context;
+            
+            $item = $this->item;
+            // sanity check
+            if(!$item) {
+                    $status = 'UNSET';
+                    return false;
+            }
+            
+            if( !isset($item['expiry_date']) && !isset($item['publish_date'])) {
+                $status = 'UNSET';
+                return false;
+            }
+            
+            if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now'])) {
+                    $status = 'EXPIRED';
+                    return false;
+            }
+
+            if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S'))) {
+                    $status = 'UNPUBLISHED';
+                    return false;
+            }
+            
+            $status = 'PUBLISHED';
+            return true;
+            
+        }
 
 	/**
 	 * load the related item
@@ -489,7 +520,7 @@ Class Article extends Anchor {
 	 * [/php]
 	 *
 	 * @see agents/messages.php
-	 $ @see agents/uploads.php
+	 * @see agents/uploads.php
 	 * @see services/blog.php
 	 *
 	 * @param string the input text
@@ -671,6 +702,11 @@ Class Article extends Anchor {
 		// no article bound
 		if(!isset($this->item['id']))
 			return;
+                
+                // delegate to overlay
+                if(is_object($this->overlay) && $this->overlay->touch($action, $origin, $silently) === false) {
+                        return; // stop on false
+                }
 
 		// clear floating objects
 		if($action == 'clear') {
@@ -801,16 +837,22 @@ Class Article extends Anchor {
 		// append a reference to a new image to the description
 		} elseif(($action == 'image:create') && $origin) {
 			if(!Codes::check_embedded($this->item['description'], 'image', $origin)) {
+			    
+				// the overlay may prevent embedding
+				if(is_object($this->overlay) && !$this->overlay->should_embed_files())
+						;
 
-				// list has already started
-				if(preg_match('/\[image=[^\]]+?\]\s*$/', $this->item['description']))
-					$this->item['description'] .= ' [image='.$origin.']';
+				else {
+				    // list has already started
+				    if(preg_match('/\[image=[^\]]+?\]\s*$/', $this->item['description']))
+					    $this->item['description'] .= ' [image='.$origin.']';
 
-				// starting a new list of images
-				else
-					$this->item['description'] .= "\n\n".'[image='.$origin.']';
+				    // starting a new list of images
+				    else
+					    $this->item['description'] .= "\n\n".'[image='.$origin.']';
 
-				$query[] = "description = '".SQL::escape($this->item['description'])."'";
+				    $query[] = "description = '".SQL::escape($this->item['description'])."'";
+				}
 			}
 
 			// also use it as thumnail if none has been defined yet

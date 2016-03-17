@@ -204,7 +204,7 @@ class Event extends Overlay {
 	 * @param array hosting attributes
 	 * @return a list of ($label, $input, $hint)
 	 */
-	function get_fields($host) {
+	function get_fields($host, $field_pos=NULL) {
 		global $context;
 
 		// default value is now
@@ -305,7 +305,7 @@ class Event extends Overlay {
 		else
 			$options .= '<option>08:00</option>';
 		if(($hours == '08') && ($minutes == '30'))
-			$options .= '<option selected="selected">08:030</option>';
+			$options .= '<option selected="selected">08:30</option>';
 		else
 			$options .= '<option>08:30</option>';
 
@@ -444,11 +444,11 @@ class Event extends Overlay {
 		else
 			$options .= '<option>23:30</option>';
 
-		$options .= '</options>';
+		$options .= '</select>';
 
 		// event time
 		$label = i18n::s('Date');
-		$input = Skin::build_input('date_stamp', $date, 'date').$options;
+		$input = Skin::build_input_time('date_stamp', $date, 'date').$options;
 		$hint = i18n::s('Use format YYYY-MM-DD');
 		$fields[] = array($label, $input, $hint);
 

@@ -144,7 +144,7 @@
  */
 
 // this script can be included into another one, i.e., /index.hp
-if(is_readable('../shared/global.php')) {
+if(!defined('YACS')) {
 	include_once '../shared/global.php';
 	define('NOT_INCLUDED', true);
 
@@ -152,16 +152,6 @@ if(is_readable('../shared/global.php')) {
 } else {
 	$context['page_title'] = '';
 }
-
-// common definitions and initial processing
-include_once $context['path_to_root'].'behaviors/behaviors.php';
-include_once $context['path_to_root'].'comments/comments.php';		// attached comments and notes
-include_once $context['path_to_root'].'images/images.php';			// attached images
-include_once $context['path_to_root'].'links/links.php';			// related pages
-include_once $context['path_to_root'].'files/files.php';			// attached files
-include_once $context['path_to_root'].'servers/servers.php';
-include_once $context['path_to_root'].'versions/versions.php';		// back in history
-include_once $context['path_to_root'].'sections/section.php';
 
 // look for the id
 $id = NULL;
@@ -225,6 +215,15 @@ if($zoom_index < 1)
 // get the item from the database
 $item = Sections::get($id);
 
+if(!$item) {
+    Safe::redirect($context['url_to_root'].'error.php');
+}
+
+// redirect to another section with a better suitable language, if any
+if($item['nick_name']) {
+    Anchors::check_better_lang('section:'.$item['id'], $item['nick_name']);
+}
+
 // get the related overlay, if any
 $overlay = NULL;
 if(isset($item['overlay']))
@@ -234,6 +233,10 @@ if(isset($item['overlay']))
 $content_overlay = NULL;
 if(isset($item['content_overlay']))
 	$content_overlay = Overlay::bind($item['content_overlay']);
+
+$section_overlay = NULL;
+if(isset($item['section_overlay']))
+        $section_overlay = Overlay::bind($item['section_overlay']);
 
 // get the related anchor, if any
 $anchor = NULL;
@@ -245,12 +248,18 @@ $behaviors = NULL;
 if(isset($item['id']))
 	$behaviors = new Behaviors($item, $anchor);
 
+// current viewed section as object
+$cur_section = new section();
+$cur_section->item      = $item;
+$cur_section->anchor    = $anchor;
+$cur_section->overlay   = $overlay;
+
 // editors can do what they want on items anchored here
-if((isset($item['id']) && Sections::is_assigned($item['id']) && Surfer::is_member()) || (is_object($anchor) && $anchor->is_assigned()))
+if(($cur_section->is_assigned() && Surfer::is_member()) || (is_object($anchor) && $anchor->is_assigned()))
 	Surfer::empower();
 
 // readers have additional rights
-elseif((isset($item['id']) && Sections::is_assigned($item['id']) && Surfer::is_logged()) || (is_object($anchor) && $anchor->is_assigned()))
+elseif(($cur_section->is_assigned() && Surfer::is_logged()) || (is_object($anchor) && $anchor->is_assigned()))
 	Surfer::empower('S');
 
 //
@@ -262,7 +271,7 @@ if(is_object($behaviors) && !$behaviors->allow('sections/view.php', 'section:'.$
 	$permitted = FALSE;
 
 // check access rights
-elseif(Sections::allow_access($item, $anchor))
+elseif($cur_section->allows('access'))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -291,18 +300,13 @@ if(isset($item['active']) && ($item['active'] == 'R'))
 	$context['page_title'] .= RESTRICTED_FLAG;
 elseif(isset($item['active']) && ($item['active'] == 'N'))
 	$context['page_title'] .= PRIVATE_FLAG;
-if(isset($item['index_title']) && $item['index_title']) {
-	if(is_object($overlay))
-		$context['page_title'] .= $overlay->get_text('title', $item);
-	elseif(isset($item['index_title']) && $item['index_title'])
-		$context['page_title'] .= $item['index_title'];
-} elseif(isset($item['title']) && $item['title']) {
-	if(is_object($overlay))
-		$context['page_title'] .= $overlay->get_text('title', $item);
-	elseif(isset($item['title']) && $item['title'])
-		$context['page_title'] .= $item['title'];
-}
-if(isset($item['locked']) && ($item['locked'] == 'Y') && Sections::is_owned($item, $anchor))
+
+if(is_object($overlay))
+	$context['page_title'] .= $overlay->get_text('title', $item);
+elseif(isset($item['title']) && $item['title'])
+	$context['page_title'] .= $item['title'];
+
+if(isset($item['locked']) && ($item['locked'] == 'Y') && $cur_section->is_owned())
 	$context['page_title'] .= ' '.LOCKED_FLAG;
 
 // insert page family, if any
@@ -447,7 +451,7 @@ if(!isset($item['id'])) {
 	}
 
 	// initialize the rendering engine
-	Codes::initialize(Sections::get_permalink($item));
+	Codes::initialize($cur_section->get_permalink());
 
 	// neighbours information
 	$neighbours = NULL;
@@ -478,7 +482,7 @@ if(!isset($item['id'])) {
 
 	// add canonical link
 	if(!$zoom_type)
-		$context['page_header'] .= "\n".'<link rel="canonical" href="'.Sections::get_permalink($item).'" />';
+		$context['page_header'] .= "\n".'<link rel="canonical" href="'.$cur_section->get_permalink().'" />';
 
 	// a meta link to a feeding page
 	$context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'feed').'" title="RSS" type="application/rss+xml" />';
@@ -487,7 +491,7 @@ if(!isset($item['id'])) {
 	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml" />';
 
 	// implement the trackback interface
-	$permanent_link = Sections::get_permalink($item);
+	$permanent_link = $cur_section->get_permalink();
 	$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=section:'.$item['id'];
 	$context['page_header'] .= "\n".'<!--'
 		."\n".'<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'
@@ -638,8 +642,8 @@ if(!isset($item['id'])) {
 	//
 
 	// show creator profile, if required to do so
-	if(preg_match('/\bwith_extra_profile\b/', $item['options']) && ($owner = Users::get($item['owner_id'])) && ($section = Anchors::get('section:'.$item['id'])))
-		$context['components']['profile'] = $section->get_user_profile($owner, 'extra', Skin::build_date($item['create_date']));
+	if(preg_match('/\bwith_extra_profile\b/', $item['options']) && ($owner = Users::get($item['owner_id'])) && is_object($cur_section))
+		$context['components']['profile'] = $cur_section->get_user_profile($owner, 'extra', Skin::build_date($item['create_date']));
 
 	// add extra information from the overlay, if any
 	if(is_object($overlay))
@@ -658,9 +662,9 @@ if(!isset($item['id'])) {
 
 		// the best suited link to use
 		if($context['with_friendly_urls'] == 'R')
-			$url = $context['url_to_home'].$context['url_to_root'].Sections::get_short_url($item);
+			$url = $context['url_to_home'].$context['url_to_root'].$cur_section->get_short_url ();
 		else
-			$url = Sections::get_permalink($item);
+			$url = $cur_section->get_permalink ();
 
 		// facebook
 		Skin::define_img('PAGERS_FACEBOOK_IMG', 'pagers/facebook.gif');
@@ -677,19 +681,19 @@ if(!isset($item['id'])) {
 	}
 
 	// invite participants
-	if((Sections::is_owned($item, $anchor, TRUE) || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+	if(($cur_section->is_owned() || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('SECTIONS_INVITE_IMG', 'sections/invite.gif');
 		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'invite'), SECTIONS_INVITE_IMG.i18n::s('Invite participants'), 'basic');
 	}
 
 	// notify participants
-	if((Sections::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+	if(($cur_section->is_owned() || Surfer::is_associate()) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('SECTIONS_EMAIL_IMG', 'sections/email.gif');
 		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'mail'), SECTIONS_EMAIL_IMG.i18n::s('Notify participants'));
 	}
 
 	// manage editors
-	if(Sections::is_owned($item, $anchor, TRUE) || Surfer::is_associate()) {
+	if($cur_section->is_owned() || Surfer::is_associate()) {
 		Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
 		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Manage participants'));
 	}
@@ -730,7 +734,7 @@ if(!isset($item['id'])) {
 	}
 
 	// allow to leave the section
-	if(Sections::is_assigned($item['id']) && !Sections::is_owned($item, $anchor, TRUE)) {
+	if($cur_section->is_assigned() && !$cur_section->is_owned(null, false)) {
 		Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
 		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'leave'), SECTIONS_ASSIGN_IMG.i18n::s('Leave this section'));
 	}
@@ -743,7 +747,7 @@ if(!isset($item['id'])) {
 		$lines[] = Skin::build_link($context['url_to_home'].$context['url_to_root'].Files::get_url('section:'.$item['id'], 'feed'), i18n::s('Recent files'), 'xml');
 
 		// comments are allowed
-		if(Comments::allow_creation($anchor, $item, 'section')) {
+		if($cur_section->allows('creation','comment')) {
 			$lines[] = Skin::build_link($context['url_to_home'].$context['url_to_root'].Comments::get_url('section:'.$item['id'], 'feed'), i18n::s('Recent comments'), 'xml');
 		}
 
@@ -803,7 +807,7 @@ if(!isset($item['id'])) {
 		$items =& Members::list_categories_by_title_for_member('section:'.$item['id'], $offset, CATEGORIES_PER_PAGE, 'sidebar');
 
 		// the command to change categories assignments
-		if(Categories::allow_creation($item,$anchor))
+		if(Categories::allow_assign($item,$anchor))
 			$items = array_merge($items, array( Categories::get_url('section:'.$item['id'], 'select') => i18n::s('Assign categories') ));
 
 		// actually render the html for the section
@@ -823,7 +827,7 @@ if(!isset($item['id'])) {
 		$bookmarklets = array();
 
 		// blogging bookmarklet uses YACS codes
-		if(Articles::allow_creation($item, $anchor)) {
+		if($cur_section->allows('creation','article')) {
 			$bookmarklet = "javascript:function findFrame(f){var i;try{isThere=f.document.selection.createRange().text;}catch(e){isThere='';}if(isThere==''){for(i=0;i&lt;f.frames.length;i++){findFrame(f.frames[i]);}}else{s=isThere}return s}"
 				."var s='';"
 				."d=document;"
@@ -837,7 +841,7 @@ if(!isset($item['id'])) {
 		}
 
 		// bookmark bookmarklet, if links are allowed
-		if(Links::allow_creation($anchor, $item, 'section')) {
+		if($cur_section->allows('creation','link')) {
 			$bookmarklet = "javascript:function findFrame(f){var i;try{isThere=f.document.selection.createRange().text;}catch(e){isThere='';}if(isThere==''){for(i=0;i&lt;f.frames.length;i++){findFrame(f.frames[i]);}}else{s=isThere}return s}"
 				."var s='';"
 				."d=document;"
@@ -1005,7 +1009,7 @@ if(!isset($item['id'])) {
 			$box = array('top_bar' => array(), 'text' => '', 'bottom_bar' => array());
 
 			// the command to post a new page
-			if(Articles::allow_creation($item, $anchor)) {
+			if($cur_section->allows('creation','article')) {
 
 				Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 				$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
@@ -1160,7 +1164,7 @@ if(!isset($item['id'])) {
 	if(!$zoom_type || ($zoom_type == 'files')) {
 
 		// list files only to people able to change the page
-		if(Sections::allow_modification($item, $anchor))
+		if($cur_section->allows('modification'))
 			$embedded = NULL;
 		else
 			$embedded = Codes::list_embedded($item['description']);
@@ -1169,35 +1173,54 @@ if(!isset($item['id'])) {
 		$box = array('bar' => array(), 'text' => '');
 
 		// count the number of files in this section
-		if($count = Files::count_for_anchor('section:'.$item['id'], FALSE, $embedded)) {
-			if($count > 20)
-				$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
+		//if($count = Files::count_for_anchor('section:'.$item['id'], FALSE, $embedded)) {
+                $count = Files::count_for_anchor('section:'.$item['id'], FALSE, $embedded);
+                
+                if($count > 20)
+                        $box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
-			// list files by date (default) or by title (option 'files_by_title')
-			$offset = ($zoom_index - 1) * FILES_PER_PAGE;
-			if(preg_match('/\bfiles_by_title\b/i', $item['options']))
-				$items = Files::list_by_title_for_anchor('section:'.$item['id'], $offset, FILES_PER_PAGE, 'section:'.$item['id'], $embedded);
-			else
-				$items = Files::list_by_date_for_anchor('section:'.$item['id'], $offset, FILES_PER_PAGE, 'section:'.$item['id'], $embedded);
+                // get overlay for files if any
+                $file_overlay = NULL;
+                if(isset($item['file_overlay']))
+                        $file_overlay = Overlay::bind($item['file_overlay']);
 
-			// actually render the html
-			if(is_array($items))
-				$box['text'] .= Skin::build_list($items, 'decorated');
-			elseif(is_string($items))
-				$box['text'] .= $items;
+                // delegate rendering to the overlay, where applicable
+                if(is_object($file_overlay) && ($overlaid = $file_overlay->render('files', 'section:'.$item['id'], $zoom_index))) {
+                    $box['text'] .= $overlaid;
+                } elseif($count) {
 
-			// navigation commands for files
-			$home = Sections::get_permalink($item);
-			$prefix = Sections::get_url($item['id'], 'navigate', 'files');
-			$box['bar'] = array_merge($box['bar'],
-				Skin::navigate($home, $prefix, $count, FILES_PER_PAGE, $zoom_index));
+                    // list files by date (default) or by title (option 'files_by_title')
+                    $offset = ($zoom_index - 1) * FILES_PER_PAGE;
+                    if(preg_match('/\bfiles_by_title\b/i', $item['options']))
+                            $items = Files::list_by_title_for_anchor('section:'.$item['id'], $offset, FILES_PER_PAGE, 'section:'.$item['id'], $embedded);
+                    else
+                            $items = Files::list_by_date_for_anchor('section:'.$item['id'], $offset, FILES_PER_PAGE, 'section:'.$item['id'], $embedded);
 
-		}
+                    // actually render the html
+                    if(is_array($items))
+                            $box['text'] .= Skin::build_list($items, 'decorated');
+                    elseif(is_string($items))
+                            $box['text'] .= $items;
+                }
+
+                // navigation commands for files
+                $home = Sections::get_permalink($item);
+                $prefix = Sections::get_url($item['id'], 'navigate', 'files');
+                $box['bar'] = array_merge($box['bar'],
+                        Skin::navigate($home, $prefix, $count, FILES_PER_PAGE, $zoom_index));
 
 		// the command to post a new file -- check 'with_files' option
-		if(Files::allow_creation($item, $anchor, 'section')) {
+		if($cur_section->allows('creation','file')) {
+                        
+                        // get add button label
+                        if(!is_object($file_overlay) || !$add_label = $file_overlay->get_label('new_command','file')) {
+                            Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
+                            $add_label = FILES_UPLOAD_IMG.i18n::s('Add a file');
+                        }
+                        
+                    
 			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-			$box['bar'] += array('files/edit.php?anchor='.urlencode('section:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Add a file') );
+			$box['bar'] += array('files/edit.php?anchor='.urlencode('section:'.$item['id']) => $add_label );
 		}
 
 		// integrate the nemu bar
@@ -1242,7 +1265,7 @@ if(!isset($item['id'])) {
 		$box = array('bar' => array(), 'text' => '');
 
 		// feed the wall
-		if(Comments::allow_creation($anchor, $item, 'section'))
+		if($cur_section->allows('creation','comment'))
 			$box['text'] .= Comments::get_form('section:'.$item['id']);
 
 		// a navigation bar for these comments
@@ -1320,7 +1343,7 @@ if(!isset($item['id'])) {
 		}
 
 		// new links are allowed -- check option 'with_links'
-		if(Links::allow_creation($anchor, $item, 'section')) {
+		if($cur_section->allows('creation','link')) {
 			Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 			$box['bar'] += array('links/edit.php?anchor='.urlencode('section:'.$item['id']) => LINKS_ADD_IMG.i18n::s('Add a link') );
 		}
@@ -1363,9 +1386,16 @@ if(!isset($item['id'])) {
 			$box = array('top_bar' => array(), 'text' => '', 'bottom_bar' => array());
 
 			// the command to add a new section
-			if(Sections::allow_creation($item, $anchor)) {
+			if($cur_section->allows('creation','section')) {
+                            
+                                if(is_object($section_overlay) && ($label = $section_overlay->get_label('new_command', 'section'))) {
+                                      ;
+                                } else {
+                                    $label = i18n::s('Add a section');
+                                }
+                            
 				Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
-				$box['top_bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => SECTIONS_ADD_IMG.i18n::s('Add a section'));
+				$box['top_bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => SECTIONS_ADD_IMG.$label);
 			}
 
 			// list items by family then title
@@ -1459,7 +1489,7 @@ if(!isset($item['id'])) {
 	//
 
 	// commands to add pages
-	if(Articles::allow_creation($item, $anchor)) {
+	if($cur_section->allows('creation','article')) {
 
 		Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 		$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
@@ -1480,37 +1510,37 @@ if(!isset($item['id'])) {
 	}
 
 	// add a section
-	if(Sections::allow_creation($item, $anchor)) {
+	if($cur_section->allows('creation','section')) {
 		Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
 		$context['page_tools'][] = Skin::build_link('sections/edit.php?anchor='.urlencode('section:'.$item['id']), SECTIONS_ADD_IMG.i18n::s('Add a section'), 'basic', i18n::s('Add a section'));
 	}
 
 	// comment this page if anchor does not prevent it
-	if(Comments::allow_creation($anchor, $item, 'section')) {
+	if($cur_section->allows('creation','comment')) {
 		Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 		$context['page_tools'][] = Skin::build_link(Comments::get_url('section:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 	}
 
 	// add a file, if upload is allowed
-	if(Files::allow_creation($item, $anchor, 'section')) {
+	if($cur_section->allows('creation','file')) {
 		Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 		$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
 	}
 
 	// add a link
-	if(Links::allow_creation($anchor, $item, 'section')) {
+	if($cur_section->allows('creation','link')) {
 		Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 		$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('section:'.$item['id']), LINKS_ADD_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
 	}
 
 	// post an image, if upload is allowed
-	if(Images::allow_creation($anchor, $item, 'section')) {
+	if($cur_section->allows('creation','image')) {
 		Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
 		$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 	}
 
 	// ensure that the surfer can change content
-	if(Sections::allow_modification($item, $anchor)) {
+	if($cur_section->allows('modification')) {
 
 		// modify this section
 		Skin::define_img('SECTIONS_EDIT_IMG', 'sections/edit.gif');
@@ -1521,7 +1551,7 @@ if(!isset($item['id'])) {
 	}
 
 	// commands for section owners
-	if(Sections::is_owned($item, $anchor) || Surfer::is_associate()) {
+	if($cur_section->is_owned() || Surfer::is_associate()) {
 
 		// access previous versions, if any
 		if($has_versions) {
@@ -1539,10 +1569,12 @@ if(!isset($item['id'])) {
 		}
 
 		// delete the page
-		Skin::define_img('SECTIONS_DELETE_IMG', 'sections/delete.gif');
-		if(!is_object($overlay) || (!$label = $overlay->get_label('delete_command', 'sections')))
-			$label = i18n::s('Delete this section');
-		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'delete'), SECTIONS_DELETE_IMG.$label, 'basic');
+                if($cur_section->allows('deletion')) {
+                    Skin::define_img('SECTIONS_DELETE_IMG', 'sections/delete.gif');
+                    if(!is_object($overlay) || (!$label = $overlay->get_label('delete_command', 'sections')))
+                            $label = i18n::s('Delete this section');
+                    $context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'delete'), SECTIONS_DELETE_IMG.$label, 'basic');
+                }
 
 		// manage content
 		if($has_content) {

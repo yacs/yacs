@@ -1,0 +1,55 @@
+/**
+ * hardboiled layout: two boxes aligned at the top, then decorated items
+ *
+ * <div class="recent">
+ *  <div class="left">
+ *   <h3><span>box title</span></h3>
+ *	 box content
+ *	 <p class="details">box details</p>
+ *  </div>
+ *  <div class="right">
+ *   <h3><span>box title</span></h3>
+ *	 box content
+ *	 <p class="details">box details</p>
+ *  </div>
+ * </div>
+ *
+ * <table class="decorated">
+ * <tbody>
+ *  <tr class="even">
+ *    <td class="image">some image</td>
+ *    <td class="content>link and content</td>
+ *  </tr>
+ *  <tr class="odd">
+ *    <td class="image">some image</td>
+ *    <td class="content>link and content</td>
+ *  </tr>
+ *  ...
+ * </tbody>
+ * </table>
+
+ * @author Bernard Paques
+ * @author Alexis Raimbault
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+ */
+
+.recent h3 {
+	margin-top: 0;
+}
+
+.recent .left { /* the first newest item */
+	margin: 1em 0 1em 0;
+	padding: 0;
+	float: left;
+        width: 48%; /* just below 50% */
+}
+
+.recent .right { /* the second newest item */
+	border-left: 1px dotted #333;
+	margin: 1em 0 1em 0.5em;
+	padding: 0 0 0 0.5em;
+	float: left;
+        width: 48%; /* just below 50% */
+        text-align: left;
+}

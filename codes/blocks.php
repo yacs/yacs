@@ -125,7 +125,7 @@ $context['text'] .= '[title]'.i18n::s('PHP snippet').' [escape][php]...[/php][/e
 	.'// or we are one level below'."\n"
 	.'} else {'."\n"
 	.'	include \'../\'.$skin.\'_library.php\';'."\n"
-	.'	include \'../shared/codes.php\';'."\n"
+	.'	include \'../codes/codes.php\';'."\n"
 	.'	$context[\'path_to_root\'] = \'../\';'."\n"
 	.'}'."\n"
 	.'[/php][/escape]</td>'."\n"
@@ -140,7 +140,7 @@ $context['text'] .= '[title]'.i18n::s('PHP snippet').' [escape][php]...[/php][/e
 	.'// or we are one level below'."\n"
 	.'} else {'."\n"
 	.'	include \'../\'.$skin.\'_library.php\';'."\n"
-	.'	include \'../shared/codes.php\';'."\n"
+	.'	include \'../codes/codes.php\';'."\n"
 	.'	$context[\'path_to_root\'] = \'../\';'."\n"
 	.'}'."\n"
 	.'[/php]</td></tr>'

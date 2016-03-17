@@ -7,7 +7,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=root
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  *.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  *.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_root_en
 echo --- locale/en/%MODULE%.po generation
@@ -36,7 +36,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=agents
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_agents_en
 echo --- locale/en/%MODULE%.po generation
@@ -65,7 +65,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=articles
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_articles_en
 echo --- locale/en/%MODULE%.po generation
@@ -94,7 +94,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=behaviors
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php %MODULE%/agreements/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php %MODULE%/agreements/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_behaviors_en
 echo --- locale/en/%MODULE%.po generation
@@ -123,7 +123,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=categories
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_categories_en
 echo --- locale/en/%MODULE%.po generation
@@ -152,7 +152,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=codes
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_codes_en
 echo --- locale/en/%MODULE%.po generation
@@ -181,7 +181,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=comments
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_comments_en
 echo --- locale/en/%MODULE%.po generation
@@ -210,7 +210,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=control
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php %MODULE%/htaccess/*.php %MODULE%/htaccess/basic/*.php %MODULE%/htaccess/options/*.php %MODULE%/htaccess/indexes/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php %MODULE%/htaccess/*.php %MODULE%/htaccess/basic/*.php %MODULE%/htaccess/options/*.php %MODULE%/htaccess/indexes/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_control_en
 echo --- locale/en/%MODULE%.po generation
@@ -239,7 +239,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=dates
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_dates_en
 echo --- locale/en/%MODULE%.po generation
@@ -268,7 +268,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=feeds
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php %MODULE%/flash/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php %MODULE%/flash/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_feeds_en
 echo --- locale/en/%MODULE%.po generation
@@ -297,7 +297,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=files
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_files_en
 echo --- locale/en/%MODULE%.po generation
@@ -326,7 +326,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=help
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_help_en
 echo --- locale/en/%MODULE%.po generation
@@ -355,7 +355,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=i18n
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_i18n_en
 echo --- locale/en/%MODULE%.po generation
@@ -384,7 +384,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=images
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_images_en
 echo --- locale/en/%MODULE%.po generation
@@ -413,7 +413,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=letters
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_letters_en
 echo --- locale/en/%MODULE%.po generation
@@ -442,7 +442,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=links
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_links_en
 echo --- locale/en/%MODULE%.po generation
@@ -471,7 +471,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=locations
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_locations_en
 echo --- locale/en/%MODULE%.po generation
@@ -500,7 +500,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=overlays
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php %MODULE%/forms/*.php %MODULE%/mutables/*.php %MODULE%/polls/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php %MODULE%/forms/*.php %MODULE%/mutables/*.php %MODULE%/polls/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_overlays_en
 echo --- locale/en/%MODULE%.po generation
@@ -529,7 +529,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=scripts
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_scripts_en
 echo --- locale/en/%MODULE%.po generation
@@ -558,7 +558,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=sections
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_sections_en
 echo --- locale/en/%MODULE%.po generation
@@ -587,7 +587,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=servers
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_servers_en
 echo --- locale/en/%MODULE%.po generation
@@ -616,7 +616,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=services
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_services_en
 echo --- locale/en/%MODULE%.po generation
@@ -645,7 +645,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=shared
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_shared_en
 echo --- locale/en/%MODULE%.po generation
@@ -674,7 +674,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=skins
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php %MODULE%/_reference/avatars/*.php %MODULE%/boxesandarrows/*.php %MODULE%/digital/*.php %MODULE%/flexible/*.php %MODULE%/joi/*.php %MODULE%/skeleton/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php %MODULE%/_reference/avatars/*.php %MODULE%/boxesandarrows/*.php %MODULE%/digital/*.php %MODULE%/flexible/*.php %MODULE%/joi/*.php %MODULE%/skeleton/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_skins_en
 echo --- locale/en/%MODULE%.po generation
@@ -703,7 +703,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=smileys
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_smileys_en
 echo --- locale/en/%MODULE%.po generation
@@ -732,7 +732,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=tools
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_tools_en
 echo --- locale/en/%MODULE%.po generation
@@ -761,7 +761,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=tables
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_tables_en
 echo --- locale/en/%MODULE%.po generation
@@ -790,7 +790,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=users
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php %MODULE%/authenticators/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php %MODULE%/authenticators/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_users_en
 echo --- locale/en/%MODULE%.po generation
@@ -819,7 +819,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=versions
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
 if exist i18n/locale/en/%MODULE%.po goto update_versions_en
 echo --- locale/en/%MODULE%.po generation

@@ -27,8 +27,16 @@ Class Images {
 	 * @param string the type of item, e.g., 'section'
 	 * @return TRUE or FALSE
 	 */
-	public static function allow_creation($anchor=NULL, $item=NULL, $variant=NULL) {
+	public static function allow_creation($item=NULL, $anchor=NULL, $variant=NULL) {
 		global $context;
+                
+                // backward compatibility, reverse parameters : 
+                // $anchor is always a object and $item a array
+                if(is_object($item) || is_array($anchor)) {
+                    $permute    = $anchor;
+                    $anchor     = $item;
+                    $item       = $permute;
+                }
 
 		// guess the variant
 		if(!$variant) {
@@ -733,8 +741,12 @@ Class Images {
 				."use_thumbnail='".SQL::escape($fields['use_thumbnail'])."',"
 				."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."',"
 				."source='".SQL::escape(isset($fields['source']) ? $fields['source'] : '')."',"
-				."link_url='".SQL::escape(isset($fields['link_url']) ? $fields['link_url'] : '')."'"
-				." WHERE id = ".SQL::escape($fields['id']);
+				."link_url='".SQL::escape(isset($fields['link_url']) ? $fields['link_url'] : '')."'";
+                        
+                        if(isset($fields['tags']))
+                            $query .= ",tags='".SQL::escape($fields['tags'])."'";
+                        
+			$query .= " WHERE id = ".SQL::escape($fields['id']);
 
 			// actual update
 			if(SQL::query($query) === FALSE)
@@ -756,7 +768,8 @@ Class Images {
 				."edit_name='".SQL::escape($fields['edit_name'])."',"
 				."edit_id=".SQL::escape($fields['edit_id']).","
 				."edit_address='".SQL::escape($fields['edit_address'])."',"
-				."edit_date='".SQL::escape($fields['edit_date'])."'";
+				."edit_date='".SQL::escape($fields['edit_date'])."',"
+                                ."tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."'";
 
 			// actual update
 			if(SQL::query($query) === FALSE)
@@ -770,6 +783,11 @@ Class Images {
 			Logger::error(i18n::s('No image has been added.'));
 			return FALSE;
 		}
+                
+                if(isset($fields['tags'])) {
+                    // assign the image to related categories, but not archiving categories
+                    Categories::remember('image:'.$fields['id'], NULL_DATE, $fields['tags']);
+                }
 
 		// clear the cache
 		Images::clear($fields);
@@ -787,25 +805,26 @@ Class Images {
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
 		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";
-		$fields['image_name']	= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['image_size']	= "INT UNSIGNED DEFAULT 0 NOT NULL";
+		$fields['image_name']           = "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['image_size']           = "INT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['description']	= "TEXT NOT NULL";
+		$fields['description']          = "TEXT NOT NULL";
 		$fields['source']		= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['thumbnail_name']= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['link_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['use_thumbnail']= "ENUM('A', 'Y','N') DEFAULT 'Y' NOT NULL";
-		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['thumbnail_name']       = "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['link_url']             = "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['use_thumbnail']        = "ENUM('A', 'Y','N') DEFAULT 'Y' NOT NULL";
+		$fields['edit_name']            = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_id']		= "MEDIUMINT DEFAULT 0 NOT NULL";
-		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
-		$fields['edit_date']	= "DATETIME";
+		$fields['edit_address']         = "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['edit_date']            = "DATETIME";
+                $fields['tags'] 		= "TEXT DEFAULT '' NOT NULL";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 	= "(id)";
 		$indexes['INDEX anchor']	= "(anchor)";
-		$indexes['INDEX edit_date'] = "(edit_date)";
+		$indexes['INDEX edit_date']     = "(edit_date)";
 		$indexes['INDEX edit_id']	= "(edit_id)";
-		$indexes['INDEX image_size']= "(image_size)";
+		$indexes['INDEX image_size']    = "(image_size)";
 		$indexes['INDEX title'] 	= "(title(255))";
 		$indexes['FULLTEXT INDEX']	= "full_text(title, source, description)";
 
@@ -847,6 +866,90 @@ Class Images {
 		$output = SQL::query_first($query);
 		return $output;
 	}
+        
+        /** 
+         * record several image than may have been uploaded with standard or ajax post request
+         * 
+         * @param object $anchor that will host the images
+         * @param bool $postnow order to record it strait in the database or only feed $_RESQUEST
+         * if the post will be done later
+         */
+        public static function upload_bunch($anchor, $postnow=false) {
+            
+            $count = Files::count_uploaded();
+            for($i=0 ; $i < $count ; $i++ ) {
+                
+                $indice = ($i==0)?'':(string) $i;
+                
+                if($img = Files::get_uploaded('upload'.$indice)) {
+                    $as_thumb = ($indice=='')?true:false;
+                    Images::upload_to($anchor, $img, $as_thumb, $postnow);
+                }
+            }
+        }
+        
+        /**
+         * upload a file as a image attach to a given anchor
+         * to be used in custom "edit_as" script
+         * 
+         * @global string $context
+         * @param object $anchor
+         * @param array $file (from $_FILES)
+         * @param bool $set_as_thumb
+         * @param bool $put
+         */
+        public static function upload_to($anchor, $file, $set_as_thumb=false, $put=false) {
+            global $context;
+            
+            // attach some image
+            $path = Files::get_path($anchor->get_reference(),'images');
+            // $_REQUEST['action'] = 'set_as_icon'; // instruction for image::upload
+            if(isset($file) && ($uploaded = Files::upload($file, $path, array('Image', 'upload')))) {
+
+                    // prepare image informations
+                    $image = array();
+                    $image['image_name'] = $uploaded;
+                    $image['image_size'] = $file['size'];
+                    $image['thumbnail_name'] = 'thumbs/'.$uploaded;
+                    $image['anchor'] = $anchor->get_reference();
+                    //$combined = array_merge($image, $_FILES);
+
+                    // post the image which was uploaded
+                    if($image['id'] = Images::post($image)) {
+
+                            // successfull post
+                            $context['text'] .= '<p>'.i18n::s('Following image has been added:').'</p>'
+                                    .Codes::render_object('image', $image['id']).'<br style="clear:left;" />'."\n";
+
+                            // set image as icon and thumbnail
+                            if($set_as_thumb) {
+                                
+                                // delete former icon if any
+                                /*if(isset($anchor->item['icon_url'])
+                                        && $anchor->item['icon_url']
+                                        && $match = Images::get_by_anchor_and_name($anchor->get_reference(), pathinfo($anchor->item['icon_url'],PATHINFO_BASENAME))) {
+
+
+                                    if($match['id'] != $image['id'])
+                                        Images::delete($match['id']);
+                                }*/
+                                
+                                $fields = array(
+                                    'thumbnail_url' => Images::get_thumbnail_href($image),
+                                    'icon_url'      => Images::get_icon_href($image)
+                                    );
+                                if($put) {
+                                    $fields['id'] = $_REQUEST['id'];
+                                    $class = $anchor->get_static_group_class();
+                                    $class::put_attributes($fields);
+                                } else
+                                    $_REQUEST = array_merge($_REQUEST, $fields);
+                            
+                            }
+                    }
+
+            }
+        }
 
 }
 

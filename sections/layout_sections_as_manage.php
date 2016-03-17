@@ -38,7 +38,7 @@ Class Layout_sections_as_manage extends Layout_interface {
 			);
 
 		// table prefix
-		$text .= Skin::table_prefix('grid');
+		$text .= Skin::table_prefix('yc-grid');
 
 		// table headers
 		$main = '<input type="checkbox" class="row_selector" onclick="cascade_selection_to_all_section_rows(this);" />';

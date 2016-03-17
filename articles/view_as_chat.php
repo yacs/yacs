@@ -161,7 +161,7 @@ case 'yabb':
 		$context['text'] .= $items;
 
 	// allow for contribution
-	if(Comments::allow_creation($anchor, $item))
+	if(Comments::allow_creation($item, $anchor))
 		$context['text'] .= Comments::get_form('article:'.$item['id']);
 
 	$context ['text'] .= '</div>';
@@ -208,7 +208,7 @@ default:
 		$context['text'] .= '</div>'."\n";
 
 	// surfer cannot contribute
-	} elseif(!Comments::allow_creation($anchor, $item))
+	} elseif(!Comments::allow_creation($item, $anchor))
 		;
 
 	// the input panel is where logged surfers can post data
@@ -359,7 +359,7 @@ default:
 		.'});'."\n";
 
 	// only authenticated surfers can contribute
-	if(Surfer::is_logged() && Comments::allow_creation($anchor, $item))
+	if(Surfer::is_logged() && Comments::allow_creation($item, $anchor))
 		$js_script .=
 			// load past contributions asynchronously
 			'$(function() {'
@@ -407,7 +407,7 @@ if(is_object($anchor))
 //
 
 // post an image, if upload is allowed
-if(Images::allow_creation($anchor, $item)) {
+if(Images::allow_creation($item, $anchor)) {
 	Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
 	$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 }
@@ -514,7 +514,7 @@ if($items || $invite)
 
 // new links are allowed
 $invite = '';
-if(Links::allow_creation($anchor, $item)) {
+if(Links::allow_creation($item, $anchor)) {
 	Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 	$link = 'links/edit.php?anchor='.urlencode('article:'.$item['id']);
 	$invite = Skin::build_link($link, LINKS_ADD_IMG.i18n::s('Add a link'));

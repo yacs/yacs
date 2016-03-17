@@ -160,7 +160,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 					$menu[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 				// discuss
-				if(Comments::allow_creation($anchor, $article))
+				if(Comments::allow_creation($article, $anchor))
 					$menu[] = Skin::build_link(Comments::get_url('article:'.$article['id'], 'comment'), i18n::s('Discuss'), 'span');
 
 				// the main anchor link

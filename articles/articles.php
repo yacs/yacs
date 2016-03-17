@@ -832,7 +832,7 @@ Class Articles {
 			$menu[] = Skin::build_mail_button($link, $label, TRUE);
 
 			// link to the container
-			$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+			$link = $anchor->get_url();
 			$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
 
 		}
@@ -1493,6 +1493,10 @@ Class Articles {
 		// ensure proper unicode encoding
 		$id = (string)$id;
 		$id = utf8::encode($id);
+                
+                // filter id from reference if parameter given that way
+                if(substr($id, 0, 8) === 'article:')
+                      $id = substr ($id, 8);
 
 		// cache previous answers
 		static $cache;
@@ -1514,20 +1518,22 @@ Class Articles {
 		else {
 			$query = "SELECT ".SQL::escape($attributes)." FROM ".SQL::table_name('articles')
 				." WHERE (nick_name LIKE '".SQL::escape($id)."') OR (handle LIKE '".SQL::escape($id)."')";
-			$count=SQL::query_count($query);
+			
+                        $count = SQL::query_count($query);
 			if($count==1)
 				// do the job
 				$output = SQL::query_first($query);
 			elseif ($count>1) {// result depending language give by $context['page_language']
-				if (($_SESSION['surfer_language']=='none'))	
+				if (!isset($_SESSION['surfer_language']) || ($_SESSION['surfer_language']=='none')) {
 					$language=$context['language'];
-				else 
+                                } else { 
 					$language=$_SESSION['surfer_language'];
+                                }
 				$result = SQL::query($query);
 				while($item = SQL::fetch($result)) {
-				 	$output=$item; // return last by default
+				 	$output = $item; // return last by default
 					if ($item['language'] == $language) {
-					 	$output=$item;
+					 	$output = $item;
 					 	break;
 					}
 				}
@@ -1723,7 +1729,7 @@ Class Articles {
 
 		// sanity check
 		if(!isset($item['id']))
-			throw new Exception('bad input parameter');				
+			return null;				
 
 		// get host to this page
 		$vhost = Sections::get_vhost($item['anchor']);		
@@ -2212,7 +2218,7 @@ Class Articles {
 		// avoid articles pushed away from the front page
 		$sections_where = '';
 		if(isset($context['skin_variant']) && ($context['skin_variant'] == 'home')) {
-			$sections_where .= " AND (sections.index_map != 'N')";
+			$sections_where .= " AND (sections.index_map != 'N') AND (sections.home_panel = 'main')";
 		}
 
 		// composite fields
@@ -2972,6 +2978,7 @@ Class Articles {
 		$query[] = "source='".SQL::escape(isset($fields['source']) ? $fields['source'] : '')."'";
 		$query[] = "introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."'";
 		$query[] = "description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."'";
+        $query[] = "file_overlay='".SQL::escape(isset($fields['file_overlay']) ? $fields['file_overlay'] : '')."'";
 		$query[] = "language='".SQL::escape(isset($fields['language']) ? $fields['language'] : '')."'";
 		$query[] = "locked='".SQL::escape(isset($fields['locked']) ? $fields['locked'] : 'N')."'";
 		$query[] = "overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."'";
@@ -3008,6 +3015,7 @@ Class Articles {
 		if(!isset($fields['handle']) || (strlen($fields['handle']) < 32))
 			$fields['handle'] = md5(mt_rand());
 		$query[] = "handle='".SQL::escape($fields['handle'])."'";
+		$query[] = "rating_count='".SQL::escape(isset($fields['rating_count']) ? $fields['rating_count'] : '0')."'";
 
 		// allow anonymous surfer to access this page during his session
 		if(!Surfer::get_id())
@@ -3176,6 +3184,7 @@ Class Articles {
 			$query[] = "nick_name='".SQL::escape(isset($fields['nick_name']) ? $fields['nick_name'] : '')."'";
 			$query[] = "behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."'";
 			$query[] = "extra='".SQL::escape(isset($fields['extra']) ? $fields['extra'] : '')."'";
+            $query[] = "file_overlay='".SQL::escape(isset($fields['file_overlay']) ? $fields['file_overlay'] : '')."'";
 			$query[] = "icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."'";
 			$query[] = "thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."'";
 			$query[] = "rank='".SQL::escape($fields['rank'])."'";
@@ -3223,6 +3232,7 @@ Class Articles {
 		$query[] = "assign_id=0";
 		$query[] = "assign_address=''";
 		$query[] = "assign_date='".SQL::escape(NULL_DATE)."'";
+		$query[] = "rating_count='".SQL::escape(isset($fields['rating_count']) ? $fields['rating_count'] : '0')."'";
 
 		// update an existing record
 		$query = "UPDATE ".SQL::table_name('articles')." SET ".implode(', ', $query)." WHERE id = ".SQL::escape($fields['id']);
@@ -3299,6 +3309,8 @@ Class Articles {
 			$query[] = "extra='".SQL::escape($fields['extra'])."'";
 		if(isset($fields['description']))
 			$query[] = "description='".SQL::escape($fields['description'])."'";
+        if(isset($fields['file_overlay']) )
+			$query[] = "file_overlay='".SQL::escape($fields['file_overlay'])."'";
 		if(isset($fields['handle']) && $fields['handle'])
 			$query[] = "handle='".SQL::escape($fields['handle'])."'";
 		if(isset($fields['icon_url']))
@@ -3369,6 +3381,9 @@ Class Articles {
 
 		if(!SQL::query($query))
 			return FALSE;
+                
+                // list the article in categories
+		Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
 
 		// clear the cache
 		Articles::clear($fields);
@@ -3421,7 +3436,8 @@ Class Articles {
 	}
 
 	/**
-	 * search for some keywords articles anchored to one precise section
+	 * search for some keywords articles anchored to one precise section 
+     * (and its subsections) or array of sections.
 	 *
 	 * This function also searches in sub-sections, with up to three levels of depth.
 	 *
@@ -3431,7 +3447,7 @@ Class Articles {
 	 *
 	 * @link http://www.artfulcode.net/articles/full-text-searching-mysql/
 	 *
-	 * @param int the id of the section to look in
+	 * @param mixed the id of the section or array of sections to look in 
 	 * @param string the search string
 	 * @param float maximum score to look at
 	 * @param int the number of items to display
@@ -3451,8 +3467,7 @@ Class Articles {
 		$where = Articles::get_sql_where();
 
 		// search is restricted to one section
-		$sections_where = '';
-		if($section_id) {
+		if(is_numeric($section_id)) {
 
 			// look for children
 			$anchors = Sections::get_branch_at_anchor('section:'.$section_id);
@@ -3460,7 +3475,9 @@ Class Articles {
 			// the full set of sections searched
 			$where .= " AND (anchor IN ('".join("', '", $anchors)."'))";
 
-		}
+		} elseif(is_array($section_id)) {
+                        $where .= " AND (anchor IN ('".join("', '", $section_id)."'))";
+        }
 
 		// anonymous surfers and subscribers will see only published articles
 		if(!Surfer::is_member())
@@ -3517,6 +3534,7 @@ Class Articles {
 		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['expiry_date']	= "DATETIME";
 		$fields['extra']		= "TEXT NOT NULL";
+        $fields['file_overlay']	= "VARCHAR(64) DEFAULT '' NOT NULL";
 		$fields['handle']		= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['icon_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
@@ -3540,7 +3558,7 @@ Class Articles {
 		$fields['review_date']	= "DATETIME";
 		$fields['source']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['suffix']		= "TEXT NOT NULL";
-		$fields['tags'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['tags'] 		= "TEXT DEFAULT '' NOT NULL";
 		$fields['thumbnail_url']= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['trailer']		= "TEXT NOT NULL";

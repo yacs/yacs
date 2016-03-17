@@ -289,7 +289,7 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 	$box = array('top' => array(), 'bottom' => array(), 'text' => '');
 
 	// feed the wall
-	if(Comments::allow_creation($anchor, $item))
+	if(Comments::allow_creation($item, $anchor))
 		$box['text'] .= Comments::get_form('article:'.$item['id']);
 
 	// a navigation bar for these comments
@@ -393,7 +393,7 @@ if($count = Links::count_for_anchor('article:'.$item['id'])) {
 		$box['text'] .= $items;
 
 	// new links are allowed
-	if(Links::allow_creation($anchor, $item)) {
+	if(Links::allow_creation($item, $anchor)) {
 		Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 		$box['bar'] += array('links/edit.php?anchor='.urlencode('article:'.$item['id']) => LINKS_ADD_IMG.i18n::s('Add a link'));
 	}
@@ -558,7 +558,7 @@ if(isset($owner['id']) && is_object($anchor))
 //
 
 // comment this page if anchor does not prevent it
-if(Comments::allow_creation($anchor, $item)) {
+if(Comments::allow_creation($item, $anchor)) {
 	Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 	$context['page_tools'][] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 }
@@ -570,13 +570,13 @@ if(Files::allow_creation($item, $anchor, 'article')) {
 }
 
 // add a link
-if(Links::allow_creation($anchor, $item)) {
+if(Links::allow_creation($item, $anchor)) {
 	Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 	$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('article:'.$item['id']), LINKS_ADD_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
 }
 
 // post an image, if upload is allowed
-if(Images::allow_creation($anchor, $item)) {
+if(Images::allow_creation($item, $anchor)) {
 	Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
 	$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 }

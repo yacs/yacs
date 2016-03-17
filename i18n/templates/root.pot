@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-16 16:36+0200\n"
+"POT-Creation-Date: 2015-07-17 18:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,7 @@ msgstr ""
 msgid "%s: %s"
 msgstr ""
 
-#: configure.php:110 index.php:454
+#: configure.php:110 index.php:462
 msgid "Configure"
 msgstr ""
 
@@ -149,7 +149,7 @@ msgstr ""
 msgid "here"
 msgstr ""
 
-#: configure.php:247 index.php:458
+#: configure.php:247 index.php:466
 msgid "Gadget boxes"
 msgstr ""
 
@@ -601,44 +601,44 @@ msgstr ""
 msgid "search engine"
 msgstr ""
 
-#: index.php:402
+#: index.php:410
 msgid "No page to display."
 msgstr ""
 
-#: index.php:404
+#: index.php:412
 #, php-format
 msgid "Use the %s to populate this server."
 msgstr ""
 
-#: index.php:404 setup.php:332
+#: index.php:412 setup.php:332
 msgid "Content Assistant"
 msgstr ""
 
-#: index.php:413 query.php:160
+#: index.php:421 query.php:160
 msgid "All pages"
 msgstr ""
 
-#: index.php:424
+#: index.php:432
 msgid "Recent Pages"
 msgstr ""
 
-#: index.php:456
+#: index.php:464
 msgid "Cover page"
 msgstr ""
 
-#: index.php:460
+#: index.php:468
 msgid "Extra boxes"
 msgstr ""
 
-#: index.php:462
+#: index.php:470
 msgid "Navigation boxes"
 msgstr ""
 
-#: index.php:477
+#: index.php:485
 msgid "featured"
 msgstr ""
 
-#: index.php:481 index.php:489
+#: index.php:489 index.php:497
 msgid "Featured pages"
 msgstr ""
 

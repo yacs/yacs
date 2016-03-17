@@ -112,7 +112,7 @@ if(!count($context['error']) && isset($item['id'])) {
 
 	// upload an image
 	//
-	if(Images::allow_creation(NULL, $item, 'user')) {
+	if(Images::allow_creation($item, null, 'user')) {
 
 		// the form to post an image
 		$text = '<form method="post" action="'.$context['url_to_root'].'images/edit.php" id="main_form" enctype="multipart/form-data"><div>'
@@ -197,7 +197,13 @@ if(!count($context['error']) && isset($item['id'])) {
 	// bottom commands
 	//
 	$menu = array();
-	$menu[] = Skin::build_link(Users::get_permalink($item), i18n::s('Done'), 'button');
+        global $render_overlaid;
+        if( !$render_overlaid ) {
+            $menu[] = Skin::build_link(Users::get_permalink($item), i18n::s('Cancel'), 'span');
+        }
+        
+        
+	//$menu[] = Skin::build_link(Users::get_permalink($item), i18n::s('Cancel'), 'button');
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 }

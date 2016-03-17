@@ -80,7 +80,7 @@ if(!defined('JS_SUFFIX'))
 
 // PHP5 could complain about not settings TZ correctly
 if(function_exists("date_default_timezone_set") and function_exists("date_default_timezone_get"))
-	@date_default_timezone_set(@date_default_timezone_get());
+	date_default_timezone_set(date_default_timezone_get());
 
 // store attributes for this request, including global parameters and request-specific variables
 global $context;
@@ -332,7 +332,7 @@ $context['host_name'] = strip_tags($context['host_name']);
 if($here = strrpos($context['host_name'], ':'))
 	$context['host_name'] = substr($context['host_name'], 0, $here);
 
-// master host name, won't be override by vhost 
+// master host name, won't be override by vhost
 $context['master_host'] = isset($context['main_host'])?$context['main_host']:$context['host_name'];
 
 // load skins parameters, if any
@@ -341,6 +341,17 @@ Safe::load('parameters/root.include.php'); // to support Page::tabs()
 
 // load parameters specific to this virtual host or sub-domain, if any
 Safe::load('parameters/virtual_'.$context['host_name'].'.include.php');
+
+// make the list of compagnon domains
+// the list is used to establish if a link is external or not
+// @see skins/skin_skeleton.php
+if($virtuals = Safe::glob($context['path_to_root'].'parameters/virtual_*.include.php')) {
+    foreach($virtuals as $file) {
+	$matches = array();
+	preg_match('/^virtual_(.+)\.include/',basename($file),$matches);
+	$context['virtual_domains'][] = $matches[1];
+    }
+}
 
 // ensure we have a site name
 if(!isset($context['site_name']))
@@ -383,43 +394,19 @@ if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == '')) {
 	if(($parent_domain = strstr($domain, '.')) && strpos($parent_domain, '.', 1))
 		$domain = $parent_domain;
 
-    // set the cookie to parent domain, to allow for sub-domains
+	// set the cookie to parent domain, to allow for sub-domains
 	session_set_cookie_params(0, '/', $domain);
 
 	// set or use the PHPSESSID cookie
 	session_start();
 
 	// if several hosts or domains have been defined for this server, ensure all use same session data
-	if(!isset($_COOKIE['PHPSESSID']) && ($hosts = Safe::file('parameters/hosts'))) {
+	// @see tools/check_multi_login.php
+	// @see Yacs.muliDomainLogin() /shared/yacs.js
+	if(!isset($_COOKIE['PHPSESSID']) && isset($context['virtual_domains']) && count($context['virtual_domains'])) {
 
-		// ask user agent to call various hosts via javascript
-		$script = '<script type="text/javascript">'."\n";
+		$_SESSION['cross_domain_login_required'] = true;
 
-		// one host at a time
-		foreach($hosts as $index => $host) {
-			if($host = trim($host)) {
-
-			if($host == $domain) continue;
-
-			// start an cross-domain ajax transaction
-			// @see https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS
-			// @see tools/session.php
-			$script .= "\t".'$.ajax({'
-				.'"url":"http://'.$host.$context['url_to_root'].'tools/session.php",'
-				.'"type": "GET",'
-				.'"data": {"id": "'.session_id().'","origin":"'.$domain.'"},'
-				.'"xhrFields": { "withCredentials": true}'
-
-				.'});'."\n";
-
-			}
-		}
-
-		// close this javascript snippet
-		$script .= '</script>'."\n";
-
-		// defer its execution in user agent
-		$context['page_footer'] .= $script;
 	}
 
 }
@@ -562,8 +549,8 @@ if(@count($_COOKIE) && get_magic_quotes_gpc())
 	$_COOKIE = stripslashes_recursively($_COOKIE);
 
 // always disable magic quote runtime
-if(is_callable('set_magic_quotes_runtime'))
-	@set_magic_quotes_runtime(0);
+//if(is_callable('set_magic_quotes_runtime'))
+//	@set_magic_quotes_runtime(0);
 
 // support utf-8
 include_once $context['path_to_root'].'shared/utf8.php';
@@ -592,17 +579,28 @@ if(isset($_REQUEST['text']) && $_REQUEST['text']) {
 
 }
 
+//
+// Overlaid displaying
+//
+global $render_overlaid;
+$render_overlaid = false;
+// request may ask for overlaid content only
+if(isset($_REQUEST['overlaid']) && $_REQUEST['overlaid'] == 'Y') {   
+    // this warn also render_skin() for limited output
+    $render_overlaid = true;
+} 
 
-/** 
+
+/**
  * autoloader of main classes
- * 
+ *
  * this function give a chance to use a class if file wasn't included
  */
 function core_autoload($class) {
     global $context;
-    
+
     $class = strtolower($class);
-    
+
     switch($class) {
 	case 'article':
 	    include_once $context['path_to_root'].'/articles/article.php';
@@ -620,12 +618,25 @@ function core_autoload($class) {
 	    include_once $context['path_to_root'].'/files/file.php';
 	    break;
 	case 'codes':
-	    include_once $context['path_to_root'].'/shared/codes.php';
-	    break;	
+	    include_once $context['path_to_root'].'/codes/codes.php';
+	    break;
+	case 'image':
+	    include_once $context['path_to_root'].'/images/image.php';
+	    break;
+	case 'activities' :
+	    include_once $context['path_to_root'].'/users/activities.php';
+	    break;
+        case 'page' :
+            include_once $context['path_to_root'].'/skins/page.php';
 	default :
 	    // this is default architecture of Yacs
-	    if(is_readable($context['path_to_root'].$class.'/'.$class.'.php'))
+	    if(is_readable($context['path_to_root'].$class.'/'.$class.'.php')) {
 		include_once $context['path_to_root'].$class.'/'.$class.'.php';
+            } 
+            // check in overlays files
+            elseif(is_readable($context['path_to_root'].'overlays/'.$class.'.php')) {
+                include_once $context['path_to_root'].'overlays/'.$class.'.php';
+            }
     }
 }
 // declare upper function as a autoloader to php
@@ -694,6 +705,22 @@ function encode_link($link) {
 	return $output;
 }
 
+
+/**
+ *  Ensure that a link is absolute
+ * @param string a web reference to check
+ * @return string a absolute reference
+ */
+function full_link($link) {
+    
+    //check we have full link
+    if(!preg_match("/^(?:[a-z]+:)?\/\//i", $link)) {
+        $link = "http://".$link;
+    }
+    
+    return $link;
+}
+
 //
 // Localization and internationalization
 //
@@ -732,16 +759,7 @@ if(!defined('NO_MODEL_PRELOAD')) {
 
 }
 
-//
-// All containers that will be referred in shared/anchors.php afterwards
-//
 if(!defined('NO_MODEL_PRELOAD')) {
-	include_once $context['path_to_root'].'articles/articles.php';
-	include_once $context['path_to_root'].'categories/categories.php';
-	include_once $context['path_to_root'].'files/files.php';
-	include_once $context['path_to_root'].'sections/sections.php';
-	include_once $context['path_to_root'].'users/users.php';
-	include_once $context['path_to_root'].'users/activities.php';
 
 	// load users parameters -- see users/configure.php
 	Safe::load('parameters/users.include.php');
@@ -867,7 +885,7 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 	}
 
 	// the codes library
-	include_once $context['path_to_root'].'shared/codes.php';
+	include_once $context['path_to_root'].'codes/codes.php';
 
 	// the library of smileys
 	include_once $context['path_to_root'].'smileys/smileys.php';
@@ -892,8 +910,7 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 		$context['skin_variant'] = $variant;
 
 	// initialize skin constants
-	if(!defined('BR'))
-		Skin::load();
+	Skin::load();
 
 }
 
@@ -963,17 +980,16 @@ function load_skin($variant='', $anchor=NULL, $options='') {
  *
  */
 function render_skin($with_last_modified=TRUE) {
-	global $context, $render_body_only, $local; // put here ALL global variables to be included in template, including $local
+	global $context, $render_overlaid, $local; // put here ALL global variables to be included in template, including $local
 
 	// allow for only one call -- see scripts/validate.php
 	global $rendering_fuse;
 	if(isset($rendering_fuse))
 		return;
 	$rendering_fuse = TRUE;
-	
-	if(!isset($render_body_only))
-	    $whole_rendering = true;
-	elseif($render_body_only)
+
+	$whole_rendering = true;
+	if(isset($render_overlaid) && $render_overlaid)
 	    $whole_rendering = false;
 
 	// ensure we have a fake skin, at least
@@ -1209,6 +1225,10 @@ function render_skin($with_last_modified=TRUE) {
 	// more meta information
 	if($whole_rendering) {
 	    $metas = array();
+            
+            // main css file of the current skin
+            $metas[] = Js_css::call_skin_css();
+
 
 	    // we support Dublin Core too
 	    $metas[] = '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />';
@@ -1216,10 +1236,10 @@ function render_skin($with_last_modified=TRUE) {
 	    // page title
 	    $page_title = ucfirst(strip_tags($context['page_title']));
 	    $context['page_header'] .= '<title>'.$page_title;
-	    if($context['site_name'] && !preg_match('/'.str_replace('/', ' ', strip_tags($context['site_name'])).'/', strip_tags($context['page_title']))) {
+	    if($context['host_name'] && !preg_match('/'.str_replace('/', ' ', strip_tags($context['host_name'])).'/', strip_tags($context['page_title']))) {
 		    if($page_title)
 			    $context['page_header'] .= ' - ';
-		    $context['page_header'] .= strip_tags($context['site_name']);
+		    $context['page_header'] .= strip_tags($context['host_name']);
 	    }
 	    $context['page_header'] .= "</title>\n";
 	    if($page_title)
@@ -1233,15 +1253,21 @@ function render_skin($with_last_modified=TRUE) {
 
 	    // a meta-link to our help page
 	    $metas[] = '<link rel="help" href="'.$context['url_to_root'].'help/" type="text/html" />';
+            
+            // meta-links to alternate language
+            $metas = array_merge($metas, Page::meta_hreflang());
 
 	    // page meta description
+            $meta_desc = '';
 	    if(isset($context['page_meta']) && $context['page_meta']) {
-		    $metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['page_meta'])).'" />';
-		    $metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['page_meta'])).'" />';
+                    $meta_desc = encode_field(strip_tags(Codes::beautify_meta_desc($context['page_meta'])));
 	    } elseif(isset($context['site_description']) && $context['site_description']) {
-		    $metas[] = '<meta name="description" content="'.encode_field(strip_tags($context['site_description'])).'" />';
-		    $metas[] = '<meta name="DC.description" content="'.encode_field(strip_tags($context['site_description'])).'" />';
+                    $meta_desc = encode_field(strip_tags(Codes::beautify_meta_desc($context['site_description'])));
 	    }
+            if($meta_desc) {
+                $metas[] = '<meta name="description" content="'.$meta_desc.'" />';
+                $metas[] = '<meta name="DC.description" content="'.$meta_desc.'" />';
+            }
 
 	    // page copyright
 	    if(isset($context['site_copyright']) && $context['site_copyright'])
@@ -1293,25 +1319,23 @@ function render_skin($with_last_modified=TRUE) {
 	}
 
 	// help Javascript scripts to locate files
-	$script = JS_PREFIX
-		.'	var url_to_root = "'.$context['url_to_home'].$context['url_to_root'].'";'."\n"
-		.'	var url_to_skin = "'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/";'."\n"
-		.'	var surfer_lang = "'.$context['language'].'";'."\n"
-		.JS_SUFFIX;
+        if($whole_rendering) {
+            $script = JS_PREFIX
+                    .'	var url_to_root	    = "'.$context['url_to_home'].$context['url_to_root'].'";'."\n"
+                    .'	var url_to_skin	    = "'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/";'."\n"
+                    .'	var url_to_master   = "'.$context['url_to_master'].$context['url_to_root'].'";'."\n"
+                    .'	var surfer_lang	    = "'.$context['language'].'";'."\n"
+                    .JS_SUFFIX;
 	
-	if($whole_rendering) {
 	    // --in header, because of potential use by in-the-middle javascript snippet
 	    $metas[] = $script;
-	} else {
-	    // at the top of content
-	    $context['text'] = $script.$context['text'];
-	}
+	} 
 
 	// activate tinyMCE, if available
-	if($whole_rendering && isset($context['javascript']['tinymce'])) {
+	if(isset($context['javascript']['tinymce'])) {
 
-		Page::defer_script('included/tiny_mce/tinymce.min.js');	
-		Page::insert_script('Yacs.tinymceInit()');				
+		Page::defer_script('included/tiny_mce/tinymce.min.js');
+		Page::insert_script('Yacs.tinymceInit();');
 
 	}
 
@@ -1323,22 +1347,23 @@ function render_skin($with_last_modified=TRUE) {
 	if(isset($context['site_head']))
 		$metas[] = $context['site_head'];
 
-	// provide a page reference to Javascript --e.g., for reporting activity from this page
-	$context['page_footer'] .= JS_PREFIX;
-
-	// a reference to the data we are at (e.g., 'article:123')
-	if(isset($context['current_item']) && $context['current_item'])
-		$context['page_footer'] .= '	Yacs.current_item = "'.$context['current_item'].'";'."\n";
-	else
-		$context['page_footer'] .= '	Yacs.current_item = "";'."\n";
-
-	// some indication at what we are doing (e.g., 'edit')
-	if(isset($context['current_action']) && $context['current_action'])
-		$context['page_footer'] .= '	Yacs.current_action = "'.$context['current_action'].'";'."\n";
-	else
-		$context['page_footer'] .= '	Yacs.current_action = "";'."\n";
-
-	$context['page_footer'] .= JS_SUFFIX;
+	////// provide a page reference to Javascript --e.g., for reporting activity from this page
+        
+        // variable name will change if overlaid view
+        $display_context = ($render_overlaid)?'current_overlaid':'current';
+        
+        // build the script
+	$js_script = 'Yacs.'.$display_context.'_item = "'
+		.((isset($context['current_item']) && $context['current_item'])?$context['current_item']:'').'"; '
+		.'Yacs.'.$display_context.'_action = "'
+		.((isset($context['current_action']) && $context['current_action'])?$context['current_action']:'').'";';
+	$type = (SKIN_HTML5)?'':' type="text/javascript" ';
+	$js_script = '<script'.$type.'> '.$js_script.'</script>'."\n";
+	// put in page footer, before snippets of ['javascript']['footer']
+        if(!isset($context['javascript']['footer'])) $context['javascript']['footer'] = '';
+        
+	$context['javascript']['footer'] = $js_script.$context['javascript']['footer'];
+        // Page::insert_script($js_script);
 
 	// jquery-ui stylesheet
 	if($whole_rendering)
@@ -1346,7 +1371,7 @@ function render_skin($with_last_modified=TRUE) {
 
 	// activate jscolor, if available
 	if(isset($context['javascript']['jscolor']))
-		Page::load_script('included/jscolor/jscolor.js');
+		Page::defer_script('included/jscolor/jscolor.js');
 
 	// activate SIMILE timeline, if required
 	if(isset($context['javascript']['timeline']))
@@ -1383,11 +1408,30 @@ function render_skin($with_last_modified=TRUE) {
 		Page::defer_script('included/jscalendar/calendar-setup.min.js');
 
 	}
+        
+        if(isset($context['javascript']['timepicker'])) {
+
+                
+		Page::load_style('included/timepicker/jquery-ui-timepicker-addon.min.css');
+		Page::defer_script('included/timepicker/jquery-ui-timepicker-addon.min.js');
+                if($context['language'] == 'fr') {
+                    Page::defer_script('included/timepicker/i18n/jquery-ui-timepicker-fr.js');
+                    Page::defer_script('included/timepicker/i18n/jquery.ui.datepicker-fr.js');
+                }
+                
+                // we may use :
+                // <script src="https://rawgithub.com/trentrichardson/jQuery-Timepicker-Addon/master/jquery-ui-timepicker-addon.js"></script>
+	}
+        
+        
 
 	// load occasional libraries declared through scripts
 	if(isset($context['javascript']['header']))
 	    $context['page_header'] .= $context['javascript']['header'];
 
+	// load occasional libraries declared through scripts
+	if(isset($context['javascript']['defer']))
+		$context['page_footer'] .= $context['javascript']['defer'];
 
 	// load occasional libraries declared through scripts
 	if(isset($context['javascript']['footer']))
@@ -1414,14 +1458,25 @@ function render_skin($with_last_modified=TRUE) {
 //	else
 		$context['content_type'] = 'text/html';
 	Safe::header('Content-Type: '.$context['content_type'].'; charset='.$context['charset']);
-	
-	if(isset($render_body_only) && $render_body_only ) {
-	    echo $context['page_header'];
-	    echo '<h2>'.$context['page_title'].'</h2>';
-	    echo $context['text'];
-	    echo $context['page_footer'];
+
+        // Build Overlaid content
+	if(isset($render_overlaid) && $render_overlaid ) {
+
+	    Js_css::prepare_scripts_for_overlaying();
+            // css and/or js
+	    if(isset($context['page_header']))
+		echo $context['page_header'];
+	    // title
+            echo '<h2 class="boxTitle">'.$context['page_title'].'</h2>'."\n";
+            // display error messages, if any
+            Page::echo_error();
+            // content
+	    echo '<div class="boxBody">'.$context['text'].'</div>'."\n";
+            // js
+	    if(isset($context['javascript']['footer']))
+		echo $context['javascript']['footer'];
 	    return;
-	}	
+	}
 
 	// load a template for this module -- php version
 	if(isset($context['skin_variant']) && is_readable($context['path_to_root'].$context['skin'].'/template_'.$context['skin_variant'].'.php'))
@@ -1954,6 +2009,62 @@ function proxy($url) {
 	global $context;
 
 	return $context['url_to_home'].$context['url_to_root'].'services/proxy.php?url='.urlencode($url);
+}
+
+/**
+ * Do background treatment using a asynchronous Request
+ * 
+ * @see http://www.paul-norman.co.uk/2009/06/asynchronous-curl-requests
+ * @see http://stackoverflow.com/questions/124462/asynchronous-php-calls
+ * 
+ * @param $script string the path (and parameters) of the internal script to call
+ */
+function proceed_bckg ($script) {
+    global $context;
+    
+    $target = $context['url_to_master'].$context['url_to_root'].$script;
+    Logger::remember('Asynchronous call', $script);
+    
+    ////    DO IT WITH CURL, But need AsyncDNS option activated.
+    //      Depend on host configuration
+    // sanity check
+    /*if (!is_callable('curl_init')) {
+        if ($context['with_debug'] == 'Y')
+            Logger::remember('shared/global.php', 'CURL is not implemented', 'debug');
+        return FALSE;
+    }
+    
+    $ch = curl_init();
+ 
+    curl_setopt($ch, CURLOPT_URL, $target);
+    curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT_MS, 1);
+    
+    
+
+    curl_exec($ch);
+    curl_close($ch);*/
+    
+    // DO IT WITH a socket
+    $parts  = parse_url($target);
+    $errno  = 0;
+    $errstr = '';
+    
+    $fp = fsockopen($parts['host'],
+        isset($parts['port'])?$parts['port']:80,
+        $errno, $errstr, 30);
+    
+    $out = "POST ".$parts['path']." HTTP/1.1\r\n";
+    $out.= "Host: ".$parts['host']."\r\n";
+    $out.= "Content-Type: application/x-www-form-urlencoded\r\n";
+    $out.= "Content-Length: ".strlen($parts['query'])."\r\n";
+    $out.= "Connection: Close\r\n\r\n";
+    if (isset($parts['query'])) $out.= $parts['query'];
+    
+    fwrite($fp, $out);
+    fclose($fp);
+    
+    return TRUE;
 }
 
 ?>

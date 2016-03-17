@@ -59,7 +59,7 @@ foreach($items as $url => $label) {
 		$label = $label[1];
 
 	// strip codes
-	include_once '../../shared/codes.php';
+	include_once '../../codes/codes.php';
 	$label = Codes::strip($label);
 
 	// remove every html tag
