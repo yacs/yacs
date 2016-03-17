@@ -30,11 +30,7 @@
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @author Alexis Raimbault
-<<<<<<< HEAD
  * @tester Manuel Lopez Gallego
-=======
- * @tester Manuel L�pez Gallego
->>>>>>> next
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -326,12 +322,7 @@ if($with_form) {
 
 	// the introduction
 	$label = i18n::s('Introduction');
-<<<<<<< HEAD
 	$input = '<textarea name="introduction" rows="5" cols="50" accesskey="i">'.encode_field(isset($item['introduction'])?$item['introduction']:'').'</textarea>';
-=======
-	//$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field(isset($item['introduction'])?$item['introduction']:'').'</textarea>';
-	$input = Surfer::get_editor('introduction', isset($item['introduction'])?$item['introduction']:'');
->>>>>>> next
 	$hint = i18n::s('Appears in list of categories near the title');
 	$fields[] = array($label, $input, $hint);
 
@@ -456,10 +447,6 @@ if($with_form) {
 
 	// extra information
 	$label = i18n::s('Extra');
-<<<<<<< HEAD
-=======
-	//$input = '<textarea name="extra" rows="6" cols="50">'.encode_field(isset($item['extra']) ? $item['extra'] : '').'</textarea>';
->>>>>>> next
 	$input = Surfer::get_editor('extra', isset($item['extra'])?$item['extra']:'');
 	$hint = i18n::s('Text to be inserted in the panel aside the page. Use [box.extra=title]content[/box] or plain HTML.');
 	$fields[] = array($label, $input, $hint);
