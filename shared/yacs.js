@@ -1099,6 +1099,10 @@ var Yacs = {
 	    // @see http://www.tinymce.com/wiki.php/Configuration
 	    // @see http://www.tinymce.com/wiki.php/Controls
 	    // @see http://www.tinymce.com/wiki.php/configuration:formats
+		    selector        : "textarea.tinymce",
+		    menubar         : false,
+		    width           : '90.5%',
+		    resize          : false,
             plugins         : "charmap, textcolor, fullscreen, code, link, paste, visualblocks",
             toolbar         : "undo redo removeformat | styleselect charmap styleselect| bold italic underline strikethrough | alignleft aligncenter alignright | bullist numlist outdent indent | forecolor backcolor | link | pastetext fullscreen code",
             style_formats: [
