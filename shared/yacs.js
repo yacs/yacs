@@ -1099,20 +1099,21 @@ var Yacs = {
 	    // @see http://www.tinymce.com/wiki.php/Configuration
 	    // @see http://www.tinymce.com/wiki.php/Controls
 	    // @see http://www.tinymce.com/wiki.php/configuration:formats
-	    tinymce.init({
-		    selector        : "textarea.tinymce",
-		    menubar         : false,
-		    width           : '90.5%',
-		    resize          : false,
-		    plugins         : "charmap, textcolor, fullscreen, code, link, paste",
-		    toolbar         : "undo redo | styleselect charmap styleselect| bold italic underline strikethrough | alignleft aligncenter alignright | bullist numlist outdent indent | forecolor backcolor | link | pastetext fullscreen code",
-
-                    style_formats: [
+            plugins         : "charmap, textcolor, fullscreen, code, link, paste, visualblocks",
+            toolbar         : "undo redo removeformat | styleselect charmap styleselect| bold italic underline strikethrough | alignleft aligncenter alignright | bullist numlist outdent indent | forecolor backcolor | link | pastetext fullscreen code",
+            style_formats: [
+                         {title: 'p', block: 'p'},
                          {title: 'h2', block: 'h2'},
-                         {title: 'h3', block: 'h3'}
-                     ],
-		    language	: surfer_lang
-		});
+                         {title: 'h3', block: 'h3'},
+                         {title: 'h4', block: 'h4'},
+                         {title: 'Important', inline: 'span', classes: 'important'},
+                         {title: 'rappel', inline: 'span', classes: 'rappel'}
+            ],
+            language    : surfer_lang,
+            visualblocks_default_state: true,
+              end_container_on_empty_block: true,
+            link_title: true
+        });
 	},
 
 	toggleProperties: function(handle) {
