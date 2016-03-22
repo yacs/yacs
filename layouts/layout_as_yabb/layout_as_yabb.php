@@ -234,8 +234,8 @@ Class Layout_as_yabb extends Layout_interface {
                             $anchors = array();
 
                             // the main anchor link
-                            if(is_object($anchor) && (!isset($this->focus) || ($item['anchor'] != $this->focus)))
-                                    $anchors[] = Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'basic', i18n::s('In this section'));
+                            if(is_object($entity->anchor) && (!isset($this->focus) || ($item['anchor'] != $this->focus)))
+                                    $anchors[] = Skin::build_link($entity->anchor->get_url(), ucfirst($entity->anchor->get_title()), 'basic', i18n::s('In this section'));
 
 
                             // list categories by title, if any
