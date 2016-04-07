@@ -1062,7 +1062,7 @@ if(Surfer::is_crawler()) {
 
 	// list content
  	$offset = ($zoom_index - 1) * $items_per_page;
-	if($items =& Articles::list_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout)) {
+	if($items = Articles::list_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout)) {
 
 		// splash
 		$text .= Skin::build_block(i18n::s('Select items you want to manage, and click some button at the bottom of the page.'), 'introduction');
@@ -1172,7 +1172,7 @@ if(Surfer::is_crawler()) {
 
 	// list content
 	$offset = ($zoom_index - 1) * $items_per_page;
-	if($items =& Sections::list_by_title_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout)) {
+	if($items = Sections::list_by_title_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout)) {
 
 		// splash
 		$text .= Skin::build_block(i18n::s('Select items you want to manage, and click some button at the bottom of the page.'), 'introduction');
