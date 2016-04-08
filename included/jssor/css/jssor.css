@@ -102,7 +102,7 @@
         */
         .jssort01 .p {
             position: absolute;
-            top: 0;
+            top: 0px;
             left: 0;
             width: 72px;
             height: 73px;
@@ -170,3 +170,11 @@
             width /**/: 72px;
             height /**/: 72px;
         }
+        
+        .jssort01 {
+            bottom:-74px !important;
+            background: rgba(0,0,0,.2);
+            height: 73px !important;
+        }
+        
+        .sor-container.wthumbs {margin-bottom : 75px;}

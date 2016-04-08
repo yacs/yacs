@@ -84,6 +84,7 @@ Class jssor {
         
         // width and/or height are setted
         $container_style = '';
+        $moreclass       = '';
         if(isset($options['width'])) {
             $container_style        .= 'with='.$options['width'].'px;';
             $options['js']['$SlideWidth']  = $options['width'];
@@ -94,8 +95,17 @@ Class jssor {
         }
         if($container_style) $container_style = 'style="'.$container_style.'"';
         
+        // special class if with thumbnails
+        if(isset($options['thumbnails']))
+              $moreclass .= ' wthumbs';
+        
+        // autoplay
+        if(!isset($options['autoplay'])) {
+            $options['autoplay'] = false;
+        }
+        
         // main div
-        $slider .= '<div id="slider'.$slidenum.'_container" class="sor-container" '.$container_style.'>'."\n";
+        $slider .= '<div id="slider'.$slidenum.'_container" class="sor-container'.$moreclass.'" '.$container_style.'>'."\n";
         
         // loading screen, if required
         if(isset($option['loading_screen'])) {
@@ -183,11 +193,13 @@ Class jssor {
         
         // javascript initalization
         //$js_options = new stdClass();
-        $js_options = (isset($options['js']))? $options['js'] : array('$AutoPlay' => false);
+        $js_options = (isset($options['js']))? $options['js'] : array('$AutoPlay' => $options['autoplay']);
         
         
         // transitions
-        $jssor_1_SlideshowTransitions = 'var jssor_1_SlideshowTransitions = [
+        static $transition_fuse = false; // declare transitions only once
+        if(!$transition_fuse && $options['autoplay']) {
+            $jssor_SlideshowTransitions = 'var $slider_transitions = [
               {$Duration:1200,x:0.3,$During:{$Left:[0.3,0.7]},$Easing:{$Left:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
               {$Duration:1200,x:-0.3,$SlideOut:true,$Easing:{$Left:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
               {$Duration:1200,x:-0.3,$During:{$Left:[0.3,0.7]},$Easing:{$Left:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
@@ -211,12 +223,20 @@ Class jssor {
               {$Duration:1200,$Delay:20,$Clip:12,$Assembly:260,$Easing:{$Clip:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
               {$Duration:1200,$Delay:20,$Clip:12,$SlideOut:true,$Assembly:260,$Easing:{$Clip:$Jease$.$OutCubic,$Opacity:$Jease$.$Linear},$Opacity:2}
             ];';
+            
+            $transition_fuse = true;
+        } else
+            $jssor_SlideshowTransitions = '';
+        
+        
         
         $js_options['$SlideshowOptions'] = array(
-            '$Class'                    => '$JssorSlideshowRunner$',
-            '$Transitions'              => 'jssor_1_SlideshowTransitions',
-            '$TransitionsOrder'         => 1
-        );
+            '$Class'                    => '$JssorSlideshowRunner$');
+        
+        if($options['autoplay']) {
+            $js_options['$SlideshowOptions']['$Transitions']      = '$slider_transitions';
+            $js_options['$SlideshowOptions']['$TransitionsOrder'] = 1;
+        }
         
         // options for bullet navigator
         if(isset($options['bullets'])) {
@@ -256,9 +276,9 @@ Class jssor {
         
         $rootname   = 'slider'.$slidenum.'_';
         $js_script  = 
-              $jssor_1_SlideshowTransitions."\n"
-              .'var '.$rootname.'options = {};var '.$rootname.'jssor = {};'
+              'var '.$rootname.'options = {};var '.$rootname.'jssor = {};'
               . '$(document).ready(function ($) {'."\n"
+              . $jssor_SlideshowTransitions."\n"
               . $rootname.'options = '.  Jssor::array_2_js_object( $js_options ) .";\n"
               . $rootname.'jssor = new $JssorSlider$("'.$rootname.'container", '.$rootname.'options );'."\n";
         
