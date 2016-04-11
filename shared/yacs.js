@@ -1099,6 +1099,7 @@ var Yacs = {
 	    // @see http://www.tinymce.com/wiki.php/Configuration
 	    // @see http://www.tinymce.com/wiki.php/Controls
 	    // @see http://www.tinymce.com/wiki.php/configuration:formats
+	    tinymce.init({
 		    selector        : "textarea.tinymce",
 		    menubar         : false,
 		    width           : '90.5%',
