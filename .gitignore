@@ -40,6 +40,7 @@ scripts/staging/
 #ignore minified files
 *.min.js
 *.min.css
+*.dev.css
 
 # ignore special files
 *~

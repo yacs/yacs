@@ -322,7 +322,7 @@ Class Js_Css {
                     
                 // dev mode    
                 } else 
-                    $min = '';
+                    $min = '.dev';
                 
                 // ext, path and output filname
                 $ext    = 'css';
