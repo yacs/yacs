@@ -1660,7 +1660,7 @@ class Event extends Overlay {
 
 					// headline
 					$headline = sprintf(i18n::c('you have arranged %s'),
-						'<a href="'.$context['url_to_home'].$context['url_to_root'].$this->anchor->get_url().'">'.$this->anchor->get_title().'</a>');
+						'<a href="'.$this->anchor->get_url().'">'.$this->anchor->get_title().'</a>');
 
 					// message to reader
 					$message = $this->get_invite_default_message('PUBLISH');

@@ -71,7 +71,7 @@ Class Layout_as_yabb extends Layout_interface {
 		while($item = SQL::fetch($result)) {
 
 			// change the family
-			if($item['family'] != $family) {
+			if(isset($item['family']) && $item['family'] != $family) {
 				$family = $item['family'];
 
 				// close last table only if a section has been already listed
@@ -136,7 +136,7 @@ Class Layout_as_yabb extends Layout_interface {
 				$suffix = UPDATED_FLAG.' ';
                         
                         // rating
-			if(isset($item['rating_count']) && !(is_object($anchor) && $anchor->has_option('without_rating')))
+			if(isset($item['rating_count']) && $item['rating_count'] && !$entity->has_option('without_rating'))
 				$suffix .= ' '.Skin::build_link(Articles::get_url($item['id'], 'like'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 			// board introduction
@@ -234,8 +234,8 @@ Class Layout_as_yabb extends Layout_interface {
                             $anchors = array();
 
                             // the main anchor link
-                            if(is_object($anchor) && (!isset($this->focus) || ($item['anchor'] != $this->focus)))
-                                    $anchors[] = Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'basic', i18n::s('In this section'));
+                            if(is_object($entity->anchor) && (!isset($this->focus) || ($item['anchor'] != $this->focus)))
+                                    $anchors[] = Skin::build_link($entity->anchor->get_url(), ucfirst($entity->anchor->get_title()), 'basic', i18n::s('In this section'));
 
 
                             // list categories by title, if any

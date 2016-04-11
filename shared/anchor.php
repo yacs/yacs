@@ -875,12 +875,12 @@ abstract class Anchor {
 	 * @return a valid url to be used in an <img> tag
 	 */
 	public function get_thumbnail_url() {
-		if(isset($this->item['thumbnail_url']) && $this->item['thumbnail_url'])
-			return $this->item['thumbnail_url'];
-                elseif(is_object($this->overlay)) {
-                    return $this->overlay->get_value('default_thumbnail');
-                }
-		return NULL;
+            
+            // ask default_thumbnail first from overlay, then item thumb, if any
+            $thumbnail = $this->get_value('default_thumbnail',$this->get_value('thumbnail_url'));
+            
+		
+            return $thumbnail;
 	}
 
 	/**

@@ -137,7 +137,7 @@ Class Code_embed extends Code {
                    if(Surfer::has_flash()) {
 
                            // the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
-                           $output = '<div id="flv_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
+                           $output = '<div id="flv_'.$item['id'].'" class="no_print video">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
 
                            Page::insert_script(
                                    'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showfullscreen:1, showloading:"always", ondoubleclick:"fullscreen" }'."\n"

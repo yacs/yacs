@@ -1099,6 +1099,11 @@ var Yacs = {
 	    // @see http://www.tinymce.com/wiki.php/Configuration
 	    // @see http://www.tinymce.com/wiki.php/Controls
 	    // @see http://www.tinymce.com/wiki.php/configuration:formats
+	    tinymce.init({
+		    selector        : "textarea.tinymce",
+		    menubar         : false,
+		    width           : '90.5%',
+		    resize          : false,
             plugins         : "charmap, textcolor, fullscreen, code, link, paste, visualblocks",
             toolbar         : "undo redo removeformat | styleselect charmap styleselect| bold italic underline strikethrough | alignleft aligncenter alignright | bullist numlist outdent indent | forecolor backcolor | link | pastetext fullscreen code",
             style_formats: [
@@ -1173,7 +1178,7 @@ var Yacs = {
 		});
                 
                 // fit videos
-                if($.fn.fitVids) $('.youtube-player').parent().fitVids();
+                if($.fn.fitVids) $('.youtube-player, .video').parent().fitVids();
 
 		// do the tiling
 		var $tiled = $("#modal_content").find('.tiler');
@@ -1295,7 +1300,7 @@ var Yacs = {
                 });
                 
                 // fit videos
-                if($.fn.fitVids) $('.youtube-player').parent().fitVids();
+                if($.fn.fitVids) $('.youtube-player, .video').parent().fitVids();
 
 		// prepare input to ajax-upload a file
                 $('body').on('change','.yc-upload',function(){Yacs.prepareUpload($(this))});

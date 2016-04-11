@@ -61,15 +61,7 @@ Class jssor {
         global $context;
         
         // note : we assume jquery is loaded
-        
-        if(isset($context['with_debug']) && $context['with_debug'] === 'Y') {
-            Page::defer_script('included/jssor/js/jssor.js');
-            Page::defer_script('included/jssor/js/jssor.slider.js');
-        } else {
-            // contains both dev files minified
-            Page::defer_script('included/jssor/js/jssor.slider.mini.js');
-        }
-        
+        Page::defer_script('included/jssor/js/jssor.slider.min.js');
         if($withCSS) {
             Page::load_style('included/jssor/css/jssor.css');
         }
@@ -84,7 +76,7 @@ Class jssor {
      */
     public static function Make($slides, $options=array()) {
         
-        $slider = '';
+        $slider = '<!-- #region Jssor Slider Begin -->'."\n";
         
         // unique id for the slider
         static $slidenum;
@@ -92,6 +84,7 @@ Class jssor {
         
         // width and/or height are setted
         $container_style = '';
+        $moreclass       = '';
         if(isset($options['width'])) {
             $container_style        .= 'with='.$options['width'].'px;';
             $options['js']['$SlideWidth']  = $options['width'];
@@ -102,8 +95,17 @@ Class jssor {
         }
         if($container_style) $container_style = 'style="'.$container_style.'"';
         
+        // special class if with thumbnails
+        if(isset($options['thumbnails']))
+              $moreclass .= ' wthumbs';
+        
+        // autoplay
+        if(!isset($options['autoplay'])) {
+            $options['autoplay'] = false;
+        }
+        
         // main div
-        $slider .= '<div id="slider'.$slidenum.'_container" class="sor-container" '.$container_style.'>'."\n";
+        $slider .= '<div id="slider'.$slidenum.'_container" class="sor-container'.$moreclass.'" '.$container_style.'>'."\n";
         
         // loading screen, if required
         if(isset($option['loading_screen'])) {
@@ -126,6 +128,11 @@ Class jssor {
                 $slider .= '<img data-u="image" src="'.$slide['image_src'].'" />'."\n";
             }
             
+            // thumb
+            if(isset($slide['thumb_src']) && isset($options['thumbnails'])) {
+                $slider .= '<img data-u="thumb" src="'.$slide['thumb_src'].'" />'."\n";
+            }
+            
             // HTML slide content 
             if(isset($slide['html'])) {
                 $slider .= $slide['html'];
@@ -137,7 +144,7 @@ Class jssor {
                         .  $slide['caption']."\n"
                         .  '</div>'."\n";
             }
-            // thumb
+
             
             // close slide
             $slider .= '</div>'."\n";
@@ -153,17 +160,31 @@ Class jssor {
             $slider .= '<!-- bullet navigator item prototype -->'."\n";
             $slider .= '<div data-u="prototype"></div>'."\n";
             $slider .= '</div>'."\n";
-            $slider .= '<!--#endregion Bullet Navigator Skin End -->'."\n";
+            $slider .= '<!-- Bullet Navigator Skin End -->'."\n";
+        }
+        
+        // thumbnail navigator
+        if(isset($options['thumbnails'])) {
+            $slider .= '<!-- Thumbnail Navigator -->' . "\n";
+            $slider .= '<div data-u="thumbnavigator" class="jssort01" style="position:absolute;left:0px;bottom:0px;width:600px;height:100px;" data-autocenter="1">' . "\n";
+            $slider .= '    <!-- Thumbnail Item Skin Begin -->' . "\n";
+            $slider .= '    <div data-u="slides" style="cursor: default;">' . "\n";
+            $slider .= '        <div data-u="prototype" class="p">' . "\n";
+            $slider .= '           <div class="w">' . "\n";
+            $slider .= '              <div data-u="thumbnailtemplate" class="t"></div>' . "\n";
+            $slider .= '           </div>' . "\n";
+            $slider .= '           <div class="c"></div>' . "\n";
+            $slider .= '        </div>' . "\n";
+            $slider .= '    </div>' . "\n";
+            $slider .= '</div>' . "\n";
+            $slider .= '<!-- Thumbnail Item Skin End -->' . "\n";
         }
         
         // arrow navigator
         if(isset($options['arrows'])) {
             $slider .= '<!-- Arrow Navigator Skin Begin -->'."\n";
-            $slider .= '<span data-u="arrowleft" class="jssora21l" style="top: 123px; left: 8px;">'."\n";
-            $slider .= '</span>'."\n";
-            $slider .= '<!-- Arrow Right -->'."\n";
-            $slider .= '<span data-u="arrowright" class="jssora21r" style="top: 123px; right: 8px;">'."\n";
-            $slider .= '</span>'."\n";
+            $slider .= '<span data-u="arrowleft" class="jssora21l" style="top: 123px; left: 8px;">'.'</span>'."\n";
+            $slider .= '<span data-u="arrowright" class="jssora21r" style="top: 123px; right: 8px;">'.'</span>'."\n";
             $slider .= '<!-- Arrow Navigator Skin End -->'."\n";
         }
         
@@ -172,7 +193,50 @@ Class jssor {
         
         // javascript initalization
         //$js_options = new stdClass();
-        $js_options = (isset($options['js']))? $options['js'] : array('$AutoPlay' => false);
+        $js_options = (isset($options['js']))? $options['js'] : array('$AutoPlay' => $options['autoplay']);
+        
+        
+        // transitions
+        static $transition_fuse = false; // declare transitions only once
+        if(!$transition_fuse && $options['autoplay']) {
+            $jssor_SlideshowTransitions = 'var $slider_transitions = [
+              {$Duration:1200,x:0.3,$During:{$Left:[0.3,0.7]},$Easing:{$Left:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
+              {$Duration:1200,x:-0.3,$SlideOut:true,$Easing:{$Left:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
+              {$Duration:1200,x:-0.3,$During:{$Left:[0.3,0.7]},$Easing:{$Left:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
+              {$Duration:1200,x:0.3,$SlideOut:true,$Easing:{$Left:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
+              {$Duration:1200,y:0.3,$During:{$Top:[0.3,0.7]},$Easing:{$Top:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
+              {$Duration:1200,y:-0.3,$SlideOut:true,$Easing:{$Top:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
+              {$Duration:1200,y:-0.3,$During:{$Top:[0.3,0.7]},$Easing:{$Top:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
+              {$Duration:1200,y:0.3,$SlideOut:true,$Easing:{$Top:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
+              {$Duration:1200,x:0.3,$Cols:2,$During:{$Left:[0.3,0.7]},$ChessMode:{$Column:3},$Easing:{$Left:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
+              {$Duration:1200,x:0.3,$Cols:2,$SlideOut:true,$ChessMode:{$Column:3},$Easing:{$Left:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
+              {$Duration:1200,y:0.3,$Rows:2,$During:{$Top:[0.3,0.7]},$ChessMode:{$Row:12},$Easing:{$Top:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
+              {$Duration:1200,y:0.3,$Rows:2,$SlideOut:true,$ChessMode:{$Row:12},$Easing:{$Top:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
+              {$Duration:1200,y:0.3,$Cols:2,$During:{$Top:[0.3,0.7]},$ChessMode:{$Column:12},$Easing:{$Top:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
+              {$Duration:1200,y:-0.3,$Cols:2,$SlideOut:true,$ChessMode:{$Column:12},$Easing:{$Top:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
+              {$Duration:1200,x:0.3,$Rows:2,$During:{$Left:[0.3,0.7]},$ChessMode:{$Row:3},$Easing:{$Left:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
+              {$Duration:1200,x:-0.3,$Rows:2,$SlideOut:true,$ChessMode:{$Row:3},$Easing:{$Left:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
+              {$Duration:1200,x:0.3,y:0.3,$Cols:2,$Rows:2,$During:{$Left:[0.3,0.7],$Top:[0.3,0.7]},$ChessMode:{$Column:3,$Row:12},$Easing:{$Left:$Jease$.$InCubic,$Top:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
+              {$Duration:1200,x:0.3,y:0.3,$Cols:2,$Rows:2,$During:{$Left:[0.3,0.7],$Top:[0.3,0.7]},$SlideOut:true,$ChessMode:{$Column:3,$Row:12},$Easing:{$Left:$Jease$.$InCubic,$Top:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
+              {$Duration:1200,$Delay:20,$Clip:3,$Assembly:260,$Easing:{$Clip:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
+              {$Duration:1200,$Delay:20,$Clip:3,$SlideOut:true,$Assembly:260,$Easing:{$Clip:$Jease$.$OutCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
+              {$Duration:1200,$Delay:20,$Clip:12,$Assembly:260,$Easing:{$Clip:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
+              {$Duration:1200,$Delay:20,$Clip:12,$SlideOut:true,$Assembly:260,$Easing:{$Clip:$Jease$.$OutCubic,$Opacity:$Jease$.$Linear},$Opacity:2}
+            ];';
+            
+            $transition_fuse = true;
+        } else
+            $jssor_SlideshowTransitions = '';
+        
+        
+        
+        $js_options['$SlideshowOptions'] = array(
+            '$Class'                    => '$JssorSlideshowRunner$');
+        
+        if($options['autoplay']) {
+            $js_options['$SlideshowOptions']['$Transitions']      = '$slider_transitions';
+            $js_options['$SlideshowOptions']['$TransitionsOrder'] = 1;
+        }
         
         // options for bullet navigator
         if(isset($options['bullets'])) {
@@ -191,10 +255,22 @@ Class jssor {
         // option for Arrow Navigator
         if(isset($options['arrows'])) {
             $js_options['$ArrowNavigatorOptions'] = array(
-                '$Class'              => '$JssorArrowNavigator$',         //[Requried] Class to create arrow navigator instance
+                '$Class'              => '$JssorArrowNavigator$',         //[Required] Class to create arrow navigator instance
                 '$ChanceToShow'       => 1,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
                 '$AutoCenter'         => 2,                               //[Optional] Auto center arrows in parent container, 0 No, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
                 '$Steps'              => 1                                //[Optional] Steps to go for each navigation request, default value is 1
+            );
+        }
+        
+        //option for thumbnails navigator
+        if(isset($options['thumbnails'])) {
+            $js_options['$ThumbnailNavigatorOptions'] = array(
+                '$Class'            => '$JssorThumbnailNavigator$',
+                '$Cols'             => 10,
+                '$SpacingX'         => 8,
+                '$SpacingY'         => 8,
+                '$AutoCenter'       => 1,
+                '$Align'            => 360
             );
         }
         
@@ -202,6 +278,7 @@ Class jssor {
         $js_script  = 
               'var '.$rootname.'options = {};var '.$rootname.'jssor = {};'
               . '$(document).ready(function ($) {'."\n"
+              . $jssor_SlideshowTransitions."\n"
               . $rootname.'options = '.  Jssor::array_2_js_object( $js_options ) .";\n"
               . $rootname.'jssor = new $JssorSlider$("'.$rootname.'container", '.$rootname.'options );'."\n";
         
@@ -213,6 +290,7 @@ Class jssor {
         
         Page::insert_script($js_script);
               
+        $slider .= '<!-- #endregion Jssor Slider End -->'."\n";
         
         return $slider;
     }
@@ -255,4 +333,3 @@ Class jssor {
         
     }
 }
-

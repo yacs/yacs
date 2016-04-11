@@ -661,7 +661,7 @@
                 }
             }
             
-            if(count($sisters)) {
+            if(count($sisters) >= 2) {
                 foreach($sisters as $page) {
                     if($page['language'] && $page['language'] != 'none') {
                         
