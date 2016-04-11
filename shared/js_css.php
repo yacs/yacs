@@ -258,6 +258,7 @@ Class Js_Css {
     /**
      * prepare a link to .js or .css file for declare in final template
      * will search of a minified version in production mode
+     * accept also .less files, and compile them in .css
      *
      * @global type $context
      * @param string $path, relative from yacs root, or external url
@@ -305,10 +306,41 @@ Class Js_Css {
 
 	    // check if file exists
 	    if(!file_exists($realpath)) return Js_Css::link_exit(false, $path, $straitnow);
+            
+            // this is a LESS file, we may have to compile it
+            if($ext === 'less') {
+                
+              
+                // include less lib
+                include_once $context['path_to_root'].'included/less/lessc.inc.php';
+                $less = new lessc;
+                // production mode
+                if($context['with_debug']=='N') {
+                    // we create a minified css
+                    $less->setFormatter("compressed");
+                    $min = '.min';
+                    
+                // dev mode    
+                } else 
+                    $min = '';
+                
+                // ext, path and output filname
+                $ext    = 'css';
+                $path   = $path_parts['dirname'].'/'.$path_parts['filename'].$min.'.'.$ext;
+                $output = Safe::realpath($path);
+                // check compilation, catch errors
+                try {
+                    $less->checkedCompile($realpath, $output);
+                } catch (exception $e) {
+                    logger::debug("fatal error: " . $e->getMessage(), 'LESS compilation');
+                    return Js_Css::link_exit(false, $path, $straitnow);
+                }
+                
 
-	    // and we are in production mode
+	    // js or css file
+            // and we are in production mode
 	    // and file not already minified
-	    if ( $context['with_debug']=='N'
+            } elseif ( $context['with_debug']=='N'
 		&& !preg_match('/\.min\.?/', $path_parts['filename'])) {
 
 		// minified version path
