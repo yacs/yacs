@@ -1231,7 +1231,7 @@ function render_skin($with_last_modified=TRUE) {
 
 
 	    // we support Dublin Core too
-	    $metas[] = '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />';
+	    // $metas[] = '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />';
 
 	    // page title
 	    $page_title = ucfirst(strip_tags($context['page_title']));
@@ -1242,8 +1242,8 @@ function render_skin($with_last_modified=TRUE) {
 		    $context['page_header'] .= strip_tags($context['host_name']);
 	    }
 	    $context['page_header'] .= "</title>\n";
-	    if($page_title)
-		    $metas[] = '<meta name="DC.title" content="'.encode_field($page_title).'" />';
+	    /*if($page_title)
+		    $metas[] = '<meta name="DC.title" content="'.encode_field($page_title).'" />';*/
 
 	    // set icons for this site
 	    if($context['site_icon']) {
@@ -1266,7 +1266,7 @@ function render_skin($with_last_modified=TRUE) {
 	    }
             if($meta_desc) {
                 $metas[] = '<meta name="description" content="'.$meta_desc.'" />';
-                $metas[] = '<meta name="DC.description" content="'.$meta_desc.'" />';
+                //$metas[] = '<meta name="DC.description" content="'.$meta_desc.'" />';
             }
 
 	    // page copyright
@@ -1276,28 +1276,28 @@ function render_skin($with_last_modified=TRUE) {
 	    // page author
 	    if(isset($context['page_author']) && $context['page_author']) {
 		    $metas[] = '<meta name="author" content="'.encode_field($context['page_author']).'" />';
-		    $metas[] = '<meta name="DC.author" content="'.encode_field($context['page_author']).'" />';
+		    //$metas[] = '<meta name="DC.author" content="'.encode_field($context['page_author']).'" />';
 	    }
 
 	    // page publisher
 	    if(isset($context['page_publisher']) && $context['page_publisher']) {
 		    $metas[] = '<meta name="publisher" content="'.encode_field($context['page_publisher']).'" />';
-		    $metas[] = '<meta name="DC.publisher" content="'.encode_field($context['page_publisher']).'" />';
+		    //$metas[] = '<meta name="DC.publisher" content="'.encode_field($context['page_publisher']).'" />';
 	    }
 
 	    // page keywords
 	    if(isset($context['site_keywords']) && $context['site_keywords']) {
 		    $metas[] = '<meta name="keywords" content="'.encode_field($context['site_keywords']).'" />';
-		    $metas[] = '<meta name="DC.subject" content="'.encode_field($context['site_keywords']).'" />';
+		    //$metas[] = '<meta name="DC.subject" content="'.encode_field($context['site_keywords']).'" />';
 	    }
 
 	    // page date
-	    if($context['page_date'])
+	    /*if($context['page_date'])
 		    $metas[] = '<meta name="DC.date" content="'.encode_field(substr($context['page_date'], 0, 10)).'" />';
 
 	    // page language
 	    if($context['page_language'])
-		    $metas[] = '<meta name="DC.language" content="'.encode_field($context['page_language']).'" />';
+		    $metas[] = '<meta name="DC.language" content="'.encode_field($context['page_language']).'" />';*/
 
 	    // revisit-after
 	    if(!isset($context['site_revisit_after']))
