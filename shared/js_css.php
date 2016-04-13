@@ -75,16 +75,101 @@ Class Js_Css {
 	return $html;
     }
     
+    /**
+     * Build the main css file (may do some less compilation)
+     * and provide a link to it.
+     * skin.php can specifie what is to load.
+     * output is always minified, the standard content is :
+     * - knacss css as a reset and framework
+     * - yacss, general styles for the system
+     * - the specific style of you skin
+     * 
+     * return string 
+     */
     public static function call_skin_css() {
         global $context;
         
+        // we need a skin
         if(!isset($context['skin'])) return '';
         
-        // retrieve base name of the skin (remove "skin/")
-        $skin = substr($context['skin'],5);
-            
-        return Js_css::link_file($context['skin'].$skin.'.css','now');
+        // retrieve base name of the skin (remove "skins/")
+        $skin = substr($context['skin'],6);
         
+        // check constant NO_KNACSS and NO_YACSS (may be define by skin.php of a skin)
+        // check lib existance and last modification date at the same time
+        $knacss = (defined('NO_KNACSS') && NO_KNACSS == true)? false : Safe::filemtime($context['path_to_root'].'included/knacss/knacss.less');
+        $yacss  = (defined('NO_YACSS') && NO_YACSS == true)? false : Safe::filemtime($context['path_to_root'].'skins/_reference/yacss.less');
+        
+        
+        // check existence of <skin>.less or <skin>.css
+        // less version is priority
+        $skinless   = Safe::filemtime($context['path_to_root'].$context['skin'].'/'.$skin.'.less');
+        $skincss    = Safe::filemtime($context['path_to_root'].$context['skin'].'/'.$skin.'.css');
+        $skinstyle  = ($skinless)?$skinless:$skincss;
+        
+        // check existence of a minified version
+        $skinmin    = Safe::filemtime($context['path_to_root'].$context['skin'].'/'.$skin.'.min.css');
+        
+        // check files datation, do we need a compilation ?
+        $need_compile = !$skinmin 
+                        || ($skinstyle && ($skinmin < $skinstyle) ) 
+                        || ($knacss && ($skinmin < $knacss) ) 
+                        || ($yacss && ($skinmin < $yacss) );
+        
+        if($need_compile) {
+            
+            // load lessphp
+            include_once $context['path_to_root'].'included/less/lessc.inc.php';
+            $less = new lessc;
+
+            // set import directories
+            $less->setImportDir(
+                  array(
+                      $context['path_to_root'].'included/knacss/', 
+                      $context['path_to_root'].'skins/_reference/',
+                      $context['path_to_root'].$context['skin'].'/',
+                      ));
+            
+            // build import directives
+            $import = '';
+            if($knacss) $import     .= '@import "knacss.less";';
+            if($yacss) $import      .= '@import "yacss.less";';
+            if($skinless) {
+                $import   .= '@import "'.$skin.'.less";';
+            } elseif($skincss) {
+                // append pure css
+                $import   .= Safe::file_get_contents($context['path_to_root'].$context['skin'].'/'.$skin.'.css');
+            }
+            
+            // compress option
+            $less->setFormatter("compressed");
+            
+            // define namespaces
+            $less->setVariables(array(
+                "k-name" => KNACSS_PREFIX,
+                "y-name" => YACSS_PREFIX,
+            ));
+
+            // compile into a css file, catch errors
+            try {
+                $compilation = $less->compile($import);
+            } catch (exception $e) {
+                logger::debug("fatal error: " . $e->getMessage(), 'LESS compilation');
+                return Js_Css::link_exit(false, $context['skin'].'/'.$skin.'.min.css' , 'now');
+            }
+            
+            // write compiled style in a css file
+            $output = $context['path_to_root'].$context['skin'].'/'.$skin.'.min.css';
+            if($compilation) {
+                Safe::file_put_contents($output, $compilation);
+            } else {
+                Safe::unlink($output);
+            }
+            
+        }
+        
+        // build declaration
+        return Js_css::link_file($context['skin'].'/'.$skin.'.min.css','now');
     }
 
     /**
@@ -311,7 +396,7 @@ Class Js_Css {
             if($ext === 'less') {
                 
               
-                // include less lib
+                // include lessphp lib
                 include_once $context['path_to_root'].'included/less/lessc.inc.php';
                 $less = new lessc;
                 // production mode
@@ -328,6 +413,7 @@ Class Js_Css {
                 $ext    = 'css';
                 $path   = $path_parts['dirname'].'/'.$path_parts['filename'].$min.'.'.$ext;
                 $output = Safe::realpath($path);
+                
                 // check compilation, catch errors
                 try {
                     $less->checkedCompile($realpath, $output);

@@ -4349,14 +4349,19 @@ Class Skin_Skeleton {
 				define('BR', "\n");
 		}
 
-		// HTML5 flag, set to TRUE in skin.php if required
+		// HTML5 flag, set to FALSE in skin.php if you need XHTML
 		if(!defined('SKIN_HTML5'))
-			define('SKIN_HTML5', FALSE);
+			define('SKIN_HTML5', TRUE);
 
 		// end of tags
 		if(!defined('EOT'))			
 		    define('EOT', ' />'); //  XHTML or HTML5
-			
+                
+                // css namespace prefix
+                if(!defined('KNACSS_PREFIX'))
+			define('KNACSS_PREFIX', 'k-');
+                if(!defined('YACSS_PREFIX'))
+			define('YACSS_PREFIX', 'y-');			
 
 		// the HTML to signal an answer
 		if(is_callable(array('i18n', 's')))
