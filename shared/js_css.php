@@ -146,8 +146,8 @@ Class Js_Css {
             
             // define namespaces
             $less->setVariables(array(
-                "k-name" => KNACSS_PREFIX,
-                "y-name" => YACSS_PREFIX,
+                "k-prefix" => KNACSS_PREFIX,
+                "y-prefix" => YACSS_PREFIX,
             ));
 
             // compile into a css file, catch errors
