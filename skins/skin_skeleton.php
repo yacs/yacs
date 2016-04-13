@@ -21,10 +21,15 @@
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
+
+// include library to build tag
+include_once $context['path_to_root'].'skins/tag.php';
+
+
 Class Skin_Skeleton {
 
 	
-
+    
 	/**
 	 * build the field to restrict access
 	 *
@@ -943,7 +948,7 @@ Class Skin_Skeleton {
 	 * @param string a unique object id, if any
 	 * @return the HTML to display
 	 */
-	public static function &build_error_block($text='', $id='') {
+	public static function build_error_block($text='', $id='') {
 		global $context;
 
 		// use context information
@@ -964,8 +969,9 @@ Class Skin_Skeleton {
 
 		// format the block
 		if($text)
-			$text = '<div class="error"'.$id.'>'.$text.'</div>'."\n";
-		return $text;
+                        $text = tag::_('div', tag::_class('error').tag::_id($id), $text);
+		
+                return $text;
 	}
 
 	/**
