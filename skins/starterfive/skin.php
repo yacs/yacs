@@ -23,6 +23,9 @@ Class Skin extends Skin_Skeleton {
 
 		// we are HTML5
 		define('SKIN_HTML5', TRUE);
+                
+                // remove default knacss prefix
+                define('KNACSS_PREFIX', '~""');
 
 		// add a empty span to tabs in order to justify the tabs (css tricks)
 		define('TABS_SUFFIX','<span class="finish-tabs"></span>');

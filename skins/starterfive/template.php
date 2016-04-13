@@ -67,15 +67,8 @@ if(!$context['site_icon']) {
 	echo "\t".'<link rel="icon" href="'.$context['url_to_root'].'skins/starterfive/favicon.ico" type="image/x-icon" />'."\n";
 }
 
-echo "\t".Js_css::link_file('skins/starterfive/css/normalize.css','now')."\n";
-echo "\t".Js_css::link_file('skins/_reference/yacs.css','now')."\n";
-echo "\t".Js_css::link_file('skins/starterfive/css/main-top.css','now')."\n";
-echo "\t".Js_css::link_file('skins/starterfive/css/knacss-garni.css','now')."\n";
-
 // other head directives (include skin .css)
 Page::meta();
-
-echo "\t".Js_css::link_file('skins/starterfive/css/main-bottom.css','now')."\n";
 
 // More ideas for your <head> here: h5bp.com/d/head-Tips
 
