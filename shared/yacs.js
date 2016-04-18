@@ -1467,7 +1467,7 @@ var Yacs = {
         prepareSlideShow: function(selector) {
 
             if(typeof(selector) !== 'string' )
-                selector = '.image_show';
+                selector = '.image-show';
 
             var anchors = $(selector);
 		for(index = 0; index < anchors.length; index++) {

@@ -142,7 +142,7 @@ Class Js_Css {
             }
             
             // compress option
-            $less->setFormatter("compressed");
+            // $less->setFormatter("compressed");
             
             // define namespaces
             $less->setVariables(array(

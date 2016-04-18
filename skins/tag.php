@@ -8,6 +8,10 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
+// constant to use as second argument for _class() method, 
+// to make your code more readable
+define('NO_CLASS_PREFIX', true);  
+
 class tag {
     
         /** 
@@ -53,8 +57,10 @@ class tag {
          * if you use "/" only, no prefix will be used
          * 
          * @param string $classes a chain of keyword separated by spaces
+         * @param boolean $escape not to consider about prefix
+         * @return string
          */
-        public static function _class($classes) {
+        public static function _class($classes, $escape=false) {
             
             // sanity check
             if(!$classes) return '';
@@ -62,18 +68,28 @@ class tag {
             // start
             $attribute = ' class="';
             
-            // explode that
-            $classes = explode(' ', $classes);
-            
-            // apply prefix
-            foreach($classes as $class) {
-                if(substr($class, 0, 1) === '/') {
-                    $attribute .= $class.' ';
-                } elseif(substr($class, 0, 2) === 'k/') {
-                    $attribute .= KNACSS_PREFIX.$class.' ';
-                } else {
-                    $attribute .= YACSS_PREFIX.$class.' ';
+            if(!$escape) {
+                // explode that
+                $classes = explode(' ', $classes);
+
+                // apply prefix
+                foreach($classes as $class) {
+                    
+                    if(!$class) continue;
+                    
+                    if(substr($class, 0, 1) === '/') {
+                        $attribute .= ltrim($class,'/').' ';
+                    } elseif(substr($class, 0, 2) === 'k/') {
+                        $attribute .= KNACSS_PREFIX.$class.' ';
+                    } elseif(substr($class, 0, 2) === 'y/') {
+                        $attribute .= YACSS_PREFIX.$class.' ';
+                    } else {
+                        $attribute .= YACSS_PREFIX.$class.' ';
+                    }
                 }
+            } else {
+                // take it as is
+                $attribute .= $classes;
             }
             
             // remove last space and close

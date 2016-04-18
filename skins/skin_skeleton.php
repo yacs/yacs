@@ -959,7 +959,7 @@ Class Skin_Skeleton {
 		if(is_array($text)) {
 			$concatenated = '';
 			foreach($text as $line)
-				$concatenated .= '<p>'.$line.'</p>'."\n";
+				$concatenated .= tag::_('p','',$line);
 			$text = $concatenated;
 		}
 
@@ -1339,7 +1339,7 @@ Class Skin_Skeleton {
 	 * @return the HTML to display
 	 *
 	 */
-	public static function &build_image($variant, $href, $title, $link='',$id='') {
+	public static function build_image($variant, $href, $title, $link='',$id='') {
 		global $context;
 
 		// sanity check
@@ -1377,6 +1377,8 @@ Class Skin_Skeleton {
 		// remove YACS codes from alternate label and hovering title
 		if(is_callable(array('Codes', 'strip')))
 			$hover = Codes::strip($hover, FALSE);
+                
+                $hover = encode_field(strip_tags($hover));
 
 		// split components of the variant
 		if($position = strpos($variant, ' ')) {
@@ -1384,30 +1386,39 @@ Class Skin_Skeleton {
 			$variant = substr($variant, $position+1);
 		} else
 			$complement = '';
+                
+                
+                // editable item
+                if($id) $complement .= ' editable';
+                
+                // we return a string;
+                $text = '';
 
 		// wrapper begins --don't use div, because of surrounding link
-		$tag_wrapper = (SKIN_HTML5)?'figure':'span';
-		$text = "\n".'<'.$tag_wrapper.' class="'.encode_field($variant).'_image">';
+		//$tag_wrapper = (SKIN_HTML5)?'figure':'span';
+		//$text = "\n".'<'.$tag_wrapper.' class="'.encode_field($variant).'_image">';
 
 		// styling freedom --outside anchor, which is inline
-		if($complement)
-			$text .= '<span class="'.$complement.'">';
+		//if($complement)
+		//	$text .= '<span class="'.$complement.'">';
 
 		// configured styles
 		$more_styles = '';
 		if(($complement == 'large') && isset($context['classes_for_large_images']) && $context['classes_for_large_images'])
-			$more_styles = ' class="'.encode_field($context['classes_for_large_images']).'"';
+			$more_styles = encode_field($context['classes_for_large_images']);
 		elseif(($variant == 'thumbnail') && isset($context['classes_for_thumbnail_images']) && $context['classes_for_thumbnail_images'])
-			$more_styles = ' class="'.encode_field($context['classes_for_thumbnail_images']).'"';
+			$more_styles = encode_field($context['classes_for_thumbnail_images']);
 		elseif(($variant == 'avatar') && isset($context['classes_for_avatar_images']) && $context['classes_for_avatar_images'])
-			$more_styles = ' class="'.encode_field($context['classes_for_avatar_images']).'"';
+			$more_styles = encode_field($context['classes_for_avatar_images']);
 
 		// the image itself
-		$image = '<img src="'.$href.'" alt=""  title="'.encode_field(strip_tags($hover)).'"'.$more_styles.' />';
+		//$image = '<img src="'.$href.'" alt=""  title="'.encode_field(strip_tags($hover)).'"'.$more_styles.' />';
+                $image = tag::_('img', 'src="'.$href.'" alt="'.$hover.'" title="'.$hover.'"'.tag::_class($more_styles, NO_CLASS_PREFIX));
 
 		// add a link
 		if($link && preg_match('/\.(gif|jpeg|jpg|png)$/i', $link) && !preg_match('/\blarge\b/', $variant))
-			$text .= '<a href="'.$link.'" class="image_show">'.$image.'</a>';
+			//$text .= '<a href="'.$link.'" class="image_show">'.$image.'</a>';
+                        $text .= tag::_('a', 'href="'.$link.'"'.tag::_class('/image-show'),$image);
 		elseif($link) {
 			$external = FALSE;
 			if(!strncmp($link, 'http:', 5) && strncmp($link, 'http://'.$context['host_name'], strlen('http://'.$context['host_name'])))
@@ -1415,10 +1426,15 @@ Class Skin_Skeleton {
 			elseif(!strncmp($link, 'https:', 6) && strncmp($link, 'https://'.$context['host_name'], strlen('https://'.$context['host_name'])))
 				$external = TRUE;
 
-			if($external)
+                        $link_attr = 'href="'.$link.'"';
+                        if($external) $link_attr .= ' onclick="window.open(this.href); return false;"';
+                        
+                        $text .= tag::_('a', $link_attr, $image);
+                        
+			/*if($external)
 				$text .= '<a href="'.$link.'" onclick="window.open(this.href); return false;">'.$image.'</a>';
 			else
-				$text .= '<a href="'.$link.'">'.$image.'</a>';
+				$text .= '<a href="'.$link.'">'.$image.'</a>';*/
 
 		} else
 			$text .= $image;
@@ -1426,20 +1442,27 @@ Class Skin_Skeleton {
 		// make the title visible as a caption
 		$tag_caption = (SKIN_HTML5)?'figcaption':'span';
 		if($title && $with_caption)
-			$text .= '<'.$tag_caption.' class="image_caption">'.ucfirst($title).'</'.$tag_caption.'>';
+			//$text .= '<'.$tag_caption.' class="image_caption">'.ucfirst($title).'</'.$tag_caption.'>';
+                        $text .= tag::_($tag_caption, tag::_class('image-caption'), ucfirst($title));
 
 		// end of freedom
-		if($complement)
-			$text .= '</span>';
+		//if($complement)
+		//	$text .= '</span>';
 
 		//edit image direct access
-		if((($variant=='center')||($variant=='right')||($variant=='left')||($variant=='thumbnail')||($complement=='large')) && $id) {
+		if($id) {
 			Skin::define_img('IMAGES_EDIT_IMG', 'images/edit.gif');
-			$text .= '<span class="image_edit">'.Skin::build_link(Images::get_url($id,'edit'), IMAGES_EDIT_IMG, NULL, i18n::s('Update this image').' ['.$id.']').'</span>';
+			//$text .= '<span class="image_edit">'.Skin::build_link(Images::get_url($id,'edit'), IMAGES_EDIT_IMG, NULL, i18n::s('Update this image').' ['.$id.']').'</span>';
+                        $text .= tag::_('span',tag::_class('image-edit'),Skin::build_link(Images::get_url($id,'edit'), IMAGES_EDIT_IMG, NULL, i18n::s('Update this image')));
 		}
+                
+                // wrap everything
+                $tag_wrapper = (SKIN_HTML5)?'figure':'span';
+                //$text = "\n".'<'.$tag_wrapper.' class="'.encode_field($variant).'_image">';
+                $text = tag::_($tag_wrapper,tag::_class(encode_field($variant).'-image '.$complement),$text);
 
-		// end of wrapper
-		$text .= '</'.$tag_wrapper.'>';
+	
+                
 
 		// job done
 		return $text;

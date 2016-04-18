@@ -1404,9 +1404,9 @@ Class Codes {
 			// use the skin
 			if(Images::allow_modification($image['anchor'],$id))
 			   // build editable image
-			   $output =& Skin::build_image($variant, $href, $title, $link, $id);
+			   $output = Skin::build_image($variant, $href, $title, $link, $id);
 			else
-			   $output =& Skin::build_image($variant, $href, $title, $link);
+			   $output = Skin::build_image($variant, $href, $title, $link);
 
 			return $output;
 
