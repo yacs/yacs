@@ -46,6 +46,29 @@ class tag {
             
             return $tag;
         }
+        
+        /**
+         * Build a data attributes for html tag
+         * 
+         * @param string $name of the data field
+         * @param type $value of the data field
+         * @return string
+         */
+        public static function _data($name,$value) {
+            
+            $attribute = '';
+            
+            // lowercase
+            $name = strtolower(trim(strip_tags($name)));
+            
+            // sanity check
+            if(!$name) return $attribute;
+            
+            // do it
+            $attribute .= ' data-'.$name.'="'.addslashes($value).'"';
+        
+            return $attribute;
+        }
     
         /**
          * build a class attribute for a html tag.
@@ -65,6 +88,10 @@ class tag {
             // sanity check
             if(!$classes) return '';
             
+            // empty prefix ~"" (less syntax)
+            $kna = (KNACSS_PREFIX == '~""')?'':KNACSS_PREFIX;
+            $yac = (YACSS_PREFIX  == '~""')?'':YACSS_PREFIX;
+            
             // start
             $attribute = ' class="';
             
@@ -80,11 +107,11 @@ class tag {
                     if(substr($class, 0, 1) === '/') {
                         $attribute .= ltrim($class,'/').' ';
                     } elseif(substr($class, 0, 2) === 'k/') {
-                        $attribute .= KNACSS_PREFIX.$class.' ';
+                        $attribute .= $kna.substr($class,2).' ';
                     } elseif(substr($class, 0, 2) === 'y/') {
-                        $attribute .= YACSS_PREFIX.$class.' ';
+                        $attribute .= $yac.substr($class,2).' ';
                     } else {
-                        $attribute .= YACSS_PREFIX.$class.' ';
+                        $attribute .= $yac.$class.' ';
                     }
                 }
             } else {
@@ -111,7 +138,7 @@ class tag {
             // do it
             $attribute = ' id="'.$id.'"';
             
-            return $id;
+            return $attribute;
         }
     
     
