@@ -39,12 +39,12 @@
 
 // error -- report on abnormal conditions
 .@{yacs-namespace}error {
-	color: red;
+    color: red;
 }
 
 // editable object
 .@{yacs-namespace}editable:hover {
-	background: @color-shadower;
+    background: @color-shadower;
 }
 
 // details info, for example bottom of page, or hint
@@ -54,10 +54,10 @@
     color: @color-lesser;
 }
 
-// a interactive command that is emphatized when hovered 
+// a interactive command that is emphatized when hovered
 .@{yacs-namespace}command {
     opacity: 0.7;
-    
+
     &:hover {
         opacity:1;
     }
@@ -67,33 +67,33 @@
 // consisting of three horizontal bars, looking like a hamburger
 // <label><span></span></label>
 .@{yacs-namespace}hamburger {
-    
+
     display:block;
-    padding:5px; 
+    padding:5px;
     background : @color-link;
     cursor: pointer;
     margin:0;
     // size will be defined by another class, but something
     // about 40px is expected;
-    
+
     // shape of the bars
     // we use pseudo class to form the first and last bar
     span, span::before, span::after {
-        
+
         background: #ffffff none repeat scroll 0 0;
         content: "";
         display: block;
         position: relative;
         transition: all 200ms ease-in-out 0s;
     }
-    
+
     // position and size
     span {
         top:13px;
         height: 3px;
-    
+
         &::after {bottom: -5px;height:4px;}
-        
+
         &::before {top: -8px;height:3px;}
     }
 }
@@ -104,11 +104,10 @@
 // tabs layout used it almost all edition form
 // @see Skin::build_tabs() in skin_skeleton.php
 //
-
 .@{yacs-namespace}tabs-bar {
     margin: 2em 0 1em 0;    // space arround tabs
     position : relative;    // to position menu icon
-    
+
     // default shape of a tabs
     // as a blocks (tiny-screen)
     a {
@@ -116,32 +115,26 @@
         padding : .4em 1em;
         text-decoration : none;
         color:@color-link;
-        background-color: @color-tabs; 
+        background-color: @color-tabs;
 
         height:38px;
         margin-bottom : 2px; // separation between tabs
     }
-    
+
     .@{yacs-namespace}tab-foreground {
         background-color:@color-link;
         color: #FFF;
         opacity:1;
-     }
-}
-
-// default shape of a tabs
-// as a block (tiny-screen)
-.@{yacs-namespace}tabs-bar a {
-    
+    }
 }
 
 // tab interaction
 .@{yacs-namespace}tabs-bar a:hover,
 .@{yacs-namespace}tabs-bar a:focus,
 .@{yacs-namespace}tabs-bar a:active{
-    
+
     text-decoration : none;
-    
+
     // enlight this with a pseudo class
     // that will cover it
     position : relative;
@@ -179,23 +172,23 @@
 }
 
 .@{yacs-namespace}tabs-mini-toggle {
-        display:block;
-        position:absolute;
-        top : 0px;
-        right: 0px;
-        height:38px;
-        width:38px;
-    }
+    display:block;
+    position:absolute;
+    top : 0px;
+    right: 0px;
+    height:38px;
+    width:38px;
+}
 
 // special rules for large screens
 // tabs as a flexbox
 @media (min-width: @medium-plus-screen){
-    
+
     .@{yacs-namespace}tabs-bar {
         display : flex;
         align-items: flex-start;
         border-bottom: 1px solid @color-tabs-borders;
-    
+
         a {
             // shape of a tab
             border : 1px solid @color-tabs-borders;
@@ -204,26 +197,26 @@
             margin-right: 1px;
             margin-bottom: 0;
             height:auto;
-        }  
-        
+        }
+
         .@{yacs-namespace}tab-foreground {
             // signal current tab with a colored line
             background-image : linear-gradient(to right,currentColor, currentColor);
             background-repeat: no-repeat;
             background-size: 100% 3px;
             background-position: center bottom;
-            
+
             // override colors from small screen mode
             color:@color-link;
             background-color:@color-tabs;
         }
     }
-    
+
     // we don't need icon on large screen
     .@{yacs-namespace}tabs-mini-toggle {
         display:none;
     }
-    
+
 }
 
 ///////////
@@ -238,30 +231,30 @@
 figure {max-width: 100%;}
 
 // an image in the middle of the page [image=xx, center]
-.@{yacs-namespace}center-image { 
-	clear: both;
-        text-align: center;
-	margin: 8px 0 8px 0;
+.@{yacs-namespace}center-image {
+    clear: both;
+    text-align: center;
+    margin: 8px 0 8px 0;
 }
 
 // an image floated to the left -- [image=xx, left]
-.@{yacs-namespace}left-image { 
-	float: left;
-        clear:left;
-	margin: 8px 8px 8px 0;
+.@{yacs-namespace}left-image {
+    float: left;
+    clear:left;
+    margin: 8px 8px 8px 0;
 }
 
 // an image floated to the rift -- [image=xx, right]
-.@{yacs-namespace}right-image { 
-	float: right;
-        clear:right;
-	margin: 8px 0 8px 8px;
+.@{yacs-namespace}right-image {
+    float: right;
+    clear:right;
+    margin: 8px 0 8px 8px;
 }
 
 // float thumbnails to align them
-.@{yacs-namespace}thumbnail-image { 
-	float: left;
-	margin-right: 8px;
+.@{yacs-namespace}thumbnail-image {
+    float: left;
+    margin-right: 8px;
 }
 
 // caption under image
@@ -273,11 +266,11 @@ figure {max-width: 100%;}
 // direct edition link,
 // hidden by default
 .@{yacs-namespace}image-edit {
-	display:none;
-	position:absolute;
-	top:1px;
-        left:3px;
-        
+    display:none;
+    position:absolute;
+    top:1px;
+    left:3px;
+
 }
 
 .@{yacs-namespace}thumbnail-image,
@@ -293,6 +286,6 @@ figure {max-width: 100%;}
     // edition link visible while parent is hovered
     &:hover .@{yacs-namespace}image-edit {
         display:block;
-    } 
+    }
 }
 
