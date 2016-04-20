@@ -1325,6 +1325,7 @@ function render_skin($with_last_modified=TRUE) {
                     .'	var url_to_skin	    = "'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/";'."\n"
                     .'	var url_to_master   = "'.$context['url_to_master'].$context['url_to_root'].'";'."\n"
                     .'	var surfer_lang	    = "'.$context['language'].'";'."\n"
+                    .'	var yacss_prefix    = "'.YACSS_PREFIX.'";'."\n"
                     .JS_SUFFIX;
 	
 	    // --in header, because of potential use by in-the-middle javascript snippet
