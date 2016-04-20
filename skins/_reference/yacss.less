@@ -19,6 +19,16 @@
 // default is "y-" but you can overide this in your skin.php
 @yacs-namespace: @y-prefix;
 
+////////////
+// constants
+//
+
+@color-link               : steelblue;
+@color-shadower           : rgba(0,0,0,.3);
+@color-enlighter          : rgba(255,255,150,.5);
+@color-lesser             : #888;
+@color-tabs-borders       : #c0c0c0;
+@color-tabs               : ghostwhite;
 
 
 /////////////
@@ -34,10 +44,187 @@
 
 // editable object
 .@{yacs-namespace}editable:hover {
-	background: rgba(0,0,0,.3);
+	background: @color-shadower;
 }
 
+// details info, for example bottom of page, or hint
+.@{yacs-namespace}details {
+    font-family: sans-serif;
+    font-size: 0.8em;
+    color: @color-lesser;
+}
 
+// a interactive command that is emphatized when hovered 
+.@{yacs-namespace}command {
+    opacity: 0.7;
+    
+    &:hover {
+        opacity:1;
+    }
+}
+
+// a icon that is commonly used to open/close menu on tiny screen
+// consisting of three horizontal bars, looking like a hamburger
+// <label><span></span></label>
+.@{yacs-namespace}hamburger {
+    
+    display:block;
+    padding:5px; 
+    background : @color-link;
+    cursor: pointer;
+    margin:0;
+    // size will be defined by another class, but something
+    // about 40px is expected;
+    
+    // shape of the bars
+    // we use pseudo class to form the first and last bar
+    span, span::before, span::after {
+        
+        background: #ffffff none repeat scroll 0 0;
+        content: "";
+        display: block;
+        position: relative;
+        transition: all 200ms ease-in-out 0s;
+    }
+    
+    // position and size
+    span {
+        top:13px;
+        height: 3px;
+    
+        &::after {bottom: -5px;height:4px;}
+        
+        &::before {top: -8px;height:3px;}
+    }
+}
+
+////////////////
+// Edition tabs
+//
+// tabs layout used it almost all edition form
+// @see Skin::build_tabs() in skin_skeleton.php
+//
+
+.@{yacs-namespace}tabs-bar {
+    margin: 2em 0 1em 0;    // space arround tabs
+    position : relative;    // to position menu icon
+    
+    // default shape of a tabs
+    // as a blocks (tiny-screen)
+    a {
+        display : block;
+        padding : .4em 1em;
+        text-decoration : none;
+        color:@color-link;
+        background-color: @color-tabs; 
+
+        height:38px;
+        margin-bottom : 2px; // separation between tabs
+    }
+    
+    .@{yacs-namespace}tab-foreground {
+        background-color:@color-link;
+        color: #FFF;
+        opacity:1;
+     }
+}
+
+// default shape of a tabs
+// as a block (tiny-screen)
+.@{yacs-namespace}tabs-bar a {
+    
+}
+
+// tab interaction
+.@{yacs-namespace}tabs-bar a:hover,
+.@{yacs-namespace}tabs-bar a:focus,
+.@{yacs-namespace}tabs-bar a:active{
+    
+    text-decoration : none;
+    
+    // enlight this with a pseudo class
+    // that will cover it
+    position : relative;
+    &::before {
+        position: absolute;
+        top:0;left:0;
+        height:100%;width:100%;
+        content: '';
+        background: @color-enlighter;
+        pointer-events: none;   // allow to click thru
+        border-radius:inherit;
+    }
+}
+
+// requierement for a panel
+.@{yacs-namespace}tabs-panels {
+    padding: 2px 0;
+    margin-top : 1em;
+    min-height: 200px;
+    overflow: none;
+    position: relative;
+}
+
+.@{yacs-namespace}panel-foreground {
+    display: block;
+}
+
+.@{yacs-namespace}panel-background {
+    display: none;
+}
+
+// navigation links used in step by step mode
+.@{yacs-namespace}step {
+    display :inline-block;
+}
+
+.@{yacs-namespace}tabs-mini-toggle {
+        display:block;
+        position:absolute;
+        top : 0px;
+        right: 0px;
+        height:38px;
+        width:38px;
+    }
+
+// special rules for large screens
+// tabs as a flexbox
+@media (min-width: @medium-plus-screen){
+    
+    .@{yacs-namespace}tabs-bar {
+        display : flex;
+        align-items: flex-start;
+        border-bottom: 1px solid @color-tabs-borders;
+    
+        a {
+            // shape of a tab
+            border : 1px solid @color-tabs-borders;
+            border-bottom: none;
+            border-radius : 10px 10px 0 0;
+            margin-right: 1px;
+            margin-bottom: 0;
+            height:auto;
+        }  
+        
+        .@{yacs-namespace}tab-foreground {
+            // signal current tab with a colored line
+            background-image : linear-gradient(to right,currentColor, currentColor);
+            background-repeat: no-repeat;
+            background-size: 100% 3px;
+            background-position: center bottom;
+            
+            // override colors from small screen mode
+            color:@color-link;
+            background-color:@color-tabs;
+        }
+    }
+    
+    // we don't need icon on large screen
+    .@{yacs-namespace}tabs-mini-toggle {
+        display:none;
+    }
+    
+}
 
 ///////////
 // images

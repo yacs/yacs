@@ -3240,7 +3240,7 @@ Class Skin_Skeleton {
 	 *
 	 * @see users/view.php
 	 */
-	public static function &build_tabs($tabs, $as_steps=FALSE) {
+	public static function build_tabs($tabs, $as_steps=false) {
 		global $context;
 
 		// the generated text
@@ -3254,7 +3254,8 @@ Class Skin_Skeleton {
 
 		// only one tab to be displayed
 		if(count($tabs) == 1) {
-			$tabs_text .= '<div id="'.$tabs[0][2].'" style="margin-top: 1em;">'.$tabs[0][3].'</div>';
+                        $tabs_text .= tag::_('div', tag::_id($tabs[0][2]), $tabs[0][3]);
+			//$tabs_text .= '<div id="'.$tabs[0][2].'" style="margin-top: 1em;">'.$tabs[0][3].'</div>';
 			return $tabs_text;
 		}
 
@@ -3265,43 +3266,40 @@ Class Skin_Skeleton {
 
 			// populate tabs
 			if(!$as_steps) {
-			    $tabs_text .= '<li id="_'.$tab[0].'"';
 
-			    if(!$index)
-				    $tabs_text .= ' class="tab-foreground"';
-			    else
-				    $tabs_text .= ' class="tab-background"';
-
-			    $tabs_text .= '><a href="#_'.$tab[0].'">'.$tab[1].'</a></li>'."\n";
+                            $class = (!$index)?'tab-foreground':'tab-background';
+                            
+                            $tabs_text .= tag::_('a', 
+                                  'href="#_'.$tab[0].'"'.tag::_class($class.' command').tag::_id('_'.$tab[0]),
+                                  $tab[1]);
 			}
 
 			// populate panels
 			$panels_text .= '<div id="'.$tab[2].'" data-tab="_'.$tab[0].'"';
 
-			if(!$index)
-				$panels_text .= ' class="panel-foreground"';
-			else
-				$panels_text .= ' class="panel-background"';						
+                        $class        = (!$index)?'panel-foreground':'panel-background';
+                        $panels_text .= tag::_class($class); 
 
 			$panels_text .= '>';
 			
 			// next and prev buttons (HTML5 only), if required
 			if($as_steps) {
 			    
-                            $panels_text .= '<nav class="yc-tab-steps">'."\n";
+                            $step = '';
                             
 			    // prev button but not on first step
 			    if($index)
-				$panels_text .= '<a class="previous step" data-target="_'.$tabs[$index-1][0].'">'.i18n::s('Previous').'</a>'."\n";
+                                $step .= tag::_('a', tag::_class('/previous step').tag::_data('target', '_'.$tabs[$index-1][0]), i18n::s('Previous'));
                             
                             // provide current step and total steps
-			    $panels_text .= '<p class="details step">'.sprintf(i18n::s('Step %d of %d'),$index+1,count($tabs)).'</p>'."\n";
+                            $step .= tag::_('p', tag::_class('details step'),sprintf(i18n::s('Step %d of %d'),$index+1,count($tabs)) );
                             
-                             // next button but not on last step
+                             // next button but not on last step, and would be made visible by js
 			    if($index < count($tabs)-1)
-				$panels_text .= '<a class="next step" style="visibility:hidden;" data-target="_'.$tabs[$index+1][0].'">'.i18n::s('Next').'</a>'."\n";
+                                $step .= tag::_('a', tag::_class('/next step').tag::_data('target', '_'.$tabs[$index+1][0]).' style="visibility:hidden;"', i18n::s('Next'));
                             
-                            $panels_text .= '</nav>'."\n";
+                            // wrap everything
+                            $panels_text .= tag::_('nav',tag::_class('tab-steps'), $step);
 				
 			}
 
@@ -3310,8 +3308,11 @@ Class Skin_Skeleton {
 				$panels_text .= $tab[3];
 			
 			// remind next button, if required
-			if($as_steps && ($index < count($tabs)-1)) 			    			 
-				$panels_text .= '<a class="next step right" data-target="_'.$tabs[$index+1][0].'">'.i18n::s('Next').'</a>';			    
+			if($as_steps && ($index < count($tabs)-1)) {			    			 
+                                $next           = tag::_('a', tag::_class('/next step').tag::_data('target','_'.$tabs[$index+1][0]), i18n::s('Next'));
+                                $next           = tag::_('div',tag::_class('/clear k/txtright'), $next);
+                                $panels_text   .= $next;
+                        }
 
 			$panels_text .= '</div>'."\n";
 
@@ -3327,10 +3328,10 @@ Class Skin_Skeleton {
 
 		// finalize tabs
 		if(!$as_steps)
-		$tabs_text = "\n".'<div class="tabs_bar"><ul>'."\n".$tabs_text.'</ul><a class="tabs-mini-toggle">o</a></div>'."\n";
+                    $tabs_text = tag::_('nav', tag::_class('tabs-bar /clear'), $tabs_text.tag::_('label', tag::_class('tabs-mini-toggle hamburger'), '<span></span>'));
 
 		// finalize panels
-		$panels_text = "\n".'<div class="tabs_panels">'."\n".$panels_text.'</div>'."\n";
+                $panels_text = tag::_('div', tag::_class('tabs-panels'), "\n".$panels_text);
 
 		// finalize javascript loader
 		Page::insert_script(

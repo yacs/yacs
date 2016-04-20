@@ -2087,12 +2087,12 @@ var Yacs = {
 
                 // tabs
                 //$('body').on('click','.tabs_bar li',function(e){Yacs.tabsEvent(this, e);});
-                $('.tabs_bar').not('.ready').find('li').click(function(e){Yacs.tabsEvent(this, e);});
-                $('.tabs_bar').addClass('ready');
+                $(pfx('.tabs-bar')).not('.ready').find('a').click(function(e){Yacs.tabsEvent(this, e);});
+                $(pfx('.tabs-bar')).addClass('ready');
 
 		// behavior of buttons for tabs used as step by step form, if any
-		$(".tabs_panels .step").click(function() {
-
+		$(pfx(".tabs-panels .step")).click(function() {
+                    
                     // call any validation step function
                     if($(this).hasClass('next') && typeof Yacs.tabsValidateStep == 'function') {
                         var valid = (Yacs.tabsValidateStep)(Yacs.tabs_current);
@@ -2100,7 +2100,7 @@ var Yacs = {
                             return false;
                         else
                             // make upper next button visible
-                            $('.panel-foreground').find('.next').css('visibility','visible');
+                            $(pfx('.panel-foreground')).find('.next').css('visibility','visible');
                     }
 
 		    // display tab associate with button
@@ -2109,12 +2109,12 @@ var Yacs = {
 		    $('.previous').scrollMinimal(true);
 		});
                 // if we have steps, that mean to hide validation button before surfer reached the last one
-                if($(".tabs_panels .step").length)
-                    $("#main_form .bottom").hide();
+                if($(pfx(".tabs-panels .step")).length)
+                    $(pfx("#main_form .bottom")).hide();
 
                 // button for responsive menu
-                $('.tabs-mini-toggle').click(function(){
-                    $('.tab-background').toggle();
+                $(pfx('.tabs-mini-toggle')).click(function(){
+                    $(pfx('.tab-background')).toggle();
                 });
 
                 /**
@@ -2128,7 +2128,7 @@ var Yacs = {
                     startTab = document.location.hash.substr(1,document.location.hash.length);
                 else if(typeof Yacs.startTabs != 'undefined')
                     startTab = Yacs.startTabs;
-                else if(!$('.yc-tab-steps').length)
+                else if(!$(pfx('.tab-steps')).length)
                     startTab = Yacs.tabsLast();
 
                 // where are we?
@@ -2167,26 +2167,26 @@ var Yacs = {
 
 
                 // tabs
-                $('#'+id).siblings().removeClass('tab-foreground').addClass('tab-background');
-                $('#'+id).removeClass('tab-background').addClass('tab-foreground');
+                $('#'+id).siblings('a').removeClass(pfx('tab-foreground')).addClass(pfx('tab-background'));
+                $('#'+id).removeClass(pfx('tab-background')).addClass(pfx('tab-foreground'));
                 // get panels
                 //var panels = $('#'+id).parents('.tabs_bar').next('.tabs_panels');
                 // if no "panels" found get them other way (step by step form case)
                 var panels = $('[data-tab="'+id+'"]').parent();
 
                 // panels
-                panels.find('.panel-foreground').not('[data-tab="'+id+'"]')
+                panels.find(pfx('.panel-foreground')).not('[data-tab="'+id+'"]')
                         .fadeOut(.1)
-                        .removeClass('panel-foreground')
-                        .addClass('panel-background');
+                        .removeClass(pfx('panel-foreground'))
+                        .addClass(pfx('panel-background'));
                 // get last panel id
-                lastpanel = panels.find('.panel-foreground, .panel-background').last().data('tab');
+                lastpanel = panels.find(pfx('.panel-foreground, .panel-background')).last().data('tab');
 
-                var newpanel = panels.find('.panel-background[data-tab="'+id+'"]');
+                var newpanel = panels.find(pfx('.panel-background[data-tab="'+id+'"]'));
                 panel = newpanel.attr('id');
                 newpanel.fadeIn(.1)
-                        .removeClass('panel-background')
-                        .addClass('panel-foreground');
+                        .removeClass(pfx('panel-background'))
+                        .addClass(pfx('panel-foreground'));
                 //if(newpanel.length)
                 //    Yacs.updateOnce(panel,Yacs.tabs_list[newCurrent][1], Yacs.tabs_args);
 
@@ -2205,11 +2205,11 @@ var Yacs = {
 		// load panel content, if necessary
 
                 // set focus on first input
-                $("#"+panel+" .yc-form-input input").first().not('.date-time-picker').focus();
+                $(pfx("#"+panel+" .form-input input")).first().not('.date-time-picker').focus();
 
                 // make validation button visible on last tab displaying
                 if( Yacs.tabs_current === lastpanel )
-                    $("#main_form .bottom").show();
+                    $(pfx("#main_form .bottom")).show();
 
 		// dispatch custom event (e.g., for tooltips, Google Maps, etc)
 		$('body').trigger('yacs');
@@ -2219,14 +2219,6 @@ var Yacs = {
 	 * click on a tab
 	 */
 	tabsEvent: function(clicked, e) {
-
-		// target the clicked tab
-		//var clicked = this;
-
-		// if we click on a link, move upwards to list item -- 'a' is for XHTML strict, 'A' for other cases
-		if((clicked.tagName == 'a') || (clicked.tagName == 'A')) {
-			clicked = clicked.parentNode;
-		}
 
 		// trigger custom behavior, if any
 		if(typeof Yacs.tabs_args.onClick == 'function') {
@@ -2899,6 +2891,37 @@ var delay = (function(){
   };
 })();
 
+/**
+ * Add a prefix before each class names (css)
+ * could be a chain with dot before class name
+ * or a single word without dot.
+ * yacss_prefix is provided by php within page header.
+ * 
+ * @param {string} classes
+ * @returns string
+ */
+function pfx(classes) {
+    
+    // sanity check
+    if(!classes || typeof classes !== 'string')
+        return '';
+
+    // single word case
+    var rxp = /(\.|\s)/
+    if(classes.search(rxp) === -1) {
+  
+        classes = yacss_prefix+classes;
+        
+    } else {
+    
+        // do the prefixing on all classes
+        var rxp = /\.([a-zA-Z0-9_-])/g
+        classes = classes.replace(rxp, '.'+yacss_prefix+"$1");
+    
+    }
+    
+    return classes;
+}
 
 // initialize yacs
 $(document).ready(Yacs.onWindowLoad);
