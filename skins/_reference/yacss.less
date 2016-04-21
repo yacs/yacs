@@ -29,6 +29,7 @@
 @color-lesser             : #888;
 @color-tabs-borders       : #c0c0c0;
 @color-tabs               : ghostwhite;
+@color-modal              : #FFF;
 
 
 /////////////
@@ -289,3 +290,73 @@ figure {max-width: 100%;}
     }
 }
 
+////////////
+// Modal box
+//
+// this box display content over a standard page
+// which still in the background
+//
+
+// the grey overlay that sits behind the modal box
+#modal_panel {	
+	position: fixed;
+	top: 0;left: 0;right:0;height:0;
+        z-index: 1999; /* just below #modal_centered */
+	min-height: 100%;
+	background: @color-shadower;
+	
+}
+
+// the centered container
+#modal_centered { 
+	position: absolute;
+	top: 30%;	// top and left will be adjusted dynamically through javascript
+	left: 30%;
+        z-index: 2000;
+	background-color: @color-modal;
+	box-shadow : 0 0 5px #333;
+	margin: 0 auto;
+	padding: 4px;	
+}
+
+// allow scrolling in the modal box
+#modal_content {
+    overflow-y : auto;
+}
+
+// buttons used by the box
+#modal_content .boxButtons {
+	margin-top: 0.5em;
+	padding: 0.5em 0 0.3em 0;
+	text-align: center;
+}
+
+// title of the modal box
+#modal_content .boxTitle {
+	margin-top: 0;
+	padding-top: 0;
+	text-align: center;
+}
+
+// closing anchor of the modal box
+// at its top right corner
+#modal_close {
+    position : absolute;
+    top: -22px;
+    right: -20px;   
+    
+    background: @color-modal;
+    font-weight: bold;
+    font-size: 2em;
+    
+    padding : 0 10px;
+    border-radius : 15px;
+    box-shadow: 6px 1px 5px #777;
+    
+    cursor : pointer;
+    text-decoration: none;
+    
+    &:before {
+        content: "×";
+    }
+}
