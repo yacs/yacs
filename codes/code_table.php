@@ -23,6 +23,8 @@ Class Code_table extends Code {
         $text = '';
         list($variant,$id_content) = $matches;
         
+        if(!$variant) $variant = 'inline';
+        
         if(isset($matches[2])) {
             $text = self::render_static_table($id_content, $variant);
         } else {
