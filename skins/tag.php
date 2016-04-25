@@ -135,6 +135,9 @@ class tag {
             // sanity check
             if(!$id) return '';
             
+            // remove # if any
+            $id = str_replace('#', '', $id);
+            
             // do it
             $attribute = ' id="'.$id.'"';
             
