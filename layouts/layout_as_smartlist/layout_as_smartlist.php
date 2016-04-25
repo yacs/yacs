@@ -138,7 +138,7 @@ Class Layout_as_smartlist extends Layout_interface {
         SQL::free($result);
 
         //prepare HTML result, give default icon if required, provide callback function for final rendering
-        $text = & Skin::build_list($items, $this->layout_variant, ($show_icon) ? DECORATED_IMG : NULL, FALSE, 'Layout_as_smartlist::finalize_list');
+        $text = Skin::build_list($items, $this->layout_variant, ($show_icon) ? DECORATED_IMG : NULL, FALSE, 'Layout_as_smartlist::finalize_list');
         
         // we have bounded styles and scripts
         $this->load_scripts_n_styles();

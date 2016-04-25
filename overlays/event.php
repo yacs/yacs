@@ -1848,7 +1848,7 @@ class Event extends Overlay {
 
 			// turn an array to a string
 			if(is_array($items))
-				$items =& Skin::build_list($items, 'compact');
+				$items = Skin::build_list($items, 'compact');
 
 			// navigation bar
 			$bar = array();
