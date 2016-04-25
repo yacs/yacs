@@ -4,36 +4,6 @@
    ========================================================================== */
 
 /**
- * fix conflict or cancel cascading rules
- */
-
-/* avoid cascade between knacss center and yacss center */
-.center div, .center nav, .center header { text-align : left;}
-
-/* no floating anchor in tabs */
-div.tabs li a, div.tabs li a span {
-	float : none;
-	display : inline-block;
-	padding : 0;
-	}
-
-/* given as table-cell in yacss, don't know why */
-dl.floating_box { display : block; }
-
-/* don't want menu list as blocks */
-dl dd a.menu_2 { display : inline;}
-
-/* not enought room either */
-div.digg div.votes {
-	 padding: 4px 0.7em 0;
-	}
-
-h1 {margin-top : 0; padding-top:0;}
-
-/* allow floating boxes to resize */
-dl.floating_box {max-width : 45%;}
-
-/**
  * general style
  */
 
@@ -95,9 +65,6 @@ box-shadow : 0 0 4px black;
 	box-shadow: 0 0 5px #888;
 	}
 
-/* margin for blocks with content */
-.mod {padding : 1em;}
-
 /* leave some space after text in footer_panel */
 #footer_panel {padding-bottom : 1em;}
 
@@ -149,89 +116,6 @@ box-shadow : 0 0 4px black;
 
 	padding-left : 1em;
 	}
-
-p#crumbs {
-	text-align : left;
-	padding : 0 1em;
-	}
-
-/**
-* customize tabs
-*/
-
-/* header must allow overflow for drop down menu */
-#header_panel {overflow : visible;}
-
-/* tabs are justified */
-nav.tabs {
-	text-align : justify;
-	padding : 1.5em 0 .5em 0;
-	}
-
-.tabs ul {
-	display : inline;
-	padding:0;
-	}
-
-.tabs ul li {
-	display: inline-block;
-	float : none;
-	}
-
-.tabs li a, .tabs li a span {
-	display: inline-block;
-	float: none;
-	padding: 0;
-	text-transform : uppercase;
-	font-size : 1.34em;
-	color : inherit;
-	font-family : kenyancoffee;
-}
-
-.tabs .dropmenu a {font-size : 1.2em;text-transform:none;}
-.tabs .dropmenu span {color:floralwhite;text-transform:none;}
-
-/* last dropmenu is align to the right not to overflow main container*/
-.tabs li:last-child .dropmenu {right:0;left:auto;}
-
-.tabs ul li .dropmenu {
-	background :#F16529;
-	/*border-radius : 0 0 12px 12px;*/
-	border : none;
-	padding : 0;
-	}
-
-.dropmenu .smartlist {
-	border : 5px solid #E44D26;
-	border-top : none;
-	display : block;
-	}
-
-.tabs .dropmenu li {background:transparent;}
-.dropmenu p.details {color: gainsboro;}
-
-.tabs .dropmenu li:hover {background: #E44D26;}
-
-
-/* last empty span that makes justification applyied */
-.finish-tabs {
-	display: inline-block;
-	height: 0;
-	position: relative;
-	width: 100%;
-}
-
-/**
-* adapt standard layouts to elastic width
-*/
-
-/* layout as map (yahoo) */
-dl.column_1, dl.column_2 { width : 46%;}
-dl.column_1 {margin-right : 2em;}
-dl.column_2 {margin-right : 0;}
-
-/* gadget boxes */
-dl.gadget_box {width : 45%;}
 
 
 /* ==|== media queries ======================================================
