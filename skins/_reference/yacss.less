@@ -30,12 +30,43 @@
 @color-tabs-borders       : #c0c0c0;
 @color-tabs               : ghostwhite;
 @color-modal              : #FFF;
+@color-nav-tabs           : lightyellow;
 
+
+////////////////////// 
+// MIXINs
+//
+// those are mixins used within this less script
+// use 'x-' prefix as a convention
+
+
+// to enlight a element while hovered, focused or active
+.x-enlight {
+    
+    position : relative;
+    
+    &:hover,
+    &:focus,
+    &:active {
+    
+        // enlight this with a pseudo class
+        // that will cover it with transparency stuff
+        &::before {
+            position: absolute;
+            top:0;left:0;            // fit to parent
+            height:100%;width:100%;  // fit to parent
+            content: '';             // only a background
+            background: @color-enlighter;
+            pointer-events: none;   // allow to click thru it
+            border-radius:inherit;  // fit to parent
+        }
+    }
+}
 
 /////////////
-// Helper class
+// Helper classes
 //
-// used by yacs
+// used by yacs for specific contents
 //
 
 // error -- report on abnormal conditions
@@ -107,6 +138,112 @@
 }
 
 ////////////////
+// Navigation tabs
+//
+// the main navigation of the website
+// by defaut a horizontal menu at the top
+// could be two-level drop menu so we use nested <ul>
+// @see skins/pages.php
+//
+
+
+.@{yacs-namespace}tabs { 
+
+    position:relative;  // for responsive menu icon
+    min-height:38px;
+    background:rgba(255,255,255,0.6);
+    
+    & > ul {
+        list-style: none; // no bullets
+        padding:0; // no indent
+
+        // first level links
+        & > li > a {
+            text-decoration: none;
+            display:block;
+            padding : 0.2em 1em;
+            font-size : 1.3em;
+            min-height : 38px;  // finger touch friendly
+            margin-bottom : 1px; // separation with siblings
+            color:@color-link;
+            background-color: @color-nav-tabs;
+            // transition form current focus
+            transition: background-color 500ms ease-in;
+            transition: color 500ms ease-in;
+
+            // react on hover, focus and active states
+            .x-enlight();
+
+            // emphatize current focus
+            &.current {
+                background-color:@color-link;
+                color: #FFF;
+            }
+        }
+    }
+}
+
+.@{yacs-namespace}dropmenu {
+    max-height:0; // second level hidden by default;
+    overflow: hidden;
+    padding : 0 .2em;
+    transition: max-height 1s ease-in; // drop visual effect
+    
+    ul {
+        list-style: none;
+        padding:0;
+        
+        li {
+            .x-enlight();
+        }
+    }
+}
+
+.@{yacs-namespace}tabs li:hover{
+    
+        .@{yacs-namespace}dropmenu {
+             max-height:999px;  // dropmenu will get it's natural height
+        }
+}
+
+// tabs on big screen
+// uses flexbox
+@media (min-width: @medium-plus-screen){
+    
+    #header_panel {overflow: visible;} // ensure dropdown menu will be display
+    
+    .@{yacs-namespace}tabs { 
+        
+        overflow:visible;
+        
+        & > ul {
+            display: flex;
+            flex-wrap : wrap;
+
+            & > li {
+                position:relative;  // to position dropmenu
+                border-bottom : 1px solid @color-tabs-borders;
+
+                .@{yacs-namespace}dropmenu {
+                    position:absolute;
+                    top:98%;
+                    z-index:200;
+                    background-color: @color-nav-tabs;
+                    width:200px;
+                }
+                
+                &:hover .@{yacs-namespace}dropmenu{
+                    border : 1px solid @color-tabs-borders;
+                    border-top : none;
+                    padding-bottom: .2em;
+                    padding-top : .5em;
+                }
+            }
+        }
+    }
+}
+
+////////////////
 // Edition tabs
 //
 // tabs layout used it almost all edition form
@@ -127,33 +264,15 @@
 
         height:38px;
         margin-bottom : 2px; // separation between tabs
+        
+        // react on hover, focus and active states
+        .x-enlight();
     }
 
     .@{yacs-namespace}tab-foreground {
         background-color:@color-link;
         color: #FFF;
         opacity:1;
-    }
-}
-
-// tab interaction
-.@{yacs-namespace}tabs-bar a:hover,
-.@{yacs-namespace}tabs-bar a:focus,
-.@{yacs-namespace}tabs-bar a:active{
-
-    text-decoration : none;
-
-    // enlight this with a pseudo class
-    // that will cover it
-    position : relative;
-    &::before {
-        position: absolute;
-        top:0;left:0;
-        height:100%;width:100%;
-        content: '';
-        background: @color-enlighter;
-        pointer-events: none;   // allow to click thru
-        border-radius:inherit;
     }
 }
 
@@ -194,6 +313,7 @@
 
     .@{yacs-namespace}tabs-bar {
         display : flex;
+        flex-wrap : wrap;
         align-items: flex-start;
         border-bottom: 1px solid @color-tabs-borders;
 

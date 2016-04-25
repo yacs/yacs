@@ -1315,6 +1315,11 @@ function render_skin($with_last_modified=TRUE) {
 
 	    // lead robots
 	    $metas[] = '<meta name="robots" content="index,follow" />';
+            
+            // current menu
+            if($top = page::top_focus()) {
+                $metas[] = '<meta name="topfocus" content="'.$top.'" />';
+            }
 
 	}
 

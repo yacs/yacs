@@ -1779,7 +1779,7 @@ Class Skin_Skeleton {
 	 * @param string to access this link with keyboard only
 	 * @return string the rendered text, or the bare url if $variant = 'raw'
 	**/
-	public static function &build_link($url, $label=NULL, $variant=NULL, $href_title=NULL, $new_window=FALSE, $access_key=NULL) {
+	public static function build_link($url, $label=NULL, $variant=NULL, $href_title=NULL, $new_window=FALSE, $access_key=NULL) {
 		global $context;
 
 		// don't create a link if there is no url - strip everything that begins with '_'
@@ -1806,6 +1806,7 @@ Class Skin_Skeleton {
                 }
 
 		// guess the type of this link
+                $matches = array();
 		if(!$variant) {
 
 			if(!strncmp($url, '/', 1))
@@ -1864,10 +1865,11 @@ Class Skin_Skeleton {
 			elseif(!strncmp($url, 'mailto:', 7))
 				$variant = 'email';
 
-		} elseif($pos = strpos($variant,'#')) {
+		} elseif(preg_match('/#([a-zA-Z0-9_-]+)/',$variant,$matches)) {
                     // separate id from variant if any
-                    $attributes .= ' id="'.substr($variant,$pos+1).'"';
-                    $variant = substr($variant, 0, $pos );
+                    
+                    $attributes .= tag::_id($matches[1]);
+                    $variant = str_replace('#'.$matches[1], '', $variant);
                 }
 
 		// open in a separate window if asked explicitly or on file streaming
@@ -2314,7 +2316,7 @@ Class Skin_Skeleton {
 	 * @param boolean open links in a separate page if TRUE
 	 * $return the HTML code
 	 */
-	public static function &build_list(&$items, $variant='unordered', $default_icon=NULL, $new_window=FALSE, $callback=NULL) {
+	public static function build_list(&$items, $variant='unordered', $default_icon=NULL, $new_window=FALSE, $callback=NULL) {
 		global $context;
 
 		// sanity check
@@ -2397,10 +2399,14 @@ Class Skin_Skeleton {
 			elseif(!strncmp($url, 'ftp:', 4) && strncmp($url, 'ftp://'.$context['host_name'], strlen('ftp://'.$context['host_name'])))
 				$type = 'external';
 
-			// pass elements ids of the site bar
+			// pass elements ids to build the site bar
+                        // @see sections/layout_sections_as_main_tabs.php
+                        // and skin::skeleton::finalize_list(), tabs case
 			$id = '';
-			if(($variant == 'tabs') && ($type != 'basic'))
-				$id = ' id="tab_'.$type.'"';
+			if(($variant == 'tabs') && ($type != 'basic')) {
+				$id = 'tab_'.$type;
+                                $type = null;
+                        }
 
 			// clean labels at occasions --codes have already been transformed here
 			if(($variant == 'crumbs') || ($variant == 'tabs'))
@@ -2410,31 +2416,10 @@ Class Skin_Skeleton {
 			if(($variant == 'column_1') || ($variant == 'column_2'))
 				$label = '<span class="box_header">'.$label.'</span>';
 
-			// ease the handling of css, but only for links
-			if(($variant == 'tabs') || ($variant == 'page_menu')) {
-                            
-                                // avoid invalid HTML if label contain a div
-                                if(strpos($label, '<div ') !== FALSE ) {
-                                    $tag = 'div';
-                                    $style = ' style="display:inline;"';
-                                } else {
-                                    $tag = 'span';
-                                    $style = '';
-                                }
-                                    
-                            
-				if(count($list) == 0)
-					$label = '<'.$tag.$style.' class="first">'.$label.'</'.$tag.'>';
-				elseif(count($list)+1 == count($items))
-					$label = '<'.$tag.$style.' class="last">'.$label.'</'.$tag.'>';
-				else
-					$label = '<'.$tag.$style.'>'.$label.'</'.$tag.'>';
-			}
-
 			// the beautified link --if $url is '_', Skin::build_link() will return the label alone
 			$link = '';
 			if($label != '_')
-				$link =& Skin::build_link($url, $label, $type, $title, $new_window);
+				$link = Skin::build_link($url, $label, $type, $title, $new_window);
 
 			// this link comes with an attached image
 			if(strpos($icon, '<img ') !== FALSE)
@@ -2463,7 +2448,7 @@ Class Skin_Skeleton {
 			if($icon) {
 				if(!$title)
 					$title = i18n::s('View the page');
-				$icon =& Skin::build_link($url, $icon, 'basic', $title, $new_window);
+				$icon = Skin::build_link($url, $icon, 'basic', $title, $new_window);
 			}
 
 			// append to the list
@@ -3887,7 +3872,7 @@ Class Skin_Skeleton {
 	 * @param string id of the resulting tag, if any
 	 * @return string text to be put in page
 	 */
-	public static function &finalize_list($list, $variant, $id=NULL) {
+	public static function finalize_list($list, $variant, $id=NULL) {
 		global $context;
 
 		if($id)
@@ -4300,11 +4285,14 @@ Class Skin_Skeleton {
 
 					// drop the icon, but use the id -- label is already bracketed with prefix and suffix
 					list($label, $icon, $id) = $item;
-					$text .= '<li'.$id.'>'.TABS_ITEM_PREFIX.$label.TABS_ITEM_SUFFIX.'</li>'."\n";
+					$text .= tag::_('li', tag::_id($id), TABS_ITEM_PREFIX.$label.TABS_ITEM_SUFFIX);
 				}
+                                
+                                // responsive menu icon
+                                $icon = tag::_('label', tag::_class('tabs-mini-toggle hamburger'), '<span></span>');
 
 				$tag_tabs = (SKIN_HTML5)?'nav':'div';
-				$text = '<'.$tag_tabs.' class="tabs">'.TABS_PREFIX.'<ul>'."\n".$text.'</ul>'.TABS_SUFFIX.'</'.$tag_tabs.">\n";
+				$text = tag::_($tag_tabs, tag::_class('tabs'), TABS_PREFIX.tag::_('ul','',$text).$icon.TABS_SUFFIX);
 				break;
 
 			// similar to compact

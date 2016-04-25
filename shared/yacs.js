@@ -704,6 +704,19 @@ var Yacs = {
 		Yacs.displayModalBox(content,Yacs.modalPost);
 	    });
 	},
+        
+        /**
+         * emphatize current focus
+         * for tabs navigation menu
+         * 
+         */
+        emTopFocus: function(){
+            var top = $('meta[name="topfocus"]').attr('content');
+            if(typeof top !== 'undefined') {
+                $('#' + top + ' > a').addClass('current');
+            }
+            
+        },
 
 	/**
 	 * filter floating numbers
@@ -1206,6 +1219,11 @@ var Yacs = {
 
 		// detect Flash on client side
 		Yacs.detectFlash();
+                
+                Yacs.emTopFocus();
+                
+                // toggle menus when icon is clicked
+                Yacs.prepareMenus();
 
 		// change the behavior of buttons used for data submission, except those with style 'no_spin_on_click'
                 $('body').delegate('button[type=submit]:not(.no_spin_on_click)','click', function(){Yacs.startWorking();});
@@ -1435,6 +1453,22 @@ var Yacs = {
 		});
 
 	},
+        
+        prepareMenus: function() {
+                // button for responsive menu
+                $(pfx('.tabs-mini-toggle')).click(function(){
+                    
+                    // get parent
+                    var _parent = $(this).parent();
+                    if(_parent.hasClass(pfx('tabs'))) {
+                        _parent.find('a').not('.current').toggle();
+                    } else {
+                        _parent.find(pfx('.tab-background')).toggle();
+                    }
+                    
+                    // $(pfx('.tab-background')).toggle();
+                });
+        },
 
 	/**
 	 * initialize a input for ajax upload
@@ -2111,11 +2145,6 @@ var Yacs = {
                 // if we have steps, that mean to hide validation button before surfer reached the last one
                 if($(pfx(".tabs-panels .step")).length)
                     $(pfx("#main_form .bottom")).hide();
-
-                // button for responsive menu
-                $(pfx('.tabs-mini-toggle')).click(function(){
-                    $(pfx('.tab-background')).toggle();
-                });
 
                 /**
                  * Get starting tab
