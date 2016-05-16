@@ -5159,17 +5159,17 @@ Class Skin_Skeleton {
 		// a link to go backwards
 		$previous = '';
 		if($previous_url)
-			$previous =& Skin::build_link($previous_url, $previous_label, 'pager-previous', $previous_hover);
+			$previous = Skin::build_link($previous_url, $previous_label, 'pager-previous', $previous_hover);
 
 		// a link to go forward
 		$next = '';
 		if($next_url)
-			$next =& Skin::build_link($next_url, $next_label, 'pager-next', $next_hover);
+			$next = Skin::build_link($next_url, $next_label, 'pager-next', $next_hover);
 
 		// an option, if any
 		$option = '';
 		if($option_url)
-			$option =& Skin::build_link($option_url, $option_label, 'basic');
+			$option = Skin::build_link($option_url, $option_label, 'basic');
 		elseif($option_label)
 			$option = $option_label;
 

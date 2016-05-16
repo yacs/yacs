@@ -1035,7 +1035,7 @@ Class Codes {
 				$url = Articles::get_permalink($item);
 
 				// return a complete anchor
-				$output =& Skin::build_link($url, $text, $type);
+				$output = Skin::build_link($url, $text, $type);
 			}
 
 			return $output;
@@ -1588,7 +1588,7 @@ Class Codes {
 				$url = Sections::get_permalink($item);
 
 				// return a complete anchor
-				$output =& Skin::build_link($url, $text, $type);
+				$output = Skin::build_link($url, $text, $type);
 			}
 
 			return $output;
@@ -1649,7 +1649,7 @@ Class Codes {
 				$url = Users::get_permalink($item);
 
 				// return a complete anchor
-				$output =& Skin::build_link($url, $text, $type);
+				$output = Skin::build_link($url, $text, $type);
 			}
 
 			return $output;
