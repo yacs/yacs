@@ -370,7 +370,7 @@
                     
                         $lang               = $page['lang'];
                         $text               = ($legend)?'&nbsp;'.i18n::s(sprintf('to_local_%s',$lang)):'';
-                        $switch            .= '<li>'.'<a href="'.$page['url'].'">'.Codes::beautify('['.$lang.']').$text.'</a>'.'</li>'."\n";
+                        $switch            .= '<a href="'.$page['url'].'">'.Codes::beautify('['.$lang.']').$text.'</a>'."\n";
                         // memorize as proposed language
                         $page_languages[]   = $lang;
                     
@@ -384,13 +384,15 @@
                 foreach ($to_add as $lang) {
                     
                     $text               = ($legend)?'&nbsp;'.i18n::s(sprintf('to_local_%s',$lang)):'';
-                    $switch            .= '<li>'.'<a href="'.http::add_url_param($_SERVER['REQUEST_URI'], "lang", $lang).'">'.Codes::beautify('['.$lang.']').$text.'</a>'.'</li>'."\n";
+                    $switch            .= '<a href="'.http::add_url_param($_SERVER['REQUEST_URI'], "lang", $lang).'">'.Codes::beautify('['.$lang.']').$text.'</a>'."\n";
                 }
             }
             
             // wrap
-            if($switch)
-                $switch = '<div class="local_switcher"><ul>'.$switch.'</ul></div>'."\n";
+            if($switch) {
+                $tag = (SKIN_HTML5)?'aside':'div';
+                $switch = tag::_($tag, tag::_class('local-switcher'),$switch);
+            }
             
             
             echo $switch;
