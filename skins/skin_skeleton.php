@@ -455,20 +455,20 @@ Class Skin_Skeleton {
 		switch($variant) {
 
 		case 'extra':
-			$output =& Skin::build_extra_box($title, $content, $id);
+			$output = Skin::build_extra_box($title, $content, $id);
 			break;
 
 		case 'floating':
-			$output =& Skin::build_floating_box($title, $content, $id);
+			$output = Skin::build_floating_box($title, $content, $id);
 			break;
 
 		case 'folded':
 		case 'folder': // obsoleted
-			$output =& Skin::build_folded_box($title, $content, $id);
+			$output = Skin::build_folded_box($title, $content, $id);
 			break;
 
 		case 'gadget':
-			$output =& Skin::build_gadget_box($title, $content, $id);
+			$output = Skin::build_gadget_box($title, $content, $id);
 			break;
 
 		case 'header1':
@@ -476,53 +476,53 @@ Class Skin_Skeleton {
 		case 'header1 odd':
 		case 'header2':
 		case 'header3':
-			$output =& Skin::build_header_box($title, $content, $id, $variant);
+			$output = Skin::build_header_box($title, $content, $id, $variant);
 			break;
 
 		case 'navigation':
-			$output =& Skin::build_navigation_box($title, $content, $id);
+			$output = Skin::build_navigation_box($title, $content, $id);
 			break;
 
 		case 'section': // legacy
-			$output =& Skin::build_header_box($title, $content, $id);
+			$output = Skin::build_header_box($title, $content, $id);
 			break;
 
 		case 'sidebar':
-			$output =& Skin::build_sidebar_box($title, $content, $id);
+			$output = Skin::build_sidebar_box($title, $content, $id);
 			break;
 
 		case 'sidecolumn':
-			$output =& Skin::build_sidecolumn_box($title, $content, $id);
+			$output = Skin::build_sidecolumn_box($title, $content, $id);
 			break;
 
 		case 'sliding':
-			$output =& Skin::build_sliding_box($title, $content, $id);
+			$output = Skin::build_sliding_box($title, $content, $id);
 			break;
 
 		case 'toc':
-			$output =& Skin::build_toc_box($title, $content, $id);
+			$output = Skin::build_toc_box($title, $content, $id);
 			break;
 
 		case 'toq':
-			$output =& Skin::build_toq_box($title, $content, $id);
+			$output = Skin::build_toq_box($title, $content, $id);
 			break;
 
 		case 'unfolded':
-			$output =& Skin::build_unfolded_box($title, $content, $id);
+			$output = Skin::build_unfolded_box($title, $content, $id);
 			break;
 
 		default:
 
 			// displayed in the navigation panel
 			if(isset($context['skins_navigation_components']) && (strpos($context['skins_navigation_components'], $variant) !== FALSE))
-				$output =& Skin::build_navigation_box($title, $content, $id);
+				$output = Skin::build_navigation_box($title, $content, $id);
 
 			// displayed in the extra panel
 			elseif(isset($context['skins_extra_components']) && (strpos($context['skins_extra_components'], $variant) !== FALSE))
-				$output =& Skin::build_extra_box($title, $content, $id);
+				$output = Skin::build_extra_box($title, $content, $id);
 
 			else
-				$output =& Skin::build_header_box($title, $content, $id, $variant);
+				$output = Skin::build_header_box($title, $content, $id, $variant);
 			break;
 
 		}
@@ -982,32 +982,30 @@ Class Skin_Skeleton {
 	 * @param string an optional unique id for this box
 	 * @return the HTML to display
 	 */
-	public static function &build_extra_box($title, &$content, $id='') {
+	public static function build_extra_box($title, $content, $id='') {
 		global $context;
 
 		// this box has a unique id
 		if($id)
-			$id = ' id="'.$id.'" ';
+			$id = tag::_id($id);
 
 		// else create our own unique id
 		else {
 			static $global_extra_box_index;
 			if(!isset($global_extra_box_index))
 				$global_extra_box_index = 0;
-			$id = ' id="extra_'.++$global_extra_box_index.'" ';
+                        $id = tag::_id('extra_'.++$global_extra_box_index);
 		}
 
-		// external div boundary
-		$text = '<dl class="extra_box"'.$id.'>'."\n";
-
 		// always add a header
-		$text .= '<dt><span>'.$title."</span></dt>\n";
+                $text = tag::_('p',tag::_class('k/h3-like'),$title);
 
 		// box content
-		$text .= '<dd>'.$content.'</dd>';
+		$text .= $content;
 
-		// external div boundary
-		$text .= '</dl>'."\n";
+		// wrap everything
+                $tag = (SKIN_HTML5)?'aside':'div';
+		$text = tag::_($tag,tag::_class('extra-box').$id,$text);
 
 		return $text;
 	}
@@ -2655,32 +2653,30 @@ Class Skin_Skeleton {
 	 * @param string an optional unique id for this box
 	 * @return the HTML to display
 	 */
-	public static function &build_navigation_box($title, &$content, $id='') {
+	public static function build_navigation_box($title, $content, $id='') {
 		global $context;
 
 		// this box has a unique id
 		if($id)
-			$id = ' id="'.$id.'" ';
+			$id = tag::_id($id);
 
 		// else create our own unique id
 		else {
 			global $global_navigation_box_index;
 			if(!isset($global_navigation_box_index))
 				$global_navigation_box_index = 0;
-			$id = ' id="navigation_'.++$global_navigation_box_index.'" ';
+                        $id = tag::_id('navigation_'.++$global_navigation_box_index);
 		}
 
-		// external div boundary
-		$text = '<dl class="navigation_box"'.$id.'>'."\n";
-
 		// always add a header
-		$text .= '<dt><span>'.$title."</span></dt>\n";
+                $text = tag::_('p',tag::_class('k/h3-like'),$title);
 
 		// box content
-		$text .= '<dd>'.$content.'</dd>';
+		$text .= $content;
 
-		// external div boundary
-		$text .= '</dl>'."\n";
+		// wrap everything
+                $tag = (SKIN_HTML5)?'aside':'div';
+                $text = tag::_($tag,tag::_class('navigation-box'.$id),$text);
 
 		return $text;
 	}
