@@ -119,8 +119,7 @@ Class Js_Css {
         if($need_compile) {
             
             // load lessphp
-            include_once $context['path_to_root'].'included/less/lessc.inc.php';
-            $less = new lessc;
+            $less = js_css::prepare_less_compiler();
 
             // set import directories
             $less->setImportDir(
@@ -140,15 +139,6 @@ Class Js_Css {
                 // append pure css
                 $import   .= Safe::file_get_contents($context['path_to_root'].$context['skin'].'/'.$skin.'.css');
             }
-            
-            // compress option
-            // $less->setFormatter("compressed");
-            
-            // define namespaces
-            $less->setVariables(array(
-                "k-prefix" => KNACSS_PREFIX,
-                "y-prefix" => YACSS_PREFIX,
-            ));
 
             // compile into a css file, catch errors
             try {
@@ -396,13 +386,11 @@ Class Js_Css {
             if($ext === 'less') {
                 
               
-                // include lessphp lib
-                include_once $context['path_to_root'].'included/less/lessc.inc.php';
-                $less = new lessc;
+                // get a less compiler
+                $less = js_css::prepare_less_compiler();
+                
                 // production mode
                 if($context['with_debug']=='N') {
-                    // we create a minified css
-                    $less->setFormatter("compressed");
                     $min = '.min';
                     
                 // dev mode    
@@ -602,6 +590,43 @@ Class Js_Css {
         }
         
         return false;
+    }
+    
+    /**
+     * Common preparation of less compiler
+     * used in link_file() and call_skin_css()
+     * 
+     * @global type $context
+     * @return object the less compiler;
+     */
+    private static function prepare_less_compiler() {
+        global $context;
+        
+        // include lessphp lib
+        include_once $context['path_to_root'].'included/less/lessc.inc.php';
+        $less = new lessc;
+        
+        // compressed output or not
+        if($context['with_debug']=='N') {
+            // we create a minified css
+            $less->setFormatter("compressed");
+        }
+        
+        // specific function to provide absolute path of ressources within sheet
+        // this will provide root url
+        // TODO : improve using static domain if any
+        $less->registerFunction('rPath', function($arg) use($context) {
+                return $context['url_to_master'].$context['url_to_root'];
+        });
+        
+        // define namespaces
+        $less->setVariables(array(
+            "k-prefix" => KNACSS_PREFIX,
+            "y-prefix" => YACSS_PREFIX,
+        ));
+        
+        // return prepared compiler
+        return $less;
     }
 
     /**
