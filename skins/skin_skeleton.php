@@ -4212,10 +4212,10 @@ Class Skin_Skeleton {
 					$text .= $label;
 				}
                                 
-                                // prevent invalid html if div inside text
-                                $tag = (strpos($text, '<div ') !== FALSE)?'div':'p';
-                                
-				$text = '<'.$tag.' id="page_menu">'.PAGE_MENU_PREFIX.$text.PAGE_MENU_SUFFIX."</".$tag.">\n";
+    
+                                $tag = (SKIN_HTML5)?'nav':'div'; 
+                                $text = tag::_($tag, tag::_class('page-menu'), PAGE_MENU_PREFIX.$text.PAGE_MENU_SUFFIX);
+				
 				break;
 
 			// items are stacked; use css selectors: div.odd, div.even

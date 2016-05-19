@@ -557,3 +557,44 @@ figure {max-width: 100%;}
         }
     }
 }
+
+/////////////////////
+//
+// Page menu
+//
+// a set of buttons
+
+.@{yacs-namespace}page-menu {
+    
+    display: flex;
+    flex-wrap: wrap;
+    line-height : 2em;
+    
+    a {
+        box-shadow:inset 0px 1px 0px 0px #fff;
+        background:linear-gradient( to bottom, #ededed 5%, #dfdfdf 100% );
+        background-color:#ededed;
+        border-top-left-radius:10px;
+        border-bottom-right-radius:10px;
+        border:1px solid #dcdcdc;
+        color:#777;
+        text-shadow:1px 1px 0px #fff;
+        padding : 0 0.5em;
+        margin : 0.1em 0.2em;
+        
+        &:hover {
+            background: linear-gradient( to top, #ededed 5%, #dfdfdf 100% );
+            background-color:#dfdfdf;
+            text-decoration: none;
+        }
+        
+        &:visited {
+          color:#777;  
+        }
+        
+        &:active {
+            position:relative;
+            top : 1px;
+        }
+    }
+}
