@@ -760,7 +760,7 @@ if(!isset($item['id'])) {
 
 	    // the contextual menu, in a navigation box, if this has not been disabled
 	    if( !$cur_article->has_option('no_contextual_menu')
-		    && isset($context['current_focus']) && ($menu =& Skin::build_contextual_menu($context['current_focus']))) {
+		    && isset($context['current_focus']) && ($menu = Skin::build_contextual_menu($context['current_focus']))) {
 
 		    // use title from topmost level
 		    if(count($context['current_focus']) && ($top_anchor = Anchors::get($context['current_focus'][0]))) {

@@ -592,7 +592,7 @@ Class Skin_Skeleton {
 	 * @see articles/view.php
 	 * @see sections/view.php
 	 */
-	public static function &build_contextual_menu($anchors) {
+	public static function build_contextual_menu($anchors) {
 		global $context;
 
 		// build the contextual tree
@@ -659,7 +659,7 @@ Class Skin_Skeleton {
 		}
 
 		// transform this structure to XHTML
-		$text =& Skin::build_tree($tree, 0, 'contextual_menu_focus');
+		$text = Skin::build_tree($tree, 0, 'contextual_menu_focus');
 		return $text;
 	}
 
@@ -2676,7 +2676,7 @@ Class Skin_Skeleton {
 
 		// wrap everything
                 $tag = (SKIN_HTML5)?'aside':'div';
-                $text = tag::_($tag,tag::_class('navigation-box'.$id),$text);
+                $text = tag::_($tag,tag::_class('navigation-box').$id,$text);
 
 		return $text;
 	}
@@ -3523,7 +3523,7 @@ Class Skin_Skeleton {
 	 * @param int depth level
 	 * @return string
 	 */
-	public static function &build_tree($data, $level=0, $current_id='') {
+	public static function build_tree($data, $level=0, $current_id='') {
 		global $context;
 
 		// sanity check
@@ -3576,7 +3576,7 @@ Class Skin_Skeleton {
 
 			// process sub_items, if any
 			if(is_array($items))
-				$items =& Skin::build_tree($items, $level+1, $current_id);
+				$items = Skin::build_tree($items, $level+1, $current_id);
 
 			// special rendering for the item that has the focus
 			$id = ' ';

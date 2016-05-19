@@ -19,6 +19,9 @@
 // default is "y-" but you can overide this in your skin.php
 @yacs-namespace: @y-prefix;
 
+// path to this sheet, used to declare ressources as background image
+@path : rPath() + "skins/_reference/";
+
 ////////////
 // constants
 //
@@ -500,4 +503,57 @@ figure {max-width: 100%;}
         list-style: none;
     }
     
+}
+
+
+///////////////////////
+//
+// Contextual menu
+//
+// display sections tree
+//
+
+#contextual_menu {
+    
+    // tiny font
+    font-size: 10px;
+    line-height: 14px;
+    
+    // class for top level
+    .tree {
+        margin: 0;
+        padding: 0;
+        
+        // branches
+        ul {
+            background: url('@{path}tree/vertical.gif') repeat-y 0px 100%;
+            padding : 0;
+            
+            // nodes
+            li {
+                padding-left: 14px;
+                background: url('@{path}tree/node.gif') no-repeat top left;
+                
+                // last node
+                &.last {
+                    background-image: url('@{path}tree/last.gif');
+                }
+                
+                // path to the current element
+                &.open > a, &.current > a {
+                    font-weight: bold;
+                    font-style: italic;
+                    padding-left: 16px;
+                    background: transparent url('@{path}tree/open.gif') no-repeat top left;
+                }
+                
+                // other pathes, closed
+                a.close, a.below {
+                    padding-left: 16px;
+                    background: transparent url('@{path}tree/close.gif') no-repeat top left;
+                }
+                
+            }
+        }
+    }
 }
