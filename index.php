@@ -416,7 +416,7 @@ if(is_array($items)) {
 
 	// make a box
 	if($items)
-		$items =& Skin::build_box($title, $items, 'header1', 'recent_articles');
+		$items = Skin::build_box($title, $items, 'header1', 'recent_articles');
 
 }
 $context['text'] .= $items;

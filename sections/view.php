@@ -1297,7 +1297,7 @@ if(!isset($item['id'])) {
 
 		// insert a full box
 		if($box['text'])
-			$box['text'] =& Skin::build_box($title_label, $box['text'], 'header1', 'comments');
+			$box['text'] = Skin::build_box($title_label, $box['text'], 'header1', 'comments');
 
 
 		// there is some box content

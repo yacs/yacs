@@ -153,7 +153,7 @@ if(!is_object($anchor)) {
 			// layout everything in a box
 			if(count($box['bar']))
 				$box['text'] = Skin::build_list($box['bar'], 'menu_bar')."\n".$box['text'];
-			$text =& Skin::build_box($box['title'], $box['text']);
+			$text = Skin::build_box($box['title'], $box['text']);
 
 		}
 

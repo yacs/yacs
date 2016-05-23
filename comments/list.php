@@ -232,7 +232,7 @@ if(!is_object($anchor)) {
 
 		// build a box
 		if($box['text'])
-			$text =& Skin::build_box('', $box['text'], 'header1', 'comments');
+			$text = Skin::build_box('', $box['text'], 'header1', 'comments');
 
 		// cache this to speed subsequent queries
 		Cache::put($cache_id, $text, 'comments');

@@ -895,13 +895,13 @@ if($with_form) {
 	// associates can anchor the section anywhere
 	if(Surfer::is_associate()) {
 		$label = i18n::s('Section');
-		$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($ref, $me), 'folded');
+		$input = Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($ref, $me), 'folded');
 		$fields[] = array($label, $input);
         // parent section is defined and surfer is an editor of it
 	}elseif(is_object($anchor) && ($anchor->is_assigned())) {
 
 			$label = i18n::s('Section');
-			$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($ref, $me), 'folded');
+			$input = Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($ref, $me), 'folded');
 			$fields[] = array($label, $input);
 
 	// preserve the existing anchor

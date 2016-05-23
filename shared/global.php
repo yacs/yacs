@@ -996,31 +996,31 @@ function render_skin($with_last_modified=TRUE) {
 	if(!is_callable(array('Skin', 'build_list'))) {
 
 		class Skin {
-			function &build_block($text) {
+			function build_block($text) {
 				return $text;
 			}
 
-			function &build_box($title, $content) {
+			function build_box($title, $content) {
 				$text = '<h3>'.$title.'</h3><div>'.$content.'</div>';
 				return $text;
 			}
 
-			function &build_link($url, $label) {
+			function build_link($url, $label) {
 				$text = '<a href="'.$url.'">'.$label.'</a>';
 				return $text;
 			}
 
-			function &build_list() {
+			function build_list() {
 				$text = '{list}';
 				return $text;
 			}
 
-			function &build_user_menu() {
+			function build_user_menu() {
 				$text = '{user_menu}';
 				return $text;
 			}
 
-			function &finalize_list($list, $kind) {
+			function finalize_list($list, $kind) {
 				$text = '{list}';
 				return $text;
 			}

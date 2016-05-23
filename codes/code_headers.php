@@ -223,7 +223,7 @@ Class code_headers extends Code {
                                    }
                            }
 
-                           $output =& Skin::build_box('', $text, 'toc');
+                           $output = Skin::build_box('', $text, 'toc');
 
                    }
 

@@ -457,7 +457,7 @@ if($with_form) {
 
 			if(isset($item['id']) && Articles::is_owned($item, $anchor)) {
 				$label = i18n::s('Section');
-				$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($anchor->get_reference()), 'folded');
+				$input = Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($anchor->get_reference()), 'folded');
 				$fields[] = array($label, $input);
 			} else
 				$text .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';

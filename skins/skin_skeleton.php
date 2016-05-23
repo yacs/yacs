@@ -439,7 +439,7 @@ Class Skin_Skeleton {
 	 * @return the HTML to display
 	 *
 	 */
-	public static function &build_box($title, $content, $variant='header1', $id='', $url='', $popup='') {
+	public static function build_box($title, $content, $variant='header1', $id='', $url='', $popup='') {
 		global $context;
                 
                 $content = Codes::fix_tags($content);
@@ -449,7 +449,7 @@ Class Skin_Skeleton {
 
 		// append a link to the title, if any
 		if($url)
-			$title =& Skin::build_box_title($title, $url, $popup);
+			$title = Skin::build_box_title($title, $url, $popup);
 
 		// depending on variant
 		switch($variant) {
@@ -3014,7 +3014,7 @@ Class Skin_Skeleton {
 				// box content in a sidebar box
 				include_once $context['path_to_root'].'agents/referrals.php';
 				if($items = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].$script))
-					$output =& Skin::build_box(i18n::s('Referrals'), $items, 'referrals', 'referrals');
+					$output = Skin::build_box(i18n::s('Referrals'), $items, 'referrals', 'referrals');
 
 				// save in cache for 5 minutes 60 * 5 = 300
 				Cache::put($cache_id, $output, 'stable', 300);
@@ -3033,33 +3033,33 @@ Class Skin_Skeleton {
 	 * @param string an optional unique id for this box
 	 * @return the HTML to display
 	 */
-	public static function &build_sidebar_box($title, &$content, $id) {
+	public static function build_sidebar_box($title, &$content, $id) {
 		global $context;
 
 		// this box has a unique id
 		if($id)
-			$id = ' id="'.$id.'" ';
+			$id = tag::_id($id);
 
 		// else create our own unique id
 		else {
 			static $global_sidebar_box_index;
 			if(!isset($global_sidebar_box_index))
 				$global_sidebar_box_index = 0;
-			$id = ' id="sidebar_'.++$global_sidebar_box_index.'" ';
+			
+                        $id = tag::_id('sidebar'.++$global_sidebar_box_index);
 		}
 
-		// external div boundary
-		$text = '<div class="sidebar_box"'.$id.'>'."\n";
-
+                $text = '';
 		// always add a header
 		if($title)
-			$text .= '<h3><span>'.$title."</span></h3>\n";
+			$text .= '<h3>'.$title."</h3>\n";
 
 		// box content
-		$text .= '<div class="sidebar_body">'.$content.'</div>';
+                $text .= tag::_('div', tag::_class('sidebar-body'), $content);
 
-		// external div boundary
-		$text .= '</div>'."\n";
+		// wrap it
+                $tag = (SKIN_HTML5)?'aside':'div';
+		$text = tag::_($tag,tag::_class('sidebar-box k/w33 k/medium-w50'), $text);
 
 		return $text;
 	}
