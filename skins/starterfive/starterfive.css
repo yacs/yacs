@@ -19,20 +19,6 @@ body {
 	background : #212;
 	}
 
-/* links */
-a {
-	color : #E44D26;
-	text-decoration : none;
-	}
-
-a:visited {
-	color : coral;
-	}
-
-a:hover {
-	color : #C42C05;
-	text-decoration : underline;
-	}
 
 
 /**

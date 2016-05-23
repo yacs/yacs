@@ -140,6 +140,16 @@
 	width: 990px;
 }
 
+
+////////////////
+//
+// Standard tags
+//
+
+a {color:@color-link;}
+a:visited {color:lighten(@color-link,10%);}
+a:hover {color:darken(@color-link,10%);}
+
 ////////////////
 // Navigation tabs
 //
@@ -579,6 +589,7 @@ figure {max-width: 100%;}
         border:1px solid #dcdcdc;
         color:#777;
         text-shadow:1px 1px 0px #fff;
+        text-decoration: none;
         padding : 0 0.5em;
         margin : 0.1em 0.2em;
         
@@ -597,5 +608,33 @@ figure {max-width: 100%;}
             position:relative;
             top : 1px;
         }
+    }
+}
+
+///////////////
+//
+// Standard button
+//
+
+.@{yacs-namespace}button {
+
+    height: 1.5rem;
+    line-height: 3.5rem;
+    vertical-align: middle;
+    margin: 0.2em;
+    background: @color-link;
+    color: darken(@color-link, 30%);
+    padding: 0.6em;
+    box-shadow: inset 0px 1px 0px 0px lighten(@color-link,30%);
+    text-shadow:1px 1px 0px lighten(@color-link,30%);
+    text-decoration: none;
+    
+    &:visited,
+    &:hover {
+        color : darken(@color-link, 30%);
+    }
+    
+    &:hover, &:active {
+       background: lighten(@color-link,10%); 
     }
 }
