@@ -148,7 +148,7 @@
 
 a {color:@color-link;}
 a:visited {color:lighten(@color-link,10%);}
-a:hover {color:darken(@color-link,10%);}
+a:hover {color:darken(@color-link,10%);cursor:pointer;}
 
 ////////////////
 // Navigation tabs
@@ -511,6 +511,10 @@ figure {max-width: 100%;}
     
     ul {
         list-style: none;
+        
+        a {
+            text-decoration: none;
+        }
     }
     
 }
@@ -555,12 +559,14 @@ figure {max-width: 100%;}
                     font-style: italic;
                     padding-left: 16px;
                     background: transparent url('@{path}tree/open.gif') no-repeat top left;
+                    text-decoration: none;
                 }
                 
                 // other pathes, closed
                 a.close, a.below {
                     padding-left: 16px;
                     background: transparent url('@{path}tree/close.gif') no-repeat top left;
+                    text-decoration:none;
                 }
                 
             }
@@ -651,4 +657,34 @@ figure {max-width: 100%;}
     background:@color-tabs;
     font-size: 1.1rem;
     padding: 0.5rem;
+}
+
+////////////////
+//
+// Folder box, unfold with javascript
+//
+
+.@{yacs-namespace}folder-box {
+    margin : 0.2em 0;
+}
+
+.@{yacs-namespace}folder-header {
+    display : block;
+    background : @color-tabs-borders url("@{path}layouts/accordion_plus.png") no-repeat left center;
+    padding-left : 20px;
+    
+    &.open {
+        background-image : url("@{path}layouts/accordion_minus.png");
+    }
+}
+
+.@{yacs-namespace}folder-body {
+    border : 1px solid @color-tabs-borders;
+    border-top : none;
+    padding : 1em;
+    display : none;
+}
+
+.open + .@{yacs-namespace}folder-body {
+    display : block;
 }

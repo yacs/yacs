@@ -1317,6 +1317,13 @@ var Yacs = {
                     return false; // stop propagation
                 });
                 
+                // folder boxes
+                $('body').on('click',pfx('.folder-header'), function(e){
+                    e.preventDefault();
+                    Yacs.toggle_folder($(this));
+                    return false; // stop propagation
+                });
+                
                 // fit videos
                 if($.fn.fitVids) $('.youtube-player, .video').parent().fitVids();
 
@@ -2423,33 +2430,36 @@ var Yacs = {
 	 * @param string URL of the extending icon
 	 * @param string URL of the collapsing icon
 	 */
-	toggle_folder: function(handle, down_href, up_href) {
+	toggle_folder: function(handle) {
 
 		// the panel to slide
-		var panel = $(handle).next('.folder_body');
+		var panel = handle.next(pfx('.folder-body'));
 
 		// display the panel if it is not visible
 		if(panel.css("display") == 'none') {
 
 			$(panel).slideDown({duration: 'slow', scaleContent:false});
+                        
+                        handle.addClass('open');
 
-			// change the image (if there is an image)
+			/*// change the image (if there is an image)
  			var icon = $(handle).children('img').first();
  			if(icon && up_href) {
  				icon.attr('src', up_href);
- 			}
+ 			}*/
 
 		// collapse the panel if it is visible
 		} else {
 
 			$(panel).slideUp({duration: 'slow', scaleContent:false});
-
+                        
+                        handle.removeClass('open');
 			// change the image (if there is an image)
- 			var icon = $(handle).children('img').first();
+ 			/*var icon = $(handle).children('img').first();
 
 			if(icon && down_href) {
 				icon.attr('src', down_href);
-			}
+			}*/
 
 		}
 
