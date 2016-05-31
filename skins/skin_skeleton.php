@@ -4133,7 +4133,9 @@ Class Skin_Skeleton {
 
 				}
 
-				$text = '<div class="menu_bar"'.$id.'>'.MENU_PREFIX.$text.MENU_SUFFIX."</div>\n";
+                                $tag = (SKIN_HTML5)?'nav':'div';
+                                $text = tag::_($tag, tag::_class('menu-bar').$id, MENU_PREFIX.$text.MENU_SUFFIX);
+				//$text = '<div class="menu_bar"'.$id.'>'.MENU_PREFIX.$text.MENU_SUFFIX."</div>\n";
 				break;
 
 			// some news, that can be statically displayed, scrolled or rotated
