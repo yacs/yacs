@@ -4135,7 +4135,6 @@ Class Skin_Skeleton {
 
                                 $tag = (SKIN_HTML5)?'nav':'div';
                                 $text = tag::_($tag, tag::_class('menu-bar').$id, MENU_PREFIX.$text.MENU_SUFFIX);
-				//$text = '<div class="menu_bar"'.$id.'>'.MENU_PREFIX.$text.MENU_SUFFIX."</div>\n";
 				break;
 
 			// some news, that can be statically displayed, scrolled or rotated
@@ -5066,7 +5065,7 @@ Class Skin_Skeleton {
 	 * @see locations/view.php
 	 * @see shared/anchor.php
 	 */
-	public static function &neighbours(&$data, $layout='sidebar') {
+	public static function neighbours(&$data, $layout='sidebar') {
 		global $context;
 
 		// return by reference
@@ -5190,11 +5189,19 @@ Class Skin_Skeleton {
 			break;
 
 		case 'slideshow':
-			$text .= '<table class="neighbours"><tr>'
+                        $tag = (SKIN_HTML5)?'nav':'div';
+                        $text .= tag::_($tag, tag::_class('neighbours'), 
+                              
+                                    ($previous?tag::_('div', tag::_class('/previous'), $previous):'')
+                                   .($option?tag::_('div', tag::_class('/option'), $option):'')
+                                   .($next?tag::_('div', tag::_class('/next'), $next):'')
+                              
+                              );
+			/*$text .= '<table class="neighbours"><tr>'
 				.'<td class="previous">'.($previous?$previous:'&nbsp;').'</td>'
 				.'<td class="option">'.($option?$option:'&nbsp;').'</td>'
 				.'<td class="next">'.($next?$next:'&nbsp;').'</td>'
-				.'</tr></table>'."\n";
+				.'</tr></table>'."\n";*/
 			break;
 		}
 

@@ -66,6 +66,38 @@
     }
 }
 
+// give a shape of a button
+.x-button {
+    
+        box-shadow:inset 0px 1px 0px 0px #fff;
+        background:linear-gradient( to bottom, #ededed 5%, #dfdfdf 100% );
+        background-color:#ededed;
+        border-top-left-radius:10px;
+        border-bottom-right-radius:10px;
+        border:1px solid #dcdcdc;
+        color:#777;
+        text-shadow:1px 1px 0px #fff;
+        text-decoration: none;
+        padding : 0 0.5em;
+        margin : 0.1em 0.2em;
+
+        &:hover {
+            background: linear-gradient( to top, #ededed 5%, #dfdfdf 100% );
+            background-color:#dfdfdf;
+            color:#777;
+            text-decoration: none;
+        }
+
+        &:visited {
+          color:#777;  
+        }
+
+        &:active {
+            position:relative;
+            top : 1px;
+        }
+}
+
 /////////////
 // Helper classes
 //
@@ -581,46 +613,46 @@ figure {max-width: 100%;}
 // a set of buttons
 
 .@{yacs-namespace}page-menu,
-.@{yacs-namespace}menu-bar {
+.@{yacs-namespace}menu-bar,
+.@{yacs-namespace}neighbours {
     
     display: flex;
     flex-wrap: wrap;
     line-height : 2em;
     
     a {
-        box-shadow:inset 0px 1px 0px 0px #fff;
-        background:linear-gradient( to bottom, #ededed 5%, #dfdfdf 100% );
-        background-color:#ededed;
-        border-top-left-radius:10px;
-        border-bottom-right-radius:10px;
-        border:1px solid #dcdcdc;
-        color:#777;
-        text-shadow:1px 1px 0px #fff;
-        text-decoration: none;
-        padding : 0 0.5em;
-        margin : 0.1em 0.2em;
+        .x-button();
+    }
+    
+    // sometime <a> is wrapped in a span or div
+    span a, div a {
+        display : inline-block;
+    }
+}
+
+// neighbours navigation bar
+.@{yacs-namespace}neighbours {
+    
+    justify-content: space-between;
+    margin : .5em 0 1em;
+    
+    .pager-current {
+        // no click on current page
+        pointer-events: none;
+        cursor:default;
+        position:relative;
         
-        &:hover {
-            background: linear-gradient( to top, #ededed 5%, #dfdfdf 100% );
-            background-color:#dfdfdf;
-            color:#777;
-            text-decoration: none;
-        }
-        
-        &:visited {
-          color:#777;  
-        }
-        
-        &:active {
-            position:relative;
-            top : 1px;
+        // empathize current page
+        &:before {
+            content :'';
+            background: @color-link;
+            position:absolute;
+            top:0;bottom:0;left:0;right:0;
+            border-radius:inherit;
+            opacity:.5;
         }
     }
     
-    // sometime <a> is wrapped in a span
-    span a {
-        display : inline-block;
-    }
 }
 
 ///////////////
@@ -630,25 +662,13 @@ figure {max-width: 100%;}
 
 .@{yacs-namespace}button {
 
-    height: 1.5rem;
-    line-height: 3.5rem;
-    vertical-align: middle;
-    margin: 0.2em;
-    background: @color-link;
-    color: darken(@color-link, 30%);
-    padding: 0.6em;
-    box-shadow: inset 0px 1px 0px 0px lighten(@color-link,30%);
-    text-shadow:1px 1px 0px lighten(@color-link,30%);
-    text-decoration: none;
+    .x-button();
+    .x-enlight();
     
-    &:visited,
-    &:hover {
-        color : darken(@color-link, 30%);
-    }
+    height: 4.5rem;
+    line-height: 4.5rem;
+    display : inline-block;
     
-    &:hover, &:active {
-       background: lighten(@color-link,10%); 
-    }
 }
 
 /////////////////
