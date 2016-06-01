@@ -142,7 +142,7 @@ Class Layout_sections_as_rights extends Layout_interface {
 
 			// display all tags
 			if($item['tags'])
-				$summary .= BR.'<span class="tags">'.Skin::build_tags($item['tags'], 'section:'.$item['id']).'</span>';
+				$summary .= BR.tag::_('span', tag::_class('tags'), Skin::build_tags($item['tags']));
 
 			// watcher
 			if(Sections::is_watched($item['id'], $this->focus))

@@ -133,7 +133,7 @@ Class Layout_articles_as_rights extends Layout_interface {
 
 			// display all tags
 			if($item['tags'])
-				$summary .= BR.'<span class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
+				$summary .= BR.tag::_('span', tag::_class('tags'), Skin::build_tags($item['tags']));
 
 			// dates
 //			$update = '<span class="details">'.join(BR, Articles::build_dates($anchor, $item)).'</span>';

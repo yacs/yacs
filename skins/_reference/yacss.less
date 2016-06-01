@@ -675,7 +675,6 @@ figure {max-width: 100%;}
 //
 // Sidebox, within content
 //
-// 
 
 .@{yacs-namespace}sidebar-box {
     float : right;
@@ -713,4 +712,44 @@ figure {max-width: 100%;}
 
 .open + .@{yacs-namespace}folder-body {
     display : block;
+}
+
+////////////////////////////
+//
+// Tags (show categorization)
+//
+
+.@{yacs-namespace}tags {
+    // use flex layout
+    display : flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    margin : .5em 0;
+    
+    // shape of a tag
+    & > * {
+        
+        margin-left: .9em;
+        padding : .1em .5em;
+        border : 1px solid @color-tabs-borders;
+        
+        // shape left side
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+        box-shadow: 1px 1px 2px @color-tabs-borders;
+        
+        background : white;
+        
+        position:relative;
+        
+        // draw like a little string
+        // attached on left side
+        &:before {
+            content: '~';
+            color: @color-tabs-borders;
+            position:absolute;
+            right:100%;
+        }
+
+    }
 }

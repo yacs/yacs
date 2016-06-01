@@ -233,7 +233,7 @@ Class Layout_as_accordion extends Layout_interface {
 
 			// display all tags
 			if($item['tags'])
-				$box['text'] .= ' <p class="tags" style="margin-bottom: 0">'.Skin::build_tags($item['tags'], $entity->get_reference()).'</p>';
+				$box['text'] .= tag::_('p', tag::_class('tags'), Skin::build_tags($item['tags']));
 
 			// if we have an icon for this page, use it
 			if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {

@@ -3323,7 +3323,7 @@ Class Skin_Skeleton {
 	 * @param string the full list of tags
 	 * @return string HTML tags to be put in the resulting page
 	 */
-	public static function &build_tags($tags) {
+	public static function build_tags($tags) {
 		global $context;
 
 		$text = '';

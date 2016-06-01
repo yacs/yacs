@@ -247,7 +247,7 @@ Class Layout_as_columns extends Layout_interface {
                     
                     // display all tags
                     if(isset($item['tags']) && $item['tags'])
-                            $suffix .= '<p class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</p>';
+                            $suffix .= tag::_('p', tag::_class('tags'), Skin::build_tags($item['tags']));
                     
                     // put the actual icon in the left column
                     if(isset($item['thumbnail_url']))

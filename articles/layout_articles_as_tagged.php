@@ -110,7 +110,7 @@ Class Layout_articles_as_tagged extends Layout_interface {
 
 			// display all tags
 			if($item['tags'])
-				$suffix .= ' <span class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
+				$suffix .= tag::_('span', tag::_class('tags'), Skin::build_tags($item['tags']));
 
 			// list all components for this item
 			$items[$url] = array($prefix, $title, $suffix, 'article');

@@ -174,7 +174,7 @@ Class Layout_as_newspaper extends Layout_interface {
 
 		// display all tags
 		if($item['tags'])
-			$text .= ' <p class="tags" style="margin: 3px 0;">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</p>';
+			$text .= tag::_('p', tag::_class('tags'), Skin::build_tags($item['tags']));
 
 		// the introduction
 		$text .= '<div style="margin-top: 3px 0;">';
@@ -277,7 +277,7 @@ Class Layout_as_newspaper extends Layout_interface {
 
 		// display all tags
 		if($item['tags'])
-			$text .= ' <p class="tags" style="margin: 3px 0;">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</p>';
+			$text .= tag::_('p', tag::_class('tags'), Skin::build_tags($item['tags']));
 
 		// the introduction
 		$text .= '<div style="margin: 3px 0;">';
@@ -411,7 +411,7 @@ Class Layout_as_newspaper extends Layout_interface {
 
 		// display all tags
 		if($item['tags'])
-			$suffix .= ' <p class="tags" style="margin-top: 3px;">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</p>';
+			$suffix .= tag::_('p', tag::_class('tags'), Skin::build_tags($item['tags']));
 
 		// insert an array of links
 		return array($prefix, $title, $suffix);

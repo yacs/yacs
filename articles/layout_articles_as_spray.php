@@ -137,7 +137,7 @@ Class Layout_articles_as_spray extends Layout_interface {
 
 			// display all tags
 			if($item['tags'])
-				$summary .= BR.'<span class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
+				$summary .= BR.tag::_('span', tag::_class('tags'), Skin::build_tags($item['tags']));
 
 			// page owner
 			if(isset($item['owner_id']) && ($owner = Users::get($item['owner_id'])))

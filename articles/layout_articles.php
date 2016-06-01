@@ -201,7 +201,7 @@ Class Layout_articles extends Layout_interface {
 
 			// display all tags
 			if($item['tags'])
-				$suffix .= ' <span class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
+                                $suffix .= tag::_('span', tag::_class('tags'), Skin::build_tags($item['tags']));
 
 			// strip empty details
 			$suffix = str_replace(BR.'<span class="details"></span>', '', $suffix);

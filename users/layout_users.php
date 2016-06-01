@@ -87,7 +87,7 @@ Class Layout_users extends Layout_interface {
 
 			// display all tags
 			if($item['tags'])
-				$suffix .= ' <span class="tags">'.Skin::build_tags($item['tags'], 'user:'.$item['id']).'</span>';
+				$suffix .= ' '.tag::_('span', tag::_class('tags'), Skin::build_tags($item['tags']));
 
 			// details
 			$details = array();

@@ -222,7 +222,7 @@ Class Layout_as_jive extends Layout_interface {
 
                     // display all tags
                     if ($item['tags'])
-                        $text .= '<p class="tags">' . Skin::build_tags($item['tags'], 'article:' . $item['id']) . '</p>';
+                        $text .= tag::_('p', tag::_class('tags'), Skin::build_tags($item['tags']));
 
                     // next cell for the content
                     $text .= '</td><td width="70%">';

@@ -425,7 +425,7 @@
 
 		// tags are listed into $context
 		if(isset($context['page_tags']) && $context['page_tags'])
-			echo '<p class="tags">'.sprintf(i18n::s('Tags: %s'), $context['page_tags']).'</p>'."\n";
+                        echo tag::_('p', tag::_class('tags'), sprintf(i18n::s('Tags: %s'), $context['page_tags']));
 
 	}
 
