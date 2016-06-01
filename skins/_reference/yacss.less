@@ -619,12 +619,15 @@ figure {max-width: 100%;}
     display: flex;
     flex-wrap: wrap;
     line-height : 2em;
+    margin: .2em 0 .5em;
     
+    // all menu entries are shapped like button
     a {
         .x-button();
     }
     
     // sometime <a> is wrapped in a span or div
+    // display inline-block to fit height
     span a, div a {
         display : inline-block;
     }
