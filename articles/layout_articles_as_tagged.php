@@ -106,7 +106,7 @@ Class Layout_articles_as_tagged extends Layout_interface {
 
 			// combine in-line details
 			if(count($details))
-				$suffix .= ' <span class="details">'.trim(implode(', ', $details)).'</span>';
+				$suffix .= ' <span '.tag::_class('details').'>'.trim(implode(', ', $details)).'</span>';
 
 			// display all tags
 			if($item['tags'])

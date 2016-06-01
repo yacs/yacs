@@ -250,7 +250,7 @@ else {
 
 			// allow to kill some registration
 			$link = $context['script_url'].'?id='.$anchor->get_reference().'&amp;target='.$item['id'].'&amp;action=drop';
-			$line .= ' - <span class="details">'.Skin::build_link($link, i18n::s('drop'), 'basic').'</span>';
+			$line .= ' - <span '.tag::_class('details').'>'.Skin::build_link($link, i18n::s('drop'), 'basic').'</span>';
 
 			// next item
 			$items[] = $line;

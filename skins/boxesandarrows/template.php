@@ -101,7 +101,7 @@ if(is_array($context['path_bar'])) {
 
 	// link to the upper container
 	if($label && is_callable(array('i18n', 's')))
-		echo '<p class="details" style="text-align: right">'.sprintf(i18n::s('More in %s'), Skin::build_link($link, $label)).'</p>';
+		echo '<p '.tag::_class('details').' style="text-align: right">'.sprintf(i18n::s('More in %s'), Skin::build_link($link, $label)).'</p>';
 }
 
 // display the main page content, but not the menu bar

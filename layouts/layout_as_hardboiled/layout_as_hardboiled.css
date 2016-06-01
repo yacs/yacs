@@ -5,12 +5,12 @@
  *  <div class="left">
  *   <h3><span>box title</span></h3>
  *	 box content
- *	 <p class="details">box details</p>
+ *	 <p '.tag::_class('details').'>box details</p>
  *  </div>
  *  <div class="right">
  *   <h3><span>box title</span></h3>
  *	 box content
- *	 <p class="details">box details</p>
+ *	 <p '.tag::_class('details').'>box details</p>
  *  </div>
  * </div>
  *

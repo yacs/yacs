@@ -554,7 +554,7 @@ if($with_form) {
 			$value = $item['avatar_url'];
 		$input .= '<input type="text" name="avatar_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
 
-		$input .= ' <span class="details">'.Skin::build_link(Users::get_url($item['id'], 'select_avatar'), i18n::s('Change picture'), 'button').'</span>';
+		$input .= ' <span '.tag::_class('details').'>'.Skin::build_link(Users::get_url($item['id'], 'select_avatar'), i18n::s('Change picture'), 'button').'</span>';
 
 		$fields[] = array($label, $input);
 	}

@@ -292,7 +292,7 @@ if(!isset($item['id'])) {
 	if(!$zoom_type && !Surfer::is_crawler()) {
 
 		// one detail per line
-		$context['page_details'] = '<p class="details">';
+		$context['page_details'] = '<p '.tag::_class('details').'>';
 		$details = array();
 
 		// add details from the overlay, if any

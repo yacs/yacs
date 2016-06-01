@@ -105,7 +105,7 @@ Class Layout_sections_as_manage extends Layout_interface {
 				$suffix .= $overlay->get_text('list', $item);
 
 			// append details to the suffix
-			$suffix .= BR.'<span class="details">';
+			$suffix .= BR.'<span '.tag::_class('details').'>';
 
 			// details
 			$details = array();
@@ -180,8 +180,8 @@ Class Layout_sections_as_manage extends Layout_interface {
 			$suffix .= '</span>';
 
 			// strip empty details
-			$suffix = str_replace(BR.'<span class="details"></span>', '', $suffix);
-			$suffix = str_replace('<span class="details"></span>', '', $suffix);
+			$suffix = str_replace(BR.'<span '.tag::_class('details').'></span>', '', $suffix);
+			$suffix = str_replace('<span '.tag::_class('details').'></span>', '', $suffix);
 
 			// the icon to put in the left column
 			if($item['thumbnail_url'])

@@ -143,7 +143,7 @@ Class Layout_articles_as_search extends Layout_interface {
 
 			// combine in-line details
 			if(count($details))
-				$suffix .= '<p class="details">'.Skin::finalize_list($details, 'menu').'</p>';
+				$suffix .= '<p '.tag::_class('details').'>'.Skin::finalize_list($details, 'menu').'</p>';
 
 			// insert a suffix separator
 			if(trim($suffix))

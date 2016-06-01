@@ -354,7 +354,7 @@ elseif(!Surfer::is_associate()) {
 	$keywords[] = 'tags - '.i18n::s('Page tags, if any');
 	$keywords[] = 'details - '.i18n::s('Complementary information, if any');
 	$hint = i18n::s('Recommended components:').Skin::finalize_list($keywords, 'compact');
-	$box .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input).BR.'<span class="details">'.$hint."</span></p>\n";
+	$box .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input).BR.'<span '.tag::_class('details').'>'.$hint."</span></p>\n";
 
 	// build the box
 	$components .= Skin::build_box(i18n::s('Main panel'), $box);
@@ -382,7 +382,7 @@ elseif(!Surfer::is_associate()) {
 	$keywords[] = 'referrals - '.i18n::s('Links to this page, if any');
 	$keywords[] = 'visited - '.i18n::s('Visited pages, if any');
 	$hint = i18n::s('Recommended components:').Skin::finalize_list($keywords, 'compact');
-	$box .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input).BR.'<span class="details">'.$hint."</span></p>\n";
+	$box .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input).BR.'<span '.tag::_class('details').'>'.$hint."</span></p>\n";
 
 	// maximum number of extra boxes
 	if(!isset($context['site_extra_maximum']) || !$context['site_extra_maximum'])
@@ -406,7 +406,7 @@ elseif(!Surfer::is_associate()) {
 	$keywords[] = 'contextual - '.i18n::s('Sections around, if any');
 	$keywords[] = 'navigation - '.i18n::s('Dynamic navigation boxes, if any');
 	$hint = i18n::s('Recommended components:').Skin::finalize_list($keywords, 'compact');
-	$box .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input).BR.'<span class="details">'.$hint."</span></p>\n";
+	$box .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input).BR.'<span '.tag::_class('details').'>'.$hint."</span></p>\n";
 
 	// maximum number of navigation boxes
 	if(!isset($context['site_navigation_maximum']) || !$context['site_navigation_maximum'])
@@ -657,7 +657,7 @@ elseif(!Surfer::is_associate()) {
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Use ImageMagick (must be installed on your server)');
         
-        $input .= '<p class="details">'.i18n::s('Detection of image magick : ').((class_exists('imagick'))?'Yes':'No').'</p>'."\n";
+        $input .= '<p '.tag::_class('details').'>'.i18n::s('Detection of image magick : ').((class_exists('imagick'))?'Yes':'No').'</p>'."\n";
         $fields[] = array($label, $input);
         
 	// build the form

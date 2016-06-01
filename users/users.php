@@ -704,7 +704,7 @@ Class Users {
                 if(Surfer::may_upload() && $upload) {
                         $label = sprintf(i18n::s('You may attach a file of up to %sbytes'), $context['file_maximum_size']);
                         $input = '<input type="file" name="upload" style="width: 30em" />';
-                        $text .= '<p class="details">'.$label.BR.$input.'</p>';
+                        $text .= '<p '.tag::_class('details').'>'.$label.BR.$input.'</p>';
                 }
 
                 // bottom commands

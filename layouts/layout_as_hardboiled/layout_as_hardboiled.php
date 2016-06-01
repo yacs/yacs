@@ -167,7 +167,7 @@ Class Layout_as_hardboiled extends Layout_interface {
 					$suffix .= BR;
 
 				// append details to the suffix
-				$suffix .= '<span class="details">';
+				$suffix .= '<span '.tag::_class('details').'>';
 
 				// details
 				$details = array();
@@ -233,8 +233,8 @@ Class Layout_as_hardboiled extends Layout_interface {
 				$suffix .= '</span>';
 
 				// strip empty details
-				$suffix = str_replace(BR.'<span class="details"></span>', '', $suffix);
-				$suffix = str_replace('<span class="details"></span>', '', $suffix);
+				$suffix = str_replace(BR.'<span '.tag::_class('details').'></span>', '', $suffix);
+				$suffix = str_replace('<span '.tag::_class('details').'></span>', '', $suffix);
 
 				// the icon to put in the left column
 				if($item['thumbnail_url'])
@@ -322,7 +322,7 @@ Class Layout_as_hardboiled extends Layout_interface {
 
 		// poster details
 		if(count($details))
-			$text .= BR.'<span class="details">'.ucfirst(implode(', ', $details))."</span>\n";
+			$text .= BR.'<span '.tag::_class('details').'>'.ucfirst(implode(', ', $details))."</span>\n";
 
 		// the introductory text
 		$introduction = '';
@@ -340,7 +340,7 @@ Class Layout_as_hardboiled extends Layout_interface {
 			$text .= $overlay->get_text('list', $item);
 
 		// read this article
-		$text .= '<p class="details">'.Skin::build_link($url, i18n::s('View the page'), 'basic');
+		$text .= '<p '.tag::_class('details').'>'.Skin::build_link($url, i18n::s('View the page'), 'basic');
 
 		// info on related files
 		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))

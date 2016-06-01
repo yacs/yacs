@@ -898,7 +898,7 @@
                                                         $hint = '';
 							if($nb_subsections > TABS_DROP_LIST_SIZE) {
                                                                 //hint unlisted subsections if any
-                                                                $hint = '<p class="details">';
+                                                                $hint = '<p '.tag::_class('details').'>';
 								$hint .= '( ';
 								$hint .= sprintf(i18n::ns('%d section', '%d sections', $nb_subsections), $nb_subsections);
 								$hint .= ' )</p>';

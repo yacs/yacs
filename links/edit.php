@@ -554,7 +554,7 @@ if($with_form) {
 
 	// all details
 	if(@count($details))
-		$context['page_details'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
+		$context['page_details'] .= '<p '.tag::_class('details').'>'.ucfirst(implode(', ', $details))."</p>\n";
 
 	// general help on this form
 	$help = '<p>'.sprintf(i18n::s('You can use following shortcuts to link to other pages of this server: %s'), '&#91;article=&lt;id>] &#91;section=&lt;id>] &#91;category=&lt;id>]').'</p>'

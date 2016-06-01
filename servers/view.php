@@ -122,7 +122,7 @@ if(!$item['id']) {
 
 	// all details
 	if(@count($details))
-		$context['page_details'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
+		$context['page_details'] .= '<p '.tag::_class('details').'>'.ucfirst(implode(', ', $details))."</p>\n";
 
 	// insert anchor prefix
 	if(is_object($anchor))

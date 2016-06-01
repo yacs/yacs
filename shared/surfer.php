@@ -331,7 +331,7 @@ Class Surfer {
 
 			// Remember me ?
 			if($context['users_with_permanent_authentication'] == 'U')
-			    $content .= '<span class="details"><input type="checkbox" name="remember" value="Y" />&nbsp;'.i18n::s('Stay connected').'</span>'.BR;
+			    $content .= '<span '.tag::_class('details').'><input type="checkbox" name="remember" value="Y" />&nbsp;'.i18n::s('Stay connected').'</span>'.BR;
 
 			// the button
 			$content .= Skin::build_submit_button(i18n::s('Login'));
@@ -827,7 +827,7 @@ Class Surfer {
 
                 $input .= '<input type="text" name="captcha_code" size="10" maxlength="6" />'."\n";
                 
-                $input .= BR.'<a class="details" href="#" onclick="document.getElementById(\'captcha\').src= \''
+                $input .= BR.'<a '.tag::_class('details').' href="#" onclick="document.getElementById(\'captcha\').src= \''
                         .$context['url_to_root'].
                         'included/securimage/securimage_show.php?\' + Math.random(); return false">['.i18n::s('Update image').']</a>'."\n";
 

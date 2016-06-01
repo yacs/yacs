@@ -173,7 +173,7 @@ else {
 
 	// all details
 	if($details)
-		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details)).'</p>'."\n";
+		$context['text'] .= '<p '.tag::_class('details').'>'.ucfirst(implode(', ', $details)).'</p>'."\n";
 
 	// count items related to this section
 	$context['text'] .= Anchors::stat_related_to('section:'.$item['id'], i18n::s('Following items are attached to this record and will be deleted as well.'));

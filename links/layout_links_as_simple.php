@@ -51,7 +51,7 @@ Class Layout_links_as_simple extends Layout_interface {
 
 			// the main anchor link
 			if(is_object($anchor))
-				$suffix .= ' - <span class="details">'.sprintf(i18n::s('in %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()))).'</span>';
+				$suffix .= ' - <span '.tag::_class('details').'>'.sprintf(i18n::s('in %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()))).'</span>';
 
 			// list all components for this item
 			$items[$url] = array($prefix, $label, $suffix, 'basic', NULL);

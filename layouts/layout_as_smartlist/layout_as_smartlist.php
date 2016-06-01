@@ -116,7 +116,7 @@ Class Layout_as_smartlist extends Layout_interface {
 
                 // the introductory text, strip to 10 words, preserve Yacs Code
                 if ($introduction)
-                    $suffix .= BR . '<span class="details">'
+                    $suffix .= BR . '<span '.tag::_class('details').'>'
                           //. Codes::beautify_introduction(Skin::strip($introduction, 10, NULL, NULL, TRUE))
                           . Codes::beautify_introduction(Skin::strip($introduction, 10, NULL, '<a><br><img><span>', TRUE))
                           . '</span>';

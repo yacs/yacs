@@ -1177,7 +1177,7 @@ class Messages {
 		if(isset($content_description) && ($content_description != $file_name))
 			$item['description'] .= $content_description;
 		//if(@count($details))
-		//	$item['description'] .= "\n\n".'<p class="details">'.implode("<br />\n", $details)."</p>\n";
+		//	$item['description'] .= "\n\n".'<p '.tag::_class('details').'>'.implode("<br />\n", $details)."</p>\n";
 		$item['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
 		$item['edit_name'] = $user['nick_name'];
 		$item['edit_id'] = $user['id'];

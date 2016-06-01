@@ -35,7 +35,7 @@ defined('YACS') or exit('Script must be included');
 if(!$zoom_type && !Surfer::is_crawler()) {
 
 	// one detail per line
-	$text = '<p class="details">';
+	$text = '<p '.tag::_class('details').'>';
 	$details = array();
 
 	// add details from the overlay, if any

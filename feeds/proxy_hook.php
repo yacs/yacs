@@ -61,7 +61,7 @@ class Proxy_hook {
 
 			// box title and details
 			$content = '<dt '.$class.'><h2><span>'.Skin::build_link($item->get_permalink(), $item->get_title()).'</span></h2>'
-				.'<span class="details">'.Skin::build_date($item->get_date('U')).'</span></dt><dd '.$class.'>';
+				.'<span '.tag::_class('details').'>'.Skin::build_date($item->get_date('U')).'</span></dt><dd '.$class.'>';
 
 			// box content
 			if(($enclosure = $item->get_enclosure()) && ($thumbnail = $enclosure->get_thumbnail()))

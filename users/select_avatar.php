@@ -124,7 +124,7 @@ if(!count($context['error']) && isset($item['id'])) {
 		// the image
 		$text .= '<input type="file" name="upload" id="upload" size="30" accesskey="i" title="'.encode_field(i18n::s('Press to select a local file')).'" />';
 		$text .= ' '.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
-		$text .= BR.'<span class="details">'.i18n::s('Select a .png, .gif or .jpeg image.').' (&lt;&nbsp;'.Skin::build_number($image_maximum_size, i18n::s('bytes')).')</span>';
+		$text .= BR.'<span '.tag::_class('details').'>'.i18n::s('Select a .png, .gif or .jpeg image.').' (&lt;&nbsp;'.Skin::build_number($image_maximum_size, i18n::s('bytes')).')</span>';
 
 		// end of the form
 		$text .= '</div></form>';

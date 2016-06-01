@@ -95,7 +95,7 @@ if(Surfer::is_crawler()) {
 		// provide instructions
 		Logger::error(sprintf(i18n::s('ERROR: YACS requires at least PHP version 5.3. The server runs version %s.'), phpversion()));
 
-		$context['text'] .= '<p class="details"><a href="setup.php">'.i18n::s('Check PHP version again')."</a></p>\n";
+		$context['text'] .= '<p '.tag::_class('details').'><a href="setup.php">'.i18n::s('Check PHP version again')."</a></p>\n";
 
 		// check
 		$check = i18n::s('ERROR');
@@ -112,7 +112,7 @@ if(Surfer::is_crawler()) {
 		// provide instructions
 		Logger::error(i18n::s('ERROR: YACS requires the MySQL PHP extension.'));
 
-		$context['text'] .= '<p class="details"><a href="setup.php">'.i18n::s('Check the MySQL PHP extension again')."</a></p>\n";
+		$context['text'] .= '<p '.tag::_class('details').'><a href="setup.php">'.i18n::s('Check the MySQL PHP extension again')."</a></p>\n";
 
 		// check
 		$value = i18n::s('Absent');
@@ -132,7 +132,7 @@ if(Surfer::is_crawler()) {
 		// provide instructions
 		Logger::error(i18n::s('ERROR: YACS requires the XML PHP extension.'));
 
-		$context['text'] .= '<p class="details"><a href="setup.php">'.i18n::s('Check the XML PHP extension again')."</a></p>\n";
+		$context['text'] .= '<p '.tag::_class('details').'><a href="setup.php">'.i18n::s('Check the XML PHP extension again')."</a></p>\n";
 
 		// check
 		$value = i18n::s('Absent');
@@ -149,7 +149,7 @@ if(Surfer::is_crawler()) {
 	// ensure we can handle ZIP files
 	if(!is_callable('zip_open')) {
 		$context['text'] .= '<p>'.i18n::s('WARNING: You will not be able to upload zip files.')."</p>\n";
-		$context['text'] .= '<p class="details"><a href="setup.php">'.i18n::s('Check the ZIP PHP extension again')."</a></p>\n";
+		$context['text'] .= '<p '.tag::_class('details').'><a href="setup.php">'.i18n::s('Check the ZIP PHP extension again')."</a></p>\n";
 
 		// check
 		$value = i18n::s('Absent');
@@ -216,7 +216,7 @@ if(Surfer::is_crawler()) {
 
 		$context['text'] .= '<p>'.sprintf(i18n::s('Check the provided %s file to find more help on file permissions.'), '<a href="'.i18n::s('readme.txt').'">'.i18n::s('readme.txt').'</a>')."</p>\n";
 
-		$context['text'] .= '<p class="details"><a href="setup.php">'.i18n::s('Check again our ability to write to files')."</a></p>\n";
+		$context['text'] .= '<p '.tag::_class('details').'><a href="setup.php">'.i18n::s('Check again our ability to write to files')."</a></p>\n";
 
 
 		// check

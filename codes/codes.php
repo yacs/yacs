@@ -1202,7 +1202,7 @@ Class Codes {
 
 				// file does not exist anymore
 				if((isset($attributes[1]) && $attributes[1]))
-					$output = $attributes[1].'<p class="details">'.i18n::s('[this file has been deleted]').'</p>';
+					$output = $attributes[1].'<p '.tag::_class('details').'>'.i18n::s('[this file has been deleted]').'</p>';
 				else
 					$output = '[download='.$id.']';
 
@@ -1223,7 +1223,7 @@ Class Codes {
 
 					// this may describe a previous file, which has been replaced
 					if(($item['edit_action'] != 'file:create') && ($attributes[1] != $item['file_name'])) {
-						$text .= ' <p class="details">'.i18n::s('[this file has been replaced]').'</p>';
+						$text .= ' <p '.tag::_class('details').'>'.i18n::s('[this file has been replaced]').'</p>';
 						$output = $prefix.$text.$suffix;
 						return $output;
 					}
@@ -1258,7 +1258,7 @@ Class Codes {
 
 				// file does not exist anymore
 				if((isset($attributes[1]) && $attributes[1]))
-					$output = $attributes[1].'<p class="details">'.i18n::s('[this file has been deleted]').'</p>';
+					$output = $attributes[1].'<p '.tag::_class('details').'>'.i18n::s('[this file has been deleted]').'</p>';
 				else
 					$output = '[file='.$id.']';
 
@@ -1282,7 +1282,7 @@ Class Codes {
 
 						// this may describe a previous file, which has been replaced
 						if(($item['edit_action'] != 'file:create') && ($attributes[1] != $item['file_name'])) {
-							$text .= '<p class="details">'.i18n::s('[this file has been replaced]').'</p>';
+							$text .= '<p '.tag::_class('details').'>'.i18n::s('[this file has been replaced]').'</p>';
 							$output = $prefix.$text.$suffix;
 							return $output;
 						}

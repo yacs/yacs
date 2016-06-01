@@ -30,7 +30,7 @@ class Thread extends Overlay {
 
 		// page editors, except target surfer
 		if($friends =& Members::list_users_by_posts_for_member('article:'.$host['id'], 0, USERS_LIST_SIZE, 'comma', $to_avoid))
-			$text = '<p class="details">'.sprintf(i18n::s('with %s'), Skin::build_list($friends, 'comma')).'</p>';
+			$text = '<p '.tag::_class('details').'>'.sprintf(i18n::s('with %s'), Skin::build_list($friends, 'comma')).'</p>';
 
 		return $text;
 

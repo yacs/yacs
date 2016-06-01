@@ -129,7 +129,7 @@ Class Layout_as_daily extends Layout_interface {
 
 			// show details
 			if(count($details))
-				$box['content'] .= '<p class="details">'.implode(' ~ ', $details).'</p>'."\n";
+				$box['content'] .= '<p '.tag::_class('details').'>'.implode(' ~ ', $details).'</p>'."\n";
 
 			// list categories by title, if any
 			if($items = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 7, 'raw')) {

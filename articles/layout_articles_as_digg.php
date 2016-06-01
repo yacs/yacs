@@ -198,7 +198,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 
 			// details
 			if(count($details))
-				$content .= '<p class="details">'.ucfirst(implode(' - ', $details)).'</p>';
+				$content .= '<p '.tag::_class('details').'>'.ucfirst(implode(' - ', $details)).'</p>';
 
 			// manage layout
 			$content = '<div class="digg_content">'.$digg.$content.'</div>';

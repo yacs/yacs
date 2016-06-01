@@ -128,7 +128,7 @@ Class Layout_articles_as_news extends Layout_interface {
 
 			// actually insert details
 			if($details)
-				$suffix .= '<p class="details">'.ucfirst(trim(implode(', ', $details))).'</p>';
+				$suffix .= '<p '.tag::_class('details').'>'.ucfirst(trim(implode(', ', $details))).'</p>';
 
 			// list all components for this item
 			$items[$url] = array($prefix, $title, $suffix, 'article', $icon);

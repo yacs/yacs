@@ -191,7 +191,7 @@ Class Layout_as_jive extends Layout_interface {
                                 else
                                     $action = i18n::s('edited');
 
-                                $action = '<span class="details">' . $action . ' ' . Skin::build_date($article['edit_date']) . '</span>';
+                                $action = '<span '.tag::_class('details').'>' . $action . ' ' . Skin::build_date($article['edit_date']) . '</span>';
                             }
 
                             // this is another row of the output
@@ -218,7 +218,7 @@ Class Layout_as_jive extends Layout_interface {
 
                     // add details to the title
                     if (count($details))
-                        $text .= '<p class="details" style="margin: 3px 0">' . join(', ', $details) . '</p>';
+                        $text .= '<p '.tag::_class('details').' style="margin: 3px 0">' . join(', ', $details) . '</p>';
 
                     // display all tags
                     if ($item['tags'])

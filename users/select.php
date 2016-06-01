@@ -269,7 +269,7 @@ elseif(!$permitted) {
 	// capture a new name with auto completion
 	$cells[] = '<input type="text" name="assigned_name" id="assigned_name" size="45" maxlength="255" />'
 		.' <input type="submit" id="submit_button" value="'.i18n::s('Submit').'" style="display: none;" />'
-		.'<p class="details">'.i18n::s('To add a person, type some letters to look for a name, then select one profile at a time.').'</p>';
+		.'<p '.tag::_class('details').'>'.i18n::s('To add a person, type some letters to look for a name, then select one profile at a time.').'</p>';
 
 	// finalize the capture form
 	$form .= Skin::layout_horizontally($cells)
@@ -323,12 +323,12 @@ elseif(!$permitted) {
 
 				// surfer cannot be deselected
 				if($anchor->is_owned($id, FALSE))
-					$suffix .= ' - <span class="details">'.i18n::s('owner').'</span>';
+					$suffix .= ' - <span '.tag::_class('details').'>'.i18n::s('owner').'</span>';
 
 				// add a link to unselect the user
 				else {
 					$link = $context['script_url'].'?anchor=user:'.$id.'&amp;member='.urlencode($anchor->get_reference()).'&amp;action=reset';
-					$suffix .= ' - <span class="details">'.Skin::build_link($link, i18n::s('unassign'), 'basic').'</span>';
+					$suffix .= ' - <span '.tag::_class('details').'>'.Skin::build_link($link, i18n::s('unassign'), 'basic').'</span>';
 				}
 
 				// format the item
@@ -363,12 +363,12 @@ elseif(!$permitted) {
 
 				// surfer cannot be deselected
 				if($anchor->is_owned($id, FALSE))
-					$suffix .= ' - <span class="details">'.i18n::s('owner').'</span>';
+					$suffix .= ' - <span '.tag::_class('details').'>'.i18n::s('owner').'</span>';
 
 				// add a link to unselect the user
 				else {
 					$link = $context['script_url'].'?anchor=user:'.$id.'&amp;member='.urlencode($anchor->get_reference()).'&amp;action=reset';
-					$suffix .= ' - <span class="details">'.Skin::build_link($link, i18n::s('unassign'), 'basic').'</span>';
+					$suffix .= ' - <span '.tag::_class('details').'>'.Skin::build_link($link, i18n::s('unassign'), 'basic').'</span>';
 				}
 
 				// format the item
@@ -431,7 +431,7 @@ elseif(!$permitted) {
 			}
 
 			if($details)
-				$suffix .= ' - <span class="details">'.join(' ', $details).'</span>';
+				$suffix .= ' - <span '.tag::_class('details').'>'.join(' ', $details).'</span>';
 
 			// format the item
 			$new_users[$url] = array($prefix, $label, $suffix, $type, $icon);
@@ -504,7 +504,7 @@ elseif(!$permitted) {
 					}
 
 					if($details)
-						$suffix .= ' - <span class="details">'.join(' ', $details).'</span>';
+						$suffix .= ' - <span '.tag::_class('details').'>'.join(' ', $details).'</span>';
 
 					// format the item
 					$items[$url] = array($prefix, $label, $suffix, $type, $icon);
@@ -606,7 +606,7 @@ elseif(!$permitted) {
 
 			// surfer cannot be deselected
 			if($anchor->is_owned($id, FALSE))
-				$suffix .= ' - <span class="details">'.i18n::s('owner').'</span>';
+				$suffix .= ' - <span '.tag::_class('details').'>'.i18n::s('owner').'</span>';
 
 			// format the item
 			$new_users[$url] = array($prefix, $label, $suffix, $type, $icon);
@@ -637,7 +637,7 @@ elseif(!$permitted) {
 
 			// surfer cannot be deselected
 			if($anchor->is_owned($id, FALSE))
-				$suffix .= ' - <span class="details">'.i18n::s('owner').'</span>';
+				$suffix .= ' - <span '.tag::_class('details').'>'.i18n::s('owner').'</span>';
 
 			// format the item
 			$new_users[$url] = array($prefix, $label, $suffix, $type, $icon);
@@ -668,7 +668,7 @@ elseif(!$permitted) {
 
 			// surfer cannot be deselected
 			if($anchor->is_owned($id, FALSE))
-				$suffix .= ' - <span class="details">'.i18n::s('owner').'</span>';
+				$suffix .= ' - <span '.tag::_class('details').'>'.i18n::s('owner').'</span>';
 
 			// format the item
 			$new_users[$url] = array($prefix, $label, $suffix, $type, $icon);
@@ -704,7 +704,7 @@ elseif(!$permitted) {
 
 				// surfer cannot be deselected
 				if($parent->is_owned($id, FALSE))
-					$suffix .= ' - <span class="details">'.i18n::s('owner').'</span>';
+					$suffix .= ' - <span '.tag::_class('details').'>'.i18n::s('owner').'</span>';
 
 				// format the item
 				$items[$url] = array($prefix, $label, $suffix, $type, $icon);

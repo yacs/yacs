@@ -7,7 +7,7 @@
  *	<h2><span>box title</span></h2>
  *  <div class="content">
  * 		<a><img class="left_image" src="page thumbnail" /></a>
- *		<p class="details">box details</p>
+ *		<p '.tag::_class('details').'>box details</p>
  *		box content
  *		<div class="menu_bar right">box menu</div>
  *  </div>
@@ -21,7 +21,7 @@
  *	<h2><span>box title</span></h2>
  *  <div class="content">
  * 		<a><img class="left_image" src="page thumbnail" /></a>
- *		<p class="details">box details</p>
+ *		<p '.tag::_class('details').'>box details</p>
  *		box content
  *		<div class="menu_bar right">box menu</div>
  *  </div>

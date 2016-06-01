@@ -119,7 +119,7 @@ if(Surfer::is_crawler()) {
 
 	// provide details
 	if(count($details))
-		$context['text'] .= '<p class="details">'.implode(BR."\n", $details).'</p>';
+		$context['text'] .= '<p '.tag::_class('details').'>'.implode(BR."\n", $details).'</p>';
 
 	// the full name
 	if($item['full_name'])

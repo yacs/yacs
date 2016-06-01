@@ -150,7 +150,7 @@ Class Layout_comments_as_updates extends Layout_interface {
 
 			// comment has been modified
 			if($item['create_name'] && ($item['edit_name'] != $item['create_name']))
-				$text .= '<p class="details">'.ucfirst(sprintf(i18n::s('edited by %s %s'), $item['edit_name'], Skin::build_date($item['edit_date']))).'</p>';
+				$text .= '<p '.tag::_class('details').'>'.ucfirst(sprintf(i18n::s('edited by %s %s'), $item['edit_name'], Skin::build_date($item['edit_date']))).'</p>';
 
 			// potential replies to this comment
 			if($item['type'] != 'notification') {

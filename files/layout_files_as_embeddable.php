@@ -61,7 +61,7 @@ Class Layout_files_as_embeddable extends Layout_interface {
 			} else
 				$suffix .= join(' ', $codes);
 
-			$suffix .= BR.'<span class="details">';
+			$suffix .= BR.'<span '.tag::_class('details').'>';
 
 			// signal restricted and private files
 			if($item['active'] == 'N')

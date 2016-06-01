@@ -224,7 +224,7 @@ if(!isset($item['id'])) {
 
 	// all details
 	if(count($details))
-		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details)).'</p>';
+		$context['text'] .= '<p '.tag::_class('details').'>'.ucfirst(implode(', ', $details)).'</p>';
 
 	// back to the anchor page
 	if(is_object($anchor) && $anchor->is_viewable())

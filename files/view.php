@@ -171,7 +171,7 @@ if(!isset($item['id'])) {
 	if(!Surfer::is_crawler()) {
 
 		// all details
-		$context['page_details'] .= '<p class="details">';
+		$context['page_details'] .= '<p '.tag::_class('details').'>';
 
 		$details = array();
 

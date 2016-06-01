@@ -171,7 +171,7 @@ Class Layout_as_yabb extends Layout_interface {
 
                             // all details
                             if($details)
-                                    $details = BR.'<span class="details">'.$details."</span>\n";
+                                    $details = BR.'<span '.tag::_class('details').'>'.$details."</span>\n";
 
                             // count posts here, and in children sections
                             $anchors = Sections::get_branch_at_anchor('section:'.$item['id']);
@@ -224,7 +224,7 @@ Class Layout_as_yabb extends Layout_interface {
                             
                             // shortcuts to comments pages
                             if(isset($item['comments_count']) && ($pages = (integer)ceil($item['comments_count'] / $layout->items_per_page())) && ($pages > 1)) {
-                                    $suffix .= '<p class="details">Pages ';
+                                    $suffix .= '<p '.tag::_class('details').'>Pages ';
                                     for($index = 1; $index <= $pages; $index++)
                                             $suffix .= Skin::build_link('comments/list.php?id=article:'.$item['id'].'&amp;page='.$index, $index, 'basic', i18n::s('One page of comments')).' ';
                                     $suffix .= Skin::build_link('comments/list.php?id=article:'.$item['id'].'&amp;page='.$pages, MORE_IMG, 'basic', i18n::s('Most recent comments')).'</p>';
@@ -258,7 +258,7 @@ Class Layout_as_yabb extends Layout_interface {
                             // the creator of this article
                             $starter = '';
                             if($item['create_name']) {
-                                    $starter = '<span class="details">'.Users::get_link($item['create_name'], $item['create_address'], $item['create_id']).'</span>';
+                                    $starter = '<span '.tag::_class('details').'>'.Users::get_link($item['create_name'], $item['create_address'], $item['create_id']).'</span>';
                             }
 
                             // the last editor
@@ -286,7 +286,7 @@ Class Layout_as_yabb extends Layout_interface {
 
                             // poster details
                             if($details)
-                                    $details = '<p class="details">'.$details."</p>\n";
+                                    $details = '<p '.tag::_class('details').'>'.$details."</p>\n";
 
                             if(!isset($item['comments_count']))
                                     $item['comments_count'] = 0;

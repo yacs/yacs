@@ -124,7 +124,7 @@ Class Layout_as_last extends Layout_interface {
 
 			// people details
 			if($details)
-				$text .= '<p class="details">'.join(', ', $details)."</p>\n";
+				$text .= '<p '.tag::_class('details').'>'.join(', ', $details)."</p>\n";
 
 			// the introductory text
 			$introduction = $entity->get_introduction();
@@ -138,7 +138,7 @@ Class Layout_as_last extends Layout_interface {
 
 			// info on related comments
 			if(($count = Comments::count_for_anchor('article:'.$item['id'])) > 1)
-				$text .= '<div style="margin-top: 1em;"><p class="details">'.sprintf(i18n::s('%d contributions, including:'), $count).'</p></div>';
+				$text .= '<div style="margin-top: 1em;"><p '.tag::_class('details').'>'.sprintf(i18n::s('%d contributions, including:'), $count).'</p></div>';
 
 			// avoid first file if mentioned in last contribution
 			$file_offset = 0;
@@ -190,7 +190,7 @@ Class Layout_as_last extends Layout_interface {
 				// more files than listed
 				$more = '';
 				if(($count = Files::count_for_anchor('article:'.$item['id'])) > 3)
-					$more = '<span class="details">'.sprintf(i18n::s('%d files, including:'), $count).'</span>';
+					$more = '<span '.tag::_class('details').'>'.sprintf(i18n::s('%d files, including:'), $count).'</span>';
 
 				if(is_array($items))
 					$items = Skin::build_list($items, 'compact');

@@ -2843,7 +2843,7 @@ Class Skin_Skeleton {
 
 			// display details
 			if(count($details))
-				$text .= '<span class="details">'.implode(', ', $details).'</span>'.BR;
+				$text .= '<span '.tag::_class('details').'>'.implode(', ', $details).'</span>'.BR;
 
 			// use the introduction field, if any
 			if(isset($user['introduction']) && $user['introduction'])
@@ -2881,7 +2881,7 @@ Class Skin_Skeleton {
 
 			// display details
 			if($text)
-				$text = '<span class="details">'.$text.'</span>'.BR;
+				$text = '<span '.tag::_class('details').'>'.$text.'</span>'.BR;
 
 			// use the introduction field, if any
 			if(isset($user['introduction']) && $user['introduction'])
@@ -2919,7 +2919,7 @@ Class Skin_Skeleton {
 
 			// details first
 			if(count($details))
-				$text .= '<p class="details">'.join(BR, $details).'</p>';
+				$text .= '<p '.tag::_class('details').'>'.join(BR, $details).'</p>';
 
 			// do not use description because of codes such as location, etc
 			if(isset($user['introduction']) && $user['introduction'])
@@ -3998,7 +3998,7 @@ Class Skin_Skeleton {
 
 						// make it small
 						if($variant == 'details')
-							$label = '<span class="details">'.$label.'</span>';
+							$label = '<span '.tag::_class('details').'>'.$label.'</span>';
 
 						$text .= '<li>'.$label.'</li>'."\n";
 					}
@@ -4021,7 +4021,7 @@ Class Skin_Skeleton {
 
 						// make it small
 						if($variant == 'details')
-							$label = '<span class="details">'.$label.'</span>';
+							$label = '<span '.tag::_class('details').'>'.$label.'</span>';
 
 						$text .= '<li>'.COMPACT_LIST_ITEM_PREFIX.$label.COMPACT_LIST_ITEM_SUFFIX.'</li>'."\n";
 					}

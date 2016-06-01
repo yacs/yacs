@@ -130,10 +130,10 @@ Class Layout_articles_as_spray extends Layout_interface {
 
 			// combine in-line details
 			if(count($details))
-				$summary .= ' <span class="details">'.trim(implode(' ', $details)).'</span>';
+				$summary .= ' <span '.tag::_class('details').'>'.trim(implode(' ', $details)).'</span>';
 
 			// dates
-			$summary .= BR.'<span class="details">'.join(BR, Articles::build_dates($anchor, $item)).'</span>';
+			$summary .= BR.'<span '.tag::_class('details').'>'.join(BR, Articles::build_dates($anchor, $item)).'</span>';
 
 			// display all tags
 			if($item['tags'])

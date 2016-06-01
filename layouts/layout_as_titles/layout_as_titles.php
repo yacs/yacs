@@ -249,7 +249,7 @@ Class Layout_as_titles extends Layout_interface {
                         
                         // append details
 			if(count($details))
-				$title .= BR.'<span class="details">'.implode(', ', $details).'</span>';
+				$title .= BR.'<span '.tag::_class('details').'>'.implode(', ', $details).'</span>';
 
 			// look for an image
 			$icon = '';

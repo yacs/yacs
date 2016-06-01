@@ -503,7 +503,7 @@ Class Comments {
                                 include_once $context['path_to_root'].'files/files.php';
 
                                 // input field to appear on demand
-                                $text .= '<p id="comment_upload" class="details" style="display: none;">'
+                                $text .= '<p id="comment_upload" '.tag::_class('details').' style="display: none;">'
                                         .'<input type="file" name="upload" id="upload" size="30" onchange="if(/\\.zip$/i.test($(this).val())){$(\'#upload_option\').slideDown();}else{$(\'#upload_option\').slideUp();}" />'
                                         . ' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
                                         .'<input type="hidden" name="file_type" value="upload" /></p>'

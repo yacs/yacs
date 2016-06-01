@@ -261,7 +261,7 @@ class Poll extends Overlay {
 			$text .= '<p>'.Skin::build_submit_button(i18n::s('Cast your vote'))."\n";
 
 			// a link to see results
-			$text .= ' <a class="details" href="'.Articles::get_permalink($host).'">'.i18n::s('View results').'</a>'."</p>\n";
+			$text .= ' <a '.tag::_class('details').' href="'.Articles::get_permalink($host).'">'.i18n::s('View results').'</a>'."</p>\n";
 
 		// view results only
 		} else {
@@ -417,7 +417,7 @@ class Poll extends Overlay {
 			$text .= Skin::build_submit_button(i18n::s('Vote'))."\n";
 
 			// a link to see results
-			$text .= ' <a class="details" href="'.Articles::get_permalink($host).'">'.i18n::s('View results').'</a>'."\n";
+			$text .= ' <a '.tag::_class('details').' href="'.Articles::get_permalink($host).'">'.i18n::s('View results').'</a>'."\n";
 
 		// display results only
 		} else {

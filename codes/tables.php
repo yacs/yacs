@@ -35,7 +35,7 @@ $context['page_title'] = i18n::s('Codes to format tables');
 
 // the date of last modification
 if(Surfer::is_associate())
-	$context['page_details'] .= '<p class="details">'.sprintf(i18n::s('Edited %s'), Skin::build_date(getlastmod())).'</p>';
+	$context['page_details'] .= '<p '.tag::_class('details').'>'.sprintf(i18n::s('Edited %s'), Skin::build_date(getlastmod())).'</p>';
 
 // page header
 $context['text'] .= '<p>'.i18n::s('On this page we are showing how to build simple tables. Use the char |, or tab, or two successive spaces, to separate column elements.').'</p>';

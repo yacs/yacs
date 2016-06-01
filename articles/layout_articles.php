@@ -101,7 +101,7 @@ Class Layout_articles extends Layout_interface {
 			// with hits
 			if($this->layout_variant == 'hits') {
 				if($item['hits'] > 1)
-					$suffix = ' <span class="details">- '.Skin::build_number($item['hits'], i18n::s('hits')).'</span>';
+					$suffix = ' <span '.tag::_class('details').'>- '.Skin::build_number($item['hits'], i18n::s('hits')).'</span>';
 
 				$items[$url] = array($prefix, Skin::strip($title, 30), $suffix, 'basic', NULL);
 				continue;
@@ -133,7 +133,7 @@ Class Layout_articles extends Layout_interface {
 				$suffix .= BR;
 
 			// append details to the suffix
-			$suffix .= '<span class="details">';
+			$suffix .= '<span '.tag::_class('details').'>';
 
 			// details
 			$details = array();
@@ -204,8 +204,8 @@ Class Layout_articles extends Layout_interface {
                                 $suffix .= tag::_('span', tag::_class('tags'), Skin::build_tags($item['tags']));
 
 			// strip empty details
-			$suffix = str_replace(BR.'<span class="details"></span>', '', $suffix);
-			$suffix = str_replace('<span class="details"></span>', '', $suffix);
+			$suffix = str_replace(BR.'<span '.tag::_class('details').'></span>', '', $suffix);
+			$suffix = str_replace('<span '.tag::_class('details').'></span>', '', $suffix);
 
 			// insert a suffix separator
 			if(trim($suffix))

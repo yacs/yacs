@@ -559,7 +559,7 @@ if($with_form) {
 		if(Surfer::may_upload()) {
 
 			// refresh the file
-			$input .= '<span class="details">'.i18n::s('Select another file to replace the current one').'</span>'.BR
+			$input .= '<span '.tag::_class('details').'>'.i18n::s('Select another file to replace the current one').'</span>'.BR
 				.'<input type="file" name="upload" id="upload" size="30" />'
 				.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'."\n";
 
@@ -594,7 +594,7 @@ if($with_form) {
         if(!is_object($overlay) || ($hint = $overlay->get_label('description_hint')) === null)
               $hint = i18n::s('What is new in this file?');
         if($hint) $hint .= BR;
-	$input = '<span class="details">'.$hint.'</span>'.Surfer::get_editor('version', '', TRUE, 5, FALSE); 
+	$input = '<span '.tag::_class('details').'>'.$hint.'</span>'.Surfer::get_editor('version', '', TRUE, 5, FALSE); 
 	if(isset($item['description']))
             $input .= Skin::build_box(i18n::s('More information'), Skin::build_block($item['description'], 'description'), 'folded');
 	$fields[] = array($label, $input);
@@ -657,7 +657,7 @@ if($with_form) {
 			$value = $item['icon_url'];
 		$input .= '<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
 		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
+			$input .= ' <span '.tag::_class('details').'>'.Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -678,7 +678,7 @@ if($with_form) {
 
 		$input .= '<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
 		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
+			$input .= ' <span '.tag::_class('details').'>'.Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
 		$fields[] = array($label, $input, $hint);
 	}
 

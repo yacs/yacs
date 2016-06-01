@@ -11,11 +11,11 @@
  * </thead>
  * <tbody>
  *  <tr class="odd">
- *    <td><a>title</a><br />introduction<p class="details">some details</p></td>
+ *    <td><a>title</a><br />introduction<p '.tag::_class('details').'>some details</p></td>
  *    <td>...</td>
  *  </tr>
  *  <tr class="even">
- *    <td><a>title</a><br />introduction<p class="details">some details</p></td>
+ *    <td><a>title</a><br />introduction<p '.tag::_class('details').'>some details</p></td>
  *    <td>...</td>
  *  </tr>
  *  ...

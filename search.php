@@ -338,7 +338,7 @@ if(!$section_id && ($servers = Servers::list_for_search(0, 3, 'search'))) {
 					$details[] = Skin::build_link($server_url, $server_label, 'server');
 
 				if(count($details))
-					$suffix .= '<span class="details">'.join(' - ', $details).'</span>';
+					$suffix .= '<span '.tag::_class('details').'>'.join(' - ', $details).'</span>';
 
 				$items[$item['link']] = array('', $item['title'], $suffix, 'external', '');
 

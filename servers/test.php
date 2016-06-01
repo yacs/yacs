@@ -114,7 +114,7 @@ if(Surfer::is_crawler()) {
 		$details[] = PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons').BR."\n";
 
 	// all details
-	$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
+	$context['text'] .= '<p '.tag::_class('details').'>'.ucfirst(implode(', ', $details))."</p>\n";
 
 	// insert anchor prefix
 	if(is_object($anchor))

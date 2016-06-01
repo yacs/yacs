@@ -162,7 +162,7 @@ Class Layout_as_columns extends Layout_interface {
                     
                     // append details to the suffix
                     if(count($details))
-                            $suffix .= ' <span class="details">('.implode(', ', $details).')</span>';
+                            $suffix .= ' <span '.tag::_class('details').'>('.implode(', ', $details).')</span>';
                     
                     // add a head list of related sub elements
                     $details = array();
@@ -241,7 +241,7 @@ Class Layout_as_columns extends Layout_interface {
                     // layout details
                     if(count($details)) {
                          foreach($details as $line) {
-                             $suffix .= '<div class="details">'.YAHOO_ITEM_PREFIX.$line.YAHOO_ITEM_SUFFIX.'</div>';
+                             $suffix .= '<div '.tag::_class('details').'>'.YAHOO_ITEM_PREFIX.$line.YAHOO_ITEM_SUFFIX.'</div>';
                          }
                     }
                     

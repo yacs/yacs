@@ -486,7 +486,7 @@ if(!isset($item['id'])) {
 			$context['page_tags'] = Skin::build_tags($item['tags']);
 
 		// one detail per line
-		$text .= '<p class="details">';
+		$text .= '<p '.tag::_class('details').'>';
 		$details = array();
 
 		// add details from the overlay, if any

@@ -441,7 +441,7 @@ if($with_form) {
 			$value = $item['icon_url'];
 		$input .= '<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
 		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
+			$input .= ' <span '.tag::_class('details').'>'.Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -573,7 +573,7 @@ if($with_form) {
 
 		$input .= '<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
 		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
+			$input .= ' <span '.tag::_class('details').'>'.Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
 		$fields[] = array($label, $input, $hint);
 	}
 

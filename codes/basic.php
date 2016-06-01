@@ -57,7 +57,7 @@ $context['page_title'] = i18n::s('In-line formatting codes');
 
 // the date of last modification
 if(Surfer::is_associate())
-	$context['page_details'] .= '<p class="details">'.sprintf(i18n::s('Edited %s'), Skin::build_date(getlastmod())).'</p>';
+	$context['page_details'] .= '<p '.tag::_class('details').'>'.sprintf(i18n::s('Edited %s'), Skin::build_date(getlastmod())).'</p>';
 
 // page header
 $context['text'] .= '<p>'.i18n::s('On this page we are introducing some formatting codes and live examples of utilization.').'</p>';

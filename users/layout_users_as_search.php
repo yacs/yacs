@@ -123,9 +123,9 @@ Class Layout_users_as_search extends Layout_interface {
 
 			if(count($details))
 				if($this->layout_variant == 'full')
-					$suffix .= ' <span class="details">('.implode(', ', $details).')</span>';
+					$suffix .= ' <span '.tag::_class('details').'>('.implode(', ', $details).')</span>';
 				else
-					$suffix .= ' <span class="details">'.implode(', ', $details).'</span>';
+					$suffix .= ' <span '.tag::_class('details').'>'.implode(', ', $details).'</span>';
 
 			// flag idle users
 			if(isset($item['click_date']) && ($item['click_date'] < $idle))

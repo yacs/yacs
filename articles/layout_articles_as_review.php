@@ -111,7 +111,7 @@ Class Layout_articles_as_review extends Layout_interface {
 				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 			// append details to the suffix
-			$suffix .= ' -&nbsp;<span class="details">'.ucfirst(trim(implode(', ', $details))).'</span>';
+			$suffix .= ' -&nbsp;<span '.tag::_class('details').'>'.ucfirst(trim(implode(', ', $details))).'</span>';
 
 			// commands to review the article
 			$menu = array();
