@@ -4037,22 +4037,14 @@ Class Skin_Skeleton {
 				$line_count = 0;
 				foreach($list as $label) {
 
-					// between two items
-					if($line_count++) {
-						if(CRUMBS_SEPARATOR)
-							$text .= CRUMBS_SEPARATOR;
-						else
-							$text .= ' ';
-					}
-
 					// drop the icon
 					if(is_array($label))
 						$label = $label[0];
 
-					$text .= $label;
+					$text .= tag::_('span',null,$label);
 				}
 
-				$text = '<p id="crumbs">'.CRUMBS_PREFIX.$text.CRUMBS_SUFFIX."</p>\n";
+				$text = '<p id="crumbs">'.$text."</p>\n";
 				break;
 
 			// items are neatly aligned in a table; use css selectors: table.decorated, td.odd, td.even

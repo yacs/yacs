@@ -772,3 +772,34 @@ figure {max-width: 100%;}
         color : grey !important;
     }
 }
+
+////////////////////
+//
+// Crumbs
+//
+
+#crumbs { 
+    
+    display : flex;
+    flex-wrap : wrap;
+    font-size : 0.9em;
+    color:grey;
+    
+    span {
+        // space between crumb
+        margin-right : 0.6em;
+        &:last-child {
+            margin-right: 0;
+        }
+        
+        a {
+            text-decoration: none;
+        }
+    }
+    
+    span + span:before {
+            content :'\00AB';
+            font-weight:bold;
+            margin-right: 0.4em;
+        }
+}
