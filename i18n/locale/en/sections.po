@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-17 17:56+0200\n"
+"POT-Creation-Date: 2015-08-16 17:31+0200\n"
 "PO-Revision-Date: 2015-04-24 15:42+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
@@ -1008,7 +1008,7 @@ msgstr "No regular section has been created yet."
 msgid "sections"
 msgstr "sections"
 
-#: sections/index.php:162 sections/sections.php:1319
+#: sections/index.php:162 sections/sections.php:1320
 #: sections/view_as_tabs.php:499 sections/view.php:1457
 msgid "Other sections"
 msgstr "Other sections"
@@ -2048,17 +2048,17 @@ msgstr "Invite %s to participate"
 msgid "View the profile of %s"
 msgstr "View the profile of %s"
 
-#: sections/sections.php:836 sections/sections.php:2572
-#: sections/sections.php:2888 sections/sections.php:3049
-#: sections/sections.php:3197 sections/sections.php:3201
+#: sections/sections.php:836 sections/sections.php:2573
+#: sections/sections.php:2889 sections/sections.php:3050
+#: sections/sections.php:3198 sections/sections.php:3202
 msgid "No item has the provided id."
 msgstr "No item has the provided id."
 
-#: sections/sections.php:1545
+#: sections/sections.php:1546
 msgid "Top of the content tree"
 msgstr "Top of the content tree"
 
-#: sections/sections.php:2682 sections/sections.php:2894
+#: sections/sections.php:2683 sections/sections.php:2895
 msgid "No title has been provided."
 msgstr "No title has been provided."
 

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-24 15:28+0200\n"
-"PO-Revision-Date: 2015-04-24 15:53+0100\n"
+"POT-Creation-Date: 2015-08-16 17:31+0200\n"
+"PO-Revision-Date: 2015-08-16 17:36+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
 "Language: fr_FR\n"
@@ -102,8 +102,8 @@ msgid "Incomplete or illegal character used"
 msgstr "Incomplet ou bien utilisation de caractères interdits."
 
 #: users/configure.php:144
-#: users/configure.php:523
-#: users/configure.php:641
+#: users/configure.php:535
+#: users/configure.php:655
 #: users/login.php:388
 msgid "Control Panel"
 msgstr "Panneau de contrôle"
@@ -129,8 +129,8 @@ msgid "Configure"
 msgstr "Configurer"
 
 #: users/configure.php:147
-#: users/configure.php:526
-#: users/configure.php:640
+#: users/configure.php:538
+#: users/configure.php:654
 #: users/contact.php:97
 #: users/delete.php:65
 #: users/describe.php:92
@@ -156,7 +156,7 @@ msgid "People"
 msgstr "Personnes"
 
 #: users/configure.php:174
-#: users/configure.php:504
+#: users/configure.php:516
 msgid "Registration"
 msgstr "Inscription"
 
@@ -240,7 +240,7 @@ msgid "Only associates can delete user profiles."
 msgstr "Seuls les associés peuvent effacer des profils d'utilisateur."
 
 #: users/configure.php:252
-#: users/configure.php:505
+#: users/configure.php:517
 msgid "Authentication"
 msgstr "Authentification"
 
@@ -459,26 +459,38 @@ msgid "Files can be modified only by their original authors, plus associates and
 msgstr "Les fichiers peuvent être modifiés seulement par leurs auteurs, plus les associés et les propriétaires."
 
 #: users/configure.php:485
+msgid "Antivirus"
+msgstr "Antivirus"
+
+#: users/configure.php:489
+msgid "Do not check uploaded files for virus"
+msgstr "Ne pas vérifier les fichiers téléversés"
+
+#: users/configure.php:493
+msgid "Use CLAMAV Daemon to check uploaded files ( must be installed )"
+msgstr "Utiliser le service CLAMAV pour vérifier les fichiers ( doit être présent sur le serveur ) "
+
+#: users/configure.php:497
 msgid "Comments"
 msgstr "Commentaires"
 
-#: users/configure.php:489
+#: users/configure.php:501
 msgid "Only authenticated surfers can send comments."
 msgstr "L'authentification est nécessaire pour envoyer des commentaires."
 
-#: users/configure.php:493
+#: users/configure.php:505
 msgid "Allow anonymous surfers to post comments."
 msgstr "Autoriser les surfeurs anonymes à poster des commentaires."
 
-#: users/configure.php:506
+#: users/configure.php:518
 msgid "Content"
 msgstr "Contenu"
 
-#: users/configure.php:507
+#: users/configure.php:519
 msgid "Submission"
 msgstr "Contribution"
 
-#: users/configure.php:519
+#: users/configure.php:531
 #: users/edit.php:774
 #: users/mail.php:227
 #: users/password.php:260
@@ -487,7 +499,7 @@ msgstr "Contribution"
 msgid "Submit"
 msgstr "Enregistrer"
 
-#: users/configure.php:519
+#: users/configure.php:531
 #: users/edit.php:774
 #: users/mail.php:227
 #: users/password.php:260
@@ -496,48 +508,48 @@ msgstr "Enregistrer"
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
-#: users/configure.php:537
+#: users/configure.php:549
 #: users/delete.php:83
 #: users/mail.php:108
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr "Vous n'êtes pas autorisé à faire cette opération en mode démonstration."
 
-#: users/configure.php:545
+#: users/configure.php:557
 msgid "All user profiles have been updated."
 msgstr "Tous les profils d'utilisateur ont été modifiés."
 
-#: users/configure.php:615
+#: users/configure.php:629
 #, php-format
 msgid "ERROR: Impossible to write to the file %s. The configuration has not been saved."
 msgstr "ERREUR : Impossible d'écrire dans le fichier %s. La configuration n'a pas été sauvegardée."
 
-#: users/configure.php:618
+#: users/configure.php:632
 #, php-format
 msgid "To actually change the configuration, please copy and paste following lines by yourself in file %s."
 msgstr "Pour changer la configuration merci de copier et de coller les lignes suivantes dans le fichier %s."
 
-#: users/configure.php:623
+#: users/configure.php:637
 #, php-format
 msgid "The following configuration has been saved into the file %s."
 msgstr "La configuration suivante a été enregistrée dans le fichier %s."
 
-#: users/configure.php:629
+#: users/configure.php:643
 #, php-format
 msgid "%s has been updated"
 msgstr "%s a été mis à jour"
 
-#: users/configure.php:635
+#: users/configure.php:649
 msgid "Configuration parameters"
 msgstr "Paramètres de configuration"
 
-#: users/configure.php:638
+#: users/configure.php:652
 #: users/contact.php:271
 #: users/login.php:378
 #: users/validate.php:74
 msgid "Where do you want to go now?"
 msgstr "Où souhaitez-vous aller à présent ?"
 
-#: users/configure.php:642
+#: users/configure.php:656
 msgid "Configure again"
 msgstr "Configurer de nouveau"
 

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-17 17:56+0200\n"
+"POT-Creation-Date: 2015-08-16 17:31+0200\n"
 "PO-Revision-Date: 2015-04-24 15:45+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -900,7 +900,7 @@ msgstr "Copier et transcoder les fichiers"
 msgid "For more information on skins, visit %s"
 msgstr "Pour plus d'informations sur les styles, aller %s"
 
-#: skins/derive.php:300 skins/page.php:622 skins/upload.php:210
+#: skins/derive.php:300 skins/page.php:613 skins/upload.php:210
 #: skins/boxesandarrows/template.php:149 skins/digital/template.php:153
 #: skins/starterfive/template.php:138
 msgid "http://www.yacs.fr/"
@@ -1235,59 +1235,59 @@ msgstr "Suite"
 msgid "Skip to main content"
 msgstr "Aller au contenu principal"
 
-#: skins/page.php:89 skins/page.php:840
+#: skins/page.php:89 skins/page.php:869
 msgid "Home"
 msgstr "Accueil"
 
-#: skins/page.php:435
+#: skins/page.php:426
 #, php-format
 msgid "Tags: %s"
 msgstr "Etiquettes : %s"
 
-#: skins/page.php:488
+#: skins/page.php:479
 msgid "Tools"
 msgstr "Outils"
 
-#: skins/page.php:512
+#: skins/page.php:503
 msgid "User login"
 msgstr "Authentification"
 
-#: skins/page.php:528
+#: skins/page.php:519
 msgid "Visited"
 msgstr "Pages visitées"
 
-#: skins/page.php:601
+#: skins/page.php:592
 #, php-format
 msgid "page prepared in %.2f seconds for %s"
 msgstr "page préparée en %.2f secondes pour %s"
 
-#: skins/page.php:610 skins/boxesandarrows/template.php:137
+#: skins/page.php:601 skins/boxesandarrows/template.php:137
 msgid "login"
 msgstr "S'authentifier"
 
-#: skins/page.php:614 skins/boxesandarrows/template.php:141
+#: skins/page.php:605 skins/boxesandarrows/template.php:141
 msgid "about this site"
 msgstr "à propos de ce site"
 
-#: skins/page.php:618 skins/boxesandarrows/template.php:145
+#: skins/page.php:609 skins/boxesandarrows/template.php:145
 msgid "privacy statement"
 msgstr "protection de la vie privée"
 
-#: skins/page.php:622
+#: skins/page.php:613
 #, php-format
 msgid "powered by %s"
 msgstr "un serveur %s"
 
-#: skins/page.php:626
+#: skins/page.php:617
 msgid "information channels"
 msgstr "fils d'information"
 
-#: skins/page.php:710 skins/joi/template.php:86
+#: skins/page.php:739 skins/joi/template.php:86
 #: skins/starterfive/template.php:111
 msgid "Front page"
 msgstr "Page d'accueil"
 
-#: skins/page.php:870
+#: skins/page.php:899
 #, php-format
 msgid "%d section"
 msgid_plural "%d sections"

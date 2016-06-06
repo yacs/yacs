@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-17 18:07+0200\n"
+"POT-Creation-Date: 2015-08-16 17:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,7 +75,7 @@ msgstr ""
 msgid "Incomplete or illegal character used"
 msgstr ""
 
-#: users/configure.php:144 users/configure.php:523 users/configure.php:641
+#: users/configure.php:144 users/configure.php:535 users/configure.php:655
 #: users/login.php:388
 msgid "Control Panel"
 msgstr ""
@@ -92,7 +92,7 @@ msgstr ""
 msgid "Configure"
 msgstr ""
 
-#: users/configure.php:147 users/configure.php:526 users/configure.php:640
+#: users/configure.php:147 users/configure.php:538 users/configure.php:654
 #: users/contact.php:97 users/delete.php:65 users/describe.php:92
 #: users/edit.php:128 users/element.php:92 users/feed.php:78
 #: users/fetch_vcard.php:76 users/index.php:84 users/leave.php:42
@@ -103,7 +103,7 @@ msgstr ""
 msgid "People"
 msgstr ""
 
-#: users/configure.php:174 users/configure.php:504
+#: users/configure.php:174 users/configure.php:516
 msgid "Registration"
 msgstr ""
 
@@ -184,7 +184,7 @@ msgstr ""
 msgid "Only associates can delete user profiles."
 msgstr ""
 
-#: users/configure.php:252 users/configure.php:505
+#: users/configure.php:252 users/configure.php:517
 msgid "Authentication"
 msgstr ""
 
@@ -413,77 +413,89 @@ msgid ""
 msgstr ""
 
 #: users/configure.php:485
-msgid "Comments"
+msgid "Antivirus"
 msgstr ""
 
 #: users/configure.php:489
-msgid "Only authenticated surfers can send comments."
+msgid "Do not check uploaded files for virus"
 msgstr ""
 
 #: users/configure.php:493
+msgid "Use CLAMAV Daemon to check uploaded files ( must be installed )"
+msgstr ""
+
+#: users/configure.php:497
+msgid "Comments"
+msgstr ""
+
+#: users/configure.php:501
+msgid "Only authenticated surfers can send comments."
+msgstr ""
+
+#: users/configure.php:505
 msgid "Allow anonymous surfers to post comments."
 msgstr ""
 
-#: users/configure.php:506
+#: users/configure.php:518
 msgid "Content"
 msgstr ""
 
-#: users/configure.php:507
+#: users/configure.php:519
 msgid "Submission"
 msgstr ""
 
-#: users/configure.php:519 users/edit.php:774 users/mail.php:227
+#: users/configure.php:531 users/edit.php:774 users/mail.php:227
 #: users/password.php:260 users/select_avatar.php:126 users/select.php:271
 msgid "Submit"
 msgstr ""
 
-#: users/configure.php:519 users/edit.php:774 users/mail.php:227
+#: users/configure.php:531 users/edit.php:774 users/mail.php:227
 #: users/password.php:260 users/select_avatar.php:126 users/users.php:713
 msgid "Press [s] to submit data"
 msgstr ""
 
-#: users/configure.php:537 users/delete.php:83 users/mail.php:108
+#: users/configure.php:549 users/delete.php:83 users/mail.php:108
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr ""
 
-#: users/configure.php:545
+#: users/configure.php:557
 msgid "All user profiles have been updated."
 msgstr ""
 
-#: users/configure.php:615
+#: users/configure.php:629
 #, php-format
 msgid ""
 "ERROR: Impossible to write to the file %s. The configuration has not been "
 "saved."
 msgstr ""
 
-#: users/configure.php:618
+#: users/configure.php:632
 #, php-format
 msgid ""
 "To actually change the configuration, please copy and paste following lines "
 "by yourself in file %s."
 msgstr ""
 
-#: users/configure.php:623
+#: users/configure.php:637
 #, php-format
 msgid "The following configuration has been saved into the file %s."
 msgstr ""
 
-#: users/configure.php:629
+#: users/configure.php:643
 #, php-format
 msgid "%s has been updated"
 msgstr ""
 
-#: users/configure.php:635
+#: users/configure.php:649
 msgid "Configuration parameters"
 msgstr ""
 
-#: users/configure.php:638 users/contact.php:271 users/login.php:378
+#: users/configure.php:652 users/contact.php:271 users/login.php:378
 #: users/validate.php:74
 msgid "Where do you want to go now?"
 msgstr ""
 
-#: users/configure.php:642
+#: users/configure.php:656
 msgid "Configure again"
 msgstr ""
 
