@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-24 15:28+0200\n"
+"POT-Creation-Date: 2016-06-06 11:11+0200\n"
 "PO-Revision-Date: 2013-10-16 16:36+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
@@ -18,29 +18,29 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: configure.php:107 configure.php:425 configure.php:552 setup.php:287
+#: configure.php:77 configure.php:279 configure.php:406 setup.php:287
 #: setup.php:333 setup.php:347
 msgid "Control Panel"
 msgstr "Control Panel"
 
-#: configure.php:110
+#: configure.php:80
 #, php-format
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: configure.php:110 index.php:462
+#: configure.php:80 index.php:444
 msgid "Configure"
 msgstr "Configure"
 
-#: configure.php:110 configure.php:429 configure.php:549 query.php:159
+#: configure.php:80 configure.php:283 configure.php:403 query.php:159
 msgid "Front page"
 msgstr "Front page"
 
-#: configure.php:119 query.php:66 setup.php:84
+#: configure.php:89 query.php:66 setup.php:84
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
 
-#: configure.php:126
+#: configure.php:96
 msgid ""
 "You can use default values and change these later on. Hit the button at the "
 "bottom of the page to move forward."
@@ -48,40 +48,40 @@ msgstr ""
 "You can use default values and change these later on. Hit the button at the "
 "bottom of the page to move forward."
 
-#: configure.php:136
+#: configure.php:106
 msgid "Cover article"
 msgstr "Cover article"
 
-#: configure.php:140
+#: configure.php:110
 msgid "Display the cover article at the front page."
 msgstr "Display the cover article at the front page."
 
-#: configure.php:144
+#: configure.php:114
 msgid "Display the main part of the cover article, but not the title."
 msgstr "Display the main part of the cover article, but not the title."
 
-#: configure.php:148
+#: configure.php:118
 msgid "Do not use the cover article at the front page."
 msgstr "Do not use the cover article at the front page."
 
-#: configure.php:152
+#: configure.php:122
 msgid "Sections"
 msgstr "Sections"
 
-#: configure.php:159
+#: configure.php:129
 #, php-format
 msgid "List up to %s sections:"
 msgstr "List up to %s sections:"
 
-#: configure.php:163
+#: configure.php:133
 msgid "List top-level sections."
 msgstr "List top-level sections."
 
-#: configure.php:171
+#: configure.php:141
 msgid "List only section with the following id or nick name"
 msgstr "List only section with the following id or nick name"
 
-#: configure.php:175
+#: configure.php:145
 msgid ""
 "Do not list sections explicitly -- Useful for skins that feature tabbed "
 "sections."
@@ -89,60 +89,19 @@ msgstr ""
 "Do not list sections explicitly -- Useful for skins that feature tabbed "
 "sections."
 
-#: configure.php:178
+#: configure.php:148
 msgid "Following layouts can be used for selected sections:"
 msgstr "Following layouts can be used for selected sections:"
 
-#: configure.php:193
-msgid "menu - List sections in the menu bar."
-msgstr "menu - List sections in the menu bar."
-
-#: configure.php:197
-msgid "decorated - A list decorated with images"
-msgstr "decorated - A list decorated with images"
-
-#: configure.php:201
-msgid "map - Map in two columns, like Yahoo!"
-msgstr "map - Map in two columns, like Yahoo!"
-
-#: configure.php:205
-msgid "jive - List 5 threads per board"
-msgstr "jive - List 5 threads per board"
-
-#: configure.php:209
-msgid "yabb - A discussion forum"
-msgstr "yabb - A discussion forum"
-
-#: configure.php:213
-msgid "inline - List sections and related pages"
-msgstr "inline - List sections and related pages"
-
-#: configure.php:217
-msgid "folded - One folded box per section, with content"
-msgstr "folded - One folded box per section, with content"
-
-#: configure.php:221
-msgid "compact - A compact list"
-msgstr "compact - A compact list"
-
-#: configure.php:225
-msgid "titles - Use only titles and thumbnails"
-msgstr "titles - Use only titles and thumbnails"
-
-#: configure.php:229 configure.php:330
-#, php-format
-msgid "Use the customized layout %s"
-msgstr "Use the customized layout %s"
-
-#: configure.php:233
+#: configure.php:158
 msgid "Flash"
 msgstr "Flash"
 
-#: configure.php:237
+#: configure.php:162
 msgid "Do not list recent pages in an animated Flash object."
 msgstr "Do not list recent pages in an animated Flash object."
 
-#: configure.php:241
+#: configure.php:166
 #, php-format
 msgid ""
 "List most recent pages in a dynamic and clickable Flash panel. Check this "
@@ -153,118 +112,36 @@ msgstr ""
 "option only if the %s module has been installed. This is the case if you "
 "have some text displayed %s."
 
-#: configure.php:243
+#: configure.php:168
 msgid "here"
 msgstr "here"
 
-#: configure.php:247 index.php:466
+#: configure.php:172 index.php:448
 msgid "Gadget boxes"
 msgstr "Gadget boxes"
 
-#: configure.php:251
+#: configure.php:176
 #, php-format
 msgid "Display up to 6 gadget boxes. Post articles in %s to add more boxes."
 msgstr "Display up to 6 gadget boxes. Post articles in %s to add more boxes."
 
-#: configure.php:251
+#: configure.php:176
 msgid "the section dedicated to gadget boxes"
 msgstr "the section dedicated to gadget boxes"
 
-#: configure.php:255
+#: configure.php:180
 msgid "Do not show gadget boxes at the front page."
 msgstr "Do not show gadget boxes at the front page."
 
-#: configure.php:259
+#: configure.php:184
 msgid "Pages"
 msgstr "Pages"
 
-#: configure.php:262
+#: configure.php:187
 msgid "Following layouts can be used for recent pages:"
 msgstr "Following layouts can be used for recent pages:"
 
-#: configure.php:277
-msgid "For weblogs and blogmarks."
-msgstr "For weblogs and blogmarks."
-
-#: configure.php:278 configure.php:285 configure.php:292 configure.php:299
-#: configure.php:324
-msgid "Preview"
-msgstr "Preview"
-
-#: configure.php:284
-msgid ""
-"Focus on the last published article, and on the three articles published "
-"previously."
-msgstr ""
-"Focus on the last published article, and on the three articles published "
-"previously."
-
-#: configure.php:291
-msgid ""
-"Focus on the last two most recent articles, then list previous pages. Click "
-"on article titles to read full text."
-msgstr ""
-"Focus on the last two most recent articles, then list previous pages. Click "
-"on article titles to read full text."
-
-#: configure.php:298
-msgid "List most recent pages equally."
-msgstr "List most recent pages equally."
-
-#: configure.php:305
-msgid ""
-"A decorated list of pages that have been most rated by community members."
-msgstr ""
-"A decorated list of pages that have been most rated by community members."
-
-#: configure.php:311
-msgid ""
-"A decorated list of most recent pages. This layout is suitable for sites "
-"with a long cover article at the front page."
-msgstr ""
-"A decorated list of most recent pages. This layout is suitable for sites "
-"with a long cover article at the front page."
-
-#: configure.php:317
-msgid ""
-"A compact list of most recent pages. This layout is suitable for sites with "
-"a lot of items (gadget boxes, etc.) at the front page."
-msgstr ""
-"A compact list of most recent pages. This layout is suitable for sites with "
-"a lot of items (gadget boxes, etc.) at the front page."
-
-#: configure.php:323
-msgid ""
-"Display only the most recent published page. Previous articles may be "
-"accessed through a menu. This layout is suitable for sites with a low number "
-"of heavy publications."
-msgstr ""
-"Display only the most recent published page. Previous articles may be "
-"accessed through a menu. This layout is suitable for sites with a low number "
-"of heavy publications."
-
-#: configure.php:336
-#, php-format
-msgid ""
-"Do not list recent pages. The layout of the front page is solely based on a "
-"%s, on %s, plus %s."
-msgstr ""
-"Do not list recent pages. The layout of the front page is solely based on a "
-"%s, on %s, plus %s."
-
-#: configure.php:337
-msgid "cover article"
-msgstr "cover article"
-
-#: configure.php:338
-msgid "the site map"
-msgstr "the site map"
-
-#: configure.php:339
-msgid "gadget boxes"
-msgstr "gadget boxes"
-
-#: configure.php:344
+#: configure.php:198
 #, php-format
 msgid ""
 "Display %s articles at the front page. Put a number if you wish to override "
@@ -273,67 +150,67 @@ msgstr ""
 "Display %s articles at the front page. Put a number if you wish to override "
 "the default value for the selected layout."
 
-#: configure.php:357
+#: configure.php:211
 msgid "Featured"
 msgstr "Featured"
 
-#: configure.php:363
+#: configure.php:217
 #, php-format
 msgid "List up to %s featured pages aside."
 msgstr "List up to %s featured pages aside."
 
-#: configure.php:367 configure.php:389
+#: configure.php:221 configure.php:243
 msgid ""
 "Similar to the first option, except that displayed information is scrolling."
 msgstr ""
 "Similar to the first option, except that displayed information is scrolling."
 
-#: configure.php:371
+#: configure.php:225
 msgid "Similar to the first option, except that featured are rotated."
 msgstr "Similar to the first option, except that featured are rotated."
 
-#: configure.php:375
+#: configure.php:229
 msgid "Do not list featured pages."
 msgstr "Do not list featured pages."
 
-#: configure.php:379
+#: configure.php:233
 msgid "News"
 msgstr "News"
 
-#: configure.php:385
+#: configure.php:239
 #, php-format
 msgid "List up to %s news aside."
 msgstr "List up to %s news aside."
 
-#: configure.php:393
+#: configure.php:247
 msgid "Similar to the first option, except that news are rotated."
 msgstr "Similar to the first option, except that news are rotated."
 
-#: configure.php:397
+#: configure.php:251
 msgid "Do not list news."
 msgstr "Do not list news."
 
-#: configure.php:408
+#: configure.php:262
 msgid "Main panel"
 msgstr "Main panel"
 
-#: configure.php:409
+#: configure.php:263
 msgid "Side panel"
 msgstr "Side panel"
 
-#: configure.php:421 panel.php:77 query.php:260 search.php:121
+#: configure.php:275 panel.php:77 query.php:260 search.php:121
 msgid "Submit"
 msgstr "Submit"
 
-#: configure.php:421 panel.php:77 query.php:260 search.php:121
+#: configure.php:275 panel.php:77 query.php:260 search.php:121
 msgid "Press [s] to submit data"
 msgstr "Press [s] to submit data"
 
-#: configure.php:440
+#: configure.php:294
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr "You are not allowed to perform this operation in demonstration mode."
 
-#: configure.php:508
+#: configure.php:362
 #, php-format
 msgid ""
 "ERROR: Impossible to write to the file %s. The configuration has not been "
@@ -342,7 +219,7 @@ msgstr ""
 "ERROR: Impossible to write to the file %s. The configuration has not been "
 "saved."
 
-#: configure.php:511
+#: configure.php:365
 #, php-format
 msgid ""
 "To actually change the configuration, please copy and paste following lines "
@@ -351,35 +228,35 @@ msgstr ""
 "To actually change the configuration, please copy and paste following lines "
 "by yourself in file %s."
 
-#: configure.php:516
+#: configure.php:370
 #, php-format
 msgid "The following configuration has been saved into the file %s."
 msgstr "The following configuration has been saved into the file %s."
 
-#: configure.php:520
+#: configure.php:374
 msgid ""
 "Review provided information and go to the bottom of the page to move forward."
 msgstr ""
 "Review provided information and go to the bottom of the page to move forward."
 
-#: configure.php:526
+#: configure.php:380
 #, php-format
 msgid "%s has been updated"
 msgstr "%s has been updated"
 
-#: configure.php:531
+#: configure.php:385
 msgid "Configuration parameters"
 msgstr "Configuration parameters"
 
-#: configure.php:536
+#: configure.php:390
 msgid "Switch the server on"
 msgstr "Switch the server on"
 
-#: configure.php:543 query.php:157
+#: configure.php:397 query.php:157
 msgid "Where do you want to go now?"
 msgstr "Where do you want to go now?"
 
-#: configure.php:555
+#: configure.php:409
 msgid "Configure again"
 msgstr "Configure again"
 
@@ -638,44 +515,44 @@ msgstr "Submit \"%s\" to our %s in case some pages could match this keyword."
 msgid "search engine"
 msgstr "search engine"
 
-#: index.php:410
+#: index.php:392
 msgid "No page to display."
 msgstr "No page to display."
 
-#: index.php:412
+#: index.php:394
 #, php-format
 msgid "Use the %s to populate this server."
 msgstr "Use the %s to populate this server."
 
-#: index.php:412 setup.php:332
+#: index.php:394 setup.php:332
 msgid "Content Assistant"
 msgstr "Content Assistant"
 
-#: index.php:421 query.php:160
+#: index.php:403 query.php:160
 msgid "All pages"
 msgstr "All pages"
 
-#: index.php:432
+#: index.php:414
 msgid "Recent Pages"
 msgstr "Recent Pages"
 
-#: index.php:464
+#: index.php:446
 msgid "Cover page"
 msgstr "Cover page"
 
-#: index.php:468
+#: index.php:450
 msgid "Extra boxes"
 msgstr "Extra boxes"
 
-#: index.php:470
+#: index.php:452
 msgid "Navigation boxes"
 msgstr "Navigation boxes"
 
-#: index.php:485
+#: index.php:467
 msgid "featured"
 msgstr "featured"
 
-#: index.php:489 index.php:497
+#: index.php:471 index.php:479
 msgid "Featured pages"
 msgstr "Featured pages"
 
@@ -1293,6 +1170,103 @@ msgstr ""
 "<p>Since basic configuration files exist on your server, it is likely that "
 "the installation has been achieved successfully. Click on the link below to "
 "modify the running parameters of your server.</p>"
+
+#~ msgid "menu - List sections in the menu bar."
+#~ msgstr "menu - List sections in the menu bar."
+
+#~ msgid "decorated - A list decorated with images"
+#~ msgstr "decorated - A list decorated with images"
+
+#~ msgid "map - Map in two columns, like Yahoo!"
+#~ msgstr "map - Map in two columns, like Yahoo!"
+
+#~ msgid "jive - List 5 threads per board"
+#~ msgstr "jive - List 5 threads per board"
+
+#~ msgid "yabb - A discussion forum"
+#~ msgstr "yabb - A discussion forum"
+
+#~ msgid "inline - List sections and related pages"
+#~ msgstr "inline - List sections and related pages"
+
+#~ msgid "folded - One folded box per section, with content"
+#~ msgstr "folded - One folded box per section, with content"
+
+#~ msgid "compact - A compact list"
+#~ msgstr "compact - A compact list"
+
+#~ msgid "titles - Use only titles and thumbnails"
+#~ msgstr "titles - Use only titles and thumbnails"
+
+#~ msgid "Use the customized layout %s"
+#~ msgstr "Use the customized layout %s"
+
+#~ msgid "For weblogs and blogmarks."
+#~ msgstr "For weblogs and blogmarks."
+
+#~ msgid "Preview"
+#~ msgstr "Preview"
+
+#~ msgid ""
+#~ "Focus on the last published article, and on the three articles published "
+#~ "previously."
+#~ msgstr ""
+#~ "Focus on the last published article, and on the three articles published "
+#~ "previously."
+
+#~ msgid ""
+#~ "Focus on the last two most recent articles, then list previous pages. "
+#~ "Click on article titles to read full text."
+#~ msgstr ""
+#~ "Focus on the last two most recent articles, then list previous pages. "
+#~ "Click on article titles to read full text."
+
+#~ msgid "List most recent pages equally."
+#~ msgstr "List most recent pages equally."
+
+#~ msgid ""
+#~ "A decorated list of pages that have been most rated by community members."
+#~ msgstr ""
+#~ "A decorated list of pages that have been most rated by community members."
+
+#~ msgid ""
+#~ "A decorated list of most recent pages. This layout is suitable for sites "
+#~ "with a long cover article at the front page."
+#~ msgstr ""
+#~ "A decorated list of most recent pages. This layout is suitable for sites "
+#~ "with a long cover article at the front page."
+
+#~ msgid ""
+#~ "A compact list of most recent pages. This layout is suitable for sites "
+#~ "with a lot of items (gadget boxes, etc.) at the front page."
+#~ msgstr ""
+#~ "A compact list of most recent pages. This layout is suitable for sites "
+#~ "with a lot of items (gadget boxes, etc.) at the front page."
+
+#~ msgid ""
+#~ "Display only the most recent published page. Previous articles may be "
+#~ "accessed through a menu. This layout is suitable for sites with a low "
+#~ "number of heavy publications."
+#~ msgstr ""
+#~ "Display only the most recent published page. Previous articles may be "
+#~ "accessed through a menu. This layout is suitable for sites with a low "
+#~ "number of heavy publications."
+
+#~ msgid ""
+#~ "Do not list recent pages. The layout of the front page is solely based on "
+#~ "a %s, on %s, plus %s."
+#~ msgstr ""
+#~ "Do not list recent pages. The layout of the front page is solely based on "
+#~ "a %s, on %s, plus %s."
+
+#~ msgid "cover article"
+#~ msgstr "cover article"
+
+#~ msgid "the site map"
+#~ msgstr "the site map"
+
+#~ msgid "gadget boxes"
+#~ msgstr "gadget boxes"
 
 #~ msgid "Warning: No script exists for the customized layout %s"
 #~ msgstr "Warning: No script exists for the customized layout %s"

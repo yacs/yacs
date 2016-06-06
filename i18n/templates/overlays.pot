@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-16 17:36+0200\n"
+"POT-Creation-Date: 2016-06-06 14:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -918,6 +918,41 @@ msgstr ""
 
 #: overlays/issue.php:1327
 msgid "Page has been edited"
+msgstr ""
+
+#: overlays/jssor_gallery.php:33
+msgid "Display of main navigation"
+msgstr ""
+
+#: overlays/jssor_gallery.php:35
+msgid "With bullets"
+msgstr ""
+
+#: overlays/jssor_gallery.php:36
+msgid "Width thumbnails"
+msgstr ""
+
+#: overlays/jssor_gallery.php:38
+#, php-format
+msgid ""
+"With bullets, but automatic switch to thumbnails for more than %s images to "
+"show"
+msgstr ""
+
+#: overlays/jssor_gallery.php:39
+msgid "Do not display it"
+msgstr ""
+
+#: overlays/jssor_gallery.php:46
+msgid "Display navigation arrows while hovering"
+msgstr ""
+
+#: overlays/jssor_gallery.php:52
+msgid "Autoplay slideshow at page loading"
+msgstr ""
+
+#: overlays/jssor_gallery.php:59
+msgid "Fit slideshow's width to its parent"
 msgstr ""
 
 #: overlays/livestream_meeting.php:81

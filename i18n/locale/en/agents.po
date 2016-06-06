@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-20 23:52+0100\n"
+"POT-Creation-Date: 2016-06-06 11:11+0200\n"
 "PO-Revision-Date: 2011-01-24 23:40+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -369,15 +369,15 @@ msgstr "Keywords"
 msgid "Searches"
 msgstr "Searches"
 
-#: agents/messages.php:543
+#: agents/messages.php:548
 msgid "Item sent by e-mail"
 msgstr "Item sent by e-mail"
 
-#: agents/messages.php:1139
+#: agents/messages.php:1168
 msgid "Size"
 msgstr "Size"
 
-#: agents/messages.php:1355
+#: agents/messages.php:1400
 msgid ""
 "The page received by e-mail has been successfully published. Please review "
 "it now to ensure that it reflects your mind."
@@ -385,7 +385,7 @@ msgstr ""
 "The page received by e-mail has been successfully published. Please review "
 "it now to ensure that it reflects your mind."
 
-#: agents/messages.php:1357
+#: agents/messages.php:1402
 msgid ""
 "The page received by e-mail has been posted. Don't forget to read it online. "
 "Then click on the Publish command to make it publicly available."
@@ -393,7 +393,7 @@ msgstr ""
 "The page received by e-mail has been posted. Don't forget to read it online. "
 "Then click on the Publish command to make it publicly available."
 
-#: agents/messages.php:1362
+#: agents/messages.php:1407
 msgid "Thank you for your contribution"
 msgstr "Thank you for your contribution"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-16 17:36+0200\n"
+"POT-Creation-Date: 2016-06-06 14:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,12 +18,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: layouts/layouts.php:106
+#: layouts/layouts.php:111
 #, php-format
 msgid "Warning: No script exists for the customized layout %s"
 msgstr ""
 
 #: layouts/layout_as_accordion/layout_as_accordion.php:108
+#: layouts/layout_as_columns/layout_as_columns.php:118
+#: layouts/layout_as_columns/layout_as_columns.php:132
+#: layouts/layout_as_titles/layout_as_titles.php:123
+#: layouts/layout_as_titles/layout_as_titles.php:137
 #, php-format
 msgid "%d page"
 msgid_plural "%d pages"
@@ -31,6 +35,15 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: layouts/layout_as_accordion/layout_as_accordion.php:131
+#: layouts/layout_as_columns/layout_as_columns.php:149
+#: layouts/layout_as_daily/layout_as_daily.php:184
+#: layouts/layout_as_hardboiled/layout_as_hardboiled.php:192
+#: layouts/layout_as_hardboiled/layout_as_hardboiled.php:347
+#: layouts/layout_as_jive/layout_as_jive.php:253
+#: layouts/layout_as_newspaper/layout_as_newspaper.php:211
+#: layouts/layout_as_newspaper/layout_as_newspaper.php:314
+#: layouts/layout_as_newspaper/layout_as_newspaper.php:394
+#: layouts/layout_as_titles/layout_as_titles.php:154
 #, php-format
 msgid "%d file"
 msgid_plural "%d files"
@@ -38,6 +51,14 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: layouts/layout_as_accordion/layout_as_accordion.php:148
+#: layouts/layout_as_columns/layout_as_columns.php:144
+#: layouts/layout_as_daily/layout_as_daily.php:188
+#: layouts/layout_as_hardboiled/layout_as_hardboiled.php:200
+#: layouts/layout_as_jive/layout_as_jive.php:264
+#: layouts/layout_as_newspaper/layout_as_newspaper.php:216
+#: layouts/layout_as_newspaper/layout_as_newspaper.php:319
+#: layouts/layout_as_newspaper/layout_as_newspaper.php:399
+#: layouts/layout_as_titles/layout_as_titles.php:149
 #, php-format
 msgid "%d comment"
 msgid_plural "%d comments"
@@ -45,6 +66,15 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: layouts/layout_as_accordion/layout_as_accordion.php:170
+#: layouts/layout_as_columns/layout_as_columns.php:138
+#: layouts/layout_as_daily/layout_as_daily.php:196
+#: layouts/layout_as_hardboiled/layout_as_hardboiled.php:196
+#: layouts/layout_as_jive/layout_as_jive.php:259
+#: layouts/layout_as_last/layout_as_last.php:212
+#: layouts/layout_as_newspaper/layout_as_newspaper.php:224
+#: layouts/layout_as_newspaper/layout_as_newspaper.php:327
+#: layouts/layout_as_newspaper/layout_as_newspaper.php:407
+#: layouts/layout_as_titles/layout_as_titles.php:143
 #, php-format
 msgid "%d link"
 msgid_plural "%d links"
@@ -52,6 +82,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: layouts/layout_as_accordion/layout_as_accordion.php:189
+#: layouts/layout_as_columns/layout_as_columns.php:112
+#: layouts/layout_as_titles/layout_as_titles.php:117
 #, php-format
 msgid "%d section"
 msgid_plural "%d sections"
@@ -63,10 +95,220 @@ msgstr[1] ""
 msgid "View the %s"
 msgstr ""
 
+#: layouts/layout_as_accordion/layout_as_accordion.php:236
+#: layouts/layout_as_columns/layout_as_columns.php:250
+#: layouts/layout_as_jive/layout_as_jive.php:225
+#: layouts/layout_as_last/layout_as_last.php:202
+#: layouts/layout_as_newspaper/layout_as_newspaper.php:177
+#: layouts/layout_as_newspaper/layout_as_newspaper.php:280
+#: layouts/layout_as_newspaper/layout_as_newspaper.php:414
+msgid "p"
+msgstr ""
+
 #: layouts/layout_as_accordion/layout_as_accordion.php:286
 #: layouts/layout_as_accordion/layout_as_accordion.php:309
 #: layouts/layout_as_accordion/layout_as_accordion.php:323
 msgid "Click to slide"
+msgstr ""
+
+#: layouts/layout_as_columns/layout_as_columns.php:107
+#: layouts/layout_as_titles/layout_as_titles.php:112
+#, php-format
+msgid "%d category"
+msgid_plural "%d categories"
+msgstr[0] ""
+msgstr[1] ""
+
+#: layouts/layout_as_columns/layout_as_columns.php:124
+#: layouts/layout_as_titles/layout_as_titles.php:129
+#, php-format
+msgid "%d user"
+msgid_plural "%d users"
+msgstr[0] ""
+msgstr[1] ""
+
+#: layouts/layout_as_columns/layout_as_columns.php:238
+#: layouts/layout_as_newspaper/layout_as_newspaper.php:187
+#: layouts/layout_as_newspaper/layout_as_newspaper.php:290
+#: layouts/layout_as_titles/layout_as_titles.php:235
+msgid "More"
+msgstr ""
+
+#: layouts/layout_as_columns/layout_as_columns.php:238
+#: layouts/layout_as_columns/layout_as_columns.php:257
+#: layouts/layout_as_hardboiled/layout_as_hardboiled.php:105
+#: layouts/layout_as_hardboiled/layout_as_hardboiled.php:157
+#: layouts/layout_as_hardboiled/layout_as_hardboiled.php:309
+#: layouts/layout_as_hardboiled/layout_as_hardboiled.php:343
+#: layouts/layout_as_last/layout_as_last.php:97
+#: layouts/layout_as_last/layout_as_last.php:208
+#: layouts/layout_as_titles/layout_as_titles.php:96
+#: layouts/layout_as_titles/layout_as_titles.php:235
+#: layouts/layout_as_titles/layout_as_titles.php:245
+#: layouts/layout_as_yabb/layout_as_yabb.php:114
+msgid "View the page"
+msgstr ""
+
+#: layouts/layout_as_daily/layout_as_daily.php:173
+msgid "Files"
+msgstr ""
+
+#: layouts/layout_as_daily/layout_as_daily.php:180
+msgid "Permalink"
+msgstr ""
+
+#: layouts/layout_as_daily/layout_as_daily.php:192
+#: layouts/layout_as_newspaper/layout_as_newspaper.php:220
+#: layouts/layout_as_newspaper/layout_as_newspaper.php:323
+#: layouts/layout_as_newspaper/layout_as_newspaper.php:403
+msgid "Discuss"
+msgstr ""
+
+#: layouts/layout_as_daily/layout_as_daily.php:200
+msgid "Reference this page"
+msgstr ""
+
+#: layouts/layout_as_hardboiled/layout_as_hardboiled.php:178
+#: layouts/layout_as_hardboiled/layout_as_hardboiled.php:317
+#, php-format
+msgid "by %s, %s"
+msgstr ""
+
+#: layouts/layout_as_hardboiled/layout_as_hardboiled.php:180
+#: layouts/layout_as_hardboiled/layout_as_hardboiled.php:319
+#: layouts/layout_as_last/layout_as_last.php:118
+#: layouts/layout_as_newspaper/layout_as_newspaper.php:204
+#: layouts/layout_as_newspaper/layout_as_newspaper.php:307
+#: layouts/layout_as_newspaper/layout_as_newspaper.php:387
+#: layouts/layout_as_yabb/layout_as_yabb.php:277
+#, php-format
+msgid "by %s"
+msgstr ""
+
+#: layouts/layout_as_hardboiled/layout_as_hardboiled.php:188
+msgid "hits"
+msgstr ""
+
+#: layouts/layout_as_hardboiled/layout_as_hardboiled.php:230
+#, php-format
+msgid "In %s"
+msgstr ""
+
+#: layouts/layout_as_hardboiled/layout_as_hardboiled.php:306
+msgid "Rate this page"
+msgstr ""
+
+#: layouts/layout_as_hardboiled/layout_as_hardboiled.php:361
+msgid "More pages"
+msgstr ""
+
+#: layouts/layout_as_jive/layout_as_jive.php:59
+#: layouts/layout_as_yabb/layout_as_yabb.php:312
+msgid "Topic"
+msgstr ""
+
+#: layouts/layout_as_jive/layout_as_jive.php:59
+msgid "Content"
+msgstr ""
+
+#: layouts/layout_as_jive/layout_as_jive.php:143
+#: layouts/layout_as_yabb/layout_as_yabb.php:312
+msgid "Poster"
+msgstr ""
+
+#: layouts/layout_as_jive/layout_as_jive.php:143
+msgid "Messages"
+msgstr ""
+
+#: layouts/layout_as_jive/layout_as_jive.php:143
+msgid "Last active"
+msgstr ""
+
+#: layouts/layout_as_jive/layout_as_jive.php:192
+#: layouts/layout_as_yabb/layout_as_yabb.php:209
+msgid "edited"
+msgstr ""
+
+#: layouts/layout_as_jive/layout_as_jive.php:213
+#, php-format
+msgid "posted by %s %s"
+msgstr ""
+
+#: layouts/layout_as_jive/layout_as_jive.php:217
+#, php-format
+msgid "Updated %s"
+msgstr ""
+
+#: layouts/layout_as_jive/layout_as_jive.php:269
+msgid "Post a comment"
+msgstr ""
+
+#: layouts/layout_as_jive/layout_as_jive.php:288
+#, php-format
+msgid "%d threads"
+msgstr ""
+
+#: layouts/layout_as_jive/layout_as_jive.php:299
+msgid "Add a page"
+msgstr ""
+
+#: layouts/layout_as_jive/layout_as_jive.php:310
+#: layouts/layout_as_yabb/layout_as_yabb.php:157
+#, php-format
+msgid "Moderator: %s"
+msgid_plural "Moderators: %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: layouts/layout_as_jive/layout_as_jive.php:314
+#: layouts/layout_as_yabb/layout_as_yabb.php:161
+#, php-format
+msgid "Child board: %s"
+msgid_plural "Child boards: %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: layouts/layout_as_last/layout_as_last.php:112
+#, php-format
+msgid "Started by %s"
+msgstr ""
+
+#: layouts/layout_as_last/layout_as_last.php:123
+#, php-format
+msgid "with %s"
+msgstr ""
+
+#: layouts/layout_as_last/layout_as_last.php:141
+#, php-format
+msgid "%d contributions, including:"
+msgstr ""
+
+#: layouts/layout_as_last/layout_as_last.php:162
+#, php-format
+msgid "By %s"
+msgstr ""
+
+#: layouts/layout_as_last/layout_as_last.php:167
+msgid "Reply"
+msgstr ""
+
+#: layouts/layout_as_last/layout_as_last.php:193
+#, php-format
+msgid "%d files, including:"
+msgstr ""
+
+#: layouts/layout_as_last/layout_as_last.php:216
+#, php-format
+msgid "in %s"
+msgstr ""
+
+#: layouts/layout_as_last/layout_as_last.php:216
+#: layouts/layout_as_yabb/layout_as_yabb.php:112
+msgid "View the section"
+msgstr ""
+
+#: layouts/layout_as_newspaper/layout_as_newspaper.php:117
+msgid "Previous pages"
 msgstr ""
 
 #: layouts/layout_as_tree_manager/layout_as_tree_manager.php:29
@@ -96,4 +338,49 @@ msgstr ""
 
 #: layouts/layout_as_tree_manager/tree_manager_ajax.php:32
 msgid "Request is invalid."
+msgstr ""
+
+#: layouts/layout_as_yabb/layout_as_yabb.php:84
+#: layouts/layout_as_yabb/layout_as_yabb.php:87
+msgid "Board"
+msgstr ""
+
+#: layouts/layout_as_yabb/layout_as_yabb.php:84
+#: layouts/layout_as_yabb/layout_as_yabb.php:87
+msgid "Topics"
+msgstr ""
+
+#: layouts/layout_as_yabb/layout_as_yabb.php:84
+#: layouts/layout_as_yabb/layout_as_yabb.php:87
+#: layouts/layout_as_yabb/layout_as_yabb.php:312
+msgid "Last post"
+msgstr ""
+
+#: layouts/layout_as_yabb/layout_as_yabb.php:212
+#, php-format
+msgid "%s by %s"
+msgstr ""
+
+#: layouts/layout_as_yabb/layout_as_yabb.php:229
+msgid "One page of comments"
+msgstr ""
+
+#: layouts/layout_as_yabb/layout_as_yabb.php:230
+msgid "Most recent comments"
+msgstr ""
+
+#: layouts/layout_as_yabb/layout_as_yabb.php:238
+msgid "In this section"
+msgstr ""
+
+#: layouts/layout_as_yabb/layout_as_yabb.php:250
+msgid "Related topics"
+msgstr ""
+
+#: layouts/layout_as_yabb/layout_as_yabb.php:312
+msgid "Replies"
+msgstr ""
+
+#: layouts/layout_as_yabb/layout_as_yabb.php:312
+msgid "Views"
 msgstr ""

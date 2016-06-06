@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-16 17:31+0200\n"
+"POT-Creation-Date: 2016-06-06 11:11+0200\n"
 "PO-Revision-Date: 2015-04-24 15:37+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
@@ -23,7 +23,7 @@ msgstr ""
 #: files/delete.php:73 files/edit.php:144 files/feed.php:111
 #: files/fetch_all.php:99 files/fetch.php:114 files/index.php:58
 #: files/list.php:66 files/list.php:72 files/review.php:30 files/review.php:36
-#: files/stream.php:112 files/thread.php:60 files/thread.php:63
+#: files/stream.php:115 files/thread.php:60 files/thread.php:63
 #: files/view.php:113
 msgid "Files"
 msgstr "Files"
@@ -36,8 +36,8 @@ msgstr "Maintenance"
 #: files/edit.php:163 files/edit.php:193 files/feed.php:127
 #: files/fetch_all.php:116 files/fetch.php:147 files/files.php:3285
 #: files/index.php:68 files/list.php:88 files/list.php:93 files/move.php:25
-#: files/move.php:54 files/sort.php:25 files/stream.php:139
-#: files/thread.php:68 files/upload.ajax.php:30 files/upload.ajax.php:140
+#: files/move.php:54 files/sort.php:25 files/stream.php:142
+#: files/thread.php:68 files/upload.ajax.php:30 files/upload.ajax.php:142
 #: files/view.php:146
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
@@ -850,11 +850,11 @@ msgstr "%d items in the list of noise words"
 msgid "Anchor is invalid."
 msgstr "Anchor is invalid."
 
-#: files/stream.php:245 files/stream.php:275 files/stream.php:322
+#: files/stream.php:248 files/stream.php:278 files/stream.php:325
 msgid "Close"
 msgstr "Close"
 
-#: files/stream.php:367
+#: files/stream.php:370
 msgid "Do not know how to stream this file type"
 msgstr "Do not know how to stream this file type"
 
@@ -870,19 +870,15 @@ msgstr "An error ocurred when uploading."
 msgid "Unsupported filetype uploaded."
 msgstr "Unsupported filetype uploaded."
 
-#: files/upload.ajax.php:89
-msgid "File with that name already exists in temporary folder."
-msgstr "File with that name already exists in temporary folder."
-
-#: files/upload.ajax.php:96
+#: files/upload.ajax.php:98
 msgid "Error uploading file - check destination is writeable."
 msgstr "Error uploading file - check destination is writeable."
 
-#: files/upload.ajax.php:124
+#: files/upload.ajax.php:126
 msgid "all temporary file destroyed"
 msgstr "all temporary file destroyed."
 
-#: files/upload.ajax.php:133
+#: files/upload.ajax.php:135
 #, php-format
 msgid "temporary file %s destroyed"
 msgstr "temporary file %s destroyed."
@@ -1562,6 +1558,9 @@ msgstr "Delete this file"
 #: files/view.php:899
 msgid "Navigation"
 msgstr "Navigation"
+
+#~ msgid "File with that name already exists in temporary folder."
+#~ msgstr "File with that name already exists in temporary folder."
 
 #~ msgid "More options"
 #~ msgstr "More options"

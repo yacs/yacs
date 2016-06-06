@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-16 17:36+0200\n"
+"POT-Creation-Date: 2016-06-06 14:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,7 +35,7 @@ msgstr ""
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
-#: images/check.php:41 images/images.php:778 images/index.php:96
+#: images/check.php:41 images/images.php:783 images/index.php:96
 msgid "No image has been added."
 msgstr ""
 
@@ -320,15 +320,15 @@ msgstr ""
 msgid "Press [s] to submit data"
 msgstr ""
 
-#: images/edit.php:611
+#: images/edit.php:612
 msgid "Do not change modification date of the main page."
 msgstr ""
 
-#: images/edit.php:614
+#: images/edit.php:615
 msgid "Ensure this post is valid XHTML."
 msgstr ""
 
-#: images/edit.php:630
+#: images/edit.php:631
 msgid ""
 "Large files (i.e. exceeding 20&nbsp;kbytes) are published as thumbnails. By "
 "clicking on thumbnails people can access full-sized pictures. The title is "
@@ -336,26 +336,26 @@ msgid ""
 "source information are displayed along the full-sized picture."
 msgstr ""
 
-#: images/edit.php:631
+#: images/edit.php:632
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr ""
 
-#: images/edit.php:631
+#: images/edit.php:632
 msgid "YACS codes"
 msgstr ""
 
-#: images/edit.php:631
+#: images/edit.php:632
 msgid "smileys"
 msgstr ""
 
-#: images/edit.php:632
+#: images/edit.php:633
 msgid ""
 "Smaller files are embedded as-is. The description and the source fields are "
 "more or less useless in this case."
 msgstr ""
 
-#: images/edit.php:633 images/view.php:249
+#: images/edit.php:634 images/view.php:249
 msgid "Help"
 msgstr ""
 
@@ -369,37 +369,37 @@ msgstr ""
 msgid "Cannot write adjusted image to %s."
 msgstr ""
 
-#: images/image.php:198
+#: images/image.php:219
 #, php-format
 msgid "No image information in %s."
 msgstr ""
 
-#: images/image.php:217
+#: images/image.php:238
 #, php-format
 msgid "No GD support, or unknown image type in %s."
 msgstr ""
 
-#: images/image.php:304
+#: images/image.php:325
 #, php-format
 msgid "Cannot copy image to %s"
 msgstr ""
 
-#: images/image.php:332
+#: images/image.php:353
 #, php-format
 msgid "Impossible to skrink image %s"
 msgstr ""
 
-#: images/image.php:349
+#: images/image.php:370
 #, php-format
 msgid "Impossible to write to %s."
 msgstr ""
 
-#: images/image.php:381
+#: images/image.php:402
 #, php-format
 msgid "No image information in %s"
 msgstr ""
 
-#: images/image.php:387
+#: images/image.php:408
 #, php-format
 msgid "Rejected file type %s"
 msgstr ""
@@ -423,7 +423,7 @@ msgstr ""
 msgid "No item has the provided id."
 msgstr ""
 
-#: images/images.php:910
+#: images/images.php:921
 msgid "Following image has been added:"
 msgstr ""
 

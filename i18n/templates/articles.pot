@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-16 17:36+0200\n"
+"POT-Creation-Date: 2016-06-06 14:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,12 +48,6 @@ msgstr ""
 #: articles/layout_articles_as_compact.php:94
 #: articles/layout_articles_as_digg.php:90
 #: articles/layout_articles_as_digg.php:163
-#: articles/layout_articles_as_hardboiled.php:94
-#: articles/layout_articles_as_hardboiled.php:146
-#: articles/layout_articles_as_hardboiled.php:296
-#: articles/layout_articles_as_hardboiled.php:330
-#: articles/layout_articles_as_last.php:97
-#: articles/layout_articles_as_last.php:211
 #: articles/layout_articles_as_news.php:90
 #: articles/layout_articles_as_news.php:97
 #: articles/layout_articles_as_rights.php:82
@@ -63,11 +57,8 @@ msgstr ""
 #: articles/layout_articles_as_table.php:63
 #: articles/layout_articles_as_tabs.php:202
 #: articles/layout_articles_as_timeline.php:135
-#: articles/layout_articles_as_titles.php:55
-#: articles/layout_articles_as_yabb.php:117
-#: articles/layout_articles_as_yahoo.php:155
-#: articles/layout_articles_as_yahoo.php:172 articles/layout_articles.php:123
-#: articles/mail.php:168 articles/stamp.php:120
+#: articles/layout_articles.php:123 articles/mail.php:168
+#: articles/stamp.php:120
 msgid "View the page"
 msgstr ""
 
@@ -94,7 +85,7 @@ msgstr ""
 msgid "published by %s %s"
 msgstr ""
 
-#: articles/articles.php:593 articles/layout_articles_as_jive.php:98
+#: articles/articles.php:593
 #, php-format
 msgid "posted by %s %s"
 msgstr ""
@@ -119,20 +110,14 @@ msgstr ""
 msgid "%s has updated a page in %s"
 msgstr ""
 
-#: articles/articles.php:748 articles/layout_articles_as_last.php:165
+#: articles/articles.php:748
 #, php-format
 msgid "By %s"
 msgstr ""
 
 #: articles/articles.php:768 articles/layout_articles_as_alistapart.php:307
-#: articles/layout_articles_as_daily.php:176
 #: articles/layout_articles_as_digg.php:172
-#: articles/layout_articles_as_hardboiled.php:189
-#: articles/layout_articles_as_jive.php:152
 #: articles/layout_articles_as_manage.php:153
-#: articles/layout_articles_as_newspaper.php:208
-#: articles/layout_articles_as_newspaper.php:309
-#: articles/layout_articles_as_newspaper.php:389
 #: articles/layout_articles_as_news.php:127
 #: articles/layout_articles_as_review.php:111
 #: articles/layout_articles_as_rights.php:124
@@ -144,16 +129,15 @@ msgstr ""
 #: articles/layout_articles_as_table.php:124
 #: articles/layout_articles_as_tabs.php:180
 #: articles/layout_articles_as_timeline.php:94
-#: articles/layout_articles_as_yahoo.php:101 articles/layout_articles.php:169
-#: articles/view_as_tabs.php:298 articles/view_as_wiki.php:261
-#: articles/view.php:998
+#: articles/layout_articles.php:169 articles/view_as_tabs.php:298
+#: articles/view_as_wiki.php:261 articles/view.php:998
 #, php-format
 msgid "%d comment"
 msgid_plural "%d comments"
 msgstr[0] ""
 msgstr[1] ""
 
-#: articles/articles.php:780 articles/layout_articles_as_last.php:196
+#: articles/articles.php:780
 #, php-format
 msgid "%d files, including:"
 msgstr ""
@@ -162,7 +146,6 @@ msgstr ""
 #: articles/edit_as_thread.php:335 articles/edit.php:929
 #: articles/fetch_as_msword.php:134 articles/fetch_as_pdf.php:136
 #: articles/layout_articles_as_alistapart.php:295
-#: articles/layout_articles_as_daily.php:161
 #: articles/layout_articles_as_tabs.php:133 articles/print.php:129
 #: articles/view_as_chat.php:510 articles/view_as_tabs.php:372
 #: articles/view_as_wiki.php:153 articles/view.php:1109
@@ -170,16 +153,9 @@ msgid "Files"
 msgstr ""
 
 #: articles/articles.php:793 articles/layout_articles_as_alistapart.php:281
-#: articles/layout_articles_as_daily.php:172
 #: articles/layout_articles_as_digg.php:167
-#: articles/layout_articles_as_hardboiled.php:181
-#: articles/layout_articles_as_hardboiled.php:334
-#: articles/layout_articles_as_jive.php:141
 #: articles/layout_articles_as_manage.php:143
 #: articles/layout_articles_as_manual.php:105
-#: articles/layout_articles_as_newspaper.php:203
-#: articles/layout_articles_as_newspaper.php:304
-#: articles/layout_articles_as_newspaper.php:384
 #: articles/layout_articles_as_news.php:119
 #: articles/layout_articles_as_review.php:103
 #: articles/layout_articles_as_rights.php:116
@@ -193,9 +169,8 @@ msgstr ""
 #: articles/layout_articles_as_tabs.php:95
 #: articles/layout_articles_as_tagged.php:101
 #: articles/layout_articles_as_timeline.php:90
-#: articles/layout_articles_as_yahoo.php:89 articles/layout_articles.php:161
-#: articles/view_as_tabs.php:348 articles/view_as_wiki.php:129
-#: articles/view.php:1061
+#: articles/layout_articles.php:161 articles/view_as_tabs.php:348
+#: articles/view_as_wiki.php:129 articles/view.php:1061
 #, php-format
 msgid "%d file"
 msgid_plural "%d files"
@@ -203,16 +178,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: articles/articles.php:799 articles/layout_articles_as_alistapart.php:315
-#: articles/layout_articles_as_daily.php:183
 #: articles/layout_articles_as_digg.php:181
-#: articles/layout_articles_as_hardboiled.php:185
-#: articles/layout_articles_as_jive.php:147
-#: articles/layout_articles_as_last.php:215
 #: articles/layout_articles_as_manage.php:148
 #: articles/layout_articles_as_manual.php:111
-#: articles/layout_articles_as_newspaper.php:216
-#: articles/layout_articles_as_newspaper.php:317
-#: articles/layout_articles_as_newspaper.php:397
 #: articles/layout_articles_as_news.php:123
 #: articles/layout_articles_as_review.php:107
 #: articles/layout_articles_as_rights.php:120
@@ -225,9 +193,8 @@ msgstr[1] ""
 #: articles/layout_articles_as_table.php:118
 #: articles/layout_articles_as_tagged.php:105
 #: articles/layout_articles_as_timeline.php:98
-#: articles/layout_articles_as_yahoo.php:95 articles/layout_articles.php:165
-#: articles/view_as_tabs.php:381 articles/view_as_wiki.php:161
-#: articles/view.php:1127
+#: articles/layout_articles.php:165 articles/view_as_tabs.php:381
+#: articles/view_as_wiki.php:161 articles/view.php:1127
 #, php-format
 msgid "%d link"
 msgid_plural "%d links"
@@ -472,7 +439,6 @@ msgid "edited by %s %s"
 msgstr ""
 
 #: articles/delete.php:182 articles/duplicate.php:222
-#: articles/layout_articles_as_hardboiled.php:177
 #: articles/layout_articles_as_manage.php:138
 #: articles/layout_articles_as_review.php:99
 #: articles/layout_articles_as_search.php:118 articles/layout_articles.php:104
@@ -1226,7 +1192,6 @@ msgid "Pages under preparation"
 msgstr ""
 
 #: articles/layout_articles_as_alistapart.php:125
-#: articles/layout_articles_as_newspaper.php:114
 msgid "Previous pages"
 msgstr ""
 
@@ -1236,25 +1201,21 @@ msgstr ""
 
 #: articles/layout_articles_as_alistapart.php:170
 #: articles/layout_articles_as_alistapart.php:338
-#: articles/layout_articles_as_daily.php:168
 msgid "Permalink"
 msgstr ""
 
-#: articles/layout_articles_as_alistapart.php:221
-#: articles/layout_articles_as_hardboiled.php:293 articles/view_as_tabs.php:60
+#: articles/layout_articles_as_alistapart.php:221 articles/view_as_tabs.php:60
 #: articles/view_as_tabs.php:63
 msgid "Rate this page"
 msgstr ""
 
 #: articles/layout_articles_as_alistapart.php:303
-#: articles/layout_articles_as_jive.php:157
 #: articles/layout_articles_as_tabs.php:150 articles/view_as_tabs.php:563
 #: articles/view_as_wiki.php:308 articles/view.php:972 articles/view.php:1213
 msgid "Post a comment"
 msgstr ""
 
-#: articles/layout_articles_as_alistapart.php:311
-#: articles/layout_articles_as_daily.php:187 articles/view.php:672
+#: articles/layout_articles_as_alistapart.php:311 articles/view.php:672
 msgid "Reference this page"
 msgstr ""
 
@@ -1264,23 +1225,11 @@ msgstr ""
 
 #: articles/layout_articles_as_boxes.php:89
 #: articles/layout_articles_as_boxes.php:98
-#: articles/layout_articles_as_newspaper.php:179
-#: articles/layout_articles_as_newspaper.php:280
 #: articles/layout_articles_as_news.php:90
 #: articles/layout_articles_as_news.php:97
 #: articles/layout_articles_as_slashdot.php:69
 #: articles/layout_articles_as_slashdot.php:132
-#: articles/layout_articles_as_yahoo.php:155
 msgid "More"
-msgstr ""
-
-#: articles/layout_articles_as_daily.php:179
-#: articles/layout_articles_as_digg.php:177
-#: articles/layout_articles_as_newspaper.php:212
-#: articles/layout_articles_as_newspaper.php:313
-#: articles/layout_articles_as_newspaper.php:393
-#: articles/layout_articles_as_slashdot.php:146
-msgid "Discuss"
 msgstr ""
 
 #: articles/layout_articles_as_digest.php:91
@@ -1310,24 +1259,16 @@ msgid "Rate it"
 msgstr ""
 
 #: articles/layout_articles_as_digg.php:153
-#: articles/layout_articles_as_hardboiled.php:169
-#: articles/layout_articles_as_hardboiled.php:306
-#: articles/layout_articles_as_last.php:118
 #: articles/layout_articles_as_manage.php:130
-#: articles/layout_articles_as_newspaper.php:196
-#: articles/layout_articles_as_newspaper.php:297
-#: articles/layout_articles_as_newspaper.php:377
 #: articles/layout_articles_as_review.php:92
 #: articles/layout_articles_as_search.php:111
 #: articles/layout_articles_as_slashdot.php:122
-#: articles/layout_articles_as_yabb.php:191 articles/layout_articles.php:149
+#: articles/layout_articles.php:149
 #, php-format
 msgid "by %s"
 msgstr ""
 
 #: articles/layout_articles_as_digg.php:155
-#: articles/layout_articles_as_hardboiled.php:167
-#: articles/layout_articles_as_hardboiled.php:304
 #: articles/layout_articles_as_manage.php:128
 #: articles/layout_articles_as_review.php:90
 #: articles/layout_articles_as_search.php:109
@@ -1337,66 +1278,19 @@ msgstr ""
 msgid "by %s, %s"
 msgstr ""
 
-#: articles/layout_articles_as_hardboiled.php:219
-#: articles/layout_articles_as_manage.php:176
-#, php-format
-msgid "In %s"
-msgstr ""
-
-#: articles/layout_articles_as_hardboiled.php:348
-msgid "More pages"
-msgstr ""
-
-#: articles/layout_articles_as_jive.php:40
-#: articles/layout_articles_as_table.php:181
-#: articles/layout_articles_as_table.php:183
-#: articles/layout_articles_as_yabb.php:221
-msgid "Topic"
-msgstr ""
-
-#: articles/layout_articles_as_jive.php:40
-msgid "Content"
-msgstr ""
-
-#: articles/layout_articles_as_jive.php:102
-#, php-format
-msgid "Updated %s"
-msgstr ""
-
-#: articles/layout_articles_as_last.php:112
-#, php-format
-msgid "Started by %s"
-msgstr ""
-
-#: articles/layout_articles_as_last.php:123
-#, php-format
-msgid "with %s"
-msgstr ""
-
-#: articles/layout_articles_as_last.php:144
-#, php-format
-msgid "%d contributions, including:"
-msgstr ""
-
-#: articles/layout_articles_as_last.php:170
-msgid "Reply"
-msgstr ""
-
-#: articles/layout_articles_as_last.php:219
-#: articles/layout_articles_as_rights.php:128
-#: articles/layout_articles_as_search.php:138
-#: articles/layout_articles_as_simple.php:109 articles/layout_articles.php:193
-#, php-format
-msgid "in %s"
-msgstr ""
-
-#: articles/layout_articles_as_last.php:219
-msgid "View the section"
+#: articles/layout_articles_as_digg.php:177
+#: articles/layout_articles_as_slashdot.php:146
+msgid "Discuss"
 msgstr ""
 
 #: articles/layout_articles_as_manage.php:49
 #: articles/layout_articles_as_rights.php:167
 msgid "Page"
+msgstr ""
+
+#: articles/layout_articles_as_manage.php:176
+#, php-format
+msgid "In %s"
 msgstr ""
 
 #: articles/layout_articles_as_manage.php:190
@@ -1417,6 +1311,20 @@ msgstr ""
 
 #: articles/layout_articles_as_review.php:123
 msgid "Validate"
+msgstr ""
+
+#: articles/layout_articles_as_rights.php:128
+#: articles/layout_articles_as_search.php:138
+#: articles/layout_articles_as_simple.php:109 articles/layout_articles.php:193
+#, php-format
+msgid "in %s"
+msgstr ""
+
+#: articles/layout_articles_as_rights.php:136
+#: articles/layout_articles_as_search.php:142
+#: articles/layout_articles_as_spray.php:140
+#: articles/layout_articles_as_tagged.php:113 articles/layout_articles.php:204
+msgid "span"
 msgstr ""
 
 #: articles/layout_articles_as_rights.php:167 articles/view_as_tabs.php:501
@@ -1449,11 +1357,15 @@ msgstr ""
 
 #: articles/layout_articles_as_table.php:181
 #: articles/layout_articles_as_table.php:183
+msgid "Topic"
+msgstr ""
+
+#: articles/layout_articles_as_table.php:181
+#: articles/layout_articles_as_table.php:183
 msgid "Abstract"
 msgstr ""
 
 #: articles/layout_articles_as_table.php:181
-#: articles/layout_articles_as_yabb.php:221
 msgid "Poster"
 msgstr ""
 
@@ -1474,34 +1386,6 @@ msgstr ""
 #: articles/view_as_tabs.php:588 articles/view_as_wiki.php:45
 #: articles/view_as_wiki.php:333 articles/view.php:1238
 msgid "Edit this page"
-msgstr ""
-
-#: articles/layout_articles_as_yabb.php:143
-msgid "One page of comments"
-msgstr ""
-
-#: articles/layout_articles_as_yabb.php:144
-msgid "Most recent comments"
-msgstr ""
-
-#: articles/layout_articles_as_yabb.php:152
-msgid "In this section"
-msgstr ""
-
-#: articles/layout_articles_as_yabb.php:164
-msgid "Related topics"
-msgstr ""
-
-#: articles/layout_articles_as_yabb.php:221
-msgid "Replies"
-msgstr ""
-
-#: articles/layout_articles_as_yabb.php:221
-msgid "Views"
-msgstr ""
-
-#: articles/layout_articles_as_yabb.php:221
-msgid "Last post"
 msgstr ""
 
 #: articles/layout_articles.php:184 articles/view.php:713

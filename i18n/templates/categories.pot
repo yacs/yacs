@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-16 17:36+0200\n"
+"POT-Creation-Date: 2016-06-06 14:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,7 +32,7 @@ msgstr ""
 msgid "-- Root level"
 msgstr ""
 
-#: categories/categories.php:627 categories/edit.php:749
+#: categories/categories.php:627 categories/edit.php:592
 msgid "featured"
 msgstr ""
 
@@ -70,9 +70,9 @@ msgstr ""
 #: categories/category.php:153 categories/check.php:27 categories/check.php:38
 #: categories/check.php:95 categories/check.php:151 categories/check.php:261
 #: categories/delete.php:61 categories/edit.php:105 categories/feed.php:88
-#: categories/index.php:61 categories/mail.php:55 categories/print.php:70
+#: categories/index.php:61 categories/mail.php:58 categories/print.php:70
 #: categories/select.php:58 categories/subcat_feed.php:88
-#: categories/view.php:176 categories/view.php:730
+#: categories/view.php:176 categories/view.php:758
 msgid "Categories"
 msgstr ""
 
@@ -82,8 +82,8 @@ msgstr ""
 
 #: categories/check.php:35 categories/delete.php:76
 #: categories/describe.php:111 categories/edit.php:132 categories/edit.php:152
-#: categories/feed.php:108 categories/index.php:69 categories/mail.php:63
-#: categories/mail.php:83 categories/print.php:79 categories/print.php:94
+#: categories/feed.php:108 categories/index.php:69 categories/mail.php:66
+#: categories/mail.php:86 categories/print.php:79 categories/print.php:94
 #: categories/select.php:69 categories/select.php:85
 #: categories/set_as_thumbnail.php:58 categories/set_as_thumbnail.php:73
 #: categories/set_keyword.php:44 categories/set_keyword.php:53
@@ -154,7 +154,7 @@ msgid "The cloud of tags"
 msgstr ""
 
 #: categories/cloud.php:22 categories/edit.php:115 categories/index.php:136
-#: categories/view.php:717 categories/view.php:825
+#: categories/view.php:745 categories/view.php:853
 msgid "Add a category"
 msgstr ""
 
@@ -214,7 +214,7 @@ msgstr ""
 msgid "Yes, I want to delete this category"
 msgstr ""
 
-#: categories/delete.php:114 categories/edit.php:905 categories/mail.php:190
+#: categories/delete.php:114 categories/edit.php:748 categories/mail.php:193
 msgid "Cancel"
 msgstr ""
 
@@ -253,22 +253,21 @@ msgstr ""
 msgid "What do you want to do now?"
 msgstr ""
 
-#: categories/edit.php:284 categories/layout_categories_as_yahoo.php:166
-#: categories/layout_categories_as_yahoo.php:180 categories/mail.php:120
+#: categories/edit.php:284 categories/mail.php:123
 msgid "View the category"
 msgstr ""
 
-#: categories/edit.php:286 categories/edit.php:593 categories/edit.php:634
-#: categories/edit.php:728 categories/view.php:831
+#: categories/edit.php:286 categories/edit.php:436 categories/edit.php:477
+#: categories/edit.php:571 categories/view.php:859
 msgid "Add an image"
 msgstr ""
 
-#: categories/edit.php:288 categories/edit.php:645 categories/view.php:562
-#: categories/view.php:837
+#: categories/edit.php:288 categories/edit.php:488 categories/view.php:590
+#: categories/view.php:865
 msgid "Add a file"
 msgstr ""
 
-#: categories/edit.php:290 categories/view.php:659 categories/view.php:849
+#: categories/edit.php:290 categories/view.php:687 categories/view.php:877
 msgid "Add a link"
 msgstr ""
 
@@ -276,7 +275,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: categories/edit.php:320 categories/edit.php:939 categories/mail.php:207
+#: categories/edit.php:320 categories/edit.php:782 categories/mail.php:210
 msgid "Please provide a meaningful title."
 msgstr ""
 
@@ -292,414 +291,317 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-#: categories/edit.php:350 categories/edit.php:410 categories/edit.php:474
-#: categories/edit.php:507
+#: categories/edit.php:350
 msgid "Layout"
 msgstr ""
 
-#: categories/edit.php:362 categories/edit.php:422 categories/edit.php:486
-#: categories/edit.php:521
-msgid "decorated - A list decorated with images"
-msgstr ""
-
-#: categories/edit.php:366 categories/edit.php:430
-msgid "slashdot - List most recent pages equally"
-msgstr ""
-
-#: categories/edit.php:370 categories/edit.php:434
-msgid "map - Map in two columns, like Yahoo!"
-msgstr ""
-
-#: categories/edit.php:374
-msgid "jive - List 5 threads per board"
-msgstr ""
-
-#: categories/edit.php:378
-msgid "yabb - A discussion forum"
-msgstr ""
-
-#: categories/edit.php:382
-msgid "inline - List sections and related pages"
-msgstr ""
-
-#: categories/edit.php:386
-msgid "folded - One folded box per section, with content"
-msgstr ""
-
-#: categories/edit.php:390 categories/edit.php:458 categories/edit.php:490
-#: categories/edit.php:536
-msgid "compact - A compact list"
-msgstr ""
-
-#: categories/edit.php:394
-msgid "titles - Use only titles and thumbnails"
-msgstr ""
-
-#: categories/edit.php:398 categories/edit.php:462 categories/edit.php:494
-#: categories/edit.php:546
-#, php-format
-msgid "Use the customized layout %s"
-msgstr ""
-
-#: categories/edit.php:402
-msgid "Do not list sections"
-msgstr ""
-
-#: categories/edit.php:406 categories/view.php:467
+#: categories/edit.php:359 categories/view.php:467
 msgid "Sections"
 msgstr ""
 
-#: categories/edit.php:426
-msgid "digg - To order pages by rating"
+#: categories/edit.php:370
+msgid "Articles"
 msgstr ""
 
-#: categories/edit.php:438
-msgid "table - A table of recent pages"
-msgstr ""
-
-#: categories/edit.php:442
-msgid "daily - A list of stamped pages (blog)"
-msgstr ""
-
-#: categories/edit.php:446
-msgid "jive - Display most of articles content"
-msgstr ""
-
-#: categories/edit.php:450
-msgid "yabb - A discussion board"
-msgstr ""
-
-#: categories/edit.php:454
-msgid "alistapart - Display entirely the last published page"
-msgstr ""
-
-#: categories/edit.php:466
-msgid "Do not list pages"
-msgstr ""
-
-#: categories/edit.php:470 categories/print.php:130 categories/view.php:521
-msgid "Pages"
-msgstr ""
-
-#: categories/edit.php:498
-msgid "Do not list persons"
-msgstr ""
-
-#: categories/edit.php:502 categories/view.php:786
+#: categories/edit.php:381 categories/view.php:814
 msgid "Persons"
 msgstr ""
 
-#: categories/edit.php:510
+#: categories/edit.php:388
 #, php-format
-msgid "List up to %s sub-categories with the following layout:"
+msgid "List up to %s sub-categories with the following layout&nbsp;:"
 msgstr ""
 
-#: categories/edit.php:526
-msgid "yahoo - List these categories on two columns, like Yahoo!"
-msgstr ""
-
-#: categories/edit.php:531
-msgid "inline - List categories and related pages"
-msgstr ""
-
-#: categories/edit.php:541
-msgid "clouds - List sub-categories as clouds."
-msgstr ""
-
-#: categories/edit.php:550
-msgid "Do not list categories"
-msgstr ""
-
-#: categories/edit.php:554
+#: categories/edit.php:397
 msgid "Category overlay"
 msgstr ""
 
-#: categories/edit.php:556
+#: categories/edit.php:399
 #, php-format
 msgid "Script used to %s this category"
 msgstr ""
 
-#: categories/edit.php:556
+#: categories/edit.php:399
 msgid "overlay"
 msgstr ""
 
-#: categories/edit.php:572
+#: categories/edit.php:415
 msgid "Sub-categories"
 msgstr ""
 
-#: categories/edit.php:576
+#: categories/edit.php:419
 msgid "Trailer"
 msgstr ""
 
-#: categories/edit.php:578
+#: categories/edit.php:421
 msgid ""
 "Text to be appended at the bottom of the page, after all other elements "
 "attached to this page."
 msgstr ""
 
-#: categories/edit.php:583
+#: categories/edit.php:426
 msgid "Image"
 msgstr ""
 
-#: categories/edit.php:590 categories/edit.php:725
+#: categories/edit.php:433 categories/edit.php:568
 msgid "Change"
 msgstr ""
 
-#: categories/edit.php:592
+#: categories/edit.php:435
 msgid "Image to be displayed in the panel aside the page."
 msgstr ""
 
-#: categories/edit.php:606
+#: categories/edit.php:449
 msgid "Extra"
 msgstr ""
 
-#: categories/edit.php:608
+#: categories/edit.php:451
 msgid ""
 "Text to be inserted in the panel aside the page. Use [box.extra=title]content"
 "[/box] or plain HTML."
 msgstr ""
 
-#: categories/edit.php:612
+#: categories/edit.php:455
 msgid "More content"
 msgstr ""
 
-#: categories/edit.php:617
+#: categories/edit.php:460
 msgid "Index page"
 msgstr ""
 
-#: categories/edit.php:626
+#: categories/edit.php:469
 msgid "Submit the new item, and you will be able to add resources afterwards."
 msgstr ""
 
-#: categories/edit.php:640
+#: categories/edit.php:483 categories/view.php:550
 msgid "Images"
 msgstr ""
 
-#: categories/edit.php:651 categories/print.php:147 categories/view.php:571
+#: categories/edit.php:494 categories/print.php:147 categories/view.php:599
 msgid "Files"
 msgstr ""
 
-#: categories/edit.php:657
+#: categories/edit.php:500
 msgid "Resources"
 msgstr ""
 
-#: categories/edit.php:665
+#: categories/edit.php:508
 msgid "Access"
 msgstr ""
 
-#: categories/edit.php:681
+#: categories/edit.php:524
 msgid "Rank"
 msgstr ""
 
-#: categories/edit.php:683
+#: categories/edit.php:526
 msgid "Regular categories are ranked at 10000."
 msgstr ""
 
-#: categories/edit.php:687
+#: categories/edit.php:530
 msgid "Expiry date"
 msgstr ""
 
-#: categories/edit.php:695
+#: categories/edit.php:538
 msgid "Remove content on dead-line - automatically"
 msgstr ""
 
-#: categories/edit.php:700
+#: categories/edit.php:543
 msgid "Parent category"
 msgstr ""
 
-#: categories/edit.php:710
+#: categories/edit.php:553
 msgid "Please carefully select a parent category."
 msgstr ""
 
-#: categories/edit.php:717
+#: categories/edit.php:560
 msgid "Thumbnail"
 msgstr ""
 
-#: categories/edit.php:727
+#: categories/edit.php:570
 msgid ""
 "Upload a small image to illustrate this page when it is listed into parent "
 "page."
 msgstr ""
 
-#: categories/edit.php:743
+#: categories/edit.php:586
 #, php-format
 msgid "Contribution to \"%s\""
 msgstr ""
 
-#: categories/edit.php:745
+#: categories/edit.php:588
 msgid "Appearance at the category tree"
 msgstr ""
 
-#: categories/edit.php:750
+#: categories/edit.php:593
 msgid "YACS can list most recent items"
 msgstr ""
 
-#: categories/edit.php:754
+#: categories/edit.php:597
 msgid "at all pages, among other navigation boxes"
 msgstr ""
 
-#: categories/edit.php:758
+#: categories/edit.php:601
 msgid "at site map"
 msgstr ""
 
-#: categories/edit.php:762
+#: categories/edit.php:605
 msgid "at articles index"
 msgstr ""
 
-#: categories/edit.php:766
+#: categories/edit.php:609
 msgid "at files index"
 msgstr ""
 
-#: categories/edit.php:770
+#: categories/edit.php:613
 msgid "at links index"
 msgstr ""
 
-#: categories/edit.php:774
+#: categories/edit.php:617
 msgid "at users index"
 msgstr ""
 
-#: categories/edit.php:778
+#: categories/edit.php:621
 msgid "No, thank you to not handle excerpts for this category"
 msgstr ""
 
-#: categories/edit.php:781
+#: categories/edit.php:624
 msgid "Excerpts"
 msgstr ""
 
-#: categories/edit.php:785
+#: categories/edit.php:628
 msgid "Background color"
 msgstr ""
 
-#: categories/edit.php:787
+#: categories/edit.php:630
 msgid "To highlight this category in lists"
 msgstr ""
 
-#: categories/edit.php:791
+#: categories/edit.php:634
 msgid "Nick name"
 msgstr ""
 
-#: categories/edit.php:793
+#: categories/edit.php:636
 msgid "To designate a category by name"
 msgstr ""
 
-#: categories/edit.php:797
+#: categories/edit.php:640
 msgid "Keyword"
 msgstr ""
 
-#: categories/edit.php:799
+#: categories/edit.php:642
 msgid "To relate this category to some search pattern"
 msgstr ""
 
-#: categories/edit.php:803
+#: categories/edit.php:646
 msgid "Rendering"
 msgstr ""
 
-#: categories/edit.php:807
+#: categories/edit.php:650
 msgid "Sort pages by title"
 msgstr ""
 
-#: categories/edit.php:808
+#: categories/edit.php:651
 msgid "Sort pages by rating sum"
 msgstr ""
 
-#: categories/edit.php:809
+#: categories/edit.php:652
 msgid "Files can be added to the index page"
 msgstr ""
 
-#: categories/edit.php:810
+#: categories/edit.php:653
 msgid "Sort files by title (and not by date)"
 msgstr ""
 
-#: categories/edit.php:811
+#: categories/edit.php:654
 msgid "Links can be added to the index page"
 msgstr ""
 
-#: categories/edit.php:812
+#: categories/edit.php:655
 msgid "Sort links by title (and not by date)"
 msgstr ""
 
-#: categories/edit.php:813
+#: categories/edit.php:656
 msgid "The index page itself is a thread"
 msgstr ""
 
-#: categories/edit.php:814
+#: categories/edit.php:657
 msgid "Apply a specific theme (in skins/foo_bar)"
 msgstr ""
 
-#: categories/edit.php:815
+#: categories/edit.php:658
 msgid "To load template_foo_bar.php instead of the regular template"
 msgstr ""
 
-#: categories/edit.php:816
+#: categories/edit.php:659
 msgid "You may combine several keywords:"
 msgstr ""
 
-#: categories/edit.php:840
+#: categories/edit.php:683
 msgid "Change the overlay"
 msgstr ""
 
-#: categories/edit.php:843 categories/edit.php:847
+#: categories/edit.php:686 categories/edit.php:690
 msgid "none"
 msgstr ""
 
-#: categories/edit.php:844
+#: categories/edit.php:687
 msgid "If you change the overlay you may loose some data."
 msgstr ""
 
-#: categories/edit.php:846
+#: categories/edit.php:689
 msgid "No overlay has been selected yet."
 msgstr ""
 
-#: categories/edit.php:884
+#: categories/edit.php:727
 msgid "More options"
 msgstr ""
 
-#: categories/edit.php:889
+#: categories/edit.php:732
 msgid "Options"
 msgstr ""
 
-#: categories/edit.php:901
+#: categories/edit.php:744
 msgid "Submit"
 msgstr ""
 
-#: categories/edit.php:901 categories/mail.php:186
+#: categories/edit.php:744 categories/mail.php:189
 msgid "Press [s] to submit data"
 msgstr ""
 
-#: categories/edit.php:917
+#: categories/edit.php:760
 msgid "Do not change modification date."
 msgstr ""
 
-#: categories/edit.php:920
+#: categories/edit.php:763
 msgid "Ensure this post is valid XHTML."
 msgstr ""
 
-#: categories/edit.php:959
+#: categories/edit.php:802
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr ""
 
-#: categories/edit.php:959
+#: categories/edit.php:802
 msgid "YACS codes"
 msgstr ""
 
-#: categories/edit.php:959
+#: categories/edit.php:802
 msgid "smileys"
 msgstr ""
 
-#: categories/edit.php:962
+#: categories/edit.php:805
 msgid "Mandatory fields are marked with a *"
 msgstr ""
 
-#: categories/edit.php:969
+#: categories/edit.php:812
 msgid "TinyMCE"
 msgstr ""
 
-#: categories/edit.php:973
+#: categories/edit.php:816
 msgid "Textarea"
 msgstr ""
 
-#: categories/edit.php:977
+#: categories/edit.php:820
 msgid "Help"
 msgstr ""
 
@@ -732,7 +634,6 @@ msgid "Popular"
 msgstr ""
 
 #: categories/layout_categories_as_search.php:71
-#: categories/layout_categories_as_yahoo.php:75
 #: categories/layout_categories.php:70
 #, php-format
 msgid "%d category"
@@ -741,7 +642,6 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: categories/layout_categories_as_search.php:75
-#: categories/layout_categories_as_yahoo.php:80
 #: categories/layout_categories.php:74 categories/view.php:445
 #, php-format
 msgid "%d section"
@@ -750,7 +650,6 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: categories/layout_categories_as_search.php:79
-#: categories/layout_categories_as_yahoo.php:86
 #: categories/layout_categories.php:78 categories/view.php:494
 #, php-format
 msgid "%d page"
@@ -759,8 +658,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: categories/layout_categories_as_search.php:83
-#: categories/layout_categories_as_yahoo.php:92
-#: categories/layout_categories.php:82 categories/view.php:538
+#: categories/layout_categories.php:82 categories/view.php:566
 #, php-format
 msgid "%d file"
 msgid_plural "%d files"
@@ -768,8 +666,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: categories/layout_categories_as_search.php:87
-#: categories/layout_categories_as_yahoo.php:98
-#: categories/layout_categories.php:86 categories/view.php:637
+#: categories/layout_categories.php:86 categories/view.php:665
 #, php-format
 msgid "%d link"
 msgid_plural "%d links"
@@ -777,8 +674,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: categories/layout_categories_as_search.php:91
-#: categories/layout_categories_as_yahoo.php:104
-#: categories/layout_categories.php:90 categories/view.php:591
+#: categories/layout_categories.php:90 categories/view.php:619
 #, php-format
 msgid "%d comment"
 msgid_plural "%d comments"
@@ -786,8 +682,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: categories/layout_categories_as_search.php:95
-#: categories/layout_categories_as_yahoo.php:110
-#: categories/layout_categories.php:94 categories/view.php:762
+#: categories/layout_categories.php:94 categories/view.php:790
 #, php-format
 msgid "%d user"
 msgid_plural "%d users"
@@ -799,65 +694,65 @@ msgstr[1] ""
 msgid "in %s"
 msgstr ""
 
-#: categories/layout_categories_as_yahoo.php:166
-msgid "More"
-msgstr ""
-
-#: categories/mail.php:58 categories/view.php:757
+#: categories/mail.php:61 categories/view.php:785
 msgid "Notify members"
 msgstr ""
 
-#: categories/mail.php:72
+#: categories/mail.php:75
 msgid "E-mail has not been enabled on this system."
 msgstr ""
 
-#: categories/mail.php:88
+#: categories/mail.php:91
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr ""
 
-#: categories/mail.php:104
+#: categories/mail.php:107
 #, php-format
 msgid "%s is notifying you from %s"
 msgstr ""
 
-#: categories/mail.php:139
+#: categories/mail.php:142
 msgid "A message has been sent to:"
 msgstr ""
 
-#: categories/mail.php:146
+#: categories/mail.php:149
 msgid "Done"
 msgstr ""
 
-#: categories/mail.php:154
+#: categories/mail.php:157
 msgid "No recipient has been found."
 msgstr ""
 
-#: categories/mail.php:163
+#: categories/mail.php:166
 msgid "Message recipients"
 msgstr ""
 
-#: categories/mail.php:164
+#: categories/mail.php:167
 msgid "Select recipients"
 msgstr ""
 
-#: categories/mail.php:168
+#: categories/mail.php:171
 msgid "Message title"
 msgstr ""
 
-#: categories/mail.php:173
+#: categories/mail.php:176
 msgid "Message content"
 msgstr ""
 
-#: categories/mail.php:186
+#: categories/mail.php:189
 msgid "Send"
 msgstr ""
 
-#: categories/mail.php:213
+#: categories/mail.php:216
 msgid "Message content can not be empty"
 msgstr ""
 
 #: categories/print.php:113
 msgid "Related categories"
+msgstr ""
+
+#: categories/print.php:130 categories/view.php:521
+msgid "Pages"
 msgstr ""
 
 #: categories/select.php:62
@@ -958,110 +853,117 @@ msgstr ""
 msgid "Name: %s"
 msgstr ""
 
-#: categories/view.php:612 categories/view.php:843
+#: categories/view.php:532
+#, php-format
+msgid "%d image"
+msgid_plural "%d images"
+msgstr[0] ""
+msgstr[1] ""
+
+#: categories/view.php:640 categories/view.php:871
 msgid "Post a comment"
 msgstr ""
 
-#: categories/view.php:621
+#: categories/view.php:649
 msgid "Comments"
 msgstr ""
 
-#: categories/view.php:668
+#: categories/view.php:696
 msgid "Links"
 msgstr ""
 
-#: categories/view.php:831
+#: categories/view.php:859
 msgid "You can upload a camera shot, a drawing, or another image file."
 msgstr ""
 
-#: categories/view.php:837
+#: categories/view.php:865
 msgid "Attach related files."
 msgstr ""
 
-#: categories/view.php:843
+#: categories/view.php:871
 msgid "Express yourself, and say what you think."
 msgstr ""
 
-#: categories/view.php:849
+#: categories/view.php:877
 msgid "Contribute to the web and link to relevant pages."
 msgstr ""
 
-#: categories/view.php:854
+#: categories/view.php:882
 msgid "Edit this category"
 msgstr ""
 
-#: categories/view.php:854
+#: categories/view.php:882
 msgid "Press [e] to edit"
 msgstr ""
 
-#: categories/view.php:858
+#: categories/view.php:886
 msgid "Delete this category"
 msgstr ""
 
-#: categories/view.php:862
+#: categories/view.php:890
 msgid "Manage members"
 msgstr ""
 
-#: categories/view.php:880
+#: categories/view.php:908
 msgid "Reference this page"
 msgstr ""
 
-#: categories/view.php:880
+#: categories/view.php:908
 msgid "Various means to link to this page"
 msgstr ""
 
-#: categories/view.php:886
+#: categories/view.php:914
 msgid "Print this page"
 msgstr ""
 
-#: categories/view.php:886
+#: categories/view.php:914
 msgid "Get a paper copy of this page."
 msgstr ""
 
-#: categories/view.php:891
+#: categories/view.php:919
 msgid "Share"
 msgstr ""
 
-#: categories/view.php:896
+#: categories/view.php:924
 msgid "Recent pages"
 msgstr ""
 
-#: categories/view.php:902
+#: categories/view.php:930
 msgid "Monitor"
 msgstr ""
 
-#: categories/view.php:909
+#: categories/view.php:937
 #, php-format
 msgid ""
 "Maybe some new pages or additional material can be found by submitting the "
 "following keyword to our search engine. Give it a try. %s"
 msgstr ""
 
-#: categories/view.php:910
+#: categories/view.php:938
 msgid "Internal search"
 msgstr ""
 
-#: categories/view.php:913
+#: categories/view.php:941
 #, php-format
 msgid "Search for %s at:"
 msgstr ""
 
-#: categories/view.php:920
+#: categories/view.php:948
 msgid "Google"
 msgstr ""
 
-#: categories/view.php:924
+#: categories/view.php:952
 msgid "Yahoo!"
 msgstr ""
 
-#: categories/view.php:928
+#: categories/view.php:956
 msgid "Ask Jeeves"
 msgstr ""
 
-#: categories/view.php:932
+#: categories/view.php:960
 msgid "Technorati"
 msgstr ""
 
-#: categories/view.php:935
+#: categories/view.php:963
 msgid "External search"
 msgstr ""

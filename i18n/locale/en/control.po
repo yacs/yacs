@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-17 17:56+0200\n"
-"PO-Revision-Date: 2015-07-17 18:05+0100\n"
+"POT-Creation-Date: 2016-06-06 11:11+0200\n"
+"PO-Revision-Date: 2016-06-06 11:17+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
 "Language: en_GB\n"
@@ -50,8 +50,8 @@ msgstr ""
 #: control/purge.php:462
 #: control/scan.php:167
 #: control/scan.php:224
-#: control/scan.php:449
-#: control/scan.php:802
+#: control/scan.php:486
+#: control/scan.php:905
 #: control/setup.php:97
 #: control/setup.php:259
 #: control/switch.php:40
@@ -185,7 +185,7 @@ msgstr "No image have been found."
 
 #: control/backup.php:811
 #: control/scan.php:239
-#: control/scan.php:471
+#: control/scan.php:508
 msgid "No item has been found."
 msgstr "No item have been found."
 
@@ -232,9 +232,9 @@ msgstr "Skip transient data and minimize size of backup file"
 #: control/chmod.php:105
 #: control/configure.php:960
 #: control/populate.php:194
-#: control/scan.php:788
-#: control/scan.php:798
-#: control/scan.php:822
+#: control/scan.php:891
+#: control/scan.php:901
+#: control/scan.php:925
 #: control/setup.php:249
 #: control/setup.php:292
 msgid "When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience."
@@ -370,8 +370,8 @@ msgstr "%d files have been updated."
 #: control/purge.php:423
 #: control/purge.php:442
 #: control/purge.php:458
-#: control/scan.php:446
-#: control/scan.php:778
+#: control/scan.php:483
+#: control/scan.php:881
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminated in %.2f seconds."
@@ -843,13 +843,13 @@ msgstr "The following configuration has been saved into the file %s."
 
 #: control/configure.php:903
 #: control/populate.php:201
-#: control/scan.php:460
+#: control/scan.php:497
 #: control/setup.php:148
 msgid "Review provided information and go to the bottom of the page to move forward."
 msgstr "Review provided information and go to the bottom of the page to move forward."
 
 #: control/configure.php:912
-#: control/scan.php:756
+#: control/scan.php:859
 #: control/htaccess/index.php:83
 #, php-format
 msgid "%s has been updated"
@@ -961,7 +961,7 @@ msgid "The database is currently empty. Please follow the link to create tables 
 msgstr "The database is currently empty. Please follow the link to create tables of the database."
 
 #: control/index.php:157
-#: control/scan.php:793
+#: control/scan.php:896
 msgid "Create tables in the database"
 msgstr "Create tables in the database"
 
@@ -1462,8 +1462,8 @@ msgid "%s - check the database structure; also optimize data tables and update i
 msgstr "%s - check the database structure; also optimize data tables and update index"
 
 #: control/index.php:862
-#: control/scan.php:783
-#: control/scan.php:802
+#: control/scan.php:886
+#: control/scan.php:905
 #: control/setup.php:100
 msgid "Database maintenance"
 msgstr "Database maintenance"
@@ -2282,7 +2282,7 @@ msgid "Start"
 msgstr "Start"
 
 #: control/scan.php:170
-#: control/scan.php:814
+#: control/scan.php:917
 msgid "Scan scripts for software extensions"
 msgstr "Scan scripts for software extensions"
 
@@ -2292,18 +2292,18 @@ msgid "Hook %s has been included"
 msgstr "Hook %s has been included"
 
 #: control/scan.php:235
-#: control/scan.php:467
+#: control/scan.php:504
 #, php-format
 msgid "%d directories have been scanned."
 msgstr "%d directories have been scanned."
 
 #: control/scan.php:251
-#: control/scan.php:495
+#: control/scan.php:535
 msgid "Bad hook:"
 msgstr "Bad hook:"
 
 #: control/scan.php:260
-#: control/scan.php:504
+#: control/scan.php:544
 msgid "Script does not exist:"
 msgstr "Script does not exist:"
 
@@ -2311,124 +2311,140 @@ msgstr "Script does not exist:"
 msgid "*** undefined label"
 msgstr "*** undefined label"
 
-#: control/scan.php:294
-#: control/scan.php:322
+#: control/scan.php:297
+#: control/scan.php:325
+#: control/scan.php:415
 #, php-format
 msgid "identifier: %s"
 msgstr "identifier: %s"
 
-#: control/scan.php:297
-#: control/scan.php:325
-#: control/scan.php:384
+#: control/scan.php:300
+#: control/scan.php:328
+#: control/scan.php:387
 #, php-format
 msgid "script: %s"
 msgstr "script: %s"
 
-#: control/scan.php:300
-#: control/scan.php:331
-#: control/scan.php:359
-#: control/scan.php:390
+#: control/scan.php:303
+#: control/scan.php:334
+#: control/scan.php:362
+#: control/scan.php:393
+#: control/scan.php:421
 #, php-format
 msgid "source: %s"
 msgstr "source: %s"
 
-#: control/scan.php:328
-#: control/scan.php:387
+#: control/scan.php:331
+#: control/scan.php:390
 #, php-format
 msgid "function: %s"
 msgstr "function: %s"
 
-#: control/scan.php:353
-#: control/scan.php:381
+#: control/scan.php:356
+#: control/scan.php:384
 #, php-format
 msgid "service: %s"
 msgstr "service: %s"
 
-#: control/scan.php:356
+#: control/scan.php:359
 #, php-format
 msgid "link: %s"
 msgstr "link: %s"
 
-#: control/scan.php:401
-#: control/scan.php:632
+#: control/scan.php:418
+#, php-format
+msgid "Supported types : %s"
+msgstr "Supported types : %s"
+
+#: control/scan.php:432
+#: control/scan.php:702
 #, php-format
 msgid "Bad hook type %s to %s for %s"
 msgstr "Bad hook type %s to %s for %s"
 
-#: control/scan.php:407
+#: control/scan.php:438
 msgid "Review hooks in the following list and uncheck unwanted extensions."
 msgstr "Review hooks in the following list and uncheck unwanted extensions."
 
-#: control/scan.php:413
+#: control/scan.php:444
 msgid "Linking hooks"
 msgstr "Linking hooks"
 
-#: control/scan.php:419
+#: control/scan.php:450
 msgid "Including hooks"
 msgstr "Including hooks"
 
-#: control/scan.php:425
+#: control/scan.php:456
 msgid "Client hooks"
 msgstr "Client hooks"
 
-#: control/scan.php:431
+#: control/scan.php:462
 msgid "Service hooks"
 msgstr "Service hooks"
 
-#: control/scan.php:436
+#: control/scan.php:468
+msgid "Layout hooks"
+msgstr "Layout hooks"
+
+#: control/scan.php:473
 msgid "Yes, I want to (re)build the set of hooks"
 msgstr "Yes, I want to (re)build the set of hooks"
 
-#: control/scan.php:456
+#: control/scan.php:493
 msgid "Following hooks have been detected and integrated into the file parameters/hooks.include.php"
 msgstr "Following hooks have been detected and integrated into the file parameters/hooks.include.php"
 
-#: control/scan.php:531
+#: control/scan.php:571
 #, php-format
 msgid "Disabling extension %s"
 msgstr "Disabling extension %s"
 
-#: control/scan.php:542
+#: control/scan.php:585
 #, php-format
 msgid "Linking hook %s for %s"
 msgstr "Linking hook %s for %s"
 
-#: control/scan.php:568
-#: control/scan.php:701
+#: control/scan.php:611
+#: control/scan.php:782
 #, php-format
 msgid "Including hook %s for %s"
 msgstr "Including hook %s for %s"
 
-#: control/scan.php:591
+#: control/scan.php:634
 #, php-format
 msgid "Calling hook for %s"
 msgstr "Calling hook for %s"
 
-#: control/scan.php:614
+#: control/scan.php:657
 #, php-format
 msgid "Serving hook %s for %s"
 msgstr "Serving hook %s for %s"
 
-#: control/scan.php:751
-#: control/scan.php:769
+#: control/scan.php:676
+#, php-format
+msgid "Declaration of layout %s"
+msgstr "Declaration of layout %s"
+
+#: control/scan.php:854
+#: control/scan.php:872
 #: control/switch.php:108
 #, php-format
 msgid "Impossible to write to %s."
 msgstr "Impossible to write to %s."
 
-#: control/scan.php:753
+#: control/scan.php:856
 msgid "Hooks have been compiled in parameters/hooks.include.php"
 msgstr "Hooks have been compiled in parameters/hooks.include.php"
 
-#: control/scan.php:771
+#: control/scan.php:874
 msgid "Hooks have been listed in parameters/hooks.xml"
 msgstr "Hooks have been listed in parameters/hooks.xml"
 
-#: control/scan.php:810
+#: control/scan.php:913
 msgid "This script will scan your php scripts to install software hooks."
 msgstr "This script will scan your php scripts to install software hooks."
 
-#: control/scan.php:827
+#: control/scan.php:930
 #, php-format
 msgid "Current content of %s"
 msgstr "Current content of %s"

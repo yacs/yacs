@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-16 17:31+0200\n"
-"PO-Revision-Date: 2015-08-16 17:36+0100\n"
+"POT-Creation-Date: 2016-06-06 11:11+0200\n"
+"PO-Revision-Date: 2016-06-06 13:46+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
 "Language: en_GB\n"
@@ -48,7 +48,7 @@ msgstr "Request is invalid."
 #: users/configure.php:156
 #: users/contact.php:121
 #: users/contact.php:126
-#: users/delete.php:78
+#: users/delete.php:79
 #: users/describe.php:115
 #: users/edit.php:149
 #: users/edit.php:161
@@ -114,7 +114,7 @@ msgid "Control Panel"
 msgstr "Control Panel"
 
 #: users/configure.php:147
-#: users/delete.php:69
+#: users/delete.php:70
 #: users/password.php:60
 #: users/password.php:62
 #: users/print.php:126
@@ -137,7 +137,7 @@ msgstr "Configure"
 #: users/configure.php:538
 #: users/configure.php:654
 #: users/contact.php:97
-#: users/delete.php:65
+#: users/delete.php:66
 #: users/describe.php:92
 #: users/edit.php:128
 #: users/element.php:92
@@ -514,7 +514,7 @@ msgid "Press [s] to submit data"
 msgstr "Press [s] to submit data"
 
 #: users/configure.php:549
-#: users/delete.php:83
+#: users/delete.php:84
 #: users/mail.php:108
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr "You are not allowed to perform this operation in demonstration mode."
@@ -632,28 +632,28 @@ msgstr "Start a new thread"
 msgid "Your threads with \"%s\""
 msgstr "Your threads with \"%s\""
 
-#: users/delete.php:69
+#: users/delete.php:70
 msgid "Delete"
 msgstr "Delete"
 
-#: users/delete.php:96
+#: users/delete.php:97
 #, php-format
 msgid "Deletion: %s"
 msgstr "Deletion: %s"
 
-#: users/delete.php:109
+#: users/delete.php:113
 msgid "The action has not been confirmed."
 msgstr "The action has not been confirmed."
 
-#: users/delete.php:116
+#: users/delete.php:120
 msgid "Yes, I want to suppress my own profile from this server and log out."
 msgstr "Yes, I want to suppress my own profile from this server and log out."
 
-#: users/delete.php:118
+#: users/delete.php:122
 msgid "Yes, I want to suppress this user"
 msgstr "Yes, I want to suppress this user"
 
-#: users/delete.php:143
+#: users/delete.php:147
 msgid "Following items are attached to this record and will be deleted as well."
 msgstr "Following items are attached to this record and will be deleted as well."
 
@@ -1307,6 +1307,12 @@ msgstr "and many more persons"
 #: users/layout_users_as_mail.php:50
 msgid "Select all/none"
 msgstr "Select all/none"
+
+#: users/layout_users_as_mail.php:102
+#: users/layout_users_as_search.php:85
+#: users/layout_users.php:90
+msgid "span"
+msgstr "span"
 
 #: users/layout_users_as_password.php:77
 #: users/layout_users_as_search.php:100

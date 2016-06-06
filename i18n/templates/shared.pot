@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-16 17:36+0200\n"
+"POT-Creation-Date: 2016-06-06 14:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,176 +18,176 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: shared/anchors.php:384
+#: shared/anchors.php:389
 msgid "imported"
 msgstr ""
 
-#: shared/anchors.php:388
+#: shared/anchors.php:393
 msgid "published"
 msgstr ""
 
-#: shared/anchors.php:391
+#: shared/anchors.php:396
 msgid "created"
 msgstr ""
 
-#: shared/anchors.php:394 shared/anchors.php:409 shared/anchors.php:464
+#: shared/anchors.php:399 shared/anchors.php:414 shared/anchors.php:469
 msgid "edited"
 msgstr ""
 
-#: shared/anchors.php:397
+#: shared/anchors.php:402
 msgid "reviewed"
 msgstr ""
 
-#: shared/anchors.php:400
+#: shared/anchors.php:405
 msgid "section created"
 msgstr ""
 
-#: shared/anchors.php:403
+#: shared/anchors.php:408
 msgid "section updated"
 msgstr ""
 
-#: shared/anchors.php:406
+#: shared/anchors.php:411
 msgid "commented"
 msgstr ""
 
-#: shared/anchors.php:412
+#: shared/anchors.php:417
 msgid "file uploaded"
 msgstr ""
 
-#: shared/anchors.php:415
+#: shared/anchors.php:420
 msgid "file updated"
 msgstr ""
 
-#: shared/anchors.php:418
+#: shared/anchors.php:423
 msgid "file released"
 msgstr ""
 
-#: shared/anchors.php:421
+#: shared/anchors.php:426
 msgid "file reserved"
 msgstr ""
 
-#: shared/anchors.php:424
+#: shared/anchors.php:429
 msgid "image uploaded"
 msgstr ""
 
-#: shared/anchors.php:427
+#: shared/anchors.php:432
 msgid "image updated"
 msgstr ""
 
-#: shared/anchors.php:430
+#: shared/anchors.php:435
 msgid "icon set"
 msgstr ""
 
-#: shared/anchors.php:434
+#: shared/anchors.php:439
 msgid "link posted"
 msgstr ""
 
-#: shared/anchors.php:437
+#: shared/anchors.php:442
 msgid "link updated"
 msgstr ""
 
-#: shared/anchors.php:440
+#: shared/anchors.php:445
 msgid "page updated"
 msgstr ""
 
-#: shared/anchors.php:443
+#: shared/anchors.php:448
 msgid "location created"
 msgstr ""
 
-#: shared/anchors.php:446
+#: shared/anchors.php:451
 msgid "location updated"
 msgstr ""
 
-#: shared/anchors.php:449
+#: shared/anchors.php:454
 msgid "table posted"
 msgstr ""
 
-#: shared/anchors.php:452
+#: shared/anchors.php:457
 msgid "table updated"
 msgstr ""
 
-#: shared/anchors.php:455
+#: shared/anchors.php:460
 msgid "new message"
 msgstr ""
 
-#: shared/anchors.php:458
+#: shared/anchors.php:463
 msgid "new user"
 msgstr ""
 
-#: shared/anchors.php:461
+#: shared/anchors.php:466
 msgid "profile updated"
 msgstr ""
 
-#: shared/anchors.php:489
+#: shared/anchors.php:494
 msgid "Categories"
 msgstr ""
 
-#: shared/anchors.php:501
+#: shared/anchors.php:506
 msgid "Sections"
 msgstr ""
 
-#: shared/anchors.php:513
+#: shared/anchors.php:518
 msgid "Pages"
 msgstr ""
 
-#: shared/anchors.php:525
+#: shared/anchors.php:530
 msgid "Images"
 msgstr ""
 
-#: shared/anchors.php:536
+#: shared/anchors.php:541
 msgid "Locations"
 msgstr ""
 
-#: shared/anchors.php:547
+#: shared/anchors.php:552
 msgid "Tables"
 msgstr ""
 
-#: shared/anchors.php:557
+#: shared/anchors.php:562
 msgid "Files"
 msgstr ""
 
-#: shared/anchors.php:568
+#: shared/anchors.php:573
 msgid "Dates"
 msgstr ""
 
-#: shared/anchors.php:579
+#: shared/anchors.php:584
 msgid "Comments"
 msgstr ""
 
-#: shared/anchors.php:590
+#: shared/anchors.php:595
 msgid "Links"
 msgstr ""
 
-#: shared/anchors.php:601
+#: shared/anchors.php:606
 msgid "Versions"
 msgstr ""
 
-#: shared/anchors.php:610
+#: shared/anchors.php:615
 msgid ""
 "Following items are attached to this record and will be impacted as well."
 msgstr ""
 
-#: shared/anchors.php:618
+#: shared/anchors.php:623
 msgid "Table"
 msgstr ""
 
-#: shared/anchors.php:618
+#: shared/anchors.php:623
 msgid "Records"
 msgstr ""
 
-#: shared/anchors.php:618
+#: shared/anchors.php:623
 msgid "Creation date"
 msgstr ""
 
-#: shared/anchors.php:618
+#: shared/anchors.php:623
 msgid "Last edition"
 msgstr ""
 
-#: shared/anchors.php:623
+#: shared/anchors.php:628
 msgid "Related items"
 msgstr ""
 
-#: shared/global.php:1062
+#: shared/global.php:1078
 msgid "View the category"
 msgstr ""
 
@@ -258,11 +258,11 @@ msgstr ""
 msgid "Error while sending the message to %s"
 msgstr ""
 
-#: shared/members.php:93 shared/members.php:436 shared/members.php:1501
+#: shared/members.php:93 shared/members.php:436 shared/members.php:1540
 msgid "An anchor is required for this operation."
 msgstr ""
 
-#: shared/members.php:99 shared/members.php:442 shared/members.php:1505
+#: shared/members.php:99 shared/members.php:442 shared/members.php:1544
 msgid "A member is required for this operation."
 msgstr ""
 

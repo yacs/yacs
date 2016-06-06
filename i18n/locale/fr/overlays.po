@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-24 15:28+0200\n"
-"PO-Revision-Date: 2015-04-24 15:42+0100\n"
+"POT-Creation-Date: 2016-06-06 11:11+0200\n"
+"PO-Revision-Date: 2016-06-06 13:43+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
 "Language: fr_FR\n"
@@ -1018,6 +1018,39 @@ msgstr "Le workflow a été changé en \"%s\""
 #: overlays/issue.php:1327
 msgid "Page has been edited"
 msgstr "La page a été modifiée"
+
+#: overlays/jssor_gallery.php:33
+msgid "Display of main navigation"
+msgstr "Affichage de la navigation principale"
+
+#: overlays/jssor_gallery.php:35
+msgid "With bullets"
+msgstr "Avec puces"
+
+#: overlays/jssor_gallery.php:36
+msgid "Width thumbnails"
+msgstr "Avec vignettes"
+
+#: overlays/jssor_gallery.php:38
+#, php-format
+msgid "With bullets, but automatic switch to thumbnails for more than %s images to show"
+msgstr "Avec puces, mais basculement automatique vers vignette si plus de %s images à afficher"
+
+#: overlays/jssor_gallery.php:39
+msgid "Do not display it"
+msgstr "Ne pas l'afficher"
+
+#: overlays/jssor_gallery.php:46
+msgid "Display navigation arrows while hovering"
+msgstr "Afficher les flèches de navigation au survol"
+
+#: overlays/jssor_gallery.php:52
+msgid "Autoplay slideshow at page loading"
+msgstr "Lecture auto du diaporama au chargement de la page"
+
+#: overlays/jssor_gallery.php:59
+msgid "Fit slideshow's width to its parent"
+msgstr "Ajuster la largeur du diaporama à son parent"
 
 #: overlays/livestream_meeting.php:81
 msgid "Livestream channel"
