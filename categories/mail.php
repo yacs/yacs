@@ -31,11 +31,14 @@ $id = strip_tags($id);
 
 // get the item from the database
 $item = Categories::get($id);
+// object interface
+$this_cat = new Category($item);
 
 // get the related anchor, if any
-$anchor = NULL;
-if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+$anchor = $this_cat->anchor;
+
+// get the related overlay, if any
+$overlay = $this_cat->overlay;
 
 // associates can do what they want
 if(Surfer::is_associate())

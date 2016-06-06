@@ -976,6 +976,45 @@ Class Members {
 		$output =& Users::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
+        
+        /**
+         * list images tagged with a given category (=keyword)
+         * note : this does not list images *added* to the category
+         * 
+         * use "count" value as $variant to get only the number of images
+         * 
+         * @param string $anchor the category
+         * @param int $offset the image to start
+         * @param int $count the number of images
+         * @param string $order the column to sort with. You can add DESC
+         * @param mixed $variant, name of a layout or instance of it
+         * @return NULL on error, else list of images, or number of images
+         */
+        public static function list_images_for_anchor($anchor, $offset=0, $count=50, $order='', $variant='compact') {
+            
+            
+            $query = ($variant === 'count')?'SELECT COUNT(images.id) as count':'SELECT images.*';
+            
+            $query .= " FROM ".SQL::table_name('images').' AS images INNER JOIN '
+                  .SQL::table_name('members')." AS members"
+                  ." ON images.id = members.member_id"
+                  ." WHERE members.anchor='".SQL::escape($anchor)."'"
+                  ." AND members.member_type = 'image'";
+            
+            if($variant !== 'count') {
+                  if(!$order) $order = 'edit_date DESC';
+                  $query .= " ORDER BY images.".SQL::escape($order)
+                        ." LIMIT ".$offset.','.$count;
+                  
+                  $output = Images::list_selected(SQL::query($query), $variant);
+            } else {
+                  $result = SQL::query_first($query);
+                  return $result['count'];
+            }
+            
+            $output = Images::list_selected(SQL::query($query), $variant);
+            return $output;
+        }
 
 	/**
 	 * list alphabetically the sections related to any anchor

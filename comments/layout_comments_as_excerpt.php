@@ -35,7 +35,7 @@ Class Layout_comments_as_excerpt extends Layout_interface {
 			// automatic notification
 			if($item['type'] == 'notification')
 				$text .= '<dd style="font-style: italic; font-size: smaller;">'.ucfirst(trim($item['description']))
-					.' <span class="details">'.Skin::build_date($item['create_date']).'</span></dd>';
+					.' <span '.tag::_class('details').'>'.Skin::build_date($item['create_date']).'</span></dd>';
 
 			// regular comment
 			else {
@@ -49,7 +49,7 @@ Class Layout_comments_as_excerpt extends Layout_interface {
 				// expand a definition list
 				$text .= '<dt>'.$label.'</dt>'
 					.'<dd>'.$item['description']
-						.' <span class="details">'.Skin::build_date($item['create_date']).'</span></dd>'."\n";
+						.' <span '.tag::_class('details').'>'.Skin::build_date($item['create_date']).'</span></dd>'."\n";
 
 			}
 		}

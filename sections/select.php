@@ -172,16 +172,16 @@ if(Surfer::is_crawler()) {
 
 			// combine in-line details
 			if(count($details))
-				$suffix .= ' - <span class="details">'.trim(implode(', ', $details)).'</span>';
+				$suffix .= ' - <span '.tag::_class('details').'>'.trim(implode(', ', $details)).'</span>';
 
 			// surfer cannot be deselected
 			if(!strcmp($anchor->get_reference(), 'user:'.$section['owner_id']))
-				$suffix .= ' - <span class="details">'.i18n::s('owner').'</span>';
+				$suffix .= ' - <span '.tag::_class('details').'>'.i18n::s('owner').'</span>';
 
 			// build a unlink button for this section
 			elseif(Surfer::is_associate()) {
 				$link = $context['script_url'].'?anchor='.urlencode($anchor->get_reference()).'&amp;member=section:'.$section['id'].'&amp;action=reset';
-				$suffix .= ' - <span class="details">'.Skin::build_link($link, i18n::s('unassign'), 'basic').'</span>';
+				$suffix .= ' - <span '.tag::_class('details').'>'.Skin::build_link($link, i18n::s('unassign'), 'basic').'</span>';
 			}
 
 			// format the item

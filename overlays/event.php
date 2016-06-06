@@ -444,7 +444,7 @@ class Event extends Overlay {
 		else
 			$options .= '<option>23:30</option>';
 
-		$options .= '</options>';
+		$options .= '</select>';
 
 		// event time
 		$label = i18n::s('Date');
@@ -1660,7 +1660,7 @@ class Event extends Overlay {
 
 					// headline
 					$headline = sprintf(i18n::c('you have arranged %s'),
-						'<a href="'.$context['url_to_home'].$context['url_to_root'].$this->anchor->get_url().'">'.$this->anchor->get_title().'</a>');
+						'<a href="'.$this->anchor->get_url().'">'.$this->anchor->get_title().'</a>');
 
 					// message to reader
 					$message = $this->get_invite_default_message('PUBLISH');
@@ -1848,7 +1848,7 @@ class Event extends Overlay {
 
 			// turn an array to a string
 			if(is_array($items))
-				$items =& Skin::build_list($items, 'compact');
+				$items = Skin::build_list($items, 'compact');
 
 			// navigation bar
 			$bar = array();

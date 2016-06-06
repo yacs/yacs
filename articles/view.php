@@ -483,10 +483,10 @@ if(!isset($item['id'])) {
 
 		// tags, if any
 		if(isset($item['tags']))
-			$context['page_tags'] =& Skin::build_tags($item['tags']);
+			$context['page_tags'] = Skin::build_tags($item['tags']);
 
 		// one detail per line
-		$text .= '<p class="details">';
+		$text .= '<p '.tag::_class('details').'>';
 		$details = array();
 
 		// add details from the overlay, if any
@@ -760,7 +760,7 @@ if(!isset($item['id'])) {
 
 	    // the contextual menu, in a navigation box, if this has not been disabled
 	    if( !$cur_article->has_option('no_contextual_menu')
-		    && isset($context['current_focus']) && ($menu =& Skin::build_contextual_menu($context['current_focus']))) {
+		    && isset($context['current_focus']) && ($menu = Skin::build_contextual_menu($context['current_focus']))) {
 
 		    // use title from topmost level
 		    if(count($context['current_focus']) && ($top_anchor = Anchors::get($context['current_focus'][0]))) {
@@ -1012,9 +1012,9 @@ if(!isset($item['id'])) {
 				Skin::navigate(NULL, $prefix, $count, $items_per_page, $zoom_index));
 		}
                 
-        // feed the wall
-		if($cur_article->allows('creation','comment'))
-            $box['text'] .= Comments::get_form('article:'.$item['id'], 'json', ucfirst(i18n::s('comment')), false);
+                // feed the wall
+                if($cur_article->allows('creation','comment'))
+                    $box['text'] = Comments::get_form('article:'.$item['id'], 'comments', ucfirst(i18n::s('comment')), false) . $box['text'];
 
 		// show commands
 		if(count($box['bar'])) {

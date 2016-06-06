@@ -138,11 +138,11 @@ Class Layout_sections_as_rights extends Layout_interface {
 
 			// combine in-line details
 			if(count($details))
-				$summary .= BR.'<span class="details">'.trim(implode(' &middot; ', $details)).'</span>';
+				$summary .= BR.'<span '.tag::_class('details').'>'.trim(implode(' &middot; ', $details)).'</span>';
 
 			// display all tags
 			if($item['tags'])
-				$summary .= BR.'<span class="tags">'.Skin::build_tags($item['tags'], 'section:'.$item['id']).'</span>';
+				$summary .= BR.tag::_('span', tag::_class('tags'), Skin::build_tags($item['tags']));
 
 			// watcher
 			if(Sections::is_watched($item['id'], $this->focus))

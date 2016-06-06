@@ -153,7 +153,7 @@ if(!isset($item['id'])) {
 
 	// page details
 	if(is_array($details))
-		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
+		$context['text'] .= '<p '.tag::_class('details').'>'.ucfirst(implode(', ', $details))."</p>\n";
 
 	// insert anchor suffix
 	if(is_object($anchor))

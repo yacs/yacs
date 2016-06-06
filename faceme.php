@@ -248,7 +248,7 @@ if(!isset($context['opentok_api_key']) || !$context['opentok_api_key']) {
 
 	// start area
 	$start = '<p>'.i18n::s('Invite one person').'</p>'
-		.'<p style="font-size: 7pt"><span class="details">'
+		.'<p style="font-size: 7pt"><span '.tag::_class('details').'>'
 			.i18n::s('Click the button to start a face-to-face meeting. Each meeting has a unique web address.')
 		.'</span></p>'
 		.'<button class="bigButton" onclick="OpenTok.startSession()" type="button">'.i18n::s('Start a session').'</button>';
@@ -257,7 +257,7 @@ if(!isset($context['opentok_api_key']) || !$context['opentok_api_key']) {
 	$join = '<div>'
 		.'<form>'
 		.	'<p>'.i18n::s('Meet a person').'</p>'
-		.	'<p style="font-size: 7pt"><input type="text" id="sessionAddress" />'.BR.'<span class="details">'.i18n::s('Paste the number or web address given to you').'</span></p>'
+		.	'<p style="font-size: 7pt"><input type="text" id="sessionAddress" />'.BR.'<span '.tag::_class('details').'>'.i18n::s('Paste the number or web address given to you').'</span></p>'
 		.	'<button class="bigButton" onclick="OpenTok.goTo($(\'#sessionAddress\').val())" type="button">'
 		.	i18n::s('Join this session')
 		.	'</button>'

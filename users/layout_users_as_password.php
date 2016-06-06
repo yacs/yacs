@@ -91,7 +91,7 @@ Class Layout_users_as_password extends Layout_interface {
 				$details[] = sprintf(i18n::s('%d posts'), intval($item['posts']));
 
 			if(count($details))
-				$suffix .= ' <span class="details">('.implode(', ', $details).')</span>';
+				$suffix .= ' <span '.tag::_class('details').'>('.implode(', ', $details).')</span>';
 
 			// the command to ask for a new password
 			$suffix .= '<p style="padding: 0.5em 0 0.5em 0">'.Skin::build_link(Users::get_url($item['id'], 'password', $item['nick_name']), i18n::s('Authenticate with this profile'), 'button').'</p>';

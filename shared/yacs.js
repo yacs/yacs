@@ -704,6 +704,19 @@ var Yacs = {
 		Yacs.displayModalBox(content,Yacs.modalPost);
 	    });
 	},
+        
+        /**
+         * emphatize current focus
+         * for tabs navigation menu
+         * 
+         */
+        emTopFocus: function(){
+            var top = $('meta[name="topfocus"]').attr('content');
+            if(typeof top !== 'undefined') {
+                $('#' + top + ' > a').addClass('current');
+            }
+            
+        },
 
 	/**
 	 * filter floating numbers
@@ -1104,15 +1117,21 @@ var Yacs = {
 		    menubar         : false,
 		    width           : '90.5%',
 		    resize          : false,
-		    plugins         : "charmap, textcolor, fullscreen, code, link, paste",
-		    toolbar         : "undo redo | styleselect charmap styleselect| bold italic underline strikethrough | alignleft aligncenter alignright | bullist numlist outdent indent | forecolor backcolor | link | pastetext fullscreen code",
-
-                    style_formats: [
+            plugins         : "charmap, textcolor, fullscreen, code, link, paste, visualblocks",
+            toolbar         : "undo redo removeformat | styleselect charmap styleselect| bold italic underline strikethrough | alignleft aligncenter alignright | bullist numlist outdent indent | forecolor backcolor | link | pastetext fullscreen code",
+            style_formats: [
+                         {title: 'p', block: 'p'},
                          {title: 'h2', block: 'h2'},
-                         {title: 'h3', block: 'h3'}
-                     ],
-		    language	: surfer_lang
-		});
+                         {title: 'h3', block: 'h3'},
+                         {title: 'h4', block: 'h4'},
+                         {title: 'Important', inline: 'span', classes: 'important'},
+                         {title: 'rappel', inline: 'span', classes: 'rappel'}
+            ],
+            language    : surfer_lang,
+            visualblocks_default_state: true,
+              end_container_on_empty_block: true,
+            link_title: true
+        });
 	},
 
 	toggleProperties: function(handle) {
@@ -1170,6 +1189,9 @@ var Yacs = {
 			if( $(this).is(siblingsLast) )
 				siblingsLast = null;
 		});
+                
+                // fit videos
+                if($.fn.fitVids) $('.youtube-player, .video').parent().fitVids();
 
 		// do the tiling
 		var $tiled = $("#modal_content").find('.tiler');
@@ -1197,6 +1219,11 @@ var Yacs = {
 
 		// detect Flash on client side
 		Yacs.detectFlash();
+                
+                Yacs.emTopFocus();
+                
+                // toggle menus when icon is clicked
+                Yacs.prepareMenus();
 
 		// change the behavior of buttons used for data submission, except those with style 'no_spin_on_click'
                 $('body').delegate('button[type=submit]:not(.no_spin_on_click)','click', function(){Yacs.startWorking();});
@@ -1289,6 +1316,16 @@ var Yacs = {
                     Yacs.modalPost(true);
                     return false; // stop propagation
                 });
+                
+                // folder boxes
+                $('body').on('click',pfx('.folder-header'), function(e){
+                    e.preventDefault();
+                    Yacs.toggle_folder($(this));
+                    return false; // stop propagation
+                });
+                
+                // fit videos
+                if($.fn.fitVids) $('.youtube-player, .video').parent().fitVids();
 
 		// prepare input to ajax-upload a file
                 $('body').on('change','.yc-upload',function(){Yacs.prepareUpload($(this))});
@@ -1423,6 +1460,22 @@ var Yacs = {
 		});
 
 	},
+        
+        prepareMenus: function() {
+                // button for responsive menu
+                $(pfx('.tabs-mini-toggle')).click(function(){
+                    
+                    // get parent
+                    var _parent = $(this).parent();
+                    if(_parent.hasClass(pfx('tabs'))) {
+                        _parent.find('a').not('.current').toggle();
+                    } else {
+                        _parent.find(pfx('.tab-background')).toggle();
+                    }
+                    
+                    // $(pfx('.tab-background')).toggle();
+                });
+        },
 
 	/**
 	 * initialize a input for ajax upload
@@ -1455,7 +1508,7 @@ var Yacs = {
         prepareSlideShow: function(selector) {
 
             if(typeof(selector) !== 'string' )
-                selector = '.image_show';
+                selector = '.image-show';
 
             var anchors = $(selector);
 		for(index = 0; index < anchors.length; index++) {
@@ -2075,12 +2128,12 @@ var Yacs = {
 
                 // tabs
                 //$('body').on('click','.tabs_bar li',function(e){Yacs.tabsEvent(this, e);});
-                $('.tabs_bar').not('.ready').find('li').click(function(e){Yacs.tabsEvent(this, e);});
-                $('.tabs_bar').addClass('ready');
+                $(pfx('.tabs-bar')).not('.ready').find('a').click(function(e){Yacs.tabsEvent(this, e);});
+                $(pfx('.tabs-bar')).addClass('ready');
 
 		// behavior of buttons for tabs used as step by step form, if any
-		$(".tabs_panels .step").click(function() {
-
+		$(pfx(".tabs-panels .step")).click(function() {
+                    
                     // call any validation step function
                     if($(this).hasClass('next') && typeof Yacs.tabsValidateStep == 'function') {
                         var valid = (Yacs.tabsValidateStep)(Yacs.tabs_current);
@@ -2088,7 +2141,7 @@ var Yacs = {
                             return false;
                         else
                             // make upper next button visible
-                            $('.panel-foreground').find('.next').css('visibility','visible');
+                            $(pfx('.panel-foreground')).find('.next').css('visibility','visible');
                     }
 
 		    // display tab associate with button
@@ -2097,13 +2150,8 @@ var Yacs = {
 		    $('.previous').scrollMinimal(true);
 		});
                 // if we have steps, that mean to hide validation button before surfer reached the last one
-                if($(".tabs_panels .step").length)
-                    $("#main_form .bottom").hide();
-
-                // button for responsive menu
-                $('.tabs-mini-toggle').click(function(){
-                    $('.tab-background').toggle();
-                });
+                if($(pfx(".tabs-panels .step")).length)
+                    $(pfx("#main_form .bottom")).hide();
 
                 /**
                  * Get starting tab
@@ -2116,7 +2164,7 @@ var Yacs = {
                     startTab = document.location.hash.substr(1,document.location.hash.length);
                 else if(typeof Yacs.startTabs != 'undefined')
                     startTab = Yacs.startTabs;
-                else if(!$('.yc-tab-steps').length)
+                else if(!$(pfx('.tab-steps')).length)
                     startTab = Yacs.tabsLast();
 
                 // where are we?
@@ -2155,26 +2203,26 @@ var Yacs = {
 
 
                 // tabs
-                $('#'+id).siblings().removeClass('tab-foreground').addClass('tab-background');
-                $('#'+id).removeClass('tab-background').addClass('tab-foreground');
+                $('#'+id).siblings('a').removeClass(pfx('tab-foreground')).addClass(pfx('tab-background'));
+                $('#'+id).removeClass(pfx('tab-background')).addClass(pfx('tab-foreground'));
                 // get panels
                 //var panels = $('#'+id).parents('.tabs_bar').next('.tabs_panels');
                 // if no "panels" found get them other way (step by step form case)
                 var panels = $('[data-tab="'+id+'"]').parent();
 
                 // panels
-                panels.find('.panel-foreground').not('[data-tab="'+id+'"]')
+                panels.find(pfx('.panel-foreground')).not('[data-tab="'+id+'"]')
                         .fadeOut(.1)
-                        .removeClass('panel-foreground')
-                        .addClass('panel-background');
+                        .removeClass(pfx('panel-foreground'))
+                        .addClass(pfx('panel-background'));
                 // get last panel id
-                lastpanel = panels.find('.panel-foreground, .panel-background').last().data('tab');
+                lastpanel = panels.find(pfx('.panel-foreground, .panel-background')).last().data('tab');
 
-                var newpanel = panels.find('.panel-background[data-tab="'+id+'"]');
+                var newpanel = panels.find(pfx('.panel-background[data-tab="'+id+'"]'));
                 panel = newpanel.attr('id');
                 newpanel.fadeIn(.1)
-                        .removeClass('panel-background')
-                        .addClass('panel-foreground');
+                        .removeClass(pfx('panel-background'))
+                        .addClass(pfx('panel-foreground'));
                 //if(newpanel.length)
                 //    Yacs.updateOnce(panel,Yacs.tabs_list[newCurrent][1], Yacs.tabs_args);
 
@@ -2193,11 +2241,11 @@ var Yacs = {
 		// load panel content, if necessary
 
                 // set focus on first input
-                $("#"+panel+" .yc-form-input input").first().not('.date-time-picker').focus();
+                $(pfx("#"+panel+" .form-input input")).first().not('.date-time-picker').focus();
 
                 // make validation button visible on last tab displaying
                 if( Yacs.tabs_current === lastpanel )
-                    $("#main_form .bottom").show();
+                    $(pfx("#main_form .bottom")).show();
 
 		// dispatch custom event (e.g., for tooltips, Google Maps, etc)
 		$('body').trigger('yacs');
@@ -2207,14 +2255,6 @@ var Yacs = {
 	 * click on a tab
 	 */
 	tabsEvent: function(clicked, e) {
-
-		// target the clicked tab
-		//var clicked = this;
-
-		// if we click on a link, move upwards to list item -- 'a' is for XHTML strict, 'A' for other cases
-		if((clicked.tagName == 'a') || (clicked.tagName == 'A')) {
-			clicked = clicked.parentNode;
-		}
 
 		// trigger custom behavior, if any
 		if(typeof Yacs.tabs_args.onClick == 'function') {
@@ -2390,33 +2430,36 @@ var Yacs = {
 	 * @param string URL of the extending icon
 	 * @param string URL of the collapsing icon
 	 */
-	toggle_folder: function(handle, down_href, up_href) {
+	toggle_folder: function(handle) {
 
 		// the panel to slide
-		var panel = $(handle).next('.folder_body');
+		var panel = handle.next(pfx('.folder-body'));
 
 		// display the panel if it is not visible
 		if(panel.css("display") == 'none') {
 
 			$(panel).slideDown({duration: 'slow', scaleContent:false});
+                        
+                        handle.addClass('open');
 
-			// change the image (if there is an image)
+			/*// change the image (if there is an image)
  			var icon = $(handle).children('img').first();
  			if(icon && up_href) {
  				icon.attr('src', up_href);
- 			}
+ 			}*/
 
 		// collapse the panel if it is visible
 		} else {
 
 			$(panel).slideUp({duration: 'slow', scaleContent:false});
-
+                        
+                        handle.removeClass('open');
 			// change the image (if there is an image)
- 			var icon = $(handle).children('img').first();
+ 			/*var icon = $(handle).children('img').first();
 
 			if(icon && down_href) {
 				icon.attr('src', down_href);
-			}
+			}*/
 
 		}
 
@@ -2887,6 +2930,37 @@ var delay = (function(){
   };
 })();
 
+/**
+ * Add a prefix before each class names (css)
+ * could be a chain with dot before class name
+ * or a single word without dot.
+ * yacss_prefix is provided by php within page header.
+ * 
+ * @param {string} classes
+ * @returns string
+ */
+function pfx(classes) {
+    
+    // sanity check
+    if(!classes || typeof classes !== 'string')
+        return '';
+
+    // single word case
+    var rxp = /(\.|\s)/
+    if(classes.search(rxp) === -1) {
+  
+        classes = yacss_prefix+classes;
+        
+    } else {
+    
+        // do the prefixing on all classes
+        var rxp = /\.([a-zA-Z0-9_-])/g
+        classes = classes.replace(rxp, '.'+yacss_prefix+"$1");
+    
+    }
+    
+    return classes;
+}
 
 // initialize yacs
 $(document).ready(Yacs.onWindowLoad);

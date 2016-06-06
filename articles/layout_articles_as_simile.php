@@ -147,7 +147,7 @@ Class Layout_articles_as_simile extends Layout_interface {
 				if(count($details)) {
 					if($introduction)
 						$introduction .= BR;
-					$introduction .= '<span class="details">'.trim(implode(', ', $details)).'</span>';
+					$introduction .= '<span '.tag::_class('details').'>'.trim(implode(', ', $details)).'</span>';
 				}
 
 				// escape the introduction, if any

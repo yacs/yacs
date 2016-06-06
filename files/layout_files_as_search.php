@@ -119,7 +119,7 @@ Class Layout_files_as_search extends Layout_interface {
 
 			// append details
 			if(count($details))
-				$box .= '<p class="details">'.Skin::finalize_list($details, 'menu').'</p>';
+				$box .= '<p '.tag::_class('details').'>'.Skin::finalize_list($details, 'menu').'</p>';
 
 			// layout this item
 			if($icon) {

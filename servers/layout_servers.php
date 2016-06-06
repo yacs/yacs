@@ -66,7 +66,7 @@ Class Layout_servers extends Layout_interface {
 				$suffix = ' - '.$suffix;
 
 			// append details to the suffix
-			$suffix .= BR.'<span class="details">';
+			$suffix .= BR.'<span '.tag::_class('details').'>';
 
 			// details
 			$details = array();

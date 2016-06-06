@@ -113,6 +113,7 @@
  *
  *
  * @author Bernard Paques
+ * @author Alexis Raimbault
  * @tester Guillaume Perez
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -207,8 +208,14 @@ class Messages {
 		foreach($lines as $line) {
 
 			// printable ascii set, less space (\x20) and colon (\x3a) (rfc822)
-			if(!preg_match('/^([\x21-\x39\x3b-\x7e]+):\s+(.+)$/', $line, $matches))
-				continue;
+			if(!preg_match('/^([\x21-\x39\x3b-\x7e]+):\s+(.+)$/', $line, $matches)) {
+				// this line is linked with former declaration, add it to last value
+                                end($message_headers);
+                                $i = key($message_headers);
+                                if(key_exists('value', $message_headers[$i]))
+                                      $message_headers[$i]['value'] .= $line;
+                                continue;
+                        }
 			$name = $matches[1];
 			$value = $matches[2];
 
@@ -241,7 +248,7 @@ class Messages {
 
 			//store the header and its value
 			$message_headers[] = array('name' => $name, 'value' => $value);
-		}
+                    }
 
 		return $message_headers;
 
@@ -309,19 +316,18 @@ class Messages {
 	 */
 	public static function process_entity($entity, $user, $anchor, $target=NULL) {
 		global $context;
-
+                
 		// sanity check
 		if(!trim($entity))
 			return NULL;
 
 		// split headers and body
-		if(!$position = strpos($entity, "\n\n")) {
-			Logger::remember('agents/messages.php: Can not split header and body', $entity);
-			return NULL;
-		}
+                $entity_headers = '';
+                $entity_body    = '';
+                Messages::split_header_body($entity, $entity_headers, $entity_body);
 
 		// parse and decode all headers
-		$entity_headers = Messages::parse_headers(substr($entity, 0, $position));
+                $entity_headers = Messages::parse_headers($entity_headers);
 		if(!$entity_headers)
 			$entity_headers[] = array('name' => 'Content-Type', 'value' => 'text/plain; charset=us-ascii');
 
@@ -334,7 +340,7 @@ class Messages {
 			}
 
 		// decode the entity
-		$content = Messages::decode(substr($entity, $position+2), $content_transfer_encoding);
+		$content = Messages::decode($entity_body, $content_transfer_encoding);
 
 		// determine content type
 		$content_type = 'text/plain';
@@ -371,7 +377,7 @@ class Messages {
 
 			// look for the boundary
 			if(!preg_match('/boundary="*([a-zA-Z0-9\'\(\)\+_,-\.\/:=\?]+)"*\s*/i', $content_type, $matches)) {
-				Logger::remember('agents/messages.php: No multipart boundary in '.$content_type, $content_type);
+				Logger::remember('agents/messages.php: No multipart boundary in '.$content_type, $content);
 				return NULL;
 			}
 
@@ -461,11 +467,10 @@ class Messages {
 		list($server, $account, $password, $allowed, $match, $section, $options, $hooks, $prefix, $suffix) = $context['mail_queue'];
 
 		// split headers and body
-		if(!$position = strpos($entity, "\n\n")) {
-			Logger::remember('agents/messages.php: Can not split header and body', $entity);
-			return NULL;
-		}
-		$message_headers = substr($entity, 0, $position);
+                $message_headers    = '';
+                $message_body       = '';
+                Messages::split_header_body($entity, $message_headers, $message_body);
+               
 
 		// security match
 		if($match && !preg_match('/'.preg_quote($match, '/').'/i', $message_headers)) {
@@ -542,7 +547,7 @@ class Messages {
 		// process message subject line --set in $context['mail_subject']
 		$context['mail_subject'] = i18n::c('Item sent by e-mail');
 		$anchor = NULL;
-		foreach($message_headers as $header)
+		foreach($message_headers as $header) {
 			if(preg_match('/Subject/i', $header['name'])) {
 				$context['mail_subject'] = $header['value'];
 				if(preg_match('/\[#(a|s)*([0-9]+)\]/', $header['value'], $matches)) {
@@ -554,13 +559,14 @@ class Messages {
 				}
 				break;
 			}
+                }
 
 		// anchor is defined in queue parameters
 		if(!$anchor && $section)
 			$anchor = 'section:'.$section;
 
 		// use default section
-		if(!$anchor && ($section = Sections::get_default()))
+		if(!$anchor && !$section && ($section = Sections::get_default()))
 			$anchor = 'section:'.$section;
 
 		// no anchor to use
@@ -578,7 +584,7 @@ class Messages {
 
 				// set hook parameters -- $context['mail_queue'] has queue attributes
 				$context['mail_headers']	= $message_headers;
-				$context['mail_body']		= substr($entity, $position+2);
+				$context['mail_body']		= $message_body;
 				$context['mail_poster']		= $user;
 				$context['mail_anchor']		= $anchor;
 				$context['mail_reference']	= $reference;
@@ -860,6 +866,27 @@ class Messages {
 		return $queue_size;
 
 	}
+        
+        /**
+         * Separate header and body in a email message or part of 
+         * a multipart message
+         * 
+         * @param string $message the raw text
+         * @param string $header
+         * @param string $body
+         */
+        public static function split_header_body($message, &$header, &$body) {
+            
+            $message = ltrim($message); // remove front empty lines
+            
+            $lines = explode("\n",$message);
+            while ($line = trim(array_shift($lines))) {
+                
+                $header .= $line."\n";
+            }
+            $body .= implode("\n", $lines);
+            
+        }
 
 	/**
 	 * create an attached file
@@ -940,6 +967,7 @@ class Messages {
 		}
 
 		// sanity check
+                if($target) $anchor = $target;
 		if(!$anchor) {
 			Logger::remember('agents/messages.php: No anchor to use for submitted file', $file_name);
 			return NULL;
@@ -1070,6 +1098,7 @@ class Messages {
 		}
 
 		// sanity check
+                if($target) $anchor = $target;
 		if(!$anchor) {
 			Logger::remember('agents/messages.php: No anchor to use for submitted image', $file_name);
 			return NULL;
@@ -1147,8 +1176,8 @@ class Messages {
 		$item['description'] = '';
 		if(isset($content_description) && ($content_description != $file_name))
 			$item['description'] .= $content_description;
-		if(@count($details))
-			$item['description'] .= "\n\n".'<p class="details">'.implode("<br />\n", $details)."</p>\n";
+		//if(@count($details))
+		//	$item['description'] .= "\n\n".'<p '.tag::_class('details').'>'.implode("<br />\n", $details)."</p>\n";
 		$item['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
 		$item['edit_name'] = $user['nick_name'];
 		$item['edit_id'] = $user['id'];
@@ -1322,12 +1351,28 @@ class Messages {
 			// ensure we are using ids instead of nicknames
 			if(is_object($section))
 				$entry_fields['anchor'] = $section->get_reference();
+                        
+                        // may need a overlay
+                        if($overlay = $section->get_overlay('content_overlay')) {
+                            $overlay->snapshot();
+
+                            // update the overlay from form content
+                            $overlay->parse_fields($entry_fields);
+                            
+                            // save content of the overlay in this item
+                            $entry_fields['overlay']    = $overlay->save();
+                            $entry_fields['overlay_id'] = $overlay->get_id();
+                        }
 
 			// save in the database
 			if(!$entry_fields['id'] = Articles::post($entry_fields)) {
 				Logger::remember('agents/messages.php: '.Logger::error_pop());
 				return NULL;
 			}
+                        
+                        // update the overlay, with the new article id --don't stop on error
+                        if(is_object($overlay))
+                            $overlay->remember('insert', $entry_fields, 'article:'.$entry_fields['id']);
 
 			// debugging log
 			if(isset($context['debug_messages']) && ($context['debug_messages'] == 'Y')) {

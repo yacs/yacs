@@ -207,7 +207,7 @@ Class Layout_as_accordion extends Layout_interface {
 
 			// complement title
 			if(count($details))
-				$box['title'] .= ' <span class="details">('.join(', ', $details).')</span>';
+				$box['title'] .= ' <span '.tag::_class('details').'>('.join(', ', $details).')</span>';
 
 			// insert introduction, if any
 			if(is_object($entity->overlay))
@@ -233,7 +233,7 @@ Class Layout_as_accordion extends Layout_interface {
 
 			// display all tags
 			if($item['tags'])
-				$box['text'] .= ' <p class="tags" style="margin-bottom: 0">'.Skin::build_tags($item['tags'], $entity->get_reference()).'</p>';
+				$box['text'] .= tag::_('p', tag::_class('tags'), Skin::build_tags($item['tags']));
 
 			// if we have an icon for this page, use it
 			if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {

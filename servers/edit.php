@@ -127,7 +127,7 @@ if($with_form) {
 
 	// the last editor
 	if(isset($item['edit_name']))
-		$context['text'] .= '<p class="details">'.sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date'])).'</p>'."\n";
+		$context['text'] .= '<p '.tag::_class('details').'>'.sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date'])).'</p>'."\n";
 
 	// the overview
 	$context['text'] .= Skin::build_block(i18n::s('Overview'), 'subtitle');

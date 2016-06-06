@@ -78,7 +78,7 @@ Class Layout_comments_as_replies extends Layout_interface {
 
 			// comment has been modified
 			if($item['create_name'] && ($item['edit_name'] != $item['create_name']))
-				$text .= BR.'<span class="details">('.sprintf(i18n::s('modified by %s'), $item['edit_name']).')</span>';
+				$text .= BR.'<span '.tag::_class('details').'>('.sprintf(i18n::s('modified by %s'), $item['edit_name']).')</span>';
 
 			// end of this note
 			$text .= '</dd>';

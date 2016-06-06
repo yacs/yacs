@@ -338,7 +338,7 @@ if(!$section_id && ($servers = Servers::list_for_search(0, 3, 'search'))) {
 					$details[] = Skin::build_link($server_url, $server_label, 'server');
 
 				if(count($details))
-					$suffix .= '<span class="details">'.join(' - ', $details).'</span>';
+					$suffix .= '<span '.tag::_class('details').'>'.join(' - ', $details).'</span>';
 
 				$items[$item['link']] = array('', $item['title'], $suffix, 'external', '');
 
@@ -382,7 +382,7 @@ $context['components']['boxes'] .= Skin::build_box(i18n::s('Monitor'), join(BR, 
 $cache_id = 'search.php#keywords_by_date';
 if(!$text = Cache::get($cache_id)) {
 	if($items = Categories::list_keywords_by_date(0, COMPACT_LIST_SIZE))
-		$text =& Skin::build_box(i18n::s('Recent searches'), Skin::build_list($items, 'compact'), 'boxes');
+		$text = Skin::build_box(i18n::s('Recent searches'), Skin::build_list($items, 'compact'), 'boxes');
 	Cache::put($cache_id, $text, 'categories');
 }
 $context['components']['boxes'] .= $text;

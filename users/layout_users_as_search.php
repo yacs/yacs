@@ -82,7 +82,7 @@ Class Layout_users_as_search extends Layout_interface {
 
 			// display all tags
 			if($item['tags'])
-				$suffix .= ' <span class="tags">'.Skin::build_tags($item['tags'], 'user:'.$item['id']).'</span>';
+				$suffix .= ' '.tag::_('span', tag::_class('tags'), Skin::build_tags($item['tags']));
 
 			// details
 			$details = array();
@@ -123,9 +123,9 @@ Class Layout_users_as_search extends Layout_interface {
 
 			if(count($details))
 				if($this->layout_variant == 'full')
-					$suffix .= ' <span class="details">('.implode(', ', $details).')</span>';
+					$suffix .= ' <span '.tag::_class('details').'>('.implode(', ', $details).')</span>';
 				else
-					$suffix .= ' <span class="details">'.implode(', ', $details).'</span>';
+					$suffix .= ' <span '.tag::_class('details').'>'.implode(', ', $details).'</span>';
 
 			// flag idle users
 			if(isset($item['click_date']) && ($item['click_date'] < $idle))

@@ -61,7 +61,7 @@ Class Layout_links_as_daily extends Layout_interface {
 			$box['content'] .= '<br clear="both" />';
 
 			// time
-			$box['content'] .= '<span class="details">'.substr($item['edit_date'], 11, 5).'</span> ';
+			$box['content'] .= '<span '.tag::_class('details').'>'.substr($item['edit_date'], 11, 5).'</span> ';
 
 			// make a label
 			$label = Links::clean($item['title'], $item['link_url']);
@@ -84,7 +84,7 @@ Class Layout_links_as_daily extends Layout_interface {
 			}
 
 			// append details to the suffix
-			$box['content'] .= BR.'<span class="details">';
+			$box['content'] .= BR.'<span '.tag::_class('details').'>';
 
 			// details
 			$details = array();

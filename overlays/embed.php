@@ -59,7 +59,7 @@ class Embed extends Overlay {
 			$input .= '<div id="embed_a_link" style="padding: 1em 0 1em 0;">'
 				.i18n::s('Paste the address of a web page that you have visited').BR
 				.'<input type="text" name="embed_href" id="embed_href" size="60" width="100%" value="" maxlength="255" />'
-				.'<p class="details">'.sprintf(i18n::s('Some sites are recognized automatically: %s'),
+				.'<p '.tag::_class('details').'>'.sprintf(i18n::s('Some sites are recognized automatically: %s'),
 					'<span id="provider_ticker" style="">'
 					.'<span>YouTube</span>'
 					.'<span>DailyMotion</span>'
@@ -107,7 +107,7 @@ class Embed extends Overlay {
 			if(Surfer::may_upload())
 				$input .= '<div id="embed_a_file" style="display: none; padding: 1em 0 1em 0;">'
 					.'<input type="file" name="upload" id="upload" size="30" />'
-					.'<p class="details">'.sprintf(i18n::s('Select a file of less than %s'), $context['file_maximum_size'].i18n::s('bytes')).'</p>'
+					.'<p '.tag::_class('details').'>'.sprintf(i18n::s('Select a file of less than %s'), $context['file_maximum_size'].i18n::s('bytes')).'</p>'
 					.'</div>';
 
 			// change the display on selection

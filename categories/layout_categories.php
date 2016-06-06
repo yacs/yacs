@@ -95,7 +95,7 @@ Class Layout_categories extends Layout_interface {
 
 			// append details to the suffix
 			if(count($details))
-				$suffix .= "\n".'<span class="details">('.implode(', ', $details).')</span>';
+				$suffix .= "\n".'<span '.tag::_class('details').'>('.implode(', ', $details).')</span>';
 
 			// introduction
 			if($item['introduction'])

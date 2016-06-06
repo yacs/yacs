@@ -230,7 +230,7 @@ default:
 
 			// intput field to appear on demand
 			$context['text'] .= '<div id="comment_upload" style="display: none;">'
-				.	'<p class="details">'
+				.	'<p '.tag::_class('details').'>'
 				.		'<input type="file" id="upload" name="upload" size="30" />'
 				.			' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
 				.		'<input type="hidden" name="file_type" value="upload" />'

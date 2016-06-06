@@ -75,16 +75,91 @@ Class Js_Css {
 	return $html;
     }
     
+    /**
+     * Build the main css file (may do some less compilation)
+     * and provide a link to it.
+     * skin.php can specifie what is to load.
+     * output is always minified, the standard content is :
+     * - knacss css as a reset and framework
+     * - yacss, general styles for the system
+     * - the specific style of you skin
+     * 
+     * return string 
+     */
     public static function call_skin_css() {
         global $context;
         
+        // we need a skin
         if(!isset($context['skin'])) return '';
         
-        // retrieve base name of the skin (remove "skin/")
-        $skin = substr($context['skin'],5);
-            
-        return Js_css::link_file($context['skin'].$skin.'.css','now');
+        // retrieve base name of the skin (remove "skins/")
+        $skin = substr($context['skin'],6);
         
+        // check constant NO_KNACSS and NO_YACSS (may be define by skin.php of a skin)
+        // check lib existance and last modification date at the same time
+        $knacss = (defined('NO_KNACSS') && NO_KNACSS == true)? false : Safe::filemtime($context['path_to_root'].'included/knacss/knacss.less');
+        $yacss  = (defined('NO_YACSS') && NO_YACSS == true)? false : Safe::filemtime($context['path_to_root'].'skins/_reference/yacss.less');
+        
+        
+        // check existence of <skin>.less or <skin>.css
+        // less version is priority
+        $skinless   = Safe::filemtime($context['path_to_root'].$context['skin'].'/'.$skin.'.less');
+        $skincss    = Safe::filemtime($context['path_to_root'].$context['skin'].'/'.$skin.'.css');
+        $skinstyle  = ($skinless)?$skinless:$skincss;
+        
+        // check existence of a minified version
+        $skinmin    = Safe::filemtime($context['path_to_root'].$context['skin'].'/'.$skin.'.min.css');
+        
+        // check files datation, do we need a compilation ?
+        $need_compile = !$skinmin 
+                        || ($skinstyle && ($skinmin < $skinstyle) ) 
+                        || ($knacss && ($skinmin < $knacss) ) 
+                        || ($yacss && ($skinmin < $yacss) );
+        
+        if($need_compile) {
+            
+            // load lessphp
+            $less = js_css::prepare_less_compiler();
+
+            // set import directories
+            $less->setImportDir(
+                  array(
+                      $context['path_to_root'].'included/knacss/', 
+                      $context['path_to_root'].'skins/_reference/',
+                      $context['path_to_root'].$context['skin'].'/',
+                      ));
+            
+            // build import directives
+            $import = '';
+            if($knacss) $import     .= '@import "knacss.less";';
+            if($yacss) $import      .= '@import "yacss.less";';
+            if($skinless) {
+                $import   .= '@import "'.$skin.'.less";';
+            } elseif($skincss) {
+                // append pure css
+                $import   .= Safe::file_get_contents($context['path_to_root'].$context['skin'].'/'.$skin.'.css');
+            }
+
+            // compile into a css file, catch errors
+            try {
+                $compilation = $less->compile($import);
+            } catch (exception $e) {
+                logger::debug("fatal error: " . $e->getMessage(), 'LESS compilation');
+                return Js_Css::link_exit(false, $context['skin'].'/'.$skin.'.min.css' , 'now');
+            }
+            
+            // write compiled style in a css file
+            $output = $context['path_to_root'].$context['skin'].'/'.$skin.'.min.css';
+            if($compilation) {
+                Safe::file_put_contents($output, $compilation);
+            } else {
+                Safe::unlink($output);
+            }
+            
+        }
+        
+        // build declaration
+        return Js_css::link_file($context['skin'].'/'.$skin.'.min.css','now');
     }
 
     /**
@@ -258,6 +333,7 @@ Class Js_Css {
     /**
      * prepare a link to .js or .css file for declare in final template
      * will search of a minified version in production mode
+     * accept also .less files, and compile them in .css
      *
      * @global type $context
      * @param string $path, relative from yacs root, or external url
@@ -300,21 +376,64 @@ Class Js_Css {
 
 	// if path is a local file
 	if(strncmp($path, 'http', 4)!=0) {
+            
+            $realpath = Safe::realpath($path);
 
 	    // check if file exists
-	    if(!file_exists(Safe::realpath($path))) return Js_Css::link_exit(false, $path, $straitnow);
+	    if(!file_exists($realpath)) return Js_Css::link_exit(false, $path, $straitnow);
+            
+            // this is a LESS file, we may have to compile it
+            if($ext === 'less') {
+                
+              
+                // get a less compiler
+                $less = js_css::prepare_less_compiler();
+                
+                // production mode
+                if($context['with_debug']=='N') {
+                    $min = '.min';
+                    
+                // dev mode    
+                } else 
+                    $min = '.dev';
+                
+                // ext, path and output filname
+                $ext    = 'css';
+                $path   = $path_parts['dirname'].'/'.$path_parts['filename'].$min.'.'.$ext;
+                $output = Safe::realpath($path);
+                
+                // check compilation, catch errors
+                try {
+                    $less->checkedCompile($realpath, $output);
+                } catch (exception $e) {
+                    logger::debug("fatal error: " . $e->getMessage(), 'LESS compilation');
+                    return Js_Css::link_exit(false, $path, $straitnow);
+                }
+                
 
-	    // and we are in production mode
+	    // js or css file
+            // and we are in production mode
 	    // and file not already minified
-	    if ( $context['with_debug']=='N'
-		&& !preg_match('/\.min\./', $path_parts['filename'])) {
+            } elseif ( $context['with_debug']=='N'
+		&& !preg_match('/\.min\.?/', $path_parts['filename'])) {
 
 		// minified version path
-		$min_v = $path_parts['dirname'].'/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
+		$min_v      = $path_parts['dirname'].'/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
+                $real_min_v = Safe::realpath($min_v);
+                
+                $date_src = $date_min = filemtime($realpath);
+                if(file_exists($real_min_v)) {
+                    $date_min = filemtime($real_min_v);
+                }
+                
+                // compare minified file last update to original src file
+		if($date_src < $date_min) {
+                    $path = $min_v; 
+                } else {
+                    // need minification for next time, but launch it as a background process
+                    proceed_bckg('tools/minifier.php?script='.Safe::realpath($path));
+                }
 
-		if(file_exists(Safe::realpath($min_v))) $path = $min_v;
-
-	    // TODO : warning case exept if .core. ;
 	    }
 
             // get last revision date
@@ -372,6 +491,142 @@ Class Js_Css {
 	}
 
         return Js_Css::link_exit(true, $path, $straitnow);
+    }
+    
+    /**
+     * Minify a script using a external API service
+     * 
+     * @param string $path local to the file to minify
+     * @param string $ext of the file
+     */
+    public static function minify($path) {
+        
+        // get file content
+        $to_minify = safe::file_get_contents($path);
+        
+        // sanity check
+        if(!$to_minify) {
+            logger::remember('shared/js_css.php', 'cannot get file to minify : '.$path);
+            return false;
+        }
+        
+        // gather info on file
+        $path_parts = pathinfo($path);
+        
+        // build http query depending on file extension
+        switch ($path_parts['extension']) {
+            case 'css':
+                $url = 'http://cssminifier.com/raw';
+                
+                //// do a part of minification job to limit the size of transmited content
+                
+                // Normalize whitespace
+                $to_minify = preg_replace( '/\s+/', ' ', $to_minify );
+
+                // Remove spaces before and after comment
+                $to_minify = preg_replace( '/(\s+)(\/\*(.*?)\*\/)(\s+)/', '$2', $to_minify );
+                
+                // Remove comment blocks, everything between /* and */, unless
+                // preserved with /*! ... */ or /** ... */
+                $to_minify = preg_replace( '~/\*(?![\!|\*])(.*?)\*/~', '', $to_minify );
+
+                break;
+            case 'js':
+                $url = 'https://javascript-minifier.com/raw';
+
+                break;
+            default:
+                $url = '';
+                break;
+        }
+        
+        if($url) {
+            
+            // try with cURL 
+            if(is_callable(curl_init)) {
+                $data = 'input='.urlencode($to_minify);
+                
+                $ch = curl_init();
+
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                
+                $minified = curl_exec($ch);
+    
+                if($minified === false) {
+                    logger::remember('shared/js_css','cURL error: ' . curl_error($ch));
+                } 
+                
+            
+            // try with file_get_contents, must have allow_url_fopen = yes
+            } else {
+                $data = array('input' => $to_minify);
+
+
+                $postdata = array('http' => array(
+                    'method'  => 'POST',
+                    'header'  => 'Content-type: application/x-www-form-urlencoded',
+                    'content' => http_build_query( array('input' => $to_minify) ) ) );
+
+                $minified = file_get_contents($url, false, stream_context_create($postdata));
+            }
+            
+            
+
+            ///// save the $minified version
+            // build the path
+            $min_path = $path_parts['dirname'].'/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
+            
+            // delete previous one
+            Safe::unlink($min_path);
+            
+            // save new
+            if($minified) {
+                return Safe::file_put_contents($min_path, $minified);
+            }
+            
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Common preparation of less compiler
+     * used in link_file() and call_skin_css()
+     * 
+     * @global type $context
+     * @return object the less compiler;
+     */
+    private static function prepare_less_compiler() {
+        global $context;
+        
+        // include lessphp lib
+        include_once $context['path_to_root'].'included/less/lessc.inc.php';
+        $less = new lessc;
+        
+        // compressed output or not
+        if($context['with_debug']=='N') {
+            // we create a minified css
+            $less->setFormatter("compressed");
+        }
+        
+        // specific function to provide absolute path of ressources within sheet
+        // this will provide root url
+        // TODO : improve using static domain if any
+        $less->registerFunction('rPath', function($arg) use($context) {
+                return $context['url_to_master'].$context['url_to_root'];
+        });
+        
+        // define namespaces
+        $less->setVariables(array(
+            "k-prefix" => KNACSS_PREFIX,
+            "y-prefix" => YACSS_PREFIX,
+        ));
+        
+        // return prepared compiler
+        return $less;
     }
 
     /**

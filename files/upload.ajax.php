@@ -83,14 +83,16 @@ if(isset($_FILES[$name]) && count($_FILES[$name])) {
             outputJSON('File uploaded exceeds maximum upload size.');
         }*/
 
-        // Check if the file exists
-        if(file_exists(UPLOAD_PATH . $_FILES[$name]['name'])){
-	    Safe::header('Status: 500 Internal server error', TRUE, 500);
-            outputJSON(i18n::s('File with that name already exists in temporary folder.'));
+        $path = $context['path_to_root'].UPLOAD_PATH . $_FILES[$name]['name'];
+        
+        // Check if the file exists, delete it if the case
+        if(file_exists($path)){
+            Safe::unlink($path);
+	    /*Safe::header('Status: 500 Internal server error', TRUE, 500);
+            outputJSON(i18n::s('File with that name already exists in temporary folder.'));*/
         }
 
         // Upload file
-	$path = $context['path_to_root'].UPLOAD_PATH . $_FILES[$name]['name'];
         if(!Safe::move_uploaded_file($_FILES[$name]['tmp_name'], $path)){
 	    Safe::header('Status: 500 Internal server error', TRUE, 500);
             outputJSON(i18n::s('Error uploading file - check destination is writeable.'));

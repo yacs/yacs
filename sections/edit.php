@@ -454,99 +454,10 @@ if($with_form) {
 
 	// layout for related articles
 	$label = i18n::s('Layout');
-	$input = '';
-	$custom_layout = '';
 	if(!isset($item['articles_layout']))
 		$item['articles_layout'] = 'decorated';
-	elseif(!preg_match('/^(accordion|alistapart|carrousel|compact|daily|decorated|digg|directory|hardboiled|jive|map|newspaper|none|simile|slashdot|table|tabs|tagged|titles|yabb)$/', $item['articles_layout'])) {
-		$custom_layout = $item['articles_layout'];
-		$item['articles_layout'] = 'custom';
-	}
-
-	$input .= '<input type="radio" name="articles_layout" value="decorated"';
-	if($item['articles_layout'] == 'decorated')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - A list decorated with images')
-		.BR.'<input type="radio" name="articles_layout" value="digg"';
-	if($item['articles_layout'] == 'digg')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('digg - To order pages by rating')
-		.BR.'<input type="radio" name="articles_layout" value="slashdot"';
-	if($item['articles_layout'] == 'slashdot')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('slashdot - List most recent pages equally')
-		.BR.'<input type="radio" name="articles_layout" value="map"';
-	if($item['articles_layout'] == 'map')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('map - Map in two columns, like Yahoo!')
-		.BR.'<input type="radio" name="articles_layout" value="accordion"';
-	if($item['articles_layout'] == 'accordion')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('accordion - Expose one item at a time in a stack')
-		.BR.'<input type="radio" name="articles_layout" value="carrousel"';
-	if($item['articles_layout'] == 'carrousel')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('carrousel - Animate clickable images')
-		.BR.'<input type="radio" name="articles_layout" value="titles"';
-	if($item['articles_layout'] == 'titles')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('titles - Use only titles and thumbnails')
-		.BR.'<input type="radio" name="articles_layout" value="table"';
-	if($item['articles_layout'] == 'table')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('table - A table of recent pages')
-		.BR.'<input type="radio" name="articles_layout" value="daily"';
-	if($item['articles_layout'] == 'daily')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('daily - A list of stamped pages (blog)')
-		.BR.'<input type="radio" name="articles_layout" value="newspaper"';
-	if($item['articles_layout'] == 'newspaper')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('newspaper - Highlight four most recent pages')
-		.BR.'<input type="radio" name="articles_layout" value="hardboiled"';
-	if($item['articles_layout'] == 'hardboiled')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('hardboiled - Highlight two most recent pages')
-		.BR.'<input type="radio" name="articles_layout" value="jive"';
-	if($item['articles_layout'] == 'jive')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('jive - Display most of articles content')
-		.BR.'<input type="radio" name="articles_layout" value="yabb"';
-	if($item['articles_layout'] == 'yabb')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('yabb - A discussion board')
-		.BR.'<input type="radio" name="articles_layout" value="alistapart"';
-	if($item['articles_layout'] == 'alistapart')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('alistapart - Display entirely the last published page')
-		.BR.'<input type="radio" name="articles_layout" value="tagged"';
-	if($item['articles_layout'] == 'tagged')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('tagged - Titles and tags')
-		.BR.'<input type="radio" name="articles_layout" value="tabs"';
-	if($item['articles_layout'] == 'tabs')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('tabs - One tab per page, with content')
-		.BR.'<input type="radio" name="articles_layout" value="simile"';
-	if($item['articles_layout'] == 'simile')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('simile - Dots and titles in a timeline')
-		.BR.'<input type="radio" name="articles_layout" value="compact"';
-	if($item['articles_layout'] == 'compact')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - A compact list')
-		.BR.'<input type="radio" name="articles_layout" value="directory"';
-	if($item['articles_layout'] == 'directory')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('directory - An alphabetical index of items')
-		.BR.'<input type="radio" name="articles_layout" value="custom" id="custom_articles_layout"';
-	if($item['articles_layout'] == 'custom')
-		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="articles_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_articles_layout\').attr(\'checked\', \'checked\')" />')
-		.BR.'<input type="radio" name="articles_layout" value="none"';
-	if($item['articles_layout'] == 'none')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not list pages').BR;
+        
+        $input = Skin::build_layouts_selector('article',$item['articles_layout']);
 	$fields[] = array($label, $input);
 
 	// content options
@@ -673,74 +584,10 @@ if($with_form) {
 
 	// layout for sub-sections - default is 'decorated'
 	$label = i18n::s('Layout');
-	$input = '';
-	$custom_layout = '';
 	if(!isset($item['sections_layout']))
 		$item['sections_layout'] = 'none';
-	elseif(!preg_match('/^(accordion|carrousel|compact|decorated|directory|folded|inline|jive|map|slashdot|tabs|titles|yabb|none)$/', $item['sections_layout'])) {
-		$custom_layout = $item['sections_layout'];
-		$item['sections_layout'] = 'custom';
-	}
-	$input .= '<input type="radio" name="sections_layout" value="decorated"';
-	if($item['sections_layout'] == 'decorated')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('decorated - A list decorated with images')
-		.BR.'<input type="radio" name="sections_layout" value="slashdot"';
-	if($item['sections_layout'] == 'slashdot')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('slashdot - List most recent pages equally')
-		.BR.'<input type="radio" name="sections_layout" value="map"';
-	if($item['sections_layout'] == 'map')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('map - Map in two columns, like Yahoo!')
-		.BR.'<input type="radio" name="sections_layout" value="accordion"';
-	if($item['sections_layout'] == 'accordion')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('accordion - Expose one item at a time in a stack')
-		.BR.'<input type="radio" name="sections_layout" value="carrousel"';
-	if($item['sections_layout'] == 'carrousel')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('carrousel - Animate clickable images')
-		.BR.'<input type="radio" name="sections_layout" value="titles"';
-	if($item['sections_layout'] == 'titles')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('titles - Use only titles and thumbnails')
-		.BR.'<input type="radio" name="sections_layout" value="jive"';
-	if($item['sections_layout'] == 'jive')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('jive - List 5 threads per board')
-		.BR.'<input type="radio" name="sections_layout" value="yabb"';
-	if($item['sections_layout'] == 'yabb')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('yabb - A discussion forum')
-		.BR.'<input type="radio" name="sections_layout" value="inline"';
-	if($item['sections_layout'] == 'inline')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('inline - List sections and related pages')
-		.BR.'<input type="radio" name="sections_layout" value="folded"';
-	if($item['sections_layout'] == 'folded')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('folded - One folded box per section, with content')
-		.BR.'<input type="radio" name="sections_layout" value="tabs"';
-	if($item['sections_layout'] == 'tabs')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('tabs - One tab per section, with content')
-		.BR.'<input type="radio" name="sections_layout" value="compact"';
-	if($item['sections_layout'] == 'compact')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('compact - A compact list')
-		.BR.'<input type="radio" name="sections_layout" value="directory"';
-	if($item['sections_layout'] == 'directory')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('directory - An alphabetical index of items')
-		.BR.'<input type="radio" name="sections_layout" value="custom" id="custom_sections_layout"';
-	if($item['sections_layout'] == 'custom')
-		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'#custom_sections_layout\').attr(\'checked\', \'checked\')" />')
-		.BR.'<input type="radio" name="sections_layout" value="none"';
-	if($item['sections_layout'] == 'none')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not list sections');
+        
+        $input = Skin::build_layouts_selector('section', $item['sections_layout']);
 	$fields[] = array($label, $input);
 
 	// content overlay
@@ -783,7 +630,7 @@ if($with_form) {
 			$value = $item['icon_url'];
 		$input .= '<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
 		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
+			$input .= ' <span '.tag::_class('details').'>'.Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -913,7 +760,7 @@ if($with_form) {
 
 			// only real owner can delegate to another person
 			if(Sections::is_owned($item, $anchor, TRUE) || Surfer::is_associate())
-				$input .= ' <span class="details">'.Skin::build_link(Sections::get_url($item['id'], 'own'), i18n::s('Change'), 'button').'</span>';
+				$input .= ' <span '.tag::_class('details').'>'.Skin::build_link(Sections::get_url($item['id'], 'own'), i18n::s('Change'), 'button').'</span>';
 
 			$fields[] = array($label, $input);
 		}
@@ -1011,7 +858,7 @@ if($with_form) {
 
 		$input .= '<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
 		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
+			$input .= ' <span '.tag::_class('details').'>'.Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -1048,13 +895,13 @@ if($with_form) {
 	// associates can anchor the section anywhere
 	if(Surfer::is_associate()) {
 		$label = i18n::s('Section');
-		$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($ref, $me), 'folded');
+		$input = Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($ref, $me), 'folded');
 		$fields[] = array($label, $input);
         // parent section is defined and surfer is an editor of it
 	}elseif(is_object($anchor) && ($anchor->is_assigned())) {
 
 			$label = i18n::s('Section');
-			$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($ref, $me), 'folded');
+			$input = Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($ref, $me), 'folded');
 			$fields[] = array($label, $input);
 
 	// preserve the existing anchor

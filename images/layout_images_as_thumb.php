@@ -69,7 +69,7 @@ Class Layout_images_as_thumb extends Layout_interface {
 				include_once $context['path_to_root'].'/links/links.php';
 				$attributes = Links::transform_reference($image['link_url']);
 				if($attributes[0])
-					$link = $context['url_to_root'].$attributes[0];
+					$link = $attributes[0];
 
 				// direct use of this link
 				else
@@ -102,6 +102,8 @@ Class Layout_images_as_thumb extends Layout_interface {
 			   $text .= Skin::build_image($variant, $href, $title, $link);
 
 		}
+                
+                $text .= '<div class="clear"></div>'."\n";
 
 		// end of processing
 		SQL::free($result);

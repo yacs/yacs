@@ -1430,14 +1430,14 @@ Class Links {
 			// file link
 			case 'file':
 				if($item = Files::get($matches[2]))
-					return array(Files::get_url($matches[2]), $item['title']?$item['title']:str_replace('_', ' ', ucfirst($item['file_name'])));
+					return array($context['url_to_root'].Files::get_url($matches[2]), $item['title']?$item['title']:str_replace('_', ' ', ucfirst($item['file_name'])));
 				return array('', $text, '');
 
 			// image link
 			case 'image':
 				include_once $context['path_to_root'].'images/images.php';
 				if($item = Images::get($matches[2]))
-					return array(Images::get_url($matches[2]), $item['title']?$item['title']:str_replace('_', ' ', ucfirst($item['image_name'])));
+					return array($context['url_to_root'].Images::get_url($matches[2]), $item['title']?$item['title']:str_replace('_', ' ', ucfirst($item['image_name'])));
 				return array('', $text, '');
 
 			// category link

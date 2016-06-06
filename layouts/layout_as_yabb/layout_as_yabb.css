@@ -1,0 +1,46 @@
+/**
+ * yabb layout: a table of discussion threads
+ *
+ * <table class="yabb">
+ * <thead>
+ *  <tr>
+ *    <th>Topic</th>
+ *    ...
+ *    <th>Last post</th>
+ *  </tr>
+ * </thead>
+ * <tbody>
+ *  <tr class="odd">
+ *    <td><a>title</a><br />introduction<p '.tag::_class('details').'>some details</p></td>
+ *    <td>...</td>
+ *  </tr>
+ *  <tr class="even">
+ *    <td><a>title</a><br />introduction<p '.tag::_class('details').'>some details</p></td>
+ *    <td>...</td>
+ *  </tr>
+ *  ...
+ * </tbody>
+ * </table>
+ *
+ * @author Bernard Paques
+ * @author Alexis Raimbault
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+ */
+
+.yabb {
+	width: 98%;
+	margin: 0px 1px;
+	padding: 0;
+}
+
+.yabb td {
+	position: static;
+}
+
+.yabb .family { /* to introduce several successive sections in a forum */
+	font-weight: bold;
+	color: #222;
+}
+
+

@@ -108,7 +108,7 @@ if(!isset($item['id'])) {
         } elseif(!is_object($anchor))
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].'articles/');
 		elseif($anchor->is_viewable())
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
+			Safe::redirect($anchor->get_url());
 		elseif($id = Surfer::get_id())
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_url($id));
 		else
@@ -167,7 +167,7 @@ else {
 
 	// get text related to the overlay, if any
 	if(is_object($overlay))
-		$context['text'] .= $overlay->get_text('view', $item);
+		$context['text'] .= $overlay->get_text('delete', $item);
 
 	// details
 	$details = array();
@@ -183,7 +183,7 @@ else {
 
 	// all details
 	if(@count($details))
-		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
+		$context['text'] .= '<p '.tag::_class('details').'>'.ucfirst(implode(', ', $details))."</p>\n";
 
 	// display the source, if any
 	if($item['source']) {
@@ -196,7 +196,7 @@ else {
 				$item['source'] = Skin::build_link($link, $title);
 			}
 		}
-		$context['text'] .= '<p class="details">'.sprintf(i18n::s('Source: %s'), $item['source'])."</p>\n";
+		$context['text'] .= '<p '.tag::_class('details').'>'.sprintf(i18n::s('Source: %s'), $item['source'])."</p>\n";
 	}
 
 	// count items related to this article

@@ -538,7 +538,7 @@ if($with_form) {
 			// warn in case of multiple approval
 			if(!isset($item['id']) && isset($_REQUEST['type']) && ($_REQUEST['type'] == 'approval')
 				&& Surfer::get_id() && Comments::count_approvals_for_anchor($anchor->get_reference(), Surfer::get_id()))
-				$input .= '<p class="details">'.i18n::s('It is not your first approval for this page.').'</p>';
+				$input .= '<p '.tag::_class('details').'>'.i18n::s('It is not your first approval for this page.').'</p>';
 
 			// change page title too
 			$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Approval'), $anchor->get_title());

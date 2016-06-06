@@ -500,7 +500,7 @@ elseif(!Surfer::is_associate()) {
 	function background_helper($name, $sample, $path='skins/flexible/panels') {
 		global $context;
 
-		$text = '<p class="details">'.i18n::s('Select background color first, then background image. The color will appear in the area not covered by the image.').'</p>';
+		$text = '<p '.tag::_class('details').'>'.i18n::s('Select background color first, then background image. The color will appear in the area not covered by the image.').'</p>';
 
 		// transparent
 		$checked = '';
@@ -594,7 +594,7 @@ elseif(!Surfer::is_associate()) {
 		$updater = '';
 		if($sample)
 			$updater = ' onchange="$(\'#'.$sample.'\').css({ \'borderLeft\': this.value});"';
-		$text .= i18n::s('left').' <input type="text" name="'.$name.'_left" value="'.$context[$name.'_left'].'" size="10"'.$updater.' /> <span class="details">(ex: 1px solid #ccc)</span>';
+		$text .= i18n::s('left').' <input type="text" name="'.$name.'_left" value="'.$context[$name.'_left'].'" size="10"'.$updater.' /> <span '.tag::_class('details').'>(ex: 1px solid #ccc)</span>';
 
 		if($sample)
 			Page::insert_script('$(\'#'.$sample.'\').css({ \'borderTop\': \''.$context[$name.'_top'].'\', \'borderRight\': \''.$context[$name.'_right'].'\', \'borderBottom\': \''.$context[$name.'_bottom'].'\', \'borderLeft\': \''.$context[$name.'_left'].'\'});');
@@ -1279,7 +1279,7 @@ elseif(!Surfer::is_associate()) {
 
 	// text sample
 	$text .= '<div style="height:50px; width: auto; border: 1px solid #ccc; margin-bottom: 1em; padding: 1em 0; overflow: hidden;">'
-		.'<p class="details" id="d_sample">'.i18n::s('Sample text').' '.DUMMY_TEXT.'</p>'
+		.'<p '.tag::_class('details').' id="d_sample">'.i18n::s('Sample text').' '.DUMMY_TEXT.'</p>'
 		.'</div>';
 
 	// font

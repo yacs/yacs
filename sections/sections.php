@@ -646,7 +646,7 @@ Class Sections {
 
 			// link to the container
 			if(is_object($anchor)) {
-				$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+				$link = $anchor->get_url();
 				$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
 			}
 
@@ -2722,7 +2722,7 @@ Class Sections {
 
 		// set layout for sections
 		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/^(accordion|carrousel|compact|custom|decorated|directory|folded|inline|jive|map|slashdot|tabs|titles|yabb|none)$/', $fields['sections_layout']))
-			$fields['sections_layout'] = 'none';
+			$fields['sections_layout'] = 'compact';
 		elseif($fields['sections_layout'] == 'custom') {
 			if(isset($fields['sections_custom_layout']) && $fields['sections_custom_layout'])
 				$fields['sections_layout'] = $fields['sections_custom_layout'];
@@ -2931,7 +2931,7 @@ Class Sections {
 			$fields['rank'] = 10000;
 
 		// set layout for sections
-		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/^(accordion|carrousel|compact|custom|decorated|directory|folded|inline|jive|map|slashdot|tabs|titles|yabb|none)$/', $fields['sections_layout']))
+		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] )
 			$fields['sections_layout'] = 'map';
 		elseif($fields['sections_layout'] == 'custom') {
 			if(isset($fields['sections_custom_layout']) && $fields['sections_custom_layout'])
@@ -2941,7 +2941,7 @@ Class Sections {
 		}
 
 		// set layout for articles
-		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/^(accordion|alistapart|carrousel|compact|custom|daily|decorated|digg|directory|hardboiled|jive|map|newspaper|none|simile|slashdot|table|tabs|tagged|threads|titles|yabb)$/', $fields['articles_layout']))
+		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] )
 			$fields['articles_layout'] = 'decorated';
 		elseif($fields['articles_layout'] == 'custom') {
 			if(isset($fields['articles_custom_layout']) && $fields['articles_custom_layout'])

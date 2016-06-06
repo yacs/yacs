@@ -482,10 +482,10 @@ Class Comments {
 	* @return string the HTML tags to put in the page
 	*/
 	public static function get_form($reference, $follow_up='comments', $placeholder = null, $file_attachement = true) {
-		global $context, $render_overlaid;
+            global $context, $render_overlaid;
                 
-        // default placeholder
-        if(!$placeholder) $placeholder = i18n::s('Reply');
+            // default placeholder
+            if(!$placeholder) $placeholder = i18n::s('Reply');
 
 		// the form to post a comment
 		$text = '<form method="post" action="'.$context['url_to_root'].'comments/edit.php" enctype="multipart/form-data" class="comment_form"><div style="margin: 1em 0;">';
@@ -503,7 +503,7 @@ Class Comments {
                                 include_once $context['path_to_root'].'files/files.php';
 
                                 // input field to appear on demand
-                                $text .= '<p id="comment_upload" class="details" style="display: none;">'
+                                $text .= '<p id="comment_upload" '.tag::_class('details').' style="display: none;">'
                                         .'<input type="file" name="upload" id="upload" size="30" onchange="if(/\\.zip$/i.test($(this).val())){$(\'#upload_option\').slideDown();}else{$(\'#upload_option\').slideUp();}" />'
                                         . ' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
                                         .'<input type="hidden" name="file_type" value="upload" /></p>'

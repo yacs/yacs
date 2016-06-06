@@ -87,7 +87,7 @@ Class Layout_dates extends Layout_interface {
 
 			// all details
 			if(count($details))
-				$suffix .= BR.'<span class="details">'.ucfirst(implode(', ', $details)).'</span>';
+				$suffix .= BR.'<span '.tag::_class('details').'>'.ucfirst(implode(', ', $details)).'</span>';
 
 			// the icon to put in the left column
 			if($item['thumbnail_url'])

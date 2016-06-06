@@ -527,10 +527,10 @@ if(!isset($item['id'])) {
 
 		// tags, if any
 		if(isset($item['tags']))
-			$context['page_tags'] =& Skin::build_tags($item['tags']);
+			$context['page_tags'] = Skin::build_tags($item['tags']);
 
 		// one detail per line
-		$text = '<p class="details">';
+		$text = '<p '.tag::_class('details').'>';
 		$details = array();
 
 		// add details from the overlay, if any
@@ -777,7 +777,7 @@ if(!isset($item['id'])) {
 	// the contextual menu, in a navigation box, if this has not been disabled
 	if( (!is_object($anchor) || !$anchor->has_option('no_contextual_menu', FALSE))
 		&& (!isset($item['options']) || !preg_match('/\bno_contextual_menu\b/i', $item['options']))
-		&& isset($context['current_focus']) && ($menu =& Skin::build_contextual_menu($context['current_focus']))) {
+		&& isset($context['current_focus']) && ($menu = Skin::build_contextual_menu($context['current_focus']))) {
 
 		// use title from topmost level
 		if(count($context['current_focus']) && ($topmost = Anchors::get($context['current_focus'][0]))) {
@@ -1297,7 +1297,7 @@ if(!isset($item['id'])) {
 
 		// insert a full box
 		if($box['text'])
-			$box['text'] =& Skin::build_box($title_label, $box['text'], 'header1', 'comments');
+			$box['text'] = Skin::build_box($title_label, $box['text'], 'header1', 'comments');
 
 
 		// there is some box content

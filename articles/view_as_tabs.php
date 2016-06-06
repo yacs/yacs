@@ -39,10 +39,10 @@ if(!Surfer::is_crawler()) {
 
 	// tags, if any
 	if(isset($item['tags']))
-		$context['page_tags'] =& Skin::build_tags($item['tags']);
+		$context['page_tags'] = Skin::build_tags($item['tags']);
 
 	// one detail per line
-	$text .= '<p class="details">';
+	$text .= '<p '.tag::_class('details').'>';
 	$details = array();
 
 	// add details from the overlay, if any

@@ -49,7 +49,7 @@ Class Layout_files_as_dates extends Layout_interface {
 			elseif($item['edit_date'] >= $context['fresh'])
 				$flag = UPDATED_FLAG;
 
-			$suffix .= '<span class="details"> - '.sprintf(i18n::s('By %s'), $contributor).' '.Skin::build_date($item['create_date']).$flag.'</span>';
+			$suffix .= '<span '.tag::_class('details').'> - '.sprintf(i18n::s('By %s'), $contributor).' '.Skin::build_date($item['create_date']).$flag.'</span>';
 
 			// signal restricted and private files
 			if(($item['active'] == 'N') && defined('PRIVATE_FLAG'))

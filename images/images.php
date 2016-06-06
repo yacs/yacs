@@ -741,8 +741,12 @@ Class Images {
 				."use_thumbnail='".SQL::escape($fields['use_thumbnail'])."',"
 				."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."',"
 				."source='".SQL::escape(isset($fields['source']) ? $fields['source'] : '')."',"
-				."link_url='".SQL::escape(isset($fields['link_url']) ? $fields['link_url'] : '')."'"
-				." WHERE id = ".SQL::escape($fields['id']);
+				."link_url='".SQL::escape(isset($fields['link_url']) ? $fields['link_url'] : '')."'";
+                        
+                        if(isset($fields['tags']))
+                            $query .= ",tags='".SQL::escape($fields['tags'])."'";
+                        
+			$query .= " WHERE id = ".SQL::escape($fields['id']);
 
 			// actual update
 			if(SQL::query($query) === FALSE)
@@ -764,7 +768,8 @@ Class Images {
 				."edit_name='".SQL::escape($fields['edit_name'])."',"
 				."edit_id=".SQL::escape($fields['edit_id']).","
 				."edit_address='".SQL::escape($fields['edit_address'])."',"
-				."edit_date='".SQL::escape($fields['edit_date'])."'";
+				."edit_date='".SQL::escape($fields['edit_date'])."',"
+                                ."tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."'";
 
 			// actual update
 			if(SQL::query($query) === FALSE)
@@ -778,6 +783,11 @@ Class Images {
 			Logger::error(i18n::s('No image has been added.'));
 			return FALSE;
 		}
+                
+                if(isset($fields['tags'])) {
+                    // assign the image to related categories, but not archiving categories
+                    Categories::remember('image:'.$fields['id'], NULL_DATE, $fields['tags']);
+                }
 
 		// clear the cache
 		Images::clear($fields);
@@ -795,25 +805,26 @@ Class Images {
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
 		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";
-		$fields['image_name']	= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['image_size']	= "INT UNSIGNED DEFAULT 0 NOT NULL";
+		$fields['image_name']           = "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['image_size']           = "INT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['description']	= "TEXT NOT NULL";
+		$fields['description']          = "TEXT NOT NULL";
 		$fields['source']		= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['thumbnail_name']= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['link_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['use_thumbnail']= "ENUM('A', 'Y','N') DEFAULT 'Y' NOT NULL";
-		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['thumbnail_name']       = "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['link_url']             = "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['use_thumbnail']        = "ENUM('A', 'Y','N') DEFAULT 'Y' NOT NULL";
+		$fields['edit_name']            = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_id']		= "MEDIUMINT DEFAULT 0 NOT NULL";
-		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
-		$fields['edit_date']	= "DATETIME";
+		$fields['edit_address']         = "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['edit_date']            = "DATETIME";
+                $fields['tags'] 		= "TEXT DEFAULT '' NOT NULL";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 	= "(id)";
 		$indexes['INDEX anchor']	= "(anchor)";
-		$indexes['INDEX edit_date'] = "(edit_date)";
+		$indexes['INDEX edit_date']     = "(edit_date)";
 		$indexes['INDEX edit_id']	= "(edit_id)";
-		$indexes['INDEX image_size']= "(image_size)";
+		$indexes['INDEX image_size']    = "(image_size)";
 		$indexes['INDEX title'] 	= "(title(255))";
 		$indexes['FULLTEXT INDEX']	= "full_text(title, source, description)";
 

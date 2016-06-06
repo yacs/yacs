@@ -171,7 +171,7 @@ if(!isset($item['id'])) {
 	if(!Surfer::is_crawler()) {
 
 		// all details
-		$context['page_details'] .= '<p class="details">';
+		$context['page_details'] .= '<p '.tag::_class('details').'>';
 
 		$details = array();
 
@@ -896,7 +896,7 @@ if(!isset($item['id'])) {
 
 	// build a nice sidebar box
 	if($text)
-		$text =& Skin::build_box(i18n::s('Navigation'), $text, 'neighbours', 'neighbours');
+		$text = Skin::build_box(i18n::s('Navigation'), $text, 'neighbours', 'neighbours');
 
 	$context['components']['neighbours'] = $text;
 

@@ -139,11 +139,11 @@ Class Layout_articles_as_search extends Layout_interface {
 
 			// display all tags
 			if($item['tags'])
-				$details[] = '<span class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
+				$details[] = tag::_('span', tag::_class('tags'), Skin::build_tags($item['tags']));
 
 			// combine in-line details
 			if(count($details))
-				$suffix .= '<p class="details">'.Skin::finalize_list($details, 'menu').'</p>';
+				$suffix .= '<p '.tag::_class('details').'>'.Skin::finalize_list($details, 'menu').'</p>';
 
 			// insert a suffix separator
 			if(trim($suffix))

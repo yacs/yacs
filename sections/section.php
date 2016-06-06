@@ -463,7 +463,7 @@ Class Section extends Anchor {
 
 				// render all codes
 				if(is_callable(array('Codes', 'beautify')))
-					$text =& Codes::beautify($text, $this->item['options']);
+					$text = Codes::beautify($text, $this->item['options']);
 
 			}
 
@@ -495,7 +495,7 @@ Class Section extends Anchor {
 
 			// render all codes
 			if(is_callable(array('Codes', 'beautify')))
-				$text =& Codes::beautify($text, $this->item['options']);
+				$text = Codes::beautify($text, $this->item['options']);
 
 			// remove most html
 			$text = xml::strip_visible_tags($text);
@@ -628,6 +628,10 @@ Class Section extends Anchor {
 		// list of links
 		case 'links':
 			return $this->get_url().'#_attachments';
+                    
+                // the permalink page
+		case 'view':
+			return Sections::get_permalink($this->item);
 
 		// another action
 		default:

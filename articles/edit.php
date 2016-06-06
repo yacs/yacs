@@ -870,7 +870,7 @@ if($with_form) {
 			$value = $item['icon_url'];
 		$input .= '<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
 		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
+			$input .= ' <span '.tag::_class('details').'>'.Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=icon', $command, 'button').'</span>';
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -976,7 +976,7 @@ if($with_form) {
 
 		// change the owner
 		if(Articles::is_owned($item, $anchor) || Surfer::is_associate())
-			$input .= ' <span class="details">'.Skin::build_link(Articles::get_url($item['id'], 'own'), i18n::s('Change'), 'button').'</span>';
+			$input .= ' <span '.tag::_class('details').'>'.Skin::build_link(Articles::get_url($item['id'], 'own'), i18n::s('Change'), 'button').'</span>';
 
 		$fields[] = array($label, $input);
 
@@ -1026,7 +1026,7 @@ if($with_form) {
 
 		$input .= '<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
 		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
+			$input .= ' <span '.tag::_class('details').'>'.Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=thumbnail', $command, 'button').'</span>';
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -1071,7 +1071,7 @@ if($with_form) {
 
 		if(isset($item['id']) && $cur_article->is_owned()) {
 			$label = i18n::s('Section');
-			$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($anchor->get_reference()), 'folded');
+			$input = Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($anchor->get_reference()), 'folded');
 			$fields[] = array($label, $input);
 		} else
 			$text .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';

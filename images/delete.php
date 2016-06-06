@@ -197,7 +197,7 @@ else {
 
 	// the complete details
 	if($details)
-		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
+		$context['text'] .= '<p '.tag::_class('details').'>'.ucfirst(implode(', ', $details))."</p>\n";
 
 	// display the source, if any
 	if($item['source']) {
@@ -210,7 +210,7 @@ else {
 				$item['source'] = Skin::build_link($link, $title);
 			}
 		}
-		$context['text'] .= '<p class="details">'.sprintf(i18n::s('Source: %s'), $item['source'])."</p>\n";
+		$context['text'] .= '<p '.tag::_class('details').'>'.sprintf(i18n::s('Source: %s'), $item['source'])."</p>\n";
 	}
 
 }

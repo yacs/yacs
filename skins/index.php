@@ -165,7 +165,7 @@ else {
 		// the style title
 		if($label = i18n::l($attributes, 'label')) {
 			if($context['skin'] == $id)
-				$label .= ' <span class="details">'.i18n::s('current theme').'</span>';
+				$label .= ' <span '.tag::_class('details').'>'.i18n::s('current theme').'</span>';
 			$text .= Skin::build_block($label, 'title');
 		}
 

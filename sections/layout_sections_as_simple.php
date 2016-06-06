@@ -100,7 +100,7 @@ Class Layout_sections_as_simple extends Layout_interface {
 
 			// combine in-line details
 			if(count($details))
-				$suffix .= ' - <span class="details">'.trim(implode(', ', $details)).'</span>';
+				$suffix .= ' - <span '.tag::_class('details').'>'.trim(implode(', ', $details)).'</span>';
 
 			// list all components for this item
 			$items[$url] = array($prefix, $title, $suffix, 'section', $icon);

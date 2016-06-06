@@ -160,7 +160,7 @@ Class Layout_articles_as_table extends Layout_interface {
 
 			// page details
 			if(count($details))
-				$details = '<p class="details">'.join(', ', $details).'</p>';
+				$details = '<p '.tag::_class('details').'>'.join(', ', $details).'</p>';
 
 			// this is another row of the output -- title, abstract, (author,) details
 			if(isset($context['with_author_information']) && ($context['with_author_information'] == 'Y'))

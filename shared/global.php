@@ -705,6 +705,22 @@ function encode_link($link) {
 	return $output;
 }
 
+
+/**
+ *  Ensure that a link is absolute
+ * @param string a web reference to check
+ * @return string a absolute reference
+ */
+function full_link($link) {
+    
+    //check we have full link
+    if(!preg_match("/^(?:[a-z]+:)?\/\//i", $link)) {
+        $link = "http://".$link;
+    }
+    
+    return $link;
+}
+
 //
 // Localization and internationalization
 //
@@ -980,31 +996,31 @@ function render_skin($with_last_modified=TRUE) {
 	if(!is_callable(array('Skin', 'build_list'))) {
 
 		class Skin {
-			function &build_block($text) {
+			function build_block($text) {
 				return $text;
 			}
 
-			function &build_box($title, $content) {
+			function build_box($title, $content) {
 				$text = '<h3>'.$title.'</h3><div>'.$content.'</div>';
 				return $text;
 			}
 
-			function &build_link($url, $label) {
+			function build_link($url, $label) {
 				$text = '<a href="'.$url.'">'.$label.'</a>';
 				return $text;
 			}
 
-			function &build_list() {
+			function build_list() {
 				$text = '{list}';
 				return $text;
 			}
 
-			function &build_user_menu() {
+			function build_user_menu() {
 				$text = '{user_menu}';
 				return $text;
 			}
 
-			function &finalize_list($list, $kind) {
+			function finalize_list($list, $kind) {
 				$text = '{list}';
 				return $text;
 			}
@@ -1215,7 +1231,7 @@ function render_skin($with_last_modified=TRUE) {
 
 
 	    // we support Dublin Core too
-	    $metas[] = '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />';
+	    // $metas[] = '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />';
 
 	    // page title
 	    $page_title = ucfirst(strip_tags($context['page_title']));
@@ -1226,8 +1242,8 @@ function render_skin($with_last_modified=TRUE) {
 		    $context['page_header'] .= strip_tags($context['host_name']);
 	    }
 	    $context['page_header'] .= "</title>\n";
-	    if($page_title)
-		    $metas[] = '<meta name="DC.title" content="'.encode_field($page_title).'" />';
+	    /*if($page_title)
+		    $metas[] = '<meta name="DC.title" content="'.encode_field($page_title).'" />';*/
 
 	    // set icons for this site
 	    if($context['site_icon']) {
@@ -1250,7 +1266,7 @@ function render_skin($with_last_modified=TRUE) {
 	    }
             if($meta_desc) {
                 $metas[] = '<meta name="description" content="'.$meta_desc.'" />';
-                $metas[] = '<meta name="DC.description" content="'.$meta_desc.'" />';
+                //$metas[] = '<meta name="DC.description" content="'.$meta_desc.'" />';
             }
 
 	    // page copyright
@@ -1260,28 +1276,28 @@ function render_skin($with_last_modified=TRUE) {
 	    // page author
 	    if(isset($context['page_author']) && $context['page_author']) {
 		    $metas[] = '<meta name="author" content="'.encode_field($context['page_author']).'" />';
-		    $metas[] = '<meta name="DC.author" content="'.encode_field($context['page_author']).'" />';
+		    //$metas[] = '<meta name="DC.author" content="'.encode_field($context['page_author']).'" />';
 	    }
 
 	    // page publisher
 	    if(isset($context['page_publisher']) && $context['page_publisher']) {
 		    $metas[] = '<meta name="publisher" content="'.encode_field($context['page_publisher']).'" />';
-		    $metas[] = '<meta name="DC.publisher" content="'.encode_field($context['page_publisher']).'" />';
+		    //$metas[] = '<meta name="DC.publisher" content="'.encode_field($context['page_publisher']).'" />';
 	    }
 
 	    // page keywords
 	    if(isset($context['site_keywords']) && $context['site_keywords']) {
 		    $metas[] = '<meta name="keywords" content="'.encode_field($context['site_keywords']).'" />';
-		    $metas[] = '<meta name="DC.subject" content="'.encode_field($context['site_keywords']).'" />';
+		    //$metas[] = '<meta name="DC.subject" content="'.encode_field($context['site_keywords']).'" />';
 	    }
 
 	    // page date
-	    if($context['page_date'])
+	    /*if($context['page_date'])
 		    $metas[] = '<meta name="DC.date" content="'.encode_field(substr($context['page_date'], 0, 10)).'" />';
 
 	    // page language
 	    if($context['page_language'])
-		    $metas[] = '<meta name="DC.language" content="'.encode_field($context['page_language']).'" />';
+		    $metas[] = '<meta name="DC.language" content="'.encode_field($context['page_language']).'" />';*/
 
 	    // revisit-after
 	    if(!isset($context['site_revisit_after']))
@@ -1299,6 +1315,11 @@ function render_skin($with_last_modified=TRUE) {
 
 	    // lead robots
 	    $metas[] = '<meta name="robots" content="index,follow" />';
+            
+            // current menu
+            if($top = page::top_focus()) {
+                $metas[] = '<meta name="topfocus" content="'.$top.'" />';
+            }
 
 	}
 
@@ -1309,6 +1330,7 @@ function render_skin($with_last_modified=TRUE) {
                     .'	var url_to_skin	    = "'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/";'."\n"
                     .'	var url_to_master   = "'.$context['url_to_master'].$context['url_to_root'].'";'."\n"
                     .'	var surfer_lang	    = "'.$context['language'].'";'."\n"
+                    .'	var yacss_prefix    = "'.YACSS_PREFIX.'";'."\n"
                     .JS_SUFFIX;
 	
 	    // --in header, because of potential use by in-the-middle javascript snippet
@@ -1993,6 +2015,62 @@ function proxy($url) {
 	global $context;
 
 	return $context['url_to_home'].$context['url_to_root'].'services/proxy.php?url='.urlencode($url);
+}
+
+/**
+ * Do background treatment using a asynchronous Request
+ * 
+ * @see http://www.paul-norman.co.uk/2009/06/asynchronous-curl-requests
+ * @see http://stackoverflow.com/questions/124462/asynchronous-php-calls
+ * 
+ * @param $script string the path (and parameters) of the internal script to call
+ */
+function proceed_bckg ($script) {
+    global $context;
+    
+    $target = $context['url_to_master'].$context['url_to_root'].$script;
+    Logger::remember('Asynchronous call', $script);
+    
+    ////    DO IT WITH CURL, But need AsyncDNS option activated.
+    //      Depend on host configuration
+    // sanity check
+    /*if (!is_callable('curl_init')) {
+        if ($context['with_debug'] == 'Y')
+            Logger::remember('shared/global.php', 'CURL is not implemented', 'debug');
+        return FALSE;
+    }
+    
+    $ch = curl_init();
+ 
+    curl_setopt($ch, CURLOPT_URL, $target);
+    curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT_MS, 1);
+    
+    
+
+    curl_exec($ch);
+    curl_close($ch);*/
+    
+    // DO IT WITH a socket
+    $parts  = parse_url($target);
+    $errno  = 0;
+    $errstr = '';
+    
+    $fp = fsockopen($parts['host'],
+        isset($parts['port'])?$parts['port']:80,
+        $errno, $errstr, 30);
+    
+    $out = "POST ".$parts['path']." HTTP/1.1\r\n";
+    $out.= "Host: ".$parts['host']."\r\n";
+    $out.= "Content-Type: application/x-www-form-urlencoded\r\n";
+    $out.= "Content-Length: ".strlen($parts['query'])."\r\n";
+    $out.= "Connection: Close\r\n\r\n";
+    if (isset($parts['query'])) $out.= $parts['query'];
+    
+    fwrite($fp, $out);
+    fclose($fp);
+    
+    return TRUE;
 }
 
 ?>

@@ -47,7 +47,7 @@
 		echo '<body'.$id.$classes.'>'."\n";
 
 		// shortcuts for text readers
-		echo '<p class="away">';
+		echo '<p '.tag::_class('away').'>';
 
 		// skip header -- access key 2
 		if(is_callable(array('i18n', 's')))
@@ -370,7 +370,7 @@
                     
                         $lang               = $page['lang'];
                         $text               = ($legend)?'&nbsp;'.i18n::s(sprintf('to_local_%s',$lang)):'';
-                        $switch            .= '<li>'.'<a href="'.$page['url'].'">'.Codes::beautify('['.$lang.']').$text.'</a>'.'</li>'."\n";
+                        $switch            .= '<a href="'.$page['url'].'">'.Codes::beautify('['.$lang.']').$text.'</a>'."\n";
                         // memorize as proposed language
                         $page_languages[]   = $lang;
                     
@@ -384,13 +384,15 @@
                 foreach ($to_add as $lang) {
                     
                     $text               = ($legend)?'&nbsp;'.i18n::s(sprintf('to_local_%s',$lang)):'';
-                    $switch            .= '<li>'.'<a href="'.http::add_url_param($_SERVER['REQUEST_URI'], "lang", $lang).'">'.Codes::beautify('['.$lang.']').$text.'</a>'.'</li>'."\n";
+                    $switch            .= '<a href="'.http::add_url_param($_SERVER['REQUEST_URI'], "lang", $lang).'">'.Codes::beautify('['.$lang.']').$text.'</a>'."\n";
                 }
             }
             
             // wrap
-            if($switch)
-                $switch = '<div class="local_switcher"><ul>'.$switch.'</ul></div>'."\n";
+            if($switch) {
+                $tag = (SKIN_HTML5)?'aside':'div';
+                $switch = tag::_($tag, tag::_class('local-switcher'),$switch);
+            }
             
             
             echo $switch;
@@ -423,7 +425,7 @@
 
 		// tags are listed into $context
 		if(isset($context['page_tags']) && $context['page_tags'])
-			echo '<p class="tags">'.sprintf(i18n::s('Tags: %s'), $context['page_tags']).'</p>'."\n";
+                        echo tag::_('p', tag::_class('tags'), sprintf(i18n::s('Tags: %s'), $context['page_tags']));
 
 	}
 
@@ -661,7 +663,7 @@
                 }
             }
             
-            if(count($sisters)) {
+            if(count($sisters) >= 2) {
                 foreach($sisters as $page) {
                     if($page['language'] && $page['language'] != 'none') {
                         
@@ -892,20 +894,22 @@
 
 							//get real number of subsections
 							$nb_subsections = Sections::count_for_anchor($mother_id);
-							//hint unlisted subsections if any
-							$hint = '<p class="details" id="dropcount">';
+							
+                                                        $hint = '';
 							if($nb_subsections > TABS_DROP_LIST_SIZE) {
+                                                                //hint unlisted subsections if any
+                                                                $hint = '<p '.tag::_class('details').'>';
 								$hint .= '( ';
 								$hint .= sprintf(i18n::ns('%d section', '%d sections', $nb_subsections), $nb_subsections);
 								$hint .= ' )</p>';
-							} else
-								// provide empty <p> to preserve alignment
-								$hint .= '&nbsp;</p>';
+
+							}	
+								
 							$subsections = $hint.$subsections;
 
 							//store sub-sections list into "suffix" of this tab's label
 							if($subsections)
-								$items[$url][2] = "\n<div class=dropmenu>".$subsections.'</div>';
+								$items[$url][2] = "\n".tag::_('div', tag::_class('dropmenu'), $subsections);
 
 						}
 					}

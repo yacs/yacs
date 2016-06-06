@@ -304,7 +304,6 @@ Class Tables {
 			return $text;
 
 		// produce an HTML table
-		default:
 		case 'inline':
 		case 'sortable':
 
@@ -626,6 +625,34 @@ Class Tables {
 
 			return '<?xml version="1.0" encoding="'.$context['charset'].'"?>'."\n"
 				.'<items>'."\n".$text.'</items>'."\n";
+                        
+                        
+                // no regonized variant
+                // try to load a existing layout object
+                default:
+                    
+                    // separate variant from listed object type
+                    // should be done with a dot [table.<variant.type>=id]
+                    if(strpos($variant, '.') !== false) {
+                        $variant = explode('.', $variant);
+                        list($variant,$item_type) = $variant;
+                    }
+                    
+                    if(!$item_type) {
+                        $item_type = 'article'; // assume we are listing articles by default.
+                    }
+                    
+                
+                    if(!$layout = Layouts::new_($variant, $item_type)) {
+                        logger::error(sprintf(i18n::s('unknown layout called from table rendering : %s ',$variant)));
+                        return '';
+                    } else {
+                        
+                        // give the floor to the layout
+                        $text = $layout->layout($rows);
+                        return $text;
+                        
+                    }
 		}
 	}
 

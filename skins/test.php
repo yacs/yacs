@@ -247,13 +247,13 @@ $text .= '[toc]'.DUMMY_TEXT."\n"
 	.' [subtitle]'.i18n::s('level 2 title').'[/subtitle] '."\n".DUMMY_TEXT;
 
 // a sidebar
-$sidebar =& Skin::build_box(i18n::s('sidebar box'), DUMMY_TEXT, 'sidebar');
+$sidebar = Skin::build_box(i18n::s('sidebar box'), DUMMY_TEXT, 'sidebar');
 
 // $context['text'] - section with sidebar box
 $text .= Skin::build_box(i18n::s('with a sidebar box'), $sidebar.'<p>'.DUMMY_TEXT.'</p><p>'.DUMMY_TEXT.'</p>');
 
 // a folded box
-$folder =& Skin::build_box(i18n::s('folded box'), DUMMY_TEXT, 'folded');
+$folder = Skin::build_box(i18n::s('folded box'), DUMMY_TEXT, 'folded');
 
 // $context['text'] - section with folded box
 $text .= Skin::build_box(i18n::s('with a folded box'), DUMMY_TEXT.$folder.DUMMY_TEXT);

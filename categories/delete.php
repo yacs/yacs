@@ -132,7 +132,7 @@ else {
 
 	// get text related to the overlay, if any
 	if(is_object($overlay))
-		$context['text'] .= $overlay->get_text('view', $item);
+		$context['text'] .= $overlay->get_text('delete', $item);
 
 	// details
 	$details = array();
@@ -147,7 +147,7 @@ else {
 
 	// all details
 	if(@count($details))
-		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
+		$context['text'] .= '<p '.tag::_class('details').'>'.ucfirst(implode(', ', $details))."</p>\n";
 
 	// count items related to this category
 	$context['text'] .= Anchors::stat_related_to('category:'.$item['id'], i18n::s('Following items are attached to this record and will be deleted as well.'));

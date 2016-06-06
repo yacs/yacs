@@ -134,7 +134,7 @@ if(Surfer::is_crawler()) {
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// the follow-up page
-	$next = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+	$next = $anchor->get_permalink();
 
 	// display the form on error
 	if(!$_REQUEST['id'] = Tables::post($_REQUEST)) {

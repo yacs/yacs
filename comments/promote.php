@@ -164,7 +164,7 @@ if(Surfer::is_crawler()) {
 
 	// the complete details
 	if($details)
-		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
+		$context['text'] .= '<p '.tag::_class('details').'>'.ucfirst(implode(', ', $details))."</p>\n";
 
 	// display the full comment
 	$context['text'] .= Skin::build_block($item['description'], 'description');

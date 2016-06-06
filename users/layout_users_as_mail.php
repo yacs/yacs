@@ -99,7 +99,7 @@ Class Layout_users_as_mail extends Layout_interface {
 
 			// display all tags
 			if($item['tags'])
-				$text .= ' <span class="tags">'.Skin::build_tags($item['tags'], 'user:'.$item['id']).'</span>';
+				$text .= ' '.tag::_('span', tag::_class('tags'), Skin::build_tags($item['tags']));
 
 			// append the row
 			$text .= BR;

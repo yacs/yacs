@@ -103,7 +103,7 @@ if($item['id'] && Surfer::is_associate()) {
 		$details[] = PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons').BR."\n";
 
 	// all details
-	$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
+	$context['text'] .= '<p '.tag::_class('details').'>'.ucfirst(implode(', ', $details))."</p>\n";
 
 	// main url
 	if($item['main_url'])

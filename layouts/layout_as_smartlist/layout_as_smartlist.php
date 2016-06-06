@@ -116,7 +116,7 @@ Class Layout_as_smartlist extends Layout_interface {
 
                 // the introductory text, strip to 10 words, preserve Yacs Code
                 if ($introduction)
-                    $suffix .= BR . '<span class="details">'
+                    $suffix .= BR . '<span '.tag::_class('details').'>'
                           //. Codes::beautify_introduction(Skin::strip($introduction, 10, NULL, NULL, TRUE))
                           . Codes::beautify_introduction(Skin::strip($introduction, 10, NULL, '<a><br><img><span>', TRUE))
                           . '</span>';
@@ -138,7 +138,7 @@ Class Layout_as_smartlist extends Layout_interface {
         SQL::free($result);
 
         //prepare HTML result, give default icon if required, provide callback function for final rendering
-        $text = & Skin::build_list($items, $this->layout_variant, ($show_icon) ? DECORATED_IMG : NULL, FALSE, 'Layout_as_smartlist::finalize_list');
+        $text = Skin::build_list($items, $this->layout_variant, ($show_icon) ? DECORATED_IMG : NULL, FALSE, 'Layout_as_smartlist::finalize_list');
         
         // we have bounded styles and scripts
         $this->load_scripts_n_styles();

@@ -138,7 +138,7 @@ Class Layout_files extends Layout_interface {
 				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor_url, $anchor_label, 'article'));
 			}
 
-			$box .= '<p class="details">'.Skin::finalize_list($details, 'menu').'</p>';
+			$box .= '<p '.tag::_class('details').'>'.Skin::finalize_list($details, 'menu').'</p>';
 
 			// append details
 			$details = array();
@@ -177,7 +177,7 @@ Class Layout_files extends Layout_interface {
 
 			// append details
 			if(count($details))
-				$box .= '<p class="details">'.Skin::finalize_list($details, 'menu').'</p>';
+				$box .= '<p '.tag::_class('details').'>'.Skin::finalize_list($details, 'menu').'</p>';
 
 			// insert item icon
 			if($icon) {

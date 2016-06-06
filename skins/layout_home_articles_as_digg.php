@@ -128,7 +128,7 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 
 			// details
 			if(count($details))
-				$content .= '<p class="details">'.ucfirst(implode(', ', $details)).'</p>';
+				$content .= '<p '.tag::_class('details').'>'.ucfirst(implode(', ', $details)).'</p>';
 
 			// the full introductory text
 			if($item['introduction'])

@@ -37,6 +37,11 @@ scripts/staging/
 #ignore automatic files
 *.auto.*
 
+#ignore minified files
+*.min.js
+*.min.css
+*.dev.css
+
 # ignore special files
 *~
 *.swp

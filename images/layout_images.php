@@ -104,7 +104,7 @@ Class Layout_images extends Layout_interface {
 
 			// append details
 			if(count($details))
-				$suffix .= '<span class="details">'.ucfirst(implode(', ', $details)).'</span>'.BR;
+				$suffix .= '<span '.tag::_class('details').'>'.ucfirst(implode(', ', $details)).'</span>'.BR;
 
 			// the menu bar
 			$menu = array();

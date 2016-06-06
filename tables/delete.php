@@ -136,7 +136,7 @@ else {
 
 	// all details
 	if($details)
-		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details)).'</p>'."\n";
+		$context['text'] .= '<p '.tag::_class('details').'>'.ucfirst(implode(', ', $details)).'</p>'."\n";
 
 }
 

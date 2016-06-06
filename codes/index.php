@@ -25,7 +25,7 @@ $context['page_title'] = i18n::s('Introduction to formatting codes');
 
 // the date of last modification
 if(Surfer::is_associate())
-	$context['page_details'] .= '<p class="details">'.sprintf(i18n::s('Edited %s'), Skin::build_date(getlastmod())).'</p>';
+	$context['page_details'] .= '<p '.tag::_class('details').'>'.sprintf(i18n::s('Edited %s'), Skin::build_date(getlastmod())).'</p>';
 
 // all help pages
 $help_links = array(

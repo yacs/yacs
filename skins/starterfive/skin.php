@@ -23,9 +23,9 @@ Class Skin extends Skin_Skeleton {
 
 		// we are HTML5
 		define('SKIN_HTML5', TRUE);
-
-		// add a empty span to tabs in order to justify the tabs (css tricks)
-		define('TABS_SUFFIX','<span class="finish-tabs"></span>');
+                
+                // remove default knacss prefix
+                define('KNACSS_PREFIX', '~""');
 
 		$options = '';
 		if(isset($context['classes_for_thumbnail_images']))

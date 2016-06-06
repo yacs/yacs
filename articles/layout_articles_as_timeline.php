@@ -99,7 +99,7 @@ Class Layout_articles_as_timeline extends Layout_interface {
 
 			// details
 			if(count($details))
-				$suffix .= ' <span class="details">('.ucfirst(implode(', ', $details)).')</span>';
+				$suffix .= ' <span '.tag::_class('details').'>('.ucfirst(implode(', ', $details)).')</span>';
 
 			// flag popular pages
 			if($item['hits'] > 300)
@@ -112,9 +112,9 @@ Class Layout_articles_as_timeline extends Layout_interface {
 				$action = i18n::s('edited');
 
 			if($item['edit_name'])
-				$suffix .= '<br /><span class="details">'.sprintf(i18n::s('%s by %s %s'), $action, Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date'])).'</span>';
+				$suffix .= '<br /><span '.tag::_class('details').'>'.sprintf(i18n::s('%s by %s %s'), $action, Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date'])).'</span>';
 			else
-				$suffix .= '<br /><span class="details">'.$action.' '.Skin::build_date($item['edit_date']).'</span>';
+				$suffix .= '<br /><span '.tag::_class('details').'>'.$action.' '.Skin::build_date($item['edit_date']).'</span>';
 
 			// flag articles updated recently
 			if($item['create_date'] >= $context['fresh'])

@@ -777,7 +777,7 @@ Class Articles {
 				// more files than listed
 				$more = '';
 				if($count > 3)
-					$more = '<span class="details">'.sprintf(i18n::s('%d files, including:'), $count).'</span>';
+					$more = '<span '.tag::_class('details').'>'.sprintf(i18n::s('%d files, including:'), $count).'</span>';
 
 				if(is_array($items))
 					$items = Skin::build_list($items, 'compact');
@@ -832,7 +832,7 @@ Class Articles {
 			$menu[] = Skin::build_mail_button($link, $label, TRUE);
 
 			// link to the container
-			$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+			$link = $anchor->get_url();
 			$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
 
 		}

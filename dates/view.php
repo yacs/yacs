@@ -84,7 +84,7 @@ if(!isset($item['id'])) {
 
 	// page details
 	if(is_array($details))
-		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
+		$context['text'] .= '<p '.tag::_class('details').'>'.ucfirst(implode(', ', $details))."</p>\n";
 
 	// insert anchor suffix
 	if(is_object($anchor))
@@ -120,7 +120,7 @@ if(!isset($item['id'])) {
 
 	// build a nice sidebar box
 	if($text)
-		$text =& Skin::build_box(i18n::s('Navigation'), $text, 'neighbours', 'neighbours');
+		$text = Skin::build_box(i18n::s('Navigation'), $text, 'neighbours', 'neighbours');
 
 	$context['components']['neighbours'] = $text;
 

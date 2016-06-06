@@ -117,11 +117,11 @@ Class Layout_articles_as_manual extends Layout_interface {
 
 			// describe attachments
 			if(count($details))
-				$suffix .= ' <span class="details">'.join(', ', $details).'</span>';
+				$suffix .= ' <span '.tag::_class('details').'>'.join(', ', $details).'</span>';
 
 			// display all tags
 			if($item['tags'])
-				$suffix .= ' <span class="details">- '.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
+				$suffix .= ' <span '.tag::_class('details').'>- '.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
 
 			// make a link
 			$label = $prefix.Skin::build_link($url, $title, 'basic').$suffix;

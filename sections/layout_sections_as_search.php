@@ -183,15 +183,15 @@ Class Layout_sections_as_search extends Layout_interface {
 
 			// append details to the suffix
 			if(count($details))
-				$suffix .= ' <span class="details">('.implode(', ', $details).')</span>';
+				$suffix .= ' <span '.tag::_class('details').'>('.implode(', ', $details).')</span>';
 
 			// the main anchor link
 			if(is_object($anchor))
-				$suffix .= ' <span class="details">'.sprintf(i18n::s('in %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'section'))."</span>\n";
+				$suffix .= ' <span '.tag::_class('details').'>'.sprintf(i18n::s('in %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'section'))."</span>\n";
 
 			// one line per related item
 			if(count($content))
-				$suffix .= '<div class="details">'.Skin::build_list($content, 'compact')."</div>\n";
+				$suffix .= '<div '.tag::_class('details').'>'.Skin::build_list($content, 'compact')."</div>\n";
 
 			// item summary
 			$box .= $prefix.Skin::build_link($url, $title, 'section').$suffix;
