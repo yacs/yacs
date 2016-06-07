@@ -325,11 +325,11 @@ elseif(($target_section = Sections::get($context['root_sections_at_home'])) && i
 
 		// two columns
 		if($context['root_sections_layout'] == 'map')
-			$items =& Skin::build_list($items, '2-columns');
+			$items = Skin::build_list($items, '2-columns');
 
 		// decorated
 		else
-			$items =& Skin::build_list($items, 'decorated');
+			$items = Skin::build_list($items, 'decorated');
 	}
 
 	// make a box
