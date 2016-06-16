@@ -1232,7 +1232,7 @@ Class Skin_Skeleton {
                 $text = tag::_('p',tag::_class('k/h3-like'),$title);
 
 		// box content --add clear at the end to align images
-		$text .= $content.'<br style="clear: both;" />'."\n";
+		$text .= $content."\n";
 
 		// wrap everything
 		$text = tag::_('div',tag::_class('gadget-box').$id,$text);
