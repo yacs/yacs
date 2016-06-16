@@ -1005,7 +1005,7 @@ Class Skin_Skeleton {
 
 		// wrap everything
                 $tag = (SKIN_HTML5)?'aside':'div';
-		$text = tag::_($tag,tag::_class('extra-box').$id,$text);
+		
 
 		return $text;
 	}
@@ -1213,7 +1213,7 @@ Class Skin_Skeleton {
 	 * @param string an optional unique id for this box
 	 * @return the HTML to display
 	 */
-	public static function &build_gadget_box($title, &$content, $id='') {
+	public static function build_gadget_box($title, &$content, $id='') {
 		global $context;
 
 		// this box has a unique id
@@ -1228,17 +1228,14 @@ Class Skin_Skeleton {
 			$id = ' id="gadget_'.++$global_gadget_box_index.'" ';
 		}
 
-		// external div boundary
-		$text = '<dl class="gadget_box"'.$id.'>'."\n";
-
 		// always add a header
-		$text .= '<dt><span>'.$title."</span></dt>\n";
+                $text = tag::_('p',tag::_class('k/h3-like'),$title);
 
 		// box content --add clear at the end to align images
-		$text .= '<dd>'.$content.'<br style="clear: both;" /></dd>';
+		$text .= $content.'<br style="clear: both;" />'."\n";
 
-		// external div boundary
-		$text .= '</dl>'."\n";
+		// wrap everything
+		$text = tag::_('div',tag::_class('gadget-box').$id,$text);
 
 		return $text;
 	}
