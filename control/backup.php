@@ -903,7 +903,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Apply these SQL statements'), i18n::s('Press [s] to submit data'), 's')."\n";
 
 	// purge files and images
-	$context['text'] .= BR.'<input type="checkbox" name="delete_files" value="Y" checked="checked" />'.i18n::s('Delete files and images related to previous database content');
+	$context['text'] .= BR.'<input type="checkbox" name="delete_files" value="Y" />'.i18n::s('Delete files and images related to previous database content');
 
 	// end of the form
 	$context['text'] .= '</p></div></form>';
