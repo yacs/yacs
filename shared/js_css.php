@@ -97,8 +97,10 @@ Class Js_Css {
         
         // check constant NO_KNACSS and NO_YACSS (may be define by skin.php of a skin)
         // check lib existance and last modification date at the same time
-        $knacss = (defined('NO_KNACSS') && NO_KNACSS == true)? false : Safe::filemtime($context['path_to_root'].'included/knacss/knacss.less');
-        $yacss  = (defined('NO_YACSS') && NO_YACSS == true)? false : Safe::filemtime($context['path_to_root'].'skins/_reference/yacss.less');
+        $knacss        = (defined('NO_KNACSS') && NO_KNACSS == true)? false : Safe::filemtime($context['path_to_root'].'included/knacss/knacss.less');
+        $yacss         = (defined('NO_YACSS') && NO_YACSS == true)? false : Safe::filemtime($context['path_to_root'].'skins/_reference/yacss.less');
+        // font awesome lib for a whole set of icons as a webfont
+        $fontawesome   = (defined('NO_FONTAWESOME') && NO_FONTAWESOME == true)? false : Safe::filemtime($context['path_to_root'].'included/font_awesome/less/font-awesome.less');
         
         
         // check existence of <skin>.less or <skin>.css
@@ -114,7 +116,8 @@ Class Js_Css {
         $need_compile = !$skinmin 
                         || ($skinstyle && ($skinmin < $skinstyle) ) 
                         || ($knacss && ($skinmin < $knacss) ) 
-                        || ($yacss && ($skinmin < $yacss) );
+                        || ($yacss && ($skinmin < $yacss) 
+                        || ($fontawesome && ($skinmin < $fontawesome)));
         
         if($need_compile) {
             
@@ -126,13 +129,16 @@ Class Js_Css {
                   array(
                       $context['path_to_root'].'included/knacss/', 
                       $context['path_to_root'].'skins/_reference/',
+                      $context['path_to_root'].'included/font_awesome/less', 
                       $context['path_to_root'].$context['skin'].'/',
                       ));
             
             // build import directives
             $import = '';
-            if($knacss) $import     .= '@import "knacss.less";';
-            if($yacss) $import      .= '@import "yacss.less";';
+            if($knacss)         $import .= '@import "knacss.less";';
+            if($fontawesome)    $import .= '@import "font-awesome.less";';  
+            if($yacss)          $import .= '@import "yacss.less";';
+ 
             if($skinless) {
                 $import   .= '@import "'.$skin.'.less";';
             } elseif($skincss) {
