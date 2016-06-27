@@ -939,7 +939,7 @@ Class Images {
                                     'icon_url'      => Images::get_icon_href($image)
                                     );
                                 if($put) {
-                                    $fields['id'] = $_REQUEST['id'];
+                                    $fields['id'] = $anchor->get_value('id');
                                     $class = $anchor->get_static_group_class();
                                     $class::put_attributes($fields);
                                 } else
