@@ -34,6 +34,11 @@
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
+
+// flag that we are in the process of rendering yacs code.
+global $code_rendering;
+$code_rendering = false;
+
 Class Codes {
 
 	/**
@@ -549,7 +554,10 @@ Class Codes {
 	 * @return string the transformed string
 	 */
 	public static function render($text) {
-		global $context;
+		global $context, $code_rendering;
+                
+                // say we are now rendering code
+                $code_rendering = true;
 
                 // the formatting code interface
                 include_once $context['path_to_root'].'codes/code.php';
@@ -677,6 +685,9 @@ Class Codes {
 
 		
                 $text = Codes::process($text, $patterns_map);
+                
+                // end of job
+                $code_rendering = false;
 
 		// done
 		return $text;

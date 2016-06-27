@@ -1446,8 +1446,6 @@ Class Skin_Skeleton {
                 //$text = "\n".'<'.$tag_wrapper.' class="'.encode_field($variant).'_image">';
                 $text = tag::_($tag_wrapper,tag::_class(encode_field($variant).'-image '.$complement),$text);
 
-	
-                
 
 		// job done
 		return $text;

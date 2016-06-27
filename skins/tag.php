@@ -22,6 +22,7 @@ class tag {
          * @param string $content of the tag
          */
         public static function _($type, $attributes='', $content='') {
+            global $code_rendering;
             
             // self closer tag
             $self_closers = array('input','img','hr','br','meta','link');
@@ -39,7 +40,8 @@ class tag {
             
             //closing
             if(!in_array($type,$self_closers)) {
-                $tag .= ' >'.$content.'</'.$type.'>'."\n";
+                $tag .= ' >'.$content.'</'.$type.'>';
+                if(!$code_rendering) $tag .= "\n";
             } else {
                 $tag.= ' />';
             }
