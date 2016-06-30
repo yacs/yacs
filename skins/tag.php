@@ -49,6 +49,30 @@ class tag {
             return $tag;
         }
         
+        
+        /**
+         * build a attribute
+         * 
+         * @param string $name of the attribute
+         * @param string $value of the attribute
+         */
+        public static function _attr($name, $value) {
+            
+            $attribute = '';
+            
+            // lowercase
+            $name = strtolower(trim(strip_tags($name)));
+            
+            // sanity check
+            if(!$name) return $attribute;
+            
+            // do it
+            $attribute .= ' '.$name.'="'.addslashes($value).'"';
+            
+            return $attribute;
+            
+        }
+        
         /**
          * Build a data attributes for html tag
          * 
