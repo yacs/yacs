@@ -1571,8 +1571,8 @@ var Yacs = {
 				loader.width *= scale;
 			}
 
-			if((loader.height > 1) && (loader.height + 110 > $(window).height())) { // take title and buttons into account
-				scale = ($(window).height() - 110) / loader.height;
+			if((loader.height > 1) && (loader.height + 125 > $(window).height())) { // take title and buttons into account (125px)
+				scale = ($(window).height() - 125) / loader.height;
 				loader.height*= scale;
 				loader.width *= scale;
 			}
