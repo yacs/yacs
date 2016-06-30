@@ -330,7 +330,7 @@ Class Surfer {
 			$content .= i18n::s('Password').BR.'<input type="password" name="login_password" size="10" maxlength="255" />'.BR;
 
 			// Remember me ?
-			if($context['users_with_permanent_authentication'] == 'U')
+			if(isset($context['users_with_permanent_authentication']) && $context['users_with_permanent_authentication'] == 'U')
 			    $content .= '<span '.tag::_class('details').'><input type="checkbox" name="remember" value="Y" />&nbsp;'.i18n::s('Stay connected').'</span>'.BR;
 
 			// the button
