@@ -68,7 +68,8 @@
     }
 }
 
-// to provide a readable text color for button according to background
+// to provide a readable text color for button according to their
+// background color
 .x-readable-text-color(@back-color) when (lightness(@back-color) >= 50%) {
     color : darken(desaturate(@back-color,15%),40%);
 }
@@ -76,9 +77,10 @@
     color : lighten(desaturate(@back-color,15%),40%);
 }
 
-@color-button-light : lighten(@color-button, 10%);
 
-// give a shape of a button
+
+//// give a shape of a button
+@color-button-light : lighten(@color-button, 10%);
 .x-button {
     
         box-shadow:inset 0px 1px 0px 0px lighten(@color-button, 60%);
@@ -126,7 +128,7 @@
 }
 
 // details info, for example bottom of page, or hint
-.@{yacs-namespace}details {
+.@{yacs-namespace}details, .@{yacs-namespace}form-hint {
     font-family: sans-serif;
     font-size: 0.8em;
     color: @color-lesser;

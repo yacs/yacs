@@ -1150,7 +1150,7 @@ Class Skin_Skeleton {
 
 			// put the hint after the field
 			if($hint)
-				$input .= '<p class="yc-form-hint">'.$hint.'</p>';
+                                $input .= tag::_('p', tag::_class('form-hint'),$hint);
 
 			//$cells = array();
 			/*switch($variant) {
