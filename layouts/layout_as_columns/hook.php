@@ -16,7 +16,7 @@ if(count(get_included_files()) < 3 || !defined('YACS')) {
 global $hooks;
 
 $hooks[] = array(
-	'id'		=> 'colums',
+	'id'		=> 'columns',
         'type'		=> 'layout',
 	'supported'	=> 'article,section,category',
 	'script'	=> 'layouts/layout_as_columns/layout_as_columns.php',
