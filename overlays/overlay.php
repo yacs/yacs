@@ -731,6 +731,7 @@ class Overlay {
 
 	    // load scripts (if exist)
 	    Page::load_style(strtolower('overlays/'.$myclass.'/'.$myclass.'.css'));
+            Page::load_style(strtolower('overlays/'.$myclass.'/'.$myclass.'.less'));
 	    Page::defer_script(strtolower('overlays/'.$myclass.'/'.$myclass.'.js'));
 
 	    // recursive call to parent class, stop on "Overlay"
