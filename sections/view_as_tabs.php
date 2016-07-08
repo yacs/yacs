@@ -670,7 +670,7 @@ if(!$zoom_type || ($zoom_type == 'users')) {
 				$owner_state = CHECKED_IMG;
 			$editor_state = CHECKED_IMG;
 			$watcher_state = '';
-			if(Members::check($anchors, 'user:'.$user_id))
+			if(Members::check('section:'.$item['id'], 'user:'.$user_id))
 				$watcher_state = CHECKED_IMG;
 			$rows[$user_id] = array($user_label, $watcher_state, $editor_state, $owner_state);
 		}
