@@ -628,6 +628,8 @@ function core_autoload($class) {
 	    break;
         case 'page' :
             include_once $context['path_to_root'].'/skins/page.php';
+        case 'fa'   :
+            include_once $context['path_to_root'].'/included/font_awesome/fa.php';
 	default :
 	    // this is default architecture of Yacs
 	    if(is_readable($context['path_to_root'].$class.'/'.$class.'.php')) {
