@@ -791,7 +791,7 @@
 	 */
 	public static function load_style($path,$now=false) {
 	    
-            $job = js_css::link_file($path,'css','',$now);
+            $job = js_css::link_file($path,'','',$now);
             if($now) echo $job;
 	}
 
