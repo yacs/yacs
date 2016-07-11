@@ -422,7 +422,7 @@ if(Surfer::is_crawler()) {
 		if($items =& Users::search($name, 1.0, 7, 'password')) {
 			// display candidate profiles
 			if(is_array($items))
-				$items =& Skin::build_list($items, 'decorated');
+				$items = Skin::build_list($items, 'decorated');
 			$context['text'] .= Skin::build_box(i18n::s('Have you lost your password?'), $items);
 
 		}
