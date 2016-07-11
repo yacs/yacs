@@ -1475,6 +1475,9 @@ var Yacs = {
                     
                     // $(pfx('.tab-background')).toggle();
                 });
+                
+                // close menu at page opening
+                $(pfx('.tabs-mini-toggle:visible')).not('.init').trigger('click').addClass('init');
         },
 
 	/**
