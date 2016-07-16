@@ -3044,7 +3044,7 @@ Class Skin_Skeleton {
 
 		// wrap it
                 $tag = (SKIN_HTML5)?'aside':'div';
-		$text = tag::_($tag,tag::_class('sidebar-box k/w33 k/medium-w50'), $text);
+		$text = tag::_($tag,tag::_class('sidebar-box k/w33 k/medium-w50n k/small-w50'), $text);
 
 		return $text;
 	}
