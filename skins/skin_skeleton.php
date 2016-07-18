@@ -4471,7 +4471,7 @@ Class Skin_Skeleton {
 
 		// the HTML string used to prefix an in-line menu
 		if(!defined('INLINE_MENU_PREFIX'))
-			define('INLINE_MENU_PREFIX', '<span class="details menu">');
+			define('INLINE_MENU_PREFIX', '<span '.tag::_class('details menu').'>');
 
 		// the HTML string inserted between items of an in-line menu
 		if(!defined('INLINE_MENU_SEPARATOR'))
