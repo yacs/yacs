@@ -32,31 +32,31 @@ Class jssor_gallery extends Overlay {
         // or none
         $label    = i18n::s('Display of main navigation');
         $mainnav  = $this->get_value('mainnav','auto');
-        $input    = '<input type="radio" id="mainnav1" name="mainnav" value="bullets" '.(($mainnav=='bullets')?'checked':'').' />&nbsp;<label for="mainnav1">'.i18n::s('With bullets').'</label>'.BR;
-        $input   .= '<input type="radio" id="mainnav2" name="mainnav" value="thumbs" '.(($mainnav=='thumbs')?'checked':'').' />&nbsp;<label for="mainnav2">'.i18n::s('Width thumbnails').'</label>'.BR;
-        $input   .= '<input type="radio" id="mainnav3" name="mainnav" value="auto" '.(($mainnav=='auto')?'checked':'').' />&nbsp;<label for="mainnav3">'
+        $input    = '<input type="radio" id="mainnav1" name="mainnav" value="bullets" '.(($mainnav=='bullets')?'checked':'').' /><label for="mainnav1">'.i18n::s('With bullets').'</label>'.BR;
+        $input   .= '<input type="radio" id="mainnav2" name="mainnav" value="thumbs" '.(($mainnav=='thumbs')?'checked':'').' /><label for="mainnav2">'.i18n::s('Width thumbnails').'</label>'.BR;
+        $input   .= '<input type="radio" id="mainnav3" name="mainnav" value="auto" '.(($mainnav=='auto')?'checked':'').' /><label for="mainnav3">'
                     .sprintf(i18n::s('With bullets, but automatic switch to thumbnails for more than %s images to show'),$this->auto_thumbs_threshold ).'</label>'.BR;
-        $input   .= '<input type="radio" id="mainnav4" name="mainnav" value="none" '.(($mainnav=='none')?'checked':'').' />&nbsp;<label for="mainnav4">'.i18n::s('Do not display it').'</label>';
+        $input   .= '<input type="radio" id="mainnav4" name="mainnav" value="none" '.(($mainnav=='none')?'checked':'').' /><label for="mainnav4">'.i18n::s('Do not display it').'</label>';
         $fields[] = array($label, $input);
         
         ///// set of options
         $label      = 'Navigation options';
         // arrows navigation yes/no
         $input      = '<input type="checkbox" name="arrowsnav" id="arrowsnav" value="Y" '.( ($this->get_value('arrowsnav','Y')==='Y' )?'checked':'').'/>';
-        $input     .= '&nbsp;<label for="arrowsnav">'.i18n::s('Display navigation arrows while hovering').'</label>'.BR;
+        $input     .= '<label for="arrowsnav">'.i18n::s('Display navigation arrows while hovering').'</label>'.BR;
         // drag sliding
         //$input     .= '<input type="checkbox" name="dragnav" id="dragnav" value="Y" '.( ($this->get_value('dragnav','Y')==='Y' )?'checked':'').'/>';
         //$input     .= '&nbsp;<label for="dragnav">'.i18n::s('Allow draging on images to slide them').'</label>'.BR;
         // autoplay
         $input     .= '<input type="checkbox" name="autoplay" id="autoplay" value="Y" '.( ($this->get_value('autoplay','Y')==='Y' )?'checked':'').'/>';
-        $input     .= '&nbsp;<label for="autoplay">'.i18n::s('Autoplay slideshow at page loading').'</label>'.BR;
+        $input     .= '<label for="autoplay">'.i18n::s('Autoplay slideshow at page loading').'</label>'.BR;
         $fields[]   = array($label, $input);
 
         
         // option to size slideshow to its parent
         $label      = i18n::s('Display options');
         $input      = '<input type="checkbox" name="fit2parent" id="fit2parent" value="Y" '.( ($this->get_value('fit2parent','Y')==='Y' )?'checked':'').'/>';
-        $input     .= '&nbsp;<label for="fit2parent">'.i18n::s('Fit slideshow\'s width to its parent').'</label>'.BR;
+        $input     .= '<label for="fit2parent">'.i18n::s('Fit slideshow\'s width to its parent').'</label>'.BR;
         $fields[]   = array($label, $input);
         
         // option for ratio aspect
