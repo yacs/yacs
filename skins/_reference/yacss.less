@@ -127,13 +127,6 @@
     background: @color-shadower;
 }
 
-// details info, for example bottom of page, or hint
-.@{yacs-namespace}details, .@{yacs-namespace}form-hint {
-    font-family: sans-serif;
-    font-size: 0.8em;
-    color: @color-lesser;
-}
-
 // separate page details from content
 #page_details {
     clear:both;
@@ -788,9 +781,10 @@ figure {max-width: 100%;}
 // text that should be discret
 // comparing to main content.
 
-.@{yacs-namespace}details {
+.@{yacs-namespace}details, .@{yacs-namespace}form-hint {
+    font-family: sans-serif;
     font-size : .8em;
-    color : grey;
+    color : @color-lesser;
     
     a {
         color : grey !important;
@@ -826,4 +820,51 @@ figure {max-width: 100%;}
             font-weight:bold;
             margin-right: 0.4em;
         }
+}
+
+/////////////////////
+//
+// Form
+//
+
+.@{yacs-namespace}form-row {
+    display : table-row;
+    
+    .west, .east {
+        display : table-cell;
+    }
+    
+    .west {
+        vertical-align: top;
+        padding: 0 1em 1em 0;
+        max-width: 8em;
+    }
+    
+    .east {
+        padding: 0 0 1em 0;
+    }
+    
+    input[type=radio], input[type=checkbox] {
+        margin-top: 1em;
+    }
+    
+    input[type=radio]+label, input[type=checkbox]+label {
+        margin-left:.2em;
+        max-width: 95%;
+        vertical-align: top;
+    }
+}
+
+.@{yacs-namespace}form-label {
+    font-style: italic;
+    color : @color-lesser;
+}
+
+@media only screen and (max-width: @small-plus-screen) {
+    
+ 
+    .yc-form-row, .yc-form-row .west, .yc-form-row .east {
+        display: block;
+    }
+    
 }

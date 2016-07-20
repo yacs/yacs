@@ -1186,17 +1186,17 @@ Class Skin_Skeleton {
             $parity = ($line_nb%2)? ' odd ' : ' even ';
             
             // start row
-            $row  .= '<div class="yc-form-row '.$parity.'">'."\n";
+            $row  .= '<div '.tag::_class('form-row '.'/'.$parity).'>'."\n";
             
             // label
             if($label) {
-                $moreclass = ($variant === "2-columns")? ' west' : '';
-                $row .= '<div class="yc-form-label '.$moreclass.'">'.ucfirst($label).'</div>'."\n";
+                $moreclass = ($variant === "2-columns")? 'west' : '';
+                $row .= '<div '.tag::_class('form-label '.'/'.$moreclass).'>'.ucfirst($label).'</div>'."\n";
             }
             // input
             if($input) {
-                $moreclass = ($variant === "2-columns")? ' east' : '';
-                $row .= '<div class="yc-form-input '.$moreclass.'">'.$input.'</div>'."\n";
+                $moreclass = ($variant === "2-columns")? 'east' : '';
+                $row .= '<div '.tag::_class('form-input '.'/'.$moreclass).'>'.$input.'</div>'."\n";
             }
             
             // end row
