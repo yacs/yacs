@@ -54,10 +54,39 @@ Class jssor_gallery extends Overlay {
 
         
         // option to size slideshow to its parent
-        $label      = 'Display options';
+        $label      = i18n::s('Display options');
         $input      = '<input type="checkbox" name="fit2parent" id="fit2parent" value="Y" '.( ($this->get_value('fit2parent','Y')==='Y' )?'checked':'').'/>';
         $input     .= '&nbsp;<label for="fit2parent">'.i18n::s('Fit slideshow\'s width to its parent').'</label>'.BR;
         $fields[]   = array($label, $input);
+        
+        // option for ratio aspect
+        $label      = i18n::s('Ratio');
+        $input      = '<input type="text" name="width" size="4" value="'.$this->get_value('width',600).'" /> x ';
+        $input      .= '<input type="text" name="height" size="4" value="'.$this->get_value('height',400).'" /> px';
+        $hint       = i18n::s('actual dimmension may change if slideshow is to fit its parent');
+        $fields[]   = array($label, $input,$hint);
+            
+        // option for filling mode
+        $actual_fm  = $this->get_value('fillmode','0');
+        $label      = i18n::s('Fill Mode');
+        $input      = '<input type="radio" name="fillmode" id="fm-stretch" value="0" '.( ($actual_fm =='0' )?'checked':'').'/>';
+        $input     .= '<label for="fm-stretch">'.i18n::s('Stretch image to fit slideshow').'</label>'.BR;    
+        
+        $input     .= '<input type="radio" name="fillmode" id="fm-contain" value="1" '.( ($actual_fm =='1' )?'checked':'').'/>';
+        $input     .= '<label for="fm-contain">'.i18n::s('Keep image ratio and pull all inside slideshow').'</label>'.BR;
+        
+        $input     .= '<input type="radio" name="fillmode" id="fm-cover" value="2" '.( ($actual_fm =='2' )?'checked':'').'/>';
+        $input     .= '<label for="fm-cover">'.i18n::s('Keep image ratio, cover the whole slideshow, part of image may be hidden').'</label>'.BR;
+        
+        // no "3" mode, this is jssor
+        
+        $input     .= '<input type="radio" name="fillmode" id="fm-actual" value="4" '.( ($actual_fm =='4' )?'checked':'').'/>';
+        $input     .= '<label for="fm-actual">'.i18n::s('Use images actual size').'</label>'.BR;
+        
+        $input     .= '<input type="radio" name="fillmode" id="fm-contact" value="5" '.( ($actual_fm =='5' )?'checked':'').'/>';
+        $input     .= '<label for="fm-contact">'.i18n::s('Contain big images, actual size for smaller ones').'</label>'.BR;
+        $fields[]   = array($label, $input);
+       
         
         return $fields;
     }
@@ -124,6 +153,10 @@ Class jssor_gallery extends Overlay {
             if($this->get_value('autoplay')==='Y')
                 $options['autoplay'] = 1;
             
+            $options['fillmode']    = $this->get_value('fillmode','0');
+            $options['width']       = $this->get_value('width',600);
+            $options['height']      = $this->get_value('height',400);
+            
             // build the gallery
             $text .= Jssor::Make($slides, $options);
             
@@ -158,6 +191,9 @@ Class jssor_gallery extends Overlay {
         //$this->attributes['dragnav']        = isset($fields['dragnav']) ? $fields['dragnav'] : 'N';
         $this->attributes['autoplay']       = isset($fields['autoplay']) ? $fields['autoplay'] : 'N';
         $this->attributes['fit2parent']     = isset($fields['fit2parent']) ? $fields['fit2parent'] : 'N';
+        $this->attributes['fillmode']       = isset($fields['fillmode']) ? $fields['fillmode'] : '0';
+        $this->attributes['width']       = isset($fields['width']) ? $fields['width'] : 600;
+        $this->attributes['height']       = isset($fields['height']) ? $fields['height'] : 400;
     }
     
     

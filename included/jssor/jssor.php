@@ -86,26 +86,36 @@ Class jssor {
         $container_style = '';
         $moreclass       = '';
         if(isset($options['width'])) {
-            $container_style        .= 'with='.$options['width'].'px;';
-            $options['js']['$SlideWidth']  = $options['width'];
+            $container_style        .= 'width:'.$options['width'].'px;';
+            //$options['js']['$SlideWidth']  = $options['width'];
         }
         if(isset($options['height'])) {
-            $container_style        .= 'height='.$options['height'].'px;';
-            $options['js']['$SlideHeight']  = $options['height'];
+            $container_style        .= 'height:'.$options['height'].'px;';
+            //$options['js']['$SlideHeight']  = $options['height'];
         }
-        if($container_style) $container_style = 'style="'.$container_style.'"';
+        
+        page::insert_style('#slider'.$slidenum.' .sor-container {'.$container_style.'}');
         
         // special class if with thumbnails
         if(isset($options['thumbnails']))
               $moreclass .= ' wthumbs';
         
         // autoplay
-        if(!isset($options['autoplay'])) {
+        if(isset($options['autoplay'])) {
+            $options['autoplay'] = true;
+            $options['js']['$AutoPlay'] = 1;
+        } else {
             $options['autoplay'] = false;
+            $options['js']['$AutoPlay'] = 0;
+        }
+        
+        // fillmode
+        if(isset($options['fillmode'])) {
+           $options['js']['$FillMode'] = (int) $options['fillmode'];
         }
         
         // main div
-        $slider .= '<div id="slider'.$slidenum.'_container" class="sor-container'.$moreclass.'" '.$container_style.'>'."\n";
+        $slider .= '<div id="slider'.$slidenum.'"><div id="slider'.$slidenum.'_container" class="sor-container'.$moreclass.'" >'."\n";
         
         // loading screen, if required
         if(isset($option['loading_screen'])) {
@@ -151,7 +161,7 @@ Class jssor {
         }  
         
         // end slider container
-        $slider .= '</div>'."\n";
+        $slider .= '</div></div>'."\n";
         
         // bullet navigator
         if(isset($options['bullets'])) {
