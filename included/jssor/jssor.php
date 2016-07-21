@@ -161,7 +161,7 @@ Class jssor {
         }  
         
         // end slider container
-        $slider .= '</div></div>'."\n";
+        $slider .= '</div>'."\n";
         
         // bullet navigator
         if(isset($options['bullets'])) {
@@ -199,7 +199,7 @@ Class jssor {
         }
         
         // end main div
-        $slider .= '</div>'."\n";
+        $slider .= '</div></div>'."\n";
         
         // javascript initalization
         //$js_options = new stdClass();
