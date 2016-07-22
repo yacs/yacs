@@ -143,7 +143,7 @@ if(Surfer::is_crawler()) {
 			}
 
 			// the secret link --see users/login.php
-			$link = $context['url_to_home'].$context['url_to_root'].Users::get_login_url('edit', 'article:'.$item['id'], $item['create_name'], $item['handle']);
+			$link = Users::get_login_url('edit', 'article:'.$item['id'], $item['create_name'], $item['handle']);
 
 			$status = i18n::s('<p>You can check the status of your query at the following address:</p>')
 				.'<p>'.Skin::build_link($link, $link, 'basic', i18n::s('The permanent address for your query')).'</p>';
