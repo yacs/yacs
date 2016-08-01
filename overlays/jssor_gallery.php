@@ -178,8 +178,10 @@ Class jssor_gallery extends Overlay {
 
             // do we have order to remove image ?
             $clean = $this->get_value('clean_img','Y');
+            
+            $desc = $host['description'];
 
-            if($this->nb_images > 1 && $host && $desc = $host['description'] && $clean == 'Y') {
+            if($this->nb_images > 1 && $desc && $clean == 'Y') {
 
                     $desc = preg_replace('\[image=[0-9]+\]','',$desc);
                     $desc = Codes::beautify(trim($desc));
