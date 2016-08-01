@@ -86,6 +86,12 @@ Class jssor_gallery extends Overlay {
         $input     .= '<input type="radio" name="fillmode" id="fm-contact" value="5" '.( ($actual_fm =='5' )?'checked':'').'/>';
         $input     .= '<label for="fm-contact">'.i18n::s('Contain big images, actual size for smaller ones').'</label>'.BR;
         $fields[]   = array($label, $input);
+        
+        // cleaning
+        $label      = i18n::s('Clean');
+        $input      = '<input type="checkbox" name="clean_img" id="clean_img" value="Y" '.( ($this->get_value('clean_img','Y')==='Y' )?'checked':'').'/>';
+        $input     .= '<label for="clean_img">'.i18n::s('Remove images in description').'</label>'.BR;
+        $fields[]   = array($label, $input);
        
         
         return $fields;
@@ -170,10 +176,12 @@ Class jssor_gallery extends Overlay {
      */
     public function &get_live_description($host=null) {
 
+            // do we have order to remove image ?
+            $clean = $this->get_value('clean_img','Y');
 
-            if($this->nb_images > 1 && $host && $desc = $host['description']) {
+            if($this->nb_images > 1 && $host && $desc = $host['description'] && $clean == 'Y') {
 
-                    $desc = preg_replace('\[image=[0-9]*\]','',$desc);
+                    $desc = preg_replace('\[image=[0-9]+\]','',$desc);
                     $desc = Codes::beautify(trim($desc));
 
             }
@@ -192,8 +200,9 @@ Class jssor_gallery extends Overlay {
         $this->attributes['autoplay']       = isset($fields['autoplay']) ? $fields['autoplay'] : 'N';
         $this->attributes['fit2parent']     = isset($fields['fit2parent']) ? $fields['fit2parent'] : 'N';
         $this->attributes['fillmode']       = isset($fields['fillmode']) ? $fields['fillmode'] : '0';
-        $this->attributes['width']       = isset($fields['width']) ? $fields['width'] : 600;
-        $this->attributes['height']       = isset($fields['height']) ? $fields['height'] : 400;
+        $this->attributes['width']          = isset($fields['width']) ? $fields['width'] : 600;
+        $this->attributes['height']         = isset($fields['height']) ? $fields['height'] : 400;
+        $this->attributes['clean_img']      = isset($fields['clean_img']) ? $fields['clean_img'] : 'Y';
     }
     
     
