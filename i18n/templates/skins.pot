@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-06 14:19+0200\n"
+"POT-Creation-Date: 2016-10-07 15:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -647,7 +647,7 @@ msgstr ""
 msgid "Freemind"
 msgstr ""
 
-#: skins/configure.php:789 skins/edit.php:182 skins/skin_skeleton.php:3167
+#: skins/configure.php:789 skins/edit.php:182 skins/skin_skeleton.php:3162
 #: skins/upload.php:161 skins/flexible/configure.php:1622
 #: skins/flexible/upload.php:76
 msgid "Submit"
@@ -1056,9 +1056,9 @@ msgid "Edit"
 msgstr ""
 
 #: skins/layout_home_articles_as_digg.php:86
-#: skins/layout_home_articles_as_slashdot.php:86 skins/skin_skeleton.php:1994
-#: skins/skin_skeleton.php:2094 skins/skin_skeleton.php:2191
-#: skins/skin_skeleton.php:2438 skins/skin_skeleton.php:5539
+#: skins/layout_home_articles_as_slashdot.php:86 skins/skin_skeleton.php:1989
+#: skins/skin_skeleton.php:2089 skins/skin_skeleton.php:2186
+#: skins/skin_skeleton.php:2433 skins/skin_skeleton.php:5534
 msgid "View the page"
 msgstr ""
 
@@ -1110,7 +1110,8 @@ msgid "Tags: %s"
 msgstr ""
 
 #: skins/page.php:428 skins/skin_skeleton.php:962 skins/skin_skeleton.php:1001
-#: skins/skin_skeleton.php:2662 skins/skin_skeleton.php:3266
+#: skins/skin_skeleton.php:1153 skins/skin_skeleton.php:1232
+#: skins/skin_skeleton.php:2657 skins/skin_skeleton.php:3261
 msgid "p"
 msgstr ""
 
@@ -1165,10 +1166,10 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: skins/page.php:912 skins/skin_skeleton.php:972 skins/skin_skeleton.php:1076
-#: skins/skin_skeleton.php:3048 skins/skin_skeleton.php:3228
-#: skins/skin_skeleton.php:3284 skins/skin_skeleton.php:3305
-#: skins/skin_skeleton.php:5187 skins/skin_skeleton.php:5188
-#: skins/skin_skeleton.php:5189
+#: skins/skin_skeleton.php:1238 skins/skin_skeleton.php:3043
+#: skins/skin_skeleton.php:3223 skins/skin_skeleton.php:3279
+#: skins/skin_skeleton.php:3300 skins/skin_skeleton.php:5182
+#: skins/skin_skeleton.php:5183 skins/skin_skeleton.php:5184
 msgid "div"
 msgstr ""
 
@@ -1277,247 +1278,247 @@ msgstr ""
 msgid "Calendar of this year"
 msgstr ""
 
-#: skins/skin_skeleton.php:1069 skins/skin_skeleton.php:3090
-#: skins/skin_skeleton.php:3460 skins/skin_skeleton.php:3632
-#: skins/skin_skeleton.php:3640
+#: skins/skin_skeleton.php:1069 skins/skin_skeleton.php:3085
+#: skins/skin_skeleton.php:3455 skins/skin_skeleton.php:3627
+#: skins/skin_skeleton.php:3635
 msgid "Click to slide"
 msgstr ""
 
-#: skins/skin_skeleton.php:1076 skins/skin_skeleton.php:1409
-#: skins/skin_skeleton.php:1420 skins/skin_skeleton.php:3243
-#: skins/skin_skeleton.php:3263 skins/skin_skeleton.php:3270
-#: skins/skin_skeleton.php:3283
+#: skins/skin_skeleton.php:1076 skins/skin_skeleton.php:1406
+#: skins/skin_skeleton.php:1417 skins/skin_skeleton.php:3238
+#: skins/skin_skeleton.php:3258 skins/skin_skeleton.php:3265
+#: skins/skin_skeleton.php:3278
 msgid "a"
 msgstr ""
 
-#: skins/skin_skeleton.php:1404
+#: skins/skin_skeleton.php:1401
 msgid "img"
 msgstr ""
 
-#: skins/skin_skeleton.php:1444
+#: skins/skin_skeleton.php:1441
 msgid "Update this image"
 msgstr ""
 
-#: skins/skin_skeleton.php:1444 skins/skin_skeleton.php:4044
+#: skins/skin_skeleton.php:1441 skins/skin_skeleton.php:4039
 msgid "span"
 msgstr ""
 
-#: skins/skin_skeleton.php:1475
+#: skins/skin_skeleton.php:1470
 msgid "upload"
 msgstr ""
 
-#: skins/skin_skeleton.php:1711
+#: skins/skin_skeleton.php:1706
 #, php-format
 msgid "Use the customized layout %s"
 msgstr ""
 
-#: skins/skin_skeleton.php:1718
+#: skins/skin_skeleton.php:1713
 msgid "Do not list elements"
 msgstr ""
 
-#: skins/skin_skeleton.php:1972
+#: skins/skin_skeleton.php:1967
 msgid "Browse in a separate window"
 msgstr ""
 
-#: skins/skin_skeleton.php:2015
+#: skins/skin_skeleton.php:2010
 msgid "View the category"
 msgstr ""
 
-#: skins/skin_skeleton.php:2034
+#: skins/skin_skeleton.php:2029
 msgid "View this comment"
 msgstr ""
 
-#: skins/skin_skeleton.php:2043
+#: skins/skin_skeleton.php:2038
 msgid "Daily calendar"
 msgstr ""
 
-#: skins/skin_skeleton.php:2054
+#: skins/skin_skeleton.php:2049
 msgid "Send a message"
 msgstr ""
 
-#: skins/skin_skeleton.php:2111
+#: skins/skin_skeleton.php:2106
 msgid "Monthly calendar"
 msgstr ""
 
-#: skins/skin_skeleton.php:2120 skins/skin_skeleton.php:5031
+#: skins/skin_skeleton.php:2115 skins/skin_skeleton.php:5026
 msgid "More"
 msgstr ""
 
-#: skins/skin_skeleton.php:2133 skins/skin_skeleton.php:3270
-#: skins/skin_skeleton.php:3283 skins/skin_skeleton.php:5037
-#: skins/skin_skeleton.php:5093 skins/skin_skeleton.php:5095
+#: skins/skin_skeleton.php:2128 skins/skin_skeleton.php:3265
+#: skins/skin_skeleton.php:3278 skins/skin_skeleton.php:5032
+#: skins/skin_skeleton.php:5088 skins/skin_skeleton.php:5090
 #: skins/test.php:268
 msgid "Next"
 msgstr ""
 
-#: skins/skin_skeleton.php:2146 skins/skin_skeleton.php:3263
-#: skins/skin_skeleton.php:5079 skins/skin_skeleton.php:5081
+#: skins/skin_skeleton.php:2141 skins/skin_skeleton.php:3258
+#: skins/skin_skeleton.php:5074 skins/skin_skeleton.php:5076
 #: skins/test.php:268
 msgid "Previous"
 msgstr ""
 
-#: skins/skin_skeleton.php:2170
+#: skins/skin_skeleton.php:2165
 msgid "www.yacs.fr"
 msgstr ""
 
-#: skins/skin_skeleton.php:2181
+#: skins/skin_skeleton.php:2176
 msgid "Go to the documentation page"
 msgstr ""
 
-#: skins/skin_skeleton.php:2200
+#: skins/skin_skeleton.php:2195
 msgid "See server profile"
 msgstr ""
 
-#: skins/skin_skeleton.php:2209
+#: skins/skin_skeleton.php:2204
 msgid "Shortcut"
 msgstr ""
 
-#: skins/skin_skeleton.php:2229
+#: skins/skin_skeleton.php:2224
 msgid "View person profile"
 msgstr ""
 
-#: skins/skin_skeleton.php:2238
+#: skins/skin_skeleton.php:2233
 msgid "Provide this link to specialized software, such as a RSS news reader"
 msgstr ""
 
-#: skins/skin_skeleton.php:2250
+#: skins/skin_skeleton.php:2245
 msgid "Yearly calendar"
 msgstr ""
 
-#: skins/skin_skeleton.php:2731
+#: skins/skin_skeleton.php:2726
 msgid "If AOL Instant Messenger has been installed, click to open a session"
 msgstr ""
 
-#: skins/skin_skeleton.php:2737
+#: skins/skin_skeleton.php:2732
 msgid "If ICQ has been installed, click to open a session"
 msgstr ""
 
-#: skins/skin_skeleton.php:2743
+#: skins/skin_skeleton.php:2738
 msgid "If some IRC software has been installed, click to open a session"
 msgstr ""
 
-#: skins/skin_skeleton.php:2750
+#: skins/skin_skeleton.php:2745
 msgid "If some Jabber software has been installed, click to open a session"
 msgstr ""
 
-#: skins/skin_skeleton.php:2756
+#: skins/skin_skeleton.php:2751
 msgid "If Windows Live Messenger has been installed, click to open a session"
 msgstr ""
 
-#: skins/skin_skeleton.php:2762
+#: skins/skin_skeleton.php:2757
 msgid "If Skype software is installed, click to open a Skype session"
 msgstr ""
 
-#: skins/skin_skeleton.php:2768
+#: skins/skin_skeleton.php:2763
 msgid "Visit the Twitter page"
 msgstr ""
 
-#: skins/skin_skeleton.php:2774
+#: skins/skin_skeleton.php:2769
 msgid "If Yahoo Messenger has been installed, click to open session"
 msgstr ""
 
-#: skins/skin_skeleton.php:2842 skins/skin_skeleton.php:2880
-#: skins/skin_skeleton.php:2918
+#: skins/skin_skeleton.php:2837 skins/skin_skeleton.php:2875
+#: skins/skin_skeleton.php:2913
 #, php-format
 msgid "from %s"
 msgstr ""
 
-#: skins/skin_skeleton.php:2908
+#: skins/skin_skeleton.php:2903
 msgid "Add picture"
 msgstr ""
 
-#: skins/skin_skeleton.php:3007
+#: skins/skin_skeleton.php:3002
 msgid "Referrals"
 msgstr ""
 
-#: skins/skin_skeleton.php:3078 skins/skin_skeleton.php:3448
+#: skins/skin_skeleton.php:3073 skins/skin_skeleton.php:3443
 #: skins/flexible/configure.php:1305
 msgid "Content"
 msgstr ""
 
-#: skins/skin_skeleton.php:3266
+#: skins/skin_skeleton.php:3261
 #, php-format
 msgid "Step %d of %d"
 msgstr ""
 
-#: skins/skin_skeleton.php:3273 skins/skin_skeleton.php:3302
+#: skins/skin_skeleton.php:3268 skins/skin_skeleton.php:3297
 msgid "nav"
 msgstr ""
 
-#: skins/skin_skeleton.php:3302 skins/skin_skeleton.php:4271
+#: skins/skin_skeleton.php:3297 skins/skin_skeleton.php:4266
 msgid "label"
 msgstr ""
 
-#: skins/skin_skeleton.php:3487
+#: skins/skin_skeleton.php:3482
 msgid "Questions"
 msgstr ""
 
-#: skins/skin_skeleton.php:3754
+#: skins/skin_skeleton.php:3749
 msgid "more"
 msgstr ""
 
-#: skins/skin_skeleton.php:4267
+#: skins/skin_skeleton.php:4262
 msgid "li"
 msgstr ""
 
-#: skins/skin_skeleton.php:4274
+#: skins/skin_skeleton.php:4269
 msgid "ul"
 msgstr ""
 
-#: skins/skin_skeleton.php:4365
+#: skins/skin_skeleton.php:4360
 msgid "A: "
 msgstr ""
 
-#: skins/skin_skeleton.php:4435
+#: skins/skin_skeleton.php:4430
 msgid "to publish"
 msgstr ""
 
-#: skins/skin_skeleton.php:4442
+#: skins/skin_skeleton.php:4437
 msgid "expired"
 msgstr ""
 
-#: skins/skin_skeleton.php:4540
+#: skins/skin_skeleton.php:4535
 msgid "new"
 msgstr ""
 
-#: skins/skin_skeleton.php:4577
+#: skins/skin_skeleton.php:4572
 msgid "popular"
 msgstr ""
 
-#: skins/skin_skeleton.php:4589
+#: skins/skin_skeleton.php:4584
 msgid "private"
 msgstr ""
 
-#: skins/skin_skeleton.php:4596
+#: skins/skin_skeleton.php:4591
 msgid "Q: "
 msgstr ""
 
-#: skins/skin_skeleton.php:4603
+#: skins/skin_skeleton.php:4598
 msgid "restricted"
 msgstr ""
 
-#: skins/skin_skeleton.php:4662
+#: skins/skin_skeleton.php:4657
 msgid "updated"
 msgstr ""
 
-#: skins/skin_skeleton.php:4940
+#: skins/skin_skeleton.php:4935
 msgid "Back to main page"
 msgstr ""
 
-#: skins/skin_skeleton.php:5226
+#: skins/skin_skeleton.php:5221
 msgid "Previous page"
 msgstr ""
 
-#: skins/skin_skeleton.php:5251
+#: skins/skin_skeleton.php:5246
 msgid "Next page"
 msgstr ""
 
-#: skins/skin_skeleton.php:5536
+#: skins/skin_skeleton.php:5531
 #, php-format
 msgid "%d words to read"
 msgstr ""
 
-#: skins/skin_skeleton.php:5672
+#: skins/skin_skeleton.php:5667
 msgid "Click to sort"
 msgstr ""
 

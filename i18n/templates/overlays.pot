@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-06 14:19+0200\n"
+"POT-Creation-Date: 2016-10-07 15:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -951,8 +951,53 @@ msgstr ""
 msgid "Autoplay slideshow at page loading"
 msgstr ""
 
+#: overlays/jssor_gallery.php:57
+msgid "Display options"
+msgstr ""
+
 #: overlays/jssor_gallery.php:59
 msgid "Fit slideshow's width to its parent"
+msgstr ""
+
+#: overlays/jssor_gallery.php:63
+msgid "Ratio"
+msgstr ""
+
+#: overlays/jssor_gallery.php:66
+msgid "actual dimmension may change if slideshow is to fit its parent"
+msgstr ""
+
+#: overlays/jssor_gallery.php:71
+msgid "Fill Mode"
+msgstr ""
+
+#: overlays/jssor_gallery.php:73
+msgid "Stretch image to fit slideshow"
+msgstr ""
+
+#: overlays/jssor_gallery.php:76
+msgid "Keep image ratio and pull all inside slideshow"
+msgstr ""
+
+#: overlays/jssor_gallery.php:79
+msgid ""
+"Keep image ratio, cover the whole slideshow, part of image may be hidden"
+msgstr ""
+
+#: overlays/jssor_gallery.php:84
+msgid "Use images actual size"
+msgstr ""
+
+#: overlays/jssor_gallery.php:87
+msgid "Contain big images, actual size for smaller ones"
+msgstr ""
+
+#: overlays/jssor_gallery.php:91
+msgid "Clean"
+msgstr ""
+
+#: overlays/jssor_gallery.php:93
+msgid "Remove images in description"
 msgstr ""
 
 #: overlays/livestream_meeting.php:81

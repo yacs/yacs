@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-06 11:11+0200\n"
-"PO-Revision-Date: 2016-06-06 13:43+0100\n"
+"POT-Creation-Date: 2016-10-07 15:23+0200\n"
+"PO-Revision-Date: 2016-10-07 15:29+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
 "Language: fr_FR\n"
@@ -1048,9 +1048,53 @@ msgstr "Afficher les flèches de navigation au survol"
 msgid "Autoplay slideshow at page loading"
 msgstr "Lecture auto du diaporama au chargement de la page"
 
+#: overlays/jssor_gallery.php:57
+msgid "Display options"
+msgstr "Options d'affichage"
+
 #: overlays/jssor_gallery.php:59
 msgid "Fit slideshow's width to its parent"
 msgstr "Ajuster la largeur du diaporama à son parent"
+
+#: overlays/jssor_gallery.php:63
+msgid "Ratio"
+msgstr "Ratio"
+
+#: overlays/jssor_gallery.php:66
+msgid "actual dimmension may change if slideshow is to fit its parent"
+msgstr "les dimmensions réelles peuvent varier si le diaporama est configuré pour s'ajuster à son parent"
+
+#: overlays/jssor_gallery.php:71
+msgid "Fill Mode"
+msgstr "Mode de remplissage"
+
+#: overlays/jssor_gallery.php:73
+msgid "Stretch image to fit slideshow"
+msgstr "Etirer l'image pour s'ajuster au diaporama"
+
+#: overlays/jssor_gallery.php:76
+msgid "Keep image ratio and pull all inside slideshow"
+msgstr "Garder le ratio de l'image et l'étirer a l'interieur du diaporama"
+
+#: overlays/jssor_gallery.php:79
+msgid "Keep image ratio, cover the whole slideshow, part of image may be hidden"
+msgstr "Garder le ration d'image, couvrir tout le diaporama, une partie de l'image peut être cachée"
+
+#: overlays/jssor_gallery.php:84
+msgid "Use images actual size"
+msgstr "Utiliser la taille réelle des images"
+
+#: overlays/jssor_gallery.php:87
+msgid "Contain big images, actual size for smaller ones"
+msgstr "Contenir les grandes images, afficher les petites dans leur taille réélle"
+
+#: overlays/jssor_gallery.php:91
+msgid "Clean"
+msgstr "Nettoyer"
+
+#: overlays/jssor_gallery.php:93
+msgid "Remove images in description"
+msgstr "Retirer les image de la description"
 
 #: overlays/livestream_meeting.php:81
 msgid "Livestream channel"
@@ -2240,9 +2284,6 @@ msgstr "Page d'accueil"
 
 #~ msgid "Back to main page"
 #~ msgstr "Retour à la page principale"
-
-#~ msgid "Petition description"
-#~ msgstr "Description de la pétition"
 
 #~ msgid "%d signature"
 

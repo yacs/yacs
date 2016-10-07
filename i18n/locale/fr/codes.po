@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yacs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-06 11:11+0200\n"
+"POT-Creation-Date: 2016-10-07 15:23+0200\n"
 "PO-Revision-Date: 2015-07-17 18:03+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Alexis Raimbault, Bernard Paques\n"
@@ -513,42 +513,42 @@ msgstr "Jouer dans une fenêtre séparée"
 msgid "Browse this map with Freemind"
 msgstr "Charger cette carte dans Freemind"
 
-#: codes/codes.php:767
+#: codes/codes.php:778
 #, php-format
 msgid "%d named person has followed the link: %s"
 msgid_plural "%d named persons have followed the link: %s"
 msgstr[0] "%d personne identifiée a suivi le lien : %s"
 msgstr[1] "%d personnes identifiées ont suivi le lien : %s"
 
-#: codes/codes.php:770
+#: codes/codes.php:781
 msgid "No authenticated person has used this link yet"
 msgstr "Aucune personne authentifiés n'a encore utilisé ce lien"
 
-#: codes/codes.php:1182
+#: codes/codes.php:1193
 msgid "View this comment"
 msgstr "Voir ce commentaire"
 
-#: codes/codes.php:1205 codes/codes.php:1261
+#: codes/codes.php:1216 codes/codes.php:1272
 msgid "[this file has been deleted]"
 msgstr "[ce fichier à été supprimé]"
 
-#: codes/codes.php:1226 codes/codes.php:1285
+#: codes/codes.php:1237 codes/codes.php:1296
 msgid "[this file has been replaced]"
 msgstr "[ce fichier à été remplacé]"
 
-#: codes/codes.php:1993
+#: codes/codes.php:2004
 #, php-format
 msgid "redirection to unknown reference : %s"
 msgstr "redirection vers une référence inconnue : %s"
 
-#: codes/codes.php:2225
+#: codes/codes.php:2236
 #, php-format
 msgid "%d active now"
 msgid_plural "%d active now"
 msgstr[0] "%d actif maintenant"
 msgstr[1] "%d actifs maintenant"
 
-#: codes/codes.php:2297
+#: codes/codes.php:2308
 #, php-format
 msgid ""
 "ERROR: Impossible to write to the file %s. The configuration has not been "

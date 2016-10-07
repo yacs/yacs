@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-06 11:11+0200\n"
-"PO-Revision-Date: 2016-06-06 13:40+0100\n"
+"POT-Creation-Date: 2016-10-07 15:23+0200\n"
+"PO-Revision-Date: 2016-10-07 15:25+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
 "Language: en_GB\n"
@@ -1053,9 +1053,53 @@ msgstr "Display navigation arrows while hovering"
 msgid "Autoplay slideshow at page loading"
 msgstr "Autoplay slideshow at page loading"
 
+#: overlays/jssor_gallery.php:57
+msgid "Display options"
+msgstr "Display options"
+
 #: overlays/jssor_gallery.php:59
 msgid "Fit slideshow's width to its parent"
 msgstr "Fit slideshow's width to its parent"
+
+#: overlays/jssor_gallery.php:63
+msgid "Ratio"
+msgstr "Ratio"
+
+#: overlays/jssor_gallery.php:66
+msgid "actual dimmension may change if slideshow is to fit its parent"
+msgstr "actual dimmension may change if slideshow is to fit its parent"
+
+#: overlays/jssor_gallery.php:71
+msgid "Fill Mode"
+msgstr "Fill Mode"
+
+#: overlays/jssor_gallery.php:73
+msgid "Stretch image to fit slideshow"
+msgstr "Stretch image to fit slideshow"
+
+#: overlays/jssor_gallery.php:76
+msgid "Keep image ratio and pull all inside slideshow"
+msgstr "Keep image ratio and pull all inside slideshow"
+
+#: overlays/jssor_gallery.php:79
+msgid "Keep image ratio, cover the whole slideshow, part of image may be hidden"
+msgstr "Keep image ratio, cover the whole slideshow, part of image may be hidden"
+
+#: overlays/jssor_gallery.php:84
+msgid "Use images actual size"
+msgstr "Use images actual size"
+
+#: overlays/jssor_gallery.php:87
+msgid "Contain big images, actual size for smaller ones"
+msgstr "Contain big images, actual size for smaller ones"
+
+#: overlays/jssor_gallery.php:91
+msgid "Clean"
+msgstr "Clean"
+
+#: overlays/jssor_gallery.php:93
+msgid "Remove images in description"
+msgstr "Remove images in description"
 
 #: overlays/livestream_meeting.php:81
 msgid "Livestream channel"
@@ -2248,9 +2292,6 @@ msgstr "Front page"
 
 #~ msgid "Back to main page"
 #~ msgstr "Back to main page"
-
-#~ msgid "Petition description"
-#~ msgstr "Petition description"
 
 #~ msgid "%d signature"
 
