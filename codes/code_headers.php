@@ -155,7 +155,7 @@ Class code_headers extends Code {
                                    $text .= '<li>'.$link.'</li>'."\n";
                            $text .= '</ul>'."\n";
 
-                           $output =& Skin::build_box('', $text, 'toq');
+                           $output = Skin::build_box('', $text, 'toq');
 
                    }
 

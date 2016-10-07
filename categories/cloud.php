@@ -32,11 +32,11 @@ if(!$text = Cache::get($cache_id)) {
 
 	// we have an array to format
 	if(is_array($text))
-		$text =& Skin::build_list($text, '2-columns');
+		$text = Skin::build_list($text, '2-columns');
 
 	// make a box
 	if($text)
-		$text =& Skin::build_box('', $text, 'header1', 'categories');
+		$text = Skin::build_box('', $text, 'header1', 'categories');
 
 	// cache this to speed subsequent queries
 	Cache::put($cache_id, $text, 'categories');

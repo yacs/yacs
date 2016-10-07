@@ -1075,7 +1075,7 @@ Class Codes {
 				$url = Articles::get_permalink($item);
 
 				// return a complete anchor
-				$output =& Skin::build_link($url, $text, 'article');
+				$output = Skin::build_link($url, $text, 'article');
 
 				// the introduction text, if any
 				$output .= BR.Codes::beautify($item['introduction']);
@@ -1196,7 +1196,7 @@ Class Codes {
 				$url = $context['url_to_home'].$context['url_to_root'].Comments::get_url($item['id']);
 
 				// return a complete anchor
-				$output =& Skin::build_link($url, $text, 'basic');
+				$output = Skin::build_link($url, $text, 'basic');
 			}
 
 			return $output;
@@ -1542,7 +1542,7 @@ Class Codes {
 				$url = Articles::get_permalink($item);
 
 				// return a complete anchor
-				$output =& Skin::build_link($url, $text, 'next');
+				$output = Skin::build_link($url, $text, 'next');
 			}
 
 			return $output;
@@ -1570,7 +1570,7 @@ Class Codes {
 				$url = Articles::get_permalink($item);
 
 				// return a complete anchor
-				$output =& Skin::build_link($url, $text, 'previous');
+				$output = Skin::build_link($url, $text, 'previous');
 			}
 
 			return $output;
@@ -1941,7 +1941,7 @@ Class Codes {
 				$link = Articles::get_permalink($item);
 				if(!$label)
 					$label = Skin::strip($item['title']);
-				$text =& Skin::build_link($link, $label, 'article');
+				$text = Skin::build_link($link, $label, 'article');
 
 				if($layout == 'description') {
 
@@ -2237,7 +2237,7 @@ Class Codes {
 
 		// we have an array to format
 		if(is_array($text))
-			$text =& Skin::build_list($text, 'compact');
+			$text = Skin::build_list($text, 'compact');
 
 		// job done
 		return $text;

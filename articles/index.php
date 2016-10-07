@@ -102,7 +102,7 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 
 			// we have an array to format
 			if(is_array($text))
-				$text =& Skin::build_list($text, 'decorated');
+				$text = Skin::build_list($text, 'decorated');
 
 		}
 

@@ -107,7 +107,7 @@ if(($page > 1) && (($page - 1) * CATEGORIES_PER_PAGE > $stats['count'])) {
 
 		// make a box
 		if($text)
-			$text =& Skin::build_box('', $text, 'header1', 'categories');
+			$text = Skin::build_box('', $text, 'header1', 'categories');
 
 		// associates may list specific categories as well
 		if(($page == 1) && Surfer::is_associate()) {

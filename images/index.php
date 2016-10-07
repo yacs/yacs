@@ -97,7 +97,7 @@ if(!Surfer::is_associate()) {
 
 		// we have an array to format
 		if(is_array($text))
-			$text =& Skin::build_list($text, 'rows');
+			$text = Skin::build_list($text, 'rows');
 
 		// cache this to speed subsequent queries
 		Cache::put($cache_id, $text, 'images');
