@@ -71,6 +71,8 @@ class Profiles {
 	 */
 	public static function list_by_hits($offset=0, $count=10) {
 		global $context;
+                
+                $rows  = array();
 
 		// the list of profiles
 		$query = "SELECT * FROM ".SQL::table_name('profiles')." "
