@@ -258,7 +258,7 @@ echo $count.' '.i18n::user('label')."<br />\n";
  * @param String $src - Source of files being moved
  * @param String $dest - Destination of files being moved
  */
-if(!is_callable(rcopy)) {
+if(!is_callable('rcopy')) {
         function rcopy($src, $dest, &$count){
 
             // If source is not a directory stop processing

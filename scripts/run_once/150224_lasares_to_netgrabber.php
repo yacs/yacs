@@ -61,7 +61,7 @@ echo $count.' '.get_local('label')."<br />\n";
  * Delete a file, or a folder and its contents (recursive algorithm)
  *
  */
-if(!is_callable(rmdirr)) {
+if(!is_callable('rmdirr')) {
     function rmdirr($dir) {
         global $context;
 
