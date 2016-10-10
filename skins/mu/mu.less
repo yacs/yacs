@@ -1,0 +1,72 @@
+/**
+* Mu Skin
+*
+* @author : Alexis Raimbault
+* @reference
+* @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+*/
+
+
+///// ensure we fit to screen height
+body {
+    min-height: 100vh;
+}
+
+///// put footer at the bottom
+#wrapper {
+    flex : 1 1 auto; /* flex-grow becomes 1*/
+}
+
+body {
+    display : flex;
+    flex-direction: column;
+}
+
+//// 3 columns
+#wrapper {
+    display: flex;
+}
+
+#navigation_panel, #extra_panel {
+    width : 10em;
+}
+
+// strech middle col
+#content_panel {
+    flex : 1;
+}
+
+// put nav first
+#navigation_panel {
+    order : -1;
+}
+
+///// responsive rules
+@media (max-width : 640px) {
+    #wrapper {
+        flex-direction: column;
+    }
+    #navigation_panel, #extra_panel {
+        width : auto;
+    }
+    #content_panel {
+        flex-basis: 0;
+    }
+    #navigation_panel {
+        order : 1;
+    }
+    
+}
+
+//// just some graphic helpers
+
+#header_panel,
+#content_panel,
+#navigation_panel,
+#extra_panel,
+#footer_panel {
+    border: 2px dotted darkslategrey;
+    margin : 2px;
+}
+
+body {background : url('preview.jpg') center center no-repeat;}
