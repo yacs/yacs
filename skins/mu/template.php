@@ -7,6 +7,9 @@
  * header, footer and 3 columns
  * Uses FlexBox model
  * 
+ * Uses some knacss class helpers
+ * @see http://knacss.com/KNACSS-cheatsheet.pdf
+ * 
  * /!\ Yacs Netgrabber alpha 3 or upper required /!\
  * 
  * @author Alexis Raimbault
@@ -48,6 +51,7 @@ echo '</head>'."\n";
 // start the body
 Page::body();
 
+// header panel, give padding with knacss class helper
 echo '<header id="header_panel" class="k-pas">'."\n";
 
 // the site name -- can be replaced, through CSS, by an image -- access key 1
@@ -67,8 +71,10 @@ if($context['skin_variant'] != 'home')
 
 echo '</header>'."\n";
 
+// 3 columns container
 echo '<main id="wrapper">'."\n";
 
+// first column, main content
 echo '<section id="content_panel" role="main" class="k-pam">'."\n";
 
     // display main content (@see pages configuration in control panel)
@@ -76,6 +82,7 @@ echo '<section id="content_panel" role="main" class="k-pam">'."\n";
 
 echo '</section>'."\n";
 
+// navigation column
 echo '<nav id="navigation_panel" class="k-pas">'."\n";
 
     // display navigation components (@see pages configuration in control panel)
@@ -83,6 +90,7 @@ echo '<nav id="navigation_panel" class="k-pas">'."\n";
 
 echo '</nav>'."\n";
 
+// extra column
 echo '<aside id="extra_panel" class="k-pas">'."\n";
 
     // display extra components (@see pages configuration in control panel)
@@ -92,6 +100,7 @@ echo '</aside>'."\n";
 
 echo '</main>'."\n";
 
+// footer panel
 echo '<footer id="footer_panel" class="k-pas">'."\n";
 
     Page::footer();
