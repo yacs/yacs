@@ -1450,7 +1450,7 @@ if(!isset($item['id'])) {
 
 		// we have an array to format
 		if(count($items))
-			$items =& Skin::build_list($items, 'compact');
+			$items = Skin::build_list($items, 'compact');
 
 		// displayed as another box
 		if($items)
