@@ -65,7 +65,7 @@ elseif(!Surfer::is_associate()) {
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // it is not allowed to rewrite one reference template
-} elseif(isset($_REQUEST['directory']) && preg_match('/^(boxesandarrows|digital|images|joi|skeleton)$/', $_REQUEST['directory'])) {
+} elseif(isset($_REQUEST['directory']) && preg_match('/^(mu|starterfive)$/', $_REQUEST['directory'])) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 

@@ -5,7 +5,7 @@
  *
  * This class is an extension of the generic Skin_skeleton implementation ([script]skins/skin_skeleton.php[/script]).
  *
- * Combined with the template ([script]skins/digital/template.php[/script]), and with related CSS and image files, it
+ * Combined with the template, and with related CSS and image files, it
  * contributes to the specific atmosphere of this skin.
  *
  * @author Bernard Paques

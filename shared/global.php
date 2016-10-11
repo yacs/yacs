@@ -812,8 +812,8 @@ if(file_exists($context['path_to_root'].'parameters/switch.off') && !Surfer::is_
 //
 
 // start with a default skin
-if(!isset($context['skin']) && is_dir($context['path_to_root'].'skins/digital'))
-	$context['skin'] = 'skins/digital';
+if(!isset($context['skin']) && is_dir($context['path_to_root'].'skins/starterfive'))
+	$context['skin'] = 'skins/starterfive';
 
 // load the layout interface, if we have access to some data
 if(!defined('NO_MODEL_PRELOAD'))
