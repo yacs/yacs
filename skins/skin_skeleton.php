@@ -855,8 +855,8 @@ Class Skin_Skeleton {
 		// in a calendar
 		if($variant == 'calendar') {
 			include_once $context['path_to_root'].'dates/dates.php';
-			$month_link =& Skin::build_link(Dates::get_url($items['year'].'/'.$items['mon'], 'month'), $months[$items['mon']], 'basic', i18n::s('Calendar of this month'));
-			$year_link =& Skin::build_link(Dates::get_url($items['year'], 'year'), $items['year'], 'basic', i18n::s('Calendar of this year'));
+			$month_link = Skin::build_link(Dates::get_url($items['year'].'/'.$items['mon'], 'month'), $months[$items['mon']], 'basic', i18n::s('Calendar of this month'));
+			$year_link = Skin::build_link(Dates::get_url($items['year'], 'year'), $items['year'], 'basic', i18n::s('Calendar of this year'));
 			if($language == 'fr')
 				$output .= $items['mday'].' '.$month_link.' '.$year_link;
 			else
