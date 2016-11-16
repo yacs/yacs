@@ -1018,7 +1018,7 @@ Class Skin_Skeleton {
 	 * @param string an optional unique id for this box
 	 * @return the HTML to display
 	 */
-	public static function &build_floating_box($title, &$content, $id='') {
+	public static function build_floating_box($title, &$content, $id='') {
 		global $context;
 
 		// box id, if any
@@ -1026,16 +1026,18 @@ Class Skin_Skeleton {
 			$id = ' id="'.$id.'"';
 
 		// external div boundary
-		$text = '<dl class="floating_box"'.$id.'>'."\n";
+		$text = '<div class="floating_box"'.$id.'>'."\n";
+                
+                // always add a header
+                if($title) {
+                    $text .= '<h3><span>'.$title.'</span></h3>'."\n";
+                }
 
 		// box content --add clear at the end to align images
-		$text .= '<dd>'.$content.'</dd>';
-
-		// always add a header
-		$text .= '<dt><span>'.$title.'</span></dt>'."\n";
+		$text .= '<div>'.$content.'</div>';
 
 		// external div boundary
-		$text .= '</dl>'."\n";
+		$text .= '</div>'."\n";
 
 		// pass by reference
 		return $text;
