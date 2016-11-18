@@ -1254,7 +1254,7 @@ Class Skin_Skeleton {
 	 * @param string level of title to consider
 	 * @return the HTML to display
 	 */
-	public static function &build_header_box($title, &$content, $id='', $variant='header1') {
+	public static function build_header_box($title, &$content, $id='', $variant='header1') {
 		global $context;
 
 		// this box has a unique id
