@@ -290,7 +290,7 @@ Class Layout_as_titles extends Layout_interface {
 				$icon = MAP_IMG;
 
 			// use tipsy on hover
-			$content = '<a href="'.$url.'" id="titles_'.$item['id'].'">'.$icon.BR.$prefix.$title.'</a>';
+			$content = '<a href="'.$url.'" id="titles_'.$item['id'].'">'.$icon.tag::_('span',tag::_class('/t-text'),$prefix.$title).'</a>';
 			
                         if(count($details)) {
                             Page::insert_script(
