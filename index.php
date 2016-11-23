@@ -404,9 +404,9 @@ if(is_array($items)) {
 
 	// make a string out of the array
 	if(isset($context['root_articles_layout']) && ($context['root_articles_layout'] == 'compact'))
-		$items =& Skin::build_list($items, 'compact');
+		$items = Skin::build_list($items, 'compact');
 	else
-		$items =& Skin::build_list($items, 'decorated');
+		$items = Skin::build_list($items, 'decorated');
 
 	// add a title in case of complex page
 	$title = '';
