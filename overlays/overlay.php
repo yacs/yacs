@@ -677,9 +677,14 @@ class Overlay {
 		// bind this to current page
 		if(isset($data['id']))
 			$attributes['id'] = $data['id'];
+                
+                $type = $attributes['overlay_type'];
+                if(isset($attributes['overlay_parameters'])) {
+                    $type .= ' '.$attributes['overlay_parameters'];
+                }
 
 		// use one particular overlay instance
-		$overlay = Overlay::bind($attributes['overlay_type']);
+		$overlay = Overlay::bind($type);
 		if(is_object($overlay)) {
 			$overlay->attributes = $attributes;
 
