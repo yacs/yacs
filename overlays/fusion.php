@@ -140,11 +140,15 @@ Class Fusion extends Overlay {
         
         /**
          * Core function to load merged overlays.
-         * To be called once per instance
+         * Reset also the pointer to array of overlays
+         * 
          * 
          * @return null
          */
         private function fusion_load_overlays() {
+            
+            // reset array pointer before any parsing
+            reset($this->merged);
             
             // stop if already done before
             if($this->loaded) return;
