@@ -842,10 +842,30 @@ class Overlay {
 
 		// store this permanently
 		if(is_object($this->anchor)) {
-			$fields = array();
-			$fields['overlay'] = $this->save();
-			$fields['overlay_id'] = $this->get_id();
-			return $this->anchor->set_values($fields);
+                    
+                    // uncompress current data
+                    $data = Safe::unserialize($this->anchor->item['overlay']);
+
+                    // this overlay type is ?
+                    $mytype = $this->get_type();
+
+                    // check if anchor is not overlaid with a fusion
+                    // @see overlays/fusion.php
+                    if($data['overlay_type'] != $mytype && isset($data[$mytype]) && is_array($data[$mytype])) {
+
+                        $data[$mytype] = array_merge($data[$mytype], $fields);
+                    } else {
+                        // standard case
+                        $data = array_merge($data, $fields);
+                    }    
+
+                    // recompress data
+                    utf8::to_unicode($data);
+                    $data = serialize($data);
+
+                    $fields = array();
+                    $fields['overlay'] = $data;
+                    return $this->anchor->set_values($fields);
 		}
 
 	}
