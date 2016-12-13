@@ -482,7 +482,7 @@ if(!$text = Cache::get($cache_id)) {
 
 			// render html
 			if(is_array($items))
-				$items =& Skin::build_list($items, 'news');
+				$items = Skin::build_list($items, 'news');
 
 			// we do have something to display
 			if($items) {
