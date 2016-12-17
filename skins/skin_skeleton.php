@@ -1493,7 +1493,7 @@ Class Skin_Skeleton {
 	 * @return the HTML to display
 	 *
 	 */
-	public static function &build_input_time($name, $value, $type, $onchange=NULL) {
+	public static function build_input_time($name, $value, $type, $onchange=NULL) {
 		global $context;
 
 		// some javascript to call on change
@@ -1562,21 +1562,6 @@ Class Skin_Skeleton {
 
 			return $text;
 
-		case 'day_month_year':
-
-			// do not display 0s on screen
-			if($value <= '0000-00-00 00:00:00')
-				$value = '';
-
-			// date stamps are handled in regular text fields
-			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="20" maxlength="255" />'
-				.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\'; javascript:Calendar.setup({inputField:\''.$name.'\',ifFormat:\'%d/%m/%Y \',showsTime:false,timeFormat:\'24\',button:\''.$name.'_trigger\',align:\'CC\',singleClick:true});"  onmouseout="this.style.background=\'\'" alt="" />';
-
-			// load the jscalendar library
-			$context['javascript']['calendar'] = TRUE;
-
-			return $text;
-
 		case 'month_year':
 
 			// do not display 0s on screen
@@ -1599,7 +1584,6 @@ Class Skin_Skeleton {
                                     if ((datestr = $(this).val()).length > 0) {
                                         year = datestr.substring(0, 4);
                                         month = parseInt(datestr.substring(5));
-                                        console.log(year + " " + month);
                                         $(this).datepicker("option", "defaultDate", new Date(year, month-1, 1));
                                     }
                                 },'

@@ -1398,25 +1398,7 @@ function render_skin($with_last_modified=TRUE) {
 	if(isset($context['javascript']['opentok']))
 		Page::load_script('http://static.opentok.com/v0.91/js/TB.min.js');
 
-	// activate jsCalendar, if required
-	if(isset($context['javascript']['calendar'])) {
-
-		// load the skin
-		Page::load_style('included/jscalendar/skins/aqua/theme.css');
-		Page::load_style('included/jscalendar/calendar-system.css');
-
-		// use the compressed version if it's available
-		Page::defer_script('included/jscalendar/calendar.min.js');
-
-		if(file_exists($context['path_to_root'].'included/jscalendar/lang/calendar-'.strtolower($context['language']).'.js'))
-		    Page::defer_script('included/jscalendar/lang/calendar-'.strtolower($context['language']).'.js');
-		else
-		    Page::defer_script ('included/jscalendar/lang/calendar-en.js');
-
-		Page::defer_script('included/jscalendar/calendar-setup.min.js');
-
-	}
-        
+	// activate timepicker, if required
         if(isset($context['javascript']['timepicker'])) {
 
                 
