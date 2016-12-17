@@ -3094,16 +3094,24 @@ Class Sections {
 			$query[] = "description='".SQL::escape($fields['description'])."'";
 		if(isset($fields['extra']))
 			$query[] = "extra='".SQL::escape($fields['extra'])."'";
-        if(isset($fields['file_overlay']) )
+                if(isset($fields['family']))
+			$query[] = "family='".SQL::escape($fields['family'])."'";
+                if(isset($fields['file_overlay']) )
 			$query[] = "file_overlay='".SQL::escape($fields['file_overlay'])."'";
 		if(isset($fields['handle']) && $fields['handle'])
 			$query[] = "handle='".SQL::escape($fields['handle'])."'";
+                if(isset($fields['hits']))
+			$query[] = "hits='".SQL::escape($fields['hits'])."'";
 		if(isset($fields['icon_url']))
 			$query[] = "icon_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['icon_url']))."'";
 		if(isset($fields['home_panel']))
 			$query[] = "home_panel='".SQL::escape($fields['home_panel'])."'";
                 if(isset($fields['index_map']))
 			$query[] = "index_map='".SQL::escape($fields['index_map'])."'";
+                if(isset($fields['index_news']))
+			$query[] = "index_news='".SQL::escape($fields['index_news'])."'";
+                if(isset($fields['index_news_count']))
+			$query[] = "index_news_count='".SQL::escape($fields['index_news_count'])."'";
 		if(isset($fields['introduction']))
 			$query[] = "introduction='".SQL::escape($fields['introduction'])."'";
                 if(isset($fields['index_title']))
@@ -3130,6 +3138,8 @@ Class Sections {
 			$query[] = "prefix='".SQL::escape($fields['prefix'])."'";
 		if(isset($fields['rank']))
 			$query[] = "rank='".SQL::escape($fields['rank'])."'";
+                if(isset($fields['sections_overlay']))
+			$query[] = "sections_overlay='".SQL::escape($fields['sections_overlay'])."'";
 		if(isset($fields['sections_layout']))
 			$query[] = "sections_layout='".SQL::escape($fields['sections_layout'])."'";
 		if(isset($fields['suffix']) && Surfer::is_associate())
@@ -3356,10 +3366,10 @@ Class Sections {
 		$fields['expiry_date']	= "DATETIME";
 		$fields['extra']		= "TEXT NOT NULL";
 		$fields['family']		= "VARCHAR(255) DEFAULT '' NOT NULL";
-        $fields['file_overlay']	= "VARCHAR(64) DEFAULT '' NOT NULL";
+                $fields['file_overlay']	= "VARCHAR(64) DEFAULT '' NOT NULL";
 		$fields['handle']		= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
-        $fields['home_panel']	= "VARCHAR(10) DEFAULT 'main' NOT NULL";
+                $fields['home_panel']	= "VARCHAR(10) DEFAULT 'main' NOT NULL";
 		$fields['icon_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['index_map']	= "ENUM('Y', 'N') DEFAULT 'Y' NOT NULL";
 		$fields['index_news']	= "VARCHAR(255) DEFAULT 'static' NOT NULL";
