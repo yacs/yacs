@@ -524,7 +524,7 @@ class Overlay {
 			if(is_callable(array($this,$func)))
 			    $text = $this->$func($host);
 			else {
-			    $text = '';
+			    $text = null;   // reply null, not empty string, to say no function found
 			    Logger::error(sprintf(i18n::s('function %s not found for overlay %s'),$func, get_class($this)));
 			}
 			return $text;

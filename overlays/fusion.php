@@ -373,6 +373,33 @@ Class Fusion extends Overlay {
 	}
         
         /**
+	 * display the content of one overlay
+	 *
+	 * first use standard dispatching
+         * but look also in merged overlay for specific function
+	 *
+	 * @param string the variant code
+	 * @param array the hosting record, if any
+	 * @return some HTML to be inserted into the resulting page
+	 */
+	function &get_text($variant='view', $host=NULL) {
+            
+            // standard behaviour
+            $text = parent::get_text($variant, $host);
+            
+            // try something else if nothing founded
+            if($text === null) {
+                
+                // look for specific function get_<variant>_text
+                $text = $this->fusion_first_reply('get_'.$variant.'_text', array($host));
+                
+            }
+            
+            return $text;
+            
+        }
+        
+        /**
 	 * text to come after page description
 	 *
 	 * concat the rendering from each overlay
