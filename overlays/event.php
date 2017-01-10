@@ -1672,7 +1672,7 @@ class Event extends Overlay {
 					$menu = array();
 
 					// call for action
-					$link = $context['url_to_home'].$context['url_to_root'].$this->anchor->get_url();
+					$link = $this->anchor->get_permalink();
 					$menu[] = Skin::build_mail_button($link, i18n::c('View event details'), TRUE);
 
 					// finalize links
