@@ -644,18 +644,26 @@ if(!isset($item['id'])) {
 				// confirm password
 				if(!isset($item['without_confirmations']) || ($item['without_confirmations'] != 'Y'))
 					$items[] = i18n::s('Confirm every password change.');
+                                else 
+                                        $items[] = i18n::s("Don't confirm every password change.");
 
 				// receive alerts
 				if(!isset($item['without_alerts']) || ($item['without_alerts'] != 'Y'))
 					$items[] = i18n::s('Alert me when my pages are commented.');
+                                else
+                                        $items[] = i18n::s("Don't alert me when my pages are commented.");
 
 				// receive private messages
 				if(!isset($item['without_messages']) || ($item['without_messages'] != 'Y'))
 					$items[] = i18n::s('Allow other members to contact me.');
+                                else
+                                        $items[] = i18n::s("Don't allow other members to contact me.");
 
 				// explicit newsletter subscription
 				if(!isset($item['id']) || !isset($item['with_newsletters']) || ($item['with_newsletters'] == 'Y'))
 					$items[] = i18n::s('Send me periodical newsletters.');
+                                else
+                                        $items[] = i18n::s("Don't send me periodical newsletters.");
 
 				if(count($items))
 					$box .= '<dl><dt>'.i18n::s('E-mail usage').'</dt><dd>'
