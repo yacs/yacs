@@ -283,7 +283,7 @@ if(Surfer::is_crawler()) {
 			Surfer::add_handle($anchor->get_handle());
 
 			// redirect to target page
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
+			Safe::redirect($anchor->get_url());
 
 		}
 
