@@ -856,7 +856,7 @@ class Overlay {
                         $data[$mytype] = array_merge($data[$mytype], $fields);
                     } else {
                         // standard case
-                        $data = array_merge($data, $fields);
+                        $data = $this->attributes;
                     }    
 
                     // recompress data
