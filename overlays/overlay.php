@@ -113,6 +113,12 @@ class Overlay {
 	 * the parent object
 	 */
 	var $anchor = NULL;
+        
+        /**
+         * flag if merged 
+         * @see overlays/fusion.php
+         */
+        var $is_merged = false;
 
 	/**
 	 * allow or block operations
@@ -831,43 +837,57 @@ class Overlay {
 	 * Use this function to change some attributes of your overlay, and also
 	 * to serialize data into the original container (article, section, etc.)
 	 *
-	 * @param array of ($name => $value) pairs
+	 * @param array of ($name => $value) pairs or string key
+         * @param mixed value (if $fields is a key)
 	 * @return boolean TRUE on success, FALSE otherwise
 	 */
-	function set_values($fields) {
+	function set_values($fields, $value=null) {
 
 		// set attributes in memory
-		foreach($fields as $name => $value)
-			$this->attributes[$name] = $value;
+                if(is_array($fields))
+                    $this->attributes = array_merge($this->attributes, $fields);
+                elseif(is_string($fields) && !is_null($value)) {
+                    $this->attributes[$fields] = $value;
+                } else 
+                    return false; // unrecognized field type
 
 		// store this permanently
 		if(is_object($this->anchor)) {
                     
-                    // uncompress current data
-                    $data = Safe::unserialize($this->anchor->item['overlay']);
-
-                    // this overlay type is ?
-                    $mytype = $this->get_type();
-
-                    // check if anchor is not overlaid with a fusion
-                    // @see overlays/fusion.php
-                    if($data['overlay_type'] != $mytype && isset($data[$mytype]) && is_array($data[$mytype])) {
-
-                        $data[$mytype] = array_merge($data[$mytype], $fields);
+                    
+                    if($this->is_merged) {
+                        // case of merged overlay
+                        // @see overlays/fusion.php
+                        // we store data in compartment
+                        
+                        // get always fresh data from anchor
+                        $this->anchor = Anchors::get($this->anchor->get_reference(), true);
+                        
+                        // uncompress current data
+                        $data = Safe::unserialize($this->anchor->item['overlay']);
+                        
+                        // this overlay type is ?
+                        $mytype = $this->get_type();
+                        
+                        // store changes in our compartment
+                        $data[$mytype] = $this->attributes;
+                        
                     } else {
                         // standard case
                         $data = $this->attributes;
-                    }    
+                    }
 
-                    // recompress data
+                    // compress data
                     utf8::to_unicode($data);
                     $data = serialize($data);
 
+                    // save among anchor data
                     $fields = array();
                     $fields['overlay'] = $data;
                     return $this->anchor->set_values($fields);
 		}
-
+                
+                return false;
 	}
         
         /**

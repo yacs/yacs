@@ -172,6 +172,9 @@ Class Fusion extends Overlay {
                             $overlay->anchor = $this->anchor;
                         }
                         
+                        // active merged flag
+                        $overlay->is_merged = true;
+                        
                         // store the instance
                         $this->merged[] = $overlay;
 
