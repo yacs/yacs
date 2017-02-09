@@ -76,7 +76,7 @@ if(Articles::is_owned($item, $anchor))
 	$permitted = TRUE;
 
 // help to share public items
-elseif(isset($item['active']) && ($item['active'] == 'Y'))
+elseif(isset($item['active']) && ($item['active'] == 'Y') && Surfer::is_member())
 	$permitted = TRUE;
 
 // the default is to disallow access
