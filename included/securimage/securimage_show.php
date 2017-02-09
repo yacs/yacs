@@ -39,7 +39,7 @@
  * @link http://www.phpcaptcha.org/Securimage_Docs/ Online Documentation
  * @copyright 2013 Drew Phillips
  * @author Drew Phillips <drew@drew-phillips.com>
-  * @version 3.5.1 (June 21, 2013)
+ * @version 3.5.2 (Feb 15, 2014)
  * @package Securimage
  *
  */
@@ -70,6 +70,8 @@ $img = new Securimage();
 
 // see securimage.php for more options that can be set
 
+// set namespace if supplied to script via HTTP GET
+if (!empty($_GET['namespace'])) $img->setNamespace($_GET['namespace']);
 
 
 $img->show();  // outputs the image and content headers to the browser

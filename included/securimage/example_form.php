@@ -1,23 +1,31 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 session_start(); // this MUST be called prior to any output including whitespaces and line breaks!
 
 $GLOBALS['DEBUG_MODE'] = 1;
 // CHANGE TO 0 TO TURN OFF DEBUG MODE
 // IN DEBUG MODE, ONLY THE CAPTCHA CODE IS VALIDATED, AND NO EMAIL IS SENT
 
-$GLOBALS['ct_recipient']   = 'YOU@EXAMPLE.COM'; // Change to your email address!
+$GLOBALS['ct_recipient']   = 'YOU@EXAMPLE.COM'; // Change to your email address!  Make sure DEBUG_MODE above is 0 for mail to send!
 $GLOBALS['ct_msg_subject'] = 'Securimage Test Contact Form';
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+  <meta charset="utf-8">
+  <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
   <title>Securimage Example Form</title>
+  <link rel="stylesheet" href="securimage.css" media="screen">
   <style type="text/css">
   <!--
-  .error { color: #f00; font-weight: bold; font-size: 1.2em; }
+  div.error { display: block; color: #f00; font-weight: bold; font-size: 1.2em; }
+  span.error { display: block; color: #f00; font-style: italic; }
   .success { color: #00f; font-weight: bold; font-size: 1.2em; }
+  form label { display: block; font-weight: bold; }
   fieldset { width: 90%; }
   legend { font-size: 24px; }
   .note { font-size: 18px;
@@ -39,49 +47,80 @@ $GLOBALS['ct_msg_subject'] = 'Securimage Test Contact Form';
 process_si_contact_form(); // Process the form, if it was submitted
 
 if (isset($_SESSION['ctform']['error']) &&  $_SESSION['ctform']['error'] == true): /* The last form submission had 1 or more errors */ ?>
-<span class="error">There was a problem with your submission.  Errors are displayed below in red.</span><br /><br />
+<div class="error">There was a problem with your submission.  Errors are displayed below in red.</div><br>
 <?php elseif (isset($_SESSION['ctform']['success']) && $_SESSION['ctform']['success'] == true): /* form was processed successfully */ ?>
-<span class="success">The captcha was correct and the message has been sent!</span><br /><br />
+<div class="success">The captcha was correct and the message has been sent!  The captcha was solved in <?php echo $_SESSION['ctform']['timetosolve'] ?> seconds.</div><br />
 <?php endif; ?>
 
 <form method="post" action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI'] . $_SERVER['QUERY_STRING']) ?>" id="contact_form">
-  <input type="hidden" name="do" value="contact" />
+  <input type="hidden" name="do" value="contact">
 
   <p>
-    <strong>Name*:</strong>&nbsp; &nbsp;<?php echo @$_SESSION['ctform']['name_error'] ?><br />
-    <input type="text" name="ct_name" size="35" value="<?php echo htmlspecialchars(@$_SESSION['ctform']['ct_name']) ?>" />
+    <label for="ct_name">Name*:</label>
+    <?php echo @$_SESSION['ctform']['name_error'] ?>
+    <input type="text" id="ct_name" name="ct_name" size="35" value="<?php echo htmlspecialchars(@$_SESSION['ctform']['ct_name']) ?>">
   </p>
 
   <p>
-    <strong>Email*:</strong>&nbsp; &nbsp;<?php echo @$_SESSION['ctform']['email_error'] ?><br />
-    <input type="text" name="ct_email" size="35" value="<?php echo htmlspecialchars(@$_SESSION['ctform']['ct_email']) ?>" />
+    <label for="ct_email">Email*:</label>
+    <?php echo @$_SESSION['ctform']['email_error'] ?>
+    <input type="text" id="ct_email" name="ct_email" size="35" value="<?php echo htmlspecialchars(@$_SESSION['ctform']['ct_email']) ?>">
   </p>
 
   <p>
-    <strong>URL:</strong>&nbsp; &nbsp;<?php echo @$_SESSION['ctform']['URL_error'] ?><br />
-    <input type="text" name="ct_URL" size="35" value="<?php echo htmlspecialchars(@$_SESSION['ctform']['ct_URL']) ?>" />
+    <label for="ct_URL">URL:</label>
+    <?php echo @$_SESSION['ctform']['URL_error'] ?>
+    <input type="text" id="ct_URL" name="ct_URL" size="35" value="<?php echo htmlspecialchars(@$_SESSION['ctform']['ct_URL']) ?>">
   </p>
 
   <p>
-    <strong>Message*:</strong>&nbsp; &nbsp;<?php echo @$_SESSION['ctform']['message_error'] ?><br />
-    <textarea name="ct_message" rows="12" cols="60"><?php echo htmlspecialchars(@$_SESSION['ctform']['ct_message']) ?></textarea>
+    <label for="ct_message">Message*:</label>
+    <?php echo @$_SESSION['ctform']['message_error'] ?>
+    <textarea id="ct_message" name="ct_message" rows="12" cols="60"><?php echo htmlspecialchars(@$_SESSION['ctform']['ct_message']) ?></textarea>
   </p>
 
-  <p>
-    <img id="siimage" style="border: 1px solid #000; margin-right: 15px" src="./securimage_show.php?sid=<?php echo md5(uniqid()) ?>" alt="CAPTCHA Image" align="left" />
-    <object type="application/x-shockwave-flash" data="./securimage_play.swf?bgcol=#ffffff&amp;icon_file=./images/audio_icon.png&amp;audio_file=./securimage_play.php" height="32" width="32">
-    <param name="movie" value="./securimage_play.swf?bgcol=#ffffff&amp;icon_file=./images/audio_icon.png&amp;audio_file=./securimage_play.php" />
-    </object>
-    &nbsp;
-    <a tabindex="-1" style="border-style: none;" href="#" title="Refresh Image" onclick="document.getElementById('siimage').src = './securimage_show.php?sid=' + Math.random(); this.blur(); return false"><img src="./images/refresh.png" alt="Reload Image" height="32" width="32" onclick="this.blur()" align="bottom" border="0" /></a><br />
-    <strong>Enter Code*:</strong><br />
-     <?php echo @$_SESSION['ctform']['captcha_error'] ?>
-    <input type="text" name="ct_captcha" size="12" maxlength="16" />
-  </p>
+  <div>
+    <?php
+      // show captcha HTML using Securimage::getCaptchaHtml()
+      require_once 'securimage.php';
+      $options = array();
+      $options['input_name']             = 'ct_captcha'; // change name of input element for form post
+      $options['disable_flash_fallback'] = false; // allow flash fallback
+
+      if (!empty($_SESSION['ctform']['captcha_error'])) {
+        // error html to show in captcha output
+        $options['error_html'] = $_SESSION['ctform']['captcha_error'];
+      }
+
+      echo "<div id='captcha_container_1'>\n";
+      echo Securimage::getCaptchaHtml($options);
+      echo "\n</div>\n";
+
+      /*
+      // To render some or all captcha components individually
+      $options['input_name'] = 'ct_captcha_2';
+      $options['image_id']   = 'ct_captcha_2';
+      $options['input_id']   = 'ct_captcha_2';
+      $options['namespace']  = 'captcha2';
+
+      echo "<br>\n<div id='captcha_container_2'>\n";
+      echo Securimage::getCaptchaHtml($options, Securimage::HTML_IMG);
+
+      echo Securimage::getCaptchaHtml($options, Securimage::HTML_ICON_REFRESH);
+      echo Securimage::getCaptchaHtml($options, Securimage::HTML_AUDIO);
+
+      echo '<div style="clear: both"></div>';
+
+      echo Securimage::getCaptchaHtml($options, Securimage::HTML_INPUT_LABEL);
+      echo Securimage::getCaptchaHtml($options, Securimage::HTML_INPUT);
+      echo "\n</div>";
+      */
+    ?>
+  </div>
 
   <p>
-    <br />
-    <input type="submit" value="Submit Message" />
+    <br>
+    <input type="submit" value="Submit Message">
   </p>
 
 </form>
@@ -128,14 +167,14 @@ function process_si_contact_form()
       if (strlen($email) == 0) {
         // no email address given
         $errors['email_error'] = 'Email address is required';
-      } else if ( !preg_match('/^(?:[\w\d]+\.?)+@(?:(?:[\w\d]\-?)+\.)+\w{2,4}$/i', $email)) {
+      } else if ( !preg_match('/^(?:[\w\d-]+\.?)+@(?:(?:[\w\d]\-?)+\.)+\w{2,63}$/i', $email)) {
         // invalid email format
         $errors['email_error'] = 'Email address entered is invalid';
       }
 
       if (strlen($message) < 20) {
         // message length too short
-        $errors['message_error'] = 'Please enter a message';
+        $errors['message_error'] = 'Your message must be longer than 20 characters';
       }
     }
 
@@ -154,22 +193,23 @@ function process_si_contact_form()
       // no errors, send the form
       $time       = date('r');
       $message = "A message was submitted from the contact form.  The following information was provided.<br /><br />"
-                    . "Name: $name<br />"
-                    . "Email: $email<br />"
-                    . "URL: $URL<br />"
-                    . "Message:<br />"
+                    . "<em>Name: $name</em><br />"
+                    . "<em>Email: $email</em><br />"
+                    . "<em>URL: $URL</em><br />"
+                    . "<em>Message:</em><br />"
                     . "<pre>$message</pre>"
-                    . "<br /><br />IP Address: {$_SERVER['REMOTE_ADDR']}<br />"
-                    . "Time: $time<br />"
-                    . "Browser: {$_SERVER['HTTP_USER_AGENT']}<br />";
+                    . "<br /><br /><em>IP Address:</em> {$_SERVER['REMOTE_ADDR']}<br />"
+                    . "<em>Time:</em> $time<br />"
+                    . "<em>Browser:</em> {$_SERVER['HTTP_USER_AGENT']}<br />";
 
       $message = wordwrap($message, 70);
 
       if (isset($GLOBALS['DEBUG_MODE']) && $GLOBALS['DEBUG_MODE'] == false) {
       	// send the message with mail()
-        mail($GLOBALS['ct_recipient'], $GLOBALS['ct_msg_subject'], $message, "From: {$GLOBALS['ct_recipient']}\r\nReply-To: {$email}\r\nContent-type: text/html; charset=ISO-8859-1\r\nMIME-Version: 1.0");
+        mail($GLOBALS['ct_recipient'], $GLOBALS['ct_msg_subject'], $message, "From: {$GLOBALS['ct_recipient']}\r\nReply-To: {$email}\r\nContent-type: text/html; charset=UTF-8\r\nMIME-Version: 1.0");
       }
 
+      $_SESSION['ctform']['timetosolve'] = $securimage->getTimeToSolve();
       $_SESSION['ctform']['error'] = false;  // no error with form
       $_SESSION['ctform']['success'] = true; // message sent
     } else {
@@ -181,7 +221,7 @@ function process_si_contact_form()
 
       foreach($errors as $key => $error) {
       	// set up error messages to display with each field
-        $_SESSION['ctform'][$key] = "<span style=\"font-weight: bold; color: #f00\">$error</span>";
+        $_SESSION['ctform'][$key] = "<span class=\"error\">$error</span>";
       }
 
       $_SESSION['ctform']['error'] = true; // set error floag
