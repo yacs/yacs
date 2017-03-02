@@ -97,15 +97,15 @@ Class Js_Css {
         
         // check constant NO_KNACSS and NO_YACSS (may be define by skin.php of a skin)
         // check lib existance and last modification date at the same time
-        $knacss        = (defined('NO_KNACSS') && NO_KNACSS == true)? false : Safe::filemtime($context['path_to_root'].'included/knacss/knacss.less');
-        $yacss         = (defined('NO_YACSS') && NO_YACSS == true)? false : Safe::filemtime($context['path_to_root'].'skins/_reference/yacss.less');
+        $knacss        = (defined('NO_KNACSS') && NO_KNACSS == true)? false : Safe::filemtime($context['path_to_root'].'included/knacss/knacss.scss');
+        $yacss         = (defined('NO_YACSS') && NO_YACSS == true)? false : Safe::filemtime($context['path_to_root'].'skins/_reference/yacss.scss');
         // font awesome lib for a whole set of icons as a webfont
-        $fontawesome   = (defined('NO_FONTAWESOME') && NO_FONTAWESOME == true)? false : Safe::filemtime($context['path_to_root'].'included/font_awesome/less/font-awesome.less');
+        $fontawesome   = (defined('NO_FONTAWESOME') && NO_FONTAWESOME == true)? false : Safe::filemtime($context['path_to_root'].'included/font_awesome/scss/font-awesome.scss');
         
         
         // check existence of <skin>.less or <skin>.css
         // less version is priority
-        $skinless   = Safe::filemtime($context['path_to_root'].$context['skin'].'/'.$skin.'.less');
+        $skinless   = Safe::filemtime($context['path_to_root'].$context['skin'].'/'.$skin.'.scss');
         $skincss    = Safe::filemtime($context['path_to_root'].$context['skin'].'/'.$skin.'.css');
         $skinstyle  = ($skinless)?$skinless:$skincss;
         
@@ -121,26 +121,26 @@ Class Js_Css {
         
         if($need_compile) {
             
-            // load lessphp
-            $less = js_css::prepare_less_compiler();
+            // load scssphp
+            $scss = js_css::prepare_scss_compiler();
 
             // set import directories
-            $less->setImportDir(
+            $scss->setImportPaths(
                   array(
                       $context['path_to_root'].'included/knacss/', 
                       $context['path_to_root'].'skins/_reference/',
-                      $context['path_to_root'].'included/font_awesome/less', 
+                      $context['path_to_root'].'included/font_awesome/scss', 
                       $context['path_to_root'].$context['skin'].'/',
                       ));
             
             // build import directives
             $import = '';
-            if($knacss)         $import .= '@import "knacss.less";';
-            if($fontawesome)    $import .= '@import "font-awesome.less";';  
-            if($yacss)          $import .= '@import "yacss.less";';
+            if($knacss)         $import .= '@import "knacss.scss";';
+            if($fontawesome)    $import .= '@import "font-awesome.scss";';  
+            if($yacss)          $import .= '@import "yacss.scss";';
  
             if($skinless) {
-                $import   .= '@import "'.$skin.'.less";';
+                $import   .= '@import "'.$skin.'.scss";';
             } elseif($skincss) {
                 // append pure css
                 $import   .= Safe::file_get_contents($context['path_to_root'].$context['skin'].'/'.$skin.'.css');
@@ -148,9 +148,9 @@ Class Js_Css {
 
             // compile into a css file, catch errors
             try {
-                $compilation = $less->compile($import);
+                $compilation = $scss->compile($import);
             } catch (exception $e) {
-                logger::debug("fatal error: " . $e->getMessage(), 'LESS compilation');
+                logger::debug("fatal error: " . $e->getMessage(), 'SCSS compilation');
                 return Js_Css::link_exit(false, $context['skin'].'/'.$skin.'.min.css' , 'now');
             }
             
@@ -166,6 +166,45 @@ Class Js_Css {
         
         // build declaration
         return Js_css::link_file($context['skin'].'/'.$skin.'.min.css','now');
+    }
+    
+    /**
+     * Compile scss file if needed
+     * (if scss file is newer than css file)
+     * 
+     * @param string $inputFile path to scss file
+     * @param string $outputFile path to css file
+     */
+    public static function check_compile($inputFile, $outputFile) {
+    
+        $input_stamp = Safe::filemtime($context['path_to_root'].'$inputFile');
+        $ouput_stamp = Safe::filemtime($context['path_to_root'].'$outputFile');
+        
+        if( $ouput_stamp < $input_stamp ) {
+            
+            // load scssphp
+            $scss       = js_css::prepare_scss_compiler();
+            
+            $to_compile = Safe::file_get_contents($context['path_to_root'].$inputFile);
+            
+            // compile into a css file, catch errors
+            try {
+                $compilation = $scss->compile($to_compile);
+            } catch (exception $e) {
+                logger::debug("fatal error: " . $e->getMessage(), 'SCSS compilation');
+            }
+            
+            // write compiled style in a css file
+            if($compilation) {
+                Safe::file_put_contents($outputFile, $compilation);
+                return true;
+            } else {
+                Safe::unlink($outputFile);
+                return false;
+            }
+        }
+        
+        
     }
 
     /**
@@ -389,11 +428,7 @@ Class Js_Css {
 	    if(!file_exists($realpath)) return Js_Css::link_exit(false, $path, $straitnow);
             
             // this is a LESS file, we may have to compile it
-            if($ext === 'less') {
-                
-              
-                // get a less compiler
-                $less = js_css::prepare_less_compiler();
+            if($ext === 'scss') {
                 
                 // production mode
                 if($context['with_debug']=='N') {
@@ -408,11 +443,9 @@ Class Js_Css {
                 $path   = $path_parts['dirname'].'/'.$path_parts['filename'].$min.'.'.$ext;
                 $output = Safe::realpath($path);
                 
-                // check compilation, catch errors
-                try {
-                    $less->checkedCompile($realpath, $output);
-                } catch (exception $e) {
-                    logger::debug("fatal error: " . $e->getMessage(), 'LESS compilation');
+                // check compilation
+                if (!js_css::check_compile($realpath, $output)) {
+                    
                     return Js_Css::link_exit(false, $path, $straitnow);
                 }
                 
@@ -599,40 +632,40 @@ Class Js_Css {
     }
     
     /**
-     * Common preparation of less compiler
+     * Common preparation of scss compiler
      * used in link_file() and call_skin_css()
      * 
      * @global type $context
-     * @return object the less compiler;
+     * @return object the scss compiler;
      */
-    private static function prepare_less_compiler() {
+     private static function prepare_scss_compiler() {
         global $context;
         
         // include lessphp lib
-        include_once $context['path_to_root'].'included/less/lessc.inc.php';
-        $less = new lessc;
+        include_once $context['path_to_root'].'included/scss/scss.inc.php';
+        $scss = new \Leafo\ScssPhp\Compiler;
         
         // compressed output or not
         if($context['with_debug']=='N') {
             // we create a minified css
-            $less->setFormatter("compressed");
+            $scss->setFormatter("scss_formatter_compressed");
         }
         
         // specific function to provide absolute path of ressources within sheet
         // this will provide root url
         // TODO : improve using static domain if any
-        $less->registerFunction('rPath', function($arg) use($context) {
+        $scss->registerFunction('rPath', function($arg) use($context) {
                 return $context['url_to_master'].$context['url_to_root'];
         });
         
         // define namespaces
-        $less->setVariables(array(
+        $scss->setVariables(array(
             "k-prefix" => KNACSS_PREFIX,
             "y-prefix" => YACSS_PREFIX,
         ));
         
         // return prepared compiler
-        return $less;
+        return $scss;
     }
 
     /**
