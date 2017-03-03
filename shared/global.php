@@ -1375,7 +1375,7 @@ function render_skin($with_last_modified=TRUE) {
 
 	// jquery-ui stylesheet
 	if($whole_rendering)
-	    Page::load_style('included/browser/css/redmond/jquery-ui-1.10.3.custom.min.css');
+	    Page::load_style('included/browser/css/redmond/jquery-ui-1.12.1.custom.min.css');
 
 	// activate jscolor, if available
 	if(isset($context['javascript']['jscolor']))
