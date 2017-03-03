@@ -588,18 +588,18 @@ elseif(!Surfer::is_associate()) {
 	// icons
 	$label = i18n::s('Icons');
 	if(!isset($context['classes_for_icon_images']))
-		$context['classes_for_icon_images'] = 'reflect rheight10';
+		$context['classes_for_icon_images'] = '';
 	$input = i18n::s('CSS classes').'&nbsp;<input type="text" name="classes_for_icon_images" size="15" value="'.encode_field($context['classes_for_icon_images']).'" maxlength="255" />';
 	$fields[] = array($label, $input);
 
 	// profile pictures
 	$label = i18n::s('Profile pictures');
 	if(!isset($context['avatar_width']) || !$context['avatar_width'])
-		$context['avatar_width'] = 80;
+		$context['avatar_width'] = 200;
 	if(!isset($context['avatar_height']) || !$context['avatar_height'])
-		$context['avatar_height'] = 80;
+		$context['avatar_height'] = 200;
 	if(!isset($context['classes_for_avatar_images']))
-		$context['classes_for_avatar_images'] = 'reflect rheight20';
+		$context['classes_for_avatar_images'] = '';
 	$input = sprintf(i18n::s('Maximum of %s pixels width by %s pixels height'),
 		'<input type="text" name="avatar_width" size="5" value="'.encode_field($context['avatar_width']).'" maxlength="5" />',
 		'<input type="text" name="avatar_height" size="5" value="'.encode_field($context['avatar_height']).'" maxlength="5" />')
@@ -609,11 +609,11 @@ elseif(!Surfer::is_associate()) {
 	// large images
 	$label = i18n::s('Large images');
 	if(!isset($context['standard_width']) || !$context['standard_width'])
-		$context['standard_width'] = 640;
+		$context['standard_width'] = 1500;
 	if(!isset($context['standard_height']) || !$context['standard_height'])
-		$context['standard_height'] = 640;
+		$context['standard_height'] = 800;
 	if(!isset($context['classes_for_large_images']))
-		$context['classes_for_large_images'] = 'reflect rheight10';
+		$context['classes_for_large_images'] = '';
 	$input = sprintf(i18n::s('Maximum of %s pixels width by %s pixels height'),
 		'<input type="text" name="standard_width" size="5" value="'.encode_field($context['standard_width']).'" maxlength="5" />',
 		'<input type="text" name="standard_height" size="5" value="'.encode_field($context['standard_height']).'" maxlength="5" />')
@@ -623,9 +623,9 @@ elseif(!Surfer::is_associate()) {
 	// thumbnail images
 	$label = i18n::s('Thumbnail images');
 	if(!isset($context['thumbnail_width']) || !$context['thumbnail_width'])
-		$context['thumbnail_width'] = 60;
+		$context['thumbnail_width'] = 200;
 	if(!isset($context['thumbnail_height']) || !$context['thumbnail_height'])
-		$context['thumbnail_height'] = 60;
+		$context['thumbnail_height'] = 200;
 	if(!isset($context['classes_for_thumbnail_images']))
 		$context['classes_for_thumbnail_images'] = '';
 	if(!isset($context['thumbnail_threshold']) || !$context['thumbnail_threshold'])
