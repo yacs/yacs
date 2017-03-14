@@ -378,6 +378,13 @@ elseif(isset($_SERVER['SCRIPT_URI']))
 elseif(isset($_SERVER['REQUEST_URI'])) // this includes query string
 	$context['self_url'] = $context['url_to_home'].$_SERVER['REQUEST_URI'];
 
+// recombine the self_url (to keep only the essencial)
+$scheme = parse_url($context['self_url'], PHP_URL_SCHEME);
+$host = parse_url($context['self_url'], PHP_URL_HOST);
+$path = parse_url($context['self_url'], PHP_URL_PATH);
+$query = parse_url($context['self_url'], PHP_URL_QUERY);
+
+$context['self_url'] = $scheme.'://'.$host.$path.$query;
 //
 // session cookie
 //
