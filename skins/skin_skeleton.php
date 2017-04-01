@@ -1681,7 +1681,7 @@ Class Skin_Skeleton {
                 
                 if($current == $layout)
                     $input .= ' checked="checked"';
-                $input .= '/> <em>'.$layout.'</em> : '.strtolower(Hooks::layout_description($layout)).BR; // todo : description selon langue
+                $input .= '/> <em>'.$layout.'</em> : '.mb_strtolower(Hooks::layout_description($layout)).BR; // todo : description selon langue
                 
             }
             
