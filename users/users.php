@@ -976,7 +976,7 @@ Class Users {
 
 		// the list of users
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
-			." WHERE (".$where.") AND (users.login_date > NULL_DATE)"
+			." WHERE (".$where.") AND (users.login_date > '".NULL_DATE."')"
 			." ORDER BY users.login_date, users.nick_name LIMIT ".$offset.','.$count;
 
 		$output =& Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
@@ -1038,7 +1038,7 @@ Class Users {
 
 		// the list of users
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
-			." WHERE ".$where." AND (users.post_date > NULL_DATE)"
+			." WHERE ".$where." AND (users.post_date > '".NULL_DATE."')"
 			." ORDER BY users.post_date, users.nick_name LIMIT ".$offset.','.$count;
 
 		$output =& Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
