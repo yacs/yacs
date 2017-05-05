@@ -223,8 +223,8 @@ if(Surfer::is_crawler()) {
 
 	// actual generation
 	if(!defined('FPDF_FONTPATH'))
-		define('FPDF_FONTPATH', $context['path_to_root'].'included/font/');
-	include_once '../included/fpdf.php';
+		define('FPDF_FONTPATH', $context['path_to_root'].'included/fpdf/font/');
+	include_once '../included/fpdf/fpdf.php';
 	include_once '../shared/pdf.php';
 	$pdf = new PDF();
 	$text = $pdf->encode($text);
