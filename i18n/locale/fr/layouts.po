@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-06 14:00+0200\n"
-"PO-Revision-Date: 2016-06-06 14:16+0100\n"
+"POT-Creation-Date: 2017-05-05 08:09+0200\n"
+"PO-Revision-Date: 2017-05-05 08:23+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: none\n"
 "Language: fr\n"
@@ -28,8 +28,8 @@ msgstr "Attention: Aucun script n'existe pour le layout  %s"
 #: layouts/layout_as_accordion/layout_as_accordion.php:108
 #: layouts/layout_as_columns/layout_as_columns.php:118
 #: layouts/layout_as_columns/layout_as_columns.php:132
-#: layouts/layout_as_titles/layout_as_titles.php:123
-#: layouts/layout_as_titles/layout_as_titles.php:137
+#: layouts/layout_as_titles/layout_as_titles.php:133
+#: layouts/layout_as_titles/layout_as_titles.php:147
 #, php-format
 msgid "%d page"
 msgid_plural "%d pages"
@@ -45,7 +45,7 @@ msgstr[1] "%d pages"
 #: layouts/layout_as_newspaper/layout_as_newspaper.php:211
 #: layouts/layout_as_newspaper/layout_as_newspaper.php:314
 #: layouts/layout_as_newspaper/layout_as_newspaper.php:394
-#: layouts/layout_as_titles/layout_as_titles.php:154
+#: layouts/layout_as_titles/layout_as_titles.php:164
 #, php-format
 msgid "%d file"
 msgid_plural "%d files"
@@ -60,7 +60,7 @@ msgstr[1] "%d fichiers"
 #: layouts/layout_as_newspaper/layout_as_newspaper.php:216
 #: layouts/layout_as_newspaper/layout_as_newspaper.php:319
 #: layouts/layout_as_newspaper/layout_as_newspaper.php:399
-#: layouts/layout_as_titles/layout_as_titles.php:149
+#: layouts/layout_as_titles/layout_as_titles.php:159
 #, php-format
 msgid "%d comment"
 msgid_plural "%d comments"
@@ -76,7 +76,7 @@ msgstr[1] "%d commentaires"
 #: layouts/layout_as_newspaper/layout_as_newspaper.php:224
 #: layouts/layout_as_newspaper/layout_as_newspaper.php:327
 #: layouts/layout_as_newspaper/layout_as_newspaper.php:407
-#: layouts/layout_as_titles/layout_as_titles.php:143
+#: layouts/layout_as_titles/layout_as_titles.php:153
 #, php-format
 msgid "%d link"
 msgid_plural "%d links"
@@ -85,7 +85,7 @@ msgstr[1] "%d liens"
 
 #: layouts/layout_as_accordion/layout_as_accordion.php:189
 #: layouts/layout_as_columns/layout_as_columns.php:112
-#: layouts/layout_as_titles/layout_as_titles.php:117
+#: layouts/layout_as_titles/layout_as_titles.php:127
 #, php-format
 msgid "%d section"
 msgid_plural "%d sections"
@@ -114,7 +114,7 @@ msgid "Click to slide"
 msgstr "Cliquer pour glisser"
 
 #: layouts/layout_as_columns/layout_as_columns.php:107
-#: layouts/layout_as_titles/layout_as_titles.php:112
+#: layouts/layout_as_titles/layout_as_titles.php:122
 #, php-format
 msgid "%d category"
 msgid_plural "%d categories"
@@ -122,7 +122,7 @@ msgstr[0] "%d categorie"
 msgstr[1] "%d categories"
 
 #: layouts/layout_as_columns/layout_as_columns.php:124
-#: layouts/layout_as_titles/layout_as_titles.php:129
+#: layouts/layout_as_titles/layout_as_titles.php:139
 #, php-format
 msgid "%d user"
 msgid_plural "%d users"
@@ -132,7 +132,7 @@ msgstr[1] "%d utilisateurs"
 #: layouts/layout_as_columns/layout_as_columns.php:238
 #: layouts/layout_as_newspaper/layout_as_newspaper.php:187
 #: layouts/layout_as_newspaper/layout_as_newspaper.php:290
-#: layouts/layout_as_titles/layout_as_titles.php:235
+#: layouts/layout_as_titles/layout_as_titles.php:245
 msgid "More"
 msgstr "Suite"
 
@@ -144,9 +144,9 @@ msgstr "Suite"
 #: layouts/layout_as_hardboiled/layout_as_hardboiled.php:343
 #: layouts/layout_as_last/layout_as_last.php:97
 #: layouts/layout_as_last/layout_as_last.php:208
-#: layouts/layout_as_titles/layout_as_titles.php:96
-#: layouts/layout_as_titles/layout_as_titles.php:235
+#: layouts/layout_as_titles/layout_as_titles.php:102
 #: layouts/layout_as_titles/layout_as_titles.php:245
+#: layouts/layout_as_titles/layout_as_titles.php:255
 #: layouts/layout_as_yabb/layout_as_yabb.php:114
 msgid "View the page"
 msgstr "Voir la page"
@@ -312,6 +312,14 @@ msgstr "Voir la section"
 #: layouts/layout_as_newspaper/layout_as_newspaper.php:117
 msgid "Previous pages"
 msgstr "Pages précédentes"
+
+#: layouts/layout_as_titles/layout_as_titles.php:293
+msgid "span"
+msgstr "span"
+
+#: layouts/layout_as_titles/layout_as_titles.php:318
+msgid "div"
+msgstr "div"
 
 #: layouts/layout_as_tree_manager/layout_as_tree_manager.php:29
 #, php-format
