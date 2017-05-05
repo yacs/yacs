@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-07 15:29+0200\n"
+"POT-Creation-Date: 2017-05-05 08:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -920,83 +920,83 @@ msgstr ""
 msgid "Page has been edited"
 msgstr ""
 
-#: overlays/jssor_gallery.php:33
+#: overlays/jssor_gallery.php:34
 msgid "Display of main navigation"
 msgstr ""
 
-#: overlays/jssor_gallery.php:35
+#: overlays/jssor_gallery.php:36
 msgid "With bullets"
 msgstr ""
 
-#: overlays/jssor_gallery.php:36
+#: overlays/jssor_gallery.php:37
 msgid "Width thumbnails"
 msgstr ""
 
-#: overlays/jssor_gallery.php:38
+#: overlays/jssor_gallery.php:39
 #, php-format
 msgid ""
 "With bullets, but automatic switch to thumbnails for more than %s images to "
 "show"
 msgstr ""
 
-#: overlays/jssor_gallery.php:39
+#: overlays/jssor_gallery.php:40
 msgid "Do not display it"
 msgstr ""
 
-#: overlays/jssor_gallery.php:46
+#: overlays/jssor_gallery.php:47
 msgid "Display navigation arrows while hovering"
 msgstr ""
 
-#: overlays/jssor_gallery.php:52
+#: overlays/jssor_gallery.php:53
 msgid "Autoplay slideshow at page loading"
 msgstr ""
 
-#: overlays/jssor_gallery.php:57
+#: overlays/jssor_gallery.php:58
 msgid "Display options"
 msgstr ""
 
-#: overlays/jssor_gallery.php:59
+#: overlays/jssor_gallery.php:60
 msgid "Fit slideshow's width to its parent"
 msgstr ""
 
-#: overlays/jssor_gallery.php:63
+#: overlays/jssor_gallery.php:64
 msgid "Ratio"
 msgstr ""
 
-#: overlays/jssor_gallery.php:66
+#: overlays/jssor_gallery.php:67
 msgid "actual dimmension may change if slideshow is to fit its parent"
 msgstr ""
 
-#: overlays/jssor_gallery.php:71
+#: overlays/jssor_gallery.php:72
 msgid "Fill Mode"
 msgstr ""
 
-#: overlays/jssor_gallery.php:73
+#: overlays/jssor_gallery.php:74
 msgid "Stretch image to fit slideshow"
 msgstr ""
 
-#: overlays/jssor_gallery.php:76
+#: overlays/jssor_gallery.php:77
 msgid "Keep image ratio and pull all inside slideshow"
 msgstr ""
 
-#: overlays/jssor_gallery.php:79
+#: overlays/jssor_gallery.php:80
 msgid ""
 "Keep image ratio, cover the whole slideshow, part of image may be hidden"
 msgstr ""
 
-#: overlays/jssor_gallery.php:84
+#: overlays/jssor_gallery.php:85
 msgid "Use images actual size"
 msgstr ""
 
-#: overlays/jssor_gallery.php:87
+#: overlays/jssor_gallery.php:88
 msgid "Contain big images, actual size for smaller ones"
 msgstr ""
 
-#: overlays/jssor_gallery.php:91
+#: overlays/jssor_gallery.php:92
 msgid "Clean"
 msgstr ""
 
-#: overlays/jssor_gallery.php:93
+#: overlays/jssor_gallery.php:94
 msgid "Remove images in description"
 msgstr ""
 
@@ -1070,7 +1070,7 @@ msgstr ""
 msgid "Overlay identifier"
 msgstr ""
 
-#: overlays/overlay.php:528
+#: overlays/overlay.php:534
 #, php-format
 msgid "function %s not found for overlay %s"
 msgstr ""
