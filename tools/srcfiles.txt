@@ -23,7 +23,7 @@ sections    sections/*.php
 servers     servers/*.php
 services    services/*.php
 shared      shared/*.php
-skins       skins/*.php       skins/_reference/avatars/*.php    skins/mu/*.php  skins/flexible/*.php      skins/starterfive/*.php
+skins       skins/*.php       skins/_reference/avatars/*.php	skins/mu/*.php	skins/starterfive/*.php
 smileys     smileys/*.php
 tools       tools/*.php
 tables      tables/*.php
