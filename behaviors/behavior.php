@@ -36,6 +36,21 @@ class Behavior {
 	 * parameters specific to this behavior
 	 */
 	var $parameters;
+        
+        /** 
+	 * class constructor 
+         * 
+         * initialize one behavior instance
+	 *
+	 * This function is invoked by behavior loader to allow for transmission of run-time parameters.
+	 *
+	 * To be overloaded in derived class.
+	 *
+	 * @param string behavior parameter
+	 */
+	function __construct($parameters='') {
+		$this->parameters = $parameters;
+	}
 
 	/**
 	 * extend the page menu
@@ -60,20 +75,4 @@ class Behavior {
 		return TRUE;
 	}
 
-
-	/**
-	 * initialize one behavior instance
-	 *
-	 * This function is invoked by behavior loader to allow for transmission of run-time parameters.
-	 *
-	 * To be overloaded in derived class.
-	 *
-	 * @param string behavior parameter
-	 */
-	function Behavior($parameters='') {
-		$this->parameters = $parameters;
-	}
-
 }
-
-?>
