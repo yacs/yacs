@@ -137,6 +137,7 @@ $copy[] = 'shared/yacs.js';
 $copy[] = 'skins/_reference/yacss.scss';
 $copy[] = 'skins/mu/mu.scss';
 $copy[] = 'tools/srcfiles.txt';
+$copy[] = 'included/browser/library_js_endpage.min.js';
 
 // process every file
 $count = 0;

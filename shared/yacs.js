@@ -2950,7 +2950,7 @@ function pfx(classes) {
         return '';
 
     // single word case
-    var rxp = /(\.|\s)/
+    var rxp = /(\.|\s)/;
     if(classes.search(rxp) === -1) {
   
         classes = yacss_prefix+classes;
