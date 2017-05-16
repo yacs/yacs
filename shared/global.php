@@ -434,7 +434,7 @@ if(!isset($context['url_to_root'])) {
 		$items = @parse_url($context['self_url']);
 		if(preg_match('/(.*?\/yacs.*?\/)/i', $items['path'], $matches))
 			$context['url_to_root'] = $matches[1];
-		elseif(preg_match('/(\/.*?\/)control/i', $items['path'], $matches))
+		elseif(preg_match('/(\/.*?\/?)control/i', $items['path'], $matches))
 			$context['url_to_root'] = $matches[1];
 		elseif(preg_match('/^(\/.*?\/).*?$/', $items['path'], $matches))
 			$context['url_to_root'] = $matches[1];
