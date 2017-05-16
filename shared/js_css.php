@@ -648,7 +648,7 @@ Class Js_Css {
         // compressed output or not
         if($context['with_debug']=='N') {
             // we create a minified css
-            $scss->setFormatter("scss_formatter_compressed");
+            $scss->setFormatter("Leafo\ScssPhp\Formatter\Compressed");
         }
         
         // specific function to provide absolute path of ressources within sheet
