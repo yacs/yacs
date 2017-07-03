@@ -513,8 +513,8 @@ if($with_form) {
 		$fields[] = array($label, $input);
 
 		// the description
-		$label = '';
-		$input = Skin::build_box(i18n::s('Description'),Surfer::get_editor('description', isset($item['description'])?$item['description']:''),'folded');
+		$label = i18n::s('description');
+		$input = Skin::build_box('',Surfer::get_editor('description', isset($item['description'])?$item['description']:''),'folded');
 		$fields[] = array($label, $input);
 
 		// the source
