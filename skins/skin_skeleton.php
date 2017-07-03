@@ -969,7 +969,7 @@ Class Skin_Skeleton {
 
 		// format the block
 		if($text)
-                        $text = tag::_('div', tag::_class('error').tag::_id($id), $text);
+                        $text = tag::_('div', tag::_class('error').tag::_id($id), fa::_('warning').' '.$text);
 		
                 return $text;
 	}
