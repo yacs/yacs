@@ -591,8 +591,8 @@ class Overlay {
 			return $this->attributes[$name];
                 
                 // value from anchor
-                if(is_object($this->anchor) && isset($this->anchor->item['$name']))
-                        return $this->anchor->item['$name'];
+                if(is_object($this->anchor) && isset($this->anchor->item[$name]))
+                        return $this->anchor->item[$name];
 
 		// use default value
 		return $default_value;
