@@ -587,17 +587,17 @@ figure {max-width: 100%;}
         
         // branches
         ul {
-            background: url('${path}tree/vertical.gif') repeat-y 0px 100%;
+            background: url('#{$path}tree/vertical.gif') repeat-y 0px 100%;
             padding : 0;
             
             // nodes
             li {
                 padding-left: 14px;
-                background: url('${path}tree/node.gif') no-repeat top left;
+                background: url('#{$path}tree/node.gif') no-repeat top left;
                 
                 // last node
                 &.last {
-                    background-image: url('${path}tree/last.gif');
+                    background-image: url('#{$path}tree/last.gif');
                 }
                 
                 // path to the current element
@@ -605,14 +605,14 @@ figure {max-width: 100%;}
                     font-weight: bold;
                     font-style: italic;
                     padding-left: 16px;
-                    background: transparent url('${path}tree/open.gif') no-repeat top left;
+                    background: transparent url('#{$path}tree/open.gif') no-repeat top left;
                     text-decoration: none;
                 }
                 
                 // other pathes, closed
                 a.close, a.below {
                     padding-left: 16px;
-                    background: transparent url('${path}tree/close.gif') no-repeat top left;
+                    background: transparent url('#{$path}tree/close.gif') no-repeat top left;
                     text-decoration:none;
                 }
                 
@@ -714,13 +714,13 @@ figure {max-width: 100%;}
 
 .#{$yacs-namespace}folder-header {
     display : block;
-    background : $color-tabs-borders url("${path}layouts/accordion_plus.png") no-repeat left center;
+    background : $color-tabs-borders url('#{$path}layouts/accordion_plus.png') no-repeat left center;
     padding-left : 20px;
     
     color : $color-tabs;
     
     &.open {
-        background-image : url("${path}layouts/accordion_minus.png");
+        background-image : url('#{$path}layouts/accordion_minus.png');
     }
 }
 
@@ -882,7 +882,7 @@ figure {max-width: 100%;}
 .tipsy { padding: 5px; font-size: 10px; position: absolute; z-index: 6000; }
 .tipsy-inner { padding: 5px 8px 4px 8px; background-color: black; color: white; max-width: 200px; text-align: center; }
 .tipsy-inner { border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px; }
-.tipsy-arrow { position: absolute; background: url('${path}skins/_reference/tools/tipsy.gif') no-repeat top left; width: 9px; height: 5px; }
+.tipsy-arrow { position: absolute; background: url('#{$path}tools/tipsy.gif') no-repeat top left; width: 9px; height: 5px; }
 .tipsy-n .tipsy-arrow { top: 0; left: 50%; margin-left: -4px; }
 .tipsy-nw .tipsy-arrow { top: 0; left: 10px; }
 .tipsy-ne .tipsy-arrow { top: 0; right: 10px; }
