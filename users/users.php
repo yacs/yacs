@@ -1769,6 +1769,15 @@ Class Users {
 			logger::remember('users/users.php: unable to retrieve id of new record');
 			return FALSE;
 		}
+                
+                // set create id to self, if auto-registration
+                if(!isset($fields['create_id']) && !$fields['edit_id']) {
+                    $values = array(
+                        'id'        => $fields['id'],
+                        'create_id' => $fields['id']
+                          );
+                    Users::put_attributes($values);
+                }
 
 		// list the user in categories
 		Categories::remember('user:'.$fields['id'], NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
