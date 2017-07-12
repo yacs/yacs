@@ -680,7 +680,7 @@ function encode_field($text) {
 	$text = preg_replace(array('/&amp;#/i', '/&amp;u/i'), array('&#', '&u'), $text);
 
 	// transcode HTML entities to unicode
-	$text =& utf8::transcode($text);
+	$text = utf8::transcode($text);
 
 	// escape double quotes
 	if($context['charset'] == 'utf-8')
@@ -1063,7 +1063,7 @@ function render_skin($with_last_modified=TRUE) {
 			// navigation boxes from the dedicated section
 			$anchor = Sections::lookup('navigation_boxes');
 
-			if($anchor && ($rows =& Articles::list_for_anchor_by('publication', $anchor, 0, $context['site_navigation_maximum'], 'boxes'))) {
+			if($anchor && ($rows = Articles::list_for_anchor_by('publication', $anchor, 0, $context['site_navigation_maximum'], 'boxes'))) {
 
 				// one box per article
 				foreach($rows as $title => $attributes)
@@ -1084,14 +1084,14 @@ function render_skin($with_last_modified=TRUE) {
 
 					// link to the category page from box title
 					if(is_callable(array('i18n', 's')))
-						$label =& Skin::build_box_title($label, Categories::get_permalink($attributes), i18n::s('View the category'));
+						$label = Skin::build_box_title($label, Categories::get_permalink($attributes), i18n::s('View the category'));
 
 					// list sub categories
 					$items = Categories::list_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact');
 
 					// list linked articles
 					include_once $context['path_to_root'].'links/links.php';
-					if($articles =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact')) {
+					if($articles = Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact')) {
 						if($items)
 							$items = array_merge($items, $articles);
 						else

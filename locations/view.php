@@ -181,7 +181,7 @@ if(!isset($item['id'])) {
 
 	// referrals, if any, in a sidebar
 	//
-	$context['components']['referrals'] =& Skin::build_referrals(Locations::get_url($item['id']));
+	$context['components']['referrals'] = Skin::build_referrals(Locations::get_url($item['id']));
 
 }
 

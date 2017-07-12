@@ -289,7 +289,7 @@ Class Surfer {
 	 *
 	 * @see skins/skin_skeleton.php
 	 */
-	public static function &build_user_menu($type = 'submenu') {
+	public static function build_user_menu($type = 'submenu') {
 		global $context;
 
 		// surfer is a valid user

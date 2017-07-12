@@ -130,7 +130,7 @@ Class Layout_articles_as_table extends Layout_interface {
 
 			// anchors
 			$anchors = array();
-			if($members =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 7, 'raw')) {
+			if($members = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 7, 'raw')) {
 				foreach($members as $category_id => $attributes) {
 
 					// add background color to distinguish this category against others
@@ -152,7 +152,7 @@ Class Layout_articles_as_table extends Layout_interface {
 			}
 
 			// more details
-			$details =& Articles::build_dates($anchor, $item);
+			$details = Articles::build_dates($anchor, $item);
 
 			// rating
 			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))

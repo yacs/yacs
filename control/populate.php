@@ -352,7 +352,7 @@ if(!$permitted) {
 		$fields['nick_name'] = 'processed_queries';
 		$fields['title'] = i18n::c('Processed queries');
                 $fields['index_title'] = $fields['title'];
-		$fields['introduction'] =& i18n::c('Saved for history');
+		$fields['introduction'] = i18n::c('Saved for history');
 		$fields['active_set'] = 'N'; // only associates can access these pages
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
@@ -369,8 +369,8 @@ if(!$permitted) {
 		$fields['nick_name'] = 'queries';
 		$fields['title'] = i18n::c('Queries');
                 $fields['index_title'] = $fields['title'];
-		$fields['introduction'] =& i18n::c('Submitted by any surfer');
-		$fields['description'] =& i18n::c('Add comments to provide support.');
+		$fields['introduction'] = i18n::c('Submitted by any surfer');
+		$fields['description'] = i18n::c('Add comments to provide support.');
 		$fields['active_set'] = 'N'; // only associates can access these pages
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
@@ -408,9 +408,9 @@ if(!$permitted) {
 		$fields['articles_templates'] = 'information_template, question_template, chat_template, event_template';
 		$fields['content_options'] = 'auto_publish with_export_tools with_neighbours';
 		$fields['index_map'] = 'N'; // listed with special sections
-		$fields['introduction'] =& i18n::c('For standalone pages');
+		$fields['introduction'] = i18n::c('For standalone pages');
 		$fields['maximum_items'] = 20000; // limit the overall number of threads
-		$fields['title'] =& i18n::c('Threads');
+		$fields['title'] = i18n::c('Threads');
                 $fields['index_title'] = $fields['title'];
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";

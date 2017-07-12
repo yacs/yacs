@@ -114,7 +114,7 @@ Class jssor_gallery extends Overlay {
     /*
      * Display the slideshow
      */
-    public function &get_view_text($host = NULL) {
+    public function get_view_text($host = NULL) {
         global $context;
         
         $text   = '';
@@ -188,7 +188,7 @@ Class jssor_gallery extends Overlay {
     /* 
      * Don't show images already included within description 
      */
-    public function &get_live_description($host=null) {
+    public function get_live_description($host=null) {
 
             // do we have order to remove image ?
             $clean = $this->get_value('clean_img','Y');

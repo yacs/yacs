@@ -194,7 +194,7 @@ if(!Surfer::is_associate()) {
 	$digest_stamp = Values::get('letters.digest.stamp', NULL_DATE);
 
 	// build the content of the letter automatically
-	if($items =& Articles::list_by('publication', 0, 100, 'digest', $digest_stamp)) {
+	if($items = Articles::list_by('publication', 0, 100, 'digest', $digest_stamp)) {
 
 		// one slot per section
 		$slots = array();
@@ -329,7 +329,7 @@ if(!Surfer::is_associate()) {
 
 	// the category used to assign featured pages
 	$anchor = Categories::get(i18n::c('featured'));
-	if(isset($anchor['id']) && ($items =& Members::list_articles_by_date_for_anchor('category:'.$anchor['id'], 0, $context['root_featured_count'], 'digest'))) {
+	if(isset($anchor['id']) && ($items = Members::list_articles_by_date_for_anchor('category:'.$anchor['id'], 0, $context['root_featured_count'], 'digest'))) {
 
 		// scan each article
 		foreach($items as $url => $label) {

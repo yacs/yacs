@@ -18,7 +18,7 @@ class Thread extends Overlay {
 	 * @param array the hosting record
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_list_text($host=NULL) {
+	function get_list_text($host=NULL) {
 		global $context;
 
 		// we return some text
@@ -29,7 +29,7 @@ class Thread extends Overlay {
 			$to_avoid = 'user:'.$id;
 
 		// page editors, except target surfer
-		if($friends =& Members::list_users_by_posts_for_member('article:'.$host['id'], 0, USERS_LIST_SIZE, 'comma', $to_avoid))
+		if($friends = Members::list_users_by_posts_for_member('article:'.$host['id'], 0, USERS_LIST_SIZE, 'comma', $to_avoid))
 			$text = '<p '.tag::_class('details').'>'.sprintf(i18n::s('with %s'), Skin::build_list($friends, 'comma')).'</p>';
 
 		return $text;
@@ -44,7 +44,7 @@ class Thread extends Overlay {
 	 * @param array the hosting record
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_view_text($host=NULL) {
+	function get_view_text($host=NULL) {
 		global $context;
 
 		$text = '';

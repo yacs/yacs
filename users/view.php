@@ -372,7 +372,7 @@ if(!isset($item['id'])) {
 		$offset = ($zoom_index - 1) * ARTICLES_PER_PAGE;
 
 		// list watched pages by date, not only pages posted by this user
-		$items =& Articles::list_for_user_by('edition', $item['id'], $offset, $layout->items_per_page(), 'last');
+		$items = Articles::list_for_user_by('edition', $item['id'], $offset, $layout->items_per_page(), 'last');
 		if(is_array($items))
 			$box['text'] .= Skin::build_list($items, 'compact');
 		elseif($items)
@@ -449,7 +449,7 @@ if(!isset($item['id'])) {
 		// list assigned by title		
 		$layout = Layouts::new_('rights', 'section');
 		$layout->set_focus($item['id']);
-		$items =& Sections::list_by_date_for_user($item['id'], $offset, SECTIONS_PER_PAGE, $layout);
+		$items = Sections::list_by_date_for_user($item['id'], $offset, SECTIONS_PER_PAGE, $layout);
 		if(is_array($items))
 			$box['text'] .= Skin::build_list($items, 'compact');
 		elseif($items)
@@ -872,7 +872,7 @@ if(!isset($item['id'])) {
 		$box['text'] = '';
 
 		// list categories by title
-		$items =& Members::list_categories_by_title_for_member('user:'.$item['id'], 0, COMPACT_LIST_SIZE, 'sidebar');
+		$items = Members::list_categories_by_title_for_member('user:'.$item['id'], 0, COMPACT_LIST_SIZE, 'sidebar');
 
 		// the command to change categories assignments
 		if(Categories::allow_assign($item))
@@ -889,7 +889,7 @@ if(!isset($item['id'])) {
 	}
 
 	// referrals, if any
-	$context['components']['referrals'] =& Skin::build_referrals(Users::get_url($item['id']));
+	$context['components']['referrals'] = Skin::build_referrals(Users::get_url($item['id']));
 
 }
 

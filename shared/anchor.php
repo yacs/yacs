@@ -321,7 +321,7 @@ abstract class Anchor {
 	 *
 	 * @return array the attribute 'timestamp' contains time of last update
 	 */
-	function &check() {
+	function check() {
 
 		$response = array();
 
@@ -371,7 +371,7 @@ abstract class Anchor {
 	 * @param string previous value
 	 * @return string HTML showing differences
 	 */
-	function &diff($name, $value) {
+	function diff($name, $value) {
 		global $context;
 
 		// previous text
@@ -388,7 +388,7 @@ abstract class Anchor {
 
 		// highlight differences
 		include_once $context['path_to_root'].'scripts/scripts.php';
-		$output =& Scripts::hdiff($value, $current);
+		$output = Scripts::hdiff($value, $current);
 		return $output;
 
 	}
@@ -437,7 +437,7 @@ abstract class Anchor {
 			$text = trim($text . "\n" . $this->item['behaviors']);
 
 		// cache and return the result
-		return $this->get_behaviors_cache =& $text;
+		return $this->get_behaviors_cache = $text;
 	}
 	
 	/**
@@ -678,7 +678,7 @@ abstract class Anchor {
 	 *
 	 * @return an array of poster attributes
 	 */
-	function &get_poster() {
+	function get_poster() {
 		global $context;
 
 		// look for a user record from id or from address
@@ -829,7 +829,7 @@ abstract class Anchor {
 	 * @param string an optional variant
 	 * @return string some text or NULL
 	 */
-	function &get_teaser($variant = 'basic') {
+	function get_teaser($variant = 'basic') {
 
 		// nothing to do
 		if(!is_array($this->item))

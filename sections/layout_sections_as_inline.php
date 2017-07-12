@@ -101,7 +101,7 @@ Class Layout_sections_as_inline extends Layout_interface {
 				$order = $matches[1];
 			else
 				$order = 'edition';
-			$items =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
+			$items = Articles::list_for_anchor_by($order, 'section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
 
 			if(@count($items)) {
 				foreach($items as $url => $label) {
@@ -145,7 +145,7 @@ Class Layout_sections_as_inline extends Layout_interface {
 			}
 
 			// list related sections, if any
-			if($items =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact')) {
+			if($items = Sections::list_by_title_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact')) {
 				foreach($items as $url => $label) {
 					$prefix = $suffix = '';
 					if(is_array($label)) {

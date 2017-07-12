@@ -19,7 +19,7 @@ Class Utf8 {
 	 * @param string the original string
 	 * @return a UTF-8 encoded string
 	 */
-	public static function &encode($input) {
+	public static function encode($input) {
 
 		// transcode explicit unicode entities e.g., %u2019 -> &#8217;
                 $output = preg_replace_callback(
@@ -31,7 +31,7 @@ Class Utf8 {
                         );
 
 		// transcode HTML entities to Unicode entities e.g., &nbsp; -> &#160;
-		$output =& utf8::transcode($output);
+		$output = utf8::transcode($output);
 
 		// return the translated string
 		return $output;
@@ -44,7 +44,7 @@ Class Utf8 {
 	 * @param string a complex string using ISO8859 entities
 	 * @return a UTF-8 string
 	 */
-	public static function &from_iso8859($text) {
+	public static function from_iso8859($text) {
 
 		// iso-8859-15 + Microsoft extensions cp1252
 		list($iso_entities, $unicode_entities) = Utf8::get_iso8859();
@@ -65,7 +65,7 @@ Class Utf8 {
 	 * @param mixed a string with a mix of UTF-8 and of HTML Unicode entities, or an array
 	 * @return an UTF-8 mixed
 	 */
-	public static function &from_unicode($input) {
+	public static function from_unicode($input) {
 		global $context;
 
 		// transcode arrays as well
@@ -357,7 +357,7 @@ Class Utf8 {
 	 * @see tables/fetch_as_xml.php
 	 * @see users/fetch_vcard.php
 	 */
-	public static function &to_ascii($utf, $options=FILENAME_SAFE_ALPHABET) {
+	public static function to_ascii($utf, $options=FILENAME_SAFE_ALPHABET) {
 
 		// http://jeppesn.dk/utf-8.html -- initialize tables only once
 		static $utf_entities, $safe_entities;
@@ -462,7 +462,7 @@ Class Utf8 {
 	 * @param string a complex string using unicode entities
 	 * @return a transcoded string
 	 */
-	public static function &to_hex($utf) {
+	public static function to_hex($utf) {
 		global $context;
 
 		// transcode all entities from decimal to hexa
@@ -485,7 +485,7 @@ Class Utf8 {
 	 *
 	 * @see feeds/flash/slashdot.php
 	 */
-	public static function &to_iso8859($utf, $options='') {
+	public static function to_iso8859($utf, $options='') {
 
 		// iso-8859-15 + Microsoft extensions cp1252
 		list($iso_entities, $unicode_entities) = Utf8::get_iso8859();
@@ -545,7 +545,7 @@ Class Utf8 {
 	 * @param mixed the original UTF-8 string, or an array
 	 * @return a string acceptable in an ISO-8859-1 storage system (ie., PHP4 + MySQL 3)
 	 */
-	public static function &to_unicode($input) {
+	public static function to_unicode($input) {
 		global $context;
 
 		// transcode arrays as well
@@ -632,7 +632,7 @@ Class Utf8 {
                        );
 
 		// transcode HTML entities to Unicode entities
-		$output =& utf8::transcode($output);
+		$output = utf8::transcode($output);
 
 		// translate extended ISO8859-1 chars, if any, to utf-8
 		$output = utf8_encode($output);
@@ -680,7 +680,7 @@ Class Utf8 {
 	 * @param mixes the original UTF-8 string, or array of named values
 	 * @return a string acceptable in an XML snippet
 	 */
-	public static function &to_xml($input) {
+	public static function to_xml($input) {
 		global $context;
 
 		// transcode arrays as well
@@ -735,7 +735,7 @@ Class Utf8 {
 	 * @param boolean TRUE to transcode to Unicode, FALSE to transcode to HTML
 	 * @return a transcoded string
 	 */
-	public static function &transcode($input, $to_unicode=TRUE) {
+	public static function transcode($input, $to_unicode=TRUE) {
 
 		// initialize tables only once
 		static $html_entities, $unicode_entities;

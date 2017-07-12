@@ -152,12 +152,12 @@ Class Layout_sections_as_select extends Layout_interface {
 		$subs = array();
 
 		// add sub-sections on index pages
-		if($related =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, 2 * YAHOO_LIST_SIZE, 'raw')) {
+		if($related = Sections::list_by_title_for_anchor('section:'.$item['id'], 0, 2 * YAHOO_LIST_SIZE, 'raw')) {
 			foreach($related as $id => $attributes) {
 
 				// look for sub-sub-sections
 				$leaves = array();
-				if($children =& Sections::list_by_title_for_anchor('section:'.$id, 0, 50, 'raw')) {
+				if($children = Sections::list_by_title_for_anchor('section:'.$id, 0, 50, 'raw')) {
 					foreach($children as $child_id => $child_attributes) {
 						$child_url = $this->layout_variant.$child_id;
 						$leaves[$child_url] = $child_attributes['title'];

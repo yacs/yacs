@@ -54,8 +54,8 @@ if(isset($_REQUEST['start']) && $_REQUEST['start'] == 'Y')
 if(!$anchor = Sections::lookup('threads')) {
 	$fields = array();
 	$fields['nick_name'] = 'threads';
-	$fields['title'] =& i18n::c('Threads');
-	$fields['introduction'] =& i18n::c('For on-demand conversations');
+	$fields['title'] = i18n::c('Threads');
+	$fields['introduction'] = i18n::c('For on-demand conversations');
 	$fields['locked'] = 'Y'; // no direct contributions
         $fields['active'] = 'N'; // private 
         $fields['active_set'] = 'N';

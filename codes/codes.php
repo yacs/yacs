@@ -1121,7 +1121,7 @@ Class Codes {
 				$url = Categories::get_permalink($item);
 
 				// return a complete anchor
-				$output =& Skin::build_link($url, $text, $type);
+				$output = Skin::build_link($url, $text, $type);
 			}
 
 			return $output;
@@ -1150,7 +1150,7 @@ Class Codes {
 				$url = Categories::get_permalink($item);
 
 				// return a complete anchor
-				$output =& Skin::build_link($url, $text, 'category');
+				$output = Skin::build_link($url, $text, 'category');
 
 				// the introduction text, if any
 				$output .= BR.Codes::beautify($item['introduction']);
@@ -1496,7 +1496,7 @@ Class Codes {
 					}
 
 					// use the skin
-					$label =& Skin::build_image($variant, $href, $title, $link);
+					$label = Skin::build_image($variant, $href, $title, $link);
 
 					// add item to the stack
 					$items[]  = $label;
@@ -1629,7 +1629,7 @@ Class Codes {
 				$url = $context['url_to_home'].$context['url_to_root'].Servers::get_url($id);
 
 				// return a complete anchor
-				$output =& Skin::build_link($url, $text, $type);
+				$output = Skin::build_link($url, $text, $type);
 			}
 
 			return $output;
@@ -1688,12 +1688,12 @@ Class Codes {
 		global $context;
 
 		if(!strncmp($name, 'page_', 5) && isset($context[$name])) {
-			$output =& $context[$name];
+			$output = $context[$name];
 			return $output;
 		}
 
 		if(!strncmp($name, 'site_', 5) && isset($context[$name])) {
-			$output =& $context[$name];
+			$output = $context[$name];
 			return $output;
 		}
 
@@ -1923,15 +1923,15 @@ Class Codes {
 			$anchors = Sections::get_branch_at_anchor($anchor);
 
 			// query the database and layout that stuff
-			$items =& Articles::list_for_anchor_by('random', $anchors, 0, 1, 'raw');
+			$items = Articles::list_for_anchor_by('random', $anchors, 0, 1, 'raw');
 
 		// scope is limited to one author
 		} elseif(!strncmp($anchor, 'user:', 5))
-			$items =& Articles::list_for_author_by('random', str_replace('user:', '', $anchor), 0, 1, 'raw');
+			$items = Articles::list_for_author_by('random', str_replace('user:', '', $anchor), 0, 1, 'raw');
 
 		// consider all pages
 		else
-			$items =& Articles::list_by('random', 0, 1, 'raw');
+			$items = Articles::list_by('random', 0, 1, 'raw');
 
 		// we have an array to format
  		if($items) {

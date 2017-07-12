@@ -92,7 +92,7 @@ Class Skin_Skeleton {
 	 * @param string current value of tags
 	 * @return string text to be put in the rendered page
 	 */
-	public static function &build_assistant_bottom($prefix='', $menu=NULL, $suffix='', $tags=NULL) {
+	public static function build_assistant_bottom($prefix='', $menu=NULL, $suffix='', $tags=NULL) {
 		global $context;
 
 		// we return some text
@@ -235,7 +235,7 @@ Class Skin_Skeleton {
 	 *
 	 * @see shared/codes.php
 	**/
-	public static function &build_block($text, $variant='', $id='', $options=NULL) {
+	public static function build_block($text, $variant='', $id='', $options=NULL) {
 		global $context;
                 
                 $text = Codes::fix_tags($text);
@@ -352,7 +352,7 @@ Class Skin_Skeleton {
 
 		case 'quote':
 			if($text)
-				$text =& Skin::build_quote_block($text);
+				$text = Skin::build_quote_block($text);
 			break;
 
 		case 'right':
@@ -539,7 +539,7 @@ Class Skin_Skeleton {
 	 * @return the HTML to display
 	 *
 	 */
-	public static function &build_box_title($title, $url, $popup='') {
+	public static function build_box_title($title, $url, $popup='') {
 		global $context;
 
 		$text = $title.' '.Skin::build_link($url, TITLE_SHORTCUT, 'more', $popup);
@@ -557,7 +557,7 @@ Class Skin_Skeleton {
 	 * @param array bottom menu bar
 	 * @return string to be integrated into final rendering
 	 */
-	public static function &build_content($id, $title, $content, $top=NULL, $bottom=NULL) {
+	public static function build_content($id, $title, $content, $top=NULL, $bottom=NULL) {
 		global $context;
 
 		// we return some text
@@ -700,7 +700,7 @@ Class Skin_Skeleton {
 	 * @param int offset to GMT of the provided date, if any
 	 * @return the HTML to be used
 	 */
-	public static function &build_date($stamp, $variant='with_hour', $language=NULL, $gmt_offset=0) {
+	public static function build_date($stamp, $variant='with_hour', $language=NULL, $gmt_offset=0) {
 		global $context, $local;
 
 		// return by reference
@@ -1089,7 +1089,7 @@ Class Skin_Skeleton {
 	 *
 	 * @see shared/codes.php
 	**/
-	public static function &build_flag($variant) {
+	public static function build_flag($variant) {
 		global $context;
 
 		$text = '';
@@ -2659,7 +2659,7 @@ Class Skin_Skeleton {
 	 * @param the variant, if any
 	 * @return a printable string
 	 */
-	public static function &build_number($value, $variant='') {
+	public static function build_number($value, $variant='') {
 		global $context;
 
 		$decimals = 0;
@@ -2806,9 +2806,9 @@ Class Skin_Skeleton {
 				if($position = strrpos($user['avatar_url'], '/'))
 					$thumb = substr($user['avatar_url'], 0, $position).'/thumbs'.substr($user['avatar_url'], $position);
 				if(is_readable($context['path_to_root'].str_replace($context['url_to_root'], '', $thumb)))
-					$avatar =& Skin::build_link($url, '<img src="'.$thumb.'" alt="" title="avatar" class="avatar left_image" />', 'basic');
+					$avatar = Skin::build_link($url, '<img src="'.$thumb.'" alt="" title="avatar" class="avatar left_image" />', 'basic');
 				else
-					$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="" title="avatar" class="avatar left_image'.$more_styles.'" />', 'basic');
+					$avatar = Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="" title="avatar" class="avatar left_image'.$more_styles.'" />', 'basic');
 			}
 
 			// several items
@@ -2847,9 +2847,9 @@ Class Skin_Skeleton {
 				if($position = strrpos($user['avatar_url'], '/'))
 					$thumb = substr($user['avatar_url'], 0, $position).'/thumbs'.substr($user['avatar_url'], $position);
 				if(is_readable($context['path_to_root'].str_replace($context['url_to_root'], '', $thumb)))
-					$avatar =& Skin::build_link($url, '<img src="'.$thumb.'" alt="" title="avatar" class="avatar left_image" />', 'basic');
+					$avatar = Skin::build_link($url, '<img src="'.$thumb.'" alt="" title="avatar" class="avatar left_image" />', 'basic');
 				else
-					$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="" title="avatar" class="avatar left_image'.$more_styles.'" />', 'basic');
+					$avatar = Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="" title="avatar" class="avatar left_image'.$more_styles.'" />', 'basic');
 			}
 
 			// date of post
@@ -2929,7 +2929,7 @@ Class Skin_Skeleton {
 	 * @param string the block content
 	 * @return the HTML to display
 	 */
-	public static function &build_quote_block($text) {
+	public static function build_quote_block($text) {
 		global $context;
 
 		$output = '<blockquote><span class="quote_prefix"> &quot; </span>'
@@ -2944,7 +2944,7 @@ Class Skin_Skeleton {
 	 * @param int the rating (1, 2, 3, 4, or 5)
 	 * @return the HTML to display
 	 */
-	public static function &build_rating_img($rating) {
+	public static function build_rating_img($rating) {
 		global $context;
 
 		if($rating == 1) {
@@ -2973,7 +2973,7 @@ Class Skin_Skeleton {
 	 * @param string script name
 	 * @return string to be displayed in the extra panel
 	 */
-	public static function &build_referrals($script) {
+	public static function build_referrals($script) {
 		global $context;
 
 		$output = '';
@@ -3045,7 +3045,7 @@ Class Skin_Skeleton {
 	 * @param boolean TRUE to slide downward, or FALSE to slide upward
 	 * @return the HTML to display
 	 */
-	public static function &build_sliding_box($title, &$content, $id=NULL, $onLeft=TRUE, $down=TRUE) {
+	public static function build_sliding_box($title, &$content, $id=NULL, $onLeft=TRUE, $down=TRUE) {
 		global $context;
 
 		// the icon used to slide down
@@ -3140,7 +3140,7 @@ Class Skin_Skeleton {
 	 * @param string class, if any
 	 * @return the HTML to display
 	 */
-	public static function &build_submit_button($label, $title=NULL, $access_key=NULL, $id=NULL, $class='button') {
+	public static function build_submit_button($label, $title=NULL, $access_key=NULL, $id=NULL, $class='button') {
 		global $context;
 
 		// sanity check
@@ -3350,7 +3350,7 @@ Class Skin_Skeleton {
 	 * @param string the language to express this stamp
 	 * @return string the HTML to be used
 	 */
-	public static function &build_time($stamp, $variant=NULL, $language=NULL) {
+	public static function build_time($stamp, $variant=NULL, $language=NULL) {
 		global $context, $local;
 
 		// return by reference
@@ -3415,7 +3415,7 @@ Class Skin_Skeleton {
 	 * @param string an optional unique id for this box
 	 * @return the HTML to display
 	 */
-	public static function &build_toc_box($title, &$content, $id) {
+	public static function build_toc_box($title, &$content, $id) {
 		global $context;
 
 		// the icon used to slide down
@@ -3460,7 +3460,7 @@ Class Skin_Skeleton {
 	 * @param string an optional unique id for this box
 	 * @return the HTML to display
 	 */
-	public static function &build_toq_box($title, &$content, $id) {
+	public static function build_toq_box($title, &$content, $id) {
 		global $context;
 
 		// we need a clickable title
@@ -3599,7 +3599,7 @@ Class Skin_Skeleton {
 	 * @see sections/edit.php
 	 * @see users/edit.php
 	 */
-	public static function &build_unfolded_box($title, &$content, $id='') {
+	public static function build_unfolded_box($title, &$content, $id='') {
 		global $context;
 
 		// the icon used to stretch folder divisions
@@ -3640,10 +3640,10 @@ Class Skin_Skeleton {
 	 *
 	 * @see shared/surfer.php
 	 */
-	public static function &build_user_menu($type = 'submenu') {
+	public static function build_user_menu($type = 'submenu') {
 		global $context;
 
-		$output =& Surfer::build_user_menu($type);
+		$output = Surfer::build_user_menu($type);
 		return $output;
 	}
 
@@ -3657,7 +3657,7 @@ Class Skin_Skeleton {
 	 * @param string a label for the follow-up link, if any
 	 * @return the HTML to display
 	 */
-	public static function &cap($input, $count=300, $url=NULL, $label = '') {
+	public static function cap($input, $count=300, $url=NULL, $label = '') {
 		global $context;
 
 		// mention tags used as block boundary, no more -- else execution time will ramp up...
@@ -4907,7 +4907,7 @@ Class Skin_Skeleton {
 	 * @see users/index.php
 	 * @see users/view.php
 	 */
-	public static function &navigate($back, $prefix, $range, $page_size, $page_index, $zooming=FALSE, $to_next_page=FALSE, $suffix='') {
+	public static function navigate($back, $prefix, $range, $page_size, $page_index, $zooming=FALSE, $to_next_page=FALSE, $suffix='') {
 		global $context;
 
 		// no next page yet
@@ -5251,7 +5251,7 @@ Class Skin_Skeleton {
 	 *
 	 * @see index.php
 	 */
-	public static function &rotate($text) {
+	public static function rotate($text) {
 		global $context;
 		
 		
@@ -5313,7 +5313,7 @@ Class Skin_Skeleton {
 	 *
 	 * @see index.php
 	 */
-	public static function &scroll($content, $direction='vertical', $class='scroller') {
+	public static function scroll($content, $direction='vertical', $class='scroller') {
 		global $context;
 		
 		// by pass this function
@@ -5426,7 +5426,7 @@ Class Skin_Skeleton {
 	 * @param boolean set to TRUE if YACS codes should be rendered, else codes will be removed
 	 * @return the HTML to display
 	 */
-	public static function &strip($text, $count=20, $url=NULL, $allowed_html='<a><br><img><span>', $render_codes=FALSE) {
+	public static function strip($text, $count=20, $url=NULL, $allowed_html='<a><br><img><span>', $render_codes=FALSE) {
 		global $context;
 
 		// no follow-up yet
@@ -5531,8 +5531,8 @@ Class Skin_Skeleton {
 	 * @param string a variant, if any, as decribed for table_prefix()
 	 * @return a string to be sent to the browser
 	 */
-	public static function &table($headers, &$rows, $variant='yc-grid') {
-		$text =& Skin::table_prefix($variant);
+	public static function table($headers, &$rows, $variant='yc-grid') {
+		$text = Skin::table_prefix($variant);
 		if(isset($headers) && is_array($headers))
 			$text .= Skin::table_row($headers, 'sortable');
 		$row_count = 1;
@@ -5555,7 +5555,7 @@ Class Skin_Skeleton {
 	 * @param string the table variant, if any
 	 * @return the HTML to display
 	 */
-	public static function &table_prefix($variant='') {
+	public static function table_prefix($variant='') {
 		global $current_table_id;
 		$current_table_id++;
 
@@ -5589,7 +5589,7 @@ Class Skin_Skeleton {
 	 * @param string the variant, if any; 'header' for the header row, if %2, use one color set, if !%2, use another set
 	 * @return the HTML to display
 	 */
-	public static function &table_row($cells, $variant=0) {
+	public static function table_row($cells, $variant=0) {
 		global $context;
 		global $current_table_id;
 		global $current_table_has_body;
@@ -5707,7 +5707,7 @@ Class Skin_Skeleton {
 	 *
 	 * @return the HTML to display
 	 */
-	public static function &table_suffix() {
+	public static function table_suffix() {
 
 		// close tbody
 		global $current_table_has_body;

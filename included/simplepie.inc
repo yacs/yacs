@@ -846,7 +846,7 @@ class SimplePie
 		if (is_a($file, 'SimplePie_File'))
 		{
 			$this->feed_url = $file->url;
-			$this->file =& $file;
+			$this->file = $file;
 			return true;
 		}
 		return false;
@@ -1635,7 +1635,7 @@ class SimplePie
 				{
 					if (is_a($this->file, 'SimplePie_File') && $this->file->url === $this->feed_url)
 					{
-						$file =& $this->file;
+						$file = $this->file;
 					}
 					else
 					{
@@ -2633,16 +2633,16 @@ class SimplePie
 					if (isset($this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key]))
 					{
 						$this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key] = array_merge($this->data['links'][$key], $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key]);
-						$this->data['links'][$key] =& $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key];
+						$this->data['links'][$key] = $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key];
 					}
 					else
 					{
-						$this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key] =& $this->data['links'][$key];
+						$this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key] = $this->data['links'][$key];
 					}
 				}
 				elseif (substr($key, 0, 41) === SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY)
 				{
-					$this->data['links'][substr($key, 41)] =& $this->data['links'][$key];
+					$this->data['links'][substr($key, 41)] = $this->data['links'][$key];
 				}
 				$this->data['links'][$key] = array_unique($this->data['links'][$key]);
 			}
@@ -3732,16 +3732,16 @@ class SimplePie_Item
 					if (isset($this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key]))
 					{
 						$this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key] = array_merge($this->data['links'][$key], $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key]);
-						$this->data['links'][$key] =& $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key];
+						$this->data['links'][$key] = $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key];
 					}
 					else
 					{
-						$this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key] =& $this->data['links'][$key];
+						$this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key] = $this->data['links'][$key];
 					}
 				}
 				elseif (substr($key, 0, 41) === SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY)
 				{
-					$this->data['links'][substr($key, 41)] =& $this->data['links'][$key];
+					$this->data['links'][substr($key, 41)] = $this->data['links'][$key];
 				}
 				$this->data['links'][$key] = array_unique($this->data['links'][$key]);
 			}
@@ -6095,16 +6095,16 @@ class SimplePie_Source
 					if (isset($this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key]))
 					{
 						$this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key] = array_merge($this->data['links'][$key], $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key]);
-						$this->data['links'][$key] =& $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key];
+						$this->data['links'][$key] = $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key];
 					}
 					else
 					{
-						$this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key] =& $this->data['links'][$key];
+						$this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key] = $this->data['links'][$key];
 					}
 				}
 				elseif (substr($key, 0, 41) === SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY)
 				{
-					$this->data['links'][substr($key, 41)] =& $this->data['links'][$key];
+					$this->data['links'][substr($key, 41)] = $this->data['links'][$key];
 				}
 				$this->data['links'][$key] = array_unique($this->data['links'][$key]);
 			}
@@ -8741,19 +8741,19 @@ class SimplePie_Cache_DB
 
 			if (isset($data->data['child'][SIMPLEPIE_NAMESPACE_ATOM_10]['feed'][0]))
 			{
-				$channel =& $data->data['child'][SIMPLEPIE_NAMESPACE_ATOM_10]['feed'][0];
+				$channel = $data->data['child'][SIMPLEPIE_NAMESPACE_ATOM_10]['feed'][0];
 			}
 			elseif (isset($data->data['child'][SIMPLEPIE_NAMESPACE_ATOM_03]['feed'][0]))
 			{
-				$channel =& $data->data['child'][SIMPLEPIE_NAMESPACE_ATOM_03]['feed'][0];
+				$channel = $data->data['child'][SIMPLEPIE_NAMESPACE_ATOM_03]['feed'][0];
 			}
 			elseif (isset($data->data['child'][SIMPLEPIE_NAMESPACE_RDF]['RDF'][0]))
 			{
-				$channel =& $data->data['child'][SIMPLEPIE_NAMESPACE_RDF]['RDF'][0];
+				$channel = $data->data['child'][SIMPLEPIE_NAMESPACE_RDF]['RDF'][0];
 			}
 			elseif (isset($data->data['child'][SIMPLEPIE_NAMESPACE_RSS_20]['rss'][0]['child'][SIMPLEPIE_NAMESPACE_RSS_20]['channel'][0]))
 			{
-				$channel =& $data->data['child'][SIMPLEPIE_NAMESPACE_RSS_20]['rss'][0]['child'][SIMPLEPIE_NAMESPACE_RSS_20]['channel'][0];
+				$channel = $data->data['child'][SIMPLEPIE_NAMESPACE_RSS_20]['rss'][0]['child'][SIMPLEPIE_NAMESPACE_RSS_20]['channel'][0];
 			}
 			else
 			{
@@ -8986,19 +8986,19 @@ class SimplePie_Cache_MySQL extends SimplePie_Cache_DB
 			{
 				if (isset($data['child'][SIMPLEPIE_NAMESPACE_ATOM_10]['feed'][0]))
 				{
-					$feed =& $data['child'][SIMPLEPIE_NAMESPACE_ATOM_10]['feed'][0];
+					$feed = $data['child'][SIMPLEPIE_NAMESPACE_ATOM_10]['feed'][0];
 				}
 				elseif (isset($data['child'][SIMPLEPIE_NAMESPACE_ATOM_03]['feed'][0]))
 				{
-					$feed =& $data['child'][SIMPLEPIE_NAMESPACE_ATOM_03]['feed'][0];
+					$feed = $data['child'][SIMPLEPIE_NAMESPACE_ATOM_03]['feed'][0];
 				}
 				elseif (isset($data['child'][SIMPLEPIE_NAMESPACE_RDF]['RDF'][0]))
 				{
-					$feed =& $data['child'][SIMPLEPIE_NAMESPACE_RDF]['RDF'][0];
+					$feed = $data['child'][SIMPLEPIE_NAMESPACE_RDF]['RDF'][0];
 				}
 				elseif (isset($data['child'][SIMPLEPIE_NAMESPACE_RSS_20]['rss'][0]))
 				{
-					$feed =& $data['child'][SIMPLEPIE_NAMESPACE_RSS_20]['rss'][0];
+					$feed = $data['child'][SIMPLEPIE_NAMESPACE_RSS_20]['rss'][0];
 				}
 				else
 				{
@@ -14066,7 +14066,7 @@ class SimplePie_Locator
 
 	function SimplePie_Locator(&$file, $timeout = 10, $useragent = null, $file_class = 'SimplePie_File', $max_checked_feeds = 10, $content_type_sniffer_class = 'SimplePie_Content_Type_Sniffer')
 	{
-		$this->file =& $file;
+		$this->file = $file;
 		$this->file_class = $file_class;
 		$this->useragent = $useragent;
 		$this->timeout = $timeout;
@@ -14562,8 +14562,8 @@ class SimplePie_Parser
 		}
 		else
 		{
-			$this->datas[] =& $this->data;
-			$this->data =& $this->data['child'][end($this->namespace)][end($this->element)][];
+			$this->datas[] = $this->data;
+			$this->data = $this->data['child'][end($this->namespace)][end($this->element)][];
 			$this->data = array('data' => '', 'attribs' => $attribs, 'xml_base' => end($this->xml_base), 'xml_base_explicit' => end($this->xml_base_explicit), 'xml_lang' => end($this->xml_lang));
 			if ((end($this->namespace) === SIMPLEPIE_NAMESPACE_ATOM_03 && in_array(end($this->element), array('title', 'tagline', 'copyright', 'info', 'summary', 'content')) && isset($attribs['']['mode']) && $attribs['']['mode'] === 'xml')
 			|| (end($this->namespace) === SIMPLEPIE_NAMESPACE_ATOM_10 && in_array(end($this->element), array('rights', 'subtitle', 'summary', 'info', 'title', 'content')) && isset($attribs['']['type']) && $attribs['']['type'] === 'xhtml'))
@@ -14597,7 +14597,7 @@ class SimplePie_Parser
 		}
 		if ($this->current_xhtml_construct === -1)
 		{
-			$this->data =& $this->datas[count($this->datas) - 1];
+			$this->data = $this->datas[count($this->datas) - 1];
 			array_pop($this->datas);
 		}
 

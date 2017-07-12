@@ -268,7 +268,7 @@ class Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_details_text($host=NULL) {
+	function get_details_text($host=NULL) {
 		$text = '';
 		return $text;
 	}
@@ -296,7 +296,7 @@ class Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_extra_text($host=NULL) {
+	function get_extra_text($host=NULL) {
 		$text = '';
 		return $text;
 	}
@@ -395,7 +395,7 @@ class Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_list_text($host=NULL) {
+	function get_list_text($host=NULL) {
 		$text = '';
 		return $text;
 	}
@@ -408,7 +408,7 @@ class Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_description($host=NULL) {
+	function get_live_description($host=NULL) {
 		$text = $host['description'];
 		return $text;
 	}
@@ -421,7 +421,7 @@ class Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_introduction($host=NULL) {
+	function get_live_introduction($host=NULL) {
 		$text = $host['introduction'];
 		return $text;
 	}
@@ -434,7 +434,7 @@ class Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_title($host=NULL) {
+	function get_live_title($host=NULL) {
 
                 if (is_object($this->anchor)) {
                     $text = $this->anchor->get_title(false);
@@ -479,7 +479,7 @@ class Overlay {
 	 * @param array the hosting record
 	 * @return an array of array('tab_id', 'tab_label', 'panel_id', 'panel_content') or NULL
 	 */
-	function &get_tabs($variant='view', $host=NULL) {
+	function get_tabs($variant='view', $host=NULL) {
 		$output = NULL;
 		return $output;
 	}
@@ -503,7 +503,7 @@ class Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_text($variant='view', $host=NULL) {
+	function get_text($variant='view', $host=NULL) {
 		switch($variant) {
 
 		// live description
@@ -545,7 +545,7 @@ class Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_trailer_text($host=NULL) {
+	function get_trailer_text($host=NULL) {
 		$text = '';
 		return $text;
 	}
@@ -607,7 +607,7 @@ class Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_view_text($host=NULL) {
+	function get_view_text($host=NULL) {
 		$text = '';
 		foreach($this->attributes as $label => $value) {
 			$text .= '<p>'.$label.': '.$value."</p>\n";

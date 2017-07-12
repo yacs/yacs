@@ -182,7 +182,7 @@ Class Activities {
 			." GROUP BY users.id ORDER BY activities.edit_date DESC LIMIT ".$count;
 
 		// use existing listing facility
-		$output =& Users::list_selected(SQL::query($query), $variant);
+		$output = Users::list_selected(SQL::query($query), $variant);
 		return $output;
 
 	}

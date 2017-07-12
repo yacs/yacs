@@ -820,7 +820,7 @@ class Event extends Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_title($host=NULL) {
+	function get_live_title($host=NULL) {
 
 		$text = $host['title'];
 
@@ -962,7 +962,7 @@ class Event extends Overlay {
 	 * @param array the hosting record
 	 * @return an array of array('tab_id', 'tab_label', 'panel_id', 'panel_content') or NULL
 	 */
-	function &get_tabs($variant='view', $host=NULL) {
+	function get_tabs($variant='view', $host=NULL) {
 		global $context, $local;
 
 		// returned tabs
@@ -1121,7 +1121,7 @@ class Event extends Overlay {
 	 * @param array the hosting record
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_view_text($host=NULL) {
+	function get_view_text($host=NULL) {
 		global $context;
 
 		// we may look at enrolments
@@ -1775,7 +1775,7 @@ class Event extends Overlay {
 				$fields['date_stamp'] = $this->attributes['date_stamp'];
 
 				// there is an existing record
-				if($date =& Dates::get_for_anchor($reference)) {
+				if($date = Dates::get_for_anchor($reference)) {
 
 					// update the record
 					$fields['id'] = $date['id'];

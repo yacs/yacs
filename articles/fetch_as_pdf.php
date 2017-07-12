@@ -174,7 +174,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= utf8::to_unicode(Codes::beautify($item['trailer']));
 
 	// gather details
-	$details =& Articles::build_dates($anchor, $item);
+	$details = Articles::build_dates($anchor, $item);
 
 	// all details
 	if(count($details))

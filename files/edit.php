@@ -313,7 +313,7 @@ if(Surfer::is_crawler()) {
 				$mail['notification'] = Files::build_notification('multiple', $attributes);
 
 			// one file has been added
-			} elseif($item =& Files::get_by_anchor_and_name($anchor->get_reference(), $uploaded)) {
+			} elseif($item = Files::get_by_anchor_and_name($anchor->get_reference(), $uploaded)) {
 				$context['text'] .= '<p>'.i18n::s('Following file has been added:').'</p>'
 					.Codes::render_object('file', $item['id']);
 

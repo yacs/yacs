@@ -154,7 +154,7 @@ if(!$permitted) {
 			$file_name = $context['site_name'].'.comments.'.str_replace(':', '.', $anchor->get_reference()).'.xml';
 		else
 			$file_name = $context['site_name'].'.comments.xml';
-		$file_name =& utf8::to_ascii($file_name);
+		$file_name = utf8::to_ascii($file_name);
 		Safe::header('Content-Disposition: inline; filename="'.$file_name.'"');
 	}
 

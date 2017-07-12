@@ -596,7 +596,7 @@ if(!isset($item['id'])) {
 		if(Surfer::is_empowered()) {
 
 			// other details
-			$details =& Sections::build_dates($anchor, $item);
+			$details = Sections::build_dates($anchor, $item);
 
 			// the number of hits
 			if($item['hits'] > 1)
@@ -804,7 +804,7 @@ if(!isset($item['id'])) {
 
 		// list categories by title
 		$offset = ($zoom_index - 1) * CATEGORIES_PER_PAGE;
-		$items =& Members::list_categories_by_title_for_member('section:'.$item['id'], $offset, CATEGORIES_PER_PAGE, 'sidebar');
+		$items = Members::list_categories_by_title_for_member('section:'.$item['id'], $offset, CATEGORIES_PER_PAGE, 'sidebar');
 
 		// the command to change categories assignments
 		if(Categories::allow_assign($item,$anchor))
@@ -868,7 +868,7 @@ if(!isset($item['id'])) {
 	}
 
 	// referrals, if any
-	$context['components']['referrals'] =& Skin::build_referrals(Sections::get_permalink($item));
+	$context['components']['referrals'] = Skin::build_referrals(Sections::get_permalink($item));
 
 	//
 	// use a specific script to render the page in replacement of the standard one --also protect from hackers
@@ -1025,7 +1025,7 @@ if(!isset($item['id'])) {
 			$this_section = new section;
 			$this_section->load_by_content($item, $anchor);
 			if($this_section->is_assigned()) {
-				if(($order == 'publication') && ($items =& Articles::list_for_anchor_by('draft', 'section:'.$item['id'], 0, 20, 'compact'))) {
+				if(($order == 'publication') && ($items = Articles::list_for_anchor_by('draft', 'section:'.$item['id'], 0, 20, 'compact'))) {
 					if(is_array($items))
 						$items = Skin::build_list($items, 'compact');
 					$box['top_bar'] += array('_draft' => Skin::build_sliding_box(i18n::s('Draft pages'), $items));
@@ -1037,7 +1037,7 @@ if(!isset($item['id'])) {
 				$box['text'] .= Skin::build_list($box['top_bar'], 'menu_bar');
 
 			// get pages
-			$items =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], $offset, $items_per_page, $layout);
+			$items = Articles::list_for_anchor_by($order, 'section:'.$item['id'], $offset, $items_per_page, $layout);
 
 			// items in the middle
 			if(is_array($items) && isset($item['articles_layout']) && ($item['articles_layout'] == 'compact'))
@@ -1100,7 +1100,7 @@ if(!isset($item['id'])) {
 						$order = $matches[1];
 					else
 						$order = 'edition';
-					$items =& Articles::list_for_anchor_by($order, $anchors, 0, $items_per_page, $layout);
+					$items = Articles::list_for_anchor_by($order, $anchors, 0, $items_per_page, $layout);
 
 					// actually render the html for the section
 					$content = '';
@@ -1142,7 +1142,7 @@ if(!isset($item['id'])) {
 			$order = $matches[1];
 		else
 			$order = 'edition';
-		$items =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], $offset, $items_per_page, $layout);
+		$items = Articles::list_for_anchor_by($order, 'section:'.$item['id'], $offset, $items_per_page, $layout);
 
 		// actually render the html for the box
 		$content = '';
@@ -1248,7 +1248,7 @@ if(!isset($item['id'])) {
 			$title_label = i18n::s('Comments');
 
 		// get a layout for comments of this item
-		$layout =& Comments::get_layout($anchor, $item);
+		$layout = Comments::get_layout($anchor, $item);
 
 		// the maximum number of comments per page
 		if(is_object($layout))

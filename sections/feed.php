@@ -132,7 +132,7 @@ if(!isset($item['id']) || !$item['id']) {
 		$anchors = Sections::get_branch_at_anchor('section:'.$item['id']);
 
 		// the list of newest pages
-		$values['items'] =& Articles::list_for_anchor_by('edition', $anchors, 0, 20, 'feed');
+		$values['items'] = Articles::list_for_anchor_by('edition', $anchors, 0, 20, 'feed');
 
 		// make a text
 		include_once '../services/codec.php';

@@ -88,7 +88,7 @@ if(Surfer::is_crawler()) {
  		if(count($output))
  			$output = array_merge($output, array(Files::get_url($anchor->get_reference(), 'list') => i18n::s('All files')));
 
-		$output =& Skin::build_list($output, 'compact');
+		$output = Skin::build_list($output, 'compact');
 	}
 
 	// actual transmission except on a HEAD request

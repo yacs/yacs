@@ -153,7 +153,7 @@ if(!isset($item['id'])) {
 	}
 
 	// referrals, if any
-	$context['components']['referrals'] =& Skin::build_referrals(Tables::get_url($item['id']));
+	$context['components']['referrals'] = Skin::build_referrals(Tables::get_url($item['id']));
 
 }
 

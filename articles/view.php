@@ -542,7 +542,7 @@ if(!isset($item['id'])) {
 			$text .= ucfirst(implode(BR."\n", $details)).BR."\n";
 
 		// other details
-		$details =& Articles::build_dates($anchor, $item);
+		$details = Articles::build_dates($anchor, $item);
 
 		// signal articles to be published
 		if(($item['publish_date'] <= NULL_DATE)) {
@@ -748,7 +748,7 @@ if(!isset($item['id'])) {
 		    $box['text'] = '';
 
 		    // list pages with same name
-		    $items =& Articles::list_for_name($item['nick_name'], $item['id'], 'compact');
+		    $items = Articles::list_for_name($item['nick_name'], $item['id'], 'compact');
 
 		    // actually render the html for the section
 		    if(is_array($items))
@@ -787,7 +787,7 @@ if(!isset($item['id'])) {
 
 		    // list categories by title
 		    $offset = ($zoom_index - 1) * CATEGORIES_PER_PAGE;
-		    $items =& Members::list_categories_by_title_for_member('article:'.$item['id'], $offset, CATEGORIES_PER_PAGE, 'sidebar');
+		    $items = Members::list_categories_by_title_for_member('article:'.$item['id'], $offset, CATEGORIES_PER_PAGE, 'sidebar');
 
 		    // the command to change categories assignments
 		    if(Categories::allow_assign($item,$anchor))
@@ -804,7 +804,7 @@ if(!isset($item['id'])) {
 	    }
 
 	    // referrals, if any
-	    $context['components']['referrals'] =& Skin::build_referrals(Articles::get_permalink($item));
+	    $context['components']['referrals'] = Skin::build_referrals(Articles::get_permalink($item));
 	}
 
 	//
@@ -972,7 +972,7 @@ if(!isset($item['id'])) {
 			$add_label = i18n::s('Post a comment');
 
 		// get a layout for comments of this item
-		$layout =& Comments::get_layout($anchor, $item);
+		$layout = Comments::get_layout($anchor, $item);
 
 		// provide author information to layout
 		if(is_object($layout) && isset($item['create_id']) && $item['create_id'])

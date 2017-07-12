@@ -302,7 +302,7 @@ Class Fusion extends Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_list_text($host=NULL) {
+	function get_list_text($host=NULL) {
 		$text = '';
                 
                 
@@ -321,7 +321,7 @@ Class Fusion extends Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_description($host=NULL) {
+	function get_live_description($host=NULL) {
                 
                 $text = $this->fusion_pipe_method('get_live_description', 'description', $host['description']);
 		return $text;
@@ -335,7 +335,7 @@ Class Fusion extends Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_introduction($host=NULL) {
+	function get_live_introduction($host=NULL) {
                 
                 $text = $this->fusion_pipe_method('get_live_introduction', 'introduction', $host['introduction']);
 		return $text;
@@ -349,7 +349,7 @@ Class Fusion extends Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_title($host=NULL) {
+	function get_live_title($host=NULL) {
                 
                 $text = $this->fusion_first_reply('get_live_title', array($host));
 
@@ -366,7 +366,7 @@ Class Fusion extends Overlay {
 	 * @param array the hosting record
 	 * @return an array of array('tab_id', 'tab_label', 'panel_id', 'panel_content') or NULL
 	 */
-	function &get_tabs($variant='view', $host=NULL) {
+	function get_tabs($variant='view', $host=NULL) {
 		$output = array();
                 
                 $this->fusion_chain_method('get_tabs', array($variant, $host), $output);
@@ -385,7 +385,7 @@ Class Fusion extends Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_text($variant='view', $host=NULL) {
+	function get_text($variant='view', $host=NULL) {
             
             // standard behaviour
             $text = parent::get_text($variant, $host);
@@ -410,7 +410,7 @@ Class Fusion extends Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_trailer_text($host=NULL) {
+	function get_trailer_text($host=NULL) {
 		$text = '';
                 
                 $this->fusion_chain_method('get_trailer_text', array($host), $text);
@@ -466,7 +466,7 @@ Class Fusion extends Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_view_text($host=NULL) {
+	function get_view_text($host=NULL) {
 		
                 $text = '';
                 

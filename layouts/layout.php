@@ -47,7 +47,7 @@ abstract Class Layout_interface {
 	 *    $order = 'publication';
 	 *
 	 * // query the database
-	 * $items =& Articles::list_for_anchor_by($order, $anchor, 0, 10, $layout);
+	 * $items = Articles::list_for_anchor_by($order, $anchor, 0, 10, $layout);
 	 * [/php]
 	 *
 	 * @return string to be used in requests to the database

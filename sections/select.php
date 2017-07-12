@@ -86,7 +86,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= $anchor->get_prefix();
 
 	// the current list of linked sections
-	$sections =& Members::list_sections_by_title_for_anchor($anchor->get_reference(), 0, SECTIONS_LIST_SIZE, 'raw');
+	$sections = Members::list_sections_by_title_for_anchor($anchor->get_reference(), 0, SECTIONS_LIST_SIZE, 'raw');
 
 	// the form to link additional sections
 	if(!is_array($sections) || (count($sections) < SECTIONS_LIST_SIZE)) {

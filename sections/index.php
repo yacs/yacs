@@ -114,12 +114,12 @@ if($page > 10) {
 
 		// the list of active sections
 		$offset = ($page - 1) * $items_per_page;
-		if(!$items =& Sections::list_by_title_for_anchor(NULL, $offset, $items_per_page, $layout))
+		if(!$items = Sections::list_by_title_for_anchor(NULL, $offset, $items_per_page, $layout))
 			$items = '<p>'.i18n::s('No regular section has been created yet.').'</p>';
 
 		// we have an array to format
 		if(is_array($items))
-			$items =& Skin::build_list($items, '2-columns');
+			$items = Skin::build_list($items, '2-columns');
 
 		// navigation commands for sections, if necessary
 		if($count > 20) {
@@ -205,10 +205,10 @@ if(!$text = Cache::get($cache_id)) {
 		foreach($categories as $id => $attributes) {
 
 			// link to the category page from the box title
-			$label =& Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_permalink($attributes), i18n::s('View the category'));
+			$label = Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_permalink($attributes), i18n::s('View the category'));
 
 			// box content
-			if($items =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
+			if($items = Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
 				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'boxes')."\n";
 		}
 	}

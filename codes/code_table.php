@@ -172,7 +172,7 @@ Class Code_table extends Code {
                    return '';
 
            // one row per line - cells are separated by |, \t, or 2 spaces
-           $text =& Skin::table_prefix($variant);
+           $text = Skin::table_prefix($variant);
            foreach($rows as $row) {
 
                    // skip blank lines

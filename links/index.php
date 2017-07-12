@@ -93,7 +93,7 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 
 		// we have an array to format
 		if(is_array($text))
-			$text =& Skin::build_list($text, 'decorated');
+			$text = Skin::build_list($text, 'decorated');
 
 		// cache this to speed subsequent queries
 		Cache::put($cache_id, $text, 'links');
@@ -122,10 +122,10 @@ if(!$text = Cache::get($cache_id)) {
 		foreach($categories as $id => $attributes) {
 
 			// link to the category page from the box title
-			$label =& Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_permalink($attributes), i18n::s('View the category'));
+			$label = Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_permalink($attributes), i18n::s('View the category'));
 
 			// box content
-			if($items =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
+			if($items = Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
 				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'boxes')."\n";
 		}
 	}

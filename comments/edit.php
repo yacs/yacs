@@ -258,7 +258,7 @@ if(Surfer::is_crawler()) {
 			$_REQUEST['description'] .= '<div style="margin-top: 1em;">'.Skin::build_list(Files::list_for_anchor_and_name($anchor->get_reference(), $uploaded, 'compact'), 'compact').'</div>';
 
 		// one file has been added
-		elseif($file =& Files::get_by_anchor_and_name($anchor->get_reference(), $uploaded)) {
+		elseif($file = Files::get_by_anchor_and_name($anchor->get_reference(), $uploaded)) {
 			$_REQUEST['description'] .= '<div style="margin-top: 1em;">[file='.$file['id'].','.$file['file_name'].']</div>';
 
 			// silently delete the previous file if the name has changed

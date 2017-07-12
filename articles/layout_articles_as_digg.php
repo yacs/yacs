@@ -185,7 +185,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 				$details[] = Skin::build_link($anchor->get_url(), $anchor->get_title(), 'basic');
 
 			// list categories by title, if any
-			if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 7, 'raw')) {
+			if($items = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 7, 'raw')) {
 				foreach($items as $id => $attributes) {
 
 					// add background color to distinguish this category against others

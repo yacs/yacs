@@ -92,7 +92,7 @@ if(($page > 1) && (($page - 1) * SERVERS_PER_PAGE > $stats['count'])) {
 	
 		// we have an array to format
 		if(is_array($text))
-			$text =& Skin::build_list($text, 'decorated');
+			$text = Skin::build_list($text, 'decorated');
 	
 		// cache this to speed subsequent queries
 		Cache::put($cache_id, $text, 'servers');

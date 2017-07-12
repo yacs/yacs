@@ -52,7 +52,7 @@ Class Layout_categories_as_inline extends Layout_interface {
 			}
 
 			// info on related sections
-			$items =& Members::list_sections_by_title_for_anchor('category:'.$item['id'], 0, COMPACT_LIST_SIZE);
+			$items = Members::list_sections_by_title_for_anchor('category:'.$item['id'], 0, COMPACT_LIST_SIZE);
 			if($items) {
 				foreach($items as $url => $label) {
 					if(is_array($label))
@@ -63,9 +63,9 @@ Class Layout_categories_as_inline extends Layout_interface {
 
 			// info on related articles
 			if(isset($item['options']) && preg_match('/\barticles_by_title\b/i', $item['options']))
-				$items =& Members::list_articles_by_title_for_anchor('category:'.$item['id'], 0, COMPACT_LIST_SIZE);
+				$items = Members::list_articles_by_title_for_anchor('category:'.$item['id'], 0, COMPACT_LIST_SIZE);
 			else
-				$items =& Members::list_articles_by_date_for_anchor('category:'.$item['id'], 0, COMPACT_LIST_SIZE);
+				$items = Members::list_articles_by_date_for_anchor('category:'.$item['id'], 0, COMPACT_LIST_SIZE);
 			if($items) {
 				foreach($items as $url => $label) {
 					if(is_array($label))

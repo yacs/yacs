@@ -47,9 +47,9 @@ $context['page_title'] = i18n::s('Help');
 if(!$anchor = Anchors::get('section:queries')) {
 	$fields = array();
 	$fields['nick_name'] = 'queries';
-	$fields['title'] =& i18n::c('Queries');
-	$fields['introduction'] =& i18n::c('Submitted to the webmaster by any surfers');
-	$fields['description'] =& i18n::c('<p>This section has been created automatically on query submission. It\'s aiming to capture feedback directly from surfers. It is highly recommended to delete pages below after their processing. Of course you can edit submitted queries to assign them to other sections if necessary.</p>');
+	$fields['title'] = i18n::c('Queries');
+	$fields['introduction'] = i18n::c('Submitted to the webmaster by any surfers');
+	$fields['description'] = i18n::c('<p>This section has been created automatically on query submission. It\'s aiming to capture feedback directly from surfers. It is highly recommended to delete pages below after their processing. Of course you can edit submitted queries to assign them to other sections if necessary.</p>');
 	$fields['locked'] = 'Y'; // no direct contributions
 	$fields['active_set'] = 'N'; // for associates only
 	$fields['index_map'] = 'N'; // listed only to associates
@@ -93,7 +93,7 @@ if(Surfer::is_crawler()) {
 	if(!$_REQUEST['create_name'])
 		$_REQUEST['create_name'] = $_REQUEST['create_address'];
 	if(!$_REQUEST['create_name'])
-		$_REQUEST['create_name'] =& i18n::c('(anonymous)');
+		$_REQUEST['create_name'] = i18n::c('(anonymous)');
 
 	// always auto-publish queries
 	$_REQUEST['publish_date']	= gmstrftime('%Y-%m-%d %H:%M:%S');

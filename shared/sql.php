@@ -572,7 +572,7 @@ Class SQL {
 				$here = $count;
 
 			// transcode unicode entities --including those with a &#
-			$line =& utf8::from_unicode($line);
+			$line = utf8::from_unicode($line);
 
 			// skip empty lines
 			$line = trim($line, " \t\r\n\0\x0B");

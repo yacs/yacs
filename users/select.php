@@ -93,7 +93,7 @@ elseif(!$permitted) {
 
 		// authorized users
 		$restricted = NULL;
-		if($anchor->is_hidden() && ($editors =& Members::list_anchors_for_member($anchors))) {
+		if($anchor->is_hidden() && ($editors = Members::list_anchors_for_member($anchors))) {
 			foreach($editors as $editor)
 				if(strpos($editor, 'user:') === 0)
 					$restricted[] = substr($editor, strlen('user:'));
@@ -305,7 +305,7 @@ elseif(!$permitted) {
 	if(!strncmp($anchor->get_reference(), 'category:', 9)) {
 
 		// current list of category members
-		if($users =& Members::list_users_by_name_for_anchor($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) {
+		if($users = Members::list_users_by_name_for_anchor($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) {
 
 			// browse the list
 			$new_users = array();
@@ -345,7 +345,7 @@ elseif(!$permitted) {
 	} elseif(!strncmp($anchor->get_reference(), 'user:', 5)) {
 
 		// the current list of user followers
-		if($users =& Members::list_connections_for_user($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) {
+		if($users = Members::list_connections_for_user($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) {
 
 			// browse the list
 			$new_users = array();
@@ -383,7 +383,7 @@ elseif(!$permitted) {
 		}
 
 	// watchers and editors of this anchor
-	} elseif($users =& Members::list_users_by_name_for_reference($anchor->get_reference(), 'raw')) {
+	} elseif($users = Members::list_users_by_name_for_reference($anchor->get_reference(), 'raw')) {
 
 		// browse the list
 		foreach($users as $id => $user) {
@@ -449,7 +449,7 @@ elseif(!$permitted) {
 		while($handle && ($parent = Anchors::get($handle))) {
 
 			// watchers and editors of this container
-			if(($users =& Members::list_users_by_name_for_reference($parent->get_reference(), 'raw')) && count($users)) {
+			if(($users = Members::list_users_by_name_for_reference($parent->get_reference(), 'raw')) && count($users)) {
 
 				// browse the list
 				$items = array();
@@ -586,7 +586,7 @@ elseif(!$permitted) {
 		$_REQUEST['anchor'] = 'user:'.$user['id'];
 
 	// the current list of category members
-	if(!strncmp($anchor->get_reference(), 'category:', 9) && ($users =& Members::list_users_by_posts_for_anchor($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
+	if(!strncmp($anchor->get_reference(), 'category:', 9) && ($users = Members::list_users_by_posts_for_anchor($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
 
 		// splash message
 		$context['text'] .= '<div style="margin-top: 2em;">'.sprintf(i18n::s('Persons assigned to %s'), $anchor->get_title());
@@ -617,7 +617,7 @@ elseif(!$permitted) {
 		$context['text'] .= Skin::build_list($new_users, 'compact').'</div>';
 
 	// the current list of linked users
-	} elseif(!strncmp($anchor->get_reference(), 'user:', 5) && ($users =& Members::list_connections_for_user($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
+	} elseif(!strncmp($anchor->get_reference(), 'user:', 5) && ($users = Members::list_connections_for_user($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
 
 		// splash message
 		$context['text'] .= '<div style="margin-top: 2em;">'.sprintf(i18n::s('Persons followed by %s'), $anchor->get_title());
@@ -648,7 +648,7 @@ elseif(!$permitted) {
 		$context['text'] .= Skin::build_list($new_users, 'compact').'</div>';
 
 	// users assigned to this anchor
-	} elseif(($users =& Members::list_users_by_posts_for_member($anchor->get_reference(), 0, 50*USERS_LIST_SIZE, 'raw')) && count($users)) {
+	} elseif(($users = Members::list_users_by_posts_for_member($anchor->get_reference(), 0, 50*USERS_LIST_SIZE, 'raw')) && count($users)) {
 
 		// splash message
 		$context['text'] .= '<div style="margin-top: 2em;">'.sprintf(i18n::s('Persons assigned to %s'), $anchor->get_title());
@@ -686,7 +686,7 @@ elseif(!$permitted) {
 	while($handle && ($parent = Anchors::get($handle))) {
 		$handle = $parent->get_parent();
 
-		if(($users =& Members::list_users_by_posts_for_member($parent->get_reference(), 0, 50*USERS_LIST_SIZE, 'raw')) && count($users)) {
+		if(($users = Members::list_users_by_posts_for_member($parent->get_reference(), 0, 50*USERS_LIST_SIZE, 'raw')) && count($users)) {
 
 			// browse the list
 			$items = array();

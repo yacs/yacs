@@ -98,7 +98,7 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 
 		// query the database and layout that stuff
 		$offset = ($page - 1) * $items_per_page;
-		if($text =& Articles::list_by('publication', $offset, $items_per_page)) {
+		if($text = Articles::list_by('publication', $offset, $items_per_page)) {
 
 			// we have an array to format
 			if(is_array($text))
@@ -141,7 +141,7 @@ if(!$text = Cache::get($cache_id)) {
 
 	// side bar with the list of most popular articles, if this server is well populated
 	if($stats['count'] > $items_per_page) {
-		if($items =& Articles::list_by('hits', 0, COMPACT_LIST_SIZE, 'compact'))
+		if($items = Articles::list_by('hits', 0, COMPACT_LIST_SIZE, 'compact'))
 			$text .= Skin::build_box(i18n::s('Popular'), Skin::build_list($items, 'compact'), 'boxes');
 	}
 
@@ -150,10 +150,10 @@ if(!$text = Cache::get($cache_id)) {
 		foreach($categories as $id => $attributes) {
 
 			// link to the category page from the box title
-			$label =& Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_permalink($attributes), i18n::s('View the category'));
+			$label = Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_permalink($attributes), i18n::s('View the category'));
 
 			// box content
-			if($items =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
+			if($items = Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
 				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'boxes')."\n";
 		}
 	}

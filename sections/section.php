@@ -439,7 +439,7 @@ Class Section extends Anchor {
 	 * @param string an optional variant
 	 * @return NULL, of some text
 	 */
-	function &get_teaser($variant = 'basic') {
+	function get_teaser($variant = 'basic') {
 		global $context;
 
 		// nothing to do
@@ -503,7 +503,7 @@ Class Section extends Anchor {
 		}
 
 		// turn html entities to unicode entities
-		$text =& utf8::transcode($text);
+		$text = utf8::transcode($text);
 
 		// now we have to process the provided text
 		switch($variant) {
@@ -516,7 +516,7 @@ Class Section extends Anchor {
 			$text = xml::strip_visible_tags($text);
 
 			// limit the number of words
-			$text =& Skin::cap($text, 70);
+			$text = Skin::cap($text, 70);
 
 			// done
 			return $text;
@@ -528,7 +528,7 @@ Class Section extends Anchor {
 			$text = xml::strip_visible_tags($text);
 
 			// limit the number of words
-			$text =& Skin::strip($text, 70);
+			$text = Skin::strip($text, 70);
 
 			// ensure we have some text
 			if(!$text)
@@ -548,7 +548,7 @@ Class Section extends Anchor {
 			$text = xml::strip_visible_tags($text);
 
 			// limit the number of words
-			$text =& Skin::cap($text, 300);
+			$text = Skin::cap($text, 300);
 
 			// done
 			return $text;
@@ -557,7 +557,7 @@ Class Section extends Anchor {
 		case 'teaser':
 
 			// limit the number of words
-			$text =& Skin::cap($text, 12, $this->get_url());
+			$text = Skin::cap($text, 12, $this->get_url());
 
 			// done
 			return $text;

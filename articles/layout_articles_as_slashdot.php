@@ -150,7 +150,7 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 				$details[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 			// list categories by title, if any
-			if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 7, 'raw')) {
+			if($items = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 7, 'raw')) {
 				foreach($items as $id => $attributes) {
 
 					// add background color to distinguish this category against others

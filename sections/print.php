@@ -168,7 +168,7 @@ if(Surfer::is_crawler()) {
 		$order = $matches[1];
 	else
 		$order = 'edition';
-	$items =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
+	$items = Articles::list_for_anchor_by($order, 'section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
 
 	// actually render the html
 	$box['text'] = '';
@@ -187,7 +187,7 @@ if(Surfer::is_crawler()) {
 		$box['text'] = '';
 
 		// list articles by publication date
-		$items =& Articles::list_for_anchor_by('edition', $anchors, 0, 50, 'full');
+		$items = Articles::list_for_anchor_by('edition', $anchors, 0, 50, 'full');
 
 		// actually render the html for the section
 		if(is_array($items))

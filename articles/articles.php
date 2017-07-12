@@ -542,7 +542,7 @@ Class Articles {
 	 * @param array the article to be documented
 	 * @return array strings detailed labels
 	 */
-	public static function &build_dates($anchor, $item) {
+	public static function build_dates($anchor, $item) {
 		global $context;
 
 		// we return an array of strings
@@ -1481,12 +1481,13 @@ Class Articles {
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
 	 * @return the resulting $item array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	public static function &get_attributes($id, $attributes, $mutable=FALSE) {
+	public static function get_attributes($id, $attributes, $mutable=FALSE) {
 		global $context;
 
+                $output = NULL;
+                
 		// sanity check
-		if(!$id) {
-			$output = NULL;
+		if(!$id) {	
 			return $output;
 		}
 
@@ -1596,7 +1597,7 @@ Class Articles {
 	 *
 	 * @see index.php
 	 */
-	public static function &get_newest_for_anchor($anchor, $without_sticky=FALSE) {
+	public static function get_newest_for_anchor($anchor, $without_sticky=FALSE) {
 		global $context;
 
 		// restrict the query to addressable content
@@ -1821,7 +1822,7 @@ Class Articles {
 	 * @param array page attributes
 	 * @return string the short link
 	 */
-	public static function &get_short_url($item) {
+	public static function get_short_url($item) {
 		$output = 'a~'.reduce_number($item['id']);
 		return $output;
 	}
@@ -2146,7 +2147,7 @@ Class Articles {
 	 * @param string stamp of the minimum publication date to be considered
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_($offset=0, $count=10, $layout='decorated', $since=NULL) {
+	public static function list_($offset=0, $count=10, $layout='decorated', $since=NULL) {
 		global $context;
 
 		// define items order
@@ -2156,7 +2157,7 @@ Class Articles {
 			$order = 'publication';
 
 		// ask for ordered articles
-		$output =& Articles::list_by($order, $offset, $count, $layout, $since);
+		$output = Articles::list_by($order, $offset, $count, $layout, $since);
 		return $output;
 	}
 
@@ -2182,7 +2183,7 @@ Class Articles {
 	 * @param string stamp of the minimum publication date to be considered
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_by($order=NULL, $offset=0, $count=10, $layout='decorated', $since=NULL) {
+	public static function list_by($order=NULL, $offset=0, $count=10, $layout='decorated', $since=NULL) {
 		global $context;
 
 		// restrict the query to addressable content
@@ -2245,7 +2246,7 @@ Class Articles {
 				." ORDER BY ".$order." LIMIT ".$offset.','.$count;
 
 		// actual request to the database
-		$output =& Articles::list_selected(SQL::query($query), $layout);
+		$output = Articles::list_selected(SQL::query($query), $layout);
 		return $output;
 	}
 
@@ -2307,7 +2308,7 @@ Class Articles {
 	 * @param boolean FALSE to include sticky pages, TRUE otherwise
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_for_anchor($anchor, $offset=0, $count=10, $layout='no_anchor', $without_sticky=FALSE) {
+	public static function list_for_anchor($anchor, $offset=0, $count=10, $layout='no_anchor', $without_sticky=FALSE) {
 		global $context;
 
 		// define items order
@@ -2317,7 +2318,7 @@ Class Articles {
 			$order = 'edition';
 
 		// ask for ordered items
-		$output =& Articles::list_for_anchor_by($order, $anchor, $offset, $count, $layout, $without_sticky);
+		$output = Articles::list_for_anchor_by($order, $anchor, $offset, $count, $layout, $without_sticky);
 		return $output;
 	}
 
@@ -2353,7 +2354,7 @@ Class Articles {
 	 * @param boolean FALSE to include sticky pages, TRUE otherwise
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_for_anchor_by($order, $anchor, $offset=0, $count=10, $layout='no_anchor', $without_sticky=FALSE) {
+	public static function list_for_anchor_by($order, $anchor, $offset=0, $count=10, $layout='no_anchor', $without_sticky=FALSE) {
 		global $context;
 
 		// restrict the query to addressable content
@@ -2408,7 +2409,7 @@ Class Articles {
 			." WHERE (".$where_anchor.") AND (".$where.")"
 			." ORDER BY ".$order." LIMIT ".$offset.','.$count;
 
-		$output =& Articles::list_selected(SQL::query($query), $layout);
+		$output = Articles::list_selected(SQL::query($query), $layout);
 		return $output;
 	}
 
@@ -2424,7 +2425,7 @@ Class Articles {
 	 *
 	 * @see users/view.php
 	 */
-	public static function &list_for_author_by($order, $author_id, $offset=0, $count=10, $layout='no_author') {
+	public static function list_for_author_by($order, $author_id, $offset=0, $count=10, $layout='no_author') {
 		global $context;
 
 		// sanity check
@@ -2463,7 +2464,7 @@ Class Articles {
 			." WHERE (".$where.")"
 			." ORDER BY ".$order." LIMIT ".$offset.','.$count;
 
-		$output =& Articles::list_selected(SQL::query($query), $layout);
+		$output = Articles::list_selected(SQL::query($query), $layout);
 		return $output;
 	}
 
@@ -2480,7 +2481,7 @@ Class Articles {
 	 * @param mixed the layout to apply
 	 * @return string to be inserted into the resulting page
 	 */
-	public static function &list_for_ids($ids, $layout='select') {
+	public static function list_for_ids($ids, $layout='select') {
 		global $context;
 
 		// turn a string to an array
@@ -2513,7 +2514,7 @@ Class Articles {
 		$query = "(".join(') UNION (', $queries).")";
 
 		// query and layout
-		$output =& Articles::list_selected(SQL::query($query), $layout);
+		$output = Articles::list_selected(SQL::query($query), $layout);
 		return $output;
 	}
 
@@ -2530,7 +2531,7 @@ Class Articles {
 	 * @param mixed the layout, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_for_name($name, $exception=NULL, $layout='compact') {
+	public static function list_for_name($name, $exception=NULL, $layout='compact') {
 		global $context;
 
 		// limit the scope of this request
@@ -2546,7 +2547,7 @@ Class Articles {
 			." WHERE (articles.nick_name LIKE '".SQL::escape($name)."') AND ".$where
 			." ORDER BY articles.title LIMIT 100";
 
-		$output =& Articles::list_selected(SQL::query($query), $layout);
+		$output = Articles::list_selected(SQL::query($query), $layout);
 		return $output;
 	}
 
@@ -2567,7 +2568,7 @@ Class Articles {
 	 * @see users/print.php
 	 * @see users/view.php
 	 */
-	public static function &list_for_user_by($order, $user_id, $offset=0, $count=10, $variant='full') {
+	public static function list_for_user_by($order, $user_id, $offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// sanity check
@@ -2635,7 +2636,7 @@ Class Articles {
 		$query .= " ORDER BY ".$order." LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
-		$output =& Articles::list_selected(SQL::query($query), $variant);
+		$output = Articles::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -2657,7 +2658,7 @@ Class Articles {
 	 * @see skins/skin_skeleton.php
 	 * @see index.php
 	 */
-	public static function &list_selected($result, $variant='compact') {
+	public static function list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -2743,7 +2744,7 @@ Class Articles {
 
 		// authorized users only
 		$restricted = NULL;
-		if(($item['active'] == 'N') && ($editors =& Members::list_anchors_for_member($ancestors))) {
+		if(($item['active'] == 'N') && ($editors = Members::list_anchors_for_member($ancestors))) {
 			foreach($editors as $editor)
 				if(strpos($editor, 'user:') === 0)
 					$restricted[] = substr($editor, strlen('user:'));
@@ -2816,7 +2817,7 @@ Class Articles {
 
 		// authorized users only
 		$restricted = NULL;
-		if(($item['active'] == 'N') && ($editors =& Members::list_anchors_for_member($ancestors))) {
+		if(($item['active'] == 'N') && ($editors = Members::list_anchors_for_member($ancestors))) {
 			foreach($editors as $editor)
 				if(strpos($editor, 'user:') === 0)
 					$restricted[] = substr($editor, strlen('user:'));
@@ -3428,10 +3429,10 @@ Class Articles {
 	 * @param mixed the layout, if any
 	 * @return NULL on error, else an ordered array of array($score, $summary)
 	 */
-	public static function &search($pattern, $offset=1.0, $count=50, $layout='search') {
+	public static function search($pattern, $offset=1.0, $count=50, $layout='search') {
 		global $context;
 
-		$output =& Articles::search_in_section(NULL, $pattern, $offset, $count, $layout);
+		$output = Articles::search_in_section(NULL, $pattern, $offset, $count, $layout);
 		return $output;
 	}
 
@@ -3454,7 +3455,7 @@ Class Articles {
 	 * @param mixed the layout, if any
 	 * @return NULL on error, else an ordered array of array($score, $summary)
 	 */
-	public static function &search_in_section($section_id, $pattern, $offset=1.0, $count=10, $layout='search') {
+	public static function search_in_section($section_id, $pattern, $offset=1.0, $count=10, $layout='search') {
 		global $context;
 
 		// sanity check
@@ -3499,7 +3500,7 @@ Class Articles {
 			." ORDER BY score DESC"
 			." LIMIT ".$count;
 
-		$output =& Articles::list_selected(SQL::query($query), $layout);
+		$output = Articles::list_selected(SQL::query($query), $layout);
 		return $output;
 	}
 

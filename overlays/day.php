@@ -158,7 +158,7 @@ class Day extends Event {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_title($host=NULL) {
+	function get_live_title($host=NULL) {
 
 		$text = $host['title'];
 		return $text;
@@ -199,7 +199,7 @@ class Day extends Event {
 	 * @param array the hosting record
 	 * @return an empty array
 	 */
-	function &get_tabs($variant='view', $host=NULL) {
+	function get_tabs($variant='view', $host=NULL) {
 		global $context, $local;
 
 		// returned tabs
@@ -215,7 +215,7 @@ class Day extends Event {
 	 * @param array the hosting record
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_view_text($host=NULL) {
+	function get_view_text($host=NULL) {
 		global $context;
 
 		$text = '';

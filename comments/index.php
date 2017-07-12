@@ -80,7 +80,7 @@ if(($page > 1) && (($page - 1) * THREADS_PER_PAGE > $stats['count'])) {
 
 		// we have an array to format
 		if(is_array($text))
-			$text =& Skin::build_list($text, 'rows');
+			$text = Skin::build_list($text, 'rows');
 
 		// cache, whatever changes, for 1 minute
 		Cache::put($cache_id, $text, 'stable', 60);
@@ -98,7 +98,7 @@ $cache_id = 'comments/index.php#extra';
 if(!$text = Cache::get($cache_id)) {
 
 	// side bar with the list of most recent pages
-	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))
+	if($items = Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))
 		$text = Skin::build_box(i18n::s('Recent pages'), Skin::build_list($items, 'compact'), 'boxes');
 
 	Cache::put($cache_id, $text, 'articles');

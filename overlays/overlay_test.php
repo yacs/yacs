@@ -18,7 +18,7 @@ class Overlay_test extends Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_extra_text($host=NULL) {
+	function get_extra_text($host=NULL) {
 		$text = Codes::beautify_extra('[box.extra='.i18n::s('Extra box').' (test)]'
 			.'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
 			.'[/box]'
@@ -36,7 +36,7 @@ class Overlay_test extends Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_list_text($host=NULL) {
+	function get_list_text($host=NULL) {
 		$text = '<p>list (test) Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>';
 		return $text;
 	}
@@ -49,7 +49,7 @@ class Overlay_test extends Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_introduction($host=NULL) {
+	function get_live_introduction($host=NULL) {
 		$text = $host['introduction'].' (test) Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 		return $text;
 	}
@@ -62,7 +62,7 @@ class Overlay_test extends Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_title($host=NULL) {
+	function get_live_title($host=NULL) {
 		$text = $host['title'].' (test)';
 		return $text;
 	}
@@ -82,7 +82,7 @@ class Overlay_test extends Overlay {
 	 * @param array the hosting record
 	 * @return an array of array('tab_id', 'tab_label', 'panel_id', 'panel_content') or NULL
 	 */
-	function &get_tabs($variant='view', $host=NULL) {
+	function get_tabs($variant='view', $host=NULL) {
 		$content = '<p>(test)  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>';
 		$output = array(array('test_id', 'Test', 'test_panel', $content));
 		return $output;
@@ -96,7 +96,7 @@ class Overlay_test extends Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_trailer_text($host=NULL) {
+	function get_trailer_text($host=NULL) {
 		$text = '<p>trailer (test) Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>';
 		return $text;
 	}
@@ -109,7 +109,7 @@ class Overlay_test extends Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_view_text($host=NULL) {
+	function get_view_text($host=NULL) {
 		$text = '<p>view (test) Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>';
 		return $text;
 	}

@@ -139,7 +139,7 @@ Class Layout_sections_as_tabs extends Layout_interface {
 				$this_section = new section;
 				$this_section->load_by_content($item, $anchor);
 				if($this_section->is_assigned()) {
-					if(($order == 'publication') && ($items =& Articles::list_for_anchor_by('draft', 'section:'.$item['id'], 0, 20, 'compact'))) {
+					if(($order == 'publication') && ($items = Articles::list_for_anchor_by('draft', 'section:'.$item['id'], 0, 20, 'compact'))) {
 						if(is_array($items))
 							$items = Skin::build_list($items, 'compact');
 						$box['top_bar'] += array('_draft' => Skin::build_sliding_box(i18n::s('Draft pages'), $items));
@@ -151,7 +151,7 @@ Class Layout_sections_as_tabs extends Layout_interface {
 					$box['text'] .= Skin::build_list($box['top_bar'], 'menu_bar');
 
 				// get pages
-				$items =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], $offset, $items_per_page, $layout);
+				$items = Articles::list_for_anchor_by($order, 'section:'.$item['id'], $offset, $items_per_page, $layout);
 
 				// items in the middle
 				if(is_array($items) && isset($item['articles_layout']) && ($item['articles_layout'] == 'compact'))

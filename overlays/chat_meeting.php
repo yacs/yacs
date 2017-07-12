@@ -191,7 +191,7 @@ class Chat_meeting extends Meeting {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_trailer_text($host=NULL) {
+	function get_trailer_text($host=NULL) {
 		global $context;
 
 		// meeting is not on-going

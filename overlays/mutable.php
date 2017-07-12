@@ -18,13 +18,13 @@ class Mutable extends Overlay {
 	 * @param array the hosting record
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_extra_text($host=NULL) {
+	function get_extra_text($host=NULL) {
 		global $context;
 
 		// display main content, if any
 		$text = '';
 		if(isset($this->attributes['extra_content']))
-			$text =& Codes::beautify_extra($this->attributes['extra_content']);
+			$text = Codes::beautify_extra($this->attributes['extra_content']);
 
 		return $text;
 
@@ -49,7 +49,7 @@ class Mutable extends Overlay {
 			$this->attributes['overlay_id'] = '';
 
 		// only associates can change the overlay id
-		if(Surfer::is_associate()) { // isset($host['anchor']) && ($parent =&  Anchors::get($host['anchor'])) && $parent->is_assigned()) {
+		if(Surfer::is_associate()) { // isset($host['anchor']) && ($parent =  Anchors::get($host['anchor'])) && $parent->is_assigned()) {
 			$label = i18n::s('Overlay identifier');
 			$input = '<input type="text" name="overlay_id" value="'.encode_field($this->attributes['overlay_id']).'" />';
 		} else {
@@ -98,13 +98,13 @@ class Mutable extends Overlay {
 	 * @param array the hosting record
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_trailer_text($host=NULL) {
+	function get_trailer_text($host=NULL) {
 		global $context;
 
 		// display main content, if any
 		$text = '';
 		if(isset($this->attributes['trailer_content']))
-			$text =& Codes::beautify($this->attributes['trailer_content']);
+			$text = Codes::beautify($this->attributes['trailer_content']);
 
 		return $text;
 
@@ -118,13 +118,13 @@ class Mutable extends Overlay {
 	 * @param array the hosting record
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_view_text($host=NULL) {
+	function get_view_text($host=NULL) {
 		global $context;
 
 		// display main content, if any
 		$text = '';
 		if(isset($this->attributes['view_content']))
-			$text =& Codes::beautify($this->attributes['view_content']);
+			$text = Codes::beautify($this->attributes['view_content']);
 
 		return $text;
 

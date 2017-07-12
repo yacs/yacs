@@ -163,7 +163,7 @@ Class Visits {
 			." ORDER BY users.full_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
-		$output =& Users::list_selected(SQL::query($query), $layout);
+		$output = Users::list_selected(SQL::query($query), $layout);
 		return $output;
 	}
 

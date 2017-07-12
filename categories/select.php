@@ -97,7 +97,7 @@ if(Surfer::is_crawler()) {
 	}
 
 	// the current list of linked categories
-	$categories =& Members::list_categories_by_title_for_member($member, 0, CATEGORIES_LIST_SIZE, 'raw');
+	$categories = Members::list_categories_by_title_for_member($member, 0, CATEGORIES_LIST_SIZE, 'raw');
 
 	// the form to link additional categories
 	if(!is_array($categories) || (count($categories) < CATEGORIES_LIST_SIZE)) {

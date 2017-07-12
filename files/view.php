@@ -901,7 +901,7 @@ if(!isset($item['id'])) {
 	$context['components']['neighbours'] = $text;
 
 	// referrals, if any
-	$context['components']['referrals'] =& Skin::build_referrals(Files::get_url($item['id']));
+	$context['components']['referrals'] = Skin::build_referrals(Files::get_url($item['id']));
 
 }
 

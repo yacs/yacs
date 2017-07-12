@@ -217,7 +217,7 @@ if(!$item['id']) {
 	}
 
 	// referrals, if any
-	$context['components']['referrals'] =& Skin::build_referrals(Servers::get_url($item['id']));
+	$context['components']['referrals'] = Skin::build_referrals(Servers::get_url($item['id']));
 }
 
 // render the skin
