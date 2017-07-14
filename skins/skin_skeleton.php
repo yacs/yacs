@@ -1295,6 +1295,51 @@ Class Skin_Skeleton {
 
 		return $text;
 	}
+        
+        /**
+         * build icon or thumbnail to list items
+         * 
+         * @param string a src href to a image or reference to yacs image
+         * or a call to font awesome icon
+         * @return HTML to display
+         */
+        public static function build_icon($icon) {
+            global $context;
+            $text = '';
+            
+            // test if call to fontawesome
+            if(strpos($icon, 'fa:') !== false) {
+                
+                $fa = explode(',', substr($icon,3));
+                $icon = $fa[0];
+                $options = (isset($fa[1]))?$fa[1]:'';
+                
+                $text .= fa::_($icon, $options);
+                return $text;
+            }
+            
+            // test if ref to image in database
+            if($image= Images::get($icon)) {
+               $src = Images::get_thumbnail_href($image); 
+            } else {
+                $src = $icon;
+                
+                // fix relative path
+                if(!preg_match('/^(\/|http:|https:|ftp:)/', $src))
+                    $src = $context['url_to_root'].$src;         
+            }
+            
+            // use parameter of the control panel for this one
+            $options = '';
+            if(isset($context['classes_for_thumbnail_images']))
+                    $options = 'class="'.$context['classes_for_thumbnail_images'].'" ';
+
+            
+            // build img tag
+            $text = '<img src="'.$src.'" alt="" title="" '.$options.' />';
+            
+            return $text;
+        }
 
 	/**
 	 * build tags for an image
@@ -2397,17 +2442,7 @@ Class Skin_Skeleton {
 			// we just have a link
 			elseif($icon) {
 
-				// fix relative path
-				if(!preg_match('/^(\/|http:|https:|ftp:)/', $icon))
-					$icon = $context['url_to_root'].$icon;
-
-				// adjust the class
-				$class= '';
-				if((($variant == 'column_1') || ($variant == 'column_2')) && isset($context['classes_for_thumbnail_images']) && $context['classes_for_thumbnail_images'])
-					$class = 'class="'.$context['classes_for_thumbnail_images'].'" ';
-
-				// build the complete HTML element
-				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field(strip_tags($label)).'" '.$class.' />';
+				$icon = Skin::build_icon($icon);
 
 			// use default icon if nothing to display
 			} else

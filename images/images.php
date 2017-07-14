@@ -384,12 +384,18 @@ Class Images {
 	 */
 	public static function get($id) {
 		global $context;
+                $output = NULL;
 
 		// sanity check
 		if(!$id) {
-			$output = NULL;
 			return $output;
 		}
+                
+                // isolate id if a reference is provided
+                $id = (!strncmp($id, 'image:', 6))?substr($id, 6):$id;
+                
+                // don't do useless queries
+                if(!is_numeric($id)) return $output;
 
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('images')." AS images "

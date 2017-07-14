@@ -265,25 +265,10 @@ Class Layout_as_titles extends Layout_interface {
 
 			// look for an image
 			$icon = '';
-			if(isset($item['thumbnail_url']) && $item['thumbnail_url'])
-				$icon = $item['thumbnail_url'];
-			elseif(is_callable(array($anchor, 'get_bullet_url')))
+			if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {
+				$icon = Skin::build_icon($item['thumbnail_url']);
+                        }elseif(is_callable(array($anchor, 'get_bullet_url'))) {
 				$icon = $anchor->get_bullet_url();
-
-			// use the thumbnail for this section
-			if($icon) {
-
-				// fix relative path
-				if(!preg_match('/^(\/|http:|https:|ftp:)/', $icon))
-					$icon = $context['url_to_root'].$icon;
-
-				// use parameter of the control panel for this one
-				$options = '';
-				if(isset($context['classes_for_thumbnail_images']))
-					$options = 'class="'.$context['classes_for_thumbnail_images'].'" ';
-
-				// build the complete HTML element
-				$icon = '<img src="'.$icon.'" alt="" title="" '.$options.' />';
 
 			// use default icon if nothing to display
 			} else
