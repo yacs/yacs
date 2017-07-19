@@ -349,6 +349,7 @@ case 'decorated':
 	$layout = Layouts::new_($context['root_articles_layout'], 'article');
 	break;
 case 'no_articles':
+case 'none':
 	$layout = NULL;
 	break;
 default:
