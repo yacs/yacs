@@ -107,6 +107,7 @@ Class Js_Css {
         // less version is priority
         $skinless   = Safe::filemtime($context['path_to_root'].$context['skin'].'/'.$skin.'.scss');
         $skincss    = Safe::filemtime($context['path_to_root'].$context['skin'].'/'.$skin.'.css');
+        $tune     = Safe::filemtime($context['path_to_root'].$context['skin'].'/tune.scss');
         $skinstyle  = ($skinless)?$skinless:$skincss;
         
         // check existence of a minified version
@@ -117,6 +118,7 @@ Class Js_Css {
                         || ($skinstyle && ($skinmin < $skinstyle) ) 
                         || ($knacss && ($skinmin < $knacss) ) 
                         || ($yacss && ($skinmin < $yacss) 
+                        || ($tune) && ($skinmin < $tune)
                         || ($fontawesome && ($skinmin < $fontawesome)));
         
         if($need_compile) {
@@ -135,8 +137,10 @@ Class Js_Css {
             
             // build import directives
             $import = '';
+            if($tune)           $import .= '@import "tune.scss";';
             if($knacss)         $import .= '@import "knacss.scss";';
-            if($fontawesome)    $import .= '@import "font-awesome.scss";';  
+            if($fontawesome)    $import .= '@import "font-awesome.scss";';
+            if($yacss)          $import .= '@import "variables.scss";';
             if($yacss)          $import .= '@import "yacss.scss";';
  
             if($skinless) {
@@ -182,10 +186,19 @@ Class Js_Css {
         
         if( $ouput_stamp < $input_stamp ) {
             
+            $to_compile = '';
+            
             // load scssphp
             $scss       = js_css::prepare_scss_compiler();
             
-            $to_compile = Safe::file_get_contents($context['path_to_root'].$inputFile);
+            // load variables from skin if any
+            $to_compile .= Safe::file_get_contents($context['path_to_root'].$context['skin'].'tune.scss');
+        
+            // load variables from reference
+            $to_compile .= Safe::file_get_contents($context['path_to_root'].'skins/_reference/variables.scss');
+            
+            // load input file
+            $to_compile .= Safe::file_get_contents($context['path_to_root'].$inputFile);
             
             // compile into a css file, catch errors
             try {
