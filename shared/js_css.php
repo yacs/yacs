@@ -219,6 +219,8 @@ Class Js_Css {
         }
         
         
+        return true;
+        
     }
 
     /**
