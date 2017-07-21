@@ -180,6 +180,7 @@ Class Js_Css {
      * @param string $outputFile path to css file
      */
     public static function check_compile($inputFile, $outputFile) {
+        global $context;
     
         $input_stamp = Safe::filemtime($context['path_to_root'].'$inputFile');
         $ouput_stamp = Safe::filemtime($context['path_to_root'].'$outputFile');
