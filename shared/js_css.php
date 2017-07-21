@@ -182,8 +182,8 @@ Class Js_Css {
     public static function check_compile($inputFile, $outputFile) {
         global $context;
     
-        $input_stamp = Safe::filemtime($context['path_to_root'].'$inputFile');
-        $ouput_stamp = Safe::filemtime($context['path_to_root'].'$outputFile');
+        $input_stamp = Safe::filemtime($inputFile);
+        $ouput_stamp = Safe::filemtime($outputFile);
         
         if( $ouput_stamp < $input_stamp ) {
             
@@ -193,13 +193,13 @@ Class Js_Css {
             $scss       = js_css::prepare_scss_compiler();
             
             // load variables from skin if any
-            $to_compile .= Safe::file_get_contents($context['path_to_root'].$context['skin'].'tune.scss');
+            $to_compile .= Safe::file_get_contents($context['path_to_root'].$context['skin'].'/tune.scss');
         
             // load variables from reference
             $to_compile .= Safe::file_get_contents($context['path_to_root'].'skins/_reference/variables.scss');
             
             // load input file
-            $to_compile .= Safe::file_get_contents($context['path_to_root'].$inputFile);
+            $to_compile .= Safe::file_get_contents($inputFile);
             
             // compile into a css file, catch errors
             try {
