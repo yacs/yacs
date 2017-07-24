@@ -2958,7 +2958,7 @@ function pfx(classes) {
     } else {
     
         // do the prefixing on all classes
-        var rxp = /\.([a-zA-Z0-9_-])/g
+        var rxp = /\.([a-zA-Z0-9_-])/g;
         classes = classes.replace(rxp, '.'+yacss_prefix+"$1");
     
     }
