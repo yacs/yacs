@@ -384,7 +384,7 @@ $host = parse_url($context['self_url'], PHP_URL_HOST);
 $path = parse_url($context['self_url'], PHP_URL_PATH);
 $query = parse_url($context['self_url'], PHP_URL_QUERY);
 
-$context['self_url'] = $scheme.'://'.$host.$path.$query;
+$context['self_url'] = $scheme.'://'.$host.$path.'?'.$query;
 //
 // session cookie
 //
