@@ -692,9 +692,10 @@ class Event extends Overlay {
 			$text .= sprintf(i18n::c('%s: %s'), i18n::c('Topic'), Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), Codes::beautify_title($value))).BR;
 
 		// dates
-		if(isset($this->attributes['date_stamp']) && $this->attributes['date_stamp'])
-			$text .= sprintf(i18n::c('%s: %s'), i18n::c('Date'), Skin::build_date($this->attributes['date_stamp'], 'standalone')).BR;
-		if(isset($this->attributes['duration']) && $this->attributes['duration'] && ($this->attributes['duration'] < 1440))
+		if(isset($this->attributes['date_stamp']) && $this->attributes['date_stamp']) {
+			$dateformat = (isset($context['time_zone']) && $context['time_zone'] == 'surfer')?'standalone':'full';
+                        $text .= sprintf(i18n::c('%s: %s'), i18n::c('Date'), Skin::build_date($this->attributes['date_stamp'], $dateformat)).BR;
+                } if(isset($this->attributes['duration']) && $this->attributes['duration'] && ($this->attributes['duration'] < 1440))
 			$text .= sprintf(i18n::c('%s: %s'), i18n::c('Duration'), $this->attributes['duration'].' '.i18n::c('minutes')).BR;
 
 		// build a link to the chairman page, if any

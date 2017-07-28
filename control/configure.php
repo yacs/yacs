@@ -521,6 +521,20 @@ if(!Surfer::is_associate()) {
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Server is not connected to the Internet.');
 	$fields[] = array($label, $input);
+        
+        // Time Zone
+        $label = i18n::s('Time Zone');
+        $input = '<input type="radio" name="time_zone" value="surfer"';
+	if(!isset($context['time_zone']) || ($context['time_zone'] == 'surfer'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Display time according to the time zone of each surfer.');
+        $input .= BR.'<input type="radio" name="time_zone" value="forced"';
+	if(isset($context['time_zone']) && ($context['time_zone'] !== 'surfer'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Use the same time zone for everyone setted as this value : ');
+        $current_time_zone = (isset($context['time_zone']) && is_numeric($context['time_zone']))?$context['time_zone']:0;
+        $input .= tag::_('input','name=time_zone_setted type=numeric min="-12" max=12 value="'.$current_time_zone.'"');
+        $fields[] = array($label, $input);
 
 	// without outbound http
 	$label = i18n::s('Outbound requests');
@@ -866,6 +880,12 @@ if(!Surfer::is_associate()) {
 		$content .= '$context[\'without_cache\']=\''.addcslashes($_REQUEST['without_cache'], "\\'")."';\n";
 	if(isset($_REQUEST['without_http_cache']))
 		$content .= '$context[\'without_http_cache\']=\''.addcslashes($_REQUEST['without_http_cache'], "\\'")."';\n";
+        if(isset($_REQUEST['time_zone'])) {
+            $time_zone = ($_REQUEST['time_zone'] == 'forced')?$_REQUEST['time_zone_setted']:0;
+            $time_zone = ($_REQUEST['time_zone'] == 'surfer')?'surfer':$time_zone;
+            
+            $content .= '$context[\'time_zone\']=\''.addcslashes($time_zone, "\\'")."';\n";
+        }
 	if(isset($_REQUEST['without_internet_visibility']))
 		$content .= '$context[\'without_internet_visibility\']=\''.addcslashes($_REQUEST['without_internet_visibility'], "\\'")."';\n";
 	if(isset($_REQUEST['without_language_detection']))
