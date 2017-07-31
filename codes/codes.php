@@ -531,6 +531,9 @@ Class Codes {
                 , $text);
             }
             
+            // transform new lines as <br />
+            $text = nl2br($text);
+            
             return $text;
         }
 

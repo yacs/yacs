@@ -1617,7 +1617,7 @@ Class Comments {
 			// update the existing record
 			$query = "UPDATE ".SQL::table_name('comments')." SET "
 				."type='".SQL::escape($fields['type'])."', "
-				."description='".SQL::escape($fields['description'])."'";
+				."description='".SQL::escape(htmlentities($fields['description']))."'";
 
 			// maybe another anchor
 			if($fields['anchor'])
@@ -1646,7 +1646,7 @@ Class Comments {
 				."anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1), "
 				."previous_id='".SQL::escape(isset($fields['previous_id']) ? $fields['previous_id'] : 0)."', "
 				."type='".SQL::escape($fields['type'])."', "
-				."description='".SQL::escape($fields['description'])."', "
+				."description='".SQL::escape(htmlentities($fields['description']))."', "
 				."create_name='".SQL::escape($fields['edit_name'])."', "
 				."create_id=".SQL::escape($fields['edit_id']).", "
 				."create_address='".SQL::escape($fields['edit_address'])."', "

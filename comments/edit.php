@@ -223,8 +223,8 @@ if(Surfer::is_crawler()) {
 	$_REQUEST['description'] = preg_replace('/^'.preg_quote(i18n::s('Contribute to this page!'), '/').'/', '', ltrim($_REQUEST['description']));
 
 	// hardcode line breaks if no WYSIWYG editor
-	if(!isset($_REQUEST['editor']))
-		$_REQUEST['description'] = str_replace("\n", BR, $_REQUEST['description']);
+	//if(!isset($_REQUEST['editor']))
+	//	$_REQUEST['description'] = str_replace("\n", BR, $_REQUEST['description']);
 
 	// append to previous comment during 10 secondes
 	if(!isset($item['id'])
@@ -556,7 +556,7 @@ if($with_form) {
 	$label = i18n::s('Your contribution');
 
 	// use the editor if possible
-	$input = Surfer::get_editor('description', isset($item['description']) ? $item['description'] : '', TRUE, 3, FALSE);
+	$input = Surfer::get_editor('description', isset($item['description']) ? html_entity_decode(strip_tags($item['description'])) : '', TRUE, 3, FALSE);
 	$fields[] = array($label, $input);
 
 	// add a file on first post, and if allowed
