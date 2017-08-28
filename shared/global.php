@@ -1351,8 +1351,8 @@ function render_skin($with_last_modified=TRUE) {
 
 		Page::defer_script('included/tiny_mce/tinymce.min.js');
 		Page::insert_script(''
-                      . 'var wysiwyg_toolbar ='.$context['wysiwyg_toolbar']."\n"
-                      . 'var wysiwyg_plugins ='.$context['wysiwyg_plugins']."\n"
+                      . 'var wysiwyg_toolbar ="'.$context['wysiwyg_toolbar']."\";\n"
+                      . 'var wysiwyg_plugins ="'.$context['wysiwyg_plugins']."\";\n"
                       . 'Yacs.tinymceInit();'
                       );
 
