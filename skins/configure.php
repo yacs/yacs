@@ -701,8 +701,8 @@ elseif(!Surfer::is_associate()) {
 		$context['wysiwyg_plugins'] = "charmap, textcolor, fullscreen, code, link, paste, visualblocks";
         $label = i18n::s('Plugin');
         $input = '<input type=text name=wysiwyg_plugins size=60 value="'.$context['wysiwyg_plugins'].'" />';
-        $fields[] = array($label, $input);
-        
+        $hint  = fa::_('puzzle-piece').' '.skin::build_link('https://www.tinymce.com/docs/plugins/', i18n::s('See TinyMCE plugins list'), 'external');
+        $fields[] = array($label, $input, $hint);
         
         // toolbar
         if(!isset($context['wysiwyg_toolbar']))
