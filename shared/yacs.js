@@ -1118,7 +1118,7 @@ var Yacs = {
 		    menubar         : false,
 		    width           : '90.5%',
 		    resize          : false,
-            plugins         : wysiwyg_plugin,
+            plugins         : wysiwyg_plugins,
             toolbar         : wysiwyg_toolbar,
             style_formats: [
                          {title: 'p', block: 'p'},

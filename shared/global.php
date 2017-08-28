@@ -1350,10 +1350,10 @@ function render_skin($with_last_modified=TRUE) {
 	if(isset($context['javascript']['tinymce'])) {
 
 		Page::defer_script('included/tiny_mce/tinymce.min.js');
-		Page::insert_script(''
+		Page::insert_script("\n"
                       . 'var wysiwyg_toolbar ="'.$context['wysiwyg_toolbar']."\";\n"
                       . 'var wysiwyg_plugins ="'.$context['wysiwyg_plugins']."\";\n"
-                      . 'Yacs.tinymceInit();'
+                      . 'Yacs.tinymceInit();'."\n"
                       );
 
 	}
