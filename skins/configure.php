@@ -692,76 +692,27 @@ elseif(!Surfer::is_associate()) {
 
 
 	//
-	// handling freemind
+	// Wysiwyg option (tinymce)
 	//
-	$freemind = '';
-
-	// freemind canvas
-	if(!isset($context['skins_freemind_canvas_height']))
-		$context['skins_freemind_canvas_height'] = '500px';
-	if(!isset($context['skins_freemind_canvas_width']))
-		$context['skins_freemind_canvas_width'] = '100%';
-	$label = i18n::s('Canvas');
-	$input = sprintf(i18n::s('Width: %s'), '<input type="text" name="skins_freemind_canvas_width" size="8" value="'.encode_field($context['skins_freemind_canvas_width']).'" maxlength="10" />')
-		.' '.sprintf(i18n::s('Height: %s'), '<input type="text" name="skins_freemind_canvas_height" size="8" value="'.encode_field($context['skins_freemind_canvas_height']).'" maxlength="10" />');
-	$hint = i18n::s('Width and height of Flash or Java canvas used for interactive browsing.');
-	$fields[] = array($label, $input, $hint);
-
-	// freemind edge color, style, and thickness
-	if(!isset($context['skins_freemind_edge_color']))
-		$context['skins_freemind_edge_color'] = '';
-	if(!isset($context['skins_freemind_edge_style']))
-		$context['skins_freemind_edge_style'] = '';
-	if(!isset($context['skins_freemind_edge_thickness']))
-		$context['skins_freemind_edge_thickness'] = '';
-	$label = i18n::s('Edges');
-	$input = sprintf(i18n::s('Color: %s'), '<input type="text" name="skins_freemind_edge_color" size="8" value="'.encode_field($context['skins_freemind_edge_color']).'" maxlength="8" />')
-		.' '.sprintf(i18n::s('Thickness: %s'), '<input type="text" name="skins_freemind_edge_thickness" size="8" value="'.encode_field($context['skins_freemind_edge_thickness']).'" maxlength="8" />')
-		.' '.sprintf(i18n::s('Style: %s'), '<input type="text" name="skins_freemind_edge_style" size="12" value="'.encode_field($context['skins_freemind_edge_style']).'" maxlength="12" />');
-	$hint = i18n::s('Use HTML codes for colors, numbers or "thin" for thickness, and "bezier" or "linear" for style.');
-	$fields[] = array($label, $input, $hint);
-
-	// freemind main bgcolor and color
-	if(!isset($context['skins_freemind_main_bgcolor']))
-		$context['skins_freemind_main_bgcolor'] = '';
-	if(!isset($context['skins_freemind_main_color']))
-		$context['skins_freemind_main_color'] = '';
-	$label = i18n::s('Main node');
-	$input = sprintf(i18n::s('Color: %s'), '<input type="text" name="skins_freemind_main_color" size="8" value="'.encode_field($context['skins_freemind_main_color']).'" maxlength="8" />')
-		.' '.sprintf(i18n::s('Background color: %s'), '<input type="text" name="skins_freemind_main_bgcolor" size="8" value="'.encode_field($context['skins_freemind_main_bgcolor']).'" maxlength="8" />');
-	$hint = i18n::s('Use HTML codes for colors.');
-	$fields[] = array($label, $input, $hint);
-
-	// freemind sections bgcolor, color and style
-	if(!isset($context['skins_freemind_section_bgcolor']))
-		$context['skins_freemind_section_bgcolor'] = '';
-	if(!isset($context['skins_freemind_section_color']))
-		$context['skins_freemind_section_color'] = '';
-	if(!isset($context['skins_freemind_section_style']))
-		$context['skins_freemind_section_style'] = '';
-	$label = i18n::s('Sections');
-	$input = sprintf(i18n::s('Color: %s'), '<input type="text" name="skins_freemind_section_color" size="8" value="'.encode_field($context['skins_freemind_section_color']).'" maxlength="8" />')
-		.' '.sprintf(i18n::s('Background color: %s'), '<input type="text" name="skins_freemind_section_bgcolor" size="8" value="'.encode_field($context['skins_freemind_section_bgcolor']).'" maxlength="8" />')
-		.' '.sprintf(i18n::s('Style: %s'), '<input type="text" name="skins_freemind_section_style" size="8" value="'.encode_field($context['skins_freemind_section_style']).'" maxlength="8" />');
-	$hint = i18n::s('Use HTML codes for colors, and "fork" or "bubble" for style.');
-	$fields[] = array($label, $input, $hint);
-
-	// freemind articles bgcolor, color and style
-	if(!isset($context['skins_freemind_article_bgcolor']))
-		$context['skins_freemind_article_bgcolor'] = '';
-	if(!isset($context['skins_freemind_article_color']))
-		$context['skins_freemind_article_color'] = '';
-	if(!isset($context['skins_freemind_article_style']))
-		$context['skins_freemind_article_style'] = '';
-	$label = i18n::s('Pages');
-	$input = sprintf(i18n::s('Color: %s'), '<input type="text" name="skins_freemind_article_color" size="8" value="'.encode_field($context['skins_freemind_article_color']).'" maxlength="8" />')
-		.' '.sprintf(i18n::s('Background color: %s'), '<input type="text" name="skins_freemind_article_bgcolor" size="8" value="'.encode_field($context['skins_freemind_article_bgcolor']).'" maxlength="8" />')
-		.' '.sprintf(i18n::s('Style: %s'), '<input type="text" name="skins_freemind_article_style" size="8" value="'.encode_field($context['skins_freemind_article_style']).'" maxlength="8" />');
-	$hint = i18n::s('Use HTML codes for colors, and "fork" or "bubble" for style.');
-	$fields[] = array($label, $input, $hint);
+	$Wysiwyg = '';
+        
+        // plugins
+        if(!isset($context['wysiwyg_plugins']))
+		$context['wysiwyg_plugins'] = "charmap, textcolor, fullscreen, code, link, paste, visualblocks";
+        $label = i18n::s('Plugin');
+        $input = '<input type=text name=wysiwyg_plugins size=60 value='.encode_field($context['wysiwyg_plugins']).' />';
+        $fields[] = array($label, $input);
+        
+        
+        // toolbar
+        if(!isset($context['wysiwyg_toolbar']))
+		$context['wysiwyg_toolbar'] = "undo redo removeformat | styleselect charmap styleselect| bold italic underline strikethrough | alignleft aligncenter alignright | bullist numlist outdent indent | forecolor backcolor | link | pastetext fullscreen code";
+        $label = i18n::s('Toolbar');
+        $input = '<textarea name=wysiwyg_toolbar col=60 row=5>'.encode_field($context['wysiwyg_toolbar']).'</textarea>';
+        $fields[] = array($label, $input);
 
 	// build the form
-	$freemind .= Skin::build_form($fields);
+	$Wysiwyg .= Skin::build_form($fields);
 	$fields = array();
 
 	//
@@ -774,7 +725,7 @@ elseif(!Surfer::is_associate()) {
 		array('options', i18n::s('Options'), 'options_panel', $options),
 		array('images', i18n::s('Images'), 'images_panel', $images),
 		array('gmap', i18n::s('Google Map'), 'gmap_panel', $gmap),
-		array('freemind', i18n::s('Freemind'), 'freemind_panel', $freemind)
+		array('wysiwyg', i18n::s('Editor'), 'wysiwyg_panel', $Wysiwyg)
 		);
 
 	// let YACS do the hard job
@@ -869,38 +820,16 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'with_export_tools\']=\''.addcslashes($_REQUEST['with_export_tools'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_extra_components']) && $_REQUEST['skins_extra_components'])
 		$content .= '$context[\'skins_extra_components\']=\''.addcslashes($_REQUEST['skins_extra_components'], "\\'")."';\n";
-	if(isset($_REQUEST['skins_freemind_article_bgcolor']) && $_REQUEST['skins_freemind_article_bgcolor'])
-		$content .= '$context[\'skins_freemind_article_bgcolor\']=\''.addcslashes($_REQUEST['skins_freemind_article_bgcolor'], "\\'")."';\n";
-	if(isset($_REQUEST['skins_freemind_article_color']) && $_REQUEST['skins_freemind_article_color'])
-		$content .= '$context[\'skins_freemind_article_color\']=\''.addcslashes($_REQUEST['skins_freemind_article_color'], "\\'")."';\n";
+	if(isset($_REQUEST['wysiwyg_plugins']) && $_REQUEST['wysiwyg_plugins'])
+		$content .= '$context[\'wysiwyg_plugins\']=\''.addcslashes($_REQUEST['wysiwyg_plugins'], "\\'")."';\n";
+	if(isset($_REQUEST['wysiwyg_toolbar']) && $_REQUEST['wysiwyg_toolbar'])
+		$content .= '$context[\'wysiwyg_toolbar\']=\''.addcslashes($_REQUEST['wysiwyg_toolbar'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_gmap_default_height']) && $_REQUEST['skins_gmap_default_height'])
 		$content .= '$context[\'skins_gmap_default_height\']=\''.addcslashes($_REQUEST['skins_gmap_default_height'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_gmap_default_width']) && $_REQUEST['skins_gmap_default_width'])
 		$content .= '$context[\'skins_gmap_default_width\']=\''.addcslashes($_REQUEST['skins_gmap_default_width'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_gmap_default_scale']) && $_REQUEST['skins_gmap_default_scale'])
 		$content .= '$context[\'skins_gmap_default_scale\']=\''.addcslashes($_REQUEST['skins_gmap_default_scale'], "\\'")."';\n";
-	if(isset($_REQUEST['skins_freemind_article_style']) && $_REQUEST['skins_freemind_article_style'])
-		$content .= '$context[\'skins_freemind_article_style\']=\''.addcslashes($_REQUEST['skins_freemind_article_style'], "\\'")."';\n";
-	if(isset($_REQUEST['skins_freemind_canvas_height']) && $_REQUEST['skins_freemind_canvas_height'])
-		$content .= '$context[\'skins_freemind_canvas_height\']=\''.addcslashes($_REQUEST['skins_freemind_canvas_height'], "\\'")."';\n";
-	if(isset($_REQUEST['skins_freemind_canvas_width']) && $_REQUEST['skins_freemind_canvas_width'])
-		$content .= '$context[\'skins_freemind_canvas_width\']=\''.addcslashes($_REQUEST['skins_freemind_canvas_width'], "\\'")."';\n";
-	if(isset($_REQUEST['skins_freemind_edge_color']) && $_REQUEST['skins_freemind_edge_color'])
-		$content .= '$context[\'skins_freemind_edge_color\']=\''.addcslashes($_REQUEST['skins_freemind_edge_color'], "\\'")."';\n";
-	if(isset($_REQUEST['skins_freemind_edge_style']) && $_REQUEST['skins_freemind_edge_style'])
-		$content .= '$context[\'skins_freemind_edge_style\']=\''.addcslashes($_REQUEST['skins_freemind_edge_style'], "\\'")."';\n";
-	if(isset($_REQUEST['skins_freemind_edge_thickness']) && $_REQUEST['skins_freemind_edge_thickness'])
-		$content .= '$context[\'skins_freemind_edge_thickness\']=\''.addcslashes($_REQUEST['skins_freemind_edge_thickness'], "\\'")."';\n";
-	if(isset($_REQUEST['skins_freemind_main_bgcolor']) && $_REQUEST['skins_freemind_main_bgcolor'])
-		$content .= '$context[\'skins_freemind_main_bgcolor\']=\''.addcslashes($_REQUEST['skins_freemind_main_bgcolor'], "\\'")."';\n";
-	if(isset($_REQUEST['skins_freemind_main_color']) && $_REQUEST['skins_freemind_main_color'])
-		$content .= '$context[\'skins_freemind_main_color\']=\''.addcslashes($_REQUEST['skins_freemind_main_color'], "\\'")."';\n";
-	if(isset($_REQUEST['skins_freemind_section_bgcolor']) && $_REQUEST['skins_freemind_section_bgcolor'])
-		$content .= '$context[\'skins_freemind_section_bgcolor\']=\''.addcslashes($_REQUEST['skins_freemind_section_bgcolor'], "\\'")."';\n";
-	if(isset($_REQUEST['skins_freemind_section_color']) && $_REQUEST['skins_freemind_section_color'])
-		$content .= '$context[\'skins_freemind_section_color\']=\''.addcslashes($_REQUEST['skins_freemind_section_color'], "\\'")."';\n";
-	if(isset($_REQUEST['skins_freemind_section_style']) && $_REQUEST['skins_freemind_section_style'])
-		$content .= '$context[\'skins_freemind_section_style\']=\''.addcslashes($_REQUEST['skins_freemind_section_style'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_search_extension']) && $_REQUEST['skins_search_extension'])
 		$content .= '$context[\'skins_search_extension\']=\''.addcslashes($_REQUEST['skins_search_extension'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_search_form']) && $_REQUEST['skins_search_form'])
