@@ -700,7 +700,7 @@ elseif(!Surfer::is_associate()) {
         if(!isset($context['wysiwyg_plugins']))
 		$context['wysiwyg_plugins'] = "charmap, textcolor, fullscreen, code, link, paste, visualblocks";
         $label = i18n::s('Plugin');
-        $input = '<input type=text name=wysiwyg_plugins size=60 value='.encode_field($context['wysiwyg_plugins']).' />';
+        $input = '<input type=text name=wysiwyg_plugins size=60 value="'.$context['wysiwyg_plugins'].'" />';
         $fields[] = array($label, $input);
         
         
@@ -708,7 +708,7 @@ elseif(!Surfer::is_associate()) {
         if(!isset($context['wysiwyg_toolbar']))
 		$context['wysiwyg_toolbar'] = "undo redo removeformat | styleselect charmap styleselect| bold italic underline strikethrough | alignleft aligncenter alignright | bullist numlist outdent indent | forecolor backcolor | link | pastetext fullscreen code";
         $label = i18n::s('Toolbar');
-        $input = '<textarea name=wysiwyg_toolbar col=60 row=5>'.encode_field($context['wysiwyg_toolbar']).'</textarea>';
+        $input = '<textarea name=wysiwyg_toolbar cols=60 rows=5>'.$context['wysiwyg_toolbar'].'</textarea>';
         $fields[] = array($label, $input);
 
 	// build the form

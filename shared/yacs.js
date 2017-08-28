@@ -1118,8 +1118,8 @@ var Yacs = {
 		    menubar         : false,
 		    width           : '90.5%',
 		    resize          : false,
-            plugins         : "charmap, textcolor, fullscreen, code, link, paste, visualblocks",
-            toolbar         : "undo redo removeformat | styleselect charmap styleselect| bold italic underline strikethrough | alignleft aligncenter alignright | bullist numlist outdent indent | forecolor backcolor | link | pastetext fullscreen code",
+            plugins         : wysiwyg_plugin,
+            toolbar         : wysiwyg_toolbar,
             style_formats: [
                          {title: 'p', block: 'p'},
                          {title: 'h2', block: 'h2'},
