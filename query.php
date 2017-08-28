@@ -103,9 +103,15 @@ if(Surfer::is_crawler()) {
 	$_REQUEST['publish_name']	= $_REQUEST['edit_name'];
 
 	// show e-mail address of anonymous surfer
-	if($_REQUEST['edit_address'] && !Surfer::is_logged())
+	if($_REQUEST['edit_address'] && !Surfer::is_logged()) {
 		$_REQUEST['description'] = '<p>'.sprintf(i18n::c('Sent by %s'), ($_REQUEST['edit_name']?$_REQUEST['edit_name'].' - ':i18n::c('e-mail').' : ').' [email]'.$_REQUEST['edit_address'].'[/email]')."</p>\n"
 			.$_REQUEST['description'];
+        
+                
+                // provide the page a overlay so anonymous surfer could receive notification
+                $overlay                        = new query();
+                $_REQUEST['overlay']            = $overlay->save();
+        }
 
 	// stop robots
 	if(Surfer::may_be_a_robot()) {
