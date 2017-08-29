@@ -179,6 +179,8 @@ load_skin('users');
 if(isset($item['id']))
     $context['current_item'] = 'user:'.$item['id'];
 
+$context['current_action'] = 'view';
+
 // the path to this page
 $context['path_bar'] = array( 'users/' => i18n::s('People') );
 

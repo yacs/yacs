@@ -168,6 +168,7 @@ load_skin('categories', $anchor, isset($item['options']) ? $item['options'] : ''
 // current item
 if(isset($item['id']))
 	$context['current_item'] = 'category:'.$item['id'];
+$context['current_action'] = 'view';
 
 // path to this page
 if(is_object($anchor) && $anchor->is_viewable())

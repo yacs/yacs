@@ -100,6 +100,10 @@ $id = strip_tags($id);
 // get the item from the database
 $item = Images::get($id);
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'image:'.$item['id'];
+
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
@@ -438,6 +442,9 @@ if(Surfer::is_crawler()) {
 
 // display the form
 if($with_form) {
+    
+        // give context
+        $context['current_action'] = 'edit';
 
 	// the form to edit an image
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form" enctype="multipart/form-data"><div>';

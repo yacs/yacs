@@ -32,6 +32,10 @@ $id = strip_tags($id);
 // get the item from the database
 $item = Articles::get($id);
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'article:'.$item['id'];
+
 // get the related anchor
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
@@ -122,6 +126,9 @@ if(!isset($item['id'])) {
 
 // please confirm
 else {
+    
+        // give context
+        $context['current_action'] = 'delete';
 
 	// the article or the anchor icon, if any
 	$context['page_image'] = $item['icon_url'];

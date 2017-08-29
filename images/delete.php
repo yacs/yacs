@@ -51,6 +51,10 @@ if(isset($_REQUEST['strait'])) {
 // get the item from the database
 $item = Images::get($id);
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'image:'.$item['id'];
+
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
@@ -137,6 +141,9 @@ if(!isset($item['id'])) {
 
 // ask for confirmation
 else {
+    
+        // give context
+        $context['current_action'] = 'delete';
 
 	// commands
 	$menu = array();

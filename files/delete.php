@@ -40,6 +40,10 @@ $id = strip_tags($id);
 // get the item from the database
 $item = Files::get($id);
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'file:'.$item['id'];
+
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
@@ -131,6 +135,9 @@ if(!isset($item['id'])) {
 
 // ask for confirmation
 else {
+    
+        // give context
+        $context['current_action'] = 'delete';
 
 	// commands
 	$menu = array();

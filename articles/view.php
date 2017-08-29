@@ -258,8 +258,10 @@ if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
 // current item
-if(isset($item['id']))
-	$context['current_item'] = 'article:'.$item['id'];
+if(isset($item['id'])) {
+	$context['current_item']    = 'article:'.$item['id'];
+        $context['current_action']  = 'view';
+}
 
 // path to this page
 if($whole_rendering)

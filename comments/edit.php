@@ -129,6 +129,10 @@ $target_anchor = strip_tags($target_anchor);
 // get the item from the database
 $item = Comments::get($id);
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'comment:'.$item['id'];
+
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
@@ -415,6 +419,9 @@ if(Surfer::is_crawler()) {
 
 // display the form
 if($with_form) {
+    
+        // give context
+        $context['current_action'] = 'edit';
 
 	// a reaction from a previous item
 	$reference_item = array();

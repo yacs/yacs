@@ -54,6 +54,10 @@ $id = strip_tags($id);
 // get the item from the database
 $item = Categories::get($id);
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'category:'.$item['id'];
+
 // get the related anchor, if any --use request first, because anchor can change
 $anchor = NULL;
 if(isset($_REQUEST['anchor']) && $_REQUEST['anchor'])
@@ -299,6 +303,9 @@ if(Surfer::is_crawler()) {
 
 // display the form
 if($with_form) {
+    
+        // give context
+        $context['current_action'] = 'edit';
 
 	// the form to edit a category
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form" enctype="multipart/form-data"><div>';

@@ -91,6 +91,8 @@ if(is_object($anchor))
 if(isset($item['id']))
 	$context['current_item'] = 'image:'.$item['id'];
 
+$context['current_action'] = 'view';
+
 // the path to this page
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();

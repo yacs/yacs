@@ -43,6 +43,10 @@ $id = strip_tags($id);
 $item = Users::get($id);
 $user = new User($item);
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'user:'.$item['id'];
+
 // associates can do what they want
 if(Surfer::is_associate())
 	$permitted = TRUE;
@@ -114,6 +118,9 @@ if(!isset($item['id'])) {
 
 // ask for confirmation
 else {
+    
+        // give context
+        $context['current_action'] = 'delete';
 
 	// the submit button
 	if(Surfer::is($item['id']))

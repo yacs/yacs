@@ -590,6 +590,9 @@ if(Surfer::is_crawler()) {
 
 // display the form
 if($with_form) {
+    
+        // give context
+        $context['current_action'] = 'edit';
 
 	// put in $context some elements that can be re-used in articles/edit_as_simple.php and the like
 	//
@@ -1302,9 +1305,6 @@ if($with_form) {
 
 		// for subsequent heartbits
 		$_SESSION['assigned'] = $item['id'];
-
-		// current item
-		$context['current_action'] = 'edit';
 
 	}
 
