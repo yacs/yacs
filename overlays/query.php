@@ -14,7 +14,11 @@
 
 Class query extends Overlay {
     
-    
+    public function get_view_text($host = NULL) {
+       $text = '';
+       
+       return $text;
+    }
     
     public function should_notify_watchers($mail = NULL) {
        
