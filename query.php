@@ -89,7 +89,8 @@ if(Surfer::is_crawler()) {
 	if(!isset($_REQUEST['edit_id']))
 		$_REQUEST['edit_id']	= Surfer::get_id();
 	$_REQUEST['create_address'] = $_REQUEST['edit_address'];
-	$_REQUEST['create_name'] = $_REQUEST['edit_name'];
+	if(!$_REQUEST['create_name'])
+                $_REQUEST['create_name'] = $_REQUEST['edit_name'];
 	if(!$_REQUEST['create_name'])
 		$_REQUEST['create_name'] = $_REQUEST['create_address'];
 	if(!$_REQUEST['create_name'])
@@ -221,10 +222,11 @@ if($with_form) {
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
 	// surfer name
-	if(!isset($item['edit_name']))
-		$item['edit_name'] = Surfer::get_name();
+	if(!isset($item['create_name']))
+		$item['create_name'] = Surfer::get_name();
 	$label = i18n::s('Your name').' *';
-	$input = '<input type="text" name="edit_name" id="edit_name" size="45" value="'.encode_field($item['edit_name']).'" maxlength="255" />';
+	$input = '<input type="text" name="edit_name" id="edit_name" size="45" value="" maxlength="255" />';
+        $input .= "\n".'<input type="hidden" name=create_name value="'.encode_field($item['create_name']).'" />';
 	$hint = i18n::s('Let us a chance to know who you are');
 	$fields[] = array($label, $input, $hint);
 
@@ -244,7 +246,7 @@ if($with_form) {
 	if(!isset($item['title']))
 		$item['title'] = '';
 	$label = i18n::s('Query object').' *';
-	$input = '<textarea name="title" rows="2" cols="50">'.encode_field($item['title']).'</textarea>';
+	$input = '<input name="title" size="52" value="'.encode_field($item['title']).'" />';
 	$hint = i18n::s('The main object of your query');
 	$fields[] = array($label, $input, $hint);
 
