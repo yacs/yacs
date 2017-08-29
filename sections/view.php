@@ -1399,10 +1399,18 @@ if(!isset($item['id'])) {
 				Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
 				$box['top_bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => SECTIONS_ADD_IMG.$label);
 			}
+                        
+                        // get sort order option
+                        if(preg_match('/\bsections_by_([a-z_]+)\b/i', $item['options'], $matches))
+				$order = $matches[1];
+			elseif(is_callable(array($layout, 'items_order')))
+				$order = $layout->items_order();
+			else
+				$order = 'family';
 
-			// list items by family then title
+			// list items
 			$offset = ($zoom_index - 1) * $items_per_page;
-			$items = Sections::list_by_title_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout, TRUE);
+			$items = Sections::list_for_anchor_by($order,'section:'.$item['id'], $offset, $items_per_page, $layout, TRUE);
 
 			// top menu
 			if($box['top_bar'])
