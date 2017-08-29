@@ -199,6 +199,9 @@ $context['page_title'] = '';
 // side menus --an array of strings
 $context['page_tools'] = array();
 
+// quick menus --an array of strings
+$context['page_minitools'] = array();
+
 // page breadcrumbs
 $context['path_bar'] = array();
 

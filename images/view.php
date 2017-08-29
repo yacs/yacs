@@ -235,14 +235,13 @@ if(!isset($item['id'])) {
 	// page tools
 	//
 	if($editable) {
-		Skin::define_img('IMAGES_EDIT_IMG', 'images/edit.gif');
-		$context['page_tools'][] = Skin::build_link(Images::get_url($item['id'], 'edit'), IMAGES_EDIT_IMG.i18n::s('Update this image'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+		$context['page_tools'][] = Skin::build_link(Images::get_url($item['id'], 'edit'), fa::_("fa-edit").' '.i18n::s('Update this image'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+		$context['page_minitools'][] = Skin::build_link(Images::get_url($item['id'], 'edit'), fa::_("fa-edit"), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 	}
 
 	// the delete command is available to associates and editors
 	if($item['id'] && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))) {
-		Skin::define_img('IMAGES_DELETE_IMG', 'images/delete.gif');
-		$context['page_tools'][] = Skin::build_link(Images::get_url($item['id'], 'delete'), IMAGES_DELETE_IMG.i18n::s('Delete this image'));
+		$context['page_tools'][] = Skin::build_link(Images::get_url($item['id'], 'delete'), fa::_("fa-trash").' '.i18n::s('Delete this image'));
 	}
 
 	// general help on this page
