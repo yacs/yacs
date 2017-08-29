@@ -416,6 +416,20 @@
 	}
 
 	/**
+	 * echo the mini toolbox for quick access
+	 *
+	 * You can override this function into your skin
+	 */
+	public static function echo_minitools() {
+		global $context;
+
+		// tools are listed into $context
+		if(isset($context['page_minitools']) && (@count($context['page_minitools']) > 0))
+			echo Skin::build_box(NULL, Skin::finalize_list($context['page_minitools'], 'menu'), 'extra', 'page_minitools');
+
+	}
+
+	/**
 	 * echo tags
 	 *
 	 * You can override this function into your skin

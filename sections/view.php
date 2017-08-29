@@ -1396,8 +1396,7 @@ if(!isset($item['id'])) {
                                     $label = i18n::s('Add a section');
                                 }
                             
-				Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
-				$box['top_bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => SECTIONS_ADD_IMG.$label);
+				$box['top_bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => fa::_("fa-folder-open-o").' '.$label);
 			}
                         
                         // get sort order option
@@ -1501,109 +1500,101 @@ if(!isset($item['id'])) {
 	// commands to add pages
 	if($cur_section->allows('creation','article')) {
 
-		Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 		$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
 		if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command', 'articles')))
 			;
 		else
 			$label = i18n::s('Add a page');
-		$context['page_tools'][] = Skin::build_link($url, ARTICLES_ADD_IMG.$label, 'basic', i18n::s('Add new content to this section'));
+		$context['page_tools'][] = Skin::build_link($url, fa::_("fa-plus-square-o").' '.$label, 'basic', i18n::s('Add new content to this section'));
 
 		// the command to create a new poll, if no overlay nor template has been defined for content of this section
 		if((!isset($item['content_overlay']) || !trim($item['content_overlay'])) && (!isset($item['articles_templates']) || !trim($item['articles_templates'])) && (!is_object($anchor) || !$anchor->get_templates_for('article'))) {
 
-			Skin::define_img('ARTICLES_POLL_IMG', 'articles/poll.gif');
 			$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;variant=poll';
-			$context['page_tools'][] = Skin::build_link($url, ARTICLES_POLL_IMG.i18n::s('Add a poll'), 'basic', i18n::s('Add new content to this section'));
+			$context['page_tools'][] = Skin::build_link($url, fa::_("fa-bar-chart").' '.i18n::s('Add a poll'), 'basic', i18n::s('Add new content to this section'));
 		}
 
-	}
-
-	// add a section
-	if($cur_section->allows('creation','section')) {
-		Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
-		$context['page_tools'][] = Skin::build_link('sections/edit.php?anchor='.urlencode('section:'.$item['id']), SECTIONS_ADD_IMG.i18n::s('Add a section'), 'basic', i18n::s('Add a section'));
-	}
-
-	// comment this page if anchor does not prevent it
-	if($cur_section->allows('creation','comment')) {
-		Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
-		$context['page_tools'][] = Skin::build_link(Comments::get_url('section:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
-	}
-
-	// add a file, if upload is allowed
-	if($cur_section->allows('creation','file')) {
-		Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-		$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
-	}
-
-	// add a link
-	if($cur_section->allows('creation','link')) {
-		Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
-		$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('section:'.$item['id']), LINKS_ADD_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
-	}
-
-	// post an image, if upload is allowed
-	if($cur_section->allows('creation','image')) {
-		Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
-		$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 	}
 
 	// ensure that the surfer can change content
 	if($cur_section->allows('modification')) {
 
 		// modify this section
-		Skin::define_img('SECTIONS_EDIT_IMG', 'sections/edit.gif');
 		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command', 'sections')))
 			$label = i18n::s('Edit this section');
-		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'edit'), SECTIONS_EDIT_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'edit'), fa::_("fa-edit").' '.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+		$context['page_minitools'][] = Skin::build_link(Sections::get_url($item['id'], 'edit'), fa::_("fa-edit"), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 	}
+
+	// post an image, if upload is allowed
+	if($cur_section->allows('creation','image')) {
+		$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("fa-image").' '.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
+		$context['page_minitools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("fa-image"), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
+	}
+
+	// add a file, if upload is allowed
+	if($cur_section->allows('creation','file')) {
+		$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("fa-file-o").' '.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
+		$context['page_minitools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("fa-file-o"), 'basic', i18n::s('Attach related files.'));
+	}
+
+	// add a link
+	if($cur_section->allows('creation','link')) {
+		$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("fa-link").' '.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
+	}
+
+	// comment this page if anchor does not prevent it
+	if($cur_section->allows('creation','comment')) {
+		$context['page_tools'][] = Skin::build_link(Comments::get_url('section:'.$item['id'], 'comment'), fa::_("fa-commenting-o").' '.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
+	}
+
+	// add a section
+	if($cur_section->allows('creation','section')) {
+		$context['page_tools'][] = Skin::build_link('sections/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("fa-folder-open-o").' '.i18n::s('Add a section'), 'basic', i18n::s('Add a section'));
+	}
+
+
+
+
 
 	// commands for section owners
 	if($cur_section->is_owned() || Surfer::is_associate()) {
 
 		// access previous versions, if any
 		if($has_versions) {
-			Skin::define_img('SECTIONS_VERSIONS_IMG', 'sections/versions.gif');
-			$context['page_tools'][] = Skin::build_link(Versions::get_url('section:'.$item['id'], 'list'), SECTIONS_VERSIONS_IMG.i18n::s('Versions'), 'basic', i18n::s('Restore a previous version if necessary'));
+			$context['page_tools'][] = Skin::build_link(Versions::get_url('section:'.$item['id'], 'list'), fa::_("fa-magic").' '.i18n::s('Versions'), 'basic', i18n::s('Restore a previous version if necessary'));
 		}
 
 		// lock the page
 		if(!isset($item['locked']) || ($item['locked'] == 'N')) {
-			Skin::define_img('SECTIONS_LOCK_IMG', 'sections/lock.gif');
-			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'lock'), SECTIONS_LOCK_IMG.i18n::s('Lock'), 'basic');
+			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'lock'), fa::_("fa-lock").' '.i18n::s('Lock'), 'basic');
 		} else {
-			Skin::define_img('SECTIONS_UNLOCK_IMG', 'sections/unlock.gif');
-			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'lock'), SECTIONS_UNLOCK_IMG.i18n::s('Unlock'), 'basic');
+			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'lock'), fa::_("fa-unlock").' '.i18n::s('Unlock'), 'basic');
 		}
 
 		// delete the page
                 if($cur_section->allows('deletion')) {
-                    Skin::define_img('SECTIONS_DELETE_IMG', 'sections/delete.gif');
                     if(!is_object($overlay) || (!$label = $overlay->get_label('delete_command', 'sections')))
                             $label = i18n::s('Delete this section');
-                    $context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'delete'), SECTIONS_DELETE_IMG.$label, 'basic');
+                    $context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'delete'), fa::_("fa-trash").' '.$label, 'basic');
                 }
 
 		// manage content
 		if($has_content) {
-			Skin::define_img('SECTIONS_MANAGE_IMG', 'sections/manage.gif');
-			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'manage'), SECTIONS_MANAGE_IMG.i18n::s('Manage content'), 'basic', i18n::s('Bulk operations'));
+			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'manage'), fa::_("fa-wrench").' '.i18n::s('Manage content'), 'basic', i18n::s('Bulk operations'));
 		}
 
 		// duplicate command provided to container owners
 		if(Sections::is_owned(NULL, $anchor) || Surfer::is_associate()) {
-			Skin::define_img('SECTIONS_DUPLICATE_IMG', 'sections/duplicate.gif');
-			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'duplicate'), SECTIONS_DUPLICATE_IMG.i18n::s('Duplicate this section'));
+			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'duplicate'), fa::_("fa-copy").' '.i18n::s('Duplicate this section'));
 		}
 
 	}
 
 	// commands for associates
 	if(Surfer::is_associate()) {
-		Skin::define_img('SECTIONS_DUPLICATE_IMG', 'sections/duplicate.gif');
-		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'export'), SECTIONS_DUPLICATE_IMG.i18n::s('Export this section'));
+		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'export'), fa::_("fa-recycle").' '.i18n::s('Export this section'));
 	}
 
 }
