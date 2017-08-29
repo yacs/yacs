@@ -206,6 +206,22 @@ elseif(!Surfer::is_associate()) {
 	$input .= '/> '.i18n::s('Associates have to validate membership (closed community).');
 	$fields[] = array($label, $input);
 
+	// User access control
+	$label = i18n::s('Access');
+	$input = '<input type="radio" name="users_default_active" value="Y"';
+	if(!isset($context['users_default_active']) || ($context['users_default_active'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Public - Everybody, including anonymous surfers');
+	$input .= BR.'<input type="radio" name="users_default_active" value="R"';
+	if(isset($context['users_default_active']) && ($context['users_default_active'] == 'R'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Community - Access is granted to any identified surfer');
+	$input .= BR.'<input type="radio" name="users_default_active" value="N"';
+	if(isset($context['users_default_active']) && ($context['users_default_active'] == 'N'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Private - Access is restricted to selected persons');
+	$fields[] = array($label, $input);
+
 	// default editor
 	$label = i18n::s('Default editor');
 	$input = '<input type="radio" name="users_default_editor" value="tinymce"';
@@ -589,6 +605,8 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'users_with_anonymous_comments\']=\''.addcslashes($_REQUEST['users_with_anonymous_comments'], "\\'")."';\n";
 	if(isset($_REQUEST['users_with_approved_members']))
 		$content .= '$context[\'users_with_approved_members\']=\''.addcslashes($_REQUEST['users_with_approved_members'], "\\'")."';\n";
+	if(isset($_REQUEST['users_default_active']))
+		$content .= '$context[\'users_default_active\']=\''.addcslashes($_REQUEST['users_default_active'], "\\'")."';\n";
 	if(isset($_REQUEST['users_with_auto_publish']))
 		$content .= '$context[\'users_with_auto_publish\']=\''.addcslashes($_REQUEST['users_with_auto_publish'], "\\'")."';\n";
 	if(isset($_REQUEST['users_with_email_display']))
