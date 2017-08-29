@@ -100,6 +100,10 @@ $id = strip_tags($id);
 // get the item from the database
 $item = Images::get($id);
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'image:'.$item['id'];
+
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
@@ -232,7 +236,7 @@ if(Surfer::is_crawler()) {
 			$_REQUEST['image_name'] = $file_name;
 
 			// maybe this image has already been uploaded for this anchor
-			if(isset($_REQUEST['anchor']) && ($match =& Images::get_by_anchor_and_name($_REQUEST['anchor'], $file_name))) {
+			if(isset($_REQUEST['anchor']) && ($match = Images::get_by_anchor_and_name($_REQUEST['anchor'], $file_name))) {
 
 				// if yes, switch to the matching record (and forget the record fetched previously, if any)
 				$_REQUEST['id'] = $match['id'];
@@ -338,7 +342,7 @@ if(Surfer::is_crawler()) {
 						Image::adjust($context['path_to_root'].$file_path.'/'.$node, TRUE, 'standard');
 
 						// if the file does not exist yet
-						if(!$item =& Images::get_by_anchor_and_name($anchor->get_reference(), $node)) {
+						if(!$item = Images::get_by_anchor_and_name($anchor->get_reference(), $node)) {
 
 							// create a new image record for this file
 							$item = array();
@@ -438,6 +442,9 @@ if(Surfer::is_crawler()) {
 
 // display the form
 if($with_form) {
+    
+        // give context
+        $context['current_action'] = 'edit';
 
 	// the form to edit an image
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form" enctype="multipart/form-data"><div>';
@@ -513,8 +520,8 @@ if($with_form) {
 		$fields[] = array($label, $input);
 
 		// the description
-		$label = '';
-		$input = Skin::build_box(i18n::s('Description'),Surfer::get_editor('description', isset($item['description'])?$item['description']:''),'folded');
+		$label = i18n::s('description');
+		$input = Skin::build_box('',Surfer::get_editor('description', isset($item['description'])?$item['description']:''),'folded');
 		$fields[] = array($label, $input);
 
 		// the source

@@ -80,7 +80,7 @@ if(Surfer::is_crawler()) {
 	$context['charset'] = 'iso-8859-15';
 
 	// details
-	$details =& Articles::build_dates($anchor, $item);
+	$details = Articles::build_dates($anchor, $item);
 
 	// all details
 	if($details)

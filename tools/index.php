@@ -43,7 +43,7 @@ if ($dir = Safe::opendir($context['path_to_root'].'tools')) {
 $context['text'] .= '</ul>';
 
 // referrals, if any
-$context['components']['referrals'] =& Skin::build_referrals('tools/index.php');
+$context['components']['referrals'] = Skin::build_referrals('tools/index.php');
 
 // render the skin
 render_skin();

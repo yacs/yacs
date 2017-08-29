@@ -62,6 +62,8 @@ if(is_object($anchor))
 if(isset($item['id']))
 	$context['current_item'] = 'comment:'.$item['id'];
 
+$context['current_action'] = 'view';
+
 // the path to this page
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
@@ -239,7 +241,7 @@ if(!isset($item['id'])) {
 	//
 	// the referrals, if any, in a sidebar
 	//
-	$context['components']['referrals'] =& Skin::build_referrals(Comments::get_url($item['id']));
+	$context['components']['referrals'] = Skin::build_referrals(Comments::get_url($item['id']));
 
 }
 

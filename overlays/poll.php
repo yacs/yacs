@@ -127,7 +127,7 @@ class Poll extends Overlay {
 	 * @param attributes of the hosting page
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_list_text($host=NULL) {
+	function get_list_text($host=NULL) {
 		global $context;
 
 		// are votes still allowed?
@@ -159,7 +159,7 @@ class Poll extends Overlay {
 	 * @param attributes of the hosting page
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_view_text($host=NULL) {
+	function get_view_text($host=NULL) {
 		global $context;
 
 		// are votes still allowed?

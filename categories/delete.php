@@ -33,6 +33,10 @@ $id = strip_tags($id);
 // get the item from the database
 $item = Categories::get($id);
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'category:'.$item['id'];
+
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
@@ -106,6 +110,9 @@ if(!isset($item['id'])) {
 
 // the form
 else {
+    
+        // give context
+        $context['current_action'] = 'delete';
 
 	// commands
 	$menu = array();

@@ -125,7 +125,7 @@ Class code_headers extends Code {
            }
 
            // the rendered text
-           $output =& Skin::build_block($text, $variant, $id);
+           $output = Skin::build_block($text, $variant, $id);
            return $output;
     }
     

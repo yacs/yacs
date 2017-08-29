@@ -233,7 +233,7 @@ if( (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] !
 
 	// else take newest page from section of covers
 	elseif($anchor = Sections::lookup('covers'))
-		$cover_page =& Articles::get_newest_for_anchor($anchor);
+		$cover_page = Articles::get_newest_for_anchor($anchor);
 
 	// compute page title -- $context['page_title']
 	if(isset($cover_page['title']) && (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] == 'full')))
@@ -263,7 +263,7 @@ if((!isset($context['root_gadget_boxes_at_home']) || ($context['root_gadget_boxe
 	if($anchor = Sections::lookup('gadget_boxes')) {
 
 		// up to 6 articles to be displayed as gadget boxes
-		if($items =& Articles::list_for_anchor_by('publication', $anchor, 0, 6, 'boxes')) {
+		if($items = Articles::list_for_anchor_by('publication', $anchor, 0, 6, 'boxes')) {
 			foreach($items as $title => $attributes)
 				$gadget_boxes[] = array($title, $attributes['content'], $attributes['id']);
 		}
@@ -349,6 +349,7 @@ case 'decorated':
 	$layout = Layouts::new_($context['root_articles_layout'], 'article');
 	break;
 case 'no_articles':
+case 'none':
 	$layout = NULL;
 	break;
 default:
@@ -386,7 +387,7 @@ if($layout === NULL)
 	$items = '';
 
 // look for recent articles across all sections
-elseif(!$items =& Articles::list_(0, $items_per_page, $layout)) {
+elseif(!$items = Articles::list_(0, $items_per_page, $layout)) {
 
 	// no article yet
 	$items = '<p>'.i18n::s('No page to display.');
@@ -404,9 +405,9 @@ if(is_array($items)) {
 
 	// make a string out of the array
 	if(isset($context['root_articles_layout']) && ($context['root_articles_layout'] == 'compact'))
-		$items =& Skin::build_list($items, 'compact');
+		$items = Skin::build_list($items, 'compact');
 	else
-		$items =& Skin::build_list($items, 'decorated');
+		$items = Skin::build_list($items, 'decorated');
 
 	// add a title in case of complex page
 	$title = '';
@@ -465,10 +466,10 @@ if(!$text = Cache::get($cache_id)) {
 
 		// the category used to assign featured pages
 		$anchor = Categories::get(i18n::c('featured'));
-		if($anchor['id'] && ($items =& Members::list_articles_by_date_for_anchor('category:'.$anchor['id'], 0, ($context['root_featured_count']+1), 'news'))) {
+		if($anchor['id'] && ($items = Members::list_articles_by_date_for_anchor('category:'.$anchor['id'], 0, ($context['root_featured_count']+1), 'news'))) {
 
 			// link to the category page from the box title
-			$title =& Skin::build_box_title($anchor['title'], Categories::get_permalink($anchor), i18n::s('Featured pages'));
+			$title = Skin::build_box_title($anchor['title'], Categories::get_permalink($anchor), i18n::s('Featured pages'));
 
 			// limit to seven links only
 			if(@count($items) > $context['root_featured_count']) {
@@ -482,7 +483,7 @@ if(!$text = Cache::get($cache_id)) {
 
 			// render html
 			if(is_array($items))
-				$items =& Skin::build_list($items, 'news');
+				$items = Skin::build_list($items, 'news');
 
 			// we do have something to display
 			if($items) {
@@ -519,7 +520,7 @@ if($anchor = Sections::lookup('extra_boxes')) {
 		$context['site_extra_maximum'] = 7;
 
 	// articles to be displayed as extra boxes
-	if($items =& Articles::list_for_anchor_by('publication', $anchor, 0, $context['site_extra_maximum'], 'boxes')) {
+	if($items = Articles::list_for_anchor_by('publication', $anchor, 0, $context['site_extra_maximum'], 'boxes')) {
 		foreach($items as $title => $attributes)
 			$text .= Skin::build_box($title, $attributes['content'], 'boxes', $attributes['id'])."\n";
 	}
@@ -531,7 +532,7 @@ $context['components']['boxes'] = $text;
 
 // referrals, if any
 if(Surfer::is_associate() || (isset($context['with_referrals']) && ($context['with_referrals'] == 'Y')))
-	$context['components']['referrals'] =& Skin::build_referrals('index.php');
+	$context['components']['referrals'] = Skin::build_referrals('index.php');
 
 //
 // compute navigation information -- $context['navigation']

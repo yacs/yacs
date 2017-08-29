@@ -129,7 +129,7 @@ if(!isset($item['id'])) {
 			$values['channel']['image'] = $context['url_to_home'].$context['url_to_root'].$context['powered_by_image'];
 
 		// the list of newest pages
-		// $values['items'] =& Members::list_articles_by_date_for_anchor('category:'.$item['id'], 0, 20, 'feed');
+		// $values['items'] = Members::list_articles_by_date_for_anchor('category:'.$item['id'], 0, 20, 'feed');
                 // the list of newest subcategories
                 $values['items'] = Categories::list_by_date_for_anchor('category:'.$item['id'], 0, 20, 'feed');
 

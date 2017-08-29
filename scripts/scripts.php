@@ -20,7 +20,7 @@ class Scripts {
 	 * @param int its target size - default is 45
 	 * @return either a sub-string or a padded string
 	 */
-	public static function &adjust($text, $size=45) {
+	public static function adjust($text, $size=45) {
 		$text = str_replace(array("\r", "\n"), '', $text);
 		$text_length = strlen($text);
 		if($text_length > $size)
@@ -38,7 +38,7 @@ class Scripts {
 	 * @param int maximm number of lines to consider
 	 * @return an array of ('=', $left, $right) or ('-', $left, '-') or ('+', '-', $right)
 	 */
-	public static function &compare($old_stream, $new_stream, $maximum=500) {
+	public static function compare($old_stream, $new_stream, $maximum=500) {
 
 		$start_time = get_micro_time();
 
@@ -203,7 +203,7 @@ class Scripts {
 	 * @param string a file for the updated content
 	 * @return an ASCII string
 	 */
-	public static function &gdiff($original, $updated) {
+	public static function gdiff($original, $updated) {
 		global $context;
 
 		// read the original file
@@ -357,7 +357,7 @@ class Scripts {
 	 * @param string original content
 	 * @return array the set of tokens
 	 */
-	public static function &hbreak(&$text) {
+	public static function hbreak(&$text) {
 		global $context;
 
 
@@ -418,7 +418,7 @@ class Scripts {
 	 * @param string updated content
 	 * @return an ASCII string
 	 */
-	public static function &hdiff(&$original, &$updated) {
+	public static function hdiff(&$original, &$updated) {
 		global $context;
 
 		// preserve HTML tags
@@ -426,7 +426,7 @@ class Scripts {
 		$new_tokens = Scripts::hbreak($updated);
 
 		// do the job
-		$output =& Scripts::sdiff($old_tokens, $new_tokens);
+		$output = Scripts::sdiff($old_tokens, $new_tokens);
 		return $output;
 	}
 
@@ -757,7 +757,7 @@ class Scripts {
 	 * @param string updated content
 	 * @return an ASCII string
 	 */
-	public static function &sdiff(&$original, &$updated) {
+	public static function sdiff(&$original, &$updated) {
 		global $context;
 
 		// compare the two sequences

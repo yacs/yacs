@@ -65,7 +65,7 @@ class Question extends Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_trailer_text($host=NULL) {
+	function get_trailer_text($host=NULL) {
 		$text = '';
 
 		// display the following only if at least one comment has been attached to this page
@@ -109,7 +109,7 @@ class Question extends Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_view_text($host=NULL) {
+	function get_view_text($host=NULL) {
 		$text = '';
 		return $text;
 	}

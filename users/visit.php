@@ -74,7 +74,7 @@ if(Surfer::is_crawler()) {
 
 	// ensure we are producing some text -- open links in separate pages
 	if(is_array($output))
-		$output =& Skin::build_list($output, 'compact', NULL, TRUE);
+		$output = Skin::build_list($output, 'compact', NULL, TRUE);
 
 	// actual transmission except on a HEAD request
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))

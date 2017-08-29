@@ -167,7 +167,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 
 		// link to permalink
 		if(Surfer::is_empowered())
-			$title =& Skin::build_box_title($title, $url, i18n::s('Permalink'));
+			$title = Skin::build_box_title($title, $url, i18n::s('Permalink'));
 
 		// signal articles to be published
 		if(($item['publish_date'] <= NULL_DATE))

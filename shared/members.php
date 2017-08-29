@@ -463,7 +463,7 @@ Class Members {
 	 * @param the maximum size of the returned list
 	 * @return an array of members anchors
 	 */
-	public static function &list_anchors_for_member($member, $offset=0, $count=500) {
+	public static function list_anchors_for_member($member, $offset=0, $count=500) {
 		global $context;
 
 		// we return an array
@@ -526,7 +526,7 @@ Class Members {
 	 * @see users/print.php
 	 * @see users/view.php
 	 */
-	public static function &list_articles_by_date_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $lang=false) {
+	public static function list_articles_by_date_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $lang=false) {
 		global $context;
 
 		// locate where we are
@@ -609,7 +609,7 @@ Class Members {
 		$query .= " ORDER BY edit_date DESC, title LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
-		$output =& Articles::list_selected(SQL::query($query), $variant);
+		$output = Articles::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -634,7 +634,7 @@ Class Members {
 	 * @see categories/print.php
 	 * @see categories/view.php
 	 */
-	public static function &list_articles_by_title_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $lang=false) {
+	public static function list_articles_by_title_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $lang=false) {
 		global $context;
 
 		// locate where we are
@@ -682,7 +682,7 @@ Class Members {
 			." ORDER BY title, edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
-		$output =& Articles::list_selected(SQL::query($query), $variant);
+		$output = Articles::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -707,7 +707,7 @@ Class Members {
 	 * @see categories/print.php
 	 * @see categories/view.php
 	 */
-	public static function &list_articles_by_rating_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $lang=false) {
+	public static function list_articles_by_rating_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $lang=false) {
 		global $context;
 
 		// locate where we are
@@ -755,7 +755,7 @@ Class Members {
 			." ORDER BY rating_sum, edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
-		$output =& Articles::list_selected(SQL::query($query), $variant);
+		$output = Articles::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -776,7 +776,7 @@ Class Members {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_categories_by_count_for_anchor($anchor, $offset=0, $count=10, $variant='full') {
+	public static function list_categories_by_count_for_anchor($anchor, $offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// display active and restricted items
@@ -810,7 +810,7 @@ Class Members {
 			." ORDER BY importance DESC, title, edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
-		$output =& Categories::list_selected(SQL::query($query), $variant);
+		$output = Categories::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -842,7 +842,7 @@ Class Members {
 	 * @see categories/select.php
 	 * @see services/blog.php
 	 */
-	public static function &list_categories_by_title_for_member($member, $offset=0, $count=10, $variant='full',$focus=NULL) {
+	public static function list_categories_by_title_for_member($member, $offset=0, $count=10, $variant='full',$focus=NULL) {
 		global $context;
 
 		// display active and restricted items
@@ -875,7 +875,7 @@ Class Members {
 			." ORDER BY rank, title, edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
-		$output =& Categories::list_selected(SQL::query($query), $variant);
+		$output = Categories::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -895,7 +895,7 @@ Class Members {
 	 *
 	 * @see users/select.php
 	 */
-	public static function &list_connections_for_user($member, $offset=0, $count=10, $variant='compact') {
+	public static function list_connections_for_user($member, $offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// return by reference
@@ -923,7 +923,7 @@ Class Members {
 			." GROUP BY users.id ORDER BY members.edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
-		$output =& Users::list_selected(SQL::query($query), $variant);
+		$output = Users::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -973,7 +973,7 @@ Class Members {
 			." GROUP BY users.id ORDER BY users.full_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
-		$output =& Users::list_selected(SQL::query($query), $variant);
+		$output = Users::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
         
@@ -1038,7 +1038,7 @@ Class Members {
 	 *
 	 * @see sections/select.php
 	 */
-	public static function &list_sections_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='compact') {
+	public static function list_sections_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// display active and restricted items
@@ -1064,7 +1064,7 @@ Class Members {
 			." ORDER BY sections.title, sections.edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
-		$output =& Sections::list_selected(SQL::query($query), $variant);
+		$output = Sections::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
         
@@ -1136,7 +1136,7 @@ Class Members {
 	 *
 	 * @see sections/view.php
 	 */
-	public static function &list_readers_by_name_for_member($member, $offset=0, $count=10, $variant=NULL) {
+	public static function list_readers_by_name_for_member($member, $offset=0, $count=10, $variant=NULL) {
 		global $context;
 
 		// display active and restricted items
@@ -1155,7 +1155,7 @@ Class Members {
 			." GROUP BY users.id ORDER BY users.full_name, users.edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
-		$output =& Users::list_selected(SQL::query($query), $variant);
+		$output = Users::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -1165,7 +1165,7 @@ Class Members {
 	 * @param string the target reference (e.g., 'section:123')
 	 * @return NULL on error, else a set of (user_id, is_watcher, is_editor) rows
 	 */
-	public static function &list_users_by_name_for_reference($reference, $variant="raw") {
+	public static function list_users_by_name_for_reference($reference, $variant="raw") {
 		global $context;
 
 		// the list of watchers
@@ -1199,7 +1199,7 @@ Class Members {
 			." ORDER BY users.full_name, users.nick_name";
 
 		// use existing listing facility
-		$output =& Users::list_selected(SQL::query($query), $variant);
+		$output = Users::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -1213,7 +1213,7 @@ Class Members {
 	 * @param string an id to avoid, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_users_by_name_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $to_avoid=NULL) {
+	public static function list_users_by_name_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $to_avoid=NULL) {
 		global $context;
 
 		// locate where we are
@@ -1245,11 +1245,11 @@ Class Members {
 			." GROUP BY users.id ORDER BY users.full_name, users.nick_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
-		$output =& Users::list_selected(SQL::query($query), $variant);
+		$output = Users::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
-	public static function &list_users_by_random_for_anchor($anchor, $count=10, $variant=NULL, $to_avoid=NULL) {
+	public static function list_users_by_random_for_anchor($anchor, $count=10, $variant=NULL, $to_avoid=NULL) {
 		global $context;
 
 		// locate where we are
@@ -1281,7 +1281,7 @@ Class Members {
 			." GROUP BY users.id ORDER BY Rand() LIMIT ".$count;
 
 		// use existing listing facility
-		$output =& Users::list_selected(SQL::query($query), $variant);
+		$output = Users::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -1297,7 +1297,7 @@ Class Members {
 	 *
 	 * @see categories/view.php
 	 */
-	public static function &list_users_by_posts_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $to_avoid=NULL) {
+	public static function list_users_by_posts_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $to_avoid=NULL) {
 		global $context;
 
 		// locate where we are
@@ -1336,7 +1336,7 @@ Class Members {
 			." GROUP BY users.id ORDER BY users.posts DESC, users.nick_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
-		$output =& Users::list_selected(SQL::query($query), $variant);
+		$output = Users::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -1352,7 +1352,7 @@ Class Members {
 	 *
 	 * @see users/select.php
 	 */
-	public static function &list_users_by_posts_for_member($member, $offset=0, $count=10, $variant='compact', $to_avoid=NULL) {
+	public static function list_users_by_posts_for_member($member, $offset=0, $count=10, $variant='compact', $to_avoid=NULL) {
 		global $context;
 
 		// return by reference
@@ -1412,7 +1412,7 @@ Class Members {
 			." ORDER BY users.posts DESC, users.nick_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
-		$output =& Users::list_selected(SQL::query($query), $variant);
+		$output = Users::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -1451,7 +1451,7 @@ Class Members {
 			." GROUP BY users.id ORDER BY users.full_name, users.nick_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
-		$output =& Users::list_selected(SQL::query($query), $variant);
+		$output = Users::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -1490,7 +1490,7 @@ Class Members {
 			." GROUP BY users.id ORDER BY users.posts DESC, users.edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
-		$output =& Users::list_selected(SQL::query($query), $variant);
+		$output = Users::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 

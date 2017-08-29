@@ -526,7 +526,7 @@ Class Users {
 	 * @param int or string the id or nick name of the user
 	 * @return the associated handle, or NULL if no record matches the input parameter
 	 */
-	public static function &get_handle($id) {
+	public static function get_handle($id) {
 		global $context;
 
 		// sanity check
@@ -889,7 +889,7 @@ Class Users {
 	 *
 	 * @see letters/new.php
 	 */
-	public static function &list_associates_by_posts($offset=0, $count=10, $variant='compact') {
+	public static function list_associates_by_posts($offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// limit the scope of the request
@@ -905,7 +905,7 @@ Class Users {
 			." ORDER BY users.posts DESC, users.nick_name"
 			." LIMIT ".$offset.','.$count;
 
-		$output =& Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
+		$output = Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
 		return $output;
 	}
 
@@ -933,7 +933,7 @@ Class Users {
 	 * @see users/index.php
 	 * @see users/review.php
 	 */
-	public static function &list_by_date($offset=0, $count=10, $variant='compact') {
+	public static function list_by_date($offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// limit the scope of the request
@@ -948,7 +948,7 @@ Class Users {
 			." WHERE ".$where
 			." ORDER BY users.create_date DESC, users.nick_name LIMIT ".$offset.','.$count;
 
-		$output =& Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
+		$output = Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
 		return $output;
 	}
 
@@ -964,7 +964,7 @@ Class Users {
 	 *
 	 * @see users/review.php
 	 */
-	public static function &list_by_login_date($offset=0, $count=10, $variant='dates') {
+	public static function list_by_login_date($offset=0, $count=10, $variant='dates') {
 		global $context;
 
 		// limit the scope of the request
@@ -976,10 +976,10 @@ Class Users {
 
 		// the list of users
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
-			." WHERE (".$where.") AND (users.login_date > NULL_DATE)"
+			." WHERE (".$where.") AND (users.login_date > '".NULL_DATE."')"
 			." ORDER BY users.login_date, users.nick_name LIMIT ".$offset.','.$count;
 
-		$output =& Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
+		$output = Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
 		return $output;
 	}
 
@@ -994,7 +994,7 @@ Class Users {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_by_name($offset=0, $count=10, $variant='full') {
+	public static function list_by_name($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -1009,7 +1009,7 @@ Class Users {
 			." WHERE (".$where.")"
 			." ORDER BY users.full_name, users.edit_date DESC LIMIT ".$offset.','.$count;
 
-		$output =& Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
+		$output = Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
 		return $output;
 	}
 
@@ -1025,7 +1025,7 @@ Class Users {
 	 *
 	 * @see users/review.php
 	 */
-	public static function &list_by_post_date($offset=0, $count=10, $variant='dates') {
+	public static function list_by_post_date($offset=0, $count=10, $variant='dates') {
 		global $context;
 
 		// limit the scope of the request
@@ -1038,10 +1038,10 @@ Class Users {
 
 		// the list of users
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
-			." WHERE ".$where." AND (users.post_date > NULL_DATE)"
+			." WHERE ".$where." AND (users.post_date > '".NULL_DATE."')"
 			." ORDER BY users.post_date, users.nick_name LIMIT ".$offset.','.$count;
 
-		$output =& Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
+		$output = Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
 		return $output;
 	}
 
@@ -1072,7 +1072,7 @@ Class Users {
 	 * @see letters/new.php
 	 * @see users/index.php
 	 */
-	public static function &list_by_posts($offset=0, $count=10, $variant='compact') {
+	public static function list_by_posts($offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// limit the scope of the request
@@ -1092,7 +1092,7 @@ Class Users {
 			." WHERE ".$where
 			." ORDER BY users.posts DESC, users.edit_date DESC LIMIT ".$offset.','.$count;
 
-		$output =& Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
+		$output = Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
 		return $output;
 	}
 
@@ -1109,7 +1109,7 @@ Class Users {
 	 * @param mixed the layout to apply
 	 * @return string to be inserted into the resulting page
 	 */
-	public static function &list_for_ids($ids, $layout='select') {
+	public static function list_for_ids($ids, $layout='select') {
 		global $context;
 
 		// turn a string to an array
@@ -1142,7 +1142,7 @@ Class Users {
 		$query = "(".join(') UNION (', $queries).")";
 
 		// query and layout
-		$output =& Users::list_selected(SQL::query($query), $layout);
+		$output = Users::list_selected(SQL::query($query), $layout);
 		return $output;
 	}
 
@@ -1165,7 +1165,7 @@ Class Users {
 	 *
 	 * @see letters/new.php
 	 */
-	public static function &list_members_by_posts($offset=0, $count=10, $variant='compact') {
+	public static function list_members_by_posts($offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// limit the scope of the request
@@ -1185,7 +1185,7 @@ Class Users {
 			." ORDER BY users.posts DESC, users.nick_name"
 			." LIMIT ".$offset.','.$count;
 
-		$output =& Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
+		$output = Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
 		return $output;
 	}
 
@@ -1202,7 +1202,7 @@ Class Users {
 	 *
 	 * @see users/index.php
 	 */
-	public static function &list_present($offset=0, $count=10, $variant='compact') {
+	public static function list_present($offset=0, $count=10, $variant='compact') {
 		global $context;
 
 		// limit the scope of the request
@@ -1221,7 +1221,7 @@ Class Users {
 			." WHERE ".$where
 			." ORDER BY users.click_date DESC, users.nick_name LIMIT ".$offset.','.$count;
 
-		$output =& Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
+		$output = Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
 		return $output;
 	}
 
@@ -1236,7 +1236,7 @@ Class Users {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_selected($result, $variant='compact') {
+	public static function list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -1769,6 +1769,15 @@ Class Users {
 			logger::remember('users/users.php: unable to retrieve id of new record');
 			return FALSE;
 		}
+                
+                // set create id to self, if auto-registration
+                if(!isset($fields['create_id']) && !$fields['edit_id']) {
+                    $values = array(
+                        'id'        => $fields['id'],
+                        'create_id' => $fields['id']
+                          );
+                    Users::put_attributes($values);
+                }
 
 		// list the user in categories
 		Categories::remember('user:'.$fields['id'], NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
@@ -2127,7 +2136,7 @@ Class Users {
 	 *
 	 * @see search.php
 	 */
-	public static function &search($pattern, $offset=1.0, $count=50, $variant='search') {
+	public static function search($pattern, $offset=1.0, $count=50, $variant='search') {
 		global $context;
 
 		// sanity check
@@ -2195,7 +2204,7 @@ Class Users {
 			." ORDER BY score DESC"
 			." LIMIT ".$count;
 
-		$output =& Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
+		$output = Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
 		return $output;
 	}
 

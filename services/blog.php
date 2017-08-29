@@ -815,7 +815,7 @@ else {
 				Surfer::empower();
 
 			$response = array();
-			$items =& Articles::list_for_anchor_by('edition', 'section:'.$blogid, 0, min($numberOfPosts, 30), 'raw');
+			$items = Articles::list_for_anchor_by('edition', 'section:'.$blogid, 0, min($numberOfPosts, 30), 'raw');
 			if(is_array($items)) {
 				foreach($items as $id => $item) {
 
@@ -1371,7 +1371,7 @@ else {
 				Surfer::empower();
 
 			$response = array();
-			$items =& Articles::list_for_anchor_by('edition', 'section:'.$blogid, 0, min($numberOfPosts, 30), 'raw');
+			$items = Articles::list_for_anchor_by('edition', 'section:'.$blogid, 0, min($numberOfPosts, 30), 'raw');
 			if(is_array($items)) {
 				foreach($items as $id => $item) {
 
@@ -1390,7 +1390,7 @@ else {
 						$entry['pubDate'] = $codec->encode($item['publish_date'], 'date');
 
 					// attached categories
-					$categories =& Members::list_categories_by_title_for_member('article:'.$id, 0, 10, 'raw');
+					$categories = Members::list_categories_by_title_for_member('article:'.$id, 0, 10, 'raw');
 					foreach($categories as $id => $attributes)
 						$entry['categories'][] = $codec->encode(strip_tags($attributes['title']), 'string');
 
@@ -1666,7 +1666,7 @@ else {
 		else {
 			$response = array();
 
-			$items =& Members::list_categories_by_title_for_member('article:'.$postid, 0, 50, 'raw');
+			$items = Members::list_categories_by_title_for_member('article:'.$postid, 0, 50, 'raw');
 			if(is_array($items)) {
 
 				// one entry per category
@@ -1713,7 +1713,7 @@ else {
 		else {
 
 			$response = array();
-			$items =& Articles::list_for_anchor_by('edition', 'section:'.$item['id'], 0, min($numberOfPosts, 30), 'raw');
+			$items = Articles::list_for_anchor_by('edition', 'section:'.$item['id'], 0, min($numberOfPosts, 30), 'raw');
 			if(is_array($items)) {
 				foreach($items as $id => $item) {
 

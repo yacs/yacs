@@ -10,7 +10,7 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
-include_once '../included/fpdf.php';
+include_once '../included/fpdf/fpdf.php';
 
 Class PDF extends FPDF {
 
@@ -308,7 +308,7 @@ Class PDF extends FPDF {
 
 	/**
 	 * page footer
-	 * @see included/fpdf.php
+	 * @see included/fpdf/fpdf.php
 	 */
 	function Footer() {
 		global $context;
@@ -330,7 +330,7 @@ Class PDF extends FPDF {
 
 	/**
 	 * page header
-	 * @see included/fpdf.php
+	 * @see included/fpdf/fpdf.php
 	 */
 	function Header() {
 		global $context;

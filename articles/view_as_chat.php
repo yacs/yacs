@@ -153,7 +153,7 @@ case 'yabb':
 	$context['text'] .= '<div style="margin-top: 2em;">';
 
 	// get a layout for comments of this item
-	$layout =& Comments::get_layout($anchor, $item);
+	$layout = Comments::get_layout($anchor, $item);
 	$items = Comments::list_by_date_for_anchor('article:'.$item['id'], 0, 100, $layout, isset($comments_prefix));
 	if(is_array($items))
 		$context['text'] .= Skin::build_list($items, 'rows');

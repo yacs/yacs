@@ -692,9 +692,10 @@ class Event extends Overlay {
 			$text .= sprintf(i18n::c('%s: %s'), i18n::c('Topic'), Skin::build_link($context['url_to_home'].$context['url_to_root'].$this->anchor->get_url(), Codes::beautify_title($value))).BR;
 
 		// dates
-		if(isset($this->attributes['date_stamp']) && $this->attributes['date_stamp'])
-			$text .= sprintf(i18n::c('%s: %s'), i18n::c('Date'), Skin::build_date($this->attributes['date_stamp'], 'standalone')).BR;
-		if(isset($this->attributes['duration']) && $this->attributes['duration'] && ($this->attributes['duration'] < 1440))
+		if(isset($this->attributes['date_stamp']) && $this->attributes['date_stamp']) {
+			$dateformat = (isset($context['time_zone']) && $context['time_zone'] == 'surfer')?'standalone':'full';
+                        $text .= sprintf(i18n::c('%s: %s'), i18n::c('Date'), Skin::build_date($this->attributes['date_stamp'], $dateformat)).BR;
+                } if(isset($this->attributes['duration']) && $this->attributes['duration'] && ($this->attributes['duration'] < 1440))
 			$text .= sprintf(i18n::c('%s: %s'), i18n::c('Duration'), $this->attributes['duration'].' '.i18n::c('minutes')).BR;
 
 		// build a link to the chairman page, if any
@@ -820,7 +821,7 @@ class Event extends Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_title($host=NULL) {
+	function get_live_title($host=NULL) {
 
 		$text = $host['title'];
 
@@ -962,7 +963,7 @@ class Event extends Overlay {
 	 * @param array the hosting record
 	 * @return an array of array('tab_id', 'tab_label', 'panel_id', 'panel_content') or NULL
 	 */
-	function &get_tabs($variant='view', $host=NULL) {
+	function get_tabs($variant='view', $host=NULL) {
 		global $context, $local;
 
 		// returned tabs
@@ -1121,7 +1122,7 @@ class Event extends Overlay {
 	 * @param array the hosting record
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_view_text($host=NULL) {
+	function get_view_text($host=NULL) {
 		global $context;
 
 		// we may look at enrolments
@@ -1672,7 +1673,7 @@ class Event extends Overlay {
 					$menu = array();
 
 					// call for action
-					$link = $context['url_to_home'].$context['url_to_root'].$this->anchor->get_url();
+					$link = $this->anchor->get_permalink();
 					$menu[] = Skin::build_mail_button($link, i18n::c('View event details'), TRUE);
 
 					// finalize links
@@ -1775,7 +1776,7 @@ class Event extends Overlay {
 				$fields['date_stamp'] = $this->attributes['date_stamp'];
 
 				// there is an existing record
-				if($date =& Dates::get_for_anchor($reference)) {
+				if($date = Dates::get_for_anchor($reference)) {
 
 					// update the record
 					$fields['id'] = $date['id'];

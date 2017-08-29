@@ -91,7 +91,7 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 		Safe::redirect(Sections::get_permalink($item));
 
 // look in sections
-} elseif($items =& Sections::list_for_name($id, NULL, 'full')) {
+} elseif($items = Sections::list_for_name($id, NULL, 'full')) {
 
 		// only one section has this name
 		if(count($items) == 1) {
@@ -106,11 +106,11 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 		$context['text'] .= Skin::build_list($items, 'decorated');
 
 // look in categories
-} elseif(($item = Categories::get($id)) || ($item =& Categories::get_by_keyword($id))) {
+} elseif(($item = Categories::get($id)) || ($item = Categories::get_by_keyword($id))) {
 		Safe::redirect(Categories::get_permalink($item));
 
 // look in articles
-} elseif($items =& Articles::list_for_name($id, NULL, 'full')) {
+} elseif($items = Articles::list_for_name($id, NULL, 'full')) {
 
 		// only one page has this name
 		if(count($items) == 1) {

@@ -40,6 +40,10 @@ $id = strip_tags($id);
 // get the item from the database
 $item = Files::get($id);
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'file:'.$item['id'];
+
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
@@ -131,13 +135,16 @@ if(!isset($item['id'])) {
 
 // ask for confirmation
 else {
+    
+        // give context
+        $context['current_action'] = 'delete';
 
 	// commands
 	$menu = array();
         
         $class_submit   = ( $render_overlaid )?'submit-overlaid':'button';
         
-        if(!is_object($overlay) || !$delete_text = strtolower($overlay->get_label('delete_command')))
+        if(!is_object($overlay) || !$delete_text = mb_strtolower($overlay->get_label('delete_command')))
              $delete_text = i18n::s('delete this file');
         
 	$menu[] = Skin::build_submit_button(sprintf(i18n::s('Yes, I want to %s'),$delete_text), NULL, NULL,  'confirmed', $class_submit);

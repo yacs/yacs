@@ -108,7 +108,7 @@ render_raw('text/xml; charset='.$context['charset']);
 // suggest a name on download
 if(!headers_sent()) {
 	$file_name = $context['site_name'].'.articles.rss.xml';
-	$file_name =& utf8::to_ascii($file_name);
+	$file_name = utf8::to_ascii($file_name);
 	Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 }
 

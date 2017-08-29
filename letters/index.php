@@ -22,7 +22,7 @@ $context['page_title'] = i18n::s('Newsletters');
 
 // seek the database
 $anchor = Sections::lookup('letters');
-if($anchor && ($rows =& Articles::list_for_anchor_by('publication', $anchor, 0, 20)))
+if($anchor && ($rows = Articles::list_for_anchor_by('publication', $anchor, 0, 20)))
 	$context['text'] .= Skin::build_list($rows, 'decorated');
 
 // empty list

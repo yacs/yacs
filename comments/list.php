@@ -146,7 +146,7 @@ if(!is_object($anchor)) {
 	if(!$text = Cache::get($cache_id)) {
 
 		// get a layout from anchor
-		$layout =& Comments::get_layout($anchor);
+		$layout = Comments::get_layout($anchor);
                 
         // set variant, if any
         if(isset($_REQUEST['variant'])) $layout->set_variant($_REQUEST['variant']);

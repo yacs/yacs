@@ -114,7 +114,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 				$_REQUEST['first_comment'] = '<div>'.Skin::build_list(Files::list_for_anchor_and_name('article:'.$_REQUEST['id'], $uploaded, 'compact'), 'compact').'</div>';
 
 			// one file has been added
-			} elseif($file =& Files::get_by_anchor_and_name('article:'.$_REQUEST['id'], $uploaded)) {
+			} elseif($file = Files::get_by_anchor_and_name('article:'.$_REQUEST['id'], $uploaded)) {
 				$context['text'] .= '<p>'.i18n::s('Following file has been added:').'</p>'
 					.Codes::render_object('file', $file['id']);
 

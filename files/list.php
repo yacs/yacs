@@ -147,7 +147,7 @@ if(!is_object($anchor)) {
 	// get parent of the anchor too
 	$parent = NULL;
 	if(is_object($anchor) && ($parent = $anchor->get_parent()))
-		$parent =&  Anchors::get($parent);
+		$parent =  Anchors::get($parent);
 
 	// the command to post a new file, if this is allowed
 	if(is_object($anchor) && Files::allow_creation($anchor->get_values(), $parent, $anchor->get_type())) {

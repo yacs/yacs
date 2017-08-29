@@ -106,6 +106,8 @@ if(is_object($anchor))
 if(isset($item['id']))
 	$context['current_item'] = 'file:'.$item['id'];
 
+$context['current_action'] = 'view';
+
 // path to this page
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
@@ -901,7 +903,7 @@ if(!isset($item['id'])) {
 	$context['components']['neighbours'] = $text;
 
 	// referrals, if any
-	$context['components']['referrals'] =& Skin::build_referrals(Files::get_url($item['id']));
+	$context['components']['referrals'] = Skin::build_referrals(Files::get_url($item['id']));
 
 }
 

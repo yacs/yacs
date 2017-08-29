@@ -353,7 +353,7 @@ Class Categories {
 	 * @param string the keyword of the category
 	 * @return the resulting $item array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	public static function &get_by_keyword($keyword) {
+	public static function get_by_keyword($keyword) {
 		global $context;
 
 		// ensure proper utf8 encoding
@@ -373,7 +373,7 @@ Class Categories {
 	 * @param string the title of the category
 	 * @return the resulting $item array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	public static function &get_by_title($title) {
+	public static function get_by_title($title) {
 		global $context;
 
 		// ensure proper unicode encoding
@@ -400,7 +400,7 @@ Class Categories {
 	 * @param string the anchor currently selected, if any
 	 * @return the HTML to insert in the page
 	 */
-	public static function &get_checkboxes($to_avoid=NULL, $to_select=NULL) {
+	public static function get_checkboxes($to_avoid=NULL, $to_select=NULL) {
 		global $context;
 
 		// returned text
@@ -475,7 +475,7 @@ Class Categories {
 	 *
 	 * @return the resulting $item array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	public static function &get_most_read() {
+	public static function get_most_read() {
 		global $context;
 
 		// select among active and restricted items
@@ -507,7 +507,7 @@ Class Categories {
 	 *
 	 * @return the resulting $item array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	public static function &get_newest() {
+	public static function get_newest() {
 		global $context;
 
 		// select among active and restricted items
@@ -552,11 +552,11 @@ Class Categories {
 	 * @param string the anchor currently selected, if any
 	 * @return the HTML to insert in the page
 	 */
-	public static function &get_options($to_avoid=NULL, $to_select=NULL) {
+	public static function get_options($to_avoid=NULL, $to_select=NULL) {
 		global $context;
 
 		// return the final result
-		$content =& Categories::get_options_for_anchor(null, $to_avoid, $to_select);
+		$content = Categories::get_options_for_anchor(null, $to_avoid, $to_select);
 		return $content;
 	}
 
@@ -568,7 +568,7 @@ Class Categories {
 	 * @param string the anchor currently selected, if any
 	 * @return the HTML to insert in the page
 	 */
-	public static function &get_options_for_anchor($anchor=NULL, $to_avoid=NULL, $to_select=NULL) {
+	public static function get_options_for_anchor($anchor=NULL, $to_avoid=NULL, $to_select=NULL) {
 		global $context;
 
 		// an option to put the category at the root level
@@ -744,7 +744,7 @@ Class Categories {
 	 * @param string the list variant, if any - default is 'full'
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_by_date($offset=0, $count=10, $variant='full') {
+	public static function list_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// restricted to active and restricted items
@@ -762,7 +762,7 @@ Class Categories {
 			." WHERE (".$where.")"
 			." ORDER BY categories.rank, categories.edit_date DESC, categories.title LIMIT ".$offset.','.$count;
 
-		$output =& Categories::list_selected(SQL::query($query), $variant);
+		$output = Categories::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -784,7 +784,7 @@ Class Categories {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=10, $variant='full') {
+	public static function list_by_date_for_anchor($anchor, $offset=0, $count=10, $variant='full') {
 		global $context;
 		
 		if($anchor && !is_object($anchor)) {
@@ -816,7 +816,7 @@ Class Categories {
 			." WHERE (".$where.")"
 			." ORDER BY categories.rank, categories.edit_date DESC, categories.title LIMIT ".$offset.','.$count;
 
-		$output =& Categories::list_selected(SQL::query($query), $variant);
+		$output = Categories::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -839,7 +839,7 @@ Class Categories {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_by_date_for_display($display='site:index', $offset=0, $count=10, $variant='decorated') {
+	public static function list_by_date_for_display($display='site:index', $offset=0, $count=10, $variant='decorated') {
 		global $context;
 
 		// restricted to active and restricted items
@@ -861,7 +861,7 @@ Class Categories {
 			." WHERE (".$where.")"
 			." ORDER BY categories.rank, categories.edit_date DESC, categories.title LIMIT ".$offset.','.$count;
 
-		$output =& Categories::list_selected(SQL::query($query), $variant);
+		$output = Categories::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -888,7 +888,7 @@ Class Categories {
 	 * @param string the list variant, if any - default is 'hits'
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_by_hits($offset=0, $count=10, $variant='hits') {
+	public static function list_by_hits($offset=0, $count=10, $variant='hits') {
 		global $context;
 
 		// display active and restricted items
@@ -906,7 +906,7 @@ Class Categories {
 			." WHERE (".$where.")"
 			." ORDER BY categories.hits DESC, categories.title LIMIT ".$offset.','.$count;
 
-		$output =& Categories::list_selected(SQL::query($query), $variant);
+		$output = Categories::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -924,7 +924,7 @@ Class Categories {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 * @see services/blog.php
 	 */
-	public static function &list_by_path($offset=0, $count=10, $variant='full') {
+	public static function list_by_path($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// display active and restricted items
@@ -948,7 +948,7 @@ Class Categories {
 			." WHERE ".$where
 			." ORDER BY path, title LIMIT ".$offset.', '.$count;
 
-		$output =& Categories::list_selected(SQL::query($query), $variant);
+		$output = Categories::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -978,7 +978,7 @@ Class Categories {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='full') {
+	public static function list_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// display active and restricted items
@@ -1011,7 +1011,7 @@ Class Categories {
 			." WHERE ".$where
 			." ORDER BY categories.rank, categories.title, categories.edit_date DESC LIMIT ".$offset.','.$count;
 
-		$output =& Categories::list_selected(SQL::query($query), $variant);
+		$output = Categories::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -1030,7 +1030,7 @@ Class Categories {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return array an ordered array with $url => ($prefix, $label, $suffix, $icon), else NULL on error
 	 */
-	public static function &list_for_anchor($anchor, $variant='decorated') {
+	public static function list_for_anchor($anchor, $variant='decorated') {
 		global $context;
 		
 		if($anchor && !is_object($anchor)) {
@@ -1059,7 +1059,7 @@ Class Categories {
 			." WHERE ".$where
 			." ORDER BY categories.rank, categories.title, categories.edit_date DESC LIMIT 0, 500";
 
-		$output =& Categories::list_selected(SQL::query($query), $variant);
+		$output = Categories::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -1074,7 +1074,7 @@ Class Categories {
 	 *
 	 * @see categories/complete.php
 	 */
-	public static function &list_keywords($prefix, $mothercat = NULL) {
+	public static function list_keywords($prefix, $mothercat = NULL) {
 		global $context;
 
 		// we return an array
@@ -1123,7 +1123,7 @@ Class Categories {
 	 * @param string the list variant, if any - default is 'full'
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_inactive_by_title($offset=0, $count=10, $variant='full') {
+	public static function list_inactive_by_title($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// for associates only
@@ -1146,7 +1146,7 @@ Class Categories {
 			." WHERE (".$where.")"
 			." ORDER BY categories.rank, categories.title, categories.edit_date LIMIT ".$offset.','.$count;
 
-		$output =& Categories::list_selected(SQL::query($query), $variant);
+		$output = Categories::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -1167,7 +1167,7 @@ Class Categories {
 	 *
 	 * @see search.php
 	 */
-	public static function &list_keywords_by_count($offset=0, $count=10, $variant='full') {
+	public static function list_keywords_by_count($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// restricted to active and restricted items
@@ -1185,7 +1185,7 @@ Class Categories {
 			." WHERE (".$where.") AND LENGTH(categories.keywords) > 0"
 			." ORDER BY categories.edit_date DESC, categories.title LIMIT ".$offset.','.$count;
 
-		$output =& Categories::list_selected(SQL::query($query), $variant);
+		$output = Categories::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -1206,7 +1206,7 @@ Class Categories {
 	 *
 	 * @see search.php
 	 */
-	public static function &list_keywords_by_date($offset=0, $count=10, $variant='full') {
+	public static function list_keywords_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// restricted to active and restricted items
@@ -1224,7 +1224,7 @@ Class Categories {
 			." WHERE (".$where.") AND LENGTH(categories.keywords) > 0"
 			." ORDER BY categories.edit_date DESC, categories.title LIMIT ".$offset.','.$count;
 
-		$output =& Categories::list_selected(SQL::query($query), $variant);
+		$output = Categories::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -1239,7 +1239,7 @@ Class Categories {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_selected($result, $variant='compact') {
+	public static function list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -1821,7 +1821,7 @@ Class Categories {
 			foreach($tags as $title) {
 
 				// create a category if tag is unknown
-				if(!$category =& Categories::get_by_keyword($title)) {
+				if(!$category = Categories::get_by_keyword($title)) {
 					$fields = array();
 					$fields['title'] = ucfirst($title);
 					$fields['keywords'] = $title;
@@ -1880,7 +1880,7 @@ Class Categories {
 	 * @return NULL on error, else an ordered array of array($score, $summary)
 	 * @see #list_selected for $variant description
 	 */
-	public static function &search($pattern, $offset=1.0, $count=50, $variant='search') {
+	public static function search($pattern, $offset=1.0, $count=50, $variant='search') {
 		global $context;
 
 		// sanity check
@@ -1925,7 +1925,7 @@ Class Categories {
 			." ORDER BY score DESC"
 			." LIMIT ".$count;
 
-		$output =& Categories::list_selected(SQL::query($query), $variant);
+		$output = Categories::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 

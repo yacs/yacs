@@ -101,7 +101,7 @@ Class Layout_sections extends Layout_interface {
 					$order = $matches[1];
 				else
 					$order = 'edition';
-				if((count($details) < YAHOO_LIST_SIZE) && ($related =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], 0, YAHOO_LIST_SIZE - count($details), 'compact'))) {
+				if((count($details) < YAHOO_LIST_SIZE) && ($related = Articles::list_for_anchor_by($order, 'section:'.$item['id'], 0, YAHOO_LIST_SIZE - count($details), 'compact'))) {
 					foreach($related as $link => $label) {
 						$sub_prefix = $sub_suffix = $sub_hover = '';
 						if(is_array($label)) {
@@ -171,7 +171,7 @@ Class Layout_sections extends Layout_interface {
 				$related_count += $count;
 
 				// add sub-sections
-				if($related =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, YAHOO_LIST_SIZE, 'compact')) {
+				if($related = Sections::list_by_title_for_anchor('section:'.$item['id'], 0, YAHOO_LIST_SIZE, 'compact')) {
 					foreach($related as $link => $label) {
 						$sub_prefix = $sub_suffix = $sub_hover = '';
 						if(is_array($label)) {

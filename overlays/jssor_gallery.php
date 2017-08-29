@@ -17,7 +17,8 @@ Class jssor_gallery extends Overlay {
     var $min_images             = 2; // minimal number of images to make a slideshow;
     var $auto_thumbs_threshold  = 5; // if more than this number of image, would display thumbs navigation 
     
-    var $nb_images              = 0; // number of images detected.
+    var $nb_images              = null; // number of images detected, null if detection not yet triggered
+    var $images                 = array();
     
     /*
      * Edit slideshow options
@@ -97,17 +98,30 @@ Class jssor_gallery extends Overlay {
         return $fields;
     }
     
+    // gather images only once;
+    private function get_images() {
+        
+        
+        if($this->nb_images === null) {
+        
+            $this->images = Images::list_by_date_for_anchor($this->anchor, 0, 50, 'raw');
+            $this->nb_images = count($this->images);
+        }
+        
+
+    }
+    
     /*
      * Display the slideshow
      */
-    public function &get_view_text($host = NULL) {
+    public function get_view_text($host = NULL) {
         global $context;
         
         $text   = '';
         
         // gather anchor images
-        $images = Images::list_by_date_for_anchor($this->anchor, 0, 50, 'raw');
-        $this->nb_images = count($images);
+       $this->get_images();
+       
         $path   = $context['url_to_root'].Files::get_path($this->anchor,'images');
         
         // make a slideshow only for minimal number of images
@@ -119,7 +133,7 @@ Class jssor_gallery extends Overlay {
             
             // prepare gallery
             $slides = array();
-            foreach($images as $image) {
+            foreach($this->images as $image) {
                 $slide = array();
                 $slide['image_src'] = $path.'/'.$image['image_name'];
                 if($desc = $image['description']) {
@@ -174,16 +188,18 @@ Class jssor_gallery extends Overlay {
     /* 
      * Don't show images already included within description 
      */
-    public function &get_live_description($host=null) {
+    public function get_live_description($host=null) {
 
             // do we have order to remove image ?
             $clean = $this->get_value('clean_img','Y');
             
             $desc = $host['description'];
+            
+            $this->get_images();
 
             if($this->nb_images > 1 && $desc && $clean == 'Y') {
 
-                    $desc = preg_replace('\[image=[0-9]+\]','',$desc);
+                    $desc = preg_replace('/\[image=[0-9]+\]/','',$desc);
                     $desc = Codes::beautify(trim($desc));
 
             }

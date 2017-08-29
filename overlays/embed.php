@@ -151,7 +151,7 @@ class Embed extends Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_list_text($host=NULL) {
+	function get_list_text($host=NULL) {
 		$text = '';
 
 		// if we have a valid thumbnail, use it as a link to the anchor page
@@ -172,7 +172,7 @@ class Embed extends Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_view_text($host=NULL) {
+	function get_view_text($host=NULL) {
 		$text = '';
 
 		// do we have something embedded?

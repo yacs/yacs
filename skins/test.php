@@ -188,12 +188,12 @@ if(!$user_id = Surfer::get_id())
 
 // newest article
 $article_id = 1;
-if($item =& Articles::get_newest_for_anchor(NULL, TRUE))
+if($item = Articles::get_newest_for_anchor(NULL, TRUE))
 	$article_id = $item['id'];
 
 // newest file
 $file_id = 1;
-if($item =& Files::get_newest())
+if($item = Files::get_newest())
 	$file_id = $item['id'];
 
 $compact_items = array('[article='.$article_id.']',

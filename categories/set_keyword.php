@@ -61,7 +61,7 @@ elseif(!$articles = Articles::search($search, 1.0, 50, 'raw')) {
 	Logger::error(i18n::s('No item has been found.'));
 
 // create a category for this keyword if none exists yet
-} elseif(!$category =& Categories::get_by_keyword($search)) {
+} elseif(!$category = Categories::get_by_keyword($search)) {
 	$fields = array();
 	$fields['keywords'] = $search;
 	$fields['anchor'] = $root_category;

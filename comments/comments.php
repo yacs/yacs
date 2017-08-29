@@ -719,7 +719,7 @@ Class Comments {
 	 * @param array atributes for the current item
 	 * @return object an instance of a Layout interface
 	 */
-	public static function &get_layout($anchor, $item=NULL) {
+	public static function get_layout($anchor, $item=NULL) {
 		global $context;
 
 		include_once $context['path_to_root'].'comments/layout_comments_as_updates.php';
@@ -735,7 +735,7 @@ Class Comments {
 	 *
 	 * @see comments/thread.php
 	 */
-	public static function &get_newest_for_anchor($anchor) {
+	public static function get_newest_for_anchor($anchor) {
 		global $context;
 
 		// sanity check
@@ -1127,7 +1127,7 @@ Class Comments {
 	 *
 	 * @see comments/feed.php
 	 */
-	public static function &list_by_date($offset=0, $count=10, $variant='date') {
+	public static function list_by_date($offset=0, $count=10, $variant='date') {
 		global $context;
 
 		// if not associate, restrict to comments at public published not expired pages
@@ -1146,7 +1146,7 @@ Class Comments {
 			$query = "SELECT comments.* FROM ".SQL::table_name('comments')." AS comments "
 				." ORDER BY comments.create_date DESC LIMIT ".$offset.','.$count;
 
-		$output =& Comments::list_selected(SQL::query($query), $variant);
+		$output = Comments::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -1178,7 +1178,7 @@ Class Comments {
 	 * @see comments/feed.php
 	 * @see sections/view.php
 	 */
-	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor', $reverse=FALSE) {
+	public static function list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor', $reverse=FALSE) {
 		global $context;
 
 		// show main comments, or all?
@@ -1197,7 +1197,7 @@ Class Comments {
 			." WHERE (comments.anchor LIKE '".SQL::escape($anchor)."')".$where
 			." ORDER BY comments.create_date ".$reverse." LIMIT ".$offset.','.$count;
 
-		$output =& Comments::list_selected(SQL::query($query), $variant);
+		$output = Comments::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -1216,7 +1216,7 @@ Class Comments {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 */
-	public static function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='date') {
+	public static function list_by_date_for_author($author_id, $offset=0, $count=20, $variant='date') {
 		global $context;
 
 		// the list of comments
@@ -1224,7 +1224,7 @@ Class Comments {
 			." WHERE (comments.create_id = ".SQL::escape($author_id).")"
 			." ORDER BY comments.create_date DESC LIMIT ".$offset.','.$count;
 
-		$output =& Comments::list_selected(SQL::query($query), $variant);
+		$output = Comments::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -1242,7 +1242,7 @@ Class Comments {
 	 *
 	 * @see comments/thread.php
 	 */
-	public static function &list_by_thread_for_anchor($anchor, $offset=0, $count=20, $variant='thread') {
+	public static function list_by_thread_for_anchor($anchor, $offset=0, $count=20, $variant='thread') {
 		global $context;
 
 		// the list of comments
@@ -1250,7 +1250,7 @@ Class Comments {
 			." WHERE comments.anchor LIKE '".SQL::escape($anchor)."'"
 			." ORDER BY comments.create_date DESC LIMIT ".$offset.','.$count;
 
-		$output =& Comments::list_selected(SQL::query($query), $variant);
+		$output = Comments::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -1264,7 +1264,7 @@ Class Comments {
 	 * @see comments/layout_comments_as_updates.php
 	 * @see comments/view.php
 	 */
-	public static function &list_next($id, $variant='date') {
+	public static function list_next($id, $variant='date') {
 		global $context;
 
 		// the list of comments
@@ -1272,7 +1272,7 @@ Class Comments {
 			." WHERE previous_id = ".SQL::escape($id)
 			." ORDER BY comments.create_date LIMIT 0,100";
 
-		$output =& Comments::list_selected(SQL::query($query), $variant);
+		$output = Comments::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -1287,7 +1287,7 @@ Class Comments {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return an array of $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_selected($result, $variant='compact') {
+	public static function list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -1347,7 +1347,7 @@ Class Comments {
 	 *
 	 * @see comments/index.php
 	 */
-	public static function &list_threads_by_count($offset=0, $count=10, $variant='date') {
+	public static function list_threads_by_count($offset=0, $count=10, $variant='date') {
 		global $context;
 
 		// a dynamic where clause
@@ -1375,7 +1375,7 @@ Class Comments {
 			." ORDER BY comments_count DESC, articles.edit_date DESC LIMIT ".$offset.','.$count;
 
 		// return a list of articles
-		$output =& Articles::list_selected(SQL::query($query), $variant);
+		$output = Articles::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -1391,7 +1391,7 @@ Class Comments {
 	 *
 	 * @see comments/index.php
 	 */
-	public static function &list_threads_by_count_for_anchor($anchor, $offset=0, $count=10, $variant='date') {
+	public static function list_threads_by_count_for_anchor($anchor, $offset=0, $count=10, $variant='date') {
 		global $context;
 
 		// restrict the query to addressable content
@@ -1442,7 +1442,7 @@ Class Comments {
 			." ORDER BY comments_count DESC, articles.edit_date DESC LIMIT ".$offset.','.$count;
 
 		// return a list of articles
-		$output =& Articles::list_selected(SQL::query($query), $variant);
+		$output = Articles::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -1458,7 +1458,7 @@ Class Comments {
 	 *
 	 * @see comments/index.php
 	 */
-	public static function &list_threads_by_date($offset=0, $count=10, $variant='date') {
+	public static function list_threads_by_date($offset=0, $count=10, $variant='date') {
 		global $context;
 
 		// a dynamic where clause
@@ -1486,7 +1486,7 @@ Class Comments {
 			." ORDER BY articles.edit_date DESC LIMIT ".$offset.','.$count;
 
 		// return a list of articles
-		$output =& Articles::list_selected(SQL::query($query), $variant);
+		$output = Articles::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -1502,7 +1502,7 @@ Class Comments {
 	 *
 	 * @see comments/index.php
 	 */
-	public static function &list_threads_by_date_for_anchor($anchor, $offset=0, $count=10, $variant='date') {
+	public static function list_threads_by_date_for_anchor($anchor, $offset=0, $count=10, $variant='date') {
 		global $context;
 
 		// restrict the query to addressable content
@@ -1553,7 +1553,7 @@ Class Comments {
 			." ORDER BY articles.edit_date DESC LIMIT ".$offset.','.$count;
 
 		// return a list of articles
-		$output =& Articles::list_selected(SQL::query($query), $variant);
+		$output = Articles::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -1617,7 +1617,7 @@ Class Comments {
 			// update the existing record
 			$query = "UPDATE ".SQL::table_name('comments')." SET "
 				."type='".SQL::escape($fields['type'])."', "
-				."description='".SQL::escape($fields['description'])."'";
+				."description='".SQL::escape(htmlentities($fields['description']))."'";
 
 			// maybe another anchor
 			if($fields['anchor'])
@@ -1646,7 +1646,7 @@ Class Comments {
 				."anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1), "
 				."previous_id='".SQL::escape(isset($fields['previous_id']) ? $fields['previous_id'] : 0)."', "
 				."type='".SQL::escape($fields['type'])."', "
-				."description='".SQL::escape($fields['description'])."', "
+				."description='".SQL::escape(htmlentities($fields['description']))."', "
 				."create_name='".SQL::escape($fields['edit_name'])."', "
 				."create_id=".SQL::escape($fields['edit_id']).", "
 				."create_address='".SQL::escape($fields['edit_address'])."', "
@@ -1687,7 +1687,7 @@ Class Comments {
 	 * @see articles/view_as_chat.php
 	 * @see comments/thread.php
 	 */
-	public static function &pull($anchor, $stamp, $count=100) {
+	public static function pull($anchor, $stamp, $count=100) {
 		global $context;
 
 		$timer = 1;
@@ -1723,7 +1723,7 @@ Class Comments {
 
 		// return an array of variables
 		$response = array();
-		$response['items'] =& Comments::list_by_thread_for_anchor($anchor, 0, $count, 'thread');
+		$response['items'] = Comments::list_by_thread_for_anchor($anchor, 0, $count, 'thread');
 		$response['name'] = strip_tags($stat['edit_name']);
 		$response['timestamp'] = SQL::strtotime($stat['edit_date']);
 

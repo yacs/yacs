@@ -105,42 +105,43 @@ var Yacs = {
 
 		$('#'+target)
 		    // don't navigate away from the field on tab when selecting an item
-		    .bind( "keydown", function( event ) {
-			    if( event.keyCode === $.ui.keyCode.TAB &&
+                    .keydown(function(event){
+                        if( event.keyCode === $.ui.keyCode.TAB &&
 					    $( this ).data( "autocomplete" ).menu.active ) {
-				    event.preventDefault();
+				    
+                                event.preventDefault();
 			    }
-		    })
+                    })
 		    .autocomplete({
-				source: function( request, response ) {
-					$.getJSON( source_url, {
-						term: extractLast( request.term )
-					}, response );
-				},
-				search: function() {
-					// custom minLength
-					var term = extractLast( this.value );
-					if ( term.length < 2 ) {
-						return false;
-					}
-				},
-				focus: function() {
-					// prevent value inserted on focus
-					return false;
-				},
-				select: function( event, ui ) {
-					var terms = split( this.value );
-					// remove the current input
-					terms.pop();
-					// add the selected item
-					terms.push( ui.item.value );
-					// add placeholder to get the comma-and-space at the end
-					terms.push( "" );
-					this.value = terms.join( ", " );
-					if(callback)
-						callback(ui.item.value);
-					return false;
-				}
+                        source: function( request, response ) {
+                                $.getJSON( source_url, {
+                                        term: extractLast( request.term )
+                                }, response );
+                        },
+                        search: function() {
+                                // custom minLength
+                                var term = extractLast( this.value );
+                                if ( term.length < 2 ) {
+                                        return false;
+                                }
+                        },
+                        focus: function() {
+                                // prevent value inserted on focus
+                                return false;
+                        },
+                        select: function( event, ui ) {
+                                var terms = split( this.value );
+                                // remove the current input
+                                terms.pop();
+                                // add the selected item
+                                terms.push( ui.item.value );
+                                // add placeholder to get the comma-and-space at the end
+                                terms.push( "" );
+                                this.value = terms.join( ", " );
+                                if(callback)
+                                        callback(ui.item.value);
+                                return false;
+                        }
 		    });
 	},
 
@@ -575,7 +576,7 @@ var Yacs = {
 		// ensure containers are visible to compute box size
 		// reset click event if any
 		} else {
-			$('#modal_panel').css('display', 'block').unbind( "click" );
+			$('#modal_panel').css('display', 'block').off( "click" );
 		}
 
 		// click at the back of the overlay close it,
@@ -1117,8 +1118,8 @@ var Yacs = {
 		    menubar         : false,
 		    width           : '90.5%',
 		    resize          : false,
-            plugins         : "charmap, textcolor, fullscreen, code, link, paste, visualblocks",
-            toolbar         : "undo redo removeformat | styleselect charmap styleselect| bold italic underline strikethrough | alignleft aligncenter alignright | bullist numlist outdent indent | forecolor backcolor | link | pastetext fullscreen code",
+            plugins         : wysiwyg_plugins,
+            toolbar         : wysiwyg_toolbar,
             style_formats: [
                          {title: 'p', block: 'p'},
                          {title: 'h2', block: 'h2'},
@@ -1151,7 +1152,7 @@ var Yacs = {
 
 		// close all tooltips on tabbing, etc
                 // and resize modalbox
-		$("body").bind("yacs", function(e) {
+		$("body").on("yacs", function(e) {
 			$("#modal_content").find('a.tip,input.tip,textarea.tip, label.tip').each(function() {$(this).tipsy("hide");});
                         // activate tabbing flag for speficic sizing (no reduction)
                         Yacs.modalTabbing = true;
@@ -1226,7 +1227,7 @@ var Yacs = {
                 Yacs.prepareMenus();
 
 		// change the behavior of buttons used for data submission, except those with style 'no_spin_on_click'
-                $('body').delegate('button[type=submit]:not(.no_spin_on_click)','click', function(){Yacs.startWorking();});
+                $('body').on('click','button[type=submit]:not(.no_spin_on_click)', function(){Yacs.startWorking();});
 
 		// show tips
 		$('a[title].tip, input.tip, label.tip').each(function() {
@@ -1234,7 +1235,7 @@ var Yacs = {
 		});
 
 		// close all tooltips on tabbing, etc
-		$("body").bind("yacs", function(e) {
+		$("body").on("yacs", function(e) {
 			$('a.tip,input.tip,textarea.tip, label.tip').each(function() {$(this).tipsy("hide");});
 		});
 
@@ -1255,7 +1256,7 @@ var Yacs = {
 
 		// stick some div to the top
 		var handle = $('div.stickyHeader');
-		if(handle && handle.offset())
+		if(handle.length)
 			Yacs.stickyHeader = handle.offset().top;
 
 		// adjust stickies on load
@@ -1502,7 +1503,7 @@ var Yacs = {
                 });
 
 	    } else
-		$label.unbind('click');
+		$label.off('click');
 
             $label.trigger("click"); // autolaunch
 
@@ -2949,7 +2950,7 @@ function pfx(classes) {
         return '';
 
     // single word case
-    var rxp = /(\.|\s)/
+    var rxp = /(\.|\s)/;
     if(classes.search(rxp) === -1) {
   
         classes = yacss_prefix+classes;
@@ -2957,7 +2958,7 @@ function pfx(classes) {
     } else {
     
         // do the prefixing on all classes
-        var rxp = /\.([a-zA-Z0-9_-])/g
+        var rxp = /\.([a-zA-Z0-9_-])/g;
         classes = classes.replace(rxp, '.'+yacss_prefix+"$1");
     
     }

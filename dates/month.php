@@ -88,7 +88,7 @@ if((strlen($target) < 6) && (strlen($target) > 7)) {
 			}
 
 			// get items for this month
-			$items =& Dates::list_for_month($year, $month, 'links');
+			$items = Dates::list_for_month($year, $month, 'links');
 
 			// draw one month - force an empty month
 			$text .= Dates::build_months($items, FALSE, FALSE, TRUE, FALSE, $year, $month);
@@ -106,7 +106,7 @@ $cache_id = 'dates/month.php#extra';
 if(!$text = Cache::get($cache_id)) {
 
 	// side bar with the list of most recent pages
-	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))
+	if($items = Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))
 		$text = Skin::build_box(i18n::s('Recent pages'), Skin::build_list($items, 'compact'), 'boxes');
 
 	Cache::put($cache_id, $text, 'articles');

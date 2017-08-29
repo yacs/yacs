@@ -143,7 +143,7 @@ if(Surfer::is_crawler()) {
 		register_shutdown_function('on_shutdown');
 
 	// else wait for some update --on time out, browser will recall us anyway
-	$response =& Comments::pull($anchor->get_reference(), isset($_REQUEST['timestamp']) ? gmstrftime('%Y-%m-%d %H:%M:%S', $_REQUEST['timestamp']) : 0);
+	$response = Comments::pull($anchor->get_reference(), isset($_REQUEST['timestamp']) ? gmstrftime('%Y-%m-%d %H:%M:%S', $_REQUEST['timestamp']) : 0);
 
 	// shutdown is not an error anymore
 	$pending = FALSE;

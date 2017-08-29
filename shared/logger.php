@@ -296,7 +296,7 @@ class Logger {
 	 * @param boolean TRUE if HTML tags should be suppressed, FALSE otherwise
 	 * @return string
 	 */
-	public static function &to_string($value='', $strip_tags=TRUE) {
+	public static function to_string($value='', $strip_tags=TRUE) {
 		global $context;
 
 		// a boolean

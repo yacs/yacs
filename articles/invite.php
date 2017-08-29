@@ -76,7 +76,7 @@ if(Articles::is_owned($item, $anchor))
 	$permitted = TRUE;
 
 // help to share public items
-elseif(isset($item['active']) && ($item['active'] == 'Y'))
+elseif(isset($item['active']) && ($item['active'] == 'Y') && Surfer::is_member())
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -254,7 +254,7 @@ if(Surfer::is_crawler()) {
 		$menu[] = Skin::build_mail_button($link, $label, TRUE);
 
 		// link to the container
-		$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+		$link = $anchor->get_url();
 		$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
 
 		// finalize links

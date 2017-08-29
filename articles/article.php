@@ -233,7 +233,7 @@ Class Article extends Anchor {
 	 * @param string an optional variant, including
 	 * @return NULL, of some text
 	 */
-	function &get_teaser($variant = 'basic') {
+	function get_teaser($variant = 'basic') {
 		global $context;
 
 		// no item bound

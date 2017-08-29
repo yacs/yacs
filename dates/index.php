@@ -52,7 +52,7 @@ $cache_id = 'dates/index.php#text';
 if(!$text = Cache::get($cache_id)) {
 
 	// get and draw upcoming events with links to global calendars
-	if($items =& Dates::list_future(0, 200, 'links'))
+	if($items = Dates::list_future(0, 200, 'links'))
 		$text = Dates::build_months($items, TRUE);
 	else
 		$text = i18n::s('No event has been planned so far');
@@ -87,7 +87,7 @@ $cache_id = 'dates/index.php#extra';
 if(!$text = Cache::get($cache_id)) {
 
 	// side bar with the list of most recent pages
-	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))
+	if($items = Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))
 		$text = Skin::build_box(i18n::s('Recent pages'), Skin::build_list($items, 'compact'), 'boxes');
 
 	Cache::put($cache_id, $text, 'articles');

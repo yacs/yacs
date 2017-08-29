@@ -231,7 +231,7 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 } else {
 
 	// get a layout for these comments
-	$layout =& Comments::get_layout($anchor, $item);
+	$layout = Comments::get_layout($anchor, $item);
 
 	// provide author information to layout
 	if(is_object($layout) && $item['create_id'])

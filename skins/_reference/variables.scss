@@ -1,0 +1,23 @@
+/**
+ * variables for any scss compilation.
+ * could be overiden by a tune.scss in your skin folder
+ *
+ * $author Alexis Raimbault
+ * $reference
+ * $license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+ */
+
+
+////////////
+// variables
+// 
+
+$color-link               : steelblue !default;
+$color-shadower           : rgba(0,0,0,.3) !default;
+$color-enlighter          : rgba(255,255,150,.5) !default;
+$color-lesser             : #888 !default;
+$color-tabs-borders       : #c0c0c0 !default;
+$color-tabs               : ghostwhite !default;
+$color-modal              : #FFF !default;
+$color-nav-tabs           : lightyellow !default;
+$color-button             : steelblue !default;

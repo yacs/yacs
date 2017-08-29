@@ -550,7 +550,7 @@ class Messages {
 		foreach($message_headers as $header) {
 			if(preg_match('/Subject/i', $header['name'])) {
 				$context['mail_subject'] = $header['value'];
-				if(preg_match('/\[#(a|s)*([0-9]+)\]/', $header['value'], $matches)) {
+				if(preg_match('/\(#(a|s)*([0-9]+)\)/', $header['value'], $matches)) {
 					$context['mail_subject'] = preg_replace('/'.preg_quote($matches[0], '/').'/', '', $header['value']);
 					if(!$matches[1] || ($matches[1] == 'a'))
 						$anchor = 'article:'.$matches[2];

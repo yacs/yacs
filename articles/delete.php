@@ -32,6 +32,10 @@ $id = strip_tags($id);
 // get the item from the database
 $item = Articles::get($id);
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'article:'.$item['id'];
+
 // get the related anchor
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
@@ -122,6 +126,9 @@ if(!isset($item['id'])) {
 
 // please confirm
 else {
+    
+        // give context
+        $context['current_action'] = 'delete';
 
 	// the article or the anchor icon, if any
 	$context['page_image'] = $item['icon_url'];
@@ -133,7 +140,7 @@ else {
         
         $class_submit   = ( $render_overlaid )?'submit-overlaid':'button';
         if(is_object($overlay))
-             $delete_text    = strtolower($overlay->get_label('delete_command'));
+             $delete_text    = mb_strtolower($overlay->get_label('delete_command'));
   
         if(!isset($delete_text)) $delete_text = i18n::s('delete this page');
 

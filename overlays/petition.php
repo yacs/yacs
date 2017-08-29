@@ -66,7 +66,7 @@ class Petition extends Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_details_text($host=NULL) {
+	function get_details_text($host=NULL) {
 		global $context;
 
 		// feed-back to surfer
@@ -216,7 +216,7 @@ class Petition extends Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_trailer_text($host=NULL) {
+	function get_trailer_text($host=NULL) {
 		global $context;
 
 		// the text
@@ -256,7 +256,7 @@ class Petition extends Overlay {
 	 * @param array the hosting record
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_view_text($host=NULL) {
+	function get_view_text($host=NULL) {
 		$text = '';
 		return $text;
 	}

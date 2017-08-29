@@ -183,6 +183,7 @@ if(!$permitted) {
 		$fields = array();
 		$fields['anchor'] = $_REQUEST['anchor'];
 		$fields['title'] = $_REQUEST['title'];
+                $fields['index_title'] = $fields['title'];
 		$fields['introduction'] = $_REQUEST['introduction'];
 		$fields['description'] = $_REQUEST['description'];
 		$fields['active_set'] = $_REQUEST['active'];
@@ -331,6 +332,7 @@ if(!$permitted) {
 		$fields = array();
 		$fields['anchor'] = $_REQUEST['anchor'];
 		$fields['title'] = $_REQUEST['title'];
+                $fields['index_title'] = $fields['title'];
 		$fields['introduction'] = $_REQUEST['introduction'];
 		$fields['description'] = $_REQUEST['description'];
 		$fields['articles_layout'] = 'none'; // the preferred layout for books
@@ -492,6 +494,7 @@ if(!$permitted) {
 		$fields = array();
 		$fields['anchor'] = $_REQUEST['anchor'];
 		$fields['title'] = $_REQUEST['title'];
+                $fields['index_title'] = $fields['title'];
 		$fields['introduction'] = $_REQUEST['introduction'];
 		$fields['description'] = $_REQUEST['description'];
 		$fields['articles_layout'] = 'none'; // the preferred layout for discussion boards
@@ -660,6 +663,7 @@ if(!$permitted) {
 			$fields = array();
 			$fields['anchor'] = 'section:'.$item['id'];
 			$fields['title'] = $_REQUEST['titles'][$index];
+                        $fields['index_title'] = $fields['title'];
 			$fields['introduction'] = $_REQUEST['introductions'][$index];
 			$fields['articles_layout'] = 'none'; // no articles here
 			$fields['options'] = 'with_links';
@@ -783,6 +787,7 @@ if(!$permitted) {
 		$fields = array();
 		$fields['anchor'] = $_REQUEST['anchor'];
 		$fields['title'] = $_REQUEST['title'];
+                $fields['index_title'] = $fields['title'];
 		$fields['introduction'] = $_REQUEST['introduction'];
 		$fields['description'] = $_REQUEST['description'];
 		$fields['active_set'] = $_REQUEST['active'];
@@ -898,6 +903,7 @@ if(!$permitted) {
 		$fields = array();
 		$fields['nick_name'] = 'partners';
 		$fields['title'] = $_REQUEST['title'];
+                $fields['index_title'] = $fields['title'];
 		$fields['introduction'] = $_REQUEST['introduction'];
 		$fields['index_map'] = 'N'; // new pages are not pushed at the front page
 		$fields['rank'] = 50000; // towards the end of the list
@@ -1011,6 +1017,7 @@ if(!$permitted) {
 		$fields = array();
 		$fields['anchor'] = $_REQUEST['anchor'];
 		$fields['title'] = $_REQUEST['title'];
+                $fields['index_title'] = $fields['title'];
 		$fields['introduction'] = $_REQUEST['introduction'];
 		$fields['active_set'] = $_REQUEST['active'];
 		$fields['index_map'] = $_REQUEST['index_map'];
@@ -1126,6 +1133,7 @@ if(!$permitted) {
 		$fields = array();
 		$fields['anchor'] = $_REQUEST['anchor'];
 		$fields['title'] = $_REQUEST['title'];
+                $fields['index_title'] = $fields['title'];
 		$fields['introduction'] = $_REQUEST['introduction'];
 		$fields['active_set'] = $_REQUEST['active'];
 		$fields['index_map'] = $_REQUEST['index_map'];
@@ -1363,6 +1371,7 @@ if(!$permitted) {
 		$fields = array();
 		$fields['anchor'] = $_REQUEST['anchor'];
 		$fields['title'] = $_REQUEST['title'];
+                $fields['index_title'] = $fields['title'];
 		$fields['introduction'] = $_REQUEST['introduction'];
 		$fields['description'] = $_REQUEST['description'];
 		$fields['active_set'] = $_REQUEST['active'];

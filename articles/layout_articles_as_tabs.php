@@ -150,7 +150,7 @@ Class Layout_articles_as_tabs extends Layout_interface {
 				$add_label = i18n::s('Post a comment');
 
 			// get a layout from anchor
-			$layout =& Comments::get_layout($anchor, $item);
+			$layout = Comments::get_layout($anchor, $item);
 
 			// provide author information to layout
 			if(is_object($layout) && isset($item['create_id']) && $item['create_id'])

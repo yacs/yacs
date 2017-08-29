@@ -56,7 +56,7 @@ if(Surfer::is_associate())
 		.'<p>'.i18n::s('In the form used to edit the section, type the keyword <code>foo</code> in the behavior field, then save changes.').'</p>';
 
 // referrals, if any
-$context['components']['referrals'] =& Skin::build_referrals('behaviors/index.php');
+$context['components']['referrals'] = Skin::build_referrals('behaviors/index.php');
 
 // render the skin
 render_skin();

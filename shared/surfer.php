@@ -289,7 +289,7 @@ Class Surfer {
 	 *
 	 * @see skins/skin_skeleton.php
 	 */
-	public static function &build_user_menu($type = 'submenu') {
+	public static function build_user_menu($type = 'submenu') {
 		global $context;
 
 		// surfer is a valid user
@@ -651,9 +651,16 @@ Class Surfer {
 	 */
 	public static function get_gmt_offset() {
 		global $context;
-
-		// use cookie sent by browser -- see shared/yacs.js
-		if(isset($_COOKIE['TimeZone']))
+                
+                // use time zone defined as parameter
+                if(isset($context['time_zone']) 
+                      && $context['time_zone'] !== 'surfer' 
+                      && is_numeric($context['time_zone'])){
+                        return $context['time_zone'];
+                    
+                    
+		// or use cookie sent by browser -- see shared/yacs.js
+                } elseif(isset($_COOKIE['TimeZone']))
 			return $_COOKIE['TimeZone'];
 
 		// assume GMT

@@ -100,7 +100,7 @@ Class Layout_as_accordion extends Layout_interface {
 				    $order = $matches[1];
 			    else
 				    $order = 'edition';
-			    $items =& Articles::list_for_anchor_by($order, $entity->get_reference(), 0, MAXIMUM_ITEMS_PER_ACCORDION+1, 'compact');
+			    $items = Articles::list_for_anchor_by($order, $entity->get_reference(), 0, MAXIMUM_ITEMS_PER_ACCORDION+1, 'compact');
 
 			    if(@count($items)) {
 
@@ -183,7 +183,7 @@ Class Layout_as_accordion extends Layout_interface {
 			
 			// list related sub-sections, if any
 			if($items_type == 'section') {
-			    if($items =& Sections::list_by_title_for_anchor($entity->get_reference(), 0, MAXIMUM_ITEMS_PER_ACCORDION+1, 'compact')) {
+			    if($items = Sections::list_by_title_for_anchor($entity->get_reference(), 0, MAXIMUM_ITEMS_PER_ACCORDION+1, 'compact')) {
 
 				    // mention the number of sections in folded title
 				    $details[] = sprintf(i18n::ns('%d section', '%d sections', count($items)), count($items));

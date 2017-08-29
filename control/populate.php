@@ -255,6 +255,7 @@ if(!$permitted) {
 		$fields = array();
 		$fields['nick_name'] = 'covers';
 		$fields['title'] = i18n::c('Covers');
+                $fields['index_title'] = $fields['title'];
 		$fields['introduction'] = i18n::c('The top page here is also displayed at the front page');
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
@@ -270,6 +271,7 @@ if(!$permitted) {
 		$fields = array();
 		$fields['nick_name'] = 'default';
 		$fields['title'] = i18n::c('Pages');
+                $fields['index_title'] = $fields['title'];
 		$fields['introduction'] = i18n::c('The default place for new pages');
 		$fields['description'] = '';
 		if(Sections::post($fields))
@@ -283,6 +285,7 @@ if(!$permitted) {
 		$fields = array();
 		$fields['nick_name'] = 'extra_boxes';
 		$fields['title'] = i18n::c('Extra boxes');
+                $fields['index_title'] = $fields['title'];
 		$fields['introduction'] = i18n::c('Boxes displayed aside the front page');
 		$fields['description'] = i18n::c('All [link=codes]codes/[/link] are available to format boxes. Keep the content as compact as possible because of the small size of any single box. When ready, publish pages to actually show boxes to everybody.');
 		$fields['index_map'] = 'N'; // listed with special sections
@@ -298,6 +301,7 @@ if(!$permitted) {
 		$fields = array();
 		$fields['nick_name'] = 'gadget_boxes';
 		$fields['title'] = i18n::c('Gadget boxes');
+                $fields['index_title'] = $fields['title'];
 		$fields['introduction'] = i18n::c('Boxes displayed in the middle of the front page');
 		$fields['description'] = i18n::c('All [link=codes]codes/[/link] are available to format boxes. Keep the content as compact as possible because of the small size of any single box. When ready, publish pages to actually show boxes to everybody.');
 		$fields['index_map'] = 'N'; // listed with special sections
@@ -313,6 +317,7 @@ if(!$permitted) {
 		$fields = array();
 		$fields['nick_name'] = 'global';
 		$fields['title'] = i18n::c('Global pages');
+                $fields['index_title'] = $fields['title'];
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
 		$fields['rank'] = '1000'; // before other special sections
@@ -328,6 +333,7 @@ if(!$permitted) {
 		$fields = array();
 		$fields['nick_name'] = 'navigation_boxes';
 		$fields['title'] = i18n::c('Navigation boxes');
+                $fields['index_title'] = $fields['title'];
 		$fields['introduction'] = i18n::c('Boxes displayed aside all pages');
 		$fields['description'] = i18n::c('All [link=codes]codes/[/link] are available to format boxes. Keep the content as compact as possible because of the small size of any single box. When ready, publish pages to actually show boxes to everybody.');
 		$fields['index_map'] = 'N'; // listed with special sections
@@ -345,7 +351,8 @@ if(!$permitted) {
 		$fields = array();
 		$fields['nick_name'] = 'processed_queries';
 		$fields['title'] = i18n::c('Processed queries');
-		$fields['introduction'] =& i18n::c('Saved for history');
+                $fields['index_title'] = $fields['title'];
+		$fields['introduction'] = i18n::c('Saved for history');
 		$fields['active_set'] = 'N'; // only associates can access these pages
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
@@ -361,8 +368,9 @@ if(!$permitted) {
 		$fields = array();
 		$fields['nick_name'] = 'queries';
 		$fields['title'] = i18n::c('Queries');
-		$fields['introduction'] =& i18n::c('Submitted by any surfer');
-		$fields['description'] =& i18n::c('Add comments to provide support.');
+                $fields['index_title'] = $fields['title'];
+		$fields['introduction'] = i18n::c('Submitted by any surfer');
+		$fields['description'] = i18n::c('Add comments to provide support.');
 		$fields['active_set'] = 'N'; // only associates can access these pages
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
@@ -385,6 +393,7 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('Models to be duplicated');
 		$fields['locked'] = 'Y'; // only associates can contribute
 		$fields['title'] = i18n::c('Templates');
+                $fields['index_title'] = $fields['title'];
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
 		else
@@ -399,9 +408,10 @@ if(!$permitted) {
 		$fields['articles_templates'] = 'information_template, question_template, chat_template, event_template';
 		$fields['content_options'] = 'auto_publish with_export_tools with_neighbours';
 		$fields['index_map'] = 'N'; // listed with special sections
-		$fields['introduction'] =& i18n::c('For standalone pages');
+		$fields['introduction'] = i18n::c('For standalone pages');
 		$fields['maximum_items'] = 20000; // limit the overall number of threads
-		$fields['title'] =& i18n::c('Threads');
+		$fields['title'] = i18n::c('Threads');
+                $fields['index_title'] = $fields['title'];
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
 		else

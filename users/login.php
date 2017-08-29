@@ -283,7 +283,7 @@ if(Surfer::is_crawler()) {
 			Surfer::add_handle($anchor->get_handle());
 
 			// redirect to target page
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
+			Safe::redirect($anchor->get_url());
 
 		}
 
@@ -419,7 +419,7 @@ if(Surfer::is_crawler()) {
 		Logger::error(i18n::s('Failed authentication'), FALSE);
 
 		// help surfer to recover
-		if($items =& Users::search($name, 1.0, 7, 'password')) {
+		if($items = Users::search($name, 1.0, 7, 'password')) {
 			// display candidate profiles
 			if(is_array($items))
 				$items = Skin::build_list($items, 'decorated');

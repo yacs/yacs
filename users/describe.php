@@ -150,7 +150,7 @@ if(!isset($item['id'])) {
 	}
 
 	// list watched users by posts
-	if($items =& Members::list_users_by_posts_for_member('user:'.$item['id'], 0, USERS_PER_PAGE, 'raw')) {
+	if($items = Members::list_users_by_posts_for_member('user:'.$item['id'], 0, USERS_PER_PAGE, 'raw')) {
 		foreach($items as $id => $attributes)
 			$text .= '	<foaf:knows>'."\n"
 				.'		<foaf:Person>'."\n"

@@ -100,6 +100,10 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 if(!is_callable(array('Hooks', 'include_scripts')))
 	exit(sprintf('Impossible to read %s.', 'parameters/hooks.include.php'));
 
+// associate may force cron script
+$force = Surfer::is_associate() && isset($_REQUEST['force']);
+
+
 // here we go
 echo 'Starting cron...'.BR;
 
@@ -112,13 +116,13 @@ echo 'Checking ticks...'.BR;
 $record = Values::get_record('cron.tick', NULL_DATE);
 
 // wait at least 5 minutes = 300 seconds between ticks
-if(isset($record['edit_date']) && !isset($_REQUEST['test']))
+if(isset($record['edit_date']))
 	$target = SQL::strtotime($record['edit_date']) + 300;
 else
 	$target = time();
 
 // request to be delayed
-if($target > time())
+if(($target > time()) && !$force)
 	echo 'Wait until '.gmdate('r', $target).' GMT'.BR;
 
 // remember tick date and avoid racing conditions
@@ -147,13 +151,13 @@ echo 'Checking hourly jobs...'.BR;
 $record = Values::get_record('cron.hourly', NULL_DATE);
 
 // wait at least 1 hour = 3600 seconds between runs
-if(isset($record['edit_date']) && !isset($_REQUEST['test']))
+if(isset($record['edit_date']))
 	$target = SQL::strtotime($record['edit_date']) + 3600;
 else
 	$target = time();
 
 // request to be delayed
-if($target > time())
+if(($target > time()) && !$force)
 	echo 'Wait until '.gmdate('r', $target).' GMT'.BR;
 
 // remember tick date and avoid racing conditions
@@ -182,13 +186,13 @@ echo 'Checking daily jobs...'.BR;
 $record = Values::get_record('cron.daily', NULL_DATE);
 
 // wait at least 1 day = 86400 seconds between runs
-if(isset($record['edit_date']) && !isset($_REQUEST['test']))
+if(isset($record['edit_date']))
 	$target = SQL::strtotime($record['edit_date']) + 86400;
 else
 	$target = time();
 
 // request to be delayed
-if($target > time())
+if(($target > time()) && !$force)
 	echo 'Wait until '.gmdate('r', $target).' GMT'.BR;
 
 // remember tick date and avoid racing conditions
@@ -212,5 +216,3 @@ else {
 // all done
 $time = round(get_micro_time() - $context['start_time'], 2);
 exit(sprintf('Script terminated in %.2f seconds.', $time).BR);
-
-?>

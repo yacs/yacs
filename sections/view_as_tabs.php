@@ -81,7 +81,7 @@ if(!$zoom_type && !Surfer::is_crawler()) {
 		$text .= ucfirst(implode(BR, $details)).BR;
 
 	// other details
-	$details =& Sections::build_dates($anchor, $item);
+	$details = Sections::build_dates($anchor, $item);
 
 	// additional details for associates and editors
 	if(Surfer::is_empowered()) {
@@ -258,7 +258,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 			}
 
 			// list pages under preparation
-			if(($order == 'publication') && ($items =& Articles::list_for_anchor_by('draft', 'section:'.$item['id'], 0, 20, 'compact'))) {
+			if(($order == 'publication') && ($items = Articles::list_for_anchor_by('draft', 'section:'.$item['id'], 0, 20, 'compact'))) {
 				if(is_array($items))
 					$items = Skin::build_list($items, 'compact');
 				$box['top_bar'] += array('_draft' => Skin::build_sliding_box(i18n::s('Draft pages'), $items));
@@ -269,7 +269,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 				$box['text'] .= Skin::build_list($box['top_bar'], 'menu_bar');
 
 			// get pages
-			$items =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], $offset, $items_per_page, $layout);
+			$items = Articles::list_for_anchor_by($order, 'section:'.$item['id'], $offset, $items_per_page, $layout);
 
 			// items in the middle
 			if(is_array($items) && isset($item['articles_layout']) && ($item['articles_layout'] == 'compact'))
@@ -330,7 +330,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 			$order = $matches[1];
 		else
 			$order = 'edition';
-		$items =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], $offset, $items_per_page, $layout);
+		$items = Articles::list_for_anchor_by($order, 'section:'.$item['id'], $offset, $items_per_page, $layout);
 
 		// actually render the html for the box
 		$content = '';
@@ -352,7 +352,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 		$title_label = i18n::s('Comments');
 
 	// get a layout for these comments
-	$layout =& Comments::get_layout($anchor, $item);
+	$layout = Comments::get_layout($anchor, $item);
 
 	// the maximum number of comments per page
 	if(is_object($layout))
@@ -492,7 +492,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 
 		// we have an array to format
 		if(count($items))
-			$items =& Skin::build_list($items, 'compact');
+			$items = Skin::build_list($items, 'compact');
 
 		// displayed as another box
 		if($items)

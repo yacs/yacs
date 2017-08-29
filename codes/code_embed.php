@@ -344,7 +344,7 @@ Class Code_embed extends Code {
                    $url = Files::get_permalink($item);
 
                    // return a complete anchor
-                   $output =& Skin::build_link($url, $text);
+                   $output = Skin::build_link($url, $text);
                    return $output;
 
            }
@@ -416,7 +416,7 @@ Class Code_embed extends Code {
                 $url = Files::get_download_url($item);
 
                 // return a complete anchor
-                $output =& Skin::build_link($url, $text, 'basic');
+                $output = Skin::build_link($url, $text, 'basic');
                 return $output;
 
         }

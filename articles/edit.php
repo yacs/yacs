@@ -567,7 +567,7 @@ if(Surfer::is_crawler()) {
 	$with_form = TRUE;
 
 // select among available templates
-} elseif(!isset($item['id']) && !is_object($overlay) && is_object($anchor) && ($templates = $anchor->get_templates_for('article')) && ($items =& Articles::list_for_ids($templates, 'select'))) {
+} elseif(!isset($item['id']) && !is_object($overlay) && is_object($anchor) && ($templates = $anchor->get_templates_for('article')) && ($items = Articles::list_for_ids($templates, 'select'))) {
 
 	// remember current anchor, it will not be part of next click
 	$_SESSION['anchor_reference'] = $anchor->get_reference();
@@ -590,6 +590,9 @@ if(Surfer::is_crawler()) {
 
 // display the form
 if($with_form) {
+    
+        // give context
+        $context['current_action'] = 'edit';
 
 	// put in $context some elements that can be re-used in articles/edit_as_simple.php and the like
 	//
@@ -1302,9 +1305,6 @@ if($with_form) {
 
 		// for subsequent heartbits
 		$_SESSION['assigned'] = $item['id'];
-
-		// current item
-		$context['current_action'] = 'edit';
 
 	}
 

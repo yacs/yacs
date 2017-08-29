@@ -907,7 +907,7 @@ Class Files {
 	 * @param string the file name
 	 * @return the resulting $row array, with at least keys: 'id', 'title', 'description', etc.
 	 */
-	public static function &get_by_anchor_and_name($anchor, $name) {
+	public static function get_by_anchor_and_name($anchor, $name) {
 		global $context;
 
 		// select among available items
@@ -1125,7 +1125,7 @@ Class Files {
 		global $context;
 
 		// get the list of supported extensions
-		$file_types =& Files::get_mime_types();
+		$file_types = Files::get_mime_types();
 
 		// a name with no extension
 		if(($position = strrpos($name, '.')) === FALSE)
@@ -1160,7 +1160,7 @@ Class Files {
 	 *
 	 * @return array describing supported MIME types ($extension1 => $mime_type1, $extension2 => $mime_type2, ...)
 	 */
-	public static function &get_mime_types() {
+	public static function get_mime_types() {
 
 		// initialize tables only once
 		static $file_types;
@@ -1327,7 +1327,7 @@ Class Files {
 	 *
 	 * @return the resulting $item array, with at least keys: 'id', 'file_name', etc.
 	 */
-	public static function &get_newest() {
+	public static function get_newest() {
 		global $context;
 
 		// restrict to files attached to published and not expired pages
@@ -2055,7 +2055,7 @@ Class Files {
 	 * @see files/feed.php
 	 * @see files/index.php
 	 */
-	public static function &list_by_date($offset=0, $count=10, $variant='dates') {
+	public static function list_by_date($offset=0, $count=10, $variant='dates') {
 		global $context;
 
 		// if not associate, restrict to files attached to published and not expired pages
@@ -2078,7 +2078,7 @@ Class Files {
 		// list freshest files
 		$query .= " ORDER BY files.rank, files.edit_date DESC, files.title LIMIT ".$offset.','.$count;
 
-		$output =& Files::list_selected(SQL::query($query), $variant);
+		$output = Files::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -2120,7 +2120,7 @@ Class Files {
 	 * @see users/print.php
 	 * @see users/view.php
 	 */
-	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor', $avoid=NULL) {
+	public static function list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor', $avoid=NULL) {
 		global $context;
 
 		// limit the scope of the request
@@ -2183,7 +2183,7 @@ Class Files {
 				." ORDER BY files.rank, edit_date DESC, files.title LIMIT ".$offset.','.$count;
 
 		// the list of files
-		$output =& Files::list_selected(SQL::query($query), $variant);
+		$output = Files::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -2206,7 +2206,7 @@ Class Files {
 	 *
 	 * @see users/view.php
 	 */
-	public static function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='no_author') {
+	public static function list_by_date_for_author($author_id, $offset=0, $count=20, $variant='no_author') {
 		global $context;
 
 		// limit the scope of the request
@@ -2214,7 +2214,7 @@ Class Files {
 			." WHERE (files.edit_id = ".SQL::escape($author_id).") AND ".Files::get_sql_where()
 			." ORDER BY files.edit_date DESC, files.title LIMIT ".$offset.','.$count;
 
-		$output =& Files::list_selected(SQL::query($query), $variant);
+		$output = Files::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -2238,7 +2238,7 @@ Class Files {
 	 * @see index.php
 	 * @see files/index.php
 	 */
-	public static function &list_by_hits($offset=0, $count=10, $variant='hits') {
+	public static function list_by_hits($offset=0, $count=10, $variant='hits') {
 		global $context;
 
 		// if not associate, restrict to files attached to published not expired pages
@@ -2259,7 +2259,7 @@ Class Files {
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files ".$where
 			." ORDER BY files.hits DESC, files.title LIMIT ".$offset.','.$count;
 
-		$output =& Files::list_selected(SQL::query($query), $variant);
+		$output = Files::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -2280,7 +2280,7 @@ Class Files {
 	 *
 	 * @see users/view.php
 	 */
-	public static function &list_by_hits_for_author($author_id, $offset=0, $count=10, $variant='hits') {
+	public static function list_by_hits_for_author($author_id, $offset=0, $count=10, $variant='hits') {
 		global $context;
 
 		// limit the scope of the request
@@ -2291,7 +2291,7 @@ Class Files {
 			." WHERE (files.edit_id = ".SQL::escape($author_id).") AND (".$where.")"
 			." ORDER BY files.hits DESC, files.edit_date DESC, files.title LIMIT ".$offset.','.$count;
 
-		$output =& Files::list_selected(SQL::query($query), $variant);
+		$output = Files::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -2308,7 +2308,7 @@ Class Files {
 	 *
 	 * @see files/review.php
 	 */
-	public static function &list_by_oldest_date($offset=0, $count=10, $variant='full') {
+	public static function list_by_oldest_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -2319,7 +2319,7 @@ Class Files {
 			." WHERE ".$where
 			." ORDER BY files.edit_date, files.title LIMIT ".$offset.','.$count;
 
-		$output =& Files::list_selected(SQL::query($query), $variant);
+		$output = Files::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -2333,7 +2333,7 @@ Class Files {
 	 *
 	 * @see files/review.php
 	 */
-	public static function &list_by_size($offset=0, $count=10, $variant='full') {
+	public static function list_by_size($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// if not associate, restrict to files attached to published not expired pages
@@ -2354,7 +2354,7 @@ Class Files {
 		$query = "SELECT files.* FROM ".SQL::table_name('files')." AS files ".$where
 			." ORDER BY files.file_size DESC, files.title LIMIT ".$offset.','.$count;
 
-		$output =& Files::list_selected(SQL::query($query), $variant);
+		$output = Files::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -2389,7 +2389,7 @@ Class Files {
 	 * @see sections/print.php
 	 * @see sections/view.php
 	 */
-	public static function &list_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='no_anchor', $avoid=NULL) {
+	public static function list_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='no_anchor', $avoid=NULL) {
 		global $context;
 
 		// limit the scope of the request
@@ -2452,7 +2452,7 @@ Class Files {
 				." ORDER BY files.title, files.file_name, files.edit_date DESC LIMIT ".$offset.','.$count;
 
 		// the list of files
-		$output =& Files::list_selected(SQL::query($query), $variant);
+		$output = Files::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -2468,7 +2468,7 @@ Class Files {
 	 * @see articles/edit.php
 	 * @see sections/edit.php
 	 */
-	public static function &list_embeddable_for_anchor($anchor, $offset=0, $count=20, $variant='embeddable') {
+	public static function list_embeddable_for_anchor($anchor, $offset=0, $count=20, $variant='embeddable') {
 		global $context;
 
 		// limit the scope of the request
@@ -2480,7 +2480,7 @@ Class Files {
 			." ORDER BY edit_date DESC, files.title LIMIT ".$offset.','.$count;
 
 		// the list of files
-		$output =& Files::list_selected(SQL::query($query), $variant);
+		$output = Files::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -2492,7 +2492,7 @@ Class Files {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else the laid out list
 	 */
-	public static function &list_for_anchor_and_name($anchor, $name, $variant='embeddable') {
+	public static function list_for_anchor_and_name($anchor, $name, $variant='embeddable') {
 		global $context;
 
 		// several files
@@ -2506,7 +2506,7 @@ Class Files {
 			." WHERE files.anchor LIKE '".SQL::escape($anchor)."' AND ".$where;
 
 		// the list of files
-		$output =& Files::list_selected(SQL::query($query), $variant);
+		$output = Files::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -2525,7 +2525,7 @@ Class Files {
 	 * @see skins/skin_skeleton.php
 	 * @see files/fetch_all.php
 	 */
-	public static function &list_selected($result, $variant='compact') {
+	public static function list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -2557,7 +2557,7 @@ Class Files {
 	 * @param string the list variant, if any - default is 'hits'
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_unused($offset=0, $count=10, $variant='full') {
+	public static function list_unused($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// if not associate, restrict to files attached to published not expired pages
@@ -2578,7 +2578,7 @@ Class Files {
 		$query = "SELECT files.* FROM ".SQL::table_name('files')." AS files ".$where
 			." ORDER BY files.hits, files.title LIMIT ".$offset.','.$count;
 
-		$output =& Files::list_selected(SQL::query($query), $variant);
+		$output = Files::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -2919,7 +2919,7 @@ Class Files {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array of array($score, $summary)
 	 */
-	public static function &search($pattern, $offset=1.0, $count=50, $variant='search') {
+	public static function search($pattern, $offset=1.0, $count=50, $variant='search') {
 		global $context;
 
 		// sanity check
@@ -2966,7 +2966,7 @@ Class Files {
 			." LIMIT ".$count;
 
 		// do the query
-		$output =& Files::list_selected(SQL::query($query), $variant);
+		$output = Files::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -3395,7 +3395,7 @@ Class Files {
 						$fields = array();
 
 						// update a file with the same name for this anchor
-						if($matching =& Files::get_by_anchor_and_name($target, $file_name))
+						if($matching = Files::get_by_anchor_and_name($target, $file_name))
 							$fields['id'] = $matching['id'];
 
 						// update an existing record

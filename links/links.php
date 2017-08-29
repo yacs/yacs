@@ -528,7 +528,7 @@ Class Links {
 	 * @see links/check.php
 	 * @see links/index.php
 	 */
-	public static function &list_by_date($offset=0, $count=10, $variant='dates') {
+	public static function list_by_date($offset=0, $count=10, $variant='dates') {
 		global $context;
 
 		// if not associate, restrict to links attached to public published not expired pages
@@ -548,7 +548,7 @@ Class Links {
 		$query = "SELECT links.* FROM ".SQL::table_name('links')." AS links ".$where
 			." ORDER BY links.edit_date DESC, links.title LIMIT ".$offset.','.$count;
 
-		$output =& Links::list_selected(SQL::query($query), $variant);
+		$output = Links::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -578,7 +578,7 @@ Class Links {
 	 * @see users/print.php
 	 * @see users/view.php
 	 */
-	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor') {
+	public static function list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor') {
 		global $context;
 
 		// the list of links
@@ -586,7 +586,7 @@ Class Links {
 			." WHERE links.anchor LIKE '".SQL::escape($anchor)."'"
 			." ORDER BY links.edit_date DESC, links.title LIMIT ".$offset.','.$count;
 
-		$output =& Links::list_selected(SQL::query($query), $variant);
+		$output = Links::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -606,7 +606,7 @@ Class Links {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='no_author') {
+	public static function list_by_date_for_author($author_id, $offset=0, $count=20, $variant='no_author') {
 		global $context;
 
 		// the list of links
@@ -614,7 +614,7 @@ Class Links {
 			." WHERE (links.edit_id = ".SQL::escape($author_id).")"
 			." ORDER BY links.edit_date DESC, links.title LIMIT ".$offset.','.$count;
 
-		$output =& Links::list_selected(SQL::query($query), $variant);
+		$output = Links::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -641,7 +641,7 @@ Class Links {
 	 *
 	 * @see index.php
 	 */
-	public static function &list_by_hits($offset=0, $count=10, $variant='hits') {
+	public static function list_by_hits($offset=0, $count=10, $variant='hits') {
 		global $context;
 
 		// the list of links
@@ -649,7 +649,7 @@ Class Links {
 			." GROUP BY links.link_url"
 			." ORDER BY links.hits DESC, links.title LIMIT ".$offset.','.$count;
 
-		$output =& Links::list_selected(SQL::query($query), $variant);
+		$output = Links::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -669,7 +669,7 @@ Class Links {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_by_hits_for_author($author_id, $offset=0, $count=10, $variant='hits') {
+	public static function list_by_hits_for_author($author_id, $offset=0, $count=10, $variant='hits') {
 		global $context;
 
 		// the list of links
@@ -677,7 +677,7 @@ Class Links {
 			." WHERE (links.edit_id = ".SQL::escape($author_id).")"
 			." ORDER BY links.hits DESC, links.title LIMIT ".$offset.','.$count;
 
-		$output =& Links::list_selected(SQL::query($query), $variant);
+		$output = Links::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -707,7 +707,7 @@ Class Links {
 	 * @see users/print.php
 	 * @see users/view.php
 	 */
-	public static function &list_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='no_anchor') {
+	public static function list_by_title_for_anchor($anchor, $offset=0, $count=10, $variant='no_anchor') {
 		global $context;
 
 		// the list of links
@@ -715,7 +715,7 @@ Class Links {
 			." WHERE (links.anchor LIKE '".SQL::escape($anchor)."')"
 			." ORDER BY links.title, links.edit_date DESC LIMIT ".$offset.','.$count;
 
-		$output =& Links::list_selected(SQL::query($query), $variant);
+		$output = Links::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -731,7 +731,7 @@ Class Links {
 	 *
 	 * @see feeds/feeds.php
 	 */
-	public static function &list_news($offset=0, $count=10, $variant='dates') {
+	public static function list_news($offset=0, $count=10, $variant='dates') {
 		global $context;
 
 		// the list of links
@@ -740,7 +740,7 @@ Class Links {
 			." GROUP BY links.link_url"
 			." ORDER BY links.edit_date DESC, links.title LIMIT ".$offset.','.$count;
 
-		$output =& Links::list_selected(SQL::query($query), $variant);
+		$output = Links::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -755,7 +755,7 @@ Class Links {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return an array of $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_selected($result, $variant='compact') {
+	public static function list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result

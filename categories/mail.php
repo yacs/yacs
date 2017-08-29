@@ -153,7 +153,7 @@ if(Surfer::is_crawler()) {
 	Mailer::close();
 
 // no recipient has been found
-} elseif((!$recipients =& Members::list_users_by_posts_for_anchor('category:'.$item['id'], 0, 200, 'mail')) || !count($recipients)) {
+} elseif((!$recipients = Members::list_users_by_posts_for_anchor('category:'.$item['id'], 0, 200, 'mail')) || !count($recipients)) {
 	Logger::error(i18n::s('No recipient has been found.'));
 
 // display the form

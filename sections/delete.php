@@ -44,6 +44,10 @@ $id = strip_tags($id);
 // get the item from the database
 $item = Sections::get($id);
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'section:'.$item['id'];
+
 // get the related overlay, if any
 $overlay = NULL;
 if(isset($item['overlay']))
@@ -124,6 +128,9 @@ if(!isset($item['id'])) {
 
 // the form
 else {
+    
+        // give context
+        $context['current_action'] = 'delete';
 
 	// all sub-sections have not been deleted
 	if(($stats = Sections::stat_for_anchor('section:'.$item['id'])) && $stats['count'])

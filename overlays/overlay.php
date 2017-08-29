@@ -113,6 +113,12 @@ class Overlay {
 	 * the parent object
 	 */
 	var $anchor = NULL;
+        
+        /**
+         * flag if merged 
+         * @see overlays/fusion.php
+         */
+        var $is_merged = false;
 
 	/**
 	 * allow or block operations
@@ -262,7 +268,7 @@ class Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_details_text($host=NULL) {
+	function get_details_text($host=NULL) {
 		$text = '';
 		return $text;
 	}
@@ -290,7 +296,7 @@ class Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_extra_text($host=NULL) {
+	function get_extra_text($host=NULL) {
 		$text = '';
 		return $text;
 	}
@@ -389,7 +395,7 @@ class Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_list_text($host=NULL) {
+	function get_list_text($host=NULL) {
 		$text = '';
 		return $text;
 	}
@@ -402,7 +408,7 @@ class Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_description($host=NULL) {
+	function get_live_description($host=NULL) {
 		$text = $host['description'];
 		return $text;
 	}
@@ -415,7 +421,7 @@ class Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_introduction($host=NULL) {
+	function get_live_introduction($host=NULL) {
 		$text = $host['introduction'];
 		return $text;
 	}
@@ -428,7 +434,7 @@ class Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_title($host=NULL) {
+	function get_live_title($host=NULL) {
 
                 if (is_object($this->anchor)) {
                     $text = $this->anchor->get_title(false);
@@ -473,7 +479,7 @@ class Overlay {
 	 * @param array the hosting record
 	 * @return an array of array('tab_id', 'tab_label', 'panel_id', 'panel_content') or NULL
 	 */
-	function &get_tabs($variant='view', $host=NULL) {
+	function get_tabs($variant='view', $host=NULL) {
 		$output = NULL;
 		return $output;
 	}
@@ -497,7 +503,7 @@ class Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_text($variant='view', $host=NULL) {
+	function get_text($variant='view', $host=NULL) {
 		switch($variant) {
 
 		// live description
@@ -524,7 +530,7 @@ class Overlay {
 			if(is_callable(array($this,$func)))
 			    $text = $this->$func($host);
 			else {
-			    $text = '';
+			    $text = null;   // reply null, not empty string, to say no function found
 			    Logger::error(sprintf(i18n::s('function %s not found for overlay %s'),$func, get_class($this)));
 			}
 			return $text;
@@ -539,7 +545,7 @@ class Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_trailer_text($host=NULL) {
+	function get_trailer_text($host=NULL) {
 		$text = '';
 		return $text;
 	}
@@ -585,8 +591,8 @@ class Overlay {
 			return $this->attributes[$name];
                 
                 // value from anchor
-                if(is_object($this->anchor) && isset($this->anchor->item['$name']))
-                        return $this->anchor->item['$name'];
+                if(is_object($this->anchor) && isset($this->anchor->item[$name]))
+                        return $this->anchor->item[$name];
 
 		// use default value
 		return $default_value;
@@ -601,7 +607,7 @@ class Overlay {
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_view_text($host=NULL) {
+	function get_view_text($host=NULL) {
 		$text = '';
 		foreach($this->attributes as $label => $value) {
 			$text .= '<p>'.$label.': '.$value."</p>\n";
@@ -677,9 +683,14 @@ class Overlay {
 		// bind this to current page
 		if(isset($data['id']))
 			$attributes['id'] = $data['id'];
+                
+                $type = $attributes['overlay_type'];
+                if(isset($attributes['overlay_parameters'])) {
+                    $type .= ' '.$attributes['overlay_parameters'];
+                }
 
 		// use one particular overlay instance
-		$overlay = Overlay::bind($attributes['overlay_type']);
+		$overlay = Overlay::bind($type);
 		if(is_object($overlay)) {
 			$overlay->attributes = $attributes;
 
@@ -826,23 +837,57 @@ class Overlay {
 	 * Use this function to change some attributes of your overlay, and also
 	 * to serialize data into the original container (article, section, etc.)
 	 *
-	 * @param array of ($name => $value) pairs
+	 * @param array of ($name => $value) pairs or string key
+         * @param mixed value (if $fields is a key)
 	 * @return boolean TRUE on success, FALSE otherwise
 	 */
-	function set_values($fields) {
+	function set_values($fields, $value=null) {
 
 		// set attributes in memory
-		foreach($fields as $name => $value)
-			$this->attributes[$name] = $value;
+                if(is_array($fields))
+                    $this->attributes = array_merge($this->attributes, $fields);
+                elseif(is_string($fields) && !is_null($value)) {
+                    $this->attributes[$fields] = $value;
+                } else 
+                    return false; // unrecognized field type
 
 		// store this permanently
 		if(is_object($this->anchor)) {
-			$fields = array();
-			$fields['overlay'] = $this->save();
-			$fields['overlay_id'] = $this->get_id();
-			return $this->anchor->set_values($fields);
-		}
+                    
+                    
+                    if($this->is_merged) {
+                        // case of merged overlay
+                        // @see overlays/fusion.php
+                        // we store data in compartment
+                        
+                        // get always fresh data from anchor
+                        $this->anchor = Anchors::get($this->anchor->get_reference(), true);
+                        
+                        // uncompress current data
+                        $data = Safe::unserialize($this->anchor->item['overlay']);
+                        
+                        // this overlay type is ?
+                        $mytype = $this->get_type();
+                        
+                        // store changes in our compartment
+                        $data[$mytype] = $this->attributes;
+                        
+                    } else {
+                        // standard case
+                        $data = $this->attributes;
+                    }
 
+                    // compress data
+                    utf8::to_unicode($data);
+                    $data = serialize($data);
+
+                    // save among anchor data
+                    $fields = array();
+                    $fields['overlay'] = $data;
+                    return $this->anchor->set_values($fields);
+		}
+                
+                return false;
 	}
         
         /**

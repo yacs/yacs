@@ -129,6 +129,10 @@ $target_anchor = strip_tags($target_anchor);
 // get the item from the database
 $item = Comments::get($id);
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'comment:'.$item['id'];
+
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
@@ -223,8 +227,8 @@ if(Surfer::is_crawler()) {
 	$_REQUEST['description'] = preg_replace('/^'.preg_quote(i18n::s('Contribute to this page!'), '/').'/', '', ltrim($_REQUEST['description']));
 
 	// hardcode line breaks if no WYSIWYG editor
-	if(!isset($_REQUEST['editor']))
-		$_REQUEST['description'] = str_replace("\n", BR, $_REQUEST['description']);
+	//if(!isset($_REQUEST['editor']))
+	//	$_REQUEST['description'] = str_replace("\n", BR, $_REQUEST['description']);
 
 	// append to previous comment during 10 secondes
 	if(!isset($item['id'])
@@ -258,7 +262,7 @@ if(Surfer::is_crawler()) {
 			$_REQUEST['description'] .= '<div style="margin-top: 1em;">'.Skin::build_list(Files::list_for_anchor_and_name($anchor->get_reference(), $uploaded, 'compact'), 'compact').'</div>';
 
 		// one file has been added
-		elseif($file =& Files::get_by_anchor_and_name($anchor->get_reference(), $uploaded)) {
+		elseif($file = Files::get_by_anchor_and_name($anchor->get_reference(), $uploaded)) {
 			$_REQUEST['description'] .= '<div style="margin-top: 1em;">[file='.$file['id'].','.$file['file_name'].']</div>';
 
 			// silently delete the previous file if the name has changed
@@ -415,6 +419,9 @@ if(Surfer::is_crawler()) {
 
 // display the form
 if($with_form) {
+    
+        // give context
+        $context['current_action'] = 'edit';
 
 	// a reaction from a previous item
 	$reference_item = array();
@@ -556,7 +563,7 @@ if($with_form) {
 	$label = i18n::s('Your contribution');
 
 	// use the editor if possible
-	$input = Surfer::get_editor('description', isset($item['description']) ? $item['description'] : '', TRUE, 3, FALSE);
+	$input = Surfer::get_editor('description', isset($item['description']) ? html_entity_decode(strip_tags($item['description'])) : '', TRUE, 3, FALSE);
 	$fields[] = array($label, $input);
 
 	// add a file on first post, and if allowed

@@ -95,6 +95,10 @@ $id = strip_tags($id);
 // get the item from the database, if any
 $item = Users::get($id);
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'user:'.$item['id'];
+
 // get the related overlay, if any
 $overlay = NULL;
 if(isset($item['overlay']) && $item['overlay'])
@@ -332,6 +336,9 @@ if(Surfer::is_crawler()) {
 
 // display the form if required to do so
 if($with_form) {
+    
+        // give context
+        $context['current_action'] = 'edit';
 
 	// the form to edit a user
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
@@ -909,9 +916,6 @@ if($with_form) {
 	$help .= '</select></p></form>';
 
 	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
-        
-        // we are editing
-        $context['current_action'] = 'edit';
 
 }
 

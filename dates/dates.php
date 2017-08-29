@@ -30,7 +30,7 @@ Class Dates {
 	/**
 	 * start a calendar for one month
 	 */
-	public static function &build_month_prefix($year, $month, $day, $style="month calendar", $caption=NULL, $with_headers=TRUE) {
+	public static function build_month_prefix($year, $month, $day, $style="month calendar", $caption=NULL, $with_headers=TRUE) {
 		global $context;
 
 		// cache labels for days
@@ -88,7 +88,7 @@ Class Dates {
 	/**
 	 * end of one month
 	 */
-	public static function &build_month_suffix($year, $month, $day) {
+	public static function build_month_suffix($year, $month, $day) {
 		global $context;
 
 		$text = '';
@@ -130,7 +130,7 @@ Class Dates {
 		return $text;
 	}
 
-	public static function &build_day($day, $content, $panel_id, $compact) {
+	public static function build_day($day, $content, $panel_id, $compact) {
 		global $context;
 
 		// content of each day
@@ -168,7 +168,7 @@ Class Dates {
 	 * @parameter int forced month, in case no dates are provided
 	 * @return a string to be put in the web page
 	 */
-	public static function &build_months($dates, $with_zoom=FALSE, $with_caption=TRUE, $with_headers=TRUE, $compact=FALSE, $forced_year=NULL, $forced_month=NULL, $style="month calendar") {
+	public static function build_months($dates, $with_zoom=FALSE, $with_caption=TRUE, $with_headers=TRUE, $compact=FALSE, $forced_year=NULL, $forced_month=NULL, $style="month calendar") {
 		global $context;
 
 		// we return some text
@@ -483,7 +483,7 @@ Class Dates {
 	 * @param string the anchor
 	 * @return the resulting $item array, with at least keys: 'id', 'date_stamp', etc.
 	 */
-	public static function &get_for_anchor($anchor) {
+	public static function get_for_anchor($anchor) {
 		global $context;
 
 		// sanity check
@@ -645,7 +645,7 @@ Class Dates {
 	 *
 	 * @see dates/index.php
 	 */
-	public static function &list_by_date($offset=0, $count=10, $variant='full') {
+	public static function list_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -653,7 +653,7 @@ Class Dates {
 			." ORDER BY dates.date_stamp DESC LIMIT ".$offset.','.$count;
 
 		// the list of dates
-		$output =& Dates::list_selected(SQL::query($query), $variant);
+		$output = Dates::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -666,7 +666,7 @@ Class Dates {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant=NULL) {
+	public static function list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant=NULL) {
 		global $context;
 
 		// use the anchor itself as the default variant
@@ -679,7 +679,7 @@ Class Dates {
 			." ORDER BY dates.date_stamp DESC LIMIT ".$offset.','.$count;
 
 		// the list of dates
-		$output =& Dates::list_selected(SQL::query($query), $variant);
+		$output = Dates::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -692,7 +692,7 @@ Class Dates {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	public static function &list_for_anchor($anchor, $offset=0, $count=100, $variant='family') {
+	public static function list_for_anchor($anchor, $offset=0, $count=100, $variant='family') {
 		global $context;
 
 		// restrict the query to addressable content
@@ -722,7 +722,7 @@ Class Dates {
 			." ORDER BY dates.date_stamp LIMIT ".$offset.','.$count;
 
 		// the list of dates
-		$output =& Dates::list_selected(SQL::query($query), $variant);
+		$output = Dates::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -735,7 +735,7 @@ Class Dates {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	public static function &list_for_day($year, $month, $day, $variant='links') {
+	public static function list_for_day($year, $month, $day, $variant='links') {
 		global $context;
 
 		// restrict the query to addressable content
@@ -780,7 +780,7 @@ Class Dates {
 			." ORDER BY dates.date_stamp LIMIT 100";
 
 		// the list of dates
-		$output =& Dates::list_selected(SQL::query($query), $variant);
+		$output = Dates::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -795,7 +795,7 @@ Class Dates {
 	 * @param string reference an target anchor (e.g., 'section:123'), if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	public static function &list_for_month($year, $month, $variant='links', $anchor=NULL) {
+	public static function list_for_month($year, $month, $variant='links', $anchor=NULL) {
 		global $context;
 
 		// check the year
@@ -811,7 +811,7 @@ Class Dates {
 			$prefix = strftime('%Y-', mktime(0, 0, 0, 1, 1, $year));
 
 		// the list of dates
-		$output =& Dates::list_for_prefix($prefix, $variant, $anchor);
+		$output = Dates::list_for_prefix($prefix, $variant, $anchor);
 		return $output;
 	}
 
@@ -825,7 +825,7 @@ Class Dates {
 	 * @param string reference an target anchor (e.g., 'section:123'), if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	public static function &list_for_prefix($prefix=NULL, $variant='links', $anchor=NULL) {
+	public static function list_for_prefix($prefix=NULL, $variant='links', $anchor=NULL) {
 		global $context;
 
 		// default is current month
@@ -863,7 +863,7 @@ Class Dates {
 			." ORDER BY dates.date_stamp LIMIT 1000";
 
 		// the list of dates
-		$output =& Dates::list_selected(SQL::query($query), $variant);
+		$output = Dates::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -877,8 +877,8 @@ Class Dates {
 	 *
 	 * @see dates/index.php
 	 */
-	public static function &list_future($offset=0, $count=100, $variant='family') {
-		$output =& Dates::list_future_for_anchor(NULL, $offset, $count, $variant, TRUE);
+	public static function list_future($offset=0, $count=100, $variant='family') {
+		$output = Dates::list_future_for_anchor(NULL, $offset, $count, $variant, TRUE);
 		return $output;
 	}
 
@@ -892,7 +892,7 @@ Class Dates {
 	 * @param boolean trackback to first day of current month
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	public static function &list_future_for_anchor($anchor, $offset=0, $count=100, $variant='family', $back_to_first = FALSE) {
+	public static function list_future_for_anchor($anchor, $offset=0, $count=100, $variant='family', $back_to_first = FALSE) {
 		global $context;
 
 		// restrict the query to addressable content
@@ -932,7 +932,7 @@ Class Dates {
 			." ORDER BY dates.date_stamp LIMIT ".$offset.','.$count;
 
 		// the list of dates
-		$output =& Dates::list_selected(SQL::query($query), $variant);
+		$output = Dates::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -945,7 +945,7 @@ Class Dates {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	public static function &list_past_for_anchor($anchor, $offset=0, $count=100, $variant='family') {
+	public static function list_past_for_anchor($anchor, $offset=0, $count=100, $variant='family') {
 		global $context;
 
 		// restrict the query to addressable content
@@ -978,7 +978,7 @@ Class Dates {
 			." ORDER BY dates.date_stamp DESC LIMIT ".$offset.','.$count;
 
 		// the list of dates
-		$output =& Dates::list_selected(SQL::query($query), $variant);
+		$output = Dates::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -992,7 +992,7 @@ Class Dates {
 	 * @param string 'full', etc or object, i.e., an instance of the layout interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	public static function &list_selected($result, $variant='compact') {
+	public static function list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result

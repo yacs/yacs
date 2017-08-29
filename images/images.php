@@ -384,12 +384,18 @@ Class Images {
 	 */
 	public static function get($id) {
 		global $context;
+                $output = NULL;
 
 		// sanity check
 		if(!$id) {
-			$output = NULL;
 			return $output;
 		}
+                
+                // isolate id if a reference is provided
+                $id = (!strncmp($id, 'image:', 6))?substr($id, 6):$id;
+                
+                // don't do useless queries
+                if(!is_numeric($id)) return $output;
 
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('images')." AS images "
@@ -406,7 +412,7 @@ Class Images {
 	 * @param string the image name
 	 * @return the resulting $item array, with at least keys: 'id', 'title', etc.
 	 */
-	public static function &get_by_anchor_and_name($anchor, $name) {
+	public static function get_by_anchor_and_name($anchor, $name) {
 		global $context;
 
 		// select among available items
@@ -444,7 +450,7 @@ Class Images {
 	 * @param string the anchor
 	 * @return the resulting $item array, with at least keys: 'id', 'title', etc.
 	 */
-	public static function &get_newest_for_anchor($anchor) {
+	public static function get_newest_for_anchor($anchor) {
 		global $context;
 
 		// select among available items
@@ -527,7 +533,7 @@ Class Images {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 * @see images/images.php#list_selected for $variant description
 	 */
-	public static function &list_by_date($offset=0, $count=10, $variant='full') {
+	public static function list_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -535,7 +541,7 @@ Class Images {
 			." ORDER BY images.edit_date DESC, images.title LIMIT ".$offset.','.$count;
 
 		// the list of images
-		$output =& Images::list_selected(SQL::query($query), $variant);
+		$output = Images::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -556,7 +562,7 @@ Class Images {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 * @see images/images.php#list_selected for $variant description
 	 */
-	public static function &list_by_date_for_anchor($anchor, $offset=0, $count=50, $variant=NULL) {
+	public static function list_by_date_for_anchor($anchor, $offset=0, $count=50, $variant=NULL) {
 		global $context;
 
 		// use the anchor itself as the default variant
@@ -569,7 +575,7 @@ Class Images {
 			." ORDER BY images.edit_date DESC, images.title LIMIT ".$offset.','.$count;
 
 		// the list of images
-		$output =& Images::list_selected(SQL::query($query), $variant);
+		$output = Images::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -590,7 +596,7 @@ Class Images {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 * @see images/images.php#list_selected for $variant description
 	 */
-	public static function &list_by_date_for_author($author_id, $offset=0, $count=20, $variant='date') {
+	public static function list_by_date_for_author($author_id, $offset=0, $count=20, $variant='date') {
 		global $context;
 
 		// limit the scope of the request
@@ -599,7 +605,7 @@ Class Images {
 			." ORDER BY images.edit_date DESC, images.title LIMIT ".$offset.','.$count;
 
 		// the list of images
-		$output =& Images::list_selected(SQL::query($query), $variant);
+		$output = Images::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -611,7 +617,7 @@ Class Images {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_by_size($offset=0, $count=10, $variant='full') {
+	public static function list_by_size($offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -619,7 +625,7 @@ Class Images {
 			." ORDER BY images.image_size DESC, images.title LIMIT ".$offset.','.$count;
 
 		// the list of images
-		$output =& Images::list_selected(SQL::query($query), $variant);
+		$output = Images::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -634,7 +640,7 @@ Class Images {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_selected($result, $variant='compact') {
+	public static function list_selected($result, $variant='compact') {
 		global $context;
 
 		// no result

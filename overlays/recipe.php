@@ -116,7 +116,7 @@ class Recipe extends Overlay {
 	 * @param array the hosting record
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_view_text($host=NULL) {
+	function get_view_text($host=NULL) {
 		global $context;
 
 		// text to return

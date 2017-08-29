@@ -61,7 +61,7 @@ class Anchors {
 		if(strpos($reference, 'section:') === 0) {
 
 			// cascade to articles --up to 3000
-			if($items =& Articles::list_for_anchor_by('edition', $reference, 0, 3000, 'raw')) {
+			if($items = Articles::list_for_anchor_by('edition', $reference, 0, 3000, 'raw')) {
 
 				// cascade to each section individually
 				foreach($items as $id => $item) {

@@ -122,7 +122,7 @@ Class i18n {
 	 * @param string the template string to be translated
 	 * @return string the localized string
 	 */
-	public static function &c($text) {
+	public static function c($text) {
 		global $context;
 
 		// sanity check
@@ -140,7 +140,7 @@ Class i18n {
 			return $text;
 
 		// provide the localized string
-		$text =& i18n::lookup($context['l10n'][$locale], $text);
+		$text = i18n::lookup($context['l10n'][$locale], $text);
 		return $text;
 	}
 
@@ -153,7 +153,7 @@ Class i18n {
 	 * @param string the target language
 	 * @return string the provided text, if surfer language matches the target language, else ''
 	 */
-	public static function &filter($text, $language) {
+	public static function filter($text, $language) {
 		global $context;
 
 		// sanity check
@@ -175,7 +175,7 @@ Class i18n {
 	 *
 	 * @return array of ($label => code)
 	 */
-	public static function &get_countries() {
+	public static function get_countries() {
 
 		// initialize the table only once
 		static $codes;
@@ -447,14 +447,14 @@ Class i18n {
 	 * @param string alternate name and id for the returned tag
 	 * @return the HTML to insert in the page
 	 */
-	public static function &get_countries_select($current=NULL, $id='country') {
+	public static function get_countries_select($current=NULL, $id='country') {
 		global $context;
 
 		// all options
 		$text = '<select name="'.$id.'" id="'.$id.'">'."\n";
 
 		// fetch the list of countries
-		$countries =& i18n::get_countries();
+		$countries = i18n::get_countries();
 
 		// engage surfer
 		if(!$current)
@@ -498,7 +498,7 @@ Class i18n {
 			return NULL;
 
 		// fetch the list of countries
-		$countries =& i18n::get_countries();
+		$countries = i18n::get_countries();
 
 		// translate the code
 		if(isset($countries[$code]))
@@ -524,7 +524,7 @@ Class i18n {
 			return NULL;
 
 		// fetch the list of languages
-		$languages =& i18n::get_languages();
+		$languages = i18n::get_languages();
 
 		// translate the code
 		if(isset($languages[$code]))
@@ -543,7 +543,7 @@ Class i18n {
 	 *
 	 * @return array of ($label => code)
 	 */
-	public static function &get_languages() {
+	public static function get_languages() {
 
 		// initialize the table only once
 		static $codes;
@@ -709,7 +709,7 @@ Class i18n {
 	 * @param string alternate name and id of the returned tag
 	 * @return the HTML to insert in the page
 	 */
-	public static function &get_languages_select($current=NULL, $id='language') {
+	public static function get_languages_select($current=NULL, $id='language') {
 		global $context;
 
 		// use surfer language by default
@@ -720,7 +720,7 @@ Class i18n {
 		$text = '<select name="'.$id.'" id="'.$id.'">'."\n";
 
 		// fetch the list of languages
-		$languages =& i18n::get_languages();
+		$languages = i18n::get_languages();
 
 		// engage surfer
 		$text .= '<option value="none">'.i18n::s('Use browser settings')."</option>\n";
@@ -762,7 +762,7 @@ Class i18n {
 	 *
 	 * @return array of ($shift => $label)
 	 */
-	public static function &get_time_zones() {
+	public static function get_time_zones() {
 
 		// initialize the table only once
 		static $codes;
@@ -858,7 +858,7 @@ Class i18n {
 	 * @param string original string
 	 * @return string hashed string
 	 */
-	private static function &hash($text) {
+	private static function hash($text) {
 
 		if(strlen($text) < 32)
 			$output = $text;
@@ -1065,7 +1065,7 @@ Class i18n {
 	 * @param string desired language, if any
 	 * @return string the localized string, if any
 	 */
-	public static function &l(&$strings, $name, $forced='') {
+	public static function l(&$strings, $name, $forced='') {
 		global $context;
 
 		// sanity check
@@ -1093,7 +1093,7 @@ Class i18n {
 
 		// transcode to utf8
 		if(isset($context['charset']) && ($context['charset'] == 'utf-8') && is_callable(array('utf8', 'transcode')))
-			$text =& utf8::transcode($text);
+			$text = utf8::transcode($text);
 
 		return $text;
 	}
@@ -1103,7 +1103,7 @@ Class i18n {
 	 *
 	 * @return array of ($locale => $label)
 	 */
-	public static function &list_locales() {
+	public static function list_locales() {
 		global $context, $locales;
 
 		// list of locales
@@ -1273,7 +1273,7 @@ Class i18n {
 				$translated = fread($handle, $length);
 
 			// save in memory
-			$hash =& i18n::hash($original);
+			$hash = i18n::hash($original);
 			$context['l10n'][$language][$hash] = $translated;
 
 			// escape original string
@@ -1317,7 +1317,7 @@ Class i18n {
 	 * @param string the label identifying string
 	 * @return string the localized string, if any
 	 */
-	public static function &lookup(&$strings, $name) {
+	public static function lookup(&$strings, $name) {
 		global $context;
 
 		// match on hashed name
@@ -1349,7 +1349,7 @@ Class i18n {
 	 * @param int number of items to consider
 	 * @return string the localized string
 	 */
-	public static function &nc($singular, $plural, $count) {
+	public static function nc($singular, $plural, $count) {
 		global $context;
 
 		// sanity check
@@ -1364,7 +1364,7 @@ Class i18n {
 			$locale = 'en';
 
 		// key in cache
-		$text =& i18n::hash($singular.chr(0).$plural);
+		$text = i18n::hash($singular.chr(0).$plural);
 
 		// do it manually
 		if(!isset($context['l10n']) || !is_array($context['l10n'][$locale]) || !array_key_exists($text, $context['l10n'][$locale]) || !array_key_exists('_plural', $context['l10n'][$locale])) {
@@ -1408,7 +1408,7 @@ Class i18n {
 	 * @param int number of items to consider
 	 * @return string the localized string
 	 */
-	public static function &ns($singular, $plural, $count) {
+	public static function ns($singular, $plural, $count) {
 		global $context;
 
 		// sanity check
@@ -1423,7 +1423,7 @@ Class i18n {
 			$locale = 'en';
 
 		// key in cache
-		$text =& i18n::hash($singular.chr(0).$plural);
+		$text = i18n::hash($singular.chr(0).$plural);
 
 		// do it manually
 		if(!isset($context['l10n']) || !isset($context['l10n'][$locale]) || !is_array($context['l10n'][$locale]) || !array_key_exists($text, $context['l10n'][$locale]) || !array_key_exists('_plural', $context['l10n'][$locale])) {
@@ -1477,7 +1477,7 @@ Class i18n {
 	 * @param string the template string to be translated
 	 * @return string the localized string, if any
 	 */
-	public static function &s($text) {
+	public static function s($text) {
 		global $context;
 
 		// sanity check
@@ -1495,7 +1495,7 @@ Class i18n {
 			return $text;
 
 		// provide the localized string
-		$text =& i18n::lookup($context['l10n'][$locale], $text);
+		$text = i18n::lookup($context['l10n'][$locale], $text);
 		return $text;
 	}
 
@@ -1507,10 +1507,10 @@ Class i18n {
 	 * @param string the label identifying string
 	 * @return string the localized string, if any
 	 */
-	public static function &server($name) {
+	public static function server($name) {
 		global $context, $local;
 
-		$text =& i18n::l($local, $name, $context['preferred_language']);
+		$text = i18n::l($local, $name, $context['preferred_language']);
 		return $text;
 	}
 
@@ -1533,10 +1533,10 @@ Class i18n {
 	 * @param string desired language, if any
 	 * @return string the localized string, if any
 	 */
-	public static function &user($name, $forced='') {
+	public static function user($name, $forced='') {
 		global $local;
 
-		$text =& i18n::l($local, $name, $forced);
+		$text = i18n::l($local, $name, $forced);
 		return $text;
 	}
 

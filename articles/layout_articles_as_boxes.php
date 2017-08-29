@@ -57,7 +57,7 @@ Class Layout_articles_as_boxes extends Layout_interface {
 
 			// shortcut for associates
 			if(Surfer::is_associate())
-				$title =& Skin::build_box_title($title, $url, i18n::s('View the page'));
+				$title = Skin::build_box_title($title, $url, i18n::s('View the page'));
 
 			// title prefix
 			$prefix = '';

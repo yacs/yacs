@@ -465,12 +465,12 @@ Class XML_RPC_Codec extends Codec {
 		if(($tag == 'value') || ($tag == 'methodName')){
 
 			// browse containers
-			$here =& $this->result;
+			$here = $this->result;
 			$container_id = NULL;
 			foreach($this->stack as $container_id) {
 				if(!isset($here[$container_id]))
 					$here[$container_id] = array();
-				$here =& $here[$container_id];
+				$here = $here[$container_id];
 			}
 
 			// update a leaf

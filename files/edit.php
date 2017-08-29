@@ -83,6 +83,10 @@ $id = strip_tags($id);
 // get the item from the database
 $item = Files::get($id);
 
+// current item
+if(isset($item['id']))
+	$context['current_item'] = 'file:'.$item['id'];
+
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
@@ -313,7 +317,7 @@ if(Surfer::is_crawler()) {
 				$mail['notification'] = Files::build_notification('multiple', $attributes);
 
 			// one file has been added
-			} elseif($item =& Files::get_by_anchor_and_name($anchor->get_reference(), $uploaded)) {
+			} elseif($item = Files::get_by_anchor_and_name($anchor->get_reference(), $uploaded)) {
 				$context['text'] .= '<p>'.i18n::s('Following file has been added:').'</p>'
 					.Codes::render_object('file', $item['id']);
 
@@ -459,6 +463,9 @@ if(Surfer::is_crawler()) {
 
 // display the form
 if($with_form) {
+    
+        // give context
+        $context['current_action'] = 'edit';
 
 	// prevent updates from section owner or associate
 	if(isset($item['assign_id']) && $item['assign_id'] && !Surfer::is($item['assign_id'])) {

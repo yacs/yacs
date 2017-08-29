@@ -179,6 +179,8 @@ load_skin('users');
 if(isset($item['id']))
     $context['current_item'] = 'user:'.$item['id'];
 
+$context['current_action'] = 'view';
+
 // the path to this page
 $context['path_bar'] = array( 'users/' => i18n::s('People') );
 
@@ -372,7 +374,7 @@ if(!isset($item['id'])) {
 		$offset = ($zoom_index - 1) * ARTICLES_PER_PAGE;
 
 		// list watched pages by date, not only pages posted by this user
-		$items =& Articles::list_for_user_by('edition', $item['id'], $offset, $layout->items_per_page(), 'last');
+		$items = Articles::list_for_user_by('edition', $item['id'], $offset, $layout->items_per_page(), 'last');
 		if(is_array($items))
 			$box['text'] .= Skin::build_list($items, 'compact');
 		elseif($items)
@@ -449,7 +451,7 @@ if(!isset($item['id'])) {
 		// list assigned by title		
 		$layout = Layouts::new_('rights', 'section');
 		$layout->set_focus($item['id']);
-		$items =& Sections::list_by_date_for_user($item['id'], $offset, SECTIONS_PER_PAGE, $layout);
+		$items = Sections::list_by_date_for_user($item['id'], $offset, SECTIONS_PER_PAGE, $layout);
 		if(is_array($items))
 			$box['text'] .= Skin::build_list($items, 'compact');
 		elseif($items)
@@ -644,18 +646,26 @@ if(!isset($item['id'])) {
 				// confirm password
 				if(!isset($item['without_confirmations']) || ($item['without_confirmations'] != 'Y'))
 					$items[] = i18n::s('Confirm every password change.');
+                                else 
+                                        $items[] = i18n::s("Don't confirm every password change.");
 
 				// receive alerts
 				if(!isset($item['without_alerts']) || ($item['without_alerts'] != 'Y'))
 					$items[] = i18n::s('Alert me when my pages are commented.');
+                                else
+                                        $items[] = i18n::s("Don't alert me when my pages are commented.");
 
 				// receive private messages
 				if(!isset($item['without_messages']) || ($item['without_messages'] != 'Y'))
 					$items[] = i18n::s('Allow other members to contact me.');
+                                else
+                                        $items[] = i18n::s("Don't allow other members to contact me.");
 
 				// explicit newsletter subscription
 				if(!isset($item['id']) || !isset($item['with_newsletters']) || ($item['with_newsletters'] == 'Y'))
 					$items[] = i18n::s('Send me periodical newsletters.');
+                                else
+                                        $items[] = i18n::s("Don't send me periodical newsletters.");
 
 				if(count($items))
 					$box .= '<dl><dt>'.i18n::s('E-mail usage').'</dt><dd>'
@@ -864,7 +874,7 @@ if(!isset($item['id'])) {
 		$box['text'] = '';
 
 		// list categories by title
-		$items =& Members::list_categories_by_title_for_member('user:'.$item['id'], 0, COMPACT_LIST_SIZE, 'sidebar');
+		$items = Members::list_categories_by_title_for_member('user:'.$item['id'], 0, COMPACT_LIST_SIZE, 'sidebar');
 
 		// the command to change categories assignments
 		if(Categories::allow_assign($item))
@@ -881,7 +891,7 @@ if(!isset($item['id'])) {
 	}
 
 	// referrals, if any
-	$context['components']['referrals'] =& Skin::build_referrals(Users::get_url($item['id']));
+	$context['components']['referrals'] = Skin::build_referrals(Users::get_url($item['id']));
 
 }
 

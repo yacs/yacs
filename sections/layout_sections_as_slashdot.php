@@ -98,7 +98,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 			$anchors = Sections::get_branch_at_anchor('section:'.$item['id']);
 
 			// get last post
-			$article =& Articles::get_newest_for_anchor($anchors, TRUE);
+			$article = Articles::get_newest_for_anchor($anchors, TRUE);
 			if($article['id']) {
 
 				// permalink
@@ -168,7 +168,7 @@ Class Layout_sections_as_slashdot extends Layout_interface {
 					$menu[] = Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'span', i18n::s('View the section'));
 
 				// list up to three categories by title, if any
-				if($items =& Members::list_categories_by_title_for_member('article:'.$article['id'], 0, 3, 'raw')) {
+				if($items = Members::list_categories_by_title_for_member('article:'.$article['id'], 0, 3, 'raw')) {
 					foreach($items as $id => $attributes) {
 						$menu[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'span');
 					}

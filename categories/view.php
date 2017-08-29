@@ -168,6 +168,7 @@ load_skin('categories', $anchor, isset($item['options']) ? $item['options'] : ''
 // current item
 if(isset($item['id']))
 	$context['current_item'] = 'category:'.$item['id'];
+$context['current_action'] = 'view';
 
 // path to this page
 if(is_object($anchor) && $anchor->is_viewable())
@@ -452,7 +453,7 @@ if(!isset($item['id'])) {
 
 		// list items by date (default) or by title (option 'sections_by_title')
 		$offset = ($zoom_index - 1) * $items_per_page;
-		$items =& Members::list_sections_by_title_for_anchor('category:'.$item['id'], $offset, $items_per_page, $layout_sections);
+		$items = Members::list_sections_by_title_for_anchor('category:'.$item['id'], $offset, $items_per_page, $layout_sections);
 
 		// actually render the html for the section
 		if(is_array($items))
@@ -502,11 +503,11 @@ if(!isset($item['id'])) {
 		// list items by date (default) or by title (option 'articles_by_title') or by rating_sum (option article_by_rating)
 		$offset = ($zoom_index - 1) * ARTICLES_PER_PAGE;
 		if(isset($order) && preg_match('/\barticles_by_rating\b/i', $order))
-			$items =& Members::list_articles_by_rating_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles, $this_cat->get_listed_lang());
+			$items = Members::list_articles_by_rating_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles, $this_cat->get_listed_lang());
 		elseif(isset($item['options']) && preg_match('/\barticles_by_title\b/i', $item['options']))
-			$items =& Members::list_articles_by_title_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles, $this_cat->get_listed_lang());
+			$items = Members::list_articles_by_title_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles, $this_cat->get_listed_lang());
 		else
-			$items =& Members::list_articles_by_date_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles, $this_cat->get_listed_lang());
+			$items = Members::list_articles_by_date_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles, $this_cat->get_listed_lang());
 
 		// actually render the html for the section
 		if(is_array($items))
@@ -797,7 +798,7 @@ if(!isset($item['id'])) {
 
 		// list items by date (default) or by title (option 'users_by_title')
 		$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
-		$items =& Members::list_users_by_name_for_anchor('category:'.$item['id'], $offset, USERS_LIST_SIZE, $layout);
+		$items = Members::list_users_by_name_for_anchor('category:'.$item['id'], $offset, USERS_LIST_SIZE, $layout);
 
 		// actually render the html
 		if($box['bar'])
@@ -965,7 +966,7 @@ if(!isset($item['id'])) {
 	}
 
 	// referrals, if any
-	$context['components']['referrals'] =& Skin::build_referrals(Categories::get_permalink($item));
+	$context['components']['referrals'] = Skin::build_referrals(Categories::get_permalink($item));
 
 }
 

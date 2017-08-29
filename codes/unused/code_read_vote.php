@@ -141,19 +141,19 @@ Class Code_read_vote extends Code {
                    $anchors = Sections::get_branch_at_anchor($anchor);
 
                    // query the database and layout that stuff
-                   $text =& Articles::list_for_anchor_by('rating', $anchors, 0, $count, $layout);
+                   $text = Articles::list_for_anchor_by('rating', $anchors, 0, $count, $layout);
 
            // scope is limited to pages of one surfer
            } elseif(strpos($anchor, 'user:') === 0)
-                   $text =& Articles::list_for_user_by('rating', substr($anchor, 5), 0, $count, $layout);
+                   $text = Articles::list_for_user_by('rating', substr($anchor, 5), 0, $count, $layout);
 
            // consider all pages
            else
-                   $text =& Articles::list_by('rating', 0, $count, $layout);
+                   $text = Articles::list_by('rating', 0, $count, $layout);
 
            // we have an array to format
            if(is_array($text))
-                   $text =& Skin::build_list($text, $layout);
+                   $text = Skin::build_list($text, $layout);
 
            // job done
            return $text;

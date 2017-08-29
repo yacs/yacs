@@ -23,15 +23,17 @@
 	width: 20em;
 }
 
-.floating_box:hover {
+.floating_box:hover, .box:hover {
 	background-color: #fee;
 }
 
-.floating_box a {
+.box {padding : 2em;width: 20em;}
+
+.floating_box a, .box a {
 	text-decoration: none;
 }
 
-.floating_box dd { /* center box content */
+.floating_box dd, .box .content { /* center box content */
 	text-align: center;
 	border: none;
 	padding: 0;
@@ -84,4 +86,8 @@
     top: 10px;
     width: 250px;
     z-index: 100;
+}
+
+.t-text {
+    display : block;
 }

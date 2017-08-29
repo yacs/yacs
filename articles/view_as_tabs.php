@@ -98,7 +98,7 @@ if(!Surfer::is_crawler()) {
 		$text .= ucfirst(implode(BR."\n", $details)).BR."\n";
 
 	// details
-	$details =& Articles::build_dates($anchor, $item);
+	$details = Articles::build_dates($anchor, $item);
 
 	// signal articles to be published
 	if(($item['publish_date'] <= NULL_DATE)) {
@@ -268,7 +268,7 @@ if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 } else {
 
 	// get a layout for these comments
-	$layout =& Comments::get_layout($anchor, $item);
+	$layout = Comments::get_layout($anchor, $item);
 
 	// provide author information to layout
 	if(is_object($layout) && $item['create_id'])

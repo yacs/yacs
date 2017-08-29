@@ -184,7 +184,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= $section.Skin::build_list($items, 'compact');
 
 	// list pages attached to this user
-	if($items =& Articles::list_for_user_by('edition', $item['id'], 0, 50, 'compact'))
+	if($items = Articles::list_for_user_by('edition', $item['id'], 0, 50, 'compact'))
 		$context['text'] .= Skin::build_box(i18n::s('Pages'), Skin::build_list($items, 'compact'));
 
 }

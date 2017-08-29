@@ -128,7 +128,7 @@ if(!isset($item['id'])) {
 
 	// list watched users by posts
 	$watched = '';
-	if($items =& Members::list_connections_for_user('user:'.$item['id'], 0, 200, 'watch')) {
+	if($items = Members::list_connections_for_user('user:'.$item['id'], 0, 200, 'watch')) {
 		if(is_array($items))
 			$items = Skin::build_list($items, 'decorated');
 		$watched .= $items;

@@ -84,7 +84,7 @@ if(($page > 1) && (($page - 1) * CATEGORIES_PER_PAGE > $stats['count'])) {
 
 		// we have an array to format
 		if(is_array($text))
-			$text =& Skin::build_list($text, '2-columns');
+			$text = Skin::build_list($text, '2-columns');
 
 		// navigation commands for categories, if necessary
 		if($stats['count'] > CATEGORIES_PER_PAGE) {

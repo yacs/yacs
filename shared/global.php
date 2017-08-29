@@ -378,6 +378,13 @@ elseif(isset($_SERVER['SCRIPT_URI']))
 elseif(isset($_SERVER['REQUEST_URI'])) // this includes query string
 	$context['self_url'] = $context['url_to_home'].$_SERVER['REQUEST_URI'];
 
+// recombine the self_url (to keep only the essencial)
+$scheme = parse_url($context['self_url'], PHP_URL_SCHEME);
+$host = parse_url($context['self_url'], PHP_URL_HOST);
+$path = parse_url($context['self_url'], PHP_URL_PATH);
+$query = parse_url($context['self_url'], PHP_URL_QUERY);
+
+$context['self_url'] = $scheme.'://'.$host.$path.'?'.$query;
 //
 // session cookie
 //
@@ -427,7 +434,7 @@ if(!isset($context['url_to_root'])) {
 		$items = @parse_url($context['self_url']);
 		if(preg_match('/(.*?\/yacs.*?\/)/i', $items['path'], $matches))
 			$context['url_to_root'] = $matches[1];
-		elseif(preg_match('/(\/.*?\/)control/i', $items['path'], $matches))
+		elseif(preg_match('/(\/.*?\/?)control/i', $items['path'], $matches))
 			$context['url_to_root'] = $matches[1];
 		elseif(preg_match('/^(\/.*?\/).*?$/', $items['path'], $matches))
 			$context['url_to_root'] = $matches[1];
@@ -673,7 +680,7 @@ function encode_field($text) {
 	$text = preg_replace(array('/&amp;#/i', '/&amp;u/i'), array('&#', '&u'), $text);
 
 	// transcode HTML entities to unicode
-	$text =& utf8::transcode($text);
+	$text = utf8::transcode($text);
 
 	// escape double quotes
 	if($context['charset'] == 'utf-8')
@@ -1056,7 +1063,7 @@ function render_skin($with_last_modified=TRUE) {
 			// navigation boxes from the dedicated section
 			$anchor = Sections::lookup('navigation_boxes');
 
-			if($anchor && ($rows =& Articles::list_for_anchor_by('publication', $anchor, 0, $context['site_navigation_maximum'], 'boxes'))) {
+			if($anchor && ($rows = Articles::list_for_anchor_by('publication', $anchor, 0, $context['site_navigation_maximum'], 'boxes'))) {
 
 				// one box per article
 				foreach($rows as $title => $attributes)
@@ -1077,14 +1084,14 @@ function render_skin($with_last_modified=TRUE) {
 
 					// link to the category page from box title
 					if(is_callable(array('i18n', 's')))
-						$label =& Skin::build_box_title($label, Categories::get_permalink($attributes), i18n::s('View the category'));
+						$label = Skin::build_box_title($label, Categories::get_permalink($attributes), i18n::s('View the category'));
 
 					// list sub categories
 					$items = Categories::list_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact');
 
 					// list linked articles
 					include_once $context['path_to_root'].'links/links.php';
-					if($articles =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact')) {
+					if($articles = Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact')) {
 						if($items)
 							$items = array_merge($items, $articles);
 						else
@@ -1343,7 +1350,11 @@ function render_skin($with_last_modified=TRUE) {
 	if(isset($context['javascript']['tinymce'])) {
 
 		Page::defer_script('included/tiny_mce/tinymce.min.js');
-		Page::insert_script('Yacs.tinymceInit();');
+		Page::insert_script("\n"
+                      . 'var wysiwyg_toolbar ="'.$context['wysiwyg_toolbar']."\";\n"
+                      . 'var wysiwyg_plugins ="'.$context['wysiwyg_plugins']."\";\n"
+                      . 'Yacs.tinymceInit();'."\n"
+                      );
 
 	}
 
@@ -1375,7 +1386,7 @@ function render_skin($with_last_modified=TRUE) {
 
 	// jquery-ui stylesheet
 	if($whole_rendering)
-	    Page::load_style('included/browser/css/redmond/jquery-ui-1.10.3.custom.min.css');
+	    Page::load_style('included/browser/css/redmond/jquery-ui-1.12.1.custom.min.css');
 
 	// activate jscolor, if available
 	if(isset($context['javascript']['jscolor']))
@@ -1398,25 +1409,7 @@ function render_skin($with_last_modified=TRUE) {
 	if(isset($context['javascript']['opentok']))
 		Page::load_script('http://static.opentok.com/v0.91/js/TB.min.js');
 
-	// activate jsCalendar, if required
-	if(isset($context['javascript']['calendar'])) {
-
-		// load the skin
-		Page::load_style('included/jscalendar/skins/aqua/theme.css');
-		Page::load_style('included/jscalendar/calendar-system.css');
-
-		// use the compressed version if it's available
-		Page::defer_script('included/jscalendar/calendar.min.js');
-
-		if(file_exists($context['path_to_root'].'included/jscalendar/lang/calendar-'.strtolower($context['language']).'.js'))
-		    Page::defer_script('included/jscalendar/lang/calendar-'.strtolower($context['language']).'.js');
-		else
-		    Page::defer_script ('included/jscalendar/lang/calendar-en.js');
-
-		Page::defer_script('included/jscalendar/calendar-setup.min.js');
-
-	}
-        
+	// activate timepicker, if required
         if(isset($context['javascript']['timepicker'])) {
 
                 

@@ -435,7 +435,7 @@ Class Sections {
 	 * @param array the section to be documented
 	 * @return array strings detailed labels
 	 */
-	public static function &build_dates($anchor, $item) {
+	public static function build_dates($anchor, $item) {
 		global $context;
 
 		// we return an array of strings
@@ -1207,7 +1207,7 @@ Class Sections {
 	 * @param int or string the id or nick name of the section
 	 * @return the associated handle, or NULL if no record matches the input parameter
 	 */
-	public static function &get_handle($id) {
+	public static function get_handle($id) {
 		global $context;
 
 		// sanity check
@@ -1466,7 +1466,7 @@ Class Sections {
 	 * @see panel.php
 	 * @see skins/upload.php
 	 */
-	public static function &get_radio_buttons($current=NULL, $me=NULL) {
+	public static function get_radio_buttons($current=NULL, $me=NULL) {
 		global $context;
 
 		// we put radio buttons in a string
@@ -1630,7 +1630,7 @@ Class Sections {
 	 * @param array page attributes
 	 * @return string the short url
 	 */
-	public static function &get_short_url($item) {
+	public static function get_short_url($item) {
 		$output = 's~'.reduce_number($item['id']);
 		return $output;
 	}
@@ -1670,7 +1670,7 @@ Class Sections {
 		return $where;
 	}
 
-	public static function &get_tree() {
+	public static function get_tree() {
 		global $context;
 
 		// do this only once!
@@ -2126,7 +2126,7 @@ Class Sections {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	public static function &list_for_name($name, $exception=NULL, $variant='compact') {
+	public static function list_for_name($name, $exception=NULL, $variant='compact') {
 		global $context;
 
 		// gather constraints
@@ -2142,7 +2142,7 @@ Class Sections {
 			." WHERE (sections.nick_name LIKE '".SQL::escape($name)."')".$where
 			." ORDER BY sections.title LIMIT 100";
 
-		$output =& Sections::list_selected(SQL::query($query), $variant);
+		$output = Sections::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -2157,7 +2157,7 @@ Class Sections {
 	 *
 	 * @see shared/codes.php
 	 */
-	public static function &list_by_date_for_user($user_id, $offset=0, $count=10, $variant='full') {
+	public static function list_by_date_for_user($user_id, $offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request for watched sections --that are not also managed
@@ -2194,7 +2194,7 @@ Class Sections {
 		$query .= " ORDER BY edit_date DESC, title LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
-		$output =& Sections::list_selected(SQL::query($query), $variant);
+		$output = Sections::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -2221,7 +2221,7 @@ Class Sections {
 	 * @see sections/layout_sections_as_yahoo.php
 	 * @see sections/view.php
 	 */
-	public static function &list_by_title_for_anchor($anchor, $offset=0, $count=20, $variant='full',$sort_family = FALSE) {
+	public static function list_by_title_for_anchor($anchor, $offset=0, $count=20, $variant='full',$sort_family = FALSE) {
 		global $context;
 
 		// limit the query to one level
@@ -2268,7 +2268,7 @@ Class Sections {
 			$layout->set_focus($anchor);
 
 		// do the job
-		$output =& Sections::list_selected(SQL::query($query, $silent), $layout);
+		$output = Sections::list_selected(SQL::query($query, $silent), $layout);
 		return $output;
 	}
 
@@ -2287,7 +2287,7 @@ Class Sections {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return array an ordered array with $url => ($prefix, $label, $suffix, $icon), else NULL on error
 	 */
-	public static function &list_for_anchor($anchor, $variant='raw') {
+	public static function list_for_anchor($anchor, $variant='raw') {
 		global $context;
 
 		// limit the scope to one section
@@ -2310,7 +2310,7 @@ Class Sections {
 			." WHERE ".$where
 			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 0, 500";
 
-		$output =& Sections::list_selected(SQL::query($query), $variant);
+		$output = Sections::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -2341,7 +2341,7 @@ Class Sections {
 	 * @see sections/index.php
 	 * @see sections/view.php
 	 */
-	public static function &list_inactive_by_title_for_anchor($anchor, $offset=0, $count=20, $variant='full') {
+	public static function list_inactive_by_title_for_anchor($anchor, $offset=0, $count=20, $variant='full') {
 		global $context;
 
 		// limit the query to one level
@@ -2381,7 +2381,7 @@ Class Sections {
 			." WHERE ".$where
 			." ORDER BY sections.rank, sections.title, sections.edit_date DESC	LIMIT ".$offset.','.$count;
 
-		$output =& Sections::list_selected(SQL::query($query), $variant);
+		$output = Sections::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
@@ -2397,7 +2397,7 @@ Class Sections {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 */
-	public static function &list_selected($result, $variant='full') {
+	public static function list_selected($result, $variant='full') {
 		global $context;
 
 		// no result
@@ -3094,16 +3094,24 @@ Class Sections {
 			$query[] = "description='".SQL::escape($fields['description'])."'";
 		if(isset($fields['extra']))
 			$query[] = "extra='".SQL::escape($fields['extra'])."'";
-        if(isset($fields['file_overlay']) )
+                if(isset($fields['family']))
+			$query[] = "family='".SQL::escape($fields['family'])."'";
+                if(isset($fields['file_overlay']) )
 			$query[] = "file_overlay='".SQL::escape($fields['file_overlay'])."'";
 		if(isset($fields['handle']) && $fields['handle'])
 			$query[] = "handle='".SQL::escape($fields['handle'])."'";
+                if(isset($fields['hits']))
+			$query[] = "hits='".SQL::escape($fields['hits'])."'";
 		if(isset($fields['icon_url']))
 			$query[] = "icon_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['icon_url']))."'";
 		if(isset($fields['home_panel']))
 			$query[] = "home_panel='".SQL::escape($fields['home_panel'])."'";
                 if(isset($fields['index_map']))
 			$query[] = "index_map='".SQL::escape($fields['index_map'])."'";
+                if(isset($fields['index_news']))
+			$query[] = "index_news='".SQL::escape($fields['index_news'])."'";
+                if(isset($fields['index_news_count']))
+			$query[] = "index_news_count='".SQL::escape($fields['index_news_count'])."'";
 		if(isset($fields['introduction']))
 			$query[] = "introduction='".SQL::escape($fields['introduction'])."'";
                 if(isset($fields['index_title']))
@@ -3130,6 +3138,8 @@ Class Sections {
 			$query[] = "prefix='".SQL::escape($fields['prefix'])."'";
 		if(isset($fields['rank']))
 			$query[] = "rank='".SQL::escape($fields['rank'])."'";
+                if(isset($fields['sections_overlay']))
+			$query[] = "sections_overlay='".SQL::escape($fields['sections_overlay'])."'";
 		if(isset($fields['sections_layout']))
 			$query[] = "sections_layout='".SQL::escape($fields['sections_layout'])."'";
 		if(isset($fields['suffix']) && Surfer::is_associate())
@@ -3242,10 +3252,10 @@ Class Sections {
 	 * @param mixed the layout, if any
 	 * @return NULL on error, else an ordered array of array($score, $summary)
 	 */
-	public static function &search($pattern, $offset=1.0, $count=50, $layout='search') {
+	public static function search($pattern, $offset=1.0, $count=50, $layout='search') {
 		global $context;
 
-		$output =& Sections::search_in_section(NULL, $pattern, $offset, $count, $layout);
+		$output = Sections::search_in_section(NULL, $pattern, $offset, $count, $layout);
 		return $output;
 	}
 
@@ -3267,7 +3277,7 @@ Class Sections {
 	 * @param mixed the layout, if any
 	 * @return NULL on error, else an ordered array of array($score, $summary)
 	 */
-	public static function &search_in_section($section_id, $pattern, $offset=1.0, $count=10, $layout='search') {
+	public static function search_in_section($section_id, $pattern, $offset=1.0, $count=10, $layout='search') {
 		global $context;
 
 		// sanity check
@@ -3319,7 +3329,7 @@ Class Sections {
 			." ORDER BY score DESC"
 			." LIMIT ".$count;
 
-		$output =& Sections::list_selected(SQL::query($query), $layout);
+		$output = Sections::list_selected(SQL::query($query), $layout);
 		return $output;
 	}
 
@@ -3356,10 +3366,10 @@ Class Sections {
 		$fields['expiry_date']	= "DATETIME";
 		$fields['extra']		= "TEXT NOT NULL";
 		$fields['family']		= "VARCHAR(255) DEFAULT '' NOT NULL";
-        $fields['file_overlay']	= "VARCHAR(64) DEFAULT '' NOT NULL";
+                $fields['file_overlay']	= "VARCHAR(64) DEFAULT '' NOT NULL";
 		$fields['handle']		= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
-        $fields['home_panel']	= "VARCHAR(10) DEFAULT 'main' NOT NULL";
+                $fields['home_panel']	= "VARCHAR(10) DEFAULT 'main' NOT NULL";
 		$fields['icon_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['index_map']	= "ENUM('Y', 'N') DEFAULT 'Y' NOT NULL";
 		$fields['index_news']	= "VARCHAR(255) DEFAULT 'static' NOT NULL";
