@@ -614,6 +614,12 @@ if($with_form) {
 	// associates may change the active flag: Yes/public, Restricted/logged, No/associates
 	if(Surfer::is_associate()) {
 		$label = i18n::s('Access');
+		if(isset($item['editor']))
+			;
+		elseif(!isset($context['users_default_active']))
+			$item['active'] = 'Y';
+		else
+			$item['active'] = $context['users_default_active'];
 		$input = '<input type="radio" name="active" value="Y"';
 		if(!isset($item['active']) || ($item['active'] == 'Y'))
 			$input .= ' checked="checked"';
