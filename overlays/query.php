@@ -25,7 +25,7 @@ Class query extends Overlay {
         
         
         // send email to anonymous surfer;
-        Mailer::notify(null, $this->get_value('create_address'), $mail['subject'], $mail['notification'], $mail['headers']);
+        Mailer::notify(null, $this->anchor->item['create_address'], $mail['subject'], $mail['notification'], $mail['headers']);
         
        // allow normal processing
        return true;
