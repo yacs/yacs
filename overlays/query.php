@@ -22,10 +22,12 @@ Class query extends Overlay {
     
     public function should_notify_watchers($mail = NULL) {
        
+        $target = $this->anchor->item['create_address'];
         
+        if($target == $_REQUEST['create_address']) return true;
         
         // send email to anonymous surfer;
-        Mailer::notify(null, $this->anchor->item['create_address'], $mail['subject'], $mail['notification'], $mail['headers']);
+        Mailer::notify(null, $target , $mail['subject'], $mail['notification'], $mail['headers']);
         
        // allow normal processing
        return true;
