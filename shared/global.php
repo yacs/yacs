@@ -1427,8 +1427,23 @@ function render_skin($with_last_modified=TRUE) {
                 // <script src="https://rawgithub.com/trentrichardson/jQuery-Timepicker-Addon/master/jquery-ui-timepicker-addon.js"></script>
 	}
         
+        // activate cookie control
+        if($whole_rendering && isset($context['cookie_control']) && $context['cookie_control'] == 'Y') {
+            
+            Page::load_style('included/cookie_cuttr/cookiecuttr.css');
+            Page::defer_script('included/cookie_cuttr/jquery.cookie.js');
+            Page::defer_script('included/cookie_cuttr/jquery.cookiecuttr.js');
+            
+            $options = "{cookieAnalytics:false, cookieAcceptButtonText:'".i18n::s('ACCEPT COOKIES')."'";
+            $message = (isset($context['cookie_message']))?Codes::beautify($context['cookie_message']):'';
+            if($message)
+                $options .= ", cookieMessage:'".  htmlentities($message)."'";
+            
+            $options .= '}';
+            
+            Page::insert_script('$(function(){$.cookieCuttr('.  $options .')});');
+        }
         
-
 	// load occasional libraries declared through scripts
 	if(isset($context['javascript']['header']))
 	    $context['page_header'] .= $context['javascript']['header'];
@@ -1444,10 +1459,16 @@ function render_skin($with_last_modified=TRUE) {
 	// javascript libraries files to declare in footer of page, plus YACS ajax library
 	if($whole_rendering)
 	    $context['page_footer'] = Js_Css::get_js_libraries('js_endpage','shared/yacs.js').$context['page_footer'];
-
-	// site trailer, if any
-	if(isset($context['site_trailer']) && $context['site_trailer'] && $whole_rendering)
-		$context['page_footer'] .= $context['site_trailer']."\n";
+        
+        // tracking code if any
+        if(isset($context['site_tracker']) && $context['site_tracker'] && !Surfer::is_associate()) {
+            
+            if(isset($context['cookie_control']) && isset($context['tracker_cookie_control']) && $context['cookie_control'] == 'Y' && $context['tracker_cookie_control'] == 'Y') {
+                $context['site_tracker'] = '<script>if($.cookieAccepted()){'.strip_tags($context['site_tracker']).'}</script>';
+            }
+            
+            $context['page_footer'] .= $context['site_tracker']."\n";
+        }
 
 	// insert one tabulation before each header line
 	if($whole_rendering)

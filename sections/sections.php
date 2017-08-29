@@ -191,6 +191,58 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 Class Sections {
+    
+        /**
+	 * set SQL order
+	 *
+	 * @param string wanted
+	 * @return string to be put in SQL statements
+	 */
+        public static function _get_order($order) {
+            
+            switch($order) {
+                
+                case 'title':
+                default:
+                    
+                    $order = 'rank, title, edit_date DESC';
+                    break;
+                    
+                case 'family':
+                    
+                    $order = 'rank, family, title, .edit_date DESC';
+                    break;
+                
+                case 'reverse_title':
+                    $order = 'rank, title DESC, edit_date DESC';
+                    break;
+                    
+                case 'reverse_rank':
+                    
+                    $order = 'rank DESC, title, edit_date DESC';
+                    break;
+                    
+                case 'overlay':
+                    
+                    $order = 'overlay_id, edit_date DESC';
+                    break;
+                      
+                    
+                case 'reverse_overlay':
+                    
+                    $order = 'overlay_id DESC, edit_date DESC';
+                    break;
+                    
+                case 'random' :
+                    
+                    $order = 'RAND()';
+                    break;
+                
+            }
+            
+            return $order;
+            
+        }
 
 	/**
 	 * check if a section can be accessed
@@ -2223,52 +2275,10 @@ Class Sections {
 	 */
 	public static function list_by_title_for_anchor($anchor, $offset=0, $count=20, $variant='full',$sort_family = FALSE) {
 		global $context;
-
-		// limit the query to one level
-		if(is_array($anchor))
-			$where = "(sections.anchor IN ('".join("', '", $anchor)."'))";
-		elseif($anchor)
-			$where = "(sections.anchor LIKE '".SQL::escape($anchor)."')";
-		else
-			$where = "(sections.anchor='' OR sections.anchor IS NULL)";
-
-		// limit the scope of the request
-		$where .= " AND ".Sections::get_sql_where();
-
-		// hide sections removed from index maps
-		$where .= " AND (sections.index_map = 'Y')";
-
-		// non-associates will have only live sections
-		if(!Surfer::is_associate()) {
-			$where .= " AND ((sections.activation_date is NULL)"
-				."	OR (sections.activation_date <= '".$context['now']."'))"
-				." AND ((sections.expiry_date is NULL)"
-				."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
-		}
-
-		// if the user is listing sections to write an article, only consider open sections, even for associates
-		if(is_string($variant) && ($variant == 'select'))
-			$where .= ' AND (sections.locked NOT LIKE "Y")';
-
-		// list sections
-		$query = "SELECT sections.*"
-			." FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE ".$where
-			." ORDER BY sections.rank,".(($sort_family)?' sections.family,':'')." sections.title, sections.edit_date DESC LIMIT ".$offset.','.$count;
-
-		// don't stop on error if we are building tabs
-		if(is_string($variant) && ($variant == '$tabs'))
-			$silent = TRUE;
-		else
-			$silent = FALSE;
-
-		// provide context to layout
-		$layout = Layouts::new_($variant,'section',false,true);
-		if($anchor)
-			$layout->set_focus($anchor);
-
-		// do the job
-		$output = Sections::list_selected(SQL::query($query, $silent), $layout);
+		
+                $order = ($sort_family)?'family':'title';
+                
+		$output = Sections::list_for_anchor_by($order, $anchor, $offset, $count, $variant, true);
 		return $output;
 	}
 
@@ -2289,12 +2299,44 @@ Class Sections {
 	 */
 	public static function list_for_anchor($anchor, $variant='raw') {
 		global $context;
+                
+                $output = Sections::list_for_anchor_by('title', $anchor, 0, 500, 'raw', false);
 
-		// limit the scope to one section
-		$where = "(sections.anchor LIKE '".SQL::escape($anchor)."')";
+		
+		return $output;
+	}
+        
+        /**
+	 * list sections by provided order option at a given level of the content tree
+	 *
+         * 
+         * @global type $context
+         * @param string $order option @see sections::_get_order()
+         * @param mixed $anchor (string or array of string)
+         * @param int $offset from the start of the list; usually, 0 or 1
+         * @param int $count the number of items to display
+         * @param mixed $variant the layout to use
+         * @param boolean $with_index_map to restrict query to section that are 
+         * @return NULL on error, else the output from the layout.
+         */
+        public static function list_for_anchor_by($order, $anchor, $offset=0, $count=20, $variant='full', $with_index_map=TRUE) {
+                global $context;
+
+		// limit the query to one level
+		if(is_array($anchor))
+			$where = "(sections.anchor IN ('".join("', '", $anchor)."'))";
+		elseif($anchor)
+			$where = "(sections.anchor LIKE '".SQL::escape($anchor)."')";
+		else
+			$where = "(sections.anchor='' OR sections.anchor IS NULL)";
 
 		// limit the scope of the request
 		$where .= " AND ".Sections::get_sql_where();
+
+		// hide sections removed from index maps
+                if($with_index_map) {
+                    $where .= " AND (sections.index_map = 'Y')";
+                }
 
 		// non-associates will have only live sections
 		if(!Surfer::is_associate()) {
@@ -2304,15 +2346,33 @@ Class Sections {
 				."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$context['now']."'))";
 		}
 
+		// if the user is listing sections to write an article, only consider open sections, even for associates
+		if(is_string($variant) && ($variant == 'select'))
+			$where .= ' AND (sections.locked NOT LIKE "Y")';
+
 		// list sections
 		$query = "SELECT sections.*"
 			." FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE ".$where
-			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 0, 500";
+			." WHERE ".$where;
+                      
+                $query .= " ORDER BY ".Sections::_get_order($order)." LIMIT ".$offset.','.$count;
 
-		$output = Sections::list_selected(SQL::query($query), $variant);
+		// don't stop on error if we are building tabs
+		if(is_string($variant) && ($variant == '$tabs'))
+			$silent = TRUE;
+		else
+			$silent = FALSE;
+
+		// provide context to layout
+		$layout = Layouts::new_($variant,'section',false,true);
+		if($anchor)
+			$layout->set_focus($anchor);
+
+		// do the job
+		$output = Sections::list_selected(SQL::query($query, $silent), $layout);
 		return $output;
-	}
+            
+        }
 
 	/**
 	 * list inactive sub-sections by title for a given anchor
