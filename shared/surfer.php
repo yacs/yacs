@@ -1248,7 +1248,7 @@ Class Surfer {
                 include_once $context['path_to_root'].'included/securimage/securimage.php';
                 $securimage = new Securimage();
 
-                if ($securimage->check($_REQUEST['captcha_code']) == TRUE) {
+                if (isset($_REQUEST['captcha_code']) && $securimage->check($_REQUEST['captcha_code']) == TRUE) {
 
 			// remember this, to not challenge the surfer again
 			$_SESSION['surfer_is_not_a_robot'] = TRUE;
