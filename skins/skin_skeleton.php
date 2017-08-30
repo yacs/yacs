@@ -1005,7 +1005,7 @@ Class Skin_Skeleton {
 
 		// wrap everything
                 $tag = (SKIN_HTML5)?'aside':'div';
-		
+		$text = tag::_($tag,tag::_class('extra-box').$id,$text);
 
 		return $text;
 	}
