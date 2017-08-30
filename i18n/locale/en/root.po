@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-06 11:11+0200\n"
+"POT-Creation-Date: 2017-08-30 10:05+0200\n"
 "PO-Revision-Date: 2013-10-16 16:36+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
@@ -28,11 +28,11 @@ msgstr "Control Panel"
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: configure.php:80 index.php:444
+#: configure.php:80 index.php:445
 msgid "Configure"
 msgstr "Configure"
 
-#: configure.php:80 configure.php:283 configure.php:403 query.php:159
+#: configure.php:80 configure.php:283 configure.php:403 query.php:166
 msgid "Front page"
 msgstr "Front page"
 
@@ -116,7 +116,7 @@ msgstr ""
 msgid "here"
 msgstr "here"
 
-#: configure.php:172 index.php:448
+#: configure.php:172 index.php:449
 msgid "Gadget boxes"
 msgstr "Gadget boxes"
 
@@ -198,11 +198,11 @@ msgstr "Main panel"
 msgid "Side panel"
 msgstr "Side panel"
 
-#: configure.php:275 panel.php:77 query.php:260 search.php:121
+#: configure.php:275 panel.php:77 query.php:268 search.php:121
 msgid "Submit"
 msgstr "Submit"
 
-#: configure.php:275 panel.php:77 query.php:260 search.php:121
+#: configure.php:275 panel.php:77 query.php:268 search.php:121
 msgid "Press [s] to submit data"
 msgstr "Press [s] to submit data"
 
@@ -252,7 +252,7 @@ msgstr "Configuration parameters"
 msgid "Switch the server on"
 msgstr "Switch the server on"
 
-#: configure.php:397 query.php:157
+#: configure.php:397 query.php:164
 msgid "Where do you want to go now?"
 msgstr "Where do you want to go now?"
 
@@ -317,7 +317,7 @@ msgstr ""
 msgid "the site front page"
 msgstr "the site front page"
 
-#: error.php:133 go.php:147 query.php:162 search.php:112
+#: error.php:133 go.php:147 query.php:169 search.php:112
 msgid "Search"
 msgstr "Search"
 
@@ -515,44 +515,44 @@ msgstr "Submit \"%s\" to our %s in case some pages could match this keyword."
 msgid "search engine"
 msgstr "search engine"
 
-#: index.php:392
+#: index.php:393
 msgid "No page to display."
 msgstr "No page to display."
 
-#: index.php:394
+#: index.php:395
 #, php-format
 msgid "Use the %s to populate this server."
 msgstr "Use the %s to populate this server."
 
-#: index.php:394 setup.php:332
+#: index.php:395 setup.php:332
 msgid "Content Assistant"
 msgstr "Content Assistant"
 
-#: index.php:403 query.php:160
+#: index.php:404 query.php:167
 msgid "All pages"
 msgstr "All pages"
 
-#: index.php:414
+#: index.php:415
 msgid "Recent Pages"
 msgstr "Recent Pages"
 
-#: index.php:446
+#: index.php:447
 msgid "Cover page"
 msgstr "Cover page"
 
-#: index.php:450
+#: index.php:451
 msgid "Extra boxes"
 msgstr "Extra boxes"
 
-#: index.php:452
+#: index.php:453
 msgid "Navigation boxes"
 msgstr "Navigation boxes"
 
-#: index.php:467
+#: index.php:468
 msgid "featured"
 msgstr "featured"
 
-#: index.php:471 index.php:479
+#: index.php:472 index.php:480
 msgid "Featured pages"
 msgstr "Featured pages"
 
@@ -572,7 +572,7 @@ msgstr "Introduction"
 msgid "Page content"
 msgstr "Page content"
 
-#: query.php:44 query.php:319 search.php:373
+#: query.php:44 query.php:327 search.php:373
 msgid "Help"
 msgstr "Help"
 
@@ -600,37 +600,37 @@ msgstr ""
 msgid "No anchor has been found."
 msgstr "No anchor has been found."
 
-#: query.php:96
+#: query.php:97
 msgid "(anonymous)"
 msgstr "(anonymous)"
 
-#: query.php:107
+#: query.php:108
 #, php-format
 msgid "Sent by %s"
 msgstr "Sent by %s"
 
-#: query.php:107
+#: query.php:108
 msgid "e-mail"
 msgstr "e-mail"
 
-#: query.php:112
+#: query.php:119
 msgid "Please prove you are not a robot."
 msgstr "Please prove you are not a robot."
 
-#: query.php:126
+#: query.php:133
 msgid "Your query has been registered"
 msgstr "Your query has been registered"
 
-#: query.php:148
+#: query.php:155
 msgid "<p>You can check the status of your query at the following address:</p>"
 msgstr ""
 "<p>You can check the status of your query at the following address:</p>"
 
-#: query.php:149
+#: query.php:156
 msgid "The permanent address for your query"
 msgstr "The permanent address for your query"
 
-#: query.php:153
+#: query.php:160
 msgid ""
 "<p>Your query will now be reviewed by one of the associates of this "
 "community. It is likely that this will be done within the next 24 hours at "
@@ -640,20 +640,20 @@ msgstr ""
 "community. It is likely that this will be done within the next 24 hours at "
 "the latest.</p>"
 
-#: query.php:161
+#: query.php:168
 msgid "Site map"
 msgstr "Site map"
 
-#: query.php:163 setup.php:337
+#: query.php:170 setup.php:337
 msgid "Help index"
 msgstr "Help index"
 
-#: query.php:174
+#: query.php:181
 #, php-format
 msgid "Your query: %s"
 msgstr "Your query: %s"
 
-#: query.php:177
+#: query.php:184
 #, php-format
 msgid ""
 "<p>Your query will now be reviewed by one of the associates of this "
@@ -668,12 +668,12 @@ msgstr ""
 "address:</p><p>%s</p><p>We would like to thank you for your interest in our "
 "web site.</p>"
 
-#: query.php:195
+#: query.php:202
 #, php-format
 msgid "New query: %s"
 msgstr "New query: %s"
 
-#: query.php:212
+#: query.php:219
 msgid ""
 "Please fill out the form and it will be sent automatically to the site "
 "managers. Be as precise as possible, and mention your e-mail address to let "
@@ -683,61 +683,61 @@ msgstr ""
 "managers. Be as precise as possible, and mention your e-mail address to let "
 "us a chance to contact you back."
 
-#: query.php:220
+#: query.php:227
 msgid "Your name"
 msgstr "Your name"
 
-#: query.php:222
+#: query.php:230
 msgid "Let us a chance to know who you are"
 msgstr "Let us a chance to know who you are"
 
-#: query.php:228
+#: query.php:236
 msgid "Your e-mail address"
 msgstr "Your e-mail address"
 
-#: query.php:230
+#: query.php:238
 msgid "To be alerted during the processing of your request"
 msgstr "To be alerted during the processing of your request"
 
-#: query.php:240
+#: query.php:248
 msgid "Query object"
 msgstr "Query object"
 
-#: query.php:242
+#: query.php:250
 msgid "The main object of your query"
 msgstr "The main object of your query"
 
-#: query.php:248
+#: query.php:256
 msgid "Details of your request"
 msgstr "Details of your request"
 
-#: query.php:250
+#: query.php:258
 msgid ""
 "Please mention any reference information required to process the request"
 msgstr ""
 "Please mention any reference information required to process the request"
 
-#: query.php:264
+#: query.php:272
 msgid "Cancel"
 msgstr "Cancel"
 
-#: query.php:278
+#: query.php:286
 msgid "Please give your first and last names"
 msgstr "Please give your first and last names"
 
-#: query.php:284
+#: query.php:292
 msgid "Please give your e-mail address"
 msgstr "Please give your e-mail address"
 
-#: query.php:290
+#: query.php:298
 msgid "Please provide a meaningful title."
 msgstr "Please provide a meaningful title."
 
-#: query.php:296
+#: query.php:304
 msgid "The description should not exceed 64000 characters."
 msgstr "The description should not exceed 64000 characters."
 
-#: query.php:309
+#: query.php:317
 msgid ""
 "<p>Use this form to submit any kind of request you can have, from simple "
 "suggestions to complex questions.</p><p>Hearty discussion and unpopular "
@@ -751,7 +751,7 @@ msgstr ""
 "and smarmy queries are discouraged and may be deleted. In fact, we reserve "
 "the right to delete any post for any reason. Don't make us do it.</p>"
 
-#: query.php:311
+#: query.php:319
 msgid ""
 "If you paste some existing HTML content and want to avoid the implicit "
 "formatting insert the code <code>[formatted]</code> at the very beginning of "
@@ -761,20 +761,20 @@ msgstr ""
 "formatting insert the code <code>[formatted]</code> at the very beginning of "
 "the description field."
 
-#: query.php:313
+#: query.php:321
 msgid "Most HTML tags are removed."
 msgstr "Most HTML tags are removed."
 
-#: query.php:314
+#: query.php:322
 #, php-format
 msgid "You can use %s to beautify your post"
 msgstr "You can use %s to beautify your post"
 
-#: query.php:314
+#: query.php:322
 msgid "YACS codes"
 msgstr "YACS codes"
 
-#: query.php:317
+#: query.php:325
 msgid "Mandatory fields are marked with a *"
 msgstr "Mandatory fields are marked with a *"
 
