@@ -225,3 +225,17 @@ rcopy($context['path_to_root'].'scripts/staging/included/browser/css/redmond',$c
 $local['label_en'] = 'files have been copied';
 $local['label_fr'] = 'fichiers ont &eacute;t&eacute; copi&eacute;s';
 echo $count.' '.i18n::user('label')."<br />\n";
+
+//----------------
+// basic reporting
+$local['label_en'] = 'Copy Cookie Cuttr lib';
+$local['label_fr'] = 'Copie de la librairie Cookie Cuttr';
+echo i18n::user('label')."<br />\n";
+
+$count = 0;
+rcopy($context['path_to_root'].'scripts/staging/included/cookie_cuttr',$context['path_to_root'].'included/cookie_cuttr', $count);
+
+// basic reporting
+$local['label_en'] = 'files have been copied';
+$local['label_fr'] = 'fichiers ont &eacute;t&eacute; copi&eacute;s';
+echo $count.' '.i18n::user('label')."<br />\n";
