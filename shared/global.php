@@ -268,7 +268,7 @@ $context['users_default_editor'] = 'tinymce';
 $context['with_alternate_urls'] = 'N';
 
 // debug the execution of this script -- see control/configure.php
-$context['with_debug'] = 'N';
+$context['with_debug'] = 'Y';
 
 // how to build links -- see control/configure.php
 $context['with_friendly_urls'] = 'N';
