@@ -633,7 +633,7 @@ if($with_form) {
 
 	// the background color
 	$label = i18n::s('Background color');
-	$input = '<input class="color {hash:true,required:false}" name="background_color" size="10" value="'.encode_field(isset($item['background_color'])?$item['background_color']:'').'" maxlength="8" />';
+	$input = '<input class="jscolor {hash:true,required:false}" name="background_color" size="10" value="'.encode_field(isset($item['background_color'])?$item['background_color']:'').'" maxlength="8" />';
 	$hint = i18n::s('To highlight this category in lists');
 	$fields[] = array($label, $input, $hint);
 
