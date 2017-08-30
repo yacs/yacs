@@ -2696,6 +2696,11 @@ Class Skin_Skeleton {
 	 */
 	public static function build_number($value, $variant='') {
 		global $context;
+                
+                // sanity check, maybe already "build"
+                if(!is_numeric($value)) {
+                    return $value;
+                }
 
 		$decimals = 0;
 		$unit = '';
