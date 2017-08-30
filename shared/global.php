@@ -600,6 +600,10 @@ if(isset($_REQUEST['overlaid']) && $_REQUEST['overlaid'] == 'Y') {
     $render_overlaid = true;
 } 
 
+// the maximum size for uploads
+$context['file_maximum_size'] = str_replace('M', ' M', Safe::get_cfg_var('upload_max_filesize'));
+if(!$context['file_maximum_size'])
+	$context['file_maximum_size'] = '2 M';
 
 /**
  * autoloader of main classes
