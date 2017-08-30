@@ -14,7 +14,7 @@ function build_module ()
   if [ ! -d i18n/templates/ ]; then
     mkdir -p "i18n/templates/"
   fi
-  xgettext $@ --output=i18n/templates/$MODULE.pot --default-domain=$MODULE --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
+  xgettext $@ --output=i18n/templates/$MODULE.pot --default-domain=$MODULE --keyword --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php --from-code=utf-8
 
   if [ ! -f i18n/locale/en/$MODULE.po ]; then
   	echo --- locale/en/$MODULE.po generation

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 08:24+0200\n"
+"POT-Creation-Date: 2017-08-30 10:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -187,8 +187,12 @@ msgstr ""
 msgid "Related items"
 msgstr ""
 
-#: shared/global.php:1087
+#: shared/global.php:1094
 msgid "View the category"
+msgstr ""
+
+#: shared/global.php:1441
+msgid "ACCEPT COOKIES"
 msgstr ""
 
 #: shared/logger.php:205
@@ -395,23 +399,23 @@ msgstr ""
 msgid "Following XHTML tags are allowed: %s"
 msgstr ""
 
-#: shared/surfer.php:725
+#: shared/surfer.php:732
 msgid "anonymous"
 msgstr ""
 
-#: shared/surfer.php:748
+#: shared/surfer.php:755
 msgid "My pages"
 msgstr ""
 
-#: shared/surfer.php:752
+#: shared/surfer.php:759
 msgid "All pages"
 msgstr ""
 
-#: shared/surfer.php:824
+#: shared/surfer.php:831
 msgid "Robot stopper"
 msgstr ""
 
-#: shared/surfer.php:832
+#: shared/surfer.php:839
 msgid "Update image"
 msgstr ""
 

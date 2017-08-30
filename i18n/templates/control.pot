@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 08:24+0200\n"
+"POT-Creation-Date: 2017-08-30 10:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,8 +20,8 @@ msgstr ""
 
 #: control/backup.php:95 control/backup.php:110 control/chmod.php:27
 #: control/chmod.php:42 control/chmod.php:85 control/configure.php:217
-#: control/configure.php:228 control/configure.php:745
-#: control/configure.php:979 control/index.php:195 control/info.php:42
+#: control/configure.php:228 control/configure.php:759
+#: control/configure.php:999 control/index.php:195 control/info.php:42
 #: control/info.php:61 control/populate.php:105 control/populate.php:122
 #: control/populate.php:869 control/purge.php:68 control/purge.php:205
 #: control/purge.php:224 control/purge.php:244 control/purge.php:262
@@ -166,7 +166,7 @@ msgid "Skip transient data and minimize size of backup file"
 msgstr ""
 
 #: control/backup.php:847 control/backup.php:912 control/backup.php:935
-#: control/backup.php:972 control/chmod.php:105 control/configure.php:960
+#: control/backup.php:972 control/chmod.php:105 control/configure.php:980
 #: control/populate.php:194 control/scan.php:891 control/scan.php:901
 #: control/scan.php:925 control/setup.php:249 control/setup.php:292
 msgid ""
@@ -209,7 +209,7 @@ msgstr ""
 msgid "Apply these SQL statements"
 msgstr ""
 
-#: control/backup.php:903 control/backup.php:929 control/configure.php:741
+#: control/backup.php:903 control/backup.php:929 control/configure.php:755
 #: control/populate.php:158 control/purge.php:516 control/virtual.php:147
 msgid "Press [s] to submit data"
 msgstr ""
@@ -402,7 +402,7 @@ msgid "Custom storage of user information"
 msgstr ""
 
 #: control/configure.php:342 control/configure.php:436
-#: control/configure.php:580
+#: control/configure.php:594
 msgid ""
 "If you do not know what following parameters mean, please use default values "
 "for safety."
@@ -578,182 +578,194 @@ msgid "Server is not connected to the Internet."
 msgstr ""
 
 #: control/configure.php:526
-msgid "Outbound requests"
+msgid "Time Zone"
 msgstr ""
 
 #: control/configure.php:530
+msgid "Display time according to the time zone of each surfer."
+msgstr ""
+
+#: control/configure.php:534
+msgid "Use the same time zone for everyone setted as this value : "
+msgstr ""
+
+#: control/configure.php:540
+msgid "Outbound requests"
+msgstr ""
+
+#: control/configure.php:544
 msgid ""
 "This server uses the web for syndication, for pings or for other activities."
 msgstr ""
 
-#: control/configure.php:534
+#: control/configure.php:548
 msgid "Prevent this server to connect to others."
 msgstr ""
 
-#: control/configure.php:538
+#: control/configure.php:552
 msgid "static subdomain"
 msgstr ""
 
-#: control/configure.php:542
+#: control/configure.php:556
 msgid ""
 "provide full url with trailing slash, e.g. http://static.yourdomain.com/"
 msgstr ""
 
-#: control/configure.php:550
+#: control/configure.php:564
 msgid "Proxy address or name"
 msgstr ""
 
-#: control/configure.php:557
+#: control/configure.php:571
 msgid "Proxy account"
 msgstr ""
 
-#: control/configure.php:564
+#: control/configure.php:578
 msgid "Proxy password"
 msgstr ""
 
-#: control/configure.php:571
+#: control/configure.php:585
 msgid "Proxy settings"
 msgstr ""
 
-#: control/configure.php:583
+#: control/configure.php:597
 msgid "Global switch"
 msgstr ""
 
-#: control/configure.php:587
+#: control/configure.php:601
 msgid "This system is not configured to send e-mail messages."
 msgstr ""
 
-#: control/configure.php:591
+#: control/configure.php:605
 msgid "Use following parameters to send messages and notifications."
 msgstr ""
 
-#: control/configure.php:595
+#: control/configure.php:609
 msgid "Architecture"
 msgstr ""
 
-#: control/configure.php:599
+#: control/configure.php:613
 msgid "Rely on PHP and system settings for the transmission of messages."
 msgstr ""
 
-#: control/configure.php:603
+#: control/configure.php:617
 msgid ""
 "Connect to the mail server described below, and authenticate with SMTP if "
 "necessary."
 msgstr ""
 
-#: control/configure.php:607
+#: control/configure.php:621
 msgid "Authenticate using POP3 before sending messages with SMTP."
 msgstr ""
 
-#: control/configure.php:611
+#: control/configure.php:625
 msgid "SMTP server"
 msgstr ""
 
-#: control/configure.php:618
+#: control/configure.php:632
 #, php-format
 msgid "For example: %s"
 msgstr ""
 
-#: control/configure.php:622
+#: control/configure.php:636
 msgid "Account name"
 msgstr ""
 
-#: control/configure.php:629
+#: control/configure.php:643
 msgid "Account password"
 msgstr ""
 
-#: control/configure.php:636
+#: control/configure.php:650
 msgid "Source address for electronic mail (From:)"
 msgstr ""
 
-#: control/configure.php:640
+#: control/configure.php:654
 msgid ""
 "Normalized format, for example: \"John Ford\" &lt;john.ford@acme.com&gt;"
 msgstr ""
 
-#: control/configure.php:644
+#: control/configure.php:658
 msgid "Source address for notifications (From:)"
 msgstr ""
 
-#: control/configure.php:648
+#: control/configure.php:662
 msgid "Use the fixed source address configured above."
 msgstr ""
 
-#: control/configure.php:652
+#: control/configure.php:666
 msgid "Make notifications personal by using surfer address if known."
 msgstr ""
 
-#: control/configure.php:656
+#: control/configure.php:670
 msgid "Maximum of outbound messages per hour"
 msgstr ""
 
-#: control/configure.php:660
+#: control/configure.php:674
 msgid "Messages will not be queued if this is set to 0"
 msgstr ""
 
-#: control/configure.php:664
+#: control/configure.php:678
 msgid "Recipients of system events"
 msgstr ""
 
-#: control/configure.php:668
+#: control/configure.php:682
 msgid "To forward logged events to one or several recipients."
 msgstr ""
 
-#: control/configure.php:672
+#: control/configure.php:686
 msgid "Debug mail services"
 msgstr ""
 
-#: control/configure.php:676
+#: control/configure.php:690
 msgid ""
 "Copy messages in the file temporary/debug.txt. Use this option only for "
 "troubleshooting."
 msgstr ""
 
-#: control/configure.php:690
+#: control/configure.php:704
 #, php-format
 msgid "Check %s to manage and preview all available styles."
 msgstr ""
 
-#: control/configure.php:690
+#: control/configure.php:704
 msgid "the index page of skins"
 msgstr ""
 
-#: control/configure.php:725
+#: control/configure.php:739
 msgid "Database"
 msgstr ""
 
-#: control/configure.php:726 control/index.php:889
+#: control/configure.php:740 control/index.php:889
 msgid "System"
 msgstr ""
 
-#: control/configure.php:727
+#: control/configure.php:741
 msgid "Network"
 msgstr ""
 
-#: control/configure.php:728
+#: control/configure.php:742
 msgid "Mail"
 msgstr ""
 
-#: control/configure.php:729
+#: control/configure.php:743
 msgid "Skin"
 msgstr ""
 
-#: control/configure.php:741 control/import.php:348 control/populate.php:158
+#: control/configure.php:755 control/import.php:348 control/populate.php:158
 #: control/virtual.php:147
 msgid "Submit"
 msgstr ""
 
-#: control/configure.php:749 control/configure.php:768 control/index.php:242
+#: control/configure.php:763 control/configure.php:782 control/index.php:242
 msgid "Themes"
 msgstr ""
 
-#: control/configure.php:886
+#: control/configure.php:906
 msgid ""
 "ERROR: Unsuccessful connection to the database. Please check lines below and "
 "<a href=\"configure.php\">configure again</a>."
 msgstr ""
 
-#: control/configure.php:891 control/virtual.php:184
+#: control/configure.php:911 control/virtual.php:184
 #: control/htaccess/index.php:72
 #, php-format
 msgid ""
@@ -761,7 +773,7 @@ msgid ""
 "saved."
 msgstr ""
 
-#: control/configure.php:894 control/switch.php:111 control/virtual.php:187
+#: control/configure.php:914 control/switch.php:111 control/virtual.php:187
 #: control/htaccess/index.php:75
 #, php-format
 msgid ""
@@ -769,41 +781,41 @@ msgid ""
 "by yourself in file %s."
 msgstr ""
 
-#: control/configure.php:899 control/htaccess/index.php:80
+#: control/configure.php:919 control/htaccess/index.php:80
 #, php-format
 msgid "The following configuration has been saved into the file %s."
 msgstr ""
 
-#: control/configure.php:903 control/populate.php:201 control/scan.php:497
+#: control/configure.php:923 control/populate.php:201 control/scan.php:497
 #: control/setup.php:148
 msgid ""
 "Review provided information and go to the bottom of the page to move forward."
 msgstr ""
 
-#: control/configure.php:912 control/scan.php:859
+#: control/configure.php:932 control/scan.php:859
 #: control/htaccess/index.php:83
 #, php-format
 msgid "%s has been updated"
 msgstr ""
 
-#: control/configure.php:919 control/index.php:279 control/switch.php:114
+#: control/configure.php:939 control/index.php:279 control/switch.php:114
 #: control/virtual.php:113 control/virtual.php:202 control/virtual.php:222
 msgid "Configuration"
 msgstr ""
 
-#: control/configure.php:956 control/index.php:145
+#: control/configure.php:976 control/index.php:145
 msgid "Look for software extensions"
 msgstr ""
 
-#: control/configure.php:967
+#: control/configure.php:987
 msgid "Next step"
 msgstr ""
 
-#: control/configure.php:977 control/htaccess/index.php:92
+#: control/configure.php:997 control/htaccess/index.php:92
 msgid "Where do you want to go now?"
 msgstr ""
 
-#: control/configure.php:980 control/htaccess/index.php:95
+#: control/configure.php:1000 control/htaccess/index.php:95
 msgid "Configure again"
 msgstr ""
 
