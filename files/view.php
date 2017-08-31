@@ -866,13 +866,13 @@ if(!isset($item['id'])) {
 	if(Files::allow_modification($item, $anchor)) {
 
 		// modify this page
-		Skin::define_img('FILES_EDIT_IMG', 'files/edit.gif');
-		$context['page_tools'][] = Skin::build_link(Files::get_url($item['id'], 'edit'), FILES_EDIT_IMG.i18n::s('Update this file'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+		$context['page_tools'][] = Skin::build_link(Files::get_url($item['id'], 'edit'), fa::_("fa-edit").' '.i18n::s('Update this file'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+		$context['page_minitools'][] = Skin::build_link(Files::get_url($item['id'], 'edit'), fa::_("fa-edit"), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		// post an image, if upload is allowed
 		if(Images::allow_creation($item, $anchor, 'file')) {
-			Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
-			$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic');
+			$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']), fa::_("fa-image").' '.i18n::s('Add an image'), 'basic');
+			$context['page_minitools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']), fa::_("fa-image"), 'basic');
 		}
 
 	}
@@ -886,7 +886,7 @@ if(!isset($item['id'])) {
 	// delete command provided to associates and owners
 	if((is_object($anchor) && $anchor->is_owned()) || Surfer::is_associate()) {
 		Skin::define_img('FILES_DELETE_IMG', 'files/delete.gif');
-		$context['page_tools'][] = Skin::build_link(Files::get_url($item['id'], 'delete'), FILES_DELETE_IMG.i18n::s('Delete this file'));
+		$context['page_tools'][] = Skin::build_link(Files::get_url($item['id'], 'delete'), fa::_("fa-trash").' '.i18n::s('Delete this file'));
 	}
 
 	// the navigation sidebar

@@ -99,6 +99,10 @@ Class Comments {
 			// surfer owns this item, or the anchor
 			if(Articles::is_owned($item, $anchor))
 				return TRUE;
+                        
+                        // surfer has the handle of the article
+                        if(isset($item['handle']) && Surfer::may_handle($item['handle']))
+                                return TRUE;
 
 			// surfer is an editor, and the page is not private
 			if(isset($item['active']) && ($item['active'] != 'N') && Articles::is_assigned($item['id']))

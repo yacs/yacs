@@ -440,8 +440,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 
 			// the command to add a new section
 			if(Sections::allow_creation($item, $anchor)) {
-				Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
-				$box['top_bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => SECTIONS_ADD_IMG.i18n::s('Add a section'));
+				$box['top_bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => fa::_("fa-folder-open-o").' '.i18n::s('Add a section'));
 			}
 
 			// list items by title
@@ -792,8 +791,7 @@ if(Articles::allow_creation($item, $anchor)) {
 
 // add a section
 if(Sections::allow_creation($item, $anchor)) {
-	Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
-	$context['page_tools'][] = Skin::build_link('sections/edit.php?anchor='.urlencode('section:'.$item['id']), SECTIONS_ADD_IMG.i18n::s('Add a section'), 'basic', i18n::s('Add a section'));
+	$context['page_tools'][] = Skin::build_link('sections/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("fa-folder-open-o").' '.i18n::s('Add a section'), 'basic', i18n::s('Add a section'));
 }
 
 // comment this page if anchor does not prevent it

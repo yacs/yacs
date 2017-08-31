@@ -3500,11 +3500,3 @@ Class Files {
 // load localized strings
 if(is_callable(array('i18n', 'bind')))
 	i18n::bind('files');
-
-// the maximum size for uploads
-global $context;
-$context['file_maximum_size'] = str_replace('M', ' M', Safe::get_cfg_var('upload_max_filesize'));
-if(!$context['file_maximum_size'])
-	$context['file_maximum_size'] = '2 M';
-
-?>

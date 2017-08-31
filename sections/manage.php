@@ -1090,7 +1090,7 @@ if(Surfer::is_crawler()) {
 			);
 
 		// a list of commands
-		$options = '<select name="act_on_articles" id="act_on_articles"><option>'.i18n::s('For the selection:').'</option>';
+		$options = '<select name="act_on_articles" id="act_on_articles"><option>- '.i18n::s('For the selection:').'</option>';
 
 		// categorize selected pages
 		$options .= '<option value="associate_articles">'.i18n::s('Categorize').'</option>';
@@ -1200,7 +1200,7 @@ if(Surfer::is_crawler()) {
 			);
 
 		// a list of commands
-		$options = '<select name="act_on_sections" id="act_on_sections"><option>'.i18n::s('For the selection:').'</option>';
+		$options = '<select name="act_on_sections" id="act_on_sections"><option>- '.i18n::s('For the selection:').'</option>';
 
 		// categorize selected pages
 		$options .= '<option value="associate_sections">'.i18n::s('Categorize').'</option>';

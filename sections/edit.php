@@ -965,7 +965,7 @@ if($with_form) {
 
 	// rendering options
 	$label = i18n::s('Rendering');
-	$input = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />';
+	$input = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : 'with_files').'" maxlength="255" accesskey="o" />';
 
 	$keywords = array();
 	$keywords[] = '<a>articles_by_publication</a> - '.i18n::s('Sort pages by publication date');
