@@ -889,7 +889,7 @@
 				$context['root_sections_count_at_home'] = 5;
 
 			// query the database to get dynamic tabs
-			if(is_callable(array('Sections', 'list_by_title_for_anchor')) && ($items = Sections::list_by_title_for_anchor(NULL, 0, $context['root_sections_count_at_home'], 'main_tabs')))
+			if((file_exists($context['path_to_root'].'parameters/switch.on')) && $items = Sections::list_by_title_for_anchor(NULL, 0, $context['root_sections_count_at_home'], 'main_tabs'))
 				if(count($items)) {
 					//query subsections if layout is provided
 					if($layout_subsections) {

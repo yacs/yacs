@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-06 11:11+0200\n"
+"POT-Creation-Date: 2017-08-30 10:05+0200\n"
 "PO-Revision-Date: 2013-10-16 16:35+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -28,11 +28,11 @@ msgstr "Panneau de contrôle"
 msgid "%s: %s"
 msgstr "%s : %s"
 
-#: configure.php:80 index.php:444
+#: configure.php:80 index.php:445
 msgid "Configure"
 msgstr "Configurer"
 
-#: configure.php:80 configure.php:283 configure.php:403 query.php:159
+#: configure.php:80 configure.php:283 configure.php:403 query.php:166
 msgid "Front page"
 msgstr "Page d'accueil"
 
@@ -116,7 +116,7 @@ msgstr ""
 msgid "here"
 msgstr "ici"
 
-#: configure.php:172 index.php:448
+#: configure.php:172 index.php:449
 msgid "Gadget boxes"
 msgstr "Boîtes gadget"
 
@@ -201,11 +201,11 @@ msgstr "Panneau principal"
 msgid "Side panel"
 msgstr "Panneau de côté"
 
-#: configure.php:275 panel.php:77 query.php:260 search.php:121
+#: configure.php:275 panel.php:77 query.php:268 search.php:121
 msgid "Submit"
 msgstr "Envoyer"
 
-#: configure.php:275 panel.php:77 query.php:260 search.php:121
+#: configure.php:275 panel.php:77 query.php:268 search.php:121
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
@@ -257,7 +257,7 @@ msgstr "Paramètres de configuration"
 msgid "Switch the server on"
 msgstr "Mettre le serveur en route"
 
-#: configure.php:397 query.php:157
+#: configure.php:397 query.php:164
 msgid "Where do you want to go now?"
 msgstr "Où voulez-vous aller à présent ?"
 
@@ -324,7 +324,7 @@ msgstr ""
 msgid "the site front page"
 msgstr "la page d'accueil"
 
-#: error.php:133 go.php:147 query.php:162 search.php:112
+#: error.php:133 go.php:147 query.php:169 search.php:112
 msgid "Search"
 msgstr "Recherche"
 
@@ -523,44 +523,44 @@ msgstr ""
 msgid "search engine"
 msgstr "moteur de recherche"
 
-#: index.php:392
+#: index.php:393
 msgid "No page to display."
 msgstr "Aucune page à afficher."
 
-#: index.php:394
+#: index.php:395
 #, php-format
 msgid "Use the %s to populate this server."
 msgstr "Utiliser l'%s pour ajouter des pages à ce serveur."
 
-#: index.php:394 setup.php:332
+#: index.php:395 setup.php:332
 msgid "Content Assistant"
 msgstr "Assistant de contenu"
 
-#: index.php:403 query.php:160
+#: index.php:404 query.php:167
 msgid "All pages"
 msgstr "Toutes les pages"
 
-#: index.php:414
+#: index.php:415
 msgid "Recent Pages"
 msgstr "Pages récentes"
 
-#: index.php:446
+#: index.php:447
 msgid "Cover page"
 msgstr "Page de couverture"
 
-#: index.php:450
+#: index.php:451
 msgid "Extra boxes"
 msgstr "Boîtes extra"
 
-#: index.php:452
+#: index.php:453
 msgid "Navigation boxes"
 msgstr "Boîtes de navigation"
 
-#: index.php:467
+#: index.php:468
 msgid "featured"
 msgstr "une"
 
-#: index.php:471 index.php:479
+#: index.php:472 index.php:480
 msgid "Featured pages"
 msgstr "Pages à la Une"
 
@@ -580,7 +580,7 @@ msgstr "Introduction"
 msgid "Page content"
 msgstr "Contenu de la page"
 
-#: query.php:44 query.php:319 search.php:373
+#: query.php:44 query.php:327 search.php:373
 msgid "Help"
 msgstr "Aide"
 
@@ -607,38 +607,38 @@ msgstr ""
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
-#: query.php:96
+#: query.php:97
 msgid "(anonymous)"
 msgstr "(anonyme)"
 
-#: query.php:107
+#: query.php:108
 #, php-format
 msgid "Sent by %s"
 msgstr "Envoyé par %s"
 
-#: query.php:107
+#: query.php:108
 msgid "e-mail"
 msgstr "courriel"
 
-#: query.php:112
+#: query.php:119
 msgid "Please prove you are not a robot."
 msgstr "Merci de prouver que vous n'êtes pas un robot."
 
-#: query.php:126
+#: query.php:133
 msgid "Your query has been registered"
 msgstr "Votre requête a été enregistrée"
 
-#: query.php:148
+#: query.php:155
 msgid "<p>You can check the status of your query at the following address:</p>"
 msgstr ""
 "<p>Vous pouvez suivre l'avancement de votre requête à l'adresse suivante :</"
 "p>"
 
-#: query.php:149
+#: query.php:156
 msgid "The permanent address for your query"
 msgstr "L'adresse permanente de votre requête"
 
-#: query.php:153
+#: query.php:160
 msgid ""
 "<p>Your query will now be reviewed by one of the associates of this "
 "community. It is likely that this will be done within the next 24 hours at "
@@ -647,20 +647,20 @@ msgstr ""
 "<p>Votre requête va à présent être traitée par l'un des associés de ce site. "
 "Cette étape dure moins de 24 heures le plus souvent.</p>"
 
-#: query.php:161
+#: query.php:168
 msgid "Site map"
 msgstr "Carte du site"
 
-#: query.php:163 setup.php:337
+#: query.php:170 setup.php:337
 msgid "Help index"
 msgstr "Index de l'aide"
 
-#: query.php:174
+#: query.php:181
 #, php-format
 msgid "Your query: %s"
 msgstr "Votre requête : %s"
 
-#: query.php:177
+#: query.php:184
 #, php-format
 msgid ""
 "<p>Your query will now be reviewed by one of the associates of this "
@@ -674,12 +674,12 @@ msgstr ""
 "requête à l'adresse suivante :</p><p>%s</p><p>Nous vous remercions de votre "
 "intérêt pour notre site web.</p>"
 
-#: query.php:195
+#: query.php:202
 #, php-format
 msgid "New query: %s"
 msgstr "Nouvelles requête : %s"
 
-#: query.php:212
+#: query.php:219
 msgid ""
 "Please fill out the form and it will be sent automatically to the site "
 "managers. Be as precise as possible, and mention your e-mail address to let "
@@ -690,62 +690,62 @@ msgstr ""
 "adresse de courrier électronique pour nous laisser une chance de vous "
 "recontacter."
 
-#: query.php:220
+#: query.php:227
 msgid "Your name"
 msgstr "Votre nom"
 
-#: query.php:222
+#: query.php:230
 msgid "Let us a chance to know who you are"
 msgstr "Donnez-nous une chance de mieux vous connaitre"
 
-#: query.php:228
+#: query.php:236
 msgid "Your e-mail address"
 msgstr "Votre adresse de courrier électronique"
 
-#: query.php:230
+#: query.php:238
 msgid "To be alerted during the processing of your request"
 msgstr "Pour être averti de l'avancement de votre requête"
 
-#: query.php:240
+#: query.php:248
 msgid "Query object"
 msgstr "Objet de votre requête"
 
-#: query.php:242
+#: query.php:250
 msgid "The main object of your query"
 msgstr "La raison principale de votre envoi"
 
-#: query.php:248
+#: query.php:256
 msgid "Details of your request"
 msgstr "Détail de votre requête"
 
-#: query.php:250
+#: query.php:258
 msgid ""
 "Please mention any reference information required to process the request"
 msgstr ""
 "Merci de mentionner tous les éléments susceptibles d'aider au traitement de "
 "votre requête"
 
-#: query.php:264
+#: query.php:272
 msgid "Cancel"
 msgstr "Annuler"
 
-#: query.php:278
+#: query.php:286
 msgid "Please give your first and last names"
 msgstr "Merci d'indiquer votre prénom et nom de famille"
 
-#: query.php:284
+#: query.php:292
 msgid "Please give your e-mail address"
 msgstr "Merci d'indiquer votre adresse de courrier électronique"
 
-#: query.php:290
+#: query.php:298
 msgid "Please provide a meaningful title."
 msgstr "Merci d'indiquer un titre significatif."
 
-#: query.php:296
+#: query.php:304
 msgid "The description should not exceed 64000 characters."
 msgstr "Le champ de description ne devrait pas excéder 64 000 caractères."
 
-#: query.php:309
+#: query.php:317
 msgid ""
 "<p>Use this form to submit any kind of request you can have, from simple "
 "suggestions to complex questions.</p><p>Hearty discussion and unpopular "
@@ -760,7 +760,7 @@ msgstr ""
 "rien, sinon à des messages effacés. Ne nous forcez pas à une telle extrémité."
 "</p>"
 
-#: query.php:311
+#: query.php:319
 msgid ""
 "If you paste some existing HTML content and want to avoid the implicit "
 "formatting insert the code <code>[formatted]</code> at the very beginning of "
@@ -770,20 +770,20 @@ msgstr ""
 "formatage implicite insérez le code <code>[formatted]</code> au tout début "
 "du champ de description."
 
-#: query.php:313
+#: query.php:321
 msgid "Most HTML tags are removed."
 msgstr "La plupart des balises HTML sont retirées."
 
-#: query.php:314
+#: query.php:322
 #, php-format
 msgid "You can use %s to beautify your post"
 msgstr "Vous pouvez utiliser %s pour enrichir votre envoi"
 
-#: query.php:314
+#: query.php:322
 msgid "YACS codes"
 msgstr "les codes YACS"
 
-#: query.php:317
+#: query.php:325
 msgid "Mandatory fields are marked with a *"
 msgstr "Les champs obligatoires sont signalés par un *"
 

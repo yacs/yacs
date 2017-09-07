@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 08:24+0200\n"
+"POT-Creation-Date: 2017-08-30 10:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -505,42 +505,42 @@ msgstr ""
 msgid "Browse this map with Freemind"
 msgstr ""
 
-#: codes/codes.php:778
+#: codes/codes.php:781
 #, php-format
 msgid "%d named person has followed the link: %s"
 msgid_plural "%d named persons have followed the link: %s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: codes/codes.php:781
+#: codes/codes.php:784
 msgid "No authenticated person has used this link yet"
 msgstr ""
 
-#: codes/codes.php:1193
+#: codes/codes.php:1196
 msgid "View this comment"
 msgstr ""
 
-#: codes/codes.php:1216 codes/codes.php:1272
+#: codes/codes.php:1219 codes/codes.php:1275
 msgid "[this file has been deleted]"
 msgstr ""
 
-#: codes/codes.php:1237 codes/codes.php:1296
+#: codes/codes.php:1240 codes/codes.php:1299
 msgid "[this file has been replaced]"
 msgstr ""
 
-#: codes/codes.php:2004
+#: codes/codes.php:2007
 #, php-format
 msgid "redirection to unknown reference : %s"
 msgstr ""
 
-#: codes/codes.php:2236
+#: codes/codes.php:2239
 #, php-format
 msgid "%d active now"
 msgid_plural "%d active now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: codes/codes.php:2308
+#: codes/codes.php:2311
 #, php-format
 msgid ""
 "ERROR: Impossible to write to the file %s. The configuration has not been "

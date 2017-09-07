@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 08:09+0200\n"
+"POT-Creation-Date: 2017-08-30 10:05+0200\n"
 "PO-Revision-Date: 2016-10-07 15:29+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -17,7 +17,7 @@ msgstr ""
 #: overlays/chat_meeting.php:100 overlays/day.php:130
 #: overlays/dimdim_meeting.php:44 overlays/dimdim_meeting.php:193
 #: overlays/etherpad_meeting.php:53 overlays/event.php:564
-#: overlays/event.php:566 overlays/event.php:702 overlays/event.php:1287
+#: overlays/event.php:566 overlays/event.php:703 overlays/event.php:1288
 #: overlays/livestream_meeting.php:70 overlays/meeting.php:40
 #: overlays/ustream_meeting.php:72
 msgid "Chairman"
@@ -44,8 +44,8 @@ msgstr "Nombre maximum de participants."
 #: overlays/dimdim_meeting.php:189 overlays/dimdim_meeting.php:193
 #: overlays/event.php:554 overlays/event.php:558 overlays/event.php:560
 #: overlays/event.php:564 overlays/event.php:566 overlays/event.php:570
-#: overlays/event.php:692 overlays/event.php:696 overlays/event.php:698
-#: overlays/event.php:702 overlays/thread.php:93 overlays/events/apply.php:128
+#: overlays/event.php:692 overlays/event.php:697 overlays/event.php:699
+#: overlays/event.php:703 overlays/thread.php:93 overlays/events/apply.php:128
 #: overlays/events/apply.php:188 overlays/events/enroll.php:85
 #: overlays/events/enroll.php:154
 #, php-format
@@ -58,18 +58,18 @@ msgstr "Titre"
 
 #: overlays/bbb_meeting.php:197 overlays/day.php:72 overlays/day.php:126
 #: overlays/dimdim_meeting.php:185 overlays/event.php:450
-#: overlays/event.php:558 overlays/event.php:696 overlays/event.php:1262
+#: overlays/event.php:558 overlays/event.php:697 overlays/event.php:1263
 msgid "Date"
 msgstr "Date"
 
 #: overlays/bbb_meeting.php:201 overlays/dimdim_meeting.php:189
-#: overlays/event.php:470 overlays/event.php:560 overlays/event.php:698
-#: overlays/event.php:1278
+#: overlays/event.php:470 overlays/event.php:560 overlays/event.php:699
+#: overlays/event.php:1279
 msgid "Duration"
 msgstr "Durée"
 
 #: overlays/bbb_meeting.php:201 overlays/dimdim_meeting.php:189
-#: overlays/event.php:560 overlays/event.php:698
+#: overlays/event.php:560 overlays/event.php:699
 msgid "minutes"
 msgstr "minutes"
 
@@ -244,16 +244,16 @@ msgid "Provide directions to join the meeting"
 msgstr "Donner les instructions pour rejoindre la réunion"
 
 #: overlays/event.php:474 overlays/event.php:475 overlays/event.php:476
-#: overlays/event.php:1275
+#: overlays/event.php:1276
 #, php-format
 msgid "%d minutes"
 msgstr "%d minutes"
 
-#: overlays/event.php:477 overlays/event.php:1269
+#: overlays/event.php:477 overlays/event.php:1270
 msgid "one hour"
 msgstr "une heure"
 
-#: overlays/event.php:478 overlays/event.php:1272
+#: overlays/event.php:478 overlays/event.php:1273
 msgid "two hours"
 msgstr "deux heures"
 
@@ -265,135 +265,135 @@ msgstr "la journée"
 msgid "Location"
 msgstr "Lieu"
 
-#: overlays/event.php:574 overlays/event.php:706
+#: overlays/event.php:574 overlays/event.php:707
 msgid "Meeting has been cancelled."
 msgstr "La réunion a été annulée."
 
-#: overlays/event.php:742
+#: overlays/event.php:743
 msgid "to review this event and confirm their participation"
 msgstr "à consulter cet événement, et à confirmer leur participation"
 
-#: overlays/event.php:743 overlays/event.php:747
+#: overlays/event.php:744 overlays/event.php:748
 msgid "to be notified of their enrolment"
 msgstr "à être notifié de leur inscription"
 
-#: overlays/event.php:746
+#: overlays/event.php:747
 msgid "to review this event and ask for an invitation"
 msgstr "à consulter cet événement, et à demander une invitation"
 
-#: overlays/event.php:777 overlays/event.php:778
+#: overlays/event.php:778 overlays/event.php:779
 msgid "Edit this event"
 msgstr "Modifier cet événement"
 
-#: overlays/event.php:783 overlays/event.php:784 overlays/event.php:804
-#: overlays/event.php:805 overlays/event.php:1843
+#: overlays/event.php:784 overlays/event.php:785 overlays/event.php:805
+#: overlays/event.php:806 overlays/event.php:1844
 msgid "Add an event"
 msgstr "Ajouter un événement"
 
-#: overlays/event.php:789 overlays/event.php:790 overlays/event.php:1676
-#: overlays/event.php:1753
+#: overlays/event.php:790 overlays/event.php:791 overlays/event.php:1677
+#: overlays/event.php:1754
 msgid "View event details"
 msgstr "Voir les détails de l'événement"
 
-#: overlays/event.php:794 overlays/event.php:795
+#: overlays/event.php:795 overlays/event.php:796
 msgid "Edit an event"
 msgstr "Modifier un événement"
 
-#: overlays/event.php:799 overlays/event.php:800
+#: overlays/event.php:800 overlays/event.php:801
 msgid "Delete an event"
 msgstr "Supprimer un événement"
 
-#: overlays/event.php:857
+#: overlays/event.php:858
 msgid "Description"
 msgstr "Description"
 
-#: overlays/event.php:860
+#: overlays/event.php:861
 msgid "Welcome"
 msgstr "Bienvenue"
 
-#: overlays/event.php:862
+#: overlays/event.php:863
 msgid "Follow-up"
 msgstr "Suivi"
 
-#: overlays/event.php:916
+#: overlays/event.php:917
 msgid "Event is under preparation"
 msgstr "L'événement est en préparation"
 
-#: overlays/event.php:919 overlays/meeting.php:185
+#: overlays/event.php:920 overlays/meeting.php:185
 msgid "Enrolment is open"
 msgstr "Les inscriptions sont ouvertes"
 
-#: overlays/event.php:922
+#: overlays/event.php:923
 msgid "Event has not started yet"
 msgstr "L'événement n'a pas encore commencé"
 
-#: overlays/event.php:925
+#: overlays/event.php:926
 msgid "Event has started"
 msgstr "L'événement est en cours"
 
-#: overlays/event.php:928 overlays/event.php:1194
+#: overlays/event.php:929 overlays/event.php:1195
 msgid "Event is over"
 msgstr "L'événement est terminé"
 
-#: overlays/event.php:982
+#: overlays/event.php:983
 msgid "Event preparation"
 msgstr "Préparation de l'événement"
 
-#: overlays/event.php:985
+#: overlays/event.php:986
 msgid "Induction message"
 msgstr "Message de présentation"
 
-#: overlays/event.php:989
+#: overlays/event.php:990
 msgid "Displayed until the beginning of the event."
 msgstr "Affiché jusqu'au début de l'événement."
 
-#: overlays/event.php:999 overlays/event.php:1189
+#: overlays/event.php:1000 overlays/event.php:1190
 msgid "Enrolment"
 msgstr "Inscription"
 
-#: overlays/event.php:1007 overlays/event.php:2245
+#: overlays/event.php:1008 overlays/event.php:2246
 msgid "Any page visitor can participate"
 msgstr "Tout visiteur de cette page peut participer"
 
-#: overlays/event.php:1013
+#: overlays/event.php:1014
 msgid "Accept applications, to be confirmed by page owner"
 msgstr ""
 "Demander une invitation pour participer, à confirmer par le propriétaire de "
 "la page"
 
-#: overlays/event.php:1019 overlays/event.php:2249
+#: overlays/event.php:1020 overlays/event.php:2250
 msgid "Registration is managed by page owner"
 msgstr "Le propriétaire de la page gère lui-même les participants"
 
-#: overlays/event.php:1030
+#: overlays/event.php:1031
 msgid "During the event"
 msgstr "Pendant l'événement"
 
-#: overlays/event.php:1033
+#: overlays/event.php:1034
 msgid "Lobby message"
 msgstr "Message d'attente"
 
-#: overlays/event.php:1037
+#: overlays/event.php:1038
 msgid "Displayed one hour ahead the beginning of the event."
 msgstr "Affiché une heure avant le début de l'événement."
 
-#: overlays/event.php:1041
+#: overlays/event.php:1042
 msgid "Welcome message"
 msgstr "Message de bienvenue"
 
-#: overlays/event.php:1045
+#: overlays/event.php:1046
 msgid "Displayed only during the event."
 msgstr "Affiché seulement pendant l'événement."
 
-#: overlays/event.php:1053
+#: overlays/event.php:1054
 msgid "After the event"
 msgstr "Après l'événement"
 
-#: overlays/event.php:1056
+#: overlays/event.php:1057
 msgid "Follow-up message"
 msgstr "Message de suivi"
 
-#: overlays/event.php:1060
+#: overlays/event.php:1061
 msgid ""
 "Congratulate participants, and drive people to complementary information or "
 "action."
@@ -401,137 +401,137 @@ msgstr ""
 "Félicitez les participants, et guidez-les vers d'autres informations, ou "
 "d'autres actions."
 
-#: overlays/event.php:1070
+#: overlays/event.php:1071
 msgid "Management"
 msgstr "Gestion"
 
-#: overlays/event.php:1260
+#: overlays/event.php:1261
 msgid "Update my calendar"
 msgstr "Ajouter à mon calendrier"
 
-#: overlays/event.php:1304 overlays/event.php:1318 overlays/issue.php:189
+#: overlays/event.php:1305 overlays/event.php:1319 overlays/issue.php:189
 #: overlays/issue.php:1083
 msgid "Status"
 msgstr "Statut"
 
-#: overlays/event.php:1441
+#: overlays/event.php:1442
 #, php-format
 msgid "%s has joined the meeting"
 msgstr "%s a rejoint la réunion"
 
-#: overlays/event.php:1479
+#: overlays/event.php:1480
 #, php-format
 msgid "%s has open enrolment to the event"
 msgstr "%s a ouvert les inscriptions à l'événement"
 
-#: overlays/event.php:1584 overlays/events/enroll.php:85
+#: overlays/event.php:1585 overlays/events/enroll.php:85
 msgid "Cancellation"
 msgstr "Annulation"
 
-#: overlays/event.php:1587
+#: overlays/event.php:1588
 #, php-format
 msgid "%s has cancelled %s"
 msgstr "%s a annulé %s"
 
-#: overlays/event.php:1626 overlays/event.php:1790
+#: overlays/event.php:1627 overlays/event.php:1791
 msgid "Impossible to add an item."
 msgstr "Impossible d'ajouter un élément."
 
-#: overlays/event.php:1659
+#: overlays/event.php:1660
 #, php-format
 msgid "Meeting: %s"
 msgstr "Réunion : %s"
 
-#: overlays/event.php:1662
+#: overlays/event.php:1663
 #, php-format
 msgid "you have arranged %s"
 msgstr "Vous avez organisé %s"
 
-#: overlays/event.php:1736
+#: overlays/event.php:1737
 #, php-format
 msgid "Updated: %s"
 msgstr "Modification : %s"
 
-#: overlays/event.php:1739
+#: overlays/event.php:1740
 #, php-format
 msgid "%s has updated %s"
 msgstr "%s a modifié %s"
 
-#: overlays/event.php:1783
+#: overlays/event.php:1784
 #, php-format
 msgid "Impossible to update date %s"
 msgstr "Impossible de mettre à jour la date %s"
 
-#: overlays/event.php:1859 overlays/event.php:1892
+#: overlays/event.php:1860 overlays/event.php:1893
 #, php-format
 msgid "%d date"
 msgid_plural "%d dates"
 msgstr[0] "%d date"
 msgstr[1] "%d dates"
 
-#: overlays/event.php:1873
+#: overlays/event.php:1874
 msgid "Past dates"
 msgstr "Dates précédentes"
 
-#: overlays/event.php:2026
+#: overlays/event.php:2027
 #, php-format
 msgid "%s has started the meeting"
 msgstr "%s a commencé la réunion"
 
-#: overlays/event.php:2049
+#: overlays/event.php:2050
 #, php-format
 msgid "%s has stopped the meeting"
 msgstr "%s a terminé la réunion"
 
-#: overlays/event.php:2121
+#: overlays/event.php:2122
 msgid "Open enrolment"
 msgstr "Ouvrir les inscriptions"
 
-#: overlays/event.php:2125
+#: overlays/event.php:2126
 msgid "Enrolment has not been opened yet"
 msgstr "Les inscriptions ne sont pas encore ouvertes."
 
-#: overlays/event.php:2190
+#: overlays/event.php:2191
 msgid "Start the meeting"
 msgstr "Commencer la réunion"
 
-#: overlays/event.php:2204
+#: overlays/event.php:2205
 msgid "Please wait until the meeting begins"
 msgstr "Merci de patienter en attendant que la réunion commence"
 
-#: overlays/event.php:2253 overlays/events/enroll.php:271
+#: overlays/event.php:2254 overlays/events/enroll.php:271
 msgid "Invite participants"
 msgstr "Inviter des participants"
 
-#: overlays/event.php:2260
+#: overlays/event.php:2261
 msgid "Manage enrolment"
 msgstr "Gérer les inscriptions"
 
-#: overlays/event.php:2272
+#: overlays/event.php:2273
 msgid "You have been enrolled"
 msgstr "Vous avez été inscrit"
 
-#: overlays/event.php:2276 overlays/event.php:2281
+#: overlays/event.php:2277 overlays/event.php:2282
 msgid "You have asked for an invitation"
 msgstr "Vous avez demandé une invitation"
 
-#: overlays/event.php:2297
+#: overlays/event.php:2298
 msgid "Confirm my participation"
 msgstr "Confirmer ma participation"
 
-#: overlays/event.php:2304
+#: overlays/event.php:2305
 msgid "Ask for an invitation"
 msgstr "Demander une invitation"
 
-#: overlays/event.php:2338 overlays/event.php:2352 overlays/event.php:2361
+#: overlays/event.php:2339 overlays/event.php:2353 overlays/event.php:2362
 msgid "Join the meeting"
 msgstr "Joindre la réunion"
 
-#: overlays/event.php:2340 overlays/event.php:2354 overlays/event.php:2363
+#: overlays/event.php:2341 overlays/event.php:2355 overlays/event.php:2364
 msgid "Meeting has started!"
 msgstr "La réunion a commencé"
 
-#: overlays/event.php:2344
+#: overlays/event.php:2345
 msgid "Stop the meeting"
 msgstr "Finir la réunion"
 

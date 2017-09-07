@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 08:09+0200\n"
+"POT-Creation-Date: 2017-08-30 10:26+0200\n"
 "PO-Revision-Date: 2017-05-05 08:23+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: none\n"
@@ -96,16 +96,6 @@ msgstr[1] "%d sections"
 #, php-format
 msgid "View the %s"
 msgstr "Voir le %s"
-
-#: layouts/layout_as_accordion/layout_as_accordion.php:236
-#: layouts/layout_as_columns/layout_as_columns.php:250
-#: layouts/layout_as_jive/layout_as_jive.php:225
-#: layouts/layout_as_last/layout_as_last.php:202
-#: layouts/layout_as_newspaper/layout_as_newspaper.php:177
-#: layouts/layout_as_newspaper/layout_as_newspaper.php:280
-#: layouts/layout_as_newspaper/layout_as_newspaper.php:414
-msgid "p"
-msgstr "p"
 
 #: layouts/layout_as_accordion/layout_as_accordion.php:286
 #: layouts/layout_as_accordion/layout_as_accordion.php:309
@@ -313,14 +303,6 @@ msgstr "Voir la section"
 msgid "Previous pages"
 msgstr "Pages précédentes"
 
-#: layouts/layout_as_titles/layout_as_titles.php:293
-msgid "span"
-msgstr "span"
-
-#: layouts/layout_as_titles/layout_as_titles.php:318
-msgid "div"
-msgstr "div"
-
 #: layouts/layout_as_tree_manager/layout_as_tree_manager.php:29
 #, php-format
 msgid "Add a %s"
@@ -395,3 +377,11 @@ msgstr "Réponses"
 msgid "Views"
 msgstr "Visualisations"
 
+#~ msgid "p"
+#~ msgstr "p"
+
+#~ msgid "span"
+#~ msgstr "span"
+
+#~ msgid "div"
+#~ msgstr "div"

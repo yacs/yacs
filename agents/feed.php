@@ -129,10 +129,10 @@ if(!Surfer::is_logged()) {
 			"|\n[ \t]*\.\s+|i",
 			"|\n\n+[ \t]*\*\s+|i",	/* hard-coded lists with * */
 			"|\n[ \t]*\*\s+|i",
-			"|\n\n+[ \t]*¤\s+|i",	/* hard-coded lists with ¤ */
-			"|\n[ \t]*¤\s+|i",
-			"|\n\n+[ \t]*\•\s+|i",	/* hard-coded lists with • */
-			"|\n[ \t]*\•\s+|i",
+			"|\n\n+[ \t]*ï¿½\s+|i",	/* hard-coded lists with ï¿½ */
+			"|\n[ \t]*ï¿½\s+|i",
+			"|\n\n+[ \t]*\ï¿½\s+|i",	/* hard-coded lists with ï¿½ */
+			"|\n[ \t]*\ï¿½\s+|i",
 			"/\n[ \t]*(From|To|cc|bcc|Subject|Date):(\s*)/i",	/* common message headers */
 			"|\n[ \t]*>(\s*)|i",		/* quoted by >*/
 			"|\n[ \t]*\|(\s*)|i",		/* quoted by | */
@@ -154,8 +154,8 @@ if(!Surfer::is_logged()) {
 			BR."- ",
 			BR.BR."- ",
 			BR."- ",
-			BR.BR."• ",
-			BR."• ",
+			BR.BR."ï¿½ ",
+			BR."ï¿½ ",
 			BR."$1:$2",
 			BR.">$1",
 			BR."|$1",
@@ -200,7 +200,7 @@ if(!Surfer::is_logged()) {
 	// suggest a name on download
 	if(!headers_sent()) {
 		$file_name = $context['site_name'].'.events.rss.xml';
-		$file_name =& utf8::to_ascii($file_name);
+		$file_name = utf8::to_ascii($file_name);
 		Safe::header('Content-Disposition: inline; filename="'.str_replace('"', '', $file_name).'"');
 	}
 

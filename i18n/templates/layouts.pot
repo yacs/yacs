@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 08:24+0200\n"
+"POT-Creation-Date: 2017-08-30 10:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,16 +93,6 @@ msgstr[1] ""
 #: layouts/layout_as_accordion/layout_as_accordion.php:206
 #, php-format
 msgid "View the %s"
-msgstr ""
-
-#: layouts/layout_as_accordion/layout_as_accordion.php:236
-#: layouts/layout_as_columns/layout_as_columns.php:250
-#: layouts/layout_as_jive/layout_as_jive.php:225
-#: layouts/layout_as_last/layout_as_last.php:202
-#: layouts/layout_as_newspaper/layout_as_newspaper.php:177
-#: layouts/layout_as_newspaper/layout_as_newspaper.php:280
-#: layouts/layout_as_newspaper/layout_as_newspaper.php:414
-msgid "p"
 msgstr ""
 
 #: layouts/layout_as_accordion/layout_as_accordion.php:286
@@ -309,14 +299,6 @@ msgstr ""
 
 #: layouts/layout_as_newspaper/layout_as_newspaper.php:117
 msgid "Previous pages"
-msgstr ""
-
-#: layouts/layout_as_titles/layout_as_titles.php:293
-msgid "span"
-msgstr ""
-
-#: layouts/layout_as_titles/layout_as_titles.php:318
-msgid "div"
 msgstr ""
 
 #: layouts/layout_as_tree_manager/layout_as_tree_manager.php:29
