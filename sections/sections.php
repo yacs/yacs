@@ -717,7 +717,7 @@ Class Sections {
 	 *
 	 * @param array item attributes
 	 */
-	public static function clear(&$item) {
+	public static function clear($item) {
 
 		// where this item can be displayed
 		$topics = array('categories', 'sections', 'users');
@@ -3284,7 +3284,8 @@ Class Sections {
 		$options = preg_replace('/\bskin_.+\b/i', '', $item['options']).' skin_'.$directory;
 
 		// set default values for this editor
-		Surfer::check_default_editor(array());
+                $fields = array();
+		Surfer::check_default_editor($fields);
 
 		// update an existing record
 		$query = "UPDATE ".SQL::table_name('sections')." SET "
