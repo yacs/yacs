@@ -276,9 +276,9 @@ Class Js_Css {
 		    $path = 'included/browser/library_'.$folder.'.min.js';
 		    if(file_exists($context['path_to_root'].$path)) {
 
-                            $revision = Js_css::get_revision($context['path_to_root'].$path);
+                            Js_css::set_revision($context['path_to_root'].$path, $path);
 
-			    $html = Js_Css::build_js_declaration($context['url_to_master'].$context['url_to_root'].$path.$revision);
+			    $html = Js_Css::build_js_declaration($context['url_to_master'].$context['url_to_root'].$path);
 		    return $html;
 		    }
 	    }
@@ -300,9 +300,9 @@ Class Js_Css {
 		    // build declarations file by file
 		    foreach ($js_libs as $js) {
 
-                        $revision = Js_css::get_revision($context['path_to_root'].$path.$js);
+                        Js_css::set_revision($context['path_to_root'].$path.$js, $js);
 
-                        $html .= Js_Css::build_js_declaration($context['url_to_master'].$context['url_to_root'].$path.$js.$revision);
+                        $html .= Js_Css::build_js_declaration($context['url_to_master'].$context['url_to_root'].$path.$js);
 		    }
 	    }
 
@@ -313,9 +313,9 @@ Class Js_Css {
 		    foreach ($other_files as $file) {
                         if(file_exists($context['path_to_root'].$file)) {
 
-                            $revision = Js_css::get_revision($context['path_to_root'].$file);
+                            Js_css::set_revision($context['path_to_root'].$file, $file);
 
-                            $html .= Js_Css::build_js_declaration($context['url_to_master'].$context['url_to_root'].$file.$revision);
+                            $html .= Js_Css::build_js_declaration($context['url_to_master'].$context['url_to_root'].$file);
                         }
 		    }
 
@@ -324,15 +324,36 @@ Class Js_Css {
 	    return $html;
     }
 
-    // get last revision date
-    // this will be added to file url as fake param to force
-    // cache updating of surfer's browser
-    private static function get_revision($path) {
+    /** 
+     * get last revision date
+     * this will be added to file url to force
+     * cache updating of surfer's browser
+     * 
+     * The function modify the filename according to url_rewrite configuration
+     * - no rewriting   : include version as a query string at end of filename
+     * - with rewriting : include version as digit just before extension
+     * 
+     * 
+     * @param string $path the complete path to file on HDD
+     * @param string $file the filename, including relative path from web root
+     * 
+     */
+    
+    private static function set_revision($path, &$file) {
+            global $context;
 
-            $udp_stamp = filemtime($path);
-            $revision  = ($udp_stamp)? '?'.date('ymdHi',$udp_stamp) : '' ;
-
-            return $revision;
+            $udp_stamp = date('ymdHi',filemtime($path));
+            
+            if($context['with_friendly_urls'] == 'R') {
+                
+                $file = preg_replace('/\.(js|css)$/', '.'.$udp_stamp.'.$1', $file);
+            
+                
+            } else {
+                
+                $file .= '?'.$udp_stamp;
+                
+            }
     }
     
     /**
@@ -492,22 +513,20 @@ Class Js_Css {
 	    }
 
             // get last revision date
-            $revision  = Js_css::get_revision(Safe::realpath($path));
+            Js_css::set_revision(Safe::realpath($path), $path);
 
 	    // add root url
             if(isset($context['static_subdom']) && $context['static_subdom'] )
                 $path = $context['static_subdom'].$path;
             else
                 $path = $context['url_to_master'].$context['url_to_root'].$path;
-	} else
-            // we can't know the revision date of external files
-            $revision = '';
+	} 
 
 	// css or js ?
 	switch($ext) {
 
 	    case 'css' :
-                $tag = Js_css::build_css_declaration($path.$revision);
+                $tag = Js_css::build_css_declaration($path);
                 
                 if($straitnow) return $tag;
                   
@@ -515,7 +534,7 @@ Class Js_Css {
 		break;
 	    case 'js' :
                 
-                $tag = Js_css::build_js_declaration($path.$revision);
+                $tag = Js_css::build_js_declaration($path);
                 
                 if($straitnow) return $tag;
                 
