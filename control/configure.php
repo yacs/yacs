@@ -458,7 +458,7 @@ if(!Surfer::is_associate()) {
 	// friendly urls
 	$label = i18n::s('URL generation');
 	$input = '<input type="radio" name="with_friendly_urls" value="N"';
-	if($context['with_friendly_urls'] != 'Y')
+	if($context['with_friendly_urls'] != 'N')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('This system does not support the mapping of args in the URL.').' (<code>articles/view.php?id=123</code>)';
 	$input .= BR.'<input type="radio" name="with_friendly_urls" value="Y"';
