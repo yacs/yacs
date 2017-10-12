@@ -5571,7 +5571,7 @@ Class Skin_Skeleton {
 	 * @param string a variant, if any, as decribed for table_prefix()
 	 * @return a string to be sent to the browser
 	 */
-	public static function table($headers, &$rows, $variant='yc-grid') {
+	public static function table($headers, &$rows, $variant='') {
 		$text = Skin::table_prefix($variant);
 		if(isset($headers) && is_array($headers))
 			$text .= Skin::table_row($headers, 'sortable');
