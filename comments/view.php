@@ -176,14 +176,17 @@ if(!isset($item['id'])) {
 
 			// allow posters to change their own comments
 			if(Surfer::get_id() && ($item['create_id'] == Surfer::get_id())) {
-				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'edit'), fa::_("fa-edit").' '.i18n::s('Edit'), 'span');
+				Skin::define_img('COMMENTS_EDIT_IMG', 'comments/edit.gif');
+				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'edit'), COMMENTS_EDIT_IMG.i18n::s('Edit'), 'span');
 			}
 
 			// allow surfers to react to contributions from other people
 			else {
-				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'reply'), fa::_("fa-commenting-o").' '.i18n::s('Reply'), 'span');
+				Skin::define_img('COMMENTS_REPLY_IMG', 'comments/reply.gif');
+				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'reply'), COMMENTS_REPLY_IMG.i18n::s('Reply'), 'span');
 
-				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'quote'), fa::_("fa-commenting").' '.i18n::s('Quote'), 'span');
+				Skin::define_img('COMMENTS_QUOTE_IMG', 'comments/quote.gif');
+				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'quote'), COMMENTS_QUOTE_IMG.i18n::s('Quote'), 'span');
 
 			}
 		}
@@ -203,18 +206,21 @@ if(!isset($item['id'])) {
 
 		// allow posters to change their own comments
 		if(Surfer::get_id() && ($item['create_id'] == Surfer::get_id())) {
-			$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'edit'), fa::_("fa-edit").' '.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
-			$context['page_minitools'][] = Skin::build_link(Comments::get_url($item['id'], 'edit'), fa::_("fa-edit"), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+			Skin::define_img('COMMENTS_EDIT_IMG', 'comments/edit.gif');
+			$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'edit'), COMMENTS_EDIT_IMG.i18n::s('Edit'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 		}
 
 		// allow surfers to react to contributions from other people
 		else {
-			$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'reply'), fa::_("fa-commenting-o").' '.i18n::s('Reply'));
+			Skin::define_img('COMMENTS_REPLY_IMG', 'comments/reply.gif');
+			$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'reply'), COMMENTS_REPLY_IMG.i18n::s('Reply'));
 
-			$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'quote'), fa::_("fa-commenting").' '.i18n::s('Quote'));
+			Skin::define_img('COMMENTS_QUOTE_IMG', 'comments/quote.gif');
+			$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'quote'), COMMENTS_QUOTE_IMG.i18n::s('Quote'));
 
 			if(Surfer::is_associate()) {
-				$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'edit'), fa::_("fa-edit").' '.i18n::s('Edit'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+				Skin::define_img('COMMENTS_EDIT_IMG', 'comments/edit.gif');
+				$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'edit'), COMMENTS_EDIT_IMG.i18n::s('Edit'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 			}
 
 		}
@@ -222,12 +228,14 @@ if(!isset($item['id'])) {
 
 	// commands for associates, authenticated editors and author
 	if(Comments::allow_modification($anchor, $item)) {
-		$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'delete'), fa::_("fa-eraser").' '.i18n::s('Delete'));
+		Skin::define_img('COMMENTS_DELETE_IMG', 'comments/delete.gif');
+		$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'delete'), COMMENTS_DELETE_IMG.i18n::s('Delete'));
 	}
 
 	// turn this to an article
 	if((Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_owned()))) {
-		$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'promote'), fa::_("fa-globe").' '.i18n::s('Promote'));
+		Skin::define_img('COMMENTS_PROMOTE_IMG', 'comments/promote.gif');
+		$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'promote'), COMMENTS_PROMOTE_IMG.i18n::s('Promote'));
 	}
 
 	//

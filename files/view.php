@@ -362,7 +362,8 @@ if(!isset($item['id'])) {
 		$description .= '<p>'.i18n::s('This file may be accessed on-demand.').'</p>';
 
 		// the label
-		$label = fa::_("fa-play").' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
+		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
+		$label = FILES_PLAY_IMG.' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
 
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'
@@ -381,7 +382,8 @@ if(!isset($item['id'])) {
 			$description .= '<p>'.i18n::s('This file may be accessed on-demand.').'</p>';
 
 		// the label
-		$label = fa::_("fa-play").' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
+		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
+		$label = FILES_PLAY_IMG.' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
 
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'
@@ -394,7 +396,8 @@ if(!isset($item['id'])) {
 	if(preg_match('/\.gan$/i', $item['file_name'])) {
 
 		// the label
-		$label = fa::_("fa-play").' 'sprintf(i18n::s('Browse %s'), str_replace('_', ' ', $item['file_name']));
+		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
+		$label = FILES_PLAY_IMG.' '.sprintf(i18n::s('Browse %s'), str_replace('_', ' ', $item['file_name']));
 
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'
@@ -410,7 +413,8 @@ if(!isset($item['id'])) {
 		$description .= '<p>'.i18n::s('This file allows for interactions over the web. Click on the link if some Flash player has been installed.').'</p>';
 
 		// the label
-		$label = fa::_("fa-play").' '.sprintf(i18n::s('Browse %s'), str_replace('_', ' ', $item['file_name']));
+		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
+		$label = FILES_PLAY_IMG.' '.sprintf(i18n::s('Browse %s'), str_replace('_', ' ', $item['file_name']));
 
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'
@@ -426,7 +430,8 @@ if(!isset($item['id'])) {
 		$description .= '<p>'.i18n::s('This file allows for interactions over the web. Click on the link if some Flash player has been installed.').'</p>';
 
 		// the label
-		$label = fa::_("fa-play").' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
+		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
+		$label = FILES_PLAY_IMG.' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
 
 		// where the file is
 //		$path = $context['url_to_home'].$context['url_to_root'].Files::get_path($item['anchor']).'/'.rawurlencode(utf8::to_ascii($item['file_name']));
@@ -800,6 +805,7 @@ if(!isset($item['id'])) {
 		$icon = '<img src="'.$context['url_to_root'].Files::get_icon_url($item['file_name']).'" alt="" />';
 
 	// file is available to download
+	Skin::define_img('DOWNLOAD_IMG', 'files/download.gif');
 	$label = '<a href="'.$link.'" title="'.encode_field($title).'" id="file_download">'.$icon.' '.sprintf(i18n::s('Download %s'), str_replace('_', ' ', $item['file_name'])).'</a>';
 
 	// use a definition list to enable customization of the download box
@@ -837,7 +843,7 @@ if(!isset($item['id'])) {
 		$title = i18n::s('Prevent other persons from changing this file until you update it');
 
 		// surfer is allowed to change the file
-		$label = '<a href="'.$link.'" title="'.encode_field($title).'" id="file_detach">'.fa::_("fa-download").' '.i18n::s('Reserve this file if you are intended to change its content').'</a>';
+		$label = '<a href="'.$link.'" title="'.encode_field($title).'" id="file_detach">'.DOWNLOAD_IMG.' '.i18n::s('Reserve this file if you are intended to change its content').'</a>';
 
 		// add some explanations
 		$description = i18n::s('Other surfers will be warned that you are working on it, until you upload a new version or release the reservation.');
@@ -873,11 +879,13 @@ if(!isset($item['id'])) {
 
 	// restore a previous version, if any
 	if(is_object($anchor) && $anchor->is_owned() && Versions::count_for_anchor('file:'.$item['id'])) {
-		$context['page_tools'][] = Skin::build_link(Versions::get_url('file:'.$item['id'], 'list'), fa::_("fa-history").' '.i18n::s('Versions'));
+		Skin::define_img('FILES_VERSIONS_IMG', 'files/versions.gif');
+		$context['page_tools'][] = Skin::build_link(Versions::get_url('file:'.$item['id'], 'list'), FILES_VERSIONS_IMG.i18n::s('Versions'));
 	}
 
 	// delete command provided to associates and owners
 	if((is_object($anchor) && $anchor->is_owned()) || Surfer::is_associate()) {
+		Skin::define_img('FILES_DELETE_IMG', 'files/delete.gif');
 		$context['page_tools'][] = Skin::build_link(Files::get_url($item['id'], 'delete'), fa::_("fa-trash").' '.i18n::s('Delete this file'));
 	}
 

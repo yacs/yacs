@@ -652,22 +652,26 @@ if(!isset($item['id'])) {
 
 	    // invite participants
 	    if(($cur_article->is_owned() || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
-		    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'invite'), fa::_("fa-user-plus").' '.i18n::s('Invite participants'), 'basic', i18n::s('Spread the word'));
+		    Skin::define_img('ARTICLES_INVITE_IMG', 'articles/invite.gif');
+		    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'invite'), ARTICLES_INVITE_IMG.i18n::s('Invite participants'), 'basic', i18n::s('Spread the word'));
 	    }
 
 	    // notify participants
 	    if(($cur_article->is_owned() || Surfer::is_associate()) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
-		    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'mail'), fa::_("fa-envelope-o").' '.i18n::s('Notify participants'));
+		    Skin::define_img('ARTICLES_EMAIL_IMG', 'articles/email.gif');
+		    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'mail'), ARTICLES_EMAIL_IMG.i18n::s('Notify participants'));
 	    }
 
 	    // manage editors
 	    if($cur_article->is_owned() || Surfer::is_associate()) {
-		    $lines[] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), fa::_("fa-share-alt").' '.i18n::s('Manage participants'));
+		    Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
+		    $lines[] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Manage participants'));
 	    }
 
 	    // the command to track back
 	    if(Links::allow_trackback()) {
-		    $lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('article:'.$item['id']), fa::_("fa-star").' '.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
+		    Skin::define_img('TOOLS_TRACKBACK_IMG', 'tools/trackback.gif');
+		    $lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('article:'.$item['id']), TOOLS_TRACKBACK_IMG.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
 	    }
 
 	    // more tools
@@ -678,17 +682,20 @@ if(!isset($item['id'])) {
 		    if(Surfer::is_member() || (isset($context['with_anonymous_export_tools']) && ($context['with_anonymous_export_tools'] == 'Y'))) {
 
 			    // get a PDF version
-			    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'fetch_as_pdf'), fa::_("fa-file-pdf-o").' '.i18n::s('Save as PDF'), 'basic', i18n::s('Save as PDF'));
+			    Skin::define_img('ARTICLES_PDF_IMG', 'articles/export_pdf.gif');
+			    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'fetch_as_pdf'), ARTICLES_PDF_IMG.i18n::s('Save as PDF'), 'basic', i18n::s('Save as PDF'));
 
 			    // open in Word
-			    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'fetch_as_msword'), fa::_("fa-file-word-o").' '.i18n::s('Copy in MS-Word'), 'basic', i18n::s('Copy in MS-Word'));
+			    Skin::define_img('ARTICLES_WORD_IMG', 'articles/export_word.gif');
+			    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'fetch_as_msword'), ARTICLES_WORD_IMG.i18n::s('Copy in MS-Word'), 'basic', i18n::s('Copy in MS-Word'));
 
 		    }
 	    }
 
 	    // print this page
 	    if(Surfer::is_logged() || (isset($context['with_anonymous_export_tools']) && ($context['with_anonymous_export_tools'] == 'Y'))) {
-		    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'print'), fa::_("fa-print").' '.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
+		    Skin::define_img('TOOLS_PRINT_IMG', 'tools/print.gif');
+		    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'print'), TOOLS_PRINT_IMG.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
 	    }
 
 	    // in a side box
@@ -709,13 +716,15 @@ if(!isset($item['id'])) {
 		    else
 			    $label = i18n::s('Watch this page');
 
-		    $lines[] = Skin::build_link($link, fa::_("fa-eye").' '.$label, 'basic', i18n::s('Manage your watch list'));
+		    Skin::define_img('TOOLS_WATCH_IMG', 'tools/watch.gif');
+		    $lines[] = Skin::build_link($link, TOOLS_WATCH_IMG.$label, 'basic', i18n::s('Manage your watch list'));
 
 	    }
 
 	    // allow to leave the page
 	    if($cur_article->is_assigned() && !$cur_article->is_owned(null, false)) {
-		    $lines[] = Skin::build_link(Users::get_url('article:'.$item['id'], 'leave'), fa::_("fa-share-alt").' '.i18n::s('Leave this page'));
+		    Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
+		    $lines[] = Skin::build_link(Users::get_url('article:'.$item['id'], 'leave'), ARTICLES_ASSIGN_IMG.i18n::s('Leave this page'));
 	    }
 
 	    // get news from rss
@@ -1078,7 +1087,8 @@ if(!isset($item['id'])) {
 
 			// the command to post a new file
 			if(!$compact && $cur_article->allows('creation','file')) {
-				$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => fa::_("fa-upload").' '.i18n::s('Add a file'));
+				Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
+				$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Add a file'));
 			}
 
 		}
@@ -1138,7 +1148,8 @@ if(!isset($item['id'])) {
 
 			// new links are allowed
 			if($cur_article->allows('creation','link')) {
-				$box['bar'] += array( 'links/edit.php?anchor='.urlencode('article:'.$item['id']) => fa::_("fa-chain").' '.i18n::s('Add a link') );
+				Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
+				$box['bar'] += array( 'links/edit.php?anchor='.urlencode('article:'.$item['id']) => LINKS_ADD_IMG.i18n::s('Add a link') );
 			}
 		}
 

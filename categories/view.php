@@ -587,7 +587,8 @@ if(!isset($item['id'])) {
 		// the command to post a new file
 		$url = 'files/edit.php?anchor='.urlencode('category:'.$item['id']);
 		if(Files::allow_creation($item, $anchor, 'category')) {
-			$box['bar'] += array( $url => fa::_("fa-upload").' '.i18n::s('Add a file') );
+			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
+			$box['bar'] += array( $url => FILES_UPLOAD_IMG.i18n::s('Add a file') );
 		}
 
 		// actually render the html for the section
@@ -635,8 +636,9 @@ if(!isset($item['id'])) {
 
 		// the command to post a new comment
 		if(Comments::allow_creation($item, $anchor, 'category')) {
+			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 			$url = 'comments/edit.php?anchor='.urlencode('category:'.$item['id']);
-			$box['bar'] += array( $url => fa::_("fa-commenting-o").' '.i18n::s('Post a comment') );
+			$box['bar'] += array( $url => COMMENTS_ADD_IMG.i18n::s('Post a comment') );
 		}
 
 		// actually render the html
@@ -681,8 +683,9 @@ if(!isset($item['id'])) {
 
 		// the command to post a new link
 		if(Links::allow_creation($item, $anchor, 'category')) {
+			Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 			$url = 'links/edit.php?anchor='.urlencode('category:'.$item['id']);
-			$box['bar'] += array( $url =>  fa::_("fa-chain").' '.i18n::s('Add a link') );
+			$box['bar'] += array( $url => LINKS_ADD_IMG.i18n::s('Add a link') );
 		}
 
 		// actually render the html
@@ -779,7 +782,8 @@ if(!isset($item['id'])) {
 
 		// notify members
 		if(($count > 1) && Surfer::is_associate()) {
-			$box['bar'] += array(Categories::get_url($item['id'], 'mail') => fa::_("fa-envelope-o").' '.i18n::s('Notify members'));
+			Skin::define_img('CATEGORIES_EMAIL_IMG', 'categories/email.gif');
+			$box['bar'] += array(Categories::get_url($item['id'], 'mail') => CATEGORIES_EMAIL_IMG.i18n::s('Notify members'));
 		}
 
 		// spread the list over several pages
@@ -857,6 +861,7 @@ if(!isset($item['id'])) {
 
 		// add a file, if upload is allowed
 		if(Files::allow_creation($item, $anchor, 'category')) {
+			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), fa::_("fa-file-o").' '.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
 			$context['page_minitools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), fa::_("fa-file-o"), 'basic', i18n::s('Attach related files.'));
 		}
@@ -898,12 +903,14 @@ if(!isset($item['id'])) {
 
 	// the command to track back
 	if(Links::allow_trackback()) {
-		$lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('category:'.$item['id']), fa::_("fa-star").' '.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
+		Skin::define_img('TOOLS_TRACKBACK_IMG', 'tools/trackback.gif');
+		$lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('category:'.$item['id']), TOOLS_TRACKBACK_IMG.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
 	}
 
 	// print this page
 	if(Surfer::is_logged()) {
-		$lines[] = Skin::build_link(Categories::get_url($item['id'], 'print'), fa::_("fa-print").' '.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
+		Skin::define_img('TOOLS_PRINT_IMG', 'tools/print.gif');
+		$lines[] = Skin::build_link(Categories::get_url($item['id'], 'print'), TOOLS_PRINT_IMG.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
 	}		
 
 	// in a side box
