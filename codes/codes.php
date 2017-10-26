@@ -532,7 +532,7 @@ Class Codes {
             }
             
             // transform new lines as <br />
-            $text = nl2br($text);
+            //$text = nl2br($text);
             
             return $text;
         }
