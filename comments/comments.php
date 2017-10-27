@@ -516,8 +516,7 @@ Class Comments {
                                         .'</div>';
 
                                 // the command to add a file
-                                Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-                                $menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600);$(this).slideUp(); return false;"><span>'.FILES_UPLOAD_IMG.i18n::s('Add a file').'</span></a>';
+                                $menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600);$(this).slideUp(); return false;"><span>'.fa::_("fa-upload").' '.i18n::s('Add a file').'</span></a>';
                         }
 
                         // the submit button

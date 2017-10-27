@@ -108,20 +108,17 @@ Class Layout_articles_as_table extends Layout_interface {
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE)) {
-				Skin::define_img('FILES_LIST_IMG', 'files/list.gif');
-				$details[] = FILES_LIST_IMG.sprintf(i18n::ns('%d file', '%d files', $count), $count);
+				$details[] = fa::_("fa-th-list").' '.sprintf(i18n::ns('%d file', '%d files', $count), $count);
 			}
 
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE)) {
-				Skin::define_img('LINKS_LIST_IMG', 'links/list.gif');
-				$details[] = LINKS_LIST_IMG.sprintf(i18n::ns('%d link', '%d links', $count), $count);
+				$details[] = fa::_("fa-bars").' '.sprintf(i18n::ns('%d link', '%d links', $count), $count);
 			}
 
 			// comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE)) {
-				Skin::define_img('COMMENTS_LIST_IMG', 'comments/list.gif');
-				$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), COMMENTS_LIST_IMG.sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
+				$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), fa::_("fa-commenting-o").' '.sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
 			}
 
 			// describe attachments

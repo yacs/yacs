@@ -452,11 +452,9 @@ if($with_form) {
 		if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
 			$input = Surfer::from_GMT($item['publish_date']);
 		elseif(isset($item['id']) && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned()))) {
-			Skin::define_img('ARTICLES_PUBLISH_IMG', 'articles/publish.gif');
-			$input = Skin::build_link(Articles::get_url($item['id'], 'publish'), ARTICLES_PUBLISH_IMG.i18n::s('Publish'), 'basic');
+			$input = Skin::build_link(Articles::get_url($item['id'], 'publish'), fa::_("fa-calendar-check-o").' '.i18n::s('Publish'), 'basic');
 		} else {
-			Skin::define_img('ARTICLES_UNPUBLISH_IMG', 'articles/unpublish.gif');
-			$input = ARTICLES_UNPUBLISH_IMG.i18n::s('not published');
+			$input = fa::_("fa-calendar-times-o").' '.i18n::s('not published');
 		}
 		$fields[] = array($label, $input);
 

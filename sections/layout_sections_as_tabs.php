@@ -125,12 +125,11 @@ Class Layout_sections_as_tabs extends Layout_interface {
 				//if(Articles::allow_creation($item, $anchor)) {
                                 if($anchor->allows('creation','article')) {
 
-					Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 					$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
 					if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command', 'articles')))
 						;
 					else
-						$label = ARTICLES_ADD_IMG.i18n::s('Add a page');
+						$label = fa::_("fa-edit").' '.i18n::s('Add a page');
 					$box['top_bar'] += array( $url => $label );
 
 				}

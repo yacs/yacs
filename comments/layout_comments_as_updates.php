@@ -99,8 +99,7 @@ Class Layout_comments_as_updates extends Layout_interface {
 
 				// additional commands for associates and poster and editor
 				if($anchor->is_owned()) {
-					Skin::define_img('COMMENTS_EDIT_IMG', 'comments/edit.gif');
-					$menu[] = Skin::build_link(Comments::get_url($item['id'], 'edit'), COMMENTS_EDIT_IMG.i18n::s('Edit'), 'basic');
+					$menu[] = Skin::build_link(Comments::get_url($item['id'], 'edit'), fa::_("fa-edit").' '.i18n::s('Edit'), 'basic');
 				}
 
 			// an automatic notification -- can be deleted, but not modified
@@ -108,8 +107,7 @@ Class Layout_comments_as_updates extends Layout_interface {
 
 				// additional commands for associates and poster and editor
 				if($anchor->is_owned()) {
-					Skin::define_img('COMMENTS_DELETE_IMG', 'comments/delete.gif');
-					$menu[] = Skin::build_link(Comments::get_url($item['id'], 'delete'), COMMENTS_DELETE_IMG.i18n::s('Delete'), 'basic');
+					$menu[] = Skin::build_link(Comments::get_url($item['id'], 'delete'), fa::_("fa-trash").' '.i18n::s('Delete'), 'basic');
 				}
 
 			// regular case
@@ -117,11 +115,9 @@ Class Layout_comments_as_updates extends Layout_interface {
 
 				// additional commands for associates and poster and editor
 				if(Comments::allow_modification($anchor, $item)) {
-					Skin::define_img('COMMENTS_EDIT_IMG', 'comments/edit.gif');
-					$menu[] = Skin::build_link(Comments::get_url($item['id'], 'edit'), COMMENTS_EDIT_IMG.i18n::s('Edit'), 'basic');
+					$menu[] = Skin::build_link(Comments::get_url($item['id'], 'edit'), fa::_("fa-edit").' '.i18n::s('Edit'), 'basic');
 
-					Skin::define_img('COMMENTS_DELETE_IMG', 'comments/delete.gif');
-					$menu[] = Skin::build_link(Comments::get_url($item['id'], 'delete'), COMMENTS_DELETE_IMG.i18n::s('Delete'), 'basic');
+					$menu[] = Skin::build_link(Comments::get_url($item['id'], 'delete'), fa::_("fa-trash").' '.i18n::s('Delete'), 'basic');
 				}
 
 			}
