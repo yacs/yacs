@@ -299,9 +299,8 @@ elseif(isset($context['users_without_private_pages']) && ($context['users_withou
 	// i am looking at my own record
 	if(Surfer::get_id() == $item['id']) {
             
-                Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
                 $url = 'users/contact.php?start=Y&overlaid=Y';
-                $label = ARTICLES_ADD_IMG.i18n::s('Start a new thread');
+                $label = fa::_("fa-plus-square-o").' '.i18n::s('Start a new thread');
                 // new theard is overlaid
                 $label = array(null,$label,null,'edit-overlaid');
                 $menu_top = array($url => $label);

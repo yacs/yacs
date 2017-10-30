@@ -109,8 +109,7 @@ Class Layout_articles_as_tabs extends Layout_interface {
 
 				// the command to post a new file
 				if(Files::allow_creation($item, $anchor, 'article')) {
-					Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-					$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Add a file'));
+					$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => fa::_("fa-upload").' '.i18n::s('Add a file'));
 				}
 
 			}

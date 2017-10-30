@@ -241,8 +241,7 @@ default:
 				.'</div>';
 
 			// the command to add a file
-			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-			$menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600);$(\'body\').delegate(\'#upload\', \'change\', function(event){if(/\\.zip$/i.test($(\'#upload\').val())){$(\'#upload_option\').slideDown();}else{$(\'#upload_option\').slideUp();}});return false;"><span>'.FILES_UPLOAD_IMG.i18n::s('Add a file').'</span></a>';
+			$menu[] = '<a href="#" onclick="$(\'#comment_upload\').slideDown(600);$(\'body\').delegate(\'#upload\', \'change\', function(event){if(/\\.zip$/i.test($(\'#upload\').val())){$(\'#upload_option\').slideDown();}else{$(\'#upload_option\').slideUp();}});return false;"><span>'.fa::_("fa-upload").' '.i18n::s('Add a file').'</span></a>';
 		}
 
 		// the submit button
@@ -408,56 +407,48 @@ if(is_object($anchor))
 
 // post an image, if upload is allowed
 if(Images::allow_creation($item, $anchor)) {
-	Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
-	$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
+	$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), fa::_("fa-image").' '.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 }
 
 // modify this page
 if(Articles::allow_modification($item, $anchor)) {
-	Skin::define_img('ARTICLES_EDIT_IMG', 'articles/edit.gif');
 	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command', 'articles')))
 		$label = i18n::s('Edit this page');
-	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), ARTICLES_EDIT_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), fa::_("fa-edit").' '.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 }
 
 // access previous versions, if any
 if($has_versions && Articles::is_owned($item, $anchor)) {
-	Skin::define_img('ARTICLES_VERSIONS_IMG', 'articles/versions.gif');
-	$context['page_tools'][] = Skin::build_link(Versions::get_url('article:'.$item['id'], 'list'), ARTICLES_VERSIONS_IMG.i18n::s('Versions'), 'basic', i18n::s('Restore a previous version if necessary'));
+	$context['page_tools'][] = Skin::build_link(Versions::get_url('article:'.$item['id'], 'list'), fa::_("fa-history").' '.i18n::s('Versions'), 'basic', i18n::s('Restore a previous version if necessary'));
 }
 
 // publish this page
 if(Articles::allow_publication($item,$anchor)) {
 
 	if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) {
-		Skin::define_img('ARTICLES_PUBLISH_IMG', 'articles/publish.gif');
-		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), ARTICLES_PUBLISH_IMG.i18n::s('Publish'));
+		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), fa::_("fa-calendar-check-o").' '.i18n::s('Publish'));
 	}
 
 }
 
 // review command provided to container owners
 if(is_object($anchor) && $anchor->is_owned()) {
-	Skin::define_img('ARTICLES_STAMP_IMG', 'articles/stamp.gif');
-	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'stamp'), ARTICLES_STAMP_IMG.i18n::s('Stamp'));
+	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'stamp'), fa::_("fa-clock-o").' '.i18n::s('Stamp'));
 }
 
 // lock command provided to associates and authenticated editors
 if(Articles::is_owned($item, $anchor)) {
 
 	if(!isset($item['locked']) || ($item['locked'] == 'N')) {
-		Skin::define_img('ARTICLES_LOCK_IMG', 'articles/lock.gif');
-		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'lock'), ARTICLES_LOCK_IMG.i18n::s('Lock'));
+		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'lock'), fa::_("fa-lock").' '.i18n::s('Lock'));
 	} else {
-		Skin::define_img('ARTICLES_UNLOCK_IMG', 'articles/unlock.gif');
-		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'lock'), ARTICLES_UNLOCK_IMG.i18n::s('Unlock'));
+		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'lock'), fa::_("fa-unlock").' '.i18n::s('Unlock'));
 	}
 }
 
 // delete command
 if(Articles::allow_deletion($item, $anchor)) {
-	Skin::define_img('ARTICLES_DELETE_IMG', 'articles/delete.gif');
-	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'delete'), ARTICLES_DELETE_IMG.i18n::s('Delete this page'));
+	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'delete'), fa::_("fa-trash").' '.i18n::s('Delete this page'));
 }
 
 // several extra boxes in a row
@@ -470,8 +461,7 @@ $text = '';
 // advertise this thread
 $invite = '';
 if(isset($context['with_email']) && ($context['with_email'] == 'Y')) {
-	Skin::define_img('ARTICLES_INVITE_IMG', 'articles/invite.gif');
-	$invite = Skin::build_link(Articles::get_url($item['id'], 'invite'), ARTICLES_INVITE_IMG.i18n::s('Invite participants'), 'basic', i18n::s('Spread the word'));
+	$invite = Skin::build_link(Articles::get_url($item['id'], 'invite'), fa::_("fa-user-plus").' '.i18n::s('Invite participants'), 'basic', i18n::s('Spread the word'));
 }
 
 // thread participants
@@ -484,9 +474,8 @@ if(!isset($item['locked']) || ($item['locked'] != 'Y'))
 // the command to post a new file -- do that in this window, since the surfer will be driven back here
 $invite = '';
 if(Files::allow_creation($item, $anchor, 'article')) {
-	Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 	$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
-	$invite = Skin::build_link($link, FILES_UPLOAD_IMG.i18n::s('Add a file'), 'basic').BR;
+	$invite = Skin::build_link($link, fa::_("fa-upload").' '.i18n::s('Add a file'), 'basic').BR;
 }
 
 // list files by date (default) or by title (option files_by_title)
@@ -515,9 +504,8 @@ if($items || $invite)
 // new links are allowed
 $invite = '';
 if(Links::allow_creation($item, $anchor)) {
-	Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 	$link = 'links/edit.php?anchor='.urlencode('article:'.$item['id']);
-	$invite = Skin::build_link($link, LINKS_ADD_IMG.i18n::s('Add a link'));
+	$invite = Skin::build_link($link, fa::_("fa-chain").' '.i18n::s('Add a link'));
 }
 
 // list links by date (default) or by title (option links_by_title)
