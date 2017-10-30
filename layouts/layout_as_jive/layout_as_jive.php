@@ -249,14 +249,12 @@ Class Layout_as_jive extends Layout_interface {
 
                     // info on related files
                     if ($count = Files::count_for_anchor('article:' . $item['id'])) {
-                        Skin::define_img('FILES_LIST_IMG', 'files/list.gif');
-                        $details[] = Skin::build_link($url . '#_attachments', FILES_LIST_IMG . sprintf(i18n::ns('%d file', '%d files', $count), $count), 'span');
+                        $details[] = Skin::build_link($url . '#_attachments', fa::_("fa-th-list").' ' . sprintf(i18n::ns('%d file', '%d files', $count), $count), 'span');
                     }
 
                     // info on related links
                     if ($count = Links::count_for_anchor('article:' . $item['id'], TRUE)) {
-                        Skin::define_img('LINKS_LIST_IMG', 'links/list.gif');
-                        $details[] = LINKS_LIST_IMG . sprintf(i18n::ns('%d link', '%d links', $count), $count);
+                        $details[] = fa::_("fa-bars").' ' . sprintf(i18n::ns('%d link', '%d links', $count), $count);
                     }
 
                     // count replies
@@ -265,8 +263,7 @@ Class Layout_as_jive extends Layout_interface {
 
                     // the command to reply
                     if ($entity->allows('creation', 'comment')) {
-                        Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
-                        $details[] = Skin::build_link(Comments::get_url('article:' . $item['id'], 'comment'), COMMENTS_ADD_IMG . i18n::s('Post a comment'), 'span');
+                        $details[] = Skin::build_link(Comments::get_url('article:' . $item['id'], 'comment'), fa::_("fa-commenting-o").' ' . i18n::s('Post a comment'), 'span');
                     }
 
                     // describe attachments
