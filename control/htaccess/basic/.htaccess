@@ -470,6 +470,9 @@ ServerSignature Off
 
 <IfModule mod_rewrite.c>
      RewriteEngine On
+     # exclude tiny_mce from this process cause it won't work properly
+     RewriteCond %{REQUEST_URI}  !(included/tiny_mce) [NC]
+     # only if file not found, do the rewrite
      RewriteCond %{REQUEST_FILENAME} !-f
      RewriteRule ^(.+)\.(\d+)\.(bmp|css|cur|gif|ico|jpe?g|js|png|svgz?|webp|webmanifest)$ $1.$3 [L]
 </IfModule>

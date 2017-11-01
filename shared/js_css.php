@@ -344,7 +344,8 @@ Class Js_Css {
 
             $udp_stamp = date('ymdHi',filemtime($path));
             
-            if($context['with_friendly_urls'] == 'R') {
+            // use url_rewrite only if activated and js file not related to tiny_mce
+            if($context['with_friendly_urls'] == 'R' && !preg_match('/tiny_mce/',$path)) {
                 
                 $file = preg_replace('/\.(js|css)$/', '.'.$udp_stamp.'.$1', $file);
             
