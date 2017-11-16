@@ -4722,6 +4722,9 @@ Class Skin_Skeleton {
 	 */
 	public static function layout_cover_article($item) {
 		global $context;
+                
+                // object interface
+                $art = new Article($item);
 
 		// process steps similar to an ordinary article -- see articles/view.php
 		$text = '<div id="cover_article">';
@@ -4733,6 +4736,11 @@ Class Skin_Skeleton {
 		// the introduction text, if any
 		if(isset($item['introduction']) && $item['introduction'])
 			$text .= Skin::build_block($item['introduction'], 'introduction');
+                
+                // overlay text if any
+                if(is_object($art->overlay)) {
+                        $text .= $art->overlay->get_text('view');
+                }
 
 		// get a body
 		$text .= Codes::beautify($item['description'], $item['options']).'</div>';
