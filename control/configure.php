@@ -31,6 +31,8 @@
  * [*] [code]database[/code] - the name of the database to use
  *
  * [*] [code]table_prefix[/code] - the prefix for all tables used for this YACS instance
+ * 
+ * [*] [code]storage_engine[/code] - the sql engine to use with tables (MyISAM, innoDB..)
  *
  * [*] [code]users_database_server[/code] - only for user records - database host name or IP address
  *
@@ -280,6 +282,16 @@ if(!Surfer::is_associate()) {
 	if(!isset($context['table_prefix']) || !$context['table_prefix'])
 		$context['table_prefix'] = 'yacs_';
 	$input = '<input type="text" name="table_prefix" size="45" value="'.encode_field($context['table_prefix']).'" maxlength="255" />';
+        
+        $fields[] = array($label, $input);
+        
+        // storage engine
+        $label = i18n::s('Storage Engine');
+        if(!isset($context['storage_engine']))
+		$context['storage_engine'] = '';
+	$input = '<input type="text" name="storage_engine" placeholder="'.i18n::s('( leave empty for default )').'" size="45" value="'.encode_field($context['storage_engine']).'" maxlength="255" />';
+        
+        
 	$fields[] = array($label, $input);
 
 	// build the form
@@ -820,6 +832,8 @@ if(!Surfer::is_associate()) {
 	$content .= '$context[\'file_mask\']='.$_REQUEST['file_mask'].";\n";
 	if(isset($_REQUEST['table_prefix']))
 		$content .= '$context[\'table_prefix\']=\''.addcslashes($_REQUEST['table_prefix'], "\\'")."';\n";
+	if(isset($_REQUEST['storage_engine']))
+		$content .= '$context[\'storage_engine\']=\''.addcslashes($_REQUEST['storage_engine'], "\\'")."';\n";
 	if(isset($_REQUEST['users_database_server']))
 		$content .= '$context[\'users_database_server\']=\''.addcslashes($_REQUEST['users_database_server'], "\\'")."';\n";
 	if(isset($_REQUEST['users_database_user']))
