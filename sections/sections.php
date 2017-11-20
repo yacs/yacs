@@ -3466,7 +3466,6 @@ Class Sections {
 		$indexes['INDEX edit_date'] 	= "(edit_date)";
 		$indexes['INDEX expiry_date']	= "(expiry_date)";
 		$indexes['INDEX handle']		= "(handle)";
-		$indexes['INDEX hits']			= "(hits)";
                 $indexes['INDEX home_panel']	= "(home_panel)";
 		$indexes['INDEX index_map'] 	= "(index_map)";
 		$indexes['INDEX language']		= "(language)";

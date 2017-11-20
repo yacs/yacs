@@ -828,9 +828,6 @@ Class Images {
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 	= "(id)";
 		$indexes['INDEX anchor']	= "(anchor)";
-		$indexes['INDEX edit_date']     = "(edit_date)";
-		$indexes['INDEX edit_id']	= "(edit_id)";
-		$indexes['INDEX image_size']    = "(image_size)";
 		$indexes['INDEX title'] 	= "(title(255))";
 		$indexes['FULLTEXT INDEX']	= "full_text(title, source, description)";
 

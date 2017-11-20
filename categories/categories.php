@@ -1999,11 +1999,7 @@ Class Categories {
 		$indexes['PRIMARY KEY id']		= "(id)";
 		$indexes['INDEX active']		= "(active)";
 		$indexes['INDEX anchor']		= "(anchor)";
-		$indexes['INDEX create_date']	= "(create_date)";
-		$indexes['INDEX create_id'] 	= "(create_id)";
 		$indexes['INDEX display']		= "(display)";
-		$indexes['INDEX edit_date'] 	= "(edit_date)";
-		$indexes['INDEX edit_id']		= "(edit_id)";
 		$indexes['INDEX expiry_date']	= "(expiry_date)";
 		$indexes['INDEX hits']			= "(hits)";
 		$indexes['INDEX keywords']		= "(keywords(255))";

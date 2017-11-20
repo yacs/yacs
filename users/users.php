@@ -2280,9 +2280,7 @@ Class Users {
 		$indexes['PRIMARY KEY'] 		= "(id)";
 		$indexes['INDEX birth_date']	= "(birth_date)";
 		$indexes['INDEX create_date']	= "(create_date)";
-		$indexes['INDEX create_id'] 	= "(create_id)";
 		$indexes['INDEX edit_date'] 	= "(edit_date)";
-		$indexes['INDEX edit_id']		= "(edit_id)";
 		$indexes['INDEX email'] 		= "(email)";
 		$indexes['INDEX full_name'] 	= "(full_name(255))";
 		$indexes['INDEX handle']		= "(handle)";

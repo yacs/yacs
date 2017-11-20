@@ -1149,8 +1149,6 @@ Class Dates {
 		$indexes['INDEX anchor_id'] 	= "(anchor_id)";
 		$indexes['INDEX anchor_type']	= "(anchor_type)";
 		$indexes['INDEX date_stamp'] = "(date_stamp)";
-		$indexes['INDEX edit_date'] = "(edit_date)";
-		$indexes['INDEX edit_id']	= "(edit_id)";
 
 		return SQL::setup_table('dates', $fields, $indexes);
 	}

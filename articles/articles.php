@@ -3568,26 +3568,21 @@ Class Articles {
 		$indexes['PRIMARY KEY'] 		= "(id)";
 		$indexes['INDEX active']		= "(active)";
 		$indexes['INDEX anchor']		= "(anchor)";
-		$indexes['INDEX anchor_id'] 	= "(anchor_id)";
-		$indexes['INDEX anchor_type']	= "(anchor_type)";
 		$indexes['INDEX create_date']	= "(create_date)";
 		$indexes['INDEX create_id'] 	= "(create_id)";
 		$indexes['INDEX edit_date'] 	= "(edit_date)";
 		$indexes['INDEX edit_id']		= "(edit_id)";
 		$indexes['INDEX expiry_date']	= "(expiry_date)";
 		$indexes['INDEX handle']		= "(handle)";
-		$indexes['INDEX hits']			= "(hits)";
 		$indexes['INDEX language']		= "(language)";
-		$indexes['INDEX locked']		= "(locked)";
 		$indexes['INDEX nick_name'] 	= "(nick_name)";
 		$indexes['INDEX overlay_id']	= "(overlay_id)";
 		$indexes['INDEX publish_date']	= "(publish_date)";
 		$indexes['INDEX publish_id']	= "(publish_id)";
 		$indexes['INDEX rank']			= "(rank)";
-		$indexes['INDEX rating_sum']	= "(rating_sum)";
 		$indexes['INDEX review_date']	= "(review_date)";
 		$indexes['INDEX title'] 		= "(title(255))";
-		$indexes['FULLTEXT INDEX']		= "full_text(title, source, introduction, overlay, description)";
+		$indexes['FULLTEXT INDEX']		= "full_text(title, source, introduction, description)";
 
 		return SQL::setup_table('articles', $fields, $indexes);
 
