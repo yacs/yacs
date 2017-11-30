@@ -2019,7 +2019,7 @@ Class Users {
 
 		// list the user in categories
 		if(isset($fields['tags']) && $fields['tags'])
-			Categories::remember('user:'.$item['id'], NULL_DATE, $fields['tags']);
+			Categories::remember('user:'.$item['id'], NULL_DATE, $fields['tags'], $item['tags']);
 
 		// clear all the cache on profile update, because of avatars, etc.
 		$fields['id'] = $item['id'];
@@ -2065,7 +2065,7 @@ Class Users {
 	    global $context;
 
 	    // id cannot be empty
-	    if(!isset($fields['id']) || !is_numeric($fields['id'])) {
+	    if(!isset($fields['id']) || !is_numeric($fields['id']) || !$former = Users::get($fields['id'])) {
 		    Logger::error(i18n::s('No item has the provided id.'));
 		    return FALSE;
 	    }
@@ -2116,7 +2116,7 @@ Class Users {
 
 	    // list the user in categories
 	    if(isset($fields['tags']) && $fields['tags'])
-		Categories::remember('user:'.$fields['id'], NULL_DATE, $fields['tags']);
+		Categories::remember('user:'.$fields['id'], NULL_DATE, $fields['tags'], $former['tags']);
 
 	    // clear the cache
 	    Articles::clear($fields);

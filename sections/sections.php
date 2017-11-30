@@ -2945,7 +2945,7 @@ Class Sections {
 		global $context;
 
 		// id cannot be empty
-		if(!isset($fields['id']) || !is_numeric($fields['id'])) {
+		if(!isset($fields['id']) || !is_numeric($fields['id']) || !$former = Sections::get($fields['id'])) {
 			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
@@ -3087,7 +3087,7 @@ Class Sections {
 			return FALSE;
 
 		// assign the page to related categories
-		Categories::remember('section:'.$fields['id'], NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
+		Categories::remember('section:'.$fields['id'], NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '', isset($former['tags']) ? $former['tags'] : '');
 
 		// clear the cache
 		Sections::clear($fields);
@@ -3106,7 +3106,7 @@ Class Sections {
 		global $context;
 
 		// id cannot be empty
-		if(!isset($fields['id']) || !is_numeric($fields['id'])) {
+		if(!isset($fields['id']) || !is_numeric($fields['id']) || !$former = Sections::get($fields['id'])) {
 			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
@@ -3234,6 +3234,10 @@ Class Sections {
 			." WHERE id = ".SQL::escape($fields['id']);
 		if(!SQL::query($query))
 			return FALSE;
+                
+                // list the section in categories
+                if(isset($fields['tags']))
+                    Categories::remember('section:'.$fields['id'], NULL_DATE, $fields['tags'], $former['tags']);
 
 		// clear the cache
 		Sections::clear($fields);

@@ -91,7 +91,7 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['anchor']) && isset($_REQUEST['member'])) {
 
 		// on error display the form again
-		if($error = Members::toggle($_REQUEST['anchor'], $_REQUEST['member'], isset($_REQUEST['father']) ? $_REQUEST['father'] : ''))
+		if($error = Members::toggle($_REQUEST['anchor'], $_REQUEST['member'], isset($_REQUEST['father']) ? $_REQUEST['father'] : '', true))
 			Logger::error($error);
 
 	}

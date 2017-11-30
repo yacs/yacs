@@ -1527,12 +1527,13 @@ Class Members {
 	 * @param string the anchor id (e.g., 'category:123')
 	 * @param string the member id (e.g., 'article:456')
 	 * @param string the father id, if any (e.g., 'category:456')
+         * @param boolean flag if we have to reflect the change on member's tags when anchor is a category with a keyword
 	 * @return string either a null string, or some text describing an error to be inserted into the html response
 	 *
 	 * @see categories/select.php
 	 * @see users/track.php
 	**/
-	public static function toggle($anchor, $member, $father=NULL) {
+	public static function toggle($anchor, $member, $father=NULL, $toggle_tag=false) {
 		global $context;
 
 		// anchor cannot be empty
@@ -1554,6 +1555,13 @@ Class Members {
 		if(SQL::query_count($query)) {
 			$query = "DELETE FROM ".SQL::table_name('members')
 				." WHERE (anchor LIKE '".SQL::escape($anchor)."') AND (member LIKE '".SQL::escape($member)."')";
+                        
+                // check if anchor is a category and we are ask to reflect change on tags
+                if($toggle_tag && !strncmp($anchor, 'category',8)) {
+                    // remove tags
+                    Categories::keywords_apply($anchor, $member, false);
+
+                }     
 
 		// insert one new record
 		} else {
@@ -1568,6 +1576,14 @@ Class Members {
 				." member_type='".SQL::escape($member_type)."',"
 				." member_id='".SQL::escape($member_id)."',"
 				." edit_date='".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'";
+                        
+                        
+                         // check if anchor is a category and we are ask to reflect change on tags
+                        if($toggle_tag && !strncmp($anchor, 'category',8)) {
+                            // add tags
+                            Categories::keywords_apply($anchor, $member);
+                            
+                        }
 		}
 
 		// update the database

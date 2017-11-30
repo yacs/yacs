@@ -361,7 +361,7 @@ Class Categories {
 
 		// select among available items
 		$query = "SELECT * FROM ".SQL::table_name('categories')." AS categories"
-			." WHERE categories.keywords = '".SQL::escape($keyword)."' LIMIT 1";
+			." WHERE categories.keywords RLIKE '[[:<:]]".SQL::escape($keyword)."[[:>:]]' LIMIT 1";
 
 		$output = SQL::query_first($query);
 		return $output;
@@ -715,6 +715,55 @@ Class Categories {
 		// normalize the link
 		return normalize_url(array('categories', 'category'), $action, $id, $name);
 	}
+        
+        /**
+         * set or unset keywords (tags) of a category to 
+         * another anchor
+         * 
+         * @param string $category reference
+         * @param string $target reference
+         * @param boolean $set flag to set or unset tags
+         * @return boolean
+         */
+        public static function keywords_apply($category, $target, $set=true) {
+            
+            $cat = categories::get($category);
+            $target = Anchors::get($target);
+            
+            // check param are existing
+            if( !$cat || !$target ) {
+                logger::debug('cannot apply on ('.$target.') from ('.$category.')','categories::keyword_apply()');
+                return false;
+            }
+            
+            // check we have keywords
+            if(!isset($cat['keywords']) || !$cat['keywords']) {
+                return false;
+            }
+            $keywords = preg_split('/[ \t]*,\s*/', $cat['keywords']);
+            
+            // check we have a tags field
+            if(!isset($target->item['tags'])) return false;
+            
+            $tags = preg_split('/[ \t]*,\s*/', $target->item['tags']);
+            
+            
+            if($set) {
+                // add the keywords if not already
+                $tags = array_merge($tags, $keywords);
+            } else {
+                // remove keywords if present
+                $tags = array_diff($tags, $keywords);
+                
+            }
+            
+            // flatten the result
+            $tags = join(', ', $tags);
+            
+            // record in database
+            return $target->set_values(array('tags' => $tags));
+            
+        }
 
 	/**
 	 * list most recent categories
@@ -1734,12 +1783,13 @@ Class Categories {
 	 * @param string a reference to the published material (e.g., 'article:12')
 	 * @param string the publication date and time, if any
 	 * @param mixed a list of related tags, if any
+         * @param mixed a list of former related tags, if any
 	 *
 	 * @see articles/articles.php
 	 * @see categories/check.php
 	 * @see services/blog.php
 	 */
-	public static function remember($reference, $stamp=NULL, $tags=NULL) {
+	public static function remember($reference, $stamp=NULL, $tags=NULL, $oldtags=NULL) {
 		global $context;
 
 		// if automatic archiving has not been disabled
@@ -1795,11 +1845,25 @@ Class Categories {
 				    Members::assign($category, $reference);									
 			}
 		}
+                
+                // prepare arrays of tags
+                if(is_string($tags) && $tags) {
+                    // do not accept ; as separator, because this conflicts with UTF-8 encoding
+                    $tags = preg_split('/[ \t]*,\s*/', $tags);
+                } else { 
+                    $tags = array();
+                }
+                if(is_string($oldtags) && $oldtags) {
+                    // do not accept ; as separator, because this conflicts with UTF-8 encoding
+                    $oldtags = preg_split('/[ \t]*,\s*/', $oldtags);
+                } else { 
+                    $oldtags = array();
+                }
+                
+                // find tags to remember
+                $tocreate = array_diff($tags, $oldtags);
 
-		// link to selected categories --do not accept ; as separator, because this conflicts with UTF-8 encoding
-		if(is_string($tags) && $tags)
-			$tags = preg_split('/[ \t]*,\s*/', $tags);
-		if(is_array($tags) && count($tags)) {
+		if(is_array($tocreate) && count($tocreate)) {
 
 			// create a category to host keywords, if none exists
 			if(!$root_category = Categories::lookup('keywords')) {
@@ -1817,8 +1881,7 @@ Class Categories {
 			}
 
 			// one category per tag
-			$assigned = array();
-			foreach($tags as $title) {
+			foreach($tocreate as $title) {
 
 				// create a category if tag is unknown
 				if(!$category = Categories::get_by_keyword($title)) {
@@ -1837,30 +1900,27 @@ Class Categories {
 				// link page to the category
 				if($category) {
 					Members::assign($category, $reference);
-					$assigned[] = $category;
 				}
 			}
 
-			// back to a string representation
-			$tags = join(', ', $tags);
-
-			// clean assignments for removed tags
-			// the list of members
-			$query = "SELECT anchor FROM ".SQL::table_name('members')
-				." WHERE (member LIKE '".SQL::escape($reference)."') AND (anchor LIKE 'category:%')"
-				." LIMIT 0, 500";
-			if($result = SQL::query($query)) {
-
-				while($row = SQL::fetch($result)) {
-					if(in_array($row['anchor'], $assigned))
-						continue;
-
-					// assigned, and a keyword exists, but not in the string of tags
-					if(($category = Anchors::get($row['anchor'])) && ($keywords = $category->get_value('keywords')) && (stripos($tags, $keywords) === FALSE))
-						Members::free($row['anchor'], $reference);
-				}
-			}
 		}
+                
+                // find tags to forget
+                $toforget = array_diff($oldtags, $tags);
+                
+                if(is_array($toforget) && count($toforget)) {
+                    
+                    foreach($toforget as $title) {
+                        
+                        if($category = Categories::get_by_keyword($title)) {
+                         
+                            $category = 'category:'.$category['id'];
+                            Members::free($category, $reference);
+                        }
+                        
+                    }
+                    
+                }
 
 	}
 

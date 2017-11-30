@@ -3120,7 +3120,7 @@ Class Articles {
 		global $context;
 
 		// id cannot be empty
-		if(!isset($fields['id']) || !is_numeric($fields['id'])) {
+		if(!isset($fields['id']) || !is_numeric($fields['id']) || !$former = Articles::get($fields['id'])) {
 			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
@@ -3241,7 +3241,7 @@ Class Articles {
 			return FALSE;
 
 		// list the article in categories
-		Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
+		Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '', $former['tags']);
 
 		// add this page to surfer watch list
 		if(Surfer::get_id())
@@ -3264,7 +3264,7 @@ Class Articles {
 		global $context;
 
 		// id cannot be empty
-		if(!isset($fields['id']) || !is_numeric($fields['id'])) {
+		if(!isset($fields['id']) || !is_numeric($fields['id']) || !$former = Articles::get($fields['id'])) {
 			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
@@ -3384,7 +3384,7 @@ Class Articles {
 			return FALSE;
                 
                 // list the article in categories
-		Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
+		Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '', $former['tags']);
 
 		// clear the cache
 		Articles::clear($fields);
