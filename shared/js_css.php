@@ -103,15 +103,15 @@ Class Js_Css {
         $fontawesome   = (defined('NO_FONTAWESOME') && NO_FONTAWESOME == true)? false : Safe::filemtime($context['path_to_root'].'included/font_awesome/scss/font-awesome.scss');
         
         
-        // check existence of <skin>.less or <skin>.css
+        // check existence of <skin>.scss or <skin>.css
         // less version is priority
-        $skinless   = Safe::filemtime($context['path_to_root'].$context['skin'].'/'.$skin.'.scss');
+        $skinsass   = Safe::filemtime($context['path_to_root'].$context['skin'].'/'.$skin.'.scss');
         $skincss    = Safe::filemtime($context['path_to_root'].$context['skin'].'/'.$skin.'.css');
-        $tune     = Safe::filemtime($context['path_to_root'].$context['skin'].'/tune.scss');
-        $skinstyle  = ($skinless)?$skinless:$skincss;
+        $tune       = Safe::filemtime($context['path_to_root'].$context['skin'].'/tune.scss');
+        $skinstyle  = ($skinsass)?$skinsass:$skincss;
         
         // check existence of a minified version
-        $skinmin    = Safe::filemtime($context['path_to_root'].$context['skin'].'/'.$skin.'.min.css');
+        $skinmin    = Safe::filemtime($context['path_to_root'].'temporary/'.$skin.'.min.css');
         
         // check files datation, do we need a compilation ?
         $need_compile = !$skinmin 
@@ -143,7 +143,7 @@ Class Js_Css {
             if($yacss)          $import .= '@import "variables.scss";';
             if($yacss)          $import .= '@import "yacss.scss";';
  
-            if($skinless) {
+            if($skinsass) {
                 $import   .= '@import "'.$skin.'.scss";';
             } elseif($skincss) {
                 // append pure css
@@ -155,11 +155,12 @@ Class Js_Css {
                 $compilation = $scss->compile($import);
             } catch (exception $e) {
                 logger::debug("fatal error: " . $e->getMessage(), 'SCSS compilation');
-                return Js_Css::link_exit(false, $context['skin'].'/'.$skin.'.min.css' , 'now');
+                return Js_Css::link_exit(false, 'skin main style sheet' , 'now');
             }
             
             // write compiled style in a css file
-            $output = $context['path_to_root'].$context['skin'].'/'.$skin.'.min.css';
+            // $output = $context['path_to_root'].$context['skin'].'/'.$skin.'.min.css';
+            $output = $context['path_to_root'].'temporary/'.$skin.'.min.css';
             if($compilation) {
                 Safe::file_put_contents($output, $compilation);
             } else {
@@ -169,7 +170,7 @@ Class Js_Css {
         }
         
         // build declaration
-        return Js_css::link_file($context['skin'].'/'.$skin.'.min.css','now');
+        return Js_css::link_file('temporary/'.$skin.'.min.css','now');
     }
     
     /**
@@ -190,7 +191,7 @@ Class Js_Css {
             $to_compile = '';
             
             // load scssphp
-            $scss       = js_css::prepare_scss_compiler();
+            $scss        = js_css::prepare_scss_compiler();
             
             // load variables from skin if any
             $to_compile .= Safe::file_get_contents($context['path_to_root'].$context['skin'].'/tune.scss');
@@ -382,8 +383,6 @@ Class Js_Css {
 	    case 'js' :
 
 		$type = (SKIN_HTML5)?'':' type="text/javascript" ';
-		// minification lib
-		//include_once $context['path_to_root'].'included/jsmin.php';
 
 		Js_css::add_js('<script'.$type.'> '.$script.'</script>', $target);
 
@@ -465,7 +464,7 @@ Class Js_Css {
 	    // check if file exists
 	    if(!file_exists($realpath)) return Js_Css::link_exit(false, $path, $straitnow);
             
-            // this is a LESS file, we may have to compile it
+            // this is a SCSS file, we may have to compile it
             if($ext === 'scss') {
                 
                 // production mode
@@ -478,7 +477,7 @@ Class Js_Css {
                 
                 // ext, path and output filname
                 $ext    = 'css';
-                $path   = $path_parts['dirname'].'/'.$path_parts['filename'].$min.'.'.$ext;
+                $path   = 'temporary/'.$path_parts['filename'].$min.'.'.$ext;
                 $output = Safe::realpath($path);
                 
                 // check compilation
@@ -495,7 +494,7 @@ Class Js_Css {
 		&& !preg_match('/\.min\.?/', $path_parts['filename'])) {
 
 		// minified version path
-		$min_v      = $path_parts['dirname'].'/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
+                $min_v      = 'temporary/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
                 $real_min_v = Safe::realpath($min_v);
                 
                 $date_src = $date_min = filemtime($realpath);
@@ -575,6 +574,7 @@ Class Js_Css {
      * @param string $ext of the file
      */
     public static function minify($path) {
+        global $context;
         
         // get file content
         $to_minify = safe::file_get_contents($path);
@@ -588,10 +588,14 @@ Class Js_Css {
         // gather info on file
         $path_parts = pathinfo($path);
         
+        // load minifier common files
+        include_once $context['path_to_root'].'included/minifier/src/ConverterInterface.php';
+        include_once $context['path_to_root'].'included/minifier/src/Converter.php';
+        include_once $context['path_to_root'].'included/minifier/src/Minify.php';
+        
         // build http query depending on file extension
         switch ($path_parts['extension']) {
             case 'css':
-                $url = 'http://cssminifier.com/raw';
                 
                 //// do a part of minification job to limit the size of transmited content
                 
@@ -604,64 +608,43 @@ Class Js_Css {
                 // Remove comment blocks, everything between /* and */, unless
                 // preserved with /*! ... */ or /** ... */
                 $to_minify = preg_replace( '~/\*(?![\!|\*])(.*?)\*/~', '', $to_minify );
+                
+                // load css minifier
+                include_once $context['path_to_root'].'included/minifier/src/CSS.php';
+                $minifier = new MatthiasMullie\Minify\CSS();
 
                 break;
             case 'js':
-                $url = 'https://javascript-minifier.com/raw';
+                
+                // load JS minifier
+                include_once $context['path_to_root'].'included/minifier/src/JS.php';
+                $minifier = new MatthiasMullie\Minify\JS();
 
                 break;
             default:
-                $url = '';
+                $minifier = null;
                 break;
         }
         
-        if($url) {
+        if($minifier) {
             
-            // try with cURL 
-            if(is_callable(curl_init)) {
-                $data = 'input='.urlencode($to_minify);
-                
-                $ch = curl_init();
-
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                
-                $minified = curl_exec($ch);
-    
-                if($minified === false) {
-                    logger::remember('shared/js_css','cURL error: ' . curl_error($ch));
-                } 
-                
+            // minification
+            $minifier->add($to_minify);
+            $minified = $minifier->minify();
             
-            // try with file_get_contents, must have allow_url_fopen = yes
-            } else {
-                $data = array('input' => $to_minify);
-
-
-                $postdata = array('http' => array(
-                    'method'  => 'POST',
-                    'header'  => 'Content-type: application/x-www-form-urlencoded',
-                    'content' => http_build_query( array('input' => $to_minify) ) ) );
-
-                $minified = file_get_contents($url, false, stream_context_create($postdata));
-            }
-            
-            
-
             ///// save the $minified version
-            // build the path
-            $min_path = $path_parts['dirname'].'/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
-            
-            // delete previous one
-            Safe::unlink($min_path);
-            
-            // save new
             if($minified) {
+                
+                // build the path
+                $min_path = 'temporary/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
+            
+                // delete previous one
+                Safe::unlink($min_path);
+            
+                // save new
                 return Safe::file_put_contents($min_path, $minified);
             }
-            
+               
         }
         
         return false;
