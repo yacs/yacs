@@ -628,22 +628,17 @@ Class Js_Css {
         
         if($minifier) {
             
-            // minification
+            // build the path
+            $min_path = 'temporary/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
+
+            // delete previous one
+            Safe::unlink($min_path);
+            
+            // minification & save
             $minifier->add($to_minify);
-            $minified = $minifier->minify();
+            $minifier->minify($min_path);
             
-            ///// save the $minified version
-            if($minified) {
-                
-                // build the path
-                $min_path = 'temporary/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
-            
-                // delete previous one
-                Safe::unlink($min_path);
-            
-                // save new
-                return Safe::file_put_contents($min_path, $minified);
-            }
+            return true;
                
         }
         
