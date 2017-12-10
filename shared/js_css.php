@@ -158,13 +158,27 @@ Class Js_Css {
                 return Js_Css::link_exit(false, 'skin main style sheet' , 'now');
             }
             
-            // write compiled style in a css file
-            // $output = $context['path_to_root'].$context['skin'].'/'.$skin.'.min.css';
-            $output = $context['path_to_root'].'temporary/'.$skin.'.min.css';
+            
             if($compilation) {
-                Safe::file_put_contents($output, $compilation);
-            } else {
+                // write into a temporary file next to source
+                $compiled = $context['path_to_root'].$context['skin'].'/'.$skin.'.compiled.css';
+                Safe::file_put_contents($compiled, $compilation);
+                
+                // load a minifier and provide compiled file
+                $minifier = js_css::prepare_minifier('css');
+                $minifier->add($compiled);
+                
+                // prepare target file
+                $output = $context['path_to_root'].'temporary/'.$skin.'.min.css';
                 Safe::unlink($output);
+                
+                // execute minification
+                $minifier->minify($output);
+                
+                // suppress temporary compiled fule
+                Safe::unlink($compiled);
+                
+                
             }
             
         }
@@ -209,13 +223,25 @@ Class Js_Css {
                 logger::debug("fatal error: " . $e->getMessage(), 'SCSS compilation');
             }
             
-            // write compiled style in a css file
             if($compilation) {
-                Safe::file_put_contents($outputFile, $compilation);
-                return true;
-            } else {
+                // write into a temporary file next to source
+                $compiled = $inputFile.'comp';
+                Safe::file_put_contents($compiled, $compilation);
+                
+                // load a minifier and provide compiled file
+                $minifier = js_css::prepare_minifier('css');
+                $minifier->add($compiled);
+                
+                // prepare target file
                 Safe::unlink($outputFile);
-                return false;
+                
+                // execute minification
+                $minifier->minify($outputFile);
+                
+                // suppress temporary compiled fule
+                Safe::unlink($compiled);
+                
+                
             }
         }
         
@@ -467,13 +493,8 @@ Class Js_Css {
             // this is a SCSS file, we may have to compile it
             if($ext === 'scss') {
                 
-                // production mode
-                if($context['with_debug']=='N') {
-                    $min = '.min';
-                    
-                // dev mode    
-                } else 
-                    $min = '.dev';
+                // compiled scss will be always minified
+                $min = '.min';
                 
                 // ext, path and output filname
                 $ext    = 'css';
@@ -574,7 +595,6 @@ Class Js_Css {
      * @param string $ext of the file
      */
     public static function minify($path) {
-        global $context;
         
         // get file content
         $to_minify = safe::file_get_contents($path);
@@ -588,37 +608,17 @@ Class Js_Css {
         // gather info on file
         $path_parts = pathinfo($path);
         
-        // load minifier common files
-        include_once $context['path_to_root'].'included/minifier/src/ConverterInterface.php';
-        include_once $context['path_to_root'].'included/minifier/src/Converter.php';
-        include_once $context['path_to_root'].'included/minifier/src/Minify.php';
-        
-        // build http query depending on file extension
         switch ($path_parts['extension']) {
             case 'css':
                 
-                //// do a part of minification job to limit the size of transmited content
-                
-                // Normalize whitespace
-                $to_minify = preg_replace( '/\s+/', ' ', $to_minify );
-
-                // Remove spaces before and after comment
-                $to_minify = preg_replace( '/(\s+)(\/\*(.*?)\*\/)(\s+)/', '$2', $to_minify );
-                
-                // Remove comment blocks, everything between /* and */, unless
-                // preserved with /*! ... */ or /** ... */
-                $to_minify = preg_replace( '~/\*(?![\!|\*])(.*?)\*/~', '', $to_minify );
-                
                 // load css minifier
-                include_once $context['path_to_root'].'included/minifier/src/CSS.php';
-                $minifier = new MatthiasMullie\Minify\CSS();
+                $minifier = js_css::prepare_minifier('css');
 
                 break;
             case 'js':
                 
                 // load JS minifier
-                include_once $context['path_to_root'].'included/minifier/src/JS.php';
-                $minifier = new MatthiasMullie\Minify\JS();
+                $minifier = js_css::prepare_minifier('js');
 
                 break;
             default:
@@ -645,6 +645,33 @@ Class Js_Css {
         return false;
     }
     
+    private static function prepare_minifier($sort='css') {
+        global $context;
+        
+        $minifier = null;
+        
+        // load minifier common files
+        include_once $context['path_to_root'].'included/minifier/src/ConverterInterface.php';
+        include_once $context['path_to_root'].'included/minifier/src/Converter.php';
+        include_once $context['path_to_root'].'included/minifier/src/Minify.php';
+        
+        Switch($sort) {
+            
+            case 'css':
+                include_once $context['path_to_root'].'included/minifier/src/CSS.php';
+                $minifier = new MatthiasMullie\Minify\CSS();
+                
+                break;
+            case 'js' :
+                include_once $context['path_to_root'].'included/minifier/src/JS.php';
+                $minifier = new MatthiasMullie\Minify\JS();
+                
+                break;
+        }
+        
+        return $minifier;
+    }
+    
     /**
      * Common preparation of scss compiler
      * used in link_file() and call_skin_css()
@@ -658,12 +685,6 @@ Class Js_Css {
         // include lessphp lib
         include_once $context['path_to_root'].'included/scss/scss.inc.php';
         $scss = new \Leafo\ScssPhp\Compiler;
-        
-        // compressed output or not
-        if($context['with_debug']=='N') {
-            // we create a minified css
-            $scss->setFormatter("Leafo\ScssPhp\Formatter\Compressed");
-        }
         
         // specific function to provide absolute path of ressources within sheet
         // this will provide root url
