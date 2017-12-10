@@ -1,6 +1,21 @@
 <?php
 /**
- * Static functions used to load JavaScript libraries and Cascading Style Sheet
+ * Static functions used to load JavaScript libraries and Cascading Style Sheet.
+ * 
+ * Handle scss compilation and js/css minification.
+ * Build html tags of links to files, including a version number to force 
+ * updating cache of browsers.
+ * 
+ * Build main style sheet, including by default fontawsome and knacss.
+ * Allow overiding trought tune.scss from active skin.
+ * 
+ * Manage css and js even when a page is loaded by ajax and overlaid.
+ * 
+ * All compiled and minified files are stored in /temporary folder. Make sure
+ * php user has the right to write there. Relative paths within CSS are 
+ * automatically updated for this final location.
+ * 
+ * Usage of css and js scripts is counted in table `js_css_calls` of database.
  *
  * @author  Alexis Raimbault
  * @reference
@@ -645,6 +660,14 @@ Class Js_Css {
         return false;
     }
     
+    /**
+     * Return a instance of Matthias Mullie css/js Minifier
+     * @see /included/minifier
+     * 
+     * @global array $context
+     * @param string $sort, 'js' or 'css'
+     * @return \MatthiasMullie\Minify\Minify
+     */
     private static function prepare_minifier($sort='css') {
         global $context;
         
