@@ -953,6 +953,19 @@ if(!Surfer::is_associate()) {
 		$context['text'] .= Skin::build_box(i18n::s('Configuration'), Safe::highlight_string($content), 'folded');
 	else
 		$context['text'] .= Safe::highlight_string($content);
+        
+        // check minified js libs if we are in production mode
+        if(isset($_REQUEST['with_debug']) && $_REQUEST['with_debug'] === 'N' && Js_css::check_production_libs()) {
+            
+            
+            $context['text'] .= tag::_('p','',fa::_('warning').'&nbsp;'.i18n::s('You are in production mode and Yacs detected that compressed javascript libs do not exist or are out of date'));
+            
+            // route to /tools/jsmin.php
+            $context['followup_link']   = 'tools/jsmin.php';
+            $context['followup_label']  = i18n::s('Go to javascript minification tool');
+            
+            
+        }
 
 	// first installation
 	if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off')) {

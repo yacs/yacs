@@ -264,6 +264,76 @@ Class Js_Css {
         return true;
         
     }
+    
+    /**
+     * Check if javascript libs need to be compressed for the use of
+     * yacs in production mode
+     * 
+     * libs are :
+     * - all .js in /included/brower/js_header
+     * - all .js in /included/brower/js_endpage
+     * - /shared/yacs.js
+     * 
+     * @return boolean is compression needed
+     */
+    public static function check_production_libs() {
+        global $context;
+        
+        // date of production libs
+        $lib_head       = Safe::filemtime($context['path_to_root'].'temporary/library_js_header.min.js');
+        $lib_endp       = Safe::filemtime($context['path_to_root'].'temporary/library_js_endpage.min.js');
+        
+        $stamp_header   = 0;    // newest timestamp
+        $names          = '';   // concat file names
+        // search libs in header for bigger timestamp
+        if($files = Safe::glob($context['path_to_root'].'included/browser/js_header/'.'*.js')) {
+            
+            foreach($files as $file) {
+                
+                $stamp = Safe::filemtime($file);
+                $stamp_header = ($stamp > $stamp_header)?$stamp:$stamp_header;
+                $names       .= basename($file);
+            }
+            
+            if( $stamp_header > $lib_head) return true;
+            
+            $names_check = md5($names);
+            // check last compression have same checksum
+            if(!$checksum = Safe::filemtime('included/browser/js_header/'.$names_check.'.auto.sum')) {
+                // file does not exist, so redo
+                return true;
+            }
+        }
+        
+        $stamp_endpage  = 0; // timestamp
+        $names          = '';   // concat file names
+        // search libs in endpage for bigger timestamp
+        if($files = Safe::glob($context['path_to_root'].'included/browser/js_endpage/'.'*.js')) {
+            
+            foreach($files as $file) {
+                
+                $stamp = Safe::filemtime($file);
+                $stamp_endpage = ($stamp > $stamp_endpage)?$stamp:$stamp_endpage; 
+                $names       .= basename($file);
+            }
+            
+            if( $stamp_endpage > $lib_endp) return true;
+            
+            $names_check = md5($names);
+            // check last compression have same checksum
+            if(!$checksum = Safe::filemtime('included/browser/js_endpage/'.$names_check.'.auto.sum')) {
+                // file does not exist, so redo
+                return true;
+            }
+        }
+        
+        // check /shared/yacs.js
+        $yacs_js        = Safe::filemtime($context['path_to_root'].'shared/yacs.js');
+        if( $stamp_endpage > $yacs_js) return true;
+        
+        // ready to run in prod
+        return false;
+    }
 
     /**
      * This function takes all urls of script that should be deferred
@@ -315,7 +385,7 @@ Class Js_Css {
 
 	    // in production mode, provide link without scanning if compressed lib is present
 	    if($context['with_debug']=='N') {
-		    $path = 'included/browser/library_'.$folder.'.min.js';
+		    $path = 'temporary/library_'.$folder.'.min.js';
 		    if(file_exists($context['path_to_root'].$path)) {
 
                             Js_css::set_revision($context['path_to_root'].$path, $path);
@@ -606,24 +676,39 @@ Class Js_Css {
     /**
      * Minify a script using a external API service
      * 
-     * @param string $path local to the file to minify
-     * @param string $ext of the file
+     * if a path is provided, the extention is determined automatically
+     * 
+     * @param string $path local to the file to minify or plain text
+     * @param string &$script if we want to concat the result to
+     * @param string $ext, 'js' or 'css' to provide the script type if plain text is given
      */
-    public static function minify($path) {
+    public static function minify($path, &$script=null, $ext=null) {
         
-        // get file content
-        $to_minify = safe::file_get_contents($path);
+        if(!$ext) {
         
-        // sanity check
-        if(!$to_minify) {
-            logger::remember('shared/js_css.php', 'cannot get file to minify : '.$path);
-            return false;
+            // get file content
+            $to_minify = safe::file_get_contents($path);
+
+            // sanity check
+            if(!$to_minify) {
+                logger::remember('shared/js_css.php', 'cannot get file to minify : '.$path);
+                return false;
+            }
+            
+            // gather info on file
+            $path_parts = pathinfo($path);
+            $ext        = $path_parts['extension'];
+        
+        } else {
+            
+            // content passed as plain text
+            $to_minify = $path;
+
         }
         
-        // gather info on file
-        $path_parts = pathinfo($path);
         
-        switch ($path_parts['extension']) {
+        
+        switch ($ext) {
             case 'css':
                 
                 // load css minifier
@@ -643,16 +728,25 @@ Class Js_Css {
         
         if($minifier) {
             
-            // build the path
-            $min_path = 'temporary/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
-
-            // delete previous one
-            Safe::unlink($min_path);
-            
-            // minification & save
+            // provide content to minifier
             $minifier->add($to_minify);
-            $minifier->minify($min_path);
             
+            // output mode choice
+            if($script !== null) {
+                
+                // append to variable
+                $script .= $minifier->minify();
+            } else {
+                
+                // build the path
+                $min_path = 'temporary/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
+
+                // delete previous one
+                Safe::unlink($min_path);
+                
+                // write to file
+                $minifier->minify($min_path);
+            }
             return true;
                
         }

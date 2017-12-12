@@ -4,14 +4,15 @@
  *
  * This script reads all javascript files from selected directories, compresses content,
  * and generates compacted .js files.
+ * 
+ * Those libs are used when server is in production mode (with_debug = 'N')
  *
  * It processes files from following directories:
- * - included/browser
+ * - included/browser/js_header
+ * - included/browser/js_endpage
  *
- * If the library jsmin is available it is used to reduce the size of the
- * concatenated string.
- *
- * @see included/jsmin.php
+ * @see included/minifier for minification lib
+ * @see shared/js_css.php for yacs js/css management
  *
  * To run this script, the surfer has to be an associate, or no switch file exists.
  *
@@ -50,12 +51,6 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 	$menu = array('control/' => i18n::s('Control Panel'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
-// the jsmin library is required
-} elseif(!file_exists($context['path_to_root'].'included/jsmin.php')) {
-	header('Status: 500 Internal Error', TRUE, 500);
-	die('No way to compress Javascript files');
-
-// do the action
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'confirm')) {
 
 	// load the compression library
@@ -70,9 +65,12 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 		);
 
 	// process all js files in included/browser/js_header
-	$count = 0;
-	$minified = '';
-	$files = Safe::glob($context['path_to_root'].'included/browser/js_header/*.js');
+	$count      = 0;
+	$minified   = '';
+        $names      = '';
+        $folder     = $context['path_to_root'].'included/browser/js_header/';
+	$files      = Safe::glob("$folder*.js");
+        
 	if(is_array($files)  && count($files))
 	    foreach( $files as $name) {
 
@@ -84,28 +82,44 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 		    // we do have some content
 		    if($text = Safe::file_get_contents($name)) {
 
-			    // actual compression
-			    if(!preg_match('/\.min\./', basename($name)))
-				$minified .= JSMin::minify($text);
-			    else
-				$minified .= $text;				
+			    // actual compression, if file name does not have .min in name
+			    if(!preg_match('/\.min\./', basename($name))) {
+                                    
+				Js_css::minify($text, $minified, 'js');
+                            } else {
+                                // just concat content
+				$minified .= $text;
+                            }
 
-			    // one file has been compressed
+			    // one file has been included
 			    $count++;
 
 		    }
+                    
+                    $names .= basename($name);
 	    }
+            
+        // unlink previous names checksum file
+        array_map('unlink', glob( "$folder*.auto.sum"));    
+            
 	// save the library to call in page header
-	$file_min = $context['path_to_root'].'included/browser/library_js_header.min.js';
+	$file_min = $context['path_to_root'].'temporary/library_js_header.min.js';
 	if($minified) {
 	    Safe::file_put_contents($file_min, $minified);
+            
+            // write new checksum file
+            Safe::file_put_contents($folder.md5($names).'.auto.sum', 'Checksum of all javascript libs names');
+            
 	} else {
 	   Safe::unlink ($file_min);
 	}
 
 	// do the same with included/browser/js_endpage, including shared/yacs.js
 	$minified ='';
-	$files = Safe::glob($context['path_to_root'].'included/browser/js_endpage/*.js');
+        $names      = '';
+        $folder     = $context['path_to_root'].'included/browser/js_endpage/';
+	$files      = Safe::glob("$folder*.js");
+
 	if(is_array($files)  && count($files))
 	    foreach( $files as $name) {
 
@@ -118,60 +132,53 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 		    if($text = Safe::file_get_contents($name)) {
 
 			    // actual compression			    
-			    if(!preg_match('/\.min\./', basename($name)))
-				$minified .= JSMin::minify($text);
-			    else
+			    if(!preg_match('/\.min\./', basename($name))) {
+                                    
+				Js_css::minify($text, $minified, 'js');
+                            } else {
+                                // just concat content
 				$minified .= $text;
+                            }
 
-			    // one file has been compressed
+			    // one file has been included
 			    $count++;
 
 		    }
+                    
+                    $names .= basename($name);
 	    }
 	// include shared/yacs.js library
 	if(file_exists($context['path_to_root'].'shared/yacs.js')) {
 	    $context['text'] .= 'shared/yacs.js'.BR."\n";
 	    $text = Safe::file_get_contents($context['path_to_root'].'shared/yacs.js');
-	    $minified .= JSMin::minify($text);
+            Js_css::minify($text, $minified, 'js');
 	    $count++;
 	}
+        
+        // unlink previous names checksum file
+        array_map('unlink', glob( "$folder*.auto.sum"));    
+        
+        
 	// save the library to call in page footer
-	$file_min = $context['path_to_root'].'included/browser/library_js_endpage.min.js';
+	$file_min = $context['path_to_root'].'temporary/library_js_endpage.min.js';
 	if($minified) {
 	    Safe::file_put_contents($file_min, $minified);
+            
+            // write new checksum file
+            Safe::file_put_contents($folder.md5($names).'.auto.sum', 'Checksum of all javascript libs names');
+            
 	} else {
 	    Safe:unlink ($file_min);
 	}
 
-	// do the same in included/calendar
-	/* if($names = Safe::glob($context['path_to_root'].'included/jscalendar/*.js')) {
-		foreach($names as $name) {
-
-			$context['text'] .= 'included/calendar/'.basename($name).' -> .js.jsmin'.BR."\n";
-
-			// we do have some content
-			if($text = Safe::file_get_contents($name)) {
-
-				// actual compression
-				$text = JSMin::minify($text);
-
-				// save updated content
-				Safe::file_put_contents($name.'.jsmin', $text);
-
-				// one file has been compressed
-				$count++;
-
-			}
-		}
-	}*/
 
 	// report to surfer
 	if($count)
 		$context['text'] .= sprintf(i18n::s('%d files have been minified.'), $count)."\n";
 	$context['text'] .= "</p>\n";
 
-	$context['text'] .= '<p>'.sprintf('%s has %d %s', 'included/browser/library_js_header.min.js', Safe::filesize($context['path_to_root'].'included/browser/library_js_header.min.js'), i18n::s('bytes')).'</p>';
-	$context['text'] .= '<p>'.sprintf('%s has %d %s', 'included/browser/library_js_endpage.min.js', Safe::filesize($context['path_to_root'].'included/browser/library_js_endpage.min.js'), i18n::s('bytes')).'</p>';
+	$context['text'] .= '<p>'.sprintf('%s has %d %s', 'temporary/library_js_header.min.js', Safe::filesize($context['path_to_root'].'temporary/library_js_header.min.js'), i18n::s('bytes')).'</p>';
+	$context['text'] .= '<p>'.sprintf('%s has %d %s', 'temporary/library_js_endpage.min.js', Safe::filesize($context['path_to_root'].'temporary/library_js_endpage.min.js'), i18n::s('bytes')).'</p>';
 
 	// display the execution time
 	$time = round(get_micro_time() - $context['start_time'], 2);
@@ -196,6 +203,3 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 
 // render the skin
 render_skin();
-
-
-?>
