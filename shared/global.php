@@ -482,7 +482,7 @@ if(($context['with_profile'] == 'Y') && $context['script_url'] && !preg_match('/
 	Logger::remember($context['script_url'].': run', '', 'debug');
 
 //
-// decode script parameters passed in URL
+// decode _script_ parameters passed in URL
 //
 
 // we cannot rewrite $_SERVER
