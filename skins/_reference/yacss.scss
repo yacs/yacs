@@ -196,7 +196,7 @@ a:hover {color:darken($color-link,10%);cursor:pointer;}
 
     position:relative;  // for responsive menu icon
     min-height:38px;
-    background:rgba(255,255,255,0.6);
+    background:$color-nav-back;
     
     & > ul {
         list-style: none; // no bullets
@@ -207,10 +207,10 @@ a:hover {color:darken($color-link,10%);cursor:pointer;}
             text-decoration: none;
             display:block;
             padding : 0.2em 1em;
-            font-size : 1.3em;
+            font-size : $font-size-nav;
             min-height : 38px;  // finger touch friendly
             margin-bottom : 1px; // separation with siblings
-            color:$color-link;
+            color:$color-nav-link;
             background-color: $color-nav-tabs;
             // transition form current focus
             transition: background-color 500ms ease-in;
@@ -221,8 +221,8 @@ a:hover {color:darken($color-link,10%);cursor:pointer;}
 
             // emphatize current focus
             &.current {
-                background-color:$color-link;
-                color: #FFF;
+                background-color:$color-nav-cur-bckg;
+                color: $color-nav-cur-link;
             }
         }
     }
