@@ -68,22 +68,24 @@ $path : rPath() + "skins/_reference/";
 
 
 //// give a shape of a button
-$color-button-light : lighten($color-button, 10%);
+// @see skins/_reference/variables.scss
 @mixin x-button {
     
-        box-shadow:inset 0px 1px 0px 0px lighten($color-button, 60%);
-        background:linear-gradient( to bottom, $color-button 5%, $color-button-light 100% );
+        box-shadow:$button-shadow;
+        background:$button-gradient;
         background-color:$color-button;
-        border-top-left-radius:10px;
-        border-bottom-right-radius:10px;
-        border:1px solid darken($color-button, 10%);
+        border-top-left-radius:$button-radius-top-left;
+        border-bottom-right-radius:$button-radius-bot-right;
+        border-top-right-radius:$button-radius-top-right;
+        border-bottom-left-radius:$button-radius-bot-left;
+        border:$button-border;
         @include x-readable-text-color($color-button);
         text-decoration: none;
         padding : 0 0.5em;
         margin : 0.1em 0.2em;
 
         &:hover {
-            background: linear-gradient( to top, $color-button 5%, $color-button-light 100% );
+            background: $button-gradient-hover;
             background-color:$color-button-light;
             @include x-readable-text-color($color-button);
             text-decoration: none;
