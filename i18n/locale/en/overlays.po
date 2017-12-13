@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 10:05+0200\n"
+"POT-Creation-Date: 2017-12-13 17:13+0100\n"
 "PO-Revision-Date: 2016-10-07 15:25+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
@@ -291,7 +291,7 @@ msgid "Edit this event"
 msgstr "Edit this event"
 
 #: overlays/event.php:784 overlays/event.php:785 overlays/event.php:805
-#: overlays/event.php:806 overlays/event.php:1844
+#: overlays/event.php:806 overlays/event.php:1843
 msgid "Add an event"
 msgstr "Add an event"
 
@@ -356,7 +356,7 @@ msgstr "Displayed until the beginning of the event."
 msgid "Enrolment"
 msgstr "Enrolment"
 
-#: overlays/event.php:1008 overlays/event.php:2246
+#: overlays/event.php:1008 overlays/event.php:2245
 msgid "Any page visitor can participate"
 msgstr "Any page visitor can participate"
 
@@ -364,7 +364,7 @@ msgstr "Any page visitor can participate"
 msgid "Accept applications, to be confirmed by page owner"
 msgstr "Accept applications, to be confirmed by page owner"
 
-#: overlays/event.php:1020 overlays/event.php:2250
+#: overlays/event.php:1020 overlays/event.php:2249
 msgid "Registration is managed by page owner"
 msgstr "Registration is managed by page owner"
 
@@ -465,76 +465,76 @@ msgstr "%s has updated %s"
 msgid "Impossible to update date %s"
 msgstr "Impossible to update date %s"
 
-#: overlays/event.php:1860 overlays/event.php:1893
+#: overlays/event.php:1859 overlays/event.php:1892
 #, php-format
 msgid "%d date"
 msgid_plural "%d dates"
 msgstr[0] "%d date"
 msgstr[1] "%d dates"
 
-#: overlays/event.php:1874
+#: overlays/event.php:1873
 msgid "Past dates"
 msgstr "Past dates"
 
-#: overlays/event.php:2027
+#: overlays/event.php:2026
 #, php-format
 msgid "%s has started the meeting"
 msgstr "%s has started the meeting"
 
-#: overlays/event.php:2050
+#: overlays/event.php:2049
 #, php-format
 msgid "%s has stopped the meeting"
 msgstr "%s has stopped the meeting"
 
-#: overlays/event.php:2122
+#: overlays/event.php:2121
 msgid "Open enrolment"
 msgstr "Open enrolment"
 
-#: overlays/event.php:2126
+#: overlays/event.php:2125
 msgid "Enrolment has not been opened yet"
 msgstr "Enrolment has not been opened yet"
 
-#: overlays/event.php:2191
+#: overlays/event.php:2190
 msgid "Start the meeting"
 msgstr "Start the meeting"
 
-#: overlays/event.php:2205
+#: overlays/event.php:2204
 msgid "Please wait until the meeting begins"
 msgstr "Please wait until the meeting begins"
 
-#: overlays/event.php:2254 overlays/events/enroll.php:271
+#: overlays/event.php:2253 overlays/events/enroll.php:271
 msgid "Invite participants"
 msgstr "Invite participants"
 
-#: overlays/event.php:2261
+#: overlays/event.php:2260
 msgid "Manage enrolment"
 msgstr "Manage enrolment"
 
-#: overlays/event.php:2273
+#: overlays/event.php:2272
 msgid "You have been enrolled"
 msgstr "You have been enrolled"
 
-#: overlays/event.php:2277 overlays/event.php:2282
+#: overlays/event.php:2276 overlays/event.php:2281
 msgid "You have asked for an invitation"
 msgstr "You have asked for an invitation"
 
-#: overlays/event.php:2298
+#: overlays/event.php:2297
 msgid "Confirm my participation"
 msgstr "Confirm my participation"
 
-#: overlays/event.php:2305
+#: overlays/event.php:2304
 msgid "Ask for an invitation"
 msgstr "Ask for an invitation"
 
-#: overlays/event.php:2339 overlays/event.php:2353 overlays/event.php:2362
+#: overlays/event.php:2338 overlays/event.php:2352 overlays/event.php:2361
 msgid "Join the meeting"
 msgstr "Join the meeting"
 
-#: overlays/event.php:2341 overlays/event.php:2355 overlays/event.php:2364
+#: overlays/event.php:2340 overlays/event.php:2354 overlays/event.php:2363
 msgid "Meeting has started!"
 msgstr "Meeting has started!"
 
-#: overlays/event.php:2345
+#: overlays/event.php:2344
 msgid "Stop the meeting"
 msgstr "Stop the meeting"
 
@@ -953,61 +953,61 @@ msgstr ""
 msgid "Do not display it"
 msgstr "Do not display it"
 
-#: overlays/jssor_gallery.php:47
+#: overlays/jssor_gallery.php:48
 msgid "Display navigation arrows while hovering"
 msgstr "Display navigation arrows while hovering"
 
-#: overlays/jssor_gallery.php:53
+#: overlays/jssor_gallery.php:55
 msgid "Autoplay slideshow at page loading"
 msgstr "Autoplay slideshow at page loading"
 
-#: overlays/jssor_gallery.php:58
+#: overlays/jssor_gallery.php:60
 msgid "Display options"
 msgstr "Display options"
 
-#: overlays/jssor_gallery.php:60
+#: overlays/jssor_gallery.php:63
 msgid "Fit slideshow's width to its parent"
 msgstr "Fit slideshow's width to its parent"
 
-#: overlays/jssor_gallery.php:64
+#: overlays/jssor_gallery.php:67
 msgid "Ratio"
 msgstr "Ratio"
 
-#: overlays/jssor_gallery.php:67
+#: overlays/jssor_gallery.php:70
 msgid "actual dimmension may change if slideshow is to fit its parent"
 msgstr "actual dimmension may change if slideshow is to fit its parent"
 
-#: overlays/jssor_gallery.php:72
+#: overlays/jssor_gallery.php:75
 msgid "Fill Mode"
 msgstr "Fill Mode"
 
-#: overlays/jssor_gallery.php:74
+#: overlays/jssor_gallery.php:77
 msgid "Stretch image to fit slideshow"
 msgstr "Stretch image to fit slideshow"
 
-#: overlays/jssor_gallery.php:77
+#: overlays/jssor_gallery.php:80
 msgid "Keep image ratio and pull all inside slideshow"
 msgstr "Keep image ratio and pull all inside slideshow"
 
-#: overlays/jssor_gallery.php:80
+#: overlays/jssor_gallery.php:83
 msgid ""
 "Keep image ratio, cover the whole slideshow, part of image may be hidden"
 msgstr ""
 "Keep image ratio, cover the whole slideshow, part of image may be hidden"
 
-#: overlays/jssor_gallery.php:85
+#: overlays/jssor_gallery.php:88
 msgid "Use images actual size"
 msgstr "Use images actual size"
 
-#: overlays/jssor_gallery.php:88
+#: overlays/jssor_gallery.php:91
 msgid "Contain big images, actual size for smaller ones"
 msgstr "Contain big images, actual size for smaller ones"
 
-#: overlays/jssor_gallery.php:92
+#: overlays/jssor_gallery.php:95
 msgid "Clean"
 msgstr "Clean"
 
-#: overlays/jssor_gallery.php:94
+#: overlays/jssor_gallery.php:98
 msgid "Remove images in description"
 msgstr "Remove images in description"
 
