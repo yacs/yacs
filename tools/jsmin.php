@@ -53,8 +53,6 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'confirm')) {
 
-	// load the compression library
-	include_once $context['path_to_root'].'included/jsmin.php';
 
 	// list running scripts
 	$context['text'] .= '<p>'.i18n::s('Compressing Javascript files...').BR."\n";
@@ -88,7 +86,7 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 				Js_css::minify($text, $minified, 'js');
                             } else {
                                 // just concat content
-				$minified .= $text;
+				$minified .= ";\n".$text;
                             }
 
 			    // one file has been included
@@ -137,7 +135,7 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 				Js_css::minify($text, $minified, 'js');
                             } else {
                                 // just concat content
-				$minified .= $text;
+				$minified .= ";\n".$text;
                             }
 
 			    // one file has been included

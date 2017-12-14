@@ -735,7 +735,7 @@ Class Js_Css {
             if($script !== null) {
                 
                 // append to variable
-                $script .= $minifier->minify();
+                $script .= ";\n".$minifier->minify();
             } else {
                 
                 // build the path
