@@ -436,6 +436,10 @@ var Yacs = {
 	 * @see tools/ajax.php
 	 */
 	displayModalBox: function(content, callBack) {
+            
+            
+                // close openned tipsy on background
+                $('.tipsy').remove();
 
 		// prepare box actual content
 		var boxContent = '';
