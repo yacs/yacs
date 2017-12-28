@@ -1381,7 +1381,13 @@ var Yacs = {
                 link.id   = cssId;
                 link.rel  = 'stylesheet';
                 link.type = 'text/css';
-                link.href = url_to_root + url;
+                 
+                if (!url.match(/^[a-zA-Z]+:\/\//))
+                {
+                    url = url_to_root + url;
+                }
+                
+                link.href = url;
                 link.media = 'all';
                 head.appendChild(link);
             }
