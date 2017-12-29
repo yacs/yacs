@@ -591,8 +591,9 @@ Class Files {
         public static function clean_uploaded() {
            global $context;
 
-           include_once 'files.php';
-
+           // sanity check
+           if(!is_dir($context['path_to_root'].UPLOAD_PATH)) return;
+           
            $folder = new DirectoryIterator($context['path_to_root'].UPLOAD_PATH);
            foreach($folder as $file) {
                    // leave blanck page
