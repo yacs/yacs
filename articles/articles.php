@@ -2392,9 +2392,10 @@ Class Articles {
 		// several anchors
 		if(is_array($anchor)) {
 			$items = array();
-			foreach($anchor as $token)
-				$items[] = "articles.anchor LIKE '".SQL::escape($token)."'";
-			$where_anchor = join(' OR ', $items);
+			foreach($anchor as $token) {
+				$items[] = substr($token, 8);
+                        }
+			$where_anchor = "articles.anchor_id IN ( ".join(', ', $items)." )";
 
 		// or only one
 		} else

@@ -1147,9 +1147,10 @@ Class Sections {
 		// several anchors
 		if(is_array($anchor) && count($anchor)) {
 			$items = array();
-			foreach($anchor as $token)
-				$items[] = "sections.anchor LIKE '".SQL::escape($token)."'";
-			$criteria[] = join(' OR ', $items);
+			foreach($anchor as $token) {
+				$items[] = substr($token, 8);   // keep only id
+                        }
+			$criteria[] = 'CONVERT(SUBSTR(sections.anchor,9), UNSIGNED INTEGER) IN ( '.join(', ', $items).' )';
 
 		// we are targeting a section index page
 		} elseif(is_string($anchor))
