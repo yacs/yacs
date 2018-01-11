@@ -307,8 +307,8 @@ Class Tables {
 		case 'inline':
 		case 'sortable':
 
-			// a table with a grid
-			$text .= Skin::table_prefix('grid');
+			// a table
+			$text .= Skin::table_prefix();
 
 			// the title, with a menu to download the table into Excel
 			if($variant == 'inline') {
@@ -593,14 +593,15 @@ Class Tables {
 			$text .= Skin::table_prefix('table');
 
 			// columns headers
-			$index = 0;
+			$count = 1;
 			while($field = SQL::fetch_field($rows))
 				$cells[] = ucfirst($field->name);
 			$text .= Skin::table_row($cells, 'header');
 
 			// other rows
 			while($row = SQL::fetch_row($rows)) {
-				$text .= Skin::table_row($row, $count++);
+				$text .= Skin::table_row($row, $count);
+                                $count++;
 			}
 
 			$text .= Skin::table_suffix();

@@ -278,8 +278,10 @@ if((!isset($context['root_gadget_boxes_at_home']) || ($context['root_gadget_boxe
 
 		// gadget box rendering
 		$context['text'] .= "\n".'<p id="gadgets_prefix"> </p>'."\n";
+                $context['text'] .= '<div id="gadgets_wrapper" class="grid-3-small-2-tiny-1" >'."\n";
 		foreach($gadget_boxes as $gadget_box)
 			$context['text'] .= Skin::build_box($gadget_box[0], $gadget_box[1], 'gadget', isset($gadget_box[2])?$gadget_box[2]:NULL);
+                $context['text'] .= '</div>'."\n";
 		$context['text'] .= '<p id="gadgets_suffix"> </p>'."\n";
 	}
 

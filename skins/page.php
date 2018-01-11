@@ -12,6 +12,7 @@
  *
  * @author Bernard Paques
  * @author Rod
+ * @author Alexis Raimbault
  * @tester Agnes
  * @tester Thierry Pinelli
  * @reference
@@ -971,6 +972,15 @@
 		// else get top level
 		elseif(isset($context['current_focus']) && count($context['current_focus']))
 			$output = str_replace(':', '_', $context['current_focus'][0]);
+                
+                elseif(isset($context['current_item']))
+                        $output = str_replace(':', '_', $context['current_item']);
+                
+                elseif(isset($context['script_url'])) {
+                        $script_name = substr($context['script_url'], strrpos($context['script_url'],'/')+1);
+                        $output      = str_replace('.', '_', $script_name);
+                    
+                }
 
 		// prepend the prefix
 		if($output && $prefix)

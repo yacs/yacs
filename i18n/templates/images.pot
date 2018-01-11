@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 10:46+0200\n"
+"POT-Creation-Date: 2017-12-13 17:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,7 +35,7 @@ msgstr ""
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
-#: images/check.php:41 images/images.php:789 images/index.php:96
+#: images/check.php:41 images/images.php:795 images/index.php:96
 msgid "No image has been added."
 msgstr ""
 
@@ -146,7 +146,7 @@ msgstr ""
 msgid "Add an image"
 msgstr ""
 
-#: images/edit.php:166 images/images.php:710 images/images.php:716
+#: images/edit.php:166 images/images.php:716 images/images.php:722
 #: images/set_as_icon.php:75 images/set_as_thumbnail.php:73
 msgid "No anchor has been found."
 msgstr ""
@@ -419,11 +419,11 @@ msgstr ""
 msgid "Impossible to copy file %s."
 msgstr ""
 
-#: images/images.php:732
+#: images/images.php:710 images/images.php:738
 msgid "No item has the provided id."
 msgstr ""
 
-#: images/images.php:927
+#: images/images.php:930
 msgid "Following image has been added:"
 msgstr ""
 

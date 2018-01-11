@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 10:05+0200\n"
+"POT-Creation-Date: 2017-12-13 17:13+0100\n"
 "PO-Revision-Date: 2017-08-30 10:46+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -30,9 +30,7 @@ msgstr "publié"
 msgid "created"
 msgstr "créé"
 
-#: shared/anchors.php:399
-#: shared/anchors.php:414
-#: shared/anchors.php:469
+#: shared/anchors.php:399 shared/anchors.php:414 shared/anchors.php:469
 msgid "edited"
 msgstr "modifié"
 
@@ -165,8 +163,11 @@ msgid "Versions"
 msgstr "Versions"
 
 #: shared/anchors.php:615
-msgid "Following items are attached to this record and will be impacted as well."
-msgstr "Si vous continuez, les éléments suivants seront aussi modifiés dans la base de données."
+msgid ""
+"Following items are attached to this record and will be impacted as well."
+msgstr ""
+"Si vous continuez, les éléments suivants seront aussi modifiés dans la base "
+"de données."
 
 #: shared/anchors.php:623
 msgid "Table"
@@ -198,8 +199,14 @@ msgstr "ACCEPTER LES COOKIES"
 
 #: shared/logger.php:205
 #, php-format
-msgid "This message has been generated automatically by %s. If you wish to stop these automatic alerts please visit the following link and remove your address from recipients of system events."
-msgstr "Ce message a été généré automatiquement par %s. Pour arrêter ces alertes dynamiques vous pouvez suivre le lien suivant et retirer votre adresse des destinaires des événements système."
+msgid ""
+"This message has been generated automatically by %s. If you wish to stop "
+"these automatic alerts please visit the following link and remove your "
+"address from recipients of system events."
+msgstr ""
+"Ce message a été généré automatiquement par %s. Pour arrêter ces alertes "
+"dynamiques vous pouvez suivre le lien suivant et retirer votre adresse des "
+"destinaires des événements système."
 
 #: shared/logger.php:206
 msgid "System parameters"
@@ -207,13 +214,28 @@ msgstr "Paramètres système"
 
 #: shared/mailer.php:154
 #, php-format
-msgid "This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop some notifications please review watched elements listed in your user profile."
-msgstr "Ce message a été généré automatiquement par %s car le nouvel élément a été attaché à un espace web qui fait partie de votre liste de surveillance. Pour ne plus recevoir d'alertes automatiques merci de passer en revue votre profil utilisateur."
+msgid ""
+"This message has been generated automatically by %s since the new item has "
+"been posted in a web space that is part of your watch list. If you wish to "
+"stop some notifications please review watched elements listed in your user "
+"profile."
+msgstr ""
+"Ce message a été généré automatiquement par %s car le nouvel élément a été "
+"attaché à un espace web qui fait partie de votre liste de surveillance. Pour "
+"ne plus recevoir d'alertes automatiques merci de passer en revue votre "
+"profil utilisateur."
 
 #: shared/mailer.php:158
 #, php-format
-msgid "This message has been generated automatically by %s since you are following the person who posted the new item. If you wish to stop these automatic alerts please visit the user profile below and click on Stop notifications."
-msgstr "Ce message a été généré automatiquement par %s car vous êtes abonné à la personne qui a posté l'information. Pour arrêter les alertes automatiques merci de visiter le profil suivant et de cliquer sur le lien Arrêter les notifications."
+msgid ""
+"This message has been generated automatically by %s since you are following "
+"the person who posted the new item. If you wish to stop these automatic "
+"alerts please visit the user profile below and click on Stop notifications."
+msgstr ""
+"Ce message a été généré automatiquement par %s car vous êtes abonné à la "
+"personne qui a posté l'information. Pour arrêter les alertes automatiques "
+"merci de visiter le profil suivant et de cliquer sur le lien Arrêter les "
+"notifications."
 
 #: shared/mailer.php:185
 #, php-format
@@ -227,9 +249,7 @@ msgstr[1] "%d personnes ont été notifiées"
 msgid "and %d other persons"
 msgstr "et %d autres personnes"
 
-#: shared/mailer.php:287
-#: shared/mailer.php:838
-#: shared/mailer.php:1153
+#: shared/mailer.php:287 shared/mailer.php:838 shared/mailer.php:1153
 #: shared/mailer.php:1306
 msgid "E-mail has not been enabled on this system."
 msgstr "Le courrier électronique n'est pas mis en oeuvre sur ce serveur."
@@ -238,46 +258,36 @@ msgstr "Le courrier électronique n'est pas mis en oeuvre sur ce serveur."
 msgid "Empty sender address"
 msgstr "Pas d'adresse d'émetteur"
 
-#: shared/mailer.php:848
-#: shared/mailer.php:1158
+#: shared/mailer.php:848 shared/mailer.php:1158
 msgid "Empty recipient address"
 msgstr "Pas d'adresse de destination"
 
-#: shared/mailer.php:853
-#: shared/mailer.php:1163
+#: shared/mailer.php:853 shared/mailer.php:1163
 msgid "No subject"
 msgstr "Pas de sujet"
 
-#: shared/mailer.php:858
-#: shared/mailer.php:1168
+#: shared/mailer.php:858 shared/mailer.php:1168
 msgid "No message"
 msgstr "Le corps du message est vide"
 
-#: shared/mailer.php:1298
-#: shared/mailer.php:1300
+#: shared/mailer.php:1298 shared/mailer.php:1300
 #, php-format
 msgid "Error while sending the message to %s"
 msgstr "Erreur pendant l'expédition du message à %s"
 
-#: shared/members.php:93
-#: shared/members.php:436
-#: shared/members.php:1540
+#: shared/members.php:93 shared/members.php:436 shared/members.php:1541
 msgid "An anchor is required for this operation."
 msgstr "Une ancre est requise pour cette opération."
 
-#: shared/members.php:99
-#: shared/members.php:442
-#: shared/members.php:1544
+#: shared/members.php:99 shared/members.php:442 shared/members.php:1545
 msgid "A member is required for this operation."
 msgstr "Un membre est requis pour cette opération."
 
-#: shared/members.php:800
-#: shared/members.php:862
+#: shared/members.php:800 shared/members.php:862
 msgid "weekly"
 msgstr "hebdomadaire"
 
-#: shared/members.php:801
-#: shared/members.php:863
+#: shared/members.php:801 shared/members.php:863
 msgid "monthly"
 msgstr "mensuel"
 
@@ -295,133 +305,132 @@ msgstr "Renvoi vers %s"
 msgid "Impossible to connect to %s."
 msgstr "Impossible de se connecter à %s."
 
-#: shared/sql.php:552
-#: shared/zipfile.php:192
+#: shared/sql.php:552 shared/zipfile.php:192
 #, php-format
 msgid "Impossible to read %s."
 msgstr "Impossible de lire %s."
 
-#: shared/sql.php:725
-#: shared/sql.php:727
+#: shared/sql.php:725 shared/sql.php:727
 msgid "Connection to the database has been lost"
 msgstr "La connexion à la base de données a été perdue"
 
-#: shared/sql.php:992
+#: shared/sql.php:998
 msgid "The table"
 msgstr "La table"
 
-#: shared/sql.php:996
+#: shared/sql.php:1002
 msgid "has been created"
 msgstr "a été créée"
 
-#: shared/sql.php:998
+#: shared/sql.php:1004
 msgid "has been updated"
 msgstr "a été mise à jour"
 
-#: shared/sql.php:1011
+#: shared/sql.php:1017
 msgid "and analyzed"
 msgstr "et analysée"
 
-#: shared/sql.php:1022
+#: shared/sql.php:1028
 msgid "and optimized"
 msgstr "et optimisée"
 
-#: shared/sql.php:1035
-#: shared/sql.php:1046
+#: shared/sql.php:1041 shared/sql.php:1052
 #, php-format
 msgid "ERROR for the table %s"
 msgstr "ERREUR sur la table %s"
 
-#: shared/surfer.php:302
+#: shared/surfer.php:304
 msgid "My profile"
 msgstr "Mon profil"
 
-#: shared/surfer.php:302
+#: shared/surfer.php:304
 msgid "View all data this site knows about you"
 msgstr "Voir toutes les informations vous concernant"
 
-#: shared/surfer.php:305
+#: shared/surfer.php:307
 msgid "Review queue"
 msgstr "Pages en attente"
 
-#: shared/surfer.php:305
+#: shared/surfer.php:307
 msgid "Check requests, publish submitted articles, review old pages"
-msgstr "Passer en revue les requêtes, publier les articles envoyés, vérifier les anciennes pages"
+msgstr ""
+"Passer en revue les requêtes, publier les articles envoyés, vérifier les "
+"anciennes pages"
 
-#: shared/surfer.php:308
+#: shared/surfer.php:310
 msgid "Control Panel"
 msgstr "Panneau de contrôle"
 
-#: shared/surfer.php:308
+#: shared/surfer.php:310
 msgid "System commands, configuration panels, content overview"
 msgstr "Commandes système, panneaux de configuration, aperçu du contenu"
 
-#: shared/surfer.php:310
+#: shared/surfer.php:312
 msgid "Logout"
 msgstr "Clore la session"
 
-#: shared/surfer.php:310
+#: shared/surfer.php:312
 msgid "You will be considered as an anonymous surfer"
 msgstr "Pour redevenir un surfeur anonyme"
 
-#: shared/surfer.php:327
+#: shared/surfer.php:329
 msgid "User"
 msgstr "Utilisateur"
 
-#: shared/surfer.php:330
+#: shared/surfer.php:332
 msgid "Password"
 msgstr "Mot de passe"
 
-#: shared/surfer.php:334
+#: shared/surfer.php:336
 msgid "Stay connected"
 msgstr "Rester connecté(e)"
 
-#: shared/surfer.php:337
+#: shared/surfer.php:339
 msgid "Login"
 msgstr "Authentification"
 
-#: shared/surfer.php:347
+#: shared/surfer.php:349
 msgid "Register"
 msgstr "Enregistrez-vous"
 
-#: shared/surfer.php:347
+#: shared/surfer.php:349
 msgid "Share your profile in this community"
 msgstr "Partager votre profil dans cette communauté"
 
-#: shared/surfer.php:349
+#: shared/surfer.php:351
 msgid "Lost password"
 msgstr "Mot de passe perdu"
 
-#: shared/surfer.php:349
+#: shared/surfer.php:351
 msgid "Prove who you are"
 msgstr "Prouver qui vous êtes"
 
-#: shared/surfer.php:619
+#: shared/surfer.php:620
 msgid "You are allowed to post any XHTML."
 msgstr "Vous pouvez envoyer du XHTML."
 
-#: shared/surfer.php:621
+#: shared/surfer.php:622
 #, php-format
 msgid "Following XHTML tags are allowed: %s"
 msgstr "Les balises XHTML suivantes sont acceptées : %s"
 
-#: shared/surfer.php:732
+#: shared/surfer.php:733
 msgid "anonymous"
 msgstr "anonyme"
 
-#: shared/surfer.php:755
+#: shared/surfer.php:756
 msgid "My pages"
 msgstr "Mes pages"
 
-#: shared/surfer.php:759
+#: shared/surfer.php:760
 msgid "All pages"
 msgstr "Toutes les pages"
 
-#: shared/surfer.php:831
+#: shared/surfer.php:832
 msgid "Robot stopper"
 msgstr "Anti-robot"
 
-#: shared/surfer.php:839
+#: shared/surfer.php:840
 msgid "Update image"
 msgstr "Mettre à jour l'image"
 
@@ -440,7 +449,6 @@ msgid "Impossible to extract files."
 msgstr "Impossible d'extraire les fichiers."
 
 #~ msgid "%d named person has followed the link: %s"
-
 #~ msgid_plural "%d named persons have followed the link: %s"
 #~ msgstr[0] "%d personne identifiée a suivi le lien : %s"
 #~ msgstr[1] "%d personnes identifiées ont suivi le lien : %s"
@@ -473,7 +481,6 @@ msgstr "Impossible d'extraire les fichiers."
 #~ msgstr "[ce fichier a été remplacé]"
 
 #~ msgid "%d active now"
-
 #~ msgid_plural "%d active now"
 #~ msgstr[0] "%d actif maintenant"
 #~ msgstr[1] "%d actifs maintenant"

@@ -61,6 +61,13 @@ Class Layout_articles_as_boxes extends Layout_interface {
 
 			// title prefix
 			$prefix = '';
+                        
+                                                    
+                        // insert thumbnail
+                        if($item['thumbnail_url']) {
+                            $prefix .= tag::_('span',tag::_class('gadget-icon'), skin::build_icon($item['thumbnail_url']));
+                        }
+
 
 			// flag articles that are dead, or created or updated very recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $context['now']))
@@ -77,10 +84,9 @@ Class Layout_articles_as_boxes extends Layout_interface {
 			$parts = array();
 
 			// if the page is publicly available, show introduction and link to full content
-			$article = new Article();
-			$article->load_by_content($item, Anchors::get($item['anchor']));
+			$article = new Article($item);
 			if($article->is_public()) {
-
+                            
 				// get introduction from overlay, if any
 				if(is_object($overlay)) {
 					$parts[] = Codes::beautify_introduction($overlay->get_text('introduction', $item));
@@ -116,9 +122,6 @@ Class Layout_articles_as_boxes extends Layout_interface {
 				// use the introduction, if any
 				if($item['introduction'])
 					$parts[] = Codes::beautify_introduction($item['introduction']);
-
-				// get the related overlay, if any
-				$overlay = Overlay::load($item, 'article:'.$item['id']);
 
 				// insert overlay data, if any
 				if(is_object($overlay))

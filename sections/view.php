@@ -684,32 +684,27 @@ if(!isset($item['id'])) {
 
 	// invite participants
 	if(($cur_section->is_owned() || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
-		Skin::define_img('SECTIONS_INVITE_IMG', 'sections/invite.gif');
-		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'invite'), SECTIONS_INVITE_IMG.i18n::s('Invite participants'), 'basic');
+		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'invite'), fa::_("fa-user-plus").' '.i18n::s('Invite participants'), 'basic');
 	}
 
 	// notify participants
 	if(($cur_section->is_owned() || Surfer::is_associate()) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
-		Skin::define_img('SECTIONS_EMAIL_IMG', 'sections/email.gif');
-		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'mail'), SECTIONS_EMAIL_IMG.i18n::s('Notify participants'));
+		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'mail'), fa::_("fa-envelope-o").' '.i18n::s('Notify participants'));
 	}
 
 	// manage editors
 	if($cur_section->is_owned() || Surfer::is_associate()) {
-		Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
-		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Manage participants'));
+		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), fa::_("fa-share-alt").' '.i18n::s('Manage participants'));
 	}
 
 	// the command to track back
 	if(Links::allow_trackback()) {
-		Skin::define_img('TOOLS_TRACKBACK_IMG', 'tools/trackback.gif');
-		$lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('section:'.$item['id']), TOOLS_TRACKBACK_IMG.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
+		$lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('section:'.$item['id']), fa::_("fa-star").' '.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
 	}
 
 	// print this page
 	if(Surfer::is_logged() || (isset($context['with_anonymous_export_tools']) && ($context['with_anonymous_export_tools'] == 'Y'))) {
-		Skin::define_img('TOOLS_PRINT_IMG', 'tools/print.gif');
-		$lines[] = Skin::build_link(Sections::get_url($id, 'print'), TOOLS_PRINT_IMG.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
+		$lines[] = Skin::build_link(Sections::get_url($id, 'print'), fa::_("fa-print").' '.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
 	}
 
 	// in a side box
@@ -730,15 +725,13 @@ if(!isset($item['id'])) {
 			$label = i18n::s('Watch this section');
 
 		if($in_watch_list != 'P') {
-			Skin::define_img('TOOLS_WATCH_IMG', 'tools/watch.gif');
-			$lines[] = Skin::build_link($link, TOOLS_WATCH_IMG.$label, 'basic', i18n::s('Manage your watch list'));
+			$lines[] = Skin::build_link($link, fa::_("fa-eye").' '.$label, 'basic', i18n::s('Manage your watch list'));
 		}
 	}
 
 	// allow to leave the section
 	if($cur_section->is_assigned() && !$cur_section->is_owned(null, false)) {
-		Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
-		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'leave'), SECTIONS_ASSIGN_IMG.i18n::s('Leave this section'));
+		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'leave'), fa::_("fa-share-alt").' '.i18n::s('Leave this section'));
 	}
 
 	// get news from rss
@@ -1013,12 +1006,11 @@ if(!isset($item['id'])) {
 			// the command to post a new page
 			if($cur_section->allows('creation','article')) {
 
-				Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 				$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
 				if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command', 'article')))
 					;
 				else
-					$label = ARTICLES_ADD_IMG.i18n::s('Add a page');
+					$label = fa::_("fa-plus-square-o").' '.i18n::s('Add a page');
 				$box['top_bar'] += array( $url => $label );
 
 			}
@@ -1216,12 +1208,10 @@ if(!isset($item['id'])) {
                         
                         // get add button label
                         if(!is_object($file_overlay) || !$add_label = $file_overlay->get_label('new_command','file')) {
-                            Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-                            $add_label = FILES_UPLOAD_IMG.i18n::s('Add a file');
+                            $add_label = fa::_("fa-upload").' '.i18n::s('Add a file');
                         }
                         
                     
-			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 			$box['bar'] += array('files/edit.php?anchor='.urlencode('section:'.$item['id']) => $add_label );
 		}
 
@@ -1346,8 +1336,7 @@ if(!isset($item['id'])) {
 
 		// new links are allowed -- check option 'with_links'
 		if($cur_section->allows('creation','link')) {
-			Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
-			$box['bar'] += array('links/edit.php?anchor='.urlencode('section:'.$item['id']) => LINKS_ADD_IMG.i18n::s('Add a link') );
+			$box['bar'] += array('links/edit.php?anchor='.urlencode('section:'.$item['id']) =>  fa::_("fa-chain").' '.i18n::s('Add a link') );
 		}
 
 		// integrate the menu bar at the end

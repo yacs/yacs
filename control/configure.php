@@ -31,6 +31,8 @@
  * [*] [code]database[/code] - the name of the database to use
  *
  * [*] [code]table_prefix[/code] - the prefix for all tables used for this YACS instance
+ * 
+ * [*] [code]storage_engine[/code] - the sql engine to use with tables (MyISAM, innoDB..)
  *
  * [*] [code]users_database_server[/code] - only for user records - database host name or IP address
  *
@@ -280,6 +282,16 @@ if(!Surfer::is_associate()) {
 	if(!isset($context['table_prefix']) || !$context['table_prefix'])
 		$context['table_prefix'] = 'yacs_';
 	$input = '<input type="text" name="table_prefix" size="45" value="'.encode_field($context['table_prefix']).'" maxlength="255" />';
+        
+        $fields[] = array($label, $input);
+        
+        // storage engine
+        $label = i18n::s('Storage Engine');
+        if(!isset($context['storage_engine']))
+		$context['storage_engine'] = '';
+	$input = '<input type="text" name="storage_engine" placeholder="'.i18n::s('( leave empty for default )').'" size="45" value="'.encode_field($context['storage_engine']).'" maxlength="255" />';
+        
+        
 	$fields[] = array($label, $input);
 
 	// build the form
@@ -458,7 +470,7 @@ if(!Surfer::is_associate()) {
 	// friendly urls
 	$label = i18n::s('URL generation');
 	$input = '<input type="radio" name="with_friendly_urls" value="N"';
-	if($context['with_friendly_urls'] != 'Y')
+	if($context['with_friendly_urls'] == 'N')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('This system does not support the mapping of args in the URL.').' (<code>articles/view.php?id=123</code>)';
 	$input .= BR.'<input type="radio" name="with_friendly_urls" value="Y"';
@@ -820,6 +832,8 @@ if(!Surfer::is_associate()) {
 	$content .= '$context[\'file_mask\']='.$_REQUEST['file_mask'].";\n";
 	if(isset($_REQUEST['table_prefix']))
 		$content .= '$context[\'table_prefix\']=\''.addcslashes($_REQUEST['table_prefix'], "\\'")."';\n";
+	if(isset($_REQUEST['storage_engine']))
+		$content .= '$context[\'storage_engine\']=\''.addcslashes($_REQUEST['storage_engine'], "\\'")."';\n";
 	if(isset($_REQUEST['users_database_server']))
 		$content .= '$context[\'users_database_server\']=\''.addcslashes($_REQUEST['users_database_server'], "\\'")."';\n";
 	if(isset($_REQUEST['users_database_user']))
@@ -939,6 +953,19 @@ if(!Surfer::is_associate()) {
 		$context['text'] .= Skin::build_box(i18n::s('Configuration'), Safe::highlight_string($content), 'folded');
 	else
 		$context['text'] .= Safe::highlight_string($content);
+        
+        // check minified js libs if we are in production mode
+        if(isset($_REQUEST['with_debug']) && $_REQUEST['with_debug'] === 'N' && Js_css::check_production_libs()) {
+            
+            
+            $context['text'] .= tag::_('p','',fa::_('warning').'&nbsp;'.i18n::s('You are in production mode and Yacs detected that compressed javascript libs do not exist or are out of date'));
+            
+            // route to /tools/jsmin.php
+            $context['followup_link']   = 'tools/jsmin.php';
+            $context['followup_label']  = i18n::s('Go to javascript minification tool');
+            
+            
+        }
 
 	// first installation
 	if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off')) {

@@ -521,7 +521,7 @@ if($with_form) {
 
 		// the description
 		$label = i18n::s('description');
-		$input = Skin::build_box('',Surfer::get_editor('description', isset($item['description'])?$item['description']:''),'folded');
+		$input = Skin::build_box('',Surfer::get_editor('description', isset($item['description'])?$item['description']:'',TRUE, 10, FALSE),'folded');
 		$fields[] = array($label, $input);
 
 		// the source

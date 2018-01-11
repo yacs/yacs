@@ -62,7 +62,10 @@ Class Fusion extends Overlay {
                     case 'boolean':
                         if($unit === null) continue;
                         
-                        $result = $result && $unit;
+                        if($result === null) 
+                            $result = $unit;
+                        else
+                            $result = $result && $unit;
                         break;
 
                     case 'integer':

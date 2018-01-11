@@ -144,7 +144,7 @@ class Archive_Tar
 	// }}}
 
 	// {{{ destructor
-	function _Archive_Tar()
+	function __destruct()
 	{
 		$this->_close();
 		// ----- Look for a local copy to delete

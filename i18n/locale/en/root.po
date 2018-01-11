@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 10:05+0200\n"
+"POT-Creation-Date: 2017-12-13 17:13+0100\n"
 "PO-Revision-Date: 2013-10-16 16:36+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
@@ -28,7 +28,7 @@ msgstr "Control Panel"
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: configure.php:80 index.php:445
+#: configure.php:80 index.php:447
 msgid "Configure"
 msgstr "Configure"
 
@@ -116,7 +116,7 @@ msgstr ""
 msgid "here"
 msgstr "here"
 
-#: configure.php:172 index.php:449
+#: configure.php:172 index.php:451
 msgid "Gadget boxes"
 msgstr "Gadget boxes"
 
@@ -515,44 +515,44 @@ msgstr "Submit \"%s\" to our %s in case some pages could match this keyword."
 msgid "search engine"
 msgstr "search engine"
 
-#: index.php:393
+#: index.php:395
 msgid "No page to display."
 msgstr "No page to display."
 
-#: index.php:395
+#: index.php:397
 #, php-format
 msgid "Use the %s to populate this server."
 msgstr "Use the %s to populate this server."
 
-#: index.php:395 setup.php:332
+#: index.php:397 setup.php:332
 msgid "Content Assistant"
 msgstr "Content Assistant"
 
-#: index.php:404 query.php:167
+#: index.php:406 query.php:167
 msgid "All pages"
 msgstr "All pages"
 
-#: index.php:415
+#: index.php:417
 msgid "Recent Pages"
 msgstr "Recent Pages"
 
-#: index.php:447
+#: index.php:449
 msgid "Cover page"
 msgstr "Cover page"
 
-#: index.php:451
+#: index.php:453
 msgid "Extra boxes"
 msgstr "Extra boxes"
 
-#: index.php:453
+#: index.php:455
 msgid "Navigation boxes"
 msgstr "Navigation boxes"
 
-#: index.php:468
+#: index.php:470
 msgid "featured"
 msgstr "featured"
 
-#: index.php:472 index.php:480
+#: index.php:474 index.php:482
 msgid "Featured pages"
 msgstr "Featured pages"
 

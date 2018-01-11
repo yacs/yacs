@@ -119,8 +119,7 @@ if(!isset($item['id'])) {
 
 	// manage command
 	if(Surfer::is_associate() || (Surfer::get_id() == $item['id'])) {
-		Skin::define_img('USERS_WATCH_IMG', 'users/watch.gif');
-		$menu[] = Skin::build_link(Users::get_url('user:'.$item['id'], 'select'), USERS_WATCH_IMG.i18n::s('Manage followers'), 'span');
+		$menu[] = Skin::build_link(Users::get_url('user:'.$item['id'], 'select'), fa::_("fa-eye").' '.i18n::s('Manage followers'), 'span');
 	}
 
 	// build the menu
@@ -154,9 +153,8 @@ if(!isset($item['id'])) {
 
 		// suggest a new connection
 		if(!Members::check('user:'.$item['id'], 'user:'.Surfer::get_id())) {
-			Skin::define_img('USERS_WATCH_IMG', 'users/watch.gif');
 			$link = Users::get_url('user:'.$item['id'], 'track');
-			$followers .= '<p style="margin: 1em 0;">'.Skin::build_link($link, USERS_WATCH_IMG.sprintf(i18n::s('Follow %s'), $item['full_name']), 'basic', i18n::s('Be notified of additions from this person')).'</p>';
+			$followers .= '<p style="margin: 1em 0;">'.Skin::build_link($link, fa::_("fa-eye").' '.sprintf(i18n::s('Follow %s'), $item['full_name']), 'basic', i18n::s('Be notified of additions from this person')).'</p>';
 		}
 
 	}

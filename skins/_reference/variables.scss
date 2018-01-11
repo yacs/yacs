@@ -2,6 +2,8 @@
  * variables for any scss compilation.
  * could be overiden by a tune.scss in your skin folder
  *
+ * @see skins/_reference/yacss.scss for usage
+ *
  * $author Alexis Raimbault
  * $reference
  * $license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -12,12 +14,34 @@
 // variables
 // 
 
-$color-link               : steelblue !default;
-$color-shadower           : rgba(0,0,0,.3) !default;
-$color-enlighter          : rgba(255,255,150,.5) !default;
-$color-lesser             : #888 !default;
+$color-link               : steelblue !default;                     // color of all links
+$color-shadower           : rgba(0,0,0,.3) !default;                // color of effect
+$color-enlighter          : rgba(255,255,150,.5) !default;          // color of effect
+$color-lesser             : #888 !default;                          // color of effect    
+
+// content tabs
 $color-tabs-borders       : #c0c0c0 !default;
 $color-tabs               : ghostwhite !default;
-$color-modal              : #FFF !default;
-$color-nav-tabs           : lightyellow !default;
-$color-button             : steelblue !default;
+
+// navigation tabs (top menu)
+$color-nav-tabs           : lightyellow !default;                   // back of a tabs
+$color-nav-back           : rgba(255,255,255,0.6) !default;         // back of whole tabs
+$font-size-nav            : 1.3em !default;                         // size of text in tabs
+$color-nav-link           : $color-link !default;                   // color of text in tabs
+$color-nav-cur-link       : $color-nav-back !default;               // color of text for current tab
+$color-nav-cur-bckg       : $color-nav-link !default;               // back of current tab
+
+// buttons
+$color-button             : steelblue !default;                     // background-color       (may be overiden by gradient)
+$color-button-light       : lighten($color-button, 10%) !default;   // background-color hover (may be overiden by gradient)
+$button-shadow            : inset 0px 1px 0px 0px lighten($color-button, 60%) !default;
+$button-gradient          : linear-gradient( to bottom, $color-button 5%, $color-button-light 100% ) !default;  // background property
+$button-gradient-hover    : linear-gradient( to top, $color-button 5%, $color-button-light 100% ) !default;     // background property
+$button-radius-top-left   : 10px !default;
+$button-radius-bot-right  : 10px !default;
+$button-radius-top-right  : 0px !default;
+$button-radius-bot-left   : Opx !default;
+$button-border            : 1px solid darken($color-button, 10%) !default;
+
+// modal window
+$color-modal              : #FFF !default;                          // back of modal window

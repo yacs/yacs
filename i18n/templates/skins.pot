@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 10:46+0200\n"
+"POT-Creation-Date: 2017-12-13 17:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: skins/configure.php:218 skins/configure.php:782 skins/configure.php:940
-#: skins/page.php:62
+#: skins/page.php:63
 msgid "Control Panel"
 msgstr ""
 
@@ -818,12 +818,12 @@ msgstr ""
 msgid "For more information on skins, visit %s"
 msgstr ""
 
-#: skins/derive.php:300 skins/page.php:629 skins/upload.php:210
+#: skins/derive.php:300 skins/page.php:630 skins/upload.php:210
 #: skins/starterfive/template.php:131
 msgid "http://www.yacs.fr/"
 msgstr ""
 
-#: skins/derive.php:301 skins/page.php:58 skins/upload.php:211
+#: skins/derive.php:301 skins/page.php:59 skins/upload.php:211
 msgid "Help"
 msgstr ""
 
@@ -1028,7 +1028,7 @@ msgstr ""
 #: skins/layout_home_articles_as_digg.php:86
 #: skins/layout_home_articles_as_slashdot.php:86 skins/skin_skeleton.php:2020
 #: skins/skin_skeleton.php:2120 skins/skin_skeleton.php:2217
-#: skins/skin_skeleton.php:2454 skins/skin_skeleton.php:5560
+#: skins/skin_skeleton.php:2454 skins/skin_skeleton.php:5568
 msgid "View the page"
 msgstr ""
 
@@ -1066,63 +1066,63 @@ msgstr ""
 msgid "monthly"
 msgstr ""
 
-#: skins/page.php:54
+#: skins/page.php:55
 msgid "Skip to main content"
 msgstr ""
 
-#: skins/page.php:89 skins/page.php:885
+#: skins/page.php:90 skins/page.php:886
 msgid "Home"
 msgstr ""
 
-#: skins/page.php:442
+#: skins/page.php:443
 #, php-format
 msgid "Tags: %s"
 msgstr ""
 
-#: skins/page.php:495
+#: skins/page.php:496
 msgid "Tools"
 msgstr ""
 
-#: skins/page.php:519
+#: skins/page.php:520
 msgid "User login"
 msgstr ""
 
-#: skins/page.php:535
+#: skins/page.php:536
 msgid "Visited"
 msgstr ""
 
-#: skins/page.php:608
+#: skins/page.php:609
 #, php-format
 msgid "page prepared in %.2f seconds for %s"
 msgstr ""
 
-#: skins/page.php:617
+#: skins/page.php:618
 msgid "login"
 msgstr ""
 
-#: skins/page.php:621
+#: skins/page.php:622
 msgid "about this site"
 msgstr ""
 
-#: skins/page.php:625
+#: skins/page.php:626
 msgid "privacy statement"
 msgstr ""
 
-#: skins/page.php:629
+#: skins/page.php:630
 #, php-format
 msgid "powered by %s"
 msgstr ""
 
-#: skins/page.php:633
+#: skins/page.php:634
 msgid "information channels"
 msgstr ""
 
-#: skins/page.php:755 skins/mu/template.php:59
+#: skins/page.php:756 skins/mu/template.php:59
 #: skins/starterfive/template.php:104
 msgid "Front page"
 msgstr ""
 
-#: skins/page.php:917
+#: skins/page.php:918
 #, php-format
 msgid "%d section"
 msgid_plural "%d sections"
@@ -1281,19 +1281,19 @@ msgstr ""
 msgid "Monthly calendar"
 msgstr ""
 
-#: skins/skin_skeleton.php:2146 skins/skin_skeleton.php:5052
+#: skins/skin_skeleton.php:2146 skins/skin_skeleton.php:5060
 msgid "More"
 msgstr ""
 
 #: skins/skin_skeleton.php:2159 skins/skin_skeleton.php:3291
-#: skins/skin_skeleton.php:3304 skins/skin_skeleton.php:5058
-#: skins/skin_skeleton.php:5114 skins/skin_skeleton.php:5116
+#: skins/skin_skeleton.php:3304 skins/skin_skeleton.php:5066
+#: skins/skin_skeleton.php:5122 skins/skin_skeleton.php:5124
 #: skins/test.php:268
 msgid "Next"
 msgstr ""
 
 #: skins/skin_skeleton.php:2172 skins/skin_skeleton.php:3284
-#: skins/skin_skeleton.php:5100 skins/skin_skeleton.php:5102
+#: skins/skin_skeleton.php:5108 skins/skin_skeleton.php:5110
 #: skins/test.php:268
 msgid "Previous"
 msgstr ""
@@ -1425,24 +1425,24 @@ msgstr ""
 msgid "updated"
 msgstr ""
 
-#: skins/skin_skeleton.php:4961
+#: skins/skin_skeleton.php:4969
 msgid "Back to main page"
 msgstr ""
 
-#: skins/skin_skeleton.php:5247
+#: skins/skin_skeleton.php:5255
 msgid "Previous page"
 msgstr ""
 
-#: skins/skin_skeleton.php:5272
+#: skins/skin_skeleton.php:5280
 msgid "Next page"
 msgstr ""
 
-#: skins/skin_skeleton.php:5557
+#: skins/skin_skeleton.php:5565
 #, php-format
 msgid "%d words to read"
 msgstr ""
 
-#: skins/skin_skeleton.php:5693
+#: skins/skin_skeleton.php:5701
 msgid "Click to sort"
 msgstr ""
 

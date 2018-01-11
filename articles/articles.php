@@ -2392,9 +2392,10 @@ Class Articles {
 		// several anchors
 		if(is_array($anchor)) {
 			$items = array();
-			foreach($anchor as $token)
-				$items[] = "articles.anchor LIKE '".SQL::escape($token)."'";
-			$where_anchor = join(' OR ', $items);
+			foreach($anchor as $token) {
+				$items[] = substr($token, 8);
+                        }
+			$where_anchor = "articles.anchor_id IN ( ".join(', ', $items)." )";
 
 		// or only one
 		} else
@@ -3120,7 +3121,7 @@ Class Articles {
 		global $context;
 
 		// id cannot be empty
-		if(!isset($fields['id']) || !is_numeric($fields['id'])) {
+		if(!isset($fields['id']) || !is_numeric($fields['id']) || !$former = Articles::get($fields['id'])) {
 			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
@@ -3241,7 +3242,7 @@ Class Articles {
 			return FALSE;
 
 		// list the article in categories
-		Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
+		Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '', $former['tags']);
 
 		// add this page to surfer watch list
 		if(Surfer::get_id())
@@ -3264,7 +3265,7 @@ Class Articles {
 		global $context;
 
 		// id cannot be empty
-		if(!isset($fields['id']) || !is_numeric($fields['id'])) {
+		if(!isset($fields['id']) || !is_numeric($fields['id']) || !$former = Articles::get($fields['id'])) {
 			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
@@ -3384,7 +3385,7 @@ Class Articles {
 			return FALSE;
                 
                 // list the article in categories
-		Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
+		Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '', $former['tags']);
 
 		// clear the cache
 		Articles::clear($fields);
@@ -3568,26 +3569,21 @@ Class Articles {
 		$indexes['PRIMARY KEY'] 		= "(id)";
 		$indexes['INDEX active']		= "(active)";
 		$indexes['INDEX anchor']		= "(anchor)";
-		$indexes['INDEX anchor_id'] 	= "(anchor_id)";
-		$indexes['INDEX anchor_type']	= "(anchor_type)";
 		$indexes['INDEX create_date']	= "(create_date)";
 		$indexes['INDEX create_id'] 	= "(create_id)";
 		$indexes['INDEX edit_date'] 	= "(edit_date)";
 		$indexes['INDEX edit_id']		= "(edit_id)";
 		$indexes['INDEX expiry_date']	= "(expiry_date)";
 		$indexes['INDEX handle']		= "(handle)";
-		$indexes['INDEX hits']			= "(hits)";
 		$indexes['INDEX language']		= "(language)";
-		$indexes['INDEX locked']		= "(locked)";
 		$indexes['INDEX nick_name'] 	= "(nick_name)";
 		$indexes['INDEX overlay_id']	= "(overlay_id)";
 		$indexes['INDEX publish_date']	= "(publish_date)";
 		$indexes['INDEX publish_id']	= "(publish_id)";
 		$indexes['INDEX rank']			= "(rank)";
-		$indexes['INDEX rating_sum']	= "(rating_sum)";
 		$indexes['INDEX review_date']	= "(review_date)";
 		$indexes['INDEX title'] 		= "(title(255))";
-		$indexes['FULLTEXT INDEX']		= "full_text(title, source, introduction, overlay, description)";
+		$indexes['FULLTEXT INDEX']		= "full_text(title, source, introduction, description)";
 
 		return SQL::setup_table('articles', $fields, $indexes);
 

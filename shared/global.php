@@ -268,7 +268,7 @@ $context['users_default_editor'] = 'tinymce';
 $context['with_alternate_urls'] = 'N';
 
 // debug the execution of this script -- see control/configure.php
-$context['with_debug'] = 'N';
+$context['with_debug'] = 'Y';
 
 // how to build links -- see control/configure.php
 $context['with_friendly_urls'] = 'N';
@@ -482,7 +482,7 @@ if(($context['with_profile'] == 'Y') && $context['script_url'] && !preg_match('/
 	Logger::remember($context['script_url'].': run', '', 'debug');
 
 //
-// decode script parameters passed in URL
+// decode _script_ parameters passed in URL
 //
 
 // we cannot rewrite $_SERVER

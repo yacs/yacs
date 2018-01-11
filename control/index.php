@@ -193,7 +193,12 @@ if(!file_exists('../parameters/control.include.php')) {
 
 			// the title of the page
 			$context['page_title'] = i18n::s('Control Panel');
-
+                        
+                        // server in debug
+                        if(Surfer::is_associate() && $context['with_debug'] == 'Y') {
+                            Logger::error(i18n::s('The server is currently in verbose mode'));
+                        }
+                        
 			// server is closed
 			if(file_exists($context['path_to_root'].'parameters/switch.off')) {
 

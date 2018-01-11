@@ -40,10 +40,9 @@ if($context['page_title']) {
 
 // modify this page
 if(Articles::allow_modification($item, $anchor)) {
-	Skin::define_img('ARTICLES_EDIT_IMG', 'articles/edit.gif');
 	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command', 'articles')))
 		$label = i18n::s('Edit this page');
-	$menu = array( Articles::get_url($item['id'], 'edit') => ARTICLES_EDIT_IMG.$label);
+	$menu = array( Articles::get_url($item['id'], 'edit') => fa::_("fa-edit").' '.$label);
 	$article .= Skin::build_list($menu, 'menu_bar');
 }
 
@@ -142,8 +141,7 @@ if($count = Files::count_for_anchor('article:'.$item['id'], FALSE, $embedded)) {
 
 	// the command to post a new file
 	if(Files::allow_creation($item, $anchor, 'article')) {
-		Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-		$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Add a file'));
+		$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => fa::_("fa-upload").' '.i18n::s('Add a file'));
 	}
 
 }
@@ -174,8 +172,7 @@ if($count = Links::count_for_anchor('article:'.$item['id'])) {
 
 	// new links are allowed
 	if(Links::allow_creation($item, $anchor)) {
-		Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
-		$box['bar'] += array('links/edit.php?anchor='.urlencode('article:'.$item['id']) => LINKS_ADD_IMG.i18n::s('Add a link'));
+		$box['bar'] += array('links/edit.php?anchor='.urlencode('article:'.$item['id']) => fa::_("fa-chain").' '.i18n::s('Add a link'));
 	}
 
 }
@@ -302,78 +299,68 @@ if(isset($owner['id']) && is_object($anchor))
 // page tools
 //
 
-// comment this page if anchor does not prevent it
-if(Comments::allow_creation($item, $anchor)) {
-	Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
-	$context['page_tools'][] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
-}
-
-// add a file, if upload is allowed
-if(Files::allow_creation($item, $anchor, 'article')) {
-	Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-	$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
-}
-
-// add a link
-if(Links::allow_creation($item, $anchor)) {
-	Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
-	$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('article:'.$item['id']), LINKS_ADD_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
+// modify this page
+if(Articles::allow_modification($item, $anchor)) {
+	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command', 'articles')))
+		$label = i18n::s('Edit this page');
+	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), fa::_("fa-edit").' '.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 }
 
 // post an image, if upload is allowed
 if(Images::allow_creation($item, $anchor)) {
-	Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
-	$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
+	$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), fa::_("fa-image").' '.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 }
 
-// modify this page
-if(Articles::allow_modification($item, $anchor)) {
-	Skin::define_img('ARTICLES_EDIT_IMG', 'articles/edit.gif');
-	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command', 'articles')))
-		$label = i18n::s('Edit this page');
-	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), ARTICLES_EDIT_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+// add a file, if upload is allowed
+if(Files::allow_creation($item, $anchor, 'article')) {
+	$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']), fa::_("fa-upload").' '.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
 }
+
+// add a link
+if(Links::allow_creation($item, $anchor)) {
+	$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('article:'.$item['id']), fa::_("fa-chain").' '.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
+}
+
+// comment this page if anchor does not prevent it
+if(Comments::allow_creation($item, $anchor)) {
+	$context['page_tools'][] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), fa::_("fa-commenting-o").' '.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
+}
+
+
 
 // access previous versions, if any
 if($has_versions && Articles::is_owned($item, $anchor)) {
-	Skin::define_img('ARTICLES_VERSIONS_IMG', 'articles/versions.gif');
-	$context['page_tools'][] = Skin::build_link(Versions::get_url('article:'.$item['id'], 'list'), ARTICLES_VERSIONS_IMG.i18n::s('Versions'), 'basic', i18n::s('Restore a previous version if necessary'));
+	$context['page_tools'][] = Skin::build_link(Versions::get_url('article:'.$item['id'], 'list'), fa::_("fa-history").' '.i18n::s('Versions'), 'basic', i18n::s('Restore a previous version if necessary'));
 }
 
 // publish this page
 if((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Articles::allow_publication($item,$anchor)) {
-	Skin::define_img('ARTICLES_PUBLISH_IMG', 'articles/publish.gif');
-	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), ARTICLES_PUBLISH_IMG.i18n::s('Publish'));
+	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), fa::_("fa-calendar-check-o").' '.i18n::s('Publish'));
 }
 
 // review command provided to container owners
 if(is_object($anchor) && $anchor->is_owned()) {
-	Skin::define_img('ARTICLES_STAMP_IMG', 'articles/stamp.gif');
-	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'stamp'), ARTICLES_STAMP_IMG.i18n::s('Stamp'));
+	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'stamp'), fa::_("fa-clock").' '.i18n::s('Stamp'));
 }
 
 // lock command provided to associates and authenticated editors
 if(Articles::is_owned($item, $anchor)) {
 
 	if(!isset($item['locked']) || ($item['locked'] == 'N')) {
-		Skin::define_img('ARTICLES_LOCK_IMG', 'articles/lock.gif');
-		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'lock'), ARTICLES_LOCK_IMG.i18n::s('Lock'));
+		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'lock'), fa::_("fa-lock").' '.i18n::s('Lock'));
 	} else {
-		Skin::define_img('ARTICLES_UNLOCK_IMG', 'articles/unlock.gif');
-		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'lock'), ARTICLES_UNLOCK_IMG.i18n::s('Unlock'));
+		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'lock'), fa::_("fa-unlock").' '.i18n::s('Unlock'));
 	}
 }
 
 // delete command
 if(Articles::allow_deletion($item, $anchor)) {
-	Skin::define_img('ARTICLES_DELETE_IMG', 'articles/delete.gif');
-	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'delete'), ARTICLES_DELETE_IMG.i18n::s('Delete this page'));
+	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'delete'), fa::_("fa-trash").' '.i18n::s('Delete this page'));
 }
 
 // duplicate command provided to container owners
 if(Articles::is_owned(NULL, $anchor)) {
-	Skin::define_img('ARTICLES_DUPLICATE_IMG', 'articles/duplicate.gif');
-	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'duplicate'), ARTICLES_DUPLICATE_IMG.i18n::s('Duplicate this page'));
+	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'duplicate'), fa::_("fa-copy").' '.i18n::s('Duplicate this page'));
 }
 
 // use date of last modification into etag computation

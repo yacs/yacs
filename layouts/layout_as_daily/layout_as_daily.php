@@ -201,7 +201,7 @@ Class Layout_as_daily extends Layout_interface {
 
 			// a menu bar
 			if(count($menu))
-				$box['content'] .= '<div class="menu_bar" style="clear: left;">'.MENU_PREFIX.implode(MENU_SEPARATOR, $menu).MENU_SUFFIX."</div>\n";
+				$box['content'] .= '<div class="'.YACSS_PREFIX.'menu-bar" style="clear: left;">'.MENU_PREFIX.implode(MENU_SEPARATOR, $menu).MENU_SUFFIX."</div>\n";
 
 			// build a simple box for this post
 			$text .= '<div class="post">'

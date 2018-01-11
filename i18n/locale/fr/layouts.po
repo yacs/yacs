@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 10:26+0200\n"
+"POT-Creation-Date: 2017-12-13 17:13+0100\n"
 "PO-Revision-Date: 2017-05-05 08:23+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: none\n"
@@ -41,7 +41,7 @@ msgstr[1] "%d pages"
 #: layouts/layout_as_daily/layout_as_daily.php:184
 #: layouts/layout_as_hardboiled/layout_as_hardboiled.php:192
 #: layouts/layout_as_hardboiled/layout_as_hardboiled.php:347
-#: layouts/layout_as_jive/layout_as_jive.php:253
+#: layouts/layout_as_jive/layout_as_jive.php:252
 #: layouts/layout_as_newspaper/layout_as_newspaper.php:211
 #: layouts/layout_as_newspaper/layout_as_newspaper.php:314
 #: layouts/layout_as_newspaper/layout_as_newspaper.php:394
@@ -56,7 +56,7 @@ msgstr[1] "%d fichiers"
 #: layouts/layout_as_columns/layout_as_columns.php:144
 #: layouts/layout_as_daily/layout_as_daily.php:188
 #: layouts/layout_as_hardboiled/layout_as_hardboiled.php:200
-#: layouts/layout_as_jive/layout_as_jive.php:264
+#: layouts/layout_as_jive/layout_as_jive.php:262
 #: layouts/layout_as_newspaper/layout_as_newspaper.php:216
 #: layouts/layout_as_newspaper/layout_as_newspaper.php:319
 #: layouts/layout_as_newspaper/layout_as_newspaper.php:399
@@ -71,7 +71,7 @@ msgstr[1] "%d commentaires"
 #: layouts/layout_as_columns/layout_as_columns.php:138
 #: layouts/layout_as_daily/layout_as_daily.php:196
 #: layouts/layout_as_hardboiled/layout_as_hardboiled.php:196
-#: layouts/layout_as_jive/layout_as_jive.php:259
+#: layouts/layout_as_jive/layout_as_jive.php:257
 #: layouts/layout_as_last/layout_as_last.php:212
 #: layouts/layout_as_newspaper/layout_as_newspaper.php:224
 #: layouts/layout_as_newspaper/layout_as_newspaper.php:327
@@ -231,20 +231,20 @@ msgstr "posté par %s %s"
 msgid "Updated %s"
 msgstr "Mis à jour %s"
 
-#: layouts/layout_as_jive/layout_as_jive.php:269
+#: layouts/layout_as_jive/layout_as_jive.php:266
 msgid "Post a comment"
 msgstr "Poster un commentaire"
 
-#: layouts/layout_as_jive/layout_as_jive.php:288
+#: layouts/layout_as_jive/layout_as_jive.php:285
 #, php-format
 msgid "%d threads"
 msgstr "%d sujets"
 
-#: layouts/layout_as_jive/layout_as_jive.php:299
+#: layouts/layout_as_jive/layout_as_jive.php:296
 msgid "Add a page"
 msgstr "Ajouter une page"
 
-#: layouts/layout_as_jive/layout_as_jive.php:310
+#: layouts/layout_as_jive/layout_as_jive.php:307
 #: layouts/layout_as_yabb/layout_as_yabb.php:157
 #, php-format
 msgid "Moderator: %s"
@@ -252,7 +252,7 @@ msgid_plural "Moderators: %s"
 msgstr[0] "Moderateur: %s"
 msgstr[1] "Moderateurs: %s"
 
-#: layouts/layout_as_jive/layout_as_jive.php:314
+#: layouts/layout_as_jive/layout_as_jive.php:311
 #: layouts/layout_as_yabb/layout_as_yabb.php:161
 #, php-format
 msgid "Child board: %s"

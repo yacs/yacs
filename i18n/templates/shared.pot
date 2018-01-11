@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 10:46+0200\n"
+"POT-Creation-Date: 2017-12-13 17:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -262,11 +262,11 @@ msgstr ""
 msgid "Error while sending the message to %s"
 msgstr ""
 
-#: shared/members.php:93 shared/members.php:436 shared/members.php:1540
+#: shared/members.php:93 shared/members.php:436 shared/members.php:1541
 msgid "An anchor is required for this operation."
 msgstr ""
 
-#: shared/members.php:99 shared/members.php:442 shared/members.php:1544
+#: shared/members.php:99 shared/members.php:442 shared/members.php:1545
 msgid "A member is required for this operation."
 msgstr ""
 
@@ -301,121 +301,121 @@ msgstr ""
 msgid "Connection to the database has been lost"
 msgstr ""
 
-#: shared/sql.php:992
+#: shared/sql.php:998
 msgid "The table"
 msgstr ""
 
-#: shared/sql.php:996
+#: shared/sql.php:1002
 msgid "has been created"
 msgstr ""
 
-#: shared/sql.php:998
+#: shared/sql.php:1004
 msgid "has been updated"
 msgstr ""
 
-#: shared/sql.php:1011
+#: shared/sql.php:1017
 msgid "and analyzed"
 msgstr ""
 
-#: shared/sql.php:1022
+#: shared/sql.php:1028
 msgid "and optimized"
 msgstr ""
 
-#: shared/sql.php:1035 shared/sql.php:1046
+#: shared/sql.php:1041 shared/sql.php:1052
 #, php-format
 msgid "ERROR for the table %s"
 msgstr ""
 
-#: shared/surfer.php:302
+#: shared/surfer.php:304
 msgid "My profile"
 msgstr ""
 
-#: shared/surfer.php:302
+#: shared/surfer.php:304
 msgid "View all data this site knows about you"
 msgstr ""
 
-#: shared/surfer.php:305
+#: shared/surfer.php:307
 msgid "Review queue"
 msgstr ""
 
-#: shared/surfer.php:305
+#: shared/surfer.php:307
 msgid "Check requests, publish submitted articles, review old pages"
 msgstr ""
 
-#: shared/surfer.php:308
+#: shared/surfer.php:310
 msgid "Control Panel"
 msgstr ""
 
-#: shared/surfer.php:308
+#: shared/surfer.php:310
 msgid "System commands, configuration panels, content overview"
 msgstr ""
 
-#: shared/surfer.php:310
+#: shared/surfer.php:312
 msgid "Logout"
 msgstr ""
 
-#: shared/surfer.php:310
+#: shared/surfer.php:312
 msgid "You will be considered as an anonymous surfer"
 msgstr ""
 
-#: shared/surfer.php:327
+#: shared/surfer.php:329
 msgid "User"
 msgstr ""
 
-#: shared/surfer.php:330
+#: shared/surfer.php:332
 msgid "Password"
 msgstr ""
 
-#: shared/surfer.php:334
+#: shared/surfer.php:336
 msgid "Stay connected"
 msgstr ""
 
-#: shared/surfer.php:337
+#: shared/surfer.php:339
 msgid "Login"
 msgstr ""
 
-#: shared/surfer.php:347
+#: shared/surfer.php:349
 msgid "Register"
 msgstr ""
 
-#: shared/surfer.php:347
+#: shared/surfer.php:349
 msgid "Share your profile in this community"
 msgstr ""
 
-#: shared/surfer.php:349
+#: shared/surfer.php:351
 msgid "Lost password"
 msgstr ""
 
-#: shared/surfer.php:349
+#: shared/surfer.php:351
 msgid "Prove who you are"
 msgstr ""
 
-#: shared/surfer.php:619
+#: shared/surfer.php:620
 msgid "You are allowed to post any XHTML."
 msgstr ""
 
-#: shared/surfer.php:621
+#: shared/surfer.php:622
 #, php-format
 msgid "Following XHTML tags are allowed: %s"
 msgstr ""
 
-#: shared/surfer.php:732
+#: shared/surfer.php:733
 msgid "anonymous"
 msgstr ""
 
-#: shared/surfer.php:755
+#: shared/surfer.php:756
 msgid "My pages"
 msgstr ""
 
-#: shared/surfer.php:759
+#: shared/surfer.php:760
 msgid "All pages"
 msgstr ""
 
-#: shared/surfer.php:831
+#: shared/surfer.php:832
 msgid "Robot stopper"
 msgstr ""
 
-#: shared/surfer.php:839
+#: shared/surfer.php:840
 msgid "Update image"
 msgstr ""
 

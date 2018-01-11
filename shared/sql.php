@@ -921,6 +921,12 @@ Class SQL {
 
 		// if the table does not exist
 		if(!SQL::has_table($table)) {
+                    
+                        // check if specific engine is required by configuration
+                        if(isset($context['storage_engine']) && $context['storage_engine']) {
+                            $engine = 'ENGINE '.strtoupper($context['storage_engine']);
+                        } else
+                            $engine = '';
 
 			// create it
 			$query = "CREATE TABLE ".SQL::table_name($table)." ( ";
@@ -935,7 +941,7 @@ Class SQL {
 					$query .= ", ";
 				$query .= $index.' '.$definition;
 			}
-			$query .= " ) ENGINE MyISAM";
+			$query .= " ) ".$engine;
 
 		// else if the table exists
 		} else {

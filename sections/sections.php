@@ -717,7 +717,7 @@ Class Sections {
 	 *
 	 * @param array item attributes
 	 */
-	public static function clear(&$item) {
+	public static function clear($item) {
 
 		// where this item can be displayed
 		$topics = array('categories', 'sections', 'users');
@@ -1147,9 +1147,10 @@ Class Sections {
 		// several anchors
 		if(is_array($anchor) && count($anchor)) {
 			$items = array();
-			foreach($anchor as $token)
-				$items[] = "sections.anchor LIKE '".SQL::escape($token)."'";
-			$criteria[] = join(' OR ', $items);
+			foreach($anchor as $token) {
+				$items[] = substr($token, 8);   // keep only id
+                        }
+			$criteria[] = 'CONVERT(SUBSTR(sections.anchor,9), UNSIGNED INTEGER) IN ( '.join(', ', $items).' )';
 
 		// we are targeting a section index page
 		} elseif(is_string($anchor))
@@ -2945,7 +2946,7 @@ Class Sections {
 		global $context;
 
 		// id cannot be empty
-		if(!isset($fields['id']) || !is_numeric($fields['id'])) {
+		if(!isset($fields['id']) || !is_numeric($fields['id']) || !$former = Sections::get($fields['id'])) {
 			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
@@ -3087,7 +3088,7 @@ Class Sections {
 			return FALSE;
 
 		// assign the page to related categories
-		Categories::remember('section:'.$fields['id'], NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
+		Categories::remember('section:'.$fields['id'], NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '', isset($former['tags']) ? $former['tags'] : '');
 
 		// clear the cache
 		Sections::clear($fields);
@@ -3106,7 +3107,7 @@ Class Sections {
 		global $context;
 
 		// id cannot be empty
-		if(!isset($fields['id']) || !is_numeric($fields['id'])) {
+		if(!isset($fields['id']) || !is_numeric($fields['id']) || !$former = Sections::get($fields['id'])) {
 			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
@@ -3234,6 +3235,10 @@ Class Sections {
 			." WHERE id = ".SQL::escape($fields['id']);
 		if(!SQL::query($query))
 			return FALSE;
+                
+                // list the section in categories
+                if(isset($fields['tags']))
+                    Categories::remember('section:'.$fields['id'], NULL_DATE, $fields['tags'], $former['tags']);
 
 		// clear the cache
 		Sections::clear($fields);
@@ -3284,7 +3289,8 @@ Class Sections {
 		$options = preg_replace('/\bskin_.+\b/i', '', $item['options']).' skin_'.$directory;
 
 		// set default values for this editor
-		Surfer::check_default_editor(array());
+                $fields = array();
+		Surfer::check_default_editor($fields);
 
 		// update an existing record
 		$query = "UPDATE ".SQL::table_name('sections')." SET "
@@ -3465,7 +3471,6 @@ Class Sections {
 		$indexes['INDEX edit_date'] 	= "(edit_date)";
 		$indexes['INDEX expiry_date']	= "(expiry_date)";
 		$indexes['INDEX handle']		= "(handle)";
-		$indexes['INDEX hits']			= "(hits)";
                 $indexes['INDEX home_panel']	= "(home_panel)";
 		$indexes['INDEX index_map'] 	= "(index_map)";
 		$indexes['INDEX language']		= "(language)";
