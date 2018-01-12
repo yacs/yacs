@@ -1,4 +1,4 @@
-<?php
+    <?php
 /**
  * the database abstraction layer for tables
  *
@@ -639,7 +639,7 @@ Class Tables {
                         list($variant,$item_type) = $variant;
                     }
                     
-                    if(!$item_type) {
+                    if(!isset($item_type)) {
                         $item_type = 'article'; // assume we are listing articles by default.
                     }
                     
