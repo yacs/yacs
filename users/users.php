@@ -172,10 +172,10 @@ Class Users {
                         return TRUE;
                         
                     case 'N':
+                        return Surfer::is_member();
+                        
                     case 'R':
-                        if(!Surfer::is_member()) {
-                            return FALSE;
-                        }
+                        return FALSE;
                     
                 }
             }
