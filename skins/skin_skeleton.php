@@ -2330,7 +2330,7 @@ Class Skin_Skeleton {
 	 * @param boolean open links in a separate page if TRUE
 	 * $return the HTML code
 	 */
-	public static function build_list(&$items, $variant='unordered', $default_icon=NULL, $new_window=FALSE, $callback=NULL) {
+	public static function build_list($items, $variant='unordered', $default_icon=NULL, $new_window=FALSE, $callback=NULL) {
 		global $context;
 
 		// sanity check
