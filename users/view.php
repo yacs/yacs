@@ -152,25 +152,8 @@ if(isset($item['overlay']))
 if(isset($item['id']) && Surfer::get_id() && ($item['id'] == Surfer::get_id()) && ($item['capability'] != '?'))
     Surfer::empower();
 
-// associates can do what they want
-if(Surfer::is_associate())
-    $permitted = TRUE;
-
-// the record of the authenticated surfer
-elseif(isset($item['id']) && Surfer::is($item['id']))
-    $permitted = TRUE;
-
-// access is restricted to authenticated member
-elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_member())
-    $permitted = TRUE;
-
-// public access is allowed
-elseif(isset($item['active']) && ($item['active'] == 'Y'))
-    $permitted = TRUE;
-
-// the default is to disallow access
-else
-    $permitted = FALSE;
+// check permissions
+$permitted = Users::allow_access($item);
 
 // load the skin
 load_skin('users');

@@ -135,6 +135,54 @@ Class Users {
 		return TRUE;
 
 	}
+        
+        /**
+	 * check if a user can be accessed
+	 *
+	 * This function returns TRUE if the item can be transferred to surfer,
+	 * and FALSE otherwise.
+	 *
+	 * @param array a set of item attributes, aka, the target page
+	 * @return boolean TRUE or FALSE
+	 */
+	public static function allow_access($item) {
+            global $context;
+
+            // surfer is an associate
+            if(Surfer::is_associate())
+                    return TRUE;
+            
+            // surfer is this user
+            if(Surfer::is($item['id']))
+			return TRUE;
+            
+            // anonymous surfer has provided the secret handle
+            if(isset($item['handle']) && Surfer::may_handle($item['handle']))
+                    return TRUE;
+            
+            // surfer is a trusted host
+            if(Surfer::is_trusted())
+                    return TRUE;
+            
+            if(isset($item['active'])) {
+                
+                switch ($item['active']) {
+                    
+                    case 'Y':
+                        return TRUE;
+                        
+                    case 'N':
+                    case 'R':
+                        if(!Surfer::is_member()) {
+                            return FALSE;
+                        }
+                    
+                }
+            }
+            
+            // no clue
+            return FALSE;
+        }
 
 	/**
 	 * authenticate using network credentials
