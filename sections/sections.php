@@ -210,7 +210,7 @@ Class Sections {
                     
                 case 'family':
                     
-                    $order = 'rank, family, title, .edit_date DESC';
+                    $order = 'rank, family, title, edit_date DESC';
                     break;
                 
                 case 'reverse_title':
