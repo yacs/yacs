@@ -355,13 +355,16 @@ elseif(!Surfer::is_associate()) {
 	$content = '';
 
 	// users_with_avatars
+        if(!isset($context['users_with_avatars']))
+            $context['users_with_avatars'] = 'Y';
+        
 	$label = i18n::s('Pictures');
 	$input = '<input type="radio" name="users_with_avatars" value="N"';
-	if(!isset($context['users_with_avatars']) || ($context['users_with_avatars'] != 'Y'))
+	if($context['users_with_avatars'] != 'Y')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Display the same picture for every person profile.');
 	$input .= BR.'<input type="radio" name="users_with_avatars" value="Y"';
-	if(isset($context['users_with_avatars']) && ($context['users_with_avatars'] == 'Y'))
+	if($context['users_with_avatars'] == 'Y')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Display individual pictures.');
 	$fields[] = array($label, $input);
