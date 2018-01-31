@@ -54,12 +54,12 @@ Class Layout_as_yabb extends Layout_interface {
 	function layout($result) {
 		global $context;
 
-		// empty list
-		if(!SQL::count($result))
-			return $text;
-
 		// output as a string
 		$text = '';
+                
+                // empty list
+		if(!SQL::count($result))
+			return $text;
                 
                 // page size for comments
                 include_once $context['path_to_root'].'comments/layout_comments_as_updates.php';
