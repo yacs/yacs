@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-13 17:22+0100\n"
+"POT-Creation-Date: 2018-01-31 10:14+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgstr ""
 
 #: files/check.php:30 files/configure.php:53 files/delete.php:90
 #: files/edit.php:167 files/edit.php:197 files/feed.php:127
-#: files/fetch_all.php:116 files/fetch.php:147 files/files.php:3282
+#: files/fetch_all.php:116 files/fetch.php:147 files/files.php:3283
 #: files/index.php:68 files/list.php:88 files/list.php:93 files/move.php:25
 #: files/move.php:54 files/sort.php:25 files/stream.php:142
 #: files/thread.php:68 files/upload.ajax.php:30 files/upload.ajax.php:142
@@ -243,7 +243,7 @@ msgstr ""
 msgid "Configure again"
 msgstr ""
 
-#: files/delete.php:81 files/files.php:2864
+#: files/delete.php:81 files/files.php:2865
 msgid "Delete"
 msgstr ""
 
@@ -360,23 +360,23 @@ msgstr ""
 msgid "Add a file"
 msgstr ""
 
-#: files/edit.php:172 files/edit.php:379 files/files.php:3245
-#: files/files.php:3249 files/files.php:3253
+#: files/edit.php:172 files/edit.php:379 files/files.php:3246
+#: files/files.php:3250 files/files.php:3254
 msgid "No file has been transmitted."
 msgstr ""
 
-#: files/edit.php:177 files/fetch.php:134 files/files.php:2603
-#: files/files.php:2772 files/list.php:77 files/thread.php:73
+#: files/edit.php:177 files/fetch.php:134 files/files.php:2604
+#: files/files.php:2773 files/list.php:77 files/thread.php:73
 msgid "No anchor has been found."
 msgstr ""
 
-#: files/edit.php:211 files/files.php:3286
+#: files/edit.php:211 files/files.php:3287
 msgid "This type of file is not allowed."
 msgstr ""
 
 #: files/edit.php:253 files/edit.php:503 files/edit.php:521 files/edit.php:535
 #: files/edit.php:551 files/edit.php:571 files/edit.php:582
-#: files/files.php:3425 files/layout_files_as_search.php:104
+#: files/files.php:3426 files/layout_files_as_search.php:104
 #: files/layout_files.php:132 files/view.php:224
 msgid "bytes"
 msgstr ""
@@ -643,44 +643,44 @@ msgstr ""
 msgid "View file details"
 msgstr ""
 
-#: files/files.php:679 files/files.php:2639 files/files.php:2757
+#: files/files.php:680 files/files.php:2640 files/files.php:2758
 msgid "No item has the provided id."
 msgstr ""
 
-#: files/files.php:799
+#: files/files.php:800
 #, php-format
 msgid "Impossible to create path %s."
 msgstr ""
 
-#: files/files.php:815
+#: files/files.php:816
 #, php-format
 msgid "Impossible to copy file %s."
 msgstr ""
 
-#: files/files.php:2735
+#: files/files.php:2736
 msgid ""
 "Nothing has been received. Ensure you are below size limits set for this "
 "server."
 msgstr ""
 
-#: files/files.php:3237 files/files.php:3241
+#: files/files.php:3238 files/files.php:3242
 msgid "The size of this file is over limit."
 msgstr ""
 
-#: files/files.php:3291
+#: files/files.php:3292
 msgid "Possible file attack."
 msgstr ""
 
-#: files/files.php:3306
+#: files/files.php:3307
 #, php-format
 msgid "Impossible to move the upload file to %s."
 msgstr ""
 
-#: files/files.php:3322
+#: files/files.php:3323
 msgid "No virus has been found."
 msgstr ""
 
-#: files/files.php:3330
+#: files/files.php:3331
 msgid "This file has been infected by a virus and has been rejected!"
 msgstr ""
 

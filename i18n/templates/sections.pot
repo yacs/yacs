@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-13 17:22+0100\n"
+"POT-Creation-Date: 2018-01-31 10:14+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -881,7 +881,7 @@ msgstr ""
 msgid "sections"
 msgstr ""
 
-#: sections/index.php:162 sections/sections.php:1372
+#: sections/index.php:162 sections/sections.php:1373
 #: sections/view_as_tabs.php:498 sections/view.php:1455
 msgid "Other sections"
 msgstr ""
@@ -1843,17 +1843,17 @@ msgstr ""
 msgid "View the profile of %s"
 msgstr ""
 
-#: sections/sections.php:888 sections/sections.php:2633
-#: sections/sections.php:2949 sections/sections.php:3110
-#: sections/sections.php:3272 sections/sections.php:3276
+#: sections/sections.php:888 sections/sections.php:2634
+#: sections/sections.php:2950 sections/sections.php:3111
+#: sections/sections.php:3273 sections/sections.php:3277
 msgid "No item has the provided id."
 msgstr ""
 
-#: sections/sections.php:1598
+#: sections/sections.php:1599
 msgid "Top of the content tree"
 msgstr ""
 
-#: sections/sections.php:2743 sections/sections.php:2955
+#: sections/sections.php:2744 sections/sections.php:2956
 msgid "No title has been provided."
 msgstr ""
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-13 17:13+0100\n"
+"POT-Creation-Date: 2018-01-31 10:07+0100\n"
 "PO-Revision-Date: 2016-06-06 14:17+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
@@ -277,9 +277,9 @@ msgstr "To load template_foo_bar.php instead of the regular template"
 msgid "You may combine several keywords:"
 msgstr "You may combine several keywords:"
 
-#: articles/articles.php:1078 articles/articles.php:3124
-#: articles/articles.php:3268 articles/articles.php:3409
-#: articles/articles.php:3623 articles/articles.php:3937
+#: articles/articles.php:1078 articles/articles.php:3125
+#: articles/articles.php:3269 articles/articles.php:3410
+#: articles/articles.php:3624 articles/articles.php:3938
 #: articles/element.php:96
 msgid "No item has the provided id."
 msgstr "No item has the provided id."
@@ -328,17 +328,17 @@ msgstr "Update: %s"
 msgid "Updated by %s in %s"
 msgstr "Updated by %s in %s"
 
-#: articles/articles.php:2897 articles/articles.php:3130
+#: articles/articles.php:2898 articles/articles.php:3131
 msgid "No title has been provided."
 msgstr "No title has been provided."
 
-#: articles/articles.php:2906 articles/articles.php:3139
-#: articles/articles.php:3283 articles/edit.php:269 articles/move.php:96
+#: articles/articles.php:2907 articles/articles.php:3140
+#: articles/articles.php:3284 articles/edit.php:269 articles/move.php:96
 #: articles/publish.php:106
 msgid "No anchor has been found."
 msgstr "No anchor has been found."
 
-#: articles/articles.php:3656 articles/articles.php:3681
+#: articles/articles.php:3657 articles/articles.php:3682
 #, php-format
 msgid "\"%s\" is not a valid date"
 msgstr "\"%s\" is not a valid date"
