@@ -328,7 +328,7 @@ Class rss_Codec extends Codec {
 				$title = $attributes[1];
 				$author = $attributes[2];
 				$section = $attributes[3];
-				$image = $attributes[4];
+				$image = preg_replace("/\/thumbs/", "", $attributes[4]); // CHL
 				$introduction = $attributes[5];
 				$description = $attributes[6];
 				$extensions = $attributes[7];
@@ -347,6 +347,8 @@ Class rss_Codec extends Codec {
 					$text .= '		<description>'.rss_codec::clean($introduction)."</description>\n";
 				elseif($description)
 					$text .= '		<description>'.rss_codec::clean($description)."</description>\n";
+				if($image)
+					$text .= '		<image><url>'.rss_codec::clean($image)."</url></image>\n";
 
 				// use unicode entities, and escape & chars that are not part of an entity
 				if($description)
