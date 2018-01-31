@@ -207,19 +207,19 @@ elseif(!Surfer::is_associate()) {
 	$fields[] = array($label, $input);
 
 	// User access control
-	$label = i18n::s('Access');
+	$label = i18n::s('Visibility');
 	$input = '<input type="radio" name="users_default_active" value="Y"';
 	if(!isset($context['users_default_active']) || ($context['users_default_active'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Public - Everybody, including anonymous surfers');
+	$input .= '/> '.i18n::s('Public - Everybody can see profils, including anonymous surfers');
 	$input .= BR.'<input type="radio" name="users_default_active" value="R"';
 	if(isset($context['users_default_active']) && ($context['users_default_active'] == 'R'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Community - Access is granted to any identified surfer');
+	$input .= '/> '.i18n::s('Community - Access is granted only to identified surfer');
 	$input .= BR.'<input type="radio" name="users_default_active" value="N"';
 	if(isset($context['users_default_active']) && ($context['users_default_active'] == 'N'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Private - Access is restricted to selected persons');
+	$input .= '/> '.i18n::s('Private - Access is restricted to the profil owner and associates');
 	$fields[] = array($label, $input);
 
 	// default editor

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-13 17:13+0100\n"
+"POT-Creation-Date: 2018-01-31 10:07+0100\n"
 "PO-Revision-Date: 2016-06-06 13:46+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -898,7 +898,7 @@ msgstr "Aucune section ordinaire n'a été créée."
 msgid "sections"
 msgstr "sections"
 
-#: sections/index.php:162 sections/sections.php:1372
+#: sections/index.php:162 sections/sections.php:1373
 #: sections/view_as_tabs.php:498 sections/view.php:1455
 msgid "Other sections"
 msgstr "Autres sections"
@@ -1874,17 +1874,17 @@ msgstr "Inviter %s à participer"
 msgid "View the profile of %s"
 msgstr "Voir le profil de %s"
 
-#: sections/sections.php:888 sections/sections.php:2633
-#: sections/sections.php:2949 sections/sections.php:3110
-#: sections/sections.php:3272 sections/sections.php:3276
+#: sections/sections.php:888 sections/sections.php:2634
+#: sections/sections.php:2950 sections/sections.php:3111
+#: sections/sections.php:3273 sections/sections.php:3277
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 
-#: sections/sections.php:1598
+#: sections/sections.php:1599
 msgid "Top of the content tree"
 msgstr "Sommet de l'arbre de contenu"
 
-#: sections/sections.php:2743 sections/sections.php:2955
+#: sections/sections.php:2744 sections/sections.php:2956
 msgid "No title has been provided."
 msgstr "Aucun titre n'a été fourni."
 

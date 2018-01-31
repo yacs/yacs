@@ -2,23 +2,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-13 17:13+0100\n"
-"PO-Revision-Date: 2015-04-24 15:46+0100\n"
+"POT-Creation-Date: 2018-01-31 10:07+0100\n"
+"PO-Revision-Date: 2018-01-31 10:14+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
-"Language: \n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Language: French\n"
-"X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: tools/ajax.php:20 tools/embed.php:22 tools/fat_index.php:75
 #: tools/form.php:22 tools/hello.php:22 tools/index.php:18 tools/jsmin.php:36
 #: tools/koowy.php:33 tools/populate.php:113 tools/populate.php:135
-#: tools/stickies.php:22 tools/transform.php:28 tools/update_thumbs_url.php:40
+#: tools/resize_thumbs.php:38 tools/resize_thumbs.php:62 tools/stickies.php:22
+#: tools/transform.php:28 tools/update_thumbs_url.php:40
 #: tools/update_thumbs_url.php:64
 msgid "Tools"
 msgstr "Outils"
@@ -136,8 +136,8 @@ msgid "autocompletion"
 msgstr "autocompletion"
 
 #: tools/check_multi_login.php:20 tools/jsmin.php:48 tools/populate.php:121
-#: tools/populate.php:132 tools/update_thumbs_url.php:48
-#: tools/update_thumbs_url.php:61
+#: tools/populate.php:132 tools/resize_thumbs.php:46 tools/resize_thumbs.php:59
+#: tools/update_thumbs_url.php:48 tools/update_thumbs_url.php:61
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à faire cette opération."
 
@@ -274,35 +274,35 @@ msgstr "Préparer les librairies Javascript"
 msgid "Control Panel"
 msgstr "Panneau de contrôle"
 
-#: tools/jsmin.php:60
+#: tools/jsmin.php:58
 msgid "Compressing Javascript files..."
 msgstr "Compression des fichiers Javascript ..."
 
-#: tools/jsmin.php:177
+#: tools/jsmin.php:175
 #, php-format
 msgid "%d files have been minified."
 msgstr "%d fichiers ont été compressés."
 
-#: tools/jsmin.php:180 tools/jsmin.php:181
+#: tools/jsmin.php:178 tools/jsmin.php:179
 msgid "bytes"
 msgstr "octets"
 
-#: tools/jsmin.php:185
+#: tools/jsmin.php:183
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminé en %.2f secondes."
 
-#: tools/jsmin.php:191
+#: tools/jsmin.php:189
 msgid "You are about to compress and assemble Javascript files. Are you sure?"
 msgstr ""
 "Vous êtes sur le point de compresser et d'assembler les fichiers Javascript. "
 "Etes-vous sûr ?"
 
-#: tools/jsmin.php:195
+#: tools/jsmin.php:193
 msgid "Yes, I do want to compress and assemble Javascript files"
 msgstr "Oui, je veux compresser et assembler les fichiers Javascript"
 
-#: tools/jsmin.php:200
+#: tools/jsmin.php:198
 msgid ""
 "When you will click on the button the server will be immediately requested "
 "to proceed. However, because of the so many things to do on the back-end, "
@@ -470,8 +470,8 @@ msgid ""
 "link] to review all navigation boxes."
 msgstr ""
 "Ceci est une boîte d'index de navigation de démonstration.\n"
-"Visitez la [link=section de navigation]sections/view.php?id=navigation_boxes"
-"[/link] pour contrôler toutes les boîtes du même genre."
+"Visitez la [link=section de navigation]sections/view.php?"
+"id=navigation_boxes[/link] pour contrôler toutes les boîtes du même genre."
 
 #: tools/populate.php:401
 msgid "Global pages"
@@ -915,9 +915,32 @@ msgstr ""
 "N'utilisez ce script que pour des besoins d'apprentissage, de démonstration "
 "ou de tests."
 
-#: tools/populate.php:1707 tools/update_thumbs_url.php:228
+#: tools/populate.php:1707 tools/resize_thumbs.php:118
+#: tools/update_thumbs_url.php:228
 msgid "Start"
 msgstr "Commencer"
+
+#: tools/resize_thumbs.php:41
+msgid "resizing thumbnails"
+msgstr "retailler les vignettes"
+
+#: tools/resize_thumbs.php:77
+#, php-format
+msgid "Generate thumbnail for image %s"
+msgstr "Génération de la vignette pour l'image %s"
+
+#: tools/resize_thumbs.php:97
+#, php-format
+msgid "%s thumbnail(s) rebuilded"
+msgstr "%s vignettes retaillées"
+
+#: tools/resize_thumbs.php:106
+msgid ""
+"This tools resizes thumbnails of images to dimensions provided in general "
+"configuration."
+msgstr ""
+"Cet outil retaille les vignettes des images aux dimensions fournies dans la "
+"configuration générale."
 
 #: tools/transform.php:34 tools/transform.php:35
 msgid "navigation"
