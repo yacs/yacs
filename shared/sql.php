@@ -7,10 +7,14 @@
  *
  * Where possible, the database and tables are set to support Unicode character
  * set, namely, 'utf8'.
+ * 
+ * SQL::count() and SQL::fetch() support also standard array as argument,
+ * to be able to fetch a result comming from database or from a cache engine.
  *
  * @link http://www.artfulsoftware.com/infotree/queries.php Common queries in MySQL 5
  *
  * @author Bernard Paques
+ * @author Alexis Raimbault
  * @tester Thierry Pinelli (ThierryP)
  * @tester Neige1963
  * @tester Alain Lesage
@@ -62,12 +66,14 @@ Class SQL {
 	/**
 	 * count selected rows
 	 *
-	 * @param resource
+	 * @param resource or standard array
 	 * @return TRUE on success, FALSE on failure
 	 */
 	public static function count(&$result) {
 		if(!$result)
 			return 0;
+                elseif(is_array($result))
+                        return count($result);
 		elseif(is_callable('mysqli_num_rows'))
 			return mysqli_num_rows($result);
 		else
@@ -252,12 +258,14 @@ Class SQL {
 	/**
 	 * fetch next result as an associative array
 	 *
-	 * @param resource set of rows
+	 * @param resource set of rows or standard array
 	 * @return array related to next row, or FALSE if there is no more row
 	 */
 	public static function fetch(&$result) {
 		if(is_bool($result))
 			$output = FALSE;
+                elseif(is_array($result))
+                        $output = array_shift ($result);
 		elseif(is_callable('mysqli_fetch_array'))
 			$output = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		else
