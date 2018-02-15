@@ -1152,7 +1152,7 @@ Class Skin_Skeleton {
 
 			// put the hint after the field
 			if($hint)
-                                $input .= tag::_('p', tag::_class('form-hint'),$hint);
+                                $input .= tag::_('div', tag::_class('form-hint'),$hint);
 
 			//$cells = array();
 			/*switch($variant) {
