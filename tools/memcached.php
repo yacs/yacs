@@ -63,21 +63,31 @@ if(Surfer::is_crawler()) {
 // create test data
 }
 
-if(class_exists('Memcached')){
+if($ram){
     // Memcache is enabled.
     $context['text'] .= tag::_('p','','Memcached module detected !');
     
-    $mem = new Memcached();
-    
-    $mem->addServer("127.0.0.1", 11211);
-
-    $result = $mem->get("blah");
+    // try to get a value 
+    $result = $ram->get("blah");
 
     if ($result) {
         $context['text'] .= tag::_('p','',$result);
+        
+        // list of current keys old in cache
+        $keys = $ram->getAllKeys();
+        
+        $context['text'] .= tag::_('p','','List of current keys in cache :');
+        
+        $list = '';
+        foreach($keys as $k) {
+            $list .= tag::_('li','',$k);
+        }
+        $context['text'] .= tag::_('ul','',$list);
+        
     } else {
+        // record the value
         $context['text'] .=  tag::_('p','',"No matching key found.  I'll add that now !");
-        if($mem->set("blah", "I am data !  I am held in memcached !", 30)) {
+        if($ram->set("blah", "I am data !  I am held in memcached !", 30)) {
            $context['text'] .= tag::_('p','',"Data successfully added"); 
         } else {
            $context['text'] .= tag::_('p','',"Couldn't save anything to memcached...");
@@ -87,7 +97,7 @@ if(class_exists('Memcached')){
     
 } else {
     
-    $context['text'] .= 'No Memcached detected';
+    $context['text'] .= 'Memcached unavailable';
 }
 
 // render the skin
