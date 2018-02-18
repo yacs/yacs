@@ -272,6 +272,23 @@ Class SQL {
 			$output = mysql_fetch_array($result, MYSQL_ASSOC);
 		return $output;
 	}
+        
+        /**
+         * fetch all rows of result into one array
+         * 
+         * @param resource set of rows
+         * @return array
+         */
+        public static function fetch_all(&$result) {
+                if(is_bool($result))
+			$output = FALSE;
+                elseif(is_callable('mysqli_fetch_all'))
+			$output = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                else
+			$output = mysql_fetch_all($result, MYSQL_ASSOC);
+		return $output;
+
+        }
 
 	/**
 	 * fetch next field
