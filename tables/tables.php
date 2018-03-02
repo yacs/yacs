@@ -1136,5 +1136,3 @@ Class Tables {
 // load localized strings
 if(is_callable(array('i18n', 'bind')))
 	i18n::bind('tables');
-
-?>
