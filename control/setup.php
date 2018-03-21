@@ -40,7 +40,7 @@
  * @see control/scan.php
  *
  * The integrated search engine is based on full-text indexing capabilities of MySQL.
- * Currently this is only available for the [code]MyISAM[/code] table type.
+ * Was previously only available for the [code]MyISAM[/code] table type.
  *
  * @link http://dev.mysql.com/doc/mysql/en/Fulltext_Search.html MySQL Manual | 12.6 Full-Text Search Functions
  *

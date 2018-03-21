@@ -1,10 +1,4 @@
-# disable directory browsing -- requires "AllowOverride Options" in main configuration file
-#
-Options -Indexes
 
-# pre-requisite for acceptance of RewriteRule directives -- requires "AllowOverride Options" in main configuration file
-#
-#Options FollowSymLinks
 
 # provide pretty links
 #
@@ -13,6 +7,7 @@ Options -Indexes
 	# enable rewriting
 	#
 	RewriteEngine on
+        Options +FollowSymlinks
 
 	# to test rewriting from control/configure.php
 	#

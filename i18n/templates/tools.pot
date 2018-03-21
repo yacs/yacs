@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 10:46+0200\n"
+"POT-Creation-Date: 2018-01-31 10:14+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,9 +18,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: tools/ajax.php:20 tools/embed.php:22 tools/fat_index.php:75
-#: tools/form.php:22 tools/hello.php:22 tools/index.php:18 tools/jsmin.php:35
+#: tools/form.php:22 tools/hello.php:22 tools/index.php:18 tools/jsmin.php:36
 #: tools/koowy.php:33 tools/populate.php:113 tools/populate.php:135
-#: tools/stickies.php:22 tools/transform.php:28 tools/update_thumbs_url.php:40
+#: tools/resize_thumbs.php:38 tools/resize_thumbs.php:62 tools/stickies.php:22
+#: tools/transform.php:28 tools/update_thumbs_url.php:40
 #: tools/update_thumbs_url.php:64
 msgid "Tools"
 msgstr ""
@@ -136,8 +137,9 @@ msgstr ""
 msgid "autocompletion"
 msgstr ""
 
-#: tools/check_multi_login.php:20 tools/jsmin.php:47 tools/populate.php:121
-#: tools/populate.php:132 tools/update_thumbs_url.php:48
+#: tools/check_multi_login.php:20 tools/jsmin.php:48 tools/populate.php:121
+#: tools/populate.php:132 tools/resize_thumbs.php:46
+#: tools/resize_thumbs.php:59 tools/update_thumbs_url.php:48
 #: tools/update_thumbs_url.php:61
 msgid "You are not allowed to perform this operation."
 msgstr ""
@@ -265,41 +267,41 @@ msgstr ""
 msgid "Please include all elements we could need"
 msgstr ""
 
-#: tools/jsmin.php:38
+#: tools/jsmin.php:39
 msgid "Finalize Javascript libraries"
 msgstr ""
 
-#: tools/jsmin.php:50 tools/populate.php:1689
+#: tools/jsmin.php:51 tools/populate.php:1689
 msgid "Control Panel"
 msgstr ""
 
-#: tools/jsmin.php:65
+#: tools/jsmin.php:58
 msgid "Compressing Javascript files..."
 msgstr ""
 
-#: tools/jsmin.php:170
+#: tools/jsmin.php:175
 #, php-format
 msgid "%d files have been minified."
 msgstr ""
 
-#: tools/jsmin.php:173 tools/jsmin.php:174
+#: tools/jsmin.php:178 tools/jsmin.php:179
 msgid "bytes"
 msgstr ""
 
-#: tools/jsmin.php:178
+#: tools/jsmin.php:183
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr ""
 
-#: tools/jsmin.php:184
+#: tools/jsmin.php:189
 msgid "You are about to compress and assemble Javascript files. Are you sure?"
 msgstr ""
 
-#: tools/jsmin.php:188
+#: tools/jsmin.php:193
 msgid "Yes, I do want to compress and assemble Javascript files"
 msgstr ""
 
-#: tools/jsmin.php:193
+#: tools/jsmin.php:198
 msgid ""
 "When you will click on the button the server will be immediately requested "
 "to proceed. However, because of the so many things to do on the back-end, "
@@ -884,8 +886,29 @@ msgid ""
 "testing purposes."
 msgstr ""
 
-#: tools/populate.php:1707 tools/update_thumbs_url.php:228
+#: tools/populate.php:1707 tools/resize_thumbs.php:118
+#: tools/update_thumbs_url.php:228
 msgid "Start"
+msgstr ""
+
+#: tools/resize_thumbs.php:41
+msgid "resizing thumbnails"
+msgstr ""
+
+#: tools/resize_thumbs.php:77
+#, php-format
+msgid "Generate thumbnail for image %s"
+msgstr ""
+
+#: tools/resize_thumbs.php:97
+#, php-format
+msgid "%s thumbnail(s) rebuilded"
+msgstr ""
+
+#: tools/resize_thumbs.php:106
+msgid ""
+"This tools resizes thumbnails of images to dimensions provided in general "
+"configuration."
 msgstr ""
 
 #: tools/transform.php:34 tools/transform.php:35

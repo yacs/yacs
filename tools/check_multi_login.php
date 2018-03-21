@@ -33,13 +33,19 @@ if ( isset($_SESSION['cross_domain_login_required']) && $_SESSION['cross_domain_
 
     $hosts	= $context['virtual_domains'];
     $hosts[]	= $context['master_host'];
+    
+    // http or https ?
+    $protocol = "http://";
+    if(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == 443)) {
+        $protocol = "https://";
+    }
 
     foreach ($hosts as $host) {
 
 	if($host == $domain) continue;
 
 	// list url to target
-	$reply['domains'][] = 'http://'.$host.$context['url_to_root'];
+	$reply['domains'][] = $protocol.$host.$context['url_to_root'];
 
     }
 

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 10:26+0200\n"
+"POT-Creation-Date: 2017-12-13 17:13+0100\n"
 "PO-Revision-Date: 2017-08-30 10:43+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -13,29 +13,20 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: skins/configure.php:218
-#: skins/configure.php:782
-#: skins/configure.php:940
-#: skins/page.php:62
+#: skins/configure.php:218 skins/configure.php:782 skins/configure.php:940
+#: skins/page.php:63
 msgid "Control Panel"
 msgstr "Panneau de contrôle"
 
-#: skins/configure.php:221
-#: skins/configure.php:394
-#: skins/configure.php:422
-#: skins/configure.php:446
-#: skins/configure.php:547
-#: skins/configure.php:559
-#: skins/configure.php:571
-#: skins/configure.php:583
-#: skins/configure.php:595
+#: skins/configure.php:221 skins/configure.php:394 skins/configure.php:422
+#: skins/configure.php:446 skins/configure.php:547 skins/configure.php:559
+#: skins/configure.php:571 skins/configure.php:583 skins/configure.php:595
 #: skins/configure.php:619
 #, php-format
 msgid "%s: %s"
 msgstr "%s : %s"
 
-#: skins/configure.php:221
-#: skins/index.php:248
+#: skins/configure.php:221 skins/index.php:248
 msgid "Configure"
 msgstr "Configurer"
 
@@ -43,35 +34,34 @@ msgstr "Configurer"
 msgid "Page factory"
 msgstr "Fabrication des pages"
 
-#: skins/configure.php:230
-#: skins/derive.php:56
-#: skins/derive.php:65
-#: skins/derive.php:70
-#: skins/display.php:29
-#: skins/edit.php:53
-#: skins/edit.php:62
-#: skins/edit.php:67
-#: skins/edit.php:72
-#: skins/upload.php:40
+#: skins/configure.php:230 skins/derive.php:56 skins/derive.php:65
+#: skins/derive.php:70 skins/display.php:29 skins/edit.php:53
+#: skins/edit.php:62 skins/edit.php:67 skins/edit.php:72 skins/upload.php:40
 #: skins/upload.php:49
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à effectuer cette opération."
 
 #: skins/configure.php:237
-msgid "You can use default values and change these later on. Hit the button at the bottom of the page to move forward."
-msgstr "Vous pouvez garder les valeurs par défaut. Ceci peut être modifié plus tard. Cliquez sur le bouton en bas de page pour passer à l'étape suivante."
+msgid ""
+"You can use default values and change these later on. Hit the button at the "
+"bottom of the page to move forward."
+msgstr ""
+"Vous pouvez garder les valeurs par défaut. Ceci peut être modifié plus tard. "
+"Cliquez sur le bouton en bas de page pour passer à l'étape suivante."
 
-#: skins/configure.php:251
-#: skins/test.php:74
+#: skins/configure.php:251 skins/test.php:74
 msgid "Site name"
 msgstr "Nom du site"
 
 #: skins/configure.php:253
-msgid "Short and meaningful title, such as \"My little big server\", used almost everywhere, and appended to the title of every page of this site"
-msgstr "Label court et significatif, comme \"Mon serveur perso\", utilisé presque partout, et ajouté à la fin des titres sur chaque page de ce site"
+msgid ""
+"Short and meaningful title, such as \"My little big server\", used almost "
+"everywhere, and appended to the title of every page of this site"
+msgstr ""
+"Label court et significatif, comme \"Mon serveur perso\", utilisé presque "
+"partout, et ajouté à la fin des titres sur chaque page de ce site"
 
-#: skins/configure.php:259
-#: skins/test.php:76
+#: skins/configure.php:259 skins/test.php:76
 msgid "Site slogan"
 msgstr "Slogan du site"
 
@@ -84,16 +74,24 @@ msgid "Site description"
 msgstr "Description du site"
 
 #: skins/configure.php:269
-msgid "Up to two lines of text, used in the \"description\" meta field to help search engines"
-msgstr "Jusqu'à deux lignes de texte, utilisé dans le champ \"description\" pour aider les moteurs de recherche"
+msgid ""
+"Up to two lines of text, used in the \"description\" meta field to help "
+"search engines"
+msgstr ""
+"Jusqu'à deux lignes de texte, utilisé dans le champ \"description\" pour "
+"aider les moteurs de recherche"
 
 #: skins/configure.php:273
 msgid "Keywords"
 msgstr "Mots-clés"
 
 #: skins/configure.php:275
-msgid "Keywords separated with commas, inserted in the \"keyword\" meta field for search engines"
-msgstr "Mots-clés séparés par des virgules, placés dans le champ \"keyword\" pour les moteurs de recherche"
+msgid ""
+"Keywords separated with commas, inserted in the \"keyword\" meta field for "
+"search engines"
+msgstr ""
+"Mots-clés séparés par des virgules, placés dans le champ \"keyword\" pour "
+"les moteurs de recherche"
 
 #: skins/configure.php:281
 msgid "Contact mail address"
@@ -101,11 +99,14 @@ msgstr "Adresse de contact électronique"
 
 #: skins/configure.php:283
 #, php-format
-msgid "May be subject to spam attacks; featured in the %s page and in RSS feeds, at least"
-msgstr "Peut être sujet à attaque par spam. Affichée au moins dans la page %s et dans les flux d'information RSS"
+msgid ""
+"May be subject to spam attacks; featured in the %s page and in RSS feeds, at "
+"least"
+msgstr ""
+"Peut être sujet à attaque par spam. Affichée au moins dans la page %s et "
+"dans les flux d'information RSS"
 
-#: skins/configure.php:284
-#: skins/configure.php:297
+#: skins/configure.php:284 skins/configure.php:297
 msgid "about"
 msgstr "à propos"
 
@@ -114,8 +115,12 @@ msgid "Copyright"
 msgstr "Copyright"
 
 #: skins/configure.php:290
-msgid "Example: \"2002-2008, Acme incorporated\"; inserted in the \"copyright\" meta field"
-msgstr "Par exemple : \"2002-2008, Société du Soleil\"; inséré dans le champ \"copyright\""
+msgid ""
+"Example: \"2002-2008, Acme incorporated\"; inserted in the \"copyright\" "
+"meta field"
+msgstr ""
+"Par exemple : \"2002-2008, Société du Soleil\"; inséré dans le champ "
+"\"copyright\""
 
 #: skins/configure.php:294
 msgid "Site owner"
@@ -123,8 +128,12 @@ msgstr "Propriétaire du site"
 
 #: skins/configure.php:296
 #, php-format
-msgid "The name of the site owner, e.g. \"ACME and company\"; Featured in the %s page and in ATOM feeds, at least"
-msgstr "Nom du propriétaire, par exemple \"Alice et Bob\"; Utilisé dans la page %s et dans les flux d'information ATOM"
+msgid ""
+"The name of the site owner, e.g. \"ACME and company\"; Featured in the %s "
+"page and in ATOM feeds, at least"
+msgstr ""
+"Nom du propriétaire, par exemple \"Alice et Bob\"; Utilisé dans la page %s "
+"et dans les flux d'information ATOM"
 
 #: skins/configure.php:303
 msgid "Usual delay between updates"
@@ -135,8 +144,13 @@ msgid "days"
 msgstr "jours"
 
 #: skins/configure.php:305
-msgid "Please be realistic here. Used to flag new and updated items. Also featured in \"revisit-after\" meta field."
-msgstr "Merci de rester réaliste. Ce paramètre sert à marquer les pages nouvelles ou mises à jour. Cette information figure également dans le méta-champ \"revisit-after\"."
+msgid ""
+"Please be realistic here. Used to flag new and updated items. Also featured "
+"in \"revisit-after\" meta field."
+msgstr ""
+"Merci de rester réaliste. Ce paramètre sert à marquer les pages nouvelles ou "
+"mises à jour. Cette information figure également dans le méta-champ "
+"\"revisit-after\"."
 
 #: skins/configure.php:309
 msgid "Geographical position"
@@ -144,8 +158,14 @@ msgstr "Position géographique"
 
 #: skins/configure.php:311
 #, php-format
-msgid "Latitude and longitude, separated by a comma, for example: 47.98481,-71.42124, featured as meta fields \"geo.position\" and \"ICBM\" at the front page. See %s or %s"
-msgstr "Latitude et longitude separées par une virgule, comme par exemple : 47.98481,-71.42124. Information placée dans les méta-champs \"geo.position\" et \"ICBM\" sur la page d'accueil. Voir %s ou %s"
+msgid ""
+"Latitude and longitude, separated by a comma, for example: "
+"47.98481,-71.42124, featured as meta fields \"geo.position\" and \"ICBM\" at "
+"the front page. See %s or %s"
+msgstr ""
+"Latitude et longitude separées par une virgule, comme par exemple : "
+"47.98481,-71.42124. Information placée dans les méta-champs \"geo.position\" "
+"et \"ICBM\" sur la page d'accueil. Voir %s ou %s"
 
 #: skins/configure.php:312
 msgid "GeoTags Search Engine"
@@ -160,56 +180,98 @@ msgid "Head"
 msgstr "En-tête (Head)"
 
 #: skins/configure.php:319
-msgid "Other tags to be inserted into the head section, as meta fields. Please double check generated code to avoid mistakes.  You can use this field to add meta information to your site, that will be used by search engines or software robots. Example: &lt;meta name=\"dmoz.id\" content=\"put here the dmoz branch for your site\"&gt;"
-msgstr "Autres balises à insérer dans l'en-tête de page, comme méta-information. Merci de contrôler la syntaxe plusieurs fois pour éviter les erreurs. Ce champ est utile pour fournir plus de méta-information aux serveurs de recherche, ou aux analyseurs automatiques. Par exemple : &lt;meta name=\"dmoz.id\" content=\"branche DMOZ correspondant à votre site\"&gt;"
+msgid ""
+"Other tags to be inserted into the head section, as meta fields. Please "
+"double check generated code to avoid mistakes.  You can use this field to "
+"add meta information to your site, that will be used by search engines or "
+"software robots. Example: &lt;meta name=\"dmoz.id\" content=\"put here the "
+"dmoz branch for your site\"&gt;"
+msgstr ""
+"Autres balises à insérer dans l'en-tête de page, comme méta-information. "
+"Merci de contrôler la syntaxe plusieurs fois pour éviter les erreurs. Ce "
+"champ est utile pour fournir plus de méta-information aux serveurs de "
+"recherche, ou aux analyseurs automatiques. Par exemple : &lt;meta name="
+"\"dmoz.id\" content=\"branche DMOZ correspondant à votre site\"&gt;"
 
 #: skins/configure.php:323
 msgid "Icon"
 msgstr "Icône"
 
 #: skins/configure.php:325
-msgid "The web address of the little image representing your site in favorites or bookmarks. Used to supplement the default \"favicon.ico\", if any"
-msgstr "L'adresse web d'une image représentant votre site. Pour remplacer le défaut \"favicon.ico\", le cas échéant."
+msgid ""
+"The web address of the little image representing your site in favorites or "
+"bookmarks. Used to supplement the default \"favicon.ico\", if any"
+msgstr ""
+"L'adresse web d'une image représentant votre site. Pour remplacer le défaut "
+"\"favicon.ico\", le cas échéant."
 
 #: skins/configure.php:332
 msgid "Tracking code"
 msgstr "Code de suivi"
 
 #: skins/configure.php:334
-msgid "Additional text inserted after the body openning tag. Use this to integrate page tracking systems, with adequate &lt;script&gt; tags."
-msgstr "Texte additionnel inséré après l'ouverture de la balise body. Coller ici les balises &lt;script&gt; utilisées pour le suivi statistique des navigations."
+msgid ""
+"Additional text inserted after the body openning tag. Use this to integrate "
+"page tracking systems, with adequate &lt;script&gt; tags."
+msgstr ""
+"Texte additionnel inséré après l'ouverture de la balise body. Coller ici les "
+"balises &lt;script&gt; utilisées pour le suivi statistique des navigations."
 
 #: skins/configure.php:337
 msgid "Control tracking cookie"
 msgstr "Contrôler le cookie du code de suivi"
 
 #: skins/configure.php:345
-msgid "Check this to submit tracking code to cookie acceptation. Cookie header must be enabled before"
-msgstr "Cochez ceci pour soumettre le code de suivi à l'acceptation des cookies. L'entête d'acceptation doit être activé au préalable."
+msgid ""
+"Check this to submit tracking code to cookie acceptation. Cookie header must "
+"be enabled before"
+msgstr ""
+"Cochez ceci pour soumettre le code de suivi à l'acceptation des cookies. "
+"L'entête d'acceptation doit être activé au préalable."
 
 #: skins/configure.php:358
 msgid "Display a cookies acceptation header"
 msgstr "Afficher un entête d'acceptation des cookies"
 
 #: skins/configure.php:361
-msgid "Check this to activate a library able to block cookies unless they are allowed by surfer."
-msgstr "Cocher ceci pour activer une librairie pour bloquer les cookies à moins qu'ils soient autorisés par le surfer."
+msgid ""
+"Check this to activate a library able to block cookies unless they are "
+"allowed by surfer."
+msgstr ""
+"Cocher ceci pour activer une librairie pour bloquer les cookies à moins "
+"qu'ils soient autorisés par le surfer."
 
 #: skins/configure.php:367
 msgid "Cookie acceptation header text"
 msgstr "Message du bandeau d'acceptation des cookies"
 
 #: skins/configure.php:369
-msgid "Text displayed by header. You may use Yacs' Control Code for language version or include links"
-msgstr "Texte affiché par le bandeau. Vous pouvez utiliser les codes de contrôle de yacs pour version de langue ou inclure des liens."
+msgid ""
+"Text displayed by header. You may use Yacs' Control Code for language "
+"version or include links"
+msgstr ""
+"Texte affiché par le bandeau. Vous pouvez utiliser les codes de contrôle de "
+"yacs pour version de langue ou inclure des liens."
 
 #: skins/configure.php:378
-msgid "Following settings apply to all pages. If the skin features a 3-column layout, each panel will be displayed in a separate column. If the skins accomodates for 2 columns, only the main and navigation panels will be displayed. Put in the navigation panel the keyword \"extra\" where you want to integrate the extra panel."
-msgstr "Les réglages suivants s'appliquent à toutes les pages. Pour un thème à trois colonnes, chaque panneau sera affiché dans une colonne séparée. Pour un thème à deux colonnes, seuls le panneau principal et le panneau de navigation sont affichés. Placer le mot-clé \"extra\" à l'endroit du panneau de navigation où vous souhaitez intégrer le panneau extra."
+msgid ""
+"Following settings apply to all pages. If the skin features a 3-column "
+"layout, each panel will be displayed in a separate column. If the skins "
+"accomodates for 2 columns, only the main and navigation panels will be "
+"displayed. Put in the navigation panel the keyword \"extra\" where you want "
+"to integrate the extra panel."
+msgstr ""
+"Les réglages suivants s'appliquent à toutes les pages. Pour un thème à trois "
+"colonnes, chaque panneau sera affiché dans une colonne séparée. Pour un "
+"thème à deux colonnes, seuls le panneau principal et le panneau de "
+"navigation sont affichés. Placer le mot-clé \"extra\" à l'endroit du panneau "
+"de navigation où vous souhaitez intégrer le panneau extra."
 
 #: skins/configure.php:384
 msgid "Select and order components displayed in the main area of any page"
-msgstr "Choisissez et ordonnez les composants à afficher dans la zone centrale de la page"
+msgstr ""
+"Choisissez et ordonnez les composants à afficher dans la zone centrale de la "
+"page"
 
 #: skins/configure.php:387
 msgid "Page title"
@@ -235,9 +297,7 @@ msgstr "Etiquettes éventuelles"
 msgid "Complementary information, if any"
 msgstr "Informations complémentaires"
 
-#: skins/configure.php:393
-#: skins/configure.php:421
-#: skins/configure.php:445
+#: skins/configure.php:393 skins/configure.php:421 skins/configure.php:445
 msgid "Recommended components:"
 msgstr "Composants recommandés :"
 
@@ -247,7 +307,9 @@ msgstr "Panneau principal"
 
 #: skins/configure.php:403
 msgid "Extra boxes are displayed aside, and complement main content"
-msgstr "Les boîtes extra sont affichées sur le côté, en complément du contenu principal"
+msgstr ""
+"Les boîtes extra sont affichées sur le côté, en complément du contenu "
+"principal"
 
 #: skins/configure.php:406
 msgid "Page tools"
@@ -319,7 +381,8 @@ msgstr "Panneau extra"
 
 #: skins/configure.php:437
 msgid "Navigation boxes are looking similar at all pages"
-msgstr "Les boîtes de navigation sont affichées sur le côté de toutes les pages"
+msgstr ""
+"Les boîtes de navigation sont affichées sur le côté de toutes les pages"
 
 #: skins/configure.php:440
 msgid "User menu"
@@ -351,11 +414,15 @@ msgstr "Panneau de navigation"
 
 #: skins/configure.php:466
 msgid "Process search requests internally, by requesting the back-end database"
-msgstr "Utiliser la base de données interne pour traiter les demandes de recherche"
+msgstr ""
+"Utiliser la base de données interne pour traiter les demandes de recherche"
 
 #: skins/configure.php:472
-msgid "Add radio buttons to distinguish searches in content from searches in users"
-msgstr "Ajouter des boutons radio pour distinguer les recherches dans le contenu de celles dans les personnes"
+msgid ""
+"Add radio buttons to distinguish searches in content from searches in users"
+msgstr ""
+"Ajouter des boutons radio pour distinguer les recherches dans le contenu de "
+"celles dans les personnes"
 
 #: skins/configure.php:478
 msgid "Extend search results on a separate tab"
@@ -384,15 +451,19 @@ msgstr "Afficher les détails (auteur, date...) sur toutes les pages"
 
 #: skins/configure.php:522
 msgid "Details are displayed only in sections with option 'with_details'"
-msgstr "Afficher les détails seulement dans les sections avec l'option 'with_details'"
+msgstr ""
+"Afficher les détails seulement dans les sections avec l'option 'with_details'"
 
 #: skins/configure.php:526
 msgid "Export tools convert pages to an alternate format or media (pdf, word):"
 msgstr "Les outils d'export convertissent les pages (pdf, word) :"
 
 #: skins/configure.php:530
-msgid "Export tools are displayed only in sections with option 'with_export_tools'"
-msgstr "Les outils d'export sont affichés seulement dans les sections avec l'option 'with_export_tools'"
+msgid ""
+"Export tools are displayed only in sections with option 'with_export_tools'"
+msgstr ""
+"Les outils d'export sont affichés seulement dans les sections avec l'option "
+"'with_export_tools'"
 
 #: skins/configure.php:534
 msgid "Display export tools on all pages"
@@ -408,22 +479,23 @@ msgstr "Seuls les membres ont accès aux outils d'export"
 
 #: skins/configure.php:546
 msgid "Allow anonymous surfers to use export tools (recommended on intranets)"
-msgstr "Autoriser les surfeurs anonymes à utiliser les outils d'export (recommandé sur les intranets)"
+msgstr ""
+"Autoriser les surfeurs anonymes à utiliser les outils d'export (recommandé "
+"sur les intranets)"
 
 #: skins/configure.php:550
 msgid "Author information"
 msgstr "Information sur l'auteur"
 
-#: skins/configure.php:554
-#: skins/configure.php:570
-#: skins/configure.php:582
+#: skins/configure.php:554 skins/configure.php:570 skins/configure.php:582
 #: skins/configure.php:594
 msgid "Do not display this item"
 msgstr "Ne pas afficher cet élément"
 
 #: skins/configure.php:558
 msgid "Add links to author profiles in lists of articles"
-msgstr "Ajouter des liens vers les pages des auteurs dans les listes d'articles"
+msgstr ""
+"Ajouter des liens vers les pages des auteurs dans les listes d'articles"
 
 #: skins/configure.php:562
 msgid "Side box for RSS feeds"
@@ -431,7 +503,9 @@ msgstr "Boîte de côté pour les flux d'information RSS"
 
 #: skins/configure.php:566
 msgid "List RSS feeds in sections, categories, articles, and user profiles"
-msgstr "Mentionner les flux d'information dans les pages d'index des sections, des catégories, des articles, et des utilisateurs"
+msgstr ""
+"Mentionner les flux d'information dans les pages d'index des sections, des "
+"catégories, des articles, et des utilisateurs"
 
 #: skins/configure.php:574
 msgid "Side box for bookmarklets"
@@ -470,16 +544,15 @@ msgid "Compute page elements dynamically"
 msgstr "Calcul dynamique des éléments de page"
 
 #: skins/configure.php:618
-msgid "Benefit from extended computing power to provide additional dynamic details"
+msgid ""
+"Benefit from extended computing power to provide additional dynamic details"
 msgstr "La puissance du serveur permet de fournir plus de détails"
 
 #: skins/configure.php:626
 msgid "Icons"
 msgstr "Icônes"
 
-#: skins/configure.php:629
-#: skins/configure.php:643
-#: skins/configure.php:657
+#: skins/configure.php:629 skins/configure.php:643 skins/configure.php:657
 #: skins/configure.php:673
 msgid "CSS classes"
 msgstr "Classes CSS"
@@ -488,9 +561,7 @@ msgstr "Classes CSS"
 msgid "Profile pictures"
 msgstr "Images de profil"
 
-#: skins/configure.php:640
-#: skins/configure.php:654
-#: skins/configure.php:670
+#: skins/configure.php:640 skins/configure.php:654 skins/configure.php:670
 #, php-format
 msgid "Maximum of %s pixels width by %s pixels height"
 msgstr "Maximum de %s pixels en largeur par %s pixels en hauteur"
@@ -522,7 +593,8 @@ msgstr "Bibliothèque graphique"
 
 #: skins/configure.php:687
 msgid "Used to resize large pictures, and to create thumbnail images."
-msgstr "Utilisé pour retailler des grandes images, et pour créér des vignettes."
+msgstr ""
+"Utilisé pour retailler des grandes images, et pour créér des vignettes."
 
 #: skins/configure.php:691
 msgid "Use GD module of PHP"
@@ -611,48 +683,45 @@ msgstr "Google Map"
 msgid "Editor"
 msgstr "Editeur"
 
-#: skins/configure.php:778
-#: skins/edit.php:182
-#: skins/skin_skeleton.php:3188
+#: skins/configure.php:778 skins/edit.php:182 skins/skin_skeleton.php:3188
 #: skins/upload.php:161
 msgid "Submit"
 msgstr "Envoyer"
 
-#: skins/configure.php:778
-#: skins/derive.php:292
-#: skins/edit.php:182
+#: skins/configure.php:778 skins/derive.php:292 skins/edit.php:182
 #: skins/upload.php:161
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
-#: skins/configure.php:786
-#: skins/configure.php:939
-#: skins/derive.php:48
-#: skins/derive.php:226
-#: skins/edit.php:45
-#: skins/edit.php:98
-#: skins/index.php:127
-#: skins/test.php:117
-#: skins/test.php:144
-#: skins/test.php:262
-#: skins/upload.php:32
-#: skins/upload.php:136
+#: skins/configure.php:786 skins/configure.php:939 skins/derive.php:48
+#: skins/derive.php:226 skins/edit.php:45 skins/edit.php:98
+#: skins/index.php:127 skins/test.php:117 skins/test.php:144
+#: skins/test.php:262 skins/upload.php:32 skins/upload.php:136
 msgid "Themes"
 msgstr "Thèmes"
 
 #: skins/configure.php:797
 msgid "You are not allowed to perform this operation in demonstration mode."
-msgstr "Vous n'êtes pas autorisé à faire cette opération en mode démonstration."
+msgstr ""
+"Vous n'êtes pas autorisé à faire cette opération en mode démonstration."
 
 #: skins/configure.php:902
 #, php-format
-msgid "ERROR: Impossible to write to the file %s. The configuration has not been saved."
-msgstr "ERREUR: Impossible d'écrire dans le fichier %s. Les paramètres n'ont pas été sauvegardés."
+msgid ""
+"ERROR: Impossible to write to the file %s. The configuration has not been "
+"saved."
+msgstr ""
+"ERREUR: Impossible d'écrire dans le fichier %s. Les paramètres n'ont pas été "
+"sauvegardés."
 
 #: skins/configure.php:905
 #, php-format
-msgid "To actually change the configuration, please copy and paste following lines by yourself in file %s."
-msgstr "Pour changer la configuration, merci de copier les lignes ci-dessous, et de les mettre par vous-même dans le fichier %s :"
+msgid ""
+"To actually change the configuration, please copy and paste following lines "
+"by yourself in file %s."
+msgstr ""
+"Pour changer la configuration, merci de copier les lignes ci-dessous, et de "
+"les mettre par vous-même dans le fichier %s :"
 
 #: skins/configure.php:910
 #, php-format
@@ -660,8 +729,11 @@ msgid "The following configuration has been saved into the file %s."
 msgstr "La configuration suivante a été enregistrée dans le fichier %s."
 
 #: skins/configure.php:914
-msgid "Review provided information and go to the bottom of the page to move forward."
-msgstr "Contrôler l'information fournie et utiliser le bouton en bas de page pour continuer."
+msgid ""
+"Review provided information and go to the bottom of the page to move forward."
+msgstr ""
+"Contrôler l'information fournie et utiliser le bouton en bas de page pour "
+"continuer."
 
 #: skins/configure.php:920
 #, php-format
@@ -688,14 +760,16 @@ msgstr "Configurer de nouveau"
 msgid "Derive a new skin from an existing one"
 msgstr "Créer un nouveau style à partir d'un style existant"
 
-#: skins/derive.php:78
-#: skins/derive.php:278
+#: skins/derive.php:78 skins/derive.php:278
 msgid "my_skin"
 msgstr "mon_style"
 
 #: skins/derive.php:81
-msgid "Please go to the end of this page to check results of the building process."
-msgstr "Merci d'aller jusqu'à la fin de cette page pour vérifier les résultats de la construction du nouveau référentiel."
+msgid ""
+"Please go to the end of this page to check results of the building process."
+msgstr ""
+"Merci d'aller jusqu'à la fin de cette page pour vérifier les résultats de la "
+"construction du nouveau référentiel."
 
 #: skins/derive.php:84
 msgid "Listing files..."
@@ -711,9 +785,7 @@ msgstr "%d fichiers ont été trouvés."
 msgid "Creating the directory for the new skin %s..."
 msgstr "Création du répertoire du nouveau style %s..."
 
-#: skins/derive.php:143
-#: skins/import.php:305
-#: skins/import.php:326
+#: skins/derive.php:143 skins/import.php:305 skins/import.php:326
 #, php-format
 msgid "Impossible to create path %s."
 msgstr "Impossible de créer le chemin %s."
@@ -731,9 +803,7 @@ msgstr "Copie des fichiers ..."
 msgid "%s has been transcoded"
 msgstr "%s a été transcodé"
 
-#: skins/derive.php:190
-#: skins/import.php:308
-#: skins/import.php:329
+#: skins/derive.php:190 skins/import.php:308 skins/import.php:329
 #, php-format
 msgid "Impossible to write to %s."
 msgstr "Impossible d'écrire dans %s."
@@ -752,31 +822,28 @@ msgstr "%s a été copié"
 msgid "Operation has failed."
 msgstr "L'opération a échoué."
 
-#: skins/derive.php:218
-#: skins/upload.php:132
+#: skins/derive.php:218 skins/upload.php:132
 msgid "Congratulations, themes have been updated."
 msgstr "Félicitations, les thèmes ont été mis à jour."
 
 #: skins/derive.php:219
 #, php-format
-msgid "Feel free to change and adjust files at skins/%s to better suit your needs."
-msgstr "Vous pouvez librement modifier les fichiers dans skins/%s pour mieux couvrir vos besoins."
+msgid ""
+"Feel free to change and adjust files at skins/%s to better suit your needs."
+msgstr ""
+"Vous pouvez librement modifier les fichiers dans skins/%s pour mieux couvrir "
+"vos besoins."
 
-#: skins/derive.php:222
-#: skins/edit.php:94
+#: skins/derive.php:222 skins/edit.php:94
 msgid "What do you want to do now?"
 msgstr "Que voulez-vous faire à présent ?"
 
-#: skins/derive.php:224
-#: skins/index.php:187
-#: skins/index.php:214
+#: skins/derive.php:224 skins/index.php:187 skins/index.php:214
 #: skins/test.php:128
 msgid "Use this theme"
 msgstr "Utiliser ce thème"
 
-#: skins/derive.php:225
-#: skins/edit.php:96
-#: skins/index.php:180
+#: skins/derive.php:225 skins/edit.php:96 skins/index.php:180
 #: skins/index.php:219
 msgid "Test this theme"
 msgstr "Tester ce thème"
@@ -799,7 +866,8 @@ msgstr "Nom du nouveau style"
 
 #: skins/derive.php:279
 msgid "Also the name of the sub-directory for skin files"
-msgstr "C'est aussi le nom du sous-répertoire où placer les fichiers pour ce style"
+msgstr ""
+"C'est aussi le nom du sous-répertoire où placer les fichiers pour ce style"
 
 #: skins/derive.php:289
 msgid "Step 3- Do the job"
@@ -809,22 +877,17 @@ msgstr "Etape 3 - Copier les fichiers"
 msgid "Copy and transcode files"
 msgstr "Copier et transcoder les fichiers"
 
-#: skins/derive.php:300
-#: skins/upload.php:210
+#: skins/derive.php:300 skins/upload.php:210
 #, php-format
 msgid "For more information on skins, visit %s"
 msgstr "Pour plus d'informations sur les styles, aller %s"
 
-#: skins/derive.php:300
-#: skins/page.php:629
-#: skins/upload.php:210
+#: skins/derive.php:300 skins/page.php:630 skins/upload.php:210
 #: skins/starterfive/template.php:131
 msgid "http://www.yacs.fr/"
 msgstr "http://www.yacs.fr/"
 
-#: skins/derive.php:301
-#: skins/page.php:58
-#: skins/upload.php:211
+#: skins/derive.php:301 skins/page.php:59 skins/upload.php:211
 msgid "Help"
 msgstr "Aide"
 
@@ -836,31 +899,38 @@ msgstr "La requête est invalide."
 msgid "Skin editor"
 msgstr "Editeur de style"
 
-#: skins/edit.php:79
-#: skins/index.php:256
+#: skins/edit.php:79 skins/index.php:256
 #, php-format
-msgid "Do not attempt to modify a reference theme directly, your changes would be overwritten on next software update. %s instead to preserve your work over time."
-msgstr "Attention de ne pas modifier un thème de référence, vos changements seraient écrasés à la prochaine mise à jour du logiciel. %s pour préserver votre travail."
+msgid ""
+"Do not attempt to modify a reference theme directly, your changes would be "
+"overwritten on next software update. %s instead to preserve your work over "
+"time."
+msgstr ""
+"Attention de ne pas modifier un thème de référence, vos changements seraient "
+"écrasés à la prochaine mise à jour du logiciel. %s pour préserver votre "
+"travail."
 
-#: skins/edit.php:79
-#: skins/index.php:251
-#: skins/index.php:256
+#: skins/edit.php:79 skins/index.php:251 skins/index.php:256
 msgid "Derive a theme"
 msgstr "Dériver un thème"
 
 #: skins/edit.php:87
 #, php-format
-msgid "The target file %s may have been corrupted. Please check file content manually, and revert to the backup file, with the extension .bak, if necessary."
-msgstr "Le fichier cible %s peut avoir été corrompu. Merci de vérifier ceci manuellement, et de restaurer le fichier de secours avec l'extension .bak si besoin."
+msgid ""
+"The target file %s may have been corrupted. Please check file content "
+"manually, and revert to the backup file, with the extension .bak, if "
+"necessary."
+msgstr ""
+"Le fichier cible %s peut avoir été corrompu. Merci de vérifier ceci "
+"manuellement, et de restaurer le fichier de secours avec l'extension .bak si "
+"besoin."
 
 #: skins/edit.php:91
 #, php-format
 msgid "The target file %s has been successfully updated."
 msgstr "Le fichier cible %s a été mis à jour."
 
-#: skins/edit.php:97
-#: skins/index.php:194
-#: skins/test.php:121
+#: skins/edit.php:97 skins/index.php:194 skins/test.php:121
 msgid "Edit this theme"
 msgstr "Modifier ce thème"
 
@@ -872,16 +942,12 @@ msgstr "Configurer la fabrication des pages"
 msgid "Select a theme"
 msgstr "Choisir un thème"
 
-#: skins/edit.php:135
-#: skins/edit.php:164
-#: skins/skin_skeleton.php:377
-#: skins/skin_skeleton.php:389
-#: skins/test.php:170
+#: skins/edit.php:135 skins/edit.php:164 skins/skin_skeleton.php:377
+#: skins/skin_skeleton.php:389 skins/test.php:170
 msgid "Go"
 msgstr "Go"
 
-#: skins/edit.php:140
-#: skins/layout_home_articles_as_alistapart.php:308
+#: skins/edit.php:140 skins/layout_home_articles_as_alistapart.php:308
 msgid "Files"
 msgstr "Fichiers"
 
@@ -918,8 +984,7 @@ msgstr "thème en cours"
 msgid "Configure this theme"
 msgstr "Configurer ce thème"
 
-#: skins/index.php:197
-#: skins/test.php:132
+#: skins/index.php:197 skins/test.php:132
 msgid "Derive this theme"
 msgstr "Dériver ce thème"
 
@@ -927,13 +992,11 @@ msgstr "Dériver ce thème"
 msgid "Origin page"
 msgstr "Page d'origine"
 
-#: skins/index.php:249
-#: skins/test.php:141
+#: skins/index.php:249 skins/test.php:141
 msgid "Theme test"
 msgstr "Test de thème"
 
-#: skins/index.php:250
-#: skins/upload.php:35
+#: skins/index.php:250 skins/upload.php:35
 msgid "Upload a theme"
 msgstr "Téléverser un thème"
 
@@ -1033,12 +1096,9 @@ msgid "Edit"
 msgstr "Modifier"
 
 #: skins/layout_home_articles_as_digg.php:86
-#: skins/layout_home_articles_as_slashdot.php:86
-#: skins/skin_skeleton.php:2020
-#: skins/skin_skeleton.php:2120
-#: skins/skin_skeleton.php:2217
-#: skins/skin_skeleton.php:2454
-#: skins/skin_skeleton.php:5560
+#: skins/layout_home_articles_as_slashdot.php:86 skins/skin_skeleton.php:2020
+#: skins/skin_skeleton.php:2120 skins/skin_skeleton.php:2217
+#: skins/skin_skeleton.php:2454 skins/skin_skeleton.php:5568
 msgid "View the page"
 msgstr "Voir la page"
 
@@ -1076,65 +1136,63 @@ msgstr "Commenter"
 msgid "monthly"
 msgstr "mensuel"
 
-#: skins/page.php:54
+#: skins/page.php:55
 msgid "Skip to main content"
 msgstr "Aller au contenu principal"
 
-#: skins/page.php:89
-#: skins/page.php:885
+#: skins/page.php:90 skins/page.php:886
 msgid "Home"
 msgstr "Accueil"
 
-#: skins/page.php:442
+#: skins/page.php:443
 #, php-format
 msgid "Tags: %s"
 msgstr "Etiquettes : %s"
 
-#: skins/page.php:495
+#: skins/page.php:496
 msgid "Tools"
 msgstr "Outils"
 
-#: skins/page.php:519
+#: skins/page.php:520
 msgid "User login"
 msgstr "Authentification"
 
-#: skins/page.php:535
+#: skins/page.php:536
 msgid "Visited"
 msgstr "Pages visitées"
 
-#: skins/page.php:608
+#: skins/page.php:609
 #, php-format
 msgid "page prepared in %.2f seconds for %s"
 msgstr "page préparée en %.2f secondes pour %s"
 
-#: skins/page.php:617
+#: skins/page.php:618
 msgid "login"
 msgstr "S'authentifier"
 
-#: skins/page.php:621
+#: skins/page.php:622
 msgid "about this site"
 msgstr "à propos de ce site"
 
-#: skins/page.php:625
+#: skins/page.php:626
 msgid "privacy statement"
 msgstr "protection de la vie privée"
 
-#: skins/page.php:629
+#: skins/page.php:630
 #, php-format
 msgid "powered by %s"
 msgstr "un serveur %s"
 
-#: skins/page.php:633
+#: skins/page.php:634
 msgid "information channels"
 msgstr "fils d'information"
 
-#: skins/page.php:755
-#: skins/mu/template.php:59
+#: skins/page.php:756 skins/mu/template.php:59
 #: skins/starterfive/template.php:104
 msgid "Front page"
 msgstr "Page d'accueil"
 
-#: skins/page.php:917
+#: skins/page.php:918
 #, php-format
 msgid "%d section"
 msgid_plural "%d sections"
@@ -1145,15 +1203,11 @@ msgstr[1] "%d sections"
 msgid "Public - Everybody, including anonymous surfers"
 msgstr "Public - Tout le monde, y compris les surfeurs anonymes"
 
-#: skins/skin_skeleton.php:54
-#: skins/test.php:209
-#: skins/test.php:229
+#: skins/skin_skeleton.php:54 skins/test.php:209 skins/test.php:229
 msgid "Community - Access is granted to any identified surfer"
 msgstr "Communauté - Accès autorisé à toute personne identifiée"
 
-#: skins/skin_skeleton.php:60
-#: skins/test.php:210
-#: skins/test.php:230
+#: skins/skin_skeleton.php:60 skins/test.php:210 skins/test.php:230
 msgid "Private - Access is restricted to selected persons"
 msgstr "Privé - Accès limité à quelques personnes"
 
@@ -1181,8 +1235,7 @@ msgstr "<b>Attention :</b> "
 msgid "<b>Note:</b> "
 msgstr "<b>Note :</b> "
 
-#: skins/skin_skeleton.php:372
-#: skins/skin_skeleton.php:384
+#: skins/skin_skeleton.php:372 skins/skin_skeleton.php:384
 msgid "Search..."
 msgstr "Chercher..."
 
@@ -1251,10 +1304,8 @@ msgstr "Calendrier de ce mois"
 msgid "Calendar of this year"
 msgstr "Calendrier de cette année"
 
-#: skins/skin_skeleton.php:1071
-#: skins/skin_skeleton.php:3111
-#: skins/skin_skeleton.php:3481
-#: skins/skin_skeleton.php:3653
+#: skins/skin_skeleton.php:1071 skins/skin_skeleton.php:3111
+#: skins/skin_skeleton.php:3481 skins/skin_skeleton.php:3653
 #: skins/skin_skeleton.php:3661
 msgid "Click to slide"
 msgstr "Cliquer pour faire glisser"
@@ -1300,25 +1351,19 @@ msgstr "Envoyer un message"
 msgid "Monthly calendar"
 msgstr "Calendrier de ce mois"
 
-#: skins/skin_skeleton.php:2146
-#: skins/skin_skeleton.php:5052
+#: skins/skin_skeleton.php:2146 skins/skin_skeleton.php:5060
 msgid "More"
 msgstr "Suite"
 
-#: skins/skin_skeleton.php:2159
-#: skins/skin_skeleton.php:3291
-#: skins/skin_skeleton.php:3304
-#: skins/skin_skeleton.php:5058
-#: skins/skin_skeleton.php:5114
-#: skins/skin_skeleton.php:5116
+#: skins/skin_skeleton.php:2159 skins/skin_skeleton.php:3291
+#: skins/skin_skeleton.php:3304 skins/skin_skeleton.php:5066
+#: skins/skin_skeleton.php:5122 skins/skin_skeleton.php:5124
 #: skins/test.php:268
 msgid "Next"
 msgstr "Suivant"
 
-#: skins/skin_skeleton.php:2172
-#: skins/skin_skeleton.php:3284
-#: skins/skin_skeleton.php:5100
-#: skins/skin_skeleton.php:5102
+#: skins/skin_skeleton.php:2172 skins/skin_skeleton.php:3284
+#: skins/skin_skeleton.php:5108 skins/skin_skeleton.php:5110
 #: skins/test.php:268
 msgid "Previous"
 msgstr "Précédent"
@@ -1345,7 +1390,9 @@ msgstr "Voir le profil de cette personne"
 
 #: skins/skin_skeleton.php:2264
 msgid "Provide this link to specialized software, such as a RSS news reader"
-msgstr "Indiquer ce lien à un logiciel spécialisé, par exemple un lecteur de nouvelles RSS"
+msgstr ""
+"Indiquer ce lien à un logiciel spécialisé, par exemple un lecteur de "
+"nouvelles RSS"
 
 #: skins/skin_skeleton.php:2276
 msgid "Yearly calendar"
@@ -1353,7 +1400,9 @@ msgstr "Calendrier de l'année"
 
 #: skins/skin_skeleton.php:2752
 msgid "If AOL Instant Messenger has been installed, click to open a session"
-msgstr "Si le logiciel AOL Instant Messenger est installé, cliquez pour ouvrir une session"
+msgstr ""
+"Si le logiciel AOL Instant Messenger est installé, cliquez pour ouvrir une "
+"session"
 
 #: skins/skin_skeleton.php:2758
 msgid "If ICQ has been installed, click to open a session"
@@ -1369,7 +1418,8 @@ msgstr "Si un logiciel Jabber est installé, cliquez pour ouvrir une session"
 
 #: skins/skin_skeleton.php:2777
 msgid "If Windows Live Messenger has been installed, click to open a session"
-msgstr "Si Windows Live Messenger est installé, cliquez pour ouvrir une session"
+msgstr ""
+"Si Windows Live Messenger est installé, cliquez pour ouvrir une session"
 
 #: skins/skin_skeleton.php:2783
 msgid "If Skype software is installed, click to open a Skype session"
@@ -1381,10 +1431,10 @@ msgstr "Visiter sur Twitter"
 
 #: skins/skin_skeleton.php:2795
 msgid "If Yahoo Messenger has been installed, click to open session"
-msgstr "Si le logiciel Yahoo Messenger est installé, cliquez pour ouvrir une session"
+msgstr ""
+"Si le logiciel Yahoo Messenger est installé, cliquez pour ouvrir une session"
 
-#: skins/skin_skeleton.php:2863
-#: skins/skin_skeleton.php:2901
+#: skins/skin_skeleton.php:2863 skins/skin_skeleton.php:2901
 #: skins/skin_skeleton.php:2939
 #, php-format
 msgid "from %s"
@@ -1398,8 +1448,7 @@ msgstr "Ajouter une image"
 msgid "Referrals"
 msgstr "Références externes"
 
-#: skins/skin_skeleton.php:3099
-#: skins/skin_skeleton.php:3469
+#: skins/skin_skeleton.php:3099 skins/skin_skeleton.php:3469
 msgid "Content"
 msgstr "Contenu"
 
@@ -1452,24 +1501,24 @@ msgstr "Protégé"
 msgid "updated"
 msgstr "mis à jour"
 
-#: skins/skin_skeleton.php:4961
+#: skins/skin_skeleton.php:4969
 msgid "Back to main page"
 msgstr "Retour à la page principale"
 
-#: skins/skin_skeleton.php:5247
+#: skins/skin_skeleton.php:5255
 msgid "Previous page"
 msgstr "Page précédente"
 
-#: skins/skin_skeleton.php:5272
+#: skins/skin_skeleton.php:5280
 msgid "Next page"
 msgstr "Page suivante"
 
-#: skins/skin_skeleton.php:5557
+#: skins/skin_skeleton.php:5565
 #, php-format
 msgid "%d words to read"
 msgstr "encore %d mots"
 
-#: skins/skin_skeleton.php:5693
+#: skins/skin_skeleton.php:5701
 msgid "Click to sort"
 msgstr "Cliquer pour trier"
 
@@ -1477,35 +1526,19 @@ msgstr "Cliquer pour trier"
 msgid "error messages, if any"
 msgstr "messages d'erreur éventuels"
 
-#: skins/test.php:79
-#: skins/test.php:80
+#: skins/test.php:79 skins/test.php:80
 msgid "navigation"
 msgstr "navigation"
 
-#: skins/test.php:83
-#: skins/test.php:84
+#: skins/test.php:83 skins/test.php:84
 msgid "extra"
 msgstr "extra"
 
-#: skins/test.php:87
-#: skins/test.php:88
-#: skins/test.php:89
-#: skins/test.php:90
-#: skins/test.php:91
-#: skins/test.php:92
-#: skins/test.php:93
-#: skins/test.php:94
-#: skins/test.php:95
-#: skins/test.php:96
-#: skins/test.php:97
-#: skins/test.php:98
-#: skins/test.php:99
-#: skins/test.php:100
-#: skins/test.php:102
-#: skins/test.php:104
-#: skins/test.php:106
-#: skins/test.php:108
-#: skins/test.php:109
+#: skins/test.php:87 skins/test.php:88 skins/test.php:89 skins/test.php:90
+#: skins/test.php:91 skins/test.php:92 skins/test.php:93 skins/test.php:94
+#: skins/test.php:95 skins/test.php:96 skins/test.php:97 skins/test.php:98
+#: skins/test.php:99 skins/test.php:100 skins/test.php:102 skins/test.php:104
+#: skins/test.php:106 skins/test.php:108 skins/test.php:109
 msgid "menu"
 msgstr "menu"
 
@@ -1527,25 +1560,26 @@ msgstr "Thème à tester"
 
 #: skins/test.php:173
 #, php-format
-msgid "Use this page while developing or checking a theme, then activate the theme and move to %s to finalize your work."
-msgstr "Utilisez cette page pour développer ou vérifier un thème, puis allez aux %s pour finaliser votre travail."
+msgid ""
+"Use this page while developing or checking a theme, then activate the theme "
+"and move to %s to finalize your work."
+msgstr ""
+"Utilisez cette page pour développer ou vérifier un thème, puis allez aux %s "
+"pour finaliser votre travail."
 
 #: skins/test.php:173
 msgid "help pages on YACS codes"
 msgstr "pages d'aides consacrées aux codes YACS"
 
-#: skins/test.php:211
-#: skins/test.php:231
+#: skins/test.php:211 skins/test.php:231
 msgid "This item is new"
 msgstr "Nouvel élément"
 
-#: skins/test.php:212
-#: skins/test.php:232
+#: skins/test.php:212 skins/test.php:232
 msgid "This item has been updated"
 msgstr "Cet élément a été mis à jour"
 
-#: skins/test.php:213
-#: skins/test.php:233
+#: skins/test.php:213 skins/test.php:233
 msgid "This item is a draft, and is not publicly visible"
 msgstr "Cet élément est un brouillon, et n'est pas visible publiquement"
 
@@ -1597,12 +1631,8 @@ msgstr "avec voisinage"
 msgid "Text"
 msgstr "Texte"
 
-#: skins/test.php:289
-#: skins/test.php:290
-#: skins/test.php:291
-#: skins/test.php:292
-#: skins/test.php:293
-#: skins/test.php:294
+#: skins/test.php:289 skins/test.php:290 skins/test.php:291 skins/test.php:292
+#: skins/test.php:293 skins/test.php:294
 msgid "gadget"
 msgstr "gadget"
 
@@ -1610,8 +1640,7 @@ msgstr "gadget"
 msgid "Gadgets"
 msgstr "Gadgets"
 
-#: skins/upload.php:56
-#: skins/upload.php:68
+#: skins/upload.php:56 skins/upload.php:68
 msgid "Nothing has been received."
 msgstr "Rien n'a été reçu."
 
@@ -1645,11 +1674,16 @@ msgstr "Erreur dans le traitement %s"
 
 #: skins/upload.php:133
 msgid "You can now visit the index of themes, and select the one you prefer."
-msgstr "Vous pouvez à présent visiter l'index des thèmes et choisir celui que vous préférez."
+msgstr ""
+"Vous pouvez à présent visiter l'index des thèmes et choisir celui que vous "
+"préférez."
 
 #: skins/upload.php:148
-msgid "This script allows you to install or update a theme for your YACS server."
-msgstr "Ce script vous permet d'installer ou de mettre à jour un thème pour votre serveur YACS."
+msgid ""
+"This script allows you to install or update a theme for your YACS server."
+msgstr ""
+"Ce script vous permet d'installer ou de mettre à jour un thème pour votre "
+"serveur YACS."
 
 #: skins/upload.php:154
 msgid "Select the archive file that you want to install remotely."
@@ -1660,8 +1694,12 @@ msgid "bytes"
 msgstr "octets"
 
 #: skins/upload.php:170
-msgid "Alternatively, this script is able to handle archives that have been put in the directory <code>inbox/skins</code>."
-msgstr "Ce script sait aussi traiter les archives placées dans le répertoire <code>inbox/skins</code>."
+msgid ""
+"Alternatively, this script is able to handle archives that have been put in "
+"the directory <code>inbox/skins</code>."
+msgstr ""
+"Ce script sait aussi traiter les archives placées dans le répertoire "
+"<code>inbox/skins</code>."
 
 #: skins/upload.php:204
 #, php-format
@@ -2538,19 +2576,16 @@ msgstr "Encore un serveur %s"
 #~ msgstr "cacher cette information"
 
 #~ msgid "1&nbsp;comment"
-
 #~ msgid_plural "%d&nbsp;comments"
 #~ msgstr[0] "1&nbsp;commentaire"
 #~ msgstr[1] "%d&nbsp;commentaires"
 
 #~ msgid "1&nbsp;link"
-
 #~ msgid_plural "%d&nbsp;links"
 #~ msgstr[0] "1&nbsp;lien"
 #~ msgstr[1] "%d&nbsp;liens"
 
 #~ msgid "1&nbsp;file"
-
 #~ msgid_plural "%d&nbsp;files"
 #~ msgstr[0] "1&nbsp;fichier"
 #~ msgstr[1] "%d&nbsp;fichiers"
@@ -2565,7 +2600,6 @@ msgstr "Encore un serveur %s"
 #~ msgstr "Souscripteur"
 
 #~ msgid "1&nbsp;post"
-
 #~ msgid_plural "%d&nbsp;posts"
 #~ msgstr[0] "1&nbsp;envois"
 #~ msgstr[1] "%d&nbsp;envois"

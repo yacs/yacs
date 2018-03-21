@@ -7,6 +7,7 @@
  * @author Bernard Paques
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -21,8 +22,6 @@ if(!defined('WEEK_START_MONDAY')) // @see i18n
 
 define('W_START_DAY',((WEEK_START_MONDAY)?1:0));
 define('W_END_DAY',((WEEK_START_MONDAY)?8:7));
-//define('STRFTIME_FORMAT',((WEEK_START_MONDAY)?'%u':'%w'));
-define('STRFTIME_FORMAT','%a');
 
 
 Class Dates {
@@ -73,9 +72,8 @@ Class Dates {
 		$first_of_month = gmmktime(0, 0, 0, $month, 1, $year);
 
 		// day in week for the first day of the month
-		//$day = (int)gmstrftime(STRFTIME_FORMAT, $first_of_month); <= does not work with %u on some system
-                $day = gmstrftime(STRFTIME_FORMAT, $first_of_month);
-                $day = Dates::day2num($day);
+                $day = (int)gmdate('w', $first_of_month);
+                if(WEEK_START_MONDAY && $day===0) $day=7;
                 
 		// draw empty cells at the beginning of the month
 		for($index = W_START_DAY; $index < $day; $index++)
@@ -97,9 +95,8 @@ Class Dates {
 		$days_in_month = (int)gmdate('t', gmmktime(0, 0, 0, $month, 1, $year));
 
 		// day in week for the current date
-		//$day_in_week = (int)gmstrftime(STRFTIME_FORMAT, gmmktime(0, 0, 0, $month, $day, $year));
-                $day_in_week = gmstrftime(STRFTIME_FORMAT, gmmktime(0, 0, 0, $month, $day, $year));
-                $day_in_week = Dates::day2num($day_in_week);
+                $day_in_week = (int)gmdate('w', gmmktime(0, 0, 0, $month, $day, $year));
+                if(WEEK_START_MONDAY && $day_in_week===0) $day_in_week=7;
 
 		// start a new week on next row
 		if(($day_in_week == W_START_DAY) && ($day <= $days_in_month))
@@ -253,10 +250,8 @@ Class Dates {
 				// first day of this month
 				$first_of_month = gmmktime(0, 0, 0, $month, 1, $year);
 
-				// day in week for the first day of the month
-				//$day_in_week = (int)gmstrftime(STRFTIME_FORMAT, $first_of_month);
-                                $day_in_week = gmstrftime(STRFTIME_FORMAT, $first_of_month);
-                                $day_in_week = Dates::day2num($day_in_week);
+                                $day_in_week = (int)gmdate('w', $first_of_month);
+                                if(WEEK_START_MONDAY && $day_in_week===0) $day_in_week=7;
 
 				// start a new month
 				$current_day = 1;
@@ -389,26 +384,6 @@ Class Dates {
 
 		return SQL::query_scalar($query);
 	}
-        
-        /**
-         * transform a short written day into num of day in the week
-         * we need this because of problem with %u format.
-         * @param string $day in english (sun to sat)
-         */
-        private static function day2num($day) {
-            
-             static $day2num;
-                if(!isset($shortday)) {
-                    if(WEEK_START_MONDAY)
-                            $day2num = array('mon' => 1, 'tue' => 2, 'wed' => 3, 'thu' => 4, 'fri' => 5, 'sat' => 6, 'sun' => 7);
-                        else
-			    $day2num = array('sun' => 0, 'mon' => 1, 'tue' => 2, 'wed' => 3, 'thu' => 4, 'fri' => 5, 'sat' => 6);
-                    
-                }
-                
-             $num = $day2num[strtolower($day)];
-             return $num;
-        }
 
 	/**
 	 * delete one date in the database and in the file system
@@ -1149,8 +1124,6 @@ Class Dates {
 		$indexes['INDEX anchor_id'] 	= "(anchor_id)";
 		$indexes['INDEX anchor_type']	= "(anchor_type)";
 		$indexes['INDEX date_stamp'] = "(date_stamp)";
-		$indexes['INDEX edit_date'] = "(edit_date)";
-		$indexes['INDEX edit_id']	= "(edit_id)";
 
 		return SQL::setup_table('dates', $fields, $indexes);
 	}

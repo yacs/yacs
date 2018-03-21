@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 10:05+0200\n"
+"POT-Creation-Date: 2017-12-13 17:13+0100\n"
 "PO-Revision-Date: 2015-04-24 15:32+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Alexis Raimbault, Bernard Paques\n"
@@ -82,8 +82,8 @@ msgstr "%s a contribué à %s"
 msgid "You have provided your approval"
 msgstr "Vous avez donné votre accord"
 
-#: comments/comments.php:264 comments/comments.php:492 comments/view.php:186
-#: comments/view.php:216
+#: comments/comments.php:264 comments/comments.php:492 comments/view.php:184
+#: comments/view.php:212
 msgid "Reply"
 msgstr "Répondre"
 
@@ -95,67 +95,67 @@ msgstr "octets"
 msgid "Extract files from the archive"
 msgstr "Extraire les fichiers de l'archive"
 
-#: comments/comments.php:520 comments/edit.php:573
+#: comments/comments.php:519 comments/edit.php:573
 msgid "Add a file"
 msgstr "Ajouter un fichier"
 
-#: comments/comments.php:525
+#: comments/comments.php:524
 msgid "Send"
 msgstr "Envoyer"
 
-#: comments/comments.php:525 comments/edit.php:592
-#: comments/layout_comments_as_updates.php:208
+#: comments/comments.php:524 comments/edit.php:592
+#: comments/layout_comments_as_updates.php:204
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
-#: comments/comments.php:816 comments/comments.php:916
-#: comments/comments.php:973
+#: comments/comments.php:815 comments/comments.php:915
+#: comments/comments.php:972
 msgid "A suggestion"
 msgstr "Une suggestion"
 
-#: comments/comments.php:822 comments/comments.php:922
-#: comments/comments.php:975
+#: comments/comments.php:821 comments/comments.php:921
+#: comments/comments.php:974
 msgid "A question"
 msgstr "Une question"
 
-#: comments/comments.php:828 comments/comments.php:937
-#: comments/comments.php:977
+#: comments/comments.php:827 comments/comments.php:936
+#: comments/comments.php:976
 msgid "Warning!"
 msgstr "Attention !"
 
-#: comments/comments.php:834 comments/comments.php:928
-#: comments/comments.php:979
+#: comments/comments.php:833 comments/comments.php:927
+#: comments/comments.php:978
 msgid "I like..."
 msgstr "J'aime..."
 
-#: comments/comments.php:840 comments/comments.php:955
-#: comments/comments.php:981
+#: comments/comments.php:839 comments/comments.php:954
+#: comments/comments.php:980
 msgid "I don't like..."
 msgstr "Je n'aime pas..."
 
-#: comments/comments.php:846 comments/comments.php:949
-#: comments/comments.php:984
+#: comments/comments.php:845 comments/comments.php:948
+#: comments/comments.php:983
 msgid "My two cents"
 msgstr "Une contribution personnelle"
 
-#: comments/comments.php:910
+#: comments/comments.php:909
 msgid "Attention"
 msgstr "Important"
 
-#: comments/comments.php:943
+#: comments/comments.php:942
 msgid "Job has been completed"
 msgstr "C'est fait"
 
-#: comments/comments.php:1587 comments/index.php:79
+#: comments/comments.php:1586 comments/index.php:79
 msgid "No comment has been transmitted."
 msgstr "Aucun commentaire n'a été transmis."
 
-#: comments/comments.php:1593 comments/comments.php:1599 comments/edit.php:190
+#: comments/comments.php:1592 comments/comments.php:1598 comments/edit.php:190
 #: comments/list.php:117 comments/thread.php:59
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
-#: comments/comments.php:1617
+#: comments/comments.php:1616
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 
@@ -181,7 +181,7 @@ msgstr "Annuler"
 msgid "by %s %s"
 msgstr "par %s %s"
 
-#: comments/delete.php:157 comments/layout_comments_as_updates.php:153
+#: comments/delete.php:157 comments/layout_comments_as_updates.php:149
 #: comments/promote.php:163 comments/view.php:160
 #, php-format
 msgid "edited by %s %s"
@@ -315,7 +315,7 @@ msgstr "Choisissez un type de commentaire représentatif de votre contribution."
 msgid "Your contribution"
 msgstr "Votre contribution"
 
-#: comments/edit.php:592 comments/layout_comments_as_updates.php:208
+#: comments/edit.php:592 comments/layout_comments_as_updates.php:204
 msgid "Submit"
 msgstr "Enregistrer"
 
@@ -460,9 +460,9 @@ msgid "modified by %s"
 msgstr "modifié par %s"
 
 #: comments/layout_comments_as_thread.php:71
-#: comments/layout_comments_as_updates.php:103
-#: comments/layout_comments_as_updates.php:121 comments/view.php:180
-#: comments/view.php:210 comments/view.php:223
+#: comments/layout_comments_as_updates.php:102
+#: comments/layout_comments_as_updates.php:118 comments/view.php:179
+#: comments/view.php:217
 msgid "Edit"
 msgstr "Modifier"
 
@@ -470,12 +470,12 @@ msgstr "Modifier"
 msgid "View this comment"
 msgstr "Voir ce commentaire"
 
-#: comments/layout_comments_as_updates.php:112
-#: comments/layout_comments_as_updates.php:124 comments/view.php:232
+#: comments/layout_comments_as_updates.php:110
+#: comments/layout_comments_as_updates.php:120 comments/view.php:225
 msgid "Delete"
 msgstr "Supprimer"
 
-#: comments/layout_comments_as_updates.php:134
+#: comments/layout_comments_as_updates.php:130
 #, php-format
 msgid "%s has provided his approval"
 msgstr "%s a donné son accord"
@@ -537,15 +537,15 @@ msgstr "Ce commentaire a inspiré :"
 msgid "Back to main page"
 msgstr "Retour à la page principale"
 
-#: comments/view.php:189 comments/view.php:219
+#: comments/view.php:186 comments/view.php:214
 msgid "Quote"
 msgstr "Citer"
 
-#: comments/view.php:210 comments/view.php:223
+#: comments/view.php:206 comments/view.php:207 comments/view.php:217
 msgid "Press [e] to edit"
 msgstr "Appuyer sur [e] pour modifier"
 
-#: comments/view.php:238
+#: comments/view.php:230
 msgid "Promote"
 msgstr "Promouvoir"
 

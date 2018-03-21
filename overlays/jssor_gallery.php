@@ -43,12 +43,14 @@ Class jssor_gallery extends Overlay {
         ///// set of options
         $label      = 'Navigation options';
         // arrows navigation yes/no
-        $input      = '<input type="checkbox" name="arrowsnav" id="arrowsnav" value="Y" '.( ($this->get_value('arrowsnav','Y')==='Y' )?'checked':'').'/>';
+        $input      = '<input type=hidden name=arrowsnav value=N>'."\n";
+        $input     .= '<input type="checkbox" name="arrowsnav" id="arrowsnav" value="Y" '.( ($this->get_value('arrowsnav','Y')==='Y' )?'checked':'').'/>';
         $input     .= '<label for="arrowsnav">'.i18n::s('Display navigation arrows while hovering').'</label>'.BR;
         // drag sliding
         //$input     .= '<input type="checkbox" name="dragnav" id="dragnav" value="Y" '.( ($this->get_value('dragnav','Y')==='Y' )?'checked':'').'/>';
         //$input     .= '&nbsp;<label for="dragnav">'.i18n::s('Allow draging on images to slide them').'</label>'.BR;
         // autoplay
+        $input     .= '<input type=hidden name=autoplay value=N>'."\n";
         $input     .= '<input type="checkbox" name="autoplay" id="autoplay" value="Y" '.( ($this->get_value('autoplay','Y')==='Y' )?'checked':'').'/>';
         $input     .= '<label for="autoplay">'.i18n::s('Autoplay slideshow at page loading').'</label>'.BR;
         $fields[]   = array($label, $input);
@@ -56,7 +58,8 @@ Class jssor_gallery extends Overlay {
         
         // option to size slideshow to its parent
         $label      = i18n::s('Display options');
-        $input      = '<input type="checkbox" name="fit2parent" id="fit2parent" value="Y" '.( ($this->get_value('fit2parent','Y')==='Y' )?'checked':'').'/>';
+        $input      = '<input type=hidden name=fit2parent value=N>'."\n";
+        $input     .= '<input type="checkbox" name="fit2parent" id="fit2parent" value="Y" '.( ($this->get_value('fit2parent','Y')==='Y' )?'checked':'').'/>';
         $input     .= '<label for="fit2parent">'.i18n::s('Fit slideshow\'s width to its parent').'</label>'.BR;
         $fields[]   = array($label, $input);
         
@@ -90,7 +93,8 @@ Class jssor_gallery extends Overlay {
         
         // cleaning
         $label      = i18n::s('Clean');
-        $input      = '<input type="checkbox" name="clean_img" id="clean_img" value="Y" '.( ($this->get_value('clean_img','Y')==='Y' )?'checked':'').'/>';
+        $input      = '<input type=hidden name=clean_img value=N>'."\n";
+        $input     .= '<input type="checkbox" name="clean_img" id="clean_img" value="Y" '.( ($this->get_value('clean_img','Y')==='Y' )?'checked':'').'/>';
         $input     .= '<label for="clean_img">'.i18n::s('Remove images in description').'</label>'.BR;
         $fields[]   = array($label, $input);
        

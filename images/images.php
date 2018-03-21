@@ -704,6 +704,12 @@ Class Images {
 	**/
 	public static function post(&$fields) {
 		global $context;
+                
+                // get former image if any
+                if(isset($fields['id']) && !$former = Images::get($fields['id'])) {
+                        Logger::error(i18n::s('No item has the provided id.'));
+                        return FALSE;
+                }
 
 		// no anchor reference
 		if(!isset($fields['anchor']) || !$fields['anchor']) {
@@ -792,7 +798,7 @@ Class Images {
                 
                 if(isset($fields['tags'])) {
                     // assign the image to related categories, but not archiving categories
-                    Categories::remember('image:'.$fields['id'], NULL_DATE, $fields['tags']);
+                    Categories::remember('image:'.$fields['id'], NULL_DATE, $fields['tags'], isset($former['tags'])? $former['tags'] : '' );
                 }
 
 		// clear the cache
@@ -828,9 +834,6 @@ Class Images {
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 	= "(id)";
 		$indexes['INDEX anchor']	= "(anchor)";
-		$indexes['INDEX edit_date']     = "(edit_date)";
-		$indexes['INDEX edit_id']	= "(edit_id)";
-		$indexes['INDEX image_size']    = "(image_size)";
 		$indexes['INDEX title'] 	= "(title(255))";
 		$indexes['FULLTEXT INDEX']	= "full_text(title, source, description)";
 

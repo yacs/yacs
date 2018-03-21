@@ -1,4 +1,4 @@
-<?php
+    <?php
 /**
  * the database abstraction layer for tables
  *
@@ -307,8 +307,8 @@ Class Tables {
 		case 'inline':
 		case 'sortable':
 
-			// a table with a grid
-			$text .= Skin::table_prefix('grid');
+			// a table
+			$text .= Skin::table_prefix();
 
 			// the title, with a menu to download the table into Excel
 			if($variant == 'inline') {
@@ -593,14 +593,15 @@ Class Tables {
 			$text .= Skin::table_prefix('table');
 
 			// columns headers
-			$index = 0;
+			$count = 1;
 			while($field = SQL::fetch_field($rows))
 				$cells[] = ucfirst($field->name);
 			$text .= Skin::table_row($cells, 'header');
 
 			// other rows
 			while($row = SQL::fetch_row($rows)) {
-				$text .= Skin::table_row($row, $count++);
+				$text .= Skin::table_row($row, $count);
+                                $count++;
 			}
 
 			$text .= Skin::table_suffix();
@@ -638,7 +639,7 @@ Class Tables {
                         list($variant,$item_type) = $variant;
                     }
                     
-                    if(!$item_type) {
+                    if(!isset($item_type)) {
                         $item_type = 'article'; // assume we are listing articles by default.
                     }
                     
@@ -1135,5 +1136,3 @@ Class Tables {
 // load localized strings
 if(is_callable(array('i18n', 'bind')))
 	i18n::bind('tables');
-
-?>

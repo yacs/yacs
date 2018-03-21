@@ -1005,7 +1005,7 @@ Class Skin_Skeleton {
 
 		// wrap everything
                 $tag = (SKIN_HTML5)?'aside':'div';
-		
+		$text = tag::_($tag,tag::_class('extra-box').$id,$text);
 
 		return $text;
 	}
@@ -1152,7 +1152,7 @@ Class Skin_Skeleton {
 
 			// put the hint after the field
 			if($hint)
-                                $input .= tag::_('p', tag::_class('form-hint'),$hint);
+                                $input .= tag::_('div', tag::_class('form-hint'),$hint);
 
 			//$cells = array();
 			/*switch($variant) {
@@ -2330,7 +2330,7 @@ Class Skin_Skeleton {
 	 * @param boolean open links in a separate page if TRUE
 	 * $return the HTML code
 	 */
-	public static function build_list(&$items, $variant='unordered', $default_icon=NULL, $new_window=FALSE, $callback=NULL) {
+	public static function build_list($items, $variant='unordered', $default_icon=NULL, $new_window=FALSE, $callback=NULL) {
 		global $context;
 
 		// sanity check
@@ -4722,6 +4722,9 @@ Class Skin_Skeleton {
 	 */
 	public static function layout_cover_article($item) {
 		global $context;
+                
+                // object interface
+                $art = new Article($item);
 
 		// process steps similar to an ordinary article -- see articles/view.php
 		$text = '<div id="cover_article">';
@@ -4733,6 +4736,11 @@ Class Skin_Skeleton {
 		// the introduction text, if any
 		if(isset($item['introduction']) && $item['introduction'])
 			$text .= Skin::build_block($item['introduction'], 'introduction');
+                
+                // overlay text if any
+                if(is_object($art->overlay)) {
+                        $text .= $art->overlay->get_text('view');
+                }
 
 		// get a body
 		$text .= Codes::beautify($item['description'], $item['options']).'</div>';
@@ -5571,7 +5579,7 @@ Class Skin_Skeleton {
 	 * @param string a variant, if any, as decribed for table_prefix()
 	 * @return a string to be sent to the browser
 	 */
-	public static function table($headers, &$rows, $variant='yc-grid') {
+	public static function table($headers, &$rows, $variant='') {
 		$text = Skin::table_prefix($variant);
 		if(isset($headers) && is_array($headers))
 			$text .= Skin::table_row($headers, 'sortable');

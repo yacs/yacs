@@ -394,7 +394,7 @@ if(!isset($item['id'])) {
 	if(preg_match('/\.gan$/i', $item['file_name'])) {
 
 		// the label
-		$label = fa::_("fa-play").' 'sprintf(i18n::s('Browse %s'), str_replace('_', ' ', $item['file_name']));
+		$label = fa::_("fa-play").' '.sprintf(i18n::s('Browse %s'), str_replace('_', ' ', $item['file_name']));
 
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'

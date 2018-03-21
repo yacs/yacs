@@ -347,6 +347,8 @@ Class rss_Codec extends Codec {
 					$text .= '		<description>'.rss_codec::clean($introduction)."</description>\n";
 				elseif($description)
 					$text .= '		<description>'.rss_codec::clean($description)."</description>\n";
+				if($image)
+					$text .= '		<image><url>'.rss_codec::clean($image)."</url></image>\n";
 
 				// 
 				if($image)

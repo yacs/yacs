@@ -1,11 +1,12 @@
 <?php
 /**
  * speed up things by caching information
- *
- * @todo add ability to rely on memory cache http://www.rooftopsolutions.nl/article/107
- *
+ * 
  * The objective of this cache module is to save on database requests and on
  * computing time.
+ * 
+ * The standard mechanism will relay on database (a table named "cache") but
+ * if memcached service is available and configured, it will be used.
  *
  * Any other module may use it freely by calling member functions as described in the following example.
  *
@@ -56,7 +57,7 @@
  * Cached items may add a lot of burden to the database engine, and several
  * features have been put in place to improve on scalability and efficiency.
  *
- * A period of 20 seconds is allowed to preserve transient items.
+ * When using database, a period of 20 seconds is allowed to preserve transient items.
  *
  * Transient items are those with a reduced life time, and that will
  * expire shortly anyway. Preserving these items is efficient because it saves
@@ -80,6 +81,7 @@
  * be extended for specific items while calling Cache::put(), if necessary.
  *
  * @author Bernard Paques
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -109,22 +111,33 @@ Class Cache {
 	 * @param mixed the topic(s) to be deleted; if NULL, clear all cache entries
 	 */
 	public static function clear($topic=NULL) {
-		global $context;
+		global $context, $ram;
 
 		// always disable cache when server is not switched on
 		if(!file_exists($context['path_to_root'].'parameters/switch.on'))
 			return;
 
-		// the sql back-end may be not available during software updates or on NO_MODEL_PRELOAD
+		if($ram) {
+                    Cache::clear_in_ram($topic);
+                } else {
+                    Cache::clear_in_db($topic);
+                }
+                    
+
+	}
+        
+        private static function clear_in_db($topic) {
+            
+                // the sql back-end may be not available during software updates or on NO_MODEL_PRELOAD
 		if(!is_callable(array('SQL', 'query')))
 			return;
-
-		// clear the entire cache
+                
+                // clear the entire cache
 		if(!$topic)
 			$query = "DELETE FROM ".SQL::table_name('cache');
 
 		// clear everything, except transient and stable items.
-		elseif(is_string($topic) && ($topic == 'global')) {
+		elseif(is_string($topic) && ($topic === 'global')) {
 
 			// clear expired items
 			$where = "(expiry_date < '".gmstrftime('%Y-%m-%d %H:%M:%S')."')";
@@ -165,8 +178,38 @@ Class Cache {
 
 		// do the job
 		SQL::query($query, TRUE);
+            
+        }
+        
+        private static function clear_in_ram($topic) {
+            global $ram;
+            
+            // clear the entire cache
+            if(!$topic) {
+                $ram->flush();
+                
+            // clear everything, except stable items.    
+            } elseif(is_string ($topic) && $topic === 'global') {
+                
+                // get the list of known topics (array)
+                if($topics = $ram->get('yacs_topics')) {
 
-	}
+                    Cache::ram_clear($topics);
+                    
+                } else {
+                    // at least clear global topic
+                   Cache::ram_clear('global'); 
+                }
+                
+            // clear only part of the cache    
+            } else {
+                Cache::ram_clear($topic);
+                
+                // clear also global topic
+                Cache::ram_clear('global');
+            }
+            
+        }
 
 	/**
 	 * retrieve cached information
@@ -175,7 +218,7 @@ Class Cache {
 	 * @return string cached information, or NULL if the no accurate information is available for this id
 	 */
 	public static function get($id, $f_capa=true, $f_lang=true,$f_gmt_off=true) {
-		global $context;
+		global $context, $ram;
 
 		// return by reference
 		$output = NULL;
@@ -185,10 +228,6 @@ Class Cache {
 
 		// always disable cache when server is not switched on
 		if(!file_exists($context['path_to_root'].'parameters/switch.on'))
-			return $output;
-
-		// the sql back-end may be not available during software updates or on NO_MODEL_PRELOAD
-		if(!is_callable(array('SQL', 'query')))
 			return $output;
 
 		// maybe we don't have to cache
@@ -211,7 +250,27 @@ Class Cache {
                 if($f_gmt_off)
                     $id .= '/'.Surfer::get_gmt_offset();
 
-		// select among available items -- exact match
+		// get it form RAM or DB
+                $output = ($ram)?Cache::get_from_ram($id):Cache::get_from_db($id);
+                  
+		return $output;
+	}
+        
+        /**
+         * Retrieve a recorded value in database
+         * 
+         * @param string $id
+         * @return string value of recorded value
+         */
+        private static function get_from_db($id) {
+            
+                $output = NULL;
+            
+                // the sql back-end may be not available during software updates or on NO_MODEL_PRELOAD
+                if(!is_callable(array('SQL', 'query')))
+                        return $output;
+
+                // select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('cache')." AS cache"
 			." WHERE (cache.id LIKE '".SQL::escape($id)."')";
 
@@ -225,8 +284,38 @@ Class Cache {
 
 		// we have a valid cached item
 		$output = $item['text'];
-		return $output;
-	}
+            
+                return $output;       
+        }
+        
+        /**
+         * Retrieve a recorded value in ram storage service
+         * This function needs three get operations 
+         * because the "topic" of the value is encoded within
+         * its id.
+         * 
+         * @global memcached $ram
+         * @param string $id
+         * @return mixed cached value
+         */
+        private static function get_from_ram($id) {
+                global $ram;
+            
+                $output = NULL;
+                
+                // retrieve topic in reverse record
+                if(!$topic = $ram->get('rev::'.$id)) 
+                        return $output; // nothing found
+                
+                // get topic key increment
+                if(!$key = $ram->get($topic))
+                        return $output; // nothing found
+                
+                // get value with id prefixed by topic
+                $output = $ram->get($topic.'%'.$key.'::'.$id);
+                
+                return $output;
+        }
 
 	/**
 	 * build a temporary file name
@@ -238,7 +327,6 @@ Class Cache {
 	 * @return string a suitable name for the temporary directory, or NULL
 	 */
 	public static function hash($id) {
-		global $context;
 
 		$output = NULL;
 		if($id)
@@ -293,7 +381,7 @@ Class Cache {
 	 * @param int the maximum time before expiration, in seconds
 	 */
 	public static function put($id, &$text, $topic='global', $duration=1200, $f_capa=true, $f_lang=true,$f_gmt_off=true) {
-		global $context;
+		global $context, $ram;
 
 		// maybe we don't have to cache
 		if(isset($context['without_cache']) && ($context['without_cache'] == 'Y'))
@@ -301,10 +389,6 @@ Class Cache {
 
 		// cache has been poisoned
 		if(isset($context['cache_has_been_poisoned']) && $context['cache_has_been_poisoned'])
-			return;
-
-		// the sql back-end may be not available during software updates or on NO_MODEL_PRELOAD
-		if(!is_callable(array('SQL', 'query')))
 			return;
 
 		// cached content depends on surfer capability
@@ -319,14 +403,39 @@ Class Cache {
                 if($f_gmt_off)
                     $id .= '/'.Surfer::get_gmt_offset();
 
-		// don't cache more than expected
-		$expiry = gmstrftime('%Y-%m-%d %H:%M:%S', time() + $duration);
-
 		// cache also empty content
 		if(!$text)
 			$text = ' ';
+                
+                
+                // put the value
+                if($ram) {
+                    Cache::put_in_ram($id, $text, $topic, $duration);
+                } else {
+                    Cache::put_in_db($id, $text, $topic, $duration);
+                }
 
-		// update the database; do not report on error
+		
+	}
+        
+        /**
+         * Store a value in database cache table
+         * 
+         * @param string $id
+         * @param string $text
+         * @param strnig $topic
+         * @param int $duration
+         */
+        private static function put_in_db($id, $text, $topic, $duration) {
+                
+                // the sql back-end may be not available during software updates or on NO_MODEL_PRELOAD
+		if(!is_callable(array('SQL', 'query')))
+			return;
+                
+                // don't cache more than expected
+		$expiry = gmstrftime('%Y-%m-%d %H:%M:%S', time() + $duration);
+                
+                // update the database; do not report on error
 		$query = "REPLACE INTO ".SQL::table_name('cache')." SET"
 			." id='".SQL::escape($id)."',"
 			." text='".SQL::escape($text)."',"
@@ -334,13 +443,125 @@ Class Cache {
 			." expiry_date='".$expiry."',"
 			." edit_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."'";
 		SQL::query($query, TRUE);
-	}
+            
+        }
+        
+        /**
+         * Store a value in ram storage.
+         * We also store a reverse record $id=>$topic
+         * in order to be able to retrieve the topic later
+         * 
+         * @global memcached $ram
+         * @param string $id
+         * @param string $text
+         * @param string $topic
+         * @param string $duration
+         */
+        private static function put_in_ram($id, $text, $topic, $duration) {
+                global $ram;
+                
+                // get a topic/key combination
+                $topickey = Cache::ram_ctopic($topic);
+                
+                // ensure duration is not over 30 days
+                $duration = min($duration, 2592000);
+                
+                // set the value and a reverse record of the topic
+                $ram->setMulti(array(
+                    $topickey.'::'.$id  => $text,
+                    'rev::'.$id         => $topic
+                ), $duration);
+        }
+        
+        /**
+         * initialize a interface to memcached, if available
+         * for a RAM storage
+         * 
+         * @return \Memcached
+         */
+        public static function ram_init() {
+                
+                $mem = null;
+            
+                if(class_exists('Memcached')){
+                   
+                    $mem = new Memcached();
+                    // local server only and default port
+                    $op = $mem->addServer("127.0.0.1", 11211);
+                    if(!$op) return null;
+                }
+                
+                // return interface to memcached
+                return $mem;
+        }
+        
+        /**
+         * Clear a topic in ram storage.
+         * Than means incrementing the key
+         * associated with the topic so the 
+         * values stored with the former 
+         * topic/key combination become expired
+         * 
+         * @global memcached $ram
+         * @param mixed $topics (string or array)
+         */
+        public static function ram_clear($topics) {
+                global $ram;
+                        
+                // we need a array
+                if(is_string($topics))
+                    $topics = array($topics);
+                
+                // increment the key value if exist
+                foreach($topics as $t) {
+                    $ram->increment($t);
+                }
+        }
+        
+        
+        /**
+         * Retrieve or create a topic in ram storage.
+         * As memcached does not handle topic naturaly,
+         * we simulate them by storing a random key.
+         * when we want to clear a topic, the key will be
+         * incremented.
+         * 
+         * @see ram_clear
+         * 
+         * @global memcached $ram
+         * @param string $topic
+         * @return string
+         */
+        public static function ram_ctopic($topic) {
+                global $ram;  
+                
+                $topic_key = $topic;
+            
+                // check if key exist
+                if(!$key = $ram->get($topic)) {
+                    // random new
+                    $key = rand(1, 10000);
+                    // create the topic, with no expiration
+                    $ram->set($topic, $key, 0);
+                    // memorise the topics list, except "stable"
+                    // in order to be able to clear them with global keyword
+                    if($topic !== 'stable') {
+                        $yacs_topics = $ram->get('yacs_topics');
+                        if(!$yacs_topics) $yacs_topics = array();
+                        $yacs_topics[] = $topic;
+                        $ram->set('yacs_topics', $yacs_topics, 0);
+                    }
+                }
+                
+                $topic_key .= '%'.$key;
+                
+                return $topic_key;
+        }
 
 	/**
 	 * create tables for the cache
 	 */
 	public static function setup() {
-		global $context;
 
 		$fields = array();
 		$fields['id']			= "VARCHAR(255) DEFAULT '' NOT NULL";		// up to 255 chars
@@ -359,4 +580,7 @@ Class Cache {
 	}
 }
 
-?>
+// the global interface to memcached.
+// Could be used by any script of your own
+global $ram;
+$ram = Cache::ram_init();

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 10:05+0200\n"
+"POT-Creation-Date: 2017-12-13 17:13+0100\n"
 "PO-Revision-Date: 2015-07-17 17:59+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
@@ -518,42 +518,42 @@ msgstr "Play in a separate window"
 msgid "Browse this map with Freemind"
 msgstr "Browse this map with Freemind"
 
-#: codes/codes.php:781
+#: codes/codes.php:779
 #, php-format
 msgid "%d named person has followed the link: %s"
 msgid_plural "%d named persons have followed the link: %s"
 msgstr[0] "%d named person has followed the link: %s"
 msgstr[1] "%d named persons have followed the link: %s"
 
-#: codes/codes.php:784
+#: codes/codes.php:782
 msgid "No authenticated person has used this link yet"
 msgstr "No authenticated person has used this link yet"
 
-#: codes/codes.php:1196
+#: codes/codes.php:1194
 msgid "View this comment"
 msgstr "View this comment"
 
-#: codes/codes.php:1219 codes/codes.php:1275
+#: codes/codes.php:1217 codes/codes.php:1273
 msgid "[this file has been deleted]"
 msgstr "[this file has been deleted]"
 
-#: codes/codes.php:1240 codes/codes.php:1299
+#: codes/codes.php:1238 codes/codes.php:1297
 msgid "[this file has been replaced]"
 msgstr "[this file has been replaced]"
 
-#: codes/codes.php:2007
+#: codes/codes.php:2005
 #, php-format
 msgid "redirection to unknown reference : %s"
 msgstr "redirection to unknown reference : %s"
 
-#: codes/codes.php:2239
+#: codes/codes.php:2237
 #, php-format
 msgid "%d active now"
 msgid_plural "%d active now"
 msgstr[0] "%d active now"
 msgstr[1] "%d active now"
 
-#: codes/codes.php:2311
+#: codes/codes.php:2309
 #, php-format
 msgid ""
 "ERROR: Impossible to write to the file %s. The configuration has not been "

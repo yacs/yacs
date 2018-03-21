@@ -135,6 +135,54 @@ Class Users {
 		return TRUE;
 
 	}
+        
+        /**
+	 * check if a user can be accessed
+	 *
+	 * This function returns TRUE if the item can be transferred to surfer,
+	 * and FALSE otherwise.
+	 *
+	 * @param array a set of item attributes, aka, the target page
+	 * @return boolean TRUE or FALSE
+	 */
+	public static function allow_access($item) {
+            global $context;
+
+            // surfer is an associate
+            if(Surfer::is_associate())
+                    return TRUE;
+            
+            // surfer is this user
+            if(Surfer::is($item['id']))
+			return TRUE;
+            
+            // anonymous surfer has provided the secret handle
+            if(isset($item['handle']) && Surfer::may_handle($item['handle']))
+                    return TRUE;
+            
+            // surfer is a trusted host
+            if(Surfer::is_trusted())
+                    return TRUE;
+            
+            if(isset($item['active'])) {
+                
+                switch ($item['active']) {
+                    
+                    case 'Y':
+                        return TRUE;
+                        
+                    case 'N':
+                        return Surfer::is_member();
+                        
+                    case 'R':
+                        return FALSE;
+                    
+                }
+            }
+            
+            // no clue
+            return FALSE;
+        }
 
 	/**
 	 * authenticate using network credentials
@@ -2019,7 +2067,7 @@ Class Users {
 
 		// list the user in categories
 		if(isset($fields['tags']) && $fields['tags'])
-			Categories::remember('user:'.$item['id'], NULL_DATE, $fields['tags']);
+			Categories::remember('user:'.$item['id'], NULL_DATE, $fields['tags'], $item['tags']);
 
 		// clear all the cache on profile update, because of avatars, etc.
 		$fields['id'] = $item['id'];
@@ -2065,7 +2113,7 @@ Class Users {
 	    global $context;
 
 	    // id cannot be empty
-	    if(!isset($fields['id']) || !is_numeric($fields['id'])) {
+	    if(!isset($fields['id']) || !is_numeric($fields['id']) || !$former = Users::get($fields['id'])) {
 		    Logger::error(i18n::s('No item has the provided id.'));
 		    return FALSE;
 	    }
@@ -2116,7 +2164,7 @@ Class Users {
 
 	    // list the user in categories
 	    if(isset($fields['tags']) && $fields['tags'])
-		Categories::remember('user:'.$fields['id'], NULL_DATE, $fields['tags']);
+		Categories::remember('user:'.$fields['id'], NULL_DATE, $fields['tags'], $former['tags']);
 
 	    // clear the cache
 	    Articles::clear($fields);
@@ -2280,9 +2328,7 @@ Class Users {
 		$indexes['PRIMARY KEY'] 		= "(id)";
 		$indexes['INDEX birth_date']	= "(birth_date)";
 		$indexes['INDEX create_date']	= "(create_date)";
-		$indexes['INDEX create_id'] 	= "(create_id)";
 		$indexes['INDEX edit_date'] 	= "(edit_date)";
-		$indexes['INDEX edit_id']		= "(edit_id)";
 		$indexes['INDEX email'] 		= "(email)";
 		$indexes['INDEX full_name'] 	= "(full_name(255))";
 		$indexes['INDEX handle']		= "(handle)";

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 10:46+0200\n"
+"POT-Creation-Date: 2018-01-31 10:14+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,12 +19,12 @@ msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: categories/categories.php:422 categories/categories.php:617
-#: categories/categories.php:942 categories/categories.php:1755
+#: categories/categories.php:991 categories/categories.php:1805
 msgid "weekly"
 msgstr ""
 
 #: categories/categories.php:423 categories/categories.php:618
-#: categories/categories.php:943 categories/categories.php:1779
+#: categories/categories.php:992 categories/categories.php:1829
 msgid "monthly"
 msgstr ""
 
@@ -36,32 +36,32 @@ msgstr ""
 msgid "featured"
 msgstr ""
 
-#: categories/categories.php:1296 categories/categories.php:1481
+#: categories/categories.php:1345 categories/categories.php:1530
 msgid "No title has been provided."
 msgstr ""
 
-#: categories/categories.php:1477 categories/categories.php:1619
+#: categories/categories.php:1526 categories/categories.php:1668
 msgid "No item has the provided id."
 msgstr ""
 
-#: categories/categories.php:1762
+#: categories/categories.php:1812
 #, php-format
 msgid "Week of&nbsp;%s"
 msgstr ""
 
-#: categories/categories.php:1762
+#: categories/categories.php:1812
 msgid "m/d/y"
 msgstr ""
 
-#: categories/categories.php:1808 categories/set_keyword.php:30
+#: categories/categories.php:1872 categories/set_keyword.php:30
 msgid "Keywords"
 msgstr ""
 
-#: categories/categories.php:1809 categories/set_keyword.php:31
+#: categories/categories.php:1873 categories/set_keyword.php:31
 msgid "Classified pages"
 msgstr ""
 
-#: categories/categories.php:1810 categories/set_keyword.php:32
+#: categories/categories.php:1874 categories/set_keyword.php:32
 msgid ""
 "This category is a specialized glossary of terms, made out of tags added to "
 "pages, and out of search requests."
@@ -72,7 +72,7 @@ msgstr ""
 #: categories/delete.php:65 categories/edit.php:109 categories/feed.php:88
 #: categories/index.php:61 categories/mail.php:58 categories/print.php:70
 #: categories/select.php:58 categories/subcat_feed.php:88
-#: categories/view.php:177 categories/view.php:759
+#: categories/view.php:177 categories/view.php:756
 msgid "Categories"
 msgstr ""
 
@@ -154,7 +154,7 @@ msgid "The cloud of tags"
 msgstr ""
 
 #: categories/cloud.php:22 categories/edit.php:119 categories/index.php:136
-#: categories/view.php:746 categories/view.php:853
+#: categories/view.php:743 categories/view.php:849
 msgid "Add a category"
 msgstr ""
 
@@ -258,16 +258,16 @@ msgid "View the category"
 msgstr ""
 
 #: categories/edit.php:290 categories/edit.php:443 categories/edit.php:484
-#: categories/edit.php:578 categories/view.php:858
+#: categories/edit.php:578 categories/view.php:854
 msgid "Add an image"
 msgstr ""
 
-#: categories/edit.php:292 categories/edit.php:495 categories/view.php:591
-#: categories/view.php:865
+#: categories/edit.php:292 categories/edit.php:495 categories/view.php:590
+#: categories/view.php:860
 msgid "Add a file"
 msgstr ""
 
-#: categories/edit.php:294 categories/view.php:688 categories/view.php:871
+#: categories/edit.php:294 categories/view.php:685 categories/view.php:866
 msgid "Add a link"
 msgstr ""
 
@@ -303,7 +303,7 @@ msgstr ""
 msgid "Articles"
 msgstr ""
 
-#: categories/edit.php:388 categories/view.php:815
+#: categories/edit.php:388 categories/view.php:811
 msgid "Persons"
 msgstr ""
 
@@ -377,7 +377,7 @@ msgstr ""
 msgid "Images"
 msgstr ""
 
-#: categories/edit.php:501 categories/print.php:147 categories/view.php:600
+#: categories/edit.php:501 categories/print.php:147 categories/view.php:599
 msgid "Files"
 msgstr ""
 
@@ -666,7 +666,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: categories/layout_categories_as_search.php:87
-#: categories/layout_categories.php:86 categories/view.php:666
+#: categories/layout_categories.php:86 categories/view.php:664
 #, php-format
 msgid "%d link"
 msgid_plural "%d links"
@@ -674,7 +674,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: categories/layout_categories_as_search.php:91
-#: categories/layout_categories.php:90 categories/view.php:620
+#: categories/layout_categories.php:90 categories/view.php:619
 #, php-format
 msgid "%d comment"
 msgid_plural "%d comments"
@@ -682,7 +682,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: categories/layout_categories_as_search.php:95
-#: categories/layout_categories.php:94 categories/view.php:791
+#: categories/layout_categories.php:94 categories/view.php:787
 #, php-format
 msgid "%d user"
 msgid_plural "%d users"
@@ -694,7 +694,7 @@ msgstr[1] ""
 msgid "in %s"
 msgstr ""
 
-#: categories/mail.php:61 categories/view.php:786
+#: categories/mail.php:61 categories/view.php:782
 msgid "Notify members"
 msgstr ""
 
@@ -860,110 +860,110 @@ msgid_plural "%d images"
 msgstr[0] ""
 msgstr[1] ""
 
-#: categories/view.php:641 categories/view.php:876
+#: categories/view.php:639 categories/view.php:871
 msgid "Post a comment"
 msgstr ""
 
-#: categories/view.php:650
+#: categories/view.php:648
 msgid "Comments"
 msgstr ""
 
-#: categories/view.php:697
+#: categories/view.php:694
 msgid "Links"
 msgstr ""
 
-#: categories/view.php:858 categories/view.php:859
+#: categories/view.php:854 categories/view.php:855
 msgid "You can upload a camera shot, a drawing, or another image file."
 msgstr ""
 
-#: categories/view.php:865 categories/view.php:866
+#: categories/view.php:860 categories/view.php:861
 msgid "Attach related files."
 msgstr ""
 
-#: categories/view.php:871
+#: categories/view.php:866
 msgid "Contribute to the web and link to relevant pages."
 msgstr ""
 
-#: categories/view.php:876
+#: categories/view.php:871
 msgid "Express yourself, and say what you think."
 msgstr ""
 
-#: categories/view.php:881
+#: categories/view.php:876
 msgid "Edit this category"
 msgstr ""
 
-#: categories/view.php:881 categories/view.php:882
+#: categories/view.php:876 categories/view.php:877
 msgid "Press [e] to edit"
 msgstr ""
 
-#: categories/view.php:885
+#: categories/view.php:880
 msgid "Delete this category"
 msgstr ""
 
-#: categories/view.php:889
+#: categories/view.php:884
 msgid "Manage members"
 msgstr ""
 
-#: categories/view.php:907
+#: categories/view.php:901
 msgid "Reference this page"
 msgstr ""
 
-#: categories/view.php:907
+#: categories/view.php:901
 msgid "Various means to link to this page"
 msgstr ""
 
-#: categories/view.php:913
+#: categories/view.php:906
 msgid "Print this page"
 msgstr ""
 
-#: categories/view.php:913
+#: categories/view.php:906
 msgid "Get a paper copy of this page."
 msgstr ""
 
-#: categories/view.php:918
+#: categories/view.php:911
 msgid "Share"
 msgstr ""
 
-#: categories/view.php:923
+#: categories/view.php:916
 msgid "Recent pages"
 msgstr ""
 
-#: categories/view.php:929
+#: categories/view.php:922
 msgid "Monitor"
 msgstr ""
 
-#: categories/view.php:936
+#: categories/view.php:929
 #, php-format
 msgid ""
 "Maybe some new pages or additional material can be found by submitting the "
 "following keyword to our search engine. Give it a try. %s"
 msgstr ""
 
-#: categories/view.php:937
+#: categories/view.php:930
 msgid "Internal search"
 msgstr ""
 
-#: categories/view.php:940
+#: categories/view.php:933
 #, php-format
 msgid "Search for %s at:"
 msgstr ""
 
-#: categories/view.php:947
+#: categories/view.php:940
 msgid "Google"
 msgstr ""
 
-#: categories/view.php:951
+#: categories/view.php:944
 msgid "Yahoo!"
 msgstr ""
 
-#: categories/view.php:955
+#: categories/view.php:948
 msgid "Ask Jeeves"
 msgstr ""
 
-#: categories/view.php:959
+#: categories/view.php:952
 msgid "Technorati"
 msgstr ""
 
-#: categories/view.php:962
+#: categories/view.php:955
 msgid "External search"
 msgstr ""

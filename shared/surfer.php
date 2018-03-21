@@ -291,6 +291,8 @@ Class Surfer {
 	 */
 	public static function build_user_menu($type = 'submenu') {
 		global $context;
+                
+                $content = '';
 
 		// surfer is a valid user
 		if(Surfer::is_logged()) {
@@ -352,7 +354,6 @@ Class Surfer {
 
 		}
 
-		// return by reference
 		return $content;
 	}
 
