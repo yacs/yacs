@@ -582,7 +582,7 @@ if($with_form) {
 		if(Surfer::get_id()) {
 			$label = i18n::s('Insert a thumbnail');
 			$input = '<input type="radio" name="use_thumbnail" value="Y"';
-			if(!isset($item['use_thumbnail']) || ($item['use_thumbnail'] == 'Y'))
+			if(isset($item['use_thumbnail']) && ($item['use_thumbnail'] == 'Y'))
 				$input .= ' checked="checked"';
 			$input .= '/> '.i18n::s('Instead of the embedded image, but only for large files (>20&nbsp;kbytes)').BR."\n";
 			$input .= '<input type="radio" name="use_thumbnail" value="A"';
@@ -590,7 +590,7 @@ if($with_form) {
 				$input .= ' checked="checked"';
 			$input .= '/> '.i18n::s('Always use the thumbnail. Users will click on it to see the full image.').BR."\n";
 			$input .= '<input type="radio" name="use_thumbnail" value="N"';
-			if(isset($item['use_thumbnail']) && ($item['use_thumbnail'] == 'N'))
+			if(!isset($item['use_thumbnail']) || ($item['use_thumbnail'] == 'N'))
 				$input .= ' checked="checked"';
 			$input .= '/> '.i18n::s('Never. Response times for surfers using modem links may be degraded on big images.')."\n";
 			$fields[] = array($label, $input);
