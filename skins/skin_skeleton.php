@@ -4390,7 +4390,7 @@ Class Skin_Skeleton {
 
 		// the bullet used to prefix list items
 		Skin::define_img('BULLET_IMG', 'codes/bullet.gif', '*', '-');
-
+                
 		// the HTML string inserted between categories
 		if(!defined('CATEGORY_PATH_SEPARATOR'))
 			define('CATEGORY_PATH_SEPARATOR', ' &gt; ');
@@ -4402,6 +4402,11 @@ Class Skin_Skeleton {
 		// the maximum number of categories per page -- see articles/view.php, sections/index.php, sections/view.php
 		if(!defined('CATEGORIES_PER_PAGE'))
 			define('CATEGORIES_PER_PAGE', 40);
+                
+                // css class for gadget boxes wrapper
+                // @see /index.php
+                if(!defined('CLASS_GADGETS_WRAPPER'))
+			define('CLASS_GADGETS_WRAPPER', 'grid-3-small-2-tiny-1');
 
 		// the maximum number of comments per page
 		if(!defined('COMMENTS_PER_PAGE'))
