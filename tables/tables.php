@@ -1,4 +1,4 @@
-    <?php
+<?php
 /**
  * the database abstraction layer for tables
  *
