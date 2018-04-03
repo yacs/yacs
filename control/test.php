@@ -191,7 +191,7 @@ if(Surfer::is_associate()) {
 echo '$context[\'charset\']='.$context['charset'].BR."\n";
 
 if(isset($context['virtual_domains']))
-    echo BR.'virtual domains : '.implode (", ", $context['compagnon_domains']).BR."\n";
+    echo BR.'virtual domains : '.implode (", ", $context['virtual_domains']).BR."\n";
 
 // server attributes -- not in demonstration mode
 if(@count($_SERVER) && !file_exists($context['path_to_root'].'parameters/demo.flag')) {
