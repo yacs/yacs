@@ -683,6 +683,7 @@ Class Js_Css {
      * @param string $ext, 'js' or 'css' to provide the script type if plain text is given
      */
     public static function minify($path, &$script=null, $ext=null) {
+        global $context;
         
         if(!$ext) {
         
@@ -739,7 +740,7 @@ Class Js_Css {
             } else {
                 
                 // build the path
-                $min_path = 'temporary/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
+                $min_path = $context['path_to_root'].'temporary/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
 
                 // delete previous one
                 Safe::unlink($min_path);
