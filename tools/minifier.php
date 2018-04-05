@@ -19,7 +19,7 @@ include_once '../shared/logger.php';
 
 // some input is mandatory
 if(!isset($_REQUEST['script']) || !$_REQUEST['script']) {
-    echo 'please provide a script path';
+    logger::remember('minification','failed, please provide a script path');
     die;
 } else
     $script = $_REQUEST['script'];
@@ -29,7 +29,6 @@ $writen = Js_css::minify($script);
 
 if($writen) {
     logger::remember('minification',$script);
-    echo 'job done';
 } else {
-    echo 'nothing done'; 
+    logger::remember('minification','failed : ' . $script);
 }
