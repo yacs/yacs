@@ -685,28 +685,28 @@ Class Js_Css {
     public static function minify($path, &$script=null, $ext=null) {
         global $context;
         
+        
         if(!$ext) {
+            // a path to a file should have been provided
         
             // get file content
-            $to_minify = safe::file_get_contents($path);
+            // $to_minify = safe::file_get_contents($path);
+            $check = Safe::filesize($path);
 
             // sanity check
-            if(!$to_minify) {
+            if(!$check) {
                 logger::remember('shared/js_css.php', 'cannot get file to minify : '.$path);
                 return false;
             }
             
             // gather info on file
             $path_parts = pathinfo($path);
-            $ext        = $path_parts['extension'];
+            $ext        = isset($path_parts['extension'])?$path_parts['extension']:null;
         
-        } else {
+        } 
             
-            // content passed as plain text
-            $to_minify = $path;
-
-        }
-        
+        // pass plain text or path to file    
+        $to_minify = $path;
         
         
         switch ($ext) {
@@ -724,6 +724,7 @@ Class Js_Css {
                 break;
             default:
                 $minifier = null;
+                logger::remember('shared/js_css.php', 'extension not known');
                 break;
         }
         
