@@ -614,6 +614,30 @@ class Overlay {
 		}
 		return $text;
 	}
+        
+        /**
+	 * help to retrieve a option in layout variant
+	 * 
+	 * @param string the search option
+	 * @return mixed, false or true if option is present or option value
+	 * if its a parameter
+	 */
+	function has_parameter($option) {
+	    
+	    if(!isset($this->attributes['overlay_parameters']))
+		    return FALSE;	    
+	    
+	    // 'per_page' matches with 'per_page_50', return '50'
+	    if(preg_match('/\b'.$option.'_(.+?)\b/i', $this->attributes['overlay_parameters'], $matches))
+			return $matches[1];
+
+	    // exact match, return TRUE
+	    if(strpos($this->attributes['overlay_parameters'], $option) !== FALSE)
+			return TRUE;
+	    
+	    // bad luck
+	    return FALSE;
+	}
 
 	/**
 	 * initialize this instance

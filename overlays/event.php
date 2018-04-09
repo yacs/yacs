@@ -1812,6 +1812,10 @@ class Event extends Overlay {
 	 */
 	function render($type, $anchor, $page=1) {
 		global $context;
+                
+                // may be disabled by parameter
+                if($this->has_parameter('no_render')) return NULL;
+                
 
 		// instead of articles
 		if($type != 'articles')
