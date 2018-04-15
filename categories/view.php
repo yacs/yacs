@@ -803,8 +803,6 @@ if(!isset($item['id'])) {
 			$box['text'] .= Skin::build_list($items, 'decorated');
 		elseif(is_string($items))
 			$box['text'] .= $items;
-		if($box['bar'] && (($stats['count'] - $offset) > 5))
-			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 
 		// in a separate panel
 		if($box['text'])
