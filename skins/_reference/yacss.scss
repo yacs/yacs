@@ -101,6 +101,17 @@ $path : rPath() + "skins/_reference/";
         }
 }
 
+///// used to align text verticaly middle inside a block
+@mixin vertical-align {
+    
+    &:before {
+        content: "";
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+  }   
+}
+
 /////////////
 // Helper classes
 //
@@ -626,6 +637,13 @@ figure {max-width: 100%;}
     
     & > div {
         display : inline-block;
+        
+        // non-link inside menu-bar
+        &.label {
+            @include vertical-align();
+            margin  : $button-margin;
+            padding : $button-padding;
+        }
     }
     
     // all menu entries are shapped like button
