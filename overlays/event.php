@@ -1844,7 +1844,7 @@ class Event extends Overlay {
 
 		// empowered users can contribute
 		if(Articles::allow_creation(NULL, $container)) {
-			$menu[] = '<div style="display: inline">'.Skin::build_link('articles/edit.php?anchor='.urlencode($anchor), fa::_("fa-plus-square-o").' '.i18n::s('Add an event'), 'span').'</div>';
+			$menu[] = Skin::build_link('articles/edit.php?anchor='.urlencode($anchor), fa::_("fa-plus-square-o").' '.i18n::s('Add an event'), 'span');
 		}
 
 		// ensure access to past dates

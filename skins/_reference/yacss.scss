@@ -81,13 +81,13 @@ $path : rPath() + "skins/_reference/";
         border:$button-border;
         @include x-readable-text-color($color-button);
         text-decoration: none;
-        padding : 0 0.5em;
-        margin : 0.1em 0.2em;
+        padding : $button-padding;
+        margin : $button-margin;
 
         &:hover {
             background: $button-gradient-hover;
             background-color:$color-button-light;
-            @include x-readable-text-color($color-button);
+            @include x-readable-text-color($color-button-light);
             text-decoration: none;
         }
 
@@ -624,14 +624,13 @@ figure {max-width: 100%;}
     line-height : 2em;
     margin: .2em 0 .5em;
     
-    // all menu entries are shapped like button
-    a {
-        @include x-button();
+    & > div {
+        display : inline-block;
     }
     
-    // sometime <a> is wrapped in a span or div
-    // display inline-block to fit height
-    span a, div a {
+    // all menu entries are shapped like button
+    & > a, & > span > a, & > div > a {
+        @include x-button();
         display : inline-block;
     }
 }

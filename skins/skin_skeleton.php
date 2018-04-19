@@ -4136,13 +4136,13 @@ Class Skin_Skeleton {
 
 					// mark first and last items
 					if($label[0] != '<')
-						$text .= '<span class="label">'.$label.'</span>';
+						$text .= '<div class="label">'.$label.'</div>';
 					elseif($line_count == 1)
-						$text .= '<span class="first">'.$label.'</span>';
+						$text .= '<div class="first">'.$label.'</div>';
 					elseif($line_count == count($list))
-						$text .= '<span class="last">'.$label.'</span>';
+						$text .= '<div class="last">'.$label.'</div>';
 					else
-						$text .= $label;
+						$text .= tag::_('div','',$label);
 
 				}
 

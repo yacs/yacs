@@ -383,9 +383,9 @@ if(Surfer::is_crawler()) {
 			$menu[] = Skin::build_link($_SERVER['HTTP_REFERER'], i18n::s('Move forward'), 'button');
 		else
 			$menu[] = Skin::build_link($context['url_to_root'], i18n::s('Front page'), 'button');
-		$menu[] = Skin::build_link(Surfer::get_permalink(), i18n::s('My profile'), 'span');
+		$menu[] = Skin::build_link(Surfer::get_permalink(), i18n::s('My profile'), 'button');
 		if(Surfer::is_associate())
-			$menu[] = Skin::build_link('control/', i18n::s('Control Panel'), 'span');
+			$menu[] = Skin::build_link('control/', i18n::s('Control Panel'), 'button');
 		$follow_up .= Skin::finalize_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
