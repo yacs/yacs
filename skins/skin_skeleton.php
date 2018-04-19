@@ -3103,7 +3103,7 @@ Class Skin_Skeleton {
 			$id = ' id="'.$id.'" ';
 
 		// external boundary
-		$text = '<div class="sliding_box" style="display: inline;"'.$id.'>'."\n";
+		$text = '<div class="sliding_box" style="display: inline-block;"'.$id.'>'."\n";
 
 		// an image to enhance rendering
 		$img = '';
