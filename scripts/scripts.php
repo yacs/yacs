@@ -157,7 +157,7 @@ class Scripts {
 		// return the whole diff sequence
 		return $sequence;
 	}
-
+        
 	/**
 	 * get the diff as a table of lines
 	 *
@@ -316,39 +316,24 @@ class Scripts {
 	 * hash the content of one file
 	 *
 	 * @param string the path of the target file
-	 * @return an array of ($lines, $hash), or NULL if not part of the reference set
+	 * @return an array of ($size, $hash), or NULL if not part of the reference set
 	 */
 	public static function hash($file) {
 		global $context;
 
-		// only process php scripts
-		if(!strpos(basename($file), '.php'))
-			return NULL;
-
 		// check file content
 		if(!$handle = Safe::fopen($file, 'rb'))
 			return NULL;
-
-		// count lines
-		$reference = FALSE;
-		$count = 0;
-		while($line = fgets($handle)) {
-			$count++;
-			if(strpos($line, '@reference'))
-				$reference = TRUE;
-		}
-		fclose($handle);
-
-		// only accept reference scripts
-		if(!$reference)
-			return NULL;
-
+                
 		// compute md5 signature
 		if(!$hash = md5_file(Safe::realpath($file)))
 			return NULL;
+                
+                // size
+                $size = Safe::filesize($file);
 
 		// return the result
-		return array($count, $hash);
+		return array($size, $hash);
 	}
 
 	/**

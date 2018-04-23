@@ -1,12 +1,15 @@
 #!/bin/bash
 # Build a patch for yacs from the git diff between two states of the repo
-# Of course git must be installed and this yacs folder initialized as a git repo
+# Of course git must be installed and this yacs folder initialized as a git repo.
 # 
 # One argument must be provided that is a commit sha1 or branch name or git tag
 # form with the patch will be created (difference between commit and HEAD, 
-# NOT INCLUDING the commit you provide as argument)
+# NOT INCLUDING the commit you provide as argument).
 #
-# The argument MUST be a commit that is already up-to-date on your target server
+# The argument SHOULD BE a commit that is already up-to-date on your target server.
+# Also, better not to have uncommited change while generating the patch. It may
+# result in unexpected updates if a file has a commited and uncommited change cause
+# the patch takes the version of the file as it is.
 #
 # the resulting archive will be placed in /temporary folder with the following pattern :
 # patch-<nameofbranche>-<arg-short-sha1>-<head-short-sha1>.zip
@@ -49,15 +52,17 @@ sha_head=$(git log --pretty=format:'%h' -n 1 HEAD)
 # build archive name
 arch="patch-"$branch"-"$sha_arg"-"$sha_head".zip"
 
-# delete former patch if already exist
+# delete former patch if already exists
 if [ -f "temporary/$arch" ]
 then rm "temporary/$arch";
 fi
 
 # generate archive tree, using a git diff as parameter for git archive
 # a filter is provided to not take deleted file into account
-updatedornew=$(git diff --name-only --diff-filter=ACMRT $1)
+# HEAD^ is specified not to take uncommited changes
+updatedornew=$(git diff --name-only --diff-filter=ACMRT $1 HEAD^)
 echo $updatedornew | tr " " "\n"
+# make the archive
 git archive -o temporary/$arch HEAD $updatedornew
 
 # check if archive is created
@@ -73,7 +78,7 @@ deleted="$(git diff --name-only --diff-filter=D $1 )"
 if [ -n "$deleted" ] 
 then
 echo "===> file(s) deletion detected"
-echo $deleted
+echo $deleted | tr " " "\n"
 # add a deleted list of deleted file into the archive zip
 echo $deleted >> "deleted.list"
 zip -ur "temporary/$arch" "deleted.list" > /dev/null
@@ -86,9 +91,32 @@ if [ $? -eq 0 ]
 	fi
 fi
 
-# save description of last commit in patch
+## Prepare footprints of the patch
+echo '<?php' > "footprints.php"
+echo 'global $footprints;' >> "footprints.php"
+echo 'if(!isset($footprints)) $footprints=array();' >> "footprints.php"
+# transform list of updated file into array
+IFS=' ' read -r -a staging <<< $updatedornew
+total_size=0
+# a line per file
+for file in "${staging[@]}"; do
+	size=$(wc -c < $file)
+	let "total_size+=size"
+	md5=$(md5sum $file | awk '{ print $1 }')
+	echo '$footprints['"'$file'"']=array('"$size,'$md5'"');' >> "footprints.php"
+done
+#generation information
+echo 'global $generation;' >> "footprints.php"
+echo 'if(!isset($generation)) $generation=array();' >> "footprints.php"
+echo '$generation'"['date']='$(date -Iseconds)';" >> "footprints.php"
+echo '$generation'"['server']='$(git config --global user.name) on $(hostname)';" >> "footprints.php"
 rev=$(git describe --tags)
-echo $rev >> "$rev.rev"
-zip -ur "temporary/$arch" "$rev.rev" > /dev/null
-rm "$rev.rev"
+echo '$generation'"['version']='$rev';" >> "footprints.php" 
+echo '$generation'"['scripts']=$(wc -w <<< $updatedornew);" >> "footprints.php"
+echo '$generation'"['size']=$total_size;" >> "footprints.php" 
+echo '$generation'"['deleted']=$(wc -w <<< $deleted);" >> "footprints.php"
+
+#add footprints to archive
+zip -ur "temporary/$arch" "footprints.php" > /dev/null
+rm "footprints.php"
 echo -e "\e[93m===> Patched server revision will be $rev\e[39m"

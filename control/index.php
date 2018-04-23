@@ -796,7 +796,7 @@ if(!file_exists('../parameters/control.include.php')) {
 
 				// yacs version
 				if(!isset($generation['version']))
-					Safe::load('footprints.php');						// initial archive, or current version
+					Safe::load('scripts/version.php');						// initial archive, or current version
 				$cells = array();
 				$cells[] = Skin::build_link('http://www.yacs.fr/', 'YACS');
 				if(isset($generation['version']))

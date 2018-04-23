@@ -13,9 +13,15 @@
  *
  * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode, and no update can be performed.
+ * 
+ * The source of files for updating is /scripts/staging/
+ * @see scripts/stage.php
+ * 
+ * The script displays a preview of what will be updated before doing the job
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -93,9 +99,9 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= '<p>'.i18n::s('Updating scripts...').BR."\n";
 
 	// use the footprints of reference files to locate updates
-	$updated_files = 0;
-	$missing_files = 0;
-	$failures = 0;
+	$updated_files  = 0;
+	$missing_files  = 0;
+	$failures       = 0;
 	foreach($footprints as $file => $attributes) {
 
 		// if the target script has been terminated by run_once.php, skip the update
@@ -132,7 +138,7 @@ elseif(!Surfer::is_associate()) {
 		// maybe we have to update the front page
 		if(($file == 'index.php') && isset($context['home_at_root']) && ($context['home_at_root'] == 'Y')) {
 			if(Safe::copy($context['path_to_root'].'scripts/staging/index.php', $context['path_to_root'].'../index.php')) {
-				$context['text'] .= sprintf(i18n::s('%s has been updated'), '../index.php').' ('.$attributes[0].' '.i18n::s('lines').')'.BR."\n";
+				$context['text'] .= sprintf(i18n::s('%s has been updated'), '../index.php').' ('.files::format_bytes($attributes[0]).')'.BR."\n";
 				$updated_files++;
 
 			// failed update
@@ -157,7 +163,7 @@ elseif(!Surfer::is_associate()) {
 
 			// move the staging script
 			if(Safe::rename($context['path_to_root'].'scripts/staging/'.$file, $context['path_to_root'].$file)) {
-				$context['text'] .= sprintf(i18n::s('%s has been updated'), $file.' ('.$attributes[0].' '.i18n::s('lines').')').BR."\n";
+				$context['text'] .= sprintf(i18n::s('%s has been updated'), $file.' ('.files::format_bytes($attributes[0]).')').BR."\n";
 				$updated_files++;
 
 			// failed update
@@ -172,9 +178,32 @@ elseif(!Surfer::is_associate()) {
 		Safe::set_time_limit(30);
 
 	}
+        
+        // Prune files from deleted.list
+        $deleted_files  = 0;
+        if(file_exists($context['path_to_roots'].'/scripts/staging/deleted.list')) {
+            
+            // open and parse list of files to delete
+            $handle = Safe::fopen($context['path_to_roots'].'/scripts/staging/deleted.list', 'r');
+            if($handle) {
+                while($to_delete = fgets($handle)) {
+                    if(file_exists($context['path_to_root'].$to_delete)) {
+                        // backup the old version
+                        Safe::unlink($context['path_to_root'].$to_delete.'.bak');
+                        Safe::rename($context['path_to_root'].$to_delete, $context['path_to_root'].$to_delete.'.bak');
+                        // suppression
+                        Safe::unlink($context['path_to_root'].$to_delete);
+                        $context['text'] .= sprintf(i18n::s('%s has been deleted'), $to_delete);
+                        $deleted_files++;
+                    }
+                }
+                fclose($handle);
+            }            
+        }  
+        
 
 	// server is up to date
-	if(!$updated_files && !$missing_files && !$failures) {
+	if(!$updated_files && !$deleted_files && !$missing_files && !$failures) {
 		$context['text'] .= i18n::s('Scripts on your server are exact copies of the reference set.')."</p>\n";
 
 		// forward to the index page
@@ -182,19 +211,14 @@ elseif(!Surfer::is_associate()) {
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 	// no script has been modified
-	} elseif(!$updated_files)
+	} elseif(!$updated_files && !$deleted_files)
 		$context['text'] .= i18n::s('No file has been updated.')."</p>\n";
 
 	// scripts have been updated
 	else {
 
 		// report on updates
-		$context['text'] .= sprintf(i18n::ns('%d file has been updated.', '%d files have been updated.', $updated_files), $updated_files)."</p>\n";
-
-		// safe copy of footprints.php to the root directory
-		Safe::unlink($context['path_to_root'].'footprints.php.bak');
-		Safe::rename($context['path_to_root'].'footprints.php', $context['path_to_root'].'footprints.php.bak');
-		Safe::copy($context['path_to_root'].'scripts/staging/footprints.php', $context['path_to_root'].'footprints.php');
+		$context['text'] .= sprintf(i18n::ns('%d file has been updated.', '%d files have been updated.', $updated_files+$deleted_files), $updated_files+$deleted_files)."</p>\n";
 
 		// load the special update follow-up, if any
 		Safe::load('scripts/update_trailer.php');
@@ -250,12 +274,10 @@ elseif(!Surfer::is_associate()) {
 	// use footprints of reference files to locate updates
 	$staging_files = 0;
 	$missing_files = 0;
-	$box = '';
+	$box = array('new' => array(''), 'update' => array(''));
 	foreach($footprints as $file => $attributes) {
-
-		// only consider php scripts at the moment
-		if(!preg_match('/\.php$/', $file))
-			continue;
+            
+                $is_new = FALSE;
 
 		// maybe the script has already been executed -- never expect an exact copy
 		if(is_readable($context['path_to_root'].$file.'.done'))
@@ -268,7 +290,9 @@ elseif(!Surfer::is_associate()) {
 			if($attributes[1] == $result[1])
 				continue;
 
-		}
+		} else {
+                    $is_new = TRUE;
+                }
 
 		// we should have an updated file in the staging directory
 		if(!is_readable($context['path_to_root'].'scripts/staging/'.$file)) {
@@ -293,19 +317,22 @@ elseif(!Surfer::is_associate()) {
 		}
 
 		// report on the updated script
-		$context['file_bar'] = array( 'scripts/browse.php?script='.$file.'&store=staging' => i18n::s('Review'),
+                if($is_new) {
+                    $box['new'][] = $file.' ('.files::format_bytes($attributes[0]).')';
+                } else {
+                    $context['file_bar'] = array( 'scripts/browse.php?script='.$file.'&store=staging' => i18n::s('Review'),
 			 'scripts/compare.php?original='.$file.'&updated=scripts/staging/'.$file.'&format=gdiff' => i18n::s('Diff') );
-		$box .= $file.' ('.$attributes[0].' '.i18n::s('lines').') '.Skin::build_list($context['file_bar'], 'menu').BR."\n";
-		$staging_files++;
+                    $box['update'][] = $file.' ('.files::format_bytes($attributes[0]).') '.Skin::build_list($context['file_bar'], 'menu');
+		
+                }
+                $staging_files++;
 
 		// ensure enough execution time
 		Safe::set_time_limit(30);
 
 	}
 
-	// make a folded box
-	if($box)
-		$context['text'] .= Skin::build_box(i18n::s('Staging scripts'), $box, 'folded');
+	
 
 	// missing files
 	if($missing_files) {
@@ -314,6 +341,38 @@ elseif(!Surfer::is_associate()) {
 		// forward to the staging script
 		$menu = array('scripts/stage.php' => i18n::s('Stage updated scripts'));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+                
+                
+        // check for files to delete
+        if(file_exists($context['path_to_roots'].'/scripts/staging/deleted.list')) {
+            
+            $box['delete'] = array();
+            
+            // open and parse list of files to delete
+            $handle = Safe::fopen($context['path_to_roots'].'/scripts/staging/deleted.list', 'r');
+            if($handle) {
+                while($to_delete = fgets($handle)) {
+                    if(file_exists($context['path_to_root'].$to_delete)) {
+                        $box['delete'][] = $to_delete;
+                        $staging_files++;
+                    }
+                }
+                fclose($handle);
+            }            
+        }      
+        
+        // make folded boxes
+	if($staging_file) {
+            
+                if(count($box['new']))
+                   $context['text'] .= Skin::build_box(i18n::s('New scripts'), implode(BR."\n", $box['new']), 'folded'); 
+            
+                if(count($box['update']))
+                    $context['text'] .= Skin::build_box(i18n::s('Staging scripts'), implode(BR."\n", $box['updated']), 'folded');
+                
+                if(count($box['delete']))
+                    $context['text'] .= Skin::build_box(i18n::s('Obsolete scripts'), implode(BR."\n", $box['delete']), 'folded');
+        }
 
 	// server is up to date
 	} elseif(!$staging_files) {
@@ -342,5 +401,3 @@ elseif(!Surfer::is_associate()) {
 
 // render the skin
 render_skin();
-
-?>
