@@ -181,19 +181,19 @@ elseif(!Surfer::is_associate()) {
         
         // Prune files from deleted.list
         $deleted_files  = 0;
-        if(file_exists($context['path_to_roots'].'/scripts/staging/deleted.list')) {
+        if(file_exists($context['path_to_root'].'scripts/staging/deleted.list')) {
             
             // open and parse list of files to delete
-            $handle = Safe::fopen($context['path_to_roots'].'/scripts/staging/deleted.list', 'r');
+            $handle = Safe::fopen($context['path_to_root'].'scripts/staging/deleted.list', 'r');
             if($handle) {
-                while($to_delete = fgets($handle)) {
+                while($to_delete = trim(fgets($handle))) {
                     if(file_exists($context['path_to_root'].$to_delete)) {
                         // backup the old version
                         Safe::unlink($context['path_to_root'].$to_delete.'.bak');
                         Safe::rename($context['path_to_root'].$to_delete, $context['path_to_root'].$to_delete.'.bak');
                         // suppression
                         Safe::unlink($context['path_to_root'].$to_delete);
-                        $context['text'] .= sprintf(i18n::s('%s has been deleted'), $to_delete);
+                        $context['text'] .= sprintf(i18n::s('%s has been deleted'), $to_delete).BR."\n";;
                         $deleted_files++;
                     }
                 }
@@ -274,7 +274,7 @@ elseif(!Surfer::is_associate()) {
 	// use footprints of reference files to locate updates
 	$staging_files = 0;
 	$missing_files = 0;
-	$box = array('new' => array(''), 'update' => array(''));
+	$box = array('new' => array(), 'update' => array(),'delete'=> array(),'errors'=>array());
 	foreach($footprints as $file => $attributes) {
             
                 $is_new = FALSE;
@@ -296,14 +296,14 @@ elseif(!Surfer::is_associate()) {
 
 		// we should have an updated file in the staging directory
 		if(!is_readable($context['path_to_root'].'scripts/staging/'.$file)) {
-			$box .= sprintf(i18n::s('ERROR: File %s is missing or corrupted.'), $file).BR."\n";
+			$box['errors'][] = sprintf(i18n::s('ERROR: File %s is missing or corrupted.'), $file).BR."\n";
 			$missing_files++;
 			continue;
 		}
 
 		// file should have some content --useful when space quota is full
 		if(!Safe::filesize($context['path_to_root'].'scripts/staging/'.$file)) {
-			$box .= sprintf(i18n::s('ERROR: File %s is missing or corrupted.'), $file).BR."\n";
+			$box['errors'][] = sprintf(i18n::s('ERROR: File %s is missing or corrupted.'), $file).BR."\n";
 			$missing_files++;
 			continue;
 		}
@@ -311,7 +311,7 @@ elseif(!Surfer::is_associate()) {
 		// ensure we have an exact copy
 		$result = Scripts::hash('scripts/staging/'.$file);
 		if($attributes[1] != $result[1]) {
-			$box .= sprintf(i18n::s('ERROR: File %s is missing or corrupted.'), $file).BR."\n";
+			$box['errors'][] = sprintf(i18n::s('ERROR: File %s is missing or corrupted.'), $file).BR."\n";
 			$missing_files++;
 			continue;
 		}
@@ -330,28 +330,15 @@ elseif(!Surfer::is_associate()) {
 		// ensure enough execution time
 		Safe::set_time_limit(30);
 
-	}
-
-	
-
-	// missing files
-	if($missing_files) {
-		$context['text'] .= '<p>'.i18n::s('Some updated files are missing.')."</p>\n";
-
-		// forward to the staging script
-		$menu = array('scripts/stage.php' => i18n::s('Stage updated scripts'));
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
-                
+	}             
                 
         // check for files to delete
-        if(file_exists($context['path_to_roots'].'/scripts/staging/deleted.list')) {
-            
-            $box['delete'] = array();
+        if(file_exists($context['path_to_root'].'scripts/staging/deleted.list')) {
             
             // open and parse list of files to delete
-            $handle = Safe::fopen($context['path_to_roots'].'/scripts/staging/deleted.list', 'r');
+            $handle = Safe::fopen($context['path_to_root'].'scripts/staging/deleted.list', 'r');
             if($handle) {
-                while($to_delete = fgets($handle)) {
+                while($to_delete = trim(fgets($handle))) {
                     if(file_exists($context['path_to_root'].$to_delete)) {
                         $box['delete'][] = $to_delete;
                         $staging_files++;
@@ -362,17 +349,28 @@ elseif(!Surfer::is_associate()) {
         }      
         
         // make folded boxes
-	if($staging_file) {
+	if($staging_files) {
+            
+                if(count($box['errors']))
+                    $context['text'] .= Skin::build_box(i18n::s('Errors'), implode(BR."\n", $box['errors']), 'unfolded');
             
                 if(count($box['new']))
-                   $context['text'] .= Skin::build_box(i18n::s('New scripts'), implode(BR."\n", $box['new']), 'folded'); 
+                   $context['text'] .= Skin::build_box(i18n::s('New files'), implode(BR."\n", $box['new']), 'folded'); 
             
                 if(count($box['update']))
-                    $context['text'] .= Skin::build_box(i18n::s('Staging scripts'), implode(BR."\n", $box['updated']), 'folded');
+                    $context['text'] .= Skin::build_box(i18n::s('Staging files'), implode(BR."\n", $box['update']), 'folded');
                 
                 if(count($box['delete']))
-                    $context['text'] .= Skin::build_box(i18n::s('Obsolete scripts'), implode(BR."\n", $box['delete']), 'folded');
+                    $context['text'] .= Skin::build_box(i18n::s('Obsolete files'), implode(BR."\n", $box['delete']), 'folded');
         }
+        
+        	// missing files
+	if($missing_files) {
+		$context['text'] .= '<p>'.i18n::s('Some updated files are missing.')."</p>\n";
+
+		// forward to the staging script
+		$menu = array('scripts/stage.php' => i18n::s('Stage updated scripts'));
+		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 	// server is up to date
 	} elseif(!$staging_files) {

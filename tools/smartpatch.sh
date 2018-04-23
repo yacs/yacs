@@ -80,15 +80,15 @@ then
 echo "===> file(s) deletion detected"
 echo $deleted | tr " " "\n"
 # add a deleted list of deleted file into the archive zip
-echo $deleted >> "deleted.list"
+echo $deleted | tr " " "\n" >> "deleted.list"
 zip -ur "temporary/$arch" "deleted.list" > /dev/null
-if [ $? -eq 0 ]
+    if [ $? -eq 0 ]
 	then
 	rm "deleted.list"
 	echo -e "\e[32m===> deleting intructions added to patch\e[39m"
 	else
 	echo "a error occured with zip operation"; exit 1
-	fi
+    fi
 fi
 
 ## Prepare footprints of the patch
@@ -109,7 +109,7 @@ done
 echo 'global $generation;' >> "footprints.php"
 echo 'if(!isset($generation)) $generation=array();' >> "footprints.php"
 echo '$generation'"['date']='$(date -Iseconds)';" >> "footprints.php"
-echo '$generation'"['server']='$(git config --global user.name) on $(hostname)';" >> "footprints.php"
+echo '$generation'"['server']='$(hostname) by $(git config --global user.name)';" >> "footprints.php"
 rev=$(git describe --tags)
 echo '$generation'"['version']='$rev';" >> "footprints.php" 
 echo '$generation'"['scripts']=$(wc -w <<< $updatedornew);" >> "footprints.php"

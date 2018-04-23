@@ -90,9 +90,5 @@ if($items=Safe::glob($context['path_to_root'].'temporary/cache_*.js')) {
 		Safe::unlink($name);
 }
 
-// safe copy of footprints.php to the root directory
-Safe::unlink($context['path_to_root'].'footprints.php.bak');
-Safe::rename($context['path_to_root'].'footprints.php', $context['path_to_root'].'footprints.php.bak');
-
 // remember this as a significant event --i18n::s does not exist before 6.12
 Logger::remember('scripts/update_trailer.php: update trailer has been executed');
