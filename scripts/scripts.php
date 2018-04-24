@@ -311,6 +311,23 @@ class Scripts {
 		else
 			return 'scripts/'.$action.'.php?script='.$id;
 	}
+        
+        public static function get_version() {
+            
+            $json = Safe::file_get_contents('scripts/version.json');
+            
+            if($json) {
+                $version = json_decode($json, true);
+                
+                if(!isset($version['date'])) 
+                    $version['date'] = date('c',Safe::filemtime ('scripts/version.json'));
+                
+            } else {
+                $version = array('...');
+            }
+            
+            return $version;
+        }
 
 	/**
 	 * hash the content of one file
@@ -722,9 +739,6 @@ class Scripts {
 				if(!is_readable($target))
 					continue;
 
-				// stamp the file to remember execution time
-				Safe::touch($target);
-
 				// flag script as being already processed
 				Safe::unlink($target.'.done');
 				Safe::rename($target, $target.'.done');
@@ -734,6 +748,24 @@ class Scripts {
 		}
 
 	}
+        
+        public static function save_version() {
+            global $generation;
+            
+            if(!isset($generation)) return;
+            
+            $version = array();
+            if(isset($generation['version']))   $version['version'] = $generation['version'];
+            if(isset($generation['date']))      $version['date']    = $generation['date'];
+            if(isset($generation['server']))    $version['server']  = $generation['server'];
+            if(isset($generation['author']))    $version['author']  = $generation['author'];
+
+            if(!count($version)) return;
+            
+            Safe::file_put_contents('scripts/version.json', json_encode($version));
+            
+            
+        }
 
 	/**
 	 * get the diff as a single text string

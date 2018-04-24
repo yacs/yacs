@@ -108,10 +108,11 @@ done
 #generation information
 echo 'global $generation;' >> "footprints.php"
 echo 'if(!isset($generation)) $generation=array();' >> "footprints.php"
-echo '$generation'"['date']='$(date -Iseconds)';" >> "footprints.php"
-echo '$generation'"['server']='$(hostname) by $(git config --global user.name)';" >> "footprints.php"
 rev=$(git describe --tags)
 echo '$generation'"['version']='$rev';" >> "footprints.php" 
+echo '$generation'"['date']='$(date -Iseconds)';" >> "footprints.php"
+echo '$generation'"['server']='on $(hostname)';" >> "footprints.php"
+echo '$generation'"['author']='by $(git config --global user.name)';" >> "footprints.php"
 echo '$generation'"['scripts']=$(wc -w <<< $updatedornew);" >> "footprints.php"
 echo '$generation'"['size']=$total_size;" >> "footprints.php" 
 echo '$generation'"['deleted']=$(wc -w <<< $deleted);" >> "footprints.php"

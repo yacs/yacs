@@ -300,16 +300,17 @@ elseif(!Surfer::is_associate()) {
 			$global_scripts += 1;
 			$global_lines += $footprint[0];
 		}
+                
+                // store version string
+		if(isset($_REQUEST['version']) && trim($_REQUEST['version']))
+			$content .= "\$generation['version']='".trim($_REQUEST['version'])."';\n";
 
-		// provide global meta-information
+		// provide global meta-information as well
 		$content .= 'global $generation;'."\n"
 			.'if(!isset($generation)) $generation = array();'."\n"
 			."\$generation['date']='".gmdate("ymd-H:i:s")." GMT';\n"
-			."\$generation['server']='".$context['host_name']."';\n";
-
-		// store version string as well
-		if(isset($_REQUEST['version']) && trim($_REQUEST['version']))
-			$content .= "\$generation['version']='".trim($_REQUEST['version'])."';\n";
+			."\$generation['server']='".$context['host_name']."';\n"
+                        ."\$generation['author']='".Surfer::get_name()."';\n";
 
 		// remember statistics
 		$content .= "\$generation['scripts']='".$global_scripts."'; // number of reference scripts\n"
@@ -339,6 +340,9 @@ elseif(!Surfer::is_associate()) {
 
 	// also update our own version
 	Safe::file_put_contents($context['path_to_root'].'footprints.php', $content);
+        
+        Safe::load('footprints.php');
+        Scripts::save_version();
 
 	// splash message
 	$context['text'] .= '<p>'.i18n::s('On-going archive preparation...')."\n";
@@ -419,5 +423,3 @@ elseif(!Surfer::is_associate()) {
 
 // render the skin
 render_skin();
-
-?>

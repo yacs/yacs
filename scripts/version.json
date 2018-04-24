@@ -1,0 +1,4 @@
+{
+    "version": "Rolling release",
+    "server" : "github.com/yacs/yacs"
+}

@@ -795,14 +795,9 @@ if(!file_exists('../parameters/control.include.php')) {
 				$lines = 1;
 
 				// yacs version
-				if(!isset($generation['version']))
-					Safe::load('scripts/version.php');						// initial archive, or current version
 				$cells = array();
 				$cells[] = Skin::build_link('http://www.yacs.fr/', 'YACS');
-				if(isset($generation['version']))
-					$cells[] = $generation['version'].', '.$generation['date'].', '.$generation['server'];
-				else
-					$cells[] = '---';
+				$cells[] = implode(', ', Scripts::get_version());
 				$box .= Skin::table_row($cells, $lines++);
 
 				// php version
