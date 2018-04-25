@@ -20,6 +20,20 @@
 # @Reference
 ##
 
+# test what is md5 function on this system
+# linux ?
+command -v md5sum > /dev/null && md5com="md5sum"
+
+if [ -z $md5com ]
+# macosx ?
+then command -v md5 > /dev/null && md5com="md5"
+fi
+ 
+# none, abort
+if [ -z $md5com ]
+then echo "Sorry, no hash md5 command were found"; exit 1;
+fi 
+
 # we must work form yacs'root
 cd ..
 
@@ -102,15 +116,15 @@ total_size=0
 for file in "${staging[@]}"; do
 	size=$(wc -c < $file)
 	let "total_size+=size"
-	md5=$(md5sum $file | awk '{ print $1 }')
-	echo '$footprints['"'$file'"']=array('"$size,'$md5'"');' >> "footprints.php"
+	hashmd5=$($md5com $file | awk '{ print $1 }')
+	echo '$footprints['"'$file'"']=array('"$size,'$hashmd5'"');' >> "footprints.php"
 done
 #generation information
 echo 'global $generation;' >> "footprints.php"
 echo 'if(!isset($generation)) $generation=array();' >> "footprints.php"
 rev=$(git describe --tags)
 echo '$generation'"['version']='$rev';" >> "footprints.php" 
-echo '$generation'"['date']='$(date -Iseconds)';" >> "footprints.php"
+echo '$generation'"['date']='$(date +%Y-%m-%dT%H:%M:%S%z)';" >> "footprints.php"
 echo '$generation'"['server']='on $(hostname)';" >> "footprints.php"
 echo '$generation'"['author']='by $(git config --global user.name)';" >> "footprints.php"
 echo '$generation'"['scripts']=$(wc -w <<< $updatedornew);" >> "footprints.php"
