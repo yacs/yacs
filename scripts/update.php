@@ -222,6 +222,9 @@ elseif(!Surfer::is_associate()) {
 
 		// load the special update follow-up, if any
 		Safe::load('scripts/update_trailer.php');
+                
+                // save the software version
+                Scripts::save_version();
 
 		// next step
 		$context['text'] .= '<p>'.i18n::s('Now that new scripts have been copied to your server, you should update the database as well. Please click on the link below before switching your server on again.').BR."\n";
