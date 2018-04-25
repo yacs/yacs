@@ -7,9 +7,7 @@
 # NOT INCLUDING the commit you provide as argument).
 #
 # The argument SHOULD BE a commit that is already up-to-date on your target server.
-# Also, better not to have uncommited change while generating the patch. It may
-# result in unexpected updates if a file has a commited and uncommited change cause
-# the patch takes the version of the file as it is.
+# Also, better not to have uncommited change while generating the patch.
 #
 # the resulting archive will be placed in /temporary folder with the following pattern :
 # patch-<nameofbranche>-<arg-short-sha1>-<head-short-sha1>.zip
@@ -39,12 +37,12 @@ cd ..
 
 # check we have a git repo
 if [ -e ".git" ]
-then echo -e "\e[32m===> Check git repo : OK !\e[39m"
+then echo "===> Check git repo : OK !"
 else echo "This is not a yacs install initialized as git repository." ; exit 1;
 fi
 
 # test git command
-type git > /dev/null && echo -e "\e[32m===> Check git available : OK !\e[39m" || { echo "Git was not found."; exit 1; }
+type git > /dev/null && echo "===> Check git available : OK !" || { echo "Git was not found."; exit 1; }
 
 #test if arguments exist
 if [ -z "$1" ]
@@ -53,7 +51,7 @@ fi
 
 #test if argument is a valid git commit/branch/flag
 if [ "$(git rev-parse --quiet --verify $1)" ]
-then echo -e "\e[32m===> Check $1 validity : OK !\e[39m"
+then echo "===> Check $1 validity : OK !"
 else echo "$1 is not a valid git commit/branch/flag reference." ; exit 1
 fi
 
@@ -73,15 +71,15 @@ fi
 
 # generate archive tree, using a git diff as parameter for git archive
 # a filter is provided to not take deleted file into account
-# HEAD^ is specified not to take uncommited changes
-updatedornew=$(git diff --name-only --diff-filter=ACMRT $1 HEAD^)
+updatedornew=$(git diff --name-only --diff-filter=ACMRT $1 HEAD)
+echo "[[ LIST OF ADDED/UPDATED FILES ]]"
 echo $updatedornew | tr " " "\n"
 # make the archive
 git archive -o temporary/$arch HEAD $updatedornew
 
 # check if archive is created
 if [ -f "temporary/$arch" ]
-then echo -e "\e[32m===> temporary/$arch created !\e[39m"
+then echo "===> temporary/$arch created !"
 else echo "Sorry, patch generation failed"; exit 1;
 fi 
 
@@ -92,6 +90,7 @@ deleted="$(git diff --name-only --diff-filter=D $1 )"
 if [ -n "$deleted" ] 
 then
 echo "===> file(s) deletion detected"
+echo "[[ LIST OF DELETED FILES ]]"
 echo $deleted | tr " " "\n"
 # add a deleted list of deleted file into the archive zip
 echo $deleted | tr " " "\n" >> "deleted.list"
@@ -99,7 +98,7 @@ zip -ur "temporary/$arch" "deleted.list" > /dev/null
     if [ $? -eq 0 ]
 	then
 	rm "deleted.list"
-	echo -e "\e[32m===> deleting intructions added to patch\e[39m"
+	echo "===> deleting intructions added to patch"
 	else
 	echo "a error occured with zip operation"; exit 1
     fi
@@ -134,4 +133,4 @@ echo '$generation'"['deleted']=$(wc -w <<< $deleted);" >> "footprints.php"
 #add footprints to archive
 zip -ur "temporary/$arch" "footprints.php" > /dev/null
 rm "footprints.php"
-echo -e "\e[93m===> Patched server revision will be $rev\e[39m"
+echo "===> Patched server revision will be $rev"
