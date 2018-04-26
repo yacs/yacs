@@ -287,11 +287,12 @@ class Anchors {
 	 *
 	 * @param string a valid anchor (e.g., 'section:12', 'article:34')
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
+         * @param boolean flag to load overlay or not. choose FALSE when the call comes already from overlay
 	 * @return object implementing the Anchor interface, or NULL if the anchor is unknown
 	 *
 	 * @see shared/anchor.php
 	 */
-	public static function get($id, $mutable=FALSE) {
+	public static function get($id, $mutable=FALSE, $load_overlay=TRUE) {
 		global $context;
 
 		// no anchor yet
@@ -345,7 +346,7 @@ class Anchors {
 			$anchor = NULL;
 
 		// load overlay if any
-		if(isset($anchor->item['overlay']))
+		if($load_overlay && isset($anchor->item['overlay']))
 			$anchor->overlay = Overlay::load($anchor);
 
 		// return by reference

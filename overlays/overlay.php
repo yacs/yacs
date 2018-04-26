@@ -720,7 +720,7 @@ class Overlay {
 
 			// expose all of the anchor interface to the contained overlay
 			if(!is_object($host))
-			    $overlay->anchor = Anchors::get($reference);
+			    $overlay->anchor = Anchors::get($reference, FALSE, FALSE);
 			else
 			    $overlay->anchor = $host;
 
