@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-31 10:14+0100\n"
+"POT-Creation-Date: 2018-05-01 11:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,10 +19,10 @@ msgstr ""
 
 #: tools/ajax.php:20 tools/embed.php:22 tools/fat_index.php:75
 #: tools/form.php:22 tools/hello.php:22 tools/index.php:18 tools/jsmin.php:36
-#: tools/koowy.php:33 tools/populate.php:113 tools/populate.php:135
-#: tools/resize_thumbs.php:38 tools/resize_thumbs.php:62 tools/stickies.php:22
-#: tools/transform.php:28 tools/update_thumbs_url.php:40
-#: tools/update_thumbs_url.php:64
+#: tools/koowy.php:33 tools/memcached.php:36 tools/memcached.php:60
+#: tools/populate.php:113 tools/populate.php:135 tools/resize_thumbs.php:38
+#: tools/resize_thumbs.php:62 tools/stickies.php:22 tools/transform.php:28
+#: tools/update_thumbs_url.php:40 tools/update_thumbs_url.php:64
 msgid "Tools"
 msgstr ""
 
@@ -137,10 +137,10 @@ msgstr ""
 msgid "autocompletion"
 msgstr ""
 
-#: tools/check_multi_login.php:20 tools/jsmin.php:48 tools/populate.php:121
-#: tools/populate.php:132 tools/resize_thumbs.php:46
-#: tools/resize_thumbs.php:59 tools/update_thumbs_url.php:48
-#: tools/update_thumbs_url.php:61
+#: tools/check_multi_login.php:20 tools/jsmin.php:48 tools/memcached.php:44
+#: tools/memcached.php:57 tools/populate.php:121 tools/populate.php:132
+#: tools/resize_thumbs.php:46 tools/resize_thumbs.php:59
+#: tools/update_thumbs_url.php:48 tools/update_thumbs_url.php:61
 msgid "You are not allowed to perform this operation."
 msgstr ""
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-31 10:14+0100\n"
+"POT-Creation-Date: 2018-05-01 11:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,7 +39,7 @@ msgid "Control Panel"
 msgstr ""
 
 #: control/backup.php:98 control/backup.php:365 control/backup.php:473
-#: control/backup.php:577 control/index.php:865
+#: control/backup.php:577 control/index.php:860
 msgid "Backup/Restore"
 msgstr ""
 
@@ -459,7 +459,7 @@ msgid "Compute all page elements."
 msgstr ""
 
 #: control/configure.php:409 control/index.php:270 control/index.php:717
-#: control/index.php:859
+#: control/index.php:854
 msgid "Background processing"
 msgstr ""
 
@@ -742,7 +742,7 @@ msgstr ""
 msgid "Database"
 msgstr ""
 
-#: control/configure.php:752 control/index.php:894
+#: control/configure.php:752 control/index.php:889
 msgid "System"
 msgstr ""
 
@@ -989,7 +989,7 @@ msgstr ""
 msgid "%s - define permissions given to people"
 msgstr ""
 
-#: control/index.php:240 control/index.php:910
+#: control/index.php:240 control/index.php:905
 msgid "People"
 msgstr ""
 
@@ -1200,7 +1200,7 @@ msgstr ""
 msgid "%s - you may enhance %s of some sections"
 msgstr ""
 
-#: control/index.php:674 control/index.php:908 control/populate.php:728
+#: control/index.php:674 control/index.php:903 control/populate.php:728
 msgid "Site map"
 msgstr ""
 
@@ -1354,139 +1354,139 @@ msgstr ""
 msgid "Content"
 msgstr ""
 
-#: control/index.php:832
+#: control/index.php:827
 msgid "Server time zone"
 msgstr ""
 
-#: control/index.php:833
+#: control/index.php:828
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: control/index.php:839 control/info.php:107
+#: control/index.php:834 control/info.php:107
 msgid "Memory"
 msgstr ""
 
-#: control/index.php:848
+#: control/index.php:843
 msgid "System overview"
 msgstr ""
 
-#: control/index.php:854
+#: control/index.php:849
 #, php-format
 msgid "%s - basic view of the system"
 msgstr ""
 
-#: control/index.php:854
+#: control/index.php:849
 msgid "Test"
 msgstr ""
 
-#: control/index.php:858
+#: control/index.php:853
 #, php-format
 msgid "%s - phpinfo() and more"
 msgstr ""
 
-#: control/index.php:858 control/info.php:45
+#: control/index.php:853 control/info.php:45
 msgid "Run-time information"
 msgstr ""
 
-#: control/index.php:859
+#: control/index.php:854
 #, php-format
 msgid "%s - operation summary"
 msgstr ""
 
-#: control/index.php:865
+#: control/index.php:860
 #, php-format
 msgid "%s - the safety tool; also useful to submit bulk SQL statements"
 msgstr ""
 
-#: control/index.php:867
+#: control/index.php:862
 #, php-format
 msgid ""
 "%s - check the database structure; also optimize data tables and update index"
 msgstr ""
 
-#: control/index.php:867 control/scan.php:886 control/scan.php:905
+#: control/index.php:862 control/scan.php:886 control/scan.php:905
 #: control/setup.php:100
 msgid "Database maintenance"
 msgstr ""
 
-#: control/index.php:869
+#: control/index.php:864
 #, php-format
 msgid "%s - clear the cache or delete what can be safely deleted"
 msgstr ""
 
-#: control/index.php:869 control/purge.php:71
+#: control/index.php:864 control/purge.php:71
 msgid "Purge"
 msgstr ""
 
-#: control/index.php:871
+#: control/index.php:866
 #, php-format
 msgid "%s - shut the server down, or fire it up again"
 msgstr ""
 
-#: control/index.php:871
+#: control/index.php:866
 msgid "Switch"
 msgstr ""
 
-#: control/index.php:875
+#: control/index.php:870
 #, php-format
 msgid "%s - some upgrades are waiting for execution"
 msgstr ""
 
-#: control/index.php:875
+#: control/index.php:870
 msgid "Run once"
 msgstr ""
 
-#: control/index.php:878
+#: control/index.php:873
 #, php-format
 msgid "%s - server software"
 msgstr ""
 
-#: control/index.php:880
+#: control/index.php:875
 #, php-format
 msgid "%s - plugins and other pieces of software hooked into yacs"
 msgstr ""
 
-#: control/index.php:880 control/populate.php:847
+#: control/index.php:875 control/populate.php:847
 msgid "Extensions"
 msgstr ""
 
-#: control/index.php:882
+#: control/index.php:877
 #, php-format
 msgid "%s - change permissions of files"
 msgstr ""
 
-#: control/index.php:882
+#: control/index.php:877
 msgid "Permissions"
 msgstr ""
 
-#: control/index.php:884
+#: control/index.php:879
 #, php-format
 msgid "%s - other commands"
 msgstr ""
 
-#: control/index.php:884
+#: control/index.php:879
 msgid "Tools"
 msgstr ""
 
-#: control/index.php:890
+#: control/index.php:885
 msgid "System management"
 msgstr ""
 
-#: control/index.php:909 control/populate.php:474 control/populate.php:729
+#: control/index.php:904 control/populate.php:474 control/populate.php:729
 msgid "Categories"
 msgstr ""
 
-#: control/index.php:916 control/populate.php:730
+#: control/index.php:911 control/populate.php:730
 msgid "Help"
 msgstr ""
 
-#: control/index.php:919
+#: control/index.php:914
 msgid "See also"
 msgstr ""
 
-#: control/index.php:962
+#: control/index.php:957
 msgid "Modules"
 msgstr ""
 

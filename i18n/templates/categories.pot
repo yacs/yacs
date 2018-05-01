@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-31 10:14+0100\n"
+"POT-Creation-Date: 2018-05-01 11:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -154,7 +154,7 @@ msgid "The cloud of tags"
 msgstr ""
 
 #: categories/cloud.php:22 categories/edit.php:119 categories/index.php:136
-#: categories/view.php:743 categories/view.php:849
+#: categories/view.php:743 categories/view.php:847
 msgid "Add a category"
 msgstr ""
 
@@ -258,16 +258,16 @@ msgid "View the category"
 msgstr ""
 
 #: categories/edit.php:290 categories/edit.php:443 categories/edit.php:484
-#: categories/edit.php:578 categories/view.php:854
+#: categories/edit.php:578 categories/view.php:852
 msgid "Add an image"
 msgstr ""
 
 #: categories/edit.php:292 categories/edit.php:495 categories/view.php:590
-#: categories/view.php:860
+#: categories/view.php:858
 msgid "Add a file"
 msgstr ""
 
-#: categories/edit.php:294 categories/view.php:685 categories/view.php:866
+#: categories/edit.php:294 categories/view.php:685 categories/view.php:864
 msgid "Add a link"
 msgstr ""
 
@@ -303,7 +303,7 @@ msgstr ""
 msgid "Articles"
 msgstr ""
 
-#: categories/edit.php:388 categories/view.php:811
+#: categories/edit.php:388 categories/view.php:809
 msgid "Persons"
 msgstr ""
 
@@ -860,7 +860,7 @@ msgid_plural "%d images"
 msgstr[0] ""
 msgstr[1] ""
 
-#: categories/view.php:639 categories/view.php:871
+#: categories/view.php:639 categories/view.php:869
 msgid "Post a comment"
 msgstr ""
 
@@ -872,98 +872,98 @@ msgstr ""
 msgid "Links"
 msgstr ""
 
-#: categories/view.php:854 categories/view.php:855
+#: categories/view.php:852 categories/view.php:853
 msgid "You can upload a camera shot, a drawing, or another image file."
 msgstr ""
 
-#: categories/view.php:860 categories/view.php:861
+#: categories/view.php:858 categories/view.php:859
 msgid "Attach related files."
 msgstr ""
 
-#: categories/view.php:866
+#: categories/view.php:864
 msgid "Contribute to the web and link to relevant pages."
 msgstr ""
 
-#: categories/view.php:871
+#: categories/view.php:869
 msgid "Express yourself, and say what you think."
 msgstr ""
 
-#: categories/view.php:876
+#: categories/view.php:874
 msgid "Edit this category"
 msgstr ""
 
-#: categories/view.php:876 categories/view.php:877
+#: categories/view.php:874 categories/view.php:875
 msgid "Press [e] to edit"
 msgstr ""
 
-#: categories/view.php:880
+#: categories/view.php:878
 msgid "Delete this category"
 msgstr ""
 
-#: categories/view.php:884
+#: categories/view.php:882
 msgid "Manage members"
 msgstr ""
 
-#: categories/view.php:901
+#: categories/view.php:899
 msgid "Reference this page"
 msgstr ""
 
-#: categories/view.php:901
+#: categories/view.php:899
 msgid "Various means to link to this page"
 msgstr ""
 
-#: categories/view.php:906
+#: categories/view.php:904
 msgid "Print this page"
 msgstr ""
 
-#: categories/view.php:906
+#: categories/view.php:904
 msgid "Get a paper copy of this page."
 msgstr ""
 
-#: categories/view.php:911
+#: categories/view.php:909
 msgid "Share"
 msgstr ""
 
-#: categories/view.php:916
+#: categories/view.php:914
 msgid "Recent pages"
 msgstr ""
 
-#: categories/view.php:922
+#: categories/view.php:920
 msgid "Monitor"
 msgstr ""
 
-#: categories/view.php:929
+#: categories/view.php:927
 #, php-format
 msgid ""
 "Maybe some new pages or additional material can be found by submitting the "
 "following keyword to our search engine. Give it a try. %s"
 msgstr ""
 
-#: categories/view.php:930
+#: categories/view.php:928
 msgid "Internal search"
 msgstr ""
 
-#: categories/view.php:933
+#: categories/view.php:931
 #, php-format
 msgid "Search for %s at:"
 msgstr ""
 
-#: categories/view.php:940
+#: categories/view.php:938
 msgid "Google"
 msgstr ""
 
-#: categories/view.php:944
+#: categories/view.php:942
 msgid "Yahoo!"
 msgstr ""
 
-#: categories/view.php:948
+#: categories/view.php:946
 msgid "Ask Jeeves"
 msgstr ""
 
-#: categories/view.php:952
+#: categories/view.php:950
 msgid "Technorati"
 msgstr ""
 
-#: categories/view.php:955
+#: categories/view.php:953
 msgid "External search"
 msgstr ""

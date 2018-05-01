@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-31 10:14+0100\n"
+"POT-Creation-Date: 2018-05-01 11:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,13 +19,13 @@ msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: scripts/browse.php:62 scripts/build.php:83 scripts/build.php:98
-#: scripts/build.php:413 scripts/check.php:32 scripts/check.php:51
+#: scripts/build.php:417 scripts/check.php:32 scripts/check.php:51
 #: scripts/compare.php:40 scripts/configure.php:43 scripts/configure.php:101
 #: scripts/configure.php:164 scripts/fetch.php:62 scripts/index.php:99
 #: scripts/parse.php:48 scripts/parse.php:80 scripts/stage.php:74
 #: scripts/stage.php:231 scripts/stage.php:250 scripts/stage.php:336
-#: scripts/stage.php:345 scripts/update.php:48 scripts/update.php:67
-#: scripts/update.php:181 scripts/update.php:323 scripts/upload.php:30
+#: scripts/stage.php:345 scripts/update.php:54 scripts/update.php:73
+#: scripts/update.php:210 scripts/update.php:383 scripts/upload.php:30
 #: scripts/upload.php:114 scripts/validate.php:29 scripts/validate.php:52
 #: scripts/view.php:56 scripts/view.php:102
 msgid "Server software"
@@ -67,7 +67,7 @@ msgstr ""
 
 #: scripts/build.php:95 scripts/check.php:44 scripts/compare.php:51
 #: scripts/configure.php:52 scripts/run_once.php:101 scripts/stage.php:125
-#: scripts/update.php:60 scripts/upload.php:42 scripts/validate.php:49
+#: scripts/update.php:66 scripts/upload.php:42 scripts/validate.php:49
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
@@ -89,7 +89,7 @@ msgstr ""
 msgid "Enable remote servers to update from this reference store."
 msgstr ""
 
-#: scripts/build.php:126 scripts/update.php:212 scripts/validate.php:70
+#: scripts/build.php:126 scripts/update.php:239 scripts/validate.php:70
 #: scripts/validate.php:199
 msgid ""
 "When you will click on the button the server will be immediately requested "
@@ -103,7 +103,7 @@ msgstr ""
 msgid "Current content of %s"
 msgstr ""
 
-#: scripts/build.php:135 scripts/configure.php:118 scripts/update.php:73
+#: scripts/build.php:135 scripts/configure.php:118 scripts/update.php:79
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr ""
 
@@ -134,7 +134,7 @@ msgstr ""
 msgid "%s is not a reference script"
 msgstr ""
 
-#: scripts/build.php:181 scripts/update.php:148
+#: scripts/build.php:181 scripts/update.php:154
 #, php-format
 msgid "Impossible to create path %s."
 msgstr ""
@@ -172,34 +172,34 @@ msgstr ""
 msgid "%d scripts have been parsed."
 msgstr ""
 
-#: scripts/build.php:325
+#: scripts/build.php:326
 #, php-format
 msgid ""
 "The file %s has not been generated and the reference store can only be used "
 "for test purpose."
 msgstr ""
 
-#: scripts/build.php:329 scripts/stage.php:236 scripts/stage.php:313
-#: scripts/update.php:140 scripts/update.php:165
+#: scripts/build.php:330 scripts/stage.php:236 scripts/stage.php:313
+#: scripts/update.php:146 scripts/update.php:171
 #, php-format
 msgid "Impossible to write to %s."
 msgstr ""
 
-#: scripts/build.php:333
+#: scripts/build.php:334
 #, php-format
 msgid "Meta data have been saved in %s"
 msgstr ""
 
-#: scripts/build.php:344
+#: scripts/build.php:348
 msgid "On-going archive preparation..."
 msgstr ""
 
-#: scripts/build.php:410 scripts/run_once.php:203 scripts/validate.php:191
+#: scripts/build.php:414 scripts/run_once.php:203 scripts/validate.php:191
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr ""
 
-#: scripts/build.php:417
+#: scripts/build.php:421
 msgid "The reference store has been rebuilt"
 msgstr ""
 
@@ -207,9 +207,9 @@ msgstr ""
 msgid "Check software integrity"
 msgstr ""
 
-#: scripts/check.php:48 scripts/check.php:95 scripts/update.php:64
-#: scripts/update.php:124 scripts/update.php:275 scripts/update.php:282
-#: scripts/update.php:290
+#: scripts/check.php:48 scripts/check.php:95 scripts/update.php:70
+#: scripts/update.php:130 scripts/update.php:302 scripts/update.php:309
+#: scripts/update.php:317
 #, php-format
 msgid "ERROR: File %s is missing or corrupted."
 msgstr ""
@@ -346,7 +346,7 @@ msgstr ""
 msgid "The following configuration has been saved into the file %s."
 msgstr ""
 
-#: scripts/configure.php:152 scripts/update.php:135 scripts/update.php:160
+#: scripts/configure.php:152 scripts/update.php:141 scripts/update.php:166
 #, php-format
 msgid "%s has been updated"
 msgstr ""
@@ -359,8 +359,8 @@ msgstr ""
 msgid "Where do you want to go now?"
 msgstr ""
 
-#: scripts/configure.php:163 scripts/stage.php:77 scripts/update.php:233
-#: scripts/update.php:315
+#: scripts/configure.php:163 scripts/stage.php:77 scripts/update.php:260
+#: scripts/update.php:375
 msgid "Stage updated scripts"
 msgstr ""
 
@@ -381,7 +381,7 @@ msgstr ""
 msgid "Last update took place on %s"
 msgstr ""
 
-#: scripts/index.php:118 scripts/index.php:171 scripts/update.php:51
+#: scripts/index.php:118 scripts/index.php:171 scripts/update.php:57
 msgid "Update the software"
 msgstr ""
 
@@ -469,7 +469,7 @@ msgstr ""
 
 #: scripts/phpdoc.php:562 scripts/phpdoc.php:563 scripts/run_once.php:105
 #: scripts/scripts.php:174 scripts/scripts.php:180 scripts/scripts.php:212
-#: scripts/scripts.php:219 scripts/scripts.php:676 scripts/scripts.php:682
+#: scripts/scripts.php:219 scripts/scripts.php:678 scripts/scripts.php:684
 #: scripts/stage.php:174 scripts/stage.php:303 scripts/upload.php:75
 #, php-format
 msgid "Impossible to read %s."
@@ -562,7 +562,7 @@ msgstr ""
 msgid "Invalid reference index. Staging has been cancelled."
 msgstr ""
 
-#: scripts/stage.php:255 scripts/update.php:244
+#: scripts/stage.php:255 scripts/update.php:271
 #, php-format
 msgid "Reference set of %d files built on %s on server %s"
 msgstr ""
@@ -682,94 +682,107 @@ msgstr ""
 msgid "This script will change running scripts at your server."
 msgstr ""
 
-#: scripts/update.php:79
+#: scripts/update.php:85
 msgid ""
 "Scripts of your server are now updated from the staging store. Please do not "
 "close your browser until the end of this process"
 msgstr ""
 
-#: scripts/update.php:83
+#: scripts/update.php:89
 msgid ""
 "The server has been switched OFF. Switch it back on as soon as possible."
 msgstr ""
 
-#: scripts/update.php:86
+#: scripts/update.php:92
 msgid "The server has been switched off."
 msgstr ""
 
-#: scripts/update.php:93
+#: scripts/update.php:99
 msgid "Updating scripts..."
 msgstr ""
 
-#: scripts/update.php:135 scripts/update.php:160 scripts/update.php:298
-msgid "lines"
+#: scripts/update.php:196
+#, php-format
+msgid "%s has been deleted"
 msgstr ""
 
-#: scripts/update.php:178
+#: scripts/update.php:207
 msgid "Scripts on your server are exact copies of the reference set."
 msgstr ""
 
-#: scripts/update.php:186
+#: scripts/update.php:215
 msgid "No file has been updated."
 msgstr ""
 
-#: scripts/update.php:192
+#: scripts/update.php:221
 #, php-format
 msgid "%d file has been updated."
 msgid_plural "%d files have been updated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: scripts/update.php:203
+#: scripts/update.php:230
 msgid ""
 "Now that new scripts have been copied to your server, you should update the "
 "database as well. Please click on the link below before switching your "
 "server on again."
 msgstr ""
 
-#: scripts/update.php:207
+#: scripts/update.php:234
 msgid "Install all hooks"
 msgstr ""
 
-#: scripts/update.php:226
+#: scripts/update.php:253
 msgid "Warning! Some files have not been updated."
 msgstr ""
 
-#: scripts/update.php:230 scripts/update.php:312
+#: scripts/update.php:257 scripts/update.php:372
 msgid "Some updated files are missing."
 msgstr ""
 
-#: scripts/update.php:296
+#: scripts/update.php:326
 msgid "Review"
 msgstr ""
 
-#: scripts/update.php:297
+#: scripts/update.php:327
 msgid "Diff"
 msgstr ""
 
-#: scripts/update.php:308
-msgid "Staging scripts"
+#: scripts/update.php:358
+msgid "Errors"
 msgstr ""
 
-#: scripts/update.php:320
+#: scripts/update.php:361
+msgid "New files"
+msgstr ""
+
+#: scripts/update.php:364
+msgid "Staging files"
+msgstr ""
+
+#: scripts/update.php:367
+msgid "Obsolete files"
+msgstr ""
+
+#: scripts/update.php:380
 msgid "Running scripts are exact copies of the reference set."
 msgstr ""
 
-#: scripts/update.php:328
+#: scripts/update.php:388
 #, php-format
 msgid "%d script has to be updated."
 msgid_plural "%d scripts have to be updated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: scripts/update.php:331
+#: scripts/update.php:391
 msgid ""
 "Click on the button below to actually update running scripts on your server. "
 "Please note that your server will be temporarily switched off, and that you "
 "will also have to refresh the database."
 msgstr ""
 
-#: scripts/update.php:335
+#: scripts/update.php:395
 msgid ""
 "Yes, I have checked every item and want to update scripts on this server"
 msgstr ""

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-31 10:07+0100\n"
+"POT-Creation-Date: 2018-05-01 11:34+0200\n"
 "PO-Revision-Date: 2018-01-31 10:14+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -16,10 +16,10 @@ msgstr ""
 
 #: tools/ajax.php:20 tools/embed.php:22 tools/fat_index.php:75
 #: tools/form.php:22 tools/hello.php:22 tools/index.php:18 tools/jsmin.php:36
-#: tools/koowy.php:33 tools/populate.php:113 tools/populate.php:135
-#: tools/resize_thumbs.php:38 tools/resize_thumbs.php:62 tools/stickies.php:22
-#: tools/transform.php:28 tools/update_thumbs_url.php:40
-#: tools/update_thumbs_url.php:64
+#: tools/koowy.php:33 tools/memcached.php:36 tools/memcached.php:60
+#: tools/populate.php:113 tools/populate.php:135 tools/resize_thumbs.php:38
+#: tools/resize_thumbs.php:62 tools/stickies.php:22 tools/transform.php:28
+#: tools/update_thumbs_url.php:40 tools/update_thumbs_url.php:64
 msgid "Tools"
 msgstr "Outils"
 
@@ -135,8 +135,9 @@ msgstr "Entrer un nombre décimal"
 msgid "autocompletion"
 msgstr "autocompletion"
 
-#: tools/check_multi_login.php:20 tools/jsmin.php:48 tools/populate.php:121
-#: tools/populate.php:132 tools/resize_thumbs.php:46 tools/resize_thumbs.php:59
+#: tools/check_multi_login.php:20 tools/jsmin.php:48 tools/memcached.php:44
+#: tools/memcached.php:57 tools/populate.php:121 tools/populate.php:132
+#: tools/resize_thumbs.php:46 tools/resize_thumbs.php:59
 #: tools/update_thumbs_url.php:48 tools/update_thumbs_url.php:61
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à faire cette opération."
@@ -470,8 +471,8 @@ msgid ""
 "link] to review all navigation boxes."
 msgstr ""
 "Ceci est une boîte d'index de navigation de démonstration.\n"
-"Visitez la [link=section de navigation]sections/view.php?"
-"id=navigation_boxes[/link] pour contrôler toutes les boîtes du même genre."
+"Visitez la [link=section de navigation]sections/view.php?id=navigation_boxes"
+"[/link] pour contrôler toutes les boîtes du même genre."
 
 #: tools/populate.php:401
 msgid "Global pages"

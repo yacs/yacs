@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-31 10:14+0100\n"
+"POT-Creation-Date: 2018-05-01 11:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,172 +18,172 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: shared/anchors.php:389
+#: shared/anchors.php:390
 msgid "imported"
 msgstr ""
 
-#: shared/anchors.php:393
+#: shared/anchors.php:394
 msgid "published"
 msgstr ""
 
-#: shared/anchors.php:396
+#: shared/anchors.php:397
 msgid "created"
 msgstr ""
 
-#: shared/anchors.php:399 shared/anchors.php:414 shared/anchors.php:469
+#: shared/anchors.php:400 shared/anchors.php:415 shared/anchors.php:470
 msgid "edited"
 msgstr ""
 
-#: shared/anchors.php:402
+#: shared/anchors.php:403
 msgid "reviewed"
 msgstr ""
 
-#: shared/anchors.php:405
+#: shared/anchors.php:406
 msgid "section created"
 msgstr ""
 
-#: shared/anchors.php:408
+#: shared/anchors.php:409
 msgid "section updated"
 msgstr ""
 
-#: shared/anchors.php:411
+#: shared/anchors.php:412
 msgid "commented"
 msgstr ""
 
-#: shared/anchors.php:417
+#: shared/anchors.php:418
 msgid "file uploaded"
 msgstr ""
 
-#: shared/anchors.php:420
+#: shared/anchors.php:421
 msgid "file updated"
 msgstr ""
 
-#: shared/anchors.php:423
+#: shared/anchors.php:424
 msgid "file released"
 msgstr ""
 
-#: shared/anchors.php:426
+#: shared/anchors.php:427
 msgid "file reserved"
 msgstr ""
 
-#: shared/anchors.php:429
+#: shared/anchors.php:430
 msgid "image uploaded"
 msgstr ""
 
-#: shared/anchors.php:432
+#: shared/anchors.php:433
 msgid "image updated"
 msgstr ""
 
-#: shared/anchors.php:435
+#: shared/anchors.php:436
 msgid "icon set"
 msgstr ""
 
-#: shared/anchors.php:439
+#: shared/anchors.php:440
 msgid "link posted"
 msgstr ""
 
-#: shared/anchors.php:442
+#: shared/anchors.php:443
 msgid "link updated"
 msgstr ""
 
-#: shared/anchors.php:445
+#: shared/anchors.php:446
 msgid "page updated"
 msgstr ""
 
-#: shared/anchors.php:448
+#: shared/anchors.php:449
 msgid "location created"
 msgstr ""
 
-#: shared/anchors.php:451
+#: shared/anchors.php:452
 msgid "location updated"
 msgstr ""
 
-#: shared/anchors.php:454
+#: shared/anchors.php:455
 msgid "table posted"
 msgstr ""
 
-#: shared/anchors.php:457
+#: shared/anchors.php:458
 msgid "table updated"
 msgstr ""
 
-#: shared/anchors.php:460
+#: shared/anchors.php:461
 msgid "new message"
 msgstr ""
 
-#: shared/anchors.php:463
+#: shared/anchors.php:464
 msgid "new user"
 msgstr ""
 
-#: shared/anchors.php:466
+#: shared/anchors.php:467
 msgid "profile updated"
 msgstr ""
 
-#: shared/anchors.php:494
+#: shared/anchors.php:495
 msgid "Categories"
 msgstr ""
 
-#: shared/anchors.php:506
+#: shared/anchors.php:507
 msgid "Sections"
 msgstr ""
 
-#: shared/anchors.php:518
+#: shared/anchors.php:519
 msgid "Pages"
 msgstr ""
 
-#: shared/anchors.php:530
+#: shared/anchors.php:531
 msgid "Images"
 msgstr ""
 
-#: shared/anchors.php:541
+#: shared/anchors.php:542
 msgid "Locations"
 msgstr ""
 
-#: shared/anchors.php:552
+#: shared/anchors.php:553
 msgid "Tables"
 msgstr ""
 
-#: shared/anchors.php:562
+#: shared/anchors.php:563
 msgid "Files"
 msgstr ""
 
-#: shared/anchors.php:573
+#: shared/anchors.php:574
 msgid "Dates"
 msgstr ""
 
-#: shared/anchors.php:584
+#: shared/anchors.php:585
 msgid "Comments"
 msgstr ""
 
-#: shared/anchors.php:595
+#: shared/anchors.php:596
 msgid "Links"
 msgstr ""
 
-#: shared/anchors.php:606
+#: shared/anchors.php:607
 msgid "Versions"
 msgstr ""
 
-#: shared/anchors.php:615
+#: shared/anchors.php:616
 msgid ""
 "Following items are attached to this record and will be impacted as well."
 msgstr ""
 
-#: shared/anchors.php:623
+#: shared/anchors.php:624
 msgid "Table"
 msgstr ""
 
-#: shared/anchors.php:623
+#: shared/anchors.php:624
 msgid "Records"
 msgstr ""
 
-#: shared/anchors.php:623
+#: shared/anchors.php:624
 msgid "Creation date"
 msgstr ""
 
-#: shared/anchors.php:623
+#: shared/anchors.php:624
 msgid "Last edition"
 msgstr ""
 
-#: shared/anchors.php:628
+#: shared/anchors.php:629
 msgid "Related items"
 msgstr ""
 
@@ -287,41 +287,41 @@ msgstr ""
 msgid "Redirecting to %s"
 msgstr ""
 
-#: shared/sql.php:421
+#: shared/sql.php:446
 #, php-format
 msgid "Impossible to connect to %s."
 msgstr ""
 
-#: shared/sql.php:552 shared/zipfile.php:192
+#: shared/sql.php:577 shared/zipfile.php:192
 #, php-format
 msgid "Impossible to read %s."
 msgstr ""
 
-#: shared/sql.php:725 shared/sql.php:727
+#: shared/sql.php:750 shared/sql.php:752
 msgid "Connection to the database has been lost"
 msgstr ""
 
-#: shared/sql.php:998
+#: shared/sql.php:1023
 msgid "The table"
 msgstr ""
 
-#: shared/sql.php:1002
+#: shared/sql.php:1027
 msgid "has been created"
 msgstr ""
 
-#: shared/sql.php:1004
+#: shared/sql.php:1029
 msgid "has been updated"
 msgstr ""
 
-#: shared/sql.php:1017
+#: shared/sql.php:1042
 msgid "and analyzed"
 msgstr ""
 
-#: shared/sql.php:1028
+#: shared/sql.php:1053
 msgid "and optimized"
 msgstr ""
 
-#: shared/sql.php:1041 shared/sql.php:1052
+#: shared/sql.php:1066 shared/sql.php:1077
 #, php-format
 msgid "ERROR for the table %s"
 msgstr ""

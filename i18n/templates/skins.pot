@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-31 10:14+0100\n"
+"POT-Creation-Date: 2018-05-01 11:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1028,7 +1028,7 @@ msgstr ""
 #: skins/layout_home_articles_as_digg.php:86
 #: skins/layout_home_articles_as_slashdot.php:86 skins/skin_skeleton.php:2020
 #: skins/skin_skeleton.php:2120 skins/skin_skeleton.php:2217
-#: skins/skin_skeleton.php:2454 skins/skin_skeleton.php:5568
+#: skins/skin_skeleton.php:2454 skins/skin_skeleton.php:5573
 msgid "View the page"
 msgstr ""
 
@@ -1281,19 +1281,19 @@ msgstr ""
 msgid "Monthly calendar"
 msgstr ""
 
-#: skins/skin_skeleton.php:2146 skins/skin_skeleton.php:5060
+#: skins/skin_skeleton.php:2146 skins/skin_skeleton.php:5065
 msgid "More"
 msgstr ""
 
 #: skins/skin_skeleton.php:2159 skins/skin_skeleton.php:3291
-#: skins/skin_skeleton.php:3304 skins/skin_skeleton.php:5066
-#: skins/skin_skeleton.php:5122 skins/skin_skeleton.php:5124
+#: skins/skin_skeleton.php:3304 skins/skin_skeleton.php:5071
+#: skins/skin_skeleton.php:5127 skins/skin_skeleton.php:5129
 #: skins/test.php:268
 msgid "Next"
 msgstr ""
 
 #: skins/skin_skeleton.php:2172 skins/skin_skeleton.php:3284
-#: skins/skin_skeleton.php:5108 skins/skin_skeleton.php:5110
+#: skins/skin_skeleton.php:5113 skins/skin_skeleton.php:5115
 #: skins/test.php:268
 msgid "Previous"
 msgstr ""
@@ -1393,56 +1393,56 @@ msgstr ""
 msgid "A: "
 msgstr ""
 
-#: skins/skin_skeleton.php:4456
+#: skins/skin_skeleton.php:4461
 msgid "to publish"
 msgstr ""
 
-#: skins/skin_skeleton.php:4463
+#: skins/skin_skeleton.php:4468
 msgid "expired"
 msgstr ""
 
-#: skins/skin_skeleton.php:4561
+#: skins/skin_skeleton.php:4566
 msgid "new"
 msgstr ""
 
-#: skins/skin_skeleton.php:4598
+#: skins/skin_skeleton.php:4603
 msgid "popular"
 msgstr ""
 
-#: skins/skin_skeleton.php:4610
+#: skins/skin_skeleton.php:4615
 msgid "private"
 msgstr ""
 
-#: skins/skin_skeleton.php:4617
+#: skins/skin_skeleton.php:4622
 msgid "Q: "
 msgstr ""
 
-#: skins/skin_skeleton.php:4624
+#: skins/skin_skeleton.php:4629
 msgid "restricted"
 msgstr ""
 
-#: skins/skin_skeleton.php:4683
+#: skins/skin_skeleton.php:4688
 msgid "updated"
 msgstr ""
 
-#: skins/skin_skeleton.php:4969
+#: skins/skin_skeleton.php:4974
 msgid "Back to main page"
 msgstr ""
 
-#: skins/skin_skeleton.php:5255
+#: skins/skin_skeleton.php:5260
 msgid "Previous page"
 msgstr ""
 
-#: skins/skin_skeleton.php:5280
+#: skins/skin_skeleton.php:5285
 msgid "Next page"
 msgstr ""
 
-#: skins/skin_skeleton.php:5565
+#: skins/skin_skeleton.php:5570
 #, php-format
 msgid "%d words to read"
 msgstr ""
 
-#: skins/skin_skeleton.php:5701
+#: skins/skin_skeleton.php:5706
 msgid "Click to sort"
 msgstr ""
 

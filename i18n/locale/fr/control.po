@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-13 17:13+0100\n"
+"POT-Creation-Date: 2018-05-01 11:34+0200\n"
 "PO-Revision-Date: 2017-12-13 17:22+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Alexis Raimbault, Bernard Paques\n"
@@ -35,7 +35,7 @@ msgid "Control Panel"
 msgstr "Panneau de contrôle"
 
 #: control/backup.php:98 control/backup.php:365 control/backup.php:473
-#: control/backup.php:577 control/index.php:865
+#: control/backup.php:577 control/index.php:860
 msgid "Backup/Restore"
 msgstr "Sauvegarde/Restauration"
 
@@ -361,7 +361,8 @@ msgstr "Configurer"
 msgid "System parameters"
 msgstr "Paramètres système"
 
-#: control/configure.php:236 control/info.php:116 control/htaccess/index.php:34
+#: control/configure.php:236 control/info.php:116
+#: control/htaccess/index.php:34
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr ""
 "Vous n'êtes pas autorisé à faire cette opération en mode démonstration."
@@ -488,7 +489,7 @@ msgid "Compute all page elements."
 msgstr "Recalculer tous les éléments de pages."
 
 #: control/configure.php:409 control/index.php:270 control/index.php:717
-#: control/index.php:859
+#: control/index.php:854
 msgid "Background processing"
 msgstr "Traitements d'arrière-plan"
 
@@ -798,7 +799,7 @@ msgstr "la page d'index des styles"
 msgid "Database"
 msgstr "Base de données"
 
-#: control/configure.php:752 control/index.php:894
+#: control/configure.php:752 control/index.php:889
 msgid "System"
 msgstr "Système"
 
@@ -864,7 +865,8 @@ msgid ""
 msgstr ""
 "Vérifiez l'information jusqu'en bas de page pour aller à l'étape suivante."
 
-#: control/configure.php:946 control/scan.php:859 control/htaccess/index.php:83
+#: control/configure.php:946 control/scan.php:859
+#: control/htaccess/index.php:83
 #, php-format
 msgid "%s has been updated"
 msgstr "%s a été mis à jour"
@@ -1075,7 +1077,7 @@ msgstr "Apache .htaccess"
 msgid "%s - define permissions given to people"
 msgstr "%s - définir les permissions des utilisateurs"
 
-#: control/index.php:240 control/index.php:910
+#: control/index.php:240 control/index.php:905
 msgid "People"
 msgstr "Personnes"
 
@@ -1295,7 +1297,7 @@ msgstr "Assistant de contenu"
 msgid "%s - you may enhance %s of some sections"
 msgstr "%s - vous pouvez ajouter les %s pour certaines sections"
 
-#: control/index.php:674 control/index.php:908 control/populate.php:728
+#: control/index.php:674 control/index.php:903 control/populate.php:728
 msgid "Site map"
 msgstr "Carte du site"
 
@@ -1458,139 +1460,139 @@ msgstr "Outils de blog"
 msgid "Content"
 msgstr "Contenu"
 
-#: control/index.php:832
+#: control/index.php:827
 msgid "Server time zone"
 msgstr "Fuseau horaire du serveur"
 
-#: control/index.php:833
+#: control/index.php:828
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "heure"
 msgstr[1] "heure"
 
-#: control/index.php:839 control/info.php:107
+#: control/index.php:834 control/info.php:107
 msgid "Memory"
 msgstr "Mémoire"
 
-#: control/index.php:848
+#: control/index.php:843
 msgid "System overview"
 msgstr "Aperçu du système"
 
-#: control/index.php:854
+#: control/index.php:849
 #, php-format
 msgid "%s - basic view of the system"
 msgstr "%s - les éléments de base du système"
 
-#: control/index.php:854
+#: control/index.php:849
 msgid "Test"
 msgstr "Test"
 
-#: control/index.php:858
+#: control/index.php:853
 #, php-format
 msgid "%s - phpinfo() and more"
 msgstr "%s - phpinfo() et autres"
 
-#: control/index.php:858 control/info.php:45
+#: control/index.php:853 control/info.php:45
 msgid "Run-time information"
 msgstr "Environnement d'exécution"
 
-#: control/index.php:859
+#: control/index.php:854
 #, php-format
 msgid "%s - operation summary"
 msgstr "%s - résumé des actions effectuées"
 
-#: control/index.php:865
+#: control/index.php:860
 #, php-format
 msgid "%s - the safety tool; also useful to submit bulk SQL statements"
 msgstr "%s - l'outil de sécurité indispensable"
 
-#: control/index.php:867
+#: control/index.php:862
 #, php-format
 msgid ""
 "%s - check the database structure; also optimize data tables and update index"
 msgstr "%s - vérifie et optimise la structure de la base de données"
 
-#: control/index.php:867 control/scan.php:886 control/scan.php:905
+#: control/index.php:862 control/scan.php:886 control/scan.php:905
 #: control/setup.php:100
 msgid "Database maintenance"
 msgstr "Maintenance de la base de données"
 
-#: control/index.php:869
+#: control/index.php:864
 #, php-format
 msgid "%s - clear the cache or delete what can be safely deleted"
 msgstr "%s - vider le cache ou supprimer l'inutile"
 
-#: control/index.php:869 control/purge.php:71
+#: control/index.php:864 control/purge.php:71
 msgid "Purge"
 msgstr "Purge"
 
-#: control/index.php:871
+#: control/index.php:866
 #, php-format
 msgid "%s - shut the server down, or fire it up again"
 msgstr "%s - stopper et redémarrer votre serveur"
 
-#: control/index.php:871
+#: control/index.php:866
 msgid "Switch"
 msgstr "Interrupteur"
 
-#: control/index.php:875
+#: control/index.php:870
 #, php-format
 msgid "%s - some upgrades are waiting for execution"
 msgstr "%s - il y a des mises à jour en attente"
 
-#: control/index.php:875
+#: control/index.php:870
 msgid "Run once"
 msgstr "Exécution unique"
 
-#: control/index.php:878
+#: control/index.php:873
 #, php-format
 msgid "%s - server software"
 msgstr "%s - gestionnaire du serveur"
 
-#: control/index.php:880
+#: control/index.php:875
 #, php-format
 msgid "%s - plugins and other pieces of software hooked into yacs"
 msgstr "%s - plugins et autres éléments intégrés dans Yacs"
 
-#: control/index.php:880 control/populate.php:847
+#: control/index.php:875 control/populate.php:847
 msgid "Extensions"
 msgstr "Extensions"
 
-#: control/index.php:882
+#: control/index.php:877
 #, php-format
 msgid "%s - change permissions of files"
 msgstr "%s - changer les permissions des fichiers"
 
-#: control/index.php:882
+#: control/index.php:877
 msgid "Permissions"
 msgstr "Permissions"
 
-#: control/index.php:884
+#: control/index.php:879
 #, php-format
 msgid "%s - other commands"
 msgstr "%s - autres commandes"
 
-#: control/index.php:884
+#: control/index.php:879
 msgid "Tools"
 msgstr "Outils"
 
-#: control/index.php:890
+#: control/index.php:885
 msgid "System management"
 msgstr "Gestion du serveur"
 
-#: control/index.php:909 control/populate.php:474 control/populate.php:729
+#: control/index.php:904 control/populate.php:474 control/populate.php:729
 msgid "Categories"
 msgstr "Catégories"
 
-#: control/index.php:916 control/populate.php:730
+#: control/index.php:911 control/populate.php:730
 msgid "Help"
 msgstr "Aide"
 
-#: control/index.php:919
+#: control/index.php:914
 msgid "See also"
 msgstr "Voir aussi"
 
-#: control/index.php:962
+#: control/index.php:957
 msgid "Modules"
 msgstr "Modules"
 
@@ -1944,15 +1946,15 @@ msgstr "Propriétaire"
 
 #: control/populate.php:496
 msgid ""
-"This site is powered by [link=YACS]http://www.yacs.fr/[/link], "
-"[link=PHP]http://www.php.net/[/link], and [link=MySQL]http://www.mysql.com/[/"
-"link] - a fast, easy-to-use site that lets you access, review, and download "
+"This site is powered by [link=YACS]http://www.yacs.fr/[/link], [link=PHP]"
+"http://www.php.net/[/link], and [link=MySQL]http://www.mysql.com/[/link] - a "
+"fast, easy-to-use site that lets you access, review, and download "
 "information that matters for you."
 msgstr ""
-"Ce site est propulsé par [link=YACS]http://www.yacs.fr/[/link], "
-"[link=PHP]http://www.php.net/[/link], et [link=MySQL]http://\"www.mysql.com/"
-"[/link] - un site rapide, facile d'utilisation, qui vous permet de "
-"consulter, de lire et de télécharger l'information qui vous intéresse."
+"Ce site est propulsé par [link=YACS]http://www.yacs.fr/[/link], [link=PHP]"
+"http://www.php.net/[/link], et [link=MySQL]http://\"www.mysql.com/[/link] - "
+"un site rapide, facile d'utilisation, qui vous permet de consulter, de lire "
+"et de télécharger l'information qui vous intéresse."
 
 #: control/populate.php:497
 msgid "Contact"
