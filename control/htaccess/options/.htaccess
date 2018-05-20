@@ -7,9 +7,10 @@
 	# enable rewriting
 	#
 	RewriteEngine on
-        Options +FollowSymlinks
+    # activate followsymlinks if you need and the hosting give you the privilege to     
+    # Options +FollowSymlinks
 
-	# to test rewriting from control/configure.php
+	# to  test rewriting from control/configure.php
 	#
 	RewriteRule ^rewrite_test/([0-9]+)$	control/test.php?a=$1  [QSA]
 	RewriteRule ^rewrite_test$ control/test.php	[QSA]
