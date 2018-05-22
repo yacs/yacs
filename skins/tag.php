@@ -31,7 +31,7 @@ class tag {
             $tag = NULL;
             // check name must begin by underscore
             $matches = array();
-            if(!preg_match('/_([a-z]+)/', $name, $matches)) {
+            if(!preg_match('/([a-z]+)/', $name, $matches)) {
            
                 
                 return null;
