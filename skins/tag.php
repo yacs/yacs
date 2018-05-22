@@ -14,6 +14,56 @@ define('NO_CLASS_PREFIX', true);
 
 class tag {
     
+        /**
+         * Magic static method to handle a simplifed syntax of tag creation
+         * tag::_<tag>('content','class and/or id','extra attributes')
+         * 
+         * examples
+         * tag::_a('a nice cms','button','href="http://yacs.fr"');
+         * tag::_p('un para graphe de détail','details');
+         * tag::_div('un div avec id et class','/mycustomclass #thediv');
+         * 
+         * @param type $name
+         * @param type $arguments
+         */
+        public static function __callStatic($name, $arguments) {
+            
+            $tag = NULL;
+            // check name must begin by underscore
+            $matches = array();
+            if(!preg_match('/_([a-z]+)/', $name, $matches)) {
+           
+                
+                return null;
+            } else {
+                $tag = $matches[1];
+            }
+                
+            
+            $content = $attributes = $variant = $extra = '';
+            
+            // content
+            $content .= (isset($arguments[0]))?$arguments[0]:'';
+            // class
+            $variant .= (isset($arguments[1]))?$arguments[1]:'';
+            // extra
+            $extra   .= (isset($arguments[2]))?$arguments[2]:'';
+            
+            // separate id and class
+            if(preg_match('/#([a-zA-Z0-9_-]+)/',$variant,$matches)) {
+                    // separate id from variant if any
+                    
+                    $attributes .= tag::_id($matches[1]);
+                    $variant = str_replace('#'.$matches[1], '', $variant);
+            }
+            
+            $attributes .= tag::_class($variant).' '.$extra;
+            
+            $html = tag::_($tag, $attributes, $content);
+            
+            return $html;
+        }
+    
         /** 
          * Build a html tag
          * 
