@@ -965,7 +965,7 @@ Class Members {
 			$where .= " OR users.active='N'";
 
 		// the list of users
-		$query = "SELECT users.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 6) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE ".$where_m." AND (members.anchor LIKE 'user:%') ORDER BY members.edit_date) AS ids"
+		$query = "SELECT users.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 6) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE ".$where_m." AND (members.anchor LIKE 'user:%')) AS ids"
 			." INNER JOIN ".SQL::table_name('users')." AS users"
 			." WHERE (users.id = ids.target)"
 			."	AND (users.capability IN ('S', 'M', 'A'))"
