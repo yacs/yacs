@@ -24,7 +24,7 @@ command -v md5sum > /dev/null && md5com="md5sum"
 
 if [ -z $md5com ]
 # macosx ?
-then command -v md5 > /dev/null && md5com="md5"
+then command -v md5 > /dev/null && md5com="md5 -q"
 fi
  
 # none, abort
@@ -108,8 +108,8 @@ fi
 echo '<?php' > "footprints.php"
 echo 'global $footprints;' >> "footprints.php"
 echo 'if(!isset($footprints)) $footprints=array();' >> "footprints.php"
-# transform list of updated file into array
-IFS=' ' read -r -a staging <<< $updatedornew
+# transform list of updated files into array
+staging=(${updatedornew})
 total_size=0
 # a line per file
 for file in "${staging[@]}"; do
