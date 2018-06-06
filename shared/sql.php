@@ -482,7 +482,12 @@ Class SQL {
 
 		// ask only once per session
 		$context['database_is_utf8'] = $_SESSION['database_is_utf8'];
-
+                
+                // Check if we have SQL request for initialization in file parameters/.sql_init
+                if($query = Safe::file_get_contents('parameters/.sql_init')) {
+                    SQL::query($query);
+                }
+ 
 		// database ok
 		return TRUE;
 
