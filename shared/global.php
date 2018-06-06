@@ -1130,7 +1130,7 @@ function render_skin($with_last_modified=TRUE) {
 			Skin::finalize_context();
 
 		// ensure adequate HTTP answer
-		if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] && !preg_match('/\b('.str_replace(',', '|', $context['accepted_methods']).')\b/', $_SERVER['REQUEST_METHOD'])) {
+		if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] && preg_match('/\b('.str_replace(',', '|', $context['accepted_methods']).')\b/', $_SERVER['REQUEST_METHOD'])===FALSE) {
 			Safe::header('405 Method not allowed');
 			Safe::header('Allow: '.$context['accepted_methods']);
 			exit('Impossible to process this method.');
