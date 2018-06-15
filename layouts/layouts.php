@@ -28,7 +28,10 @@ abstract Class Layouts {
 	    if(is_object($name))
 		return $name;
 
-	    $layout = $variant = NULL;	    
+	    $layout = $variant = NULL;
+            
+            // case "none" keyword
+            if($name==='none') return $layout;
 	    
 	    // separate variant from layout name, if any
 	    $attributes = explode(' ', $name, 2);
