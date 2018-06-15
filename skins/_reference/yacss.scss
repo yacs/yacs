@@ -60,7 +60,7 @@ $path : rPath() + "skins/_reference/";
     @if lightness($back-color) >= 50% {
         color: darken(desaturate($back-color,15%),40%);
     } @else {
-        color: darken(desaturate($back-color,15%),40%);
+        color: lighten(desaturate($back-color,15%),40%);
     }
 }
 
