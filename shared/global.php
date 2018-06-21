@@ -360,17 +360,19 @@ if($virtuals = Safe::glob($context['path_to_root'].'parameters/virtual_*.include
 if(!isset($context['site_name']))
 	$context['site_name'] = $context['host_name'];
 
-// the url to the front page -- to be used alone, or with an appended string starting with '/'
-if(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == 443)) {
-	$context['url_to_home'] = 'https://'.$context['host_name'];
-	$context['url_to_master'] = 'https://'.$context['master_host'];
-} elseif(isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80)) {
-	$context['url_to_home'] = 'http://'.$context['host_name'].':'.$_SERVER['SERVER_PORT'];
-	$context['url_to_master'] = 'http://'.$context['master_host'].':'.$_SERVER['SERVER_PORT'];
-} else {
-	$context['url_to_home'] = 'http://'.$context['host_name'];
-	$context['url_to_master'] = 'http://'.$context['master_host'];
-}
+
+// check https, several possiblities depending on web hosting
+$is_https = FALSE;
+if( (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] === 443) ||                                  //
+    (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ||                                             // auto-
+    (isset($SERVER['REQUEST_SCHEME']) && $_SERVER['REQUEST_SCHEME'] === 'https') ||                         // detect
+    (isset($SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' )) {        //
+    
+    $is_https = TRUE;
+} 
+
+$context['url_to_home'] = 'http' . (($is_https)?'s':'') . '://' . $context['host_name'];
+$context['url_to_master'] = 'http' . (($is_https)?'s':'') . '://' . $context['master_host'];
 
 // the url to reference ourself, including query string -- copy of the reference submitted by user agent (i.e., before rewritting)
 $context['self_url'] = '';
