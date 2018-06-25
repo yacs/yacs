@@ -280,7 +280,7 @@ a:hover {color:darken($color-link,10%);cursor:pointer;}
 
             & > li {
                 position:relative;  // to position dropmenu
-                border-bottom : 1px solid $color-tabs-borders;
+                border-bottom : $border-nav-bottom;
 
                 .#{$yacs-namespace}dropmenu {
                     position:absolute;

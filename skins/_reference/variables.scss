@@ -30,6 +30,7 @@ $font-size-nav            : 1.3em !default;                         // size of t
 $color-nav-link           : $color-link !default;                   // color of text in tabs
 $color-nav-cur-link       : $color-nav-back !default;               // color of text for current tab
 $color-nav-cur-bckg       : $color-nav-link !default;               // back of current tab
+$border-nav-bottom        : 1px solid $color-tabs-borders !default; // border bottom of <li> element in tab
 
 // buttons
 $color-button             : $color-link !default;                   // background-color       (may be overiden by gradient)
