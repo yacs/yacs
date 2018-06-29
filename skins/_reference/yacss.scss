@@ -656,7 +656,7 @@ figure {max-width: 100%;}
 // neighbours navigation bar
 .#{$yacs-namespace}neighbours {
     
-    justify-content: space-between;
+    justify-content: flex-end;
     margin : .5em 0 1em;
     
     .pager-current {
@@ -683,7 +683,8 @@ figure {max-width: 100%;}
 // Standard button
 //
 
-.#{$yacs-namespace}button {
+.#{$yacs-namespace}button,
+.#{$yacs-namespace}neighbours a {
 
     @include x-button();
     @include x-enlight();

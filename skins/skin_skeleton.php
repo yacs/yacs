@@ -5201,7 +5201,7 @@ Class Skin_Skeleton {
 				$items[] = $next;
 			if($option)
 				$items[] = $option;
-			$text .= '<p class="tiny" style="text-align: right; margin: 1em auto">'.implode(MENU_SEPARATOR, $items).'</p>'."\n";
+			$text .= tag::_p(implode(MENU_SEPARATOR, $items),'neighbours');
 			break;
 
 		case 'sidebar':
