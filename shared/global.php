@@ -636,6 +636,9 @@ function core_autoload($class) {
 	case 'codes':
 	    include_once $context['path_to_root'].'/codes/codes.php';
 	    break;
+        case 'code':
+	    include_once $context['path_to_root'].'/codes/code.php';
+	    break;
 	case 'image':
 	    include_once $context['path_to_root'].'/images/image.php';
 	    break;

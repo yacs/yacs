@@ -132,34 +132,9 @@ Class Skin_Skeleton {
             
             $text = '';
             
-            static $counter;
-            if(!isset($counter))
-                    $counter = 1;
-            else
-                    $counter++;
+            include_once $context['path_to_root'].'included/jplayer/jplayer.php';
             
-            if(strtolower(substr($url_to_play, -3)) === 'mp3' 
-                  && file_exists($context['path_to_root'].'included/browser/dewplayer.swf')) {
-                
-                // the player
-                $dewplayer_url = $context['url_to_root'].'included/browser/dewplayer.swf';
-                $flashvars = 'son='.$url_to_play;
-                
-                // combine the two in a single object
-                $text .= '<div id="player_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
-                
-                Page::insert_script(
-                    'var params = {};'."\n"
-                    .'params.base = "'.dirname($url_to_play).'/";'."\n"
-                    .'params.quality = "high";'."\n"
-                    .'params.wmode = "transparent";'."\n"
-                    .'params.menu = "false";'."\n"
-                    .'params.flashvars = "'.$flashvars.'";'."\n"
-                    .'swfobject.embedSWF("'.$dewplayer_url.'", "player_'.$counter.'", "200", "20", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-                    );
-                
-                
-            }
+            $text .= jplayer::play($url_to_play);
             
             return $text;
             

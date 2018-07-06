@@ -12,8 +12,7 @@
 Class Code_news extends Code {
     
     var $patterns = array(
-        '/\[(news)=([^\]]+?)\]/is',                              // [news=flash]
-        '/\[(newsfeed)(?:\.([^=\]]+?))?=([^\]]+?)\]/is',	 // [newsfeed.variant=url]
+        '/\[(newsfeed)(?:\.([^=\]]+?))?=([^\]]+?)\]/is'	 // [newsfeed.variant=url]
     );
     
     
@@ -42,53 +41,6 @@ Class Code_news extends Code {
         return $text;
     }
     
-    /**
-    * render some animated news
-    *
-    * We have replaced the old fat object by a lean, clean, and valid XHTML solution.
-    * However, as explained by Jeffrey Zeldmann in his book "designing with web standards",
-    * it may happen that this way of doing don't display correctly sometimes.
-    *
-    * @param string the variant - default is 'flash'
-    * @return string the rendered text
-    **/
-    public static function render_news($variant) {
-           global $context;
-
-           switch($variant) {
-           case 'flash':
-
-                   // sanity check
-                   if(!isset($context['root_flash_at_home']) || ($context['root_flash_at_home'] != 'Y'))
-                           $text = '';
-
-                   else {
-                           $url = $context['url_to_home'].$context['url_to_root'].'feeds/flash/slashdot.php';
-                           $flashvars = '';
-                           $text = '<div id="local_news" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
-
-                           Page::insert_script(
-                                   'var params = {};'."\n"
-                                   .'params.base = "'.dirname($url).'/";'."\n"
-                                   .'params.quality = "high";'."\n"
-                                   .'params.wmode = "transparent";'."\n"
-                                   .'params.menu = "false";'."\n"
-                                   .'params.flashvars = "'.$flashvars.'";'."\n"
-                                   .'swfobject.embedSWF("'.$url.'", "local_news", "80%", "50", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-                                   );
-                   }
-
-                   return $text;
-
-           case 'dummy':
-                   $text = 'hello world';
-                   return $text;
-
-           default:
-                   $text = '??'.$variant.'??';
-                   return $text;
-           }
-    }
     
     /**
     * integrate content of a newsfeed

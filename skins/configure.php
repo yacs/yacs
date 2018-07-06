@@ -7,7 +7,6 @@
  * Parameters are grouped as follows:
  * - meta-information - most are used in template files
  * - general rendering options - enable or disable some components
- * - freemind - parameters specific to mind maps
  * - article pages - parameters specific to articles
  * - image processing
  *
@@ -151,37 +150,6 @@
  *
  * [*] [code]skins_gmap_default_scale[/code] - Scale of embedded
  * google maps. Default is "5".
- *
- *
- * Parameters for freemind:
- *
- * [*] [code]skins_freemind_canvas_size[/code] - Width and height of embedded
- * mind maps. Default is "100%, 500px".
- *
- * [*] [code]skins_freemind_article_bgcolor[/code] - Background for articles.
- *
- * [*] [code]skins_freemind_article_color[/code] - Foreground for articles.
- *
- * [*] [code]skins_freemind_article_style[/code] - 'fork' or 'bubble'
- *
- * [*] [code]skins_freemind_edge_color[/code] - Default is #6666ff
- *
- * [*] [code]skins_freemind_edge_style[/code] - Default is 'bezier'.
- * Can be either 'bezier', 'sharp_bezier', 'linear', 'sharp_linear', 'rectangular'.
- *
- * [*] [code]skins_freemind_edge_thickness[/code] - '1', '2', '3', ... or 'thin'.
- *
- * [*] [code]skins_freemind_main_bgcolor[/code] - Background for the central
- * area of the map.
- *
- * [*] [code]skins_freemind_main_color[/code] - Foreground for the central
- * area of the map.
- *
- * [*] [code]skins_freemind_section_bgcolor[/code] - Background for sections.
- *
- * [*] [code]skins_freemind_section_color[/code] - Foreground for sections.
- *
- * [*] [code]skins_freemind_section_style[/code] - 'fork' or 'bubble'
  *
  *
  * Access to this page is reserved to associates.
@@ -948,5 +916,3 @@ elseif(!Surfer::is_associate()) {
 
 // render the skin
 render_skin();
-
-?>

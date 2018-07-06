@@ -190,30 +190,33 @@ if(!$item['id']) {
 
 		break;
 
-	case '3gp':
-	case 'flv':
-	case 'm4v':
-	case 'mov':
 	case 'mp4':
+        case 'm4v':
+        case 'ogv':
+        case 'webm':
+        case 'webmv':
+        case 'flv':
 
 		// embed into a web page
 		$type = '';
 		$mime = 'text/html';
 
-		// allow to load Flash objects
-		$script = 'included/browser/js_header/swfobject.js';
-
 		// page preamble
-		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
+		$text = '<!doctype html>'."\n"
 			.'<html>'."\n"
 			.'<head>'."\n"
 			.'<title>'.$context['page_title'].'</title>'."\n"
-			.'<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n"
+                        .$context['page_header']
 			.'</head>'."\n"
 			.'<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">'."\n";
+                
+                
+                
 
 		// embed the object
 		$text .= Code_embed::render_embed($item['id']);
+                
+                $text .= $context['page_footer'];
 
 		// page postamble
 		$text .= '</body>'."\n"
@@ -227,98 +230,17 @@ if(!$item['id']) {
 		$type = '';
 		$mime = 'text/html';
 
-		// allow to load Flash objects
-		$script = 'included/browser/js_header/swfobject.js';
-
 		// page preamble
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
 			.'<html>'."\n"
 			.'<head>'."\n"
 			.'<title>'.$context['page_title'].'</title>'."\n"
-			.'<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n"
 			.'<script type="text/javascript" src="http://simile.mit.edu/timeline/api/timeline-api.js"></script>'."\n"
 			.'</head>'."\n"
 			.'<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">'."\n";
 
 		// embed the object into a regular page --100% does not work
 		$text .= Code_embed::render_embed($item['id'].', 99%, 90%');
-
-		// add a link to close the window
-		$text .= '</div>'."\n"
-			.'<p style="text-align: center; margin: 0.5em 0 1em 0;"><button type="button" onclick="self.close()">'.i18n::s('Close').'</button></p>'."\n";
-
-		// page postamble
-		$text .= '</body>'."\n"
-				.'</html>'."\n";
-
-		break;
-
-	case 'mm':
-		// we are invoking some freemind viewer
-		$type = '';
-		$mime = 'text/html';
-
-		// allow to load Flash objects
-		$script = 'included/browser/js_header/swfobject.js';
-
-		// page preamble
-		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
-			.'<html>'."\n"
-			.'<head>'."\n"
-			.'<title>'.$context['page_title'].'</title>'."\n"
-			.'<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n"
-			.'</head>'."\n"
-			.'<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">'."\n";
-
-		// render object full size
-		$text .= Codes::render_freemind($target_href.', 100%, 90%');
-
-		// add a link to close the window
-		$text .= '</div>'."\n"
-			.'<p style="text-align: center; margin: 0.5em 0 1em 0;"><button type="button" onclick="self.close()">'.i18n::s('Close').'</button></p>'."\n";
-
-		// page postamble
-		$text .= '</body>'."\n"
-				.'</html>'."\n";
-
-		break;
-
-	case 'swf':
-		// display a large Flash file
-		$type = '';
-		$mime = 'text/html';
-
-		// allow to load Flash objects
-		$script = 'included/browser/js_header/swfobject.js';
-
-		// page preamble
-		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
-			.'<html>'."\n"
-			.'<head>'."\n"
-			.'<title>'.$context['page_title'].'</title>'."\n";
-
-		// load the full library
-		$text .= '<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n";
-
-		// load javascript files from the skin directory -- e.g., Global Crossing js extensions, etc.
-		if(isset($context['skin']) && ($pathnames = Safe::glob($context['path_to_root'].$context['skin'].'/*.js'))) {
-
-			foreach($pathnames as $name)
-	 			$text .= '<script type="text/javascript" src="'.$context['url_to_root'].$context['skin'].'/'.basename($name).'"></script>'."\n";
-
-		}
-
-		// load skin style sheet
-// 		if(isset($context['skin']))
-// 			$text .= '<link rel="stylesheet" href="'.$context['url_to_root'].$context['skin'].'/'.str_replace('skins/', '', $context['skin']).'.css" type="text/css" media="all" />'."\n";
-
-		// full screen
-		$text .= '</head>'."\n"
-			.'<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">'."\n"
-			.'<div id="live_flash">'."\n";
-
-		// render object full size
-		$text .= Code_embed::render_embed($item['id'].', 100%, 90%');
 
 		// add a link to close the window
 		$text .= '</div>'."\n"
@@ -426,5 +348,3 @@ if(!$item['id']) {
 
 // render the skin
 render_skin();
-
-?>

@@ -79,56 +79,7 @@ Class Code_table extends Code {
            } elseif($variant == 'bars') {
                    $text = '<img border="0" align="baseline" hspace="0" src="'.$context['url_to_root'].Tables::get_url($id, 'fetch_as_png').'&order=0&gap;0.5" alt="" />';
 
-           // buid a Flash chart
-           } elseif($variant == 'chart') {
-
-                   // split parameters
-                   $attributes = preg_split("/\s*,\s*/", $id, 4);
-
-                   // set a default size
-                   if(!isset($attributes[1]))
-                           $attributes[1] = 480;
-                   if(!isset($attributes[2]))
-                           $attributes[2] = 360;
-
-                   // object attributes
-                   $width = $attributes[1];
-                   $height = $attributes[2];
-                   $flashvars = '';
-                   if(isset($attributes[3]))
-                           $flashvars = $attributes[3];
-
-                   // allow several charts to co-exist in the same page
-                   static $chart_index;
-                   if(!isset($chart_index))
-                           $chart_index = 1;
-                   else
-                           $chart_index++;
-
-                   // get data in the suitable format
-                   $data = Tables::build($attributes[0], 'chart');
-
-                   // load it through Javascript
-                   $url = $context['url_to_home'].$context['url_to_root'].'included/browser/open-flash-chart.swf';
-                   $text = '<div id="table_chart_'.$chart_index.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n";
-
-                   Page::insert_script(
-                           'var params = {};'."\n"
-                           .'params.base = "'.dirname($url).'/";'."\n"
-                           .'params.quality = "high";'."\n"
-                           .'params.wmode = "opaque";'."\n"
-                           .'params.allowscriptaccess = "always";'."\n"
-                           .'params.menu = "false";'."\n"
-                           .'params.flashvars = "'.$flashvars.'";'."\n"
-                           .'swfobject.embedSWF("'.$url.'", "table_chart_'.$chart_index.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", {"get-data":"table_chart_'.$chart_index.'"}, params);'."\n"
-                           ."\n"
-                           .'var chart_data_'.$chart_index.' = '.trim(str_replace(array('<br />', "\n"), ' ', $data)).';'."\n"
-                           ."\n"
-                           .'function table_chart_'.$chart_index.'() {'."\n"
-                           .'	return $.toJSON(chart_data_'.$chart_index.');'."\n"
-                           .'}'."\n"
-                           );
-
+           
            // build sparkline
            } elseif($variant == 'line') {
                    $text = '<img border="0" align="baseline" hspace="0" src="'.$context['url_to_root'].Tables::get_url($id, 'fetch_as_png').'&order=2&gap=0.0" alt="" />';

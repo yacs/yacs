@@ -1775,76 +1775,37 @@ Class Files {
 
 		// audio file handled by dewplayer
 		case 'mp3':
+                case 'm4a':
+                case 'ogg':
+                case 'oga': 
+                case 'webma':
+                case 'wav':
+                case 'fla':
+                    
+			include_once $context['path_to_root'].'/included/jplayer/jplayer.php';
 
-			// only if the player is available
-			if(file_exists($context['path_to_root'].'included/browser/dewplayer.swf')) {
+                        // the mp3 file
+                        if(isset($item['file_href']) && $item['file_href'])
+                                $mp3_url = $item['file_href'];
+                        else
+                                $mp3_url = $context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
 
-				// the player
-				$dewplayer_url = $context['url_to_root'].'included/browser/dewplayer.swf';
+                        // combine the two in a single object
+                        $output = jplayer::play($mp3_url);
 
-				// the mp3 file
-				if(isset($item['file_href']) && $item['file_href'])
-					$mp3_url = $item['file_href'];
-				else
-					$mp3_url = $context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
-				$flashvars = 'son='.$mp3_url;
 
-				// combine the two in a single object
-				$output = '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-					.$title;
-				
-				Page::insert_script(
-					'var params = {};'."\n"
-					.'params.base = "'.dirname($mp3_url).'/";'."\n"
-					.'params.quality = "high";'."\n"
-					.'params.wmode = "transparent";'."\n"
-					.'params.menu = "false";'."\n"
-					.'params.flashvars = "'.$flashvars.'";'."\n"
-					.'swfobject.embedSWF("'.$dewplayer_url.'", "interact_'.$counter.'", "200", "20", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-					);
-				
-				return $output;
-					
-				
 
-			}
-
-		// native flash
-		case 'swf':
-
-			// where to get the file
-			if(isset($item['file_href']) && $item['file_href'])
-				$url = $item['file_href'];
-
-			// we provide the native file because of basename
-			else
-				$url = $context['url_to_home'].$context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
-
-			$output = '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div><br />'."\n"
-				.$title;
-				
-			Page::insert_script(
-				'var params = {};'."\n"
-				.'params.base = "'.dirname($url).'/";'."\n"
-				.'params.quality = "high";'."\n"
-				.'params.wmode = "transparent";'."\n"
-				.'params.allowfullscreen = "true";'."\n"
-				.'params.allowscriptaccess = "always";'."\n"
-				.'params.flashvars = "'.$flashvars.'";'."\n"
-				.'swfobject.embedSWF("'.$url.'", "interact_'.$counter.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-				);
-			
-			return $output;
+                        return $output;
 
 		// stream a video
-		case '3gp':
-		case 'flv':
-		case 'm4v':
-		case 'mov':
 		case 'mp4':
+                case 'm4v':
+                case 'ogv':
+                case 'webm':
+                case 'webmv':
+                case 'flv':
 
-			// a flash player to stream a flash video
-			$flvplayer_url = $context['url_to_home'].$context['url_to_root'].'included/browser/player_flv_maxi.swf';
+                        include_once $context['path_to_root'].'/included/jplayer/jplayer.php';
 
 			// file is elsewhere
 			if(isset($item['file_href']) && $item['file_href'])
@@ -1852,39 +1813,10 @@ Class Files {
 
 			// prevent leeching (the flv player will provide session cookie, etc)
 			else
-				$url = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
+				$url = $context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
 
-			// pass parameters to the player
-			if($flashvars)
-				$flashvars = str_replace('autostart=true', 'autoplay=1', $flashvars).'&';
-			$flashvars .= 'width='.$width.'&height='.$height;
 
-			// rely on Flash
-			if(Surfer::has_flash()) {
-
-				// the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
-				$output = '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-					.$title;
-					
-				Page::insert_script(
-					'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:0, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
-					.'var params = { allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
-					.'var attributes = { id: "interact_'.$counter.'", name: "file_'.$item['id'].'"}'."\n"
-					.'swfobject.embedSWF("'.$flvplayer_url.'", "interact_'.$counter.'", "'.$width.'", "'.$height.'", "9", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params);'."\n"
-					);
-
-			// native support
-			} else {
-
-				$output = '<object width="'.$width.'" height="'.$height.'" data="'.$url.'" type="'.Files::get_mime_type($item['file_name']).'">'."\n"
-					.'	<param value="'.$url.'" name="movie" />'."\n"
-					.'	<param value="true" name="allowFullScreen" />'."\n"
-					.'	<param value="always" name="allowscriptaccess" />'."\n"
-					.'	<a href="'.$url.'">No video playback capabilities, please download the file</a>'."\n"
-					.'</object>'."\n"
-					.$title;
-
-			}
+                        $output = jplayer::play($url);
 
 			return $output;
 
