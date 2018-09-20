@@ -62,7 +62,7 @@ elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
 	$overlay = Overlay::bind($_SESSION['pasted_variant']);
 	unset($_SESSION['pasted_variant']);
 } elseif(!isset($item['id']) && is_object($anchor))
-	$overlay = $anchor->get_overlay('section_overlay');
+	$overlay = $anchor->get_overlay('sections_overlay');
 
 // current edited section as object
 $cur_section = new section();
@@ -593,7 +593,7 @@ if($with_form) {
 	// content overlay
 	if(Surfer::is_associate()) {
 		$label = i18n::s('Overlay');
-		$input = '<input type="text" name="section_overlay" size="20" value="'.encode_field(isset($item['section_overlay']) ? $item['section_overlay'] : '').'" maxlength="64" />';
+		$input = '<input type="text" name="sections_overlay" size="20" value="'.encode_field(isset($item['sections_overlay']) ? $item['sections_overlay'] : '').'" maxlength="64" />';
 		$hint = sprintf(i18n::s('Script used to %s in this section'), Skin::build_link('overlays/', i18n::s('overlay sub-sections'), 'open'));
 		$fields[] = array($label, $input, $hint);
 	}

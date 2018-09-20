@@ -234,9 +234,9 @@ $content_overlay = NULL;
 if(isset($item['content_overlay']))
 	$content_overlay = Overlay::bind($item['content_overlay']);
 
-$section_overlay = NULL;
-if(isset($item['section_overlay']))
-        $section_overlay = Overlay::bind($item['section_overlay']);
+$sections_overlay = NULL;
+if(isset($item['sections_overlay']))
+        $sections_overlay = Overlay::bind($item['sections_overlay']);
 
 // get the related anchor, if any
 $anchor = NULL;
@@ -1379,7 +1379,7 @@ if(!isset($item['id'])) {
 			// the command to add a new section
 			if($cur_section->allows('creation','section')) {
                             
-                                if(is_object($section_overlay) && ($label = $section_overlay->get_label('new_command', 'section'))) {
+                                if(is_object($sections_overlay) && ($label = $sections_overlay->get_label('new_command', 'section'))) {
                                       ;
                                 } else {
                                     $label = i18n::s('Add a section');

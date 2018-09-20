@@ -2876,7 +2876,7 @@ Class Sections {
 			."owner_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']).", "
 			."prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."',"
 			."rank='".SQL::escape(isset($fields['rank']) ? $fields['rank'] : 10000)."',"
-			."section_overlay='".SQL::escape(isset($fields['section_overlay']) ? $fields['section_overlay'] : '')."',"
+			."sections_overlay='".SQL::escape(isset($fields['sections_overlay']) ? $fields['sections_overlay'] : '')."',"
 			."sections_layout='".SQL::escape(isset($fields['sections_layout']) ? $fields['sections_layout'] : 'map')."',"
 			."suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."',"
 			."tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."',"
@@ -3055,7 +3055,7 @@ Class Sections {
 		$query[] = "options='".SQL::escape(isset($fields['options']) ? $fields['options'] : '')."'";
 		$query[] = "prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."'";
 		$query[] = "rank='".SQL::escape(isset($fields['rank']) ? $fields['rank'] : 10000)."'";
-		$query[] = "section_overlay='".SQL::escape(isset($fields['section_overlay']) ? $fields['section_overlay'] : '')."'";
+		$query[] = "sections_overlay='".SQL::escape(isset($fields['sections_overlay']) ? $fields['sections_overlay'] : '')."'";
 		$query[] = "sections_layout='".SQL::escape(isset($fields['sections_layout']) ? $fields['sections_layout'] : 'map')."'";
 		$query[] = "suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."'";
 		$query[] = "tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."'";
@@ -3453,7 +3453,7 @@ Class Sections {
 		$fields['owner_id']		= "MEDIUMINT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['prefix']		= "TEXT NOT NULL";
 		$fields['rank'] 		= "MEDIUMINT UNSIGNED DEFAULT 10000 NOT NULL";
-		$fields['section_overlay']	= "VARCHAR(64) DEFAULT '' NOT NULL";
+		$fields['sections_overlay']	= "VARCHAR(64) DEFAULT '' NOT NULL";
 		$fields['sections_layout']	= "VARCHAR(255) DEFAULT 'none' NOT NULL";
 		$fields['suffix']		= "TEXT NOT NULL";
 		$fields['tags'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";
@@ -3611,7 +3611,7 @@ Class Sections {
 			'owner_id',
 			'prefix',
 			'rank',
-			'section_overlay',
+			'sections_overlay',
 			'sections_layout',
 			'suffix',
 			'tags',
