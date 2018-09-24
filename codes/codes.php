@@ -663,8 +663,12 @@ Class Codes {
 
 				  //convention :
 				  //get file only begining with code_
-				  if (!(substr($file,0,5)=='code_'))
+				  if (!(substr($file,0,5)==='code_'))
 					continue;
+                                  
+                                  // prune .bak files
+                                  if (substr($file,-4)==='.bak')
+                                        continue;
 
 				  include_once($dir.$file);
 
