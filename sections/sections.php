@@ -2301,7 +2301,7 @@ Class Sections {
 	public static function list_for_anchor($anchor, $variant='raw') {
 		global $context;
                 
-                $output = Sections::list_for_anchor_by('title', $anchor, 0, 500, 'raw', false);
+                $output = Sections::list_for_anchor_by('title', $anchor, 0, 500, $variant, false);
 
 		
 		return $output;

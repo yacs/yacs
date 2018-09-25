@@ -666,7 +666,7 @@ Class Codes {
 				  if (!(substr($file,0,5)==='code_'))
 					continue;
                                   
-                                  // prune .bak files
+                                  // skip .bak files
                                   if (substr($file,-4)==='.bak')
                                         continue;
 
