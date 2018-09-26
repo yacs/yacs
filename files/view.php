@@ -374,8 +374,10 @@ if(!isset($item['id'])) {
 	// offer video streaming, where applicable
 	if(Files::is_video_stream($item['file_name'])) {
 
+		include_once $context['path_to_root'].'codes/code_embed.php';
+
 		// embed the player for streamed video files
-		if(!$description = Codes::render_embed($item['id']))
+		if(!$description = Code_embed::render_embed($item['id']))
 
 			// explain what streaming is about
 			$description .= '<p>'.i18n::s('This file may be accessed on-demand.').'</p>';
