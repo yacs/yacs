@@ -50,6 +50,9 @@ Class Layout_users_as_excerpt extends Layout_interface {
                                 
                             }
                             
+                            // avoid empty fields
+                            if($value == '') continue;
+                            
                             // data sample
                             $data .= tag::_div(tag::_span($key, 'details k/pas').tag::_span($value, 'k/pas'), '/grid-2');
                             

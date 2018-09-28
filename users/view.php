@@ -486,6 +486,13 @@ if(!isset($item['id'])) {
 				$information .= Skin::build_box(i18n::s('Co-browsing'), Skin::build_list($visited, 'compact'), 'folded', 'co_browsing');
 
 		}
+                
+                // link to form with request for personnal data
+                if(Surfer::get_id() === $item['id']) {
+                    
+                    $information .= tag::_p(Codes::beautify(i18n::s('Ask website administrator for queries about your personnal data [here|query_privacy.php].')),'details k/mas');
+                    
+                }
 
 		// business card
 		//

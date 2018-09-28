@@ -179,7 +179,7 @@ if(Surfer::is_crawler()) {
                 switch ($privacy_query) {
                     case 'extract':
                         
-                        $context['text'] .= tag::_p(i18n::s('This is a extraction of your profile data from database. Website administrator will provide you other data if any.'));
+                        $context['text'] .= tag::_p(i18n::s('This is an excerpt of your profile data from database. Website administrator will provide you other data if any.'));
                         
                         // get profile info
                         $info = Users::list_for_ids(Surfer::get_id(),'excerpt');
@@ -202,7 +202,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Front page')));
 		$menu = array_merge($menu, array('sections/' => i18n::s('Site map')));
-		$menu = array_merge($menu, array('query.php' => i18n::s('Contact website administrator')));
+		$menu = array_merge($menu, array('users/profile.php' => i18n::s('Your profile')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
@@ -252,8 +252,9 @@ if(Surfer::is_crawler()) {
 if($with_form) {
 
 	// splash message
-	$context['text'] .= '<p>'.i18n::s('According to GDPR European law article 15 you are in right to ask the review of stored data stored concerning you and the usage of it. And according to article 17 you can query to erase those data.')."</p>\n";
-
+	$context['text'] .= '<p>'.i18n::s('According to GDPR European law article 15 you are in right to review your stored data and the usage of it. And according to article 17 you can demand to erase those data.')."</p>\n";
+        $context['text'] .= '<hr>';
+        
 	// the form to send a query
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
@@ -277,7 +278,9 @@ if($with_form) {
 
 	// build the form
 	$context['text'] .= Skin::build_form($fields);
-
+        
+        $context['text'] .= tag::_p(Codes::beautify(i18n::s('For other specific demand, please use [this form|query.php].')));
+        
 	// bottom commands
 	$menu = array();
 

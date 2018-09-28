@@ -482,8 +482,8 @@ if(!$permitted) {
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'about';
 		$fields['title'] = i18n::c('About this site');
-		$fields['description'] = '[toc]'."\n"
-			.'[title]'.i18n::c('What is [parameter=site_name] about?').'[/title]'."\n"
+		$fields['description'] = ''
+			.'<h2>'.i18n::c('What is [parameter=site_name] about?').'</h2>'."\n"
 			.'<p>'.i18n::c('Welcome to this server! Here are attributes transmitted in the header of each page:').'</p>'."\n"
 			.'<table class="wide">'."\n"
 			.'<tr><td>'.i18n::c('Site name').'</td><td>[parameter=site_name]</td></tr>'."\n"
@@ -494,15 +494,15 @@ if(!$permitted) {
 			.'<tr><td>'.i18n::c('Owner').'</td><td>[parameter=site_owner]</td></tr>'."\n"
 			.'</table>'."\n"
 			.'<p>'.i18n::c('This site is powered by [link=YACS]http://www.yacs.fr/[/link], [link=PHP]http://www.php.net/[/link], and [link=MySQL]http://www.mysql.com/[/link] - a fast, easy-to-use site that lets you access, review, and download information that matters for you.').'</p>'."\n"
-			.'[title]'.i18n::c('Contact').'[/title]'."\n"
+			.'<h2>'.i18n::c('Contact').'</h2>'."\n"
 			.'<p>'.i18n::c('The preferred mean to join us is to use the general-purpose query form. This is a convenient tool for you and for us, because your request and related answers will be listed at a single place accessible from your web browser. Moreover, you will be informed by e-mail of any progressing step to your query.').'</p>'."\n"
 			.'<p class="indent">'.i18n::c('Query: [link=Use the on-line form]query.php[/link]').'</p>'."\n"
 			.'<p>'.i18n::c('If you have something vitally important to tell us, send a message at the following address.').'</p>'."\n"
 			.'<p class="indent">'.i18n::c('Webmaster: [parameter=site_email]').'</p>'."\n"
 			.'[note]'.i18n::c('Due to the large amount of e-mail that we get, we can NOT guarantee a response! This is especially true if your e-mail concerns issues we can\'t really help you with.').'[/note]'."\n"
-			.'[title]'.i18n::c('How you can help').'[/title]'."\n"
+			.'<h2>'.i18n::c('How you can help').'</h2>'."\n"
 			.'<p>'.i18n::c('We are proud of this server, but it certainly isn\'t perfect. We\'re always looking for ways to improve the site. So, if you\'ve got any great ideas, then please let us know about them. Or, if you know of some important information that isn\'t listed here, email the author and tell them you want it listed on this site! It\'ll help make this server a better site for the whole community - and that\'s who we\'re here to serve.').'</p>'."\n"
-			.'[title]'.i18n::c('Legal Stuff').'[/title]'."\n"
+			.'<h2>'.i18n::c('Legal Stuff').'</h2>'."\n"
 			.'<p>'.i18n::c('Be nice to other people, don\'t spam them, and don\'t do anything bad with any information you might get from this site.').'</p>'."\n"
 			.'<p>'.i18n::c('All content, including but not limited to user reviews, application listings and information contained therein, is owned by [parameter=site_owner] and may not be copied without permission. However, the above content my be freely modified and/or removed by the person or persons responsible for submitting it.').'</p>'."\n"
 			.'<p>'.i18n::c('[parameter=site_owner] is not responsible for the content of information submitted to the site. [parameter=site_owner] is not responsible for any content contained on other sites that may link to or be linked to [parameter=site_name]. As such, the existence of a link to another site on [parameter=site_name] does not express endorsement by [parameter=site_owner] of said site or its contents.').'</p>'."\n"
@@ -742,21 +742,22 @@ if(!$permitted) {
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'privacy';
 		$fields['title'] = i18n::c('Privacy statement');
-		$fields['description'] = '[toc]'."\n"
+		$fields['description'] = ''
 			.'<p>'.i18n::c('We respect your privacy! Any and all information collected at this site will be kept strictly confidential and will not be sold, reused, rented, loaned or otherwise disclosed. Any information you give to us will be held with the utmost care, and will not be used in ways that you have not consented to. Read on for more specific information.').'</p>'."\n"
-			.'[title]'.i18n::c('User Information').'[/title]'."\n"
+			.'<h2>'.i18n::c('User Information').'</h2>'."\n"
 			.'<p>'.i18n::c('In order to make certain parts of this server work, some sections of the site require you to give us your e-mail address and/or other types of personal information (or may do so in the future). We do not sell, rent, loan, trade, or lease any personal information collected at our site, including survey forms or email lists. In other words, your information is safe with us.').'</p>'."\n"
-			.'[title]'.i18n::c('Mailings').'[/title]'."\n"
+			.'<h2>'.i18n::c('Mailings').'</h2>'."\n"
 			.'<p>'.i18n::c('In some cases we will use your email address internally, both for identification purposes and to email you updates related to your pages. Your explicit approval is required to mail you our periodic newsletter. At any time you can easily configure your account to enable or to disable such mailings. We <i>may</i>, in certain cases, send you email updates you haven\'t specifically requested to receive; if and when we do this, we won\'t do it without a good reason (and this certainly won\'t serve as our excuse to spam you.)').'</p>'."\n"
-			.'[title]'.i18n::c('Web Logs').'[/title]'."\n"
+			.'<h2>'.i18n::c('Web Logs').'</h2>'."\n"
 			.'<p>'.i18n::c('We occasionally analyzes our website logs to constantly improve the value of the content available on our website. Our website logs are not personally identifiable, and we make no attempt to link them with the individuals that actually browse the site.').'</p>'."\n"
-			.'[title]'.i18n::c('Cookies').'[/title]'."\n"
+			.'<h2>'.i18n::c('Cookies').'</h2>'."\n"
 			.'<p>'.i18n::c('Although some Internet users think cookies are a serious privacy issue, as web designers we think that they come in darned handy. This site uses cookies for basic account identification purposes, but that\'s as far as we go. We won\'t use any information from cookies to track your browsing sessions, attempt to extract personal information from them that we wouldn\'t otherwise have access to, or do any other naughty things with your cookies. If you don\'t agree with our use of cookies, you can configure most web browsers not to accept them. Even without a cookie, a significant part of this server will still be accessible to you (although you will lose the ability to do anything that requires you to be logged into the server).').'</p>'."\n"
-			.'[title]'.i18n::c('Passwords').'[/title]'."\n"
+			.'<h2>'.i18n::c('Passwords').'</h2>'."\n"
 			.'<p>'.i18n::c('This server requires you to define and enter passwords to access certain areas of the site. In case this conjures up images of crackers breaking into our databases and getting your passwords, you don\'t have to worry about it. Passwords are stored in an encrypted format, so that <i>we</i> can\'t even look at them. This encryption <i>is</i> breakable, but it takes a lot of effort and computing time (days or weeks to crack a single password) so for all intents and purposes, your passwords are safe here. The downside to this, of course, is that if you lose or forget your password we can\'t get it back for you. We\'ve provided a method to reset your password if this happens, but as with any other password, it\'s best not to forget in the first place.').'</p>'."\n"
-			.'[title]'.i18n::c('Posted material').'[/title]'."\n"
+			.'<h2>'.i18n::c('Posted material').'</h2>'."\n"
 			.'<p>'.i18n::c('Posted material is, of course, not private; several persons can look at them. But this is as good a time as any to point out that we own and retain control of whatever records you enter into the system. This means that we reserve the right to view and modify your articles, files, links, comments, etc. and we exercise this right. Most of the time we do this to fix trivial things; for example, if you post a page into an incorrect section, made a really obvious typo, or put in something really inappropriate, then we might modify it. But in any case, you should be aware that this could happen. FYI, <i>we</i> get to decide what\'s inappropriate, but you should all know your netiquette by now, right?  :-)').'</p>'."\n"
-			.'<hr/><p>'.i18n::c('If you have any questions or comments about our privacy policy, or would like more information about a particular category, please [article=about, get in touch] with us.').'</p>'."\n";
+			.'<hr/><p>'.i18n::c('If you have any questions or comments about our privacy policy, or would like more information about a particular category, please [article=about, get in touch] with us.').'</p>'."\n"
+                        .'<p>Registred persons may also request for a excerpt of their private data or invoke the right to be forgotten with [this form|query_privacy.php].</p>';
 		$fields['locked'] = 'Y'; // only associates can change this page
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
