@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-01 11:34+0200\n"
+"POT-Creation-Date: 2018-09-28 21:04+0200\n"
 "PO-Revision-Date: 2017-08-30 10:46+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -189,11 +189,11 @@ msgstr "Dernière modification"
 msgid "Related items"
 msgstr "Eléments associés"
 
-#: shared/global.php:1094
+#: shared/global.php:1099
 msgid "View the category"
 msgstr "Voir la catégorie"
 
-#: shared/global.php:1441
+#: shared/global.php:1446
 msgid "ACCEPT COOKIES"
 msgstr "ACCEPTER LES COOKIES"
 
@@ -305,36 +305,36 @@ msgstr "Renvoi vers %s"
 msgid "Impossible to connect to %s."
 msgstr "Impossible de se connecter à %s."
 
-#: shared/sql.php:577 shared/zipfile.php:192
+#: shared/sql.php:582 shared/zipfile.php:192
 #, php-format
 msgid "Impossible to read %s."
 msgstr "Impossible de lire %s."
 
-#: shared/sql.php:750 shared/sql.php:752
+#: shared/sql.php:755 shared/sql.php:757
 msgid "Connection to the database has been lost"
 msgstr "La connexion à la base de données a été perdue"
 
-#: shared/sql.php:1023
+#: shared/sql.php:1028
 msgid "The table"
 msgstr "La table"
 
-#: shared/sql.php:1027
+#: shared/sql.php:1032
 msgid "has been created"
 msgstr "a été créée"
 
-#: shared/sql.php:1029
+#: shared/sql.php:1034
 msgid "has been updated"
 msgstr "a été mise à jour"
 
-#: shared/sql.php:1042
+#: shared/sql.php:1047
 msgid "and analyzed"
 msgstr "et analysée"
 
-#: shared/sql.php:1053
+#: shared/sql.php:1058
 msgid "and optimized"
 msgstr "et optimisée"
 
-#: shared/sql.php:1066 shared/sql.php:1077
+#: shared/sql.php:1071 shared/sql.php:1082
 #, php-format
 msgid "ERROR for the table %s"
 msgstr "ERREUR sur la table %s"

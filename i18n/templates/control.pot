@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-01 11:36+0200\n"
+"POT-Creation-Date: 2018-09-28 22:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,7 +23,7 @@ msgstr ""
 #: control/configure.php:230 control/configure.php:771
 #: control/configure.php:1026 control/index.php:195 control/info.php:42
 #: control/info.php:61 control/populate.php:105 control/populate.php:122
-#: control/populate.php:869 control/purge.php:68 control/purge.php:205
+#: control/populate.php:870 control/purge.php:68 control/purge.php:205
 #: control/purge.php:224 control/purge.php:244 control/purge.php:262
 #: control/purge.php:279 control/purge.php:298 control/purge.php:315
 #: control/purge.php:332 control/purge.php:366 control/purge.php:388
@@ -1182,7 +1182,7 @@ msgid ""
 "%s - select a section and type some text, then add images, files and links"
 msgstr ""
 
-#: control/index.php:663 control/populate.php:773
+#: control/index.php:663 control/populate.php:774
 msgid "Add a page"
 msgstr ""
 
@@ -1448,7 +1448,7 @@ msgstr ""
 msgid "%s - plugins and other pieces of software hooked into yacs"
 msgstr ""
 
-#: control/index.php:875 control/populate.php:847
+#: control/index.php:875 control/populate.php:848
 msgid "Extensions"
 msgstr ""
 
@@ -1666,7 +1666,7 @@ msgstr ""
 msgid "A section \"%s\" has been created."
 msgstr ""
 
-#: control/populate.php:273 control/populate.php:843
+#: control/populate.php:273 control/populate.php:844
 msgid "Pages"
 msgstr ""
 
@@ -1741,7 +1741,7 @@ msgstr ""
 msgid "Threads"
 msgstr ""
 
-#: control/populate.php:423 control/populate.php:471 control/populate.php:840
+#: control/populate.php:423 control/populate.php:471 control/populate.php:841
 msgid "No item has been added"
 msgstr ""
 
@@ -1925,8 +1925,8 @@ msgstr ""
 #: control/populate.php:570 control/populate.php:591 control/populate.php:612
 #: control/populate.php:633 control/populate.php:650 control/populate.php:671
 #: control/populate.php:692 control/populate.php:713 control/populate.php:734
-#: control/populate.php:763 control/populate.php:779 control/populate.php:796
-#: control/populate.php:817 control/populate.php:833
+#: control/populate.php:764 control/populate.php:780 control/populate.php:797
+#: control/populate.php:818 control/populate.php:834
 #, php-format
 msgid "A page \"%s\" has been created."
 msgstr ""
@@ -2133,52 +2133,52 @@ msgid ""
 "get in touch] with us."
 msgstr ""
 
-#: control/populate.php:774
+#: control/populate.php:775
 msgid "Add a web page with a streamlined interface."
 msgstr ""
 
-#: control/populate.php:789
+#: control/populate.php:790
 msgid "Private discussion"
 msgstr ""
 
-#: control/populate.php:790
+#: control/populate.php:791
 msgid "To interact privately with some persons."
 msgstr ""
 
-#: control/populate.php:806
+#: control/populate.php:807
 msgid "USTREAM broadcast"
 msgstr ""
 
-#: control/populate.php:807
+#: control/populate.php:808
 msgid ""
 "Drive your audience to a USTREAM show. At the given date and time "
 "participants are invited to join the channel."
 msgstr ""
 
-#: control/populate.php:827
+#: control/populate.php:828
 msgid "Wiki page"
 msgstr ""
 
-#: control/populate.php:828
+#: control/populate.php:829
 msgid ""
 "Create an initial page and invite participants to follow-up. Modifications "
 "are saved, to allow for fall-back."
 msgstr ""
 
-#: control/populate.php:856
+#: control/populate.php:857
 msgid "Configure the page factory"
 msgstr ""
 
-#: control/populate.php:863 control/virtual.php:91 control/virtual.php:116
+#: control/populate.php:864 control/virtual.php:91 control/virtual.php:116
 #: control/virtual.php:205 control/virtual.php:227
 msgid "What do you want to do now?"
 msgstr ""
 
-#: control/populate.php:867
+#: control/populate.php:868
 msgid "Check the updated Site Map"
 msgstr ""
 
-#: control/populate.php:868
+#: control/populate.php:869
 msgid "Launch the Content Assistant again"
 msgstr ""
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-13 17:13+0100\n"
-"PO-Revision-Date: 2013-10-16 16:35+0100\n"
+"POT-Creation-Date: 2018-09-28 21:04+0200\n"
+"PO-Revision-Date: 2018-09-28 22:03+0200\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
 "Language: fr_FR\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharsu: utf-8\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: configure.php:77 configure.php:279 configure.php:406 setup.php:287
 #: setup.php:333 setup.php:347
@@ -33,10 +34,11 @@ msgid "Configure"
 msgstr "Configurer"
 
 #: configure.php:80 configure.php:283 configure.php:403 query.php:166
+#: query_privacy.php:203
 msgid "Front page"
 msgstr "Page d'accueil"
 
-#: configure.php:89 query.php:66 setup.php:84
+#: configure.php:89 query.php:66 query_privacy.php:71 setup.php:84
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à effectuer cette opération."
 
@@ -201,11 +203,13 @@ msgstr "Panneau principal"
 msgid "Side panel"
 msgstr "Panneau de côté"
 
-#: configure.php:275 panel.php:77 query.php:268 search.php:121
+#: configure.php:275 panel.php:77 query.php:268 query_privacy.php:288
+#: search.php:121
 msgid "Submit"
 msgstr "Envoyer"
 
-#: configure.php:275 panel.php:77 query.php:268 search.php:121
+#: configure.php:275 panel.php:77 query.php:268 query_privacy.php:288
+#: search.php:121
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
@@ -257,7 +261,7 @@ msgstr "Paramètres de configuration"
 msgid "Switch the server on"
 msgstr "Mettre le serveur en route"
 
-#: configure.php:397 query.php:164
+#: configure.php:397 query.php:164 query_privacy.php:201
 msgid "Where do you want to go now?"
 msgstr "Où voulez-vous aller à présent ?"
 
@@ -584,15 +588,15 @@ msgstr "Contenu de la page"
 msgid "Help"
 msgstr "Aide"
 
-#: query.php:50
+#: query.php:50 query_privacy.php:55
 msgid "Queries"
 msgstr "Requêtes"
 
-#: query.php:51
+#: query.php:51 query_privacy.php:56
 msgid "Submitted to the webmaster by any surfers"
 msgstr "Envoyées au webmestre par n'importe quel surfeur"
 
-#: query.php:52
+#: query.php:52 query_privacy.php:57
 msgid ""
 "<p>This section has been created automatically on query submission. It's "
 "aiming to capture feedback directly from surfers. It is highly recommended "
@@ -603,20 +607,20 @@ msgstr ""
 "par le biais du formulaire de requête. Nous vous recommendons de déplacer ou "
 "d'effacer les pages ci-dessous après leur traitement.</p>"
 
-#: query.php:71
+#: query.php:71 query_privacy.php:76
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
-#: query.php:97
+#: query.php:97 query_privacy.php:116
 msgid "(anonymous)"
 msgstr "(anonyme)"
 
-#: query.php:108
+#: query.php:108 query_privacy.php:130
 #, php-format
 msgid "Sent by %s"
 msgstr "Envoyé par %s"
 
-#: query.php:108
+#: query.php:108 query_privacy.php:130
 msgid "e-mail"
 msgstr "courriel"
 
@@ -624,17 +628,17 @@ msgstr "courriel"
 msgid "Please prove you are not a robot."
 msgstr "Merci de prouver que vous n'êtes pas un robot."
 
-#: query.php:133
+#: query.php:133 query_privacy.php:149
 msgid "Your query has been registered"
 msgstr "Votre requête a été enregistrée"
 
-#: query.php:155
+#: query.php:155 query_privacy.php:171
 msgid "<p>You can check the status of your query at the following address:</p>"
 msgstr ""
 "<p>Vous pouvez suivre l'avancement de votre requête à l'adresse suivante :</"
 "p>"
 
-#: query.php:156
+#: query.php:156 query_privacy.php:172
 msgid "The permanent address for your query"
 msgstr "L'adresse permanente de votre requête"
 
@@ -647,7 +651,7 @@ msgstr ""
 "<p>Votre requête va à présent être traitée par l'un des associés de ce site. "
 "Cette étape dure moins de 24 heures le plus souvent.</p>"
 
-#: query.php:168
+#: query.php:168 query_privacy.php:204
 msgid "Site map"
 msgstr "Carte du site"
 
@@ -655,12 +659,12 @@ msgstr "Carte du site"
 msgid "Help index"
 msgstr "Index de l'aide"
 
-#: query.php:181
+#: query.php:181 query_privacy.php:216
 #, php-format
 msgid "Your query: %s"
 msgstr "Votre requête : %s"
 
-#: query.php:184
+#: query.php:184 query_privacy.php:219
 #, php-format
 msgid ""
 "<p>Your query will now be reviewed by one of the associates of this "
@@ -674,7 +678,7 @@ msgstr ""
 "requête à l'adresse suivante :</p><p>%s</p><p>Nous vous remercions de votre "
 "intérêt pour notre site web.</p>"
 
-#: query.php:202
+#: query.php:202 query_privacy.php:237
 #, php-format
 msgid "New query: %s"
 msgstr "Nouvelles requête : %s"
@@ -690,7 +694,7 @@ msgstr ""
 "adresse de courrier électronique pour nous laisser une chance de vous "
 "recontacter."
 
-#: query.php:227
+#: query.php:227 query_privacy.php:262
 msgid "Your name"
 msgstr "Votre nom"
 
@@ -698,7 +702,7 @@ msgstr "Votre nom"
 msgid "Let us a chance to know who you are"
 msgstr "Donnez-nous une chance de mieux vous connaitre"
 
-#: query.php:236
+#: query.php:236 query_privacy.php:268
 msgid "Your e-mail address"
 msgstr "Votre adresse de courrier électronique"
 
@@ -725,7 +729,7 @@ msgstr ""
 "Merci de mentionner tous les éléments susceptibles d'aider au traitement de "
 "votre requête"
 
-#: query.php:272
+#: query.php:272 query_privacy.php:292
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -786,6 +790,83 @@ msgstr "les codes YACS"
 #: query.php:325
 msgid "Mandatory fields are marked with a *"
 msgstr "Les champs obligatoires sont signalés par un *"
+
+#: query_privacy.php:49
+msgid "Your private data"
+msgstr "Vos données privée"
+
+#: query_privacy.php:97
+msgid "ask for a excerpt of personnal data stored in database"
+msgstr "demande un extrait de ses données personnelles stockées en base."
+
+#: query_privacy.php:100
+msgid "invoke the right to be forgotten"
+msgstr "invoque le droit à être oublié."
+
+#: query_privacy.php:127
+msgid "Data privacy request"
+msgstr "Demande à propos des données privées"
+
+#: query_privacy.php:176
+msgid ""
+"<p>Your query will now be reviewed by one of the administrator of this "
+"website. It is likely that this will be done within the next 24 hours at the "
+"latest.</p>"
+msgstr ""
+"<p>Votre requête va à présent être traitée par l'un des associés de ce site. "
+"Cette étape dure moins de 24 heures le plus souvent.</p>"
+
+#: query_privacy.php:182
+msgid ""
+"This is an excerpt of your profile data from database. Website administrator "
+"will provide you other data if any."
+msgstr ""
+"Ces données sont extraites de votre profil depuis la base de données. "
+"L'administrateur du site vous fournira d'autres données s'il y en a."
+
+#: query_privacy.php:192
+msgid ""
+"Website configuration enable you to delete your profile. You may proceed "
+"following the link below."
+msgstr ""
+"La configuration du site vous autorise à supprimer votre profil. Vous pouvez "
+"y procéder en suivant le lien ci-dessous."
+
+#: query_privacy.php:193
+msgid "Profile deletion page"
+msgstr "Page de suppression de profil"
+
+#: query_privacy.php:205
+msgid "Your profile"
+msgstr "Votre profil"
+
+#: query_privacy.php:255
+msgid ""
+"According to GDPR European law article 15 you are in right to review your "
+"stored data and the usage of it. And according to article 17 you can demand "
+"to erase those data."
+msgstr ""
+"Selon la loi européenne RGPD article 15 vous êtes en droit d'obtenir vos "
+"données stockées ainsi que l'usage qui en est fait. Et selon l'article 17 "
+"vous pouvez demander de supprimer ces données."
+
+#: query_privacy.php:273
+msgid "What is your need ?"
+msgstr "Quel est votre besoin ?"
+
+#: query_privacy.php:274
+msgid "Get a list of your private data"
+msgstr "Obtenir une liste de vos données privées"
+
+#: query_privacy.php:275
+msgid "Invoke your right to be forgotten"
+msgstr "Invoquer le droit à l'oubli"
+
+#: query_privacy.php:282
+msgid "For other specific demand, please use [this form|query.php]."
+msgstr ""
+"Pour une demande spécifique, utilisez s'il vous plaît [ce formulaire|query."
+"php]"
 
 #: search.php:110
 #, php-format
@@ -1891,9 +1972,6 @@ msgstr ""
 #~ msgid "About this server"
 #~ msgstr "A propos de ce serveur"
 
-#~ msgid "What is %s about?"
-#~ msgstr "La raison d'être de %s"
-
 #~ msgid ""
 #~ "Welcome to this server! Here are attributes transmitted in the header of "
 #~ "each page:"
@@ -2192,8 +2270,8 @@ msgstr ""
 #~ "section, made a really obvious typo, or put in something really "
 #~ "inappropriate, then we might modify it. But in any case, you should be "
 #~ "aware that this could happen. FYI, <i>we</i> get to decide what's "
-#~ "inappropriate, but you should all know your netiquette by now, right?  :-)"
-#~ "</p>"
+#~ "inappropriate, but you should all know your netiquette by now, "
+#~ "right?  :-)</p>"
 #~ msgstr ""
 #~ "<p>Par définition, l'information publiée n'est pas privée, dans le sens "
 #~ "où plusieurs personnes peuvent la consulter. Attention, il est bon de "

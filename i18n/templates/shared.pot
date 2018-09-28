@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-01 11:36+0200\n"
+"POT-Creation-Date: 2018-09-28 22:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -187,11 +187,11 @@ msgstr ""
 msgid "Related items"
 msgstr ""
 
-#: shared/global.php:1094
+#: shared/global.php:1099
 msgid "View the category"
 msgstr ""
 
-#: shared/global.php:1441
+#: shared/global.php:1446
 msgid "ACCEPT COOKIES"
 msgstr ""
 
@@ -292,36 +292,36 @@ msgstr ""
 msgid "Impossible to connect to %s."
 msgstr ""
 
-#: shared/sql.php:577 shared/zipfile.php:192
+#: shared/sql.php:582 shared/zipfile.php:192
 #, php-format
 msgid "Impossible to read %s."
 msgstr ""
 
-#: shared/sql.php:750 shared/sql.php:752
+#: shared/sql.php:755 shared/sql.php:757
 msgid "Connection to the database has been lost"
 msgstr ""
 
-#: shared/sql.php:1023
+#: shared/sql.php:1028
 msgid "The table"
 msgstr ""
 
-#: shared/sql.php:1027
+#: shared/sql.php:1032
 msgid "has been created"
 msgstr ""
 
-#: shared/sql.php:1029
+#: shared/sql.php:1034
 msgid "has been updated"
 msgstr ""
 
-#: shared/sql.php:1042
+#: shared/sql.php:1047
 msgid "and analyzed"
 msgstr ""
 
-#: shared/sql.php:1053
+#: shared/sql.php:1058
 msgid "and optimized"
 msgstr ""
 
-#: shared/sql.php:1066 shared/sql.php:1077
+#: shared/sql.php:1071 shared/sql.php:1082
 #, php-format
 msgid "ERROR for the table %s"
 msgstr ""
