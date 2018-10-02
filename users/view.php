@@ -757,8 +757,8 @@ if(!isset($item['id'])) {
 		}
 
 		// modify this page
-        $context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'edit'), fa::_("fa-edit").' '.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
-        $context['page_minitools'][] = Skin::build_link(Users::get_url($item['id'], 'edit'), fa::_("fa-edit"), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+                $context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'edit'), fa::_("fa-edit").' '.i18n::s('Edit this profile'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+                $context['page_minitools'][] = Skin::build_link(Users::get_url($item['id'], 'edit'), fa::_("fa-edit"), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		// change password
 		if(!isset($context['users_authenticator']) || !$context['users_authenticator']) {
