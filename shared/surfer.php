@@ -820,8 +820,12 @@ Class Surfer {
 		if(isset($_SESSION['surfer_is_not_a_robot']) && $_SESSION['surfer_is_not_a_robot'])
 			return NULL;
 
+                // two kinds of antibot can be used
+                $antibot =      isset($context['users_without_robot_check']) && ($context['users_without_robot_check'] != 'Y');
+                $alt_antibot =  isset($context['use_alt_antibot']) && ($context['use_alt_antibot'] == 'Y');
+                
 		// we have been asked to not challenge anonymous surfers
-		if(isset($context['users_without_robot_check']) && ($context['users_without_robot_check'] == 'Y'))
+		if(!$antibot && !$alt_antibot)
 			return NULL;
 
 		// this only applies to anonymous surfers
@@ -830,14 +834,35 @@ Class Surfer {
 
 
                 $label = i18n::s('Robot stopper').' *';
+                $input = '';
+                
+                // standard captcha
+                if($antibot) {
 
-                $input  = '<img id="captcha" src="'.$context['url_to_root'].'included/securimage/securimage_show.php" alt="CAPTCHA Image" />'."\n";
+                $input .= '<img id="captcha" src="'.$context['url_to_root'].'included/securimage/securimage_show.php" alt="CAPTCHA Image" />'."\n";
 
                 $input .= '<input type="text" name="captcha_code" size="10" maxlength="6" />'."\n";
                 
                 $input .= BR.'<a '.tag::_class('details').' href="#" onclick="document.getElementById(\'captcha\').src= \''
                         .$context['url_to_root'].
                         'included/securimage/securimage_show.php?\' + Math.random(); return false">['.i18n::s('Update image').']</a>'."\n";
+                
+                }
+                
+                // use a specific question
+                if($alt_antibot) {
+                    $question   = isset($context['alt_antibot_question'])?$context['alt_antibot_question']:'';
+                    $answer     = isset($context['alt_antibot_answer'])?$context['alt_antibot_answer']:'';
+                    
+                    // display only if we have a question & answer filled in configuration panel
+                    if($question && $answer) {
+                        
+                        $input .= BR.Codes::beautify($question).' <input type=text size=15 value="" name=specific />';
+                        
+                    }
+                    
+                    
+                }
 
 		return array($label, $input);
 	}
@@ -1237,27 +1262,53 @@ Class Surfer {
 		// this has already been checked
 		if(isset($_SESSION['surfer_is_not_a_robot']) && $_SESSION['surfer_is_not_a_robot'])
 			return FALSE;
+                
+                // two kinds of antibot can be used
+                $antibot =      isset($context['users_without_robot_check']) && ($context['users_without_robot_check'] != 'Y');
+                $alt_antibot =  isset($context['use_alt_antibot']) && ($context['use_alt_antibot'] == 'Y');
 
 		// we have been asked to not challenge anonymous surfers
-		if(isset($context['users_without_robot_check']) && ($context['users_without_robot_check'] == 'Y'))
+		if(!$antibot && !$alt_antibot)
 			return FALSE;
 
 		// surfer has been authenticated
 		if(Surfer::is_logged())
 			return FALSE;
 
-                include_once $context['path_to_root'].'included/securimage/securimage.php';
-                $securimage = new Securimage();
+                // preset results to true if not to be test.
+                $bot_pass   = !$antibot;
+                $alt_pass   = !$alt_antibot;
+                
+                // standard captcha
+                if($antibot) {
+                    include_once $context['path_to_root'].'included/securimage/securimage.php';
+                    $securimage = new Securimage();
 
-                if (isset($_REQUEST['captcha_code']) && $securimage->check($_REQUEST['captcha_code']) == TRUE) {
-
-			// remember this, to not challenge the surfer again
+                    if (isset($_REQUEST['captcha_code']) && $securimage->check($_REQUEST['captcha_code']) == TRUE) {
+                        
+			$bot_pass = TRUE;
+                    }
+                }
+                
+                // specific question captcha
+                if($alt_antibot) {
+                    $good = isset($context['alt_antibot_answer'])?$context['alt_antibot_answer']:'';
+                    
+                    if(isset($_REQUEST['specific']) && $good && !strcmp($_REQUEST['specific'], $good)) {
+                        $alt_pass = TRUE;
+                    }
+                    
+                }
+                
+                if($bot_pass && $alt_pass) {
+                
+                        // remember this, to not challenge the surfer again
 			$_SESSION['surfer_is_not_a_robot'] = TRUE;
 
 			// not a robot, for sure
 			return FALSE;
-		}
-
+                }
+                        
 		// user agent is dumb, no doubt on that
 		return TRUE;
 

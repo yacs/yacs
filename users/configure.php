@@ -256,8 +256,9 @@ elseif(!Surfer::is_associate()) {
 	$fields[] = array($label, $input);
         
         // usage agreement
+        if(!isset($context['usage_agreement_text'])) $context['usage_agreement_text'] = '';
         $label = i18n::s('Data usage agreement text');
-        $input = '<textarea name=usage_agreement_text col=100 row=2 >'.encode_field($context['usage_agreement_text']).'</textarea>';
+        $input = '<textarea name=usage_agreement_text cols=60 rows=2 >'.encode_field($context['usage_agreement_text']).'</textarea>';
         $hint  = i18n::s('Use this field if you need to overide agreement text used by default in registration form and contact form');
         $fields[] = array($label, $input, $hint);
 
@@ -293,6 +294,21 @@ elseif(!Surfer::is_associate()) {
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Always accept anonymous input (intranet site).');
 	$fields[] = array($label, $input);
+        
+        // alternate anti-bot
+        $label = i18n::s('Alternate anti-robot');
+        $checked = isset($context['use_alt_antibot']) && ($context['use_alt_antibot'] == 'Y');
+        $input = '<input type=checkbox name=use_alt_antibot value="Y"';
+        if($checked)$input .= ' checked="checked"';
+        $input .= '/> '.i18n::s('Test surfers with a specific question from this website.');
+        $input .= BR.'<input type=text name=alt_antibot_question size=100 '
+                . 'placeholder="'.i18n::s('Choose a question surfers can easly answer knowing the context of this website').'" '
+                . 'value="'.((isset($context['alt_antibot_question']))?$context['alt_antibot_question']:'').'" />';
+        $input .= BR.'<input type=text name=alt_antibot_answer size=20 '
+                . 'placeholder="'.i18n::s('Good awswer').'" '
+                . 'value="'.((isset($context['alt_antibot_answer']))?$context['alt_antibot_answer']:'').'" />';
+        
+        $fields[] = array($label, $input);
 
 	// default is to authenticate locally
 	$custom_authenticator = '';
@@ -650,8 +666,15 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'users_without_uploads\']=\''.addcslashes($_REQUEST['users_without_uploads'], "\\'")."';\n";
         if(isset($_REQUEST['usage_agreement_text']))
                 $content .= '$context[\'usage_agreement_text\']=\''.addcslashes($_REQUEST['usage_agreement_text'], "\\'")."';\n";
+        if(isset($_REQUEST['use_alt_antibot']))
+                $content .= '$context[\'use_alt_antibot\']=\''.addcslashes($_REQUEST['use_alt_antibot'], "\\'")."';\n";
+        if(isset($_REQUEST['alt_antibot_question']))
+                $content .= '$context[\'alt_antibot_question\']=\''.addcslashes($_REQUEST['alt_antibot_question'], "\\'")."';\n";
+        if(isset($_REQUEST['alt_antibot_answer']))
+                $content .= '$context[\'alt_antibot_answer\']=\''.addcslashes($_REQUEST['alt_antibot_answer'], "\\'")."';\n";
 	$content .= '?>'."\n";
-
+        
+        
 	// update the parameters file
 	if(!Safe::file_put_contents('parameters/users.include.php', $content)) {
 
