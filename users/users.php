@@ -1614,6 +1614,13 @@ Class Users {
 	**/
 	public static function post(&$fields) {
 		global $context;
+                
+                
+                // agreement is required
+                if(!isset($fields['usage_agreement']) || ($fields['usage_agreement'] !== 'Y')) {
+                    Logger::error(i18n::s('Please acknowledge our privacy statement.'));
+                    return FALSE;
+                }
 
 		// nick_name is required
 		if(!isset($fields['nick_name']) || !trim($fields['nick_name'])) {
@@ -1788,7 +1795,7 @@ Class Users {
 		$query[] = "web_address='".SQL::escape(isset($fields['web_address']) ? $fields['web_address'] : '')."'";
 
 		if(!isset($fields['with_newsletters']) || ($fields['with_newsletters'] != 'N'))
-			$fields['with_newsletters'] = 'Y';
+			$fields['with_newsletters'] = 'N';
 		$query[] = "with_newsletters='".$fields['with_newsletters']."'";
 
 		if(!isset($fields['without_alerts']) || ($fields['without_alerts'] != 'Y'))
@@ -1800,10 +1807,13 @@ Class Users {
 		$query[] = "without_confirmations='".$fields['without_confirmations']."'";
 
 		if(!isset($fields['without_messages']) || ($fields['without_messages'] != 'Y'))
-			$fields['without_messages'] = 'N';
+			$fields['without_messages'] = 'Y';
 		$query[] = "without_messages='".$fields['without_messages']."'";
 
 		$query[] = "yahoo_address='".SQL::escape(isset($fields['yahoo_address']) ? $fields['yahoo_address'] : '')."'";
+                
+                // agreement is to be stored
+                $query[] = "usage_agreement='".SQL::escape($fields['usage_agreement'])."'";
 
 		// insert statement
 		$query = "INSERT INTO ".SQL::table_name('users')." SET ".implode(', ', $query);
@@ -2313,6 +2323,7 @@ Class Users {
 		$fields['skype_address'] = "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['tags'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['twitter_address'] = "VARCHAR(255) DEFAULT '' NOT NULL";
+                $fields['usage_agreement'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";
 		$fields['vcard_agent']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['vcard_label']	= "TEXT NOT NULL";
 		$fields['vcard_organization']	= "VARCHAR(255) DEFAULT '' NOT NULL";
@@ -2321,7 +2332,7 @@ Class Users {
 		$fields['with_newsletters'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";
 		$fields['without_alerts'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";
 		$fields['without_confirmations'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";
-		$fields['without_messages'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";
+		$fields['without_messages'] = "ENUM('Y','N') DEFAULT 'Y' NOT NULL";
 		$fields['yahoo_address'] = "VARCHAR(255) DEFAULT '' NOT NULL";
 
 		$indexes = array();

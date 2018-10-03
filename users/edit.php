@@ -337,6 +337,9 @@ if(Surfer::is_crawler()) {
 // display the form if required to do so
 if($with_form) {
     
+        // flag that surfer is registering
+        $is_regitering = !isset($item['id']) && !Surfer::is_associate();
+    
         // give context
         $context['current_action'] = 'edit';
 
@@ -391,7 +394,7 @@ if($with_form) {
 
 	// nick name
 	$label = i18n::s('Nick name').' *';
-	$input = '<input type="text" name="nick_name" id="nick_name" size="40" value="'.encode_field(isset($item['nick_name'])?$item['nick_name']:'').'" />';
+	$input = '<input type="text" name="nick_name" id="nick_name" size="40" value="'.encode_field(isset($item['nick_name'])?$item['nick_name']:'').'" required />';
 	$hint = i18n::s('Please carefully select a meaningful and unused nick name.');
 	$fields[] = array($label, $input, $hint);
 
@@ -411,13 +414,13 @@ if($with_form) {
 	// the password, but only for registering user
 	if(!isset($item['id'])) {
 		$label = i18n::s('Password').' *';
-		$input = '<input type="password" name="password" size="20" value="'.encode_field(isset($item['password'])?$item['password']:'').'" />';
+		$input = '<input type="password" name="password" size="20" value="'.encode_field(isset($item['password'])?$item['password']:'').'" required />';
 		$hint = i18n::s('We suggest at least 4 numbers, two letters, and a punctuation sign - in any order');
 		$fields[] = array($label, $input, $hint);
 
 		// the password has to be confirmed
 		$label = i18n::s('Password confirmation').' *';
-		$input = '<input type="password" name="confirm" size="20" value="'.encode_field(isset($item['confirm'])?$item['confirm']:'').'" />';
+		$input = '<input type="password" name="confirm" size="20" value="'.encode_field(isset($item['confirm'])?$item['confirm']:'').'" required />';
 		$fields[] = array($label, $input);
 
 		// stop robots
@@ -430,115 +433,118 @@ if($with_form) {
 	$text .= Skin::build_form($fields);
 	$fields = array();
 
-	// business card
-	//
+        
+        if(!$is_regitering) {
+            // business card
+            //
 
-	// title
-	$label = i18n::s('Title');
-	$input = '<input type="text" name="vcard_title" size="40" value="'.encode_field(isset($item['vcard_title'])?$item['vcard_title']:'').'" />';
-	$hint = i18n::s('Your occupation, your motto, or some interesting words');
-	$fields[] = array($label, $input, $hint);
+            // title
+            $label = i18n::s('Title');
+            $input = '<input type="text" name="vcard_title" size="40" value="'.encode_field(isset($item['vcard_title'])?$item['vcard_title']:'').'" />';
+            $hint = i18n::s('Your occupation, your motto, or some interesting words');
+            $fields[] = array($label, $input, $hint);
 
-	// organisation
-	$label = i18n::s('Organization');
-	$input = '<input type="text" name="vcard_organization" size="40" value="'.encode_field(isset($item['vcard_organization'])?$item['vcard_organization']:'').'" />';
-	$fields[] = array($label, $input);
+            // organisation
+            $label = i18n::s('Organization');
+            $input = '<input type="text" name="vcard_organization" size="40" value="'.encode_field(isset($item['vcard_organization'])?$item['vcard_organization']:'').'" />';
+            $fields[] = array($label, $input);
 
-	// label
-	$label = i18n::s('Physical address');
-	$input = '<textarea name="vcard_label" rows="5" cols="50">'.encode_field(isset($item['vcard_label'])?$item['vcard_label']:'').'</textarea>';
-	$fields[] = array($label, $input);
+            // label
+            $label = i18n::s('Physical address');
+            $input = '<textarea name="vcard_label" rows="5" cols="50">'.encode_field(isset($item['vcard_label'])?$item['vcard_label']:'').'</textarea>';
+            $fields[] = array($label, $input);
 
-	// phone number
-	$label = i18n::s('Phone number');
-	$input = '<input type="text" name="phone_number" size="20" value="'.encode_field(isset($item['phone_number'])?$item['phone_number']:'').'" />';
-	$hint = i18n::s('Enter phone number in international format, starting with country code');
-	$fields[] = array($label, $input, $hint);
+            // phone number
+            $label = i18n::s('Phone number');
+            $input = '<input type="text" name="phone_number" size="20" value="'.encode_field(isset($item['phone_number'])?$item['phone_number']:'').'" />';
+            $hint = i18n::s('Enter phone number in international format, starting with country code');
+            $fields[] = array($label, $input, $hint);
 
-	// alternate number
-	$label = i18n::s('Alternate number');
-	$input = '<input type="text" name="alternate_number" size="20" value="'.encode_field(isset($item['alternate_number'])?$item['alternate_number']:'').'" />';
-	$fields[] = array($label, $input);
+            // alternate number
+            $label = i18n::s('Alternate number');
+            $input = '<input type="text" name="alternate_number" size="20" value="'.encode_field(isset($item['alternate_number'])?$item['alternate_number']:'').'" />';
+            $fields[] = array($label, $input);
 
-	// the email address
-	if(isset($item['id'])) {
-		$label = i18n::s('E-mail address');
-		if(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
-			$label .= ' *';
-		$input = '<input type="text" name="email" size="40" value="'.encode_field(isset($item['email'])?$item['email']:'').'" />';
-		$hint = '';
-		if(!isset($item['id']) && isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
-			$hint = i18n::s('You will receive a message on this address to activate your membership.');
-		$hint .= ' '.i18n::s('We won\'t disclose personal information about you or your company to anyone outside this site.');
-		$fields[] = array($label, $input, $hint);
-	}
+            // the email address
+            if(isset($item['id'])) {
+                    $label = i18n::s('E-mail address');
+                    if(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
+                            $label .= ' *';
+                    $input = '<input type="text" name="email" size="40" value="'.encode_field(isset($item['email'])?$item['email']:'').'" />';
+                    $hint = '';
+                    if(!isset($item['id']) && isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
+                            $hint = i18n::s('You will receive a message on this address to activate your membership.');
+                    $hint .= ' '.i18n::s('We won\'t disclose personal information about you or your company to anyone outside this site.');
+                    $fields[] = array($label, $input, $hint);
+            }
 
-	// web address, if any
-	$label = i18n::s('Web address');
-	$input = '<input type="text" name="web_address" size="40" value="'.encode_field(isset($item['web_address'])?$item['web_address']:'').'" />';
-	$hint = i18n::s('If your home page is not here.');
-	$fields[] = array($label, $input, $hint);
+            // web address, if any
+            $label = i18n::s('Web address');
+            $input = '<input type="text" name="web_address" size="40" value="'.encode_field(isset($item['web_address'])?$item['web_address']:'').'" />';
+            $hint = i18n::s('If your home page is not here.');
+            $fields[] = array($label, $input, $hint);
 
-	// agent
-	$label = i18n::s('Alternate contact');
-	$input = '<input type="text" name="vcard_agent" id="vcard_agent" value ="'.encode_field(isset($item['vcard_agent'])?$item['vcard_agent']:'').'" size="25" maxlength="32" />';
-	$hint = i18n::s('Another person who can act on your behalf');
-	$fields[] = array($label, $input, $hint);
+            // agent
+            $label = i18n::s('Alternate contact');
+            $input = '<input type="text" name="vcard_agent" id="vcard_agent" value ="'.encode_field(isset($item['vcard_agent'])?$item['vcard_agent']:'').'" size="25" maxlength="32" />';
+            $hint = i18n::s('Another person who can act on your behalf');
+            $fields[] = array($label, $input, $hint);
 
-	// extend the form
-	$text .= Skin::build_box(i18n::s('Business card'), Skin::build_form($fields), 'unfolded');
-	$fields = array();
+            // extend the form
+            $text .= Skin::build_box(i18n::s('Business card'), Skin::build_form($fields), 'unfolded');
+            $fields = array();
 
-	// append the script used for data checking on the browser
-	// enable autocompletion for user names
-	Page::insert_script('$(function() { Yacs.autocomplete_names("vcard_agent",true); });');
+            // append the script used for data checking on the browser
+            // enable autocompletion for user names
+            Page::insert_script('$(function() { Yacs.autocomplete_names("vcard_agent",true); });');
 
-	// instant messaging
-	//
+            // instant messaging
+            //
 
-	// the twitter address
-	$label = Skin::build_link('http://www.twitter.com/', i18n::s('Twitter'), 'external');
-	$input = '<input type="text" name="twitter_address" size="40" value="'.encode_field(isset($item['twitter_address'])?$item['twitter_address']:'').'" />';
-	$fields[] = array($label, $input);
+            // the twitter address
+            $label = Skin::build_link('http://www.twitter.com/', i18n::s('Twitter'), 'external');
+            $input = '<input type="text" name="twitter_address" size="40" value="'.encode_field(isset($item['twitter_address'])?$item['twitter_address']:'').'" />';
+            $fields[] = array($label, $input);
 
-	// the Jabber address
-	$label = sprintf(i18n::s('%s, or %s'), Skin::build_link('http://mail.google.com/', i18n::s('GMail'), 'external'), Skin::build_link('http://www.jabber.org/', i18n::s('Jabber'), 'external'));
-	$input = '<input type="text" name="jabber_address" size="40" value="'.encode_field(isset($item['jabber_address'])?$item['jabber_address']:'').'" />';
-	$fields[] = array($label, $input);
+            // the Jabber address
+            $label = sprintf(i18n::s('%s, or %s'), Skin::build_link('http://mail.google.com/', i18n::s('GMail'), 'external'), Skin::build_link('http://www.jabber.org/', i18n::s('Jabber'), 'external'));
+            $input = '<input type="text" name="jabber_address" size="40" value="'.encode_field(isset($item['jabber_address'])?$item['jabber_address']:'').'" />';
+            $fields[] = array($label, $input);
 
-	// the skype address
-	$label = Skin::build_link('http://www.skype.com/', i18n::s('Skype'), 'external');
-	$input = '<input type="text" name="skype_address" size="40" value="'.encode_field(isset($item['skype_address'])?$item['skype_address']:'').'" />';
-	$fields[] = array($label, $input);
+            // the skype address
+            $label = Skin::build_link('http://www.skype.com/', i18n::s('Skype'), 'external');
+            $input = '<input type="text" name="skype_address" size="40" value="'.encode_field(isset($item['skype_address'])?$item['skype_address']:'').'" />';
+            $fields[] = array($label, $input);
 
-	// the Yahoo address
-	$label = Skin::build_link('http://messenger.yahoo.com/', i18n::s('Yahoo! Messenger'), 'external');
-	$input = '<input type="text" name="yahoo_address" size="40" value="'.encode_field(isset($item['yahoo_address'])?$item['yahoo_address']:'').'" />';
-	$fields[] = array($label, $input);
+            // the Yahoo address
+            $label = Skin::build_link('http://messenger.yahoo.com/', i18n::s('Yahoo! Messenger'), 'external');
+            $input = '<input type="text" name="yahoo_address" size="40" value="'.encode_field(isset($item['yahoo_address'])?$item['yahoo_address']:'').'" />';
+            $fields[] = array($label, $input);
 
-	// the MSN address
-	$label = Skin::build_link('http://messenger.live.com/', i18n::s('Windows Live Messenger'), 'external');
-	$input = '<input type="text" name="msn_address" size="40" value="'.encode_field(isset($item['msn_address'])?$item['msn_address']:'').'" />';
-	$fields[] = array($label, $input);
+            // the MSN address
+            $label = Skin::build_link('http://messenger.live.com/', i18n::s('Windows Live Messenger'), 'external');
+            $input = '<input type="text" name="msn_address" size="40" value="'.encode_field(isset($item['msn_address'])?$item['msn_address']:'').'" />';
+            $fields[] = array($label, $input);
 
-	// the AIM address
-	$label = Skin::build_link('http://www.aim.com/', i18n::s('AIM'), 'external');
-	$input = '<input type="text" name="aim_address" size="40" value="'.encode_field(isset($item['aim_address'])?$item['aim_address']:'').'" />';
-	$fields[] = array($label, $input);
+            // the AIM address
+            $label = Skin::build_link('http://www.aim.com/', i18n::s('AIM'), 'external');
+            $input = '<input type="text" name="aim_address" size="40" value="'.encode_field(isset($item['aim_address'])?$item['aim_address']:'').'" />';
+            $fields[] = array($label, $input);
 
-	// the IRC address
-	$label = Skin::build_link('http://www.irchelp.org/', i18n::s('IRC'), 'external');
-	$input = '<input type="text" name="irc_address" size="40" value="'.encode_field(isset($item['irc_address'])?$item['irc_address']:'').'" />';
-	$fields[] = array($label, $input);
+            // the IRC address
+            $label = Skin::build_link('http://www.irchelp.org/', i18n::s('IRC'), 'external');
+            $input = '<input type="text" name="irc_address" size="40" value="'.encode_field(isset($item['irc_address'])?$item['irc_address']:'').'" />';
+            $fields[] = array($label, $input);
 
-	// the ICQ number
-	$label = Skin::build_link('http://www.icq.com/', i18n::s('ICQ'), 'external');
-	$input = '<input type="text" name="icq_address" size="40" value="'.encode_field(isset($item['icq_address'])?$item['icq_address']:'').'" />';
-	$fields[] = array($label, $input);
+            // the ICQ number
+            $label = Skin::build_link('http://www.icq.com/', i18n::s('ICQ'), 'external');
+            $input = '<input type="text" name="icq_address" size="40" value="'.encode_field(isset($item['icq_address'])?$item['icq_address']:'').'" />';
+            $fields[] = array($label, $input);
 
-	// add a folded box
-	$text .= Skin::build_box(i18n::s('Instant communication'), Skin::build_form($fields), 'folded');
-	$fields = array();
+            // add a folded box
+            $text .= Skin::build_box(i18n::s('Instant communication'), Skin::build_form($fields), 'folded');
+            $fields = array();
+        }
 
 	// display in a separate panel
 	if($text)
@@ -565,215 +571,225 @@ if($with_form) {
 
 		$fields[] = array($label, $input);
 	}
+        
+        if(!$is_regitering) {
 
-	// from where
-	$label = i18n::s('From');
-	$input = '<input type="text" name="from_where" size="50" value="'.encode_field(isset($item['from_where'])?$item['from_where']:'').'" maxlength="255" />';
-	$hint = i18n::s('Some hint on your location (eg, \'Paris\', \'home\', \'the toys-for-sick-persons department\')');
-	$fields[] = array($label, $input, $hint);
+            // from where
+            $label = i18n::s('From');
+            $input = '<input type="text" name="from_where" size="50" value="'.encode_field(isset($item['from_where'])?$item['from_where']:'').'" maxlength="255" />';
+            $hint = i18n::s('Some hint on your location (eg, \'Paris\', \'home\', \'the toys-for-sick-persons department\')');
+            $fields[] = array($label, $input, $hint);
 
-	// the introduction
-	$label = i18n::s('Introduction');
-	$input = '<textarea name="introduction" rows="5" cols="50">'.encode_field(isset($item['introduction'])?$item['introduction']:'').'</textarea>';
-	$hint = i18n::s('Displayed aside your pages');
-	$fields[] = array($label, $input, $hint);
+            // the introduction
+            $label = i18n::s('Introduction');
+            $input = '<textarea name="introduction" rows="5" cols="50">'.encode_field(isset($item['introduction'])?$item['introduction']:'').'</textarea>';
+            $hint = i18n::s('Displayed aside your pages');
+            $fields[] = array($label, $input, $hint);
 
-	// include overlay fields, if any
-	if(is_object($overlay))
-		$fields = array_merge($fields, $overlay->get_fields($item));
+            // include overlay fields, if any
+            if(is_object($overlay))
+                    $fields = array_merge($fields, $overlay->get_fields($item));
 
-	// the description
-	$label = i18n::s('Description');
+            // the description
+            $label = i18n::s('Description');
 
-	// use the editor if possible
-	$input = Surfer::get_editor('description', isset($item['description'])?$item['description']:'');
-	$fields[] = array($label, $input);
+            // use the editor if possible
+            $input = Surfer::get_editor('description', isset($item['description'])?$item['description']:'');
+            $fields[] = array($label, $input);
 
-	// birth date
-	$label = i18n::s('Birth date');
-	if(isset($item['birth_date']) && ($item['birth_date'] > NULL_DATE))
-		$value = substr($item['birth_date'], 0, 10);
-	else
-		$value = '';
-	$input = '<input type="text" name="birth_date" size="20" value="'.encode_field($value).'" />';
-	$hint = i18n::s('YYYY-MM-DD');
-	$fields[] = array($label, $input, $hint);
+            // birth date
+            $label = i18n::s('Birth date');
+            if(isset($item['birth_date']) && ($item['birth_date'] > NULL_DATE))
+                    $value = substr($item['birth_date'], 0, 10);
+            else
+                    $value = '';
+            $input = '<input type="text" name="birth_date" size="20" value="'.encode_field($value).'" />';
+            $hint = i18n::s('YYYY-MM-DD');
+            $fields[] = array($label, $input, $hint);
 
-	// form fields in this panel
-	$text .= Skin::build_form($fields);
-	$fields = array();
+            // form fields in this panel
+            $text .= Skin::build_form($fields);
+            $fields = array();
 
-	// user preferences
-	//
+            // user preferences
+            //
 
-	// preferred language
-	$label = i18n::s('Language');
-	$input = i18n::get_languages_select(isset($item['language'])?$item['language']:'none');
-	$fields[] = array($label, $input);
+            // preferred language
+            $label = i18n::s('Language');
+            $input = i18n::get_languages_select(isset($item['language'])?$item['language']:'none');
+            $fields[] = array($label, $input);
 
-	// associates may change the active flag: Yes/public, Restricted/logged, No/associates
-	if(Surfer::is_associate()) {
-		$label = i18n::s('Access');
-		if(isset($item['editor']))
-			;
-		elseif(!isset($context['users_default_active']))
-			$item['active'] = 'Y';
-		else
-			$item['active'] = $context['users_default_active'];
-		$input = '<input type="radio" name="active" value="Y"';
-		if(!isset($item['active']) || ($item['active'] == 'Y'))
-			$input .= ' checked="checked"';
-		$input .= ' /> '.i18n::s('Public - Everybody, including anonymous surfers')
-			.BR.'<input type="radio" name="active" value="R"';
-		if(isset($item['active']) && ($item['active'] == 'R'))
-			$input .= ' checked="checked"';
-		$input .= ' /> '.i18n::s('Community - Access is granted to any identified surfer')
-			.BR.'<input type="radio" name="active" value="N"';
-		if(isset($item['active']) && ($item['active'] == 'N'))
-			$input .= ' checked="checked"';
-		$input .= ' /> '.i18n::s('Private - Access is restricted to selected persons')."\n";
-		$fields[] = array($label, $input);
-	}
+            // associates may change the active flag: Yes/public, Restricted/logged, No/associates
+            if(Surfer::is_associate()) {
+                    $label = i18n::s('Access');
+                    if(isset($item['editor']))
+                            ;
+                    elseif(!isset($context['users_default_active']))
+                            $item['active'] = 'Y';
+                    else
+                            $item['active'] = $context['users_default_active'];
+                    $input = '<input type="radio" name="active" value="Y"';
+                    if(!isset($item['active']) || ($item['active'] == 'Y'))
+                            $input .= ' checked="checked"';
+                    $input .= ' /> '.i18n::s('Public - Everybody, including anonymous surfers')
+                            .BR.'<input type="radio" name="active" value="R"';
+                    if(isset($item['active']) && ($item['active'] == 'R'))
+                            $input .= ' checked="checked"';
+                    $input .= ' /> '.i18n::s('Community - Access is granted to any identified surfer')
+                            .BR.'<input type="radio" name="active" value="N"';
+                    if(isset($item['active']) && ($item['active'] == 'N'))
+                            $input .= ' checked="checked"';
+                    $input .= ' /> '.i18n::s('Private - Access is restricted to selected persons')."\n";
+                    $fields[] = array($label, $input);
+            }
 
-	// signature
-	$label = i18n::s('Signature');
-	$input = '<textarea name="signature" rows="2" cols="50">'.encode_field(isset($item['signature'])?$item['signature']:'').'</textarea>';
-	$hint = i18n::s('To be appended to your comments and mail messages. Separated with dashes from main text.');
-	$fields[] = array($label, $input, $hint);
+            // signature
+            $label = i18n::s('Signature');
+            $input = '<textarea name="signature" rows="2" cols="50">'.encode_field(isset($item['signature'])?$item['signature']:'').'</textarea>';
+            $hint = i18n::s('To be appended to your comments and mail messages. Separated with dashes from main text.');
+            $fields[] = array($label, $input, $hint);
 
-	// e-mail usage
-	$label = i18n::s('E-mail usage');
+            // e-mail usage
+            $label = i18n::s('E-mail usage');
 
-	// confirm password
-	$input = '<input type="checkbox" name="without_confirmations" value="N"';
-	if(!isset($item['without_confirmations']) || ($item['without_confirmations'] != 'Y'))
-		$input .= ' checked="checked"';
-	$input .= ' />';
-	if(isset($item['id']))
-		$input .= ' '.i18n::s('Confirm every password change.')."\n";
-	else
-		$input .= ' '.i18n::s('Confirm registration and password.')."\n";
+            // confirm password
+            $input = '<input type="checkbox" name="without_confirmations" value="N"';
+            if(!isset($item['without_confirmations']) || ($item['without_confirmations'] != 'Y'))
+                    $input .= ' checked="checked"';
+            $input .= ' />';
+            if(isset($item['id']))
+                    $input .= ' '.i18n::s('Confirm every password change.')."\n";
+            else
+                    $input .= ' '.i18n::s('Confirm registration and password.')."\n";
 
-	// receive alerts
-	$input .= BR.'<input type="checkbox" name="without_alerts" value="N"';
-	if(!isset($item['without_alerts']) || ($item['without_alerts'] != 'Y'))
-		$input .= ' checked="checked"';
-	$input .= ' /> '.i18n::s('Alert me when my pages are commented.')."\n";
+            // receive alerts
+            $input .= BR.'<input type="checkbox" name="without_alerts" value="N"';
+            if(!isset($item['without_alerts']) || ($item['without_alerts'] != 'Y'))
+                    $input .= ' checked="checked"';
+            $input .= ' /> '.i18n::s('Alert me when my pages are commented.')."\n";
 
-	// receive private messages
-	$input .= BR.'<input type="checkbox" name="without_messages" value="N"';
-	if(!isset($item['without_messages']) || ($item['without_messages'] != 'Y'))
-		$input .= ' checked="checked"';
-	$input .= ' /> '.i18n::s('Allow other members to contact me.')."\n";
+            // receive private messages
+            $input .= BR.'<input type="checkbox" name="without_messages" value="N"';
+            if(!isset($item['without_messages']) || ($item['without_messages'] != 'Y'))
+                    $input .= ' checked="checked"';
+            $input .= ' /> '.i18n::s('Allow other members to contact me.')."\n";
 
-	// explicit newsletter subscription
-	$input .= BR.'<input type="checkbox" name="with_newsletters" value="Y"';
-	if(!isset($item['id']) || !isset($item['with_newsletters']) || ($item['with_newsletters'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= ' /> '.i18n::s('Send me periodical newsletters.')."\n";
+            // explicit newsletter subscription
+            $input .= BR.'<input type="checkbox" name="with_newsletters" value="Y"';
+            if(!isset($item['id']) || !isset($item['with_newsletters']) || ($item['with_newsletters'] == 'Y'))
+                    $input .= ' checked="checked"';
+            $input .= ' /> '.i18n::s('Send me periodical newsletters.')."\n";
 
-	$hint = i18n::s('Your explicit approval is a pre-requisite for us to use your e-mail address.');
-	$fields[] = array($label, $input, $hint);
+            $hint = i18n::s('Your explicit approval is a pre-requisite for us to use your e-mail address.');
+            $fields[] = array($label, $input, $hint);
 
-	// editor
-	$label = i18n::s('Preferred editor');
-	$input = '<select name="selected_editor">';
-	if(isset($item['editor']))
-		;
-	elseif(!isset($context['users_default_editor']))
-		$item['editor'] = 'tinymce';
-	else
-		$item['editor'] = $context['users_default_editor'];
-	$input .= '<option value="tinymce"';
-	if($item['editor'] == 'tinymce')
-		$input .= ' selected="selected"';
-	$input .= '>'.i18n::s('TinyMCE')."</option>\n";
-	$input .= '<option value="yacs"';
-	if($item['editor'] == 'yacs')
-		$input .= ' selected="selected"';
-	$input .= '>'.i18n::s('Textarea')."</option>\n";
-	$input .= '</select>';
-	$hint = i18n::s('Select your preferred tool to edit text.');
-	$fields[] = array($label, $input, $hint);
+            // editor
+            $label = i18n::s('Preferred editor');
+            $input = '<select name="selected_editor">';
+            if(isset($item['editor']))
+                    ;
+            elseif(!isset($context['users_default_editor']))
+                    $item['editor'] = 'tinymce';
+            else
+                    $item['editor'] = $context['users_default_editor'];
+            $input .= '<option value="tinymce"';
+            if($item['editor'] == 'tinymce')
+                    $input .= ' selected="selected"';
+            $input .= '>'.i18n::s('TinyMCE')."</option>\n";
+            $input .= '<option value="yacs"';
+            if($item['editor'] == 'yacs')
+                    $input .= ' selected="selected"';
+            $input .= '>'.i18n::s('Textarea')."</option>\n";
+            $input .= '</select>';
+            $hint = i18n::s('Select your preferred tool to edit text.');
+            $fields[] = array($label, $input, $hint);
 
-	// interface
-	$label = i18n::s('Interface');
-	$input = '<select name="interface">';
-	$input .= '<option value="I"';
-	if(!isset($item['interface']) || ($item['interface'] == 'I'))
-		$input .= ' selected="selected"';
-	$input .= '>'.i18n::s('Improved interface')."</option>\n";
-	$input .= '<option value="C"';
-	if(isset($item['interface']) && ($item['interface'] == 'C'))
-		$input .= ' selected="selected"';
-	$input .= '>'.i18n::s('Complex interface')."</option>\n";
-	$input .= '</select>';
-	$fields[] = array($label, $input);
+            // interface
+            $label = i18n::s('Interface');
+            $input = '<select name="interface">';
+            $input .= '<option value="I"';
+            if(!isset($item['interface']) || ($item['interface'] == 'I'))
+                    $input .= ' selected="selected"';
+            $input .= '>'.i18n::s('Improved interface')."</option>\n";
+            $input .= '<option value="C"';
+            if(isset($item['interface']) && ($item['interface'] == 'C'))
+                    $input .= ' selected="selected"';
+            $input .= '>'.i18n::s('Complex interface')."</option>\n";
+            $input .= '</select>';
+            $fields[] = array($label, $input);
 
-	// form fields in this panel
-	$text .= Skin::build_box(i18n::s('Preferences'), Skin::build_form($fields), 'folded');
-	$fields = array();
+            // form fields in this panel
+            $text .= Skin::build_box(i18n::s('Preferences'), Skin::build_form($fields), 'folded');
+            $fields = array();
 
-	// display in a separate panel
-	if($text)
-		$panels[] = array('information', i18n::s('Information'), 'information_panel', $text);
+            // display in a separate panel
+            if($text)
+                    $panels[] = array('information', i18n::s('Information'), 'information_panel', $text);
+
+
+        }
 
 	// append tabs from the overlay, if any
 	//
 	if(is_object($overlay) && ($more_tabs = $overlay->get_tabs('edit', $item)))
  		$panels = array_merge($panels, $more_tabs);
 
-	//
-	// resources tab
-	//
-	$text = '';
+        
+        if(!$is_regitering) {
+        
+            //
+            // resources tab
+            //
+            $text = '';
 
-	// end of regular fields
-	$text .= Skin::build_form($fields);
-	$fields = array();
+            // end of regular fields
+            $text .= Skin::build_form($fields);
+            $fields = array();
 
-	// splash message for new items
-	if(!isset($item['id']))
-		$text .= Skin::build_box(i18n::s('Images'), '<p>'.i18n::s('Submit the new page, and you will be able to add images afterwards.').'</p>', 'folded');
+            // splash message for new items
+            if(!isset($item['id']))
+                    $text .= Skin::build_box(i18n::s('Images'), '<p>'.i18n::s('Submit the new page, and you will be able to add images afterwards.').'</p>', 'folded');
 
-	// the list of images
-	elseif($items = Images::list_by_date_for_anchor('user:'.$item['id']))
-		$text .= Skin::build_box(i18n::s('Images'), Skin::build_list($items, 'decorated'), 'unfolded', 'edit_images');
+            // the list of images
+            elseif($items = Images::list_by_date_for_anchor('user:'.$item['id']))
+                    $text .= Skin::build_box(i18n::s('Images'), Skin::build_list($items, 'decorated'), 'unfolded', 'edit_images');
 
-	// if we are editing an existing profile
-	if(isset($item['id'])) {
+            // if we are editing an existing profile
+            if(isset($item['id'])) {
 
-		// files are reserved to authenticated members
-		if($items = Files::list_embeddable_for_anchor('user:'.$item['id'], 0, 50))
-			$text .= Skin::build_box(i18n::s('Files'), Skin::build_list($items, 'decorated'), 'unfolded');
+                    // files are reserved to authenticated members
+                    if($items = Files::list_embeddable_for_anchor('user:'.$item['id'], 0, 50))
+                            $text .= Skin::build_box(i18n::s('Files'), Skin::build_list($items, 'decorated'), 'unfolded');
 
-		// locations are reserved to authenticated members
-		if(Locations::allow_creation($item, null)) {
-			$menu = array( 'locations/edit.php?anchor='.urlencode('user:'.$item['id']) => i18n::s('Add a location') );
-			$items = Locations::list_by_date_for_anchor('user:'.$item['id'], 0, 50, 'user:'.$item['id']);
-			$text .= Skin::build_box(i18n::s('Locations'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
-		}
+                    // locations are reserved to authenticated members
+                    if(Locations::allow_creation($item, null)) {
+                            $menu = array( 'locations/edit.php?anchor='.urlencode('user:'.$item['id']) => i18n::s('Add a location') );
+                            $items = Locations::list_by_date_for_anchor('user:'.$item['id'], 0, 50, 'user:'.$item['id']);
+                            $text .= Skin::build_box(i18n::s('Locations'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
+                    }
 
-		// tables are reserved to associates
-		if(Tables::allow_creation($item, null)) {
-			$menu = array( 'tables/edit.php?anchor='.urlencode('user:'.$item['id']) => i18n::s('Add a table') );
-			$items = Tables::list_by_date_for_anchor('user:'.$item['id'], 0, 50, 'user:'.$item['id']);
-			$text .= Skin::build_box(i18n::s('Tables'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
-		}
+                    // tables are reserved to associates
+                    if(Tables::allow_creation($item, null)) {
+                            $menu = array( 'tables/edit.php?anchor='.urlencode('user:'.$item['id']) => i18n::s('Add a table') );
+                            $items = Tables::list_by_date_for_anchor('user:'.$item['id'], 0, 50, 'user:'.$item['id']);
+                            $text .= Skin::build_box(i18n::s('Tables'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
+                    }
 
-		// pgp key
-// 		$label = i18n::s('PGP key or certificate');
-// 		$input = '<textarea name="pgp_key" rows="5" cols="50">'.encode_field(isset($item['pgp_key'])?$item['pgp_key']:'').'</textarea>';
+                    // pgp key
+    // 		$label = i18n::s('PGP key or certificate');
+    // 		$input = '<textarea name="pgp_key" rows="5" cols="50">'.encode_field(isset($item['pgp_key'])?$item['pgp_key']:'').'</textarea>';
 
-		// add a folded box
-// 		$text .= Skin::build_box(i18n::s('Public key'), $label.BR.$input, 'folded');
-// 		$fields = array();
+                    // add a folded box
+    // 		$text .= Skin::build_box(i18n::s('Public key'), $label.BR.$input, 'folded');
+    // 		$fields = array();
 
-	}
+            }
 
-	// display in a separate panel
-	if($text)
-		$panels[] = array('resources', i18n::s('Resources'), 'resources_panel', $text);
+            // display in a separate panel
+            if($text)
+                    $panels[] = array('resources', i18n::s('Resources'), 'resources_panel', $text);
+        
+        }
 
 	// let YACS do the hard job
 	$context['text'] .= Skin::build_tabs($panels);
@@ -791,22 +807,25 @@ if($with_form) {
 		$menu[] = Skin::build_link(Users::get_permalink($item), i18n::s('Cancel'), 'span');
 
 	// several options to check
-	$suffix = array();
+	$prefix = $suffix = array();
 
 	// associates may decide to not stamp changes -- complex command
 	if(isset($item['id']) && Surfer::is_associate() && Surfer::has_all())
 		$suffix[] = '<input type="checkbox" name="silent" value="Y" />'.' '.i18n::s('Do not change modification date.');
         
         // link to privacy statement
-	if(!isset($item['id']) && !Surfer::is_associate())
-		$suffix[] = '<span>'.sprintf(i18n::s('By clicking submit, you agree to the terms and conditions outlined in the %s.'), Skin::build_link(Articles::get_url('privacy'), i18n::s('privacy statement'), 'basic')).'</span>';
+	if($is_regitering)
+		$prefix[] = Skin::build_agreement_checkbox ('usage_agreement');
 
 	// validate page content
         if(Surfer::is_associate())
             $suffix[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
+        
+        // do not display tags field on registering
+        $default_tag = ($is_regitering)?NULL:'';
 
         // an assistant-like rendering at page bottom
-	$context['text'] .= Skin::build_assistant_bottom('', $menu, $suffix, isset($item['tags'])?$item['tags']:'');
+	$context['text'] .= Skin::build_assistant_bottom($prefix, $menu, $suffix, isset($item['tags'])?$item['tags']:$default_tag);
 
 	
 	// transmit the id as a hidden field
@@ -927,5 +946,3 @@ if($with_form) {
 
 // render the skin
 render_skin();
-
-?>

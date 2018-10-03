@@ -113,6 +113,12 @@ if(Surfer::is_crawler()) {
                 $overlay                        = Overlay::bind('query');
                 $_REQUEST['overlay']            = $overlay->save();
         }
+        
+        // record acknowledgment
+        if(isset($_REQUEST['contact_agreement']) && $_REQUEST['contact_agreement'] === 'Y') {
+            
+            $_REQUEST['description'] .= tag::_p(fa::_('check-circle').' '.sprintf(i18n::s('%s recognizes having agreed privacy statement'), $_REQUEST['create_name']),'details');
+        }
 
 	// stop robots
 	if(Surfer::may_be_a_robot()) {
@@ -257,6 +263,12 @@ if($with_form) {
 	$input = '<textarea name="description" rows="20" cols="50">'.encode_field($item['description']).'</textarea>';
 	$hint = i18n::s('Please mention any reference information required to process the request');
 	$fields[] = array($label, $input, $hint);
+        
+        if(!Surfer::is_logged()) {
+            $label = i18n::s('Your agreement');
+            $input = Skin::build_agreement_checkbox('contact_agreement');
+            $fields[] = array($label, $input);
+        }
 
 	// build the form
 	$context['text'] .= Skin::build_form($fields);
@@ -330,5 +342,3 @@ if($with_form) {
 
 // render the skin
 render_skin();
-
-?>
