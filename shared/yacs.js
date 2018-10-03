@@ -1231,7 +1231,10 @@ var Yacs = {
                 Yacs.prepareMenus();
 
 		// change the behavior of buttons used for data submission, except those with style 'no_spin_on_click'
-                $('body').on('click','button[type=submit]:not(.no_spin_on_click)', function(){Yacs.startWorking();});
+                $('body').on('click','button[type=submit]:not(.no_spin_on_click)', function(){
+                    if($(this).closest('form').find('*:invalid').length) {return;}
+                    Yacs.startWorking();
+                });
 
 		// show tips
 		$('a[title].tip, input.tip, label.tip').each(function() {
@@ -1347,6 +1350,13 @@ var Yacs = {
 		$.each(loaded_scripts, function() {
 		    Yacs.loadedJs.push($(this).attr('src'));
 		});
+                
+                // remove spinning wheel with escape 
+                $(document).keyup(function(e) {
+                    if (e.keyCode == 27) { // escape key maps to keycode `27`
+                        Yacs.stopWorking();
+                    }
+                });
 
 		// check for virtual host automatic login
 		Yacs.multiDomainLogin();
