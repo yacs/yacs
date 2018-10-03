@@ -82,6 +82,45 @@ Class Skin_Skeleton {
 		return $hint;
 
 	}
+        
+        /**
+         * build a checkbox and text to surfer for getting
+         * is agreement to store personnal data
+         * 
+         * if text is void the function try to get the text from 
+         * $context['agreement text'] setted in users 
+         * configuration, control panel
+         * 
+         * @param string $name of checkbox input
+         * @param string $text to display
+         */
+        public static function build_agreement_checkbox($name, $text='') {
+            global $context;
+            
+            $input = '';
+            
+            // sanity check
+            if(!$name) return '';
+            
+            // get text from $context or default if nothing provided
+            if(!$text) {
+                
+                $text = (isset($context['usage_agreement_text']))? $context['usage_agreement_text'] : 
+                            i18n::s('By submitting your personnal data you recognize having knowledge of [our privacy statement|privacy].');
+                
+            }
+            
+            // beautify it
+            $text = Codes::beautify($text);
+            
+            // checkbox
+            $input .= "<input type=checkbox name=$name id=$name value='Y' required />\n";
+            
+            // label
+            $input .= "<label for=$name>$text</label>\n";
+            
+            return $input;
+        }
 
 	/**
 	 * build an assistant-like bottom of the page

@@ -254,6 +254,12 @@ elseif(!Surfer::is_associate()) {
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Only associates can delete user profiles.');
 	$fields[] = array($label, $input);
+        
+        // usage agreement
+        $label = i18n::s('Data usage agreement text');
+        $input = '<textarea name=usage_agreement_text col=100 row=2 >'.encode_field($context['usage_agreement_text']).'</textarea>';
+        $hint  = i18n::s('Use this field if you need to overide agreement text used by default in registration form and contact form');
+        $fields[] = array($label, $input, $hint);
 
 	// build the form
 	$registration .= Skin::build_form($fields);
@@ -642,6 +648,8 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'users_without_teasers\']=\''.addcslashes($_REQUEST['users_without_teasers'], "\\'")."';\n";
 	if(isset($_REQUEST['users_without_uploads']))
 		$content .= '$context[\'users_without_uploads\']=\''.addcslashes($_REQUEST['users_without_uploads'], "\\'")."';\n";
+        if(isset($_REQUEST['usage_agreement_text']))
+                $content .= '$context[\'usage_agreement_text\']=\''.addcslashes($_REQUEST['usage_agreement_text'], "\\'")."';\n";
 	$content .= '?>'."\n";
 
 	// update the parameters file
@@ -682,5 +690,3 @@ elseif(!Surfer::is_associate()) {
 
 // render the skin
 render_skin();
-
-?>
