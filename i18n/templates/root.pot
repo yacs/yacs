@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-28 22:08+0200\n"
+"POT-Creation-Date: 2018-10-04 10:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgstr ""
 msgid "Configure"
 msgstr ""
 
-#: configure.php:80 configure.php:283 configure.php:403 query.php:166
+#: configure.php:80 configure.php:283 configure.php:403 query.php:172
 #: query_privacy.php:203
 msgid "Front page"
 msgstr ""
@@ -188,12 +188,12 @@ msgstr ""
 msgid "Side panel"
 msgstr ""
 
-#: configure.php:275 panel.php:77 query.php:268 query_privacy.php:288
+#: configure.php:275 panel.php:77 query.php:280 query_privacy.php:288
 #: search.php:121
 msgid "Submit"
 msgstr ""
 
-#: configure.php:275 panel.php:77 query.php:268 query_privacy.php:288
+#: configure.php:275 panel.php:77 query.php:280 query_privacy.php:288
 #: search.php:121
 msgid "Press [s] to submit data"
 msgstr ""
@@ -239,7 +239,7 @@ msgstr ""
 msgid "Switch the server on"
 msgstr ""
 
-#: configure.php:397 query.php:164 query_privacy.php:201
+#: configure.php:397 query.php:170 query_privacy.php:201
 msgid "Where do you want to go now?"
 msgstr ""
 
@@ -302,7 +302,7 @@ msgstr ""
 msgid "the site front page"
 msgstr ""
 
-#: error.php:133 go.php:147 query.php:169 search.php:112
+#: error.php:133 go.php:147 query.php:175 search.php:112
 msgid "Search"
 msgstr ""
 
@@ -508,7 +508,7 @@ msgstr ""
 msgid "Content Assistant"
 msgstr ""
 
-#: index.php:406 query.php:167
+#: index.php:406 query.php:173
 msgid "All pages"
 msgstr ""
 
@@ -552,7 +552,7 @@ msgstr ""
 msgid "Page content"
 msgstr ""
 
-#: query.php:44 query.php:327 search.php:373
+#: query.php:44 query.php:339 search.php:373
 msgid "Help"
 msgstr ""
 
@@ -589,43 +589,48 @@ msgstr ""
 msgid "e-mail"
 msgstr ""
 
-#: query.php:119
+#: query.php:120
+#, php-format
+msgid "%s recognizes having agreed privacy statement"
+msgstr ""
+
+#: query.php:125
 msgid "Please prove you are not a robot."
 msgstr ""
 
-#: query.php:133 query_privacy.php:149
+#: query.php:139 query_privacy.php:149
 msgid "Your query has been registered"
 msgstr ""
 
-#: query.php:155 query_privacy.php:171
+#: query.php:161 query_privacy.php:171
 msgid "<p>You can check the status of your query at the following address:</p>"
 msgstr ""
 
-#: query.php:156 query_privacy.php:172
+#: query.php:162 query_privacy.php:172
 msgid "The permanent address for your query"
 msgstr ""
 
-#: query.php:160
+#: query.php:166
 msgid ""
 "<p>Your query will now be reviewed by one of the associates of this "
 "community. It is likely that this will be done within the next 24 hours at "
 "the latest.</p>"
 msgstr ""
 
-#: query.php:168 query_privacy.php:204
+#: query.php:174 query_privacy.php:204
 msgid "Site map"
 msgstr ""
 
-#: query.php:170 setup.php:337
+#: query.php:176 setup.php:337
 msgid "Help index"
 msgstr ""
 
-#: query.php:181 query_privacy.php:216
+#: query.php:187 query_privacy.php:216
 #, php-format
 msgid "Your query: %s"
 msgstr ""
 
-#: query.php:184 query_privacy.php:219
+#: query.php:190 query_privacy.php:219
 #, php-format
 msgid ""
 "<p>Your query will now be reviewed by one of the associates of this "
@@ -635,72 +640,76 @@ msgid ""
 "web site.</p>"
 msgstr ""
 
-#: query.php:202 query_privacy.php:237
+#: query.php:208 query_privacy.php:237
 #, php-format
 msgid "New query: %s"
 msgstr ""
 
-#: query.php:219
+#: query.php:225
 msgid ""
 "Please fill out the form and it will be sent automatically to the site "
 "managers. Be as precise as possible, and mention your e-mail address to let "
 "us a chance to contact you back."
 msgstr ""
 
-#: query.php:227 query_privacy.php:262
+#: query.php:233 query_privacy.php:262
 msgid "Your name"
 msgstr ""
 
-#: query.php:230
+#: query.php:236
 msgid "Let us a chance to know who you are"
 msgstr ""
 
-#: query.php:236 query_privacy.php:268
+#: query.php:242 query_privacy.php:268
 msgid "Your e-mail address"
 msgstr ""
 
-#: query.php:238
+#: query.php:244
 msgid "To be alerted during the processing of your request"
 msgstr ""
 
-#: query.php:248
+#: query.php:254
 msgid "Query object"
 msgstr ""
 
-#: query.php:250
+#: query.php:256
 msgid "The main object of your query"
 msgstr ""
 
-#: query.php:256
+#: query.php:262
 msgid "Details of your request"
 msgstr ""
 
-#: query.php:258
+#: query.php:264
 msgid ""
 "Please mention any reference information required to process the request"
 msgstr ""
 
-#: query.php:272 query_privacy.php:292
+#: query.php:268
+msgid "Your agreement"
+msgstr ""
+
+#: query.php:284 query_privacy.php:292
 msgid "Cancel"
 msgstr ""
 
-#: query.php:286
+#: query.php:298
 msgid "Please give your first and last names"
 msgstr ""
 
-#: query.php:292
+#: query.php:304
 msgid "Please give your e-mail address"
 msgstr ""
 
-#: query.php:298
+#: query.php:310
 msgid "Please provide a meaningful title."
 msgstr ""
 
-#: query.php:304
+#: query.php:316
 msgid "The description should not exceed 64000 characters."
 msgstr ""
 
-#: query.php:317
+#: query.php:329
 msgid ""
 "<p>Use this form to submit any kind of request you can have, from simple "
 "suggestions to complex questions.</p><p>Hearty discussion and unpopular "
@@ -709,27 +718,27 @@ msgid ""
 "the right to delete any post for any reason. Don't make us do it.</p>"
 msgstr ""
 
-#: query.php:319
+#: query.php:331
 msgid ""
 "If you paste some existing HTML content and want to avoid the implicit "
 "formatting insert the code <code>[formatted]</code> at the very beginning of "
 "the description field."
 msgstr ""
 
-#: query.php:321
+#: query.php:333
 msgid "Most HTML tags are removed."
 msgstr ""
 
-#: query.php:322
+#: query.php:334
 #, php-format
 msgid "You can use %s to beautify your post"
 msgstr ""
 
-#: query.php:322
+#: query.php:334
 msgid "YACS codes"
 msgstr ""
 
-#: query.php:325
+#: query.php:337
 msgid "Mandatory fields are marked with a *"
 msgstr ""
 

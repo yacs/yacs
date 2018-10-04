@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-28 21:04+0200\n"
+"POT-Creation-Date: 2018-10-04 10:28+0200\n"
 "PO-Revision-Date: 2017-08-30 10:46+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
@@ -422,11 +422,11 @@ msgstr "My pages"
 msgid "All pages"
 msgstr "All pages"
 
-#: shared/surfer.php:832
+#: shared/surfer.php:836
 msgid "Robot stopper"
 msgstr "Robot stopper"
 
-#: shared/surfer.php:840
+#: shared/surfer.php:848
 msgid "Update image"
 msgstr "Update image"
 
