@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-04 10:28+0200\n"
-"PO-Revision-Date: 2017-08-30 10:44+0100\n"
+"PO-Revision-Date: 2018-10-04 11:15+0200\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
 "Language: en_GB\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: skins/configure.php:186 skins/configure.php:750 skins/configure.php:908
 #: skins/page.php:63
@@ -40,9 +41,8 @@ msgid "Page factory"
 msgstr "Page factory"
 
 #: skins/configure.php:198 skins/derive.php:56 skins/derive.php:65
-#: skins/derive.php:70 skins/display.php:29 skins/edit.php:53
-#: skins/edit.php:62 skins/edit.php:67 skins/edit.php:72 skins/upload.php:40
-#: skins/upload.php:49
+#: skins/derive.php:70 skins/display.php:29 skins/edit.php:53 skins/edit.php:62
+#: skins/edit.php:67 skins/edit.php:72 skins/upload.php:40 skins/upload.php:49
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
 
@@ -686,9 +686,9 @@ msgid "Press [s] to submit data"
 msgstr "Press [s] to submit data"
 
 #: skins/configure.php:754 skins/configure.php:907 skins/derive.php:48
-#: skins/derive.php:226 skins/edit.php:45 skins/edit.php:98
-#: skins/index.php:127 skins/test.php:117 skins/test.php:144
-#: skins/test.php:262 skins/upload.php:32 skins/upload.php:136
+#: skins/derive.php:226 skins/edit.php:45 skins/edit.php:98 skins/index.php:127
+#: skins/test.php:117 skins/test.php:144 skins/test.php:262 skins/upload.php:32
+#: skins/upload.php:136
 msgid "Themes"
 msgstr "Themes"
 
@@ -1211,6 +1211,8 @@ msgid ""
 "By submitting your personnal data you recognize having knowledge of [our "
 "privacy statement|privacy]."
 msgstr ""
+"By submitting your personal data you recognise having knowledge of [our "
+"privacy statement|privacy]."
 
 #: skins/skin_skeleton.php:157
 msgid "Tags"
@@ -1350,14 +1352,12 @@ msgstr "More"
 
 #: skins/skin_skeleton.php:2173 skins/skin_skeleton.php:3305
 #: skins/skin_skeleton.php:3318 skins/skin_skeleton.php:5085
-#: skins/skin_skeleton.php:5141 skins/skin_skeleton.php:5143
-#: skins/test.php:268
+#: skins/skin_skeleton.php:5141 skins/skin_skeleton.php:5143 skins/test.php:268
 msgid "Next"
 msgstr "Next"
 
 #: skins/skin_skeleton.php:2186 skins/skin_skeleton.php:3298
-#: skins/skin_skeleton.php:5127 skins/skin_skeleton.php:5129
-#: skins/test.php:268
+#: skins/skin_skeleton.php:5127 skins/skin_skeleton.php:5129 skins/test.php:268
 msgid "Previous"
 msgstr "Previous"
 
