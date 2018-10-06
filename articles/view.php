@@ -879,11 +879,11 @@ if(!isset($item['id'])) {
 		'overlay_text'		    => '',
 		'description'		    => '',
 		'comments'		    => '',
-		'comments_count'	    => '',
+		'comments_count'	    => 0,
 		'files'			    => '',
-		'files_count'		    => '',
+		'files_count'		    => 0,
 		'links'			    => '',
-		'links_count'		    => '',
+		'links_count'		    => 0,
 		'trailer'		    => '',
 		'rating'		    => ''
 	);
