@@ -638,7 +638,7 @@ Class Articles {
 			$title = Codes::beautify_title($item['title']);
 
 		// headline link to section
-		$headline_link = '<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'.$anchor->get_title().'</a>';
+		$headline_link = '<a href="'.$anchor->get_permalink().'">'.$anchor->get_title().'</a>';
 
 		// headline template
 		switch($action) {
