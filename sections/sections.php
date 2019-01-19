@@ -1929,7 +1929,7 @@ Class Sections {
 		$vhost = $protocol.$vhost;
 	    } else
 		// no virtual host, provide standard host
-		$vhost = $context['url_to_home'].$context['url_to_root'];
+		$vhost = $context['url_to_master'].$context['url_to_root'];
 	    	    	   
 	   // cache result
 	   $cache[$reference] = $vhost;

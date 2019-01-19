@@ -177,6 +177,7 @@ if(isset($context['longitude']))
 echo '$context[\'language\']='.$context['language'].BR."\n"
 	.'$context[\'host_name\']='.$context['host_name'].BR."\n"
 	.'$context[\'url_to_home\']='.$context['url_to_home'].BR."\n"
+        .'$context[\'url_to_master\']='.$context['url_to_master'].BR."\n"
 	.'$context[\'url_to_root\']='.$context['url_to_root'].BR."\n"
 	.'$context[\'script_url\']='.$context['script_url'].BR."\n"
 	.'$context[\'self_url\']='.$context['self_url'].BR."\n"
