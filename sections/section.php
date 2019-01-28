@@ -1035,6 +1035,12 @@ Class Section extends Anchor {
 				if(($image = Images::get($origin)) && ($url = Images::get_thumbnail_href($image)))
 					$query[] = "thumbnail_url = '".SQL::escape($url)."'";
 			}
+                        // also use it as icon image if none has been defined yet
+                        if(!isset($this->item['icon_url']) || !trim($this->item['icon_url'])) {
+				include_once $context['path_to_root'].'images/images.php';
+				if(($image = Images::get($origin)) && ($url = Images::get_icon_href($image)))
+					$query[] = "icon_url = '".SQL::escape($url)."'";
+			}
 
 			// refresh stamp only if image update occurs within 6 hours after last edition
 			if(SQL::strtotime($this->item['edit_date']) + 6*60*60 < time())
