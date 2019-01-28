@@ -107,6 +107,26 @@ class Safe {
 		return FALSE;
 
 	}
+        
+        
+        /**
+         * Remove url_to_root from a url
+         * 
+         * @global array $context
+         * @param string $path
+         * @return string
+         */
+        public static function cut_root($path) {
+            global $context;
+            
+            $matches = array();
+            if(preg_match('/^'.preg_quote($context['url_to_root'],'/').'(.*)/',
+                    $path, $matches)) {
+                return $matches[1];
+            }
+            
+            return $path;
+        }
 
 	/**
 	 * define a constant only if it is not defined yet

@@ -1315,7 +1315,7 @@ function render_skin($with_last_modified=TRUE) {
 	    if(isset($context['page_image']) && $context['page_image']) {
 		    $metas[] = '<meta name="og:image" content="'.encode_field($context['page_image']).'" />';
 		    $metas[] = '<meta name="og:image:alt" content="'.encode_field($meta_desc).'" />';
-		    list($page_image_width, $page_image_height) = Safe::GetImageSize($context['page_image']);
+		    list($page_image_width, $page_image_height) = Safe::GetImageSize(Safe::cut_root($context['page_image']));
 		    $metas[] = '<meta name="og:image:width" content="'.encode_field($page_image_width).'" />';
 		    $metas[] = '<meta name="og:image:height" content="'.encode_field($page_image_height).'" />';
 	    }
