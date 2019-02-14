@@ -357,7 +357,7 @@ if($virtuals = Safe::glob($context['path_to_root'].'parameters/virtual_*.include
 }
 
 // ensure we have a site name
-if(!isset($context['site_name']))
+if(!isset($context['site_name']) || !trim($context['site_name']))
 	$context['site_name'] = $context['host_name'];
 
 
@@ -1257,10 +1257,10 @@ function render_skin($with_last_modified=TRUE) {
 	    // page title
 	    $page_title = ucfirst(strip_tags($context['page_title']));
 	    $context['page_header'] .= '<title>'.$page_title;
-	    if($context['host_name'] && !preg_match('/'.str_replace('/', ' ', strip_tags($context['host_name'])).'/', strip_tags($context['page_title']))) {
+	    if($context['site_name'] && !preg_match('/'.str_replace('/', ' ', strip_tags($context['site_name'])).'/', strip_tags($context['page_title']))) {
 		    if($page_title)
 			    $context['page_header'] .= ' - ';
-		    $context['page_header'] .= strip_tags($context['host_name']);
+		    $context['page_header'] .= strip_tags($context['site_name']);
 	    }
 	    $context['page_header'] .= "</title>\n";
 	    /*if($page_title)
