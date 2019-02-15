@@ -229,10 +229,6 @@ class xml {
 		// assume syntax is ok
 		$text = '';
 
-		// sanity check
-		if(!is_callable('create_function'))
-			return TRUE;
-
 		// obvious
 		$input = trim($input);
 		if(!$input)
@@ -256,9 +252,7 @@ class xml {
 
 		// create a parser
 		$xml_parser = xml_parser_create();
-		$startElement = create_function( '$parser, $name, $attrs', 'global $validation_stack; array_push($validation_stack, $name);' );
-		$endElement = create_function( '$parser, $name', 'global $validation_stack; array_pop($validation_stack);' );
-		xml_set_element_handler($xml_parser, $startElement, $endElement);
+		xml_set_element_handler($xml_parser, 'start_element', 'end_element');
 
 		// spot errors, if any
 		if(!xml_parse($xml_parser, $snippet, TRUE)) {
@@ -288,4 +282,13 @@ class xml {
 	}
 }
 
-?>
+// functions used as argument 
+// by xml_set_element_handler in xml::validate
+function start_element($parser, $name, $attr) {
+    global $validation_stack;
+    array_push($validation_stack, $name);
+}
+function end_element($parser, $name) {
+    global $validation_stack;
+    array_pop($validation_stack);
+}
