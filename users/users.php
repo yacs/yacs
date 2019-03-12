@@ -1615,9 +1615,8 @@ Class Users {
 	public static function post(&$fields) {
 		global $context;
                 
-                
-                // agreement is required
-                if(!isset($fields['usage_agreement']) || ($fields['usage_agreement'] !== 'Y')) {
+                // agreement is required except for associates
+                if(!isset($fields['usage_agreement']) || ( strcmp($fields['usage_agreement'],'Y') && !Surfer::is_associate()) ) {
                     Logger::error(i18n::s('Please acknowledge our privacy statement.'));
                     return FALSE;
                 }

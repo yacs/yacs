@@ -338,7 +338,9 @@ if(Surfer::is_crawler()) {
 if($with_form) {
     
         // flag that surfer is registering
-        $is_regitering = !isset($item['id']) && !Surfer::is_associate();
+        $is_regitering  = !isset($item['id']) && !Surfer::is_associate();
+        // flag that a associate is creating a profile
+        $is_create_by_a = !isset($item['id']) && Surfer::is_associate();
     
         // give context
         $context['current_action'] = 'edit';
@@ -814,12 +816,16 @@ if($with_form) {
 		$suffix[] = '<input type="checkbox" name="silent" value="Y" />'.' '.i18n::s('Do not change modification date.');
         
         // link to privacy statement
-	if($is_regitering)
+	if($is_regitering) {
 		$prefix[] = Skin::build_agreement_checkbox ('usage_agreement');
+        } elseif($is_create_by_a) {
+                $prefix[] = '<input type=hidden name=usage_agreement value=N />'; 
+        }
 
 	// validate page content
-        if(Surfer::is_associate())
+        if(Surfer::is_associate()) {
             $suffix[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
+        }
         
         // do not display tags field on registering
         $default_tag = ($is_regitering)?NULL:'';
