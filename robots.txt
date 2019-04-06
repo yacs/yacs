@@ -14,7 +14,6 @@ Disallow: /shared/
 Disallow: /skins/
 Disallow: /smileys/
 Disallow: /tables/
-Disallow: /temporary/
 Disallow: /tools/
 Disallow: /versions/
 
