@@ -137,13 +137,18 @@ $anchor = $this_cat->anchor;
 
 // get the related overlay, if any
 $overlay = $this_cat->overlay;
-/*if(isset($item['overlay']) && $item['overlay'])
-	$overlay = Overlay::load($item, 'category:'.$item['id']);
-elseif(isset($item['overlay_id']))
-	$overlay = Overlay::bind($item['overlay_id']);*/
+
+// get related behaviors, if any
+$behaviors = NULL;
+if(isset($item['id']))
+	$behaviors = new Behaviors($item, $anchor);
+
+// change default behavior
+if(is_object($behaviors) && !$behaviors->allow('categories/view.php', $this_cat))
+	$permitted = FALSE;
 
 // associates and editors can do what they want
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
+elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer

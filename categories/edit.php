@@ -677,6 +677,12 @@ if($with_form) {
 		.'	}).css("cursor","pointer");'."\n"
 		.'});'
 		);
+        
+        // behaviors
+        $label = i18n::s('Behaviors');
+        $input = '<textarea name="behaviors" rows="2" cols="50">'.encode_field(isset($item['behaviors']) ? $item['behaviors'] : '').'</textarea>';
+        $hint = sprintf(i18n::s('One %s per line'), Skin::build_link('behaviors/', i18n::s('behavior'), 'open'));
+        $fields[] = array($label, $input, $hint);
 
 	// associates can change the overlay --complex interface
 	if(Surfer::is_associate() && Surfer::has_all()) {

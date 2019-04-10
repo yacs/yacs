@@ -1459,6 +1459,7 @@ Class Categories {
 			."active_set='".SQL::escape($fields['active_set'])."',"
 			."articles_layout='".SQL::escape($fields['articles_layout'])."',"
 			."background_color='".SQL::escape(isset($fields['background_color'])?$fields['background_color']:'')."',"
+                        ."behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."',"
 			."categories_count=".SQL::escape(isset($fields['categories_count'])?$fields['categories_count']:5).","
 			."categories_layout='".SQL::escape($fields['categories_layout'])."',"
 			."categories_overlay='".SQL::escape(isset($fields['categories_overlay']) ? $fields['categories_overlay'] : '')."',"
@@ -1610,6 +1611,7 @@ Class Categories {
 			."active_set='".SQL::escape($fields['active_set'])."',"
 			."articles_layout='".SQL::escape($fields['articles_layout'])."',"
 			."background_color='".SQL::escape(isset($fields['background_color'])?$fields['background_color']:'')."',"
+                        ."behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."',"
 			."categories_count='".SQL::escape($fields['categories_count'])."' ,"
 			."categories_layout='".SQL::escape($fields['categories_layout'])."',"
 			."categories_overlay='".SQL::escape(isset($fields['categories_overlay']) ? $fields['categories_overlay'] : '')."',"
@@ -1738,6 +1740,8 @@ Class Categories {
 			$query[] = "expiry_date='".SQL::escape($fields['expiry_date'])."'";
 		if(isset($fields['path']))
 			$query[] = "path='".SQL::escape($fields['path'])."'";
+                if(isset($fields['behaviors']) )
+			$query[] = "behaviors='".SQL::escape($fields['behaviors'])."'";
 
 		// nothing to update
 		if(!count($query))
@@ -2014,45 +2018,46 @@ Class Categories {
 		global $context;
 
 		$fields = array();
-		$fields['id']				= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['active']			= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
+		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
+		$fields['active']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
 		$fields['active_set']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
-		$fields['anchor']			= "VARCHAR(64)";
+		$fields['anchor']		= "VARCHAR(64)";
 		$fields['articles_layout']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['background_color']	= "VARCHAR(64) DEFAULT '' NOT NULL";
-		$fields['categories_count'] = "INT UNSIGNED NOT NULL";
-		$fields['categories_layout'] = "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['categories_overlay'] = "VARCHAR(64) DEFAULT '' NOT NULL";
+		$fields['categories_count']     = "INT UNSIGNED NOT NULL";
+		$fields['categories_layout']    = "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['categories_overlay']   = "VARCHAR(64) DEFAULT '' NOT NULL";
 		$fields['create_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+                $fields['behaviors']            = "TEXT NOT NULL";
 		$fields['create_date']		= "DATETIME";
 		$fields['create_id']		= "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";
 		$fields['create_name']		= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['description']		= "TEXT NOT NULL";
-		$fields['display']			= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['display']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['edit_action']		= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_address'] 	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_date']		= "DATETIME";
-		$fields['edit_id']			= "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";
+		$fields['edit_id']		= "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";
 		$fields['edit_name']		= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['expiry_date']		= "DATETIME";
-		$fields['extra']			= "TEXT NOT NULL";
-		$fields['hits'] 			= "INT UNSIGNED DEFAULT 0 NOT NULL";
+		$fields['extra']		= "TEXT NOT NULL";
+		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['icon_url'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['introduction'] 	= "TEXT NOT NULL";
 		$fields['keywords'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['nick_name']		= "VARCHAR(64) DEFAULT '' NOT NULL";
-		$fields['options']			= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['overlay']			= "TEXT NOT NULL";
+		$fields['options']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['overlay']		= "TEXT NOT NULL";
 		$fields['overlay_id']		= "VARCHAR(128) DEFAULT '' NOT NULL";
-		$fields['owner_id']			= "MEDIUMINT UNSIGNED DEFAULT 0 NOT NULL";
-		$fields['path'] 			= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['prefix']			= "TEXT NOT NULL";
-		$fields['rank'] 			= "MEDIUMINT UNSIGNED DEFAULT 10000 NOT NULL";
+		$fields['owner_id']		= "MEDIUMINT UNSIGNED DEFAULT 0 NOT NULL";
+		$fields['path'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['prefix']		= "TEXT NOT NULL";
+		$fields['rank'] 		= "MEDIUMINT UNSIGNED DEFAULT 10000 NOT NULL";
 		$fields['sections_layout']	= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['suffix']			= "TEXT NOT NULL";
+		$fields['suffix']		= "TEXT NOT NULL";
 		$fields['thumbnail_url']	= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['title']			= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['trailer']			= "TEXT NOT NULL";
+		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['trailer']		= "TEXT NOT NULL";
 		$fields['users_layout']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 
 		$indexes = array();
@@ -2060,14 +2065,14 @@ Class Categories {
 		$indexes['INDEX active']		= "(active)";
 		$indexes['INDEX anchor']		= "(anchor)";
 		$indexes['INDEX display']		= "(display)";
-		$indexes['INDEX expiry_date']	= "(expiry_date)";
+		$indexes['INDEX expiry_date']           = "(expiry_date)";
 		$indexes['INDEX hits']			= "(hits)";
 		$indexes['INDEX keywords']		= "(keywords(255))";
-		$indexes['INDEX nick_name'] 	= "(nick_name)";
+		$indexes['INDEX nick_name']             = "(nick_name)";
 		$indexes['INDEX path']			= "(path(255))";
 		$indexes['INDEX rank']			= "(rank)";
 		$indexes['INDEX title'] 		= "(title(255))";
-		$indexes['FULLTEXT INDEX']	= "full_text(title, introduction, description, keywords)";
+		$indexes['FULLTEXT INDEX']              = "full_text(title, introduction, description, keywords)";
 
 		return SQL::setup_table('categories', $fields, $indexes);
 
