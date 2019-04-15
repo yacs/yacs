@@ -457,7 +457,7 @@ var Yacs = {
 		// all buttons
 		boxContent += '<div class="boxButtons">';
 		if(content.button_PREVIOUS) {
-			if(typeof Yacs.modalCallPrevious == "function") {
+			if(typeof Yacs.modalCallPrevious === "function") {
 				boxContent += '<span class="button"><button type="button" onclick="(Yacs.modalCallPrevious)();"><div style="padding: 0 1em">'+content.button_PREVIOUS+'</div></button></span> ';
 			} else {
 				boxContent += '<span class="button"><button type="button" disabled="disabled"><div style="padding: 0 1em">'+content.button_PREVIOUS+'</div></button></span> ';
@@ -470,7 +470,7 @@ var Yacs = {
 			boxContent += ' &nbsp; <span class="button"><button type="button" onclick="if(typeof Yacs.modalCallBack == &quot;function&quot;) { (Yacs.modalCallBack)(false) }; Yacs.closeModalBox();">'+content.button_FALSE+'</button></span> ';
 		}
 		if(content.button_NEXT) {
-			if(typeof Yacs.modalCallNext == "function") {
+			if(typeof Yacs.modalCallNext === "function") {
 				boxContent += '<span class="button"><button type="button" onclick="(Yacs.modalCallNext)();"><div style="padding: 0 1em">'+content.button_NEXT+'</div></button></span>';
 			} else {
 				boxContent += '<span class="button"><button type="button" disabled="disabled"><div style="padding: 0 1em">'+content.button_NEXT+'</div></button></span>';
@@ -479,7 +479,7 @@ var Yacs = {
 		boxContent += '</div>';
 
 		// wait for the update
-		if(typeof callBack == "function") {
+		if(typeof callBack === "function") {
 			Yacs.modalCallBack = callBack;
 		} else {
 			Yacs.modalCallBack = null;
@@ -516,14 +516,14 @@ var Yacs = {
 			$(objBoxClose).attr('id',"modal_close");
 			$(objBoxClose).click(function(e){
 			    e.stopPropagation();
-			    if(typeof Yacs.modalCallBack == 'function'){(Yacs.modalCallBack)(false);}
+			    if(typeof Yacs.modalCallBack === 'function'){(Yacs.modalCallBack)(false);}
 			    Yacs.closeModalBox();
 			});
 			$(objCentered).prepend(objBoxClose);
 
                         // handle ESC key
                         $(document).keydown(function(e) {
-                            if (e.keyCode == 27 && $("#modal_close").is(':visible')) {
+                            if (e.keyCode === 27 && $("#modal_close").is(':visible')) {
                                   $("#modal_close").trigger('click');
                             }
                         });
@@ -565,7 +565,7 @@ var Yacs = {
 				// size the box
 				Yacs.updateModalBox("sizing");
 			    }
-			}
+			};
 
 			Yacs.startResizeModal = function() {
 
@@ -574,7 +574,7 @@ var Yacs = {
 				Yacs.resizeTimeout = true;
 				setTimeout(Yacs.endResizeModal, 200);
 			    }
-			}
+			};
 
 
 		// ensure containers are visible to compute box size
@@ -588,7 +588,7 @@ var Yacs = {
 		if(!content.confirmClose) {
 		    $('#modal_panel').click(function(e) {
                         if($(e.target).attr('id') !== 'modal_panel') return; // don't do anything if a child was click
-			if(typeof Yacs.modalCallBack == 'function'){(Yacs.modalCallBack)(false);}
+			if(typeof Yacs.modalCallBack === 'function'){(Yacs.modalCallBack)(false);}
 			Yacs.closeModalBox();
 		    });
 		}
@@ -600,7 +600,7 @@ var Yacs = {
 		    $('#modal_close').hide();
 
                 // flag for first display, used for sizing
-                if(typeof Yacs.modalFirstDisplay == 'undefined') {
+                if(typeof Yacs.modalFirstDisplay === 'undefined') {
                     Yacs.modalFirstDisplay = true;
                 }
 
@@ -646,7 +646,7 @@ var Yacs = {
                 url : url,
                 withButtons : withButtons,
                 confirmClose : confirmClose
-            }
+            };
 
             // clean previous validation
             validateDocumentPost = undefined;
@@ -670,8 +670,8 @@ var Yacs = {
 		};
 
 		if(withButtons) {
-		    content.button_TRUE	    = 'OK',
-		    content.button_FALSE    = 'Cancel'
+		    content.button_TRUE	    = 'OK';
+		    content.button_FALSE    = 'Cancel';
 		}
 		if(confirmClose) {
 		    content.confirmClose    = true;
@@ -687,22 +687,22 @@ var Yacs = {
 
 		// function will be called by Yacs.updateModalBox
 		Yacs.callAfterDisplayModal = function() {
-		    if(typeof scripts_to_load != 'undefined') {
+		    if(typeof scripts_to_load !== 'undefined') {
 			// get all the scripts
 			Yacs.getScriptS(scripts_to_load, function() {
 			    // execute all snipets (like a $.ready(...)  )
-			    if( typeof execute_after_loading == 'function')
+			    if( typeof execute_after_loading === 'function')
 				(execute_after_loading)();
 			    else
 				// continue with modal box sizing
 				Yacs.updateModalBox("sizing");
 			});
-		    } else if( typeof execute_after_loading == 'function')
+		    } else if( typeof execute_after_loading === 'function')
 			(execute_after_loading)();
 		    else
 			// modal box sizing
 			Yacs.updateModalBox("sizing");
-		}
+		};
 
                 Yacs.stopWorking();
 		// display the modalBox
@@ -741,7 +741,7 @@ var Yacs = {
 			return true;
 
 		// control keys
-		if((key==null) || (key<32))
+		if((key===null) || (key<32))
 			return true;
 
 		// numbers
@@ -770,7 +770,7 @@ var Yacs = {
 			return true;
 
 		// control keys
-		if((key==null) || (key<32))
+		if((key===null) || (key<32))
 			return true;
 
 		// numbers
@@ -821,7 +821,7 @@ var Yacs = {
 	    {
 		scope = scope[scopeSplit[i]];
 
-		if (scope == undefined) return;
+		if (scope === 'undefined') return;
 	    }
 
 	    return scope[scopeSplit[scopeSplit.length - 1]];
@@ -916,12 +916,12 @@ var Yacs = {
 	handleAlertNotification: function(response) {
 
 		// build a message in English if no localized message has been provided by the server
-		if(typeof response.dialog_text != 'string') {
+		if(typeof response.dialog_text !== 'string') {
 			response.dialog_text = 'New at ' + response.title + "\nby: " + response.nick_name + "\n" + 'Would you like to browse this page?';
 		}
 
 		// switch to the offered address, if accepted by surfer
-		if(typeof response.address == 'string') {
+		if(typeof response.address === 'string') {
 			Yacs.confirm(response.dialog_text, function(choice) {if(choice) {window.open(response.address);}});
 		}
 	},
@@ -956,7 +956,7 @@ var Yacs = {
 	handleHelloNotification: function(response) {
 
 		// build a message in English if no localized message has been provided by the server
-		if(typeof response.dialog_text != 'string') {
+		if(typeof response.dialog_text !== 'string') {
 			response.dialog_text = 'From ' + response.nick_name + ":\n" + response.message;
 
 			if(typeof response.address == 'string') {
@@ -965,7 +965,7 @@ var Yacs = {
 		}
 
 		// only show the message to the end-user
-		if(typeof response.address != 'string') {
+		if(typeof response.address !== 'string') {
 			Yacs.alert(response.dialog_text);
 
 		// else switch to the offered address, if accepted by surfer
@@ -1034,7 +1034,7 @@ var Yacs = {
 	 */
 	addOnDemandTools: function(handle) {
 
-		if(typeof handle != "object")
+		if(typeof handle !== "object")
 	        handle = $("#" + handle);
 
 		var prefix = '';
