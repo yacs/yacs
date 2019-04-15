@@ -18,12 +18,28 @@ class http {
      * add a parameter to a given url
      * 
      * @param string $url with or without existing parameters
-     * @param string the parameter name to add
-     * @param string the parameter value
+     * @param mixed the parameter name to add or an array of name=>value
+     * @param string the parameter value (if param name is a string)
      * @return string to new formed url
      */
-    public static function add_url_param($url, $param_name, $param_value) {
+    public static function add_url_param($url, $param_name, $param_value=null) {
 
+        // recursive call if an array is provided
+        if(is_array($param_name)) {
+            
+            // array must be associative
+            if((array() === $param_name) 
+                    || array_keys($param_name) === range(0, count($param_name) -1)) {
+                return null;
+            }
+            
+            // recursive call for each param
+            foreach($param_name as $name => $value) {
+                $new_url = Self::add_url_param($url, $name, $value);
+            }
+            return $new_url;
+        }
+        
         $new_url = $url; // at least
 
         // if param already present, just replace it
