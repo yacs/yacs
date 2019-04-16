@@ -3084,7 +3084,7 @@ Class Skin_Skeleton {
 
 		// wrap it
                 $tag = (SKIN_HTML5)?'aside':'div';
-		$text = tag::_($tag,tag::_class('sidebar-box k/w33 k/medium-w50n k/small-w50'), $text);
+		$text = tag::_($tag,tag::_class('sidebar-box k/w33 k/medium-w50 k/small-w50'), $text);
 
 		return $text;
 	}
@@ -4390,8 +4390,6 @@ Class Skin_Skeleton {
 		    define('EOT', ' />'); //  XHTML or HTML5
                 
                 // css namespace prefix
-                if(!defined('KNACSS_PREFIX'))
-			define('KNACSS_PREFIX', 'k-');
                 if(!defined('YACSS_PREFIX'))
 			define('YACSS_PREFIX', 'y-');			
 
@@ -5794,5 +5792,3 @@ Class Skin_Skeleton {
 // load localized strings
 if(is_callable(array('i18n', 'bind')))
 	i18n::bind('skins');
-
-?>

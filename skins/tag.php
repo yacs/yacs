@@ -165,7 +165,7 @@ class tag {
             if(!$classes) return '';
             
             // empty prefix ~"" (less syntax)
-            $kna = (KNACSS_PREFIX == '~""')?'':KNACSS_PREFIX;
+            $kna = '';
             $yac = (YACSS_PREFIX  == '~""')?'':YACSS_PREFIX;
             
             // start

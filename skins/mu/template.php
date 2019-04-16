@@ -52,7 +52,7 @@ echo '</head>'."\n";
 Page::body();
 
 // header panel, give padding with knacss class helper
-echo '<header id="header_panel" class="k-pas">'."\n";
+echo '<header id="header_panel" class="pas">'."\n";
 
 // the site name -- can be replaced, through CSS, by an image -- access key 1
 if($context['site_name'])
@@ -75,7 +75,7 @@ echo '</header>'."\n";
 echo '<main id="wrapper">'."\n";
 
 // first column, main content
-echo '<section id="content_panel" role="main" class="k-pam">'."\n";
+echo '<section id="content_panel" role="main" class="pam">'."\n";
 
     // display main content (@see pages configuration in control panel)
     Page::content();
@@ -83,7 +83,7 @@ echo '<section id="content_panel" role="main" class="k-pam">'."\n";
 echo '</section>'."\n";
 
 // navigation column
-echo '<nav id="navigation_panel" class="k-pas">'."\n";
+echo '<nav id="navigation_panel" class="pas">'."\n";
 
     // display navigation components (@see pages configuration in control panel)
     Page::side();
@@ -91,7 +91,7 @@ echo '<nav id="navigation_panel" class="k-pas">'."\n";
 echo '</nav>'."\n";
 
 // extra column
-echo '<aside id="extra_panel" class="k-pas">'."\n";
+echo '<aside id="extra_panel" class="pas">'."\n";
 
     // display extra components (@see pages configuration in control panel)
     Page::extra_panel(NULL,FALSE);
@@ -101,7 +101,7 @@ echo '</aside>'."\n";
 echo '</main>'."\n";
 
 // footer panel
-echo '<footer id="footer_panel" class="k-pas">'."\n";
+echo '<footer id="footer_panel" class="pas">'."\n";
 
     Page::footer();
 

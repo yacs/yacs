@@ -13,5 +13,10 @@
 
 Class Skin extends Skin_Skeleton {
     
+    public static function initialize() {
+        
+        //define('NO_YACSS', true);
+    }
+    
     
 }
