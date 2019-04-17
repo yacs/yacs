@@ -38,7 +38,7 @@ body {
 }
 
 ///// responsive rules
-@media (max-width : 640px) {
+@media (max-width : $medium) {
     #wrapper {
         flex-direction: column;
     }
