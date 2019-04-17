@@ -814,7 +814,6 @@ Class Js_Css {
         
         // define namespaces
         $scss->setVariables(array(
-            "k-prefix" => KNACSS_PREFIX,
             "y-prefix" => YACSS_PREFIX,
         ));
         

@@ -973,7 +973,7 @@ Class Skin_Skeleton {
 		if(is_array($text)) {
 			$concatenated = '';
 			foreach($text as $line)
-				$concatenated .= tag::_('p','',$line);
+				$concatenated .= tag::_p(fa::_('warning').' '.$line,'k/mbn');
 			$text = $concatenated;
 		}
 
@@ -983,7 +983,7 @@ Class Skin_Skeleton {
 
 		// format the block
 		if($text)
-                        $text = tag::_('div', tag::_class('error').tag::_id($id), fa::_('warning').' '.$text);
+                        $text = tag::_('div', tag::_class('k/alert--warning').tag::_id($id), $text);
 		
                 return $text;
 	}
@@ -3334,7 +3334,7 @@ Class Skin_Skeleton {
 
 		// finalize tabs
 		if(!$as_steps)
-                    $tabs_text = tag::_('nav', tag::_class('tabs-bar /clear'), $tabs_text.tag::_('label', tag::_class('tabs-mini-toggle hamburger'), '<span></span>'));
+                    $tabs_text = tag::_('nav', tag::_class('tabs-bar /clear'), $tabs_text.tag::_('label', tag::_class('tabs-mini-toggle k/nav-button'), '<span></span>'));
 
 		// finalize panels
                 $panels_text = tag::_('div', tag::_class('tabs-panels'), "\n".$panels_text);
@@ -4303,7 +4303,7 @@ Class Skin_Skeleton {
 				}
                                 
                                 // responsive menu icon
-                                $icon = tag::_('label', tag::_class('tabs-mini-toggle hamburger'), '<span></span>');
+                                $icon = tag::_('label', tag::_class('tabs-mini-toggle k/nav-button'), '<span></span>');
 
 				$tag_tabs = (SKIN_HTML5)?'nav':'div';
 				$text = tag::_($tag_tabs, tag::_class('tabs'), TABS_PREFIX.tag::_('ul','',$text).$icon.TABS_SUFFIX);

@@ -83,7 +83,7 @@ echo '<section id="content_panel" role="main" class="pam">'."\n";
 echo '</section>'."\n";
 
 // navigation column
-echo '<nav id="navigation_panel" class="pas">'."\n";
+echo '<nav id="navigation_panel" class="pas w15">'."\n";
 
     // display navigation components (@see pages configuration in control panel)
     Page::side();
@@ -91,7 +91,7 @@ echo '<nav id="navigation_panel" class="pas">'."\n";
 echo '</nav>'."\n";
 
 // extra column
-echo '<aside id="extra_panel" class="pas">'."\n";
+echo '<aside id="extra_panel" class="pas w15">'."\n";
 
     // display extra components (@see pages configuration in control panel)
     Page::extra_panel(NULL,FALSE);

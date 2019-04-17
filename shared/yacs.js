@@ -1205,6 +1205,10 @@ var Yacs = {
 				itemSelector: '.tile'
                     });
                 });
+                
+                // knacss styling
+                $('#modal_content [type=radio]').addClass('radio');
+                $('#modal_content [type=checkbox]').not('switch').addClass('checkbox');
 
 	},
 
@@ -1357,6 +1361,10 @@ var Yacs = {
                         Yacs.stopWorking();
                     }
                 });
+                
+                // knacss styling
+                $('[type=radio]').addClass('radio');
+                $('[type=checkbox]').not('switch').addClass('checkbox');
 
 		// check for virtual host automatic login
 		Yacs.multiDomainLogin();

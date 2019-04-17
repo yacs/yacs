@@ -71,6 +71,12 @@ $path : rPath() + "skins/_reference/";
 // @see skins/_reference/variables.scss
 @mixin x-button {
     
+        display: inline-block;
+        cursor: pointer;
+        user-select: none;
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
         box-shadow:$button-shadow;
         background:$button-gradient;
         background-color:$color-button;
@@ -140,41 +146,6 @@ $path : rPath() + "skins/_reference/";
 
     &:hover {
         opacity:1;
-    }
-}
-
-// a icon that is commonly used to open/close menu on tiny screen
-// consisting of three horizontal bars, looking like a hamburger
-// <label><span></span></label>
-.#{$yacs-namespace}hamburger {
-
-    display:block;
-    padding:5px;
-    background : $color-link;
-    cursor: pointer;
-    margin:0;
-    // size will be defined by another class, but something
-    // about 40px is expected;
-
-    // shape of the bars
-    // we use pseudo class to form the first and last bar
-    span, span::before, span::after {
-
-        background: #ffffff none repeat scroll 0 0;
-        content: "";
-        display: block;
-        position: relative;
-        transition: all 200ms ease-in-out 0s;
-    }
-
-    // position and size
-    span {
-        top:13px;
-        height: 3px;
-
-        &::after {bottom: -5px;height:4px;}
-
-        &::before {top: -8px;height:3px;}
     }
 }
 
@@ -359,7 +330,7 @@ a:hover {color:darken($color-link,10%);cursor:pointer;}
 .#{$yacs-namespace}tabs-mini-toggle {
     display:block;
     position:absolute;
-    top : 0px;
+    top : 7px;
     right: 0px;
     height:38px;
     width:38px;
@@ -632,6 +603,7 @@ figure {max-width: 100%;}
     
     display: flex;
     flex-wrap: wrap;
+    align-items: last baseline;
     line-height : 2em;
     margin: .2em 0 .5em;
     
@@ -649,7 +621,6 @@ figure {max-width: 100%;}
     // all menu entries are shapped like button
     & > a, & > span > a, & > div > a {
         @include x-button();
-        display : inline-block;
     }
 }
 
@@ -690,7 +661,6 @@ figure {max-width: 100%;}
     @include x-enlight();
     
     line-height: 4.5rem;
-    display : inline-block;
     
 }
 
