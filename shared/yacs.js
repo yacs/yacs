@@ -1024,6 +1024,25 @@ var Yacs = {
             $('.comment_form button[type=submit]').addClass('ajax-post');
 
         },
+        
+        /**
+         * Init main menu tabs with second level
+         * usefull for touch screen
+         */
+        initNav2nd: function() {
+            
+            // click on root tabs
+            $(pfx('.tabs')+' li').click(function(e){
+                var tab = $(this);
+                // if has second level
+                if(tab.find(pfx('.dropmenu')).length) {
+                    // block link
+                    e.preventDefault();
+                    // animate
+                    tab.toggleClass('deploy');
+                }
+            });
+        },
 
 	/**
 	 * mouse is moving elsewhere
@@ -2966,4 +2985,3 @@ $( window ).resize(function() {
         }
    }, 200 );
 });
-

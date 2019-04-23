@@ -212,6 +212,7 @@ a:hover {color:darken($color-link,10%);cursor:pointer;}
     }
 }
 
+// second level menu
 .#{$yacs-namespace}dropmenu {
     max-height:0; // second level hidden by default;
     overflow: hidden;
@@ -228,7 +229,9 @@ a:hover {color:darken($color-link,10%);cursor:pointer;}
     }
 }
 
-.#{$yacs-namespace}tabs li:hover{
+// display second level
+.#{$yacs-namespace}tabs li:hover,    // by hovering for desktop
+.#{$yacs-namespace}tabs .deploy {    // by clic + js for touch screen
     
         .#{$yacs-namespace}dropmenu {
              max-height:999px;  // dropmenu will get it's natural height
