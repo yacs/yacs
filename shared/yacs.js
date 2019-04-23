@@ -1026,35 +1026,6 @@ var Yacs = {
         },
 
 	/**
-	 * prepare for mouse hovering
-	 *
-	 * @param mixed id of the object to equip, or a reference to it
-	 *
-	 * @see tools/ajax.php
-	 */
-	addOnDemandTools: function(handle) {
-
-		if(typeof handle !== "object")
-	        handle = $("#" + handle);
-
-		var prefix = '';
-		if(handle.hasClass('sortable')) {
-			prefix += '<span class="onHoverLeft drag_handle"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_handle.png" width="16" height="16" alt="Drag" /></span>';
-		}
-
-		var suffix = '<span class="onHoverRight">';
-		if(handle.hasClass('mutable')) {
-			suffix += '<a href="#" onclick="Yacs.toggleProperties(\'#'+ Yacs.identify(handle) +'\'); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_properties.png" width="16" height="16" alt="Properties" /></a>';
-		}
-		suffix += '<a href="#" onclick="$(\'#'+ Yacs.identify(handle) +'\').remove(); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_delete.png" width="16" height="16" alt="Delete" /></a></span>';
-
-		handle.prepend(suffix + prefix);
-
-		handle.mouseout(function () {Yacs.mouseOut('#'+ Yacs.identify($(this)));return false;});
-		handle.mouseover(function () {Yacs.mouseOver('#'+ Yacs.identify($(this)));return false;});
-	},
-
-	/**
 	 * mouse is moving elsewhere
 	 */
 	mouseOut: function(handle) {
@@ -1275,11 +1246,6 @@ var Yacs = {
 
 		// adjust position on scrolling and on resize
 		$(window).scroll(Yacs.positionStickies).resize(Yacs.positionStickies);
-
-		// on-demand headers
-		$('.onDemandTools').each(function() {
-			Yacs.addOnDemandTools($(this));
-		});
 
 		// identify all elements that should be tiled
 		$('.floating_box').addClass('tile');
@@ -2820,29 +2786,7 @@ var Yacs = {
                  delete Yacs.uploaded[name];
                  if(name==='all') delete Yacs.uploaded;
              });
-        },
-
-	/**
-	 * determine id of an element
-	 *
-	 * @param object the element to consider
-	 * @return string
-	 */
-	identify: function(handle) {
-
-		// use the 'id' attribute, if known
-		if(handle.attr('id'))
-			return handle.attr('id');
-
-		// provide an anonymous id
-		var i = 0;
-		do {
-			i++;
-			var id = 'anonymous_' + i;
-		} while(document.getElementById(id) != null);
-		handle.attr('id', id);
-		return id;
-	}
+        }
 
 };
 

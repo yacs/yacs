@@ -98,7 +98,6 @@ $context['text'] .= '<p><textarea size="3"></textarea>';
 
 // some AJAX to make it work
 Page::insert_script('$("#sortables .sortable").each( function() { '
-		    .'Yacs.addOnDemandTools($(this));}); '."\n"
 		    .'$("#sortables").sortable({axis: "y", handle: ".drag_handle"});'."\n"		    
 		    //.'$("#edit_1").click(function(){$.get(url_to_root+"articles/edit.php",{id:1, raw:"Y"}).done(function(data){var content={body: data};Yacs.displayModalBox(content);});});'
 		    //.'$("#view_1").click(function(){$.get(url_to_root+"articles/view.php",{id:1, raw:"Y"}).done(function(data){var content={body: data};Yacs.displayModalBox(content);});});'
