@@ -1032,7 +1032,7 @@ var Yacs = {
         initNav2nd: function() {
             
             // click on root tabs
-            $(pfx('.tabs')+' li').click(function(e){
+            $(pfx('.tabs')+' > ul > li').click(function(e){
                 var tab = $(this);
                 // if has second level
                 if(tab.find(pfx('.dropmenu')).length) {
