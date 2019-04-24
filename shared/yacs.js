@@ -1033,7 +1033,7 @@ var Yacs = {
             
             // click on root tabs
             $(pfx('.tabs')+' > ul > li > a').click(function(e){
-                var tab = $(this).closest(pfx('.tabs'));
+                var tab = $(this).parent();
                 // if has second level
                 if(tab.find(pfx('.dropmenu')).length) {
                     // block link
