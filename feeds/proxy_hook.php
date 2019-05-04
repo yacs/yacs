@@ -42,7 +42,7 @@ class Proxy_hook {
 			return $output;
 
 		// read the newsfeed
-		include_once $context['path_to_root'].'included/simplepie.inc';
+		include_once $context['path_to_root'].'included/SimplePie.php';
 		$feed = new SimplePie($parameters['url'], $context['path_to_root'].'temporary');
 		$feed->init();
 

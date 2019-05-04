@@ -138,8 +138,10 @@ class Feeds {
 		}
 
 		// use simplepie
-		include_once $context['path_to_root'].'included/simplepie.inc';
-		$feed = new SimplePie($feed_url, $context['path_to_root'].'temporary');
+		include_once $context['path_to_root'].'included/SimplePie.php';
+		$feed = new SimplePie();
+                $feed->set_cache_location($context['path_to_root'].'temporary');
+                $feed->set_feed_url($feed_url);
 		$feed->init();
 
 		// make an array
