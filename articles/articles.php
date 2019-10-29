@@ -1726,7 +1726,9 @@ Class Articles {
 	 * @return string the permanent web address to this item, relative to the installation path
 	 */
 	public static function get_permalink($item) {
-		global $context;
+		
+                if(is_object($item))
+                    $item = $item->item;
 
 		// sanity check
 		if(!isset($item['id']))

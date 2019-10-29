@@ -1482,6 +1482,9 @@ Class Sections {
 	 */
 	public static function get_permalink($item) {
 		global $context;
+                
+                if(is_object($item))
+                    $item = $item->item;
 
 		// sanity check
 		if(!isset($item['id']))
