@@ -2250,7 +2250,7 @@ var Yacs = {
 		Yacs.tabs_current = id;
 
                 // remember it for next visit to this page
-                Yacs.tabsLast(id)
+                Yacs.tabsLast(id);
 
 		// update the tab
 
