@@ -1533,9 +1533,10 @@ Class Members {
 	 * @see categories/select.php
 	 * @see users/track.php
 	**/
-	public static function toggle($anchor, $member, $father=NULL, $toggle_tag=false) {
+	public static function toggle($anchor, $member, $father=NULL, $update_tag=false) {
 		global $context;
-
+                
+                
 		// anchor cannot be empty
 		if(!$anchor)
 			return i18n::s('An anchor is required for this operation.');
@@ -1553,19 +1554,14 @@ Class Members {
 
 		// delete an existing membership
 		if(SQL::query_count($query)) {
+                        $add = false;
 			$query = "DELETE FROM ".SQL::table_name('members')
 				." WHERE (anchor LIKE '".SQL::escape($anchor)."') AND (member LIKE '".SQL::escape($member)."')";
                         
-                // check if anchor is a category and we are ask to reflect change on tags
-                if($toggle_tag && !strncmp($anchor, 'category',8)) {
-                    // remove tags
-                    Categories::keywords_apply($anchor, $member, false);
-
-                }     
-
+                        
 		// insert one new record
 		} else {
-
+                        $add = true;
 			// boost further queries
 			list($member_type, $member_id) = explode(':', $member, 2);
 
@@ -1577,18 +1573,19 @@ Class Members {
 				." member_id='".SQL::escape($member_id)."',"
 				." edit_date='".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'";
                         
-                        
-                         // check if anchor is a category and we are ask to reflect change on tags
-                        if($toggle_tag && !strncmp($anchor, 'category',8)) {
-                            // add tags
-                            Categories::keywords_apply($anchor, $member);
-                            
-                        }
 		}
 
 		// update the database
 		if(SQL::query($query) === FALSE)
 			return NULL;
+                
+                
+                // check if anchor is a category and we are ask to reflect change on $target tags
+                if($update_tag && !strncmp($anchor, 'category',8)) {
+                    // remove tags
+                    Categories::keywords_apply($anchor, $member, $add);
+
+                }      
 
 		// delete the father membership, if any
 		if($father) {
