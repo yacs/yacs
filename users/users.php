@@ -567,6 +567,25 @@ Class Users {
 		// job done
 		return $text;
 	}
+        
+        public static function get_fields_list(){
+            global $context;
+            
+            $query = "SELECT column_name FROM information_schema.columns "
+                    . "WHERE table_name = '".SQL::table_name('users')."' "
+                    . "AND table_schema = '".$context['database']."'";
+            
+            $result = SQL::query($query);
+            
+            $cols = array();
+            while($col = SQL::fetch($result)) {
+                $cols[] = $col['column_name'];
+            }
+            
+            SQL::free($result);
+            
+            return $cols;
+        }
 
 	/**
 	 * get the unique handle associated to a user profile
@@ -2151,10 +2170,16 @@ Class Users {
 	    if(isset($fields['avatar_url'])) {
 		$fields['avatar_url'] = encode_link($fields['avatar_url']);
 	    }
+            
+            // get fields list
+            $userfields = Users::get_fields_list();
 
 	    // build SET part of the query
 	    foreach($fields as $key => $field) {
 		if($key == 'id') continue;
+                
+                // ignore unkown keys
+                if(!in_array($key, $userfields)) continue;
 
 		$query[] = $key."='".SQL::escape($field)."'";
 	    }
