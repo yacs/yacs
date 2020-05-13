@@ -861,6 +861,27 @@ var Yacs = {
 
 		return s;
 	},
+        
+        
+        /**
+         * Retrieve value of a parameter in url
+         * 
+         * @param {string} name of parameter
+         * @param {string} url  (current url as default)
+         * @returns {String}
+         */
+        getUrlParameterByName:function(name, url) {
+            
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        },
+
 
 	/**
 	 * This function allow to load a bunch of scripts
@@ -1356,6 +1377,12 @@ var Yacs = {
 
 		// check for asynchronous notifications
 		setTimeout(Yacs.subscribe, 40000);
+                
+                // check for url to display overlaid
+                var over = Yacs.getUrlParameterByName('oo');
+                if(over){
+                    Yacs.displayOverlaid(over);
+                }
 	},
 
 
