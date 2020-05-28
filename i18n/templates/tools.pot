@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-04 11:16+0200\n"
+"POT-Creation-Date: 2020-05-28 16:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -113,27 +113,19 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: tools/ajax.php:65
-msgid "Hover me to access tools"
-msgstr ""
-
-#: tools/ajax.php:71
-msgid "Drag and drop following elements"
-msgstr ""
-
-#: tools/ajax.php:79
+#: tools/ajax.php:66
 msgid "Interactive filters"
 msgstr ""
 
-#: tools/ajax.php:81
+#: tools/ajax.php:68
 msgid "Enter an integer"
 msgstr ""
 
-#: tools/ajax.php:82
+#: tools/ajax.php:69
 msgid "Enter a floating number"
 msgstr ""
 
-#: tools/ajax.php:86
+#: tools/ajax.php:73
 msgid "autocompletion"
 msgstr ""
 

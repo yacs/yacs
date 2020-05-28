@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-31 10:07+0100\n"
+"POT-Creation-Date: 2020-05-28 15:55+0200\n"
 "PO-Revision-Date: 2016-06-06 13:46+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
@@ -862,23 +862,15 @@ msgid "Mandatory fields are marked with a *"
 msgstr "Mandatory fields are marked with a *"
 
 #: sections/edit.php:1195
-msgid "TinyMCE"
-msgstr "TinyMCE"
-
-#: sections/edit.php:1199
-msgid "Textarea"
-msgstr "Textarea"
-
-#: sections/edit.php:1204
 #, php-format
 msgid "Use the %s to populate this server."
 msgstr "Use the %s to populate this server."
 
-#: sections/edit.php:1204 sections/index.php:181
+#: sections/edit.php:1195 sections/index.php:181
 msgid "Content Assistant"
 msgstr "Content Assistant"
 
-#: sections/edit.php:1207 sections/invite.php:462 sections/new.php:427
+#: sections/edit.php:1198 sections/invite.php:462 sections/new.php:427
 msgid "Help"
 msgstr "Help"
 
@@ -1865,17 +1857,17 @@ msgstr "Invite %s to participate"
 msgid "View the profile of %s"
 msgstr "View the profile of %s"
 
-#: sections/sections.php:888 sections/sections.php:2634
-#: sections/sections.php:2950 sections/sections.php:3111
-#: sections/sections.php:3273 sections/sections.php:3277
+#: sections/sections.php:888 sections/sections.php:2637
+#: sections/sections.php:2953 sections/sections.php:3114
+#: sections/sections.php:3276 sections/sections.php:3280
 msgid "No item has the provided id."
 msgstr "No item has the provided id."
 
-#: sections/sections.php:1599
+#: sections/sections.php:1602
 msgid "Top of the content tree"
 msgstr "Top of the content tree"
 
-#: sections/sections.php:2744 sections/sections.php:2956
+#: sections/sections.php:2747 sections/sections.php:2959
 msgid "No title has been provided."
 msgstr "No title has been provided."
 
@@ -2181,6 +2173,12 @@ msgstr "Bookmarklets to contribute"
 #: sections/view.php:1586
 msgid "Export this section"
 msgstr "Export this section"
+
+#~ msgid "TinyMCE"
+#~ msgstr "TinyMCE"
+
+#~ msgid "Textarea"
+#~ msgstr "Textarea"
 
 #~ msgid "span"
 #~ msgstr "span"

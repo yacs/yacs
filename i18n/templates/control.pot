@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-04 11:16+0200\n"
+"POT-Creation-Date: 2020-05-28 16:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2630,35 +2630,35 @@ msgstr ""
 msgid "Global YACS variables:"
 msgstr ""
 
-#: control/test.php:198
+#: control/test.php:199
 msgid "Server attributes:"
 msgstr ""
 
-#: control/test.php:214
+#: control/test.php:215
 msgid "Browser GMT offset:"
 msgstr ""
 
-#: control/test.php:214 control/test.php:219
+#: control/test.php:215 control/test.php:220
 msgid "hour(s)"
 msgstr ""
 
-#: control/test.php:219
+#: control/test.php:220
 msgid "Server GMT offset:"
 msgstr ""
 
-#: control/test.php:268
+#: control/test.php:269
 msgid "user/group of this script:"
 msgstr ""
 
-#: control/test.php:271
+#: control/test.php:272
 msgid "Impossible to retrieve user/group of this script."
 msgstr ""
 
-#: control/test.php:300
+#: control/test.php:301
 msgid "user/group of this process:"
 msgstr ""
 
-#: control/test.php:303
+#: control/test.php:304
 msgid "Impossible to retrieve user/group of this process."
 msgstr ""
 

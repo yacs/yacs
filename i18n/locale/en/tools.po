@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-01 11:34+0200\n"
+"POT-Creation-Date: 2020-05-28 15:55+0200\n"
 "PO-Revision-Date: 2018-01-31 10:13+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
@@ -115,27 +115,19 @@ msgstr "Hello world"
 msgid "Close"
 msgstr "Close"
 
-#: tools/ajax.php:65
-msgid "Hover me to access tools"
-msgstr "Hover me to access tools"
-
-#: tools/ajax.php:71
-msgid "Drag and drop following elements"
-msgstr "Drag and drop following elements"
-
-#: tools/ajax.php:79
+#: tools/ajax.php:66
 msgid "Interactive filters"
 msgstr "Interactive filters"
 
-#: tools/ajax.php:81
+#: tools/ajax.php:68
 msgid "Enter an integer"
 msgstr "Enter an integer"
 
-#: tools/ajax.php:82
+#: tools/ajax.php:69
 msgid "Enter a floating number"
 msgstr "Enter a floating number"
 
-#: tools/ajax.php:86
+#: tools/ajax.php:73
 msgid "autocompletion"
 msgstr "autocompletion"
 
@@ -1003,6 +995,12 @@ msgstr "eg \"/yacs/\" or \"/\" or \"/my_repo/yacs/\""
 #: tools/update_thumbs_url.php:218
 msgid "This will be replaced by current URL"
 msgstr "This will be replaced by current URL"
+
+#~ msgid "Hover me to access tools"
+#~ msgstr "Hover me to access tools"
+
+#~ msgid "Drag and drop following elements"
+#~ msgstr "Drag and drop following elements"
 
 #~ msgid "Collections"
 #~ msgstr "Collections"

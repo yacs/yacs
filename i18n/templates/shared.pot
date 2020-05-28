@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-04 11:16+0200\n"
+"POT-Creation-Date: 2020-05-28 16:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -187,11 +187,11 @@ msgstr ""
 msgid "Related items"
 msgstr ""
 
-#: shared/global.php:1099
+#: shared/global.php:1101
 msgid "View the category"
 msgstr ""
 
-#: shared/global.php:1446
+#: shared/global.php:1464
 msgid "ACCEPT COOKIES"
 msgstr ""
 
@@ -262,11 +262,11 @@ msgstr ""
 msgid "Error while sending the message to %s"
 msgstr ""
 
-#: shared/members.php:93 shared/members.php:436 shared/members.php:1541
+#: shared/members.php:93 shared/members.php:436 shared/members.php:1542
 msgid "An anchor is required for this operation."
 msgstr ""
 
-#: shared/members.php:99 shared/members.php:442 shared/members.php:1545
+#: shared/members.php:99 shared/members.php:442 shared/members.php:1546
 msgid "A member is required for this operation."
 msgstr ""
 
@@ -282,7 +282,7 @@ msgstr ""
 msgid "PDF export created by YACS"
 msgstr ""
 
-#: shared/safe.php:936
+#: shared/safe.php:956
 #, php-format
 msgid "Redirecting to %s"
 msgstr ""
@@ -390,41 +390,41 @@ msgstr ""
 msgid "Prove who you are"
 msgstr ""
 
-#: shared/surfer.php:620
+#: shared/surfer.php:617
 msgid "You are allowed to post any XHTML."
 msgstr ""
 
-#: shared/surfer.php:622
+#: shared/surfer.php:619
 #, php-format
 msgid "Following XHTML tags are allowed: %s"
 msgstr ""
 
-#: shared/surfer.php:733
+#: shared/surfer.php:730
 msgid "anonymous"
 msgstr ""
 
-#: shared/surfer.php:756
+#: shared/surfer.php:753
 msgid "My pages"
 msgstr ""
 
-#: shared/surfer.php:760
+#: shared/surfer.php:757
 msgid "All pages"
 msgstr ""
 
-#: shared/surfer.php:836
+#: shared/surfer.php:833
 msgid "Robot stopper"
 msgstr ""
 
-#: shared/surfer.php:848
+#: shared/surfer.php:845
 msgid "Update image"
 msgstr ""
 
-#: shared/xml.php:266
+#: shared/xml.php:263
 #, php-format
 msgid "XML error: %s at line %d"
 msgstr ""
 
-#: shared/xml.php:276
+#: shared/xml.php:273
 #, php-format
 msgid "Last stacking element: %s"
 msgstr ""

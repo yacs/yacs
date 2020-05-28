@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-28 21:04+0200\n"
+"POT-Creation-Date: 2020-05-28 15:55+0200\n"
 "PO-Revision-Date: 2017-12-13 17:22+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
@@ -2869,35 +2869,35 @@ msgstr "YACS version %s"
 msgid "Global YACS variables:"
 msgstr "Global YACS variables:"
 
-#: control/test.php:198
+#: control/test.php:199
 msgid "Server attributes:"
 msgstr "Server attributes:"
 
-#: control/test.php:214
+#: control/test.php:215
 msgid "Browser GMT offset:"
 msgstr "Browser GMT offset:"
 
-#: control/test.php:214 control/test.php:219
+#: control/test.php:215 control/test.php:220
 msgid "hour(s)"
 msgstr "hour(s)"
 
-#: control/test.php:219
+#: control/test.php:220
 msgid "Server GMT offset:"
 msgstr "Server GMT offset:"
 
-#: control/test.php:268
+#: control/test.php:269
 msgid "user/group of this script:"
 msgstr "user/group of this script:"
 
-#: control/test.php:271
+#: control/test.php:272
 msgid "Impossible to retrieve user/group of this script."
 msgstr "Impossible to retrieve user/group of this script."
 
-#: control/test.php:300
+#: control/test.php:301
 msgid "user/group of this process:"
 msgstr "user/group of this process:"
 
-#: control/test.php:303
+#: control/test.php:304
 msgid "Impossible to retrieve user/group of this process."
 msgstr "Impossible to retrieve user/group of this process."
 

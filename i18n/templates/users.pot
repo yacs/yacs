@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-04 11:16+0200\n"
+"POT-Creation-Date: 2020-05-28 16:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -161,13 +161,11 @@ msgstr ""
 msgid "Default editor"
 msgstr ""
 
-#: users/configure.php:230 users/edit.php:698 users/edit.php:936
-#: users/view.php:666
+#: users/configure.php:230 users/edit.php:942 users/view.php:666
 msgid "TinyMCE"
 msgstr ""
 
-#: users/configure.php:234 users/edit.php:702 users/edit.php:940
-#: users/view.php:668
+#: users/configure.php:234 users/edit.php:946 users/view.php:668
 msgid "Textarea"
 msgstr ""
 
@@ -441,7 +439,7 @@ msgstr ""
 msgid "No upload is accepted."
 msgstr ""
 
-#: users/configure.php:514 users/edit.php:762 users/print.php:160
+#: users/configure.php:514 users/edit.php:764 users/print.php:160
 #: users/view.php:722
 msgid "Files"
 msgstr ""
@@ -488,13 +486,13 @@ msgstr ""
 msgid "Submission"
 msgstr ""
 
-#: users/configure.php:572 users/edit.php:803 users/mail.php:227
+#: users/configure.php:572 users/edit.php:805 users/mail.php:227
 #: users/password.php:260 users/select_avatar.php:126 users/select.php:271
 msgid "Submit"
 msgstr ""
 
-#: users/configure.php:572 users/edit.php:803 users/mail.php:227
-#: users/password.php:260 users/select_avatar.php:126 users/users.php:761
+#: users/configure.php:572 users/edit.php:805 users/mail.php:227
+#: users/password.php:260 users/select_avatar.php:126 users/users.php:780
 msgid "Press [s] to submit data"
 msgstr ""
 
@@ -675,7 +673,7 @@ msgid "Please prove you are not a robot."
 msgstr ""
 
 #: users/edit.php:284 users/login.php:232 users/login.php:324
-#: users/users.php:1853
+#: users/users.php:1871
 msgid "Welcome!"
 msgstr ""
 
@@ -739,393 +737,401 @@ msgstr ""
 msgid "New subscriber: %s"
 msgstr ""
 
-#: users/edit.php:359
+#: users/edit.php:361
 msgid "Capability"
 msgstr ""
 
-#: users/edit.php:363 users/layout_users_as_search.php:92
+#: users/edit.php:365 users/layout_users_as_search.php:92
 #: users/layout_users.php:97 users/view.php:265
 msgid "Associate"
 msgstr ""
 
-#: users/edit.php:367 users/layout_users_as_search.php:96
+#: users/edit.php:369 users/layout_users_as_search.php:96
 #: users/layout_users.php:101 users/view.php:268
 msgid "Member"
 msgstr ""
 
-#: users/edit.php:371 users/layout_users_as_search.php:94
+#: users/edit.php:373 users/layout_users_as_search.php:94
 #: users/layout_users.php:99 users/view.php:271
 msgid "Subscriber"
 msgstr ""
 
-#: users/edit.php:375 users/view.php:274
+#: users/edit.php:377 users/view.php:274
 msgid "Blocked"
 msgstr ""
 
-#: users/edit.php:381 users/password.php:215 users/print.php:126
+#: users/edit.php:383 users/password.php:215 users/print.php:126
 msgid "Full name"
 msgstr ""
 
-#: users/edit.php:383
+#: users/edit.php:385
 msgid "First names followed by last names"
 msgstr ""
 
-#: users/edit.php:386
+#: users/edit.php:388
 msgid "First name(s)"
 msgstr ""
 
-#: users/edit.php:390
+#: users/edit.php:392
 msgid "Last name(s)"
 msgstr ""
 
-#: users/edit.php:396 users/password.php:208
+#: users/edit.php:398 users/password.php:208
 msgid "Nick name"
 msgstr ""
 
-#: users/edit.php:398
+#: users/edit.php:400
 msgid "Please carefully select a meaningful and unused nick name."
 msgstr ""
 
-#: users/edit.php:403 users/edit.php:470 users/password.php:222
+#: users/edit.php:405 users/edit.php:472 users/password.php:222
 msgid "E-mail address"
 msgstr ""
 
-#: users/edit.php:409 users/edit.php:476
+#: users/edit.php:411 users/edit.php:478
 msgid "You will receive a message on this address to activate your membership."
 msgstr ""
 
-#: users/edit.php:410 users/edit.php:477
+#: users/edit.php:412 users/edit.php:479
 msgid ""
 "We won't disclose personal information about you or your company to anyone "
 "outside this site."
 msgstr ""
 
-#: users/edit.php:416 users/login.php:462 users/password.php:60
+#: users/edit.php:418 users/login.php:462 users/password.php:60
 #: users/password.php:62
 msgid "Password"
 msgstr ""
 
-#: users/edit.php:418
+#: users/edit.php:420
 msgid ""
 "We suggest at least 4 numbers, two letters, and a punctuation sign - in any "
 "order"
 msgstr ""
 
-#: users/edit.php:422 users/password.php:236
+#: users/edit.php:424 users/password.php:236
 msgid "Password confirmation"
 msgstr ""
 
-#: users/edit.php:442
+#: users/edit.php:444
 msgid "Title"
 msgstr ""
 
-#: users/edit.php:444
+#: users/edit.php:446
 msgid "Your occupation, your motto, or some interesting words"
 msgstr ""
 
-#: users/edit.php:448
+#: users/edit.php:450
 msgid "Organization"
 msgstr ""
 
-#: users/edit.php:453
+#: users/edit.php:455
 msgid "Physical address"
 msgstr ""
 
-#: users/edit.php:458 users/view.php:520
+#: users/edit.php:460 users/view.php:520
 msgid "Phone number"
 msgstr ""
 
-#: users/edit.php:460
+#: users/edit.php:462
 msgid "Enter phone number in international format, starting with country code"
 msgstr ""
 
-#: users/edit.php:464 users/view.php:524
+#: users/edit.php:466 users/view.php:524
 msgid "Alternate number"
 msgstr ""
 
-#: users/edit.php:482 users/print.php:130
+#: users/edit.php:484 users/print.php:130
 msgid "Web address"
 msgstr ""
 
-#: users/edit.php:484
+#: users/edit.php:486
 msgid "If your home page is not here."
 msgstr ""
 
-#: users/edit.php:488 users/view.php:547 users/view.php:549
+#: users/edit.php:490 users/view.php:547 users/view.php:549
 msgid "Alternate contact"
 msgstr ""
 
-#: users/edit.php:490
+#: users/edit.php:492
 msgid "Another person who can act on your behalf"
 msgstr ""
 
-#: users/edit.php:494 users/view.php:554 users/view.php:800
+#: users/edit.php:496 users/view.php:554 users/view.php:800
 msgid "Business card"
 msgstr ""
 
-#: users/edit.php:505 users/view.php:565
+#: users/edit.php:507 users/view.php:565
 msgid "Twitter"
 msgstr ""
 
-#: users/edit.php:510
+#: users/edit.php:512
 #, php-format
 msgid "%s, or %s"
 msgstr ""
 
-#: users/edit.php:510
+#: users/edit.php:512
 msgid "GMail"
 msgstr ""
 
-#: users/edit.php:510 users/view.php:569
+#: users/edit.php:512 users/view.php:569
 msgid "Jabber"
 msgstr ""
 
-#: users/edit.php:515 users/view.php:573
+#: users/edit.php:517 users/view.php:573
 msgid "Skype"
 msgstr ""
 
-#: users/edit.php:520 users/view.php:577
+#: users/edit.php:522 users/view.php:577
 msgid "Yahoo! Messenger"
 msgstr ""
 
-#: users/edit.php:525 users/view.php:582
+#: users/edit.php:527 users/view.php:582
 msgid "Windows Live Messenger"
 msgstr ""
 
-#: users/edit.php:530 users/view.php:586
+#: users/edit.php:532 users/view.php:586
 msgid "AIM"
 msgstr ""
 
-#: users/edit.php:535 users/view.php:590
+#: users/edit.php:537 users/view.php:590
 msgid "IRC"
 msgstr ""
 
-#: users/edit.php:540 users/view.php:594
+#: users/edit.php:542 users/view.php:594
 msgid "ICQ"
 msgstr ""
 
-#: users/edit.php:545 users/view.php:603
+#: users/edit.php:547 users/view.php:603
 msgid "Instant communication"
 msgstr ""
 
-#: users/edit.php:551
+#: users/edit.php:553
 msgid "Contact"
 msgstr ""
 
-#: users/edit.php:559
+#: users/edit.php:561
 msgid "Picture URL"
 msgstr ""
 
-#: users/edit.php:570 users/view.php:755
+#: users/edit.php:572 users/view.php:755
 msgid "Change picture"
 msgstr ""
 
-#: users/edit.php:578
+#: users/edit.php:580
 msgid "From"
 msgstr ""
 
-#: users/edit.php:580
+#: users/edit.php:582
 msgid ""
 "Some hint on your location (eg, 'Paris', 'home', 'the toys-for-sick-persons "
 "department')"
 msgstr ""
 
-#: users/edit.php:584
+#: users/edit.php:586
 msgid "Introduction"
 msgstr ""
 
-#: users/edit.php:586
+#: users/edit.php:588
 msgid "Displayed aside your pages"
 msgstr ""
 
-#: users/edit.php:594
+#: users/edit.php:596
 msgid "Description"
 msgstr ""
 
-#: users/edit.php:601 users/view.php:702
+#: users/edit.php:603 users/view.php:702
 msgid "Birth date"
 msgstr ""
 
-#: users/edit.php:607
+#: users/edit.php:609
 msgid "YYYY-MM-DD"
 msgstr ""
 
-#: users/edit.php:618
+#: users/edit.php:620
 msgid "Language"
 msgstr ""
 
-#: users/edit.php:624
+#: users/edit.php:626
 msgid "Access"
 msgstr ""
 
-#: users/edit.php:634
+#: users/edit.php:636
 msgid "Public - Everybody, including anonymous surfers"
 msgstr ""
 
-#: users/edit.php:638 users/print.php:115 users/view.php:619
+#: users/edit.php:640 users/print.php:115 users/view.php:619
 msgid "Community - Access is granted to any identified surfer"
 msgstr ""
 
-#: users/edit.php:642 users/print.php:117 users/view.php:621
+#: users/edit.php:644 users/print.php:117 users/view.php:621
 msgid "Private - Access is restricted to selected persons"
 msgstr ""
 
-#: users/edit.php:647 users/view.php:626
+#: users/edit.php:649 users/view.php:626
 msgid "Signature"
 msgstr ""
 
-#: users/edit.php:649
+#: users/edit.php:651
 msgid ""
 "To be appended to your comments and mail messages. Separated with dashes "
 "from main text."
 msgstr ""
 
-#: users/edit.php:653 users/view.php:658
+#: users/edit.php:655 users/view.php:658
 msgid "E-mail usage"
 msgstr ""
 
-#: users/edit.php:661 users/view.php:635
+#: users/edit.php:663 users/view.php:635
 msgid "Confirm every password change."
 msgstr ""
 
-#: users/edit.php:663
+#: users/edit.php:665
 msgid "Confirm registration and password."
 msgstr ""
 
-#: users/edit.php:669 users/view.php:641
+#: users/edit.php:671 users/view.php:641
 msgid "Alert me when my pages are commented."
 msgstr ""
 
-#: users/edit.php:675 users/view.php:647
+#: users/edit.php:677 users/view.php:647
 msgid "Allow other members to contact me."
 msgstr ""
 
-#: users/edit.php:681 users/view.php:653
+#: users/edit.php:683 users/view.php:653
 msgid "Send me periodical newsletters."
 msgstr ""
 
-#: users/edit.php:683
+#: users/edit.php:685
 msgid ""
 "Your explicit approval is a pre-requisite for us to use your e-mail address."
 msgstr ""
 
-#: users/edit.php:687
+#: users/edit.php:689
 msgid "Preferred editor"
 msgstr ""
 
+#: users/edit.php:700
+msgid "Rich Editor"
+msgstr ""
+
 #: users/edit.php:704
+msgid "Raw Editor"
+msgstr ""
+
+#: users/edit.php:706
 msgid "Select your preferred tool to edit text."
 msgstr ""
 
-#: users/edit.php:708
+#: users/edit.php:710
 msgid "Interface"
 msgstr ""
 
-#: users/edit.php:713 users/view.php:674
+#: users/edit.php:715 users/view.php:674
 msgid "Improved interface"
 msgstr ""
 
-#: users/edit.php:717 users/view.php:676
+#: users/edit.php:719 users/view.php:676
 msgid "Complex interface"
 msgstr ""
 
-#: users/edit.php:722 users/view.php:684
+#: users/edit.php:724 users/view.php:684
 msgid "Preferences"
 msgstr ""
 
-#: users/edit.php:727 users/view.php:728
+#: users/edit.php:729 users/view.php:728
 msgid "Information"
 msgstr ""
 
-#: users/edit.php:751 users/edit.php:755
+#: users/edit.php:753 users/edit.php:757
 msgid "Images"
 msgstr ""
 
-#: users/edit.php:751
+#: users/edit.php:753
 msgid "Submit the new page, and you will be able to add images afterwards."
 msgstr ""
 
-#: users/edit.php:766
+#: users/edit.php:768
 msgid "Add a location"
 msgstr ""
 
-#: users/edit.php:768
+#: users/edit.php:770
 msgid "Locations"
 msgstr ""
 
-#: users/edit.php:773
+#: users/edit.php:775
 msgid "Add a table"
 msgstr ""
 
-#: users/edit.php:775
+#: users/edit.php:777
 msgid "Tables"
 msgstr ""
 
-#: users/edit.php:790
+#: users/edit.php:792
 msgid "Resources"
 msgstr ""
 
-#: users/edit.php:807 users/mail.php:231 users/password.php:261
+#: users/edit.php:809 users/mail.php:231 users/password.php:261
 #: users/select_avatar.php:202 users/transfer.php:110
 msgid "Cancel"
 msgstr ""
 
-#: users/edit.php:814
+#: users/edit.php:816
 msgid "Do not change modification date."
 msgstr ""
 
-#: users/edit.php:822
+#: users/edit.php:827
 msgid "Ensure this post is valid XHTML."
 msgstr ""
 
-#: users/edit.php:855
+#: users/edit.php:861
 msgid "You must provide a nick name."
 msgstr ""
 
-#: users/edit.php:866
+#: users/edit.php:872
 msgid "You must provide a valid and unused nick name."
 msgstr ""
 
-#: users/edit.php:875
+#: users/edit.php:881
 msgid "You must provide a password."
 msgstr ""
 
-#: users/edit.php:885
+#: users/edit.php:891
 msgid "You must provide a e-mail address."
 msgstr ""
 
-#: users/edit.php:891
+#: users/edit.php:897
 msgid "You must provide a valid and unused email address."
 msgstr ""
 
-#: users/edit.php:923
+#: users/edit.php:929
 msgid "The nick name has to be unique throughout the database of users."
 msgstr ""
 
-#: users/edit.php:926
+#: users/edit.php:932
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr ""
 
-#: users/edit.php:926
+#: users/edit.php:932
 msgid "YACS codes"
 msgstr ""
 
-#: users/edit.php:926
+#: users/edit.php:932
 msgid "smileys"
 msgstr ""
 
-#: users/edit.php:929
+#: users/edit.php:935
 msgid "Mandatory fields are marked with a *"
 msgstr ""
 
-#: users/edit.php:943 users/login.php:550 users/search.php:156
+#: users/edit.php:949 users/login.php:550 users/search.php:156
 #: users/select.php:553 users/select.php:562
 msgid "Help"
 msgstr ""
 
-#: users/element.php:103 users/users.php:380 users/users.php:1920
-#: users/users.php:2127
+#: users/element.php:103 users/users.php:380 users/users.php:1938
+#: users/users.php:2145
 msgid "No item has the provided id."
 msgstr ""
 
@@ -1552,7 +1558,7 @@ msgstr ""
 msgid "Send me a copy of this message."
 msgstr ""
 
-#: users/mail.php:252 users/users.php:783
+#: users/mail.php:252 users/users.php:802
 msgid "Please provide a meaningful title."
 msgstr ""
 
@@ -1585,39 +1591,39 @@ msgstr ""
 msgid "From %s:"
 msgstr ""
 
-#: users/password.php:106 users/users.php:1850 users/users.php:2091
+#: users/password.php:106 users/users.php:1868 users/users.php:2109
 #, php-format
 msgid "Your account at %s"
 msgstr ""
 
-#: users/password.php:109 users/users.php:1854
+#: users/password.php:109 users/users.php:1872
 #, php-format
 msgid "This message relates to your account at %s."
 msgstr ""
 
-#: users/password.php:113 users/users.php:1858 users/users.php:2096
+#: users/password.php:113 users/users.php:1876 users/users.php:2114
 #, php-format
 msgid "Your nick name is %s"
 msgstr ""
 
-#: users/password.php:117 users/users.php:1863
+#: users/password.php:117 users/users.php:1881
 msgid ""
 "Record this message and use the following link to authenticate to the site "
 "at any time:"
 msgstr ""
 
-#: users/password.php:121 users/users.php:1867
+#: users/password.php:121 users/users.php:1885
 msgid ""
 "Caution: This hyperlink contains your login credentials encrypted. Please be "
 "aware anyone who uses this link will have full access to your account."
 msgstr ""
 
-#: users/password.php:124 users/users.php:1879 users/users.php:2098
+#: users/password.php:124 users/users.php:1897 users/users.php:2116
 #, php-format
 msgid "On-line help is available at %s"
 msgstr ""
 
-#: users/password.php:126 users/users.php:1881 users/users.php:2100
+#: users/password.php:126 users/users.php:1899 users/users.php:2118
 #, php-format
 msgid "Thank you for your interest into %s."
 msgstr ""
@@ -2080,97 +2086,97 @@ msgstr ""
 msgid "Your phone number in international format, starting with country code"
 msgstr ""
 
-#: users/users.php:647
+#: users/users.php:666
 msgid "(unknown)"
 msgstr ""
 
-#: users/users.php:731
+#: users/users.php:750
 msgid "Who do you want to involve?"
 msgstr ""
 
-#: users/users.php:732
+#: users/users.php:751
 msgid "Enter nick names, or email addresses, separated by commas."
 msgstr ""
 
-#: users/users.php:742
+#: users/users.php:761
 msgid "Subject"
 msgstr ""
 
-#: users/users.php:748
+#: users/users.php:767
 msgid "Your message"
 msgstr ""
 
-#: users/users.php:753
+#: users/users.php:772
 #, php-format
 msgid "You may attach a file of up to %sbytes"
 msgstr ""
 
-#: users/users.php:761
+#: users/users.php:780
 msgid "Send"
 msgstr ""
 
-#: users/users.php:1370
+#: users/users.php:1389
 msgid "lrp has logged in"
 msgstr ""
 
-#: users/users.php:1370
+#: users/users.php:1389
 msgid "Login using the last resort password"
 msgstr ""
 
-#: users/users.php:1397 users/users.php:1457
+#: users/users.php:1416 users/users.php:1476
 msgid "Wait for one hour to recover from too many failed authentications."
 msgstr ""
 
-#: users/users.php:1430
+#: users/users.php:1449
 msgid "Authenticated externally."
 msgstr ""
 
-#: users/users.php:1459
+#: users/users.php:1478
 msgid "You have 1 grace authentication attempt."
 msgstr ""
 
-#: users/users.php:1468
+#: users/users.php:1487
 msgid "You have 2 grace authentication attempts."
 msgstr ""
 
-#: users/users.php:1621
+#: users/users.php:1639
 msgid "Please acknowledge our privacy statement."
 msgstr ""
 
-#: users/users.php:1627 users/users.php:1944
+#: users/users.php:1645 users/users.php:1962
 msgid "Please indicate a nick name."
 msgstr ""
 
-#: users/users.php:1646 users/users.php:1953
+#: users/users.php:1664 users/users.php:1971
 msgid ""
 "Another member already has this nick name. Please select a different one."
 msgstr ""
 
-#: users/users.php:1656
+#: users/users.php:1674
 msgid "Please indicate a password."
 msgstr ""
 
-#: users/users.php:1871
+#: users/users.php:1889
 msgid "Click on the link below to activate your new account."
 msgstr ""
 
-#: users/users.php:1932
+#: users/users.php:1950
 msgid "New password has to be confirmed."
 msgstr ""
 
-#: users/users.php:2094
+#: users/users.php:2112
 #, php-format
 msgid ""
 "This message has been automatically sent to you to confirm a change of your "
 "profile at %s."
 msgstr ""
 
-#: users/users.php:2097
+#: users/users.php:2115
 #, php-format
 msgid "Authenticate with password %s"
 msgstr ""
 
-#: users/users.php:2136
+#: users/users.php:2154
 msgid "This action is forbidden with users::put_attributes function."
 msgstr ""
 

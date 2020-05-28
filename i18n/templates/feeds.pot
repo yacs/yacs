@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-04 11:16+0200\n"
+"POT-Creation-Date: 2020-05-28 16:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -205,11 +205,11 @@ msgstr ""
 msgid "Files and podcasts"
 msgstr ""
 
-#: feeds/feeds.php:314
+#: feeds/feeds.php:316
 msgid "External News"
 msgstr ""
 
-#: feeds/feeds.php:315
+#: feeds/feeds.php:317
 msgid "Received from feeding servers"
 msgstr ""
 

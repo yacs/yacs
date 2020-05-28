@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-04 11:16+0200\n"
+"POT-Creation-Date: 2020-05-28 16:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -277,9 +277,9 @@ msgstr ""
 msgid "You may combine several keywords:"
 msgstr ""
 
-#: articles/articles.php:1078 articles/articles.php:3125
-#: articles/articles.php:3269 articles/articles.php:3410
-#: articles/articles.php:3624 articles/articles.php:3938
+#: articles/articles.php:1078 articles/articles.php:3127
+#: articles/articles.php:3271 articles/articles.php:3412
+#: articles/articles.php:3626 articles/articles.php:3940
 #: articles/element.php:96
 msgid "No item has the provided id."
 msgstr ""
@@ -328,17 +328,17 @@ msgstr ""
 msgid "Updated by %s in %s"
 msgstr ""
 
-#: articles/articles.php:2898 articles/articles.php:3131
+#: articles/articles.php:2900 articles/articles.php:3133
 msgid "No title has been provided."
 msgstr ""
 
-#: articles/articles.php:2907 articles/articles.php:3140
-#: articles/articles.php:3284 articles/edit.php:269 articles/move.php:96
+#: articles/articles.php:2909 articles/articles.php:3142
+#: articles/articles.php:3286 articles/edit.php:269 articles/move.php:96
 #: articles/publish.php:106
 msgid "No anchor has been found."
 msgstr ""
 
-#: articles/articles.php:3657 articles/articles.php:3682
+#: articles/articles.php:3659 articles/articles.php:3684
 #, php-format
 msgid "\"%s\" is not a valid date"
 msgstr ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-04 10:28+0200\n"
+"POT-Creation-Date: 2020-05-28 15:55+0200\n"
 "PO-Revision-Date: 2017-08-30 10:46+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
@@ -188,11 +188,11 @@ msgstr "Last edition"
 msgid "Related items"
 msgstr "Related items"
 
-#: shared/global.php:1099
+#: shared/global.php:1101
 msgid "View the category"
 msgstr "View the category"
 
-#: shared/global.php:1446
+#: shared/global.php:1464
 msgid "ACCEPT COOKIES"
 msgstr "ACCEPT COOKIES"
 
@@ -273,11 +273,11 @@ msgstr "No message"
 msgid "Error while sending the message to %s"
 msgstr "Error while sending the message to %s"
 
-#: shared/members.php:93 shared/members.php:436 shared/members.php:1541
+#: shared/members.php:93 shared/members.php:436 shared/members.php:1542
 msgid "An anchor is required for this operation."
 msgstr "An anchor is required for this operation."
 
-#: shared/members.php:99 shared/members.php:442 shared/members.php:1545
+#: shared/members.php:99 shared/members.php:442 shared/members.php:1546
 msgid "A member is required for this operation."
 msgstr "A member is required for this operation."
 
@@ -293,7 +293,7 @@ msgstr "monthly"
 msgid "PDF export created by YACS"
 msgstr "PDF export created by YACS"
 
-#: shared/safe.php:936
+#: shared/safe.php:956
 #, php-format
 msgid "Redirecting to %s"
 msgstr "Redirecting to %s"
@@ -401,41 +401,41 @@ msgstr "Lost password"
 msgid "Prove who you are"
 msgstr "Prove who you are"
 
-#: shared/surfer.php:620
+#: shared/surfer.php:617
 msgid "You are allowed to post any XHTML."
 msgstr "You are allowed to post any XHTML."
 
-#: shared/surfer.php:622
+#: shared/surfer.php:619
 #, php-format
 msgid "Following XHTML tags are allowed: %s"
 msgstr "Following XHTML tags are allowed: %s"
 
-#: shared/surfer.php:733
+#: shared/surfer.php:730
 msgid "anonymous"
 msgstr "anonymous"
 
-#: shared/surfer.php:756
+#: shared/surfer.php:753
 msgid "My pages"
 msgstr "My pages"
 
-#: shared/surfer.php:760
+#: shared/surfer.php:757
 msgid "All pages"
 msgstr "All pages"
 
-#: shared/surfer.php:836
+#: shared/surfer.php:833
 msgid "Robot stopper"
 msgstr "Robot stopper"
 
-#: shared/surfer.php:848
+#: shared/surfer.php:845
 msgid "Update image"
 msgstr "Update image"
 
-#: shared/xml.php:266
+#: shared/xml.php:263
 #, php-format
 msgid "XML error: %s at line %d"
 msgstr "XML error: %s at line %d"
 
-#: shared/xml.php:276
+#: shared/xml.php:273
 #, php-format
 msgid "Last stacking element: %s"
 msgstr "Last stacking element: %s"

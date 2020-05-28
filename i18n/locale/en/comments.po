@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-13 17:13+0100\n"
+"POT-Creation-Date: 2020-05-28 15:55+0200\n"
 "PO-Revision-Date: 2015-04-24 15:32+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
@@ -398,15 +398,7 @@ msgstr "YACS codes"
 msgid "smileys"
 msgstr "smileys"
 
-#: comments/edit.php:709
-msgid "TinyMCE"
-msgstr "TinyMCE"
-
-#: comments/edit.php:713
-msgid "Textarea"
-msgstr "Textarea"
-
-#: comments/edit.php:717
+#: comments/edit.php:708
 msgid "Help"
 msgstr "Help"
 
@@ -550,6 +542,12 @@ msgstr "Press [e] to edit"
 #: comments/view.php:230
 msgid "Promote"
 msgstr "Promote"
+
+#~ msgid "TinyMCE"
+#~ msgstr "TinyMCE"
+
+#~ msgid "Textarea"
+#~ msgstr "Textarea"
 
 #~ msgid "FCKEditor"
 #~ msgstr "FCKEditor"
