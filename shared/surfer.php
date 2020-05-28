@@ -562,7 +562,7 @@ Class Surfer {
 
 		// tinymce
 		// CHL suppression test $spring ci-dessous car le $spring est testé à l'intérieur
-		if($rich && isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce') && is_readable($context['path_to_root'].'included/tiny_mce/tinymce.min.js') ) {
+		if($rich && isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce') ) {
 
 			// load the TinyMCE script -- see shared/global.php
 			$context['javascript']['tinymce'] = TRUE;
@@ -575,7 +575,7 @@ Class Surfer {
 
 			// the textarea that will be handled by TinyMCE
 			else
-				$text .= '<div><textarea name="'.$name.'" class="tinymce" rows="'.$rows.'" cols="50" accesskey="c">'.encode_field($value).'</textarea></div>';
+				$text .= '<div><textarea name="'.$name.'" class="suneditor" rows="'.$rows.'" cols="50" accesskey="c">'.encode_field($value).'</textarea></div>';
 
 			// signal an advanced editor
 			$text .= '<input type="hidden" name="editor" value="tinymce" />';

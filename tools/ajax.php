@@ -61,19 +61,6 @@ $context['text'] .= '<p style="margin-bottom: 1em;"><a href="#" onclick="Yacs.ca
 // a popup box with content
 $context['text'] .= '<p style="margin-bottom: 1em;"><a href="#" onclick="Yacs.popup( { content: \'<html><head><title>Popup</title></head><body><p>'.i18n::s('Hello world').'</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,<br />sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p><a href=&quot;javascript:self.close()&quot;>'.i18n::s('Close').'</a></p></body></html>\' } ); return false;" class="button"><span>'.i18n::s('Hello world').'</span></a> - '.i18n::s('Click on the button to trigger the popup window').'</p>'."\n";
 
-// contextual handling of elements in a list
-$context['text'] .= '<div class="onDemandTools mutable" style="position:relative; width: 400px; padding: 0.5em; border: 1px dotted #ccc;"><b>'.i18n::s('Hover me to access tools').'</b>'
-	.'<p class="properties" style="display: none">Lorem ipsum dolor sit amet, consectetur adipisicing elit,<br />sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>'
-	.'<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,<br />sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>'
-	.'</div>'."\n";
-
-// a sortable list
-$context['text'] .= '<p style="margin-bottom: 1em;"><b>'.i18n::s('Drag and drop following elements').'</b></p>'
-	.'<div id="sortables" style="position:relative; width: 510px; padding: 0.5em; border: 1px dotted #ccc;">'
-	.'<div class="sortable">1. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>'
-	.'<div class="sortable">2. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>'
-	.'<div class="sortable">3. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>'
-	.'</div>'."\n";
 
 // filtering floating numbers
 $context['text'] .= '<p style="margin-bottom: 1em;"><b>'.i18n::s('Interactive filters').'</b></p>'
@@ -90,22 +77,17 @@ $context['text'] .= '<p style="margin-bottom: 1em;"><b>'.i18n::s('autocompletion
 
 // calling raw content of a page
 $context['text'] .= '<p>';
-$context['text'] .= '<a class="button" id="view_1"><span>Press to open article 1 viewing page</span></a>';
-$context['text'] .= '<a class="button" id="edit_1"><span>Press to open article 1 edition form</span></a>';
+$context['text'] .= '<a class="'.YACSS_PREFIX.'button" id="view_1"><span>Press to open article 1 viewing page</span></a>';
+$context['text'] .= '<a class="'.YACSS_PREFIX.'button" id="edit_1"><span>Press to open article 1 edition form</span></a>';
 $context['text'] .= '</p>';
 
 $context['text'] .= '<p><textarea size="3"></textarea>';
 
 // some AJAX to make it work
-Page::insert_script('$("#sortables .sortable").each( function() { '
-		    .'$("#sortables").sortable({axis: "y", handle: ".drag_handle"});'."\n"		    
-		    //.'$("#edit_1").click(function(){$.get(url_to_root+"articles/edit.php",{id:1, raw:"Y"}).done(function(data){var content={body: data};Yacs.displayModalBox(content);});});'
-		    //.'$("#view_1").click(function(){$.get(url_to_root+"articles/view.php",{id:1, raw:"Y"}).done(function(data){var content={body: data};Yacs.displayModalBox(content);});});'
-		    .'$("#view_1").click(function(){Yacs.displayOverlaid(url_to_root+"articles/view.php?id=1")});'
+Page::insert_script(	    
+		    '$("#view_1").click(function(){Yacs.displayOverlaid(url_to_root+"articles/view.php?id=1")});'."\n"	
 		    .'$("#edit_1").click(function(){Yacs.displayOverlaid(url_to_root+"articles/edit.php?id=1",true,true)});'
 	);
 
 // render the page according to the loaded skin
 render_skin();
-
-?>

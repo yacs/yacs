@@ -233,6 +233,9 @@ class xml {
 		$input = trim($input);
 		if(!$input)
 			return TRUE;
+                
+                // wysiwyg may introduce not strict xml
+                $input = str_replace('<br>', '<br/>', $input);
 
 		// do not validate code nor snippet --do it in two steps to make it work                
                 $input = preg_replace_callback(

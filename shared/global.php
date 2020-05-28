@@ -1371,13 +1371,20 @@ function render_skin($with_last_modified=TRUE) {
 
 	// activate tinyMCE, if available
 	if(isset($context['javascript']['tinymce'])) {
+            
+            // base css and js
+            Page::load_style('included/suneditor/dist/css/suneditor.min.css');
+            Page::defer_script('included/suneditor/dist/suneditor.min.js');
+            // language file if any
+            if(Safe::filesize('included/suneditor/src/lang/'.$context['language'].'.js')) {
+                Page::defer_script('included/suneditor/src/lang/'.$context['language'].'.js');
+            }
 
-		Page::defer_script('included/tiny_mce/tinymce.min.js');
-		Page::insert_script("\n"
-                      . 'var wysiwyg_toolbar ="'.$context['wysiwyg_toolbar']."\";\n"
-                      . 'var wysiwyg_plugins ="'.$context['wysiwyg_plugins']."\";\n"
-                      . 'Yacs.tinymceInit();'."\n"
-                      );
+            // initialisation
+            Page::insert_script("\n"
+                    . 'var wysiwyg_toolbar ="'.$context['wysiwyg_toolbar']."\";\n"
+                    . 'Yacs.wysiwygInit();'."\n"
+                  );
 
 	}
 

@@ -678,13 +678,6 @@ var Yacs = {
 		} else
 		    content.withBoxClose    = true;
 
-		// preload instruction for tinymce
-		// @see https://gist.github.com/badsyntax/379244
-		window.tinyMCEPreInit = {
-		    base: url_to_root+'included/tiny_mce',
-		    suffix : '.min'	// to search for theme.min.js
-		    };
-
 		// function will be called by Yacs.updateModalBox
 		Yacs.callAfterDisplayModal = function() {
 		    if(typeof scripts_to_load !== 'undefined') {
@@ -1117,37 +1110,54 @@ var Yacs = {
 	   });
 	},
 
-	tinymceInit: function() {
+	wysiwygInit: function() {
+            
+            // find textareas to transform as wysiwyg
+            let toInit = $('textarea.suneditor').not('.init');
+            
+            $.each(toInit, function(index){
+                
+                // create wysiwyg
+                /*window['se'+index] = SUNEDITOR.create(this,{
+                    plugins: [
+                        'blockquote',
+                        'align',
+                        'fontColor',
+                        'formatBlock',
+                        'horizontalRule',
+                        'list',
+                        'table',
+                        'link'
+                    ],
+                    buttonList: [
+                        ['formatBlock'],
+                        ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+                        ['fontColor'],
+                        ['removeFormat'],
+                        '/', // Line break
+                        ['align', 'horizontalRule', 'list'],
+                        ['table', 'link'],
+                        ['fullScreen', 'showBlocks', 'codeView']
+                    ],
+                    
+                    lang: SUNEDITOR_LANG[surfer_lang]
+                });*/
+                window['se'+index] = SUNEDITOR.create(this,{
+                    // plugins: wysiwyg_plugins.split(','),
+                    buttonList: [ wysiwyg_toolbar.replace(/ /g, "").split(',') ],
+                    
+                    lang: SUNEDITOR_LANG[surfer_lang]
+                });
 
-	    // without this tinymce won't initialize during overlaid view
-	    // @see https://gist.github.com/badsyntax/379244
-	    tinymce.dom.Event.domLoaded = true;
-
-	    // regular initialization
-	    // to choose components & configuration :
-	    // @see http://www.tinymce.com/wiki.php/Configuration
-	    // @see http://www.tinymce.com/wiki.php/Controls
-	    // @see http://www.tinymce.com/wiki.php/configuration:formats
-	    tinymce.init({
-		    selector        : "textarea.tinymce",
-		    menubar         : false,
-		    width           : '90.5%',
-		    resize          : false,
-            plugins         : wysiwyg_plugins,
-            toolbar         : wysiwyg_toolbar,
-            style_formats: [
-                         {title: 'p', block: 'p'},
-                         {title: 'h2', block: 'h2'},
-                         {title: 'h3', block: 'h3'},
-                         {title: 'h4', block: 'h4'},
-                         {title: 'Important', inline: 'span', classes: 'important'},
-                         {title: 'rappel', inline: 'span', classes: 'rappel'}
-            ],
-            language    : surfer_lang,
-            visualblocks_default_state: true,
-              end_container_on_empty_block: true,
-            link_title: true
-        });
+                // autosave behavior
+                window['se'+index].onChange = function(){
+                    window['se'+index].save();
+                };
+                
+                // make sure we won't init this textarea again
+                $(this).addClass('init');
+            });
+            
 	},
 
 	toggleProperties: function(handle) {
@@ -1750,10 +1760,6 @@ var Yacs = {
 		Yacs.doNotCloseModal = true;
 		return;
 	    }
-
-	    // ask explicitly tinyMCE to save content
-	    if( typeof tinyMCE != "undefined" )
-		tinyMCE.triggerSave();
 
 	    // trigger submission
 	    //form.submit();

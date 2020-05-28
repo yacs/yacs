@@ -697,24 +697,17 @@ elseif(!Surfer::is_associate()) {
 
 
 	//
-	// Wysiwyg option (tinymce)
+	// Wysiwyg option
 	//
-	$Wysiwyg = '';
-        
-        // plugins
-        if(!isset($context['wysiwyg_plugins']))
-		$context['wysiwyg_plugins'] = "charmap, textcolor, fullscreen, code, link, paste, visualblocks";
-        $label = i18n::s('Plugins');
-        $input = '<input type=text name=wysiwyg_plugins size=60 value="'.$context['wysiwyg_plugins'].'" />';
-        $hint  = fa::_('puzzle-piece').' '.skin::build_link('https://www.tinymce.com/docs/plugins/', i18n::s('See TinyMCE plugins list'), 'external');
-        $fields[] = array($label, $input, $hint);
+        $Wysiwyg = '';
         
         // toolbar
-        if(!isset($context['wysiwyg_toolbar']))
-		$context['wysiwyg_toolbar'] = "undo redo removeformat | styleselect charmap styleselect| bold italic underline strikethrough | alignleft aligncenter alignright | bullist numlist outdent indent | forecolor backcolor | link | pastetext fullscreen code";
+        if(!isset($context['wysiwyg_toolbar']) || $context['wysiwyg_toolbar'] === '')
+		$context['wysiwyg_toolbar'] = "removeFormat, formatBlock, bold, underline, italic, fontColor, align, horizontalRule, list, table, link, fullScreen, showBlocks, codeView";
         $label = i18n::s('Toolbar');
         $input = '<textarea name=wysiwyg_toolbar cols=60 rows=5>'.$context['wysiwyg_toolbar'].'</textarea>';
-        $fields[] = array($label, $input);
+        $hint  = fa::_('puzzle-piece').' '.skin::build_link('https://github.com/JiHong88/SunEditor/blob/master/README.md', i18n::s('See SunEditor doc'), 'external');
+        $fields[] = array($label, $input, $hint);
 
 	// build the form
 	$Wysiwyg .= Skin::build_form($fields);
@@ -833,8 +826,6 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'with_export_tools\']=\''.addcslashes($_REQUEST['with_export_tools'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_extra_components']) && $_REQUEST['skins_extra_components'])
 		$content .= '$context[\'skins_extra_components\']=\''.addcslashes($_REQUEST['skins_extra_components'], "\\'")."';\n";
-	if(isset($_REQUEST['wysiwyg_plugins']) && $_REQUEST['wysiwyg_plugins'])
-		$content .= '$context[\'wysiwyg_plugins\']=\''.addcslashes($_REQUEST['wysiwyg_plugins'], "\\'")."';\n";
 	if(isset($_REQUEST['wysiwyg_toolbar']) && $_REQUEST['wysiwyg_toolbar'])
 		$content .= '$context[\'wysiwyg_toolbar\']=\''.addcslashes($_REQUEST['wysiwyg_toolbar'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_gmap_default_height']) && $_REQUEST['skins_gmap_default_height'])
