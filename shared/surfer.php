@@ -577,9 +577,6 @@ Class Surfer {
 			else
 				$text .= '<div><textarea name="'.$name.'" class="suneditor" rows="'.$rows.'" cols="50" accesskey="c">'.encode_field($value).'</textarea></div>';
 
-			// signal an advanced editor
-			$text .= '<input type="hidden" name="editor" value="tinymce" />';
-
 		// a textarea that grow automatically
 		} elseif($spring) {
 			$text .= '<script type="text/javascript">var fuse'.$name.'=1;</script>'

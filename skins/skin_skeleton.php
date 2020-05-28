@@ -3049,6 +3049,24 @@ Class Skin_Skeleton {
 
 		return $output;
 	}
+        
+        public static function build_select_editor() {
+            
+            $text = '';
+            
+            $text .= '<form action=""><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
+	    $selected = '';
+	    if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] === 'tinymce'))
+		    $selected = ' selected="selected"';
+	    $help .= '<option value="tinymce"'.$selected.'>'.i18n::s('Rich Editor')."</option>\n";
+	    $selected = '';
+	    if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] === 'yacs'))
+		    $selected = ' selected="selected"';
+	    $text .= '<option value="yacs"'.$selected.'>'.i18n::s('Raw Editor')."</option>\n";
+	    $text .= '</select></p></form>';
+            
+            return $text;
+        }
 
 	/**
 	 * build a sidebar box

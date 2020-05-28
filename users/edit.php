@@ -697,11 +697,11 @@ if($with_form) {
             $input .= '<option value="tinymce"';
             if($item['editor'] == 'tinymce')
                     $input .= ' selected="selected"';
-            $input .= '>'.i18n::s('TinyMCE')."</option>\n";
+            $input .= '>'.i18n::s('Rich Editor')."</option>\n";
             $input .= '<option value="yacs"';
             if($item['editor'] == 'yacs')
                     $input .= ' selected="selected"';
-            $input .= '>'.i18n::s('Textarea')."</option>\n";
+            $input .= '>'.i18n::s('Raw Editor')."</option>\n";
             $input .= '</select>';
             $hint = i18n::s('Select your preferred tool to edit text.');
             $fields[] = array($label, $input, $hint);
