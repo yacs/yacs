@@ -1117,33 +1117,9 @@ var Yacs = {
             
             $.each(toInit, function(index){
                 
-                // create wysiwyg
-                /*window['se'+index] = SUNEDITOR.create(this,{
-                    plugins: [
-                        'blockquote',
-                        'align',
-                        'fontColor',
-                        'formatBlock',
-                        'horizontalRule',
-                        'list',
-                        'table',
-                        'link'
-                    ],
-                    buttonList: [
-                        ['formatBlock'],
-                        ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
-                        ['fontColor'],
-                        ['removeFormat'],
-                        '/', // Line break
-                        ['align', 'horizontalRule', 'list'],
-                        ['table', 'link'],
-                        ['fullScreen', 'showBlocks', 'codeView']
-                    ],
-                    
-                    lang: SUNEDITOR_LANG[surfer_lang]
-                });*/
+
                 window['se'+index] = SUNEDITOR.create(this,{
-                    // plugins: wysiwyg_plugins.split(','),
+
                     buttonList: [ wysiwyg_toolbar.replace(/ /g, "").split(',') ],
                     
                     lang: SUNEDITOR_LANG[surfer_lang]
@@ -1158,10 +1134,6 @@ var Yacs = {
                 $(this).addClass('init');
             });
             
-	},
-
-	toggleProperties: function(handle) {
-        $(handle).children('.properties').toggle('slide');
 	},
 
 
