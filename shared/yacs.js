@@ -1113,14 +1113,14 @@ var Yacs = {
 	wysiwygInit: function() {
             
             // find textareas to transform as wysiwyg
-            let toInit = $('textarea.suneditor').not('.init');
+            let toInit  = $('textarea.suneditor').not('.init');
+            let toolbar = [ wysiwyg_toolbar.replace(/ /g, "").split(',') ];
             
             $.each(toInit, function(index){
                 
-
                 window['se'+index] = SUNEDITOR.create(this,{
 
-                    buttonList: [ wysiwyg_toolbar.replace(/ /g, "").split(',') ],
+                    buttonList: toolbar,
                     
                     lang: SUNEDITOR_LANG[surfer_lang]
                 });
