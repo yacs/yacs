@@ -532,37 +532,6 @@ if(!defined('NO_CONTROLLER_PRELOAD'))
 // Transcoding stuff
 //
 
-/**
- * remove quoting recursively
- *
- * This function extends [code]stripslashes()[/code] to arrays.
- * Should probably be part of the next version of native PHP library?
- *
- * @param array of encoded fields
- * @return the transformed array
- */
-function stripslashes_recursively($fields) {
-	if(!is_array($fields))
-		return $fields;
-	foreach($fields as $name => $value) {
-		if(is_array($value))
-			$fields[$name] = stripslashes_recursively($value);
-		else
-			$fields[$name] = stripslashes($value);
-	}
-	return $fields;
-}
-
-// The very first thing is to manage parameters transmitted to scripts.
-// If get_magic_quotes_gpc is on, we strip all slashes
-if(@count($_REQUEST) && get_magic_quotes_gpc())
-	$_REQUEST = stripslashes_recursively($_REQUEST);
-if(@count($_COOKIE) && get_magic_quotes_gpc())
-	$_COOKIE = stripslashes_recursively($_COOKIE);
-
-// always disable magic quote runtime
-//if(is_callable('set_magic_quotes_runtime'))
-//	@set_magic_quotes_runtime(0);
 
 // support utf-8
 include_once $context['path_to_root'].'shared/utf8.php';
