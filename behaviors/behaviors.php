@@ -158,7 +158,7 @@ class Behaviors {
 			$line = trim($line);
 
 			// skip comments and null lines
-			if(!$line || ($line{0} < 'a') || ($line{0} > 'z'))
+			if(!$line || ($line[0] < 'a') || ($line[0] > 'z'))
 				continue;
 
 			// split tokens
