@@ -253,7 +253,7 @@ class http {
         $http_internal_error = '';
 
         // parse this url
-        $items = @parse_url($url);
+        $items = parse_url($url);
 
         // no host, assume it's us
         if (!$host = $items['host'])
@@ -286,9 +286,7 @@ class http {
             $port = 80;
 
         // build the path
-        $path = $items['path'];
-        if (!$path)
-            $path = '/';
+        $path = (isset($items['path']) && $items['path'])?$items['path']:'/';
 
         // sometime parse_url() adds a '_'
         $path = rtrim($path, '_');
