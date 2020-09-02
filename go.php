@@ -95,7 +95,7 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 
 		// only one section has this name
 		if(count($items) == 1) {
-			list($url, $attributes) = each($items);
+                        $url = key($items);
 			Safe::redirect($url);
 		}
 
@@ -114,7 +114,7 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 
 		// only one page has this name
 		if(count($items) == 1) {
-			list($url, $attributes) = each($items);
+                        $url = key($items);
 			Safe::redirect($url);
 		}
 
