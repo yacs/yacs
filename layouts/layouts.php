@@ -88,7 +88,7 @@ abstract Class Layouts {
  	    }
 	    
 	    // lookup for layout file
-	    if($name == 'decorated') {
+	    if($name == 'decorated' || $name == 'full') {
 		include_once $context['path_to_root'].$family.'/layout_'.$family.'.php';
 		$name = 'Layout_'.$family;
 		$layout = new $name();
