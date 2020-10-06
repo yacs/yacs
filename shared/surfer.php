@@ -575,7 +575,7 @@ Class Surfer {
 
 			// the textarea that will be handled by TinyMCE
 			else
-				$text .= '<div><textarea name="'.$name.'" class="suneditor" rows="'.$rows.'" cols="50" accesskey="c">'.encode_field($value).'</textarea></div>';
+				$text .= '<div><textarea name="'.$name.'" class="trumbowyg" rows="'.$rows.'" cols="50" accesskey="c">'.encode_field($value).'</textarea></div>';
 
 		// a textarea that grow automatically
 		} elseif($spring) {

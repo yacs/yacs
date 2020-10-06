@@ -1113,22 +1113,35 @@ var Yacs = {
 	wysiwygInit: function() {
             
             // find textareas to transform as wysiwyg
-            let toInit  = $('textarea.suneditor').not('.init');
-            let toolbar = [ wysiwyg_toolbar.replace(/ /g, "").split(',') ];
+            let toInit  = $('textarea.trumbowyg').not('.init');
+            // transform parameter into accepted parameter format (arrays) 
+            let toolbar = wysiwyg_toolbar.split('|');
+            $.each(toolbar, function(i,v){
+                toolbar[i] = v.split(' ');
+            });
+            
+            // provide path to trumbo icons
+            $.trumbowyg.svgPath = url_to_root + 'included/trumbowyg/ui/icons.svg';
             
             $.each(toInit, function(index){
                 
-                window['se'+index] = SUNEDITOR.create(this,{
-
-                    buttonList: toolbar,
-                    
-                    lang: SUNEDITOR_LANG[surfer_lang]
-                });
-
-                // autosave behavior
-                window['se'+index].onChange = function(){
-                    window['se'+index].save();
-                };
+                $(this).trumbowyg({
+                    btnsDef: {
+                        blockFormat: {
+                            dropdown: ['p', 'h2', 'h3', 'h4','blockquote'],
+                            ico: 'p'
+                        }
+                    },
+                    semantic: {
+                        'div': 'div' // Editor does nothing on div tags now
+                    },
+                    lang : surfer_lang,
+                    btns : toolbar,
+                    removeformatPasted: true,
+                    autogrow: true,
+                    minimalLinks: true,
+                    defaultLinkTarget: '_blank'
+                });                
                 
                 // make sure we won't init this textarea again
                 $(this).addClass('init');

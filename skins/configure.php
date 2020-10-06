@@ -703,10 +703,10 @@ elseif(!Surfer::is_associate()) {
         
         // toolbar
         if(!isset($context['wysiwyg_toolbar']) || $context['wysiwyg_toolbar'] === '')
-		$context['wysiwyg_toolbar'] = "removeFormat, formatBlock, bold, underline, italic, fontColor, align, horizontalRule, list, table, link, fullScreen, showBlocks, codeView";
+		$context['wysiwyg_toolbar'] = "viewHTML|blockFormat|strong em|link|justifyLeft justifyCenter justifyRight|unorderedList orderedList|fullscreen";
         $label = i18n::s('Toolbar');
         $input = '<textarea name=wysiwyg_toolbar cols=60 rows=5>'.$context['wysiwyg_toolbar'].'</textarea>';
-        $hint  = fa::_('puzzle-piece').' '.skin::build_link('https://github.com/JiHong88/SunEditor/blob/master/README.md', i18n::s('See SunEditor doc'), 'external');
+        $hint  = fa::_('puzzle-piece').' '.skin::build_link('https://alex-d.github.io/Trumbowyg/documentation/', i18n::s('See Trumbowyg doc.'), 'external');
         $fields[] = array($label, $input, $hint);
 
 	// build the form

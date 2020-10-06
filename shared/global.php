@@ -1342,11 +1342,18 @@ function render_skin($with_last_modified=TRUE) {
 	if(isset($context['javascript']['tinymce'])) {
             
             // base css and js
-            Page::load_style('included/suneditor/dist/css/suneditor.min.css');
-            Page::defer_script('included/suneditor/dist/suneditor.min.js');
-            // language file if any
-            if(Safe::filesize('included/suneditor/src/lang/'.$context['language'].'.js')) {
-                Page::defer_script('included/suneditor/src/lang/'.$context['language'].'.js');
+            Page::load_style('included/trumbowyg/ui/trumbowyg.min.css');
+            Page::defer_script('included/trumbowyg/trumbowyg.min.js');
+            // plugin cleanpast
+            Page::defer_script('included/trumbowyg/plugins/cleanpaste/trumbowyg.cleanpaste.min.js');
+            // plugin table if asked
+            if(strpos($context['wysiwyg_toolbar'], 'table') !== null) {
+                Page::load_style('included/trumbowyg/plugins/table/ui/trumbowyg.table.min.css');
+                Page::defer_script('included/trumbowyg/plugins/table/trumbowyg.table.min.js');
+            }
+            //language file if any
+            if(Safe::filesize('included/trumbowyg/langs/'.$context['language'].'.min.js')) {
+                Page::defer_script('included/trumbowyg/langs/'.$context['language'].'.min.js');
             }
 
             // initialisation
