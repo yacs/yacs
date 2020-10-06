@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-28 15:55+0200\n"
-"PO-Revision-Date: 2020-05-28 16:40+0200\n"
+"POT-Creation-Date: 2020-10-06 10:56+0200\n"
+"PO-Revision-Date: 2020-10-06 10:57+0200\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
 "Language: fr_FR\n"
@@ -644,8 +644,8 @@ msgid "Toolbar"
 msgstr "Barre d'outils"
 
 #: skins/configure.php:709
-msgid "See SunEditor doc"
-msgstr "Voir la doc SunEditor"
+msgid "See Trumbowyg doc."
+msgstr "Voir la doc de Trumbowyg."
 
 #: skins/configure.php:720
 msgid "Meta-information"
@@ -679,7 +679,7 @@ msgstr "Google Map"
 msgid "Editor"
 msgstr "Editeur"
 
-#: skins/configure.php:739 skins/edit.php:182 skins/skin_skeleton.php:3220
+#: skins/configure.php:739 skins/edit.php:182 skins/skin_skeleton.php:3218
 #: skins/upload.php:161
 msgid "Submit"
 msgstr "Envoyer"
@@ -1094,7 +1094,7 @@ msgstr "Modifier"
 #: skins/layout_home_articles_as_digg.php:86
 #: skins/layout_home_articles_as_slashdot.php:86 skins/skin_skeleton.php:2034
 #: skins/skin_skeleton.php:2134 skins/skin_skeleton.php:2231
-#: skins/skin_skeleton.php:2468 skins/skin_skeleton.php:5603
+#: skins/skin_skeleton.php:2468 skins/skin_skeleton.php:5601
 msgid "View the page"
 msgstr "Voir la page"
 
@@ -1308,9 +1308,9 @@ msgstr "Calendrier de ce mois"
 msgid "Calendar of this year"
 msgstr "Calendrier de cette année"
 
-#: skins/skin_skeleton.php:1085 skins/skin_skeleton.php:3143
-#: skins/skin_skeleton.php:3513 skins/skin_skeleton.php:3685
-#: skins/skin_skeleton.php:3693
+#: skins/skin_skeleton.php:1085 skins/skin_skeleton.php:3141
+#: skins/skin_skeleton.php:3511 skins/skin_skeleton.php:3683
+#: skins/skin_skeleton.php:3691
 msgid "Click to slide"
 msgstr "Cliquer pour faire glisser"
 
@@ -1355,18 +1355,18 @@ msgstr "Envoyer un message"
 msgid "Monthly calendar"
 msgstr "Calendrier de ce mois"
 
-#: skins/skin_skeleton.php:2160 skins/skin_skeleton.php:5095
+#: skins/skin_skeleton.php:2160 skins/skin_skeleton.php:5093
 msgid "More"
 msgstr "Suite"
 
-#: skins/skin_skeleton.php:2173 skins/skin_skeleton.php:3323
-#: skins/skin_skeleton.php:3336 skins/skin_skeleton.php:5101
-#: skins/skin_skeleton.php:5157 skins/skin_skeleton.php:5159 skins/test.php:268
+#: skins/skin_skeleton.php:2173 skins/skin_skeleton.php:3321
+#: skins/skin_skeleton.php:3334 skins/skin_skeleton.php:5099
+#: skins/skin_skeleton.php:5155 skins/skin_skeleton.php:5157 skins/test.php:268
 msgid "Next"
 msgstr "Suivant"
 
-#: skins/skin_skeleton.php:2186 skins/skin_skeleton.php:3316
-#: skins/skin_skeleton.php:5143 skins/skin_skeleton.php:5145 skins/test.php:268
+#: skins/skin_skeleton.php:2186 skins/skin_skeleton.php:3314
+#: skins/skin_skeleton.php:5141 skins/skin_skeleton.php:5143 skins/test.php:268
 msgid "Previous"
 msgstr "Précédent"
 
@@ -1450,85 +1450,85 @@ msgstr "Ajouter une image"
 msgid "Referrals"
 msgstr "Références externes"
 
-#: skins/skin_skeleton.php:3061
+#: skins/skin_skeleton.php:3060
 msgid "Rich Editor"
 msgstr "Editeur riche"
 
-#: skins/skin_skeleton.php:3065
+#: skins/skin_skeleton.php:3063
 msgid "Raw Editor"
 msgstr "Editeur brute"
 
-#: skins/skin_skeleton.php:3131 skins/skin_skeleton.php:3501
+#: skins/skin_skeleton.php:3129 skins/skin_skeleton.php:3499
 msgid "Content"
 msgstr "Contenu"
 
-#: skins/skin_skeleton.php:3319
+#: skins/skin_skeleton.php:3317
 #, php-format
 msgid "Step %d of %d"
 msgstr "Etape %d de %d"
 
-#: skins/skin_skeleton.php:3540
+#: skins/skin_skeleton.php:3538
 msgid "Questions"
 msgstr "Questions"
 
-#: skins/skin_skeleton.php:3807
+#: skins/skin_skeleton.php:3805
 msgid "more"
 msgstr "suite"
 
-#: skins/skin_skeleton.php:4416
+#: skins/skin_skeleton.php:4414
 msgid "A: "
 msgstr "R:"
 
-#: skins/skin_skeleton.php:4491
+#: skins/skin_skeleton.php:4489
 msgid "to publish"
 msgstr "à publier"
 
-#: skins/skin_skeleton.php:4498
+#: skins/skin_skeleton.php:4496
 msgid "expired"
 msgstr "périmé"
 
-#: skins/skin_skeleton.php:4596
+#: skins/skin_skeleton.php:4594
 msgid "new"
 msgstr "nouveau"
 
-#: skins/skin_skeleton.php:4633
+#: skins/skin_skeleton.php:4631
 msgid "popular"
 msgstr "populaire"
 
-#: skins/skin_skeleton.php:4645
+#: skins/skin_skeleton.php:4643
 msgid "private"
 msgstr "privé"
 
-#: skins/skin_skeleton.php:4652
+#: skins/skin_skeleton.php:4650
 msgid "Q: "
 msgstr "Q: "
 
-#: skins/skin_skeleton.php:4659
+#: skins/skin_skeleton.php:4657
 msgid "restricted"
 msgstr "Protégé"
 
-#: skins/skin_skeleton.php:4718
+#: skins/skin_skeleton.php:4716
 msgid "updated"
 msgstr "mis à jour"
 
-#: skins/skin_skeleton.php:5004
+#: skins/skin_skeleton.php:5002
 msgid "Back to main page"
 msgstr "Retour à la page principale"
 
-#: skins/skin_skeleton.php:5290
+#: skins/skin_skeleton.php:5288
 msgid "Previous page"
 msgstr "Page précédente"
 
-#: skins/skin_skeleton.php:5315
+#: skins/skin_skeleton.php:5313
 msgid "Next page"
 msgstr "Page suivante"
 
-#: skins/skin_skeleton.php:5600
+#: skins/skin_skeleton.php:5598
 #, php-format
 msgid "%d words to read"
 msgstr "encore %d mots"
 
-#: skins/skin_skeleton.php:5736
+#: skins/skin_skeleton.php:5734
 msgid "Click to sort"
 msgstr "Cliquer pour trier"
 
@@ -1741,6 +1741,9 @@ msgstr "Voici la librairie des images disponibles sur ce site."
 #, php-format
 msgid "Powered by %s"
 msgstr "Encore un serveur %s"
+
+#~ msgid "See SunEditor doc"
+#~ msgstr "Voir la doc SunEditor"
 
 #~ msgid "Plugins"
 #~ msgstr "Plugins"

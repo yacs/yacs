@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-28 16:43+0200\n"
+"POT-Creation-Date: 2020-10-06 10:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -592,7 +592,7 @@ msgid "Toolbar"
 msgstr ""
 
 #: skins/configure.php:709
-msgid "See SunEditor doc"
+msgid "See Trumbowyg doc."
 msgstr ""
 
 #: skins/configure.php:720
@@ -627,7 +627,7 @@ msgstr ""
 msgid "Editor"
 msgstr ""
 
-#: skins/configure.php:739 skins/edit.php:182 skins/skin_skeleton.php:3220
+#: skins/configure.php:739 skins/edit.php:182 skins/skin_skeleton.php:3218
 #: skins/upload.php:161
 msgid "Submit"
 msgstr ""
@@ -1024,7 +1024,7 @@ msgstr ""
 #: skins/layout_home_articles_as_digg.php:86
 #: skins/layout_home_articles_as_slashdot.php:86 skins/skin_skeleton.php:2034
 #: skins/skin_skeleton.php:2134 skins/skin_skeleton.php:2231
-#: skins/skin_skeleton.php:2468 skins/skin_skeleton.php:5603
+#: skins/skin_skeleton.php:2468 skins/skin_skeleton.php:5601
 msgid "View the page"
 msgstr ""
 
@@ -1236,9 +1236,9 @@ msgstr ""
 msgid "Calendar of this year"
 msgstr ""
 
-#: skins/skin_skeleton.php:1085 skins/skin_skeleton.php:3143
-#: skins/skin_skeleton.php:3513 skins/skin_skeleton.php:3685
-#: skins/skin_skeleton.php:3693
+#: skins/skin_skeleton.php:1085 skins/skin_skeleton.php:3141
+#: skins/skin_skeleton.php:3511 skins/skin_skeleton.php:3683
+#: skins/skin_skeleton.php:3691
 msgid "Click to slide"
 msgstr ""
 
@@ -1283,19 +1283,19 @@ msgstr ""
 msgid "Monthly calendar"
 msgstr ""
 
-#: skins/skin_skeleton.php:2160 skins/skin_skeleton.php:5095
+#: skins/skin_skeleton.php:2160 skins/skin_skeleton.php:5093
 msgid "More"
 msgstr ""
 
-#: skins/skin_skeleton.php:2173 skins/skin_skeleton.php:3323
-#: skins/skin_skeleton.php:3336 skins/skin_skeleton.php:5101
-#: skins/skin_skeleton.php:5157 skins/skin_skeleton.php:5159
+#: skins/skin_skeleton.php:2173 skins/skin_skeleton.php:3321
+#: skins/skin_skeleton.php:3334 skins/skin_skeleton.php:5099
+#: skins/skin_skeleton.php:5155 skins/skin_skeleton.php:5157
 #: skins/test.php:268
 msgid "Next"
 msgstr ""
 
-#: skins/skin_skeleton.php:2186 skins/skin_skeleton.php:3316
-#: skins/skin_skeleton.php:5143 skins/skin_skeleton.php:5145
+#: skins/skin_skeleton.php:2186 skins/skin_skeleton.php:3314
+#: skins/skin_skeleton.php:5141 skins/skin_skeleton.php:5143
 #: skins/test.php:268
 msgid "Previous"
 msgstr ""
@@ -1374,85 +1374,85 @@ msgstr ""
 msgid "Referrals"
 msgstr ""
 
-#: skins/skin_skeleton.php:3061
+#: skins/skin_skeleton.php:3060
 msgid "Rich Editor"
 msgstr ""
 
-#: skins/skin_skeleton.php:3065
+#: skins/skin_skeleton.php:3063
 msgid "Raw Editor"
 msgstr ""
 
-#: skins/skin_skeleton.php:3131 skins/skin_skeleton.php:3501
+#: skins/skin_skeleton.php:3129 skins/skin_skeleton.php:3499
 msgid "Content"
 msgstr ""
 
-#: skins/skin_skeleton.php:3319
+#: skins/skin_skeleton.php:3317
 #, php-format
 msgid "Step %d of %d"
 msgstr ""
 
-#: skins/skin_skeleton.php:3540
+#: skins/skin_skeleton.php:3538
 msgid "Questions"
 msgstr ""
 
-#: skins/skin_skeleton.php:3807
+#: skins/skin_skeleton.php:3805
 msgid "more"
 msgstr ""
 
-#: skins/skin_skeleton.php:4416
+#: skins/skin_skeleton.php:4414
 msgid "A: "
 msgstr ""
 
-#: skins/skin_skeleton.php:4491
+#: skins/skin_skeleton.php:4489
 msgid "to publish"
 msgstr ""
 
-#: skins/skin_skeleton.php:4498
+#: skins/skin_skeleton.php:4496
 msgid "expired"
 msgstr ""
 
-#: skins/skin_skeleton.php:4596
+#: skins/skin_skeleton.php:4594
 msgid "new"
 msgstr ""
 
-#: skins/skin_skeleton.php:4633
+#: skins/skin_skeleton.php:4631
 msgid "popular"
 msgstr ""
 
-#: skins/skin_skeleton.php:4645
+#: skins/skin_skeleton.php:4643
 msgid "private"
 msgstr ""
 
-#: skins/skin_skeleton.php:4652
+#: skins/skin_skeleton.php:4650
 msgid "Q: "
 msgstr ""
 
-#: skins/skin_skeleton.php:4659
+#: skins/skin_skeleton.php:4657
 msgid "restricted"
 msgstr ""
 
-#: skins/skin_skeleton.php:4718
+#: skins/skin_skeleton.php:4716
 msgid "updated"
 msgstr ""
 
-#: skins/skin_skeleton.php:5004
+#: skins/skin_skeleton.php:5002
 msgid "Back to main page"
 msgstr ""
 
-#: skins/skin_skeleton.php:5290
+#: skins/skin_skeleton.php:5288
 msgid "Previous page"
 msgstr ""
 
-#: skins/skin_skeleton.php:5315
+#: skins/skin_skeleton.php:5313
 msgid "Next page"
 msgstr ""
 
-#: skins/skin_skeleton.php:5600
+#: skins/skin_skeleton.php:5598
 #, php-format
 msgid "%d words to read"
 msgstr ""
 
-#: skins/skin_skeleton.php:5736
+#: skins/skin_skeleton.php:5734
 msgid "Click to sort"
 msgstr ""
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-28 15:55+0200\n"
+"POT-Creation-Date: 2020-10-06 10:56+0200\n"
 "PO-Revision-Date: 2017-08-30 10:46+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -189,11 +189,11 @@ msgstr "Dernière modification"
 msgid "Related items"
 msgstr "Eléments associés"
 
-#: shared/global.php:1101
+#: shared/global.php:1070
 msgid "View the category"
 msgstr "Voir la catégorie"
 
-#: shared/global.php:1464
+#: shared/global.php:1440
 msgid "ACCEPT COOKIES"
 msgstr "ACCEPTER LES COOKIES"
 
