@@ -1123,7 +1123,7 @@ var Yacs = {
             // provide path to trumbo icons
             $.trumbowyg.svgPath = url_to_root + 'included/trumbowyg/ui/icons.svg';
             
-            $.each(toInit, function(index){
+            $.each(toInit, function(){
                 
                 $(this).trumbowyg({
                     btnsDef: {
