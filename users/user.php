@@ -107,28 +107,30 @@ Class User extends Anchor {
 			// locate the previous image, if any
 			$previous = NULL;
 			reset($matches[1]);
-			$index = 0;
-			while(list($key, $value) = each($matches[1])) {
-				$index++;
-				if($item['id'] == $value)
-					break;
-				$previous = $value;
-			}
+			for($index=0; $index < count($matches[1]);$index++) {
+
+                            $value      = current($matches[1]); 
+                            $next       = next($matches[1]);
+                            
+                            // stop loop if value equals current image
+                            if($item['id'] === $value) {
+                                break;
+                            }
+                            
+                            // loop continues, previous might be this current value
+                            $previous   = $value;
+                        }
 
 			// make a link to the previous image
 			if($previous) {
 				$previous_url = Images::get_url($previous);
-				$previous_label = i18n::s('Previous image');
+				$previous_label = i18n::s('Previous');
 			}
 
-			// locate the next image, if any
-			if(!list($key, $next) = each($matches[1]))
-				$next = NULL;
-
 			// make a link to the next image
-			else {
+			if($next) {
 				$next_url = Images::get_url($next);
-				$next_label = i18n::s('Next image');
+				$next_label = i18n::s('Next');
 			}
 
 			// add a label
@@ -146,28 +148,30 @@ Class User extends Anchor {
 			// locate the previous location, if any
 			$previous = NULL;
 			reset($matches[1]);
-			$index = 0;
-			while(list($key, $value) = each($matches[1])) {
-				$index++;
-				if($item['id'] == $value)
-					break;
-				$previous = $value;
-			}
+			for($index=0; $index < count($matches[1]);$index++) {
 
-			// make a link to the previous location
+                            $value      = current($matches[1]); 
+                            $next       = next($matches[1]);
+                            
+                            // stop loop if value equals current image
+                            if($item['id'] === $value) {
+                                break;
+                            }
+                            
+                            // loop continues, previous might be this current value
+                            $previous   = $value;
+                        }
+
+			// make a link to the previous image
 			if($previous) {
 				$previous_url = Locations::get_url($previous);
-				$previous_label = i18n::s('Previous location');
+				$previous_label = i18n::s('Previous');
 			}
 
-			// locate the next location, if any
-			if(!list($key, $next) = each($matches[1]))
-				$next = NULL;
-
 			// make a link to the next image
-			else {
+			if($next) {
 				$next_url = Locations::get_url($next);
-				$next_label = i18n::s('Next location');
+				$next_label = i18n::s('Next');
 			}
 
 			// add a label
