@@ -82,11 +82,13 @@ if(!defined('JS_SUFFIX'))
 if(function_exists("date_default_timezone_set") and function_exists("date_default_timezone_get"))
 	date_default_timezone_set(date_default_timezone_get());
 
+include_once 'context.php';
+
 // store attributes for this request, including global parameters and request-specific variables
 global $context;
 
 // ensure we have built everything --stop all kinds of data injections
-$context = array();
+$context = new Context();
 
 // the HTTP accepted verbs by default --can be modified in some scripts, if necessary
 $context['accepted_methods'] = 'GET,HEAD,OPTIONS,POST,PUT';
