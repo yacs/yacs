@@ -1076,9 +1076,6 @@ Class Skin_Skeleton {
 	 * @see users/edit.php
 	 */
 	public static function build_folded_box($title, $content, $id='') {
-		global $context;
-
-
 
 		// we need a clickable title
 		if(!$title)
@@ -1089,10 +1086,12 @@ Class Skin_Skeleton {
 
 
                 // build the box, interaction is done by js while clicking on .folder-header
-                $text = tag::_('div', tag::_class('folder-box').$id, tag::_('a', tag::_class('folder-header'), $title) . tag::_('div', tag::_class('folder-body'), $content));
+                $text = tag::_('div', tag::_class('folder-box').$id, 
+                            tag::_('a', tag::_class('folder-header'), $title) 
+                          . tag::_('div', tag::_class('folder-body'), $content)
+                        );
 
 		return $text;
-
 	}
 
 	/**
@@ -3670,33 +3669,21 @@ Class Skin_Skeleton {
 	 * @see users/edit.php
 	 */
 	public static function build_unfolded_box($title, &$content, $id='') {
-		global $context;
-
-		// the icon used to stretch folder divisions
-		Skin::define_img_href('FOLDER_EXTEND_IMG_HREF', 'layouts/folder_plus.gif');
-
-		// the icon used to pack folder divisions
-		Skin::define_img_href('FOLDER_PACK_IMG_HREF', 'layouts/folder_minus.gif');
 
 		// we need a clickable title
 		if(!$title)
 			$title = i18n::s('Click to slide');
 
 		if($id)
-			$id = ' id="'.$id.'"';
+			$id = tag::_id($id);
 
-		// maybe we have an image to enhance rendering
-		$img = '';
-		if(FOLDER_PACK_IMG_HREF)
-			$img = '<img src="'.FOLDER_PACK_IMG_HREF.'" alt="" title="'.encode_field(i18n::s('Click to slide')).'" />';
+                // build the box, interaction is done by js while clicking on .folder-header
+                $text = tag::_('div', tag::_class('folder-box').$id, 
+                            tag::_('a', tag::_class('folder-header /open'), $title) 
+                          . tag::_('div', tag::_class('folder-body').tag::_attr('style','display:block;'), $content)
+                        );
 
-		// Yacs.toggle_folder() is in shared/yacs.js
-		$text = '<div class="folder_box"'.$id.'><a href="#" class="folder_header" onclick="javascript:Yacs.toggle_folder(this, \''.FOLDER_EXTEND_IMG_HREF.'\', \''.FOLDER_PACK_IMG_HREF.'\'); return false;">'.$img.$title.'</a>'
-			.'<div class="folder_body" style="display: block"><div>'.$content."</div></div></div>\n";
-
-		// pass by reference
 		return $text;
-
 	}
 
 	/**
