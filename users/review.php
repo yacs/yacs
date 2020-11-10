@@ -29,6 +29,9 @@ include_once '../shared/global.php';
 // load the skin
 load_skin('users');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // the path to this page
 $context['path_bar'] = array( 'users/' => i18n::s('People') );
 

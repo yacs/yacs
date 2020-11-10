@@ -45,6 +45,9 @@ i18n::bind('agents');
 // load the skin
 load_skin('agents');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // the path to this page
 $context['path_bar'] = array( 'control/' => i18n::s('Control Panel') );
 

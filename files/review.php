@@ -26,6 +26,9 @@ include_once 'files.php';
 // load the skin
 load_skin('files');
 
+// do not crawl this page
+$context->sif('robots','noindex');
+
 // the path to this page
 $context['path_bar'] = array( 'files/' => i18n::s('Files') );
 

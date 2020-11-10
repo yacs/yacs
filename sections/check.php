@@ -16,6 +16,9 @@ include_once '../shared/global.php';
 // load the skin
 load_skin('sections');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // the path to this page
 $context['path_bar'] = array( 'sections/' => i18n::s('Site map') );
 

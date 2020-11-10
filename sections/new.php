@@ -40,6 +40,9 @@ $existing_sections = Sections::count_for_owner();
 // load the skin before assessing permissions
 load_skin('sections');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // surfer has to be an authenticated member --not accessible to subscribers
 if(!Surfer::is_member())
 	$permitted = FALSE;

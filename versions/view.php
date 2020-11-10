@@ -58,6 +58,9 @@ else
 // load the skin, maybe with a variant
 load_skin('versions', $anchor);
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // clear the tab we are in, if any
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();

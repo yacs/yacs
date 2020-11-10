@@ -149,6 +149,9 @@ if(is_callable(array('i18n', 'bind')))
 // load the skin
 load_skin('users');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // page title
 if(!Surfer::is_logged())
     $context['page_title'] = i18n::s('Who are you?');

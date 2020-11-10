@@ -54,6 +54,9 @@ else
 // load the skin, maybe with a variant
 load_skin('users', $anchor);
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // the path to this page
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();

@@ -76,6 +76,9 @@ if(@count($tokens)) {
 // load the skin
 load_skin('search');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // number of items per page
 if(!defined('USERS_PER_PAGE'))
 	define('USERS_PER_PAGE', 50);

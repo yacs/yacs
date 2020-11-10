@@ -1317,7 +1317,7 @@ function render_skin($with_last_modified=TRUE) {
 	    $metas[] = '<meta http-equiv="imagetoolbar" content="no" />';
 
 	    // lead robots
-	    $metas[] = '<meta name="robots" content="index,follow" />';
+	    $metas[] = '<meta name="robots" content="'.$context->gs('robots','index,follow').'" />';
             
             // current menu
             if($top = page::top_focus()) {

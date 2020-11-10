@@ -23,6 +23,9 @@ if(isset($_REQUEST['id']))
 // load the skin
 load_skin('skins');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // only associates can proceed
 if(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);

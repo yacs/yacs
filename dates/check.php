@@ -17,6 +17,9 @@ include_once 'dates.php';
 // load the skin
 load_skin('dates');
 
+// do not crawl this page
+$context->sif('robots','noindex');
+
 // the path to this page
 $context['path_bar'] = array( 'dates/' => i18n::s('Dates') );
 

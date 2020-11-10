@@ -14,6 +14,9 @@ i18n::bind('tools');
 // load the skin
 load_skin('tools');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // the title of the page
 $context['page_title'] = i18n::s('Tools');
 

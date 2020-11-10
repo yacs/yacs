@@ -14,6 +14,9 @@ include_once 'tables.php';
 // load the skin
 load_skin('tables');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // the path to this page
 $context['path_bar'] = array( 'tables/' => i18n::s('Tables') );
 

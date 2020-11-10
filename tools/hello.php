@@ -18,6 +18,9 @@ i18n::bind('tools');
 // load the skin -- parameter enables to load an alternate template, if any -- see function definition in shared/global.php
 load_skin('hello');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // the path to this page
 $context['path_bar'] = array( 'tools/' => i18n::s('Tools') );
 

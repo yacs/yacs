@@ -30,6 +30,9 @@ include_once '../comments/comments.php';	// create new threads
 // load the skin
 load_skin('users');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // several recipients
 $id = NULL;
 if(isset($_REQUEST['id']))

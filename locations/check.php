@@ -17,6 +17,9 @@ include_once 'locations.php';
 // load the skin
 load_skin('locations');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // the path to this page
 $context['path_bar'] = array( 'locations/' => i18n::s('Locations') );
 

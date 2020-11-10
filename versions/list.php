@@ -65,6 +65,9 @@ else
 // load the skin, maybe with a variant
 load_skin('versions', $anchor);
 
+// do not index this page
+$context->sif('robots','noindex');
+
 if(!defined('VERSIONS_PER_PAGE'))
 	define('VERSIONS_PER_PAGE', 25);
 

@@ -163,6 +163,9 @@ i18n::bind('control');
 // load the skin
 load_skin('control');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // the path to this page
 $context['path_bar'] = array( 'control/index.php' => i18n::s('Control Panel') );
 

@@ -48,6 +48,9 @@ if($anchor)
 
 load_skin('comments');
 
+// do not crawl this page
+$context->sif('robots','noindex');
+
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);

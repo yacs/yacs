@@ -37,6 +37,9 @@ if(isset($item['anchor']) && $item['anchor'])
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 
+// do not crawl this page
+$context->sif('robots','noindex');
+
 // clear the tab we are in, if any
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();

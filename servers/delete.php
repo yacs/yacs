@@ -40,6 +40,9 @@ if(isset($item['anchor']) && $item['anchor'])
 // load the skin
 load_skin('servers');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // the path to this page
 $context['path_bar'] = array( 'servers/' => i18n::s('Servers') );
 

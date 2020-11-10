@@ -55,6 +55,9 @@ if(Articles::allow_publication($item,$anchor)) {
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 
+// do not crawl this page
+$context->sif('robots','noindex');
+
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);

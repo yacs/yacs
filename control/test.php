@@ -80,6 +80,7 @@ else
 echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">'."\n"
 	.'<html '.$language.' xmlns="http://www.w3.org/1999/xhtml">'."\n"
 	.'<head>'."\n"
+        ."\t".'<meta name="robots" content="noindex"/>'."\n"
 	."\t".'<meta http-equiv="Content-Type" content="'.$context['content_type'].'; charset='.$context['charset'].'" />'."\n"
 	."\t".'<title>'.i18n::s('The test page').'</title>'."\n"
 	.'</head><body>'."\n";

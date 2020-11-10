@@ -83,6 +83,9 @@ i18n::bind('control');
 // load the skin
 load_skin('control');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // no parameters configured yet
 if(!file_exists('../parameters/control.include.php')) {
 

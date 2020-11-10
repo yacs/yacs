@@ -105,6 +105,9 @@ i18n::bind('root');
 // load the skin
 load_skin('search');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // the title of the page
 if($search)
 	$context['page_title'] = sprintf(i18n::s('Search: %s'), $search);

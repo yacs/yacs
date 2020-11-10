@@ -42,6 +42,9 @@ include_once '../shared/global.php';
 // load the skin
 load_skin('closed');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // the server has moved
 if(isset($context['switch_target']) && $context['switch_target']) {
 

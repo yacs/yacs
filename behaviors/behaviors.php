@@ -55,7 +55,7 @@ class Behaviors {
 	/**
 	 * all registered behaviors
 	 */
-	var $items;
+	private $items;
 
 	/**
 	 * constructor
@@ -137,7 +137,7 @@ class Behaviors {
 	 * @param string behavior declarations
 	 *
 	 */
-	function parse(&$text) {
+	private function parse(&$text) {
 		global $context;
 
 		// no registered behaviors yet

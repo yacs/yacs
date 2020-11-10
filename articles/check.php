@@ -19,6 +19,9 @@ i18n::bind('articles');
 // load the skin
 load_skin('articles');
 
+// do not crawl this page
+$context->sif('robots','noindex');
+
 // the path to this page
 $context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 

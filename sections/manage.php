@@ -121,6 +121,9 @@ if(Sections::is_owned($item, $anchor) || Surfer::is_associate()) {
 // load the skin, maybe with a variant
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // list selected pages
 $selected_articles = '';
 if(isset($_REQUEST['selected_articles']) && ($count = @count($_REQUEST['selected_articles']))) {

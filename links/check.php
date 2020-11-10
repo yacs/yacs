@@ -40,6 +40,9 @@ include_once 'link.php';
 // load the skin
 load_skin('links');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // the absolute limit for checks
 if(!defined('MAXIMUM_SIZE'))
 	define('MAXIMUM_SIZE', 500);

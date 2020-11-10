@@ -20,6 +20,9 @@ if(isset($_REQUEST['search']))
 // load the skin
 load_skin('categories');
 
+// do not crawl this page
+$context->sif('robots','noindex');
+
 // the title of the page
 $context['page_title'] = i18n::s('Keywords update');
 

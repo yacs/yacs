@@ -45,6 +45,9 @@ if(isset($item['overlay']) && $item['overlay'])
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 
+// do not crawl this page
+$context->sif('robots','noindex');
+
 // get the target section
 $destination = NULL;
 if(isset($_REQUEST['action']))

@@ -68,6 +68,9 @@ else
 // load the skin, mabe with a variant
 load_skin('locations', $anchor);
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // the path to this page
 if(is_object($anchor))
 	$context['path_bar'] = $anchor->get_path_bar();

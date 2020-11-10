@@ -59,6 +59,9 @@ $action = strip_tags($action);
 // load localized strings
 i18n::bind('letters');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // load the skin
 load_skin('letters');
 

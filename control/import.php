@@ -19,6 +19,9 @@ $with_form = FALSE;
 // load the skin
 load_skin('control');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // the title of the page
 $context['page_title'] = i18n::s('Import XML content');
 

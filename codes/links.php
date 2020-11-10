@@ -62,6 +62,9 @@ i18n::bind('codes');
 // load the skin
 load_skin('codes');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // default section
 $section_id = Sections::get_default();
 

@@ -45,6 +45,9 @@ $anchor = Anchors::get($anchor);
 // load the skin
 load_skin('categories');
 
+// do not crawl this page
+$context->sif('robots','noindex');
+
 // the path to this page
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();

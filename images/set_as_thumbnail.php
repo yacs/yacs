@@ -46,6 +46,9 @@ if(isset($item['anchor']) && $item['anchor'])
 // load the skin, mabe with a variant
 load_skin('images', $anchor);
 
+// do not crawl this page
+$context->sif('robots','noindex');
+
 // clear the tab we are in, if any
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();

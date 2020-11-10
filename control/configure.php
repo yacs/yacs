@@ -194,6 +194,9 @@ i18n::bind('control');
 // load the skin
 load_skin('control');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // if no skin has been defined yet, we are in HTML
 if(!defined('BR'))
 	define('BR', '<br>');

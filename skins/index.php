@@ -123,6 +123,9 @@ include_once '../shared/global.php';
 // load the skin
 load_skin('skins');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // the title of the page
 $context['page_title'] = i18n::s('Themes');
 

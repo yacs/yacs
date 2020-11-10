@@ -16,6 +16,9 @@ i18n::bind('tools');
 // load the skin
 load_skin('tools');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // the path to this page
 $context['path_bar'] = array( 'tools/' => i18n::s('Tools') );
 

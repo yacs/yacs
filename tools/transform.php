@@ -18,6 +18,9 @@ i18n::bind('tools');
 // load the skin
 load_skin('tools');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 if(!defined('DUMMY_TEXT'))
 	define('DUMMY_TEXT', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
 		.' Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'

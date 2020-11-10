@@ -70,6 +70,9 @@ i18n::bind('scripts');
 // load the skin
 load_skin('scripts');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // the path to this page
 $context['path_bar'] = array( 'scripts/' => i18n::s('Server software') );
 

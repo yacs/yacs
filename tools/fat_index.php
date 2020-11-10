@@ -47,6 +47,9 @@ i18n::bind('tools');
 // then the static class Skin is available to format output components (lists, links, etc.)
 load_skin('tools');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // content of the target web object
 $input = '';
 

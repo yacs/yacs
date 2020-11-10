@@ -19,6 +19,9 @@ include_once 'images.php';
 // load the skin
 load_skin('images');
 
+// do not crawl this page
+$context->sif('robots','noindex');
+
 // the path to this page
 $context['path_bar'] = array( 'images/' => i18n::s('Images') );
 

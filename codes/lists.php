@@ -29,6 +29,9 @@ i18n::bind('codes');
 // load the skin
 load_skin('codes');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // the path to this page
 $context['path_bar'] = array( 'help/' => i18n::s('Help index'),
 	'codes/' => i18n::s('Formatting Codes') );

@@ -41,6 +41,9 @@ $file = preg_replace(FORBIDDEN_IN_PATHS, '', strip_tags($file));
 // load the skin
 load_skin('skins');
 
+// do not index this page
+$context->sif('robots','noindex');
+
 // the path to this page
 $context['path_bar'] = array( 'skins/' => i18n::s('Themes') );
 

@@ -101,6 +101,9 @@ $with_form = FALSE;
 // load the skin
 load_skin('categories');
 
+// do not crawl this page
+$context->sif('robots','noindex');
+
 // the path to this page
 if($whole_rendering) {
     if(is_object($anchor)&& $anchor->is_viewable())
