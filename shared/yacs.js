@@ -1241,7 +1241,7 @@ var Yacs = {
                 Yacs.prepareMenus();
 
 		// change the behavior of buttons used for data submission, except those with style 'no_spin_on_click'
-                $('body').on('click','button[type=submit]:not(.no_spin_on_click)', function(){
+                $('body').on('click','#main_form button[type=submit]:not(.no_spin_on_click)', function(){
                     if($(this).closest('form').find('*:invalid').length) {return;}
                     Yacs.startWorking();
                 });
