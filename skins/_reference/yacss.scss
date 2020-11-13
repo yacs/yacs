@@ -893,3 +893,25 @@ figure {max-width: 100%;}
         color : $note-color;
     }
 }
+
+////////
+//
+// flags
+//
+
+.flag {
+    font-size: .8em;
+    color : slategray;
+    
+    & .private {
+        color : indianred;
+    }
+    
+    & .restricted {
+        color : steelblue;
+    }
+    
+    &.popular {
+        color : firebrick;
+    }
+}

@@ -684,27 +684,27 @@ if(!isset($item['id'])) {
 
 	// invite participants
 	if(($cur_section->is_owned() || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
-		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'invite'), fa::_("fa-user-plus").' '.i18n::s('Invite participants'), 'basic');
+		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'invite'), fa::_("user-plus").' '.i18n::s('Invite participants'), 'basic');
 	}
 
 	// notify participants
 	if(($cur_section->is_owned() || Surfer::is_associate()) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
-		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'mail'), fa::_("fa-envelope-o").' '.i18n::s('Notify participants'));
+		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'mail'), fa::_("envelope-o").' '.i18n::s('Notify participants'));
 	}
 
 	// manage editors
 	if($cur_section->is_owned() || Surfer::is_associate()) {
-		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), fa::_("fa-share-alt").' '.i18n::s('Manage participants'));
+		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), fa::_("users").' '.i18n::s('Manage participants'));
 	}
 
 	// the command to track back
 	if(Links::allow_trackback()) {
-		$lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('section:'.$item['id']), fa::_("fa-star").' '.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
+		$lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('section:'.$item['id']), fa::_("share-alt").' '.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
 	}
 
 	// print this page
 	if(Surfer::is_logged() || (isset($context['with_anonymous_export_tools']) && ($context['with_anonymous_export_tools'] == 'Y'))) {
-		$lines[] = Skin::build_link(Sections::get_url($id, 'print'), fa::_("fa-print").' '.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
+		$lines[] = Skin::build_link(Sections::get_url($id, 'print'), fa::_("print").' '.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
 	}
 
 	// in a side box
@@ -725,13 +725,13 @@ if(!isset($item['id'])) {
 			$label = i18n::s('Watch this section');
 
 		if($in_watch_list != 'P') {
-			$lines[] = Skin::build_link($link, fa::_("fa-eye").' '.$label, 'basic', i18n::s('Manage your watch list'));
+			$lines[] = Skin::build_link($link, fa::_("eye").' '.$label, 'basic', i18n::s('Manage your watch list'));
 		}
 	}
 
 	// allow to leave the section
 	if($cur_section->is_assigned() && !$cur_section->is_owned(null, false)) {
-		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'leave'), fa::_("fa-share-alt").' '.i18n::s('Leave this section'));
+		$lines[] = Skin::build_link(Users::get_url('section:'.$item['id'], 'leave'), fa::_("share-alt").' '.i18n::s('Leave this section'));
 	}
 
 	// get news from rss
@@ -803,7 +803,7 @@ if(!isset($item['id'])) {
 
 		// the command to change categories assignments
 		if(Categories::allow_assign($item,$anchor))
-			$items = array_merge($items, array( Categories::get_url('section:'.$item['id'], 'select') => i18n::s('Assign categories') ));
+			$items = array_merge($items, array( Categories::get_url('section:'.$item['id'], 'select') => fa::_('tags').i18n::s('Assign categories') ));
 
 		// actually render the html for the section
 		if(@count($box['bar']))
@@ -1010,7 +1010,7 @@ if(!isset($item['id'])) {
 				if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command', 'article')))
 					;
 				else
-					$label = fa::_("fa-plus-square-o").' '.i18n::s('Add a page');
+					$label = fa::_("plus-square-o").' '.i18n::s('Add a page');
 				$box['top_bar'] += array( $url => $label );
 
 			}
@@ -1208,7 +1208,7 @@ if(!isset($item['id'])) {
                         
                         // get add button label
                         if(!is_object($file_overlay) || !$add_label = $file_overlay->get_label('new_command','file')) {
-                            $add_label = fa::_("fa-upload").' '.i18n::s('Add a file');
+                            $add_label = fa::_("upload").' '.i18n::s('Add a file');
                         }
                         
                     
@@ -1336,7 +1336,7 @@ if(!isset($item['id'])) {
 
 		// new links are allowed -- check option 'with_links'
 		if($cur_section->allows('creation','link')) {
-			$box['bar'] += array('links/edit.php?anchor='.urlencode('section:'.$item['id']) =>  fa::_("fa-chain").' '.i18n::s('Add a link') );
+			$box['bar'] += array('links/edit.php?anchor='.urlencode('section:'.$item['id']) =>  fa::_("chain").' '.i18n::s('Add a link') );
 		}
 
 		// integrate the menu bar at the end
@@ -1385,7 +1385,7 @@ if(!isset($item['id'])) {
                                     $label = i18n::s('Add a section');
                                 }
                             
-				$box['top_bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => fa::_("fa-folder-open-o").' '.$label);
+				$box['top_bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => fa::_("folder-open-o").' '.$label);
 			}
                         
                         // get sort order option
@@ -1494,13 +1494,13 @@ if(!isset($item['id'])) {
 			;
 		else
 			$label = i18n::s('Add a page');
-		$context['page_tools'][] = Skin::build_link($url, fa::_("fa-plus-square-o").' '.$label, 'basic', i18n::s('Add new content to this section'));
+		$context['page_tools'][] = Skin::build_link($url, fa::_("plus-square-o").' '.$label, 'basic', i18n::s('Add new content to this section'));
 
 		// the command to create a new poll, if no overlay nor template has been defined for content of this section
 		if((!isset($item['content_overlay']) || !trim($item['content_overlay'])) && (!isset($item['articles_templates']) || !trim($item['articles_templates'])) && (!is_object($anchor) || !$anchor->get_templates_for('article'))) {
 
 			$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;variant=poll';
-			$context['page_tools'][] = Skin::build_link($url, fa::_("fa-bar-chart").' '.i18n::s('Add a poll'), 'basic', i18n::s('Add new content to this section'));
+			$context['page_tools'][] = Skin::build_link($url, fa::_("bar-chart").' '.i18n::s('Add a poll'), 'basic', i18n::s('Add new content to this section'));
 		}
 
 	}
@@ -1511,36 +1511,36 @@ if(!isset($item['id'])) {
 		// modify this section
 		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command', 'sections')))
 			$label = i18n::s('Edit this section');
-		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'edit'), fa::_("fa-edit").' '.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
-		$context['page_minitools'][] = Skin::build_link(Sections::get_url($item['id'], 'edit'), fa::_("fa-edit"), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'edit'), fa::_("edit").' '.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+		$context['page_minitools'][] = Skin::build_link(Sections::get_url($item['id'], 'edit'), fa::_("edit"), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 	}
 
 	// post an image, if upload is allowed
 	if($cur_section->allows('creation','image')) {
-		$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("fa-image").' '.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
-		$context['page_minitools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("fa-image"), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
+		$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("image").' '.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
+		$context['page_minitools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("image"), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 	}
 
 	// add a file, if upload is allowed
 	if($cur_section->allows('creation','file')) {
-		$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("fa-file-o").' '.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
-		$context['page_minitools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("fa-file-o"), 'basic', i18n::s('Attach related files.'));
+		$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("file-o").' '.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
+		$context['page_minitools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("file-o"), 'basic', i18n::s('Attach related files.'));
 	}
 
 	// add a link
 	if($cur_section->allows('creation','link')) {
-		$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("fa-link").' '.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
+		$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("link").' '.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
 	}
 
 	// comment this page if anchor does not prevent it
 	if($cur_section->allows('creation','comment')) {
-		$context['page_tools'][] = Skin::build_link(Comments::get_url('section:'.$item['id'], 'comment'), fa::_("fa-commenting-o").' '.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
+		$context['page_tools'][] = Skin::build_link(Comments::get_url('section:'.$item['id'], 'comment'), fa::_("commenting-o").' '.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 	}
 
 	// add a section
 	if($cur_section->allows('creation','section')) {
-		$context['page_tools'][] = Skin::build_link('sections/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("fa-folder-open-o").' '.i18n::s('Add a section'), 'basic', i18n::s('Add a section'));
+		$context['page_tools'][] = Skin::build_link('sections/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("folder-open-o").' '.i18n::s('Add a section'), 'basic', i18n::s('Add a section'));
 	}
 
 
@@ -1552,38 +1552,38 @@ if(!isset($item['id'])) {
 
 		// access previous versions, if any
 		if($has_versions) {
-			$context['page_tools'][] = Skin::build_link(Versions::get_url('section:'.$item['id'], 'list'), fa::_("fa-magic").' '.i18n::s('Versions'), 'basic', i18n::s('Restore a previous version if necessary'));
+			$context['page_tools'][] = Skin::build_link(Versions::get_url('section:'.$item['id'], 'list'), fa::_("magic").' '.i18n::s('Versions'), 'basic', i18n::s('Restore a previous version if necessary'));
 		}
 
 		// lock the page
 		if(!isset($item['locked']) || ($item['locked'] == 'N')) {
-			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'lock'), fa::_("fa-lock").' '.i18n::s('Lock'), 'basic');
+			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'lock'), fa::_("lock").' '.i18n::s('Lock'), 'basic');
 		} else {
-			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'lock'), fa::_("fa-unlock").' '.i18n::s('Unlock'), 'basic');
+			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'lock'), fa::_("unlock").' '.i18n::s('Unlock'), 'basic');
 		}
 
 		// delete the page
                 if($cur_section->allows('deletion')) {
                     if(!is_object($overlay) || (!$label = $overlay->get_label('delete_command', 'sections')))
                             $label = i18n::s('Delete this section');
-                    $context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'delete'), fa::_("fa-trash").' '.$label, 'basic');
+                    $context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'delete'), fa::_("trash").' '.$label, 'basic');
                 }
 
 		// manage content
 		if($has_content) {
-			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'manage'), fa::_("fa-wrench").' '.i18n::s('Manage content'), 'basic', i18n::s('Bulk operations'));
+			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'manage'), fa::_("wrench").' '.i18n::s('Manage content'), 'basic', i18n::s('Bulk operations'));
 		}
 
 		// duplicate command provided to container owners
 		if(Sections::is_owned(NULL, $anchor) || Surfer::is_associate()) {
-			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'duplicate'), fa::_("fa-copy").' '.i18n::s('Duplicate this section'));
+			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'duplicate'), fa::_("copy").' '.i18n::s('Duplicate this section'));
 		}
 
 	}
 
 	// commands for associates
 	if(Surfer::is_associate()) {
-		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'export'), fa::_("fa-recycle").' '.i18n::s('Export this section'));
+		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'export'), fa::_("recycle").' '.i18n::s('Export this section'));
 	}
 
 }

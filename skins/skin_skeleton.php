@@ -4467,21 +4467,17 @@ Class Skin_Skeleton {
 			$options = 'class="'.$context['classes_for_thumbnail_images'].'" ';
 
 		// the img tag used with the [decorated] code; either a decorating icon, or equivalent to the bullet
-		Skin::define_img('DECORATED_IMG', 'layouts/decorated.gif', BULLET_IMG, '*', $options);
-
+		// Skin::define_img('DECORATED_IMG', 'layouts/decorated.gif', BULLET_IMG, '*', $options);
+                if(!defined('DECORATED_IMG'))
+                    define('DECORATED_IMG', fa::_('angle-double-right','2x'));
+                
 		// the bullet used to signal pages to be published
-		if(is_callable(array('i18n', 's')))
-			$text = i18n::s('to publish');
-		else
-			$text = 'to publish';
-		Skin::define_img('DRAFT_FLAG', 'tools/draft.gif', '!', $text);
+                if(!defined('DRAFT_FLAG'))
+			define('DRAFT_FLAG', fa::_('eye-slash /flag','', (is_callable(array('i18n', 's')))? i18n::s('to publish') : 'to publish' ).'&nbsp;');
 
 		// the bullet used to signal expired pages
-		if(is_callable(array('i18n', 's')))
-			$text = i18n::s('expired');
-		else
-			$text = 'expired';
-		Skin::define_img('EXPIRED_FLAG', 'tools/expired.gif', '!', $text);
+                if(!defined('EXPIRED_FLAG'))
+			define('EXPIRED_FLAG', fa::_('ban /flag','', (is_callable(array('i18n', 's')))? i18n::s('expired') : 'expired' ).'&nbsp;');
 
 		// the HTML to be inserted before section family
 		if(!defined('FAMILY_PREFIX'))
@@ -4529,8 +4525,8 @@ Class Skin_Skeleton {
 		if(!defined('LINKS_PER_PAGE'))
 			define('LINKS_PER_PAGE', 200);
 
-		// the HTML used to signal a locked page
-		Skin::define_img('LOCKED_FLAG', 'tools/locked.gif', '%');
+                if(!defined('LOCKED_FLAG'))
+			define('LOCKED_FLAG', fa::_('lock','/lock /flag'));
 
 		// the HTML tags within notification messages
 		if(!defined('MAIL_FONT_PREFIX'))
@@ -4541,7 +4537,7 @@ Class Skin_Skeleton {
 
 		// the img tag used with 2-columns list; either a folder icon, or equivalent to the bullet
 		Skin::define_img('MAP_IMG', 'layouts/map.gif', DECORATED_IMG, '*', $options);
-
+                
 		// the HTML string used to prefix topmenu items [menu]
 		if(!defined('MENU_1_PREFIX'))
 			define('MENU_1_PREFIX', '');
@@ -4571,16 +4567,12 @@ Class Skin_Skeleton {
 			define('MENU_SUFFIX', '');
 
 		// the HTML used to append to a stripped text
-		Skin::define_img('MORE_IMG', 'tools/more.gif', ' &raquo;');
+                if(!defined('MORE_IMG'))
+			define('MORE_IMG', fa::_('forward','/more /flag'));
 
 		// the bullet used to signal new pages
-		if(!defined('NEW_FLAG')) {
-			if(is_callable(array('i18n', 's')))
-				$text = i18n::s('new');
-			else
-				$text = 'new';
-			define('NEW_FLAG', '<span class="new flag"><span> ('.$text.') </span>&nbsp;</span>');
-		}
+                if(!defined('NEW_FLAG'))
+			define('NEW_FLAG', '&nbsp;'.fa::_('exclamation-circle','/new /flag', (is_callable(array('i18n', 's')))? i18n::s('new') : 'new' ));
 
 		// the HTML string used to prefix some news
 		if(!defined('NEWS_PREFIX'))
@@ -4611,24 +4603,18 @@ Class Skin_Skeleton {
 			define('PAGE_MENU_SUFFIX', '');
 
 		// the bullet used to signal popular pages
-		if(!defined('POPULAR_FLAG')) {
-			if(is_callable(array('i18n', 's')))
-				$text = i18n::s('popular');
-			else
-				$text = 'popular';
-			define('POPULAR_FLAG', '<span class="popular flag"><span> ('.$text.') </span>&nbsp;</span>');
-		}
+                if(!defined('POPULAR_FLAG'))
+			define('POPULAR_FLAG', fa::_('fire','/popular /flag', (is_callable(array('i18n', 's')))? i18n::s('popular') : 'popular' ));
 
 		// the prefix for [previous=...] links
 		if(!defined('PREVIOUS_IMG'))
 			define('PREVIOUS_IMG', '<span> &laquo; </span>');
 
-		// the bullet used to signal private pages
-		if(is_callable(array('i18n', 's')))
-			$text = i18n::s('private');
-		else
-			$text = 'private';
-		Skin::define_img('PRIVATE_FLAG', 'tools/private.gif', '('.$text.')');
+                if(!defined('PRIVATE_FLAG'))
+			define('PRIVATE_FLAG', tag::_span(
+                                fa::_('square-o','stack-2x /private')
+                                .fa::_('eye','stack-1x /private', (is_callable(array('i18n', 's')))? i18n::s('private') : 'private' )
+                                ,'/fa-stack /flag'));
 
 		// the HTML to signal a question
 		if(is_callable(array('i18n', 's')))
@@ -4638,11 +4624,11 @@ Class Skin_Skeleton {
 		Skin::define_img('QUESTION_FLAG', 'codes/question.gif', $text, '?');
 
 		// the bullet used to signal restricted pages
-		if(is_callable(array('i18n', 's')))
-			$text = i18n::s('restricted');
-		else
-			$text = 'restricted';
-		Skin::define_img('RESTRICTED_FLAG', 'tools/restricted.gif', '('.$text.')');
+		if(!defined('RESTRICTED_FLAG'))
+			define('RESTRICTED_FLAG', tag::_span(
+                                fa::_('square-o','stack-2x /restricted')
+                                .fa::_('eye','stack-1x /restricted', (is_callable(array('i18n', 's')))? i18n::s('restricted') : 'restricted' )
+                                ,'/fa-stack /flag'));
 
 		// the maximum number of sections attached to an anchor -- see sections/select.php
 		if(!defined('SECTIONS_LIST_SIZE'))
@@ -4662,7 +4648,7 @@ Class Skin_Skeleton {
 
 		// the HTML used to signal sticky pages
 		if(!defined('STICKY_FLAG'))
-			define('STICKY_FLAG', '');
+			define('STICKY_FLAG', fa::_('thumb-tack','/sticky /flag'));
 
 		// the HTML string appended to each item of the site bar
 		if(!defined('TABS_ITEM_SUFFIX'))
@@ -4696,13 +4682,8 @@ Class Skin_Skeleton {
 			define('TITLE_SHORTCUT', '&raquo;');
 
 		// the bullet used to signal updated pages
-		if(!defined('UPDATED_FLAG')) {
-			if(is_callable(array('i18n', 's')))
-				$text = i18n::s('updated');
-			else
-				$text = 'updated';
-			define('UPDATED_FLAG', '<span class="updated flag"><span> ('.$text.') </span>&nbsp;</span>');
-		}
+                if(!defined('UPDATED_FLAG'))
+			define('UPDATED_FLAG', '&nbsp;'.fa::_('refresh','/updated /flag', (is_callable(array('i18n', 's')))? i18n::s('updated') : 'updated' ));
 
 		// the maximum number of users attached to an anchor -- see sections/select.php
 		if(!defined('USERS_LIST_SIZE'))

@@ -592,7 +592,7 @@ if(!isset($item['id'])) {
 		// the command to post a new file
 		$url = 'files/edit.php?anchor='.urlencode('category:'.$item['id']);
 		if(Files::allow_creation($item, $anchor, 'category')) {
-			$box['bar'] += array( $url => fa::_("fa-upload").' '.i18n::s('Add a file') );
+			$box['bar'] += array( $url => fa::_("upload").' '.i18n::s('Add a file') );
 		}
 
 		// actually render the html for the section
@@ -641,7 +641,7 @@ if(!isset($item['id'])) {
 		// the command to post a new comment
 		if(Comments::allow_creation($item, $anchor, 'category')) {
 			$url = 'comments/edit.php?anchor='.urlencode('category:'.$item['id']);
-			$box['bar'] += array( $url => fa::_("fa-commenting-o").' '.i18n::s('Post a comment') );
+			$box['bar'] += array( $url => fa::_("commenting-o").' '.i18n::s('Post a comment') );
 		}
 
 		// actually render the html
@@ -687,7 +687,7 @@ if(!isset($item['id'])) {
 		// the command to post a new link
 		if(Links::allow_creation($item, $anchor, 'category')) {
 			$url = 'links/edit.php?anchor='.urlencode('category:'.$item['id']);
-			$box['bar'] += array( $url =>  fa::_("fa-chain").' '.i18n::s('Add a link') );
+			$box['bar'] += array( $url =>  fa::_("chain").' '.i18n::s('Add a link') );
 		}
 
 		// actually render the html
@@ -784,7 +784,7 @@ if(!isset($item['id'])) {
 
 		// notify members
 		if(($count > 1) && Surfer::is_associate()) {
-			$box['bar'] += array(Categories::get_url($item['id'], 'mail') => fa::_("fa-envelope-o").' '.i18n::s('Notify members'));
+			$box['bar'] += array(Categories::get_url($item['id'], 'mail') => fa::_("envelope-o").' '.i18n::s('Notify members'));
 		}
 
 		// spread the list over several pages
@@ -849,42 +849,42 @@ if(!isset($item['id'])) {
 
 		// add a category
 		if($this_cat->allow_creation()) {
-			$context['page_tools'][] = Skin::build_link('categories/edit.php?anchor='.urlencode('category:'.$item['id']),  fa::_("fa-plus-square-o").' '.i18n::s('Add a category'), 'basic');
+			$context['page_tools'][] = Skin::build_link('categories/edit.php?anchor='.urlencode('category:'.$item['id']),  fa::_("plus-square-o").' '.i18n::s('Add a category'), 'basic');
 		}
 
 		// post an image, if upload is allowed
 		if(Images::allow_creation($item, $anchor, 'category')) {
-			$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']), fa::_("fa-image").' '.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
-			$context['page_minitools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']), fa::_("fa-image"), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
+			$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']), fa::_("image").' '.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
+			$context['page_minitools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']), fa::_("image"), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 		}
 
 		// add a file, if upload is allowed
 		if(Files::allow_creation($item, $anchor, 'category')) {
-			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), fa::_("fa-file-o").' '.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
-			$context['page_minitools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), fa::_("fa-file-o"), 'basic', i18n::s('Attach related files.'));
+			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), fa::_("file-o").' '.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
+			$context['page_minitools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), fa::_("file-o"), 'basic', i18n::s('Attach related files.'));
 		}
 
 		// add a link
 		if(Links::allow_creation($item, $anchor, 'category')) {
-			$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('category:'.$item['id']), fa::_("fa-link").' '.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
+			$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('category:'.$item['id']), fa::_("link").' '.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
 		}
 
 		// comment this page if anchor does not prevent it
 		if(Comments::allow_creation($item, $anchor, 'category')) {
-			$context['page_tools'][] = Skin::build_link(Comments::get_url('category:'.$item['id'], 'comment'), fa::_("fa-commenting-o").' '.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
+			$context['page_tools'][] = Skin::build_link(Comments::get_url('category:'.$item['id'], 'comment'), fa::_("commenting-o").' '.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 		}
 
 
 		// modify this item
-		$context['page_tools'][] = Skin::build_link(Categories::get_url($item['id'], 'edit'), fa::_("fa-edit").' '.i18n::s('Edit this category'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
-		$context['page_minitools'][] = Skin::build_link(Categories::get_url($item['id'], 'edit'), fa::_("fa-edit"), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+		$context['page_tools'][] = Skin::build_link(Categories::get_url($item['id'], 'edit'), fa::_("edit").' '.i18n::s('Edit this category'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+		$context['page_minitools'][] = Skin::build_link(Categories::get_url($item['id'], 'edit'), fa::_("edit"), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		// delete this item
-		$context['page_tools'][] = Skin::build_link(Categories::get_url($item['id'], 'delete'), fa::_("fa-trash").' '.i18n::s('Delete this category'));
-		$context['page_minitools'][] = Skin::build_link(Categories::get_url($item['id'], 'delete'), fa::_("fa-trash"));
+		$context['page_tools'][] = Skin::build_link(Categories::get_url($item['id'], 'delete'), fa::_("trash").' '.i18n::s('Delete this category'));
+		$context['page_minitools'][] = Skin::build_link(Categories::get_url($item['id'], 'delete'), fa::_("trash"));
 
 		// manage persons assigned to this category
-		$context['page_tools'][] = Skin::build_link(Users::get_url('category:'.$item['id'], 'select'), fa::_("fa-users").' '.i18n::s('Manage members'));
+		$context['page_tools'][] = Skin::build_link(Users::get_url('category:'.$item['id'], 'select'), fa::_("users").' '.i18n::s('Manage members'));
 	}
 
 	// add extra information from the overlay, if any
@@ -901,12 +901,12 @@ if(!isset($item['id'])) {
 
 	// the command to track back
 	if(Links::allow_trackback()) {
-		$lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('category:'.$item['id']), fa::_("fa-star").' '.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
+		$lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('category:'.$item['id']), fa::_("share-alt").' '.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
 	}
 
 	// print this page
 	if(Surfer::is_logged()) {
-		$lines[] = Skin::build_link(Categories::get_url($item['id'], 'print'), fa::_("fa-print").' '.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
+		$lines[] = Skin::build_link(Categories::get_url($item['id'], 'print'), fa::_("print").' '.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
 	}		
 
 	// in a side box

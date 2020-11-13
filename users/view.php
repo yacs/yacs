@@ -325,7 +325,7 @@ if(!isset($item['id'])) {
 
 			// add a thread
 			$url = 'articles/edit.php';
-			$label = fa::_("fa-plus-square-o").' '.i18n::s('Add a page');
+			$label = fa::_("plus-square-o").' '.i18n::s('Add a page');
 			$hover = i18n::s('Share something, ask a question, or more');
 			$box['top'] += array($url => array(NULL, $label, NULL, 'tip', NULL, $hover));
 
@@ -400,12 +400,12 @@ if(!isset($item['id'])) {
 		// offer to extend personal spaces
 		if(Surfer::is($item['id']) && Surfer::is_member() &&
 			(Surfer::is_associate() || ($context['users_maximum_managed_sections'] > Sections::count_for_owner())) ) {
-			$box['top'] += array('sections/new.php' => fa::_("fa-plus-square-o").' '.i18n::s('Create a new web space'));
+			$box['top'] += array('sections/new.php' => fa::_("plus-square-o").' '.i18n::s('Create a new web space'));
 		}
 
 		// associates can assign editors and readers
 		if(Surfer::is_associate()) {
-			$box['top'] += array('sections/select.php?anchor=user:'.$item['id'] => fa::_("fa-user-circle").' '.i18n::s('Assign sections'));
+			$box['top'] += array('sections/select.php?anchor=user:'.$item['id'] => fa::_("user-circle").' '.i18n::s('Assign sections'));
 		}
 
 		// count the number of articles for this user
@@ -712,7 +712,7 @@ if(!isset($item['id'])) {
 
 		// the command to post a new file
 		if((Surfer::is($item['id']) || Surfer::is_associate()) && Surfer::may_upload()) {
-			$menu[] = Skin::build_link('files/edit.php?anchor=user:'.$item['id'], fa::_("fa-upload").' '.i18n::s('Add a file'), 'span');
+			$menu[] = Skin::build_link('files/edit.php?anchor=user:'.$item['id'], fa::_("upload").' '.i18n::s('Add a file'), 'span');
 		}
 
 		if(count($menu))
@@ -753,16 +753,16 @@ if(!isset($item['id'])) {
 		// change avatar
 		if(Surfer::is_empowered() && isset($item['avatar_url']) && $item['avatar_url']) {
 			$label = i18n::s('Change picture');
-			$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'select_avatar'), fa::_("fa-image").' '.$label, 'basic');
+			$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'select_avatar'), fa::_("image").' '.$label, 'basic');
 		}
 
 		// modify this page
-                $context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'edit'), fa::_("fa-edit").' '.i18n::s('Edit this profile'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
-                $context['page_minitools'][] = Skin::build_link(Users::get_url($item['id'], 'edit'), fa::_("fa-edit"), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+                $context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'edit'), fa::_("edit").' '.i18n::s('Edit this profile'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+                $context['page_minitools'][] = Skin::build_link(Users::get_url($item['id'], 'edit'), fa::_("edit"), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		// change password
 		if(!isset($context['users_authenticator']) || !$context['users_authenticator']) {
-			$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'password'), fa::_("fa-key").' '.i18n::s('Change password'), 'basic');
+			$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'password'), fa::_("key").' '.i18n::s('Change password'), 'basic');
 		}
 
 		// only associates can delete user profiles; self-deletion may also be allowed
@@ -770,14 +770,14 @@ if(!isset($item['id'])) {
 			&& (Surfer::is_associate()
 				|| (Surfer::is($item['id']) && (!isset($context['users_without_self_deletion']) || ($context['users_without_self_deletion'] != 'Y'))))) {
 
-			$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'delete'), fa::_("fa-user-times").' '.i18n::s('Delete this profile'));
+			$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'delete'), fa::_("user-times").' '.i18n::s('Delete this profile'));
 		}
 
 	}
 
 	// associates can transfer ownership
 	if(Surfer::is_associate()) {
-		$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'transfer'), fa::_("fa-exchange").' '.i18n::s('Transfer ownership'));
+		$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'transfer'), fa::_("exchange").' '.i18n::s('Transfer ownership'));
 	}
 
 	// user profile aside
@@ -797,12 +797,12 @@ if(!isset($item['id'])) {
 
 	// logged users may download the vcard
 	if(Surfer::is_logged()) {
-		$lines[] = Skin::build_link(Users::get_url($item['id'], 'fetch_vcard', $item['nick_name']), fa::_("fa-address-card-o").' '.i18n::s('Business card'), 'basic');
+		$lines[] = Skin::build_link(Users::get_url($item['id'], 'fetch_vcard', $item['nick_name']), fa::_("address-card").' '.i18n::s('Business card'), 'basic');
 	}
 
 	// print this page
 	if(Surfer::is_logged()) {
-		$lines[] = Skin::build_link(Users::get_url($id, 'print'), fa::_("fa-print").' '.i18n::s('Print this page'), 'basic');
+		$lines[] = Skin::build_link(Users::get_url($id, 'print'), fa::_("print").' '.i18n::s('Print this page'), 'basic');
 	}
 
 	// in a side box
@@ -825,7 +825,7 @@ if(!isset($item['id'])) {
 		else
 			$label = i18n::s('Follow this person');
 
-		$lines[] = Skin::build_link($link, fa::_("fa-users").' '.$label, 'basic', i18n::s('Manage your watch list'));
+		$lines[] = Skin::build_link($link, fa::_("users").' '.$label, 'basic', i18n::s('Manage your watch list'));
 
 	}
 

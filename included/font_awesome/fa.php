@@ -40,10 +40,10 @@ Class fa {
         
         // icon and options are the same deal,
         // add a "fa" default option
-        $options = 'fa '.$icon.' '.$options;
+        $options = '/fa '.$icon.' '.$options;
         
-        // prefix everything with fa
-        $options = preg_replace('/(?<![^ ])(?=[^ ])(?!fa)/', 'fa-', $options);
+        // prefix everything with fa except things with /
+        $options = preg_replace('/(?<![^ ])(?=[^ \/])(?!fa)/', '/fa-', $options);
         
         // maybe more attributes
         $more = '';
@@ -59,7 +59,7 @@ Class fa {
         }
         
         // build the tag
-        $fa = tag::_('i', tag::_class($options, true).$more);
+        $fa = tag::_('i', tag::_class($options).$more);
         
         // provide a span replacement for accessibility if needed
         if($aria_hide && $title) {

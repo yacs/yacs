@@ -652,22 +652,22 @@ if(!isset($item['id'])) {
 
 	    // invite participants
 	    if(($cur_article->is_owned() || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
-		    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'invite'), fa::_("fa-user-plus").' '.i18n::s('Invite participants'), 'basic', i18n::s('Spread the word'));
+		    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'invite'), fa::_("user-plus").' '.i18n::s('Invite participants'), 'basic', i18n::s('Spread the word'));
 	    }
 
 	    // notify participants
 	    if(($cur_article->is_owned() || Surfer::is_associate()) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
-		    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'mail'), fa::_("fa-envelope-o").' '.i18n::s('Notify participants'));
+		    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'mail'), fa::_("envelope-o").' '.i18n::s('Notify participants'));
 	    }
 
 	    // manage editors
 	    if($cur_article->is_owned() || Surfer::is_associate()) {
-		    $lines[] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), fa::_("fa-share-alt").' '.i18n::s('Manage participants'));
+		    $lines[] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), fa::_("users").' '.i18n::s('Manage participants'));
 	    }
 
 	    // the command to track back
 	    if(Links::allow_trackback()) {
-		    $lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('article:'.$item['id']), fa::_("fa-star").' '.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
+		    $lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('article:'.$item['id']), fa::_("share-alt").' '.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
 	    }
 
 	    // more tools
@@ -678,17 +678,17 @@ if(!isset($item['id'])) {
 		    if(Surfer::is_member() || (isset($context['with_anonymous_export_tools']) && ($context['with_anonymous_export_tools'] == 'Y'))) {
 
 			    // get a PDF version
-			    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'fetch_as_pdf'), fa::_("fa-file-pdf-o").' '.i18n::s('Save as PDF'), 'basic', i18n::s('Save as PDF'));
+			    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'fetch_as_pdf'), fa::_("file-pdf-o").' '.i18n::s('Save as PDF'), 'basic', i18n::s('Save as PDF'));
 
 			    // open in Word
-			    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'fetch_as_msword'), fa::_("fa-file-word-o").' '.i18n::s('Copy in MS-Word'), 'basic', i18n::s('Copy in MS-Word'));
+			    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'fetch_as_msword'), fa::_("file-word-o").' '.i18n::s('Copy in MS-Word'), 'basic', i18n::s('Copy in MS-Word'));
 
 		    }
 	    }
 
 	    // print this page
 	    if(Surfer::is_logged() || (isset($context['with_anonymous_export_tools']) && ($context['with_anonymous_export_tools'] == 'Y'))) {
-		    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'print'), fa::_("fa-print").' '.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
+		    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'print'), fa::_("print").' '.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
 	    }
 
 	    // in a side box
@@ -709,13 +709,13 @@ if(!isset($item['id'])) {
 		    else
 			    $label = i18n::s('Watch this page');
 
-		    $lines[] = Skin::build_link($link, fa::_("fa-eye").' '.$label, 'basic', i18n::s('Manage your watch list'));
+		    $lines[] = Skin::build_link($link, fa::_("eye").' '.$label, 'basic', i18n::s('Manage your watch list'));
 
 	    }
 
 	    // allow to leave the page
 	    if($cur_article->is_assigned() && !$cur_article->is_owned(null, false)) {
-		    $lines[] = Skin::build_link(Users::get_url('article:'.$item['id'], 'leave'), fa::_("fa-share-alt").' '.i18n::s('Leave this page'));
+		    $lines[] = Skin::build_link(Users::get_url('article:'.$item['id'], 'leave'), fa::_("share-alt").' '.i18n::s('Leave this page'));
 	    }
 
 	    // get news from rss
@@ -1078,7 +1078,7 @@ if(!isset($item['id'])) {
 
 			// the command to post a new file
 			if(!$compact && $cur_article->allows('creation','file')) {
-				$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => fa::_("fa-upload").' '.i18n::s('Add a file'));
+				$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => fa::_("upload").' '.i18n::s('Add a file'));
 			}
 
 		}
@@ -1138,7 +1138,7 @@ if(!isset($item['id'])) {
 
 			// new links are allowed
 			if($cur_article->allows('creation','link')) {
-				$box['bar'] += array( 'links/edit.php?anchor='.urlencode('article:'.$item['id']) => fa::_("fa-chain").' '.i18n::s('Add a link') );
+				$box['bar'] += array( 'links/edit.php?anchor='.urlencode('article:'.$item['id']) => fa::_("chain").' '.i18n::s('Add a link') );
 			}
 		}
 
@@ -1202,57 +1202,57 @@ if(!isset($item['id'])) {
 	    if($cur_article->allows('modification')) {
 		    if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command', 'articles')))
 			    $label = i18n::s('Edit this page');
-		    $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), fa::_("fa-edit").' '.$label, 'edit', i18n::s('Press [e] to edit'), FALSE, 'e');
-		    $context['page_minitools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), fa::_("fa-edit"), 'edit', i18n::s('Press [e] to edit'), FALSE, 'e');
+		    $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), fa::_("edit").' '.$label, 'edit', i18n::s('Press [e] to edit'), FALSE, 'e');
+		    $context['page_minitools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), fa::_("edit"), 'edit', i18n::s('Press [e] to edit'), FALSE, 'e');
 	    }
 
 	    // post an image, if upload is allowed
 	    if($cur_article->allows('creation','image')) {
-		    $context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), fa::_("fa-image").' '.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
-		    $context['page_minitools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), fa::_("fa-image"), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
+		    $context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), fa::_("image").' '.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
+		    $context['page_minitools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), fa::_("image"), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 	    }
 
 	    // attach a file, if upload is allowed
 	    if($cur_article->allows('creation','file')) {
-		    $context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']),  fa::_("fa-file-o").' '.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
+		    $context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']),  fa::_("file-o").' '.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
 	    }
 
 	    // add a link
 	    if($cur_article->allows('creation','link')) {
-		    $context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('article:'.$item['id']), fa::_("fa-link").' '.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
+		    $context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('article:'.$item['id']), fa::_("link").' '.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
 	    }
 
 	    // comment this page if anchor does not prevent it --anonymous surfers will have it in main area
 	    if($cur_article->allows('creation','comment') && Surfer::get_id()) {
-		    $context['page_tools'][] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), fa::_("fa-commenting-o").' '.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
+		    $context['page_tools'][] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), fa::_("commenting-o").' '.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 	    }
 
 
 	    // access previous versions, if any
 	    if($has_versions && $cur_article->is_owned()) {
-		    $context['page_tools'][] = Skin::build_link(Versions::get_url('article:'.$item['id'], 'list'), fa::_("fa-magic").' '.i18n::s('Versions'), 'basic', i18n::s('Restore a previous version if necessary'));
+		    $context['page_tools'][] = Skin::build_link(Versions::get_url('article:'.$item['id'], 'list'), fa::_("magic").' '.i18n::s('Versions'), 'basic', i18n::s('Restore a previous version if necessary'));
 	    }
 
 	    // publish this page
         if($cur_article->allows('publication')) {
              if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) {
-                     $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), fa::_("fa-calendar-check-o").' '.i18n::s('Publish'));
-                     $context['page_minitools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), fa::_("fa-calendar-check-o"));
+                     $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), fa::_("calendar-check-o").' '.i18n::s('Publish'));
+                     $context['page_minitools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), fa::_("calendar-check-o"));
              }
          }
 
 	    // review various dates
 	    if($cur_article->allows('publication')) {
-		    $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'stamp'), fa::_("fa-clock-o").' '.i18n::s('Stamp'));
+		    $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'stamp'), fa::_("clock-o").' '.i18n::s('Stamp'));
 	    }
 
 	    // lock command provided to container and page owners
 	    if($cur_article->allows('locking')) {
 
 		    if(!isset($item['locked']) || ($item['locked'] == 'N')) {
-			    $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'lock'), fa::_("fa-lock").' '.i18n::s('Lock'));
+			    $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'lock'), fa::_("lock").' '.i18n::s('Lock'));
 		    } else {
-			    $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'lock'), fa::_("fa-unlock").' '.i18n::s('Unlock'));
+			    $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'lock'), fa::_("unlock").' '.i18n::s('Unlock'));
 		    }
 	    }
 
@@ -1260,14 +1260,14 @@ if(!isset($item['id'])) {
 	    if($cur_article->allows('deletion')) {
 		    if(!is_object($overlay) || (!$label = $overlay->get_label('delete_command', 'articles')))
 			    $label = i18n::s('Delete this page');
-		    $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'delete'), fa::_("fa-trash").' '.$label);
+		    $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'delete'), fa::_("trash").' '.$label);
 	    }
 
 	    // duplicate command provided to container owners
 	    if($cur_article->allows('duplicate')) {
 		    if(!is_object($overlay) || (!$label = $overlay->get_label('duplicate_command', 'articles')))
 			    $label = i18n::s('Duplicate this page');
-		    $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'duplicate'), fa::_("fa-copy").' '.$label);
+		    $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'duplicate'), fa::_("copy").' '.$label);
 	    }
 	}
 
