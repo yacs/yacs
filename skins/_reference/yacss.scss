@@ -870,3 +870,26 @@ figure {max-width: 100%;}
 .tipsy-e .tipsy-arrow { top: 50%; margin-top: -4px; right: 0; width: 5px; height: 9px; background-position: top right; }
 .tipsy-w .tipsy-arrow { top: 50%; margin-top: -4px; left: 0; width: 5px; height: 9px; }
 
+
+////////
+//
+// Special blocks
+//
+
+.caution {
+    padding : .5em;
+    border  : 1px solid $caution-color;
+    
+    & .fa:first-child {
+        color : $caution-color;
+    }
+}
+
+.note {
+    padding : .5em;
+    border  : 1px solid $note-color;
+    
+    & .fa:first-child {
+        color : $note-color;
+    }
+}

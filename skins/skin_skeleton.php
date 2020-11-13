@@ -278,9 +278,8 @@ Class Skin_Skeleton {
 			break;
 
 		case 'caution':
-			Skin::define_img('CAUTION_FLAG', 'codes/caution.gif', i18n::s('<b>Warning:</b> '), '!!!');
 			if($text)
-				$text = '<div class="caution"'.$id.'>'.CAUTION_FLAG.$text.'</div>';
+				$text = '<div class="caution"'.$id.'>'.fa::_('exclamation-triangle').'&nbsp;'.$text.'</div>';
 			break;
 
 		case 'center':
@@ -349,9 +348,8 @@ Class Skin_Skeleton {
 			break;
 
 		case 'note':
-			Skin::define_img('NOTICE_FLAG', 'codes/note.gif', i18n::s('<b>Note:</b> '));
 			if($text)
-				$text = '<div class="note"'.$id.'>'.NOTICE_FLAG.$text.'</div>';
+				$text = '<div class="note"'.$id.'>'.fa::_('sticky-note').'&nbsp;'.$text.'</div>';
 			break;
 
 		case 'page_title':
@@ -973,7 +971,7 @@ Class Skin_Skeleton {
 		if(is_array($text)) {
 			$concatenated = '';
 			foreach($text as $line)
-				$concatenated .= tag::_p(fa::_('warning').' '.$line,'k/mbn');
+				$concatenated .= tag::_p(fa::_('exclamation-triangle').' '.$line,'k/mbn');
 			$text = $concatenated;
 		}
 
