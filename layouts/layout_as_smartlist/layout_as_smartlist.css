@@ -13,12 +13,16 @@
 
 
 /* <li> contain already icons */
-.smartlist {list-style:none;}
+.smartlist {
+    list-style      :none;
+}
 
 /*ensure floating element are overlapped*/
 .smartlist li {
-    overflow: hidden;
-    background : none; /* avoid icons putted by some reference theme */
+    overflow        : hidden;
+    background      : none; /* avoid icons putted by some reference theme */
+    display         : flex;
+    align-items     : center;
 }
 
 #main_panel .smartlist li {
@@ -27,11 +31,10 @@
 
 /*contain title and intro*/
 .smartlist .label {
-    overflow: hidden;	/*content don't go under icon*/
+    overflow        : hidden;	/*content don't go under icon*/
 }
 
 /*contain icon, float left*/
 .smartlist .icon {
-    float: left;
-    margin-right: 0.6em;
+    margin-right    : 0.6em;
 }

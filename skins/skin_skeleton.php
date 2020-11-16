@@ -2385,7 +2385,7 @@ Class Skin_Skeleton {
 		}
 
 		// a bare reference to an image
-		if($default_icon && (strpos($default_icon, '<img ') === FALSE))
+		if($default_icon && (strpos($default_icon, '<i') === FALSE))
 			$default_icon = '<img src="'.$default_icon.'" alt="" class="reflect" />';
 		elseif($default_icon)
 			;
