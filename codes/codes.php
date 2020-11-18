@@ -393,7 +393,7 @@ Class Codes {
 	public static function initialize($main_target=NULL) {
 		global $context;
                 
-                if(!strncmp($main_target, 'http://', 7))
+                if(preg_match('/^https?:\/\//',$main_target))
                       ;
                 else
                     $main_target = $context['url_to_root'].$main_target;
