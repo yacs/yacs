@@ -217,15 +217,16 @@ if(!$permitted) {
 			$user['password']	= 'az'.rand(1000, 9999);
 			$user['confirm']	= $user['password'];
 		}
-		$user['with_newsletters'] = 'Y';
-		$user['capability'] = 'A';	// make this user profile an associate
-		$user['active'] 	= 'Y';
-		$user['create_name'] = 'setup';
-		$user['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$user['edit_name']	= 'setup';
-		$user['edit_date']	= gmstrftime('%Y-%m-%d %H:%M:%S');
-		$user['interface']	= 'C';	// access all configuration panels
-		$user['login_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$user['with_newsletters']   = 'Y';
+		$user['capability']         = 'A';	// make this user profile an associate
+		$user['active']             = 'Y';
+		$user['create_name']        = 'setup';
+		$user['create_date']        = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$user['edit_name']          = 'setup';
+		$user['edit_date']          = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$user['interface']          = 'C';	// access all configuration panels
+		$user['login_date']         = gmstrftime('%Y-%m-%d %H:%M:%S');
+                $user['usage_agreement']    = 'Y';
 
 		// display error, if any
 		if(!Users::post($user)) {
