@@ -170,6 +170,10 @@ else
 // load the skin, maybe with a variant
 load_skin('categories', $anchor, isset($item['options']) ? $item['options'] : '');
 
+// display the tab we are in
+if(is_object($anchor))
+	$context['current_focus'] = $anchor->get_focus();
+
 // current item
 if(isset($item['id']))
 	$context['current_item'] = 'category:'.$item['id'];
