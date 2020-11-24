@@ -325,7 +325,7 @@ if(!$permitted) {
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
 		$fields['rank'] = '1000'; // before other special sections
-		$fields['content_options'] = 'auto_publish'; // these will be reviewed anyway
+		$fields['content_options'] = 'auto_publish no_comments'; // these will be reviewed anyway
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
 		else
