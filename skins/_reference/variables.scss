@@ -1,13 +1,13 @@
-/**
- * variables for any scss compilation.
- * could be overiden by a tune.scss in your skin folder
- *
- * @see skins/_reference/yacss.scss for usage
- *
- * $author Alexis Raimbault
- * $reference
- * $license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
- */
+////////////
+// variables for any scss compilation.
+// could be overiden by a tune.scss in your skin folder
+//
+// @see skins/_reference/yacss.scss for usage
+//
+// $author Alexis Raimbault
+// $reference
+// $license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+//
 
 
 ////////////
@@ -52,3 +52,16 @@ $color-modal              : #FFF !default;                          // back of m
 // special block
 $caution-color            : indianred !default;
 $note-color               : steelblue !default;
+
+
+// ----------------
+// Breakpoints zone
+// ----------------
+
+// Warning: you should use your own values, regardless of the devices
+// Best practice is Mobile First: (min-width: $breakpoint)
+$tiny        : 480px !default; // or 'em' if you prefer, of course
+$small       : 576px !default;
+$medium      : 768px !default;
+$large       : 992px !default;
+$extra-large : 1200px !default;

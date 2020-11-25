@@ -172,7 +172,7 @@ abstract Class Layout_interface {
 	    
 	    // load scripts (if exist)
 	    Page::load_style(strtolower('layouts/'.$myclass.'/'.$myclass.'.css'));
-            Page::load_style(strtolower('layouts/'.$myclass.'/'.$myclass.'.less'));
+            Page::load_style(strtolower('layouts/'.$myclass.'/'.$myclass.'.scss'));
 	    Page::defer_script(strtolower('layouts/'.$myclass.'/'.$myclass.'.js'));
 	    
 	    // recursive call to parent class, stop on "Layout_interface"

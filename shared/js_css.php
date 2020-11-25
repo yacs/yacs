@@ -226,7 +226,12 @@ Class Js_Css {
             $to_compile .= Safe::file_get_contents($context['path_to_root'].$context['skin'].'/tune.scss');
         
             // load variables from reference
-            $to_compile .= Safe::file_get_contents($context['path_to_root'].'skins/_reference/variables.scss');
+            if(!defined('NO_YACSS') || NO_YACSS !== true)
+                $to_compile .= Safe::file_get_contents($context['path_to_root'].'skins/_reference/variables.scss');
+            
+            // load variables from knacss
+            if(!defined('NO_KNACSS') || NO_KNACSS !== true)
+                $to_compile .= Safe::file_get_contents($context['path_to_root'].'included/knacss/_config/_variables.scss');
             
             // load input file
             $to_compile .= Safe::file_get_contents($inputFile);
