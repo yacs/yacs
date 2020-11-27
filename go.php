@@ -81,6 +81,10 @@ $context['page_title'] = i18n::s('Page locator');
 // ensure we have a non-empty string
 if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 	$context['text'] .= '<p>'.i18n::s('Please indicate a nick name to look for.')."</p>\n";
+        
+// allow one hook here        
+} elseif(is_callable(array('Hooks', 'serve_scripts')) && $url = Hooks::serve_scripts('go.php', $id)) {
+                Safe::redirect($url);
 
 // short link to some article
 } elseif(!strncmp($id, 'a~', 2) && ($item = Articles::get(restore_number(substr($id, 2))))) {
@@ -176,5 +180,3 @@ if($id) {
 
 // render the skin
 render_skin();
-
-?>
