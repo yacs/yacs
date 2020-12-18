@@ -105,7 +105,7 @@ Class Skin_Skeleton {
             // get text from $context or default if nothing provided
             if(!$text) {
                 
-                $text = (isset($context['usage_agreement_text']))? $context['usage_agreement_text'] : 
+                $text = ($context['usage_agreement_text'])? $context['usage_agreement_text'] : 
                             i18n::s('By submitting your personnal data you recognize having knowledge of [our privacy statement|privacy].');
                 
             }
