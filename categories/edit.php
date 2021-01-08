@@ -121,14 +121,6 @@ if(isset($item['title']))
 elseif(!is_object($overlay) || (!$context['page_title'] = $overlay->get_label('page_title', 'new')))
 	$context['page_title'] = i18n::s('Add a category');
 
-// validate input syntax
-if(isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y')) {
-	if(isset($_REQUEST['introduction']))
-		xml::validate($_REQUEST['introduction']);
-	if(isset($_REQUEST['description']))
-		xml::validate($_REQUEST['description']);
-}
-
 // adjust dates from surfer time zone to UTC time zone
 if(isset($_REQUEST['expiry_date']))
 	$_REQUEST['expiry_date'] = Surfer::to_GMT($_REQUEST['expiry_date']);
@@ -774,9 +766,6 @@ if($with_form) {
 	// do not stamp edition date -- complex command
 	if(Surfer::is_empowered() && isset($item['id']) && Surfer::has_all())
 		$input[] = '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date.');
-
-	// validate page content
-	$input[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
 
 	// append post-processing options
 	if($input)

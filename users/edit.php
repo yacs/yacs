@@ -142,14 +142,6 @@ elseif(Surfer::is_associate())
 else
 	$context['page_title'] = i18n::s('Register on this server');
 
-// validate input syntax only if required
-if(isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y')) {
-	if(isset($_REQUEST['introduction']))
-		xml::validate($_REQUEST['introduction']);
-	if(isset($_REQUEST['description']))
-		xml::validate($_REQUEST['description']);
-}
-
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
@@ -823,11 +815,6 @@ if($with_form) {
 		$prefix[] = Skin::build_agreement_checkbox ('usage_agreement');
         } elseif($is_create_by_a) {
                 $prefix[] = '<input type=hidden name=usage_agreement value=N />'; 
-        }
-
-	// validate page content
-        if(Surfer::is_associate()) {
-            $suffix[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
         }
         
         // do not display tags field on registering

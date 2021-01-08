@@ -68,12 +68,6 @@ $context['path_bar'] = array( 'sections/' => i18n::s('Site map') );
 // the title of the page
 $context['page_title'] = i18n::s('Create a new web space');
 
-// always validate input syntax
-if(isset($_REQUEST['introduction']))
-	xml::validate($_REQUEST['introduction']);
-if(isset($_REQUEST['description']))
-	xml::validate($_REQUEST['description']);
-
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);

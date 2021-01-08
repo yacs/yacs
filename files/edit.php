@@ -158,12 +158,6 @@ elseif(isset($item['file_name']))
 elseif(!is_object($overlay) || (!$context['page_title'] = $overlay->get_label('page_title', 'new')))
 	$context['page_title'] = i18n::s('Add a file');
 
-// validate input syntax only if required
-if(isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y')) {
-	if(isset($_REQUEST['description']))
-		xml::validate($_REQUEST['description']);
-}
-
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
@@ -752,8 +746,6 @@ if($with_form) {
                     if((Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) && Surfer::has_all())
                             $context['text'] .= '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the main page.').BR;
 
-            // validate page content
-            $context['text'] .= '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').'</p>';
         
         }
 
