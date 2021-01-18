@@ -120,7 +120,7 @@ if(!isset($item['id'])) {
 		if(is_object($overlay) && $back_url = $overlay->get_url_after_deleting()) {
                         Safe::redirect($back_url);
                 } elseif(is_object($anchor))
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
+			Safe::redirect($anchor->get_url());
 		else
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].'sections/');
 	}
