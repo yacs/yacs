@@ -1359,6 +1359,11 @@ function render_skin($with_last_modified=TRUE) {
                 Page::load_style('included/trumbowyg/plugins/table/ui/trumbowyg.table.min.css');
                 Page::defer_script('included/trumbowyg/plugins/table/trumbowyg.table.min.js');
             }
+            // plugin colors if asked
+            if(strpos($context['wysiwyg_toolbar'], 'foreColor') !== null || strpos($context['wysiwyg_toolbar'], 'backColor') !== null) {
+                Page::load_style('included/trumbowyg/plugins/colors/ui/trumbowyg.colors.min.css');
+                Page::defer_script('included/trumbowyg/plugins/colors/trumbowyg.colors.min.js');
+            }
             //language file if any
             if(Safe::filesize('included/trumbowyg/langs/'.$context['language'].'.min.js')) {
                 Page::defer_script('included/trumbowyg/langs/'.$context['language'].'.min.js');
