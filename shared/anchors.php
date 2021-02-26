@@ -317,6 +317,11 @@ class Anchors {
 			$anchor = new Category();
 			$anchor->load_by_id($attributes[1], $mutable);
 			break;
+                case 'comment':
+                        include_once $context['path_to_root'].'comments/comment.php';
+			$anchor = new Comment();
+			$anchor->load_by_id($attributes[1], $mutable);
+                        break;
 		case 'file':
 			include_once $context['path_to_root'].'files/file.php';
 			$anchor = new File();
