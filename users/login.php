@@ -197,7 +197,7 @@ if(Surfer::is_crawler()) {
 			Surfer::set($poster, $update_flag);
 
 			// redirect to target page
-			Safe::redirect(full_link($anchor->get_url()));
+			Safe::redirect($anchor->get_permalink());
 
 		}
 
