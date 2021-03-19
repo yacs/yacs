@@ -54,6 +54,8 @@ if(file_exists($context['path_to_root'].'skins/'.$skin.'/template.php'))
 
 // load the skin
 load_skin('skins');
+// do not crawl this page
+$context->sif('robots','noindex');
 
 if(!defined('DUMMY_TEXT'))
 	define('DUMMY_TEXT', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
@@ -61,247 +63,259 @@ if(!defined('DUMMY_TEXT'))
 		.' Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
 		.' Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
 
-$items = array('_1' => 'Lorem ipsum dolor sit amet', '_2' => 'Excepteur sint occaecat cupidatat non proident', '_3' => 'Ut enim ad minim veniam');
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
-define('COMPACT_LIST', Skin::build_list($items, 'compact'));
+// anonymous users are invited to log in or to register
+} elseif(!Surfer::is_logged()) {
+	Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('skins/test.php'));
 
-// // $context['error'] - to report run time errors
-if($context['with_debug'] == 'Y')
-	Logger::error(i18n::s('error messages, if any'));
+        
+} else {
 
-// minimum site parameters
-if(!$context['site_name'])
-	$context['site_name'] = i18n::s('Site name');
-if(!$context['site_slogan'])
-	$context['site_slogan'] = i18n::s('Site slogan');
+    $items = array('_1' => 'Lorem ipsum dolor sit amet', '_2' => 'Excepteur sint occaecat cupidatat non proident', '_3' => 'Ut enim ad minim veniam');
 
-// $context['navigation'] - navigation boxes
-$context['navigation'] .= Skin::build_box(i18n::s('navigation').' 1', DUMMY_TEXT, 'navigation');
-$context['navigation'] .= Skin::build_box(i18n::s('navigation').' 2', COMPACT_LIST, 'navigation');
+    define('COMPACT_LIST', Skin::build_list($items, 'compact'));
 
-// $context['extra'] - extra boxes
-$context['extra'] .= Skin::build_box(i18n::s('extra').' 1', DUMMY_TEXT, 'extra');
-$context['extra'] .= Skin::build_box(i18n::s('extra').' 2', COMPACT_LIST, 'extra');
+    // // $context['error'] - to report run time errors
+    if($context['with_debug'] == 'Y')
+            Logger::error(i18n::s('error messages, if any'));
 
-// $context['extra'] - a fake contextual menu
-$text = Skin::build_tree(array(array('#', '', i18n::s('menu').' 1', '', 'close'),
-	array('#', '', i18n::s('menu').' 2', '', 'open', '', '',
-		array(array('#', '', i18n::s('menu').' 2.1', '', 'close'),
-			array('#', '', i18n::s('menu').' 2.2', '', 'open', '', '',
-				array(array('#', '', i18n::s('menu').' 2.2.1', '', 'close'),
-					array('#', '', i18n::s('menu').' 2.2.2', '', 'open', '', '',
-						array(array('#', '', i18n::s('menu').' 2.2.2.1', '', 'close'),
-							array('#', '', i18n::s('menu').' 2.2.2.2', '', 'open', '', '',
-								array(array('#', '', i18n::s('menu').' 2.2.2.2.1', '', 'close'),
-								array('#', '', i18n::s('menu').' 2.2.2.2.2', '', 'close'),
-								array('#', '', i18n::s('menu').' 2.2.2.2.3', '', 'close'),
-								array('#', '', i18n::s('menu').' 2.2.2.2.4', '', 'close'),
-								array('#', '', i18n::s('menu').' 2.2.2.2.5', '', 'open'),
-								array('#', '', i18n::s('menu').' 2.2.2.2.6', '', 'close')
-								)),
-							array('#', '', i18n::s('menu').' 2.2.2.3', '', 'close')
-						)),
-					array('#', '', i18n::s('menu').' 2.2.3', '', 'close')
-				)),
-			array('#', '', i18n::s('menu').' 2.3', '', 'close')
-		)),
-	array('#', '', i18n::s('menu').' 3', '', 'close'),
-	array('#', '', i18n::s('menu').' 4', '', 'close')
-	));
-$context['components']['contextual'] = Skin::build_box(i18n::s('contextual menu'), $text, 'contextual', 'contextual_menu');
+    // minimum site parameters
+    if(!$context['site_name'])
+            $context['site_name'] = i18n::s('Site name');
+    if(!$context['site_slogan'])
+            $context['site_slogan'] = i18n::s('Site slogan');
 
-// $context['page_author'] - the author
-$context['page_author'] = 'webmaestro, through some PHP script';
+    // $context['navigation'] - navigation boxes
+    $context['navigation'] .= Skin::build_box(i18n::s('navigation').' 1', DUMMY_TEXT, 'navigation');
+    $context['navigation'] .= Skin::build_box(i18n::s('navigation').' 2', COMPACT_LIST, 'navigation');
 
-// back to skin index
-$context['page_menu'] += array( 'skins/' => i18n::s('Themes') );
+    // $context['extra'] - extra boxes
+    $context['extra'] .= Skin::build_box(i18n::s('extra').' 1', DUMMY_TEXT, 'extra');
+    $context['extra'] .= Skin::build_box(i18n::s('extra').' 2', COMPACT_LIST, 'extra');
 
-// edit this skin
-if(isset($skin) && Surfer::is_associate())
-	$context['page_menu'] += array( 'skins/edit.php?skin='.$skin => i18n::s('Edit this theme') );
+    // $context['extra'] - a fake contextual menu
+    $text = Skin::build_tree(array(array('#', '', i18n::s('menu').' 1', '', 'close'),
+            array('#', '', i18n::s('menu').' 2', '', 'open', '', '',
+                    array(array('#', '', i18n::s('menu').' 2.1', '', 'close'),
+                            array('#', '', i18n::s('menu').' 2.2', '', 'open', '', '',
+                                    array(array('#', '', i18n::s('menu').' 2.2.1', '', 'close'),
+                                            array('#', '', i18n::s('menu').' 2.2.2', '', 'open', '', '',
+                                                    array(array('#', '', i18n::s('menu').' 2.2.2.1', '', 'close'),
+                                                            array('#', '', i18n::s('menu').' 2.2.2.2', '', 'open', '', '',
+                                                                    array(array('#', '', i18n::s('menu').' 2.2.2.2.1', '', 'close'),
+                                                                    array('#', '', i18n::s('menu').' 2.2.2.2.2', '', 'close'),
+                                                                    array('#', '', i18n::s('menu').' 2.2.2.2.3', '', 'close'),
+                                                                    array('#', '', i18n::s('menu').' 2.2.2.2.4', '', 'close'),
+                                                                    array('#', '', i18n::s('menu').' 2.2.2.2.5', '', 'open'),
+                                                                    array('#', '', i18n::s('menu').' 2.2.2.2.6', '', 'close')
+                                                                    )),
+                                                            array('#', '', i18n::s('menu').' 2.2.2.3', '', 'close')
+                                                    )),
+                                            array('#', '', i18n::s('menu').' 2.2.3', '', 'close')
+                                    )),
+                            array('#', '', i18n::s('menu').' 2.3', '', 'close')
+                    )),
+            array('#', '', i18n::s('menu').' 3', '', 'close'),
+            array('#', '', i18n::s('menu').' 4', '', 'close')
+            ));
+    $context['components']['contextual'] = Skin::build_box(i18n::s('contextual menu'), $text, 'contextual', 'contextual_menu');
 
-// validate at w3c
-$context['page_menu'] += array( 'http://validator.w3.org/check?uri=referer' => array('', i18n::s('Validate at w3c'), '', 'span') );
+    // $context['page_author'] - the author
+    $context['page_author'] = 'webmaestro, through some PHP script';
 
-// use this skin for the site
-if(isset($skin) && Surfer::is_associate())
-	$context['page_menu'] += array('control/configure.php?parameter=skin&amp;value=skins/'.$skin => i18n::s('Use this theme'));
+    // back to skin index
+    $context['page_menu'] += array( 'skins/' => i18n::s('Themes') );
 
-// derive this skin
-if(isset($skin) && Surfer::is_associate())
-	$context['page_menu'] += array('skins/derive.php?skin='.$skin => i18n::s('Derive this theme'));
+    // edit this skin
+    if(isset($skin) && Surfer::is_associate())
+            $context['page_menu'] += array( 'skins/edit.php?skin='.$skin => i18n::s('Edit this theme') );
 
-// $context['page_publisher'] - the publisher
-$context['page_publisher'] = 'webmaestro again, still through some PHP script';
+    // validate at w3c
+    $context['page_menu'] += array( 'http://validator.w3.org/check?uri=referer' => array('', i18n::s('Validate at w3c'), '', 'span') );
 
-// page tags
-$context['page_tags'] = i18n::s('<a>tag 1</a> <a>tag 2</a>');
+    // use this skin for the site
+    if(isset($skin) && Surfer::is_associate())
+            $context['page_menu'] += array('control/configure.php?parameter=skin&amp;value=skins/'.$skin => i18n::s('Use this theme'));
 
-// $context['page_title'] - the title of the page
-$context['page_title'] = i18n::s('Theme test');
+    // derive this skin
+    if(isset($skin) && Surfer::is_associate())
+            $context['page_menu'] += array('skins/derive.php?skin='.$skin => i18n::s('Derive this theme'));
 
-// $context['path_bar'] - back to other sections
-$context['path_bar'] = array( 'skins/' => i18n::s('Themes'));
+    // $context['page_publisher'] - the publisher
+    $context['page_publisher'] = 'webmaestro again, still through some PHP script';
 
-// $context['prefix'] - also list skins available on this system
-$context['prefix'] .= '<form method="get" action="'.$context['script_url'].'"><p>';
-$context['prefix'] .= i18n::s('Theme to test').' <select name="skin">';
-if ($dir = Safe::opendir("../skins")) {
+    // page tags
+    $context['page_tags'] = i18n::s('<a>tag 1</a> <a>tag 2</a>');
 
-	// valid skins have a template.php
-	$skins = array();
-	while(($file = Safe::readdir($dir)) !== FALSE) {
-		if(($file[0] == '.') || !is_dir('../skins/'.$file))
-			continue;
-		if(!file_exists('../skins/'.$file.'/template.php'))
-			continue;
-		$checked = '';
-		if($context['skin'] == 'skins/'.$file)
-			$checked = ' selected="selected"';
-		$skins[] = '<option value="'.$file.'"'.$checked.'>'.$file."</option>\n";
-	}
-	Safe::closedir($dir);
-	if(count($skins)) {
-		natsort($skins);
-		foreach($skins as $skin)
-			$context['prefix'] .= $skin;
-	}
+    // $context['page_title'] - the title of the page
+    $context['page_title'] = i18n::s('Theme test');
+
+    // $context['path_bar'] - back to other sections
+    $context['path_bar'] = array( 'skins/' => i18n::s('Themes'));
+
+    // $context['prefix'] - also list skins available on this system
+    $context['prefix'] .= '<form method="get" action="'.$context['script_url'].'"><p>';
+    $context['prefix'] .= i18n::s('Theme to test').' <select name="skin">';
+    if ($dir = Safe::opendir("../skins")) {
+
+            // valid skins have a template.php
+            $skins = array();
+            while(($file = Safe::readdir($dir)) !== FALSE) {
+                    if(($file[0] == '.') || !is_dir('../skins/'.$file))
+                            continue;
+                    if(!file_exists('../skins/'.$file.'/template.php'))
+                            continue;
+                    $checked = '';
+                    if($context['skin'] == 'skins/'.$file)
+                            $checked = ' selected="selected"';
+                    $skins[] = '<option value="'.$file.'"'.$checked.'>'.$file."</option>\n";
+            }
+            Safe::closedir($dir);
+            if(count($skins)) {
+                    natsort($skins);
+                    foreach($skins as $skin)
+                            $context['prefix'] .= $skin;
+            }
+    }
+    $context['prefix'] .= '</select> '.Skin::build_submit_button(i18n::s('Go')).'</p></form>';
+
+    // $context['prefix'] - some prefix data
+    $context['prefix'] .= '<p>'.sprintf(i18n::s('Use this page while developing or checking a theme, then activate the theme and move to %s to finalize your work.'), Skin::build_link('codes/', i18n::s('help pages on YACS codes'), 'shortcut')).'</p>';
+
+    // several panels
+    $panels = array();
+
+    // regular panel
+    // will be derived to $context['text'] after codes::beautify()
+    $text = '';
+
+    // $context['text'] - introduction
+    $text .= Skin::build_block(DUMMY_TEXT, 'introduction');
+
+    // surfer profile
+    if(!$user_id = Surfer::get_id())
+            $user_id = 1;
+
+    // newest article
+    $article_id = 1;
+    if($item = Articles::get_newest_for_anchor(NULL, TRUE))
+            $article_id = $item['id'];
+
+    // newest file
+    $file_id = 1;
+    if($item = Files::get_newest())
+            $file_id = $item['id'];
+
+    $compact_items = array('[article='.$article_id.']',
+            '[section='.Sections::get_default().']',
+            '[category=featured]',
+            '[user='.$user_id.']',
+            '[download='.$file_id.']',
+            '[email]foo@bar.com[/email]',
+            '[link=Cisco]http://www.cisco.com/[/link]',
+            '[script]skins/test.php[/script]',
+            Skin::build_link('skins/test.php', 'skins/test.php', 'shortcut'),
+            Skin::strip(DUMMY_TEXT, 7, 'skins/test.php'),
+            RESTRICTED_FLAG.i18n::s('Community - Access is granted to any identified surfer'),
+            PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons'),
+            i18n::s('This item is new').NEW_FLAG,
+            i18n::s('This item has been updated').UPDATED_FLAG,
+            DRAFT_FLAG.i18n::s('This item is a draft, and is not publicly visible') );
+
+    // $context['text'] - basic content with links, etc.
+    $text .= '[toc]'.DUMMY_TEXT."\n"
+
+            .'<ul>'."\n"
+            .'<li>[article='.$article_id.']</li>'."\n"
+            .'<li>[section='.Sections::get_default().']</li>'."\n"
+            .'<li>[category=featured]</li>'."\n"
+            .'<li>[user='.$user_id.']</li>'."\n"
+            .'<li>[download='.$file_id.']</li>'."\n"
+            .'<li>[email]foo@bar.com[/email]</li>'."\n"
+            .'<li>[link=Cisco]http://www.cisco.com/[/link]</li>'."\n"
+            .'<li>[script]skins/test.php[/script]</li>'."\n"
+            .'<li>'.Skin::build_link('skins/test.php', 'skins/test.php', 'shortcut').'</li>'."\n"
+            .'<li>'.Skin::strip(DUMMY_TEXT, 7, 'skins/test.php').'</li>'."\n"
+            .'<li>'.RESTRICTED_FLAG.i18n::s('Community - Access is granted to any identified surfer').'</li>'."\n"
+            .'<li>'.PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons').'</li>'."\n"
+            .'<li>'.i18n::s('This item is new').NEW_FLAG.'</li>'."\n"
+            .'<li>'.i18n::s('This item has been updated').UPDATED_FLAG.'</li>'."\n"
+            .'<li>'.DRAFT_FLAG.i18n::s('This item is a draft, and is not publicly visible').'</li>'."\n"
+            .'</ul>'."\n"
+
+            .'<p>'.DUMMY_TEXT."</p>\n"
+
+            .Skin::finalize_list($compact_items, 'compact')
+
+            .'<p>'.DUMMY_TEXT."</p>\n"
+
+            .'<div class="menu_bar">[button='.i18n::s('Click to reload this page').']skins/test.php[/button]</div>'."\n"
+
+            .'<p>'.DUMMY_TEXT."</p>\n"
+
+            .' [title]'.i18n::s('level 1 title').'[/title] '."\n".DUMMY_TEXT."\n"
+            .' [subtitle]'.i18n::s('level 2 title').'[/subtitle] '."\n".DUMMY_TEXT;
+
+    // a sidebar
+    $sidebar = Skin::build_box(i18n::s('sidebar box'), DUMMY_TEXT, 'sidebar');
+
+    // $context['text'] - section with sidebar box
+    $text .= Skin::build_box(i18n::s('with a sidebar box'), $sidebar.'<p>'.DUMMY_TEXT.'</p><p>'.DUMMY_TEXT.'</p>');
+
+    // a folded box
+    $folder = Skin::build_box(i18n::s('folded box'), DUMMY_TEXT, 'folded');
+
+    // $context['text'] - section with folded box
+    $text .= Skin::build_box(i18n::s('with a folded box'), DUMMY_TEXT.$folder.DUMMY_TEXT);
+
+    // a menu bar
+    $menu_bar = array('skins/test.php' => i18n::s('Test page'), 'skins/' => i18n::s('Themes'), 'scripts/' => i18n::s('Server software'));;
+
+    // $context['text'] - section with a menu bar
+    $text .= Skin::build_box(i18n::s('with a menu bar'), DUMMY_TEXT.Skin::build_list($menu_bar, 'menu_bar').DUMMY_TEXT);
+
+    // page neighbours
+    $neighbours = array('#previous', i18n::s('Previous'), '#next', i18n::s('Next'), '', '<a class="pager-item">1</a> &nbsp; <a class="pager-current">2</a>');
+
+    // $context['text'] - section with neighbours
+    $text .= Skin::build_box(i18n::s('with neighbours'), DUMMY_TEXT.Skin::neighbours($neighbours, 'slideshow'));
+
+    // user profile at page bottom
+    $user = array();
+    $user['id'] = $user_id;
+    $user['nick_name'] = 'Geek101';
+    $user['introduction'] = DUMMY_TEXT;
+    $text .= Skin::build_profile($user, 'suffix');
+
+    // finalize this panel
+    $panels[] = array('b', i18n::s('Text'), 'b_panel', Codes::beautify($text));
+
+    // gadgets panel
+    //
+    $text = DUMMY_TEXT;
+
+    // $context['text'] - with gadgets -- see index.php and sections/view.php
+    $text .= "\n".'<p id="gadgets_prefix"> </p>'."\n"
+            .Skin::build_box(i18n::s('gadget').' 1', DUMMY_TEXT, 'gadget')
+            .Skin::build_box(i18n::s('gadget').' 2', DUMMY_TEXT, 'gadget')
+            .Skin::build_box(i18n::s('gadget').' 3', DUMMY_TEXT, 'gadget')
+            .Skin::build_box(i18n::s('gadget').' 4', DUMMY_TEXT, 'gadget')
+            .Skin::build_box(i18n::s('gadget').' 5', DUMMY_TEXT, 'gadget')
+            .Skin::build_box(i18n::s('gadget').' 6', DUMMY_TEXT, 'gadget')
+            .'<p id="gadgets_suffix"> </p>'."\n";
+
+    // finalize this panel
+    $panels[] = array('g', i18n::s('Gadgets'), 'g_panel', Codes::beautify($text));
+
+    // assemble all panels
+    //
+    $context['text'] .= Skin::build_tabs($panels);
+
 }
-$context['prefix'] .= '</select> '.Skin::build_submit_button(i18n::s('Go')).'</p></form>';
-
-// $context['prefix'] - some prefix data
-$context['prefix'] .= '<p>'.sprintf(i18n::s('Use this page while developing or checking a theme, then activate the theme and move to %s to finalize your work.'), Skin::build_link('codes/', i18n::s('help pages on YACS codes'), 'shortcut')).'</p>';
-
-// several panels
-$panels = array();
-
-// regular panel
-// will be derived to $context['text'] after codes::beautify()
-$text = '';
-
-// $context['text'] - introduction
-$text .= Skin::build_block(DUMMY_TEXT, 'introduction');
-
-// surfer profile
-if(!$user_id = Surfer::get_id())
-	$user_id = 1;
-
-// newest article
-$article_id = 1;
-if($item = Articles::get_newest_for_anchor(NULL, TRUE))
-	$article_id = $item['id'];
-
-// newest file
-$file_id = 1;
-if($item = Files::get_newest())
-	$file_id = $item['id'];
-
-$compact_items = array('[article='.$article_id.']',
-	'[section='.Sections::get_default().']',
-	'[category=featured]',
-	'[user='.$user_id.']',
-	'[download='.$file_id.']',
-	'[email]foo@bar.com[/email]',
-	'[link=Cisco]http://www.cisco.com/[/link]',
-	'[script]skins/test.php[/script]',
-	Skin::build_link('skins/test.php', 'skins/test.php', 'shortcut'),
-	Skin::strip(DUMMY_TEXT, 7, 'skins/test.php'),
-	RESTRICTED_FLAG.i18n::s('Community - Access is granted to any identified surfer'),
-	PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons'),
-	i18n::s('This item is new').NEW_FLAG,
-	i18n::s('This item has been updated').UPDATED_FLAG,
-	DRAFT_FLAG.i18n::s('This item is a draft, and is not publicly visible') );
-
-// $context['text'] - basic content with links, etc.
-$text .= '[toc]'.DUMMY_TEXT."\n"
-
-	.'<ul>'."\n"
-	.'<li>[article='.$article_id.']</li>'."\n"
-	.'<li>[section='.Sections::get_default().']</li>'."\n"
-	.'<li>[category=featured]</li>'."\n"
-	.'<li>[user='.$user_id.']</li>'."\n"
-	.'<li>[download='.$file_id.']</li>'."\n"
-	.'<li>[email]foo@bar.com[/email]</li>'."\n"
-	.'<li>[link=Cisco]http://www.cisco.com/[/link]</li>'."\n"
-	.'<li>[script]skins/test.php[/script]</li>'."\n"
-	.'<li>'.Skin::build_link('skins/test.php', 'skins/test.php', 'shortcut').'</li>'."\n"
-	.'<li>'.Skin::strip(DUMMY_TEXT, 7, 'skins/test.php').'</li>'."\n"
-	.'<li>'.RESTRICTED_FLAG.i18n::s('Community - Access is granted to any identified surfer').'</li>'."\n"
-	.'<li>'.PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons').'</li>'."\n"
-	.'<li>'.i18n::s('This item is new').NEW_FLAG.'</li>'."\n"
-	.'<li>'.i18n::s('This item has been updated').UPDATED_FLAG.'</li>'."\n"
-	.'<li>'.DRAFT_FLAG.i18n::s('This item is a draft, and is not publicly visible').'</li>'."\n"
-	.'</ul>'."\n"
-
-	.'<p>'.DUMMY_TEXT."</p>\n"
-
-	.Skin::finalize_list($compact_items, 'compact')
-
-	.'<p>'.DUMMY_TEXT."</p>\n"
-
-	.'<div class="menu_bar">[button='.i18n::s('Click to reload this page').']skins/test.php[/button]</div>'."\n"
-
-	.'<p>'.DUMMY_TEXT."</p>\n"
-
-	.' [title]'.i18n::s('level 1 title').'[/title] '."\n".DUMMY_TEXT."\n"
-	.' [subtitle]'.i18n::s('level 2 title').'[/subtitle] '."\n".DUMMY_TEXT;
-
-// a sidebar
-$sidebar = Skin::build_box(i18n::s('sidebar box'), DUMMY_TEXT, 'sidebar');
-
-// $context['text'] - section with sidebar box
-$text .= Skin::build_box(i18n::s('with a sidebar box'), $sidebar.'<p>'.DUMMY_TEXT.'</p><p>'.DUMMY_TEXT.'</p>');
-
-// a folded box
-$folder = Skin::build_box(i18n::s('folded box'), DUMMY_TEXT, 'folded');
-
-// $context['text'] - section with folded box
-$text .= Skin::build_box(i18n::s('with a folded box'), DUMMY_TEXT.$folder.DUMMY_TEXT);
-
-// a menu bar
-$menu_bar = array('skins/test.php' => i18n::s('Test page'), 'skins/' => i18n::s('Themes'), 'scripts/' => i18n::s('Server software'));;
-
-// $context['text'] - section with a menu bar
-$text .= Skin::build_box(i18n::s('with a menu bar'), DUMMY_TEXT.Skin::build_list($menu_bar, 'menu_bar').DUMMY_TEXT);
-
-// page neighbours
-$neighbours = array('#previous', i18n::s('Previous'), '#next', i18n::s('Next'), '', '<a class="pager-item">1</a> &nbsp; <a class="pager-current">2</a>');
-
-// $context['text'] - section with neighbours
-$text .= Skin::build_box(i18n::s('with neighbours'), DUMMY_TEXT.Skin::neighbours($neighbours, 'slideshow'));
-
-// user profile at page bottom
-$user = array();
-$user['id'] = $user_id;
-$user['nick_name'] = 'Geek101';
-$user['introduction'] = DUMMY_TEXT;
-$text .= Skin::build_profile($user, 'suffix');
-
-// finalize this panel
-$panels[] = array('b', i18n::s('Text'), 'b_panel', Codes::beautify($text));
-
-// gadgets panel
-//
-$text = DUMMY_TEXT;
-
-// $context['text'] - with gadgets -- see index.php and sections/view.php
-$text .= "\n".'<p id="gadgets_prefix"> </p>'."\n"
-	.Skin::build_box(i18n::s('gadget').' 1', DUMMY_TEXT, 'gadget')
-	.Skin::build_box(i18n::s('gadget').' 2', DUMMY_TEXT, 'gadget')
-	.Skin::build_box(i18n::s('gadget').' 3', DUMMY_TEXT, 'gadget')
-	.Skin::build_box(i18n::s('gadget').' 4', DUMMY_TEXT, 'gadget')
-	.Skin::build_box(i18n::s('gadget').' 5', DUMMY_TEXT, 'gadget')
-	.Skin::build_box(i18n::s('gadget').' 6', DUMMY_TEXT, 'gadget')
-	.'<p id="gadgets_suffix"> </p>'."\n";
-
-// finalize this panel
-$panels[] = array('g', i18n::s('Gadgets'), 'g_panel', Codes::beautify($text));
-
-// assemble all panels
-//
-$context['text'] .= Skin::build_tabs($panels);
 
 // render the skin
 render_skin();
-
-?>
