@@ -367,8 +367,8 @@ if(!isset($context['site_name']) || !trim($context['site_name']))
 $is_https = FALSE;
 if( (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] === 443) ||                                  //
     (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ||                                             // auto-
-    (isset($SERVER['REQUEST_SCHEME']) && $_SERVER['REQUEST_SCHEME'] === 'https') ||                         // detect
-    (isset($SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' )) {        //
+    (isset($_SERVER['REQUEST_SCHEME']) && $_SERVER['REQUEST_SCHEME'] === 'https') ||                         // detect
+    (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' )) {        //
     
     $is_https = TRUE;
 } 
