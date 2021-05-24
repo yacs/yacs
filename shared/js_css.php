@@ -806,9 +806,11 @@ Class Js_Css {
      private static function prepare_scss_compiler() {
         global $context;
         
+        $toto = file_exists("/opt/lampp/htdocs/yacs_master/included/scss/src/Logger/StreamLogger.php");
+        
         // include lessphp lib
         include_once $context['path_to_root'].'included/scss/scss.inc.php';
-        $scss = new \Leafo\ScssPhp\Compiler;
+        $scss = new \ScssPhp\ScssPhp\Compiler;
         
         // specific function to provide absolute path of ressources within sheet
         // this will provide root url

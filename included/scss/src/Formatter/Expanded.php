@@ -1,23 +1,25 @@
 <?php
+
 /**
  * SCSSPHP
  *
- * @copyright 2012-2018 Leaf Corcoran
+ * @copyright 2012-2020 Leaf Corcoran
  *
  * @license http://opensource.org/licenses/MIT MIT
  *
- * @link http://leafo.github.io/scssphp
+ * @link http://scssphp.github.io/scssphp
  */
 
-namespace Leafo\ScssPhp\Formatter;
+namespace ScssPhp\ScssPhp\Formatter;
 
-use Leafo\ScssPhp\Formatter;
-use Leafo\ScssPhp\Formatter\OutputBlock;
+use ScssPhp\ScssPhp\Formatter;
 
 /**
  * Expanded formatter
  *
  * @author Leaf Corcoran <leafot@gmail.com>
+ *
+ * @internal
  */
 class Expanded extends Formatter
 {
@@ -55,7 +57,7 @@ class Expanded extends Formatter
 
         foreach ($block->lines as $index => $line) {
             if (substr($line, 0, 2) === '/*') {
-                $block->lines[$index] = preg_replace('/(\r|\n)+/', $glue, $line);
+                $block->lines[$index] = preg_replace('/\r\n?|\n|\f/', $this->break, $line);
             }
         }
 

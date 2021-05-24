@@ -1,23 +1,25 @@
 <?php
+
 /**
  * SCSSPHP
  *
- * @copyright 2012-2018 Leaf Corcoran
+ * @copyright 2012-2020 Leaf Corcoran
  *
  * @license http://opensource.org/licenses/MIT MIT
  *
- * @link http://leafo.github.io/scssphp
+ * @link http://scssphp.github.io/scssphp
  */
 
-namespace Leafo\ScssPhp\Formatter;
+namespace ScssPhp\ScssPhp\Formatter;
 
-use Leafo\ScssPhp\Formatter;
-use Leafo\ScssPhp\Formatter\OutputBlock;
+use ScssPhp\ScssPhp\Formatter;
 
 /**
  * Compressed formatter
  *
  * @author Leaf Corcoran <leafot@gmail.com>
+ *
+ * @internal
  */
 class Compressed extends Formatter
 {
@@ -63,10 +65,12 @@ class Compressed extends Formatter
     /**
      * Output block selectors
      *
-     * @param \Leafo\ScssPhp\Formatter\OutputBlock $block
+     * @param \ScssPhp\ScssPhp\Formatter\OutputBlock $block
      */
     protected function blockSelectors(OutputBlock $block)
     {
+        assert(! empty($block->selectors));
+
         $inner = $this->indentStr();
 
         $this->write(
