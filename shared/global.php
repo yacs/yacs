@@ -2064,48 +2064,31 @@ function proceed_bckg ($script) {
     global $context;
     
     $target = $context['url_to_master'].$context['url_to_root'].$script;
-    Logger::remember('Asynchronous call', $script);
+    Logger::remember('Asynch call', $script);
     
-    ////    DO IT WITH CURL, But need AsyncDNS option activated.
-    //      Depend on host configuration
-    // sanity check
-    /*if (!is_callable('curl_init')) {
-        if ($context['with_debug'] == 'Y')
-            Logger::remember('shared/global.php', 'CURL is not implemented', 'debug');
-        return FALSE;
-    }
+    //// USE REACTPHP
+    require $context['path_to_root'].'/included/reactphp/vendor/autoload.php';
     
-    $ch = curl_init();
- 
-    curl_setopt($ch, CURLOPT_URL, $target);
-    curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT_MS, 1);
+    $loop = React\EventLoop\Factory::create();
     
+    $connector = new React\Socket\Connector($loop, array(
+        'tls' => array(
+            'verify_peer' => false,
+            'verify_peer_name' => false
+        )
+    ));
     
-
-    curl_exec($ch);
-    curl_close($ch);*/
+    $client = new React\Http\Browser($loop, $connector);
     
-    // DO IT WITH a socket
-    $parts  = parse_url($target);
-    $errno  = 0;
-    $errstr = '';
-    
-    $fp = fsockopen($parts['host'],
-        isset($parts['port'])?$parts['port']:80,
-        $errno, $errstr, 30);
-    
-    $out = "POST ".$parts['path']." HTTP/1.1\r\n";
-    $out.= "Host: ".$parts['host']."\r\n";
-    $out.= "Content-Type: application/x-www-form-urlencoded\r\n";
-    $out.= "Content-Length: ".strlen($parts['query'])."\r\n";
-    $out.= "Connection: Close\r\n\r\n";
-    if (isset($parts['query'])) $out.= $parts['query'];
-    
-    fwrite($fp, $out);
-    fclose($fp);
+    $client->get($target)->then(
+        function (Psr\Http\Message\ResponseInterface $response) {
+            logger::remember('Asynch call','Success');
+        },
+        function (Exception $error) {
+            logger::remember('Asynch call','fail : '.$error->getMessage());
+        }
+    );
+    $loop->run();
     
     return TRUE;
 }
-
-?>
