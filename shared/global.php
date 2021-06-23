@@ -590,43 +590,46 @@ function core_autoload($class) {
 
     switch($class) {
 	case 'article':
-	    include_once $context['path_to_root'].'/articles/article.php';
+	    include_once $context['path_to_root'].'articles/article.php';
 	    break;
 	case 'section':
-	    include_once $context['path_to_root'].'/sections/section.php';
+	    include_once $context['path_to_root'].'sections/section.php';
 	    break;
 	case 'category':
-	    include_once $context['path_to_root'].'/categories/category.php';
+	    include_once $context['path_to_root'].'categories/category.php';
 	    break;
 	case 'user':
-	    include_once $context['path_to_root'].'/users/user.php';
+	    include_once $context['path_to_root'].'users/user.php';
 	    break;
 	case 'file':
-	    include_once $context['path_to_root'].'/files/file.php';
+	    include_once $context['path_to_root'].'files/file.php';
 	    break;
 	case 'codes':
-	    include_once $context['path_to_root'].'/codes/codes.php';
+	    include_once $context['path_to_root'].'codes/codes.php';
 	    break;
         case 'code':
-	    include_once $context['path_to_root'].'/codes/code.php';
+	    include_once $context['path_to_root'].'codes/code.php';
 	    break;
 	case 'image':
-	    include_once $context['path_to_root'].'/images/image.php';
+	    include_once $context['path_to_root'].'images/image.php';
 	    break;
 	case 'activities' :
-	    include_once $context['path_to_root'].'/users/activities.php';
+	    include_once $context['path_to_root'].'users/activities.php';
 	    break;
         case 'page' :
-            include_once $context['path_to_root'].'/skins/page.php';
+            include_once $context['path_to_root'].'skins/page.php';
             break;
         case 'fa'   :
-            include_once $context['path_to_root'].'/included/font_awesome/fa.php';
+            include_once $context['path_to_root'].'included/font_awesome/fa.php';
             break;
         case 'tag' :
-            include_once $context['path_to_root'].'/skins/tag.php';
+            include_once $context['path_to_root'].'skins/tag.php';
             break;
         case 'values':
-            include_once $context['path_to_root'].'/shared/values.php';
+            include_once $context['path_to_root'].'shared/values.php';
+            break;
+        case 'defer':
+            include_once $context['path_to_root'].'shared/defer.php';
             break;
 	default :
 	    // this is default architecture of Yacs
@@ -2050,45 +2053,4 @@ function proxy($url) {
 	global $context;
 
 	return $context['url_to_home'].$context['url_to_root'].'services/proxy.php?url='.urlencode($url);
-}
-
-/**
- * Do background treatment using a asynchronous Request
- * 
- * @see http://www.paul-norman.co.uk/2009/06/asynchronous-curl-requests
- * @see http://stackoverflow.com/questions/124462/asynchronous-php-calls
- * 
- * @param $script string the path (and parameters) of the internal script to call
- */
-function proceed_bckg ($script) {
-    global $context;
-    
-    $target = $context['url_to_master'].$context['url_to_root'].$script;
-    Logger::remember('Asynch call', $script);
-    
-    //// USE REACTPHP
-    require $context['path_to_root'].'/included/reactphp/vendor/autoload.php';
-    
-    $loop = React\EventLoop\Factory::create();
-    
-    $connector = new React\Socket\Connector($loop, array(
-        'tls' => array(
-            'verify_peer' => false,
-            'verify_peer_name' => false
-        )
-    ));
-    
-    $client = new React\Http\Browser($loop, $connector);
-    
-    $client->get($target)->then(
-        function (Psr\Http\Message\ResponseInterface $response) {
-            logger::remember('Asynch call','Success');
-        },
-        function (Exception $error) {
-            logger::remember('Asynch call','fail : '.$error->getMessage());
-        }
-    );
-    $loop->run();
-    
-    return TRUE;
 }

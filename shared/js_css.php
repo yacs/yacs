@@ -618,7 +618,7 @@ Class Js_Css {
                     $path = $min_v; 
                 } else {
                     // need minification for next time, but launch it as a background process
-                    proceed_bckg('tools/minifier.php?script='.Safe::realpath($path));
+                    Defer::queue('tools/minifier.php?script='.Safe::realpath($path));
                 }
 
 	    }
