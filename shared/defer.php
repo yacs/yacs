@@ -35,15 +35,15 @@ Class Defer {
         // check that we have a valid script
         // i.e. that point to a file inside yacs. 
         // Prune parameters for the check 
-        $tocheck = strstr($script, '?', true);
+        $tocheck = ($pos = strpos($script, '?'))? 
+                        substr($script, 0, $pos ) : $script;
         if(!Safe::file($tocheck)) {
             logger::debug("not found: $tocheck", 'Defer');
             return false;
         }
         
         // create stack in needed
-        if(!isset($context['defer']))
-            $context['defer'] = array();
+        $context->sif('defer',array());
  
         // stack the defered script
         $context['defer'][] = $script;
@@ -64,7 +64,7 @@ Class Defer {
         global $context;
         
         // retrieve stack of jobs todo
-        $scripts = $context['defer'];
+        $scripts = $context->gs('defer',null);
         
         // holidays time
         if(!count($scripts)) return;
