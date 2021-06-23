@@ -1721,6 +1721,9 @@ function finalize_page($no_return=FALSE) {
 
 	// don't stop even if the browser connection dies
 	Safe::ignore_user_abort(TRUE);
+        
+        // send page
+        ob_flush();
 
 	// statistics, etc...
 	Hooks::include_scripts('finalize');
