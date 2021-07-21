@@ -2643,23 +2643,9 @@ Class Skin_Skeleton {
 	 * @return string text of the template
 	 */
 	public static function build_mail_message($content) {
-		global $context;
 
-		// a basic fixed-size template
-		$template = '<table border="0" cellpadding="5" cellspacing="0" width="610">'
-			.'<tr>'
-			.	'<td align="left" valign="top" width="600">'
-			.		'<font face="Helvetica, Arial, sans-serif" color="navy">'
-			.		'%s'
-			.		'</font>'
-			.	'</td>'
-			.'</tr></table>';
-
-		// assemble everything
-		$text = sprintf($template, $content);
-
-		// job done
-		return $text;
+		// use base function
+		return Mailer::build_mail_message($content);
 	}
 
 	/**

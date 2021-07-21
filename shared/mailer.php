@@ -122,6 +122,45 @@ class Mailer {
 		// return all parts
 		return $message;
 	}
+        
+        /**
+	 * wrap an overall mail message
+	 *
+	 * This function loads a template and integrate given content in it.
+	 *
+	 * Example:
+	 * [php]
+	 * $content = 'hello world';
+	 * $message = Skin::build_mail_message($content);
+	 * [/php]
+	 *
+	 * Note: this function returns legacy HTML, not modern XHTML, because this is what most
+	 * e-mail client software can afford.
+	 *
+	 * This function can be overloaded in a particular skin.php to provide a custom
+	 * messaging template.
+	 *
+	 * @return string text of the template
+	 */
+	public static function build_mail_message($content) {
+		global $context;
+
+		// a basic fixed-size template
+		$template = '<table border="0" cellpadding="5" cellspacing="0" width="610">'
+			.'<tr>'
+			.	'<td align="left" valign="top" width="600">'
+			.		'<font face="Helvetica, Arial, sans-serif" color="navy">'
+			.		'%s'
+			.		'</font>'
+			.	'</td>'
+			.'</tr></table>';
+
+		// assemble everything
+		$text = sprintf($template, $content);
+
+		// job done
+		return $text;
+	}
 
 	/**
 	 * format a notification to be send by e-mail
@@ -701,8 +740,13 @@ class Mailer {
 		else
 			$subject .= ' ['.$context['site_name'].']';
 
-		// allow for skinnable template
-		$message = Skin::build_mail_message($message);
+		// mail template
+                if(is_callable(array('Skin','build_mail_message'))) {
+                    // allow for skinnable template
+                    $message = Skin::build_mail_message($message);
+                } else {
+                    $message = Mailer::build_mail_message($message);
+                }
 
 		// build multiple parts, for HTML rendering
 		$message = Mailer::build_multipart($message);
