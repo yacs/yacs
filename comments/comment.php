@@ -21,6 +21,17 @@ Class Comment extends Anchor {
     }
     
     /**
+     * get permalink to item
+     */
+    function get_permalink() {
+        if(!isset($this->item['id']))
+                return NULL;
+
+        $link = Comments::get_url($this->item['id'],'view');
+        return $link;
+    }
+    
+    /**
     * get the title for this anchor
     *
     * @return a string
