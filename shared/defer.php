@@ -67,7 +67,7 @@ Class Defer {
         $scripts = $context->gs('defer',null);
         
         // holidays time
-        if(!count($scripts)) return;
+        if(!is_array($scripts) || !count($scripts)) return;
         
         // load reactPHP
         require $context['path_to_root'].'/included/reactphp/vendor/autoload.php';
