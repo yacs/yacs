@@ -131,7 +131,7 @@ Class Layout_comments_as_updates extends Layout_interface {
 					Users::get_link($poster['full_name'], $poster['email'], $poster['id'])).'</p>';
 
 			// display comment main text
-			$text .= $item['description'];
+			$text .= nl2br($item['description']);
 
 			// display signature, but not for notifications
 			if($item['type'] != 'notification')

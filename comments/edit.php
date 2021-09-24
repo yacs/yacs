@@ -240,7 +240,7 @@ if(Surfer::is_crawler()) {
 		$_REQUEST['create_date']	= $newest['create_date'];
 		$_REQUEST['create_id']		= $newest['create_id'];
 		$_REQUEST['create_name']	= $newest['create_name'];
-		$_REQUEST['description']	= $newest['description'].BR.$_REQUEST['description'];
+		$_REQUEST['description']	= $newest['description']."\n".$_REQUEST['description'];
 		$_REQUEST['previous_id']	= $newest['previous_id'];
 		$_REQUEST['type']			= $newest['type'];
 
