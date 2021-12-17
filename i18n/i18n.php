@@ -924,7 +924,7 @@ Class i18n {
                         // take all except lang
                         $filtered_params = preg_grep('/^lang=[a-z-A-Z]+$/', $url_params, PREG_GREP_INVERT);
                         // make redirect address
-                        $url = strstr($context['self_url'], '?', true);
+                        $url = $context['script_url'];
                         $new_query = implode('&', $filtered_params);
                         if($new_query) $url .= '?'. $new_query;
                         // redirect
