@@ -588,6 +588,97 @@ abstract class Anchor {
 			return $this->item['nick_name'];
 		return NULL;
 	}
+        
+        /**
+         * Build metadata for opengraph protocol
+         * @see https://developers.facebook.com/docs/sharing/webmasters
+         * @see global.php render_skin()
+         * 
+         * @global type $context
+         * @return array
+         */
+        function get_opengraph() {
+            global $context;
+            
+            // we return a array
+            $og = array();
+            
+            // url
+            $og[] = '<meta property="og:url" content="'.encode_field($this->get_permalink()).'" />';
+            
+            // title
+            $og[] = '<meta property="og:title" content="'.encode_field($this->get_title()).'" />';
+            
+            // description
+            $ogdesc = '';
+            if($intro = $this->get_introduction())
+                    $ogdesc .= $intro;                                          // use intro
+            elseif($desc = $this->get_value('description'))
+                    $ogdesc .= Skin::strip($desc, 30);                          // use part of description
+            elseif($defdesc = $context['site_description'])
+                    $ogdesc .= $defdesc;                                        // use site description
+            
+            if($ogdesc)
+                $og[] = '<meta property="og:description" content="'
+                        .encode_field(
+                                Codes::strip(                                                           // suppress yacs control code
+                                        Codes::beautify_meta_desc(                                      // except lang version
+                                                strip_tags(                                             // suppress html
+                                                        str_replace(array("\n", "\r"), ' ', $ogdesc)    // suppress linefeed
+                                                        )
+                                                )
+                                        )
+                                )
+                        .'" />';
+            
+            // image
+            $imageref = '';
+            if($icon = $this->get_icon_url())
+                $imageref = $icon;
+            elseif($newest = Images::get_newest_for_anchor($this->get_reference())) 
+                $imageref = Files::get_path($newest['anchor'], 'images').'/'.$newest['image_name'];
+            
+            if($imageref) {
+                $image_width = $image_height = null;
+                if(!preg_match('/^https?:\/\//',$imageref)) {
+                        // get size of local image
+                        list($image_width, $image_height) = Safe::GetImageSize(Safe::cut_root($imageref));
+                        // make absolute ref
+                        $imageref = $context['url_to_master'].$imageref;
+                }
+                $og[] = '<meta property="og:image" content="'.encode_field($imageref).'" />';
+                
+                // width & height
+                if($image_width && $image_height) {
+                    $og[] = '<meta property="og:image:width" content="'.encode_field($image_width).'" />';
+		    $og[] = '<meta property="og:image:height" content="'.encode_field($image_height).'" />';
+                }
+                // alt ?
+            }
+            
+            // type
+            // (@see article & user)
+            $this->set_opengraph_type($og);
+            
+            // locale
+            if($lang = $this->get_value('language', $context['preferred_language']))
+                    $og[] = '<meta property="og:locale" content="'.encode_field($lang).'" />';
+            // + alternate ?
+            
+            // site name
+            if($context['site_name']) 
+                $og[] = '<meta property="og:site_name" content="'.encode_field($context['site_name']).'" />';
+            
+            return $og;
+        }
+        
+        // More opengraph info depending of displayed object
+        // to be overloaded by child class
+        function set_opengraph_type(array &$og) {
+            
+            // nothing here
+            return;
+        }
 
 	/**
 	 * get the default overlay type for anchored items, if any

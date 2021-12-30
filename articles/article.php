@@ -657,6 +657,21 @@ Class Article extends Anchor {
 		// save updated state
 		return Articles::put($item);
 	}
+        
+        function set_opengraph_type(array &$og) {
+            
+            // sanity check
+            if(!$this->is_published()) return;
+            
+            $og[] = '<meta property="og:type" content="article" />';
+            $og[] = '<meta property="og:article:published_time" content="'. encode_field($this->get_value('publish_date')) .'" />';
+            $og[] = '<meta property="og:article:modified_time" content="'. encode_field($this->get_value('edit_date')) .'" />';
+            // author ?
+            // expiration ?
+            // tags
+            if($tags = $this->get_value('tags'))
+                   $og[] = '<meta property="og:article:tag" content="'. encode_field($tags) .'" />'; 
+        }
 
 	/**
 	 * change some attributes of an anchor

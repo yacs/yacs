@@ -385,6 +385,13 @@ Class User extends Anchor {
 	function load_by_id($id, $mutable=FALSE) {
 		$this->item = Users::get($id, $mutable);
 	}
+        
+        function set_opengraph_type(array &$og) {
+            
+            $og[] = '<meta property="og:type" content="profile" />';
+            $og[] = '<meta property="og:profile:username" content="'. encode_field($this->get_value('nick_name')) .'" />';
+            // first and last name ?
+        }
 	
 	/**
 	 * change some attributes of an anchor

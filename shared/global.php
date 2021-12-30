@@ -1269,7 +1269,6 @@ function render_skin($with_last_modified=TRUE) {
 	    }
             if($meta_desc) {
                 $metas[] = '<meta name="description" content="'.$meta_desc.'" />';
-                //$metas[] = '<meta name="DC.description" content="'.$meta_desc.'" />';
             }
 
 	    // page copyright
@@ -1279,37 +1278,23 @@ function render_skin($with_last_modified=TRUE) {
 	    // page author
 	    if(isset($context['page_author']) && $context['page_author']) {
 		    $metas[] = '<meta name="author" content="'.encode_field($context['page_author']).'" />';
-		    //$metas[] = '<meta name="DC.author" content="'.encode_field($context['page_author']).'" />';
 	    }
 
 	    // page publisher
 	    if(isset($context['page_publisher']) && $context['page_publisher']) {
-		    $metas[] = '<meta name="publisher" content="'.encode_field($context['page_publisher']).'" />';
-		    //$metas[] = '<meta name="DC.publisher" content="'.encode_field($context['page_publisher']).'" />';
+		    $metas[] = '<meta name="publisher" content="'.encode_field($context['page_publisher']).'" />';    
 	    }
 
 	    // page keywords
 	    if(isset($context['site_keywords']) && $context['site_keywords']) {
-		    $metas[] = '<meta name="keywords" content="'.encode_field($context['site_keywords']).'" />';
-		    //$metas[] = '<meta name="DC.subject" content="'.encode_field($context['site_keywords']).'" />';
+		    $metas[] = '<meta name="keywords" content="'.encode_field($context['site_keywords']).'" />';    
 	    }
-	    // page image
-	    if(isset($context['page_image']) && $context['page_image']) {
-		    $metas[] = '<meta name="og:image" content="'.encode_field($context['page_image']).'" />';
-		    $metas[] = '<meta name="og:image:alt" content="'.encode_field($meta_desc).'" />';
-		    list($page_image_width, $page_image_height) = Safe::GetImageSize(Safe::cut_root($context['page_image']));
-		    $metas[] = '<meta name="og:image:width" content="'.encode_field($page_image_width).'" />';
-		    $metas[] = '<meta name="og:image:height" content="'.encode_field($page_image_height).'" />';
-	    }
-
-
-	    // page date
-	    /*if($context['page_date'])
-		    $metas[] = '<meta name="DC.date" content="'.encode_field(substr($context['page_date'], 0, 10)).'" />';
-
-	    // page language
-	    if($context['page_language'])
-		    $metas[] = '<meta name="DC.language" content="'.encode_field($context['page_language']).'" />';*/
+            
+            // opengraph metadata
+            if($context['current_item'] && $context['current_action'] === 'view') {
+                $entity = Anchors::get($context['current_item']);
+                $metas = array_merge($metas, $entity->get_opengraph());
+            }
 
 	    // revisit-after
 	    if(!isset($context['site_revisit_after']))
