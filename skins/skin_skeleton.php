@@ -3333,7 +3333,7 @@ Class Skin_Skeleton {
 
 		// finalize tabs
 		if(!$as_steps)
-                    $tabs_text = tag::_('nav', tag::_class('tabs-bar /clear'), $tabs_text.tag::_('label', tag::_class('tabs-mini-toggle k/nav-button'), '<span></span>'));
+                    $tabs_text = tag::_('nav', tag::_class('tabs-bar /clear'), $tabs_text.tag::_('label', tag::_class('tabs-mini-toggle k/nav-button'), '<span> </span>'));
 
 		// finalize panels
                 $panels_text = tag::_('div', tag::_class('tabs-panels'), "\n".$panels_text);
@@ -3347,7 +3347,7 @@ Class Skin_Skeleton {
 			);
 
 		// package all components together
-		$text = "\n".$tabs_text.$panels_text."\n";
+		$text = tag::_div($tabs_text.$panels_text, 'tabs');
 		return $text;
 	}
 
