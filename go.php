@@ -79,7 +79,7 @@ load_skin('go');
 $context['page_title'] = i18n::s('Page locator');
 
 // ensure we have a non-empty string
-if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
+if(!($id = trim($id)) || !preg_match('/^[\w~-]+$/', $id)) {
 	$context['text'] .= '<p>'.i18n::s('Please indicate a nick name to look for.')."</p>\n";
         
 // allow one hook here        
