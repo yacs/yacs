@@ -494,6 +494,10 @@ Class Skin_Skeleton {
 		case 'navigation':
 			$output = Skin::build_navigation_box($title, $content, $id);
 			break;
+                    
+                case 'rawdiv':
+                        $output = tag::_div($content,(($id)?"#$id":''));
+                        break;
 
 		case 'section': // legacy
 			$output = Skin::build_header_box($title, $content, $id);
