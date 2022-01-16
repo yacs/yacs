@@ -1,0 +1,23 @@
+/**
+ * Layout to use as a second-level for top-menu
+ * 
+ *
+ * @author Alexis Raimbault
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+ */
+
+
+// make second level menu panel fullwidth of parent nav.tabs
+// overide yacs.scss rules
+.#{$y-prefix}tabs > ul > li {
+    
+    position : static;
+    
+    .#{$y-prefix}dropmenu {
+        right : 0;
+        left : 0;
+        width: auto;
+    }
+    
+}
