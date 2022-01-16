@@ -237,6 +237,7 @@ Class Js_Css {
             $to_compile .= Safe::file_get_contents($inputFile);
             
             // compile into a css file, catch errors
+            $compilation = false;
             try {
                 $compilation = $scss->compile($to_compile);
             } catch (exception $e) {
@@ -925,4 +926,3 @@ Class Js_Css {
     }
 
 }
-?>
