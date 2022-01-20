@@ -127,12 +127,17 @@ Class layout_as_menupanel extends Layout_interface {
      */
     public function layout($result) {
         
+        // count
+        $count = SQL::count($result);
+        
+        if(!$count) return '';
+        
         // check extra information
         $extra  = $this->_get_extra();
        
         
         // get nb of columns for grid
-        $nb     = $this->_get_nbcol(SQL::count($result), $extra);
+        $nb     = $this->_get_nbcol($count, $extra);
         
         // build a grid using knacss, use short titles
         // each element of grid as an unique #id, allowing css handle 
