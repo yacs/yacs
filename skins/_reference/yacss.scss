@@ -217,7 +217,7 @@ a:hover {color:darken($color-link,10%);cursor:pointer;}
     max-height:0; // second level hidden by default;
     overflow: hidden;
     padding : 0 .2em;
-    transition: max-height 1s ease-in; // drop visual effect
+    transition: max-height,padding .4s ease; // drop visual effect
     
     ul {
         list-style: none;
@@ -230,11 +230,12 @@ a:hover {color:darken($color-link,10%);cursor:pointer;}
 }
 
 // display second level
-.#{$yacs-namespace}tabs li:hover,    // by hovering for desktop
 .#{$yacs-namespace}tabs .deploy {    // by clic + js for touch screen
     
         .#{$yacs-namespace}dropmenu {
              max-height:999px;  // dropmenu will get it's natural height
+             padding-bottom: .2em;
+             padding-top : .5em;
         }
 }
 
@@ -257,18 +258,13 @@ a:hover {color:darken($color-link,10%);cursor:pointer;}
                 border-bottom : $border-nav-bottom;
 
                 .#{$yacs-namespace}dropmenu {
-                    position:absolute;
+                    position: absolute;
                     top:98%;
                     z-index:200;
                     background-color: $color-nav-tabs;
                     width:200px;
-                }
-                
-                &:hover .#{$yacs-namespace}dropmenu{
                     border : 1px solid $color-tabs-borders;
                     border-top : none;
-                    padding-bottom: .2em;
-                    padding-top : .5em;
                 }
             }
         }

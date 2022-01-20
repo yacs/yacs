@@ -2447,9 +2447,9 @@ Class Skin_Skeleton {
 
 			// the beautified link --if $url is '_', Skin::build_link() will return the label alone
 			$link = '';
-			if($label != '_')
+			if($label !== '_')
 				$link = Skin::build_link($url, $label, $type, $title, $new_window);
-
+                        
 			// this link comes with an attached image
 			if(strpos($icon, '<img ') !== FALSE)
 				;

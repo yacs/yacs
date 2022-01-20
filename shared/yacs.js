@@ -1498,6 +1498,31 @@ var Yacs = {
 	},
         
         prepareMenus: function() {
+            
+                // behavior of main tabs (top menu)
+                $('nav'+pfx('.tabs')+' > ul > li a').click_n_dblclick(
+                        // simple click
+                        function(obj){
+                            var n = obj.next();
+                            if(n.length && n.hasClass(pfx('dropmenu'))) {
+                                obj.parent().siblings().removeClass('deploy lock');
+                                obj.parent().toggleClass('deploy');
+                            } else
+                                window.location.href = obj.attr('href');
+                                
+                        },    
+                        // double click
+                        function(obj) {
+                            window.location.href = obj.attr('href');
+                        }
+                    );
+            
+                $('nav'+pfx('.tabs')).on('focusout','.deploy', function(){
+                    console.log('tab focus out');
+                    $(this).removeClass('deploy');
+                });    
+            
+            
                 // button for responsive menu
                 $(pfx('.tabs-mini-toggle')).click(function(){
                     
@@ -2845,7 +2870,7 @@ jQuery.fn.extend({
     click_n_dblclick: function(call_on_click, call_on_dblclick) {
 
 	// DELAY is max time between to clicks of a double one
-	var DELAY = 700, clicks = 0, timer = null;
+	var DELAY = 500, clicks = 0, timer = null;
 
 	// return for all jquery objects selected by $()
 	return this.each(function() {
