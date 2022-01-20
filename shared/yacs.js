@@ -1505,7 +1505,7 @@ var Yacs = {
                         function(obj){
                             var n = obj.next();
                             if(n.length && n.hasClass(pfx('dropmenu'))) {
-                                obj.parent().siblings().removeClass('deploy lock');
+                                obj.parent().siblings().removeClass('deploy');
                                 obj.parent().toggleClass('deploy');
                             } else
                                 window.location.href = obj.attr('href');
@@ -1517,9 +1517,12 @@ var Yacs = {
                         }
                     );
             
-                $('nav'+pfx('.tabs')).on('focusout','.deploy', function(){
-                    console.log('tab focus out');
-                    $(this).removeClass('deploy');
+                $('nav'+pfx('.tabs')).on('focusout','.deploy', function(e){
+                    var tab = $(this);
+                    
+                    delay(function(){
+                        tab.removeClass('deploy');
+                    }, 100);
                 });    
             
             
