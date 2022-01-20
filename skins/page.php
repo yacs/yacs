@@ -948,6 +948,13 @@
 		echo $text;
 
 	}
+        
+        public static function tab_custom($content, $id='', $url = '_', $icon= '', $title = '') {
+            
+            $param = array($url => array(null, $content, null, $id, $icon, $title));
+            
+            return $param;
+        }
 
 	/**
 	 * identify top level focus tab
