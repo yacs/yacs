@@ -1532,7 +1532,7 @@ var Yacs = {
                     // get parent
                     var _parent = $(this).parent();
                     if(_parent.hasClass(pfx('tabs'))) {
-                        _parent.find('a').not('.current').toggle();
+                        _parent.children('ul').children('li').children().not('.current').toggle();
                     } else {
                         _parent.find(pfx('.tab-background')).toggle();
                     }

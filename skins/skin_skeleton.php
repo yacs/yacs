@@ -2438,8 +2438,8 @@ Class Skin_Skeleton {
                         }
 
 			// clean labels at occasions --codes have already been transformed here
-			if(($variant == 'crumbs') || ($variant == 'tabs'))
-				$label = strip_tags($label, '<img>');
+			//if(($variant == 'crumbs') || ($variant == 'tabs'))
+			//	$label = strip_tags($label, '<img>');
 
 			// ensure we have a box header for columns
 			if(($variant == 'column_1') || ($variant == 'column_2'))
