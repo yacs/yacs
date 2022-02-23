@@ -1522,7 +1522,7 @@ var Yacs = {
                     
                     delay(function(){
                         tab.removeClass('deploy');
-                    }, 100);
+                    }, 250);
                 });    
             
             
