@@ -1065,7 +1065,7 @@ Class i18n {
 	 * @param string desired language, if any
 	 * @return string the localized string, if any
 	 */
-	public static function l(&$strings, $name, $forced='') {
+	public static function l($strings, $name, $forced='') {
 		global $context;
 
 		// sanity check
