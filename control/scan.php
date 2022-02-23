@@ -15,6 +15,7 @@
  * - '[code]finalize[/code]' is called after the processing of any request
  * - '[code]publish[/code]' is called on article publication
  * - '[code]tick[/code]' to trigger periodic jobs
+ * - '[code]heartbeat[/code]' is called when ajax request notifying surfer's presence reach the server
  *
  * [subtitle]'control/populate.php'[/subtitle]
  *
@@ -140,6 +141,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author devalxr
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

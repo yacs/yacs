@@ -34,10 +34,17 @@ include_once 'notifications.php';
 // ensure browser always look for fresh data
 http::expire(0);
 
+// do not crawl this page
+$context->sif('robots','noindex');
+
+// heartbeat hook
+if(is_callable(array('Hooks', 'include_scripts')))
+        Hooks::include_scripts('heartbeat');
+
 // surfer has to be logged --provide a short response
 if(!Surfer::get_id()) {
-	Safe::header('Status: 401 Unauthorized', TRUE, 401);
-	die(i18n::s('You are not allowed to perform this operation.'));
+	
+	die('have a good surfing !');
 
 // a new notification has been submitted
 } elseif(isset($_REQUEST['recipient']) && isset($_REQUEST['type'])) {
@@ -128,5 +135,3 @@ if(!Surfer::get_id()) {
 	finalize_page(TRUE);
 
 }
-
-?>
