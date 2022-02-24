@@ -944,8 +944,8 @@ Class Images {
                                 }*/
                                 
                                 $fields = array(
-                                    'thumbnail_url' => Images::get_thumbnail_href($image),
-                                    'icon_url'      => Images::get_icon_href($image)
+                                    'thumbnail_url' => Images::get_thumbnail_href($image) //,
+                                    //'icon_url'      => Images::get_icon_href($image)
                                     );
                                 if($put) {
                                     $fields['id'] = $anchor->get_value('id');
