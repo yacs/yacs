@@ -195,6 +195,9 @@ Class Images {
 		// the item is anchored to the profile of this member
  		if(Surfer::is_member() && isset($item['anchor']) && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
  			return TRUE;
+                
+                // instance of the anchor
+                if(!is_object($anchor)) $anchor = Anchors::get($anchor);
 
 		// you can handle your own images
 		if(isset($item['edit_id']) && Surfer::is($item['edit_id']) && is_object($anchor) && !$anchor->has_option('locked'))
