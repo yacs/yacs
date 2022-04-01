@@ -298,12 +298,12 @@ class Anchors {
 		// no anchor yet
 		$anchor = NULL;
 
-		// find the type
-		$attributes = explode(':', $id);
-
 		// if no type has been provided, assume we want a section
-		if(!isset($attributes[1]) || !$attributes[1])
+		if(is_numeric($id))
 			$attributes = array('section', $id);
+                else
+                        // find the type
+                        $attributes = explode(':', $id);
 
 		// switch on type
 		switch($attributes[0]) {
