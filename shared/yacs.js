@@ -1497,6 +1497,13 @@ var Yacs = {
 
 	},
         
+        /**
+         * Manage main menu behavior
+         * - click or dblclick
+         * - display of submenus
+         * - toggle button for responsive display
+         * 
+         */
         prepareMenus: function() {
             
                 // behavior of main tabs (top menu)
@@ -2053,7 +2060,14 @@ var Yacs = {
 	// on-going timer, if any
 	subscribeTimer: 0,
         
-        
+        /**
+         * Jump to an url, or
+         * give the job to a predifined function if exists
+         * @see Yacs.prepareMenus()
+         * 
+         * @param {string} url
+         * @returns {undefined}
+         */
         surfTo: function (url) {
           
             if(typeof Yacs.hookNav === 'function') {
