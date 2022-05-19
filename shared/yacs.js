@@ -1508,12 +1508,12 @@ var Yacs = {
                                 obj.parent().siblings().removeClass('deploy');
                                 obj.parent().toggleClass('deploy');
                             } else
-                                window.location.href = obj.attr('href');
+                                Yacs.surfTo(obj.attr('href'));
                                 
                         },    
                         // double click
                         function(obj) {
-                            window.location.href = obj.attr('href');
+                            Yacs.surfTo(obj.attr('href'));
                         }
                     );
             
@@ -2052,6 +2052,16 @@ var Yacs = {
 
 	// on-going timer, if any
 	subscribeTimer: 0,
+        
+        
+        surfTo: function (url) {
+          
+            if(typeof Yacs.hookNav === 'function') {
+                Yacs.hookNav(url);
+            } else {
+                window.location.href = url;
+            }
+        }, 
 
 	/**
 	 * sort a table
