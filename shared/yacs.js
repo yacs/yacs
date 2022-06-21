@@ -1506,6 +1506,8 @@ var Yacs = {
          */
         prepareMenus: function() {
             
+                if($('nav'+pfx('.tabs')).hasClass('init')) return;
+            
                 // behavior of main tabs (top menu)
                 $('nav'+pfx('.tabs')+' > ul > li a').click_n_dblclick(
                         // simple click
@@ -1549,6 +1551,8 @@ var Yacs = {
                 
                 // close menu at page opening
                 $(pfx('.tabs-mini-toggle:visible')).not('.init').trigger('click').addClass('init');
+                
+                $('nav'+pfx('.tabs')).addClass('init');
         },
 
 	/**
@@ -2624,6 +2628,9 @@ var Yacs = {
 	 * or flag false to load js if any, flag true to resize
 	 */
 	updateModalBox: function(content) {
+            
+                // sanity check
+                if(!$('#modal_content').length) return;
 
 		// first, update box content
 		if(content !== "execute" && content !== "sizing" && content !== true) {
