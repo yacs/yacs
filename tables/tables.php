@@ -220,8 +220,7 @@ Class Tables {
 				$data['items'][] = $datum;
 			}
 
-			include_once $context['path_to_root'].'included/json.php';
-			$text .= json_encode2($data);
+			$text .= Safe::json_encode($data);
 			return $text;
 
 		// list of facets for SIMILE Exhibit

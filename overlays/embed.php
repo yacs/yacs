@@ -392,8 +392,7 @@ class Embed extends Overlay {
 
 		// decode the received snippet
 		} else {
-			include_once $context['path_to_root'].'included/json.php';
-			if(!$data = json_decode2($response)) {
+			if(!$data = Safe::json_decode($response)) {
 				$result['type'] = 'error';
 				return $result;
 			}

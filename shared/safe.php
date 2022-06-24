@@ -628,16 +628,9 @@ class Safe {
 		global $context;
 
 		// maybe we have a native extension --return an associative array
-//		if(is_callable('json_decode'))
-//			return json_decode($text, TRUE);
-
-		// load the PHP library
-		if(file_exists($context['path_to_root'].'included/json.php')) {
-			include_once $context['path_to_root'].'included/json.php';
-			return json_decode2($text);
-		}
-
-		// tough luck
+		if(is_callable('json_decode'))
+			return json_decode($text, TRUE);
+                
 		return FALSE;
 	}
 
@@ -653,12 +646,6 @@ class Safe {
 		// maybe we have a native extension
 		if(is_callable('json_encode'))
 			return json_encode($data);
-
-		// load the PHP library
-		if(file_exists($context['path_to_root'].'included/json.php')) {
-			include_once $context['path_to_root'].'included/json.php';
-			return json_encode2($data);
-		}
 
 		// tough luck
 		return FALSE;
