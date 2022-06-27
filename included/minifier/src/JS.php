@@ -179,7 +179,7 @@ class JS extends Minify
 
         // clean up leftover `;`s from the combination of multiple scripts
         $content = ltrim($content, ';');
-        $content = substr($content, 0, -1);
+        $content = (string) substr($content, 0, -1);
 
         /*
          * Earlier, we extracted strings & regular expressions and replaced them
@@ -195,11 +195,31 @@ class JS extends Minify
      */
     protected function stripComments()
     {
-        // single-line comments
-        $this->registerPattern('/\/\/.*$/m', '');
+        // PHP only supports $this inside anonymous functions since 5.4
+        $minifier = $this;
+        $callback = function ($match) use ($minifier) {
+            if (
+                substr($match[2], 0, 1) === '!' ||
+                strpos($match[2], '@license') !== false ||
+                strpos($match[2], '@preserve') !== false
+            ) {
+                // preserve multi-line comments that start with /*!
+                // or contain @license or @preserve annotations
+                $count = count($minifier->extracted);
+                $placeholder = '/*'.$count.'*/';
+                $minifier->extracted[$placeholder] = $match[0];
+
+                return $match[1] . $placeholder . $match[3];
+            }
+
+            return $match[1] . $match[3];
+        };
 
         // multi-line comments
-        $this->registerPattern('/\/\*.*?\*\//s', '');
+        $this->registerPattern('/(\n?)\/\*(.*?)\*\/(\n?)/s', $callback);
+
+        // single-line comments
+        $this->registerPattern('/\/\/.*$/m', '');
     }
 
     /**
@@ -236,13 +256,15 @@ class JS extends Minify
         // one being escaped)
         // this should allow all chars, except for an unescaped `/` (= the one
         // closing the regex)
-        $pattern = '\\/([^\\/\\\\]*+|(\\\\.)*+)+\\/[gimy]*';
+        // then also ignore bare `/` inside `[]`, where they don't need to be
+        // escaped: anything inside `[]` can be ignored safely
+        $pattern = '\\/(?!\*)(?:[^\\[\\/\\\\\n\r]++|(?:\\\\.)++|(?:\\[(?:[^\\]\\\\\n\r]++|(?:\\\\.)++)++\\])++)++\\/[gimuy]*';
 
         // a regular expression can only be followed by a few operators or some
         // of the RegExp methods (a `\` followed by a variable or value is
         // likely part of a division, not a regex)
         $keywords = array('do', 'in', 'new', 'else', 'throw', 'yield', 'delete', 'return',  'typeof');
-        $before = '([=:,;\}\(\{\[&\|!\)]|^|'.implode('|', $keywords).')\s*';
+        $before = '(^|[=:,;\+\-\*\/\}\(\{\[&\|!]|'.implode('|', $keywords).')\s*';
         $propertiesAndMethods = array(
             // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp#Properties_2
             'constructor',
@@ -262,7 +284,22 @@ class JS extends Minify
         );
         $delimiters = array_fill(0, count($propertiesAndMethods), '/');
         $propertiesAndMethods = array_map('preg_quote', $propertiesAndMethods, $delimiters);
-        $after = '(?=\s*[\.,;\)\}&\|+]|\/\/|$|\.('.implode('|', $propertiesAndMethods).'))';
+        $after = '(?=\s*([\.,;\)\}&\|+]|\/\/|$|\.('.implode('|', $propertiesAndMethods).')))';
+        $this->registerPattern('/'.$before.'\K'.$pattern.$after.'/', $callback);
+
+        // regular expressions following a `)` are rather annoying to detect...
+        // quite often, `/` after `)` is a division operator & if it happens to
+        // be followed by another one (or a comment), it is likely to be
+        // confused for a regular expression
+        // however, it's perfectly possible for a regex to follow a `)`: after
+        // a single-line `if()`, `while()`, ... statement, for example
+        // since, when they occur like that, they're always the start of a
+        // statement, there's only a limited amount of ways they can be useful:
+        // by calling the regex methods directly
+        // if a regex following `)` is not followed by `.<property or method>`,
+        // it's quite likely not a regex
+        $before = '\)\s*';
+        $after = '(?=\s*\.('.implode('|', $propertiesAndMethods).'))';
         $this->registerPattern('/'.$before.'\K'.$pattern.$after.'/', $callback);
 
         // 1 more edge case: a regex can be followed by a lot more operators or
@@ -318,7 +355,9 @@ class JS extends Minify
             array(
                 '/('.implode('|', $operatorsBefore).')\s+/',
                 '/\s+('.implode('|', $operatorsAfter).')/',
-            ), '\\1', $content
+            ),
+            '\\1',
+            $content
         );
 
         // make sure + and - can't be mistaken for, or joined into ++ and --
@@ -326,7 +365,9 @@ class JS extends Minify
             array(
                 '/(?<![\+\-])\s*([\+\-])(?![\+\-])/',
                 '/(?<![\+\-])([\+\-])\s*(?![\+\-])/',
-            ), '\\1', $content
+            ),
+            '\\1',
+            $content
         );
 
         // collapse whitespace around reserved words into single space
@@ -347,8 +388,12 @@ class JS extends Minify
         /*
          * Whitespace after `return` can be omitted in a few occasions
          * (such as when followed by a string or regex)
+         * Same for whitespace in between `)` and `{`, or between `{` and some
+         * keywords.
          */
         $content = preg_replace('/\breturn\s+(["\'\/\+\-])/', 'return$1', $content);
+        $content = preg_replace('/\)\s+\{/', '){', $content);
+        $content = preg_replace('/}\n(else|catch|finally)\b/', '}$1', $content);
 
         /*
          * Get rid of double semicolons, except where they can be used like:
@@ -370,9 +415,26 @@ class JS extends Minify
          * to be the for-loop's body... Same goes for while loops.
          * I'm going to double that semicolon (if any) so after the next line,
          * which strips semicolons here & there, we're still left with this one.
+         * Note the special recursive construct in the three inner parts of the for:
+         * (\{([^\{\}]*(?-2))*[^\{\}]*\})? - it is intended to match inline
+         * functions bodies, e.g.: i<arr.map(function(e){return e}).length.
+         * Also note that the construct is applied only once and multiplied
+         * for each part of the for, otherwise it risks a catastrophic backtracking.
+         * The limitation is that it will not allow closures in more than one
+         * of the three parts for a specific for() case.
+         * REGEX throwing catastrophic backtracking: $content = preg_replace('/(for\([^;\{]*(\{([^\{\}]*(?-2))*[^\{\}]*\})?[^;\{]*;[^;\{]*(\{([^\{\}]*(?-2))*[^\{\}]*\})?[^;\{]*;[^;\{]*(\{([^\{\}]*(?-2))*[^\{\}]*\})?[^;\{]*\));(\}|$)/s', '\\1;;\\8', $content);
          */
-        $content = preg_replace('/(for\([^;\{]*;[^;\{]*;[^;\{]*\));(\}|$)/s', '\\1;;\\2', $content);
+        $content = preg_replace('/(for\((?:[^;\{]*|[^;\{]*function[^;\{]*(\{([^\{\}]*(?-2))*[^\{\}]*\})?[^;\{]*);[^;\{]*;[^;\{]*\));(\}|$)/s', '\\1;;\\4', $content);
+        $content = preg_replace('/(for\([^;\{]*;(?:[^;\{]*|[^;\{]*function[^;\{]*(\{([^\{\}]*(?-2))*[^\{\}]*\})?[^;\{]*);[^;\{]*\));(\}|$)/s', '\\1;;\\4', $content);
+        $content = preg_replace('/(for\([^;\{]*;[^;\{]*;(?:[^;\{]*|[^;\{]*function[^;\{]*(\{([^\{\}]*(?-2))*[^\{\}]*\})?[^;\{]*)\));(\}|$)/s', '\\1;;\\4', $content);
+
         $content = preg_replace('/(for\([^;\{]+\s+in\s+[^;\{]+\));(\}|$)/s', '\\1;;\\2', $content);
+
+        /*
+         * Do the same for the if's that don't have a body but are followed by ;}
+         */
+        $content = preg_replace('/(\bif\s*\([^{;]*\));\}/s', '\\1;;}', $content);
+
         /*
          * Below will also keep `;` after a `do{}while();` along with `while();`
          * While these could be stripped after do-while, detecting this
