@@ -196,12 +196,11 @@ Class Image extends Anchor {
          * @param string $path to file image
          * @return array with image, width and height, or false
          */
-        private static function open($path) {
+        private static function open($path,$verbose=false) {
             // get file name
             $file_name = basename($path);
             
             if(Image::use_magic()) {
-                logger::debug('imagick available');
                 
                 $image = new Imagick($path);
                 $image_information = array(
@@ -210,13 +209,12 @@ Class Image extends Anchor {
                 );
                 
             } else {
-                logger::debug('imagick NOT available');
             
 
                 // ensure this is a valid file
                 if(!$image_information = Safe::GetImageSize($path)) {
                         if($verbose)
-                                Logger::error(sprintf(i18n::s('No image information in %s.'), $file_name));
+                            Logger::error(sprintf(i18n::s('No image information in %s.'), $file_name));
                         return FALSE;
                 }
 
@@ -231,12 +229,16 @@ Class Image extends Anchor {
                 // PNG image
                 elseif(($image_information[2] == 3) && is_callable('ImageCreateFromPNG'))
                         $image = ImageCreateFromPNG($path);
-
+                
+                // webp image
+                elseif(($image_information[2] == 18) && is_callable('imagecreatefromwebp'))
+                        $image = imagecreatefromwebp($path);
+                
                 // sanity check
                 if(!isset($image)) {
-                        if($verbose)
-                                Logger::error(sprintf(i18n::s('No GD support, or unknown image type in %s.'), $file_name));
-                        return FALSE;
+
+                    Logger::debug(sprintf(i18n::s('No GD support, or unknown image type in %s.'), $file_name));
+                    return FALSE;
                 }
             
             }
@@ -261,7 +263,7 @@ Class Image extends Anchor {
                 
                 $file_name = basename($original);
 
-		$open = Image::open($original);
+		$open = Image::open($original, $verbose);
                 if($open === FALSE) return FALSE;
                 
                 list($image, $image_information) = $open;
@@ -402,8 +404,12 @@ Class Image extends Anchor {
 				Logger::error(sprintf(i18n::s('No image information in %s'), $file_path.$file_name));
 			return FALSE;
 
-		// we accept only gif, jpeg and png
-		} elseif(($image_information[2] != 1) && ($image_information[2] != 2) && ($image_information[2] != 3)) {
+		// we accept only gif, jpeg, png and webp
+		} elseif(($image_information[2] != 1) 
+                        && ($image_information[2] != 2) 
+                        && ($image_information[2] != 3)
+                        && ($image_information[2] != 18)
+                        ) {
 			if(!$silent)
 				Logger::error(sprintf(i18n::s('Rejected file type %s'), $file_name));
 			return FALSE;
@@ -416,9 +422,9 @@ Class Image extends Anchor {
 
 			// derive a thumbnail image
 			if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_avatar'))
-				Image::shrink($file_path.$file_name, $file_path.$_REQUEST['thumbnail_name'], TRUE, TRUE);
+				Image::shrink($file_path.$file_name, $file_path.$_REQUEST['thumbnail_name'], TRUE, !$silent);
 			else
-				Image::shrink($file_path.$file_name, $file_path.$_REQUEST['thumbnail_name'], FALSE, TRUE);
+				Image::shrink($file_path.$file_name, $file_path.$_REQUEST['thumbnail_name'], FALSE, !$silent);
 
 			// always limit the size of avatar images
 			if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_avatar')) {

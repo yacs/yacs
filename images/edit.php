@@ -497,7 +497,7 @@ if($with_form) {
 
 		// generic splash message
 		elseif(is_object($anchor))
-			$hint = i18n::s('Select a .png, .gif or .jpeg image, or a .zip file containing several images.');
+			$hint = i18n::s('Select a .png, .gif, .jpeg or .webp image, or a .zip file containing several images.');
 
 	}
 
@@ -635,5 +635,3 @@ if($with_form) {
 
 // render the skin
 render_skin();
-
-?>

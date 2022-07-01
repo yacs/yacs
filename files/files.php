@@ -1194,7 +1194,7 @@ Class Files {
 			// file types
 			$file_types = array(
 				'3gp' => 'video/3gpp',
-                'aac' => 'audio/mp4',
+                                'aac' => 'audio/mp4',
 				'ace' => 'application/x-ace',
 				'ai' => 'application/postscript',	// postscript
 				'aif' => 'audio/aiff',
@@ -1238,7 +1238,7 @@ Class Files {
 				'jpg' => 'image/jpeg',
 				'latex' => 'application/x-latex',
 				'm3u' => 'audio/x-mpegurl', // playlist
-                'm4a' => 'audio/mp4',
+                                'm4a' => 'audio/mp4',
 				'm4v' => 'video/x-m4v',
 				'mdb' => 'application/x-msaccess',
 				'mid' => 'audio/mid',
@@ -1334,6 +1334,7 @@ Class Files {
 				'wax' => 'audio/x-ms-wax',	// windows media player audio playlist
 				'wma' => 'audio/x-ms-wma',	// windows media player audio
 				'wmv' => 'video/x-ms-wmv',	// windows media player video
+                                'webp'=> 'image/webp',
 				'wri' => 'application/x-mswrite',
 				'wvx' => 'video/x-ms-wvx',	// windows media player video playlist
 				'xbm' => 'image/x-xbitmap',
