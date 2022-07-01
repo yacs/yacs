@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-04 10:28+0200\n"
+"POT-Creation-Date: 2022-07-01 16:51+0200\n"
 "PO-Revision-Date: 2018-10-04 10:32+0200\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
@@ -201,12 +201,12 @@ msgid "Side panel"
 msgstr "Side panel"
 
 #: configure.php:275 panel.php:77 query.php:280 query_privacy.php:288
-#: search.php:121
+#: search.php:124
 msgid "Submit"
 msgstr "Submit"
 
 #: configure.php:275 panel.php:77 query.php:280 query_privacy.php:288
-#: search.php:121
+#: search.php:124
 msgid "Press [s] to submit data"
 msgstr "Press [s] to submit data"
 
@@ -321,7 +321,7 @@ msgstr ""
 msgid "the site front page"
 msgstr "the site front page"
 
-#: error.php:133 go.php:147 query.php:175 search.php:112
+#: error.php:133 go.php:151 query.php:175 search.php:115
 msgid "Search"
 msgstr "Search"
 
@@ -481,41 +481,41 @@ msgstr "Page locator"
 msgid "Please indicate a nick name to look for."
 msgstr "Please indicate a nick name to look for."
 
-#: go.php:103
+#: go.php:107
 msgid "Select below among available sections."
 msgstr "Select below among available sections."
 
-#: go.php:122
+#: go.php:126
 msgid "Select below among available pages."
 msgstr "Select below among available pages."
 
-#: go.php:133
+#: go.php:137
 #, php-format
 msgid "Sorry, no page has the provided name: %s"
 msgstr "Sorry, no page has the provided name: %s"
 
-#: go.php:136
+#: go.php:140
 msgid "Add a page with this name"
 msgstr "Add a page with this name"
 
-#: go.php:143
+#: go.php:147
 msgid "Look for"
 msgstr "Look for"
 
-#: go.php:145
+#: go.php:149
 msgid "Nick name"
 msgstr "Nick name"
 
-#: go.php:157
+#: go.php:161
 msgid "Please type something to search for"
 msgstr "Please type something to search for"
 
-#: go.php:173
+#: go.php:177
 #, php-format
 msgid "Submit \"%s\" to our %s in case some pages could match this keyword."
 msgstr "Submit \"%s\" to our %s in case some pages could match this keyword."
 
-#: go.php:173
+#: go.php:177
 msgid "search engine"
 msgstr "search engine"
 
@@ -576,7 +576,7 @@ msgstr "Introduction"
 msgid "Page content"
 msgstr "Page content"
 
-#: query.php:44 query.php:339 search.php:373
+#: query.php:44 query.php:339 search.php:376
 msgid "Help"
 msgstr "Help"
 
@@ -867,40 +867,40 @@ msgstr "Invoke your right to be forgotten"
 msgid "For other specific demand, please use [this form|query.php]."
 msgstr "For other specific demand, please use [this form|query.php]."
 
-#: search.php:110
+#: search.php:113
 #, php-format
 msgid "Search: %s"
 msgstr "Search: %s"
 
-#: search.php:119
+#: search.php:122
 msgid "You are searching for"
 msgstr "You are searching for"
 
-#: search.php:122
+#: search.php:125
 msgid "Type one or several words."
 msgstr "Type one or several words."
 
-#: search.php:126
+#: search.php:129
 msgid "Search in"
 msgstr "Search in"
 
-#: search.php:131
+#: search.php:134
 msgid "-- All sections"
 msgstr "-- All sections"
 
-#: search.php:132
+#: search.php:135
 msgid "Look in all or only one section."
 msgstr "Look in all or only one section."
 
-#: search.php:148
+#: search.php:151
 msgid "Please type something to search for."
 msgstr "Please type something to search for."
 
-#: search.php:237
+#: search.php:240
 msgid "Get more results"
 msgstr "Get more results"
 
-#: search.php:261
+#: search.php:264
 #, php-format
 msgid ""
 "<p>No page has been found. This will happen with very short words (less than "
@@ -913,51 +913,51 @@ msgstr ""
 "than half of pages contain the searched words. Try to use most restrictive "
 "words and to suppress \"noise\" words.</p>"
 
-#: search.php:264
+#: search.php:267
 msgid "Results"
 msgstr "Results"
 
-#: search.php:276
+#: search.php:279
 msgid "Search all of the Internet"
 msgstr "Search all of the Internet"
 
-#: search.php:283
+#: search.php:286
 msgid "Google"
 msgstr "Google"
 
-#: search.php:287
+#: search.php:290
 msgid "Bing"
 msgstr "Bing"
 
-#: search.php:291
+#: search.php:294
 msgid "Yahoo!"
 msgstr "Yahoo!"
 
-#: search.php:295
+#: search.php:298
 msgid "Ask Jeeves"
 msgstr "Ask Jeeves"
 
-#: search.php:298
+#: search.php:301
 msgid "Extended search"
 msgstr "Extended search"
 
-#: search.php:310
+#: search.php:313
 msgid "At partner sites"
 msgstr "At partner sites"
 
-#: search.php:360
+#: search.php:363
 msgid "Remember this search"
 msgstr "Remember this search"
 
-#: search.php:364
+#: search.php:367
 msgid "Search in all sections"
 msgstr "Search in all sections"
 
-#: search.php:368
+#: search.php:371
 msgid "Look for a named page"
 msgstr "Look for a named page"
 
-#: search.php:373
+#: search.php:376
 msgid ""
 "This search engine only display pages that have all words in it. <p>Also, "
 "only exact matches will be listed. Therefore \"category\" and \"categories\" "
@@ -969,15 +969,15 @@ msgstr ""
 "won't give the same results. Note that \"red\" and \"reds\" may also give "
 "different results.</p>"
 
-#: search.php:378
+#: search.php:381
 msgid "Matching pages"
 msgstr "Matching pages"
 
-#: search.php:379
+#: search.php:382
 msgid "Monitor"
 msgstr "Monitor"
 
-#: search.php:385
+#: search.php:388
 msgid "Recent searches"
 msgstr "Recent searches"
 
@@ -2267,8 +2267,8 @@ msgstr ""
 #~ "section, made a really obvious typo, or put in something really "
 #~ "inappropriate, then we might modify it. But in any case, you should be "
 #~ "aware that this could happen. FYI, <i>we</i> get to decide what's "
-#~ "inappropriate, but you should all know your netiquette by now, "
-#~ "right?  :-)</p>"
+#~ "inappropriate, but you should all know your netiquette by now, right?  :-)"
+#~ "</p>"
 #~ msgstr ""
 #~ "<p>Posted material is, of course, not private; several persons can look "
 #~ "at them. But this is as good a time as any to point out that we own and "
@@ -2279,8 +2279,8 @@ msgstr ""
 #~ "section, made a really obvious typo, or put in something really "
 #~ "inappropriate, then we might modify it. But in any case, you should be "
 #~ "aware that this could happen. FYI, <i>we</i> get to decide what's "
-#~ "inappropriate, but you should all know your netiquette by now, "
-#~ "right?  :-)</p>"
+#~ "inappropriate, but you should all know your netiquette by now, right?  :-)"
+#~ "</p>"
 
 #~ msgid ""
 #~ "<hr><p>If you have any questions or comments about our privacy policy, or "

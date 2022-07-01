@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-06 10:57+0200\n"
+"POT-Creation-Date: 2022-07-01 16:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: versions/layout_versions.php:47 versions/list.php:149
+#: versions/layout_versions.php:47 versions/list.php:152
 #, php-format
 msgid "edited by %s %s"
 msgstr ""
@@ -27,51 +27,51 @@ msgstr ""
 msgid "compare to current version"
 msgstr ""
 
-#: versions/list.php:83
+#: versions/list.php:86
 #, php-format
 msgid "Versions: %s"
 msgstr ""
 
-#: versions/list.php:85
+#: versions/list.php:88
 msgid "List versions"
 msgstr ""
 
-#: versions/list.php:90 versions/restore.php:80 versions/versions.php:343
+#: versions/list.php:93 versions/restore.php:83 versions/versions.php:343
 msgid "No anchor has been found."
 msgstr ""
 
-#: versions/list.php:101 versions/list.php:106 versions/restore.php:71
-#: versions/restore.php:91 versions/view.php:95
+#: versions/list.php:104 versions/list.php:109 versions/restore.php:74
+#: versions/restore.php:94 versions/view.php:98
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
-#: versions/list.php:130
+#: versions/list.php:133
 #, php-format
 msgid "%d version"
 msgid_plural "%d versions"
 msgstr[0] ""
 msgstr[1] ""
 
-#: versions/list.php:167 versions/restore.php:103
+#: versions/list.php:170 versions/restore.php:106
 msgid "Done"
 msgstr ""
 
-#: versions/list.php:175
+#: versions/list.php:178
 msgid ""
 "Select a version to check differences with the current page. Only the last "
 "modification for any given date is saved in the database."
 msgstr ""
 
-#: versions/list.php:176 versions/view.php:164
+#: versions/list.php:179 versions/view.php:167
 msgid "Help"
 msgstr ""
 
-#: versions/restore.php:66
+#: versions/restore.php:69
 #, php-format
 msgid "Restore: %s"
 msgstr ""
 
-#: versions/restore.php:100
+#: versions/restore.php:103
 msgid "The page has been successfully restored."
 msgstr ""
 
@@ -84,56 +84,56 @@ msgstr ""
 msgid "Impossible to restore the previous version."
 msgstr ""
 
-#: versions/view.php:110
+#: versions/view.php:113
 msgid "Title"
 msgstr ""
 
-#: versions/view.php:112
+#: versions/view.php:115
 msgid "Content of the overlay has changed"
 msgstr ""
 
-#: versions/view.php:114
+#: versions/view.php:117
 msgid "Tags"
 msgstr ""
 
-#: versions/view.php:115
+#: versions/view.php:118
 msgid "Trailer"
 msgstr ""
 
-#: versions/view.php:116
+#: versions/view.php:119
 msgid "Extra"
 msgstr ""
 
-#: versions/view.php:129
+#: versions/view.php:132
 #, php-format
 msgid "%s: %s"
 msgstr ""
 
-#: versions/view.php:148
+#: versions/view.php:151
 msgid "Versions"
 msgstr ""
 
-#: versions/view.php:151
+#: versions/view.php:154
 msgid "Restore this version"
 msgstr ""
 
-#: versions/view.php:151 versions/view.php:163
+#: versions/view.php:154 versions/view.php:166
 msgid "Caution: restoration can not be reversed!"
 msgstr ""
 
-#: versions/view.php:159
+#: versions/view.php:162
 #, php-format
 msgid "This has been posted by %s %s."
 msgstr ""
 
-#: versions/view.php:161
+#: versions/view.php:164
 msgid "Text inserted since that version."
 msgstr ""
 
-#: versions/view.php:162
+#: versions/view.php:165
 msgid "Text suppressed from this version."
 msgstr ""
 
-#: versions/view.php:179
+#: versions/view.php:182
 msgid "Navigation"
 msgstr ""

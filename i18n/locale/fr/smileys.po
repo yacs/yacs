@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: yacs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-20 23:52+0100\n"
+"POT-Creation-Date: 2022-07-01 16:51+0200\n"
 "PO-Revision-Date: 2008-11-16 21:57+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -15,20 +15,20 @@ msgstr ""
 "X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: smileys/index.php:34
+#: smileys/index.php:37
 msgid "Help index"
 msgstr "Index de l'aide"
 
-#: smileys/index.php:37
+#: smileys/index.php:40
 msgid "Smileys"
 msgstr "Emoticons"
 
-#: smileys/index.php:41
+#: smileys/index.php:44
 #, php-format
 msgid "Edited %s"
 msgstr "Mis à jour %s"
 
-#: smileys/index.php:44
+#: smileys/index.php:47
 msgid ""
 "Smileys are small graphical images that can be used to convey an emotion or "
 "feeling. If you have used email or Internet chat, you are likely familiar "
@@ -39,7 +39,7 @@ msgstr ""
 "électronique ou les babillards Internet, vous connaissez probablement déjà "
 "le concept d'emoticon."
 
-#: smileys/index.php:45
+#: smileys/index.php:48
 msgid ""
 "Let face it, sometimes words alone do not suffice. Adding a winking smilie, "
 "for instance, may help you clarify that you are joking."
@@ -48,7 +48,7 @@ msgstr ""
 "de s'exprimer avec justesse. Par exemple, ajouter un clin d'oeil peut aider "
 "à faire comprendre que vous êtes en train de plaisanter."
 
-#: smileys/index.php:46
+#: smileys/index.php:49
 msgid ""
 "Use your smilies sparingly, though -- if overused, smilies can be downright "
 "annoying."
@@ -56,7 +56,7 @@ msgstr ""
 "Comme toujours, vous utiliserez les emoticons avec parcimonie. En cas "
 "d'abus, les graphiques deviennent ennuyeux."
 
-#: smileys/index.php:47
+#: smileys/index.php:50
 msgid ""
 "Here is the list of codes that are automatically converted into images by "
 "this server."
@@ -64,415 +64,415 @@ msgstr ""
 "Voici la liste des codes qui sont convertis automatiquement en images par ce "
 "serveur."
 
-#: smileys/index.php:52
+#: smileys/index.php:55
 msgid "What to type"
 msgstr "Code à taper"
 
-#: smileys/index.php:53
+#: smileys/index.php:56
 msgid "Emotion"
 msgstr "Emotion"
 
-#: smileys/index.php:54
+#: smileys/index.php:57
 msgid "Featured image"
 msgstr "Image générée"
 
-#: smileys/index.php:61
+#: smileys/index.php:64
 msgid "sunglass dude"
 msgstr "incognito"
 
-#: smileys/index.php:68
+#: smileys/index.php:71
 msgid "smile"
 msgstr "sourire"
 
-#: smileys/index.php:75
+#: smileys/index.php:78
 msgid "roll eyes"
 msgstr "yeux au ciel"
 
-#: smileys/index.php:82
+#: smileys/index.php:85
 msgid "wink/sarcasm"
 msgstr "sarcastique"
 
-#: smileys/index.php:89
+#: smileys/index.php:92
 msgid "cheesy"
 msgstr "rire"
 
-#: smileys/index.php:96
+#: smileys/index.php:99
 msgid "rolling on the floor, laughing"
 msgstr "mort de rire"
 
-#: smileys/index.php:103
+#: smileys/index.php:106
 msgid "tongue"
 msgstr "langue"
 
-#: smileys/index.php:110
+#: smileys/index.php:113
 msgid "frown"
 msgstr "mécontent"
 
-#: smileys/index.php:117
+#: smileys/index.php:120
 msgid "angry"
 msgstr "en colère"
 
-#: smileys/index.php:124
+#: smileys/index.php:127
 msgid "to the basket"
 msgstr "à la poubelle"
 
-#: smileys/index.php:131
+#: smileys/index.php:134
 msgid "bomb"
 msgstr "bombe"
 
-#: smileys/index.php:138
+#: smileys/index.php:141
 msgid "pissed off"
 msgstr "hors de lui"
 
-#: smileys/index.php:145
+#: smileys/index.php:148
 msgid "enough is enough"
 msgstr "grosse colètre"
 
-#: smileys/index.php:152
+#: smileys/index.php:155
 msgid "i will shot you"
 msgstr "j'vais te plomber"
 
-#: smileys/index.php:159
+#: smileys/index.php:162
 msgid "i will kill you"
 msgstr "j'vais te tuer"
 
-#: smileys/index.php:166
+#: smileys/index.php:169
 msgid "cry"
 msgstr "en pleurs"
 
-#: smileys/index.php:173
+#: smileys/index.php:176
 msgid "shocked"
 msgstr "choqué"
 
-#: smileys/index.php:180
+#: smileys/index.php:183
 msgid "ekk/horror!"
 msgstr "quelle horreur !"
 
-#: smileys/index.php:187
+#: smileys/index.php:190
 msgid "sealed"
 msgstr "bouche cousue"
 
-#: smileys/index.php:194
+#: smileys/index.php:197
 msgid "this is an unsafe place"
 msgstr "pas tranquille"
 
-#: smileys/index.php:201
+#: smileys/index.php:204
 msgid "confused"
 msgstr "perdu"
 
-#: smileys/index.php:208
+#: smileys/index.php:211
 msgid "undecided"
 msgstr "pas décidé"
 
-#: smileys/index.php:215
+#: smileys/index.php:218
 msgid "embarassed"
 msgstr "gêné"
 
-#: smileys/index.php:222
+#: smileys/index.php:225
 msgid "you make me blush"
 msgstr "vous me faites rougir"
 
-#: smileys/index.php:229
+#: smileys/index.php:232
 msgid "alien"
 msgstr "visiteur"
 
-#: smileys/index.php:236
+#: smileys/index.php:239
 msgid "bounce"
 msgstr "mouvement perpétuel"
 
-#: smileys/index.php:243
+#: smileys/index.php:246
 msgid "hot bounce"
 msgstr "mouvement perpétuel chaud"
 
-#: smileys/index.php:250
+#: smileys/index.php:253
 msgid "angel"
 msgstr "angélique"
 
-#: smileys/index.php:257
+#: smileys/index.php:260
 msgid "clap clap clap, etc."
 msgstr "clap clap clap, etc."
 
-#: smileys/index.php:264
+#: smileys/index.php:267
 msgid "The King"
 msgstr "Le Roi"
 
-#: smileys/index.php:271
+#: smileys/index.php:274
 msgid "let have some beer"
 msgstr "allez trinquons"
 
-#: smileys/index.php:278
+#: smileys/index.php:281
 msgid "some electronic inside"
 msgstr "électronique embarquée"
 
-#: smileys/index.php:285
+#: smileys/index.php:288
 msgid "shaky brain"
 msgstr "cerveau secoué"
 
-#: smileys/index.php:292
+#: smileys/index.php:295
 msgid "ghost"
 msgstr "fantôme"
 
-#: smileys/index.php:299
+#: smileys/index.php:302
 msgid "frog"
 msgstr "grenouille"
 
-#: smileys/index.php:306
+#: smileys/index.php:309
 msgid "female"
 msgstr "féminin"
 
-#: smileys/index.php:313
+#: smileys/index.php:316
 msgid "male"
 msgstr "masculin"
 
-#: smileys/index.php:320
+#: smileys/index.php:323
 msgid "colored"
 msgstr "coloré"
 
-#: smileys/index.php:327
+#: smileys/index.php:330
 msgid "asian salutation"
 msgstr "salut asiatique"
 
-#: smileys/index.php:334
+#: smileys/index.php:337
 msgid "this does not make sense"
 msgstr "ceci est un non-sens"
 
-#: smileys/index.php:341
+#: smileys/index.php:344
 msgid "you are so naive"
 msgstr "est-ce de la naïveté ?"
 
-#: smileys/index.php:348
+#: smileys/index.php:351
 msgid "feeling bad"
 msgstr "j'me sens pas bien"
 
-#: smileys/index.php:355
+#: smileys/index.php:358
 msgid "I am killed"
 msgstr "je suis mort"
 
-#: smileys/index.php:362
+#: smileys/index.php:365
 msgid "we will hit the wall"
 msgstr "on va dans le mur"
 
-#: smileys/index.php:369
+#: smileys/index.php:372
 msgid "hip"
 msgstr "hip"
 
-#: smileys/index.php:376
+#: smileys/index.php:379
 msgid "joker"
 msgstr "joker"
 
-#: smileys/index.php:383
+#: smileys/index.php:386
 msgid "I would like to get it"
 msgstr "une terrible envie"
 
-#: smileys/index.php:390
+#: smileys/index.php:393
 msgid "peeping"
 msgstr "voyeur"
 
-#: smileys/index.php:397
+#: smileys/index.php:400
 msgid "bla bla bla"
 msgstr "bla bla bla"
 
-#: smileys/index.php:404
+#: smileys/index.php:407
 msgid "i want to be sure you are hearing me"
 msgstr "je parle assez fort ?"
 
-#: smileys/index.php:411
+#: smileys/index.php:414
 msgid "reading"
 msgstr "lecture"
 
-#: smileys/index.php:418
+#: smileys/index.php:421
 msgid "sniping"
 msgstr "embusqué"
 
-#: smileys/index.php:425
+#: smileys/index.php:428
 msgid "clock"
 msgstr "temporel"
 
-#: smileys/index.php:432
+#: smileys/index.php:435
 msgid "pet"
 msgstr "affectueux"
 
-#: smileys/index.php:439
+#: smileys/index.php:442
 msgid "dog"
 msgstr "chien"
 
-#: smileys/index.php:446
+#: smileys/index.php:449
 msgid "cat"
 msgstr "chat"
 
-#: smileys/index.php:453
+#: smileys/index.php:456
 msgid "email"
 msgstr "courriel"
 
-#: smileys/index.php:460
+#: smileys/index.php:463
 msgid "film"
 msgstr "film"
 
-#: smileys/index.php:467
+#: smileys/index.php:470
 msgid "note"
 msgstr "note"
 
-#: smileys/index.php:474
+#: smileys/index.php:477
 msgid "phone"
 msgstr "téléphone"
 
-#: smileys/index.php:481
+#: smileys/index.php:484
 msgid "present"
 msgstr "cadeau"
 
-#: smileys/index.php:488
+#: smileys/index.php:491
 msgid "rose"
 msgstr "rose"
 
-#: smileys/index.php:495
+#: smileys/index.php:498
 msgid "unlove"
 msgstr "je ne t'aime pas"
 
-#: smileys/index.php:502
+#: smileys/index.php:505
 msgid "a little nap"
 msgstr "une petite sieste"
 
-#: smileys/index.php:509
+#: smileys/index.php:512
 msgid "sunshine"
 msgstr "le soleil brille brille brille"
 
-#: smileys/index.php:516
+#: smileys/index.php:519
 msgid "thinking"
 msgstr "faut voir"
 
-#: smileys/index.php:523
+#: smileys/index.php:526
 msgid "god bless you"
 msgstr "salut, ô mon maître"
 
-#: smileys/index.php:530
+#: smileys/index.php:533
 msgid "i am feeling so glad"
 msgstr "ça me rend si heureux"
 
-#: smileys/index.php:537
+#: smileys/index.php:540
 msgid "candle"
 msgstr "bougie"
 
-#: smileys/index.php:544
+#: smileys/index.php:547
 msgid "this deserves a full medal"
 msgstr "ceci mérite une médaille"
 
-#: smileys/index.php:551
+#: smileys/index.php:554
 msgid "this deserves half of a medal"
 msgstr "ceci mérite une demi-médaille"
 
-#: smileys/index.php:558
+#: smileys/index.php:561
 msgid "you should not do that"
 msgstr "non, non"
 
-#: smileys/index.php:565
+#: smileys/index.php:568
 msgid "please stop"
 msgstr "stop, stop et stop"
 
-#: smileys/index.php:572
+#: smileys/index.php:575
 msgid "good bye"
 msgstr "au revoir"
 
-#: smileys/index.php:579
+#: smileys/index.php:582
 msgid "flush and forget it"
 msgstr "à oublier"
 
-#: smileys/index.php:586
+#: smileys/index.php:589
 msgid "it stinks"
 msgstr "ça pue"
 
-#: smileys/index.php:593
+#: smileys/index.php:596
 msgid "the dark side of The Force"
 msgstr "le côté obscur de La Force"
 
-#: smileys/index.php:600 smileys/index.php:607
+#: smileys/index.php:603 smileys/index.php:610
 msgid "Star wars"
 msgstr "Star wars"
 
-#: smileys/index.php:614
+#: smileys/index.php:617
 msgid "Santa Claus"
 msgstr "Père Noël"
 
-#: smileys/index.php:621
+#: smileys/index.php:624
 msgid "good"
 msgstr "bien/beau/j'aime"
 
-#: smileys/index.php:628
+#: smileys/index.php:631
 msgid "bad"
 msgstr "mal/laid/je n'aime pas"
 
-#: smileys/index.php:635
+#: smileys/index.php:638
 msgid "peace"
 msgstr "paix"
 
-#: smileys/index.php:642
+#: smileys/index.php:645
 msgid "yin yang"
 msgstr "yin yang"
 
-#: smileys/index.php:649
+#: smileys/index.php:652
 msgid "with love"
 msgstr "avec amour"
 
-#: smileys/index.php:656
+#: smileys/index.php:659
 msgid "lovely"
 msgstr "plein d'amour"
 
-#: smileys/index.php:663
+#: smileys/index.php:666
 msgid "kiss"
 msgstr "bisous"
 
-#: smileys/index.php:670
+#: smileys/index.php:673
 msgid "I want you"
 msgstr "c'est tout de suite"
 
-#: smileys/index.php:677
+#: smileys/index.php:680
 msgid "with (more) love"
 msgstr "avec (plus) d'amour"
 
-#: smileys/index.php:684
+#: smileys/index.php:687
 msgid "share a cake"
 msgstr "partager un gâteau"
 
-#: smileys/index.php:691
+#: smileys/index.php:694
 msgid "take a shot"
 msgstr "photo"
 
-#: smileys/index.php:698
+#: smileys/index.php:701
 msgid "a cup of coffee"
 msgstr "une tasse de café"
 
-#: smileys/index.php:705
+#: smileys/index.php:708
 msgid "have a cocktail"
 msgstr "tchin tchin"
 
-#: smileys/index.php:712
+#: smileys/index.php:715
 msgid "have a party"
 msgstr "faire la fête"
 
-#: smileys/index.php:719
+#: smileys/index.php:722
 msgid "once upon a time..."
 msgstr "il était une fois..."
 
-#: smileys/index.php:726
+#: smileys/index.php:729
 msgid "question"
 msgstr "question"
 
-#: smileys/index.php:733
+#: smileys/index.php:736
 msgid "idea"
 msgstr "idée"
 
-#: smileys/index.php:740
+#: smileys/index.php:743
 msgid "warning"
 msgstr "attention danger"
 
-#: smileys/index.php:747
+#: smileys/index.php:750
 msgid "star"
 msgstr "étoile"
 
-#: smileys/index.php:754
+#: smileys/index.php:757
 msgid "operating systems"
 msgstr "systèmes d'exploitation"
 
-#: smileys/index.php:761
+#: smileys/index.php:764
 msgid "Ok, i leave"
 msgstr "Ok, je sors"
 

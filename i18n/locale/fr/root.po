@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-04 10:28+0200\n"
+"POT-Creation-Date: 2022-07-01 16:51+0200\n"
 "PO-Revision-Date: 2018-10-04 10:31+0200\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -204,12 +204,12 @@ msgid "Side panel"
 msgstr "Panneau de côté"
 
 #: configure.php:275 panel.php:77 query.php:280 query_privacy.php:288
-#: search.php:121
+#: search.php:124
 msgid "Submit"
 msgstr "Envoyer"
 
 #: configure.php:275 panel.php:77 query.php:280 query_privacy.php:288
-#: search.php:121
+#: search.php:124
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
@@ -328,7 +328,7 @@ msgstr ""
 msgid "the site front page"
 msgstr "la page d'accueil"
 
-#: error.php:133 go.php:147 query.php:175 search.php:112
+#: error.php:133 go.php:151 query.php:175 search.php:115
 msgid "Search"
 msgstr "Recherche"
 
@@ -488,42 +488,42 @@ msgstr "Localisateur de page"
 msgid "Please indicate a nick name to look for."
 msgstr "Merci d'indiquer le nom recherché."
 
-#: go.php:103
+#: go.php:107
 msgid "Select below among available sections."
 msgstr "Choisissez parmi les sections ci-dessous."
 
-#: go.php:122
+#: go.php:126
 msgid "Select below among available pages."
 msgstr "Choisissez parmi les pages ci-dessous."
 
-#: go.php:133
+#: go.php:137
 #, php-format
 msgid "Sorry, no page has the provided name: %s"
 msgstr "Désolé, aucune page n'a le nom : %s"
 
-#: go.php:136
+#: go.php:140
 msgid "Add a page with this name"
 msgstr "Ajouter une page avec ce nom"
 
-#: go.php:143
+#: go.php:147
 msgid "Look for"
 msgstr "Rechercher"
 
-#: go.php:145
+#: go.php:149
 msgid "Nick name"
 msgstr "Surnom"
 
-#: go.php:157
+#: go.php:161
 msgid "Please type something to search for"
 msgstr "Indiquez quelque chose à chercher"
 
-#: go.php:173
+#: go.php:177
 #, php-format
 msgid "Submit \"%s\" to our %s in case some pages could match this keyword."
 msgstr ""
 "Envoyer \"%s\" au %s au cas où certaines pages contiendraient ce texte."
 
-#: go.php:173
+#: go.php:177
 msgid "search engine"
 msgstr "moteur de recherche"
 
@@ -584,7 +584,7 @@ msgstr "Introduction"
 msgid "Page content"
 msgstr "Contenu de la page"
 
-#: query.php:44 query.php:339 search.php:373
+#: query.php:44 query.php:339 search.php:376
 msgid "Help"
 msgstr "Aide"
 
@@ -879,40 +879,40 @@ msgstr ""
 "Pour une demande spécifique, utilisez s'il vous plaît [ce formulaire|query."
 "php]"
 
-#: search.php:110
+#: search.php:113
 #, php-format
 msgid "Search: %s"
 msgstr "Recherche : %s"
 
-#: search.php:119
+#: search.php:122
 msgid "You are searching for"
 msgstr "Vous cherchez"
 
-#: search.php:122
+#: search.php:125
 msgid "Type one or several words."
 msgstr "Indiquez un ou pusieurs mots."
 
-#: search.php:126
+#: search.php:129
 msgid "Search in"
 msgstr "Chercher dans"
 
-#: search.php:131
+#: search.php:134
 msgid "-- All sections"
 msgstr "-- Toutes les sections"
 
-#: search.php:132
+#: search.php:135
 msgid "Look in all or only one section."
 msgstr "Pour limiter la recherche à une seule section."
 
-#: search.php:148
+#: search.php:151
 msgid "Please type something to search for."
 msgstr "Svp indiquez quelque chose à chercher."
 
-#: search.php:237
+#: search.php:240
 msgid "Get more results"
 msgstr "Obtenir plus de résultats"
 
-#: search.php:261
+#: search.php:264
 #, php-format
 msgid ""
 "<p>No page has been found. This will happen with very short words (less than "
@@ -926,51 +926,51 @@ msgstr ""
 "recherchés. Essayez d'employer des mots plus rectrictifs, et de supprimer "
 "les mots \"parasites\".</p>"
 
-#: search.php:264
+#: search.php:267
 msgid "Results"
 msgstr "Résultats"
 
-#: search.php:276
+#: search.php:279
 msgid "Search all of the Internet"
 msgstr "Chercher sur Internet"
 
-#: search.php:283
+#: search.php:286
 msgid "Google"
 msgstr "Google"
 
-#: search.php:287
+#: search.php:290
 msgid "Bing"
 msgstr "Bing"
 
-#: search.php:291
+#: search.php:294
 msgid "Yahoo!"
 msgstr "Yahoo!"
 
-#: search.php:295
+#: search.php:298
 msgid "Ask Jeeves"
 msgstr "Ask Jeeves"
 
-#: search.php:298
+#: search.php:301
 msgid "Extended search"
 msgstr "Recherche étendue"
 
-#: search.php:310
+#: search.php:313
 msgid "At partner sites"
 msgstr "Sites partenaires"
 
-#: search.php:360
+#: search.php:363
 msgid "Remember this search"
 msgstr "Mémoriser cette recherche"
 
-#: search.php:364
+#: search.php:367
 msgid "Search in all sections"
 msgstr "Rechercher dans toutes les sections"
 
-#: search.php:368
+#: search.php:371
 msgid "Look for a named page"
 msgstr "Chercher une page nommée"
 
-#: search.php:373
+#: search.php:376
 msgid ""
 "This search engine only display pages that have all words in it. <p>Also, "
 "only exact matches will be listed. Therefore \"category\" and \"categories\" "
@@ -982,15 +982,15 @@ msgstr ""
 "recherchés. Par exemple \"section\" et \"sections\" donneront des résultats "
 "différents.</p>"
 
-#: search.php:378
+#: search.php:381
 msgid "Matching pages"
 msgstr "Pages trouvées"
 
-#: search.php:379
+#: search.php:382
 msgid "Monitor"
 msgstr "Surveiller"
 
-#: search.php:385
+#: search.php:388
 msgid "Recent searches"
 msgstr "Recherches récentes"
 
@@ -2281,8 +2281,8 @@ msgstr ""
 #~ "section, made a really obvious typo, or put in something really "
 #~ "inappropriate, then we might modify it. But in any case, you should be "
 #~ "aware that this could happen. FYI, <i>we</i> get to decide what's "
-#~ "inappropriate, but you should all know your netiquette by now, "
-#~ "right?  :-)</p>"
+#~ "inappropriate, but you should all know your netiquette by now, right?  :-)"
+#~ "</p>"
 #~ msgstr ""
 #~ "<p>Par définition, l'information publiée n'est pas privée, dans le sens "
 #~ "où plusieurs personnes peuvent la consulter. Attention, il est bon de "

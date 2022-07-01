@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-31 10:07+0100\n"
+"POT-Creation-Date: 2022-07-01 16:51+0200\n"
 "PO-Revision-Date: 2010-08-11 17:30+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Alexis Raimbault, Bernard Paques\n"
@@ -15,66 +15,66 @@ msgstr ""
 "X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: dates/check.php:21 dates/check.php:32 dates/check.php:90
-#: dates/check.php:146 dates/delete.php:70 dates/edit.php:64
+#: dates/check.php:24 dates/check.php:35 dates/check.php:93
+#: dates/check.php:149 dates/delete.php:73 dates/edit.php:67
 #: dates/fetch_ics.php:27 dates/fetch_ics.php:30 dates/index.php:43
 #: dates/view.php:55
 msgid "Dates"
 msgstr "Dates"
 
-#: dates/check.php:24 dates/index.php:67
+#: dates/check.php:27 dates/index.php:67
 msgid "Maintenance"
 msgstr "Maintenance"
 
-#: dates/check.php:29 dates/day.php:50 dates/day.php:61 dates/delete.php:82
-#: dates/edit.php:75 dates/edit.php:86 dates/month.php:52 dates/month.php:63
+#: dates/check.php:32 dates/day.php:50 dates/day.php:61 dates/delete.php:85
+#: dates/edit.php:78 dates/edit.php:89 dates/month.php:52 dates/month.php:63
 #: dates/year.php:39
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à faire cette opération."
 
-#: dates/check.php:39 dates/check.php:97
+#: dates/check.php:42 dates/check.php:100
 #, php-format
 msgid "Analyzing table %s..."
 msgstr "Analyse de la table %s ..."
 
-#: dates/check.php:58 dates/check.php:83 dates/check.php:117
-#: dates/check.php:139
+#: dates/check.php:61 dates/check.php:86 dates/check.php:120
+#: dates/check.php:142
 #, php-format
 msgid "%d records have been processed"
 msgstr "%d enregistrements ont été traités"
 
-#: dates/check.php:70
+#: dates/check.php:73
 #, php-format
 msgid "Unused: %s"
 msgstr "Inutilisé : %s"
 
-#: dates/check.php:72 dates/check.php:128
+#: dates/check.php:75 dates/check.php:131
 msgid "Too many successive errors. Aborted"
 msgstr "Trop d'erreurs successives. Abandon"
 
-#: dates/check.php:87 dates/check.php:143
+#: dates/check.php:90 dates/check.php:146
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminé en %.2f secondes."
 
-#: dates/check.php:126
+#: dates/check.php:129
 #, php-format
 msgid "Orphan: %s"
 msgstr "Orphelin : %s"
 
-#: dates/check.php:153
+#: dates/check.php:156
 msgid "Please select the action to perform."
 msgstr "Merci de choisir l'opération à effectuer."
 
-#: dates/check.php:159
+#: dates/check.php:162
 msgid "Look for unused dates"
 msgstr "Détecter les dates non-utilisées"
 
-#: dates/check.php:162
+#: dates/check.php:165
 msgid "Look for orphan records"
 msgstr "Détecter les enregistrements orphelins"
 
-#: dates/check.php:165
+#: dates/check.php:168
 msgid "Start"
 msgstr "Commencer"
 
@@ -154,11 +154,11 @@ msgstr "Novembre"
 msgid "December"
 msgstr "Décembre"
 
-#: dates/dates.php:1033 dates/edit.php:225
+#: dates/dates.php:1033 dates/edit.php:228
 msgid "Please provide a date."
 msgstr "Merci d'indiquer une date."
 
-#: dates/dates.php:1039 dates/edit.php:91
+#: dates/dates.php:1039 dates/edit.php:94
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
@@ -174,104 +174,104 @@ msgstr "Rien n'a été enregistré pour cette date."
 msgid "Recent pages"
 msgstr "Pages récentes"
 
-#: dates/delete.php:73
+#: dates/delete.php:76
 msgid "Delete a date"
 msgstr "Supprimer une date"
 
-#: dates/delete.php:102
+#: dates/delete.php:105
 msgid "The action has not been confirmed."
 msgstr "L'action n'a pas été confirmée."
 
-#: dates/delete.php:109
+#: dates/delete.php:112
 msgid "Yes, I want to delete this date"
 msgstr "Oui, je veux supprimer cette date"
 
-#: dates/delete.php:111
+#: dates/delete.php:114
 msgid "Cancel"
 msgstr "Annuler"
 
-#: dates/delete.php:124 dates/edit.php:124 dates/view.php:76
+#: dates/delete.php:127 dates/edit.php:127 dates/view.php:76
 #, php-format
 msgid "%s: %s"
 msgstr "%s : %s"
 
-#: dates/delete.php:124 dates/edit.php:124 dates/edit.php:193
+#: dates/delete.php:127 dates/edit.php:127 dates/edit.php:196
 #: dates/view.php:76
 msgid "Target date"
 msgstr "Date cible"
 
-#: dates/delete.php:131 dates/layout_dates.php:70 dates/view.php:83
+#: dates/delete.php:134 dates/layout_dates.php:70 dates/view.php:83
 #, php-format
 msgid "edited by %s %s"
 msgstr "modifié par %s %s"
 
-#: dates/edit.php:68
+#: dates/edit.php:71
 msgid "Edit a date"
 msgstr "Modifier une date"
 
-#: dates/edit.php:70
+#: dates/edit.php:73
 msgid "Add a date"
 msgstr "Ajouter une date"
 
-#: dates/edit.php:96
+#: dates/edit.php:99
 msgid "This page has been locked."
 msgstr "Cette page a été verrouillée."
 
-#: dates/edit.php:121
+#: dates/edit.php:124
 msgid "Thank you for your contribution"
 msgstr "Merci de votre contribution"
 
-#: dates/edit.php:127
+#: dates/edit.php:130
 msgid "The date has been saved."
 msgstr "La date a été enregistrée."
 
-#: dates/edit.php:139
+#: dates/edit.php:142
 msgid "What do you want to do now?"
 msgstr "Que voulez-vous faire à présent ?"
 
-#: dates/edit.php:141 dates/layout_dates_as_family.php:83
+#: dates/edit.php:144 dates/layout_dates_as_family.php:83
 #: dates/layout_dates.php:61
 msgid "View the page"
 msgstr "Voir la page"
 
-#: dates/edit.php:142
+#: dates/edit.php:145
 msgid "Edit the page"
 msgstr "Modifier la page"
 
-#: dates/edit.php:187
+#: dates/edit.php:190
 msgid "Posted by"
 msgstr "Envoyé par"
 
-#: dates/edit.php:195
+#: dates/edit.php:198
 msgid "YYYY-MM-DD"
 msgstr "AAAA-MM-DD"
 
-#: dates/edit.php:204
+#: dates/edit.php:207
 msgid "Do not change modification date of the main page."
 msgstr "Ne pas changer la date de modification de la page principale."
 
-#: dates/edit.php:207
+#: dates/edit.php:210
 msgid "Submit"
 msgstr "Enregistrer"
 
-#: dates/edit.php:207
+#: dates/edit.php:210
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
-#: dates/edit.php:237
+#: dates/edit.php:240
 #, php-format
 msgid "%s and %s are available to enhance text rendering."
 msgstr "Utilisez %s et %s pour embellir le texte."
 
-#: dates/edit.php:237
+#: dates/edit.php:240
 msgid "YACS codes"
 msgstr "codes YACS"
 
-#: dates/edit.php:237
+#: dates/edit.php:240
 msgid "smileys"
 msgstr "emoticons"
 
-#: dates/edit.php:238
+#: dates/edit.php:241
 msgid "Help"
 msgstr "Aide"
 

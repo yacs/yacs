@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-01 11:34+0200\n"
+"POT-Creation-Date: 2022-07-01 16:51+0200\n"
 "PO-Revision-Date: 2018-05-01 11:36+0200\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -18,9 +18,9 @@ msgstr ""
 #: scripts/build.php:417 scripts/check.php:32 scripts/check.php:51
 #: scripts/compare.php:40 scripts/configure.php:43 scripts/configure.php:101
 #: scripts/configure.php:164 scripts/fetch.php:62 scripts/index.php:99
-#: scripts/parse.php:48 scripts/parse.php:80 scripts/stage.php:74
-#: scripts/stage.php:231 scripts/stage.php:250 scripts/stage.php:336
-#: scripts/stage.php:345 scripts/update.php:54 scripts/update.php:73
+#: scripts/parse.php:48 scripts/parse.php:80 scripts/stage.php:77
+#: scripts/stage.php:234 scripts/stage.php:253 scripts/stage.php:339
+#: scripts/stage.php:348 scripts/update.php:54 scripts/update.php:73
 #: scripts/update.php:210 scripts/update.php:383 scripts/upload.php:30
 #: scripts/upload.php:114 scripts/validate.php:29 scripts/validate.php:52
 #: scripts/view.php:56 scripts/view.php:102
@@ -62,7 +62,7 @@ msgid "Build the software"
 msgstr "Construire le logiciel"
 
 #: scripts/build.php:95 scripts/check.php:44 scripts/compare.php:51
-#: scripts/configure.php:52 scripts/run_once.php:101 scripts/stage.php:125
+#: scripts/configure.php:52 scripts/run_once.php:101 scripts/stage.php:128
 #: scripts/update.php:66 scripts/upload.php:42 scripts/validate.php:49
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à effectuer cette opération."
@@ -190,7 +190,7 @@ msgstr ""
 "Le fichier %s n'a pas été généré et les données du référentiel sont "
 "utilisables seulement pour test."
 
-#: scripts/build.php:330 scripts/stage.php:236 scripts/stage.php:313
+#: scripts/build.php:330 scripts/stage.php:239 scripts/stage.php:316
 #: scripts/update.php:146 scripts/update.php:171
 #, php-format
 msgid "Impossible to write to %s."
@@ -332,11 +332,11 @@ msgstr ""
 "Oui. Si le script index.php est mis à jour dans le répertoire de YACS, il "
 "sera dupliqué au niveau du dessus de l'arborescence des fichiers."
 
-#: scripts/configure.php:93 scripts/stage.php:385 scripts/upload.php:140
+#: scripts/configure.php:93 scripts/stage.php:388 scripts/upload.php:140
 msgid "Submit"
 msgstr "Enregistrer"
 
-#: scripts/configure.php:93 scripts/stage.php:385 scripts/upload.php:140
+#: scripts/configure.php:93 scripts/stage.php:388 scripts/upload.php:140
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
@@ -380,7 +380,7 @@ msgstr "Paramètres de configuration"
 msgid "Where do you want to go now?"
 msgstr "Où voulez-vous aller à présent ?"
 
-#: scripts/configure.php:163 scripts/stage.php:77 scripts/update.php:260
+#: scripts/configure.php:163 scripts/stage.php:80 scripts/update.php:260
 #: scripts/update.php:375
 msgid "Stage updated scripts"
 msgstr "Commencer la mise à jour des scripts"
@@ -493,7 +493,7 @@ msgstr "Téléchargement des nouveaux scripts. Merci de patienter..."
 #: scripts/phpdoc.php:562 scripts/phpdoc.php:563 scripts/run_once.php:105
 #: scripts/scripts.php:174 scripts/scripts.php:180 scripts/scripts.php:212
 #: scripts/scripts.php:219 scripts/scripts.php:678 scripts/scripts.php:684
-#: scripts/stage.php:174 scripts/stage.php:303 scripts/upload.php:75
+#: scripts/stage.php:177 scripts/stage.php:306 scripts/upload.php:75
 #, php-format
 msgid "Impossible to read %s."
 msgstr "Impossible de lire %s."
@@ -522,60 +522,60 @@ msgstr "Aucun script d'extension n'a été exécuté"
 msgid "Delta"
 msgstr "Delta"
 
-#: scripts/stage.php:142 scripts/upload.php:52 scripts/upload.php:64
+#: scripts/stage.php:145 scripts/upload.php:52 scripts/upload.php:64
 msgid "Nothing has been received."
 msgstr "Rien n'a été reçu."
 
-#: scripts/stage.php:146 scripts/upload.php:68
+#: scripts/stage.php:149 scripts/upload.php:68
 msgid "Possible file attack."
 msgstr "Possibilité d'attaque sur le fichier."
 
-#: scripts/stage.php:183 scripts/upload.php:88
+#: scripts/stage.php:186 scripts/upload.php:88
 #, php-format
 msgid "%d files have been extracted."
 msgstr "%d fichiers ont été extraits."
 
-#: scripts/stage.php:186 scripts/upload.php:91
+#: scripts/stage.php:189 scripts/upload.php:91
 #, php-format
 msgid "Nothing has been extracted from %s."
 msgstr "Rien n'a été extrait de %s."
 
-#: scripts/stage.php:190 scripts/upload.php:95
+#: scripts/stage.php:193 scripts/upload.php:95
 msgid "Impossible to extract files."
 msgstr "Impossible d'extraire les fichiers."
 
-#: scripts/stage.php:200
+#: scripts/stage.php:203
 #, php-format
 msgid "Impossible to complete update of the staging store from %s"
 msgstr "Impossible d'effectuer la mise à jour à partir de %s"
 
-#: scripts/stage.php:205
+#: scripts/stage.php:208
 msgid "The staging directory has been updated."
 msgstr "Le répertoire tampon a été mis à jour."
 
-#: scripts/stage.php:209 scripts/stage.php:354
+#: scripts/stage.php:212 scripts/stage.php:357
 msgid "Review staged scripts before the update"
 msgstr "Contrôler les nouveaux scripts avant la mise à jour"
 
-#: scripts/stage.php:218
+#: scripts/stage.php:221
 msgid "Purging old staging files..."
 msgstr "Suppression des mises à jour précédentes..."
 
-#: scripts/stage.php:222
+#: scripts/stage.php:225
 #, php-format
 msgid "%d items have been purged"
 msgstr "%d éléments ont été supprimés"
 
-#: scripts/stage.php:228
+#: scripts/stage.php:231
 #, php-format
 msgid "Impossible to get %s. Please %s again."
 msgstr "Impossible d'obtenir %s. Merci de vérifier la %s."
 
-#: scripts/stage.php:228
+#: scripts/stage.php:231
 msgid "configure"
 msgstr "configuration"
 
-#: scripts/stage.php:240
+#: scripts/stage.php:243
 msgid ""
 "Footprints of reference scripts have been saved in file scripts/staging/"
 "footprints.php."
@@ -583,41 +583,41 @@ msgstr ""
 "Les signatures des scripts de référence ont été sauvées dans le fichier "
 "scripts/staging/footprints.php."
 
-#: scripts/stage.php:247
+#: scripts/stage.php:250
 msgid "Invalid reference index. Staging has been cancelled."
 msgstr "Index invalide. L'opération est abandonnée."
 
-#: scripts/stage.php:255 scripts/update.php:271
+#: scripts/stage.php:258 scripts/update.php:271
 #, php-format
 msgid "Reference set of %d files built on %s on server %s"
 msgstr "Ensemble de référence de %d fichiers créé le %s sur le serveur %s"
 
-#: scripts/stage.php:258
+#: scripts/stage.php:261
 msgid "Download of updated scripts. Please wait..."
 msgstr "Téléchargement des nouveaux scripts. Merci de patienter..."
 
-#: scripts/stage.php:291
+#: scripts/stage.php:294
 #, php-format
 msgid "Using staged file %s"
 msgstr "Mise en oeuvre du fichier %s"
 
-#: scripts/stage.php:298
+#: scripts/stage.php:301
 #, php-format
 msgid "Staging %s"
 msgstr "Téléchargement de %s"
 
-#: scripts/stage.php:321
+#: scripts/stage.php:324
 msgid "File has been corrupted!"
 msgstr "Le fichier a été corrompu !"
 
-#: scripts/stage.php:333
+#: scripts/stage.php:336
 msgid ""
 "Errors have been encountered, and you cannot proceed with the network update."
 msgstr ""
 "A cause des erreurs rencontrées, vous ne pouvez pas continuer la mise à jour "
 "par le réseau."
 
-#: scripts/stage.php:342
+#: scripts/stage.php:345
 msgid ""
 "No file has been staged. Scripts on your server are exact copies of the "
 "reference set."
@@ -625,14 +625,14 @@ msgstr ""
 "Aucun fichier n'a été téléchargé. Les scripts sur votre serveur sont à jour "
 "par rapport au serveur de référence."
 
-#: scripts/stage.php:350
+#: scripts/stage.php:353
 #, php-format
 msgid "%d file has been downloaded from the reference server."
 msgid_plural "%d files have been downloaded from the reference server."
 msgstr[0] "%d fichier a été téléchargé depuis le serveur de référence."
 msgstr[1] "%d fichiers ont été téléchargés depuis le serveur de référence."
 
-#: scripts/stage.php:365
+#: scripts/stage.php:368
 msgid ""
 "This script allows you to stage new scripts that will then be used to update "
 "your YACS server."
@@ -640,7 +640,7 @@ msgstr ""
 "Ce script charge localement les nouveaux scripts pour, ensuite, réaliser la "
 "mise à jour de votre serveur YACS."
 
-#: scripts/stage.php:369
+#: scripts/stage.php:372
 #, php-format
 msgid ""
 "Extended processing time is not allowed on this server. In case of trouble, "
@@ -654,23 +654,23 @@ msgstr ""
 "FTP ou équivalent de votre choix. Puis, après cette opération, aller sur %s "
 "pour continuer la mise à jour."
 
-#: scripts/stage.php:369
+#: scripts/stage.php:372
 msgid "the update script"
 msgstr "le script de mise à jour"
 
-#: scripts/stage.php:372
+#: scripts/stage.php:375
 msgid "Direct upload"
 msgstr "Téléversement direct"
 
-#: scripts/stage.php:375
+#: scripts/stage.php:378
 msgid "Pick-up and upload the archive file to use for the upgrade."
 msgstr "Choisissez le fichier d'archive qui sera utilisé pour la mise à jour."
 
-#: scripts/stage.php:382 scripts/upload.php:137
+#: scripts/stage.php:385 scripts/upload.php:137
 msgid "bytes"
 msgstr "octets"
 
-#: scripts/stage.php:391
+#: scripts/stage.php:394
 msgid ""
 "The upload will start on your click. Then the archive will be exploded to "
 "stage files. You may have to wait for minutes before getting a response "
@@ -680,11 +680,11 @@ msgstr ""
 "les fichiers. Vous pouvez avoir à attendre plusieurs minutes avant d'obtenir "
 "une réponse à l'écran."
 
-#: scripts/stage.php:394
+#: scripts/stage.php:397
 msgid "Indirect upload"
 msgstr "Téléversement indirect"
 
-#: scripts/stage.php:397
+#: scripts/stage.php:400
 #, php-format
 msgid ""
 "If the file is too large for the web, you can upload it by yourself, for "
@@ -693,12 +693,12 @@ msgstr ""
 "Si le fichier s'avère trop important, vous pouvez le téléverser par vos "
 "propres moyens, par exemple par FTP, dans le répertoire %s."
 
-#: scripts/stage.php:431
+#: scripts/stage.php:434
 #, php-format
 msgid "Install release %s"
 msgstr "Installer la version %s"
 
-#: scripts/stage.php:436
+#: scripts/stage.php:439
 msgid ""
 "Click to explode the selected archive. You may have to wait for some time "
 "before getting a response displayed."
@@ -706,11 +706,11 @@ msgstr ""
 "Cliquer pour extraire les fichiers. Vous pouvez avoir à attendre avant "
 "d'obtenir une réponse à l'écran."
 
-#: scripts/stage.php:441
+#: scripts/stage.php:444
 msgid "Direct staging"
 msgstr "Mise à jour directe du tampon"
 
-#: scripts/stage.php:444
+#: scripts/stage.php:447
 #, php-format
 msgid ""
 "Ultimately, you can populate the directory %s by yourself. On completion you "
@@ -719,7 +719,7 @@ msgstr ""
 "Vous pouvez aussi choisir de remplir le répertoire %s manuellement. Ensuite "
 "vous pourrez lancer %s."
 
-#: scripts/stage.php:444
+#: scripts/stage.php:447
 msgid "update process"
 msgstr "la mise à jour"
 

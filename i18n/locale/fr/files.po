@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-28 21:04+0200\n"
-"PO-Revision-Date: 2015-04-24 15:36+0100\n"
+"POT-Creation-Date: 2022-07-01 16:51+0200\n"
+"PO-Revision-Date: 2022-07-01 16:55+0200\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Alexis Raimbault, Bernard Paques\n"
 "Language: fr_FR\n"
@@ -12,125 +12,125 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 2.3\n"
 
-#: files/check.php:22 files/check.php:33 files/check.php:89
-#: files/configure.php:44 files/configure.php:150 files/configure.php:221
-#: files/delete.php:77 files/edit.php:148 files/feed.php:111
+#: files/check.php:25 files/check.php:36 files/check.php:92
+#: files/configure.php:47 files/configure.php:153 files/configure.php:224
+#: files/delete.php:80 files/edit.php:151 files/feed.php:111
 #: files/fetch_all.php:99 files/fetch.php:114 files/index.php:58
-#: files/list.php:66 files/list.php:72 files/review.php:30 files/review.php:36
-#: files/stream.php:115 files/thread.php:60 files/thread.php:63
+#: files/list.php:66 files/list.php:72 files/review.php:33 files/review.php:39
+#: files/stream.php:115 files/thread.php:63 files/thread.php:66
 #: files/view.php:115
 msgid "Files"
 msgstr "Fichiers"
 
-#: files/check.php:25 files/index.php:109
+#: files/check.php:28 files/index.php:109
 msgid "Maintenance"
 msgstr "Maintenance"
 
-#: files/check.php:30 files/configure.php:53 files/delete.php:90
-#: files/edit.php:167 files/edit.php:197 files/feed.php:127
-#: files/fetch_all.php:116 files/fetch.php:147 files/files.php:3239
+#: files/check.php:33 files/configure.php:56 files/delete.php:93
+#: files/edit.php:164 files/edit.php:194 files/feed.php:127
+#: files/fetch_all.php:116 files/fetch.php:147 files/files.php:3240
 #: files/index.php:68 files/list.php:88 files/list.php:93 files/move.php:25
-#: files/move.php:54 files/sort.php:25 files/stream.php:142
-#: files/thread.php:68 files/upload.ajax.php:30 files/upload.ajax.php:142
-#: files/view.php:148
+#: files/move.php:54 files/sort.php:25 files/stream.php:142 files/thread.php:71
+#: files/upload.ajax.php:30 files/upload.ajax.php:142 files/view.php:148
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à faire cette opération."
 
-#: files/check.php:40
+#: files/check.php:43
 #, php-format
 msgid "Analyzing table %s..."
 msgstr "Analyse de la table %s ..."
 
-#: files/check.php:60 files/check.php:82 files/check.php:113
-#: files/check.php:134
+#: files/check.php:63 files/check.php:85 files/check.php:116
+#: files/check.php:137
 #, php-format
 msgid "%d records have been processed"
 msgstr "%d enregistrements ont été traités"
 
-#: files/check.php:69
+#: files/check.php:72
 #, php-format
 msgid "Orphan: %s"
 msgstr "Orphelin : %s"
 
-#: files/check.php:71
+#: files/check.php:74
 msgid "Too many successive errors. Aborted"
 msgstr "Trop d'erreurs successives. Abandon"
 
-#: files/check.php:86 files/check.php:139
+#: files/check.php:89 files/check.php:142
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminé en %.2f secondes."
 
-#: files/check.php:126
+#: files/check.php:129
 #, php-format
 msgid "Missing: %s"
 msgstr "Manquant : %s"
 
-#: files/check.php:126
+#: files/check.php:129
 msgid "in"
 msgstr "dans"
 
-#: files/check.php:135
+#: files/check.php:138
 #, php-format
 msgid "%d missing files"
 msgstr "%d fichiers manquant"
 
-#: files/check.php:142 files/edit.php:628
+#: files/check.php:145 files/edit.php:625
 msgid "Images"
 msgstr "Images"
 
-#: files/check.php:149
+#: files/check.php:152
 msgid "Please select the action to perform."
 msgstr "Merci de choisir l'opération à effectuer."
 
-#: files/check.php:155
+#: files/check.php:158
 msgid "Look for orphan records"
 msgstr "Détecter les enregistrements orphelins"
 
-#: files/check.php:158
+#: files/check.php:161
 msgid "Look for missing files"
 msgstr "Cherche des fichiers manquants"
 
-#: files/check.php:161 files/view.php:369 files/view.php:390
-#: files/view.php:403 files/view.php:419 files/view.php:438
+#: files/check.php:164 files/view.php:369 files/view.php:390 files/view.php:403
+#: files/view.php:419 files/view.php:438
 msgid "Start"
 msgstr "Commencer"
 
-#: files/configure.php:41 files/configure.php:146 files/configure.php:222
+#: files/configure.php:44 files/configure.php:149 files/configure.php:225
 msgid "Control Panel"
 msgstr "Panneau de contrôle"
 
-#: files/configure.php:44 files/delete.php:81 files/edit.php:316
-#: files/edit.php:335 files/fetch.php:235 files/fetch.php:254
+#: files/configure.php:47 files/delete.php:84 files/edit.php:313
+#: files/edit.php:332 files/fetch.php:235 files/fetch.php:254
 #: files/files.php:566
 #, php-format
 msgid "%s: %s"
 msgstr "%s : %s"
 
-#: files/configure.php:44 files/index.php:108
+#: files/configure.php:47 files/index.php:108
 msgid "Configure"
 msgstr "Configurer"
 
-#: files/configure.php:70
+#: files/configure.php:73
 msgid "Supported extensions"
 msgstr "Extensions supportées"
 
-#: files/configure.php:73
+#: files/configure.php:76
 msgid "Recommended tools are listed for each extension on download."
 msgstr "Les logiciels adaptés sont indiqués au moments du téléchargement."
 
-#: files/configure.php:77
+#: files/configure.php:80
 msgid "Additional extensions"
 msgstr "Extensions additionnelles"
 
-#: files/configure.php:81
+#: files/configure.php:84
 msgid ""
 "List extensions you would like to support, separated by spaces or commas."
 msgstr ""
 "Lister les extensions à ajouter, séparées par des espaces ou des virgules."
 
-#: files/configure.php:91
+#: files/configure.php:94
 msgid ""
 "By default files are stored into the web space of your server. To optimize "
 "the transfer of large files, you should setup an anonymous ftp service on "
@@ -141,54 +141,54 @@ msgstr ""
 "ftp anonyme sur votre serveur, puis utiliser ce panneau de configuration "
 "pour en activer l'usage."
 
-#: files/configure.php:94
+#: files/configure.php:97
 msgid "Use FTP"
 msgstr "Utiliser FTP"
 
-#: files/configure.php:98
+#: files/configure.php:101
 msgid "No, all uploaded files are placed in the web space."
 msgstr "Non, tous les fichiers sont placés dans l'espace web."
 
-#: files/configure.php:102
+#: files/configure.php:105
 msgid ""
 "Yes, and following parameters are used for the mapping to the FTP service."
 msgstr "Oui, et les paramètres suivants sont utilisés pour le service FTP."
 
-#: files/configure.php:108
+#: files/configure.php:111
 msgid "Local path"
 msgstr "Chemin d'accès local"
 
-#: files/configure.php:110
+#: files/configure.php:113
 msgid "The place where shared files will be written."
 msgstr "L'endroit où ce serveur va écrire les fichiers partagés."
 
-#: files/configure.php:116
+#: files/configure.php:119
 msgid "FTP prefix"
 msgstr "Préfixe d'accès FTP"
 
-#: files/configure.php:118
+#: files/configure.php:121
 msgid ""
 "The ftp:// address that is inserted in links used to download files remotely"
 msgstr ""
 "L'adresse ftp:// insérée dans les liens utilisés pour obtenir les fichiers"
 
-#: files/configure.php:129
+#: files/configure.php:132
 msgid "Extensions"
 msgstr "Extensions"
 
-#: files/configure.php:130
+#: files/configure.php:133
 msgid "Storage"
 msgstr "Rangement"
 
-#: files/configure.php:142 files/edit.php:726
+#: files/configure.php:145 files/edit.php:723
 msgid "Submit"
 msgstr "Enregistrer"
 
-#: files/configure.php:142 files/edit.php:726
+#: files/configure.php:145 files/edit.php:723
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
-#: files/configure.php:162
+#: files/configure.php:165
 msgid ""
 "Shared files are not put in the database, but in the file system of the web "
 "server."
@@ -196,7 +196,7 @@ msgstr ""
 "Les fichiers partagés ne sont pas rangés dans la base de donnée, mais dans "
 "le système de fichiers du serveur."
 
-#: files/configure.php:163
+#: files/configure.php:166
 msgid ""
 "If you cannot upload files because of permissions settings, use the "
 "configuration panel for users to disable all uploads."
@@ -205,16 +205,16 @@ msgstr ""
 "utilisez le panneau de configuration des utilisateurs pour interdire l'envoi "
 "de nouveaux fichiers."
 
-#: files/configure.php:164
+#: files/configure.php:167
 msgid "Help"
 msgstr "Aide"
 
-#: files/configure.php:169
+#: files/configure.php:172
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr ""
 "Vous n'êtes pas autorisé à faire cette opération en mode démonstration."
 
-#: files/configure.php:196
+#: files/configure.php:199
 #, php-format
 msgid ""
 "ERROR: Impossible to write to the file %s. The configuration has not been "
@@ -223,7 +223,7 @@ msgstr ""
 "ERREUR : Impossible d'écrire dans le fichier %s. La configuration n'a pas "
 "été sauvegardée."
 
-#: files/configure.php:199
+#: files/configure.php:202
 #, php-format
 msgid ""
 "To actually change the configuration, please copy and paste following lines "
@@ -232,33 +232,33 @@ msgstr ""
 "Pour changer la configuration, merci de copier et de coller les lignes "
 "suivantes dans le fichier %s :"
 
-#: files/configure.php:204
+#: files/configure.php:207
 #, php-format
 msgid "The following configuration has been saved into the file %s."
 msgstr "La configuration suivante a été enregistrée dans le fichier %s."
 
-#: files/configure.php:210
+#: files/configure.php:213
 #, php-format
 msgid "%s has been updated"
 msgstr "%s a été mis à jour"
 
-#: files/configure.php:216
+#: files/configure.php:219
 msgid "Configuration parameters"
 msgstr "Paramètres de configuration"
 
-#: files/configure.php:219
+#: files/configure.php:222
 msgid "Where do you want to go now?"
 msgstr "Où voulez-vous aller à présent ?"
 
-#: files/configure.php:223
+#: files/configure.php:226
 msgid "Configure again"
 msgstr "Configurer de nouveau"
 
-#: files/delete.php:81 files/files.php:2821
+#: files/delete.php:84 files/files.php:2822
 msgid "Delete"
 msgstr "Supprimer"
 
-#: files/delete.php:96 files/edit.php:203 files/edit.php:472
+#: files/delete.php:99 files/edit.php:200 files/edit.php:469
 #, php-format
 msgid ""
 "This file has been reserved by %s %s, and it is likely that an updated "
@@ -267,251 +267,251 @@ msgstr ""
 "Ce fichier a été réservé par %s %s, et une nouvelle version sera mise à "
 "disposition bientôt."
 
-#: files/delete.php:100 files/edit.php:206 files/fetch.php:248
+#: files/delete.php:103 files/edit.php:203 files/fetch.php:248
 #: files/fetch.php:268
 msgid "Done"
 msgstr "Terminé"
 
-#: files/delete.php:101 files/fetch.php:235
+#: files/delete.php:104 files/fetch.php:235
 msgid "Release reservation"
 msgstr "Annuler la réservation"
 
-#: files/delete.php:115
+#: files/delete.php:118
 #, php-format
 msgid "Deletion: %s"
 msgstr "Suppression : %s"
 
-#: files/delete.php:134
+#: files/delete.php:137
 msgid "The action has not been confirmed."
 msgstr "L'action n'a pas été confirmée."
 
-#: files/delete.php:148
+#: files/delete.php:151
 msgid "delete this file"
 msgstr "supprimer ce fichier"
 
-#: files/delete.php:150
+#: files/delete.php:153
 #, php-format
 msgid "Yes, I want to %s"
 msgstr "Oui, je veux %s"
 
-#: files/delete.php:153 files/delete.php:155 files/edit.php:728
+#: files/delete.php:156 files/delete.php:158 files/edit.php:725
 #: files/fetch.php:279
 msgid "Cancel"
 msgstr "Annuler"
 
-#: files/delete.php:173 files/edit.php:590 files/view.php:326
+#: files/delete.php:176 files/edit.php:587 files/view.php:326
 msgid "Title"
 msgstr "Titre"
 
-#: files/delete.php:179
+#: files/delete.php:182
 msgid "Description"
 msgstr "Description"
 
-#: files/delete.php:194 files/edit.php:693 files/view.php:283
+#: files/delete.php:197 files/edit.php:690 files/view.php:283
 msgid "Source"
 msgstr "Source"
 
-#: files/delete.php:199
+#: files/delete.php:202
 msgid "Actual file"
 msgstr "Nom du fichier"
 
-#: files/delete.php:203 files/edit.php:520 files/edit.php:581
+#: files/delete.php:206 files/edit.php:517 files/edit.php:578
 msgid "File size"
 msgstr "Taille du fichier"
 
-#: files/delete.php:203
+#: files/delete.php:206
 #, php-format
 msgid "%d bytes"
 msgstr "%d  octets"
 
-#: files/delete.php:208
+#: files/delete.php:211
 msgid "Downloads"
 msgstr "Téléchargements"
 
-#: files/delete.php:208 files/edit.php:549 files/layout_files_as_hits.php:60
+#: files/delete.php:211 files/edit.php:546 files/layout_files_as_hits.php:60
 #: files/layout_files_as_search.php:100 files/layout_files.php:128
 #: files/view.php:222
 msgid "downloads"
 msgstr "téléchargements"
 
-#: files/delete.php:214
+#: files/delete.php:217
 msgid "Posted by"
 msgstr "Envoyé par"
 
-#: files/delete.php:220
+#: files/delete.php:223
 msgid "Updated by"
 msgstr "Mis à jour par"
 
-#: files/delete.php:225
+#: files/delete.php:228
 msgid "Last action"
 msgstr "Dernière action"
 
-#: files/delete.php:231 files/delete.php:233 files/edit.php:641
+#: files/delete.php:234 files/delete.php:236 files/edit.php:638
 #: files/view.php:236 files/view.php:240
 msgid "Access"
 msgstr "Accès"
 
-#: files/delete.php:231 files/view.php:240
+#: files/delete.php:234 files/view.php:240
 msgid "Private - Access is restricted to selected persons"
 msgstr "Privé - Accès limité à quelques personnes"
 
-#: files/delete.php:233
+#: files/delete.php:236
 msgid "Community -Access is granted to any identified surfer"
 msgstr "Communauté - Accès autorisé à toute personne identifiée"
 
-#: files/delete.php:240
+#: files/delete.php:243
 msgid ""
 "Following items are attached to this record and will be deleted as well."
 msgstr "Les éléments suivants vont aussi être supprimés."
 
-#: files/edit.php:152 files/edit.php:154
+#: files/edit.php:155 files/edit.php:157
 #, php-format
 msgid "Update: %s"
 msgstr "Modifier : %s"
 
-#: files/edit.php:156 files/edit.php:503 files/list.php:155 files/list.php:167
+#: files/edit.php:159 files/edit.php:500 files/list.php:155 files/list.php:167
 msgid "Add a file"
 msgstr "Ajouter un fichier"
 
-#: files/edit.php:172 files/edit.php:379 files/files.php:3202
-#: files/files.php:3206 files/files.php:3210
+#: files/edit.php:169 files/edit.php:376 files/files.php:3203
+#: files/files.php:3207 files/files.php:3211
 msgid "No file has been transmitted."
 msgstr "Aucun fichier n'a été transmis."
 
-#: files/edit.php:177 files/fetch.php:134 files/files.php:2560
-#: files/files.php:2729 files/list.php:77 files/thread.php:73
+#: files/edit.php:174 files/fetch.php:134 files/files.php:2561
+#: files/files.php:2730 files/list.php:77 files/thread.php:76
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
-#: files/edit.php:211 files/files.php:3243
+#: files/edit.php:208 files/files.php:3244
 msgid "This type of file is not allowed."
 msgstr "Ce type de fichier n'est pas autorisé."
 
-#: files/edit.php:253 files/edit.php:503 files/edit.php:521 files/edit.php:535
-#: files/edit.php:551 files/edit.php:571 files/edit.php:582
-#: files/files.php:3382 files/layout_files_as_search.php:104
+#: files/edit.php:250 files/edit.php:500 files/edit.php:518 files/edit.php:532
+#: files/edit.php:548 files/edit.php:568 files/edit.php:579
+#: files/files.php:3383 files/layout_files_as_search.php:104
 #: files/layout_files.php:132 files/view.php:224
 msgid "bytes"
 msgstr "octets"
 
-#: files/edit.php:277 files/edit.php:328
+#: files/edit.php:274 files/edit.php:325
 #, php-format
 msgid "New file in %s"
 msgstr "Nouveau fichier dans %s"
 
-#: files/edit.php:279 files/edit.php:330
+#: files/edit.php:276 files/edit.php:327
 #, php-format
 msgid "%s at %s"
 msgstr "%s à %s"
 
-#: files/edit.php:303 files/edit.php:311
+#: files/edit.php:300 files/edit.php:308
 msgid "Following files have been added:"
 msgstr "Les fichiers suivants ont été ajoutés :"
 
-#: files/edit.php:306
+#: files/edit.php:303
 #, php-format
 msgid "New files in %s"
 msgstr "Nouveaux fichiers dans %s"
 
-#: files/edit.php:316 files/edit.php:335
+#: files/edit.php:313 files/edit.php:332
 msgid "Contribution"
 msgstr "Contribution"
 
-#: files/edit.php:321
+#: files/edit.php:318
 msgid "Following file has been added:"
 msgstr "Le fichier suivant a été ajouté :"
 
-#: files/edit.php:393
+#: files/edit.php:390
 msgid "Thank you for your contribution"
 msgstr "Merci de votre contribution"
 
-#: files/edit.php:424
+#: files/edit.php:421
 msgid "What do you want to do now?"
 msgstr "Que voulez-vous faire à présent ?"
 
-#: files/edit.php:429 files/list.php:160 files/list.php:170
+#: files/edit.php:426 files/list.php:160 files/list.php:170
 msgid "Back to main page"
 msgstr "Retour à la page principale"
 
-#: files/edit.php:431
+#: files/edit.php:428
 msgid "Upload another file"
 msgstr "Ajouter un autre fichier"
 
-#: files/edit.php:490 files/view.php:229
+#: files/edit.php:487 files/view.php:229
 msgid "File"
 msgstr "Fichier"
 
-#: files/edit.php:507
+#: files/edit.php:504
 msgid "Extract files from the archive"
 msgstr "Extraire les fichiers de l'archive"
 
-#: files/edit.php:512
+#: files/edit.php:509
 msgid "or"
 msgstr "ou"
 
-#: files/edit.php:517
+#: files/edit.php:514
 msgid "Share a reference to a file (ftp://, http://, ...)"
 msgstr "Partager l'adresse d'un fichier (ftp://, http://, ...)"
 
-#: files/edit.php:560
+#: files/edit.php:557
 #, php-format
 msgid "posted by %s %s"
 msgstr "posté par %s %s"
 
-#: files/edit.php:569
+#: files/edit.php:566
 msgid "Select another file to replace the current one"
 msgstr "Choisir un fichier de remplacement"
 
-#: files/edit.php:579
+#: files/edit.php:576
 msgid "Existing reference (ftp://, http://, ...)"
 msgstr "Référence existante (ftp://, http://, ...)"
 
-#: files/edit.php:600 files/files.php:566 files/view.php:271
+#: files/edit.php:597 files/files.php:566 files/view.php:271
 msgid "History"
 msgstr "Historique"
 
-#: files/edit.php:602
+#: files/edit.php:599
 msgid "What is new in this file?"
 msgstr "Quoi de neuf dans ce fichier ?"
 
-#: files/edit.php:606 files/view.php:267
+#: files/edit.php:603 files/view.php:267
 msgid "More information"
 msgstr "Plus d'informations"
 
-#: files/edit.php:615
+#: files/edit.php:612
 msgid "Information"
 msgstr "Information"
 
-#: files/edit.php:624
+#: files/edit.php:621
 msgid "Submit the new item, and you will be able to add resources afterwards."
 msgstr ""
 "Créez le nouvel élément, et vous pourrez ajouter des ressources par la suite."
 
-#: files/edit.php:632
+#: files/edit.php:629
 msgid "Resources"
 msgstr "Ressources"
 
-#: files/edit.php:649
+#: files/edit.php:646
 msgid "Image"
 msgstr "Image"
 
-#: files/edit.php:656 files/edit.php:680
+#: files/edit.php:653 files/edit.php:677
 msgid "Change"
 msgstr "Changer"
 
-#: files/edit.php:658
+#: files/edit.php:655
 msgid "Image to be displayed in the panel aside the page."
 msgstr "Image à afficher dans un panneau sur le côté de la page."
 
-#: files/edit.php:659 files/edit.php:683 files/view.php:870
+#: files/edit.php:656 files/edit.php:680 files/view.php:870
 msgid "Add an image"
 msgstr "Ajouter une image"
 
-#: files/edit.php:673
+#: files/edit.php:670
 msgid "Thumbnail"
 msgstr "Vignette"
 
-#: files/edit.php:682
+#: files/edit.php:679
 msgid ""
 "Upload a small image to illustrate this page when it is listed into parent "
 "page."
@@ -519,50 +519,46 @@ msgstr ""
 "Téléverser une petite image pour illustrer cette page au niveau de son "
 "parent."
 
-#: files/edit.php:695
+#: files/edit.php:692
 msgid "If you have got this file from outside source, please describe it here"
 msgstr ""
 "Si vous avez obtenu ce fichier de sources extérieures, merci de l'indiquer "
 "ici"
 
-#: files/edit.php:699 files/view.php:288
+#: files/edit.php:696 files/view.php:288
 msgid "Keywords"
 msgstr "Mots-clés"
 
-#: files/edit.php:701
+#: files/edit.php:698
 msgid ""
 "As this field may be searched by surfers, please choose adequate searchable "
 "words"
 msgstr ""
 "Ce champ étant indexé pour les recherches, pensez à soigner votre formulation"
 
-#: files/edit.php:705
+#: files/edit.php:702
 msgid "Alternate link"
 msgstr "Lien alternatif"
 
-#: files/edit.php:707
+#: files/edit.php:704
 msgid "Paste here complicated peer-to-peer href (ed2k, torrent, etc.)"
 msgstr "Coller ici la référence P2P (ed2k, torrent, etc.)"
 
-#: files/edit.php:716
+#: files/edit.php:713
 msgid "Options"
 msgstr "Options"
 
-#: files/edit.php:739
+#: files/edit.php:736
 msgid "Notify watchers"
 msgstr "Alerter les observateurs"
 
-#: files/edit.php:743
+#: files/edit.php:740
 msgid "Notify my followers"
 msgstr "Alerter mes abonnés"
 
-#: files/edit.php:750
+#: files/edit.php:747
 msgid "Do not change modification date of the main page."
 msgstr "Ne pas changer la date de modification de la page principale."
-
-#: files/edit.php:753
-msgid "Ensure this post is valid XHTML."
-msgstr "Vérifier que le contenu est du XHTML valide."
 
 #: files/feed.php:114
 msgid "RSS feed"
@@ -638,15 +634,15 @@ msgstr ""
 "Le téléchargement devrait commencer automatiquement. Sinon, utilisez le lien "
 "fourni pour le déclencher manuellement."
 
-#: files/file.php:59
-msgid "Previous image"
-msgstr "Image précédente"
+#: files/file.php:65
+msgid "Previous"
+msgstr "Précédent"
 
-#: files/file.php:69
-msgid "Next image"
-msgstr "Image suivante"
+#: files/file.php:71
+msgid "Next"
+msgstr ""
 
-#: files/file.php:73
+#: files/file.php:75
 #, php-format
 msgid "Image %d of %d"
 msgstr "Image %d de %d"
@@ -670,7 +666,7 @@ msgstr "Un fichier a été ajouté par %s"
 msgid "View file details"
 msgstr "Voir les détails du fichier"
 
-#: files/files.php:680 files/files.php:2596 files/files.php:2714
+#: files/files.php:680 files/files.php:2597 files/files.php:2715
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 
@@ -684,7 +680,7 @@ msgstr "Impossible de créer le chemin %s."
 msgid "Impossible to copy file %s."
 msgstr "Impossible de copier le fichier %s"
 
-#: files/files.php:2692
+#: files/files.php:2693
 msgid ""
 "Nothing has been received. Ensure you are below size limits set for this "
 "server."
@@ -692,24 +688,24 @@ msgstr ""
 "Rien n'a été reçu. Vérifier que vous respectez les limitations de taille de "
 "ce serveur."
 
-#: files/files.php:3194 files/files.php:3198
+#: files/files.php:3195 files/files.php:3199
 msgid "The size of this file is over limit."
 msgstr "La taille du fichier dépasse la limite autorisée."
 
-#: files/files.php:3248
+#: files/files.php:3249
 msgid "Possible file attack."
 msgstr "Possibilité d'une attaque sur le fichier."
 
-#: files/files.php:3263
+#: files/files.php:3264
 #, php-format
 msgid "Impossible to move the upload file to %s."
 msgstr "Impossible de déplacer le fichier vers %s."
 
-#: files/files.php:3279
+#: files/files.php:3280
 msgid "No virus has been found."
 msgstr "Aucun virus n'a été trouvé."
 
-#: files/files.php:3287
+#: files/files.php:3288
 msgid "This file has been infected by a virus and has been rejected!"
 msgstr "Ce fichier est infecté par un virus et a été rejeté !"
 
@@ -826,23 +822,23 @@ msgstr "Fichiers : %s"
 msgid "Request is invalid."
 msgstr "La requête est invalide."
 
-#: files/review.php:33
+#: files/review.php:36
 msgid "Files to review"
 msgstr "Les fichiers à contrôler"
 
-#: files/review.php:47
+#: files/review.php:50
 msgid "Oldest files"
 msgstr "Fichiers anciens"
 
-#: files/review.php:56
+#: files/review.php:59
 msgid "Biggest files"
 msgstr "Les plus gros fichiers"
 
-#: files/review.php:65
+#: files/review.php:68
 msgid "Less downloaded files"
 msgstr "Fichiers les moins téléchargés"
 
-#: files/review.php:76
+#: files/review.php:79
 #, php-format
 msgid "%d items in the list of noise words"
 msgstr "%d entrées dans la liste des mots à ne pas considérer"
@@ -859,7 +855,7 @@ msgstr "Fermer"
 msgid "Do not know how to stream this file type"
 msgstr "Impossible de streamer ce type de fichier"
 
-#: files/thread.php:89
+#: files/thread.php:92
 msgid "All files"
 msgstr "Tous les fichiers"
 
@@ -879,12 +875,12 @@ msgstr ""
 
 #: files/upload.ajax.php:126
 msgid "all temporary file destroyed"
-msgstr "tous les fichiers temporaires détruit."
+msgstr "tous les fichiers temporaires détruit"
 
 #: files/upload.ajax.php:135
 #, php-format
 msgid "temporary file %s destroyed"
-msgstr "le fichier temportaire %s est détruit."
+msgstr "le fichier temportaire %s est détruit"
 
 #: files/view.php:191
 #, php-format
@@ -1330,7 +1326,7 @@ msgstr ""
 "Vous êtes sur le point de télécharger un document au format PDF. Pour "
 "l'utiliser, nous vous recommendons d'utiliser %s, qui est gratuit et léger. "
 "A défaut, vous pouvez obtenir gratuitement le lecteur Acrobat Reader à "
-"partir du  %s. "
+"partir du  %s."
 
 #: files/view.php:709
 msgid "www.foxitsoftware.com"
@@ -1583,6 +1579,12 @@ msgstr "Supprimer ce fichier"
 #: files/view.php:895
 msgid "Navigation"
 msgstr "Navigation"
+
+#~ msgid "Ensure this post is valid XHTML."
+#~ msgstr "Vérifier que le contenu est du XHTML valide."
+
+#~ msgid "Next image"
+#~ msgstr "Image suivante"
 
 #, fuzzy
 #~ msgid "fa-edit"

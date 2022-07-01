@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-20 23:52+0100\n"
+"POT-Creation-Date: 2022-07-01 16:51+0200\n"
 "PO-Revision-Date: 2008-06-28 10:39+0100\n"
 "Last-Translator: Paques, Bernard\n"
 "Language-Team: Bernard Paques\n"
@@ -20,462 +20,462 @@ msgstr ""
 "X-Poedit-Country: UNITED KINGDOM\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: smileys/index.php:34
+#: smileys/index.php:37
 msgid "Help index"
 msgstr "Help index"
 
-#: smileys/index.php:37
+#: smileys/index.php:40
 msgid "Smileys"
 msgstr "Smileys"
 
-#: smileys/index.php:41
+#: smileys/index.php:44
 #, php-format
 msgid "Edited %s"
 msgstr "Edited %s"
 
-#: smileys/index.php:44
-msgid ""
-"Smileys are small graphical images that can be used to convey an emotion or "
-"feeling. If you have used email or Internet chat, you are likely familiar "
-"with the smilie concept."
-msgstr ""
-"Smileys are small graphical images that can be used to convey an emotion or "
-"feeling. If you have used email or Internet chat, you are likely familiar "
-"with the smilie concept."
-
-#: smileys/index.php:45
-msgid ""
-"Let face it, sometimes words alone do not suffice. Adding a winking smilie, "
-"for instance, may help you clarify that you are joking."
-msgstr ""
-"Let face it, sometimes words alone do not suffice. Adding a winking smilie, "
-"for instance, may help you clarify that you are joking."
-
-#: smileys/index.php:46
-msgid ""
-"Use your smilies sparingly, though -- if overused, smilies can be downright "
-"annoying."
-msgstr ""
-"Use your smilies sparingly, though -- if overused, smilies can be downright "
-"annoying."
-
 #: smileys/index.php:47
 msgid ""
+"Smileys are small graphical images that can be used to convey an emotion or "
+"feeling. If you have used email or Internet chat, you are likely familiar "
+"with the smilie concept."
+msgstr ""
+"Smileys are small graphical images that can be used to convey an emotion or "
+"feeling. If you have used email or Internet chat, you are likely familiar "
+"with the smilie concept."
+
+#: smileys/index.php:48
+msgid ""
+"Let face it, sometimes words alone do not suffice. Adding a winking smilie, "
+"for instance, may help you clarify that you are joking."
+msgstr ""
+"Let face it, sometimes words alone do not suffice. Adding a winking smilie, "
+"for instance, may help you clarify that you are joking."
+
+#: smileys/index.php:49
+msgid ""
+"Use your smilies sparingly, though -- if overused, smilies can be downright "
+"annoying."
+msgstr ""
+"Use your smilies sparingly, though -- if overused, smilies can be downright "
+"annoying."
+
+#: smileys/index.php:50
+msgid ""
 "Here is the list of codes that are automatically converted into images by "
 "this server."
 msgstr ""
 "Here is the list of codes that are automatically converted into images by "
 "this server."
 
-#: smileys/index.php:52
+#: smileys/index.php:55
 msgid "What to type"
 msgstr "What to type"
 
-#: smileys/index.php:53
+#: smileys/index.php:56
 msgid "Emotion"
 msgstr "Emotion"
 
-#: smileys/index.php:54
+#: smileys/index.php:57
 msgid "Featured image"
 msgstr "Featured image"
 
-#: smileys/index.php:61
+#: smileys/index.php:64
 msgid "sunglass dude"
 msgstr "sunglass dude"
 
-#: smileys/index.php:68
+#: smileys/index.php:71
 msgid "smile"
 msgstr "smile"
 
-#: smileys/index.php:75
+#: smileys/index.php:78
 msgid "roll eyes"
 msgstr "roll eyes"
 
-#: smileys/index.php:82
+#: smileys/index.php:85
 msgid "wink/sarcasm"
 msgstr "wink/sarcasm"
 
-#: smileys/index.php:89
+#: smileys/index.php:92
 msgid "cheesy"
 msgstr "cheesy"
 
-#: smileys/index.php:96
+#: smileys/index.php:99
 msgid "rolling on the floor, laughing"
 msgstr "rolling on the floor, laughing"
 
-#: smileys/index.php:103
+#: smileys/index.php:106
 msgid "tongue"
 msgstr "tongue"
 
-#: smileys/index.php:110
+#: smileys/index.php:113
 msgid "frown"
 msgstr "frown"
 
-#: smileys/index.php:117
+#: smileys/index.php:120
 msgid "angry"
 msgstr "angry"
 
-#: smileys/index.php:124
+#: smileys/index.php:127
 msgid "to the basket"
 msgstr "to the basket"
 
-#: smileys/index.php:131
+#: smileys/index.php:134
 msgid "bomb"
 msgstr "bomb"
 
-#: smileys/index.php:138
+#: smileys/index.php:141
 msgid "pissed off"
 msgstr "pissed off"
 
-#: smileys/index.php:145
+#: smileys/index.php:148
 msgid "enough is enough"
 msgstr "enough is enough"
 
-#: smileys/index.php:152
+#: smileys/index.php:155
 msgid "i will shot you"
 msgstr "i will shot you"
 
-#: smileys/index.php:159
+#: smileys/index.php:162
 msgid "i will kill you"
 msgstr "i will kill you"
 
-#: smileys/index.php:166
+#: smileys/index.php:169
 msgid "cry"
 msgstr "cry"
 
-#: smileys/index.php:173
+#: smileys/index.php:176
 msgid "shocked"
 msgstr "shocked"
 
-#: smileys/index.php:180
+#: smileys/index.php:183
 msgid "ekk/horror!"
 msgstr "ekk/horror!"
 
-#: smileys/index.php:187
+#: smileys/index.php:190
 msgid "sealed"
 msgstr "sealed"
 
-#: smileys/index.php:194
+#: smileys/index.php:197
 msgid "this is an unsafe place"
 msgstr "this is an unsafe place"
 
-#: smileys/index.php:201
+#: smileys/index.php:204
 msgid "confused"
 msgstr "confused"
 
-#: smileys/index.php:208
+#: smileys/index.php:211
 msgid "undecided"
 msgstr "undecided"
 
-#: smileys/index.php:215
+#: smileys/index.php:218
 msgid "embarassed"
 msgstr "embarassed"
 
-#: smileys/index.php:222
+#: smileys/index.php:225
 msgid "you make me blush"
 msgstr "you make me blush"
 
-#: smileys/index.php:229
+#: smileys/index.php:232
 msgid "alien"
 msgstr "alien"
 
-#: smileys/index.php:236
+#: smileys/index.php:239
 msgid "bounce"
 msgstr "bounce"
 
-#: smileys/index.php:243
+#: smileys/index.php:246
 msgid "hot bounce"
 msgstr "hot bounce"
 
-#: smileys/index.php:250
+#: smileys/index.php:253
 msgid "angel"
 msgstr "angel"
 
-#: smileys/index.php:257
+#: smileys/index.php:260
 msgid "clap clap clap, etc."
 msgstr "clap clap clap, etc."
 
-#: smileys/index.php:264
+#: smileys/index.php:267
 msgid "The King"
 msgstr "The King"
 
-#: smileys/index.php:271
+#: smileys/index.php:274
 msgid "let have some beer"
 msgstr "let have some beer"
 
-#: smileys/index.php:278
+#: smileys/index.php:281
 msgid "some electronic inside"
 msgstr "some electronic inside"
 
-#: smileys/index.php:285
+#: smileys/index.php:288
 msgid "shaky brain"
 msgstr "shaky brain"
 
-#: smileys/index.php:292
+#: smileys/index.php:295
 msgid "ghost"
 msgstr "ghost"
 
-#: smileys/index.php:299
+#: smileys/index.php:302
 msgid "frog"
 msgstr "frog"
 
-#: smileys/index.php:306
+#: smileys/index.php:309
 msgid "female"
 msgstr "female"
 
-#: smileys/index.php:313
+#: smileys/index.php:316
 msgid "male"
 msgstr "male"
 
-#: smileys/index.php:320
+#: smileys/index.php:323
 msgid "colored"
 msgstr "colored"
 
-#: smileys/index.php:327
+#: smileys/index.php:330
 msgid "asian salutation"
 msgstr "asian salutation"
 
-#: smileys/index.php:334
+#: smileys/index.php:337
 msgid "this does not make sense"
 msgstr "this does not make sense"
 
-#: smileys/index.php:341
+#: smileys/index.php:344
 msgid "you are so naive"
 msgstr "you are so naive"
 
-#: smileys/index.php:348
+#: smileys/index.php:351
 msgid "feeling bad"
 msgstr "feeling bad"
 
-#: smileys/index.php:355
+#: smileys/index.php:358
 msgid "I am killed"
 msgstr "I am killed"
 
-#: smileys/index.php:362
+#: smileys/index.php:365
 msgid "we will hit the wall"
 msgstr "we will hit the wall"
 
-#: smileys/index.php:369
+#: smileys/index.php:372
 msgid "hip"
 msgstr "hip"
 
-#: smileys/index.php:376
+#: smileys/index.php:379
 msgid "joker"
 msgstr "joker"
 
-#: smileys/index.php:383
+#: smileys/index.php:386
 msgid "I would like to get it"
 msgstr "I would like to get it"
 
-#: smileys/index.php:390
+#: smileys/index.php:393
 msgid "peeping"
 msgstr "peeping"
 
-#: smileys/index.php:397
+#: smileys/index.php:400
 msgid "bla bla bla"
 msgstr "bla bla bla"
 
-#: smileys/index.php:404
+#: smileys/index.php:407
 msgid "i want to be sure you are hearing me"
 msgstr "i want to be sure you are hearing me"
 
-#: smileys/index.php:411
+#: smileys/index.php:414
 msgid "reading"
 msgstr "reading"
 
-#: smileys/index.php:418
+#: smileys/index.php:421
 msgid "sniping"
 msgstr "sniping"
 
-#: smileys/index.php:425
+#: smileys/index.php:428
 msgid "clock"
 msgstr "clock"
 
-#: smileys/index.php:432
+#: smileys/index.php:435
 msgid "pet"
 msgstr "pet"
 
-#: smileys/index.php:439
+#: smileys/index.php:442
 msgid "dog"
 msgstr "dog"
 
-#: smileys/index.php:446
+#: smileys/index.php:449
 msgid "cat"
 msgstr "cat"
 
-#: smileys/index.php:453
+#: smileys/index.php:456
 msgid "email"
 msgstr "email"
 
-#: smileys/index.php:460
+#: smileys/index.php:463
 msgid "film"
 msgstr "film"
 
-#: smileys/index.php:467
+#: smileys/index.php:470
 msgid "note"
 msgstr "note"
 
-#: smileys/index.php:474
+#: smileys/index.php:477
 msgid "phone"
 msgstr "phone"
 
-#: smileys/index.php:481
+#: smileys/index.php:484
 msgid "present"
 msgstr "present"
 
-#: smileys/index.php:488
+#: smileys/index.php:491
 msgid "rose"
 msgstr "rose"
 
-#: smileys/index.php:495
+#: smileys/index.php:498
 msgid "unlove"
 msgstr "unlove"
 
-#: smileys/index.php:502
+#: smileys/index.php:505
 msgid "a little nap"
 msgstr "a little nap"
 
-#: smileys/index.php:509
+#: smileys/index.php:512
 msgid "sunshine"
 msgstr "sunshine"
 
-#: smileys/index.php:516
+#: smileys/index.php:519
 msgid "thinking"
 msgstr "thinking"
 
-#: smileys/index.php:523
+#: smileys/index.php:526
 msgid "god bless you"
 msgstr "god bless you"
 
-#: smileys/index.php:530
+#: smileys/index.php:533
 msgid "i am feeling so glad"
 msgstr "i am feeling so glad"
 
-#: smileys/index.php:537
+#: smileys/index.php:540
 msgid "candle"
 msgstr "candle"
 
-#: smileys/index.php:544
+#: smileys/index.php:547
 msgid "this deserves a full medal"
 msgstr "this deserves a full medal"
 
-#: smileys/index.php:551
+#: smileys/index.php:554
 msgid "this deserves half of a medal"
 msgstr "this deserves half of a medal"
 
-#: smileys/index.php:558
+#: smileys/index.php:561
 msgid "you should not do that"
 msgstr "you should not do that"
 
-#: smileys/index.php:565
+#: smileys/index.php:568
 msgid "please stop"
 msgstr "please stop"
 
-#: smileys/index.php:572
+#: smileys/index.php:575
 msgid "good bye"
 msgstr "good bye"
 
-#: smileys/index.php:579
+#: smileys/index.php:582
 msgid "flush and forget it"
 msgstr "flush and forget it"
 
-#: smileys/index.php:586
+#: smileys/index.php:589
 msgid "it stinks"
 msgstr "it stinks"
 
-#: smileys/index.php:593
+#: smileys/index.php:596
 msgid "the dark side of The Force"
 msgstr "the dark side of The Force"
 
-#: smileys/index.php:600 smileys/index.php:607
+#: smileys/index.php:603 smileys/index.php:610
 msgid "Star wars"
 msgstr "Star wars"
 
-#: smileys/index.php:614
+#: smileys/index.php:617
 msgid "Santa Claus"
 msgstr "Santa Claus"
 
-#: smileys/index.php:621
+#: smileys/index.php:624
 msgid "good"
 msgstr "good"
 
-#: smileys/index.php:628
+#: smileys/index.php:631
 msgid "bad"
 msgstr "bad"
 
-#: smileys/index.php:635
+#: smileys/index.php:638
 msgid "peace"
 msgstr "peace"
 
-#: smileys/index.php:642
+#: smileys/index.php:645
 msgid "yin yang"
 msgstr "yin yang"
 
-#: smileys/index.php:649
+#: smileys/index.php:652
 msgid "with love"
 msgstr "with love"
 
-#: smileys/index.php:656
+#: smileys/index.php:659
 msgid "lovely"
 msgstr "lovely"
 
-#: smileys/index.php:663
+#: smileys/index.php:666
 msgid "kiss"
 msgstr "kiss"
 
-#: smileys/index.php:670
+#: smileys/index.php:673
 msgid "I want you"
 msgstr "I want you"
 
-#: smileys/index.php:677
+#: smileys/index.php:680
 msgid "with (more) love"
 msgstr "with (more) love"
 
-#: smileys/index.php:684
+#: smileys/index.php:687
 msgid "share a cake"
 msgstr "share a cake"
 
-#: smileys/index.php:691
+#: smileys/index.php:694
 msgid "take a shot"
 msgstr "take a shot"
 
-#: smileys/index.php:698
+#: smileys/index.php:701
 msgid "a cup of coffee"
 msgstr "a cup of coffee"
 
-#: smileys/index.php:705
+#: smileys/index.php:708
 msgid "have a cocktail"
 msgstr "have a cocktail"
 
-#: smileys/index.php:712
+#: smileys/index.php:715
 msgid "have a party"
 msgstr "have a party"
 
-#: smileys/index.php:719
+#: smileys/index.php:722
 msgid "once upon a time..."
 msgstr "once upon a time..."
 
-#: smileys/index.php:726
+#: smileys/index.php:729
 msgid "question"
 msgstr "question"
 
-#: smileys/index.php:733
+#: smileys/index.php:736
 msgid "idea"
 msgstr "idea"
 
-#: smileys/index.php:740
+#: smileys/index.php:743
 msgid "warning"
 msgstr "warning"
 
-#: smileys/index.php:747
+#: smileys/index.php:750
 msgid "star"
 msgstr "star"
 
-#: smileys/index.php:754
+#: smileys/index.php:757
 msgid "operating systems"
 msgstr "operating systems"
 
-#: smileys/index.php:761
+#: smileys/index.php:764
 msgid "Ok, i leave"
 msgstr "Ok, i leave"
 

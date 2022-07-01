@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-06 10:57+0200\n"
+"POT-Creation-Date: 2022-07-01 16:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -200,22 +200,22 @@ msgstr ""
 msgid "bytes"
 msgstr ""
 
-#: overlays/embed.php:493 overlays/embed.php:525
+#: overlays/embed.php:492 overlays/embed.php:524
 #, php-format
 msgid "%s has shared a link"
 msgstr ""
 
-#: overlays/embed.php:497
+#: overlays/embed.php:496
 #, php-format
 msgid "%s has shared a photo"
 msgstr ""
 
-#: overlays/embed.php:501
+#: overlays/embed.php:500
 #, php-format
 msgid "%s has shared some information"
 msgstr ""
 
-#: overlays/embed.php:505
+#: overlays/embed.php:504
 #, php-format
 msgid "%s has shared a video"
 msgstr ""

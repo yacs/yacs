@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-28 15:55+0200\n"
+"POT-Creation-Date: 2022-07-01 16:51+0200\n"
 "PO-Revision-Date: 2018-01-31 10:14+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -14,136 +14,136 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: tools/ajax.php:20 tools/embed.php:22 tools/fat_index.php:75
-#: tools/form.php:22 tools/hello.php:22 tools/index.php:18 tools/jsmin.php:36
-#: tools/koowy.php:33 tools/memcached.php:36 tools/memcached.php:60
-#: tools/populate.php:113 tools/populate.php:135 tools/resize_thumbs.php:38
-#: tools/resize_thumbs.php:62 tools/stickies.php:22 tools/transform.php:28
-#: tools/update_thumbs_url.php:40 tools/update_thumbs_url.php:64
+#: tools/ajax.php:23 tools/embed.php:25 tools/fat_index.php:78
+#: tools/form.php:25 tools/hello.php:25 tools/index.php:21 tools/jsmin.php:39
+#: tools/koowy.php:36 tools/memcached.php:39 tools/memcached.php:63
+#: tools/populate.php:113 tools/populate.php:135 tools/resize_thumbs.php:41
+#: tools/resize_thumbs.php:65 tools/stickies.php:25 tools/transform.php:31
+#: tools/update_thumbs_url.php:43 tools/update_thumbs_url.php:67
 msgid "Tools"
 msgstr "Outils"
 
-#: tools/ajax.php:23 tools/ajax.php:29 tools/ajax.php:34 tools/ajax.php:37
-#: tools/ajax.php:56
+#: tools/ajax.php:26 tools/ajax.php:32 tools/ajax.php:37 tools/ajax.php:40
+#: tools/ajax.php:59
 msgid "AJAX demonstration"
 msgstr "Démonstration AJAX"
 
-#: tools/ajax.php:26
+#: tools/ajax.php:29
 msgid "Working overlay"
 msgstr "Travail en cours"
 
-#: tools/ajax.php:26
+#: tools/ajax.php:29
 msgid "Click on the button, then click on the overlay to hide it"
 msgstr ""
 "Cliquez sur le bouton, puis cliquez sur l'écran pour masquer la surcharge"
 
-#: tools/ajax.php:31 tools/ajax.php:34 tools/ajax.php:37
+#: tools/ajax.php:34 tools/ajax.php:37 tools/ajax.php:40
 msgid "OK"
 msgstr "OK"
 
-#: tools/ajax.php:31
+#: tools/ajax.php:34
 msgid "Modal box"
 msgstr "Boîte modale"
 
-#: tools/ajax.php:31
+#: tools/ajax.php:34
 msgid "Click on the button, then handle the modal box"
 msgstr "Cliquez sur le bouton, puis manipulez la boîte modale"
 
-#: tools/ajax.php:34
+#: tools/ajax.php:37
 msgid "Alert box"
 msgstr "Boîte d'alerte"
 
-#: tools/ajax.php:34
+#: tools/ajax.php:37
 msgid "Click on the button to show the alert message"
 msgstr "Cliquez sur le bouton pour afficher le message d'alerte"
 
-#: tools/ajax.php:37
+#: tools/ajax.php:40
 msgid "Confirmation box"
 msgstr "Boîte de confirmation"
 
-#: tools/ajax.php:37
+#: tools/ajax.php:40
 msgid "Click on the button to make your choice"
 msgstr "Cliquez sur le bouton pour faire votre choix"
 
-#: tools/ajax.php:40 tools/ajax.php:42
+#: tools/ajax.php:43 tools/ajax.php:45
 msgid "Alert notification"
 msgstr "Notification d'alerte"
 
-#: tools/ajax.php:43 tools/ajax.php:45
+#: tools/ajax.php:46 tools/ajax.php:48
 msgid "Browse notification"
 msgstr "Notification de co-navigation"
 
-#: tools/ajax.php:46 tools/ajax.php:47
+#: tools/ajax.php:49 tools/ajax.php:50
 msgid "Hello notification"
 msgstr "Notification de contact"
 
-#: tools/ajax.php:47
+#: tools/ajax.php:50
 msgid "Click on buttons to process notifications"
 msgstr "Cliquez sur les boutons pour traiter les notifications"
 
-#: tools/ajax.php:50 tools/ajax.php:53
+#: tools/ajax.php:53 tools/ajax.php:56
 msgid "Cisco"
 msgstr "Cisco"
 
-#: tools/ajax.php:50
+#: tools/ajax.php:53
 msgid "Hover the button to display a preview"
 msgstr "Survolez le button pour prévisualiser la page cible"
 
-#: tools/ajax.php:53 tools/ajax.php:62
+#: tools/ajax.php:56 tools/ajax.php:65
 msgid "Click on the button to trigger the popup window"
 msgstr "Cliquez sur le bouton pour ouvrir la fenêtre pop-up"
 
-#: tools/ajax.php:56
+#: tools/ajax.php:59
 msgid "Click on the button to call a remote function"
 msgstr "Cliquez sur le bouton pour appeler une fonction distante"
 
-#: tools/ajax.php:59
+#: tools/ajax.php:62
 msgid "Click on the button to remember some on-line activity"
 msgstr "Cliquez sur le bouton pour mémoriser une activité en ligne"
 
-#: tools/ajax.php:62 tools/embed.php:25 tools/hello.php:25
-#: tools/populate.php:389 tools/populate.php:1646 tools/stickies.php:25
-#: tools/transform.php:31
+#: tools/ajax.php:65 tools/embed.php:28 tools/hello.php:28
+#: tools/populate.php:389 tools/populate.php:1646 tools/stickies.php:28
+#: tools/transform.php:34
 msgid "Hello world"
 msgstr "Bonjour le monde"
 
-#: tools/ajax.php:62
+#: tools/ajax.php:65
 msgid "Close"
 msgstr "Fermer"
 
-#: tools/ajax.php:66
+#: tools/ajax.php:69
 msgid "Interactive filters"
 msgstr "Filtres interactifs"
 
-#: tools/ajax.php:68
+#: tools/ajax.php:71
 msgid "Enter an integer"
 msgstr "Entrer un nombre entier"
 
-#: tools/ajax.php:69
+#: tools/ajax.php:72
 msgid "Enter a floating number"
 msgstr "Entrer un nombre décimal"
 
-#: tools/ajax.php:73
+#: tools/ajax.php:76
 msgid "autocompletion"
 msgstr "autocompletion"
 
-#: tools/check_multi_login.php:20 tools/jsmin.php:48 tools/memcached.php:44
-#: tools/memcached.php:57 tools/populate.php:121 tools/populate.php:132
-#: tools/resize_thumbs.php:46 tools/resize_thumbs.php:59
-#: tools/update_thumbs_url.php:48 tools/update_thumbs_url.php:61
+#: tools/check_multi_login.php:20 tools/jsmin.php:51 tools/memcached.php:47
+#: tools/memcached.php:60 tools/populate.php:121 tools/populate.php:132
+#: tools/resize_thumbs.php:49 tools/resize_thumbs.php:62
+#: tools/update_thumbs_url.php:51 tools/update_thumbs_url.php:64
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à faire cette opération."
 
-#: tools/fat_index.php:67
+#: tools/fat_index.php:70
 #, php-format
 msgid "error while fetching %s"
 msgstr "Impossible d'accéder à %s"
 
-#: tools/fat_index.php:79
+#: tools/fat_index.php:82
 msgid "Fat Index"
 msgstr "Indice d'inefficacité"
 
-#: tools/fat_index.php:82
+#: tools/fat_index.php:85
 msgid ""
 "This script strips tags and white space to evaluate the amount of useful "
 "bytes. Then it computes the fat index as follows:"
@@ -151,151 +151,151 @@ msgstr ""
 "Ce script enlève les balises HTML et les espaces pour évaluer la taille "
 "utile d'une page web. Puis il calcule l'indice d'inefficacité comme suit :"
 
-#: tools/fat_index.php:83
+#: tools/fat_index.php:86
 msgid "FAT Index = 10 log( Raw Bytes / Useful Bytes )"
 msgstr "Indice d'inefficacité = 10 log( Taille du contenu / Taille utile )"
 
-#: tools/fat_index.php:88
+#: tools/fat_index.php:91
 msgid "This script can be used only by an authenticated user of this server."
 msgstr "Ce script ne peut être utilisé que par un utilisateur authentifié."
 
-#: tools/fat_index.php:98
+#: tools/fat_index.php:101
 msgid "Computation results"
 msgstr "Résultats du calcul"
 
-#: tools/fat_index.php:102 tools/fat_index.php:161
+#: tools/fat_index.php:105 tools/fat_index.php:164
 #, php-format
 msgid "Web Reference: %s"
 msgstr "Adresse web : %s"
 
-#: tools/fat_index.php:106
+#: tools/fat_index.php:109
 #, php-format
 msgid "Raw Bytes: %d bytes"
 msgstr "Taille du contenu : %d octets"
 
-#: tools/fat_index.php:128
+#: tools/fat_index.php:131
 #, php-format
 msgid "Useful Bytes: %d bytes"
 msgstr "Taille utile : %d octets"
 
-#: tools/fat_index.php:133
+#: tools/fat_index.php:136
 #, php-format
 msgid "Fat Index = %d dB"
 msgstr "Indice d'inefficacité = %d dB"
 
-#: tools/fat_index.php:135
+#: tools/fat_index.php:138
 msgid "The Fat Index cannot be computed"
 msgstr "L'indice d'inefficacité ne peut pas être calculé"
 
-#: tools/fat_index.php:145
+#: tools/fat_index.php:148
 #, php-format
 msgid "This page has %d references to %d links:"
 msgstr "Cette page a %d références vers %d liens :"
 
-#: tools/fat_index.php:155
+#: tools/fat_index.php:158
 msgid "Computation parameters"
 msgstr "Paramètres du calcul"
 
-#: tools/fat_index.php:164
+#: tools/fat_index.php:167
 #, php-format
 msgid "Optional cookie string: %s"
 msgstr "Cookie (option) : %s"
 
-#: tools/fat_index.php:167
+#: tools/fat_index.php:170
 msgid "or"
 msgstr "ou bien"
 
-#: tools/fat_index.php:170
+#: tools/fat_index.php:173
 #, php-format
 msgid "Raw Input: %s"
 msgstr "Contenu analysé : %s"
 
-#: tools/fat_index.php:173 tools/form.php:70
+#: tools/fat_index.php:176 tools/form.php:73
 msgid "Submit"
 msgstr "Envoyer"
 
-#: tools/fat_index.php:180
+#: tools/fat_index.php:183
 msgid "Visual control of filtered data"
 msgstr "Contrôle visuel des données filtrées"
 
-#: tools/form.php:25
+#: tools/form.php:28
 msgid "Form"
 msgstr "Formulaire"
 
-#: tools/form.php:31
+#: tools/form.php:34
 msgid "Thank you for your contribution"
 msgstr "Merci de votre contribution"
 
-#: tools/form.php:34 tools/form.php:37 tools/form.php:40
+#: tools/form.php:37 tools/form.php:40 tools/form.php:43
 #, php-format
 msgid "%s: %s"
 msgstr "%s : %s"
 
-#: tools/form.php:34 tools/form.php:49
+#: tools/form.php:37 tools/form.php:52
 msgid "Your name"
 msgstr "Votre nom"
 
-#: tools/form.php:37 tools/form.php:55
+#: tools/form.php:40 tools/form.php:58
 msgid "Your e-mail address"
 msgstr "Votre adresse E-mail"
 
-#: tools/form.php:40
+#: tools/form.php:43
 msgid "Your contribution"
 msgstr "Votre contribution"
 
-#: tools/form.php:51
+#: tools/form.php:54
 msgid "Give us a chance to know who you are"
 msgstr "Donnez-nous une chance de savoir qui vous êtes"
 
-#: tools/form.php:57
+#: tools/form.php:60
 msgid "We will use this to contact you back"
 msgstr "Nous l'utiliserons pour vous répondre"
 
-#: tools/form.php:61
+#: tools/form.php:64
 msgid "Your message"
 msgstr "Votre message"
 
-#: tools/form.php:63
+#: tools/form.php:66
 msgid "Please include all elements we could need"
 msgstr "Merci d'ajouter tous les éléments dont nous pourrions avoir besoin"
 
-#: tools/jsmin.php:39
+#: tools/jsmin.php:42
 msgid "Finalize Javascript libraries"
 msgstr "Préparer les librairies Javascript"
 
-#: tools/jsmin.php:51 tools/populate.php:1689
+#: tools/jsmin.php:54 tools/populate.php:1689
 msgid "Control Panel"
 msgstr "Panneau de contrôle"
 
-#: tools/jsmin.php:58
+#: tools/jsmin.php:61
 msgid "Compressing Javascript files..."
 msgstr "Compression des fichiers Javascript ..."
 
-#: tools/jsmin.php:175
+#: tools/jsmin.php:178
 #, php-format
 msgid "%d files have been minified."
 msgstr "%d fichiers ont été compressés."
 
-#: tools/jsmin.php:178 tools/jsmin.php:179
+#: tools/jsmin.php:181 tools/jsmin.php:182
 msgid "bytes"
 msgstr "octets"
 
-#: tools/jsmin.php:183
+#: tools/jsmin.php:186
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminé en %.2f secondes."
 
-#: tools/jsmin.php:189
+#: tools/jsmin.php:192
 msgid "You are about to compress and assemble Javascript files. Are you sure?"
 msgstr ""
 "Vous êtes sur le point de compresser et d'assembler les fichiers Javascript. "
 "Etes-vous sûr ?"
 
-#: tools/jsmin.php:193
+#: tools/jsmin.php:196
 msgid "Yes, I do want to compress and assemble Javascript files"
 msgstr "Oui, je veux compresser et assembler les fichiers Javascript"
 
-#: tools/jsmin.php:198
+#: tools/jsmin.php:201
 msgid ""
 "When you will click on the button the server will be immediately requested "
 "to proceed. However, because of the so many things to do on the back-end, "
@@ -307,12 +307,12 @@ msgstr ""
 "attendre plusieurs minutes avant d'obtenir une réponse à l'écran. Merci de "
 "votre patience."
 
-#: tools/koowy.php:36
+#: tools/koowy.php:39
 #, php-format
 msgid "Video session by koowy: %s"
 msgstr "Session vidéo avec Koowy : %s"
 
-#: tools/koowy.php:52
+#: tools/koowy.php:55
 #, php-format
 msgid "Share: %s"
 msgstr "Partager : %s"
@@ -908,26 +908,26 @@ msgstr ""
 "N'utilisez ce script que pour des besoins d'apprentissage, de démonstration "
 "ou de tests."
 
-#: tools/populate.php:1707 tools/resize_thumbs.php:118
-#: tools/update_thumbs_url.php:228
+#: tools/populate.php:1707 tools/resize_thumbs.php:121
+#: tools/update_thumbs_url.php:231
 msgid "Start"
 msgstr "Commencer"
 
-#: tools/resize_thumbs.php:41
+#: tools/resize_thumbs.php:44
 msgid "resizing thumbnails"
 msgstr "retailler les vignettes"
 
-#: tools/resize_thumbs.php:77
+#: tools/resize_thumbs.php:80
 #, php-format
 msgid "Generate thumbnail for image %s"
 msgstr "Génération de la vignette pour l'image %s"
 
-#: tools/resize_thumbs.php:97
+#: tools/resize_thumbs.php:100
 #, php-format
 msgid "%s thumbnail(s) rebuilded"
 msgstr "%s vignettes retaillées"
 
-#: tools/resize_thumbs.php:106
+#: tools/resize_thumbs.php:109
 msgid ""
 "This tools resizes thumbnails of images to dimensions provided in general "
 "configuration."
@@ -935,51 +935,51 @@ msgstr ""
 "Cet outil retaille les vignettes des images aux dimensions fournies dans la "
 "configuration générale."
 
-#: tools/transform.php:34 tools/transform.php:35
+#: tools/transform.php:37 tools/transform.php:38
 msgid "navigation"
 msgstr "navigation"
 
-#: tools/transform.php:38 tools/transform.php:39
+#: tools/transform.php:41 tools/transform.php:42
 msgid "extra"
 msgstr "extra"
 
-#: tools/transform.php:45 tools/transform.php:51
+#: tools/transform.php:48 tools/transform.php:54
 msgid "Themes"
 msgstr "Thèmes"
 
-#: tools/update_thumbs_url.php:43
+#: tools/update_thumbs_url.php:46
 msgid "Updating thumbnails url"
 msgstr "Mise à jour des liens vers les vignettes"
 
-#: tools/update_thumbs_url.php:77
+#: tools/update_thumbs_url.php:80
 msgid "Analysing thumbnails for articles"
 msgstr "Analyse des vignettes pour les articles"
 
-#: tools/update_thumbs_url.php:94
+#: tools/update_thumbs_url.php:97
 msgid "Analysing icons for articles"
 msgstr "Analyse des icônes pour les articles"
 
-#: tools/update_thumbs_url.php:111
+#: tools/update_thumbs_url.php:114
 msgid "Analysing thumbnails for sections"
 msgstr "Analyse des vignettes pour les sections"
 
-#: tools/update_thumbs_url.php:128
+#: tools/update_thumbs_url.php:131
 msgid "Analysing icons for sections"
 msgstr "Analyse des icônes pour les sections"
 
-#: tools/update_thumbs_url.php:145
+#: tools/update_thumbs_url.php:148
 msgid "Analysing thumbnails for categories"
 msgstr "Analyse des vignettes pour les catégories"
 
-#: tools/update_thumbs_url.php:162
+#: tools/update_thumbs_url.php:165
 msgid "Analysing icons for categories"
 msgstr "Analyse des icônes pour les catégories"
 
-#: tools/update_thumbs_url.php:179
+#: tools/update_thumbs_url.php:182
 msgid "Analysing thumbnails for files"
 msgstr "Analyse des vignettes pour les fichiers"
 
-#: tools/update_thumbs_url.php:202
+#: tools/update_thumbs_url.php:205
 msgid ""
 "This tools correct the urls of thumbnails and icons of pages after having "
 "changed \"url_to_root\" in control panel"
@@ -988,15 +988,15 @@ msgstr ""
 "de page après le changement du paramètre \"url_to_root\" dans le panneau de "
 "contrôle"
 
-#: tools/update_thumbs_url.php:212
+#: tools/update_thumbs_url.php:215
 msgid "Please give former URL to root"
 msgstr "Merci d'indiquer l'URL précédente vers la racine du site"
 
-#: tools/update_thumbs_url.php:214
+#: tools/update_thumbs_url.php:217
 msgid "eg \"/yacs/\" or \"/\" or \"/my_repo/yacs/\""
 msgstr "exemple \"/yacs/\" ou \"/\" ou \"/my_repo/yacs/\""
 
-#: tools/update_thumbs_url.php:218
+#: tools/update_thumbs_url.php:221
 msgid "This will be replaced by current URL"
 msgstr "Cette chaîne sera remplacée par l'URL en cours"
 

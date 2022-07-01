@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-01 11:34+0200\n"
+"POT-Creation-Date: 2022-07-01 16:51+0200\n"
 "PO-Revision-Date: 2016-10-07 15:29+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -195,22 +195,22 @@ msgstr "Choisir un fichier de moins de %s"
 msgid "bytes"
 msgstr "octets"
 
-#: overlays/embed.php:493 overlays/embed.php:525
+#: overlays/embed.php:492 overlays/embed.php:524
 #, php-format
 msgid "%s has shared a link"
 msgstr "%s a partagé un lien"
 
-#: overlays/embed.php:497
+#: overlays/embed.php:496
 #, php-format
 msgid "%s has shared a photo"
 msgstr "%s a partagé une photo"
 
-#: overlays/embed.php:501
+#: overlays/embed.php:500
 #, php-format
 msgid "%s has shared some information"
 msgstr "%s a partagé une information"
 
-#: overlays/embed.php:505
+#: overlays/embed.php:504
 #, php-format
 msgid "%s has shared a video"
 msgstr "%s a partagé une vidéo"
