@@ -127,7 +127,9 @@ if(isset($_REQUEST['credentials']))
 	$credentials = $_REQUEST['credentials'];
 elseif(isset($context['arguments'][0]))
 	$credentials = $context['arguments'][0];
-$credentials = strip_tags($credentials);
+
+if($credentials)
+    $credentials = strip_tags($credentials);
 
 // fix credentials if followed by text
 if($credentials && ($position = strpos($credentials, '-')))

@@ -1829,7 +1829,7 @@ Class Skin_Skeleton {
                 $attributes = '';
                 
                 // check no_follow
-                if(strpos($variant,'nofollow') !== false) {
+                if($variant && strpos($variant,'nofollow') !== false) {
                     $variant     = trim(str_replace('nofollow', '', $variant));
                     $attributes .= ' rel="nofollow"';
                 }
