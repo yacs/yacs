@@ -209,7 +209,7 @@ class Event extends Overlay {
 
 		// default value is now
 		if(!isset($this->attributes['date_stamp']) || ($this->attributes['date_stamp'] <= NULL_DATE))
-			$this->attributes['date_stamp'] = gmstrftime('%Y-%m-%d %H:%M', time() + (Surfer::get_gmt_offset() * 3600));
+			$this->attributes['date_stamp'] = gmdate('%Y-%m-%d %H:%M', time() + (Surfer::get_gmt_offset() * 3600));
 
 		// adjust to surfer time zone
 		else
@@ -1569,7 +1569,7 @@ class Event extends Overlay {
 		case 'delete':
 
 			// no need to notify participants after the date planned for the event, nor if the event has been initiated
-			if(isset($this->attributes['date_stamp']) && ($this->attributes['date_stamp'] > gmstrftime('%Y-%m-%d %H:%M'))
+			if(isset($this->attributes['date_stamp']) && ($this->attributes['date_stamp'] > gmdate('%Y-%m-%d %H:%M'))
 				&& isset($this->attributes['status']) && ($this->attributes['status'] != 'started') && ($this->attributes['status'] != 'stopped')) {
 
 				// send a cancellation message to participants
@@ -1699,7 +1699,7 @@ class Event extends Overlay {
 				$this->anchor = Anchors::get($reference, TRUE);
 
 			// no need to notify watchers after the date planned for the event, nor if the event has been initiated
-			if(isset($this->attributes['date_stamp']) && ($this->attributes['date_stamp'] > gmstrftime('%Y-%m-%d %H:%M'))
+			if(isset($this->attributes['date_stamp']) && ($this->attributes['date_stamp'] > gmdate('%Y-%m-%d %H:%M'))
 				&& isset($this->attributes['status']) && ($this->attributes['status'] != 'started') && ($this->attributes['status'] != 'stopped')
 				&& isset($_REQUEST['notify_watchers']) && ($_REQUEST['notify_watchers'] == 'Y')) {
 

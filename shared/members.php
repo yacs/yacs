@@ -119,7 +119,7 @@ Class Members {
 			." member='".SQL::escape($member)."',"
 			." member_type='".SQL::escape($member_type)."',"
 			." member_id='".SQL::escape($member_id)."',"
-			." edit_date='".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'";
+			." edit_date='".SQL::escape(gmdate('%Y-%m-%d %H:%M:%S'))."'";
 		$result = SQL::query($query);
 
 		// delete father membership, if instructed to do so
@@ -383,7 +383,7 @@ Class Members {
 					." member='".SQL::escape($item['member'])."',"
 					." member_type='".SQL::escape($item['member_type'])."',"
 					." member_id='".SQL::escape($item['member_id'])."',"
-					." edit_date='".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'";
+					." edit_date='".SQL::escape(gmdate('%Y-%m-%d %H:%M:%S'))."'";
 				if(SQL::query($query))
 					$count++;
 
@@ -406,7 +406,7 @@ Class Members {
 					." member='".SQL::escape($reference_to)."',"
 					." member_type='".SQL::escape($reference_type)."',"
 					." member_id='".SQL::escape($reference_id)."',"
-					." edit_date='".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'";
+					." edit_date='".SQL::escape(gmdate('%Y-%m-%d %H:%M:%S'))."'";
 				if(SQL::query($query))
 					$count++;
 
@@ -1571,7 +1571,7 @@ Class Members {
 				." member='".SQL::escape($member)."',"
 				." member_type='".SQL::escape($member_type)."',"
 				." member_id='".SQL::escape($member_id)."',"
-				." edit_date='".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'";
+				." edit_date='".SQL::escape(gmdate('%Y-%m-%d %H:%M:%S'))."'";
                         
 		}
 

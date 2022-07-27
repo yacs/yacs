@@ -68,11 +68,11 @@ Class Layout_as_accordion extends Layout_interface {
 			$box = array('title' => '', 'text' => '');
 
 			// signal entity to be published
-			if(isset($item['publish_date']) && (($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S'))))
+			if(isset($item['publish_date']) && (($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmdate('%Y-%m-%d %H:%M:%S'))))
 				$box['title'] .= DRAFT_FLAG;
 			
 			// signal entity to be activated
-			if(isset($item['activation_date']) && ($item['activation_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
+			if(isset($item['activation_date']) && ($item['activation_date'] > gmdate('%Y-%m-%d %H:%M:%S')))
 				$box['title'] .= DRAFT_FLAG;
 
 			// signal restricted and private entity

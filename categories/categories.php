@@ -1811,8 +1811,8 @@ Class Categories {
 					$fields = array();
 					$fields['anchor'] = 'category:'.$anchor['id'];
 					$fields['nick_name'] = 'week '.date('y/m/d', $week);
-					$fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', $week);
-					$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', $week);
+					$fields['create_date'] = gmdate('%Y-%m-%d %H:%M:%S', $week);
+					$fields['edit_date'] = gmdate('%Y-%m-%d %H:%M:%S', $week);
 					$fields['title'] = sprintf(i18n::c('Week of&nbsp;%s'), date(i18n::c('m/d/y'), $week));
 					$fields['options'] = 'no_links';
 					if($fields['id'] = Categories::post($fields)) {
@@ -1834,8 +1834,8 @@ Class Categories {
 					$fields = array();
 					$fields['anchor'] = 'category:'.$anchor['id'];
 					$fields['nick_name'] = 'month '.date('M Y', $month);
-					$fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', $month);
-					$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', $month);
+					$fields['create_date'] = gmdate('%Y-%m-%d %H:%M:%S', $month);
+					$fields['edit_date'] = gmdate('%Y-%m-%d %H:%M:%S', $month);
 					$fields['title'] = Skin::build_date($month, 'month', $context['preferred_language']);
 					$fields['options'] = 'no_links';
 					if($fields['id'] = Categories::post($fields)) {

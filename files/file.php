@@ -292,7 +292,7 @@ Class File extends Anchor {
 				."edit_id=".SQL::escape(Surfer::get_id()).","
 				."edit_address='".SQL::escape(Surfer::get_email_address())."',"
 				."edit_action='".SQL::escape($action)."',"
-				."edit_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."'";
+				."edit_date='".gmdate('%Y-%m-%d %H:%M:%S')."'";
 
 		// ensure we have a valid update query
 		if(!@count($query))

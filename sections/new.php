@@ -99,8 +99,8 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'groups';
 		$fields['articles_layout'] = 'none';
 		$fields['articles_templates'] = 'information_template, question_template, chat_template, event_template, wiki_template';
-		$fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
-		$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
+		$fields['create_date'] = gmdate('%Y-%m-%d %H:%M:%S', time());
+		$fields['edit_date'] = gmdate('%Y-%m-%d %H:%M:%S', time());
 		$fields['index_map'] = 'N'; // not mentioned at the home page
 		$fields['locked'] = 'Y'; // no direct contributions
 		$fields['options'] = 'no_contextual_menu';
@@ -178,7 +178,7 @@ if(Surfer::is_crawler()) {
 			$fields['description'] = i18n::c('This is the right place to describe ways of working in this group.');
 			$fields['locked'] = 'Y'; // no direct contributions
 			$fields['index_map'] = 'N'; // not mentioned at the home page
-			$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+			$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 			$fields['rank'] = 1000; // sticky page
 			$fields['title'] = i18n::c('Group policy');
 			Articles::post($fields);
@@ -187,7 +187,7 @@ if(Surfer::is_crawler()) {
 			$fields = array();
 			$fields['anchor'] = 'section:'.$_REQUEST['id'];
 			$fields['index_map'] = 'N'; // not mentioned at the home page
-			$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+			$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 			$fields['title'] = sprintf(i18n::c('Welcome to "%s"'), $_REQUEST['title']);
 			Articles::post($fields);
 
@@ -214,7 +214,7 @@ if(Surfer::is_crawler()) {
 				$fields['anchor'] = 'section:'.$id;
 				$fields['index_map'] = 'N'; // not mentioned at the home page
 				$fields['options'] = 'edit_as_simple';
-				$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+				$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 				$fields['title'] = sprintf(i18n::c('Welcome to "%s"'), $_REQUEST['title']);
 				Articles::post($fields);
 			}

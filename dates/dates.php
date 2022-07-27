@@ -373,7 +373,7 @@ Class Dates {
 		}
 
 		// now
-		$match = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$match = gmdate('%Y-%m-%d %H:%M:%S');
 
 		// select among available items
 		$query = "SELECT COUNT(*) as count"
@@ -734,18 +734,18 @@ Class Dates {
 
 		// check the year
 		if($year < 1970)
-			$year = (int)gmstrftime('%Y');
+			$year = (int)gmdate('%Y');
 
 		// check the month
 		if(($month < 1) || ($month > 12))
-			$month = (int)gmstrftime('%m');
+			$month = (int)gmdate('%m');
 
 		// check the day
 		if(($day < 1) || ($day > 31))
-			$day = (int)gmstrftime('%d');
+			$day = (int)gmdate('%d');
 
 		// prefix to match
-		$match = gmstrftime('%Y-%m-%d', gmmktime(0, 0, 0, $month, $day, $year)).'%';
+		$match = gmdate('%Y-%m-%d', gmmktime(0, 0, 0, $month, $day, $year)).'%';
 
 		// the request
 		$query = "SELECT dates.date_stamp as date_stamp, articles.* FROM ".SQL::table_name('dates')." as dates"
@@ -805,7 +805,7 @@ Class Dates {
 
 		// default is current month
 		if(!$prefix)
-			$prefix = gmstrftime('%Y-%m-');
+			$prefix = gmdate('%Y-%m-');
 
 		// restrict the query to addressable content
 		$where = Articles::get_sql_where();
@@ -891,9 +891,9 @@ Class Dates {
 
 		// starting this month
 		if($back_to_first)
-			$match = gmstrftime('%Y-%m-01');
+			$match = gmdate('%Y-%m-01');
 		else
-			$match = gmstrftime('%Y-%m-%d');
+			$match = gmdate('%Y-%m-%d');
 
 		// only for one anchor
 		if($anchor)
@@ -943,7 +943,7 @@ Class Dates {
 		}
 
 		// now
-		$match = gmstrftime('%Y-%m-%d');
+		$match = gmdate('%Y-%m-%d');
 
 		// the request
 		$query = "SELECT dates.date_stamp as date_stamp, articles.* FROM ".SQL::table_name('dates')." as dates"
@@ -1175,7 +1175,7 @@ Class Dates {
 		}
 
 		// now
-		$match = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$match = gmdate('%Y-%m-%d %H:%M:%S');
 
 		// select among available items
 		$query = "SELECT COUNT(*) as count, MIN(articles.edit_date) as oldest_date, MAX(articles.edit_date) as newest_date "
@@ -1217,7 +1217,7 @@ Class Dates {
 		}
 
 		// now
-		$match = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$match = gmdate('%Y-%m-%d %H:%M:%S');
 
 		// select among available items
 		$query = "SELECT COUNT(*) as count, MIN(articles.edit_date) as oldest_date, MAX(articles.edit_date) as newest_date "

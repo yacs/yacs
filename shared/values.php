@@ -133,7 +133,7 @@ Class Values {
 		$query = "INSERT INTO ".SQL::table_name('values')." SET"
 			." id='".SQL::escape($id)."',"
 			." value='".SQL::escape($value)."',"
-			." edit_date='".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'";
+			." edit_date='".SQL::escape(gmdate('%Y-%m-%d %H:%M:%S'))."'";
 
 		// do not report on error
 		SQL::query($query, TRUE);

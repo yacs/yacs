@@ -116,7 +116,7 @@ if(Surfer::is_crawler()) {
 		$item['create_name'] = i18n::c('(anonymous)');
 
 	// always auto-publish queries
-	$item['publish_date']	= gmstrftime('%Y-%m-%d %H:%M:%S');
+	$item['publish_date']	= gmdate('%Y-%m-%d %H:%M:%S');
 	if(isset($item['edit_id']))
 		$item['publish_id'] 	= $item['edit_id'];
 	$item['publish_address'] = $item['edit_address'];

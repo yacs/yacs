@@ -97,7 +97,7 @@ if(Surfer::is_crawler()) {
 		$_REQUEST['create_name'] = i18n::c('(anonymous)');
 
 	// always auto-publish queries
-	$_REQUEST['publish_date']	= gmstrftime('%Y-%m-%d %H:%M:%S');
+	$_REQUEST['publish_date']	= gmdate('%Y-%m-%d %H:%M:%S');
 	if(isset($_REQUEST['edit_id']))
 		$_REQUEST['publish_id'] 	= $_REQUEST['edit_id'];
 	$_REQUEST['publish_address'] = $_REQUEST['edit_address'];

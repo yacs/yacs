@@ -1007,7 +1007,7 @@ class Messages {
 		$item['file_size'] = $file_size;
 		if(isset($content_description) && ($content_description != $file_name))
 			$item['description'] = $content_description;
-		$item['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
+		$item['edit_date'] = gmdate('%Y-%m-%d %H:%M:%S', time());
 		$item['edit_name'] = $user['nick_name'];
 		$item['edit_id'] = $user['id'];
 		$item['edit_address'] = $user['email'];
@@ -1178,7 +1178,7 @@ class Messages {
 			$item['description'] .= $content_description;
 		//if(@count($details))
 		//	$item['description'] .= "\n\n".'<p '.tag::_class('details').'>'.implode("<br />\n", $details)."</p>\n";
-		$item['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
+		$item['edit_date'] = gmdate('%Y-%m-%d %H:%M:%S', time());
 		$item['edit_name'] = $user['nick_name'];
 		$item['edit_id'] = $user['id'];
 		$item['edit_address'] = $user['email'];
@@ -1267,7 +1267,7 @@ class Messages {
 			$entry_fields['title'] = $context['mail_subject'];
 
 		// message creation stamp
-		$entry_fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', strtotime($context['mail_date']));
+		$entry_fields['create_date'] = gmdate('%Y-%m-%d %H:%M:%S', strtotime($context['mail_date']));
 		if(!isset($entry_fields['create_name']))
 			$entry_fields['create_name'] = $user['nick_name'];
 		if(!isset($entry_fields['create_id']))
@@ -1276,7 +1276,7 @@ class Messages {
 			$entry_fields['create_address'] = $user['email'];
 
 		// message edition stamp
-		$entry_fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
+		$entry_fields['edit_date'] = gmdate('%Y-%m-%d %H:%M:%S', time());
 		if(!isset($entry_fields['edit_name']))
 			$entry_fields['edit_name'] = $user['nick_name'];
 		if(!isset($entry_fields['edit_id']))
@@ -1339,7 +1339,7 @@ class Messages {
 			if((isset($context['users_with_auto_publish']) && ($context['users_with_auto_publish'] == 'Y'))
 				|| preg_match('/\bauto_publish\b/i', $options)
 				|| (is_object($section) && $section->has_option('auto_publish'))) {
-				$entry_fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
+				$entry_fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S', time());
 				if(!isset($entry_fields['publish_name']))
 					$entry_fields['publish_name'] = $user['nick_name'];
 				if(!isset($entry_fields['publish_id']))

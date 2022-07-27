@@ -886,7 +886,7 @@ class Issue extends Overlay {
 
 			// create_date
 			if(!isset($host['create_date']) || !$host['create_date'])
-				$host['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+				$host['create_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 			$host['create_date'] = Surfer::from_GMT($host['create_date']);
 			if($this->attributes['type'] == 'feature')
 				$label = i18n::s('Feature request has been created on %s');

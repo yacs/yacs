@@ -535,7 +535,7 @@ Class User extends Anchor {
 				."edit_id=".SQL::escape(Surfer::get_id()).","
 				."edit_address='".SQL::escape(Surfer::get_email_address())."',"
 				."edit_action='$action',"
-				."edit_date='".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'";
+				."edit_date='".SQL::escape(gmdate('%Y-%m-%d %H:%M:%S'))."'";
 
 		// clear the cache for users, even for minor updates (e.g., image deletion)
 		Users::clear($this->item);

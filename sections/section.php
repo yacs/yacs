@@ -850,7 +850,7 @@ Class Section extends Anchor {
                 return false;
             }
 
-            if(($item['activation_date'] > NULL_DATE) || ($item['activation_date'] > gmstrftime('%Y-%m-%d %H:%M:%S'))) {
+            if(($item['activation_date'] > NULL_DATE) || ($item['activation_date'] > gmdate('%Y-%m-%d %H:%M:%S'))) {
                     $status = 'UNPUBLISHED';
                     return false;
             }
@@ -1145,7 +1145,7 @@ Class Section extends Anchor {
 				."edit_id=".SQL::escape(Surfer::get_id()).","
 				."edit_address='".SQL::escape(Surfer::get_email_address())."',"
 				."edit_action='$action',"
-				."edit_date='".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'";
+				."edit_date='".SQL::escape(gmdate('%Y-%m-%d %H:%M:%S'))."'";
 
 		// update the database
 		if(@count($query)) {

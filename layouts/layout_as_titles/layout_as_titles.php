@@ -95,7 +95,7 @@ Class Layout_as_titles extends Layout_interface {
 				$suffix .= NEW_FLAG;
 			elseif($item['edit_date'] >= $context['fresh'])
 				$suffix .= UPDATED_FLAG;
-                        elseif(isset($item['publish_date']) && (($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S'))))
+                        elseif(isset($item['publish_date']) && (($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmdate('%Y-%m-%d %H:%M:%S'))))
                                 $prefix .= DRAFT_FLAG;
 
                         if(!$hover = strip_tags(Codes::beautify_introduction($entity->get_introduction()))){

@@ -29,7 +29,7 @@ Class Layout_users_as_comma5 extends Layout_interface {
 			return $text;
 
 		// flag idle users
-		$idle = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 600);
+		$idle = gmdate('%Y-%m-%d %H:%M:%S', time() - 600);
 
 		// process all items in the list
 		$count = 0;

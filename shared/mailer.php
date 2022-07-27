@@ -1383,7 +1383,7 @@ class Mailer {
 
 		// transaction attributes
 		$query = array();
-		$query[] = "edit_date='".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'";
+		$query[] = "edit_date='".SQL::escape(gmdate('%Y-%m-%d %H:%M:%S'))."'";
 		$query[] = "headers='".SQL::escape($headers)."'";
 		$query[] = "message='".SQL::escape($message)."'";
 		$query[] = "recipient='".SQL::escape($recipient)."'";

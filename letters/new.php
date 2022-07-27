@@ -483,7 +483,7 @@ if(!Surfer::is_associate()) {
 	$fields['publish_name'] = Surfer::get_name();
 	$fields['publish_id'] = Surfer::get_id();
 	$fields['publish_address'] = Surfer::get_email_address();
-	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+	$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 	$fields['id'] = Articles::post($fields);
 
 	// from: from configuration files

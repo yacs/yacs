@@ -98,7 +98,7 @@ Class Layout_as_yabb extends Layout_interface {
 			$prefix = $label = $suffix = $icon = '';
                         
                         // signal articles to be published
-			if(isset($item['publish_date']) && ( ($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S'))))
+			if(isset($item['publish_date']) && ( ($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmdate('%Y-%m-%d %H:%M:%S'))))
 				$prefix .= DRAFT_FLAG;
 
 			// signal restricted and private sections

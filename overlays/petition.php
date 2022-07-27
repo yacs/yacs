@@ -79,7 +79,7 @@ class Petition extends Overlay {
 			$open = TRUE;
 
 		// not ended yet
-		} elseif($this->attributes['end_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')) {
+		} elseif($this->attributes['end_date'] > gmdate('%Y-%m-%d %H:%M:%S')) {
 
 			$information[] = sprintf(i18n::s('Petition is open until %s.'), Skin::build_date($this->attributes['end_date'], 'standalone'));
 			$open = TRUE;
@@ -230,7 +230,7 @@ class Petition extends Overlay {
 			$open = TRUE;
 
 		// not ended yet
-		elseif($this->attributes['end_date'] > gmstrftime('%Y-%m-%d %H:%M:%S'))
+		elseif($this->attributes['end_date'] > gmdate('%Y-%m-%d %H:%M:%S'))
 			$open = TRUE;
 
 		// petition is over

@@ -352,7 +352,7 @@ Class Versions {
 				$content = base64_encode(gzcompress($content, 6));
 
 		// versioning date
-		$versioning_date = isset($fields['edit_date']) ? $fields['edit_date'] : gmstrftime('%Y-%m-%d %H:%M:%S');
+		$versioning_date = isset($fields['edit_date']) ? $fields['edit_date'] : gmdate('%Y-%m-%d %H:%M:%S');
 
 		// insert a new record
 		$query = "INSERT INTO ".SQL::table_name('versions')." SET "

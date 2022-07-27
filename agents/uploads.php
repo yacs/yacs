@@ -192,7 +192,7 @@ class Uploads {
 		if(@count($entries) == 1) {
 
 			// make a stamp
-			$stamp = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0, 0, 0, $month, $day, $year));
+			$stamp = gmdate('%Y-%m-%d %H:%M:%S', mktime(0, 0, 0, $month, $day, $year));
 
 			// process this entry
 			Uploads::process_handx_entry(trim($entries[0]), $stamp);
@@ -213,7 +213,7 @@ class Uploads {
 					$minutes = $matches[2];
 					if($matches[3] == 'pm')
 						$hour += 12;
-					$stamp = gmstrftime('%Y-%m-%d %H:%M:%S', mktime($hour, $minutes, 0, $month, $day, $year));
+					$stamp = gmdate('%Y-%m-%d %H:%M:%S', mktime($hour, $minutes, 0, $month, $day, $year));
 
 				}
 

@@ -59,7 +59,7 @@ class Day extends Event {
 
 		// default value is now
 		if(!isset($this->attributes['date_stamp']) || ($this->attributes['date_stamp'] <= NULL_DATE))
-			$this->attributes['date_stamp'] = gmstrftime('%Y-%m-%d %H:%M', time() + (Surfer::get_gmt_offset() * 3600));
+			$this->attributes['date_stamp'] = gmdate('%Y-%m-%d %H:%M', time() + (Surfer::get_gmt_offset() * 3600));
 
 		// adjust to surfer time zone
 		else

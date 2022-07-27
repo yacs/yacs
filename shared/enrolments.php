@@ -109,7 +109,7 @@ class Enrolments {
 				$query = array();
 				$query[] = "anchor = '".$reference."'";
 				$query[] = "approved = 'Y'";
-				$query[] = "edit_date = '".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'";
+				$query[] = "edit_date = '".SQL::escape(gmdate('%Y-%m-%d %H:%M:%S'))."'";
 				$query[] = "user_id = ".SQL::escape(Surfer::get_id());
 				$query[] = "user_email = '".SQL::escape(Surfer::get_email_address())."'";
 

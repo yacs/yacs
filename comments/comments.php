@@ -1141,7 +1141,7 @@ Class Comments {
 				." AND (articles.active='Y')"
 				." AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
-				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmstrftime('%Y-%m-%d %H:%M:%S')."'))"
+				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('%Y-%m-%d %H:%M:%S')."'))"
 				." ORDER BY comments.create_date DESC LIMIT ".$offset.','.$count;
 
 		// the list of comments
@@ -1361,7 +1361,7 @@ Class Comments {
 			$where = "(articles.active='Y')"
 				." AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
-				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmstrftime('%Y-%m-%d %H:%M:%S')."'))";
+				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('%Y-%m-%d %H:%M:%S')."'))";
 		}
 
 		// avoid blank records on join
@@ -1421,7 +1421,7 @@ Class Comments {
 		if(!Surfer::is_associate()) {
 			$where = " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
-				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmstrftime('%Y-%m-%d %H:%M:%S')."'))";
+				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('%Y-%m-%d %H:%M:%S')."'))";
 		}
 
 		// avoid blank records on join
@@ -1472,7 +1472,7 @@ Class Comments {
 			$where = "(articles.active='Y')"
 				." AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
-				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmstrftime('%Y-%m-%d %H:%M:%S')."'))";
+				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('%Y-%m-%d %H:%M:%S')."'))";
 		}
 
 		// avoid blank records on join
@@ -1532,7 +1532,7 @@ Class Comments {
 		if(!Surfer::is_associate()) {
 			$where = " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
-				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmstrftime('%Y-%m-%d %H:%M:%S')."'))";
+				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('%Y-%m-%d %H:%M:%S')."'))";
 		}
 
 		// avoid blank records on join
@@ -1602,7 +1602,7 @@ Class Comments {
 		// set default values for this editor
 		Surfer::check_default_editor($fields);
 		if(!isset($fields['edit_date']) || ($fields['edit_date'] <= NULL_DATE))
-			$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+			$fields['edit_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 
 		// reinforce date formats
 		if(!isset($fields['create_date']) || ($fields['create_date'] <= NULL_DATE))
@@ -1928,7 +1928,7 @@ Class Comments {
 			$where = "(articles.active='Y')"
 				." AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
-				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmstrftime('%Y-%m-%d %H:%M:%S')."'))";
+				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('%Y-%m-%d %H:%M:%S')."'))";
 		}
 
 		// avoid blank records on join

@@ -189,8 +189,8 @@ if($with_form) {
 		if(!($anchor = Sections::lookup('external_news'))) {
 			$fields = array();
 			$fields['nick_name'] = 'external_news';
-			$fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
-			$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
+			$fields['create_date'] = gmdate('%Y-%m-%d %H:%M:%S', time());
+			$fields['edit_date'] = gmdate('%Y-%m-%d %H:%M:%S', time());
 			$fields['locked'] = 'Y'; // no direct contributions
 			$fields['index_map'] = 'N'; // in a side box at the front page
 			$fields['rank'] = 40000; // at the end of the list

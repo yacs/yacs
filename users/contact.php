@@ -156,9 +156,9 @@ elseif(isset($context['users_without_private_pages']) && ($context['users_withou
 	// the new thread
 	$article = array();
 	$article['anchor'] = $anchor;
-	$article['title'] = isset($_REQUEST['title']) ? $_REQUEST['title'] : utf8::transcode(Skin::build_date(gmstrftime('%Y-%m-%d %H:%M:%S GMT'), 'full'));
+	$article['title'] = isset($_REQUEST['title']) ? $_REQUEST['title'] : utf8::transcode(Skin::build_date(gmdate('%Y-%m-%d %H:%M:%S GMT'), 'full'));
 	$article['active_set'] = 'N';	// this is private
-	$article['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S'); // no review is required
+	$article['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S'); // no review is required
 	$article['options'] = 'view_as_zic_pm';
 
 	// include some overlay

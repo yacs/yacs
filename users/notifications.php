@@ -118,7 +118,7 @@ Class Notifications {
 		global $context;
 
 		// delete obsoleted notifications
-		$threshold = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 180);
+		$threshold = gmdate('%Y-%m-%d %H:%M:%S', time() - 180);
 
 		// suppress previous record, if any --do not report on error, if any
 		$query = "DELETE FROM ".SQL::table_name('notifications')
@@ -129,7 +129,7 @@ Class Notifications {
 		$query = "INSERT INTO ".SQL::table_name('notifications')." SET"
 			." recipient='".SQL::escape($fields['recipient'])."',"
 			." data='".SQL::escape(serialize($fields))."',"
-			." edit_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."'";
+			." edit_date='".gmdate('%Y-%m-%d %H:%M:%S')."'";
 		SQL::query($query, TRUE);
 
 		// end of job
@@ -159,7 +159,7 @@ Class Notifications {
 		}
 
 		// only consider recent records -- 180 = 3 minutes * 60 seconds
-		$threshold = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 180);
+		$threshold = gmdate('%Y-%m-%d %H:%M:%S', time() - 180);
 
 		// the query to get time of last update
 		$query = "SELECT * FROM ".SQL::table_name('notifications')." AS notifications "

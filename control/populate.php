@@ -221,11 +221,11 @@ if(!$permitted) {
 		$user['capability']         = 'A';	// make this user profile an associate
 		$user['active']             = 'Y';
 		$user['create_name']        = 'setup';
-		$user['create_date']        = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$user['create_date']        = gmdate('%Y-%m-%d %H:%M:%S');
 		$user['edit_name']          = 'setup';
-		$user['edit_date']          = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$user['edit_date']          = gmdate('%Y-%m-%d %H:%M:%S');
 		$user['interface']          = 'C';	// access all configuration panels
-		$user['login_date']         = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$user['login_date']         = gmdate('%Y-%m-%d %H:%M:%S');
                 $user['usage_agreement']    = 'Y';
 
 		// display error, if any
@@ -512,7 +512,7 @@ if(!$permitted) {
 			.'<p>'.i18n::c('[parameter=site_owner] is not responsible for the content of information submitted to the site. [parameter=site_owner] is not responsible for any content contained on other sites that may link to or be linked to [parameter=site_name]. As such, the existence of a link to another site on [parameter=site_name] does not express endorsement by [parameter=site_owner] of said site or its contents.').'</p>'."\n"
 			.'<p>'.i18n::c('All other trademarks, icons, and logos, shown or mentioned, are the property of their respective owners, including those associated with any solutions listed in [parameter=site_name]. Although [parameter=site_owner] does not own and is not responsible for all of the content on the site, we reserve the right to edit or remove any content at any time in any way we deem necessary, without any notification whatselver to the owner(s) of that content, to keep it better in line with our stated and/or unstated policies. [parameter=site_owner] is not responsible for any copyright laws violated by the applications listed herein, although we will do everything we can do resolve any disputes that may arise in this area.').'</p>'."\n";
 		$fields['locked'] = 'Y'; // only associates can change this page
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 		else
@@ -527,7 +527,7 @@ if(!$permitted) {
 		$fields['title'] = i18n::c('Present to others');
 		$fields['introduction'] = i18n::c('Arrange an interactive virtual meeting based on document or desktop sharing. This relies on a BigBlueButton server, and supports webcams and interactive chat.');
 		$fields['options'] = 'edit_as_thread';
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
 
 		$overlay = Overlay::bind('bbb_meeting');
@@ -549,7 +549,7 @@ if(!$permitted) {
 		$fields['title'] = i18n::c('Chat with others');
 		$fields['introduction'] = i18n::c('Start an interactive session right now, or add it to your agenda. The page will be turned to a permanent transcript at the end of the meeting.');
 		$fields['options'] = 'edit_as_thread view_as_chat';
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/chat.gif';
 
 		$overlay = Overlay::bind('chat_meeting');
@@ -569,7 +569,7 @@ if(!$permitted) {
 		$fields['nick_name'] = 'cover';
 		$fields['title'] = i18n::c('Welcome!');
 		$fields['locked'] = 'Y'; // only associates can change this page
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 		else
@@ -584,7 +584,7 @@ if(!$permitted) {
 		$fields['title'] = i18n::c('Real-time collaboration');
 		$fields['introduction'] = i18n::c('Allow multiple contributors to work at the same document. At the given date and time participants are invited to join and to contribute.');
 		$fields['options'] = 'edit_as_thread';
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/meeting.gif';
 
 		$overlay = Overlay::bind('etherpad_meeting');
@@ -604,7 +604,7 @@ if(!$permitted) {
 		$fields['nick_name'] = 'event_template';
 		$fields['title'] = i18n::c('Plan an event');
 		$fields['introduction'] = i18n::c('Arrange an event at the given date and time. Manage enrolment, and provide meeting instructions on-line.');
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/event.gif';
 
 		$overlay = Overlay::bind('event');
@@ -626,7 +626,7 @@ if(!$permitted) {
 		$fields['title'] = i18n::c('Meet somewhere on the web');
 		$fields['introduction'] = i18n::c('Arrange an on-line meeting supported externally. At the given date and time participants are invited to join the provided web address.');
 		$fields['options'] = 'edit_as_thread';
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/event.gif';
 
 		$overlay = Overlay::bind('meeting');
@@ -649,7 +649,7 @@ if(!$permitted) {
 		$fields['description'] = Skin::build_link('feeds/rss.php', i18n::c('Recent pages'), 'xml')
 			.BR.Skin::build_link('feeds/', i18n::c('Information channels'), 'shortcut');
 		$fields['locked'] = 'Y'; // only associates can change this page
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 		else
@@ -664,7 +664,7 @@ if(!$permitted) {
 		$fields['title'] = i18n::c('Share some information');
 		$fields['introduction'] = i18n::c('From the web, from your computer, or from your head.');
 		$fields['options'] = 'edit_as_simple no_initial_upload';
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/thread.gif';
 
 		$overlay = Overlay::bind('embed');
@@ -685,7 +685,7 @@ if(!$permitted) {
 		$fields['title'] = i18n::c('Ask a question');
 		$fields['introduction'] = i18n::c('Let the community help you. Answered pages can be rated by visitors.');
 		$fields['options'] = 'edit_as_simple';
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/thread.gif';
 
 		$overlay = Overlay::bind('question');
@@ -706,7 +706,7 @@ if(!$permitted) {
 		$fields['title'] = i18n::c('Livestream broadcast');
 		$fields['introduction'] = i18n::c('Drive your audience to a Livestream channel. At the given date and time participants are invited to join the show.');
 		$fields['options'] = 'edit_as_thread view_as_chat';
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/conference.gif';
 
 		$overlay = Overlay::bind('livestream_meeting');
@@ -733,7 +733,7 @@ if(!$permitted) {
 			.'[submenu='.i18n::c('Categories').']categories/[/submenu]'."\n"
 			.'[submenu='.i18n::c('Help').']help/[/submenu]'."\n";
 		$fields['locked'] = 'Y'; // only associates can change this page
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 		else
@@ -763,7 +763,7 @@ if(!$permitted) {
 			.'<hr/><p>'.i18n::c('If you have any questions or comments about our privacy policy, or would like more information about a particular category, please [article=about, get in touch] with us.').'</p>'."\n"
                         .'<p>Registred persons may also request for a excerpt of their private data or invoke the right to be forgotten with [this form|query_privacy.php].</p>';
 		$fields['locked'] = 'Y'; // only associates can change this page
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 		else
@@ -778,7 +778,7 @@ if(!$permitted) {
 		$fields['title'] = i18n::c('Add a page');
 		$fields['introduction'] = i18n::c('Add a web page with a streamlined interface.');
 		$fields['options'] = 'edit_as_simple';
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/basic.gif';
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
@@ -795,7 +795,7 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('To interact privately with some persons.');
 		$fields['active_set'] = 'N'; // a private page
 		$fields['options'] = 'edit_as_simple';
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/thread.gif';
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
@@ -811,7 +811,7 @@ if(!$permitted) {
 		$fields['title'] = i18n::c('USTREAM broadcast');
 		$fields['introduction'] = i18n::c('Drive your audience to a USTREAM show. At the given date and time participants are invited to join the channel.');
 		$fields['options'] = 'edit_as_thread';
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/conference.gif';
 
 		$overlay = Overlay::bind('ustream_meeting');
@@ -832,7 +832,7 @@ if(!$permitted) {
 		$fields['title'] = i18n::c('Wiki page');
 		$fields['introduction'] = i18n::c('Create an initial page and invite participants to follow-up. Modifications are saved, to allow for fall-back.');
 		$fields['options'] = 'edit_as_simple members_edit view_as_wiki';
-		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 		$fields['thumbnail_url'] = $context['url_to_home'].$context['url_to_root'].'skins/_reference/thumbnails/page.gif';
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";

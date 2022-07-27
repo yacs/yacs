@@ -145,7 +145,7 @@ $context['extra'] = '';
 $context['file_mask'] = 0644;
 
 // quite new --changed in load_skin() based on actual parameter site_revisit_after -- see skins/configure.php
-$context['fresh'] = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-7,date("Y")));
+$context['fresh'] = gmdate('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-7,date("Y")));
 
 // compute server gmt offset based on system configuration
 $context['gmt_offset'] = intval((strtotime(date('M d Y H:i:s')) - strtotime(gmdate('M d Y H:i:s'))) / 3600);
@@ -160,7 +160,7 @@ $context['language'] = 'en';
 $context['navigation'] = '';
 
 // date and time of execution --in GMT
-$context['now'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+$context['now'] = gmdate('%Y-%m-%d %H:%M:%S');
 
 // default P3P compact policy enables IE support of our cookies, even through frameset -- http://support.microsoft.com/kb/323752
 $context['p3p_compact_policy'] = 'CAO PSA OUR';
@@ -865,7 +865,7 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 		$context['skin'] = 'skins/'.$skin;
 
 	// quite new
-	$context['fresh'] = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
+	$context['fresh'] = gmdate('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
 
 	// ensure tools are accessible
 	if((strpos($context['skins_extra_components'], 'tools') === FALSE) && (strpos($context['skins_navigation_components'], 'tools') === FALSE))

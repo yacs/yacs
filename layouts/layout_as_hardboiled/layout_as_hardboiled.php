@@ -132,7 +132,7 @@ Class Layout_as_hardboiled extends Layout_interface {
 					$suffix .= ' '.UPDATED_FLAG;
 
 				// signal articles to be published
-				if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
+				if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmdate('%Y-%m-%d %H:%M:%S')))
 					$prefix .= DRAFT_FLAG;
 
 				// signal restricted and private articles

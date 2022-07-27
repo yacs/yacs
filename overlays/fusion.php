@@ -60,7 +60,7 @@ Class Fusion extends Overlay {
                 switch ($result_type) {
                 
                     case 'boolean':
-                        if($unit === null) continue;
+                        if($unit === null) break;
                         
                         if($result === null) 
                             $result = $unit;

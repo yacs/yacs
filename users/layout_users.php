@@ -33,7 +33,7 @@ Class Layout_users extends Layout_interface {
 			return $items;
 
 		// flag idle users
-		$idle = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 600);
+		$idle = gmdate('%Y-%m-%d %H:%M:%S', time() - 600);
 
 		// default variant
 		if(!isset($this->layout_variant))

@@ -500,7 +500,7 @@ Class Servers {
 				."edit_name='ping', "
 				."edit_id=0, "
 				."edit_address='', "
-				."edit_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."'"
+				."edit_date='".gmdate('%Y-%m-%d %H:%M:%S')."'"
 				." WHERE id = ".SQL::escape($item['id']);
 
 			if(SQL::query($query) === FALSE)
@@ -516,7 +516,7 @@ Class Servers {
 				."edit_name='".SQL::escape($title)."', "
 				."edit_id=0, "
 				."edit_address='', "
-				."edit_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."'";
+				."edit_date='".gmdate('%Y-%m-%d %H:%M:%S')."'";
 
 			if(SQL::query($query) === FALSE)
 				return 'ERROR';
@@ -761,7 +761,7 @@ Class Servers {
 
 		// update the record of authenticated user
 		$query = "UPDATE ".SQL::table_name('servers')
-			." SET stamp_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."'"
+			." SET stamp_date='".gmdate('%Y-%m-%d %H:%M:%S')."'"
 			." WHERE id = ".SQL::escape($id);
 
 		// do not report on error

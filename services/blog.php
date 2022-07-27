@@ -653,12 +653,12 @@ else {
 					$fields['publish_name'] = $user['nick_name'];
 					$fields['publish_id'] = $user['id'];
 					$fields['publish_address'] = $user['email'];
-					$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+					$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 				}
 				$fields['edit_name'] = $user['nick_name'];
 				$fields['edit_id'] = $user['id'];
 				$fields['edit_address'] = $user['email'];
-				$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+				$fields['edit_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 
 				// update the article
 				if(!Articles::put($fields))
@@ -1023,7 +1023,7 @@ else {
 			$fields['create_name'] = $user['nick_name'];
 			$fields['create_id'] = $user['id'];
 			$fields['create_address'] = $user['email'];
-			$fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+			$fields['create_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 
 			// publish if in wiki mode, or if section is configured for auto-publishing,
 			// or if the surfer asks for it and add sufficient rights
@@ -1033,12 +1033,12 @@ else {
 				$fields['publish_name'] = $user['nick_name'];
 				$fields['publish_id'] = $user['id'];
 				$fields['publish_address'] = $user['email'];
-				$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+				$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 			}
 			$fields['edit_name'] = $user['nick_name'];
 			$fields['edit_id'] = $user['id'];
 			$fields['edit_address'] = $user['email'];
-			$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+			$fields['edit_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 
 			// post the article
 			if(!$fields['id'] = Articles::post($fields))
@@ -1179,12 +1179,12 @@ else {
 					$fields['publish_name'] = $user['nick_name'];
 					$fields['publish_id'] = $user['id'];
 					$fields['publish_address'] = $user['email'];
-					$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+					$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 				}
 				$fields['edit_name'] = $user['nick_name'];
 				$fields['edit_id'] = $user['id'];
 				$fields['edit_address'] = $user['email'];
-				$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+				$fields['edit_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 
 				// update the article
 				if(!Articles::put($fields))
@@ -1472,11 +1472,11 @@ else {
 				$fields['create_name'] = $user['nick_name'];
 				$fields['create_id'] = $user['id'];
 				$fields['create_address'] = $user['email'];
-				$fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+				$fields['create_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 				$fields['edit_name'] = $user['nick_name'];
 				$fields['edit_id'] = $user['id'];
 				$fields['edit_address'] = $user['email'];
-				$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+				$fields['edit_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 
 				// create a file entry in the database, if not a thumbnail
 				if(!preg_match('/_tn\./i', $file_name) && (!$fields['id'] = Files::post($fields)))
@@ -1547,7 +1547,7 @@ else {
 			if(isset($content['dateCreated']) && $content['dateCreated'])
 				$stamp = strftime('%Y-%m-%d %H:%M:%S', $content['dateCreated']);
 			else
-				$stamp = gmstrftime('%Y-%m-%d %H:%M:%S');
+				$stamp = gmdate('%Y-%m-%d %H:%M:%S');
 
 			// build fields
 			$fields['title'] = $content['title'];
@@ -1577,12 +1577,12 @@ else {
 				$fields['publish_name'] = $user['nick_name'];
 				$fields['publish_id'] = $user['id'];
 				$fields['publish_address'] = $user['email'];
-				$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+				$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 			}
 			$fields['edit_name'] = $user['nick_name'];
 			$fields['edit_id'] = $user['id'];
 			$fields['edit_address'] = $user['email'];
-			$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+			$fields['edit_date'] = gmdate('%Y-%m-%d %H:%M:%S');
 
 			// post the article
 			if(!$fields['id'] = Articles::post($fields))
