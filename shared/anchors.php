@@ -297,6 +297,9 @@ class Anchors {
 
 		// no anchor yet
 		$anchor = NULL;
+                
+                // sanity check
+                if(is_null($id)) return $anchor;
 
 		// if no type has been provided, assume we want a section
 		if(is_numeric($id))
