@@ -665,7 +665,7 @@
             $sisters                = array();
             
             //// detect other language for articles or sections
-            if(strpos($context['current_item'],'article') === FALSE && strpos($context['current_item'],'section') === FALSE )
+            if($context['current_item'] && strpos($context['current_item'],'article') === FALSE && strpos($context['current_item'],'section') === FALSE )
                 return $meta_hreflang;
             
             // get the entity
