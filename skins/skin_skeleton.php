@@ -2451,7 +2451,7 @@ Class Skin_Skeleton {
 				$link = Skin::build_link($url, $label, $type, $title, $new_window);
                         
 			// this link comes with an attached image
-			if(strpos($icon, '<img ') !== FALSE)
+			if($icon && strpos($icon, '<img ') !== FALSE)
 				;
 
 			// we just have a link
