@@ -487,7 +487,7 @@ Class Files {
 	 * @param array attributes of the new item
 	 * @return string text to be send by e-mail
 	 */
-	public static function build_notification($action='upload', $item) {
+	public static function build_notification($action, $item) {
 		global $context;
 
 		// are we processing one or several items?
