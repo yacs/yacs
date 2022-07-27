@@ -482,7 +482,7 @@ Class Article extends Anchor {
                     return false;
             }
 
-            if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmdate('%Y-%m-%d %H:%M:%S'))) {
+            if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmdate('Y-m-d H:i:s'))) {
                     $status = 'UNPUBLISHED';
                     return false;
             }
@@ -996,7 +996,7 @@ Class Article extends Anchor {
 				."edit_id=".SQL::escape(Surfer::get_id()).","
 				."edit_address='".SQL::escape(Surfer::get_email_address())."',"
 				."edit_action='".SQL::escape($action)."',"
-				."edit_date='".gmdate('%Y-%m-%d %H:%M:%S')."'";
+				."edit_date='".gmdate('Y-m-d H:i:s')."'";
 
 		// update the database
 		if(count($query)) {

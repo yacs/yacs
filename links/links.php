@@ -538,7 +538,7 @@ Class Links {
 				." AND (articles.active='Y')"
 				." AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
-				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('%Y-%m-%d %H:%M:%S')."'))"
+				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('Y-m-d H:i:s')."'))"
 				." AND (links.edit_id > 0)";
 		} else {
 			$where = "WHERE (links.edit_id > 0)";
@@ -1346,7 +1346,7 @@ Class Links {
 				." AND (articles.active='Y')"
 				." AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
-				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('%Y-%m-%d %H:%M:%S')."'))"
+				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('Y-m-d H:i:s')."'))"
 				." AND (links.edit_id > 0)";
 		} else {
 			$where = "WHERE (links.edit_id > 0)";

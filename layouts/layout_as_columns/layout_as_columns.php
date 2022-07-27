@@ -82,7 +82,7 @@ Class Layout_as_columns extends Layout_interface {
                             $suffix .= UPDATED_FLAG;
                     elseif(isset($item['activation_date']) && $item['activation_date'] >= $context['now'])
                             $prefix .= DRAFT_FLAG;
-                    elseif(isset($item['publish_date']) && (($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmdate('%Y-%m-%d %H:%M:%S'))))
+                    elseif(isset($item['publish_date']) && (($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmdate('Y-m-d H:i:s'))))
                             $prefix .= DRAFT_FLAG;
 
 

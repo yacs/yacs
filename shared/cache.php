@@ -140,13 +140,13 @@ Class Cache {
 		elseif(is_string($topic) && ($topic === 'global')) {
 
 			// clear expired items
-			$where = "(expiry_date < '".gmdate('%Y-%m-%d %H:%M:%S')."')";
+			$where = "(expiry_date < '".gmdate('Y-m-d H:i:s')."')";
 
 			// clear global items
 			$where .= " OR (topic LIKE 'global')";
 
 			// clear not-stable non-transient items
-			$where .= " OR ((topic NOT LIKE 'stable') AND (expiry_date > '".gmdate('%Y-%m-%d %H:%M:%S', time() + 20)."'))";
+			$where .= " OR ((topic NOT LIKE 'stable') AND (expiry_date > '".gmdate('Y-m-d H:i:s', time() + 20)."'))";
 
 			// the comprehensive query
 			$query = "DELETE FROM ".SQL::table_name('cache')." WHERE ".$where;
@@ -155,10 +155,10 @@ Class Cache {
 		} else {
 
 			// clear expired items
-			$where = "(expiry_date < '".gmdate('%Y-%m-%d %H:%M:%S')."')";
+			$where = "(expiry_date < '".gmdate('Y-m-d H:i:s')."')";
 
 			// clear non-transient global items
-			$where .= " OR ((topic LIKE 'global') AND (expiry_date > '".gmdate('%Y-%m-%d %H:%M:%S', time() + 20)."'))";
+			$where .= " OR ((topic LIKE 'global') AND (expiry_date > '".gmdate('Y-m-d H:i:s', time() + 20)."'))";
 
 			// if several topics have been given, delete all of them
 			if(is_array($topic)) {
@@ -279,7 +279,7 @@ Class Cache {
 			return $output;
 
 		// check item validity
-		if($item['expiry_date'] < gmdate('%Y-%m-%d %H:%M:%S'))
+		if($item['expiry_date'] < gmdate('Y-m-d H:i:s'))
 			return $output;
 
 		// we have a valid cached item
@@ -433,7 +433,7 @@ Class Cache {
 			return;
                 
                 // don't cache more than expected
-		$expiry = gmdate('%Y-%m-%d %H:%M:%S', time() + $duration);
+		$expiry = gmdate('Y-m-d H:i:s', time() + $duration);
                 
                 // update the database; do not report on error
 		$query = "REPLACE INTO ".SQL::table_name('cache')." SET"
@@ -441,7 +441,7 @@ Class Cache {
 			." text='".SQL::escape($text)."',"
 			." topic='".SQL::escape($topic)."',"
 			." expiry_date='".$expiry."',"
-			." edit_date='".gmdate('%Y-%m-%d %H:%M:%S')."'";
+			." edit_date='".gmdate('Y-m-d H:i:s')."'";
 		SQL::query($query, TRUE);
             
         }

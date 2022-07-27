@@ -89,7 +89,7 @@ if(Surfer::is_crawler()) {
 		$_REQUEST['edit_address'] = encode_link($_REQUEST['edit_address']);
 
 	// append to previous comment during 10 minutes
-	$continuity_limit = gmdate('%Y-%m-%d %H:%M:%S', time() - 600);
+	$continuity_limit = gmdate('Y-m-d H:i:s', time() - 600);
 
 	// this is the first contribution to the thread
 	if(!$item = Comments::get_newest_for_anchor($anchor->get_reference())) {
@@ -146,7 +146,7 @@ if(Surfer::is_crawler()) {
 		register_shutdown_function('on_shutdown');
 
 	// else wait for some update --on time out, browser will recall us anyway
-	$response = Comments::pull($anchor->get_reference(), isset($_REQUEST['timestamp']) ? gmdate('%Y-%m-%d %H:%M:%S', $_REQUEST['timestamp']) : 0);
+	$response = Comments::pull($anchor->get_reference(), isset($_REQUEST['timestamp']) ? gmdate('Y-m-d H:i:s', $_REQUEST['timestamp']) : 0);
 
 	// shutdown is not an error anymore
 	$pending = FALSE;

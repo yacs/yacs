@@ -362,7 +362,7 @@ Class Category extends Anchor {
 				."edit_id=".Surfer::get_id().","
 				."edit_address='".Surfer::get_email_address()."',"
 				."edit_action='$action',"
-				."edit_date='".strftime('%Y-%m-%d %H:%M:%S')."'";
+				."edit_date='".strftime('Y-m-d H:i:s')."'";
 
 		// ensure we have a valid update query
 		if(!@count($query))

@@ -354,7 +354,7 @@ if(Surfer::is_crawler()) {
 		$fields['introduction'] = '';
 		$fields['description'] = i18n::c("This is a sample extra box.\nVisit the [link=extra section]sections/view.php?id=extra_boxes[/link] to review all extra boxes.");;
 		$fields['locked'] = 'Y'; // only associates can change this page
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -372,7 +372,7 @@ if(Surfer::is_crawler()) {
 		$fields['introduction'] = '';
 		$fields['description'] = '[cloud]';
 		$fields['locked'] = 'Y'; // only associates can change this page
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -389,7 +389,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Hello world');
 		$fields['introduction'] = '';
 		$fields['description'] = i18n::c("This is a sample navigation box.\nVisit the [link=navigation section]sections/view.php?id=navigation_boxes[/link] to review all navigation boxes.");
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -409,7 +409,7 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'coffee_machine';
 		$fields['title'] = i18n::c('Coffee machine');
 		$fields['introduction'] = i18n::c('Take a break, and discuss important things');
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		$fields['options'] = 'view_as_chat';
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -494,7 +494,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Interactive support');
 		$fields['introduction'] = i18n::c('To seek for help from other members of the community');
 		$fields['options'] = 'edit_as_thread views_as_chat';
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -529,7 +529,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Sample yabb thread');
 		$fields['introduction'] = i18n::c('This page demonstrates the rendering of the ##yabb## layout.');
 		$fields['options'] = 'edit_as_thread';
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -586,7 +586,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Sample jive thread');
 		$fields['introduction'] = i18n::c('This page demonstrates the rendering of the ##jive## layout.');
 		$fields['options'] = 'edit_as_thread';
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -646,7 +646,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Sample page of the blog');
 		$fields['introduction'] = i18n::c('Sample content with its set of notes');
 		$fields['description'] = i18n::c('This page demonstrates the rendering of the ##daily## layout.');
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -713,7 +713,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Project description');
 		$fields['introduction'] = i18n::c('This is a public page that describes the project.');
 		$fields['options'] = 'view_as_wiki edit_as_simple';
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -750,7 +750,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Project contribution');
 		$fields['introduction'] = i18n::c('This is a private page that is part of project internal discussions.');
 		$fields['options'] = 'edit_as_thread';
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -806,7 +806,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Sample page of the manual');
 		$fields['introduction'] = i18n::c('Sample content with its set of notes');
 		$fields['description'] = i18n::c('This page demonstrates the rendering of the ##manual## layout.');
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -882,7 +882,7 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'wiki_anonymous_page';
 		$fields['title'] = i18n::c('Sample wiki page');
 		$fields['description'] = i18n::c("Use the command 'Edit this page' to add some text or to change this content.");
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -937,7 +937,7 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'wiki_members_page';
 		$fields['title'] = i18n::c('Sample wiki page');
 		$fields['description'] = i18n::c("Use the command 'Edit this page' to add some text or to change this content.");
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -975,7 +975,7 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'bugzilla_page';
 		$fields['title'] = i18n::c('I need help');
 		$fields['introduction'] = i18n::c('Sample support request');
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		$overlay = Overlay::bind('issue');
 		$fields['overlay'] = $overlay->save();
 		$fields['overlay_id'] = $overlay->get_id();
@@ -1092,7 +1092,7 @@ if(Surfer::is_crawler()) {
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'test_ssp';
 		$fields['title'] = i18n::c('Test page');
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if($user = Users::get('aowner')) {
 			$fields['create_id'] = $user['id'];
 			$fields['create_name'] = $user['full_name'];
@@ -1149,7 +1149,7 @@ if(Surfer::is_crawler()) {
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'test_ssap';
 		$fields['title'] = i18n::c('Test page');
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if($user = Users::get('aowner')) {
 			$fields['create_id'] = $user['id'];
 			$fields['create_name'] = $user['full_name'];
@@ -1207,7 +1207,7 @@ if(Surfer::is_crawler()) {
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'test_ssalp';
 		$fields['title'] = i18n::c('Test page');
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if($user = Users::get('aowner')) {
 			$fields['create_id'] = $user['id'];
 			$fields['create_name'] = $user['full_name'];
@@ -1264,7 +1264,7 @@ if(Surfer::is_crawler()) {
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'test_ssmp';
 		$fields['title'] = i18n::c('Test page');
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if($user = Users::get('aowner')) {
 			$fields['create_id'] = $user['id'];
 			$fields['create_name'] = $user['full_name'];
@@ -1322,7 +1322,7 @@ if(Surfer::is_crawler()) {
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'test_ssmlp';
 		$fields['title'] = i18n::c('Test page');
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if($user = Users::get('aowner')) {
 			$fields['create_id'] = $user['id'];
 			$fields['create_name'] = $user['full_name'];
@@ -1344,7 +1344,7 @@ if(Surfer::is_crawler()) {
 		$fields['anchor'] = $anchor;
 		$fields['nick_name'] = 'test_sa';
 		$fields['title'] = i18n::c('Test page');
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if($user = Users::get('aowner')) {
 			$fields['create_id'] = $user['id'];
 			$fields['create_name'] = $user['full_name'];
@@ -1380,7 +1380,7 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'test_saa';
 		$fields['options'] = 'anonymous_edit';
 		$fields['title'] = i18n::c('Test page').' '.$fields['options'];
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if($user = Users::get('aowner')) {
 			$fields['create_id'] = $user['id'];
 			$fields['create_name'] = $user['full_name'];
@@ -1417,7 +1417,7 @@ if(Surfer::is_crawler()) {
 		$fields['options'] = 'anonymous_edit';
 		$fields['locked'] = 'Y';
 		$fields['title'] = i18n::c('Test page').' '.$fields['options'].' '.i18n::s('locked');
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if($user = Users::get('aowner')) {
 			$fields['create_id'] = $user['id'];
 			$fields['create_name'] = $user['full_name'];
@@ -1453,7 +1453,7 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'test_sam';
 		$fields['options'] = 'members_edit';
 		$fields['title'] = i18n::c('Test page').' '.$fields['options'];
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if($user = Users::get('aowner')) {
 			$fields['create_id'] = $user['id'];
 			$fields['create_name'] = $user['full_name'];
@@ -1490,7 +1490,7 @@ if(Surfer::is_crawler()) {
 		$fields['options'] = 'members_edit';
 		$fields['locked'] = 'Y';
 		$fields['title'] = i18n::c('Test page').' '.$fields['options'].' '.i18n::s('locked');
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if($user = Users::get('aowner')) {
 			$fields['create_id'] = $user['id'];
 			$fields['create_name'] = $user['full_name'];
@@ -1628,7 +1628,7 @@ if(Surfer::is_crawler()) {
 			."\n[list][*]First item [*]Second item[/list]"
 			."\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. "
 			."\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ";;
-		$fields['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$fields['publish_date'] = gmdate('Y-m-d H:i:s');
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else

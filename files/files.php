@@ -444,7 +444,7 @@ Class Files {
 				." assign_name = '".SQL::escape($user['nick_name'])."',"
 				." assign_id = ".SQL::escape($user['id']).","
 				." assign_address = '".SQL::escape(isset($user['email']) ? $user['email'] : '')."',"
-				." assign_date = '".SQL::escape(gmdate('%Y-%m-%d %H:%M:%S'))."'"
+				." assign_date = '".SQL::escape(gmdate('Y-m-d H:i:s'))."'"
 				." WHERE (id  = ".SQL::escape($id).") AND (assign_id < 1)";
 
 		// clear the assignment
@@ -1362,7 +1362,7 @@ Class Files {
 			." ON ((files.anchor_type LIKE 'article') AND (files.anchor_id = articles.id))"
 			." WHERE NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 			." AND ((articles.expiry_date is NULL)"
-			."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('%Y-%m-%d %H:%M:%S')."'))"
+			."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('Y-m-d H:i:s')."'))"
 			." AND ";
 
 		// limit the scope of the request
@@ -2023,7 +2023,7 @@ Class Files {
 				." ON ((files.anchor_type LIKE 'article') AND (files.anchor_id = articles.id))"
 				." WHERE NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
-				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('%Y-%m-%d %H:%M:%S')."'))"
+				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('Y-m-d H:i:s')."'))"
 				." AND ";
 
 		else
@@ -2115,7 +2115,7 @@ Class Files {
 				// restrict to files attached to published not expired pages
 				." AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
-				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('%Y-%m-%d %H:%M:%S')."')))"
+				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('Y-m-d H:i:s')."')))"
 
 				." UNION"
 
@@ -2130,7 +2130,7 @@ Class Files {
 				// restrict to files attached to published not expired pages
 				." AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
-				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('%Y-%m-%d %H:%M:%S')."')))"
+				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('Y-m-d H:i:s')."')))"
 
 				." ORDER BY edit_date DESC, title LIMIT ".$offset.','.$count;
 
@@ -2205,7 +2205,7 @@ Class Files {
 				." ON ((files.anchor_type LIKE 'article') AND (files.anchor_id = articles.id))"
 				." WHERE NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
-				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('%Y-%m-%d %H:%M:%S')."'))"
+				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('Y-m-d H:i:s')."'))"
 				." AND ";
 		} else
 			$where = "WHERE ";
@@ -2300,7 +2300,7 @@ Class Files {
 				." ON ((files.anchor_type LIKE 'article') AND (files.anchor_id = articles.id))"
 				." WHERE NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
-				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('%Y-%m-%d %H:%M:%S')."'))"
+				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('Y-m-d H:i:s')."'))"
 				." AND ";
 		} else
 			$where = "WHERE ";
@@ -2384,7 +2384,7 @@ Class Files {
 				// restrict to files attached to published not expired pages
 				." AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
-				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('%Y-%m-%d %H:%M:%S')."')))"
+				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('Y-m-d H:i:s')."')))"
 
 				." UNION"
 
@@ -2399,7 +2399,7 @@ Class Files {
 				// restrict to files attached to published not expired pages
 				." AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
-				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('%Y-%m-%d %H:%M:%S')."')))"
+				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('Y-m-d H:i:s')."')))"
 
 				." ORDER BY  files.title, files.file_name, files.edit_date DESC LIMIT ".$offset.','.$count;
 
@@ -2524,7 +2524,7 @@ Class Files {
 				." WHERE ((files.anchor_type LIKE 'article') AND (files.anchor_id = articles.id))"
 				." AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
-				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('%Y-%m-%d %H:%M:%S')."'))"
+				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmdate('Y-m-d H:i:s')."'))"
 				." AND ";
 		} else
 			$where = "WHERE ";

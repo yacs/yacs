@@ -72,7 +72,7 @@ Class Layout_articles_as_spray extends Layout_interface {
 			$id = Skin::build_link($url, $item['id'], 'basic');
 
 			// signal articles to be published
-			if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmdate('%Y-%m-%d %H:%M:%S')))
+			if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmdate('Y-m-d H:i:s')))
 				$summary .= DRAFT_FLAG;
 
 			// signal restricted and private articles

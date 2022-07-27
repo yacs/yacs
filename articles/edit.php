@@ -363,7 +363,7 @@ if(Surfer::is_crawler()) {
 
 	// auto-publish, if requested to do so
 	elseif((isset($context['users_with_auto_publish']) && ($context['users_with_auto_publish'] == 'Y')) || (is_object($anchor) && $anchor->has_option('auto_publish')))
-		$_REQUEST['publish_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+		$_REQUEST['publish_date'] = gmdate('Y-m-d H:i:s');
 
 	// this is an implicit draft page
 	else
@@ -1277,7 +1277,7 @@ if($with_form) {
 			." assign_name = '".SQL::escape(Surfer::get_name())."',"
 			." assign_id = ".SQL::escape(Surfer::get_id()).","
 			." assign_address = '".SQL::escape(Surfer::get_email_address())."',"
-			." assign_date = '".SQL::escape(gmdate('%Y-%m-%d %H:%M:%S'))."'"
+			." assign_date = '".SQL::escape(gmdate('Y-m-d H:i:s'))."'"
 			." WHERE (id  = ".SQL::escape($item['id']).")";
 
 		// do not stop on error

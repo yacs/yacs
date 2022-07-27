@@ -182,7 +182,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		// flag articles updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
-		$context['fresh'] = gmdate('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
+		$context['fresh'] = gmdate('Y-m-d H:i:s', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
 
 		// link to permalink
 		if(Surfer::is_empowered())

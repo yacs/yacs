@@ -232,7 +232,7 @@ if(Surfer::is_crawler()) {
 		&& ($newest = Comments::get_newest_for_anchor($anchor->get_reference()))
 		&& ($newest['type'] != 'notification')
 		&& Surfer::get_id() && (isset($newest['create_id']) && (Surfer::get_id() == $newest['create_id']))
-		&& ($newest['edit_date'] > gmdate('%Y-%m-%d %H:%M:%S', time() - 10))) {
+		&& ($newest['edit_date'] > gmdate('Y-m-d H:i:s', time() - 10))) {
 
 		// copy from previous comment record
 		$_REQUEST['id'] 			= $newest['id'];

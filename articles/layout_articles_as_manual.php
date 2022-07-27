@@ -79,7 +79,7 @@ Class Layout_articles_as_manual extends Layout_interface {
 			$prefix = $label = $suffix = $icon = $details = '';
 
 			// signal articles to be published
-			if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmdate('%Y-%m-%d %H:%M:%S')))
+			if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmdate('Y-m-d H:i:s')))
 				$prefix .= DRAFT_FLAG;
 
 			// signal restricted and private articles

@@ -470,7 +470,7 @@ Class Users {
 			$output['full_name'] = $output['nick_name'];
 
 		// user is present if active during last 10 minutes (10*60 = 600)
-		if(isset($output['click_date']) && ($output['click_date'] >= gmdate('%Y-%m-%d %H:%M:%S', time()-600)))
+		if(isset($output['click_date']) && ($output['click_date'] >= gmdate('Y-m-d H:i:s', time()-600)))
 			$output['is_present'] = TRUE;
 
 		// user is not present
@@ -929,7 +929,7 @@ Class Users {
 
 		// do the job
 		$query = "UPDATE ".SQL::table_name('users')
-			." SET post_date='".gmdate('%Y-%m-%d %H:%M:%S')."', posts=posts+1"
+			." SET post_date='".gmdate('Y-m-d H:i:s')."', posts=posts+1"
 			." WHERE id = ".$id;
 		SQL::query($query, FALSE, $context['users_connection']);
 
@@ -1280,7 +1280,7 @@ Class Users {
 			$where .= " OR users.active='N'";
 
 		// present means 'a click not too long in the past'
-		$threshold = gmdate('%Y-%m-%d %H:%M:%S', time()-15*60);
+		$threshold = gmdate('Y-m-d H:i:s', time()-15*60);
 		$where = "(".$where.") AND (click_date > '".$threshold."')";
 
 		// the list of users
@@ -1412,7 +1412,7 @@ Class Users {
 				return NULL;
 
 			// more than three failed authentications during previous hour
-			elseif(($item['authenticate_failures'] >= 3) && ($item['authenticate_date'] > gmdate('%Y-%m-%d %H:%M:%S', time()-3600))) {
+			elseif(($item['authenticate_failures'] >= 3) && ($item['authenticate_date'] > gmdate('Y-m-d H:i:s', time()-3600))) {
 				Logger::error(i18n::s('Wait for one hour to recover from too many failed authentications.'));
 				return NULL;
 
@@ -1451,7 +1451,7 @@ Class Users {
 			$fields['with_newsletters'] = 'Y';
 			$fields['without_alerts'] = 'N';
 			$fields['without_confirmations'] = 'N';
-			$fields['authenticate_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+			$fields['authenticate_date'] = gmdate('Y-m-d H:i:s');
 			$fields['authenticate_failures'] = 0;
 
 			// stop on error
@@ -1466,7 +1466,7 @@ Class Users {
 		if(!$authenticated && isset($item['id'])) {
 
 			// increment failing authentications during last hour
-			if(isset($item['authenticate_date']) && ($item['authenticate_date'] >= gmdate('%Y-%m-%d %H:%M:%S', time()-3600))) {
+			if(isset($item['authenticate_date']) && ($item['authenticate_date'] >= gmdate('Y-m-d H:i:s', time()-3600))) {
 
 				$query = "UPDATE ".SQL::table_name('users')
 					." SET authenticate_failures=authenticate_failures+1"
@@ -1480,7 +1480,7 @@ Class Users {
 			// first failure in a row
 			} else {
 				$query = "UPDATE ".SQL::table_name('users')
-					." SET authenticate_date = '".gmdate('%Y-%m-%d %H:%M:%S')."'"
+					." SET authenticate_date = '".gmdate('Y-m-d H:i:s')."'"
 					.", authenticate_failures=1"
 					." WHERE id = ".$item['id'];
 
@@ -1507,9 +1507,9 @@ Class Users {
 
 		// remember silently the date of the last login, and reset authentication counter
 		$query = "UPDATE ".SQL::table_name('users')
-			." SET login_date='".gmdate('%Y-%m-%d %H:%M:%S')."'"
+			." SET login_date='".gmdate('Y-m-d H:i:s')."'"
 			.", login_address='".$_SERVER['REMOTE_ADDR']."'"
-			.", authenticate_date='".gmdate('%Y-%m-%d %H:%M:%S')."'"
+			.", authenticate_date='".gmdate('Y-m-d H:i:s')."'"
 			.", authenticate_failures=0"
 			.$handle
 			." WHERE id = ".$item['id'];
@@ -2433,7 +2433,7 @@ Class Users {
 			$where .= " OR users.active='N'";
 
 		// present means 'a click not too long in the past'
-		$threshold = gmdate('%Y-%m-%d %H:%M:%S', time()-15*60);
+		$threshold = gmdate('Y-m-d H:i:s', time()-15*60);
 		$where = "(".$where.") AND (click_date > '".$threshold."')";
 
 		// select among available items

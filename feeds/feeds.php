@@ -267,11 +267,11 @@ class Feeds {
 
 		// do not wait for the end of a feeding cycle
 		if($forced)
-			$threshold = gmdate('%Y-%m-%d %H:%M:%S');
+			$threshold = gmdate('Y-m-d H:i:s');
 
 		// do not process servers that have been polled recently
 		else
-			$threshold = gmdate('%Y-%m-%d %H:%M:%S', time() - ($context['minutes_between_feeds'] * 60));
+			$threshold = gmdate('Y-m-d H:i:s', time() - ($context['minutes_between_feeds'] * 60));
 
 		// get a batch of feeders
 		if(!$feeders = Servers::list_for_feed(0, 1, 'feed'))
@@ -308,8 +308,8 @@ class Feeds {
 				if(!($anchor = Sections::lookup('external_news'))) {
 					$fields = array();
 					$fields['nick_name'] = 'external_news';
-					$fields['create_date'] = gmdate('%Y-%m-%d %H:%M:%S', time());
-					$fields['edit_date'] = gmdate('%Y-%m-%d %H:%M:%S', time());
+					$fields['create_date'] = gmdate('Y-m-d H:i:s', time());
+					$fields['edit_date'] = gmdate('Y-m-d H:i:s', time());
 					$fields['index_map'] = 'N';
 					$fields['locked'] = 'Y'; // no direct contributions
 					$fields['rank'] = 40000; // at the end of the list
@@ -357,7 +357,7 @@ class Feeds {
 				$fields['edit_address'] = $feed_url;
 				$fields['edit_action'] = 'link:feed';
 				if($item['pubDate'])
-					$fields['edit_date'] = gmdate('%Y-%m-%d %H:%M:%S', strtotime($item['pubDate']));
+					$fields['edit_date'] = gmdate('Y-m-d H:i:s', strtotime($item['pubDate']));
 
 				// update links that already exist in the database
 				if(Links::have($item['link'], $anchor, $fields))

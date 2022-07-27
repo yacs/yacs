@@ -102,7 +102,7 @@ if(!Surfer::get_id()) {
 
 	// update surfer presence
 	$query = "UPDATE ".SQL::table_name('users')
-		." SET click_date='".gmdate('%Y-%m-%d %H:%M:%S')."'"
+		." SET click_date='".gmdate('Y-m-d H:i:s')."'"
 		." WHERE (id = ".SQL::escape(Surfer::get_id()).")";
 	SQL::query($query, FALSE, $context['users_connection']);
 
@@ -112,7 +112,7 @@ if(!Surfer::get_id()) {
 
 		// refresh record of this article
 		$query = "UPDATE ".SQL::table_name('articles')." SET "
-			." assign_date = '".SQL::escape(gmdate('%Y-%m-%d %H:%M:%S'))."'"
+			." assign_date = '".SQL::escape(gmdate('Y-m-d H:i:s'))."'"
 			." WHERE (id = ".SQL::escape(substr($_REQUEST['reference'],8)).") AND (assign_id = ".SQL::escape(Surfer::get_id()).")";
 		SQL::query($query);
 

@@ -640,7 +640,7 @@ class PhpDoc {
 			." anchor='".SQL::escape($fields['anchor'])."',"
 			." label='".SQL::escape($fields['label'])."',"
 			." content='".SQL::escape($fields['content'])."',"
-			." edit_date='".gmdate('%Y-%m-%d %H:%M:%S')."'";
+			." edit_date='".gmdate('Y-m-d H:i:s')."'";
 		if(SQL::query($query, TRUE) === FALSE)
 			echo $query.BR.SQL::error().BR."\n";
 		$page_count++;

@@ -373,7 +373,7 @@ Class Dates {
 		}
 
 		// now
-		$match = gmdate('%Y-%m-%d %H:%M:%S');
+		$match = gmdate('Y-m-d H:i:s');
 
 		// select among available items
 		$query = "SELECT COUNT(*) as count"
@@ -1175,7 +1175,7 @@ Class Dates {
 		}
 
 		// now
-		$match = gmdate('%Y-%m-%d %H:%M:%S');
+		$match = gmdate('Y-m-d H:i:s');
 
 		// select among available items
 		$query = "SELECT COUNT(*) as count, MIN(articles.edit_date) as oldest_date, MAX(articles.edit_date) as newest_date "
@@ -1217,7 +1217,7 @@ Class Dates {
 		}
 
 		// now
-		$match = gmdate('%Y-%m-%d %H:%M:%S');
+		$match = gmdate('Y-m-d H:i:s');
 
 		// select among available items
 		$query = "SELECT COUNT(*) as count, MIN(articles.edit_date) as oldest_date, MAX(articles.edit_date) as newest_date "

@@ -39,7 +39,7 @@ Class Visits {
 			return FALSE;
 
 		// only consider recent presence records
-		$threshold = gmdate('%Y-%m-%d %H:%M:%S', time() - $timeout);
+		$threshold = gmdate('Y-m-d H:i:s', time() - $timeout);
 
 		// list matching visits
 		$query = "SELECT id FROM ".SQL::table_name('visits')." AS visits"
@@ -73,7 +73,7 @@ Class Visits {
 			return $output;
 
 		// only consider recent presence records
-		$threshold = gmdate('%Y-%m-%d %H:%M:%S', time() - $timeout);
+		$threshold = gmdate('Y-m-d H:i:s', time() - $timeout);
 
 		// limit the scope of the request
 		$where = "visits.active='Y'";
@@ -144,7 +144,7 @@ Class Visits {
 			return $output;
 
 		// only consider recent presence records
-		$threshold = gmdate('%Y-%m-%d %H:%M:%S', time() - $timeout);
+		$threshold = gmdate('Y-m-d H:i:s', time() - $timeout);
 
 		// limit the scope of the request
 		$where = "users.active='Y'";
@@ -182,7 +182,7 @@ Class Visits {
 			return FALSE;
 
 		// only consider recent presence records
-		$threshold = gmdate('%Y-%m-%d %H:%M:%S', time() - $timeout);
+		$threshold = gmdate('Y-m-d H:i:s', time() - $timeout);
 
 		// select matching links
 		$query = "SELECT id FROM ".SQL::table_name('visits')." AS visits"
@@ -270,12 +270,12 @@ Class Visits {
 			return FALSE;
 
 		// delete visit records after 3 days = 3*24*60*60 = 259200
-		$threshold = gmdate('%Y-%m-%d %H:%M:%S', time() - 259200);
+		$threshold = gmdate('Y-m-d H:i:s', time() - 259200);
 
 		// update the database; do not report on error
 		$query = "UPDATE ".SQL::table_name('visits')." SET"
 			." active='".SQL::escape($active)."',"
-			." edit_date='".gmdate('%Y-%m-%d %H:%M:%S')."'"
+			." edit_date='".gmdate('Y-m-d H:i:s')."'"
 			." WHERE ((anchor LIKE '".SQL::escape($anchor)."') AND (user_id = ".SQL::escape(Surfer::get_id())."))";
 		if(!SQL::query($query, TRUE)) {
 
@@ -284,7 +284,7 @@ Class Visits {
 				." anchor='".SQL::escape($anchor)."',"
 				." active='".SQL::escape($active)."',"
 				." user_id='".SQL::escape(Surfer::get_id())."',"
-				." edit_date='".gmdate('%Y-%m-%d %H:%M:%S')."'";
+				." edit_date='".gmdate('Y-m-d H:i:s')."'";
 			SQL::query($query, TRUE);
 
 		}

@@ -188,7 +188,7 @@ if($with_form) {
 	$label = i18n::s('Publication date');
 
 	// adjust date from server time zone to surfer time zone
-	$value = strftime('%Y-%m-%d %H:%M:%S', time() + ((Surfer::get_gmt_offset() - intval($context['gmt_offset'])) * 3600));
+	$value = strftime('Y-m-d H:i:s', time() + ((Surfer::get_gmt_offset() - intval($context['gmt_offset'])) * 3600));
 	$input = Skin::build_input_time('publish_date', $value, 'date_time');
 	$hint = i18n::s('Indicate a date (YYYY-MM-DD) in the future and let YACS make the page appear automatically.');
 	$fields[] = array($label, $input, $hint);

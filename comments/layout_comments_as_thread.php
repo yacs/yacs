@@ -60,7 +60,7 @@ Class Layout_comments_as_thread extends Layout_interface {
 				$stamp = '#';
 
 				// flag old items on same day
-				if(!strncmp($item['edit_date'], gmdate('%Y-%m-%d %H:%M:%S', time()), 10))
+				if(!strncmp($item['edit_date'], gmdate('Y-m-d H:i:s', time()), 10))
 					$stamp = Skin::build_time($item['edit_date']);
 
 				// flag items from previous days

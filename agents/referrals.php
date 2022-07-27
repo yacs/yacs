@@ -70,7 +70,7 @@ class Referrals {
 		if(isset($item['id'])) {
 			$query = "UPDATE ".SQL::table_name('referrals')." SET"
 				." hits=hits+1,"
-				." stamp='".gmdate('%Y-%m-%d %H:%M:%S')."'"
+				." stamp='".gmdate('Y-m-d H:i:s')."'"
 				." WHERE id = ".$item['id'];
 
 		// create a new record
@@ -90,7 +90,7 @@ class Referrals {
 				." domain='".SQL::escape($domain)."',"
 				." keywords='".SQL::escape($keywords)."',"
 				." hits=1,"
-				." stamp='".gmdate('%Y-%m-%d %H:%M:%S')."'";
+				." stamp='".gmdate('Y-m-d H:i:s')."'";
 		}
 
 		// actual database update
@@ -103,7 +103,7 @@ class Referrals {
 
 		// purge oldest records -- 100 days = 8640000 seconds
 		$query = "DELETE FROM ".SQL::table_name('referrals')
-			." WHERE stamp < '".gmdate('%Y-%m-%d %H:%M:%S', time()-8640000)."'";
+			." WHERE stamp < '".gmdate('Y-m-d H:i:s', time()-8640000)."'";
 		SQL::query($query);
 	}
 

@@ -176,7 +176,7 @@ if(Surfer::is_crawler()) {
 				if($item['category'])
 					$context['text'] .= ' ('.$item['category'].')';
 				if($item['pubDate'])
-					$context['text'] .= ' '.gmdate('%Y-%m-%d %H:%M:%S', strtotime($item['pubDate']));
+					$context['text'] .= ' '.gmdate('Y-m-d H:i:s', strtotime($item['pubDate']));
 
 				// flag links
 				if($banned_pattern && preg_match($banned_pattern, $item['link']))

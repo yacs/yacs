@@ -407,7 +407,7 @@ Class Surfer {
 
 		// default value for edition date (GMT)
 		if(!isset($fields['edit_date']) || ($fields['edit_date'] <= NULL_DATE))
-			$fields['edit_date'] = gmdate('%Y-%m-%d %H:%M:%S');
+			$fields['edit_date'] = gmdate('Y-m-d H:i:s');
 
 	}
 
@@ -474,7 +474,7 @@ Class Surfer {
 		$stamp = mktime(intval(substr($stamp, 11, 2)), intval(substr($stamp, 14, 2)), intval(substr($stamp, 17, 2)), intval(substr($stamp, 5, 2)), intval(substr($stamp, 8, 2)), intval(substr($stamp, 0, 4)));
 
 		// shift to surfer time zone
-		return strftime('%Y-%m-%d %H:%M:%S', $stamp + (Surfer::get_gmt_offset() * 3600));
+		return strftime('Y-m-d H:i:s', $stamp + (Surfer::get_gmt_offset() * 3600));
 	}
 
 	/**
@@ -1231,7 +1231,7 @@ Class Surfer {
 
 		// update the record of the surfer
 		$query = "UPDATE ".SQL::table_name('users')
-			." SET click_anchor='".SQL::escape($anchor)."', click_date='".gmdate('%Y-%m-%d %H:%M:%S')."'"
+			." SET click_anchor='".SQL::escape($anchor)."', click_date='".gmdate('Y-m-d H:i:s')."'"
 			." WHERE id = ".SQL::escape(Surfer::get_id());
 		SQL::query($query, FALSE, $context['users_connection']);
 
@@ -1553,7 +1553,7 @@ Class Surfer {
 
 			// remember the date of login
 			if($update_flag) {
-				$query[] = "login_date='".gmdate('%Y-%m-%d %H:%M:%S')."'";
+				$query[] = "login_date='".gmdate('Y-m-d H:i:s')."'";
 				$query[] = "login_address='".$_SERVER['REMOTE_ADDR']."'";
 			}
 
@@ -1685,7 +1685,7 @@ Class Surfer {
 		$stamp = mktime(intval(substr($stamp, 11, 2)), intval(substr($stamp, 14, 2)), intval(substr($stamp, 17, 2)), intval(substr($stamp, 5, 2)), intval(substr($stamp, 8, 2)), intval(substr($stamp, 0, 4)));
 
 		// shift to UTC time zone
-		return strftime('%Y-%m-%d %H:%M:%S', $stamp - (Surfer::get_gmt_offset() * 3600));
+		return strftime('Y-m-d H:i:s', $stamp - (Surfer::get_gmt_offset() * 3600));
 	}
 
 }

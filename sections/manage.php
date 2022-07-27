@@ -892,7 +892,7 @@ if(Surfer::is_crawler()) {
 			// the article to publish
 			if(($article = Articles::get($id)) && ($article['publish_date'] <= NULL_DATE)) {
 
-				if(!Articles::stamp($article['id'], gmdate('%Y-%m-%d %H:%M:%S'), ''))
+				if(!Articles::stamp($article['id'], gmdate('Y-m-d H:i:s'), ''))
 					$count++;
 
 			}

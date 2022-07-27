@@ -50,7 +50,7 @@ Class Layout_articles_as_table extends Layout_interface {
 			$title = $abstract = $author = '';
 
 			// signal articles to be published
-			if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmdate('%Y-%m-%d %H:%M:%S')))
+			if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmdate('Y-m-d H:i:s')))
 				$title .= DRAFT_FLAG;
 
 			// signal restricted and private articles

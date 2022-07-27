@@ -667,7 +667,7 @@ Class Articles {
 		$prefix = $suffix = '';
 
 		// signal articles to be published
-		if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmdate('%Y-%m-%d %H:%M:%S')))
+		if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmdate('Y-m-d H:i:s')))
 			$prefix .= DRAFT_FLAG;
 
 		// signal restricted and private articles
@@ -3695,16 +3695,16 @@ Class Articles {
 			$query[] = "publish_name='".SQL::escape(isset($publisher['name']) ? $publisher['name'] : Surfer::get_name())."',"
 				."publish_id=".SQL::escape(isset($publisher['id']) ? $publisher['id'] : Surfer::get_id()).","
 				."publish_address='".SQL::escape(isset($publisher['address']) ? $publisher['address'] : Surfer::get_email_address())."',"
-				."publish_date='".gmdate('%Y-%m-%d %H:%M:%S', $publication_stamp)."',"
+				."publish_date='".gmdate('Y-m-d H:i:s', $publication_stamp)."',"
 				."edit_name='".SQL::escape(isset($publisher['name']) ? $publisher['name'] : Surfer::get_name())."',"
 				."edit_id=".SQL::escape(isset($publisher['id']) ? $publisher['id'] : Surfer::get_id()).","
 				."edit_address='".SQL::escape(isset($publisher['address']) ? $publisher['address'] : Surfer::get_email_address())."',"
 				."edit_action='article:publish',"
-				."edit_date='".gmdate('%Y-%m-%d %H:%M:%S')."'";
+				."edit_date='".gmdate('Y-m-d H:i:s')."'";
 		if($expiry_stamp > 0)
-			$query[] = "expiry_date='".gmdate('%Y-%m-%d %H:%M:%S', $expiry_stamp)."'";
+			$query[] = "expiry_date='".gmdate('Y-m-d H:i:s', $expiry_stamp)."'";
 		if($review_stamp > 0)
-			$query[] = "review_date='".gmdate('%Y-%m-%d %H:%M:%S', $review_stamp)."'";
+			$query[] = "review_date='".gmdate('Y-m-d H:i:s', $review_stamp)."'";
 
 		// update an existing record
 		$query = "UPDATE ".SQL::table_name('articles')." SET ".implode(',', $query)." WHERE id = ".SQL::escape($id);
@@ -3713,7 +3713,7 @@ Class Articles {
 
 		// remember the publication in weekly and monthly categories
 		if($publication_stamp > 0)
-			Categories::remember('article:'.$id, gmdate('%Y-%m-%d %H:%M:%S', $publication_stamp));
+			Categories::remember('article:'.$id, gmdate('Y-m-d H:i:s', $publication_stamp));
 
 		// end of job
 		return NULL;

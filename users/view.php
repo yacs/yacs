@@ -473,7 +473,7 @@ if(!isset($item['id'])) {
 					$visited = array_merge($visited, array($url => sprintf(i18n::s('Join %s at %s'), $item['nick_name'], $label)));
 
 			// user is present if active during last 10 minutes (10*60 = 600), but not at some thread
-			} elseif(isset($item['click_date']) && ($item['click_date'] >= gmdate('%Y-%m-%d %H:%M:%S', time()-600))) {
+			} elseif(isset($item['click_date']) && ($item['click_date'] >= gmdate('Y-m-d H:i:s', time()-600))) {
 
 				// show place of last click
 				if(isset($item['click_anchor']) && ($anchor = Anchors::get($item['click_anchor'])))
