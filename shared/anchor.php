@@ -453,7 +453,7 @@ abstract class Anchor {
 	 * @param mixed string or object the layout to use
 	 * @return an array of layouted items sorted by type
 	 */
-	function get_childs($filter = 'all',$offset, $max, $layout='raw') {
+	function get_childs($filter = 'all',$offset = 0, $max= 50, $layout='raw') {
 	     return NULL;
 	 }
 

@@ -624,12 +624,14 @@ Class Articles {
 	 * @param object overlay of the item, if any
 	 * @return string text to be send by e-mail
 	 */
-	public static function build_notification($action='publish', $item, $overlay=NULL) {
+	public static function build_notification($action, $item, $overlay=NULL) {
 		global $context;
-
+                
 		// sanity check
 		if(!isset($item['anchor']) || (!$anchor = Anchors::get($item['anchor'])))
 			throw new Exception('no anchor for this article');
+                
+                if(!$action) $action = 'publish';
 
 		// compute page title
 		if(is_object($overlay))
