@@ -1545,7 +1545,7 @@ else {
 
 			// creation date
 			if(isset($content['dateCreated']) && $content['dateCreated'])
-				$stamp = strftime('Y-m-d H:i:s', $content['dateCreated']);
+				$stamp = date('Y-m-d H:i:s', $content['dateCreated']);
 			else
 				$stamp = gmdate('Y-m-d H:i:s');
 

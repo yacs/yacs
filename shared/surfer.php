@@ -474,7 +474,7 @@ Class Surfer {
 		$stamp = mktime(intval(substr($stamp, 11, 2)), intval(substr($stamp, 14, 2)), intval(substr($stamp, 17, 2)), intval(substr($stamp, 5, 2)), intval(substr($stamp, 8, 2)), intval(substr($stamp, 0, 4)));
 
 		// shift to surfer time zone
-		return strftime('Y-m-d H:i:s', $stamp + (Surfer::get_gmt_offset() * 3600));
+		return date('Y-m-d H:i:s', $stamp + (Surfer::get_gmt_offset() * 3600));
 	}
 
 	/**
@@ -1685,7 +1685,7 @@ Class Surfer {
 		$stamp = mktime(intval(substr($stamp, 11, 2)), intval(substr($stamp, 14, 2)), intval(substr($stamp, 17, 2)), intval(substr($stamp, 5, 2)), intval(substr($stamp, 8, 2)), intval(substr($stamp, 0, 4)));
 
 		// shift to UTC time zone
-		return strftime('Y-m-d H:i:s', $stamp - (Surfer::get_gmt_offset() * 3600));
+		return date('Y-m-d H:i:s', $stamp - (Surfer::get_gmt_offset() * 3600));
 	}
 
 }

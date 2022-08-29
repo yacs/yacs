@@ -775,15 +775,15 @@ Class Dates {
 
 		// check the year
 		if($year < 1970)
-			$year = (int)strftime('%Y');
+			$year = (int)date('%Y');
 
 		// check the month
 		if(($month >= 1) && ($month <= 12))
-			$prefix = strftime('%Y-%m-', mktime(0, 0, 0, $month, 1, $year));
+			$prefix = date('%Y-%m-', mktime(0, 0, 0, $month, 1, $year));
 
 		// check the full year
 		else
-			$prefix = strftime('%Y-', mktime(0, 0, 0, 1, 1, $year));
+			$prefix = date('%Y-', mktime(0, 0, 0, 1, 1, $year));
 
 		// the list of dates
 		$output = Dates::list_for_prefix($prefix, $variant, $anchor);

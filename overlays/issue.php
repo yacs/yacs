@@ -834,7 +834,7 @@ class Issue extends Overlay {
 		// returned tabs
 		$tabs = array();
 
-		$now = strftime('Y-m-d H:i:s', time() + ((Surfer::get_gmt_offset() - intval($context['gmt_offset'])) * 3600));
+		$now = date('Y-m-d H:i:s', time() + ((Surfer::get_gmt_offset() - intval($context['gmt_offset'])) * 3600));
 
 		// trackings
 		//
