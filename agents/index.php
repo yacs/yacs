@@ -37,7 +37,9 @@ if(isset($_REQUEST['subject']))
 	$subject = $_REQUEST['subject'];
 elseif(isset($context['arguments'][0]))
 	$subject = $context['arguments'][0];
-$subject = strip_tags($subject);
+
+if($subject)
+    $subject = strip_tags($subject);
 
 // load localized strings
 i18n::bind('agents');
