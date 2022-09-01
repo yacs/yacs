@@ -1620,6 +1620,8 @@ Class Sections {
 
 				// process all matching sections
 				while($row = SQL::fetch($result)) {
+                                    
+                                        if(!isset($row['id'])) continue;
 
 					if($row['id'] == $item['id']) {
 
@@ -1654,7 +1656,9 @@ Class Sections {
 
 					// process all matching sections
 					while($row = SQL::fetch($result)) {
-
+                                            
+                                                if(!isset($row['id'])) continue;
+                                            
 						if($row['id'] == $item['id']) {
 
 							if($children)
