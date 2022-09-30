@@ -1529,7 +1529,7 @@ Class Sections {
 		$text = '';
 
 		// get section id from reference
-		if(!strncmp($current, 'section:', 8))
+		if($current && !strncmp($current, 'section:', 8))
 			$current = substr($current, 8);
 
 		// get the current parent, if any

@@ -23,6 +23,9 @@ class http {
      * @return string to new formed url
      */
     public static function add_url_param($url, $param_name, $param_value=null) {
+        
+        //sanity check
+        if(!$url) return null;
 
         // recursive call if an array is provided
         if(is_array($param_name)) {
