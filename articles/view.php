@@ -952,9 +952,12 @@ if(!isset($item['id'])) {
 
 		// title label
 		$title_label = '';
-		if(is_object($overlay))
-			$title_label = ucfirst($overlay->get_label('list_title', 'comments'));
-		if(!$title_label)
+		if(is_object($overlay)) {
+			$list_title = $overlay->get_label('list_title', 'comments');
+                        if($list_title)
+                            $title_label = ucfirst($title_label);
+                } 
+                if(!$title_label)
 			$title_label = i18n::s('Comments');
 
 		// label to create a comment
