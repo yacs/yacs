@@ -970,7 +970,7 @@ Class Members {
 			." WHERE (users.id = ids.target)"
 			."	AND (users.capability IN ('S', 'M', 'A'))"
 			."	AND (".$where.")"
-			." GROUP BY users.id ORDER BY users.full_name LIMIT ".$offset.','.$count;
+			." ORDER BY users.full_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output = Users::list_selected(SQL::query($query), $variant);
@@ -1152,7 +1152,7 @@ Class Members {
 			." WHERE (users.id = ids.target)"
 			."	AND (users.capability = 'S')"
 			."	AND (".$where.")"
-			." GROUP BY users.id ORDER BY users.full_name, users.edit_date DESC LIMIT ".$offset.','.$count;
+			." ORDER BY users.full_name, users.edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output = Users::list_selected(SQL::query($query), $variant);
@@ -1242,7 +1242,7 @@ Class Members {
 			."	AND (members.member_type LIKE 'user')"
 			."	AND (users.id = members.member_id)"
 			."	AND ".$where
-			." GROUP BY users.id ORDER BY users.full_name, users.nick_name LIMIT ".$offset.','.$count;
+			." ORDER BY users.full_name, users.nick_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output = Users::list_selected(SQL::query($query), $variant);
@@ -1278,7 +1278,7 @@ Class Members {
 			."	AND (members.member_type LIKE 'user')"
 			."	AND (users.id = members.member_id)"
 			."	AND ".$where
-			." GROUP BY users.id ORDER BY Rand() LIMIT ".$count;
+			." ORDER BY Rand() LIMIT ".$count;
 
 		// use existing listing facility
 		$output = Users::list_selected(SQL::query($query), $variant);
@@ -1333,7 +1333,7 @@ Class Members {
 			." WHERE ".$where
 			."	AND (members.member_type LIKE 'user')"
 			."	AND (users.id = members.member_id)"
-			." GROUP BY users.id ORDER BY users.posts DESC, users.nick_name LIMIT ".$offset.','.$count;
+			." ORDER BY users.posts DESC, users.nick_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output = Users::list_selected(SQL::query($query), $variant);
@@ -1448,7 +1448,7 @@ Class Members {
 			."	AND (members.member_type LIKE 'user')"
 			."	AND (users.id = members.member_id)"
 			."	AND (users.capability IN ('S', 'M', 'A'))"
-			." GROUP BY users.id ORDER BY users.full_name, users.nick_name LIMIT ".$offset.','.$count;
+			." ORDER BY users.full_name, users.nick_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output = Users::list_selected(SQL::query($query), $variant);
@@ -1487,7 +1487,7 @@ Class Members {
 			."	AND (members.member_type LIKE 'user')"
 			."	AND (users.id = members.member_id)"
 			."	AND (users.capability IN ('S', 'M', 'A'))"
-			." GROUP BY users.id ORDER BY users.posts DESC, users.edit_date DESC LIMIT ".$offset.','.$count;
+			." ORDER BY users.posts DESC, users.edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output = Users::list_selected(SQL::query($query), $variant);
