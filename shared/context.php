@@ -27,6 +27,24 @@ Class Context extends ArrayObject {
     }
     
     /**
+     * check if an index exists and if its
+     * value is not null or '' 
+     * 
+     * @param type $index
+     * @return boolean
+     */
+    public function has($index) {
+        
+        if(!$this->offsetExists($index)) return FALSE;
+        
+        $val = $this->offsetGet($index);
+        
+        if(is_null($val) || $val=== '') return FALSE;
+        
+        return TRUE;
+    }
+    
+    /**
      * Set a value if not exist of equal to false
      * 
      * @param string $index
