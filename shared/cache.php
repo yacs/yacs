@@ -382,6 +382,10 @@ Class Cache {
 	 */
 	public static function put($id, &$text, $topic='global', $duration=1200, $f_capa=true, $f_lang=true,$f_gmt_off=true) {
 		global $context, $ram;
+                
+                // server must be on
+                if(!$context->has('server_on'))
+                        return;
 
 		// maybe we don't have to cache
 		if(isset($context['without_cache']) && ($context['without_cache'] == 'Y'))

@@ -666,7 +666,7 @@ Class Js_Css {
 
 
 	// count files calls over time
-	if($context['with_debug']=='Y'&& !defined('NO_MODEL_PRELOAD')) {
+	if($context['with_debug']=='Y'&& !defined('NO_MODEL_PRELOAD') && $context->has('server_on')) {
 	    $query = 'INSERT INTO '.SQL::table_name('js_css_calls').' SET'
 		    .' id = "'.$key.'",'
 		    .' path = "'.$path.'",'

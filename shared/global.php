@@ -344,6 +344,10 @@ $context['master_host'] = isset($context['main_host'])?$context['main_host']:$co
 Safe::load('parameters/skins.include.php');
 Safe::load('parameters/root.include.php'); // to support Page::tabs()
 
+// check if server is on
+if(file_exists($context['path_to_root'].'parameters/switch.on'))
+        $context['server_on'] = TRUE;
+
 // load parameters specific to this virtual host or sub-domain, if any
 Safe::load('parameters/virtual_'.$context['host_name'].'.include.php');
 
@@ -1037,7 +1041,7 @@ function render_skin($with_last_modified=TRUE) {
 	}
 
 	// navigation - navigation boxes
-	if(file_exists($context['path_to_root'].'parameters/switch.on') && $whole_rendering) {
+	if($context->has('server_on') && $whole_rendering) {
 
 		// cache dynamic boxes for performance, and if the database can be accessed
 		$cache_id = 'shared/global.php#render_skin#navigation';
@@ -1572,7 +1576,7 @@ function render_skin($with_last_modified=TRUE) {
 	}
 
 	// tick only during regular operation
-	if(!file_exists($context['path_to_root'].'parameters/switch.on') || !$whole_rendering)
+	if(!$context->has('server_on') || !$whole_rendering)
 		return;
 
 	// no tick on error
