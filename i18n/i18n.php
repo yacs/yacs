@@ -109,7 +109,7 @@ Class i18n {
 		i18n::load($context['language'], $module);
 
 		// load strings according to community localization
-		if($context['preferred_language'] != $context['language'])
+		if($context->has('preferred_language') && $context['preferred_language'] != $context['language'])
 			i18n::load($context['preferred_language'], $module);
 
 	}

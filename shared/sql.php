@@ -465,7 +465,7 @@ Class SQL {
 			$context['table_prefix'] = 'yacs_';
 
 		// sanity check
-		if(!$context['connection'])
+		if(!$context->has('connection'))
 			return FALSE;
 
 		// ensure we are talking utf8 to the database server
