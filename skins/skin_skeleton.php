@@ -457,7 +457,8 @@ Class Skin_Skeleton {
                 $content = Codes::fix_tags($content);
 
 		// accept line breaks in box titles
-		$title = str_replace("\n", BR, $title);
+                if($title)
+                    $title = str_replace("\n", BR, $title);
 
 		// append a link to the title, if any
 		if($url)
