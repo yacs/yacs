@@ -6,7 +6,6 @@ if (version_compare(PHP_VERSION, '5.6') < 0) {
 
 if (! class_exists('ScssPhp\ScssPhp\Version')) {
     spl_autoload_register(function ($class) {
-        
         if (0 !== strpos($class, 'ScssPhp\ScssPhp\\')) {
             // Not a ScssPhp class
             return;
