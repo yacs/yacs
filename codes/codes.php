@@ -73,6 +73,9 @@ Class Codes {
 		$text = trim($text);
 		if(!$text)
 			return $text;
+                
+                // sanity check
+                if(is_null($options)) $options = '';
 
 		//
 		// looking for compact content

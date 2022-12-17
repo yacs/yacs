@@ -23,6 +23,9 @@ abstract Class Layouts {
 	 */
 	public static function new_($name,$item_type,$home=FALSE,$silent=FALSE) {
 	    global $context;
+            
+            // sanity check
+            if(is_null($name)) return NULL;
 
 	    // lazy time : layout already loaded
 	    if(is_object($name))
@@ -127,5 +130,3 @@ abstract Class Layouts {
 	}       
 
 }
-
-?>
