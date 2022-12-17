@@ -25,7 +25,7 @@ abstract Class Layouts {
 	    global $context;
             
             // sanity check
-            if(is_null($name)) return NULL;
+            if(is_null($name)) $name = '';
 
 	    // lazy time : layout already loaded
 	    if(is_object($name))
@@ -113,7 +113,7 @@ abstract Class Layouts {
 	    if(!$layout) {		
 
 		// useful warning for associates
-		if(Surfer::is_associate() && !$silent)
+		if(Surfer::is_associate() && !$silent && $name)
 			Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $name));
 
 		include_once $context['path_to_root'].$family.'/layout_'.$family.'.php';
