@@ -87,7 +87,7 @@ if(isset($_REQUEST['action']))
 	$action = $_REQUEST['action'];
 if(!$action && isset($context['arguments'][0]))
 	$action = $context['arguments'][0];
-$action = strip_tags($action);
+if($action) $action = strip_tags($action);
 
 // look for the id
 $id = NULL;
@@ -95,7 +95,7 @@ if(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
 elseif(isset($context['arguments'][0]) && !isset($context['arguments'][1]))
 	$id = $context['arguments'][0];
-$id = strip_tags($id);
+if($id) $id = strip_tags($id);
 
 // get the item from the database
 $item = Images::get($id);

@@ -123,8 +123,8 @@ if(isset($context['arguments'][0]) && $context['arguments'][0]) {
 }
 
 // fight hackers
-$id = strip_tags($id);
-$target_anchor = strip_tags($target_anchor);
+if($id) $id = strip_tags($id);
+if($target_anchor) $target_anchor = strip_tags($target_anchor);
 
 // get the item from the database
 $item = Comments::get($id);

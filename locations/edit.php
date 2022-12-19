@@ -47,7 +47,7 @@ if(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
 elseif(isset($context['arguments'][0]) && !isset($context['arguments'][1]))
 	$id = $context['arguments'][0];
-$id = strip_tags($id);
+if($id) $id = strip_tags($id);
 
 // get the item from the database
 $item = Locations::get($id);
