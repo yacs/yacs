@@ -142,7 +142,7 @@ else
 	$context['path_bar'] = array( 'images/' => i18n::s('Images') );
 
 // the title of the page
-if($item['id'])
+if(isset($item['id']))
 	$context['page_title'] = i18n::s('Update an image');
 else
 	$context['page_title'] = i18n::s('Add an image');
