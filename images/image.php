@@ -300,7 +300,7 @@ Class Image extends Anchor {
 			// set the thumbnail size
 			if($height > $maximum_height) {
 				$thumbnail_height = $maximum_height;
-				$thumbnail_width = $width * $thumbnail_height / $height;
+				$thumbnail_width = round($width * $thumbnail_height / $height);
 			}
 
 		// the image is laid horizontally
@@ -309,7 +309,7 @@ Class Image extends Anchor {
 			// set the thumbnail size
 			if($width > $maximum_width) {
 				$thumbnail_width = $maximum_width;
-				$thumbnail_height = $height * $thumbnail_width / $width;
+				$thumbnail_height = round($height * $thumbnail_width / $width);
 			}
 
 		}
