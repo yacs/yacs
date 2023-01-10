@@ -604,9 +604,9 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$context['text'] .= '<p>'.i18n::s('On-going archive preparation...').'</p>'."\n";
 
 		// build a zip archive
-		include_once '../shared/zipfile.php';
-		$zipfile = new zipfile();
-
+		$zipfile = new ZipArchive();
+                $zipfile->open(Safe::realpath('temporary/backup_files.zip'), ZipArchive::CREATE);
+                
 		// process every files/ file
 		$index = 0;
 		foreach($datafiles as $datafile) {
@@ -626,26 +626,20 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 			if(preg_match('/\.(php|php\.bak)$/i', $file))
 				continue;
 
-			// read file content
-			if(($content = Safe::file_get_contents($file_prefix.$file)) !== FALSE) {
-
-				// store binary data
-				$zipfile->store('files/'.$file, Safe::filemtime($file_prefix.$file), $content);
-
-				// avoid timeouts
-				if(!(($index++)%50)) {
-					Safe::set_time_limit(30);
-					SQL::ping();
-				}
-			}
+                        $zipfile->addFile($file_prefix.$file, $file);
+                        
 		}
+                
+                $zipfile->close();
 
 		// suggest a download
 		Safe::header('Content-Type: application/zip');
 		Safe::header('Content-Disposition: attachment; filename="backup_files.zip"');
+                Safe::header('Content-Transfer-Encoding: binary');
+                Safe::header('Content-Length: ' . Safe::filesize('temporary/backup_files.zip'));
 
 		// send the archive content
-		echo $zipfile->get();
+                readfile(Safe::realpath('temporary/backup_files.zip'));
 
 		// do not allow for regular rendering
 		return;
@@ -673,8 +667,8 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$context['text'] .= '<p>'.i18n::s('On-going archive preparation...').'</p>'."\n";
 
 		// build a zip archive
-		include_once '../shared/zipfile.php';
-		$zipfile = new zipfile();
+		$zipfile = new ZipArchive();
+                $zipfile->open(Safe::realpath('temporary/backup_images.zip'), ZipArchive::CREATE);
 
 		// process every images/ file
 		$index = 0;
@@ -691,26 +685,19 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 			if(preg_match('/\.(php|php\.bak)$/i', $file))
 				continue;
 
-			// read file content
-			if(($content = Safe::file_get_contents($file_prefix.$file)) !== FALSE) {
-
-				// store binary data
-				$zipfile->store('images/'.$file, Safe::filemtime($file_prefix.$file), $content);
-
-				// avoid timeouts
-				if(!(($index++)%50)) {
-					Safe::set_time_limit(30);
-					SQL::ping();
-				}
-			}
+			$zipfile->addFile($file_prefix.$file, $file);
 		}
+                
+                $zipfile->close();
 
 		// suggest a download
 		Safe::header('Content-Type: application/zip');
 		Safe::header('Content-Disposition: attachment; filename="backup_images.zip"');
+                Safe::header('Content-Transfer-Encoding: binary');
+                Safe::header('Content-Length: ' . Safe::filesize('temporary/backup_images.zip'));
 
 		// send the archive content
-		echo $zipfile->get();
+		readfile(Safe::realpath('temporary/backup_images.zip'));
 
 		// do not allow for regular rendering
 		return;
@@ -726,8 +713,8 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	$context['text'] .= '<p>'.i18n::s('On-going archive preparation...').'</p>'."\n";
 
 	// build a zip archive
-	include_once '../shared/zipfile.php';
-	$zipfile = new zipfile();
+	$zipfile = new ZipArchive();
+        $zipfile->open(Safe::realpath('temporary/backup_parameters.zip'), ZipArchive::CREATE);
 
 	// list parameter files
 	if(($files = Safe::glob($context['path_to_root'].'parameters/*.include.php')) !== FALSE) {
@@ -735,19 +722,23 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		// process every parameter file
 		foreach($files as $file) {
 
-			// store binary data
-			if(($content = Safe::file_get_contents($file)) !== FALSE)
-				$zipfile->store(basename($file), Safe::filemtime($file), $content);
+                        $zipfile->addFile(Safe::realpath($file),basename($file));
+                    
+		
 
 		}
 	}
+        
+        $zipfile->close();
 
 	// suggest a download
 	Safe::header('Content-Type: application/zip');
 	Safe::header('Content-Disposition: attachment; filename="backup_parameters.zip"');
+        Safe::header('Content-Transfer-Encoding: binary');
+        Safe::header('Content-Length: ' . Safe::filesize('temporary/backup_parameters.zip'));
 
 	// send the archive content
-	echo $zipfile->get();
+	readfile(Safe::realpath('temporary/backup_parameters.zip'));
 
 	// do not allow for regular rendering
 	return;
@@ -760,9 +751,10 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 	// locate skin
 	include_once '../scripts/scripts.php';
-	$file_path = $context['path_to_root'].$context['skin'];
-	$file_prefix = $context['path_to_root'].'skins/';
-	$datafiles = Scripts::list_files_at($file_path, TRUE, $file_prefix);
+	$file_path      = $context['path_to_root'].$context['skin'];
+	$file_prefix    = $context['path_to_root'].'skins/';
+	$datafiles      = Scripts::list_files_at($file_path, TRUE, $file_prefix);
+        $active_skin    = substr($context['skin'], strpos($context['skin'], '/')+1);
 
 	if(is_array($datafiles)) {
 		$context['text'] .= BR.sprintf(i18n::s('%d files have been found.'), count($datafiles)).'</p>'."\n";
@@ -771,8 +763,8 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$context['text'] .= '<p>'.i18n::s('On-going archive preparation...').'</p>'."\n";
 
 		// build a zip archive
-		include_once '../shared/zipfile.php';
-		$zipfile = new zipfile();
+		$zipfile = new ZipArchive();
+                $zipfile->open(Safe::realpath('temporary/backup_'.$active_skin.'.zip'), ZipArchive::CREATE);
 
 		// process every skin/current_skin/ file
 		$index = 0;
@@ -784,27 +776,21 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 				$file = $path.'/'.$filename;
 			else
 				$file = $filename;
-
-			// read file content
-			if(($content = Safe::file_get_contents($file_prefix.$file)) !== FALSE) {
-
-				// store binary data
-				$zipfile->store($file, Safe::filemtime($file_prefix.$file), $content);
-
-				// avoid timeouts
-				if(!(($index++)%50)) {
-					Safe::set_time_limit(30);
-					SQL::ping();
-				}
-			}
+                        
+                        $zipfile->addFile($file_prefix.$file, $file);
+	
 		}
+                
+                $zipfile->close();
 
 		// suggest a download
 		Safe::header('Content-Type: application/zip');
-		Safe::header('Content-Disposition: attachment; filename="backup_'.$context['skin'].'.zip"');
+		Safe::header('Content-Disposition: attachment; filename="backup_'.$active_skin.'.zip"');
+                Safe::header('Content-Transfer-Encoding: binary');
+                Safe::header('Content-Length: ' . Safe::filesize('temporary/backup_'.$active_skin.'.zip'));
 
 		// send the archive content
-		echo $zipfile->get();
+		readfile(Safe::realpath('temporary/backup_'.$active_skin.'.zip'));
 
 		// do not allow for regular rendering
 		return;
@@ -978,5 +964,3 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 // render the skin
 render_skin();
-
-?>

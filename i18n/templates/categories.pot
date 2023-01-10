@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-01 16:51+0200\n"
+"POT-Creation-Date: 2023-01-10 10:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -80,14 +80,14 @@ msgstr ""
 msgid "Maintenance"
 msgstr ""
 
-#: categories/check.php:38 categories/delete.php:83
-#: categories/describe.php:111 categories/edit.php:131 categories/edit.php:151
-#: categories/feed.php:108 categories/index.php:69 categories/mail.php:69
-#: categories/mail.php:89 categories/print.php:79 categories/print.php:94
-#: categories/select.php:72 categories/select.php:88
-#: categories/set_as_thumbnail.php:61 categories/set_as_thumbnail.php:76
-#: categories/set_keyword.php:47 categories/set_keyword.php:56
-#: categories/subcat_feed.php:108 categories/view.php:217
+#: categories/check.php:38 categories/delete.php:83 categories/describe.php:111
+#: categories/edit.php:131 categories/edit.php:151 categories/feed.php:108
+#: categories/index.php:69 categories/mail.php:69 categories/mail.php:89
+#: categories/print.php:79 categories/print.php:94 categories/select.php:72
+#: categories/select.php:88 categories/set_as_thumbnail.php:61
+#: categories/set_as_thumbnail.php:76 categories/set_keyword.php:47
+#: categories/set_keyword.php:56 categories/subcat_feed.php:108
+#: categories/view.php:217
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
@@ -357,8 +357,8 @@ msgstr ""
 
 #: categories/edit.php:453
 msgid ""
-"Text to be inserted in the panel aside the page. Use [box.extra=title]content"
-"[/box] or plain HTML."
+"Text to be inserted in the panel aside the page. Use [box."
+"extra=title]content[/box] or plain HTML."
 msgstr ""
 
 #: categories/edit.php:457

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yacs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-01 16:51+0200\n"
+"POT-Creation-Date: 2023-01-10 10:56+0100\n"
 "PO-Revision-Date: 2015-07-17 18:03+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Alexis Raimbault, Bernard Paques\n"
@@ -15,15 +15,15 @@ msgstr ""
 "X-Poedit-Country: FBNCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: codes/basic.php:55 codes/blocks.php:44 codes/index.php:24
-#: codes/links.php:82 codes/lists.php:36 codes/live.php:54 codes/misc.php:57
-#: codes/tables.php:33 codes/titles.php:45 codes/widgets.php:38
+#: codes/basic.php:55 codes/blocks.php:44 codes/index.php:24 codes/links.php:82
+#: codes/lists.php:36 codes/live.php:54 codes/misc.php:57 codes/tables.php:33
+#: codes/titles.php:45 codes/widgets.php:38
 msgid "Help index"
 msgstr "Index de l'aide"
 
-#: codes/basic.php:56 codes/blocks.php:45 codes/links.php:83
-#: codes/lists.php:37 codes/live.php:55 codes/misc.php:58 codes/tables.php:34
-#: codes/titles.php:46 codes/widgets.php:39
+#: codes/basic.php:56 codes/blocks.php:45 codes/links.php:83 codes/lists.php:37
+#: codes/live.php:55 codes/misc.php:58 codes/tables.php:34 codes/titles.php:46
+#: codes/widgets.php:39
 msgid "Formatting Codes"
 msgstr "Codes de contrôle"
 
@@ -31,9 +31,9 @@ msgstr "Codes de contrôle"
 msgid "In-line formatting codes"
 msgstr "Formattage de caractères"
 
-#: codes/basic.php:63 codes/blocks.php:52 codes/index.php:31
-#: codes/links.php:90 codes/lists.php:44 codes/live.php:62 codes/misc.php:65
-#: codes/tables.php:41 codes/titles.php:53 codes/widgets.php:46
+#: codes/basic.php:63 codes/blocks.php:52 codes/index.php:31 codes/links.php:90
+#: codes/lists.php:44 codes/live.php:62 codes/misc.php:65 codes/tables.php:41
+#: codes/titles.php:53 codes/widgets.php:46
 #, php-format
 msgid "Edited %s"
 msgstr "Mis à jour %s"
@@ -214,8 +214,8 @@ msgstr "Couleur"
 
 #: codes/basic.php:140 codes/basic.php:141
 msgid ""
-"Here is some text in [color=red]red[/color] and some text in [color=green]"
-"green[/color]"
+"Here is some text in [color=red]red[/color] and some text in "
+"[color=green]green[/color]"
 msgstr ""
 "Voici un texte en [color=red]rouge[/color] et un autre en [color=green]vert[/"
 "color]"
@@ -509,42 +509,42 @@ msgstr "Défilement"
 msgid "Play in a separate window"
 msgstr "Jouer dans une fenêtre séparée"
 
-#: codes/codes.php:783
+#: codes/codes.php:786
 #, php-format
 msgid "%d named person has followed the link: %s"
 msgid_plural "%d named persons have followed the link: %s"
 msgstr[0] "%d personne identifiée a suivi le lien : %s"
 msgstr[1] "%d personnes identifiées ont suivi le lien : %s"
 
-#: codes/codes.php:786
+#: codes/codes.php:789
 msgid "No authenticated person has used this link yet"
 msgstr "Aucune personne authentifiés n'a encore utilisé ce lien"
 
-#: codes/codes.php:1198
+#: codes/codes.php:1201
 msgid "View this comment"
 msgstr "Voir ce commentaire"
 
-#: codes/codes.php:1221 codes/codes.php:1277
+#: codes/codes.php:1224 codes/codes.php:1280
 msgid "[this file has been deleted]"
 msgstr "[ce fichier à été supprimé]"
 
-#: codes/codes.php:1242 codes/codes.php:1301
+#: codes/codes.php:1245 codes/codes.php:1304
 msgid "[this file has been replaced]"
 msgstr "[ce fichier à été remplacé]"
 
-#: codes/codes.php:2009
+#: codes/codes.php:2012
 #, php-format
 msgid "redirection to unknown reference : %s"
 msgstr "redirection vers une référence inconnue : %s"
 
-#: codes/codes.php:2241
+#: codes/codes.php:2244
 #, php-format
 msgid "%d active now"
 msgid_plural "%d active now"
 msgstr[0] "%d actif maintenant"
 msgstr[1] "%d actifs maintenant"
 
-#: codes/codes.php:2313
+#: codes/codes.php:2316
 #, php-format
 msgid ""
 "ERROR: Impossible to write to the file %s. The configuration has not been "
@@ -687,8 +687,8 @@ msgid ""
 "You can visit [link]www.cisco.com[/link] or [link]http://www.nortel.com[/"
 "link], or have a chat at [link]irc://irc.eu.be.ofloo.net/[/link]"
 msgstr ""
-"Vous pouvez visiter [link]www.cisco.com[/link] ou [link]http://www.nortel.com"
-"[/link], ou discuter à [link]irc://irc.eu.be.ofloo.net/[/link]"
+"Vous pouvez visiter [link]www.cisco.com[/link] ou [link]http://www.nortel."
+"com[/link], ou discuter à [link]irc://irc.eu.be.ofloo.net/[/link]"
 
 #: codes/links.php:115
 msgid "YouTube link"

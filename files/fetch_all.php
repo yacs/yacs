@@ -119,69 +119,56 @@ if(!isset($item['id'])) {
 } else {
 
 	// build a zip archive
-	include_once '../shared/zipfile.php';
-	$zipfile = new zipfile();
+	$zipfile    = new ZipArchive();
+        $archname   = utf8::to_ascii($item['title']).'.zip';
+        $zipfile->open(Safe::realpath('temporary/'.$archname), ZipArchive::CREATE);
 
 	// get related files from the database
-	$items = array();
+	$items      = array();
 	if(isset($type) && isset($id))
 		$items = Files::list_by_date_for_anchor($type.':'.$id, 0, 20, 'raw');
 
 	// archive each file
-	$file_path = $context['path_to_root'].Files::get_path($type.':'.$id);
+	$file_path  = $context['path_to_root'].Files::get_path($type.':'.$id);
 	foreach($items as $id => $attributes) {
 
-		// read file content
-		if($content = Safe::file_get_contents($file_path.'/'.$attributes['file_name'], 'rb')) {
-
-			// add the binary data
-			$zipfile->deflate($attributes['file_name'], Safe::filemtime($file_path.'/'.$attributes['file_name']), $content);
-		}
+                $zipfile->addFile($file_path.'/'.$attributes['file_name'],$attributes['file_name']);
+            
 	}
+        
+        $zipfile->close();
 
 	//
 	// transfer to the user agent
 	//
 
 	// send the archive content
-	if($archive = $zipfile->get()) {
 
-		// suggest a download
-		Safe::header('Content-Type: application/octet-stream');
+        // suggest a download
+        Safe::header('Content-Type: application/zip');
 
-		// suggest a name for the saved file
-		$file_name = utf8::to_ascii($item['title']).'.zip';
-		Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $file_name).'"');
+        // suggest a name for the saved file
+        Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $archname).'"');
 
-		// file size
-		Safe::header('Content-Length: '.strlen($archive));
+        // file size
+        Safe::header('Content-Length: '.Safe::filesize('temporary/'.$archname));
 
-		// already encoded
-		Safe::header('Content-Transfer-Encoding: binary');
+        // already encoded
+        Safe::header('Content-Transfer-Encoding: binary');
 
-		// enable 30-minute caching (30*60 = 1800), even through https, to help IE on download
-		http::expire(1800);
+        // enable 30-minute caching (30*60 = 1800), even through https, to help IE on download
+        http::expire(1800);
 
-		// strong validator
-		$etag = '"'.md5($archive).'"';
+        // actual transmission except on a HEAD request
+        if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
+                readfile(safe::realpath('temporary/'.$archname));
 
-		// manage web cache
-		if(http::validate(NULL, $etag))
-			return;
+        // the post-processing hook, then exit
+        finalize_page(TRUE);
 
-		// actual transmission except on a HEAD request
-		if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
-			echo $archive;
-
-		// the post-processing hook, then exit
-		finalize_page(TRUE);
-
-	}
 }
 
 $context['text'] .= '<p>'.i18n::s('Operation has failed.').'</p>';
 
 // render the skin
 render_skin();
-
-?>

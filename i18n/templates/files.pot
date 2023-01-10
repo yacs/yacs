@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-01 16:51+0200\n"
+"POT-Creation-Date: 2023-01-10 10:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,9 +36,8 @@ msgstr ""
 #: files/edit.php:164 files/edit.php:194 files/feed.php:127
 #: files/fetch_all.php:116 files/fetch.php:147 files/files.php:3240
 #: files/index.php:68 files/list.php:88 files/list.php:93 files/move.php:25
-#: files/move.php:54 files/sort.php:25 files/stream.php:142
-#: files/thread.php:71 files/upload.ajax.php:30 files/upload.ajax.php:142
-#: files/view.php:148
+#: files/move.php:54 files/sort.php:25 files/stream.php:142 files/thread.php:71
+#: files/upload.ajax.php:30 files/upload.ajax.php:142 files/view.php:148
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
@@ -97,8 +96,8 @@ msgstr ""
 msgid "Look for missing files"
 msgstr ""
 
-#: files/check.php:164 files/view.php:369 files/view.php:390
-#: files/view.php:403 files/view.php:419 files/view.php:438
+#: files/check.php:164 files/view.php:369 files/view.php:390 files/view.php:403
+#: files/view.php:419 files/view.php:438
 msgid "Start"
 msgstr ""
 
@@ -376,7 +375,7 @@ msgstr ""
 
 #: files/edit.php:250 files/edit.php:500 files/edit.php:518 files/edit.php:532
 #: files/edit.php:548 files/edit.php:568 files/edit.php:579
-#: files/files.php:3383 files/layout_files_as_search.php:104
+#: files/files.php:3385 files/layout_files_as_search.php:104
 #: files/layout_files.php:132 files/view.php:224
 msgid "bytes"
 msgstr ""
@@ -554,7 +553,7 @@ msgstr ""
 msgid "Most recent public files"
 msgstr ""
 
-#: files/fetch_all.php:182 files/fetch.php:245 files/fetch.php:265
+#: files/fetch_all.php:171 files/fetch.php:245 files/fetch.php:265
 msgid "Operation has failed."
 msgstr ""
 

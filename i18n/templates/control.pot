@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-01 16:51+0200\n"
+"POT-Creation-Date: 2023-01-10 10:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,81 +92,81 @@ msgstr ""
 msgid "%d records have been processed"
 msgstr ""
 
-#: control/backup.php:592 control/backup.php:759 control/chmod.php:52
+#: control/backup.php:592 control/backup.php:750 control/chmod.php:52
 msgid "Listing files..."
 msgstr ""
 
-#: control/backup.php:601 control/backup.php:768
+#: control/backup.php:601 control/backup.php:760
 #, php-format
 msgid "%d files have been found."
 msgstr ""
 
-#: control/backup.php:604 control/backup.php:673 control/backup.php:726
-#: control/backup.php:771
+#: control/backup.php:604 control/backup.php:667 control/backup.php:713
+#: control/backup.php:763
 msgid "On-going archive preparation..."
 msgstr ""
 
-#: control/backup.php:655
+#: control/backup.php:649
 msgid "No file have been found."
 msgstr ""
 
-#: control/backup.php:661
+#: control/backup.php:655
 msgid "Listing images..."
 msgstr ""
 
-#: control/backup.php:670
+#: control/backup.php:664
 #, php-format
 msgid "%d images have been found."
 msgstr ""
 
-#: control/backup.php:720
+#: control/backup.php:707
 msgid "No image have been found."
 msgstr ""
 
-#: control/backup.php:814 control/scan.php:244 control/scan.php:513
+#: control/backup.php:800 control/scan.php:244 control/scan.php:513
 msgid "No item has been found."
 msgstr ""
 
-#: control/backup.php:820 control/info.php:224 control/purge.php:472
+#: control/backup.php:806 control/info.php:224 control/purge.php:472
 msgid "Please select the action to perform."
 msgstr ""
 
-#: control/backup.php:823
+#: control/backup.php:809
 msgid "Backup database content"
 msgstr ""
 
-#: control/backup.php:826
+#: control/backup.php:812
 msgid ""
 "This script will generate SQL statements necessary to rebuild your database "
 "from scratch. Please file it at your computer for backup purpose."
 msgstr ""
 
-#: control/backup.php:829
+#: control/backup.php:815
 #, php-format
 msgid ""
 "Since the full content of your database will be downloaded, you would like "
 "to %s it before proceeding."
 msgstr ""
 
-#: control/backup.php:829
+#: control/backup.php:815
 msgid "purge"
 msgstr ""
 
-#: control/backup.php:836
+#: control/backup.php:822
 msgid "Yes, I want to download database content"
 msgstr ""
 
-#: control/backup.php:840
+#: control/backup.php:826
 #, php-format
 msgid "Consider only tables with the prefix %s"
 msgstr ""
 
-#: control/backup.php:844
+#: control/backup.php:830
 msgid "Skip transient data and minimize size of backup file"
 msgstr ""
 
-#: control/backup.php:850 control/backup.php:915 control/backup.php:938
-#: control/backup.php:975 control/chmod.php:108 control/configure.php:1010
+#: control/backup.php:836 control/backup.php:901 control/backup.php:924
+#: control/backup.php:961 control/chmod.php:108 control/configure.php:1010
 #: control/populate.php:197 control/scan.php:896 control/scan.php:906
 #: control/scan.php:930 control/setup.php:252 control/setup.php:295
 msgid ""
@@ -176,102 +176,102 @@ msgid ""
 "you for your patience."
 msgstr ""
 
-#: control/backup.php:853
+#: control/backup.php:839
 msgid "Restore database content"
 msgstr ""
 
-#: control/backup.php:856
+#: control/backup.php:842
 msgid ""
 "Use this script to upload and process a set of SQL statements. WARNING!!! If "
 "you upload a backup file existing data will be destroyed prior the "
 "restauration."
 msgstr ""
 
-#: control/backup.php:863 control/import.php:344
+#: control/backup.php:849 control/import.php:344
 msgid "Select the file to upload"
 msgstr ""
 
-#: control/backup.php:864 control/import.php:343
+#: control/backup.php:850 control/import.php:343
 msgid "bytes"
 msgstr ""
 
-#: control/backup.php:897
+#: control/backup.php:883
 #, php-format
 msgid "or use the following file from directory %s:"
 msgstr ""
 
-#: control/backup.php:899
+#: control/backup.php:885
 #, php-format
 msgid "Restore %s"
 msgstr ""
 
-#: control/backup.php:906 control/backup.php:932
+#: control/backup.php:892 control/backup.php:918
 msgid "Apply these SQL statements"
 msgstr ""
 
-#: control/backup.php:906 control/backup.php:932 control/configure.php:770
+#: control/backup.php:892 control/backup.php:918 control/configure.php:770
 #: control/populate.php:161 control/purge.php:519 control/virtual.php:150
 msgid "Press [s] to submit data"
 msgstr ""
 
-#: control/backup.php:909
+#: control/backup.php:895
 msgid "Delete files and images related to previous database content"
 msgstr ""
 
-#: control/backup.php:918
+#: control/backup.php:904
 msgid "Update database content"
 msgstr ""
 
-#: control/backup.php:921
+#: control/backup.php:907
 msgid ""
 "Type one or several SQL statements below to change the content of the "
 "database. WARNING!!! Be sure to understand the conceptual data model before "
 "proceeding, else you would corrupt database content."
 msgstr ""
 
-#: control/backup.php:928
+#: control/backup.php:914
 msgid "UPDATE commands separated by ;"
 msgstr ""
 
-#: control/backup.php:941
+#: control/backup.php:927
 msgid "Backup data"
 msgstr ""
 
-#: control/backup.php:944
+#: control/backup.php:930
 msgid ""
 "Use this script to download archives of all files, images, parameters or "
 "current skin. Please file them at your computer for backup purpose."
 msgstr ""
 
-#: control/backup.php:950
+#: control/backup.php:936
 msgid "Yes, I want to download files"
 msgstr ""
 
-#: control/backup.php:950
+#: control/backup.php:936
 msgid "Press [f] to save files"
 msgstr ""
 
-#: control/backup.php:957
+#: control/backup.php:943
 msgid "Yes, I want to download images"
 msgstr ""
 
-#: control/backup.php:957
+#: control/backup.php:943
 msgid "Press [i] to save images"
 msgstr ""
 
-#: control/backup.php:964
+#: control/backup.php:950
 msgid "Yes, I want to download parameter files"
 msgstr ""
 
-#: control/backup.php:964
+#: control/backup.php:950
 msgid "Press [p] to save parameters"
 msgstr ""
 
-#: control/backup.php:971
+#: control/backup.php:957
 msgid "Yes, I want to download the current theme"
 msgstr ""
 
-#: control/backup.php:971
+#: control/backup.php:957
 msgid "Press [k] to save the theme"
 msgstr ""
 
@@ -341,8 +341,7 @@ msgstr ""
 msgid "System parameters"
 msgstr ""
 
-#: control/configure.php:239 control/info.php:119
-#: control/htaccess/index.php:34
+#: control/configure.php:239 control/info.php:119 control/htaccess/index.php:34
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr ""
 
@@ -800,8 +799,7 @@ msgid ""
 "Review provided information and go to the bottom of the page to move forward."
 msgstr ""
 
-#: control/configure.php:949 control/scan.php:864
-#: control/htaccess/index.php:83
+#: control/configure.php:949 control/scan.php:864 control/htaccess/index.php:83
 #, php-format
 msgid "%s has been updated"
 msgstr ""
@@ -1824,9 +1822,9 @@ msgstr ""
 
 #: control/populate.php:500
 msgid ""
-"This site is powered by [link=YACS]http://www.yacs.fr/[/link], [link=PHP]"
-"http://www.php.net/[/link], and [link=MySQL]http://www.mysql.com/[/link] - a "
-"fast, easy-to-use site that lets you access, review, and download "
+"This site is powered by [link=YACS]http://www.yacs.fr/[/link], "
+"[link=PHP]http://www.php.net/[/link], and [link=MySQL]http://www.mysql.com/[/"
+"link] - a fast, easy-to-use site that lets you access, review, and download "
 "information that matters for you."
 msgstr ""
 

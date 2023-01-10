@@ -72,7 +72,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/zipfile.php';
 include_once 'image.php';	// image processing
 include_once 'images.php';
 
@@ -196,29 +195,40 @@ if(Surfer::is_crawler()) {
 
 		// explode a .zip file
 		if(preg_match('/\.zip$/i', $_FILES['upload']['name'])) {
-			$zipfile = new zipfile();
+			$zipfile = new ZipArchive();
+                        $count = 0;
+                        
+                        if($zipfile->open($_FILES['upload']['tmp_name'])) {
+                            
+                            // extract archive components and save them in mentioned directory
+                            for ($i = 0; $i < $zipfile->numFiles; $i++) {
+                                $filename = $zipfile->getNameIndex($i);
+                                
+                                // ignore subfolders
+                                if(strpos($filename, '/') !== FALSE)
+                                        continue;
+                                
+                                $zipfile->extractTo(Safe::realpath($file_path), $filename);
+                                
+                                $extracted = $file_path.'/'.$filename;
+                                // we only want to preserve images
+                                if(!$attributes = Safe::GetImageSize($extracted))
+                                        Safe::unlink($extracted);
+                                
+                                // kill images that are too large - 5,000 x 5,000 x 3 = 75MB
+                                elseif(($attributes[0] > 5000) || ($attributes[1] > 5000))
+					Safe::unlink($extracted);
+                                
+                                else
+                                    $count++;
+                            }
+                            
+                            $zipfile->close();
+                            
+                        }
 
-			// check files extracted from the archive file
-			function explode_callback($name) {
-				global $context;
-
-				// reject all files put in sub-folders
-				$file_path = Files::get_path($_REQUEST['anchor'], 'images');
-				if(($path = substr($name, strlen($file_path.'/'))) && (strpos($path, '/') !== FALSE))
-					Safe::unlink($name);
-
-				// we only want to preserve images
-				elseif(!$attributes = Safe::GetImageSize($name))
-					Safe::unlink($name);
-
-				// kill images that are too large - 5,000 x 5,000 x 3 = 75MB
-				elseif(($attributes[0] > 5000) || ($attributes[1] > 5000))
-					Safe::unlink($name);
-
-			}
-
-			// extract archive components and save them in mentioned directory
-			if($count = $zipfile->explode($_FILES['upload']['tmp_name'], $file_path, '', 'explode_callback')) {
+			
+			if($count) {
 				$exploded = TRUE;
 			} else
 				Logger::error(sprintf('Nothing has been extracted from %s.', $_FILES['upload']['name']));

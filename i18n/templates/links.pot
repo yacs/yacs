@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-01 16:51+0200\n"
+"POT-Creation-Date: 2023-01-10 10:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,8 +20,8 @@ msgstr ""
 
 #: links/check.php:59 links/check.php:70 links/check.php:163
 #: links/check.php:270 links/check.php:379 links/check.php:435
-#: links/click.php:89 links/delete.php:82 links/edit.php:190
-#: links/index.php:48 links/trackback.php:115
+#: links/click.php:89 links/delete.php:82 links/edit.php:190 links/index.php:48
+#: links/trackback.php:115
 msgid "Links"
 msgstr ""
 
@@ -29,9 +29,9 @@ msgstr ""
 msgid "Maintenance"
 msgstr ""
 
-#: links/check.php:67 links/click.php:97 links/delete.php:94
-#: links/edit.php:220 links/edit.php:240 links/index.php:58
-#: links/trackback.php:124 links/trackback.php:247
+#: links/check.php:67 links/click.php:97 links/delete.php:94 links/edit.php:220
+#: links/edit.php:240 links/index.php:58 links/trackback.php:124
+#: links/trackback.php:247
 msgid "You are not allowed to perform this operation."
 msgstr ""
 

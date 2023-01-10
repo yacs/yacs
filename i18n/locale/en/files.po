@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-01 16:51+0200\n"
+"POT-Creation-Date: 2023-01-10 10:56+0100\n"
 "PO-Revision-Date: 2022-07-01 16:55+0200\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
@@ -393,7 +393,7 @@ msgstr "This type of file is not allowed."
 
 #: files/edit.php:250 files/edit.php:500 files/edit.php:518 files/edit.php:532
 #: files/edit.php:548 files/edit.php:568 files/edit.php:579
-#: files/files.php:3383 files/layout_files_as_search.php:104
+#: files/files.php:3385 files/layout_files_as_search.php:104
 #: files/layout_files.php:132 files/view.php:224
 msgid "bytes"
 msgstr "bytes"
@@ -575,7 +575,7 @@ msgstr "Files at %s"
 msgid "Most recent public files"
 msgstr "Most recent public files"
 
-#: files/fetch_all.php:182 files/fetch.php:245 files/fetch.php:265
+#: files/fetch_all.php:171 files/fetch.php:245 files/fetch.php:265
 msgid "Operation has failed."
 msgstr "Operation has failed."
 

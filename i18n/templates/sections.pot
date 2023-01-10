@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-01 16:51+0200\n"
+"POT-Creation-Date: 2023-01-10 10:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -436,8 +436,8 @@ msgstr ""
 msgid "To be inserted at the bottom of related pages."
 msgstr ""
 
-#: sections/edit.php:574 sections/manage.php:1157
-#: sections/view_as_tabs.php:199 sections/view.php:951
+#: sections/edit.php:574 sections/manage.php:1157 sections/view_as_tabs.php:199
+#: sections/view.php:951
 msgid "Pages"
 msgstr ""
 
@@ -477,8 +477,8 @@ msgstr ""
 
 #: sections/edit.php:635
 msgid ""
-"Text to be inserted in the panel aside the page. Use [box.extra=title]content"
-"[/box] or plain HTML."
+"Text to be inserted in the panel aside the page. Use [box."
+"extra=title]content[/box] or plain HTML."
 msgstr ""
 
 #: sections/edit.php:639
@@ -1058,8 +1058,7 @@ msgstr[1] ""
 #: sections/layout_sections_as_simple.php:91
 #: sections/layout_sections_as_slashdot.php:156
 #: sections/layout_sections.php:122 sections/sections.php:653
-#: sections/select.php:166 sections/view_as_tabs.php:551
-#: sections/view.php:1174
+#: sections/select.php:166 sections/view_as_tabs.php:551 sections/view.php:1174
 #, php-format
 msgid "%d file"
 msgid_plural "%d files"
@@ -1831,9 +1830,9 @@ msgstr ""
 msgid "View the profile of %s"
 msgstr ""
 
-#: sections/sections.php:888 sections/sections.php:2637
-#: sections/sections.php:2953 sections/sections.php:3114
-#: sections/sections.php:3276 sections/sections.php:3280
+#: sections/sections.php:888 sections/sections.php:2641
+#: sections/sections.php:2957 sections/sections.php:3118
+#: sections/sections.php:3280 sections/sections.php:3284
 msgid "No item has the provided id."
 msgstr ""
 
@@ -1841,7 +1840,7 @@ msgstr ""
 msgid "Top of the content tree"
 msgstr ""
 
-#: sections/sections.php:2747 sections/sections.php:2959
+#: sections/sections.php:2751 sections/sections.php:2963
 msgid "No title has been provided."
 msgstr ""
 

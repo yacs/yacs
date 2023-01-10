@@ -104,15 +104,18 @@ if($id) {
 
 	// explode a .zip file
 	elseif(isset($name) && preg_match('/\.zip$/i', $name)) {
-		include_once '../shared/zipfile.php';
-		$zipfile = new zipfile();
+		$zipfile = new ZipArchive();
 
+                $open = $zipfile->open(safe::realpath($id));
+                
 		// extract archive components and save them in mentioned directory
-		if($count = $zipfile->explode($id, 'skins')) {
-			$context['text'] .= '<p>'.sprintf(i18n::s('%d files have been extracted.'), $count)."</p>\n";
+		if($open && $zipfile->extractTo(safe::realpath('skin'))) {
+                        $context['text'] .= '<p>'.sprintf(i18n::s('%d files have been extracted.'), $zipfile->numFiles)."</p>\n";
 			$success = TRUE;
 		} else
 			Logger::error(sprintf(i18n::s('Nothing has been extracted from %s.'), $name));
+                
+                $zipfile->close();
 
 	// ensure we have the external library to explode other kinds of archives
 	} elseif(!is_readable('../included/tar.php'))

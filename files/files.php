@@ -3291,39 +3291,41 @@ Class Files {
 				}
 
 				// explode a .zip file
-				include_once $context['path_to_root'].'shared/zipfile.php';
 				if(preg_match('/\.zip$/i', $file_name) && isset($_REQUEST['explode_files'])) {
-					$zipfile = new zipfile();
+					$zipfile = new ZipArchive();
+                                        $count = 0;
+                                        
+                                        $context['uploaded_files']  = array();
+					$context['uploaded_path']   = $file_path;
 
-					// check files extracted from the archive file
-					function explode_callback($name) {
-						global $context;
-
-						// reject all files put in sub-folders
-						if(($path = substr($name, strlen($context['uploaded_path'].'/'))) && (strpos($path, '/') !== FALSE))
-							Safe::unlink($name);
-
-						// we only want to preserve authorized extensions
-						elseif(!Files::is_authorized($name))
-							Safe::unlink($name);
-
-						// ok, this one is fine
-						else {
-
-							// make it easy to download
-							$ascii = utf8::to_ascii(basename($name));
-							Safe::rename($name, $context['uploaded_path'].'/'.$ascii);
-
-							// remember this name
-							$context['uploaded_files'][] = $ascii;
-
-						}
-					}
-
-					// extract archive components and save them in mentioned directory
-					$context['uploaded_files'] = array();
-					$context['uploaded_path'] = $file_path;
-					if(!$count = $zipfile->explode($context['path_to_root'].$file_path.'/'.$file_name, $file_path, '', 'explode_callback')) {
+                                        if($zipfile->open(Safe::realpath($file_path.$file_name))) {
+                                            
+                                            for ($i = 0; $i < $zipfile->numFiles; $i++) {
+                                                $innerfile = $zipfile->getNameIndex($i);
+                                            
+                                                // ignore subfolders
+                                                if(strpos($innerfile, '/') !== FALSE)
+                                                    continue;
+                                                
+                                                if(!Files::is_authorized($innerfile))
+                                                    continue;
+                                                
+                                                // extract archive components and save them in mentioned directory
+                                                if($zipfile->extractTo(Safe::realpath($file_path), $innerfile)) {
+                                                        $count++;
+                                                        $context['uploaded_files'][] = $innerfile;
+                                                }
+                                                
+                                                
+                                            }
+                                            
+                                            $zipfile->close();
+                                        }
+                                        
+                                        // delete zip
+                                        Safe::unlink($file_path.$file_name);
+		
+					if(!$count) {
 						Logger::error(sprintf('Nothing has been extracted from %s.', $file_name));
 						return FALSE;
 					}

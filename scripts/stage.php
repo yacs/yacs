@@ -180,15 +180,18 @@ if($id) {
 
 	// explode a .zip file
 	elseif(isset($external_id) && preg_match('/\.zip$/i', $external_id)) {
-		include_once '../shared/zipfile.php';
-		$zipfile = new zipfile();
+		$zipfile = new ZipArchive();
+                
+                $zipfile->open($id);
 
 		// extract archive components and save them in mentioned directory --strip yacs from path, if any
-		if($count = $zipfile->explode($id, 'scripts/staging', 'yacs/')) {
-			$context['text'] .= '<p>'.sprintf(i18n::s('%d files have been extracted.'), $count)."</p>\n";
+		if($zipfile->extractTo(Safe::realpath('scripts/staging'))) {
+			$context['text'] .= '<p>'.sprintf(i18n::s('%d files have been extracted.'), $zipfile->numFiles)."</p>\n";
 			$success = TRUE;
 		} else
 			Logger::error(sprintf(i18n::s('Nothing has been extracted from %s.'), $external_id));
+                
+                $zipfile->close();
 
 	// ensure we have the external library to explode other kinds of archives
 	} elseif(!is_readable('../included/tar.php'))

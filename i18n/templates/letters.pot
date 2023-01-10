@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-01 16:51+0200\n"
+"POT-Creation-Date: 2023-01-10 10:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,8 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: letters/configure.php:48 letters/configure.php:124
-#: letters/configure.php:196
+#: letters/configure.php:48 letters/configure.php:124 letters/configure.php:196
 msgid "Control Panel"
 msgstr ""
 
@@ -31,9 +30,8 @@ msgstr ""
 msgid "Configure"
 msgstr ""
 
-#: letters/configure.php:51 letters/configure.php:128
-#: letters/configure.php:195 letters/index.php:21 letters/new.php:77
-#: letters/new.php:634
+#: letters/configure.php:51 letters/configure.php:128 letters/configure.php:195
+#: letters/index.php:21 letters/new.php:77 letters/new.php:634
 msgid "Newsletters"
 msgstr ""
 

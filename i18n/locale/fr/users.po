@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-01 16:51+0200\n"
+"POT-Creation-Date: 2023-01-10 10:56+0100\n"
 "PO-Revision-Date: 2022-07-01 16:58+0200\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -24,10 +24,10 @@ msgid "Unknown authenticator type %s"
 msgstr "Type d'authentifieur %s inconnu"
 
 #: users/check_unused.php:31 users/complete.php:34 users/heartbit.php:69
-#: users/heartbit.php:76 users/heartbit.php:82 users/login.php:178
-#: users/login.php:182 users/login.php:186 users/login.php:213
-#: users/login.php:217 users/login.php:257 users/login.php:261
-#: users/login.php:294
+#: users/heartbit.php:76 users/heartbit.php:82 users/login.php:180
+#: users/login.php:184 users/login.php:188 users/login.php:215
+#: users/login.php:219 users/login.php:259 users/login.php:263
+#: users/login.php:296
 msgid "Request is invalid."
 msgstr "La requête est invalide."
 
@@ -36,7 +36,7 @@ msgstr "La requête est invalide."
 #: users/describe.php:115 users/edit.php:148 users/edit.php:160
 #: users/element.php:108 users/feed.php:90 users/fetch_vcard.php:97
 #: users/index.php:98 users/index.php:103 users/leave.php:54
-#: users/login.php:164 users/mail.php:76 users/mail.php:95 users/mail.php:106
+#: users/login.php:166 users/mail.php:76 users/mail.php:95 users/mail.php:106
 #: users/notifications.php:158 users/password.php:72 users/password.php:77
 #: users/password.php:159 users/print.php:66 users/print.php:81
 #: users/select_avatar.php:79 users/select_avatar.php:92 users/select.php:73
@@ -71,7 +71,7 @@ msgid "Incomplete or illegal character used"
 msgstr "Incomplet ou bien utilisation de caractères interdits."
 
 #: users/configure.php:147 users/configure.php:579 users/configure.php:710
-#: users/login.php:391
+#: users/login.php:393
 msgid "Control Panel"
 msgstr "Panneau de contrôle"
 
@@ -91,7 +91,7 @@ msgstr "Configurer"
 #: users/contact.php:100 users/delete.php:73 users/describe.php:92
 #: users/edit.php:135 users/element.php:92 users/feed.php:78
 #: users/fetch_vcard.php:76 users/index.php:84 users/leave.php:45
-#: users/login.php:406 users/mail.php:64 users/password.php:57
+#: users/login.php:408 users/mail.php:64 users/password.php:57
 #: users/review.php:36 users/review.php:71 users/select_avatar.php:70
 #: users/select.php:64 users/track.php:46 users/transfer.php:40
 #: users/user.php:222 users/validate.php:46 users/view.php:168
@@ -566,7 +566,7 @@ msgstr "%s a été mis à jour"
 msgid "Configuration parameters"
 msgstr "Paramètres de configuration"
 
-#: users/configure.php:707 users/contact.php:274 users/login.php:381
+#: users/configure.php:707 users/contact.php:274 users/login.php:383
 #: users/validate.php:77
 msgid "Where do you want to go now?"
 msgstr "Où souhaitez-vous aller à présent ?"
@@ -700,7 +700,7 @@ msgstr ""
 "L'auto-enregistrement n'est pas autorisé. Utilisez le %s pour transmettre "
 "votre demande."
 
-#: users/edit.php:156 users/login.php:434
+#: users/edit.php:156 users/login.php:436
 msgid "query form"
 msgstr "formulaire de requête"
 
@@ -712,7 +712,7 @@ msgstr "Merci de confirmer votre mot de passe"
 msgid "Please prove you are not a robot."
 msgstr "Merci de prouver que vous n'êtes pas un robot."
 
-#: users/edit.php:279 users/login.php:235 users/login.php:327
+#: users/edit.php:279 users/login.php:237 users/login.php:329
 #: users/users.php:1871
 msgid "Welcome!"
 msgstr "Bienvenue !"
@@ -726,7 +726,7 @@ msgstr ""
 "visiterez ce site, indiquez votre surnom ou diminutif et votre mot de passe "
 "pour être authentifié."
 
-#: users/edit.php:286 users/login.php:239
+#: users/edit.php:286 users/login.php:241
 msgid "What do you want to do now?"
 msgstr "Que voulez-vous faire à présent ?"
 
@@ -843,7 +843,7 @@ msgid ""
 msgstr ""
 "Nous conservons l'information fournie et ne la partageons en aucune façon."
 
-#: users/edit.php:413 users/login.php:465 users/password.php:63
+#: users/edit.php:413 users/login.php:467 users/password.php:63
 #: users/password.php:65
 msgid "Password"
 msgstr "Mot de passe"
@@ -1173,7 +1173,7 @@ msgstr "emoticons"
 msgid "Mandatory fields are marked with a *"
 msgstr "* signale les champs obligatoires"
 
-#: users/edit.php:939 users/login.php:553 users/search.php:159
+#: users/edit.php:939 users/login.php:555 users/search.php:159
 #: users/select.php:556 users/select.php:565
 msgid "Help"
 msgstr "Aide"
@@ -1237,7 +1237,7 @@ msgstr "Go"
 msgid "No item has been found."
 msgstr "Aucun élément n'a été trouvé."
 
-#: users/index.php:164 users/login.php:242 users/login.php:389
+#: users/index.php:164 users/login.php:244 users/login.php:391
 #: users/validate.php:79
 msgid "My profile"
 msgstr "Mon profil"
@@ -1318,7 +1318,7 @@ msgstr "Choisir ce profil"
 msgid "View profile"
 msgstr "Voir le profil"
 
-#: users/leave.php:49 users/login.php:174 users/login.php:253
+#: users/leave.php:49 users/login.php:176 users/login.php:255
 #: users/select.php:68 users/visit.php:64
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
@@ -1411,35 +1411,35 @@ msgstr "Oui"
 msgid "No"
 msgstr "Non"
 
-#: users/login.php:157
+#: users/login.php:159
 msgid "Who are you?"
 msgstr "Qui êtes-vous ?"
 
-#: users/login.php:159
+#: users/login.php:161
 msgid "You are"
 msgstr "Vous êtes"
 
-#: users/login.php:236
+#: users/login.php:238
 msgid "You have been successfully authenticated."
 msgstr "Vous avez été authentifié."
 
-#: users/login.php:241 users/password.php:67 users/view.php:765
+#: users/login.php:243 users/password.php:67 users/view.php:765
 msgid "Change password"
 msgstr "Changer le mot de passe"
 
-#: users/login.php:345
+#: users/login.php:347
 msgid "Your profile"
 msgstr "Votre profil"
 
-#: users/login.php:352
+#: users/login.php:354
 msgid "Your address"
 msgstr "Votre adresse"
 
-#: users/login.php:359
+#: users/login.php:361
 msgid "Your status"
 msgstr "Votre statut"
 
-#: users/login.php:361
+#: users/login.php:363
 msgid ""
 "As an associate of this community, you may contribute freely to any part of "
 "this server."
@@ -1447,7 +1447,7 @@ msgstr ""
 "En tant qu'associé de cette communauté, vous pouvez enrichir toute partie de "
 "ce serveur."
 
-#: users/login.php:363
+#: users/login.php:365
 msgid ""
 "As a member of this community, you may access freely most pages of this "
 "server."
@@ -1455,7 +1455,7 @@ msgstr ""
 "En tant que membre de cette communauté, vous pouvez accéder à la plupart des "
 "pages de ce serveur."
 
-#: users/login.php:365
+#: users/login.php:367
 msgid ""
 "As a subscriber of this community, you may freely access most pages of this "
 "server."
@@ -1463,93 +1463,93 @@ msgstr ""
 "En tant que souscripteur de cette communauté, vous pouvez accéder à la "
 "plupart des pages de ce serveur."
 
-#: users/login.php:373
+#: users/login.php:375
 msgid "You"
 msgstr "Vous"
 
-#: users/login.php:384 users/login.php:386
+#: users/login.php:386 users/login.php:388
 msgid "Move forward"
 msgstr "Continuer"
 
-#: users/login.php:388 users/login.php:404 users/validate.php:80
+#: users/login.php:390 users/login.php:406 users/validate.php:80
 msgid "Front page"
 msgstr "Page d'accueil"
 
-#: users/login.php:405
+#: users/login.php:407
 msgid "Site map"
 msgstr "Carte du site"
 
-#: users/login.php:407
+#: users/login.php:409
 msgid "Categories"
 msgstr "Catégories"
 
-#: users/login.php:408 users/search.php:88 users/search.php:90
+#: users/login.php:410 users/search.php:88 users/search.php:90
 msgid "Search"
 msgstr "Recherche"
 
-#: users/login.php:410
+#: users/login.php:412
 msgid "Navigate"
 msgstr "Naviguer"
 
-#: users/login.php:422
+#: users/login.php:424
 msgid "Failed authentication"
 msgstr "Erreur d'authentification"
 
-#: users/login.php:429
+#: users/login.php:431
 msgid "Have you lost your password?"
 msgstr "Avez-vous perdu votre mot de passe ?"
 
-#: users/login.php:434
+#: users/login.php:436
 msgid "Do you need more help?"
 msgstr "Avez-vous besoin de plus d'aide ?"
 
-#: users/login.php:434
+#: users/login.php:436
 #, php-format
 msgid "Use the %s to ask for help"
 msgstr "Utilisez le %s pour demander de l'aide"
 
-#: users/login.php:443
+#: users/login.php:445
 msgid "The page you requested is available only to registered members."
 msgstr "La page demandée est accessible aux seuls utilisateurs enregistrés."
 
-#: users/login.php:452
+#: users/login.php:454
 msgid "Please authenticate"
 msgstr "Faites-vous reconnaître"
 
-#: users/login.php:460
+#: users/login.php:462
 msgid "Your nick name, or e-mail address"
 msgstr "Votre surnom, ou votre adresse e-mail"
 
-#: users/login.php:471
+#: users/login.php:473
 msgid "Stay connected"
 msgstr "Rester connecté(e)"
 
-#: users/login.php:480 users/password.php:143
+#: users/login.php:482 users/password.php:143
 msgid "Login"
 msgstr "Authentifier"
 
-#: users/login.php:483 users/password.php:61 users/password.php:81
+#: users/login.php:485 users/password.php:61 users/password.php:81
 msgid "Lost password"
 msgstr "Mot de passe perdu"
 
-#: users/login.php:510
+#: users/login.php:512
 msgid "Create your profile"
 msgstr "Créer votre profil"
 
-#: users/login.php:510
+#: users/login.php:512
 #, php-format
 msgid "%s if you have not yet a profile for yourself at %s."
 msgstr "%s si vous n'avez pas encore de profil sur %s."
 
-#: users/login.php:510
+#: users/login.php:512
 msgid "Click here to register"
 msgstr "Cliquez ici pour vous enregistrer"
 
-#: users/login.php:525
+#: users/login.php:527
 msgid "You must provide a nick name or an email address."
 msgstr "Vous devez indiquer un surnom ou une adresse électronique valide"
 
-#: users/login.php:544 users/login.php:551
+#: users/login.php:546 users/login.php:553
 msgid ""
 "Your browser must accept cookies in order to successfully register and log "
 "in."
@@ -1557,7 +1557,7 @@ msgstr ""
 "Votre navigateur doit accepter les cookies pour les opérations "
 "d'enregistrement et d'authentification."
 
-#: users/login.php:552
+#: users/login.php:554
 #, php-format
 msgid ""
 "If you already are a registered member, but do not remember your username "
@@ -1566,11 +1566,11 @@ msgstr ""
 "Si vous êtes déjà enregistré, mais que vous ne vous rappelez plus votre mot "
 "de passe, %s"
 
-#: users/login.php:552
+#: users/login.php:554
 msgid "click here"
 msgstr "cliquez ici"
 
-#: users/login.php:566
+#: users/login.php:568
 msgid "... and you are already logged in !"
 msgstr "... et vous êtes déjà connecté !"
 

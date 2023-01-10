@@ -617,13 +617,16 @@ class Scripts {
 				// scan a sub directory
 				if(is_dir($target_translated)) {
 
-					// skip files and images, because of so many sub directories
-					if((strpos($path, 'files/') !== FALSE) || (strpos($path, 'images/') !== FALSE))
-						continue;
+                                        if($path) {
+                                    
+                                            // skip files and images, because of so many sub directories
+                                            if((strpos($path, 'files/') !== FALSE) || (strpos($path, 'images/') !== FALSE))
+                                                    continue;
 
-					// already included
-					if(strpos($path, 'included/') !== FALSE)
-						continue;
+                                            // already included
+                                            if(strpos($path, 'included/') !== FALSE)
+                                                    continue;
+                                        }
 
 					// extend the list recursively
 					$files = array_merge($files, Scripts::list_scripts_at($target));

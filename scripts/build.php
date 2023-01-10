@@ -351,11 +351,11 @@ elseif(!Surfer::is_associate()) {
 	$file_name = 'temporary/'.gmdate("Ymd").'_yacs_'.trim($_REQUEST['version']);
 
 	// start the zip file
-	include_once '../shared/zipfile.php';
-	$zipfile = new zipfile();
+	$zipfile = new ZipArchive();
+        $zipfile->open(Safe::realpath($file_name.'.zip'), ZipArchive::CREATE);
 
 	// place all files into a single directory --fixed time to allow cacheability
-	$zipfile->store('yacs/', 0);
+        $zipfile->addEmptyDir('yacs');
 
 	// process every reference file
 	$all_files = array();
@@ -366,22 +366,13 @@ elseif(!Surfer::is_associate()) {
 		list($path, $file) = $reference;
 		if(strlen(trim($path)) > 0)
 			$file = $path.'/'.$file;
-
-		// read file content
-		if(($content = Safe::file_get_contents($file_path.$file)) !== FALSE) {
-
-			// compress textual content
-			if($content && preg_match('/\.(css|htc|htm|html|include|js|mo|php|po|pot|sql|txt|xml)$/i', $file))
-				$zipfile->deflate('yacs/'.$file, Safe::filemtime($file_path.$file), $content);
-
-			// store binary data
-			else
-				$zipfile->store('yacs/'.$file, Safe::filemtime($file_path.$file), $content);
-
-			// to be included in tar file as well
-			$all_files[] = $file_path.$file;
-
-		} else
+                
+                // store binary data
+                if($zipfile->addFile(Safe::realpath($file), 'yacs/'.$file)) {
+                
+                        // to be included in tar file as well
+                        $all_files[] = $file_path.$file;
+                } else
 			$context['text'] .= BR.'cannot read '.$file_path.$file;
 
 		// avoid timeouts
@@ -391,13 +382,10 @@ elseif(!Surfer::is_associate()) {
 		}
 
 	}
-
-	// save the zipfile
-	if($handle = Safe::fopen($context['path_to_root'].$file_name.'.zip', 'wb')) {
-		fwrite($handle, $zipfile->get());
-		fclose($handle);
-		$context['text'] .= BR.Skin::build_link($file_name.'.zip', $file_name.'.zip', 'basic');
-	}
+        
+        $zipfile->close();
+        
+        $context['text'] .= BR.Skin::build_link($file_name.'.zip', $file_name.'.zip', 'basic');
 
 	// start the tar file
 	include_once '../included/tar.php';

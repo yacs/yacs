@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-01 16:51+0200\n"
+"POT-Creation-Date: 2023-01-10 10:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,10 +18,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: dates/check.php:24 dates/check.php:35 dates/check.php:93
-#: dates/check.php:149 dates/delete.php:73 dates/edit.php:67
-#: dates/fetch_ics.php:27 dates/fetch_ics.php:30 dates/index.php:43
-#: dates/view.php:55
+#: dates/check.php:24 dates/check.php:35 dates/check.php:93 dates/check.php:149
+#: dates/delete.php:73 dates/edit.php:67 dates/fetch_ics.php:27
+#: dates/fetch_ics.php:30 dates/index.php:43 dates/view.php:55
 msgid "Dates"
 msgstr ""
 
@@ -198,8 +197,7 @@ msgstr ""
 msgid "%s: %s"
 msgstr ""
 
-#: dates/delete.php:127 dates/edit.php:127 dates/edit.php:196
-#: dates/view.php:76
+#: dates/delete.php:127 dates/edit.php:127 dates/edit.php:196 dates/view.php:76
 msgid "Target date"
 msgstr ""
 

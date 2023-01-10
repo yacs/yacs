@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-01 16:51+0200\n"
+"POT-Creation-Date: 2023-01-10 10:56+0100\n"
 "PO-Revision-Date: 2011-01-24 23:40+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-Poedit-Language: English\n"
 
 #: agents/configure.php:52 agents/configure.php:268 agents/configure.php:354
-#: agents/index.php:52
+#: agents/index.php:54
 msgid "Control Panel"
 msgstr "Control Panel"
 
@@ -35,11 +35,11 @@ msgid "Configure"
 msgstr "Configure"
 
 #: agents/configure.php:55 agents/configure.php:272 agents/configure.php:353
-#: agents/index.php:55
+#: agents/index.php:57
 msgid "Background processing"
 msgstr "Background processing"
 
-#: agents/configure.php:64 agents/feed.php:77 agents/index.php:64
+#: agents/configure.php:64 agents/feed.php:77 agents/index.php:66
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
 
@@ -284,88 +284,88 @@ msgstr "Event log at %s"
 msgid "Most recent events at %s"
 msgstr "Most recent events at %s"
 
-#: agents/index.php:84 agents/index.php:133
+#: agents/index.php:86 agents/index.php:135
 msgid "You can sort the table below by clicking on column headers."
 msgstr "You can sort the table below by clicking on column headers."
 
-#: agents/index.php:85
+#: agents/index.php:87
 #, php-format
 msgid "To get the full list of events, please download %s."
 msgstr "To get the full list of events, please download %s."
 
-#: agents/index.php:88
+#: agents/index.php:90
 msgid "What?"
 msgstr "What?"
 
-#: agents/index.php:88
+#: agents/index.php:90
 msgid "When?"
 msgstr "When?"
 
-#: agents/index.php:88
+#: agents/index.php:90
 msgid "Where?"
 msgstr "Where?"
 
-#: agents/index.php:88
+#: agents/index.php:90
 msgid "Who?"
 msgstr "Who?"
 
-#: agents/index.php:98
+#: agents/index.php:100
 msgid "No event has been logged"
 msgstr "No event has been logged"
 
-#: agents/index.php:102
+#: agents/index.php:104
 msgid "Events"
 msgstr "Events"
 
-#: agents/index.php:122
+#: agents/index.php:124
 msgid "Values"
 msgstr "Values"
 
-#: agents/index.php:136
+#: agents/index.php:138
 msgid "Script"
 msgstr "Script"
 
-#: agents/index.php:136
+#: agents/index.php:138
 msgid "Hits"
 msgstr "Hits"
 
-#: agents/index.php:136
+#: agents/index.php:138
 msgid "Average time"
 msgstr "Average time"
 
-#: agents/index.php:136
+#: agents/index.php:138
 msgid "Minimum time"
 msgstr "Minimum time"
 
-#: agents/index.php:136
+#: agents/index.php:138
 msgid "Maximum time"
 msgstr "Maximum time"
 
-#: agents/index.php:136
+#: agents/index.php:138
 msgid "Total time"
 msgstr "Total time"
 
-#: agents/index.php:143
+#: agents/index.php:145
 msgid "Performance"
 msgstr "Performance"
 
-#: agents/index.php:154
+#: agents/index.php:156
 msgid "Domain"
 msgstr "Domain"
 
-#: agents/index.php:154 agents/index.php:179
+#: agents/index.php:156 agents/index.php:181
 msgid "Count"
 msgstr "Count"
 
-#: agents/index.php:168
+#: agents/index.php:170
 msgid "Referrals"
 msgstr "Referrals"
 
-#: agents/index.php:179
+#: agents/index.php:181
 msgid "Keywords"
 msgstr "Keywords"
 
-#: agents/index.php:193
+#: agents/index.php:195
 msgid "Searches"
 msgstr "Searches"
 
