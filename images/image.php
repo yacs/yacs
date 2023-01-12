@@ -68,7 +68,7 @@ Class Image extends Anchor {
 			// set adjusted dimensions
 			if($height > $maximum_height) {
 				$adjust_height = $maximum_height;
-				$adjust_width = $width * $adjust_height / $height;
+				$adjust_width = round($width * $adjust_height / $height);
 			}
 
 		// the image is laid horizontally
@@ -77,7 +77,7 @@ Class Image extends Anchor {
 			// set adjusted dimensions
 			if($width > $maximum_width) {
 				$adjust_width = $maximum_width;
-				$adjust_height = $height * $adjust_width / $width;
+				$adjust_height = round($height * $adjust_width / $width);
 			}
 
 		}
