@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-10 10:56+0100\n"
-"PO-Revision-Date: 2022-07-01 16:55+0200\n"
+"PO-Revision-Date: 2023-03-30 14:04+0200\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
 "Language: en_GB\n"
@@ -641,7 +641,7 @@ msgstr "Previous"
 
 #: files/file.php:71
 msgid "Next"
-msgstr ""
+msgstr "Next"
 
 #: files/file.php:75
 #, php-format

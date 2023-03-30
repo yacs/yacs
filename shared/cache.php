@@ -584,7 +584,12 @@ Class Cache {
 	}
 }
 
-// the global interface to memcached.
+// the global interface to memcache(d).
 // Could be used by any script of your own
 global $ram;
-$ram = Cache::ram_init();
+global $context;
+$cachesystem = $context->gs('cache_system','DB');
+if($cachesystem == 'RAM')
+    $ram = Cache::ram_init();
+else 
+    $ram = NULL;

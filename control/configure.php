@@ -407,6 +407,18 @@ if(!Surfer::is_associate()) {
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Compute all page elements.');
 	$fields[] = array($label, $input);
+        
+        // cache system
+        $label = i18n::s('Cache system to be used');
+	$input = '<input type="radio" name="cache_system" value="DB"';
+	if(!isset($context['cache_system']) || ($context['cache_system'] == 'DB'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Cache using database (default).');
+	$input .= BR.'<input type="radio" name="cache_system" value="RAM"';
+	if(isset($context['cache_system']) && ($context['cache_system'] == 'RAM'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Cache using RAM (memcache must be provided by host).');
+	$fields[] = array($label, $input);
 
 	// with_cron
 	$label = i18n::s('Background processing');
@@ -895,6 +907,8 @@ if(!Surfer::is_associate()) {
 		$content .= '$context[\'with_https\']=\''.addcslashes($_REQUEST['with_https'], "\\'")."';\n";
 	if(isset($_REQUEST['without_cache']))
 		$content .= '$context[\'without_cache\']=\''.addcslashes($_REQUEST['without_cache'], "\\'")."';\n";
+        if(isset($_REQUEST['cache_system']))
+		$content .= '$context[\'cache_system\']=\''.addcslashes($_REQUEST['cache_system'], "\\'")."';\n";
 	if(isset($_REQUEST['without_http_cache']))
 		$content .= '$context[\'without_http_cache\']=\''.addcslashes($_REQUEST['without_http_cache'], "\\'")."';\n";
         if(isset($_REQUEST['time_zone'])) {
