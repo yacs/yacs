@@ -137,7 +137,7 @@ Class jplayer {
         
         // sanity check
         if(!$variant) {
-            logger::error(sprintf(i18n::s('File %s cannot be taken in charge by jplayer'), $media));
+            logger::error(sprintf(i18n::s('File %s cannot be taken in charge by jplayer'), $media['url']));
             return;
         }
         

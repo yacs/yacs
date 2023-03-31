@@ -1789,7 +1789,7 @@ Class Files {
                         if(isset($item['file_href']) && $item['file_href'])
                                 $mp3_url = $item['file_href'];
                         else
-                                $mp3_url = $context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
+                                $mp3_url = $context['url_to_master'].$context['url_to_root'].Files::get_url($item['id'], 'direct', $item['file_name']);
 
                         // combine the two in a single object
                         $output = jplayer::play($mp3_url);
@@ -1814,7 +1814,7 @@ Class Files {
 
 			// prevent leeching (the flv player will provide session cookie, etc)
 			else
-				$url = $context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
+				$url = $context['url_to_master'].$context['url_to_root'].Files::get_url($item['id'], 'direct', $item['file_name']);
 
 
                         $output = jplayer::play($url);
