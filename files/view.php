@@ -294,62 +294,6 @@ if(!isset($item['id'])) {
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_prefix();
 
-	// if we have a local file
-	if(!isset($item['file_href']) || !$item['file_href']) {
-
-		// where the file is
-		$path = $context['path_to_root'].Files::get_path($item['anchor']).'/'.rawurlencode(utf8::to_ascii($item['file_name']));
-
-		//load some file parser if one is available
-		$analyzer = NULL;
-		if(is_readable($context['path_to_root'].'included/getid3/getid3.php')) {
-			include_once $context['path_to_root'].'included/getid3/getid3.php';
-			$analyzer = new getid3();
-		}
-
-		// parse file content, and streamline information
-		$data = array();
-		if(is_object($analyzer) && Files::is_stream($item['file_name']) ) {
-			$data = $analyzer->analyze($path);
-			getid3_lib::CopyTagsToComments($data);
-		}
-
-		// details
-		$rows = array();
-
-		// artist
-		if($value = @implode(' & ', @$data['comments_html']['artist']))
-			$rows[] = array(i18n::s('Artist'), $value);
-
-		// title
-		if($value = @implode(', ', @$data['comments_html']['title']))
-			$rows[] = array(i18n::s('Title'), $value);
-
-		// genre
-		if($value = @implode(', ', @$data['comments_html']['genre']))
-			$rows[] = array(i18n::s('Genre'), $value);
-
-		// duration in minutes:seconds
-		if($value = @$data['playtime_string'])
-			$rows[] = array(i18n::s('Duration'), $value);
-
-		// audio bitrate
-		if($value = @$data['audio']['bitrate']) {
-
-			if(preg_match('/000$/', $value))
-				$value = substr($value, 0, -3).' kbps';
-			else
-				$value .= ' bps';
-
-			$rows[] = array(i18n::s('Bitrate'), $value);
-		}
-
-		// something to display
-		if(count($rows))
-			$context['text'] .= Skin::table(NULL, $rows);
-
-	}
-
 	//
 	// plugins
 	//
@@ -430,64 +374,12 @@ if(!isset($item['id'])) {
 		// the label
 		$label = fa::_("fa-play").' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
 
-		// where the file is
-//		$path = $context['url_to_home'].$context['url_to_root'].Files::get_path($item['anchor']).'/'.rawurlencode(utf8::to_ascii($item['file_name']));
-
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'
 			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'open', i18n::s('Start')).'</dt>'
 			.'<dd>'.$description.'</dd></dl><div class="bottom" >&nbsp;</div>'."\n";
 
 	}
-
-	//
-	// link to modify the file in-place
-	//
-
-//	// a MS-Word document
-//	if(preg_match('/\.doc$/i', $item['file_name'])) {
-
-//		// explain what in-place edition is
-//		$description .= '<p>'.i18n::s('This file can be modified directly over the web. If a recent version of Microsoft Word has been installed at your workstation, click on the link to launch it.).'</p>';
-
-//		// the label
-//		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
-//		$label = FILES_PLAY_IMG.' '.sprintf(i18n::s('Edit %s'), str_replace('_', ' ', $item['file_name']));
-
-//		// hovering the link
-//		$title = i18n::s('Start Microsoft Word');
-
-//		// webdav access to the file
-//		$path = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'author');
-
-//		$context['text'] .= JS_PREFIX
-//				.'// only for Windows users, sorry'."\n"
-//				.'if(window.ActiveXObject)'."\n"
-//				.'{'."\n"
-//				."\n"
-//			.'	function open_application(application_id, target_href)'."\n"
-//			.'	{'."\n"
-//			.'		var handle = new ActiveXObject(application_id);'."\n"
-//			.'		if(handle != null)'."\n"
-//			.'		{'."\n"
-//				.'			handle.Visible = true;'."\n"
-//				.'			handle.Documents.Open(target_href);'."\n"
-//			.'		}'."\n"
-//				.'	}'."\n"
-//				."\n"
-//				.'	function edit_in_word()'."\n"
-//				.'	{'."\n"
-//				.'		open_application(\'Word.Application\', \''.$path.'\');'."\n"
-//				.'	}'."\n"
-//				."\n"
-//			.'	// use a definition list to enable customization of the download box'."\n"
-//				.'	document.write(\'<dl class="download">\');'."\n"
-//				.'	document.write(\'<dt><a onclick="edit_in_word()" title="'.addcslashes($title, "'").'">'.addcslashes($label, "'").'</a></dt>\');'."\n"
-//				.'	document.write(\'<dd>'.addcslashes($description, "'").'</dd></dl>\');'."\n"
-//			.'}'."\n"
-//			.JS_SUFFIX."\n";
-
-//	}
 
 	//
 	// link to download the file
