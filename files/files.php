@@ -2561,6 +2561,12 @@ Class Files {
 			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
+                
+                // get former image if any
+                if(isset($fields['id']) && !$former = Files::get($fields['id'])) {
+                        Logger::error(i18n::s('No item has the provided id.'));
+                        return FALSE;
+                }
 
 		// protect from hackers
 		if(isset($fields['icon_url']))
@@ -2693,6 +2699,11 @@ Class Files {
 			Logger::error(i18n::s('Nothing has been received. Ensure you are below size limits set for this server.'));
 			return FALSE;
 		}
+                
+                if(isset($fields['keywords'])) {
+                    // assign the image to related categories, but not archiving categories
+                    Categories::remember('file:'.$fields['id'], NULL_DATE, $fields['keywords'], isset($former['keywords'])? $former['keywords'] : '' );
+                }
 
 		// clear the cache for files
 		Files::clear($fields);

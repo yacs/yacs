@@ -571,16 +571,17 @@ if(!isset($item['id'])) {
 		$box = array('bar' => array(), 'text' => '');
 
 		// count the number of files in this category
-		if($count = Files::count_for_anchor('category:'.$item['id'])) {
+		if($count = Members::list_files_for_anchor('category:'.$item['id'], null, null, null, 'count')) {
 			if($count > 20)
 				$box['bar'] = array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
 			// list files by date (default) or by title (option 'files_by_title')
+                        $order  = $this_cat->has_option('files_by');
+                        if(!$order) $order = "edit_date";
 			$offset = ($zoom_index - 1) * FILES_PER_PAGE;
-			if(isset($item['options']) && preg_match('/\bfiles_by_title\b/i', $item['options']))
-				$items = Files::list_by_title_for_anchor('category:'.$item['id'], $offset, FILES_PER_PAGE, 'category:'.$item['id']);
-			else
-				$items = Files::list_by_date_for_anchor('category:'.$item['id'], $offset, FILES_PER_PAGE, 'category:'.$item['id']);
+                        
+                        $items  = Members::list_files_for_anchor('category:'.$item['id'], $offset, FILES_PER_PAGE, $order);
+                        
 			if(is_array($items))
 				$box['text'] .= Skin::build_list($items, 'decorated');
                         else
@@ -591,12 +592,6 @@ if(!isset($item['id'])) {
 			$prefix = Categories::get_url($item['id'], 'navigate', 'files');
 			$box['bar'] = array_merge($box['bar'],
 				Skin::navigate($home, $prefix, $count, FILES_PER_PAGE, $zoom_index));
-		}
-
-		// the command to post a new file
-		$url = 'files/edit.php?anchor='.urlencode('category:'.$item['id']);
-		if(Files::allow_creation($item, $anchor, 'category')) {
-			$box['bar'] += array( $url => fa::_("upload").' '.i18n::s('Add a file') );
 		}
 
 		// actually render the html for the section

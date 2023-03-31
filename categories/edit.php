@@ -283,8 +283,6 @@ if(Surfer::is_crawler()) {
 		$menu = array_merge($menu, array($category->get_url() => i18n::s('View the category')));
 		if(Surfer::may_upload())
 			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('category:'.$_REQUEST['id']) => i18n::s('Add an image')));
-		if(preg_match('/\bwith_files\b/i', $category->item['options']) && Surfer::may_upload())
-			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('category:'.$_REQUEST['id']) => i18n::s('Add a file')));
 		if(!preg_match('/\bno_links\b/i', $category->item['options']))
 			$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode('category:'.$_REQUEST['id']) => i18n::s('Add a link')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
@@ -651,7 +649,6 @@ if($with_form) {
 	$keywords = array();
 	$keywords[] = '<a>articles_by_title</a> - '.i18n::s('Sort pages by title');
 	$keywords[] = '<a>articles_by_rating</a> - '.i18n::s('Sort pages by rating sum');
-	$keywords[] = '<a>with_files</a> - '.i18n::s('Files can be added to the index page');
 	$keywords[] = '<a>files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
 	$keywords[] = '<a>with_links</a> - '.i18n::s('Links can be added to the index page');
 	$keywords[] = '<a>links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');

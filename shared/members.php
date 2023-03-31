@@ -978,6 +978,45 @@ Class Members {
 	}
         
         /**
+         * list files tagged with a given category (=keyword)
+         * note : this does not list files *added* to the category
+         * 
+         * use "count" value as $variant to get only the number of images
+         * 
+         * @param string $anchor the category
+         * @param int $offset the file to start
+         * @param int $count the number of files
+         * @param string $order the column to sort with. You can add DESC
+         * @param mixed $variant, name of a layout or instance of it
+         * @return NULL on error, else list of files, or number of files
+         */
+        public static function list_files_for_anchor($anchor, $offset=0, $count=50, $order='', $variant='decorated') {
+            
+            
+            $query = ($variant === 'count')?'SELECT COUNT(files.id) as count':'SELECT files.*';
+            
+            $query .= " FROM ".SQL::table_name('files').' AS files INNER JOIN '
+                  .SQL::table_name('members')." AS members"
+                  ." ON files.id = members.member_id"
+                  ." WHERE members.anchor='".SQL::escape($anchor)."'"
+                  ." AND members.member_type = 'file'";
+            
+            if($variant !== 'count') {
+                  if(!$order) $order = 'edit_date DESC';
+                  $query .= " ORDER BY files.".SQL::escape($order)
+                        ." LIMIT ".$offset.','.$count;
+                  
+                  $output = Files::list_selected(SQL::query($query), $variant);
+            } else {
+                  $result = SQL::query_first($query);
+                  return $result['count'];
+            }
+            
+            $output = Files::list_selected(SQL::query($query), $variant);
+            return $output;
+        }
+        
+        /**
          * list images tagged with a given category (=keyword)
          * note : this does not list images *added* to the category
          * 
