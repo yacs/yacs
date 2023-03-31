@@ -297,71 +297,15 @@ if(!isset($item['id'])) {
 	//
 	// plugins
 	//
-	$description = '';
 
 	// offer audio streaming, where applicable
-	if(Files::is_audio_stream($item['file_name'])) {
+	if(Files::is_audio_stream($item['file_name']) || Files::is_video_stream($item['file_name'])) {
 
 		// explain what streaming is about
-		$description .= '<p>'.i18n::s('This file may be accessed on-demand.').'</p>';
+		$context['text'] .= '<p>'.i18n::s('This is a multimedia file').'</p>';
 
-		// the label
-		$label = fa::_("fa-play").' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
-
-		// use a definition list to enable customization of the download box
-		$context['text'] .= '<dl class="download">'
-			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'basic', i18n::s('Start')).'</dt>'
-			.'<dd>'.$description.'</dd></dl><div class="bottom" >&nbsp;</div>'."\n";
-
-	}
-
-	// offer video streaming, where applicable
-	if(Files::is_video_stream($item['file_name'])) {
-
-		include_once $context['path_to_root'].'codes/code_embed.php';
-
-		// embed the player for streamed video files
-		if(!$description = Code_embed::render_embed($item['id']))
-
-			// explain what streaming is about
-			$description .= '<p>'.i18n::s('This file may be accessed on-demand.').'</p>';
-
-		// the label
-		$label = fa::_("fa-play").' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
-
-		// use a definition list to enable customization of the download box
-		$context['text'] .= '<dl class="download">'
-			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'basic', i18n::s('Start')).'</dt>'
-			.'<dd>'.$description.'</dd></dl><div class="bottom" >&nbsp;</div>'."\n";
-
-	}
-
-	// view a GanttProject file interactively
-	if(preg_match('/\.gan$/i', $item['file_name'])) {
-
-		// the label
-		$label = fa::_("fa-play").' '.sprintf(i18n::s('Browse %s'), str_replace('_', ' ', $item['file_name']));
-
-		// use a definition list to enable customization of the download box
-		$context['text'] .= '<dl class="download">'
-			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'open', i18n::s('Start')).'</dt>'
-			.'</dl><div class="bottom" >&nbsp;</div>'."\n";
-
-	}
-
-	// if a viewer exists, use it to display a freemind map
-	if(preg_match('/\.mm$/i', $item['file_name']) && file_exists($context['path_to_root'].'included/browser/visorFreemind.swf')) {
-
-		// explain what a Freemind file is
-		$description .= '<p>'.i18n::s('This file allows for interactions over the web. Click on the link if some Flash player has been installed.').'</p>';
-
-		// the label
-		$label = fa::_("fa-play").' '.sprintf(i18n::s('Browse %s'), str_replace('_', ' ', $item['file_name']));
-
-		// use a definition list to enable customization of the download box
-		$context['text'] .= '<dl class="download">'
-			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'open', i18n::s('Start')).'</dt>'
-			.'<dd>'.$description.'</dd></dl><div class="bottom" >&nbsp;</div>'."\n";
+                // display a player for it
+                $context['text'] .= Codes::render_object('file',$item['id']).BR;
 
 	}
 
