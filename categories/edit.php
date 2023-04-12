@@ -220,6 +220,11 @@ if(Surfer::is_crawler()) {
 		// touch the related anchor
 		if(is_object($anchor))
 			$anchor->touch('category:update', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y') );
+                
+                // cascade changes on keywords
+                if($_REQUEST['keywords'] != $item['keywords']) {
+                    Categories::keywords_change($item['id'], $item['keywords'], $_REQUEST['keywords']);
+                }
 
 		// clear cache
 		Categories::clear($_REQUEST);
@@ -318,6 +323,12 @@ if($with_form) {
 	$label = i18n::s('Title').' *';
 	$input = '<textarea name="title" id="title" rows="2" cols="50" accesskey="t">'.encode_field(isset($item['title'])?$item['title']:'').'</textarea>';
 	$hint = i18n::s('Please provide a meaningful title.');
+	$fields[] = array($label, $input, $hint);
+        
+        // the keywords
+	$label = i18n::s('Keyword');
+	$input = '<input type="text" name="keywords" size="32" value="'.encode_field(isset($item['keywords'])?$item['keywords']:'').'" maxlength="255" />';
+	$hint = i18n::s('To relate this category to some search pattern');
 	$fields[] = array($label, $input, $hint);
 
 	// the introduction
@@ -634,12 +645,6 @@ if($with_form) {
 	$label = i18n::s('Nick name');
 	$input = '<input type="text" name="nick_name" size="32" value="'.encode_field(isset($item['nick_name'])?$item['nick_name']:'').'" maxlength="64" accesskey="n" />';
 	$hint = i18n::s('To designate a category by name');
-	$fields[] = array($label, $input, $hint);
-
-	// the keywords
-	$label = i18n::s('Keyword');
-	$input = '<input type="text" name="keywords" size="32" value="'.encode_field(isset($item['keywords'])?$item['keywords']:'').'" maxlength="255" />';
-	$hint = i18n::s('To relate this category to some search pattern');
 	$fields[] = array($label, $input, $hint);
 
 	// rendering options

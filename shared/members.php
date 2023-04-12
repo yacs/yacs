@@ -464,7 +464,6 @@ Class Members {
 	 * @return an array of members anchors
 	 */
 	public static function list_anchors_for_member($member, $offset=0, $count=500) {
-		global $context;
 
 		// we return an array
 		$anchors = array();
@@ -489,10 +488,11 @@ Class Members {
 			return $anchors;
 
 		// build an array of ids
-		while($row = SQL::fetch($result))
+		while($row = SQL::fetch($result)) {
 			$anchors[] = $row['anchor'];
+                }
 
-		// return the list of ids linked to this member
+		// return the list of references linked to this member
 		return $anchors;
 	}
 
@@ -1053,6 +1053,32 @@ Class Members {
             
             $output = Images::list_selected(SQL::query($query), $variant);
             return $output;
+        }
+        
+        /** 
+         * 
+         */
+        public static function list_members_for_anchor($anchor, $offset=0, $count=500) {
+            
+                // we return an array
+		$members = array();
+                
+                $where = "(anchor LIKE '".SQL::escape($anchor)."')";
+                
+                $query = "SELECT DISTINCT member FROM ".SQL::table_name('members')
+			." WHERE ".$where
+			." LIMIT ".$offset.','.$count;
+                
+                if(!$result = SQL::query($query))
+			return $members;
+                
+                // build an array of ids
+		while($row = SQL::fetch($result)) {
+			$members[] = $row['member'];
+                }
+
+		// return the list of references linked to this anchor
+		return $members;
         }
 
 	/**
@@ -1643,7 +1669,6 @@ Class Members {
 	 * @param string the suppressed reference
 	 */
 	public static function unlink_for_reference($reference) {
-		global $context;
 
 		// delete all uses of this reference
 		$query = "DELETE FROM ".SQL::table_name('members')
@@ -1653,4 +1678,3 @@ Class Members {
 	}
 
 }
-?>

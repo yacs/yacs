@@ -183,7 +183,7 @@ Class Categories {
 		Cache::clear($topics);
 
 	}
-
+        
 	/**
 	 * delete one category
 	 *
@@ -196,9 +196,12 @@ Class Categories {
 		// id cannot be empty
 		if(!$id || !is_numeric($id))
 			return FALSE;
+                
+                // clean tags in categorized entity
+                Categories::keywords_change($id);
 
 		// delete related items
-		Anchors::delete_related_to('category:'.$id);
+		Anchors::delete_related_to('category:'.$id); 
 
 		// delete the record in the database
 		$query = "DELETE FROM ".SQL::table_name('categories')." WHERE id = ".SQL::escape($id);
@@ -357,7 +360,7 @@ Class Categories {
 		global $context;
 
 		// ensure proper utf8 encoding
-		$keyword = utf8::encode($keyword);
+		$keyword = strtolower(utf8::encode($keyword));
 
 		// select among available items
 		$query = "SELECT * FROM ".SQL::table_name('categories')." AS categories"
@@ -764,6 +767,71 @@ Class Categories {
             return $target->set_values(array('tags' => $tags));
             
         }
+        
+        /**
+         * Propagate changes in keywwords (tags)
+         * over members of this category
+         * 
+         * if no $former and $newer is provided
+         * it will erase category current keywords
+         * over members, @see category::delete() 
+         * 
+         * @param int $id
+         * @param mixed $former
+         * @param mixed $newer
+         */
+        public static function keywords_change($id, $former=null, $newer=array()) {
+            
+            $cat = Categories::get($id);
+            // sanity check
+            if (!$cat) return;
+                       
+            // get linked entities
+            $members = Members::list_members_for_anchor("category:$id", 0, 10000);
+            
+            // no members, no job to do
+            if(!count($members)) 
+                return;
+            
+            if(is_null($former)) {
+                $former = $cat['keywords'];
+            }
+            
+            if(!is_array($former)) {
+                $former = preg_split('/[ \t]*,\s*/', $former);
+            }
+            
+            if(!is_array($newer)) {
+                $newer = preg_split('/[ \t]*,\s*/', $newer);
+            }
+            
+            // make $former and $newer arrays of same size
+            $adjust = array_replace(array_fill(0, count($former),''), $newer);
+            if(count($adjust) > count($former)) {
+                // take only beginning, assume end contains unexisting tags until now
+                $adjust = array_slice($adjust, 0, count($former));
+            }
+            
+            // combine it to use as an array of old=>new values
+            $combine = array_combine($former, $adjust);
+            
+            // remove entries with old == new
+            $refine  = array_filter($combine, function($v, $k){
+                return !($k == $v);
+            }, ARRAY_FILTER_USE_BOTH);
+            
+            // nothing to do
+            if(!count($refine)) return;
+            
+            // change tags for each member
+            foreach($members as $member) {
+                
+                $entity = Anchors::get($member, TRUE, FALSE);
+
+                $entity->update_tags($refine);
+            }
+            
+        }
 
 	/**
 	 * list most recent categories
@@ -1139,15 +1207,15 @@ Class Categories {
                     $more = '';
 
 		// select among available items
-		$query = "SELECT keywords, introduction FROM ".SQL::table_name('categories')." AS categories"
-			." WHERE categories.keywords LIKE '".SQL::escape($prefix)."%'"
+		$query = "SELECT keywords FROM ".SQL::table_name('categories')." AS categories"
+			." WHERE categories.keywords RLIKE '[[:<:]]".SQL::escape($prefix).".*[[:>:]]'"
                         .$more
 			." ORDER BY keywords LIMIT 100";
 		$result = SQL::query($query);
-
+                
 		// populate the returned array
 		while($row = SQL::fetch($result))
-			$output[ $row['keywords'] ] = $row['introduction'];
+			$output[] = $row['keywords'];
 
 		// return by reference
 		return $output;
@@ -1891,7 +1959,7 @@ Class Categories {
 				if(!$category = Categories::get_by_keyword($title)) {
 					$fields = array();
 					$fields['title'] = ucfirst($title);
-					$fields['keywords'] = $title;
+					$fields['keywords'] = strtolower($title);
 					if($root_category)
 						$fields['anchor'] = $root_category;
 					if($fields['id'] = Categories::post($fields)) {

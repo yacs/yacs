@@ -40,7 +40,7 @@ if(!isset($_REQUEST['term']) || !$_REQUEST['term']) {
 }
 
 // just for sanity
-$_REQUEST['term'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['term']);
+$term = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['term']);
 
 // may focus tag under a mothercat
 $mothercat = NULL;
@@ -51,17 +51,30 @@ if(isset($_REQUEST['cat']))
 $output = '';
 
 // look for matching items
-$items = Categories::list_keywords($_REQUEST['term'], $mothercat);
+$items = Categories::list_keywords($term, $mothercat);
 
 // build an unordered list
 if(count($items)) {
 	$output .= '[';
 	$i = 0;
-	foreach($items as $label => $more) {
+	foreach($items as $label) {
 		if ($i > 0)
 		  $output .= ',';
 		$i++;
-		$output .= '"'.$label.'"';
+                
+                // label may contain comma
+                $strings    = preg_split('/[ \t]*,\s*/', $label);
+                
+                // prune entries that does not fit with term
+                $refine     = array_filter($strings, function($k) use ($term) { 
+                    return (strcmp($term, substr($k, 0, strlen($term))) === 0);
+                    
+                });
+                
+                // double quote every words
+                $chain      = '"'.implode('","',$refine).'"';
+		
+                $output .= $chain;
 	}
 
 	$output .= ']';
@@ -79,5 +92,3 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
 
 // the post-processing hook, then exit
 finalize_page(TRUE);
-
-?>

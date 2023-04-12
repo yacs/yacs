@@ -1638,6 +1638,48 @@ abstract class Anchor {
 	 */
 	function transcode($transcoded) {
 	}
+        
+        /**
+         * update tags (or keywords) field.
+         * As parameter, provide key/value as oldtag/newtag
+         * if newtag = '', then the tag will be removed
+         * 
+         * @param array $tags [old1 => new1, old2 => new2, ... ]
+         * @param string $new
+         */
+        final function update_tags($tags) {
+            
+            // check if tags or keywords fields exist
+            $field = (isset($this->item['tags']))? 'tags' 
+                    : ( (isset($this->item['keywords']))? 'keywords' 
+                        : FALSE) ;
+
+            // no accurate field
+            if($field === FALSE) return FALSE;
+
+            // current tags as array
+            $current = preg_split('/[ \t]*,\s*/',$this->item[$field]);
+            
+            $tochange   = array_keys($tags);
+            $indexes    = array_keys(array_intersect($current, $tochange));
+            
+            // nothing to do
+            if(!count($indexes)) return FALSE;
+            
+            // make changes
+            foreach($indexes as $i) {
+                
+                $current[$i] = $tags[$current[$i]];
+            }
+            
+            // remove empty cells
+            $new = array_filter($current);
+            
+            // list as comma separated
+            $replace = (count($new))? implode(', ', $new) : '';
+            // update this
+            return $this->set_values([$field => $replace]);
+            
+        }
 
 }
-?>

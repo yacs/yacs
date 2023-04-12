@@ -388,12 +388,19 @@ if(!isset($item['id'])) {
 	//
 	$text = '';
 
+        
+        // display keywords with "#" as prefix for each 
+        if($item['keywords'] !== '') {
+            $context['text'] .= tag::_p(preg_replace('/([A-Za-zÀ-ÿ]+)/','#$1', $item['keywords']),'details keywords');
+        }
+        
+        // insert anchor prefix
+        if(is_object($anchor))
+                $context['text'] .= $anchor->get_prefix();
+        
 	// display very few things if we are on a follow-up page
 	if($zoom_type) {
 
-		// insert anchor prefix
-		if(is_object($anchor))
-			$context['text'] .= $anchor->get_prefix();
 
 		if($item['introduction'])
 			$context['text'] .= Codes::beautify($item['introduction'])."<p> </p>\n";
@@ -402,10 +409,6 @@ if(!isset($item['id'])) {
 
 	// else expose full details
 	} else {
-
-		// insert anchor prefix
-		if(is_object($anchor))
-			$text .= $anchor->get_prefix();
 
 		// the introduction text, if any
 		$text .= Skin::build_block($item['introduction'], 'introduction');
@@ -500,7 +503,7 @@ if(!isset($item['id'])) {
 
 		// count the number of articles in this category
 		$count = Members::count_articles_for_anchor('category:'.$item['id'], $this_cat->get_listed_lang());
-		if($count)
+                if($count)
 			$box['bar'] = array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count));
 
 		// navigation commands for articles

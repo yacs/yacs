@@ -3386,8 +3386,8 @@ Class Skin_Skeleton {
 
 				} else // do not show the tag for this category
 					$text .= '';
-			} else
-				$text .= $tag.' ';
+			}
+				
 		}
 		$text = rtrim($text, ' ');
 
