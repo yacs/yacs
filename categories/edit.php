@@ -549,28 +549,39 @@ if($with_form) {
 	$hint = i18n::s('Remove content on dead-line - automatically');
 	$fields[] = array($label, $input, $hint);
 
-	// the parent category
-	if(Surfer::is_associate() && (!isset($item['nick_name']) || !preg_match('/^(week|month)/', $item['nick_name']))) {
-		$label = i18n::s('Parent category');
-		$to_avoid = NULL;
-		if(isset($item['id']))
-			$to_avoid = 'category:'.$item['id'];
-		$to_select = NULL;
-		if(isset($item['anchor']))
-			$to_select = $item['anchor'];
-		elseif(isset($_REQUEST['anchor']))
-			$to_select = $_REQUEST['anchor'];
-		$input = '<select name="anchor">'.Categories::get_options($to_avoid, $to_select).'</select>';
-		$hint = i18n::s('Please carefully select a parent category.');
-		$fields[] = array($label, $input, $hint);
+        // preparations to move category for associates
+        if($allow_move = Surfer::is_associate()) {
+            $to_avoid           = NULL;
+            if(isset($item['id']))
+                $to_avoid = 'category:'.$item['id'];
+            $to_select          = NULL;
+            if(isset($item['anchor']))
+                    $to_select  = $item['anchor'];
+            elseif(isset($_REQUEST['anchor']))
+                    $to_select  = $_REQUEST['anchor'];
+
+            if(isset($item['nick_name']) && preg_match('/^(week|month|keywords)/', $item['nick_name']))
+                    $allow_move = FALSE;
+
+            if(($keywords_category = Categories::lookup('keywords')) && ($keywords_category === $to_select))
+                    $allow_move = FALSE;
+        }
+        
+	// choose the parent category
+	if($allow_move) {
+		$label      = i18n::s('Parent category');
+		
+		$input      = '<select name="anchor">'.Categories::get_options($to_avoid, $to_select).'</select>';
+		$hint       = i18n::s('Please carefully select a parent category.');
+		$fields[]   = array($label, $input, $hint);
 	} elseif(is_object($anchor))
 		$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 
 	// the thumbnail url may be set after the page has been created
 	if(isset($item['id'])) {
-		$label = i18n::s('Thumbnail');
-		$input = '';
-		$hint = '';
+		$label      = i18n::s('Thumbnail');
+		$input      = '';
+		$hint       = '';
 
 		// show the current thumbnail
 		$input = '';

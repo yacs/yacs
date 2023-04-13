@@ -556,7 +556,6 @@ Class Categories {
 	 * @return the HTML to insert in the page
 	 */
 	public static function get_options($to_avoid=NULL, $to_select=NULL) {
-		global $context;
 
 		// return the final result
 		$content = Categories::get_options_for_anchor(null, $to_avoid, $to_select);
