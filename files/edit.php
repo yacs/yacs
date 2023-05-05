@@ -694,7 +694,7 @@ if($with_form) {
 
 	// keywords
 	$label = i18n::s('Keywords');
-	$input = '<input type="text" name="keywords" size="45" value="'.encode_field(isset($item['keywords'])?$item['keywords']:'').'" maxlength="255" accesskey="o" />';
+	$input = '<input type="text" id="keywords" name="keywords" size="45" value="'.encode_field(isset($item['keywords'])?$item['keywords']:'').'" maxlength="255" accesskey="o" />';
 	$hint = i18n::s('As this field may be searched by surfers, please choose adequate searchable words');
 	$fields[] = array($label, $input, $hint);
 
@@ -760,12 +760,18 @@ if($with_form) {
 	// end of the form
 	$context['text'] .= '</div></form>';
 
+        
+        $js_script = '$(function() {'
+                        . '$("#upload").focus();'
+                        . 'Yacs.autocomplete_m("keywords", "'.$context['url_to_root'].'categories/complete.php");'
+                     .'});';
+        
+        
+        
 	// the script used for form handling at the browser
-	Page::insert_script('$("#upload").focus();');
+	Page::insert_script($js_script);
 
 }
 
 // render the skin
 render_skin();
-
-?>
