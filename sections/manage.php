@@ -107,7 +107,8 @@ elseif(isset($_REQUEST['act_on_sections']) && ($_REQUEST['act_on_sections'][0] !
 	$action = $_REQUEST['act_on_sections'];
 elseif(isset($_REQUEST['action']) && $_REQUEST['action'])
 	$action = $_REQUEST['action'];
-$action = strip_tags($action);
+if($action)
+    $action = strip_tags($action);
 
 // only owners can proceed
 if(Sections::is_owned($item, $anchor) || Surfer::is_associate()) {
