@@ -467,7 +467,7 @@ abstract class Anchor {
 	 */
 	function get_focus() {
 		 // get the parent
-		if(!isset($this->anchor))
+		if(!isset($this->anchor) && isset($this->item['anchor']))
 			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// the parent level
