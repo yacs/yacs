@@ -58,7 +58,7 @@ if(!defined('FORBIDDEN_IN_URLS'))
 
 // options to utf8::to_ascii() for file names
 if(!defined('FILENAME_SAFE_ALPHABET'))
-	define('FILENAME_SAFE_ALPHABET', ' !"#$%&\'()*+,-.;<=>?@[]^_{|}~');
+	define('FILENAME_SAFE_ALPHABET', ' !"#$%&\'()*+,;<=>?@[]^_{|}~');
 
 // options to utf8::to_ascii() for printable chars
 if(!defined('PRINTABLE_SAFE_ALPHABET'))

@@ -82,8 +82,12 @@ if(isset($_FILES[$name]) && count($_FILES[$name])) {
         /*if($_FILES['SelectedFile']['size'] > Safe::get_cfg_var('upload_max_filesize')){
             outputJSON('File uploaded exceeds maximum upload size.');
         }*/
+        
+        // remove awkward charaters
+        $clean_name = preg_replace( '/['.preg_quote(FILENAME_SAFE_ALPHABET).']/', '_', $_FILES[$name]['name']);
+        logger::debug($clean_name, 'FILE');
 
-        $path = $context['path_to_root'].UPLOAD_PATH . $_FILES[$name]['name'];
+        $path = $context['path_to_root'].UPLOAD_PATH . $clean_name;
         
         // Check if the file exists, delete it if the case
         if(file_exists($path)){
@@ -101,6 +105,7 @@ if(isset($_FILES[$name]) && count($_FILES[$name])) {
 	
 	    // memorize info about uploaded file
 	    $_SESSION['last_uploaded'][$name]			= $_FILES[$name];
+            $_SESSION['last_uploaded'][$name]['name']           = $clean_name;
 	    $_SESSION['last_uploaded'][$name]['tmp_name']	= $path;
             // @see safe::is_uploaded_file()
 	    $_SESSION['last_uploaded']['pathes'][]		= $path;
