@@ -115,7 +115,7 @@ Class Js_Css {
         $knacss        = (defined('NO_KNACSS') && NO_KNACSS == true)? false : Safe::filemtime($context['path_to_root'].'included/knacss/knacss.scss');
         $yacss         = (defined('NO_YACSS') && NO_YACSS == true)? false : Safe::filemtime($context['path_to_root'].'skins/_reference/yacss.scss');
         // font awesome lib for a whole set of icons as a webfont
-        $fontawesome   = (defined('NO_FONTAWESOME') && NO_FONTAWESOME == true)? false : Safe::filemtime($context['path_to_root'].'included/font_awesome/scss/font-awesome.scss');
+        $fontawesome   = (defined('NO_FONTAWESOME') && NO_FONTAWESOME == true)? false : Safe::filemtime($context['path_to_root'].'included/font_awesome/scss/fontawesome.scss');
         
         
         // check existence of <skin>.scss or <skin>.css
@@ -154,7 +154,8 @@ Class Js_Css {
             $import = '';
             if($tune)           $import .= '@import "tune.scss";';
             if($knacss)         $import .= '@import "knacss.scss";';
-            if($fontawesome)    $import .= '@import "font-awesome.scss";';
+            if($fontawesome)    $import .= '@import "fontawesome.scss";';
+            if($fontawesome)    $import .= '@import "solid.scss";';             // fontawesome solid icon set
             if($yacss)          $import .= '@import "variables.scss";';
             if($yacss)          $import .= '@import "yacss.scss";';
  
