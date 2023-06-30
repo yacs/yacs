@@ -85,7 +85,6 @@ if(isset($_FILES[$name]) && count($_FILES[$name])) {
         
         // remove awkward charaters
         $clean_name = preg_replace( '/['.preg_quote(FILENAME_SAFE_ALPHABET).']/', '_', $_FILES[$name]['name']);
-        logger::debug($clean_name, 'FILE');
 
         $path = $context['path_to_root'].UPLOAD_PATH . $clean_name;
         
