@@ -194,7 +194,7 @@ a:hover {color:darken($color-link,10%);cursor:pointer;}
             font-size : $font-size-nav;
             min-height : 38px;  // finger touch friendly
             margin-bottom : 1px; // separation with siblings
-            color:$color-nav-link;
+            @include x-readable-text-color($color-nav-tabs);
             background-color: $color-nav-tabs;
             // transition form current focus
             transition: background-color 500ms ease-in;
@@ -205,8 +205,9 @@ a:hover {color:darken($color-link,10%);cursor:pointer;}
 
             // emphatize current focus
             &.current {
-                background-color:$color-nav-cur-bckg;
-                color: $color-nav-cur-link;
+                background-color: $color-nav-cur-bckg;
+                // color: $color-nav-cur-link;
+                @include x-readable-text-color($color-nav-cur-bckg);
             }
         }
     }
@@ -287,7 +288,7 @@ a:hover {color:darken($color-link,10%);cursor:pointer;}
         display : block;
         padding : .4em 1em;
         text-decoration : none;
-        color:$color-link;
+        @include x-readable-text-color($color-tabs);
         background-color: $color-tabs;
 
         height:38px;
@@ -298,8 +299,8 @@ a:hover {color:darken($color-link,10%);cursor:pointer;}
     }
 
     .#{$yacs-namespace}tab-foreground {
-        background-color:$color-link;
-        color: #FFF;
+        background-color: currentcolor;
+        color: $color-tabs;
         opacity:1;
     }
 }

@@ -24,12 +24,12 @@ $color-tabs-borders       : #c0c0c0 !default;
 $color-tabs               : ghostwhite !default;
 
 // navigation tabs (top menu)
-$color-nav-tabs           : lightyellow !default;                   // back of a tabs
+$color-nav-tabs           : $color-link !default;                   // back of a tabs
 $color-nav-back           : rgba(255,255,255,0.6) !default;         // back of whole tabs
 $font-size-nav            : 1.3em !default;                         // size of text in tabs
 $color-nav-link           : $color-link !default;                   // color of text in tabs
 $color-nav-cur-link       : $color-nav-back !default;               // color of text for current tab
-$color-nav-cur-bckg       : $color-nav-link !default;               // back of current tab
+$color-nav-cur-bckg       : darken($color-nav-tabs, 10%) !default;   // back of current tab
 $border-nav-bottom        : 1px solid $color-tabs-borders !default; // border bottom of <li> element in tab
 
 // buttons
