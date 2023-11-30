@@ -135,7 +135,7 @@ $context->sif('robots','noindex');
 $context['path_bar'] = array( 'users/' => i18n::s('People') );
 
 // the title of the page
-if($item['nick_name'])
+if(!empty($item['nick_name']))
 	$context['page_title'] = sprintf(i18n::s('Edit: %s'), $item['nick_name']);
 elseif(Surfer::is_associate())
 	$context['page_title'] = i18n::s('Add a user');
@@ -189,7 +189,7 @@ if(Surfer::is_crawler()) {
 	}
 
 	// update an existing record
-	if($item['id']) {
+	if(!empty($item['id'])) {
 
 		// associates will always stay associates in demo mode
 		if(isset($item['capability']) && ($item['capability'] == 'A') && file_exists($context['path_to_root'].'parameters/demo.flag'))
@@ -230,7 +230,7 @@ if(Surfer::is_crawler()) {
 		}
 
 		// passwords have to be confirmed
-		if($item['confirm'] && ($item['confirm'] != $item['password'])) {
+		if(!empty($item['confirm']) && ($item['confirm'] !== $item['password'])) {
 			Logger::error(i18n::s('Please confirm your password.'));
 			$item = $_REQUEST;
 			$with_form = TRUE;
