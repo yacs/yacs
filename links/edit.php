@@ -190,7 +190,7 @@ else
 	$context['path_bar'] = array( 'links/' => i18n::s('Links') );
 
 // the title of the page
-if($item['id'])
+if(!empty($item['id']))
 	$context['page_title'] = i18n::s('Edit a link');
 else
 	$context['page_title'] = i18n::s('Add a link');
@@ -383,7 +383,7 @@ if($with_form) {
 		$fields[] = array($label, $input, $hint);
 
 	// allow for section change
-	} elseif($item['id'] && preg_match('/section:/', $current = $anchor->get_reference())) {
+	} elseif(!empty($item['id']) && preg_match('/section:/', $current = $anchor->get_reference())) {
 
 		$label = i18n::s('Section');
 		$input = '<select name="anchor">'.Sections::get_options($current, NULL).'</select>';
