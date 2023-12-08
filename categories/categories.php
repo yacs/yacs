@@ -1953,6 +1953,9 @@ Class Categories {
 
 			// one category per tag
 			foreach($tocreate as $title) {
+                            
+                                // sanity check
+                                if(empty($title)) continue;                            
 
 				// create a category if tag is unknown
 				if(!$category = Categories::get_by_keyword($title)) {
