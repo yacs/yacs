@@ -1009,10 +1009,9 @@ Class Members {
                   $output = Files::list_selected(SQL::query($query), $variant);
             } else {
                   $result = SQL::query_first($query);
-                  return $result['count'];
+                  $output =  intval($result['count']);
             }
             
-            $output = Files::list_selected(SQL::query($query), $variant);
             return $output;
         }
         

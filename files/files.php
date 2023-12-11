@@ -662,7 +662,7 @@ Class Files {
 			." FROM ".SQL::table_name('files')." AS files"
 			." WHERE files.anchor LIKE '".SQL::escape($anchor)."' AND ".$where;
 
-		return SQL::query_scalar($query);
+		return Intval(SQL::query_scalar($query));
 	}
 
 	/**

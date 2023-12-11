@@ -573,8 +573,14 @@ if(!isset($item['id'])) {
 		// build a complete box
 		$box = array('bar' => array(), 'text' => '');
 
-		// count the number of files in this category
-		if($count = Members::list_files_for_anchor('category:'.$item['id'], null, null, null, 'count')) {
+		// count the number of files linked to this category
+                // or attached to this category
+                $count_m = $count = Members::list_files_for_anchor('category:'.$item['id'], null, null, null, 'count');
+                $count_a = Files::count_for_anchor('category:'.$item['id']);
+                $items_m = '';
+                $items_a = '';
+		if($count = $count_m + $count_a) {
+                        
 			if($count > 20)
 				$box['bar'] = array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
@@ -583,12 +589,22 @@ if(!isset($item['id'])) {
                         if(!$order) $order = "edit_date";
 			$offset = ($zoom_index - 1) * FILES_PER_PAGE;
                         
-                        $items  = Members::list_files_for_anchor('category:'.$item['id'], $offset, FILES_PER_PAGE, $order);
+                        if($count_m)
+                            $items_m = Members::list_files_for_anchor('category:'.$item['id'], $offset, FILES_PER_PAGE, $order);
+                        if($count_a && $order === 'title')
+                            $items_a = Files::list_by_title_for_anchor('category:'.$item['id'], $offset, FILES_PER_PAGE, 'category:'.$item['id']);
+                        if($count_a && $order === 'edit_date')
+                            $items_a = Files::list_by_date_for_anchor('category:'.$item['id'], $offset, FILES_PER_PAGE, 'category:'.$item['id']);
                         
-			if(is_array($items))
-				$box['text'] .= Skin::build_list($items, 'decorated');
+			if(is_array($items_m))
+				$box['text'] .= Skin::build_list($items_m, 'decorated');
                         else
-                                $box['text'] .= $items;
+                                $box['text'] .= $items_m;
+                        
+                        if(is_array($items_a))
+				$box['text'] .= Skin::build_list($items_a, 'decorated');
+                        else
+                                $box['text'] .= $items_a;
 
 			// navigation commands for files
 			$home = Categories::get_permalink($item);
