@@ -689,7 +689,7 @@ if(!isset($item['id'])) {
 
 	// notify participants
 	if(($cur_section->is_owned() || Surfer::is_associate()) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
-		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'mail'), fa::_("envelope-o").' '.i18n::s('Notify participants'));
+		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'mail'), fa::_("envelope").' '.i18n::s('Notify participants'));
 	}
 
 	// manage editors
@@ -1010,7 +1010,7 @@ if(!isset($item['id'])) {
 				if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command', 'article')))
 					;
 				else
-					$label = fa::_("plus-square-o").' '.i18n::s('Add a page');
+					$label = fa::_("plus-square").' '.i18n::s('Add a page');
 				$box['top_bar'] += array( $url => $label );
 
 			}
@@ -1385,7 +1385,7 @@ if(!isset($item['id'])) {
                                     $label = i18n::s('Add a section');
                                 }
                             
-				$box['top_bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => fa::_("folder-open-o").' '.$label);
+				$box['top_bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => fa::_("folder-open").' '.$label);
 			}
                         
                         // get sort order option
@@ -1494,7 +1494,7 @@ if(!isset($item['id'])) {
 			;
 		else
 			$label = i18n::s('Add a page');
-		$context['page_tools'][] = Skin::build_link($url, fa::_("plus-square-o").' '.$label, 'basic', i18n::s('Add new content to this section'));
+		$context['page_tools'][] = Skin::build_link($url, fa::_("plus-square").' '.$label, 'basic', i18n::s('Add new content to this section'));
 
 		// the command to create a new poll, if no overlay nor template has been defined for content of this section
 		if((!isset($item['content_overlay']) || !trim($item['content_overlay'])) && (!isset($item['articles_templates']) || !trim($item['articles_templates'])) && (!is_object($anchor) || !$anchor->get_templates_for('article'))) {
@@ -1524,8 +1524,8 @@ if(!isset($item['id'])) {
 
 	// add a file, if upload is allowed
 	if($cur_section->allows('creation','file')) {
-		$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("file-o").' '.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
-		$context['page_minitools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("file-o"), 'basic', i18n::s('Attach related files.'));
+		$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("file-alt").' '.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
+		$context['page_minitools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("file-alt"), 'basic', i18n::s('Attach related files.'));
 	}
 
 	// add a link
@@ -1535,12 +1535,12 @@ if(!isset($item['id'])) {
 
 	// comment this page if anchor does not prevent it
 	if($cur_section->allows('creation','comment')) {
-		$context['page_tools'][] = Skin::build_link(Comments::get_url('section:'.$item['id'], 'comment'), fa::_("commenting-o").' '.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
+		$context['page_tools'][] = Skin::build_link(Comments::get_url('section:'.$item['id'], 'comment'), fa::_("comment-dots").' '.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 	}
 
 	// add a section
 	if($cur_section->allows('creation','section')) {
-		$context['page_tools'][] = Skin::build_link('sections/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("folder-open-o").' '.i18n::s('Add a section'), 'basic', i18n::s('Add a section'));
+		$context['page_tools'][] = Skin::build_link('sections/edit.php?anchor='.urlencode('section:'.$item['id']), fa::_("folder-open").' '.i18n::s('Add a section'), 'basic', i18n::s('Add a section'));
 	}
 
 

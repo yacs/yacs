@@ -657,7 +657,7 @@ if(!isset($item['id'])) {
 
 	    // notify participants
 	    if(($cur_article->is_owned() || Surfer::is_associate()) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
-		    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'mail'), fa::_("envelope-o").' '.i18n::s('Notify participants'));
+		    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'mail'), fa::_("envelope").' '.i18n::s('Notify participants'));
 	    }
 
 	    // manage editors
@@ -678,10 +678,10 @@ if(!isset($item['id'])) {
 		    if(Surfer::is_member() || (isset($context['with_anonymous_export_tools']) && ($context['with_anonymous_export_tools'] == 'Y'))) {
 
 			    // get a PDF version
-			    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'fetch_as_pdf'), fa::_("file-pdf-o").' '.i18n::s('Save as PDF'), 'basic', i18n::s('Save as PDF'));
+			    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'fetch_as_pdf'), fa::_("file-pdf").' '.i18n::s('Save as PDF'), 'basic', i18n::s('Save as PDF'));
 
 			    // open in Word
-			    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'fetch_as_msword'), fa::_("file-word-o").' '.i18n::s('Copy in MS-Word'), 'basic', i18n::s('Copy in MS-Word'));
+			    $lines[] = Skin::build_link(Articles::get_url($item['id'], 'fetch_as_msword'), fa::_("file-word").' '.i18n::s('Copy in MS-Word'), 'basic', i18n::s('Copy in MS-Word'));
 
 		    }
 	    }
@@ -1217,7 +1217,7 @@ if(!isset($item['id'])) {
 
 	    // attach a file, if upload is allowed
 	    if($cur_article->allows('creation','file')) {
-		    $context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']),  fa::_("file-o").' '.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
+		    $context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']),  fa::_("file-alt").' '.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
 	    }
 
 	    // add a link
@@ -1227,7 +1227,7 @@ if(!isset($item['id'])) {
 
 	    // comment this page if anchor does not prevent it --anonymous surfers will have it in main area
 	    if($cur_article->allows('creation','comment') && Surfer::get_id()) {
-		    $context['page_tools'][] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), fa::_("commenting-o").' '.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
+		    $context['page_tools'][] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), fa::_("comment-dots").' '.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 	    }
 
 
@@ -1239,14 +1239,14 @@ if(!isset($item['id'])) {
 	    // publish this page
         if($cur_article->allows('publication')) {
              if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) {
-                     $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), fa::_("calendar-check-o").' '.i18n::s('Publish'));
-                     $context['page_minitools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), fa::_("calendar-check-o"));
+                     $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), fa::_("calendar-check").' '.i18n::s('Publish'));
+                     $context['page_minitools'][] = Skin::build_link(Articles::get_url($item['id'], 'publish'), fa::_("calendar-check"));
              }
          }
 
 	    // review various dates
 	    if($cur_article->allows('publication')) {
-		    $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'stamp'), fa::_("clock-o").' '.i18n::s('Stamp'));
+		    $context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'stamp'), fa::_("clock").' '.i18n::s('Stamp'));
 	    }
 
 	    // lock command provided to container and page owners

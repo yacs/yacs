@@ -325,7 +325,7 @@ if(!isset($item['id'])) {
 
 			// add a thread
 			$url = 'articles/edit.php';
-			$label = fa::_("plus-square-o").' '.i18n::s('Add a page');
+			$label = fa::_("plus-square").' '.i18n::s('Add a page');
 			$hover = i18n::s('Share something, ask a question, or more');
 			$box['top'] += array($url => array(NULL, $label, NULL, 'tip', NULL, $hover));
 
@@ -400,7 +400,7 @@ if(!isset($item['id'])) {
 		// offer to extend personal spaces
 		if(Surfer::is($item['id']) && Surfer::is_member() &&
 			(Surfer::is_associate() || ($context['users_maximum_managed_sections'] > Sections::count_for_owner())) ) {
-			$box['top'] += array('sections/new.php' => fa::_("plus-square-o").' '.i18n::s('Create a new web space'));
+			$box['top'] += array('sections/new.php' => fa::_("plus-square").' '.i18n::s('Create a new web space'));
 		}
 
 		// associates can assign editors and readers

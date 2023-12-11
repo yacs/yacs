@@ -643,7 +643,7 @@ if(!isset($item['id'])) {
 		// the command to post a new comment
 		if(Comments::allow_creation($item, $anchor, 'category')) {
 			$url = 'comments/edit.php?anchor='.urlencode('category:'.$item['id']);
-			$box['bar'] += array( $url => fa::_("commenting-o").' '.i18n::s('Post a comment') );
+			$box['bar'] += array( $url => fa::_("comment-dots").' '.i18n::s('Post a comment') );
 		}
 
 		// actually render the html
@@ -786,7 +786,7 @@ if(!isset($item['id'])) {
 
 		// notify members
 		if(($count > 1) && Surfer::is_associate()) {
-			$box['bar'] += array(Categories::get_url($item['id'], 'mail') => fa::_("envelope-o").' '.i18n::s('Notify members'));
+			$box['bar'] += array(Categories::get_url($item['id'], 'mail') => fa::_("envelope").' '.i18n::s('Notify members'));
 		}
 
 		// spread the list over several pages
@@ -851,7 +851,7 @@ if(!isset($item['id'])) {
 
 		// add a category
 		if($this_cat->allow_creation()) {
-			$context['page_tools'][] = Skin::build_link('categories/edit.php?anchor='.urlencode('category:'.$item['id']),  fa::_("plus-square-o").' '.i18n::s('Add a category'), 'basic');
+			$context['page_tools'][] = Skin::build_link('categories/edit.php?anchor='.urlencode('category:'.$item['id']),  fa::_("plus-square").' '.i18n::s('Add a category'), 'basic');
 		}
 
 		// post an image, if upload is allowed
@@ -862,8 +862,8 @@ if(!isset($item['id'])) {
 
 		// add a file, if upload is allowed
 		if(Files::allow_creation($item, $anchor, 'category')) {
-			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), fa::_("file-o").' '.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
-			$context['page_minitools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), fa::_("file-o"), 'basic', i18n::s('Attach related files.'));
+			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), fa::_("file-alt").' '.i18n::s('Add a file'), 'basic', i18n::s('Attach related files.'));
+			$context['page_minitools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), fa::_("file-alt"), 'basic', i18n::s('Attach related files.'));
 		}
 
 		// add a link
@@ -873,7 +873,7 @@ if(!isset($item['id'])) {
 
 		// comment this page if anchor does not prevent it
 		if(Comments::allow_creation($item, $anchor, 'category')) {
-			$context['page_tools'][] = Skin::build_link(Comments::get_url('category:'.$item['id'], 'comment'), fa::_("commenting-o").' '.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
+			$context['page_tools'][] = Skin::build_link(Comments::get_url('category:'.$item['id'], 'comment'), fa::_("comment-dots").' '.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 		}
 
 
