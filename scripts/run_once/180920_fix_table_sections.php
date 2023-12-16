@@ -28,7 +28,7 @@ $local['fail_fr']       = 'Echec de mise en place du correctif !';
 echo get_local('label')."<br />\n";
 
 // the reference server to use
-@include_once $context['path_to_root'].'scripts/parameters.include.php';
+include_once $context['path_to_root'].'scripts/parameters.include.php';
 if(!isset($context['reference_server']) || !$context['reference_server'])
 	$context['reference_server'] = 'www.yacs.fr';
 

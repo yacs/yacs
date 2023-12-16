@@ -235,28 +235,7 @@ Class Activities {
 		$indexes['INDEX edit_date'] = "(edit_date)";
 		$indexes['INDEX edit_id'] 	= "(edit_id)";
 
-		$views = array();
-		$views[] = "CREATE OR REPLACE VIEW ".SQL::table_name('activities_by_user_per_month')." AS"
-			." SELECT"
-			."  SUBSTRING(edit_date, 1, 7) AS month,"
-			."  edit_id AS 'id',"
-			."  edit_name AS 'name',"
-			."  SUM(count) AS 'activities'"
-			." FROM ".SQL::table_name('activities')
-			." GROUP BY month, edit_name"
-			." ORDER BY month DESC, activities DESC";
-
-		$views[] = "CREATE OR REPLACE VIEW ".SQL::table_name('activities_by_anchor_per_month')." AS"
-			." SELECT"
-			."  SUBSTRING(edit_date, 1, 7) AS month,"
-			."  anchor,"
-			."  SUM(count) AS 'activities'"
-			." FROM ".SQL::table_name('activities')
-			." GROUP BY month, anchor"
-			." ORDER BY month DESC, activities DESC";
-
-		return SQL::setup_table('activities', $fields, $indexes, $views);
+		return SQL::setup_table('activities', $fields, $indexes);
 	}
 
 }
-?>

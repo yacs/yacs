@@ -1849,27 +1849,7 @@ Class Comments {
 		$indexes['INDEX type']		= "(type)";
 		$indexes['FULLTEXT INDEX']	= "full_text(description)";
 
-		$views = array();
-		$views[] = "CREATE OR REPLACE VIEW ".SQL::table_name('comments_by_person_per_month')." AS"
-			." SELECT"
-			."  SUBSTRING(edit_date, 1, 7) AS month,"
-			."  edit_id AS 'id',"
-			."  edit_name AS 'name',"
-			."  COUNT(id) AS 'contributions'"
-			." FROM ".SQL::table_name('comments')
-			." GROUP BY month, edit_name"
-			." ORDER BY month DESC, contributions DESC";
-
-		$views[] = "CREATE OR REPLACE VIEW ".SQL::table_name('comments_by_anchor_per_month')." AS"
-			." SELECT"
-			."  SUBSTRING(edit_date, 1, 7) AS month,"
-			."  anchor,"
-			."  COUNT(id) AS 'contributions'"
-			." FROM ".SQL::table_name('comments')
-			." GROUP BY month, anchor"
-			." ORDER BY month DESC, contributions DESC";
-
-		return SQL::setup_table('comments', $fields, $indexes, $views);
+		return SQL::setup_table('comments', $fields, $indexes);
 	}
 
 	/**
