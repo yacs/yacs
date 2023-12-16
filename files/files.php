@@ -3244,7 +3244,7 @@ Class Files {
 			$input['name'] .= '.'.$file_extension;
 
 		// ensure we have a file name
-		$file_name = utf8::to_ascii($input['name']);
+		$file_name = preg_replace( '/['.preg_quote(FILENAME_SAFE_ALPHABET).']/', '_',utf8::to_ascii($input['name']));
 
 		// uploads are not allowed
 		if(!Surfer::may_upload())
