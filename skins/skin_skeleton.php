@@ -1416,17 +1416,11 @@ Class Skin_Skeleton {
 		else
 			$with_caption = TRUE;
 
-		// document the image
-		if($title)
-			$hover = $title;
-		else
-			$hover = '';
-
-		// remove YACS codes from alternate label and hovering title
+		// remove YACS codes from alternate label
 		if(is_callable(array('Codes', 'strip')))
-			$hover = Codes::strip($hover, FALSE);
+			$title = Codes::strip($title, FALSE);
                 
-                $hover = encode_field(strip_tags($hover));
+                $title = encode_field(strip_tags($title));
 
 		// split components of the variant
 		if($position = strpos($variant, ' ')) {
@@ -1461,7 +1455,7 @@ Class Skin_Skeleton {
 
 		// the image itself
 		//$image = '<img src="'.$href.'" alt=""  title="'.encode_field(strip_tags($hover)).'"'.$more_styles.' />';
-                $image = tag::_('img', 'src="'.$href.'" alt="'.$hover.'" title="'.$hover.'"'.tag::_class($more_styles, NO_CLASS_PREFIX));
+                $image = tag::_('img', 'src="'.$href.'" alt="'.$title.'" '.tag::_class($more_styles, NO_CLASS_PREFIX));
 
 		// add a link
 		if($link && preg_match('/\.(gif|jpeg|jpg|png)$/i', $link) && !preg_match('/\blarge\b/', $variant))

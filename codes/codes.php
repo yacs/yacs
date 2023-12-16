@@ -1404,9 +1404,6 @@ Class Codes {
 			// get the <img ... /> element
 			} else {
 
-				// do not append poor titles to inline images
-				if($variant == 'inline')
-					$title = '';
 
 				// flag large images
 				if($image['image_size'] > $context['thumbnail_threshold'])
