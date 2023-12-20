@@ -1241,7 +1241,7 @@ function render_skin($with_last_modified=TRUE) {
 	    // $metas[] = '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />';
 
 	    // page title
-	    $page_title = ucfirst(strip_tags($context['page_title']));
+	    $page_title = ucfirst(trim(preg_replace('/\s\s+/', ' ', strip_tags($context['page_title']))));
 	    $context['page_header'] .= '<title>'.$page_title;
 	    if($context['site_name'] && !preg_match('/'.str_replace('/', ' ', strip_tags($context['site_name'])).'/', strip_tags($context['page_title']))) {
 		    if($page_title)
@@ -1249,8 +1249,6 @@ function render_skin($with_last_modified=TRUE) {
 		    $context['page_header'] .= strip_tags($context['site_name']);
 	    }
 	    $context['page_header'] .= "</title>\n";
-	    /*if($page_title)
-		    $metas[] = '<meta name="DC.title" content="'.encode_field($page_title).'" />';*/
 
 	    // set icons for this site
 	    if($context['site_icon']) {

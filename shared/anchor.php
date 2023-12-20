@@ -607,7 +607,8 @@ abstract class Anchor {
             $og[] = '<meta property="og:url" content="'.encode_field($this->get_permalink()).'" />';
             
             // title
-            $og[] = '<meta property="og:title" content="'.encode_field($this->get_title()).'" />';
+            $title = ucfirst(trim(preg_replace('/\s\s+/', ' ', strip_tags($this->get_title()))));        // clean title
+            $og[] = '<meta property="og:title" content="'.encode_field($title).'" />';
             
             // description
             $ogdesc = '';
