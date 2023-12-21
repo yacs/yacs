@@ -132,7 +132,7 @@ Class Comments {
 			return FALSE;
 
 		// anchor has been locked --only used when there is no item provided
-		if(!$item['id'] && is_object($anchor) && $anchor->has_option('locked'))
+		if(empty($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
 
 		// surfer is an editor (and item has not been locked)
