@@ -135,6 +135,18 @@ Class Image extends Anchor {
 	}
         
         /**
+	 * provide direct url to image
+	 */
+        public function get_permalink() {
+            global $context;
+            
+            $path   = $context['url_to_root'].Files::get_path($this->anchor,'images').'/';
+            
+            
+            return $path.$this->item['image_name'];
+        }
+        
+        /**
 	 * provide classe name with all static functions on this kind of anchor
 	 * 
 	 * @return a class name
@@ -142,6 +154,17 @@ Class Image extends Anchor {
 	function get_static_group_class() {
 	    return 'Images';
 	}
+        
+        /**
+	 * provide url to thumbnail
+	 */
+        public function get_thumbnail_url() {
+            global $context;
+            
+            $path   = $context['url_to_root'].Files::get_path($this->anchor,'images').'/';
+            
+            return $path.$this->item['thumbnail_name'];
+        }
         
         /**
 	 * load the related item

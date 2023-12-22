@@ -74,9 +74,14 @@ class Layout_as_mosaic extends Layout_interface {
                 } else
                     $thumb = MAP_IMG;
             }
-	    // use the image as a link to the target page
-            if($thumb)
-                $thumb = Skin::build_link($url, $thumb, 'basic', $title);
+	    // use the thumb as a link to the target page
+            if($thumb) {
+                
+                // if we list image, prepare a slideshow
+                $classthumb = ($this->listed_type === 'image')? 'image-show':'basic';
+                
+                $thumb = Skin::build_link($url, $thumb, $classthumb, $title);
+            }
 	    
             // use list text of overlay if any
             $list = '';
