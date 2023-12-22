@@ -63,13 +63,15 @@ include_once '../links/links.php';
 $source = NULL;
 if(isset($_REQUEST['url']))
 	$source = $_REQUEST['url'];
-$source = strip_tags($source);
+if(!empty($source))
+    $source = strip_tags($source);
 
 // link title
 $title = NULL;
 if(isset($_REQUEST['title']))
 	$title = $_REQUEST['title'];
-$title = strip_tags($title);
+if(!empty($title))
+    $title = strip_tags($title);
 
 // if title is not provided, the value for url will be set as the title
 if(!$title)
@@ -79,13 +81,15 @@ if(!$title)
 $excerpt = NULL;
 if(isset($_REQUEST['excerpt']))
 	$excerpt = $_REQUEST['excerpt'];
-$excerpt = strip_tags($excerpt);
+if(!empty($excerpt))
+    $excerpt = strip_tags($excerpt);
 
 // the blog name
 $blog_name = NULL;
 if(isset($_REQUEST['blog_name']))
 	$blog_name = $_REQUEST['blog_name'];
-$blog_name = strip_tags($blog_name);
+if(!empty($blog_name))
+    $blog_name = strip_tags($blog_name);
 
 // look for the anchor reference
 $anchor = NULL;
@@ -95,11 +99,11 @@ elseif(isset($context['arguments'][1]))
 	$anchor = $context['arguments'][0].':'.$context['arguments'][1];
 elseif(isset($context['arguments'][0]))
 	$anchor = 'article:'.$context['arguments'][0];
-$anchor = strip_tags($anchor);
-
-// get the related anchor, if any
-if($anchor)
-	$anchor = Anchors::get($anchor);
+if(!empty($anchor)) {
+    $anchor = strip_tags($anchor);
+    // get the related anchor, if any
+    $anchor = Anchors::get($anchor);
+}
 
 // load the skin, maybe with a variant
 load_skin('links', $anchor);
@@ -395,4 +399,3 @@ if(Surfer::is_crawler()) {
 
 // render the skin
 render_skin();
-?>

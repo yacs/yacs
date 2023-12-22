@@ -560,6 +560,9 @@ Class Codes {
 	public static function render($text) {
 		global $context, $code_rendering;
                 
+                // sanity check
+                if(empty($text)) return '';
+                
                 // say we are now rendering code
                 $code_rendering = true;
 

@@ -49,6 +49,9 @@ class Smileys {
 	 */
 	public static function render_smileys($text) {
 		global $context;
+                
+                // sanity check
+                if(empty($text)) return '';
 
 		// no content on HEAD request --see scripts/validate.php
 		if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
