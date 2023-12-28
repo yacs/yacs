@@ -1507,7 +1507,9 @@ var Yacs = {
         prepareMenus: function() {
             
                 if($('nav'+pfx('.tabs')).hasClass('init')) return;
-            
+                
+                $('nav'+pfx('.tabs')).addClass('init');
+                
                 // behavior of main tabs (top menu)
                 $('nav'+pfx('.tabs')+' > ul > li a').click_n_dblclick(
                         // simple click
@@ -1538,6 +1540,9 @@ var Yacs = {
                 // button for responsive menu
                 $(pfx('.tabs-mini-toggle')).click(function(){
                     
+                    // toggle status of the menu, close is set at page loading
+                    $(this).toggleClass('closed');
+                    
                     // get parent
                     var _parent = $(this).parent();
                     if(_parent.hasClass(pfx('tabs'))) {
@@ -1546,13 +1551,38 @@ var Yacs = {
                         _parent.find(pfx('.tab-background')).toggle();
                     }
                     
-                    // $(pfx('.tab-background')).toggle();
                 });
                 
-                // close menu at page opening
-                $(pfx('.tabs-mini-toggle:visible')).not('.init').trigger('click').addClass('init');
+                // init toggle label at page loading, then trigger click to close it
+                $(pfx('.tabs-mini-toggle:visible')).not('.init').addClass('init');
+                setTimeout(function(){
+                    $(pfx('.tabs-mini-toggle:visible')).not('.closed').trigger('click');
+                }, 500);
                 
-                $('nav'+pfx('.tabs')).addClass('init');
+                
+                $( window ).resize(function() {
+
+                delay(function(){
+                        let sandw = $(pfx('.tabs-mini-toggle'));
+                        if(!sandw.is(':visible')) {
+                            // make all menus visibles
+                            let _parent = sandw.parent();
+                            _parent.find('a').show();
+                            sandw.removeClass('closed');
+                        } else {
+                            // close menu on small screens after page resizing 
+                            $(pfx('.tabs-mini-toggle:visible')).not('.closed').trigger('click');
+                        }
+                    }, 200 );
+                });
+                
+                // close menu on small screens after page scrolling
+                $( window ).scroll(function(){
+                    delay(function(){
+                        $(pfx('.tabs-mini-toggle:visible')).not('.closed').trigger('click');
+                    }, 200);
+                });
+                
         },
 
 	/**
@@ -3046,19 +3076,3 @@ Yacs.spinningImage.src = url_to_root + 'skins/_reference/ajax/ajax_spinner.gif';
 // pre-load the image used at the working overlay
 Yacs.workingImage = new Image();
 Yacs.workingImage.src = url_to_root + 'skins/_reference/ajax/ajax_working.gif';
-
-///// RESPONSIVE TABS
-// subscibe to tabs event for behavior when minified
-$('body').on('yacs', function(){
-    if($('.tabs-mini-toggle').is(':visible'))
-        $('.tab-background').hide();
-});
-
-// redisplay tabs in case of window resizing
-$( window ).resize(function() {
-    delay(function(){
-        if($('#tabs_bar').length && !$('.tabs-mini-toggle').is(':visible')) {
-               $('#tabs_bar li').css('display',''); // remove inline display directive
-        }
-   }, 200 );
-});
