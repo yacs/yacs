@@ -121,13 +121,13 @@ Class Article extends Anchor {
                         }
 
 			// make a link to the previous image
-			if($previous) {
+			if(!empty($previous)) {
 				$previous_url = Images::get_url($previous);
 				$previous_label = i18n::s('Previous');
 			}
 
 			// make a link to the next image
-			if($next) {
+			if(!empty($next)) {
 				$next_url = Images::get_url($next);
 				$next_label = i18n::s('Next');
 			}
