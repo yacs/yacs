@@ -1562,7 +1562,7 @@ var Yacs = {
                 
                 $( window ).resize(function() {
 
-                delay(function(){
+                    delay(function(){
                         let sandw = $(pfx('.tabs-mini-toggle'));
                         if(!sandw.is(':visible')) {
                             // make all menus visibles
