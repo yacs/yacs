@@ -115,7 +115,7 @@ Class Layout_articles_as_tabs extends Layout_interface {
 			}
 
 			// some files have been attached to this page
-			if(($page == 1) && ($count > 1)) {
+			if($count > 1) {
 
 				// the command to download all files
 				$link = 'files/fetch_all.php?anchor='.urlencode('article:'.$item['id']);
