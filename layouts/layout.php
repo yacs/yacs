@@ -30,6 +30,14 @@ abstract Class Layout_interface {
 	 * that you can provide thru the scripts, if required	 
 	 */
 	var $data = array();
+        
+        /**
+         * Semaphore that tells if scripts have
+         * been loaded for this layout
+         * 
+         * @var null or string
+         */
+        private static $fuse_called;
 
 	/**
 	 * the preferred order for items
@@ -101,6 +109,13 @@ abstract Class Layout_interface {
 	    // bad luck
 	    return FALSE;
 	}
+        
+        function get_data($name, $default=null) {
+            if(isset($this->data[$name]))
+                return $this->data[$name];
+            else
+                return $default;
+        }
 	
 	/**
 	 * add data entries for the layout
@@ -155,18 +170,14 @@ abstract Class Layout_interface {
 	final function load_scripts_n_styles($myclass='') {	    
 	   
 	    // fuse not to search twice for bound files	
-	    static $fuse_called = false;
-	    
-	    // function is always called by DEV without specifying the class.
-	    // fuse should not block recursive calls from the firt call,
-	    // which are always done with a classname argument
-	    if(!$myclass && $fuse_called)
+            // Self::$fuse_called = null on instanciation
+	    if(Self::$fuse_called ===  $myclass )
 		return;
-	    
-	    $fuse_called = true;
 	    	    
 	    if(!$myclass)
 		$myclass = get_class($this);
+            
+            Self::$fuse_called = $myclass;
 	   	    
 	    $parent = get_parent_class($myclass);	    
 	    
