@@ -905,7 +905,7 @@ class Mailer {
 
 		// the end of line string for mail messages
 		if(!defined('M_EOL'))
-			define('M_EOL', "\n");
+			define('M_EOL', "\r\n");
 
 		// encode the subject line
 		$subject = Mailer::encode_subject($subject);
