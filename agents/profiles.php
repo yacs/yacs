@@ -44,7 +44,7 @@ class Profiles {
 		$item = SQL::query_first($query);
 
 		// update figures
-		if($item['id']) {
+		if(!empty($item['id'])) {
 			$query = "UPDATE ".SQL::table_name('profiles')." SET "
 				."total_hits='".($item['total_hits']+1)."', "
 				."total_time='".($item['total_time']+$execution_time)."', "
