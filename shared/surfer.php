@@ -1291,8 +1291,15 @@ Class Surfer {
                 if($alt_antibot) {
                     $good = isset($context['alt_antibot_answer'])?$context['alt_antibot_answer']:'';
                     
-                    if(isset($_REQUEST['specific']) && $good && !strcmp($_REQUEST['specific'], $good)) {
-                        $alt_pass = TRUE;
+                    
+                    if(isset($_REQUEST['specific']) && $good ) {
+                        
+                        // may have multiple good answers
+                        $good   = explode('|', $good);
+                        
+                        $result = preg_grep('/^'.$_REQUEST['specific'].'$/', $good); 
+                        
+                        $alt_pass = (count($result) > 0);
                     }
                     
                 }
