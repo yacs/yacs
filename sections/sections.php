@@ -205,21 +205,21 @@ Class Sections {
                 case 'title':
                 default:
                     
-                    $order = 'rank, title, edit_date DESC';
+                    $order = '`rank`, title, edit_date DESC';
                     break;
                     
                 case 'family':
                     
-                    $order = 'rank, family, title, edit_date DESC';
+                    $order = '`rank`, family, title, edit_date DESC';
                     break;
                 
                 case 'reverse_title':
-                    $order = 'rank, title DESC, edit_date DESC';
+                    $order = '`rank`, title DESC, edit_date DESC';
                     break;
                     
                 case 'reverse_rank':
                     
-                    $order = 'rank DESC, title, edit_date DESC';
+                    $order = '`rank` DESC, title, edit_date DESC';
                     break;
                     
                 case 'overlay':
@@ -2882,7 +2882,7 @@ Class Sections {
 			."overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."',"
 			."owner_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']).", "
 			."prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."',"
-			."rank='".SQL::escape(isset($fields['rank']) ? $fields['rank'] : 10000)."',"
+			."`rank`='".SQL::escape(isset($fields['rank']) ? $fields['rank'] : 10000)."',"
 			."sections_overlay='".SQL::escape(isset($fields['sections_overlay']) ? $fields['sections_overlay'] : '')."',"
 			."sections_layout='".SQL::escape(isset($fields['sections_layout']) ? $fields['sections_layout'] : 'map')."',"
 			."suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."',"
@@ -3061,7 +3061,7 @@ Class Sections {
 		$query[] = "meta='".SQL::escape(isset($fields['meta']) ? $fields['meta'] : '')."'";
 		$query[] = "options='".SQL::escape(isset($fields['options']) ? $fields['options'] : '')."'";
 		$query[] = "prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."'";
-		$query[] = "rank='".SQL::escape(isset($fields['rank']) ? $fields['rank'] : 10000)."'";
+		$query[] = "`rank`='".SQL::escape(isset($fields['rank']) ? $fields['rank'] : 10000)."'";
 		$query[] = "sections_overlay='".SQL::escape(isset($fields['sections_overlay']) ? $fields['sections_overlay'] : '')."'";
 		$query[] = "sections_layout='".SQL::escape(isset($fields['sections_layout']) ? $fields['sections_layout'] : 'map')."'";
 		$query[] = "suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."'";
@@ -3205,7 +3205,7 @@ Class Sections {
 		if(isset($fields['prefix']) && Surfer::is_associate())
 			$query[] = "prefix='".SQL::escape($fields['prefix'])."'";
 		if(isset($fields['rank']))
-			$query[] = "rank='".SQL::escape($fields['rank'])."'";
+			$query[] = "`rank`='".SQL::escape($fields['rank'])."'";
                 if(isset($fields['sections_overlay']))
 			$query[] = "sections_overlay='".SQL::escape($fields['sections_overlay'])."'";
 		if(isset($fields['sections_layout']))

@@ -124,7 +124,7 @@ Class Articles {
 			if($multiple_anchor)
 				$order = 'edit_date DESC, title';
 			else
-				$order = 'rank, edit_date DESC, title';
+				$order = '`rank`, edit_date DESC, title';
 			break;
 
 		case 'expiry': // order by expiry date
@@ -142,7 +142,7 @@ Class Articles {
 			if($multiple_anchor)
 				$order = 'overlay_id, rating_sum DESC, publish_date DESC';
 			else
-				$order = 'overlay_id, rank, rating_sum DESC, publish_date DESC';
+				$order = 'overlay_id, `rank`, rating_sum DESC, publish_date DESC';
 			break;
 
 		case 'reverse_overlay' : // Same but DESC for overlay_id, then by number of points
@@ -151,7 +151,7 @@ Class Articles {
 			if($multiple_anchor)
 				$order = 'overlay_id DESC, rating_sum DESC, publish_date DESC';
 			else
-				$order = 'overlay_id DESC, rank, rating_sum DESC, publish_date DESC';
+				$order = 'overlay_id DESC, `rank`, rating_sum DESC, publish_date DESC';
 			break;
 
 		case 'publication': // order by rank, then by reverse date of publication
@@ -161,7 +161,7 @@ Class Articles {
 			if($multiple_anchor)
 				$order = 'publish_date DESC, title';
 			else
-				$order = 'rank, publish_date DESC, title';
+				$order = '`rank`, publish_date DESC, title';
 			break;
 
 		case 'random':
@@ -174,24 +174,24 @@ Class Articles {
 			if($multiple_anchor)
 				$order = 'rating_sum DESC, edit_date DESC';
 			else
-				$order = 'rank, rating_sum DESC, edit_date DESC';
+				$order = '`rank`, rating_sum DESC, edit_date DESC';
 			break;
 
 		case 'reverse_rank':	// order by rank, then by date of publication
-			$order = 'rank DESC, edit_date DESC';
+			$order = '`rank` DESC, edit_date DESC';
 			break;
 
 		case 'review':	// order by date of last review
 			$order = 'stamp, title';
 			break;
 
-		case 'reverse_title':	// order by rank, then by reverse title
+		case 'reverse_title':	// order by `rank`, then by reverse title
 
 			// avoid side effects of ranking across several sections
 			if($multiple_anchor)
 				$order = 'title DESC';
 			else
-				$order = 'rank, title DESC';
+				$order = '`rank`, title DESC';
 			break;
 
 		case 'title':	// order by rank, then by title
@@ -200,7 +200,7 @@ Class Articles {
 			if($multiple_anchor)
 				$order = 'title';
 			else
-				$order = 'rank, title';
+				$order = '`rank`, title';
 			break;
 
 		case 'unread':	// locate unused pages
@@ -2967,7 +2967,7 @@ Class Articles {
 		$query[] = "extra='".SQL::escape(isset($fields['extra']) ? $fields['extra'] : '')."'";
 		$query[] = "icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."'";
 		$query[] = "thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."'";
-		$query[] = "rank='".SQL::escape($fields['rank'])."'";
+		$query[] = "`rank`='".SQL::escape($fields['rank'])."'";
 		$query[] = "meta='".SQL::escape(isset($fields['meta']) ? $fields['meta'] : '')."'";
 		$query[] = "options='".SQL::escape(isset($fields['options']) ? $fields['options'] : '')."'";
 		$query[] = "trailer='".SQL::escape(isset($fields['trailer']) ? $fields['trailer'] : '')."'";
@@ -3193,7 +3193,7 @@ Class Articles {
             $query[] = "file_overlay='".SQL::escape(isset($fields['file_overlay']) ? $fields['file_overlay'] : '')."'";
 			$query[] = "icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."'";
 			$query[] = "thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."'";
-			$query[] = "rank='".SQL::escape($fields['rank'])."'";
+			$query[] = "`rank`='".SQL::escape($fields['rank'])."'";
 			$query[] = "locked='".SQL::escape(isset($fields['locked']) ? $fields['locked'] : 'N')."'";
 			$query[] = "meta='".SQL::escape(isset($fields['meta']) ? $fields['meta'] : '')."'";
 			$query[] = "options='".SQL::escape(isset($fields['options']) ? $fields['options'] : '')."'";
@@ -3348,7 +3348,7 @@ Class Articles {
 		if(isset($fields['prefix']))
 			$query[] = "prefix='".SQL::escape($fields['prefix'])."'";
 		if(isset($fields['rank']))
-			$query[] = "rank='".SQL::escape($fields['rank'])."'";
+			$query[] = "`rank`='".SQL::escape($fields['rank'])."'";
 		if(isset($fields['source']))
 			$query[] = "source='".SQL::escape($fields['source'])."'";
 		if(isset($fields['suffix']))

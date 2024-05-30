@@ -2640,7 +2640,7 @@ Class Files {
             $query[] = "overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."'";
 			$query[] = "file_href='".SQL::escape(isset($fields['file_href']) ? $fields['file_href'] : '')."'";
 			$query[] = "keywords='".SQL::escape(isset($fields['keywords']) ? $fields['keywords'] : '')."'";
-            $query[] = "rank='".SQL::escape(isset($fields['rank']) ? $fields['rank'] : '10000')."'";
+            $query[] = "`rank`='".SQL::escape(isset($fields['rank']) ? $fields['rank'] : '10000')."'";
 			$query[] = "source='".SQL::escape(isset($fields['source']) ? $fields['source'] : '')."'";
 			$query[] = "title='".SQL::escape(isset($fields['title']) ? $fields['title'] : '')."'";
 
@@ -2679,7 +2679,7 @@ Class Files {
 			$query[] = "keywords='".SQL::escape(isset($fields['keywords']) ? $fields['keywords'] : '')."'";
             $query[] = "overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."'";
             $query[] = "overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."'";
-            $query[] = "rank='".SQL::escape(isset($fields['rank']) ? $fields['rank'] : '10000')."'";
+            $query[] = "`rank`='".SQL::escape(isset($fields['rank']) ? $fields['rank'] : '10000')."'";
 			$query[] = "source='".SQL::escape(isset($fields['source']) ? $fields['source'] : '')."'";
 			$query[] = "thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."'";
 			$query[] = "title='".SQL::escape(isset($fields['title']) ? $fields['title'] : '')."'";
@@ -2773,7 +2773,7 @@ Class Files {
 		if(isset($fields['overlay_id']))
 			$query[] = "overlay_id='".SQL::escape($fields['overlay_id'])."'";
 		if(isset($fields['rank']))
-			$query[] = "rank='".SQL::escape($fields['rank'])."'";
+			$query[] = "`rank`='".SQL::escape($fields['rank'])."'";
 		if(isset($fields['source']))
 			$query[] = "source='".SQL::escape($fields['source'])."'";
 		if(isset($fields['thumbnail_url']))

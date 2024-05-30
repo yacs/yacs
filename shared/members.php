@@ -872,7 +872,7 @@ Class Members {
 			.", ".SQL::table_name('categories')." AS categories"
 			." WHERE (categories.id = ids.target)"
 			."	AND ".$where
-			." ORDER BY rank, title, edit_date DESC LIMIT ".$offset.','.$count;
+			." ORDER BY `rank`, title, edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output = Categories::list_selected(SQL::query($query), $variant);

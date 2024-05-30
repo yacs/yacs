@@ -1553,7 +1553,7 @@ Class Categories {
 			."owner_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']).", "
 			."path='".SQL::escape($path)."',"
 			."prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."',"
-			."rank='".SQL::escape($fields['rank'])."',"
+			."`rank`='".SQL::escape($fields['rank'])."',"
 			."sections_layout='".SQL::escape($fields['sections_layout'])."',"
 			."suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."',"
 			."thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."',"
@@ -1694,7 +1694,7 @@ Class Categories {
 			."overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."',"
 			."path='".SQL::escape($path)."',"
 			."prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."',"
-			."rank='".SQL::escape($fields['rank'])."',"
+			."`rank`='".SQL::escape($fields['rank'])."',"
 			."sections_layout='".SQL::escape($fields['sections_layout'])."',"
 			."suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."',"
 			."thumbnail_url='".SQL::escape($fields['thumbnail_url'])."',"
@@ -1778,7 +1778,7 @@ Class Categories {
 		if(isset($fields['prefix']) && Surfer::is_associate())
 			$query[] = "prefix='".SQL::escape($fields['prefix'])."'";
 		if(isset($fields['rank']))
-			$query[] = "rank='".SQL::escape($fields['rank'])."'";
+			$query[] = "`rank`='".SQL::escape($fields['rank'])."'";
 		if(isset($fields['sections_layout']))
 			$query[] = "sections_layout='".SQL::escape($fields['sections_layout'])."'";
 		if(isset($fields['suffix']) && Surfer::is_associate())
