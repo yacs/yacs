@@ -364,7 +364,7 @@ Class Categories {
 
 		// select among available items
 		$query = "SELECT * FROM ".SQL::table_name('categories')." AS categories"
-			." WHERE categories.keywords RLIKE '[[:<:]]".SQL::escape($keyword)."[[:>:]]' LIMIT 1";
+			." WHERE categories.keywords RLIKE '\\b".SQL::escape($keyword)."\\b' LIMIT 1";
 
 		$output = SQL::query_first($query);
 		return $output;
@@ -1207,7 +1207,7 @@ Class Categories {
 
 		// select among available items
 		$query = "SELECT keywords FROM ".SQL::table_name('categories')." AS categories"
-			." WHERE categories.keywords RLIKE '[[:<:]]".SQL::escape($prefix).".*[[:>:]]'"
+			." WHERE categories.keywords RLIKE '\\b".SQL::escape($prefix).".*\\b'"
                         .$more
 			." ORDER BY keywords LIMIT 100";
 		$result = SQL::query($query);
