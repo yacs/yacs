@@ -46,6 +46,11 @@ Class fa {
             
         }
         
+        // case icon name begin with "fa"
+        if(substr($icon,0,2) === 'fa') {
+            $icon = '/fa-'.$icon;
+        }
+        
         // icon and options are the same deal,
         // add a "fa" default option
         $options = $main_prefix.' ' . $icon .' '.$options;
