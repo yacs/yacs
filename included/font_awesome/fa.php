@@ -37,10 +37,18 @@ Class fa {
      */
     public static function _($icon, $options='', $title='',$aria_hide=false) {
         
+        $main_prefix = '/fa';
+        
+        // if we have brand option, use .fab and remove brand from option
+        if(str_contains($options, 'brand')) {
+            $main_prefix .= 'b';
+            $options = str_replace('brand', '', $options);
+            
+        }
         
         // icon and options are the same deal,
         // add a "fa" default option
-        $options = '/fa '.$icon.' '.$options;
+        $options = $main_prefix.' ' . $icon .' '.$options;
         
         // prefix everything with fa except things with /
         $options = preg_replace('/(?<![^ ])(?=[^ \/])(?!fa)/', '/fa-', $options);
