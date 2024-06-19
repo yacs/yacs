@@ -1011,13 +1011,13 @@ Class SQL {
 			// drop other indexes
 			while($row = SQL::fetch($result)) {
 				if(($row['Seq_in_index'] == 1) && ($row['Key_name'] != 'PRIMARY'))
-					$query .= ', DROP INDEX '.$row['Key_name'];
+					$query .= ', DROP INDEX `'.$row['Key_name'].'`';
 			}
 			SQL::free($result);
 
 			// build new indexes
 			foreach($indexes as $index => $definition) {
-				$query .= ", ADD ".$index.' '.$definition;
+				$query .= ", ADD `".$index.'` '.$definition;
 			}
 		}
 
