@@ -705,7 +705,6 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 			default:
 				// user information
 				$context['text'] .= '<b>'.sprintf(i18n::s('Bad hook type %s to %s for %s'), $hook['type'], $hook['script'], $hook['id']).'</b>'.BR."\n";
-				continue;
 
 			}
 
