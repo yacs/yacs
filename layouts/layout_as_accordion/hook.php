@@ -18,7 +18,7 @@ global $hooks;
 $hooks[] = array(
 	'id'		=> 'accordion',
         'type'		=> 'layout',
-	'supported'	=> 'article,section',
+	'supported'	=> 'article,section,category',
 	'script'	=> 'layouts/layout_as_accordion/layout_as_accordion.php',
 	'label_en'	=> 'Layout items as folded boxes in an accordion',
 	'label_fr'	=> 'Liste les éléments en tant que boîtes pliantes en accordéon',

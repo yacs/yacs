@@ -232,7 +232,7 @@ Class Layout_as_accordion extends Layout_interface {
 				$box['text'] .= Skin::finalize_list($elements, 'compact');
 
 			// display all tags
-			if($item['tags'])
+			if(!empty($item['tags']))
 				$box['text'] .= tag::_('p', tag::_class('tags'), Skin::build_tags($item['tags']));
 
 			// if we have an icon for this page, use it
@@ -334,5 +334,3 @@ Class Layout_as_accordion extends Layout_interface {
 	}
 
 }
-
-?>
