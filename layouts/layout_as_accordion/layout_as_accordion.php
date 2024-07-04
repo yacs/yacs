@@ -201,9 +201,11 @@ Class Layout_as_accordion extends Layout_interface {
 			    }
 			}
 
-			// a link to the page			
-			$permalink = $entity->get_permalink($item);
-			$elements[] = Skin::build_link($permalink, sprintf(i18n::s('View the %s'),$items_type).MORE_IMG, 'shortcut');
+			// a link to the page
+                        if(!$this->has_variant('no_follow')) {
+                            $permalink = $entity->get_permalink($item);
+                            $elements[] = Skin::build_link($permalink, i18n::s('View').MORE_IMG, 'shortcut');
+                        }
 
 			// complement title
 			if(count($details))
@@ -216,7 +218,7 @@ Class Layout_as_accordion extends Layout_interface {
 				$box['text'] .= Skin::build_block($item['introduction'], 'introduction');
 
 			// no introduction, display entity full content
-			else {
+			if(empty($box['text'])) {
 
 				// insert overlay data, if any
 				if(is_object($entity->overlay))
