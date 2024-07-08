@@ -62,7 +62,7 @@ Class tracker {
         global $context;
         
         // -- Matomo Tracking API init -- 
-        require_once 'matomo.php';
+        require_once 'MatomoTracker.php';
         
         MatomoTracker::$URL = $this->url;
         
