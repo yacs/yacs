@@ -2570,12 +2570,3 @@ function Matomo_getUrlTrackGoal($idSite, $idGoal, $revenue = 0.0)
 
     return $tracker->getUrlTrackGoal($idGoal, $revenue);
 }
-
-/**
- * Ensure PiwikTracker class is available as well
- *
- * @deprecated
- */
-if (!class_exists('\PiwikTracker')) {
-    include_once('PiwikTracker.php');
-}
