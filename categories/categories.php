@@ -1207,11 +1207,11 @@ Class Categories {
 
 		// select among available items
 		$query = "SELECT keywords FROM ".SQL::table_name('categories')." AS categories"
-			." WHERE categories.keywords RLIKE '\\b".SQL::escape($prefix).".*\\b'"
+			." WHERE categories.keywords RLIKE '\\\b".SQL::escape($prefix).".*\\\b'"
                         .$more
 			." ORDER BY keywords LIMIT 100";
 		$result = SQL::query($query);
-                
+                                
 		// populate the returned array
 		while($row = SQL::fetch($result))
 			$output[] = $row['keywords'];
