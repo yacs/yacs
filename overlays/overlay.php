@@ -409,7 +409,7 @@ class Overlay {
 	 * @return some HTML to be inserted into the resulting page
 	 */
 	function get_live_description($host=NULL) {
-		$text = $host['description'];
+		$text = empty($host['description'])?'':$host['description'];
 		return $text;
 	}
 
@@ -422,7 +422,7 @@ class Overlay {
 	 * @return some HTML to be inserted into the resulting page
 	 */
 	function get_live_introduction($host=NULL) {
-		$text = $host['introduction'];
+		$text = empty($host['introduction'])?'':$host['introduction'];
 		return $text;
 	}
 
