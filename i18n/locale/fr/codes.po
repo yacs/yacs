@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yacs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-10 10:56+0100\n"
+"POT-Creation-Date: 2024-08-13 17:54+0200\n"
 "PO-Revision-Date: 2015-07-17 18:03+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Alexis Raimbault, Bernard Paques\n"
@@ -509,26 +509,26 @@ msgstr "Défilement"
 msgid "Play in a separate window"
 msgstr "Jouer dans une fenêtre séparée"
 
-#: codes/codes.php:786
+#: codes/codes.php:789
 #, php-format
 msgid "%d named person has followed the link: %s"
 msgid_plural "%d named persons have followed the link: %s"
 msgstr[0] "%d personne identifiée a suivi le lien : %s"
 msgstr[1] "%d personnes identifiées ont suivi le lien : %s"
 
-#: codes/codes.php:789
+#: codes/codes.php:792
 msgid "No authenticated person has used this link yet"
 msgstr "Aucune personne authentifiés n'a encore utilisé ce lien"
 
-#: codes/codes.php:1201
+#: codes/codes.php:1204
 msgid "View this comment"
 msgstr "Voir ce commentaire"
 
-#: codes/codes.php:1224 codes/codes.php:1280
+#: codes/codes.php:1227 codes/codes.php:1283
 msgid "[this file has been deleted]"
 msgstr "[ce fichier à été supprimé]"
 
-#: codes/codes.php:1245 codes/codes.php:1304
+#: codes/codes.php:1248 codes/codes.php:1307
 msgid "[this file has been replaced]"
 msgstr "[ce fichier à été remplacé]"
 

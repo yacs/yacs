@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-30 14:08+0200\n"
+"POT-Creation-Date: 2024-08-13 18:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -90,14 +90,13 @@ msgid_plural "%d sections"
 msgstr[0] ""
 msgstr[1] ""
 
-#: layouts/layout_as_accordion/layout_as_accordion.php:206
-#, php-format
-msgid "View the %s"
+#: layouts/layout_as_accordion/layout_as_accordion.php:207
+msgid "View"
 msgstr ""
 
-#: layouts/layout_as_accordion/layout_as_accordion.php:286
-#: layouts/layout_as_accordion/layout_as_accordion.php:309
-#: layouts/layout_as_accordion/layout_as_accordion.php:323
+#: layouts/layout_as_accordion/layout_as_accordion.php:288
+#: layouts/layout_as_accordion/layout_as_accordion.php:311
+#: layouts/layout_as_accordion/layout_as_accordion.php:325
 msgid "Click to slide"
 msgstr ""
 

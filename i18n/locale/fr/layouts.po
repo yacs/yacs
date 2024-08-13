@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-10 10:56+0100\n"
-"PO-Revision-Date: 2017-05-05 08:23+0100\n"
+"POT-Creation-Date: 2024-08-13 17:54+0200\n"
+"PO-Revision-Date: 2024-08-13 18:15+0200\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: none\n"
 "Language: fr\n"
@@ -16,9 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Poedit-Language: French\n"
-"X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: layouts/layouts.php:117
 #, php-format
@@ -92,14 +91,13 @@ msgid_plural "%d sections"
 msgstr[0] "%d section"
 msgstr[1] "%d sections"
 
-#: layouts/layout_as_accordion/layout_as_accordion.php:206
-#, php-format
-msgid "View the %s"
-msgstr "Voir le %s"
+#: layouts/layout_as_accordion/layout_as_accordion.php:207
+msgid "View"
+msgstr "Visualisation"
 
-#: layouts/layout_as_accordion/layout_as_accordion.php:286
-#: layouts/layout_as_accordion/layout_as_accordion.php:309
-#: layouts/layout_as_accordion/layout_as_accordion.php:323
+#: layouts/layout_as_accordion/layout_as_accordion.php:288
+#: layouts/layout_as_accordion/layout_as_accordion.php:311
+#: layouts/layout_as_accordion/layout_as_accordion.php:325
 msgid "Click to slide"
 msgstr "Cliquer pour glisser"
 
@@ -363,7 +361,7 @@ msgstr "Commentaires les plus récents"
 
 #: layouts/layout_as_yabb/layout_as_yabb.php:238
 msgid "In this section"
-msgstr "dans cette section"
+msgstr "Dans cette section"
 
 #: layouts/layout_as_yabb/layout_as_yabb.php:250
 msgid "Related topics"
@@ -376,6 +374,9 @@ msgstr "Réponses"
 #: layouts/layout_as_yabb/layout_as_yabb.php:312
 msgid "Views"
 msgstr "Visualisations"
+
+#~ msgid "View the %s"
+#~ msgstr "Voir le %s"
 
 #~ msgid "p"
 #~ msgstr "p"

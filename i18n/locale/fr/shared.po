@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-10 10:56+0100\n"
+"POT-Creation-Date: 2024-08-13 17:54+0200\n"
 "PO-Revision-Date: 2017-08-30 10:46+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -193,7 +193,7 @@ msgstr "Eléments associés"
 msgid "View the category"
 msgstr "Voir la catégorie"
 
-#: shared/global.php:1445
+#: shared/global.php:1443
 msgid "ACCEPT COOKIES"
 msgstr "ACCEPTER LES COOKIES"
 
@@ -275,11 +275,11 @@ msgstr "Le corps du message est vide"
 msgid "Error while sending the message to %s"
 msgstr "Erreur pendant l'expédition du message à %s"
 
-#: shared/members.php:93 shared/members.php:436 shared/members.php:1542
+#: shared/members.php:93 shared/members.php:436 shared/members.php:1606
 msgid "An anchor is required for this operation."
 msgstr "Une ancre est requise pour cette opération."
 
-#: shared/members.php:99 shared/members.php:442 shared/members.php:1546
+#: shared/members.php:99 shared/members.php:442 shared/members.php:1610
 msgid "A member is required for this operation."
 msgstr "Un membre est requis pour cette opération."
 

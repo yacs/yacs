@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-30 14:08+0200\n"
+"POT-Creation-Date: 2024-08-13 18:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -366,37 +366,37 @@ msgstr ""
 msgid "Cannot write adjusted image to %s."
 msgstr ""
 
-#: images/image.php:217
+#: images/image.php:240
 #, php-format
 msgid "No image information in %s."
 msgstr ""
 
-#: images/image.php:240
+#: images/image.php:263
 #, php-format
 msgid "No GD support, or unknown image type in %s."
 msgstr ""
 
-#: images/image.php:327
+#: images/image.php:350
 #, php-format
 msgid "Cannot copy image to %s"
 msgstr ""
 
-#: images/image.php:355
+#: images/image.php:378
 #, php-format
 msgid "Impossible to skrink image %s"
 msgstr ""
 
-#: images/image.php:372
+#: images/image.php:395
 #, php-format
 msgid "Impossible to write to %s."
 msgstr ""
 
-#: images/image.php:404
+#: images/image.php:427
 #, php-format
 msgid "No image information in %s"
 msgstr ""
 
-#: images/image.php:414
+#: images/image.php:437
 #, php-format
 msgid "Rejected file type %s"
 msgstr ""

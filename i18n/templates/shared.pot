@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-30 14:08+0200\n"
+"POT-Creation-Date: 2024-08-13 18:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -191,7 +191,7 @@ msgstr ""
 msgid "View the category"
 msgstr ""
 
-#: shared/global.php:1445
+#: shared/global.php:1443
 msgid "ACCEPT COOKIES"
 msgstr ""
 
@@ -262,11 +262,11 @@ msgstr ""
 msgid "Error while sending the message to %s"
 msgstr ""
 
-#: shared/members.php:93 shared/members.php:436 shared/members.php:1542
+#: shared/members.php:93 shared/members.php:436 shared/members.php:1606
 msgid "An anchor is required for this operation."
 msgstr ""
 
-#: shared/members.php:99 shared/members.php:442 shared/members.php:1546
+#: shared/members.php:99 shared/members.php:442 shared/members.php:1610
 msgid "A member is required for this operation."
 msgstr ""
 

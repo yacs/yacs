@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-30 14:03+0200\n"
+"POT-Creation-Date: 2024-08-13 17:54+0200\n"
 "PO-Revision-Date: 2023-03-30 14:05+0200\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
@@ -30,7 +30,7 @@ msgstr ""
 #: control/purge.php:335 control/purge.php:369 control/purge.php:391
 #: control/purge.php:410 control/purge.php:429 control/purge.php:448
 #: control/purge.php:465 control/scan.php:172 control/scan.php:229
-#: control/scan.php:491 control/scan.php:910 control/setup.php:100
+#: control/scan.php:491 control/scan.php:909 control/setup.php:100
 #: control/setup.php:262 control/switch.php:43 control/switch.php:56
 #: control/switch.php:86 control/switch.php:146 control/test.php:89
 #: control/virtual.php:57 control/virtual.php:97 control/virtual.php:123
@@ -172,8 +172,8 @@ msgstr "Skip transient data and minimize size of backup file"
 
 #: control/backup.php:836 control/backup.php:901 control/backup.php:924
 #: control/backup.php:961 control/chmod.php:108 control/configure.php:1024
-#: control/populate.php:197 control/scan.php:896 control/scan.php:906
-#: control/scan.php:930 control/setup.php:252 control/setup.php:295
+#: control/populate.php:197 control/scan.php:895 control/scan.php:905
+#: control/scan.php:929 control/setup.php:252 control/setup.php:295
 msgid ""
 "When you will click on the button the server will be immediately requested "
 "to proceed. However, because of the so many things to do on the back-end, "
@@ -315,7 +315,7 @@ msgstr "%d files have been updated."
 #: control/purge.php:315 control/purge.php:332 control/purge.php:366
 #: control/purge.php:388 control/purge.php:407 control/purge.php:426
 #: control/purge.php:445 control/purge.php:461 control/scan.php:488
-#: control/scan.php:886
+#: control/scan.php:885
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminated in %.2f seconds."
@@ -859,7 +859,7 @@ msgid ""
 msgstr ""
 "Review provided information and go to the bottom of the page to move forward."
 
-#: control/configure.php:963 control/scan.php:864 control/htaccess/index.php:83
+#: control/configure.php:963 control/scan.php:863 control/htaccess/index.php:83
 #, php-format
 msgid "%s has been updated"
 msgstr "%s has been updated"
@@ -985,7 +985,7 @@ msgstr ""
 "The database is currently empty. Please follow the link to create tables of "
 "the database."
 
-#: control/index.php:160 control/scan.php:901
+#: control/index.php:160 control/scan.php:900
 msgid "Create tables in the database"
 msgstr "Create tables in the database"
 
@@ -1500,7 +1500,7 @@ msgid ""
 msgstr ""
 "%s - check the database structure; also optimize data tables and update index"
 
-#: control/index.php:865 control/scan.php:891 control/scan.php:910
+#: control/index.php:865 control/scan.php:890 control/scan.php:909
 #: control/setup.php:103
 msgid "Database maintenance"
 msgstr "Database maintenance"
@@ -2554,7 +2554,7 @@ msgstr "Rebuild formatting codes cache patterns"
 msgid "Start"
 msgstr "Start"
 
-#: control/scan.php:175 control/scan.php:922
+#: control/scan.php:175 control/scan.php:921
 msgid "Scan scripts for software extensions"
 msgstr "Scan scripts for software extensions"
 
@@ -2667,7 +2667,7 @@ msgstr "Disabling extension %s"
 msgid "Linking hook %s for %s"
 msgstr "Linking hook %s for %s"
 
-#: control/scan.php:616 control/scan.php:787
+#: control/scan.php:616 control/scan.php:786
 #, php-format
 msgid "Including hook %s for %s"
 msgstr "Including hook %s for %s"
@@ -2687,24 +2687,24 @@ msgstr "Serving hook %s for %s"
 msgid "Declaration of layout %s"
 msgstr "Declaration of layout %s"
 
-#: control/scan.php:859 control/scan.php:877 control/switch.php:111
+#: control/scan.php:858 control/scan.php:876 control/switch.php:111
 #, php-format
 msgid "Impossible to write to %s."
 msgstr "Impossible to write to %s."
 
-#: control/scan.php:861
+#: control/scan.php:860
 msgid "Hooks have been compiled in parameters/hooks.include.php"
 msgstr "Hooks have been compiled in parameters/hooks.include.php"
 
-#: control/scan.php:879
+#: control/scan.php:878
 msgid "Hooks have been listed in parameters/hooks.xml"
 msgstr "Hooks have been listed in parameters/hooks.xml"
 
-#: control/scan.php:918
+#: control/scan.php:917
 msgid "This script will scan your php scripts to install software hooks."
 msgstr "This script will scan your php scripts to install software hooks."
 
-#: control/scan.php:935
+#: control/scan.php:934
 #, php-format
 msgid "Current content of %s"
 msgstr "Current content of %s"

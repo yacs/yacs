@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-30 14:08+0200\n"
+"POT-Creation-Date: 2024-08-13 18:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -501,26 +501,26 @@ msgstr ""
 msgid "Play in a separate window"
 msgstr ""
 
-#: codes/codes.php:786
+#: codes/codes.php:789
 #, php-format
 msgid "%d named person has followed the link: %s"
 msgid_plural "%d named persons have followed the link: %s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: codes/codes.php:789
+#: codes/codes.php:792
 msgid "No authenticated person has used this link yet"
 msgstr ""
 
-#: codes/codes.php:1201
+#: codes/codes.php:1204
 msgid "View this comment"
 msgstr ""
 
-#: codes/codes.php:1224 codes/codes.php:1280
+#: codes/codes.php:1227 codes/codes.php:1283
 msgid "[this file has been deleted]"
 msgstr ""
 
-#: codes/codes.php:1245 codes/codes.php:1304
+#: codes/codes.php:1248 codes/codes.php:1307
 msgid "[this file has been replaced]"
 msgstr ""
 

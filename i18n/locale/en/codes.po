@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-10 10:56+0100\n"
+"POT-Creation-Date: 2024-08-13 17:54+0200\n"
 "PO-Revision-Date: 2015-07-17 17:59+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
@@ -514,26 +514,26 @@ msgstr "Scroller"
 msgid "Play in a separate window"
 msgstr "Play in a separate window"
 
-#: codes/codes.php:786
+#: codes/codes.php:789
 #, php-format
 msgid "%d named person has followed the link: %s"
 msgid_plural "%d named persons have followed the link: %s"
 msgstr[0] "%d named person has followed the link: %s"
 msgstr[1] "%d named persons have followed the link: %s"
 
-#: codes/codes.php:789
+#: codes/codes.php:792
 msgid "No authenticated person has used this link yet"
 msgstr "No authenticated person has used this link yet"
 
-#: codes/codes.php:1201
+#: codes/codes.php:1204
 msgid "View this comment"
 msgstr "View this comment"
 
-#: codes/codes.php:1224 codes/codes.php:1280
+#: codes/codes.php:1227 codes/codes.php:1283
 msgid "[this file has been deleted]"
 msgstr "[this file has been deleted]"
 
-#: codes/codes.php:1245 codes/codes.php:1304
+#: codes/codes.php:1248 codes/codes.php:1307
 msgid "[this file has been replaced]"
 msgstr "[this file has been replaced]"
 
