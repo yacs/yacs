@@ -2778,6 +2778,10 @@ Class Files {
 			$query[] = "source='".SQL::escape($fields['source'])."'";
 		if(isset($fields['thumbnail_url']))
 			$query[] = "thumbnail_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['thumbnail_url']))."'";
+                
+                // keywords are tags in other anchors
+                if(isset($fields['tags'])) $fields['keywords'] = $fields['tags'];
+                
 		if(isset($fields['keywords']))
 			$query[] = "keywords='".SQL::escape($fields['keywords'])."'";
 		if(isset($fields['title'])) {

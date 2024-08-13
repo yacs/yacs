@@ -263,6 +263,140 @@ if(!Surfer::is_associate()) {
 	// forward to the index page
 	$menu = array('categories/' => i18n::s('Categories'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
+        
+// look for orphans
+} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'keywords')) {
+    
+    /* 1 parcours des cat, liste des mots clé avec catégorie associée confirmée (la plus ancienne)
+		réserver la cat en doublon avec mot clé associé
+	2 pour chaque entité avec un mot clé donné, attribuer la cat confirmée
+
+	3 pour chaque cat en doublon, supprimer le mot clé
+		si plus de tag, supprimer la catégorie
+     * 
+     */
+    
+    // gather keywords in database
+    $query              = "SELECT id, keywords FROM ".SQL::table_name('categories')
+                         ." WHERE keywords != '' ORDER BY id";
+    $result             = SQL::query($query);
+    $keywords_lines     = Categories::list_selected($result,'raw');
+    $keywords_all       = array();  // unique keywords
+    $keywords_dupli     = array();  // duplicate keywords by cats
+    $cats_dupli         = array();  // duplicate cats by keywords
+    
+    // counters for job done
+    $count_records      = 0;
+    $count_reassign     = 0;
+    $count_doubletag    = 0;
+    $count_dupli        = 0;
+    $count_delete       = 0;
+    
+    // find unique and duplicate
+    foreach($keywords_lines as $id => $words) {
+        
+        $words = explode(',', $words['keywords']);
+        
+        foreach ($words as $w) {
+
+            if(empty($keywords_all[$w]))
+               $keywords_all[$w] = $id;
+            else { 
+             
+                if(empty($keywords_dupli[$id]))
+                    $keywords_dupli[$id] = array($w);
+                else
+                    $keywords_dupli[$id][] = $w;
+                
+                if(empty($cats_dupli[$w]))
+                    $cats_dupli[$w] = array($id);
+                else
+                    $cats_dupli[$w][] = $id; 
+            }
+        }
+    }
+    
+    // assign entities with a keyword to the right category
+    foreach ($keywords_all as $w=>$id) {
+        
+        // get references of entities using this keyword
+        // in articles, sections, files, images
+        $query = "SELECT CONCAT('article:',id) as ref FROM ".SQL::table_name('articles')
+                . " WHERE tags RLIKE '\\\b".$w."\\\b'"
+                . " UNION"
+                . " SELECT CONCAT('section:',id) as ref FROM ".SQL::table_name('sections')
+                . " WHERE tags RLIKE '\\\b".$w."\\\b'"
+                 . " UNION"
+                . " SELECT CONCAT('file:',id) as ref FROM ".SQL::table_name('files')
+                . " WHERE keywords RLIKE '\\\b".$w."\\\b'"
+                 . " UNION"
+                . " SELECT CONCAT('image:',id) as ref FROM ".SQL::table_name('images')
+                . " WHERE tags RLIKE '\\\b".$w."\\\b'";
+        
+        $result     = SQL::query($query);
+        $references = SQL::fetch_all($result);
+        
+        foreach ($references as $r) {
+            
+            $count_records += 1;
+            
+            $done = members::assign('category:'.$id, $r['ref']);
+            if($done) {
+                $count_reassign +=1;
+                
+                if(empty($cats_dupli[$w])) continue;
+                // free the reference of any doplicate cat for this keyword
+                foreach($cats_dupli[$w] as $duplicat) {
+                    $free = members::free('category:'.$duplicat, $r['ref']);
+                }
+                
+            }
+            
+            // clean double keyword usage in reference
+            $anchor     = anchors::get($r['ref']);
+            $keywords   = (isset($anchor->item['tags']))?$anchor->item['tags']:$anchor->item['keywords'];
+            $keywords   = preg_split('/[ \t]*,\s*/', $keywords);
+            if(count($keywords) == 1) continue;    // no need to go further
+            $newk       = array_unique($keywords);
+            if(count($newk) < count($keywords)) {
+                $anchor->set_values(array('tags' => implode(', ', $newk) ));
+                $count_doubletag +=1;
+            }
+        }
+        
+    }
+    
+    // remove duplicate keywords in cats
+    // delete cat if no keyword left
+    foreach ($keywords_dupli as $id => $dupliwords) {
+        
+        $count_dupli += 1;
+        
+        $duplicat = categories::get($id);
+        $keywords =  preg_split('/[ \t]*,\s*/', $duplicat['keywords']);
+        $newk     = array_diff($keywords, $dupliwords);
+        
+        if(count($newk)) {
+            // there are still keywords so keep the cat, update it
+            $fields = array(
+                'id'        => $duplicat['id'],
+                'keywords'  => implode(', ', $newk)
+            );
+            categories::put_attributes($fields);
+            
+        } else {
+            // no more keyword left so delete this cat
+            categories::delete ($duplicat['id']);
+            $count_delete +=1;
+        }
+    }
+    
+    $context['text'] .= sprintf(i18n::s('%d records have been processed'), $count_records).BR."\n";
+    $context['text'] .= sprintf(i18n::s('%d records have been reassigned'), $count_reassign).BR."\n";
+    $context['text'] .= sprintf(i18n::s('%d records have been cleaned of double tags'), $count_doubletag).BR."\n";
+    $context['text'] .= sprintf(i18n::s('%d categories had duplicate keywords'), $count_dupli).BR."\n";
+    $context['text'] .= sprintf(i18n::s('%d categories have been deleted'), $count_delete).BR."\n";
+    
 
 // which check?
 } else {
@@ -280,6 +414,9 @@ if(!Surfer::is_associate()) {
 
 	// look for orphan articles
 	$context['text'] .= '<p><input type="radio" name="action" value="orphans" /> '.i18n::s('Look for orphan records').'</p>';
+        
+        // streamline categorization by keywords
+        $context['text'] .= '<p><input type="radio" name="action" value="keywords" /> '.i18n::s('Rebuild categorization by keywords').'</p>';
 
 	// the submit button
 	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Start')).'</p>'."\n";
@@ -294,5 +431,3 @@ if(!Surfer::is_associate()) {
 
 // render the skin
 render_skin();
-
-?>
