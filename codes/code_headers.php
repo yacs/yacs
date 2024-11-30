@@ -79,7 +79,8 @@ Class code_headers extends Code {
     **/
     public static function render_title($text, $variant) {
            global $codes_toc, $codes_toq, $context;
-
+           $codes_toc = $codes_toq = array();
+           
            // remember questions
            if($variant == 'question') {
                    $index = count($codes_toq)+1;
