@@ -1122,7 +1122,9 @@ var Yacs = {
             
             // provide path to trumbo icons
             $.trumbowyg.svgPath = url_to_root + 'included/trumbowyg/ui/icons.svg';
-            
+                 
+                 
+            console.log(Yacs.wysiwygPlugins);     
             $.each(toInit, function(){
                 
                 $(this).trumbowyg({
@@ -1135,19 +1137,22 @@ var Yacs = {
                     semantic: {
                         'div': 'div' // Editor does nothing on div tags now
                     },
+                    plugins : Yacs.wysiwygPlugins,
                     lang : surfer_lang,
                     btns : toolbar,
                     removeformatPasted: true,
                     autogrow: true,
                     minimalLinks: true,
                     defaultLinkTarget: '_blank'
-                });                
-                
+                });     
+                                
                 // make sure we won't init this textarea again
                 $(this).addClass('init');
             });
             
 	},
+        
+        wysiwygPlugins : {},
 
 
 	/**

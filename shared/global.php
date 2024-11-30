@@ -1339,29 +1339,52 @@ function render_skin($with_last_modified=TRUE) {
 	// activate tinyMCE, if available
 	if(isset($context['javascript']['tinymce'])) {
             
+            $wig_root = 'included/trumbowyg/';
+            
             // base css and js
-            Page::load_style('included/trumbowyg/ui/trumbowyg.min.css');
-            Page::defer_script('included/trumbowyg/trumbowyg.min.js');
+            Page::load_style($wig_root.'ui/trumbowyg.min.css');
+            Page::defer_script($wig_root.'trumbowyg.min.js');
             // plugin cleanpast
-            Page::defer_script('included/trumbowyg/plugins/cleanpaste/trumbowyg.cleanpaste.min.js');
-            // plugin table if asked
-            if(strpos($context['wysiwyg_toolbar'], 'table') !== null) {
-                Page::load_style('included/trumbowyg/plugins/table/ui/trumbowyg.table.min.css');
-                Page::defer_script('included/trumbowyg/plugins/table/trumbowyg.table.min.js');
+            Page::defer_script($wig_root.'plugins/cleanpaste/trumbowyg.cleanpaste.min.js');
+            
+            // load of plugins (installed by webmaster), marked with p- suffix 
+            // in wysywig toolbar in control panel, pages construction
+            $matches = array();
+            preg_match_all('/\bp-([a-z]*)\b/',$context['wysiwyg_toolbar'], $matches);
+            if(count($matches)) $matches = $matches[1]; // keep only exact matches
+
+            foreach ($matches as $plugin) {
+                
+                $plug_root  = $wig_root.'plugins/'.$plugin.'/'; 
+                $file_js    = $plug_root.'trumbowyg.'.$plugin.'.min.js';
+                
+                // search if js file exist
+                if(Safe::filesize($file_js)) {
+                    // load it
+                    Page::defer_script($file_js);
+                    
+                    // check any customized conf file
+                    $file_custom = $plug_root.'custom.'.$plugin.'.js';
+                    if(Safe::filesize($file_custom))    Page::defer_script($file_custom);
+                    
+                    // check any css file
+                    $file_css = $plug_root.'ui/trumbowyg.'.$plugin.'.min.css';
+                    if(Safe::filesize($file_css))       Page::load_style($file_css);
+                }
             }
-            // plugin colors if asked
-            if(strpos($context['wysiwyg_toolbar'], 'foreColor') !== null || strpos($context['wysiwyg_toolbar'], 'backColor') !== null) {
-                Page::load_style('included/trumbowyg/plugins/colors/ui/trumbowyg.colors.min.css');
-                Page::defer_script('included/trumbowyg/plugins/colors/trumbowyg.colors.min.js');
-            }
+            
+            
             //language file if any
-            if(Safe::filesize('included/trumbowyg/langs/'.$context['language'].'.min.js')) {
-                Page::defer_script('included/trumbowyg/langs/'.$context['language'].'.min.js');
+            if(Safe::filesize($wig_root.'langs/'.$context['language'].'.min.js')) {
+                Page::defer_script($wig_root.'langs/'.$context['language'].'.min.js');
             }
 
+            // remove plugin calls from toolbar before init
+            $toolbar = preg_replace('/\bp-([a-z]*)\b/', '', $context['wysiwyg_toolbar']);
+            
             // initialisation
             Page::insert_script("\n"
-                    . 'var wysiwyg_toolbar ="'.$context['wysiwyg_toolbar']."\";\n"
+                    . 'var wysiwyg_toolbar ="'.$toolbar."\";\n"
                     . 'Yacs.wysiwygInit();'."\n"
                   );
 
