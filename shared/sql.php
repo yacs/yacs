@@ -1017,7 +1017,7 @@ Class SQL {
 
 			// build new indexes
 			foreach($indexes as $index => $definition) {
-				$query .= ", ADD `".$index.'` '.$definition;
+				$query .= ", ADD ".$index.' '.$definition;
 			}
 		}
 

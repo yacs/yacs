@@ -300,5 +300,3 @@ function send_body() {
 
 // render the skin
 render_skin();
-
-?>
