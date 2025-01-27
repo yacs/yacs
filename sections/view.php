@@ -209,7 +209,7 @@ elseif(isset($context['arguments'][1]) && isset($context['arguments'][2])) {
 }
 
 // sanity check
-if($zoom_index < 1)
+if(!is_int($zoom_index) || $zoom_index < 1)
 	$zoom_index = 1;
 
 // get the item from the database

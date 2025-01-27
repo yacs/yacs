@@ -137,8 +137,8 @@ global $render_overlaid;
 $whole_rendering = !$render_overlaid;
 
 // sanity check
-if($zoom_index < 1)
-    $zoom_index = 1;
+if(!is_int($zoom_index) || $zoom_index < 1)
+	$zoom_index = 1;
 
 // get the item from the database
 $item = Users::get($id);

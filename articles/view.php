@@ -181,7 +181,7 @@ if($render_overlaid)
 // view.php/12/nick name induces no particular processing
 
 // sanity check
-if($zoom_index < 1)
+if(!is_int($zoom_index) || $zoom_index < 1)
 	$zoom_index = 1;
 
 // get the item from the database
