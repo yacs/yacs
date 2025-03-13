@@ -1542,7 +1542,6 @@ function render_skin($with_last_modified=TRUE) {
 
 	// no valid template has been loaded, build one from scratch
 	else {
-		global $context;
 		echo "<html>\n<head>\n";
 
 		// the title
