@@ -113,11 +113,11 @@ if(!Surfer::is_associate()) {
 
 	// create table with the appropriate structure
 	$query = "CREATE TABLE `".SQL::table_name('stat_sections')."` (\n"
-		."parent_id TEXT DEFAULT '',\n"
-		."edit_date TEXT DEFAULT '',\n"
-		."section_id TEXT DEFAULT '',\n"
-		."section_label TEXT DEFAULT '',\n"
-		."active TEXT DEFAULT '',\n"
+		."parent_id TEXT,\n"
+		."edit_date TEXT,\n"
+		."section_id TEXT,\n"
+		."section_label TEXT,\n"
+		."active TEXT,\n"
 		."articles INT DEFAULT 0,\n"
 		."articles_private INT DEFAULT 0,\n"
 		."comments INT DEFAULT 0,\n"
@@ -142,11 +142,11 @@ if(!Surfer::is_associate()) {
 
 	// create table with the appropriate structure
 	$query = "CREATE TABLE `".SQL::table_name('stat_sections_'.$current_year)."` (\n"
-		."parent_id TEXT DEFAULT '',\n"
-		."edit_date TEXT DEFAULT '',\n"
-		."section_id TEXT DEFAULT '',\n"
-		."section_label TEXT DEFAULT '',\n"
-		."active TEXT DEFAULT '',\n"
+		."parent_id TEXT,\n"
+		."edit_date TEXT,\n"
+		."section_id TEXT,\n"
+		."section_label TEXT,\n"
+		."active TEXT,\n"
 		."articles INT DEFAULT 0,\n"
 		."articles_private INT DEFAULT 0,\n"
 		."comments INT DEFAULT 0,\n"

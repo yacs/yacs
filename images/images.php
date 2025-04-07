@@ -832,7 +832,7 @@ Class Images {
 		$fields['edit_id']		= "MEDIUMINT DEFAULT 0 NOT NULL";
 		$fields['edit_address']         = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_date']            = "DATETIME";
-                $fields['tags'] 		= "TEXT DEFAULT '' NOT NULL";
+                $fields['tags'] 		= "TEXT NOT NULL";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 	= "(id)";
