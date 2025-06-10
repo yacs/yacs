@@ -734,18 +734,18 @@ Class Dates {
 
 		// check the year
 		if($year < 1970)
-			$year = (int)gmdate('%Y');
+			$year = (int)gmdate('Y');
 
 		// check the month
 		if(($month < 1) || ($month > 12))
-			$month = (int)gmdate('%m');
+			$month = (int)gmdate('m');
 
 		// check the day
 		if(($day < 1) || ($day > 31))
-			$day = (int)gmdate('%d');
+			$day = (int)gmdate('d');
 
 		// prefix to match
-		$match = gmdate('%Y-%m-%d', gmmktime(0, 0, 0, $month, $day, $year)).'%';
+		$match = gmdate('Y-m-d', gmmktime(0, 0, 0, $month, $day, $year)).'%';
 
 		// the request
 		$query = "SELECT dates.date_stamp as date_stamp, articles.* FROM ".SQL::table_name('dates')." as dates"
@@ -775,15 +775,15 @@ Class Dates {
 
 		// check the year
 		if($year < 1970)
-			$year = (int)date('%Y');
+			$year = (int)date('Y');
 
 		// check the month
 		if(($month >= 1) && ($month <= 12))
-			$prefix = date('%Y-%m-', mktime(0, 0, 0, $month, 1, $year));
+			$prefix = date('Y-m-', mktime(0, 0, 0, $month, 1, $year));
 
 		// check the full year
 		else
-			$prefix = date('%Y-', mktime(0, 0, 0, 1, 1, $year));
+			$prefix = date('Y-', mktime(0, 0, 0, 1, 1, $year));
 
 		// the list of dates
 		$output = Dates::list_for_prefix($prefix, $variant, $anchor);
@@ -805,7 +805,7 @@ Class Dates {
 
 		// default is current month
 		if(!$prefix)
-			$prefix = gmdate('%Y-%m-');
+			$prefix = gmdate('Y-m-');
 
 		// restrict the query to addressable content
 		$where = Articles::get_sql_where();
@@ -891,9 +891,9 @@ Class Dates {
 
 		// starting this month
 		if($back_to_first)
-			$match = gmdate('%Y-%m-01');
+			$match = gmdate('Y-m-01');
 		else
-			$match = gmdate('%Y-%m-%d');
+			$match = gmdate('Y-m-d');
 
 		// only for one anchor
 		if($anchor)
@@ -943,7 +943,7 @@ Class Dates {
 		}
 
 		// now
-		$match = gmdate('%Y-%m-%d');
+		$match = gmdate('Y-m-d');
 
 		// the request
 		$query = "SELECT dates.date_stamp as date_stamp, articles.* FROM ".SQL::table_name('dates')." as dates"

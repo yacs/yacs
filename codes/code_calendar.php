@@ -38,7 +38,7 @@ class Code_Calendar extends Code {
                     $items = Dates::list_for_prefix(NULL, 'compact', NULL);
 
             // build calendar for current month
-            $text = Dates::build_months($items, FALSE, TRUE, FALSE, TRUE, gmdate('%Y'), gmdate('%m'), 'compact calendar');
+            $text = Dates::build_months($items, FALSE, TRUE, FALSE, TRUE, gmdate('Y'), gmdate('m'), 'compact calendar');
 
             // job done
             return $text;

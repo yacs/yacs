@@ -25,7 +25,7 @@ elseif(isset($_REQUEST['day']))
 	$target = $_REQUEST['day'];
 $target = strip_tags($target);
 if($target < '1970')
-	$target = gmdate('%Y/%m/%d');
+	$target = gmdate('Y/m/d');
 
 // do not accept more than 10 chars
 if(strlen($target) > 10)
@@ -76,10 +76,10 @@ if((strlen($target) < 8) || (strlen($target) > 10)) {
 			if(!Surfer::is_crawler()) {
 
 				// previous day
-				$previous = gmdate('%Y/%m/%d', gmmktime(0, 0, 0, $month, $day-1, $year));
+				$previous = gmdate('Y/m/d', gmmktime(0, 0, 0, $month, $day-1, $year));
 
 				// next day
-				$next = gmdate('%Y/%m/%d', gmmktime(0, 0, 0, $month, $day+1, $year));
+				$next = gmdate('Y/m/d', gmmktime(0, 0, 0, $month, $day+1, $year));
 
 				// neighbours
 				$neighbours = array(Dates::get_url($previous, 'day'), Skin::build_date($previous, 'standalone'),

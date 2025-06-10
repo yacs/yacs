@@ -25,7 +25,7 @@ elseif(isset($_REQUEST['year']))
 	$year = $_REQUEST['year'];
 $year = strip_tags($year);
 if($year < 1970)
-	$year = (int)gmdate('%Y');
+	$year = (int)gmdate('Y');
 
 // load the skin
 load_skin('dates');

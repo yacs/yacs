@@ -27,7 +27,7 @@ elseif(isset($_REQUEST['month']))
 	$target = $_REQUEST['month'];
 $target = strip_tags($target);
 if($target < '1970')
-	$target = gmdate('%Y/%m');
+	$target = gmdate('Y/m');
 
 // do not accept more than 7 chars
 if(strlen($target) > 7)
@@ -72,10 +72,10 @@ if((strlen($target) < 6) && (strlen($target) > 7)) {
 			if(!Surfer::is_crawler()) {
 
 				// previous month
-				$previous = gmdate('%Y/%m', gmmktime(0, 0, 0, $month-1, 1, $year));
+				$previous = gmdate('Y/m', gmmktime(0, 0, 0, $month-1, 1, $year));
 
 				// next month
-				$next = gmdate('%Y/%m', gmmktime(0, 0, 0, $month+1, 1, $year));
+				$next = gmdate('Y/m', gmmktime(0, 0, 0, $month+1, 1, $year));
 
 				// neighbours
 				$neighbours = array(Dates::get_url($previous, 'month'), Dates::get_month_label($previous),
