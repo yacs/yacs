@@ -3483,7 +3483,7 @@ Class Sections {
 		$indexes['INDEX language']          = "(language)";
 		$indexes['INDEX nick_name']         = "(nick_name)";
 		$indexes['INDEX overlay_id']        = "(overlay_id)";
-		$indexes['INDEX `rank`']              = "(rank)";
+		$indexes['INDEX `rank`']            = "(`rank`)";
 		$indexes['INDEX title']             = "(title(12))";
 		$indexes['FULLTEXT INDEX']          = "full_text(title, introduction, description)";
 
