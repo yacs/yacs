@@ -1,0 +1,34 @@
+// === Mutant Skin - Variables personnalisées ===
+
+// Couleurs principales
+$color-link: #891D16 !default;          // Liens, boutons
+$color-button: #891D16 !default;        // Boutons
+$color-button-light: lighten($color-button, 10%) !default;
+$color-modal: #0E191C !default;         // Fond modale
+$note-color: #0E191C !default;          // Bloc "note"
+$caution-color: #891D16 !default;       // Bloc "attention"
+
+// Background généraux
+$body-background: #0E191C !default;
+$header-background: #121D21 !default;
+$footer-background: #121D21 !default;
+
+// Texte
+$color-lesser: #BFBFBF !default;
+
+// Onglets
+$color-tabs-borders: #21363B !default;
+$color-tabs: #16262B !default;
+$color-nav-tabs: #891D16 !default;
+$color-nav-back: rgba(14,25,28,0.7) !default;
+$color-nav-link: #fff !default;
+$color-nav-cur-link: #891D16 !default;
+$color-nav-cur-bckg: lighten(#891D16, 10%) !default;
+
+$footer-bg:         $footer-background !default;
+$footer-link:       $color-link !default;
+$footer-link-hover: lighten($color-link, 10%) !default;
+$footer-border:     lighten($footer-background, 10%) !default;
+$footer-head:       $color-link !default;
+$footer-text:       #fff !default;
+$footer-lesser:     $color-lesser !default;

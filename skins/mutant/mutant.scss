@@ -1,0 +1,609 @@
+/**
+* Mutant Skin - mutant.scss
+* Couleurs principales : #0E191C (bleu nuit), #891D16 (rouge mutant)
+* Colonnes larges, navigation à droite, site centré, responsive, contrastes adaptés.
+*/
+
+/* ------------------ Instructions pour le logo ------------------
+   Le logo doit idéalement être importé en SVG pour une netteté parfaite.
+   Si c'est une image bitmap, exporte-le au moins en 2x (ex: 240px de haut) pour la netteté sur écrans Retina.
+
+   - Place le logo dans un conteneur (ex: .logo, .site-logo, ou #logo).
+   - Pour un header classique, limite la hauteur à 50px à 60px pour garder un bon équilibre visuel.
+   - Si tu veux afficher le logo à sa taille originale (120px de haut) selon ton design, ajuste la valeur max-height ci-dessous.
+   - Adapte la valeur en responsive si besoin.
+
+   Exemple HTML :
+   <a href="/" class="logo"><img src="logo.svg" alt="Nom du site"></a>
+*/
+
+.logo img,
+.site-logo img,
+#logo img {
+    display: block;
+    height: auto;
+    max-height: 60px; // Limite la hauteur en header (change à 120px pour un affichage plus grand)
+    width: auto;
+}
+
+/* Responsive : logo plus petit sur mobile si besoin */
+@media (max-width: $medium) {
+    .logo img,
+    .site-logo img,
+    #logo img {
+        max-height: 42px;
+    }
+}
+
+/* ------------------ Layout général ------------------ */
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: $body-background;
+    color: #222;
+    font-family: 'Roboto', 'Lato', Arial, sans-serif;
+}
+
+/* Wrapper principal pour les colonnes */
+#wrapper {
+    display: flex;
+    align-items: flex-start;
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    box-sizing: border-box;
+    gap: 0; // pas d'espace, border-left fera la séparation
+}
+
+/* Centrage du contenu général */
+.inner {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 1280px;
+    padding-left: 24px;
+    padding-right: 24px;
+
+    @media (max-width: $medium) {
+        max-width: 100vw;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}
+/* --- HEADER FLEX --- */
+.header-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  min-height: 80px;
+}
+
+/* Logo aligné à gauche */
+.logo-group {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+.logo img {
+  display: block;
+  max-height: 120px;
+  width: auto;
+  height: auto;
+  padding:5px;
+}
+
+/* Menu occupe tout l'espace restant à droite */
+.main-nav {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  min-width: 0;
+}
+
+/* Pour les tabs générés par Page::tabs(), style possible selon structure générée */
+.main-nav ul {
+  display: flex;
+  gap: 2em;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.main-nav li {
+  margin: 0;
+}
+.main-nav a {
+  color: #0E191C;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0.4em 0.8em;
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s;
+}
+.main-nav a:hover,
+.main-nav a:focus {
+  background: #891D16;
+  color: #fff;
+}
+
+/* Responsive : menu sous le logo */
+@media (max-width: $medium) {
+  .header-flex {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  .main-nav {
+    justify-content: center;
+    width: 100%;
+    margin-top: 8px;
+  }
+  .main-nav ul {
+    gap: 1em;
+  }
+  .logo img {
+    max-height: 42px;
+  }
+}
+/* ------------------ Colonnes ------------------ */
+
+/* Pour que les colonnes occupent 100% de la largeur de la classe .contenu */
+/* La classe .contenu est le flex-container pour les deux colonnes */
+.contenu {
+    display: flex;
+    flex-direction: row;
+    width: 100%;      // Prend toute la largeur de son parent
+    max-width: 100%;  // Pas de limite max
+    margin: 0;
+    box-sizing: border-box;
+    gap: 0;           // Pas d'espace entre les colonnes (tu peux mettre gap: 24px si tu veux un espace)
+}
+
+/* Colonne principale */
+.content {
+    flex: 3 1 0%;
+    min-width: 0;
+    margin: 0;
+    padding: 32px;
+    background: #fff;
+    border-radius: 12px 0 0 12px;
+    box-shadow: 0 4px 24px rgba(14,25,28,0.07);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Colonne navigation */
+#navigation_panel {
+    flex: 1 1 220px;
+    min-width: 180px;
+    max-width: 320px;
+    margin: 0;
+    padding: 24px 16px;
+    background: #16262B;
+    color: #fff;
+    border-radius: 0 12px 12px 0;
+    box-shadow: 0 2px 12px rgba(14,25,28,0.10);
+    border-left: 4px solid #891D16;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Responsive : pile tout en colonne sur petits écrans */
+@media (max-width: $medium) {
+    .contenu {
+        flex-direction: column;
+        width: 100vw;
+    }
+    .content,
+    #navigation_panel {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 0 16px 0;
+        border-radius: 10px;
+        box-shadow: none;
+        border-left: none;
+    }
+}
+
+/* ------------------ Liens navigation ------------------ */
+
+#navigation_panel a,
+#navigation_panel a:link,
+#navigation_panel a:visited {
+    color: #FFD7B0; // Orange clair très lisible sur fond sombre
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+#navigation_panel a:hover,
+#navigation_panel a:focus {
+    color: #fff1e1;
+    text-decoration: underline;
+}
+
+/* ------------------ Titres Hn ------------------ */
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Space Mono', 'Roboto', 'Lato', Arial, sans-serif;
+    font-weight: bold;
+    color: #891D16;
+    margin-top: 1.5em;
+    margin-bottom: 0.6em;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+}
+
+h1 {
+    font-size: 2.6rem;
+    color: #0E191C;
+    border-left: 6px solid #891D16;
+    padding-left: 0.6em;
+    margin-bottom: 1em;
+}
+
+h2 {
+    font-size: 2.1rem;
+    border-left: 4px solid #891D16;
+    padding-left: 0.5em;
+}
+
+h3 {
+    font-size: 1.6rem;
+    border-left: 3px solid #891D16;
+    padding-left: 0.4em;
+}
+
+h4 {
+    font-size: 1.2rem;
+    border-left: 2px solid #891D16;
+    padding-left: 0.3em;
+}
+
+h5 {
+    font-size: 1rem;
+    border-left: 2px dashed #891D16;
+    padding-left: 0.3em;
+    font-style: italic;
+}
+
+/* ------------------ Panels structure (pas de bordure) ------------------ */
+
+#header_panel,
+#content_panel,
+#navigation_panel,
+#extra_panel,
+#footer_panel {
+    border: none;
+}
+/* Texte utilitaire */
+.text-center { text-align: center; }
+.text-italic { font-style: italic; }
+.text-muted { color: #888; }
+
+/* Lead/intro et résumé */
+.lead {
+  font-size: 1.25em;
+  font-weight: 500;
+  margin-bottom: 0.5em;
+}
+.summary {
+  font-size: 1.1em;
+  font-weight: 500;
+  margin-bottom: 1.2em;
+}
+
+/* Tag thématique */
+.tag {
+  display: inline-block;
+  padding: 0 0.4em;
+  border-radius: 8px;
+  font-style: italic;
+  background: #eee;
+  color: #444;
+}
+.tag-highlight {
+  background: #FFD7B0;
+  color: #891D16;
+}
+
+/* Boîtes génériques */
+.box {
+  border-radius: 10px;
+  padding: 1em 1.5em;
+  margin: 1.2em 0;
+  font-size: 1em;
+}
+.box-info {
+  background: #f8f2e6;
+  border-left: 4px solid #891D16;
+  color: #222;
+}
+.box-highlight {
+  background: #ffd7b0;
+  color: #891D16;
+  border-left: 5px solid #891D16;
+  margin-top: 2em;
+}
+.box-light {
+  background: #f2f7f7;
+  border-left: 4px solid #891D16;
+  color: #222;
+  margin: 1em 0;
+}
+.mt-0 { margin-top: 0 !important; }
+
+/* Séparateur réutilisable */
+.separator {
+  border: none;
+  border-top: 2px dashed #891D16;
+  margin: 2.5em 0 2em 0;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Planning/horaire générique */
+.schedule {
+  margin-bottom: 2em;
+}
+.schedule-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-bottom: 0.7em;
+  padding: 0.25em 0;
+}
+.schedule-time {
+  flex: 0 0 70px;
+  font-weight: bold;
+  color: #891D16;
+  font-family: 'Space Mono', monospace;
+  text-align: right;
+  margin-right: 1.1em;
+  background: #f4eae8;
+  border-radius: 5px;
+  padding: 0.2em 0.7em 0.2em 0.7em;
+}
+.schedule-desc {
+  flex: 1 1 auto;
+  color: #222;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: $medium) {
+  .box, .box-highlight, .box-light {
+    padding: 1em 0.7em;
+  }
+  .schedule-row {
+    flex-direction: column;
+  }
+  .schedule-time {
+    text-align: left;
+    margin-bottom: 0.2em;
+    margin-right: 0;
+  }
+}
+
+// ---- Structure principale du footer ----
+#footer_panel {
+  background: $footer-bg;
+  color: $footer-text;
+  padding: 2.5em 0 1.2em 0;
+  font-size: 1.07em;
+  border-top: 5px solid $color-link;
+  letter-spacing: 0.01em;
+  margin-top: 3em;
+  font-family: 'Montserrat', Arial, sans-serif;
+  box-shadow: 0 -4px 16px 0 rgba(14,25,28,0.12);
+}
+
+#footer_panel a {
+  color: $footer-link;
+  text-decoration: none;
+  transition: color .2s;
+}
+#footer_panel a:hover, 
+#footer_panel a:focus {
+  color: $footer-link-hover;
+  text-decoration: underline;
+}
+
+.has-gutter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5em 2em;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.left_footer > div {
+  flex: 1 1 200px;
+  min-width: 210px;
+}
+
+.blason img {
+  max-width: 110px;
+  height: auto;
+  display: block;
+  margin-bottom: .5em;
+  filter: drop-shadow(0 0 4px $color-link + '44');
+}
+
+/* Contact et titres */
+.contact h4, .footer-links h4 {
+  color: $footer-head;
+  font-size: 1.13em;
+  font-weight: 700;
+  margin-bottom: .5em;
+  letter-spacing: 0.03em;
+}
+
+.contact p {
+  margin: 0 0 .5em 0;
+  line-height: 1.6;
+  font-size: 1em;
+  color: $footer-text;
+}
+
+/* Liens externes */
+.footer-links ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.footer-links li {
+  margin-bottom: .4em;
+}
+.footer-links a::before {
+  content: "• ";
+  color: $footer-head;
+  font-weight: bold;
+  margin-right: .2em;
+}
+
+/* Liens internes */
+.menufoot p {
+  margin: 0 0 .8em 0;
+}
+.menufoot a {
+  color: $footer-link;
+  font-size: 1em;
+}
+
+/* Mentions légales, admin */
+.mentions {
+  margin-top: 2em;
+  text-align: center; 
+  font-size: .94em;
+  color: $color-lesser;
+  opacity: .88;
+}
+.mentions img {
+  vertical-align: middle;
+  max-width: 20px;
+  margin-right: .5em;
+  opacity: .7;
+  filter: grayscale(1);
+}
+
+/* Mini-lien admin (icône) */
+#menufooter a {
+  color: $footer-lesser;
+  text-decoration: none;
+}
+
+/* Footer bottom info (copyright etc.) */
+#footer_panel > p {
+  margin: 2em auto 0 auto;
+  max-width: 1200px;
+  color: $footer-lesser;
+  font-size: 0.97em;
+  line-height: 1.6;
+  text-align: center;
+  border-top: 1px solid $footer-border;
+  padding-top: 1.2em;
+}
+#footer_panel > p a {
+  color: $color-link;
+  text-decoration: underline;
+  font-weight: 500;
+}
+#footer_panel > p a:hover {
+  color: $footer-link-hover;
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .has-gutter {
+    flex-direction: column;
+    gap: 1.6em 0;
+  }
+  .left_footer > div {
+    min-width: 0;
+  }
+  .mentions {
+    text-align: left;
+    margin-top: 1.2em;
+  }
+}
+
+@media (max-width: 600px) {
+  #footer_panel {
+    padding: 1.2em 0 .5em 0;
+    font-size: 0.99em;
+  }
+  .has-gutter {
+    padding: 0 1em;
+  }
+  .blason img {
+    max-width: 80px;
+  }
+  #footer_panel > p {
+    font-size: 0.93em;
+    padding-top: .7em;
+  }
+}
+/* ------------------ Divers : boutons, modales, blocs spéciaux, etc. ------------------ */
+
+button,
+input[type="submit"],
+input[type="button"],
+.button {
+    background: $color-button;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 0.4em 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+    box-shadow: none;
+}
+button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+.button:hover {
+    background: $color-button-light;
+}
+
+/* Blocs spéciaux */
+.note, .box-note {
+    background: $note-color;
+    color: #fff;
+    padding: 1em;
+    border-radius: 7px;
+}
+.caution, .box-caution {
+    background: $caution-color;
+    color: #fff;
+    padding: 1em;
+    border-radius: 7px;
+}
+
+/* Modale */
+.modal {
+    background: $color-modal;
+    border-radius: 10px;
+    box-shadow: 0 0 24px rgba(14,25,28,0.2);
+}
+
+/* Texte secondaire */
+.secondary, .lesser, .muted {
+    color: $color-lesser;
+}
+
+/* ------------------ Fallbacks et utilitaires ------------------ */
+
+/* Pour éviter que le contenu déborde sur petits écrans */
+* {
+    box-sizing: border-box;
+}
