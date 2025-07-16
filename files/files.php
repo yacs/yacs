@@ -2989,8 +2989,8 @@ Class Files {
 		$indexes['PRIMARY KEY'] 		= "(id)";
 		$indexes['INDEX active']		= "(active)";
 		$indexes['INDEX anchor']		= "(anchor)";
-                $indexes['INDEX overlay_id']    = "(overlay_id)";
-		$indexes['INDEX `rank`']			= "(rank)";
+        $indexes['INDEX overlay_id']    = "(overlay_id)";
+		$indexes['INDEX `rank`']		= "(`rank`)";
 		$indexes['INDEX title'] 		= "(title(25))";
 		$indexes['FULLTEXT INDEX']		= "full_text(title, source, keywords)";
 
