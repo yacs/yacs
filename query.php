@@ -252,7 +252,7 @@ if($with_form) {
 	if(!isset($item['title']))
 		$item['title'] = '';
 	$label = i18n::s('Query object').' *';
-	$input = '<input name="title" size="52" value="'.encode_field($item['title']).'" />';
+	$input = '<input type="text" name="title" size="52" value="'.encode_field($item['title']).'" />';
 	$hint = i18n::s('The main object of your query');
 	$fields[] = array($label, $input, $hint);
 
