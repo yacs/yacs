@@ -836,6 +836,11 @@ figure {max-width: 100%;}
     color : $color-lesser;
 }
 
+// hide honeypot for bots
+.yenoh {
+    display: none;
+}
+
 @media only screen and (max-width: $small) {
     
  

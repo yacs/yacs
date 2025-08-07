@@ -312,6 +312,14 @@ elseif(!Surfer::is_associate()) {
                 . 'value="'.((isset($context['alt_antibot_answer']))?$context['alt_antibot_answer']:'').'" />';
         
         $fields[] = array($label, $input);
+        
+        // honeypot for bots
+        $label = i18n::s('Honey Pot (anti-robot)');
+        $checked = isset($context['use_honeypot_forbot']) && ($context['use_honeypot_forbot'] == 'Y');
+        $input = '<input type=checkbox name=use_honeypot_forbot value="Y"';
+        if($checked)$input .= ' checked="checked"';
+        $input .= '/> '.i18n::s('Put a hidden field to trap most simple bots.');
+        $fields[] = array($label, $input);
 
 	// default is to authenticate locally
 	$custom_authenticator = '';
@@ -675,6 +683,8 @@ elseif(!Surfer::is_associate()) {
                 $content .= '$context[\'alt_antibot_question\']=\''.addcslashes($_REQUEST['alt_antibot_question'], "\\'")."';\n";
         if(isset($_REQUEST['alt_antibot_answer']))
                 $content .= '$context[\'alt_antibot_answer\']=\''.addcslashes($_REQUEST['alt_antibot_answer'], "\\'")."';\n";
+        if(isset($_REQUEST['use_honeypot_forbot']))
+                $content .= '$context[\'use_honeypot_forbot\']=\''.addcslashes($_REQUEST['use_honeypot_forbot'], "\\'")."';\n";
 	$content .= '?>'."\n";
         
         

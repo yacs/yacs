@@ -3584,7 +3584,7 @@ Class Articles {
 		$indexes['INDEX overlay_id']	= "(overlay_id)";
 		$indexes['INDEX publish_date']	= "(publish_date)";
 		$indexes['INDEX publish_id']	= "(publish_id)";
-		$indexes['INDEX `rank`']			= "(rank)";
+		$indexes['INDEX `rank`'] 	    = "(`rank`)";
 		$indexes['INDEX review_date']	= "(review_date)";
 		$indexes['INDEX title'] 		= "(title(255))";
 		$indexes['FULLTEXT INDEX']		= "full_text(title, source, introduction, description)";

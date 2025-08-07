@@ -2141,7 +2141,7 @@ Class Categories {
 		$indexes['INDEX keywords']		= "(keywords(255))";
 		$indexes['INDEX nick_name']             = "(nick_name)";
 		$indexes['INDEX path']			= "(path(255))";
-		$indexes['INDEX `rank`']			= "(rank)";
+		$indexes['INDEX `rank`']			= "(`rank`)";
 		$indexes['INDEX title'] 		= "(title(255))";
 		$indexes['FULLTEXT INDEX']              = "full_text(title, introduction, description, keywords)";
 
