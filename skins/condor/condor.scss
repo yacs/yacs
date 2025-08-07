@@ -1,0 +1,241 @@
+/**
+* Condor Skin
+*
+* @author : Alexis Raimbault
+* @reference
+* @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+*/
+
+// Import variables from tunes.scss
+@import "tunes.scss";
+
+///// ensure we fit to screen height
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f0f0f0; // Light background for the page
+}
+
+///// Header and Footer styling
+#header_panel,
+#footer_panel {
+    background-color: $color-primary;
+    color: white;
+    padding: 1em;
+    text-align: center;
+    border-radius: 0; // Remove rounded corners for header/footer
+    margin: 0;
+}
+
+#header_panel {
+    background-color: $color-primary;
+    color: white;
+    padding: 1em;
+    text-align: center;
+    border-radius: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    
+    .header-left {
+        flex-shrink: 0;
+        #header_title {
+            margin: 0;
+            a {
+                color: white;
+                text-decoration: none;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+        #site_logo {
+            max-height: 80px;
+            width: auto;
+            vertical-align: middle;
+        }
+    }
+
+    .header-right {
+        flex-grow: 1; // Allow the right section to take available space
+        display: flex; // Use flexbox for slogan and menu
+        flex-direction: column; // Stack slogan and menu vertically
+        align-items: center; // Center items horizontally within this column
+
+        #header_slogan {
+            color: lighten($color-primary, 30%);
+            margin-bottom: 0.5em;
+            text-align: center; // Center the slogan text
+            width: 100%; // Ensure it takes full width for centering
+        }
+
+        #custom_header_menu {
+            width: 100%; // Menu takes full width of its parent
+            .header-menu-list {
+                display: flex;
+                justify-content: space-between; // Distribute items evenly with space between them
+                align-items: center;
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                width: 100%; // Ensure list takes full width
+            }
+
+            .header-menu-item {
+                flex: 1; // Allow items to grow and shrink, taking equal space
+                margin: 0 0.5em; // Adjust margin for spacing (gouttière)
+                text-align: center;
+
+                a {
+                    text-decoration: none;
+                    color: white;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+
+                img {
+                    display: block;
+                    margin: 0 auto 0.2em auto;
+                    height: auto;
+                }
+
+                .header-menu-text {
+                    display: block;
+                    font-size: 0.9em;
+                    white-space: nowrap;
+                    overflow: hidden; // Hide overflow text
+                    text-overflow: ellipsis; // Add ellipsis for overflow text
+                }
+            }
+        }
+    }
+}
+
+///// Main content area
+#wrapper {
+    flex: 1 1 auto; /* flex-grow becomes 1 */
+    display: flex;
+    transition: all 0.3s ease-in-out; // Smooth transition for layout changes
+}
+
+#content_panel {
+    flex: 1;
+    background-color: white;
+    padding: 1em;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    margin: 0.5em;
+}
+
+// Navigation column (left sidebar)
+#navigation_panel {
+    order: -1; // Place it before content
+    background-color: #f8f8f8;
+    padding: 1em;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    transition: all 0.3s ease-in-out; // Smooth transition for collapsing
+    min-width: 150px; // Base width
+    max-width: 250px; // Max width
+    width: 15%; // Default width
+    margin: 0.5em;
+    border-radius: 5px;
+}
+
+#sidebar_toggle {
+    position: fixed; // Fixed position relative to viewport
+    top: 50%; // Vertically center
+    left: 0; // Align to the left edge
+    transform: translateY(-50%); // Adjust for vertical centering
+    z-index: 1000; // Ensure it's above other content
+    background-color: $color-primary;
+    color: white;
+    border: none;
+    padding: 0.8em 0.5em; // Smaller padding for a compact button
+    font-size: 1.1em;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0; // Rounded corners only on the right side
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        background-color: darken($color-primary, 10%);
+    }
+
+    .fa {
+        margin-right: 0; // Remove margin for icon
+    }
+}
+
+body.sidebar-collapsed {
+    #navigation_panel {
+        width: 0;
+        min-width: 0;
+        max-width: 0;
+        overflow: hidden;
+        padding: 0;
+        margin: 0;
+        border: none;
+    }
+    #content_panel {
+        width: 100%; // Content takes full width when sidebar is collapsed
+        flex: 1; // Ensure it takes available space
+    }
+
+    #sidebar_toggle {
+        left: 0; // Stay on the left edge when collapsed
+    }
+}
+
+///// Responsive rules
+@media (max-width : $medium) {
+    #wrapper {
+        flex-direction: column;
+    }
+    #navigation_panel {
+        width: auto;
+        min-width: auto;
+        max-width: auto;
+        margin: 0.5em;
+    }
+    #content_panel {
+        flex-basis: auto;
+        width: auto;
+    }
+    #navigation_panel {
+        order: 1; // Move navigation below content on small screens
+    }
+
+    body.sidebar-collapsed {
+        #navigation_panel {
+            height: 0;
+            min-height: 0;
+            max-height: 0;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+            border: none;
+        }
+        #content_panel {
+            width: auto;
+        }
+    }
+}
+
+//// just some graphic helpers (removed for cleaner design)
+/*
+#header_panel,
+#content_panel,
+#navigation_panel,
+#extra_panel,
+#footer_panel {
+    border: 2px dotted darkslategrey;
+    margin : 2px;
+    border-radius: 5px;
+}
+*/
+
+body {
+    // background : url('preview.jpg') center center no-repeat; // Removed background image
+}

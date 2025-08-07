@@ -1,0 +1,32 @@
+/* Styles for header menu layout */
+.header-menu-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-end; /* Align items to the right */
+    align-items: center;
+}
+
+.header-menu-item {
+    margin-left: 1em; /* Space between menu items */
+    text-align: center;
+}
+
+.header-menu-item a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.header-menu-icon {
+    display: block;
+    margin: 0 auto 0.2em auto; /* Center image and add space below */
+    max-width: 40px; /* Max width for menu icons */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.header-menu-text {
+    display: block;
+    font-size: 0.9em;
+}

@@ -1,0 +1,54 @@
+/**
+ * grid layout
+ *
+
+ * @author : Actupro
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+*/
+
+.#{$yacs-namespace}act_une { 
+    background-color: #FFFFFF;
+    padding:5px;
+}
+.#{$yacs-namespace}act_une h2 {
+    content: "";
+    font-size: 14px;
+    margin-left: 10px;
+    color: white;
+    top: 2px;
+}
+.act_article, .act_first {
+    padding:10px;
+    position: relative;
+    background-color: rgba(1, 1, 1, 0.7);
+    border-radius: 5px 10px 0px 50px;
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+
+}
+.act_article, .act_article a,.act_article h2 a {
+    color: #FFF;
+}
+.act_first {
+}
+.act_article h2 , .act_une h2{
+    color: white;
+    font-family: 'Barlow', sans-serif;
+    font-size: 1.3em;
+}
+.act_article a {
+    text-decoration: none;
+    color: white;
+}
+.act_une {
+    display: block;
+}
+.act-second {
+    width: 100%;
+}
+.act-thumb {
+    border-radius: 6px;
+    min-height: 233px;
+}
