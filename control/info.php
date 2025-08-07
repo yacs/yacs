@@ -30,7 +30,7 @@ if(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
 if(isset($context['arguments'][0]) && $context['arguments'][0])
 	$id = $context['arguments'][0];
-$id = strip_tags($id);
+$id = strip_tags($id ?? ''); // Avoid passing null to strip_tags() to prevent deprecation warning in PHP 8.1+
 
 // load localized strings
 i18n::bind('control');
