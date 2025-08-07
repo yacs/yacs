@@ -668,6 +668,9 @@
             if($context['current_item'] && strpos($context['current_item'],'article') === FALSE && strpos($context['current_item'],'section') === FALSE )
                 return $meta_hreflang;
             
+            // sanity check
+            if(!class_exists('Anchors')) return $meta_hreflang;
+            
             // get the entity
             if($anchor = Anchors::get($context['current_item'])) {
                 
