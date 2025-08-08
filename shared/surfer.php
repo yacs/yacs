@@ -817,9 +817,10 @@ Class Surfer {
 		if(isset($_SESSION['surfer_is_not_a_robot']) && $_SESSION['surfer_is_not_a_robot'])
 			return NULL;
 
-                // two kinds of antibot can be used
-                $antibot =      isset($context['users_without_robot_check']) && ($context['users_without_robot_check'] != 'Y');
-                $alt_antibot =  isset($context['use_alt_antibot']) && ($context['use_alt_antibot'] == 'Y');
+                // three kinds of antibot can be used
+                $antibot        =  isset($context['users_without_robot_check']) && ($context['users_without_robot_check'] != 'Y');
+                $alt_antibot    =  isset($context['use_alt_antibot']) && ($context['use_alt_antibot'] == 'Y');
+                $honeypot       =  isset($context['use_honeypot_forbot']) && ($context['use_honeypot_forbot'] == 'Y');
                 
 		// we have been asked to not challenge anonymous surfers
 		if(!$antibot && !$alt_antibot)
@@ -835,14 +836,11 @@ Class Surfer {
                 
                 // standard captcha
                 if($antibot) {
+                    
+                    include_once $context['path_to_root'].'included/altcha/yaltcha.php';
 
-                $input .= '<img id="captcha" src="'.$context['url_to_root'].'included/securimage/securimage_show.php" alt="CAPTCHA Image" />'."\n";
-
-                $input .= '<input type="text" name="captcha_code" size="10" maxlength="6" />'."\n";
-                
-                $input .= BR.'<a '.tag::_class('details').' href="#" onclick="document.getElementById(\'captcha\').src= \''
-                        .$context['url_to_root'].
-                        'included/securimage/securimage_show.php?\' + Math.random(); return false">['.i18n::s('Update image').']</a>'."\n";
+                    $input .= yaltcha::insert_widget();
+                    yaltcha::loadjs();
                 
                 }
                 
@@ -859,6 +857,9 @@ Class Surfer {
                     }
                     
                     
+                }
+                if($honeypot) {
+                    $input .= '<input class="yenoh" type=text size=15 value="" name="name_f" />';
                 }
 
 		return array($label, $input);
@@ -1260,9 +1261,10 @@ Class Surfer {
 		if(isset($_SESSION['surfer_is_not_a_robot']) && $_SESSION['surfer_is_not_a_robot'])
 			return FALSE;
                 
-                // two kinds of antibot can be used
-                $antibot =      isset($context['users_without_robot_check']) && ($context['users_without_robot_check'] != 'Y');
-                $alt_antibot =  isset($context['use_alt_antibot']) && ($context['use_alt_antibot'] == 'Y');
+                // three kinds of antibot can be used
+                $antibot        =  isset($context['users_without_robot_check']) && ($context['users_without_robot_check'] != 'Y');
+                $alt_antibot    =  isset($context['use_alt_antibot']) && ($context['use_alt_antibot'] == 'Y');
+                $honeypot       =  isset($context['use_honeypot_forbot']) && ($context['use_honeypot_forbot'] == 'Y');
 
 		// we have been asked to not challenge anonymous surfers
 		if(!$antibot && !$alt_antibot)
@@ -1275,17 +1277,18 @@ Class Surfer {
                 // preset results to true if not to be test.
                 $bot_pass   = !$antibot;
                 $alt_pass   = !$alt_antibot;
+                $pot_pass   = !$honeypot;
                 
                 // standard captcha
                 if($antibot) {
-                    include_once $context['path_to_root'].'included/securimage/securimage.php';
-                    $securimage = new Securimage();
+                    include_once $context['path_to_root'].'included/altcha/yaltcha.php';
 
-                    if (isset($_REQUEST['captcha_code']) && $securimage->check($_REQUEST['captcha_code']) == TRUE) {
-                        
-			$bot_pass = TRUE;
-                    }
+                    $bot_pass = yaltcha::verify_challenge();
+                    
                 }
+                
+                logger::debug(($bot_pass)?'altchapassed':'altchano', 'ANTIBOT');
+                
                 
                 // specific question captcha
                 if($alt_antibot) {
@@ -1304,15 +1307,24 @@ Class Surfer {
                     
                 }
                 
-                if($bot_pass && $alt_pass) {
+                logger::debug(($alt_pass)?'altpassed':'altno', 'ANTIBOT');
                 
-                        // remember this, to not challenge the surfer again
-			$_SESSION['surfer_is_not_a_robot'] = TRUE;
-
-			// not a robot, for sure
-			return FALSE;
+                if($honeypot && empty($_REQUEST['name_f'])) {
+                    
+                    $pot_pass = TRUE;
                 }
-                        
+                
+                logger::debug(($pot_pass)?'potpassed':'potno', 'ANTIBOT');
+                
+                if($bot_pass && $alt_pass && $pot_pass) {
+                
+                    // remember this, to not challenge the surfer again
+                    $_SESSION['surfer_is_not_a_robot'] = TRUE;
+
+                    // not a robot, for sure
+                    return FALSE;
+                }
+                
 		// user agent is dumb, no doubt on that
 		return TRUE;
 
