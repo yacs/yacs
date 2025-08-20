@@ -469,7 +469,7 @@ if(Surfer::is_crawler()) {
 	$main_column .= '<p>'.$label.BR.$input.'</p>';
 	
 	// remember me ?
-	if($context['users_with_permanent_authentication'] == 'U') {
+	if(isset($context['users_with_permanent_authentication']) && $context['users_with_permanent_authentication'] == 'U') {
 	    $label = i18n::s('Stay connected');
 	    $input = '<input type="checkbox" name="remember" value="Y" />'."\n";
 	    $main_column .= '<p>'.$input.'&nbsp;'.$label.'</p>';
