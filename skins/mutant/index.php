@@ -1,1 +1,0 @@
-<?php echo "Browsing is not allowed here."; ?>
