@@ -96,7 +96,12 @@ if(@count($tokens)) {
 		// keep this token
 		$boolean_search .= $token.' ';
 	}
-	$boolean_search = trim($boolean_search).'*';
+	if(!empty($boolean_search)) {
+		$boolean_search = trim($boolean_search).'*';
+	} else {
+		// Si aucun terme valide, on ne fait pas de recherche FULLTEXT
+		$boolean_search = '';
+	}
 }
 
 // load localized strings
@@ -260,8 +265,7 @@ if($result) {
 		return;
 	}
 
-} else
-	$text = sprintf(i18n::s('<p>No page has been found. This will happen with very short words (less than %d letters), that are not fully indexed. This can happen as well if more than half of pages contain the searched words. Try to use most restrictive words and to suppress "noise" words.</p>'), MINIMUM_TOKEN_SIZE)."\n";
+} else {    if (!empty($boolean_search))        $text = sprintf(i18n::s('<p>No page has been found. This will happen with very short words (less than %d letters), that are not fully indexed. This can happen as well if more than half of pages contain the searched words. Try to use most restrictive words and to suppress "noise" words.</p>'), MINIMUM_TOKEN_SIZE)."\n";    else        $text = '';}
 
 // in a separate panel
 $panels[] = array('results', i18n::s('Results'), 'result', $text);
