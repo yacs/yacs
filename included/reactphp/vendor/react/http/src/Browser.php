@@ -3,13 +3,14 @@
 namespace React\Http;
 
 use Psr\Http\Message\ResponseInterface;
-use RingCentral\Psr7\Request;
-use RingCentral\Psr7\Uri;
+use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
-use React\Http\Io\ReadableBodyStream;
 use React\Http\Io\Sender;
 use React\Http\Io\Transaction;
+use React\Http\Message\Request;
+use React\Http\Message\Uri;
 use React\Promise\PromiseInterface;
+use React\Socket\Connector;
 use React\Socket\ConnectorInterface;
 use React\Stream\ReadableStreamInterface;
 use InvalidArgumentException;
@@ -22,16 +23,26 @@ class Browser
     private $transaction;
     private $baseUrl;
     private $protocolVersion = '1.1';
+    private $defaultHeaders = array(
+        'User-Agent' => 'ReactPHP/1'
+    );
 
     /**
      * The `Browser` is responsible for sending HTTP requests to your HTTP server
      * and keeps track of pending incoming HTTP responses.
-     * It also registers everything with the main [`EventLoop`](https://github.com/reactphp/event-loop#usage).
      *
      * ```php
-     * $loop = React\EventLoop\Factory::create();
+     * $browser = new React\Http\Browser();
+     * ```
      *
-     * $browser = new React\Http\Browser($loop);
+     * This class takes two optional arguments for more advanced usage:
+     *
+     * ```php
+     * // constructor signature as of v1.5.0
+     * $browser = new React\Http\Browser(?ConnectorInterface $connector = null, ?LoopInterface $loop = null);
+     *
+     * // legacy constructor signature before v1.5.0
+     * $browser = new React\Http\Browser(?LoopInterface $loop = null, ?ConnectorInterface $connector = null);
      * ```
      *
      * If you need custom connector settings (DNS resolution, TLS parameters, timeouts,
@@ -39,7 +50,7 @@ class Browser
      * [`ConnectorInterface`](https://github.com/reactphp/socket#connectorinterface):
      *
      * ```php
-     * $connector = new React\Socket\Connector($loop, array(
+     * $connector = new React\Socket\Connector(array(
      *     'dns' => '127.0.0.1',
      *     'tcp' => array(
      *         'bindto' => '192.168.10.1:0'
@@ -50,17 +61,35 @@ class Browser
      *     )
      * ));
      *
-     * $browser = new React\Http\Browser($loop, $connector);
+     * $browser = new React\Http\Browser($connector);
      * ```
      *
-     * @param LoopInterface $loop
-     * @param ConnectorInterface|null $connector [optional] Connector to use.
-     *     Should be `null` in order to use default Connector.
+     * This class takes an optional `LoopInterface|null $loop` parameter that can be used to
+     * pass the event loop instance to use for this object. You can use a `null` value
+     * here in order to use the [default loop](https://github.com/reactphp/event-loop#loop).
+     * This value SHOULD NOT be given unless you're sure you want to explicitly use a
+     * given event loop instance.
+     *
+     * @param null|ConnectorInterface|LoopInterface $connector
+     * @param null|LoopInterface|ConnectorInterface $loop
+     * @throws \InvalidArgumentException for invalid arguments
      */
-    public function __construct(LoopInterface $loop, ConnectorInterface $connector = null)
+    public function __construct($connector = null, $loop = null)
     {
+        // swap arguments for legacy constructor signature
+        if (($connector instanceof LoopInterface || $connector === null) && ($loop instanceof ConnectorInterface || $loop === null)) {
+            $swap = $loop;
+            $loop = $connector;
+            $connector = $swap;
+        }
+
+        if (($connector !== null && !$connector instanceof ConnectorInterface) || ($loop !== null && !$loop instanceof LoopInterface)) {
+            throw new \InvalidArgumentException('Expected "?ConnectorInterface $connector" and "?LoopInterface $loop" arguments');
+        }
+
+        $loop = $loop ?: Loop::get();
         $this->transaction = new Transaction(
-            Sender::createFromLoop($loop, $connector),
+            Sender::createFromLoop($loop, $connector ?: new Connector(array(), $loop)),
             $loop
         );
     }
@@ -71,6 +100,8 @@ class Browser
      * ```php
      * $browser->get($url)->then(function (Psr\Http\Message\ResponseInterface $response) {
      *     var_dump((string)$response->getBody());
+     * }, function (Exception $e) {
+     *     echo 'Error: ' . $e->getMessage() . PHP_EOL;
      * });
      * ```
      *
@@ -97,6 +128,8 @@ class Browser
      *     json_encode($data)
      * )->then(function (Psr\Http\Message\ResponseInterface $response) {
      *     var_dump(json_decode((string)$response->getBody()));
+     * }, function (Exception $e) {
+     *     echo 'Error: ' . $e->getMessage() . PHP_EOL;
      * });
      * ```
      *
@@ -127,7 +160,7 @@ class Browser
      *
      * ```php
      * $body = new React\Stream\ThroughStream();
-     * $loop->addTimer(1.0, function () use ($body) {
+     * Loop::addTimer(1.0, function () use ($body) {
      *     $body->end("hello world");
      * });
      *
@@ -136,12 +169,12 @@ class Browser
      *
      * @param string                         $url      URL for the request.
      * @param array                          $headers
-     * @param string|ReadableStreamInterface $contents
+     * @param string|ReadableStreamInterface $body
      * @return PromiseInterface<ResponseInterface>
      */
-    public function post($url, array $headers = array(), $contents = '')
+    public function post($url, array $headers = array(), $body = '')
     {
-        return $this->requestMayBeStreaming('POST', $url, $headers, $contents);
+        return $this->requestMayBeStreaming('POST', $url, $headers, $body);
     }
 
     /**
@@ -150,6 +183,8 @@ class Browser
      * ```php
      * $browser->head($url)->then(function (Psr\Http\Message\ResponseInterface $response) {
      *     var_dump($response->getHeaders());
+     * }, function (Exception $e) {
+     *     echo 'Error: ' . $e->getMessage() . PHP_EOL;
      * });
      * ```
      *
@@ -174,6 +209,8 @@ class Browser
      *     json_encode($data)
      * )->then(function (Psr\Http\Message\ResponseInterface $response) {
      *     var_dump(json_decode((string)$response->getBody()));
+     * }, function (Exception $e) {
+     *     echo 'Error: ' . $e->getMessage() . PHP_EOL;
      * });
      * ```
      *
@@ -185,7 +222,7 @@ class Browser
      *
      * ```php
      * $body = new React\Stream\ThroughStream();
-     * $loop->addTimer(1.0, function () use ($body) {
+     * Loop::addTimer(1.0, function () use ($body) {
      *     $body->end("hello world");
      * });
      *
@@ -194,12 +231,12 @@ class Browser
      *
      * @param string                         $url      URL for the request.
      * @param array                          $headers
-     * @param string|ReadableStreamInterface $contents
+     * @param string|ReadableStreamInterface $body
      * @return PromiseInterface<ResponseInterface>
      */
-    public function patch($url, array $headers = array(), $contents = '')
+    public function patch($url, array $headers = array(), $body = '')
     {
-        return $this->requestMayBeStreaming('PATCH', $url , $headers, $contents);
+        return $this->requestMayBeStreaming('PATCH', $url , $headers, $body);
     }
 
     /**
@@ -214,6 +251,8 @@ class Browser
      *     $xml->asXML()
      * )->then(function (Psr\Http\Message\ResponseInterface $response) {
      *     var_dump((string)$response->getBody());
+     * }, function (Exception $e) {
+     *     echo 'Error: ' . $e->getMessage() . PHP_EOL;
      * });
      * ```
      *
@@ -227,7 +266,7 @@ class Browser
      *
      * ```php
      * $body = new React\Stream\ThroughStream();
-     * $loop->addTimer(1.0, function () use ($body) {
+     * Loop::addTimer(1.0, function () use ($body) {
      *     $body->end("hello world");
      * });
      *
@@ -236,12 +275,12 @@ class Browser
      *
      * @param string                         $url      URL for the request.
      * @param array                          $headers
-     * @param string|ReadableStreamInterface $contents
+     * @param string|ReadableStreamInterface $body
      * @return PromiseInterface<ResponseInterface>
      */
-    public function put($url, array $headers = array(), $contents = '')
+    public function put($url, array $headers = array(), $body = '')
     {
-        return $this->requestMayBeStreaming('PUT', $url, $headers, $contents);
+        return $this->requestMayBeStreaming('PUT', $url, $headers, $body);
     }
 
     /**
@@ -250,17 +289,19 @@ class Browser
      * ```php
      * $browser->delete($url)->then(function (Psr\Http\Message\ResponseInterface $response) {
      *     var_dump((string)$response->getBody());
+     * }, function (Exception $e) {
+     *     echo 'Error: ' . $e->getMessage() . PHP_EOL;
      * });
      * ```
      *
      * @param string                         $url      URL for the request.
      * @param array                          $headers
-     * @param string|ReadableStreamInterface $contents
+     * @param string|ReadableStreamInterface $body
      * @return PromiseInterface<ResponseInterface>
      */
-    public function delete($url, array $headers = array(), $contents = '')
+    public function delete($url, array $headers = array(), $body = '')
     {
-        return $this->requestMayBeStreaming('DELETE', $url, $headers, $contents);
+        return $this->requestMayBeStreaming('DELETE', $url, $headers, $body);
     }
 
     /**
@@ -276,6 +317,8 @@ class Browser
      * ```php
      * $browser->request('OPTIONS', $url)->then(function (Psr\Http\Message\ResponseInterface $response) {
      *     var_dump((string)$response->getBody());
+     * }, function (Exception $e) {
+     *     echo 'Error: ' . $e->getMessage() . PHP_EOL;
      * });
      * ```
      *
@@ -291,7 +334,7 @@ class Browser
      *
      * ```php
      * $body = new React\Stream\ThroughStream();
-     * $loop->addTimer(1.0, function () use ($body) {
+     * Loop::addTimer(1.0, function () use ($body) {
      *     $body->end("hello world");
      * });
      *
@@ -302,7 +345,7 @@ class Browser
      * @param string                         $url      URL for the request
      * @param array                          $headers  Additional request headers
      * @param string|ReadableStreamInterface $body     HTTP request body contents
-     * @return PromiseInterface<ResponseInterface,\Exception>
+     * @return PromiseInterface<ResponseInterface>
      */
     public function request($method, $url, array $headers = array(), $body = '')
     {
@@ -336,13 +379,15 @@ class Browser
      *         echo $chunk;
      *     });
      *
-     *     $body->on('error', function (Exception $error) {
-     *         echo 'Error: ' . $error->getMessage() . PHP_EOL;
+     *     $body->on('error', function (Exception $e) {
+     *         echo 'Error: ' . $e->getMessage() . PHP_EOL;
      *     });
      *
      *     $body->on('close', function () {
      *         echo '[DONE]' . PHP_EOL;
      *     });
+     * }, function (Exception $e) {
+     *     echo 'Error: ' . $e->getMessage() . PHP_EOL;
      * });
      * ```
      *
@@ -362,7 +407,7 @@ class Browser
      *
      * ```php
      * $body = new React\Stream\ThroughStream();
-     * $loop->addTimer(1.0, function () use ($body) {
+     * Loop::addTimer(1.0, function () use ($body) {
      *     $body->end("hello world");
      * });
      *
@@ -373,7 +418,7 @@ class Browser
      * @param string                         $url      URL for the request
      * @param array                          $headers  Additional request headers
      * @param string|ReadableStreamInterface $body     HTTP request body contents
-     * @return PromiseInterface<ResponseInterface,\Exception>
+     * @return PromiseInterface<ResponseInterface>
      */
     public function requestStreaming($method, $url, $headers = array(), $body = '')
     {
@@ -446,6 +491,8 @@ class Browser
      * $browser->get($url)->then(function (Psr\Http\Message\ResponseInterface $response) {
      *     // only non-redirected responses will now end up here
      *     var_dump($response->getHeaders());
+     * }, function (Exception $e) {
+     *     echo 'Error: ' . $e->getMessage() . PHP_EOL;
      * });
      * ```
      *
@@ -459,6 +506,8 @@ class Browser
      * $browser->get($url)->then(function (Psr\Http\Message\ResponseInterface $response) {
      *     // any redirects will now end up here
      *     var_dump($response->getHeaderLine('Location'));
+     * }, function (Exception $e) {
+     *     echo 'Error: ' . $e->getMessage() . PHP_EOL;
      * });
      * ```
      *
@@ -499,6 +548,8 @@ class Browser
      * $browser->get($url)->then(function (Psr\Http\Message\ResponseInterface $response) {
      *     // any HTTP response will now end up here
      *     var_dump($response->getStatusCode(), $response->getReasonPhrase());
+     * }, function (Exception $e) {
+     *     echo 'Error: ' . $e->getMessage() . PHP_EOL;
      * });
      * ```
      *
@@ -518,7 +569,7 @@ class Browser
      *         $response = $e->getResponse();
      *         var_dump($response->getStatusCode(), $response->getReasonPhrase());
      *     } else {
-     *         var_dump($e->getMessage());
+     *         echo 'Error: ' . $e->getMessage() . PHP_EOL;
      *     }
      * });
      * ```
@@ -649,6 +700,8 @@ class Browser
      * $browser->get($url)->then(function (Psr\Http\Message\ResponseInterface $response) {
      *     // response body will not exceed 1 MiB
      *     var_dump($response->getHeaders(), (string) $response->getBody());
+     * }, function (Exception $e) {
+     *     echo 'Error: ' . $e->getMessage() . PHP_EOL;
      * });
      * ```
      *
@@ -673,6 +726,62 @@ class Browser
         return $this->withOptions(array(
             'maximumSize' => $maximumSize
         ));
+    }
+
+    /**
+     * Add a request header for all following requests.
+     *
+     * ```php
+     * $browser = $browser->withHeader('User-Agent', 'ACME');
+     *
+     * $browser->get($url)->then(…);
+     * ```
+     *
+     * Note that the new header will overwrite any headers previously set with
+     * the same name (case-insensitive). Following requests will use these headers
+     * by default unless they are explicitly set for any requests.
+     *
+     * @param string $header
+     * @param string $value
+     * @return Browser
+     */
+    public function withHeader($header, $value)
+    {
+        $browser = $this->withoutHeader($header);
+        $browser->defaultHeaders[$header] = $value;
+
+        return $browser;
+    }
+
+    /**
+     * Remove any default request headers previously set via
+     * the [`withHeader()` method](#withheader).
+     *
+     * ```php
+     * $browser = $browser->withoutHeader('User-Agent');
+     *
+     * $browser->get($url)->then(…);
+     * ```
+     *
+     * Note that this method only affects the headers which were set with the
+     * method `withHeader(string $header, string $value): Browser`
+     *
+     * @param string $header
+     * @return Browser
+     */
+    public function withoutHeader($header)
+    {
+        $browser = clone $this;
+
+        /** @var string|int $key */
+        foreach (\array_keys($browser->defaultHeaders) as $key) {
+            if (\strcasecmp($key, $header) === 0) {
+                unset($browser->defaultHeaders[$key]);
+                break;
+            }
+        }
+
+        return $browser;
     }
 
     /**
@@ -720,17 +829,26 @@ class Browser
      * @param string                         $url
      * @param array                          $headers
      * @param string|ReadableStreamInterface $body
-     * @return PromiseInterface<ResponseInterface,\Exception>
+     * @return PromiseInterface<ResponseInterface>
      */
     private function requestMayBeStreaming($method, $url, array $headers = array(), $body = '')
     {
         if ($this->baseUrl !== null) {
             // ensure we're actually below the base URL
-            $url = Uri::resolve($this->baseUrl, $url);
+            $url = Uri::resolve($this->baseUrl, new Uri($url));
         }
 
-        if ($body instanceof ReadableStreamInterface) {
-            $body = new ReadableBodyStream($body);
+        foreach ($this->defaultHeaders as $key => $value) {
+            $explicitHeaderExists = false;
+            foreach (\array_keys($headers) as $headerKey) {
+                if (\strcasecmp($headerKey, $key) === 0) {
+                    $explicitHeaderExists = true;
+                    break;
+                }
+            }
+            if (!$explicitHeaderExists) {
+                $headers[$key] = $value;
+            }
         }
 
         return $this->transaction->send(

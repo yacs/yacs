@@ -8,19 +8,13 @@ class ComposerStaticInitec96e2e5b9de1367556614b199f094a3
 {
     public static $files = array (
         'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
-        '972fda704d680a3a53c68e34e193cb22' => __DIR__ . '/..' . '/react/promise-timer/src/functions_include.php',
-        'cea474b4340aa9fa53661e887a21a316' => __DIR__ . '/..' . '/react/promise-stream/src/functions_include.php',
-        'ebf8799635f67b5d7248946fe2154f4a' => __DIR__ . '/..' . '/ringcentral/psr7/src/functions_include.php',
     );
 
     public static $prefixLengthsPsr4 = array (
         'R' => 
         array (
-            'RingCentral\\Psr7\\' => 17,
             'React\\Stream\\' => 13,
             'React\\Socket\\' => 13,
-            'React\\Promise\\Timer\\' => 20,
-            'React\\Promise\\Stream\\' => 21,
             'React\\Promise\\' => 14,
             'React\\Http\\' => 11,
             'React\\EventLoop\\' => 16,
@@ -31,13 +25,17 @@ class ComposerStaticInitec96e2e5b9de1367556614b199f094a3
         array (
             'Psr\\Http\\Message\\' => 17,
         ),
+        'F' => 
+        array (
+            'Fig\\Http\\Message\\' => 17,
+        ),
+        'E' => 
+        array (
+            'Evenement\\' => 10,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'RingCentral\\Psr7\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/ringcentral/psr7/src',
-        ),
         'React\\Stream\\' => 
         array (
             0 => __DIR__ . '/..' . '/react/stream/src',
@@ -45,14 +43,6 @@ class ComposerStaticInitec96e2e5b9de1367556614b199f094a3
         'React\\Socket\\' => 
         array (
             0 => __DIR__ . '/..' . '/react/socket/src',
-        ),
-        'React\\Promise\\Timer\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/react/promise-timer/src',
-        ),
-        'React\\Promise\\Stream\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/react/promise-stream/src',
         ),
         'React\\Promise\\' => 
         array (
@@ -78,15 +68,13 @@ class ComposerStaticInitec96e2e5b9de1367556614b199f094a3
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
-    );
-
-    public static $prefixesPsr0 = array (
-        'E' => 
+        'Fig\\Http\\Message\\' => 
         array (
-            'Evenement' => 
-            array (
-                0 => __DIR__ . '/..' . '/evenement/evenement/src',
-            ),
+            0 => __DIR__ . '/..' . '/fig/http-message-util/src',
+        ),
+        'Evenement\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/evenement/evenement/src',
         ),
     );
 
@@ -99,7 +87,6 @@ class ComposerStaticInitec96e2e5b9de1367556614b199f094a3
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitec96e2e5b9de1367556614b199f094a3::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitec96e2e5b9de1367556614b199f094a3::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitec96e2e5b9de1367556614b199f094a3::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitec96e2e5b9de1367556614b199f094a3::$classMap;
 
         }, null, ClassLoader::class);

@@ -3,6 +3,7 @@
 namespace React\Stream;
 
 use Evenement\EventEmitter;
+use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
 use InvalidArgumentException;
 
@@ -13,6 +14,7 @@ final class ReadableResourceStream extends EventEmitter implements ReadableStrea
      */
     private $stream;
 
+    /** @var LoopInterface */
     private $loop;
 
     /**
@@ -38,7 +40,12 @@ final class ReadableResourceStream extends EventEmitter implements ReadableStrea
     private $closed = false;
     private $listening = false;
 
-    public function __construct($stream, LoopInterface $loop, $readChunkSize = null)
+    /**
+     * @param resource $stream
+     * @param ?LoopInterface $loop
+     * @param ?int $readChunkSize
+     */
+    public function __construct($stream, $loop = null, $readChunkSize = null)
     {
         if (!\is_resource($stream) || \get_resource_type($stream) !== "stream") {
              throw new InvalidArgumentException('First parameter must be a valid stream resource');
@@ -56,6 +63,10 @@ final class ReadableResourceStream extends EventEmitter implements ReadableStrea
             throw new \RuntimeException('Unable to set stream resource to non-blocking mode');
         }
 
+        if ($loop !== null && !$loop instanceof LoopInterface) { // manual type check to support legacy PHP < 7.1
+            throw new \InvalidArgumentException('Argument #2 ($loop) expected null|React\EventLoop\LoopInterface');
+        }
+
         // Use unbuffered read operations on the underlying stream resource.
         // Reading chunks from the stream may otherwise leave unread bytes in
         // PHP's stream buffers which some event loop implementations do not
@@ -69,7 +80,7 @@ final class ReadableResourceStream extends EventEmitter implements ReadableStrea
         }
 
         $this->stream = $stream;
-        $this->loop = $loop;
+        $this->loop = $loop ?: Loop::get();
         $this->bufferSize = ($readChunkSize === null) ? 65536 : (int)$readChunkSize;
 
         $this->resume();

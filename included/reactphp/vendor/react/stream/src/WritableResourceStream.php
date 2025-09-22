@@ -3,11 +3,14 @@
 namespace React\Stream;
 
 use Evenement\EventEmitter;
+use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
 
 final class WritableResourceStream extends EventEmitter implements WritableStreamInterface
 {
     private $stream;
+
+    /** @var LoopInterface */
     private $loop;
 
     /**
@@ -25,7 +28,13 @@ final class WritableResourceStream extends EventEmitter implements WritableStrea
     private $closed = false;
     private $data = '';
 
-    public function __construct($stream, LoopInterface $loop, $writeBufferSoftLimit = null, $writeChunkSize = null)
+    /**
+     * @param resource $stream
+     * @param ?LoopInterface $loop
+     * @param ?int $writeBufferSoftLimit
+     * @param ?int $writeChunkSize
+     */
+    public function __construct($stream, $loop = null, $writeBufferSoftLimit = null, $writeChunkSize = null)
     {
         if (!\is_resource($stream) || \get_resource_type($stream) !== "stream") {
             throw new \InvalidArgumentException('First parameter must be a valid stream resource');
@@ -43,8 +52,12 @@ final class WritableResourceStream extends EventEmitter implements WritableStrea
             throw new \RuntimeException('Unable to set stream resource to non-blocking mode');
         }
 
+        if ($loop !== null && !$loop instanceof LoopInterface) { // manual type check to support legacy PHP < 7.1
+            throw new \InvalidArgumentException('Argument #2 ($loop) expected null|React\EventLoop\LoopInterface');
+        }
+
         $this->stream = $stream;
-        $this->loop = $loop;
+        $this->loop = $loop ?: Loop::get();
         $this->softLimit = ($writeBufferSoftLimit === null) ? 65536 : (int)$writeBufferSoftLimit;
         $this->writeChunkSize = ($writeChunkSize === null) ? -1 : (int)$writeChunkSize;
     }

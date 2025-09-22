@@ -1,5 +1,88 @@
 # Changelog
 
+## 1.5.0 (2023-11-13)
+
+*   Feature: Improve performance by using `spl_object_id()` on PHP 7.2+.
+    (#267 by @samsonasik)
+
+*   Feature: Full PHP 8.3 compatibility.
+    (#269 by @clue)
+
+*   Update tests for `ext-uv` on PHP 8+ and legacy PHP.
+    (#270 by @clue and #268 by @SimonFrings)
+
+## 1.4.0 (2023-05-05)
+
+*   Feature: Improve performance of `Loop` by avoiding unneeded method calls.
+    (#266 by @clue)
+
+*   Feature: Support checking `EINTR` constant from `ext-pcntl` without `ext-sockets`.
+    (#265 by @clue)
+
+*   Minor documentation improvements.
+    (#254 by @nhedger)
+
+*   Improve test suite, run tests on PHP 8.2 and report failed assertions.
+    (#258 by @WyriHaximus, #264 by @clue and #251, #261 and #262 by @SimonFrings)
+
+## 1.3.0 (2022-03-17)
+
+*   Feature: Improve default `StreamSelectLoop` to report any warnings for invalid streams.
+    (#245 by @clue)
+
+*   Feature: Improve performance of `StreamSelectLoop` when no timers are scheduled.
+    (#246 by @clue)
+
+*   Fix: Fix periodic timer with zero interval for `ExtEvLoop` and legacy `ExtLibevLoop`.
+    (#243 by @lucasnetau)
+
+*   Minor documentation improvements, update PHP version references.
+    (#240, #248 and #250 by @SimonFrings, #241 by @dbu and #249 by @clue)
+
+*   Improve test suite and test against PHP 8.1.
+    (#238 by @WyriHaximus and #242 by @clue)
+
+## 1.2.0 (2021-07-11)
+
+A major new feature release, see [**release announcement**](https://clue.engineering/2021/announcing-reactphp-default-loop).
+
+*   Feature: Introduce new concept of default loop with the new `Loop` class.
+    (#226 by @WyriHaximus, #229, #231 and #232 by @clue)
+
+    The `Loop` class exists as a convenient global accessor for the event loop.
+    It provides all methods that exist on the `LoopInterface` as static methods and
+    will automatically execute the loop at the end of the program:
+
+    ```php
+    $timer = Loop::addPeriodicTimer(0.1, function () {
+        echo 'Tick' . PHP_EOL;
+    });
+
+    Loop::addTimer(1.0, function () use ($timer) {
+        Loop::cancelTimer($timer);
+        echo 'Done' . PHP_EOL;
+    });
+    ```
+
+    The explicit loop instructions are still valid and may still be useful in some applications,
+    especially for a transition period towards the more concise style.
+    The `Loop::get()` method can be used to get the currently active event loop instance.
+
+    ```php
+    // deprecated
+    $loop = React\EventLoop\Factory::create();
+
+    // new
+    $loop = React\EventLoop\Loop::get();
+    ```
+
+*   Minor documentation improvements and mark legacy extensions as deprecated.
+    (#234 by @SimonFrings, #214 by @WyriHaximus and #233 and #235 by @nhedger)
+
+*   Improve test suite, use GitHub actions for continuous integration (CI),
+    update PHPUnit config and run tests on PHP 8.
+    (#212 and #215 by @SimonFrings and #230 by @clue)
+
 ## 1.1.1 (2020-01-01)
 
 *   Fix: Fix reporting connection refused errors with `ExtUvLoop` on Linux and `StreamSelectLoop` on Windows.
@@ -7,6 +90,9 @@
 
 *   Fix: Fix unsupported EventConfig and `SEGFAULT` on shutdown with `ExtEventLoop` on Windows.
     (#205 by @clue)
+
+*   Fix: Prevent interval overflow for timers very far in the future with `ExtUvLoop`.
+    (#196 by @PabloKowalczyk)
 
 *   Fix: Check PCNTL functions for signal support instead of PCNTL extension with `StreamSelectLoop`.
     (#195 by @clue)

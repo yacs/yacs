@@ -3,7 +3,6 @@
 namespace React\Http\Io;
 
 use Psr\Http\Message\ServerRequestInterface;
-use RingCentral\Psr7;
 
 /**
  * [Internal] Parses a string body with "Content-Type: multipart/form-data" into structured data
@@ -26,6 +25,13 @@ final class MultipartParser
      * @var int|null
      */
     private $maxFileSize;
+
+    /**
+     * Based on $maxInputVars and $maxFileUploads
+     *
+     * @var int
+     */
+    private $maxMultipartBodyParts;
 
     /**
      * ini setting "max_input_vars"
@@ -63,9 +69,11 @@ final class MultipartParser
      */
     private $maxFileUploads;
 
+    private $multipartBodyPartCount = 0;
     private $postCount = 0;
     private $filesCount = 0;
     private $emptyCount = 0;
+    private $cursor = 0;
 
     /**
      * @param int|string|null $uploadMaxFilesize
@@ -88,6 +96,8 @@ final class MultipartParser
 
         $this->uploadMaxFilesize = IniUtil::iniSizeToBytes($uploadMaxFilesize);
         $this->maxFileUploads = $maxFileUploads === null ? (\ini_get('file_uploads') === '' ? 0 : (int)\ini_get('max_file_uploads')) : (int)$maxFileUploads;
+
+        $this->maxMultipartBodyParts = $this->maxInputVars + $this->maxFileUploads;
     }
 
     public function parse(ServerRequestInterface $request)
@@ -102,6 +112,8 @@ final class MultipartParser
 
         $request = $this->request;
         $this->request = null;
+        $this->multipartBodyPartCount = 0;
+        $this->cursor = 0;
         $this->postCount = 0;
         $this->filesCount = 0;
         $this->emptyCount = 0;
@@ -115,20 +127,24 @@ final class MultipartParser
         $len = \strlen($boundary);
 
         // ignore everything before initial boundary (SHOULD be empty)
-        $start = \strpos($buffer, $boundary . "\r\n");
+        $this->cursor = \strpos($buffer, $boundary . "\r\n");
 
-        while ($start !== false) {
+        while ($this->cursor !== false) {
             // search following boundary (preceded by newline)
             // ignore last if not followed by boundary (SHOULD end with "--")
-            $start += $len + 2;
-            $end = \strpos($buffer, "\r\n" . $boundary, $start);
+            $this->cursor += $len + 2;
+            $end = \strpos($buffer, "\r\n" . $boundary, $this->cursor);
             if ($end === false) {
                 break;
             }
 
             // parse one part and continue searching for next
-            $this->parsePart(\substr($buffer, $start, $end - $start));
-            $start = $end;
+            $this->parsePart(\substr($buffer, $this->cursor, $end - $this->cursor));
+            $this->cursor = $end;
+
+            if (++$this->multipartBodyPartCount > $this->maxMultipartBodyParts) {
+                break;
+            }
         }
     }
 
@@ -190,7 +206,7 @@ final class MultipartParser
             }
 
             return new UploadedFile(
-                Psr7\stream_for(),
+                new BufferedBody(''),
                 $size,
                 \UPLOAD_ERR_NO_FILE,
                 $filename,
@@ -206,7 +222,7 @@ final class MultipartParser
         // file exceeds "upload_max_filesize" ini setting
         if ($size > $this->uploadMaxFilesize) {
             return new UploadedFile(
-                Psr7\stream_for(),
+                new BufferedBody(''),
                 $size,
                 \UPLOAD_ERR_INI_SIZE,
                 $filename,
@@ -217,7 +233,7 @@ final class MultipartParser
         // file exceeds MAX_FILE_SIZE value
         if ($this->maxFileSize !== null && $size > $this->maxFileSize) {
             return new UploadedFile(
-                Psr7\stream_for(),
+                new BufferedBody(''),
                 $size,
                 \UPLOAD_ERR_FORM_SIZE,
                 $filename,
@@ -226,7 +242,7 @@ final class MultipartParser
         }
 
         return new UploadedFile(
-            Psr7\stream_for($contents),
+            new BufferedBody($contents),
             $size,
             \UPLOAD_ERR_OK,
             $filename,
