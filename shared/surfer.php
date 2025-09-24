@@ -1287,7 +1287,6 @@ Class Surfer {
                     
                 }
                 
-                logger::debug(($bot_pass)?'altchapassed':'altchano', 'ANTIBOT');
                 
                 
                 // specific question captcha
@@ -1307,14 +1306,12 @@ Class Surfer {
                     
                 }
                 
-                logger::debug(($alt_pass)?'altpassed':'altno', 'ANTIBOT');
                 
                 if($honeypot && empty($_REQUEST['name_f'])) {
                     
                     $pot_pass = TRUE;
                 }
                 
-                logger::debug(($pot_pass)?'potpassed':'potno', 'ANTIBOT');
                 
                 if($bot_pass && $alt_pass && $pot_pass) {
                 
