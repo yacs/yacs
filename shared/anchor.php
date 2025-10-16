@@ -128,13 +128,18 @@
 abstract class Anchor {
 
 	// the related item
-	var $item;
+	public $item;
 
 	// its related overlay, if any
-	var $overlay;
+	public $overlay;
 
 	// its related anchor, if any
-	var $anchor;
+	public $anchor;
+        
+        // cache 
+        private $is_public_cache        = NULL;
+        private $is_assigned_cache      = array();
+        private $get_behaviors_cache    = NULL;
 	
 	/** 
 	 * class constructor 
@@ -142,7 +147,7 @@ abstract class Anchor {
 	 * may accept data
 	 * @param array $item
 	 */
-	function __construct($item=NULL) {
+	public function __construct($item=NULL) {
 	    
 	    if($item) {		
 		if(isset($item['anchor']))
@@ -159,7 +164,7 @@ abstract class Anchor {
 	 * 
 	 * @return string 
 	 */
-	function __toString() {
+	public function __toString() {
 	    return $this->get_reference();
 	}
 	
@@ -420,7 +425,7 @@ abstract class Anchor {
 		global $context;
 
 		// cache the answer
-		if(isset($this->get_behaviors_cache))
+		if($this->get_behaviors_cache !== NULL)
 			return $this->get_behaviors_cache;
 
 		// get the parent
@@ -1174,11 +1179,11 @@ abstract class Anchor {
 		}
 
 		// 'variant' matches with 'variant_red_background', return 'red_background'
-		if(isset($this->item['options']) && preg_match('/\b'.$option.'_(.+?)\b/i', $this->item['options'], $matches))
+		if(!empty($this->item['options']) && preg_match('/\b'.$option.'_(.+?)\b/i', $this->item['options'], $matches))
 			return $matches[1];
 
 		// exact match, return TRUE
-		if(isset($this->item['options']) && (strpos($this->item['options'], $option) !== FALSE))
+		if(!empty($this->item['options']) && (strpos($this->item['options'], $option) !== FALSE))
 			return TRUE;
 
 		// climb the anchoring chain
@@ -1253,10 +1258,6 @@ abstract class Anchor {
 		// anonymous is allowed
 		if(!$user_id)
 			$user_id = 0;
-
-		// create the cache
-		if(!isset($this->is_assigned_cache))
-			$this->is_assigned_cache = array();
 
 		// cache the answer
 		if(isset($this->is_assigned_cache[$user_id]))
@@ -1381,7 +1382,7 @@ abstract class Anchor {
 	 function is_public() {	     
 
 		// cache the answer
-		if(isset($this->is_public_cache))
+		if($this->is_public_cache !== NULL)
 			return $this->is_public_cache;    
 	     
 
