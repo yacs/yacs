@@ -11,16 +11,35 @@
  */
 
 
-// include altcha files
-foreach (glob($context['path_to_root']."included/altcha/src/*.php") as $filename)
-{
-    include_once $filename;
-}
+/**
+ * Autoloader PSR-4 pour la bibliotheque Altcha.
+ * Charge dynamiquement les classes quand elles sont necessaires.
+ */
+spl_autoload_register(function ($class) {
+    global $context;
 
-foreach (glob($context['path_to_root']."included/altcha/src/Hasher/*.php") as $filename)
-{
-    include_once $filename;
-}
+    // Namespace de la bibliotheque Altcha
+    $prefix = 'AltchaOrg\\Altcha\\';
+
+    // Repertoire de base pour ce namespace
+    $base_dir = $context['path_to_root'] . 'included/altcha/src/';
+
+    // Verifie si la classe utilise ce namespace
+    $len = strlen($prefix);
+    if (strncmp($prefix, $class, $len) !== 0) {
+        // Non, passe a l'autoloader suivant
+        return;
+    }
+
+    // Construit le nom du fichier a partir du nom de la classe
+    $relative_class = substr($class, $len);
+    $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
+
+    // Si le fichier existe, on l'inclut
+    if (file_exists($file)) {
+        require_once $file;
+    }
+});
 
 
 define('CHALLENGEURL','included/altcha/getchallenge.ajax.php');
