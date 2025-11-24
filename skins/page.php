@@ -48,7 +48,7 @@
 		echo '<body'.$id.$classes.'>'."\n";
 
 		// shortcuts for text readers
-		echo '<p '.tag::_class('/away').'>';
+		echo '<p '.tag::_class('away').'>';
 
 		// skip header -- access key 2
 		if(is_callable(array('i18n', 's')))
