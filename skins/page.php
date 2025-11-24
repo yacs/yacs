@@ -48,7 +48,7 @@
 		echo '<body'.$id.$classes.'>'."\n";
 
 		// shortcuts for text readers
-		echo '<p '.tag::_class('away').'>';
+		echo '<p '.tag::_class('/away').'>';
 
 		// skip header -- access key 2
 		if(is_callable(array('i18n', 's')))
@@ -213,8 +213,12 @@
 	 *
 	 * @param mixed a string of tokens, or a boolean
 	 */
-	public static function content($names=NULL, $wrap = true) {
+	public static function content($names=NULL, $wrap = true, $with_anchor=true) {
 		global $context;
+                
+                // anchor from <p class=away
+                if($with_anchor)
+                        echo tag::_a('','',tag::_attr('name', 'main_panel'));
 
 		// display the prefix, if any
 		if(isset($context['prefix']) && $context['prefix'])
