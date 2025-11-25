@@ -1146,6 +1146,10 @@ Class SQL {
 		// regular tables
 		else
 			$connection = $context['connection'];
+                
+                // test if table exists
+                if(!SQL::has_table($table))
+                    return null;
 
 		// query the database
 		$query = "SELECT count(*), min(edit_date), max(edit_date) FROM ".SQL::table_name($table);

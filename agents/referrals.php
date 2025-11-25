@@ -424,6 +424,10 @@ class Referrals {
 	 */
 	public static function stat() {
 		global $context;
+                
+                // check if table profiles exists
+                if(!SQL::has_table(SQL::table_name('referrals')))
+                    return null;
 
 		// select among available items
 		$query = "SELECT COUNT(*) as count FROM ".SQL::table_name('referrals');
