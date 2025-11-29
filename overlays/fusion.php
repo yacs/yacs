@@ -158,9 +158,17 @@ Class Fusion extends Overlay {
             
             if($parameters = $this->attributes['overlay_parameters']) {
                 
-                $parameters = explode(' ', $parameters);
+                // separate parameters, 
+                // may use parenthesis to provide parameters to sub-overlay
+                $matches = array();
+                preg_match_all('/\w+|\([^)]*\)/', $parameters, $matches);
+                $parameters = $matches[0];
                 
                 foreach($parameters as $param) {
+                    
+                    // strip parenthesis if any
+                    $param = str_replace(array( '(', ')' ), '', $param);
+                    
                     $overlay = Overlay::bind($param);
                     
                     if(is_object($overlay)) {
