@@ -200,7 +200,7 @@ function include_hook($path) {
 
 		// load any 'hook.php', or any file which names ends with 'hook.php'
 		$actual_item = str_replace('//', '/', $path.'/'.$item);
-		if(preg_match('/hook\.php$/i', $item)) {
+		if(preg_match('/[_.]hook\.php$/i', $item)) {
 			include_once $actual_item;
 			$context['text'] .= sprintf(i18n::s('Hook %s has been included'), $actual_item).BR."\n";
 
