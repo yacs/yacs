@@ -204,6 +204,10 @@ class Referrals {
 	 */
 	public static function list_by_hits_for_url($url, $offset=0, $count=10) {
 		global $context;
+                
+                // sanity check
+                if(!SQL::has_table('referrals'))
+                    return NULL;
 
 		// the front page is a special case
 		if(($url == '/') || ($url == $context['url_to_root']))
