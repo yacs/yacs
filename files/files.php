@@ -547,7 +547,7 @@ Class Files {
 
 		// link to the container
 		if(isset($item['anchor']) && ($anchor = Anchors::get($item['anchor']))) {
-			$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+			$link = $anchor->get_url();
 			$menu[] = Skin::build_mail_button($link, $anchor->get_title(), ($action=='multiple'));
 		}
 
