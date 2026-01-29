@@ -540,10 +540,10 @@ Class Files {
 		$menu = array();
 
 		// link to the file
-		if(isset($item['id'])) {
+		/*if(isset($item['id'])) {
 			$link = Files::get_permalink($item);
 			$menu[] = Skin::build_mail_button($link, i18n::c('View file details'), TRUE);
-		}
+		}*/
 
 		// link to the container
 		if(isset($item['anchor']) && ($anchor = Anchors::get($item['anchor']))) {
