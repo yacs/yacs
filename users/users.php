@@ -2208,6 +2208,59 @@ Class Users {
 	}
 
 	/**
+	 * find users matching a prefix for autocomplete
+	 *
+	 * Uses LIKE instead of fulltext search so that short terms (1-3 chars) work.
+	 * Returns a plain array of ['value' => nick_name, 'label' => display string].
+	 *
+	 * @param string the term typed by the surfer
+	 * @param int maximum number of results
+	 * @return array of associative arrays with keys 'value' and 'label'
+	 *
+	 * @see users/complete.php
+	 */
+	public static function autocomplete($pattern, $count=50) {
+		global $context;
+
+		if(!$pattern = trim($pattern))
+			return array();
+
+		$pattern = SQL::escape($pattern);
+
+		// visibility rules
+		$where = "users.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR users.active='R'";
+		if(Surfer::is_associate())
+			$where .= " OR users.active='N'";
+		$where = '('.$where.')';
+
+		// hide blocked users from non-associates
+		if(!Surfer::is_associate())
+			$where .= " AND (users.capability IN ('S', 'M', 'A'))";
+
+		$query = "SELECT id, nick_name, full_name FROM ".SQL::table_name('users')." AS users"
+			." WHERE (nick_name LIKE '".$pattern."%' OR full_name LIKE '%".$pattern."%')"
+			." AND ".$where
+			." ORDER BY nick_name ASC"
+			." LIMIT ".(int)$count;
+
+		$result = SQL::query($query, FALSE, $context['users_connection']);
+
+		$items = array();
+		if($result) {
+			while($row = SQL::fetch($result)) {
+				$label = $row['nick_name'];
+				if(!empty($row['full_name']) && ($row['full_name'] != $row['nick_name']))
+					$label .= ' ('.$row['full_name'].')';
+				$items[] = array('value' => $row['nick_name'], 'label' => $label);
+			}
+		}
+
+		return $items;
+	}
+
+	/**
 	 * search for some keywords in all users
 	 *
 	 * @param the search string
