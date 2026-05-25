@@ -894,7 +894,7 @@ Class Images {
                 $indice = ($i==0)?'':(string) $i;
                 
                 if($img = Files::get_uploaded('upload'.$indice)) {
-                    $as_thumb = ($indice=='')?true:false;
+                    $as_thumb = false;
                     Images::upload_to($anchor, $img, $as_thumb, $postnow);
                 }
             }

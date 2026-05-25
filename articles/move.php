@@ -58,14 +58,17 @@ elseif(isset($context['arguments'][1]))
 // ensure that the target section is defined in behaviors of the source section
 if($destination && is_object($anchor)) {
 	$behaviors = $anchor->get_behaviors();
-	if(!preg_match('/move_on_article_access\s+'.preg_quote($destination, '/').'/i', $behaviors)) {
+	if(!preg_match('/^move_\w+\s+'.preg_quote($destination, '/').'/im', $behaviors)) {
 		Safe::header('Status: 400 Bad Request', TRUE, 400);
 		Logger::error(i18n::s('Request is invalid.'));
 		$destination = NULL;
 	}
 }
 
-// load the target section, by id , or with a full reference
+// load the target section, by id, or with a full reference
+// normalize bare nick (e.g. 'my-section') to 'section:my-section' — Anchors::get() requires a type prefix
+if($destination && !is_numeric($destination) && strpos($destination, ':') === false)
+	$destination = 'section:'.$destination;
 $destination = Anchors::get($destination);
 
 // clear the tab we are in, if any

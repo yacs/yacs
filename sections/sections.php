@@ -1620,10 +1620,8 @@ Class Sections {
 
 				// process all matching sections
 				while($row = SQL::fetch($result)) {
-                                    
-                                        if(!isset($item['id'])) continue;
 
-					if($row['id'] == $item['id']) {
+					if(isset($item['id']) && $row['id'] == $item['id']) {
 
 						if($children)
 							$family .= '<input type="radio" name="anchor" value="section:'.$item['id'].'" checked="checked" /> '.Codes::beautify_title($item['title'])
@@ -1656,10 +1654,8 @@ Class Sections {
 
 					// process all matching sections
 					while($row = SQL::fetch($result)) {
-                                            
-                                                if(!isset($item['id'])) continue;
-                                            
-						if($row['id'] == $item['id']) {
+
+						if(isset($item['id']) && $row['id'] == $item['id']) {
 
 							if($children)
 								$family .= '<input type="radio" name="anchor" value="section:'.$item['id'].'" checked="checked" /> '.Codes::beautify_title($item['title'])
