@@ -314,7 +314,7 @@ if($context['with_debug'] == 'Y') {
 	Safe::ini_set('display_startup_errors','1');
 	Safe::ini_set('allow_call_time_pass_reference','0');
  	if(defined('E_STRICT'))
- 		$level = E_ALL | E_STRICT;
+ 		$level = E_ALL;	// E_STRICT is folded into E_ALL and the constant is deprecated since PHP 8.4
  	else
 		$level = E_ALL;
 } else

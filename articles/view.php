@@ -129,7 +129,7 @@ $id = strip_tags($id);
 
 // encode ISO-8859-1 argument, if any
 if(isset($_SERVER['HTTP_ACCEPT_CHARSET']) && preg_match('/^iso-8859-1/i', $_SERVER['HTTP_ACCEPT_CHARSET']))
-	$id = utf8_encode($id);
+	$id = mb_convert_encoding($id, 'UTF-8', 'ISO-8859-1');
 
 // page within a page
 if(isset($_REQUEST['page']))
