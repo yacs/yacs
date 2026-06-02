@@ -393,10 +393,11 @@ elseif(isset($_SERVER['REQUEST_URI'])) // this includes query string
 // recombine the self_url (to keep only the essencial)
 $scheme = parse_url($context['self_url'], PHP_URL_SCHEME);
 $host = parse_url($context['self_url'], PHP_URL_HOST);
+$port = parse_url($context['self_url'], PHP_URL_PORT);	// keep non-standard port if any (no-op in production, where there is none)
 $path = parse_url($context['self_url'], PHP_URL_PATH);
 $query = parse_url($context['self_url'], PHP_URL_QUERY);
 
-$context['self_url'] = $scheme.'://'.$host.$path.'?'.$query;
+$context['self_url'] = $scheme.'://'.$host.($port ? ':'.$port : '').$path.'?'.$query;
 //
 // session cookie
 //
