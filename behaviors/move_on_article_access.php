@@ -63,7 +63,7 @@ class Move_on_article_access extends Behavior {
 						$tokens[1] = sprintf(i18n::s('Move to %s'), $section->get_title());
 
 					// the target link to move the page
-					$link = Articles::get_url(str_replace('article:', '', $anchor), 'move', str_replace('section:', '', $section->get_reference()));
+					$link = Articles::get_url(str_replace('article:', '', $anchor), 'move', $tokens[0]);
 
 					// make a sub-menu
 					$menu = array_merge(array($link => array('', $tokens[1], '', 'button')), $menu);

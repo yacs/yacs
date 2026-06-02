@@ -31,6 +31,14 @@ temporary/
 scripts/run_once/*.done
 scripts/staging/
 
+.DS_Store
+temporary/
+
+# ignore Claude Code files
+.claude/
+CLAUDE.md
+CLAUDE-*.md
+
 # ignore backup files
 *.bak
 

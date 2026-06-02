@@ -1980,6 +1980,10 @@ class Event extends Overlay {
 		// sent notification to all enrolled persons
 		if($mail) {
 
+			// anchor must be available to send notifications
+			if(!is_callable(array($this->anchor, 'get_reference')))
+				return;
+
 			// list enrolment for this meeting
 			$query = "SELECT user_id FROM ".SQL::table_name('enrolments')." WHERE anchor LIKE '".SQL::escape($this->anchor->get_reference())."'";
 			if($result = SQL::query($query)) {

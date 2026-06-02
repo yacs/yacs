@@ -91,7 +91,12 @@ Class Image extends Anchor {
                 if(Image::use_magic()) {
                     $adjusted = $image->resizeImage($adjust_width, $adjust_height, Imagick::FILTER_POINT, 1);
                 } else {
-                    if(($image_information[2] == 2) && is_callable('ImageCreateTrueColor') && ($adjusted = ImageCreateTrueColor($adjust_width, $adjust_height))) {
+                    if(($image_information[2] == 2 || $image_information[2] == 3) && is_callable('ImageCreateTrueColor') && ($adjusted = ImageCreateTrueColor($adjust_width, $adjust_height))) {
+                            if($image_information[2] == 3) {
+                                imagealphablending($adjusted, FALSE);
+                                imagesavealpha($adjusted, TRUE);
+                                imagefill($adjusted, 0, 0, imagecolorallocatealpha($adjusted, 0, 0, 0, 127));
+                            }
                             ImageCopyResampled($adjusted, $image, 0, 0, 0, 0, $adjust_width, $adjust_height, $width, $height);
                     }
                     if((!$adjusted) && is_callable('ImageCreate') && ($adjusted = ImageCreate($adjust_width, $adjust_height))) {
@@ -364,7 +369,12 @@ Class Image extends Anchor {
                 if(Image::use_magic()) {
                     $thumbnail = $image->resizeImage($thumbnail_width, $thumbnail_height, Imagick::FILTER_POINT, 1);
                 } else {
-                    if(($image_information[2] == 2) && is_callable('ImageCreateTrueColor') && ($thumbnail = ImageCreateTrueColor($thumbnail_width, $thumbnail_height))) {
+                    if(($image_information[2] == 2 || $image_information[2] == 3) && is_callable('ImageCreateTrueColor') && ($thumbnail = ImageCreateTrueColor($thumbnail_width, $thumbnail_height))) {
+                            if($image_information[2] == 3) {
+                                imagealphablending($thumbnail, FALSE);
+                                imagesavealpha($thumbnail, TRUE);
+                                imagefill($thumbnail, 0, 0, imagecolorallocatealpha($thumbnail, 0, 0, 0, 127));
+                            }
                             ImageCopyResampled($thumbnail, $image, 0, 0, 0, 0, $thumbnail_width, $thumbnail_height, $width, $height);
                     }
                     if((!$thumbnail) && is_callable('ImageCreate') && ($thumbnail = ImageCreate($thumbnail_width, $thumbnail_height))) {

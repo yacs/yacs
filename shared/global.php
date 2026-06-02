@@ -124,7 +124,8 @@ $context['country_code'] = '--';
 $context['current_focus'] = array();
 
 // handle of the current page (e.g., 'article:123')
-$context['current_item'] = NULL;
+$context['current_item']   = NULL;
+$context['current_action'] = NULL;
 
 // where developers can add debugging messages --one string per row
 $context['debug'] = array();
