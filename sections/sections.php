@@ -2821,7 +2821,7 @@ Class Sections {
 
 		// always create a random handle for this section
 		if(!isset($fields['handle']) || (strlen($fields['handle']) < 32))
-			$fields['handle'] = md5(mt_rand());
+			$fields['handle'] = bin2hex(random_bytes(16));
 		$handle = "handle='".SQL::escape($fields['handle'])."',";
 
 		// allow anonymous surfer to access this section during his session

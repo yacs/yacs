@@ -54,7 +54,7 @@ if(!Surfer::is_associate()) {
 		while($row = SQL::fetch($result)) {
 
 			// set a new handle
-			$handle = md5(mt_rand().$row['id'].$row['handle'].$row['title']);
+			$handle = bin2hex(random_bytes(16));	// unpredictable capability token (CSPRNG)
 			$query = "UPDATE ".SQL::table_name('sections')
 				." SET handle = '".$handle."'"
 				." WHERE id = ".$row['id'];

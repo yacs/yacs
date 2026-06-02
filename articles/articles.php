@@ -3019,7 +3019,7 @@ Class Articles {
 
 		// always create a random handle for this article
 		if(!isset($fields['handle']) || (strlen($fields['handle']) < 32))
-			$fields['handle'] = md5(mt_rand());
+			$fields['handle'] = bin2hex(random_bytes(16));
 		$query[] = "handle='".SQL::escape($fields['handle'])."'";
 		$query[] = "rating_count='".SQL::escape(isset($fields['rating_count']) ? $fields['rating_count'] : '0')."'";
 

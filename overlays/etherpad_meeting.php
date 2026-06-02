@@ -208,7 +208,7 @@ class Etherpad_Meeting extends Meeting {
 
 		// use some unique id
 		if(!isset($this->attributes['meeting_id']))
-			$this->attributes['meeting_id'] = md5(mt_rand());
+			$this->attributes['meeting_id'] = bin2hex(random_bytes(16));
 
 	}
 

@@ -1158,17 +1158,17 @@ Class Surfer {
 	public static function is_trusted() {
 		global $context;
 
-		// no parameter has been set
-		if(!isset($context['users_trusted_hosts']))
+		// no trusted host configured
+		if(empty($context['users_trusted_hosts']))
 			return FALSE;
 
-		// match the network address
-		if(isset($_SERVER['REMOTE_ADDR']) && (strpos($context['users_trusted_hosts'], $_SERVER['REMOTE_ADDR']) !== FALSE))
-			return TRUE;
-
-		// match the network address
-		if(isset($_SERVER['REMOTE_HOST']) && (strpos($context['users_trusted_hosts'], $_SERVER['REMOTE_HOST']) !== FALSE))
-			return TRUE;
+		// exact match of the client IP against the configured list (comma/space separated)
+		// note: reverse-DNS (REMOTE_HOST) is intentionally NOT used here, as it is spoofable
+		if(isset($_SERVER['REMOTE_ADDR'])) {
+			$trusted = preg_split('/[\s,]+/', trim($context['users_trusted_hosts']), -1, PREG_SPLIT_NO_EMPTY);
+			if(in_array($_SERVER['REMOTE_ADDR'], $trusted, TRUE))
+				return TRUE;
+		}
 
 		// not trusted
 		return FALSE;

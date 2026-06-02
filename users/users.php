@@ -1501,7 +1501,7 @@ Class Users {
 		// generate a random handle if necessary
 		$handle = '';
 		if(!isset($item['handle']) || !$item['handle']) {
-			$item['handle'] = md5(rand());
+			$item['handle'] = bin2hex(random_bytes(16));
 			$handle = ", handle='".$item['handle']."' ";
 		}
 
@@ -1770,7 +1770,7 @@ Class Users {
 		$query[] = "full_name='".SQL::escape(isset($fields['full_name']) ? $fields['full_name'] : '')."'";
 
 		// always create a handle for this user
-		$fields['handle'] = md5(rand());
+		$fields['handle'] = bin2hex(random_bytes(16));
 		$query[] = "handle='".SQL::escape($fields['handle'])."'";
 
 		$query[] = "icq_address='".SQL::escape(isset($fields['icq_address']) ? $fields['icq_address'] : '')."'";
