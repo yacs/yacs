@@ -37,10 +37,10 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 	$context['text'] .= '<p>'.sprintf(i18n::s('%s: %s'), i18n::s('Your name'), $_REQUEST['surfer_name']).'</p>';
 
 	// surfer address is in $_REQUEST['surfer_address']
-	$context['text'] .= '<p>'.sprintf(i18n::s('%s: %s'), i18n::s('Your e-mail address'), $_REQUEST['surfer_address']).'</p>';
+	$context['text'] .= '<p>'.sprintf(i18n::s('%s: %s'), i18n::s('Your e-mail address'), encode_field($_REQUEST['surfer_address'])).'</p>';
 
 	// description is in $_REQUEST['description']
-	$context['text'] .= '<p>'.sprintf(i18n::s('%s: %s'), i18n::s('Your contribution'), BR.$_REQUEST['description']).'</p>';
+	$context['text'] .= '<p>'.sprintf(i18n::s('%s: %s'), i18n::s('Your contribution'), BR.encode_field($_REQUEST['description'])).'</p>';
 
 // display the form
 } else {

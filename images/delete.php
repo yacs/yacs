@@ -169,7 +169,7 @@ else {
 		
         // transmit the follow_up param if any
         if(isset($_REQUEST['follow_up']))
-            $context['text'] .= '<input type="hidden" name="follow_up" value="'.$_REQUEST['follow_up'].'" />'."\n";
+            $context['text'] .= '<input type="hidden" name="follow_up" value="'.encode_field($_REQUEST['follow_up']).'" />'."\n";
         
         $context['text'] .='</p></form>'."\n";
 

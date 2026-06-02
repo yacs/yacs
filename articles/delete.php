@@ -163,7 +163,7 @@ else {
 		.Skin::finalize_list($menu, 'menu_bar')
 		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
 		.'<input type="hidden" name="action" value="delete" />'."\n"
-        .((isset($_REQUEST['follow_up']))?'<input type="hidden" name="follow_up" value="'.$_REQUEST['follow_up'].'" />'."\n":'')
+        .((isset($_REQUEST['follow_up']))?'<input type="hidden" name="follow_up" value="'.encode_field($_REQUEST['follow_up']).'" />'."\n":'')
         .'</p></form>'."\n";
 
 	// set the focus
