@@ -1328,6 +1328,58 @@ Class Users {
 	}
 
 	/**
+	 * verify a submitted password against a stored hash
+	 *
+	 * Supports modern hashes (password_hash) and legacy 32-character MD5 hashes,
+	 * the latter compared in constant time.
+	 *
+	 * @param string the submitted clear-text password
+	 * @param string the stored hash
+	 * @return boolean TRUE on match, FALSE otherwise
+	 */
+	public static function verify_password($password, $hash) {
+		if(!is_string($hash) || ($hash === ''))
+			return FALSE;
+		// legacy hashes are 32 hexadecimal characters (MD5)
+		if((strlen($hash) === 32) && ctype_xdigit($hash))
+			return hash_equals($hash, md5($password));
+		// modern hash (bcrypt / argon2)
+		return password_verify($password, $hash);
+	}
+
+	/**
+	 * compute the hash to store for a password, using the current algorithm
+	 *
+	 * @param string the clear-text password
+	 * @return string the resulting hash
+	 */
+	public static function hash_password($password) {
+		return password_hash($password, PASSWORD_DEFAULT);
+	}
+
+	/**
+	 * persist a fresh password hash for one user
+	 *
+	 * Used to transparently upgrade a legacy hash to the current algorithm
+	 * after a successful login.
+	 *
+	 * @param int the user id
+	 * @param string the clear-text password
+	 */
+	protected static function upgrade_password($id, $password) {
+		global $context;
+		if(!$id)
+			return;
+		$query = "UPDATE ".SQL::table_name('users')
+			." SET password='".SQL::escape(Users::hash_password($password))."'"
+			." WHERE id=".SQL::escape($id);
+		if(isset($context['users_connection']))
+			SQL::query($query, FALSE, $context['users_connection']);
+		else
+			SQL::query($query);
+	}
+
+	/**
 	 * login
 	 *
 	 * The script checks provided name and password against the local database.
@@ -1416,9 +1468,12 @@ Class Users {
 				Logger::error(i18n::s('Wait for one hour to recover from too many failed authentications.'));
 				return NULL;
 
-			// successful local check
-			} elseif(md5($password) == $item['password'])
+			// successful local check (legacy MD5 hashes are upgraded transparently)
+			} elseif(Users::verify_password($password, $item['password'])) {
 				$authenticated = TRUE;
+				if(password_needs_rehash($item['password'], PASSWORD_DEFAULT))
+					Users::upgrade_password($item['id'], $password);
+			}
 
 		}
 
@@ -1677,7 +1732,7 @@ Class Users {
 
 		// hash password if coming from a human facing a form
 		if(isset($fields['confirm']) && ($fields['confirm'] == $fields['password']))
-			$fields['password'] = md5($fields['password']);
+			$fields['password'] = Users::hash_password($fields['password']);
 
 		// open community, accept subscribers and members
 		if(!isset($fields['capability']) || !in_array($fields['capability'], array('A', 'M', 'S', '?')))
@@ -1952,7 +2007,7 @@ Class Users {
 			}
 
 			// hash password, we are coming from an interactive form
-			$fields['password'] = md5($fields['password']);
+			$fields['password'] = Users::hash_password($fields['password']);
 
 		// else if a regular profile update
 		} else {
