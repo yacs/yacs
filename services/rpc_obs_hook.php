@@ -70,7 +70,7 @@ class RPC_OBS {
 
 		// build a string of parameters
 		if(is_array($parameters))
-			$parameters = join($parameters, '&');
+			$parameters = implode('&', $parameters);   // PHP 8 order: implode(separator, array)
 
 		// job done
 		return $url.'?'.$parameters;

@@ -97,6 +97,10 @@
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
+// overlays carry varied per-type state by design (attributes bag, fusion
+// compartments, computed members); allow dynamic properties so the whole
+// overlay hierarchy stays free of the PHP 8.2+ deprecation. Ignored on PHP < 8.2.
+#[\AllowDynamicProperties]
 class Overlay {
 
 	/**

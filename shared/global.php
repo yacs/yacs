@@ -314,7 +314,7 @@ if($context['with_debug'] == 'Y') {
 	Safe::ini_set('display_startup_errors','1');
 	Safe::ini_set('allow_call_time_pass_reference','0');
  	if(defined('E_STRICT'))
- 		$level = E_ALL | E_STRICT;
+ 		$level = E_ALL;	// E_STRICT is folded into E_ALL and the constant is deprecated since PHP 8.4
  	else
 		$level = E_ALL;
 } else
@@ -393,10 +393,11 @@ elseif(isset($_SERVER['REQUEST_URI'])) // this includes query string
 // recombine the self_url (to keep only the essencial)
 $scheme = parse_url($context['self_url'], PHP_URL_SCHEME);
 $host = parse_url($context['self_url'], PHP_URL_HOST);
+$port = parse_url($context['self_url'], PHP_URL_PORT);	// keep non-standard port if any (no-op in production, where there is none)
 $path = parse_url($context['self_url'], PHP_URL_PATH);
 $query = parse_url($context['self_url'], PHP_URL_QUERY);
 
-$context['self_url'] = $scheme.'://'.$host.$path.'?'.$query;
+$context['self_url'] = $scheme.'://'.$host.($port ? ':'.$port : '').$path.'?'.$query;
 //
 // session cookie
 //

@@ -141,7 +141,7 @@ if(Surfer::is_crawler()) {
 
 	// ensure the section has a private handle
 	if(!isset($item['handle']) || !$item['handle']) {
-		$item['handle'] = md5(mt_rand());
+		$item['handle'] = bin2hex(random_bytes(16));
 
 		// save in the database
 		$fields = array();

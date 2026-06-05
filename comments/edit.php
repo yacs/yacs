@@ -631,7 +631,7 @@ if($with_form) {
 
 	// preserve threading through preview
 	elseif(isset($_REQUEST['previous_id']))
-		$context['text'] .= '<input type="hidden" name="previous_id" value="'.$_REQUEST['previous_id'].'" />';
+		$context['text'] .= '<input type="hidden" name="previous_id" value="'.encode_field($_REQUEST['previous_id']).'" />';
 
 	// allow post preview
 	$context['text'] .= '<input type="hidden" name="preview" value="N" id="preview_flag" />';

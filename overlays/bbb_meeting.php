@@ -84,7 +84,7 @@ class BBB_Meeting extends Meeting {
 
 		// build a string of parameters
 		if(is_array($parameters))
-			$parameters = join($parameters, '&');
+			$parameters = implode('&', $parameters);   // PHP 8 order: implode(separator, array)
 
 		// add security salt
 		if($context['bbb_salt'])
