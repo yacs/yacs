@@ -315,6 +315,9 @@ if(Surfer::is_crawler()) {
 		$_REQUEST['options'] .= ' formatted';
 	if(isset($_REQUEST['option_hardcoded']) && ($_REQUEST['option_hardcoded'] == 'Y'))
 		$_REQUEST['options'] .= ' hardcoded';
+	// the WYSIWYG editor submits formatted HTML -- prevent implicit formatting on rendering
+	if(Surfer::is_wysiwyg() && !preg_match('/\bformatted\b/i', $_REQUEST['options']))
+		$_REQUEST['options'] .= ' formatted';
 
 	// overlay may have changed
 	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type']) {
@@ -822,7 +825,7 @@ if($with_form) {
 		$value = $_SESSION['pasted_text'];
 	$input = Surfer::get_editor('description', $value);
 	if(!is_object($overlay) || !($hint = $overlay->get_label('description_hint', isset($item['id'])?'edit':'new')))
-		$hint = '';
+		$hint = Surfer::is_wysiwyg() ? i18n::s('Press Enter to start a new paragraph, Shift+Enter to insert a simple line break.') : '';
 	$fields[] = array($label, $input, $hint);
 
 	// end of regular fields

@@ -2055,3 +2055,7 @@ msgstr "commentaire"
 
 #~ msgid "Last post"
 #~ msgstr "Mise à jour"
+
+#: articles/edit.php:828
+msgid "Press Enter to start a new paragraph, Shift+Enter to insert a simple line break."
+msgstr "Entrée crée un nouveau paragraphe ; Maj+Entrée insère un simple retour à la ligne."

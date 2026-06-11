@@ -1175,6 +1175,25 @@ Class Surfer {
 	}
 
 	/**
+	 * check whether the current surfer is using the WYSIWYG editor
+	 *
+	 * The WYSIWYG editor submits ready-to-use HTML, while the default
+	 * editor submits text to be formatted on rendering.
+	 *
+	 * @return boolean TRUE when the session editor produces HTML, FALSE otherwise
+	 */
+	public static function is_wysiwyg() {
+		global $context;
+
+		// enforce default configuration -- same logic as get_editor()
+		if(!isset($_SESSION['surfer_editor']) && isset($context['users_default_editor']))
+			$_SESSION['surfer_editor'] = $context['users_default_editor'];
+
+		// 'tinymce' is the legacy name of the WYSIWYG editor
+		return (isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce'));
+	}
+
+	/**
 	 * update surfer presence
 	 *
 	 * This function is used to track presence information.
