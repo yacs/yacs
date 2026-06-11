@@ -180,7 +180,7 @@ abstract class Anchor {
 
 		// cache the overlay, if any
 		if(!isset($this->overlay) && isset($this->item['overlay']))
-			$this->overlay = Overlay::load($this->item, $this->get_type().':'.$this->item['id']);
+			$this->overlay = Overlay::load($this);
 
 		// delegate the validation to the overlay
 		if(isset($this->overlay) && is_object($this->overlay) && is_callable(array($this->overlay, 'allows'))) {

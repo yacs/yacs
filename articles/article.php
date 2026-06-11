@@ -275,7 +275,7 @@ Class Article extends Anchor {
 		// use overlay data, if any
 		if(!$text) {
 			if(!isset($this->overlay) && isset($this->item['overlay']))
-				$this->overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
+				$this->overlay = Overlay::load($this);
 			if(is_object($this->overlay))
 				$text .= $this->overlay->get_text('list', $this->item);
 		}
@@ -742,7 +742,7 @@ Class Article extends Anchor {
 		if(!isset($this->overlay)) {
 			$this->overlay = NULL;
 			if(isset($this->item['overlay']))
-				$this->overlay = Overlay::load($this->item, 'article:'.$this->item['id']);
+				$this->overlay = Overlay::load($this);
 		}
 
 		// components of the query
