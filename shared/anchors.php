@@ -125,6 +125,55 @@ class Anchors {
         }
 
 	/**
+	 * report on the decomposition of textual anchors
+	 *
+	 * Maintenance report backing the 'anchors' action of check.php pages:
+	 * for every table carrying a textual anchor 'type:id', count anchored
+	 * rows not decomposed yet, and rows where the decomposed columns do not
+	 * mirror the anchor string. Both counts should remain at zero, since
+	 * every write fills anchor_type and anchor_id through get_sql_set(),
+	 * and pre-existing rows have been converted by the run_once script.
+	 *
+	 * @see scripts/run_once/260612_decompose_anchors.php
+	 *
+	 * @return string some XHTML to report on the decomposition
+	 */
+	public static function check_decomposition() {
+		global $context;
+
+		// every table carrying a textual anchor
+		$tables = array('articles', 'categories', 'comments', 'dates', 'enrolments',
+			'files', 'images', 'issues', 'links', 'locations', 'members', 'sections',
+			'tables', 'versions');
+
+		// one row per table
+		$rows = array();
+		foreach($tables as $table) {
+
+			// anchored rows not decomposed yet
+			$query = "SELECT COUNT(*) FROM ".SQL::table_name($table)
+				." WHERE (anchor LIKE '%:%') AND (anchor_id = 0)";
+			$missing = SQL::query_scalar($query);
+
+			// decomposed columns not mirroring the anchor string
+			$query = "SELECT COUNT(*) FROM ".SQL::table_name($table)
+				." WHERE (anchor LIKE '%:%') AND (CONCAT(anchor_type, ':', anchor_id) <> anchor)";
+			$mismatching = SQL::query_scalar($query);
+
+			// report on this table
+			$status = (!$missing && !$mismatching) ? i18n::s('OK') : i18n::s('to be fixed');
+			$rows[] = array($table, (int)$missing, (int)$mismatching, $status);
+
+			// ensure enough execution time
+			Safe::set_time_limit(30);
+		}
+
+		// the resulting table
+		return Skin::table(array(i18n::s('Table'), i18n::s('Anchored rows not decomposed'),
+			i18n::s('Columns not mirroring the anchor'), i18n::s('Status')), $rows);
+	}
+
+	/**
 	 * maximise access rights
 	 *
 	 * @param string inherited from parent (e.g., 'Y', 'R', or 'N')
@@ -301,12 +350,8 @@ class Anchors {
                 // sanity check
                 if(is_null($id)) return $anchor;
 
-		// if no type has been provided, assume we want a section
-		if(is_numeric($id))
-			$attributes = array('section', $id);
-                else
-                        // find the type
-                        $attributes = explode(':', $id);
+		// split the reference -- single source of the type:id convention
+		$attributes = Anchors::parse($id);
 
 		// switch on type
 		switch($attributes[0]) {
@@ -477,6 +522,59 @@ class Anchors {
 		default:
 			return i18n::s('edited');
 		}
+	}
+
+	/**
+	 * build the SQL assignments mirroring a textual anchor into its columns
+	 *
+	 * Every write that sets the legacy anchor string should also fill the
+	 * decomposed anchor_type and anchor_id columns. Instead of repeating
+	 * SUBSTRING_INDEX() in each query, callers concatenate the two fragments
+	 * returned here. The split is done in PHP, through parse(), so stored
+	 * values are plain literals, and anchor_id is a true integer.
+	 *
+	 * @param string a textual anchor, e.g. 'section:23' (NULL or '' = no anchor)
+	 * @return array two ready-to-use assignments, e.g. array("anchor_type='section'", "anchor_id=23")
+	 */
+	public static function get_sql_set($anchor) {
+
+		// decompose once, in PHP
+		list($type, $id) = Anchors::parse($anchor);
+
+		// no anchor -> sentinel type='' id=0, coherent with anchor=''
+		return array(
+			"anchor_type='".SQL::escape((string)$type)."'",
+			"anchor_id=".(int)$id);
+	}
+
+	/**
+	 * split a textual anchor into its type and id
+	 *
+	 * Single source of truth for the type:id convention: a numeric-only
+	 * reference assumes a section, as in get(). The id is usually numeric,
+	 * but entity getters such as Sections::get() also accept nick names and
+	 * handles -- non-numeric ids are preserved as-is.
+	 *
+	 * @param string a textual anchor, e.g. 'section:23' (NULL or '' = no anchor)
+	 * @return array the type and the id -- array(NULL, 0) when there is no anchor
+	 */
+	public static function parse($anchor) {
+
+		// no anchor at all
+		if(!$anchor)
+			return array(NULL, 0);
+
+		// a numeric-only reference assumes a section
+		if(is_numeric($anchor))
+			return array('section', (int)$anchor);
+
+		// not a type:id reference
+		if(strpos($anchor, ':') === FALSE)
+			return array(NULL, 0);
+
+		// split the type from the id, and keep nick names or handles as-is
+		list($type, $id) = explode(':', $anchor, 2);
+		return array($type, is_numeric($id) ? (int)$id : $id);
 	}
 
 	/**

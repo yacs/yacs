@@ -1204,6 +1204,7 @@ class Issue extends Overlay {
 
 			$query = "INSERT INTO ".SQL::table_name('issues')." SET \n"
 				."anchor='".SQL::escape($this->attributes['anchor_reference'])."', \n"
+				.implode(', ', Anchors::get_sql_set($this->attributes['anchor_reference'])).", \n"
 				."anchor_url='".SQL::escape($this->attributes['anchor_url'])."', \n"
 				."color='".SQL::escape(isset($this->attributes['color'])?$this->attributes['color']:'green')."', \n"
 				."status='".SQL::escape(isset($this->attributes['status'])?$this->attributes['status']:'on-going:suspect')."', \n"
@@ -1252,6 +1253,7 @@ class Issue extends Overlay {
 				// update the table of issues
 				$query = "UPDATE ".SQL::table_name('issues')." SET \n"
 					."anchor='".SQL::escape($this->attributes['anchor_reference'])."', \n"
+					.implode(', ', Anchors::get_sql_set($this->attributes['anchor_reference'])).", \n"
 					."anchor_url='".SQL::escape($this->attributes['anchor_url'])."', \n"
 					."color='".SQL::escape($this->attributes['color'])."', \n"
 					."status='".SQL::escape($this->attributes['status'])."', \n"
@@ -1363,6 +1365,8 @@ class Issue extends Overlay {
 		$fields['analysis_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['analysis_date']= "DATETIME";
 		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";				// up to 64 chars
+		$fields['anchor_type']	= "VARCHAR(64) DEFAULT '' NOT NULL";
+		$fields['anchor_id']	= "MEDIUMINT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['anchor_url']	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
 		$fields['close_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// end of issue
 		$fields['close_id'] 	= "MEDIUMINT DEFAULT 0 NOT NULL";
@@ -1397,6 +1401,7 @@ class Issue extends Overlay {
 		$indexes['PRIMARY KEY'] 	= "(id)";
 		$indexes['INDEX analysis_date'] = "(analysis_date)";
 		$indexes['INDEX anchor']		= "(anchor)";
+		$indexes['INDEX anchor_typeid']	= "(anchor_type, anchor_id)";
 		$indexes['INDEX close_date']	= "(close_date)";
 		$indexes['INDEX create_date']	= "(create_date)";
 		$indexes['INDEX create_id'] = "(create_id)";

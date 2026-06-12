@@ -1146,8 +1146,7 @@ Class Links {
 		// always remember the date
 		$query = "INSERT INTO ".SQL::table_name('links')." SET "
 			."anchor='".SQL::escape($fields['anchor'])."', "
-			."anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1),"
-			."anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1),"
+			.implode(', ', Anchors::get_sql_set($fields['anchor'])).","
 			."link_url='".SQL::escape($fields['link_url'])."', "
 			."link_target='".SQL::escape(isset($fields['link_target']) ? $fields['link_target'] : '')."', "
 			."link_title='".SQL::escape(isset($fields['link_title']) ? $fields['link_title'] : '')."', "
@@ -1255,8 +1254,7 @@ Class Links {
 		// update the existing record
 		$query = "UPDATE ".SQL::table_name('links')." SET "
 			."anchor='".SQL::escape($fields['anchor'])."', "
-			."anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1),"
-			."anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1),"
+			.implode(', ', Anchors::get_sql_set($fields['anchor'])).","
 			."link_url='".SQL::escape($fields['link_url'])."', "
 			."link_target='".SQL::escape(isset($fields['link_target']) ? $fields['link_target'] : '')."', "
 			."link_title='".SQL::escape(isset($fields['link_title']) ? $fields['link_title'] : '')."', "

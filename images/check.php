@@ -217,6 +217,16 @@ if(!Surfer::is_associate()) {
 	$menu = array('images/' => i18n::s('Images'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
+// check the decomposition of anchors
+} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'anchors')) {
+
+	// scan every table carrying a textual anchor
+	$context['text'] .= Anchors::check_decomposition();
+
+	// display the execution time
+	$time = round(get_micro_time() - $context['start_time'], 2);
+	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
+
 // which check?
 } else {
 
@@ -237,6 +247,9 @@ if(!Surfer::is_associate()) {
 
 	// look for missing files
 	$context['text'] .= '<p><input type="radio" name="action" value="missing" /> '.i18n::s('Look for missing files').'</p>';
+
+	// check the decomposition of anchors
+	$context['text'] .= '<p><input type="radio" name="action" value="anchors" /> '.i18n::s('Check the decomposition of anchors').'</p>';
 
 	// the submit button
 	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Start')).'</p>'."\n";

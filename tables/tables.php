@@ -1031,6 +1031,7 @@ Class Tables {
 
 			$query = "INSERT INTO ".SQL::table_name('tables')." SET "
 				."anchor='".SQL::escape($fields['anchor'])."',"
+				.implode(', ', Anchors::get_sql_set($fields['anchor'])).","
 				."nick_name='".SQL::escape(isset($fields['nick_name']) ? $fields['nick_name'] : '')."',"
 				."title='".SQL::escape(isset($fields['title']) ? $fields['title'] : '')."',"
 				."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."',"
@@ -1073,6 +1074,8 @@ Class Tables {
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
 		$fields['nick_name']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";
+		$fields['anchor_type']	= "VARCHAR(64) DEFAULT '' NOT NULL";
+		$fields['anchor_id']	= "MEDIUMINT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['description']	= "TEXT NOT NULL";
 		$fields['source']		= "VARCHAR(255) DEFAULT '' NOT NULL";
@@ -1086,6 +1089,7 @@ Class Tables {
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 	= "(id)";
 		$indexes['INDEX anchor']	= "(anchor)";
+		$indexes['INDEX anchor_typeid'] = "(anchor_type, anchor_id)";
 		$indexes['INDEX edit_date'] = "(edit_date)";
 		$indexes['INDEX edit_id']	= "(edit_id)";
 		$indexes['INDEX nick_name'] = "(nick_name)";

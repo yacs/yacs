@@ -1523,6 +1523,7 @@ Class Categories {
 		if(isset($fields['nick_name']) && $fields['nick_name'])
 			$query .= "nick_name='".SQL::escape($fields['nick_name'])."',";
 		$query .= "anchor='".SQL::escape(isset($fields['anchor']) ? $fields['anchor'] : '')."',"
+			.implode(', ', Anchors::get_sql_set(isset($fields['anchor']) ? $fields['anchor'] : '')).","
 			."active='".SQL::escape($fields['active'])."',"
 			."active_set='".SQL::escape($fields['active_set'])."',"
 			."articles_layout='".SQL::escape($fields['articles_layout'])."',"
@@ -1675,6 +1676,7 @@ Class Categories {
 		if($fields['nick_name'])
 			$query .= "nick_name='".SQL::escape($fields['nick_name'])."',";
 		$query .= "anchor='".SQL::escape(isset($fields['anchor']) ? $fields['anchor'] : '')."',"
+			.implode(', ', Anchors::get_sql_set(isset($fields['anchor']) ? $fields['anchor'] : '')).","
 			."active='".SQL::escape($fields['active'])."',"
 			."active_set='".SQL::escape($fields['active_set'])."',"
 			."articles_layout='".SQL::escape($fields['articles_layout'])."',"
@@ -1758,8 +1760,10 @@ Class Categories {
 		}
 
 		// other fields
-		if(isset($fields['anchor']))
+		if(isset($fields['anchor'])) {
 			$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
+			$query = array_merge($query, Anchors::get_sql_set($fields['anchor']));
+		}
 		if(isset($fields['articles_layout']))
 			$query[] = "articles_layout='".SQL::escape($fields['articles_layout'])."'";
 		if(isset($fields['description']))
@@ -2093,6 +2097,8 @@ Class Categories {
 		$fields['active']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
 		$fields['active_set']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
 		$fields['anchor']		= "VARCHAR(64)";
+		$fields['anchor_type']	= "VARCHAR(64) DEFAULT '' NOT NULL";
+		$fields['anchor_id']	= "MEDIUMINT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['articles_layout']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['background_color']	= "VARCHAR(64) DEFAULT '' NOT NULL";
 		$fields['categories_count']     = "INT UNSIGNED NOT NULL";
@@ -2135,6 +2141,7 @@ Class Categories {
 		$indexes['PRIMARY KEY id']		= "(id)";
 		$indexes['INDEX active']		= "(active)";
 		$indexes['INDEX anchor']		= "(anchor)";
+		$indexes['INDEX anchor_typeid']	= "(anchor_type, anchor_id)";
 		$indexes['INDEX display']		= "(display)";
 		$indexes['INDEX expiry_date']           = "(expiry_date)";
 		$indexes['INDEX hits']			= "(hits)";
