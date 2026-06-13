@@ -2658,8 +2658,7 @@ Class Files {
 			$query[] = "active_set='".SQL::escape($fields['active_set'])."'";
 			$query[] = "alternate_href='".SQL::escape(isset($fields['alternate_href']) ? $fields['alternate_href'] : '')."'";
 			$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
-			$query[] = "anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1)";
-			$query[] = "anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1)";
+			$query = array_merge($query, Anchors::get_sql_set($fields['anchor']));
 			$query[] = "behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."'";
 			$query[] = "create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."'";
 			$query[] = "create_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']);
@@ -2757,8 +2756,7 @@ Class Files {
 		// anchor this page to another place
 		if(isset($fields['anchor'])) {
 			$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
-			$query[] = "anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1)";
-			$query[] = "anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1)";
+			$query = array_merge($query, Anchors::get_sql_set($fields['anchor']));
 		}
 
 		// other fields that can be modified individually

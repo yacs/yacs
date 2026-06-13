@@ -357,6 +357,7 @@ Class Versions {
 		// insert a new record
 		$query = "INSERT INTO ".SQL::table_name('versions')." SET "
 			."anchor='".SQL::escape($anchor)."',"
+			.implode(', ', Anchors::get_sql_set($anchor)).","
 			."content='".SQL::escape($content)."',"
 			."edit_name='".SQL::escape(isset($fields['edit_name']) ? $fields['edit_name'] : Surfer::get_name())."', "
 			."edit_id=".SQL::escape(isset($fields['edit_id']) ? $fields['edit_id'] : Surfer::get_id()).", "
@@ -386,6 +387,8 @@ Class Versions {
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
 		$fields['anchor']		= "VARCHAR(64) NOT NULL";
+		$fields['anchor_type']	= "VARCHAR(64) DEFAULT '' NOT NULL";
+		$fields['anchor_id']	= "MEDIUMINT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['content']		= "MEDIUMTEXT NOT NULL";
 		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_date']	= "DATETIME";
@@ -395,6 +398,7 @@ Class Versions {
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 	= "(id)";
 		$indexes['INDEX anchor']	= "(anchor)";
+		$indexes['INDEX anchor_typeid'] = "(anchor_type, anchor_id)";
 		$indexes['INDEX edit_date'] = "(edit_date)";
 
 		return SQL::setup_table('versions', $fields, $indexes);

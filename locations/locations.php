@@ -795,6 +795,7 @@ Class Locations {
 			// always remember the date
 			$query = "INSERT INTO ".SQL::table_name('locations')." SET "
 				."anchor='".SQL::escape($fields['anchor'])."', "
+				.implode(', ', Anchors::get_sql_set($fields['anchor'])).", "
 				."geo_place_name='".SQL::escape($fields['geo_place_name'])."', "
 				."geo_position='".SQL::escape(isset($fields['geo_position']) ? $fields['geo_position'] : '')."', "
 				."longitude='".SQL::escape(isset($longitude) ? $longitude : '')."', "
@@ -834,6 +835,8 @@ Class Locations {
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
 		$fields['anchor']		= "VARCHAR(64) DEFAULT 'article:1' NOT NULL";
+		$fields['anchor_type']	= "VARCHAR(64) DEFAULT '' NOT NULL";
+		$fields['anchor_id']	= "MEDIUMINT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['geo_place_name'] = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['geo_position'] = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['longitude']	= "VARCHAR(128) DEFAULT '' NOT NULL";
@@ -848,6 +851,7 @@ Class Locations {
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 	= "(id)";
 		$indexes['INDEX anchor']	= "(anchor)";
+		$indexes['INDEX anchor_typeid'] = "(anchor_type, anchor_id)";
 		$indexes['INDEX edit_date'] = "(edit_date)";
 		$indexes['INDEX edit_id']	= "(edit_id)";
 		$indexes['INDEX geo_place_name'] = "(geo_place_name)";

@@ -116,6 +116,7 @@ Class Members {
 		// insert one new record
 		$query = "INSERT INTO ".SQL::table_name('members')." SET"
 			." anchor='".SQL::escape($anchor)."',"
+			." ".implode(', ', Anchors::get_sql_set($anchor)).","
 			." member='".SQL::escape($member)."',"
 			." member_type='".SQL::escape($member_type)."',"
 			." member_id='".SQL::escape($member_id)."',"
@@ -380,6 +381,7 @@ Class Members {
 				// actual duplication
 				$query = "INSERT INTO ".SQL::table_name('members')." SET"
 					." anchor='".SQL::escape($reference_to)."',"
+					." ".implode(', ', Anchors::get_sql_set($reference_to)).","
 					." member='".SQL::escape($item['member'])."',"
 					." member_type='".SQL::escape($item['member_type'])."',"
 					." member_id='".SQL::escape($item['member_id'])."',"
@@ -403,6 +405,7 @@ Class Members {
 				// actual duplication
 				$query = "INSERT INTO ".SQL::table_name('members')." SET"
 					." anchor='".SQL::escape($item['anchor'])."',"
+					." ".implode(', ', Anchors::get_sql_set($item['anchor'])).","
 					." member='".SQL::escape($reference_to)."',"
 					." member_type='".SQL::escape($reference_type)."',"
 					." member_id='".SQL::escape($reference_id)."',"
@@ -1567,6 +1570,8 @@ Class Members {
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
 		$fields['anchor']		= "VARCHAR(64) NOT NULL";
+		$fields['anchor_type']	= "VARCHAR(64) DEFAULT '' NOT NULL";
+		$fields['anchor_id']	= "MEDIUMINT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['member']		= "VARCHAR(64) NOT NULL";
 		$fields['member_type']	= "VARCHAR(64) NOT NULL";
 		$fields['member_id']	= "VARCHAR(64) NOT NULL";
@@ -1575,6 +1580,7 @@ Class Members {
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 	= "(id)";
 		$indexes['INDEX anchor']	= "(anchor)";
+		$indexes['INDEX anchor_typeid'] = "(anchor_type, anchor_id)";
 		$indexes['INDEX member']	= "(member)";
 		$indexes['INDEX member_type']	= "(member_type)";
 		$indexes['INDEX member_id'] = "(member_id)";
@@ -1632,6 +1638,7 @@ Class Members {
 			// insert one new record
 			$query = "INSERT INTO ".SQL::table_name('members')." SET"
 				." anchor='".SQL::escape($anchor)."',"
+				." ".implode(', ', Anchors::get_sql_set($anchor)).","
 				." member='".SQL::escape($member)."',"
 				." member_type='".SQL::escape($member_type)."',"
 				." member_id='".SQL::escape($member_id)."',"

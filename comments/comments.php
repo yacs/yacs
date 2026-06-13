@@ -1625,8 +1625,7 @@ Class Comments {
 			// maybe another anchor
 			if($fields['anchor'])
 				$query .= ", anchor='".SQL::escape($fields['anchor'])."', "
-					."anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1), "
-					."anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1)";
+					.implode(', ', Anchors::get_sql_set($fields['anchor']));
 
 			// maybe a silent update
 			if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
@@ -1645,8 +1644,7 @@ Class Comments {
 
 			$query = "INSERT INTO ".SQL::table_name('comments')." SET "
 				."anchor='".SQL::escape($fields['anchor'])."', "
-				."anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1), "
-				."anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1), "
+				.implode(', ', Anchors::get_sql_set($fields['anchor'])).", "
 				."previous_id='".SQL::escape(isset($fields['previous_id']) ? $fields['previous_id'] : 0)."', "
 				."type='".SQL::escape($fields['type'])."', "
 				."description='".SQL::escape($fields['description'])."', "

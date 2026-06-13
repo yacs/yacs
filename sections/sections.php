@@ -2837,6 +2837,7 @@ Class Sections {
 
 		// all fields should be visible
 		$query .= "anchor='".SQL::escape(isset($fields['anchor']) ? $fields['anchor'] : '')."',"
+			.implode(', ', Anchors::get_sql_set(isset($fields['anchor']) ? $fields['anchor'] : '')).","
 			."activation_date='".SQL::escape($fields['activation_date'])."',"
 			."active='".SQL::escape($fields['active'])."',"
 			."active_set='".SQL::escape($fields['active_set'])."',"
@@ -3032,8 +3033,10 @@ Class Sections {
 		$query = array();
 
 		// regular fields
-		if(isset($fields['anchor']))
+		if(isset($fields['anchor'])) {
 			$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
+			$query = array_merge($query, Anchors::get_sql_set($fields['anchor']));
+		}
 		$query[] = "title='".SQL::escape($fields['title'])."'";
 		$query[] = "activation_date='".SQL::escape($fields['activation_date'])."'";
 		$query[] = "active='".SQL::escape($fields['active'])."'";
@@ -3140,8 +3143,10 @@ Class Sections {
 		}
 
 		// other fields
-		if(isset($fields['anchor']))
+		if(isset($fields['anchor'])) {
 			$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
+			$query = array_merge($query, Anchors::get_sql_set($fields['anchor']));
+		}
 		if(isset($fields['articles_canvas']) )
 			$query[] = "articles_canvas='".SQL::escape($fields['articles_canvas'])."'";
 		if(isset($fields['articles_layout']))
@@ -3416,6 +3421,8 @@ Class Sections {
 		$fields['active']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
 		$fields['active_set']           = "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
 		$fields['anchor']		= "VARCHAR(64)";
+		$fields['anchor_type']	= "VARCHAR(64) DEFAULT '' NOT NULL";
+		$fields['anchor_id']	= "MEDIUMINT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['articles_canvas']	= "VARCHAR(255) DEFAULT 'standard' NOT NULL";
 		$fields['articles_layout']	= "VARCHAR(255) DEFAULT 'decorated' NOT NULL";
 		$fields['articles_templates']	= "VARCHAR(255) DEFAULT '' NOT NULL";
@@ -3470,6 +3477,7 @@ Class Sections {
 		$indexes['INDEX activation_date']   = "(activation_date)";
 		$indexes['INDEX active']            = "(active)";
 		$indexes['INDEX anchor']            = "(anchor)";
+		$indexes['INDEX anchor_typeid']     = "(anchor_type, anchor_id)";
 		$indexes['INDEX create_date']       = "(create_date)";
 		$indexes['INDEX edit_date']         = "(edit_date)";
 		$indexes['INDEX expiry_date']       = "(expiry_date)";

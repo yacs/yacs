@@ -108,6 +108,7 @@ class Enrolments {
 				// fields to save
 				$query = array();
 				$query[] = "anchor = '".$reference."'";
+				$query = array_merge($query, Anchors::get_sql_set($reference));
 				$query[] = "approved = 'Y'";
 				$query[] = "edit_date = '".SQL::escape(gmdate('Y-m-d H:i:s'))."'";
 				$query[] = "user_id = ".SQL::escape(Surfer::get_id());
@@ -137,6 +138,8 @@ class Enrolments {
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
 		$fields['anchor']		= "VARCHAR(64) DEFAULT '' NOT NULL";
+		$fields['anchor_type']	= "VARCHAR(64) DEFAULT '' NOT NULL";
+		$fields['anchor_id']	= "MEDIUMINT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['approved']		= "ENUM('Y', 'N') DEFAULT 'N' NOT NULL";
 		$fields['edit_date']	= "DATETIME";
 		$fields['user_email']	= "VARCHAR(255) DEFAULT '' NOT NULL";
@@ -145,6 +148,7 @@ class Enrolments {
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 		= "(id)";
 		$indexes['INDEX anchor']		= "(anchor)";
+		$indexes['INDEX anchor_typeid']	= "(anchor_type, anchor_id)";
 		$indexes['INDEX user_email']	= "(user_email)";
 		$indexes['INDEX user_id']		= "(user_id)";
 

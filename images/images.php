@@ -772,6 +772,7 @@ Class Images {
 
 			$query = "INSERT INTO ".SQL::table_name('images')." SET ";
 			$query .= "anchor='".SQL::escape($fields['anchor'])."',"
+				.implode(', ', Anchors::get_sql_set($fields['anchor'])).","
 				."image_name='".SQL::escape($fields['image_name'])."',"
 				."image_size='".SQL::escape($fields['image_size'])."',"
 				."title='".SQL::escape(isset($fields['title']) ? $fields['title'] : '')."',"
@@ -820,6 +821,8 @@ Class Images {
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
 		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";
+		$fields['anchor_type']	= "VARCHAR(64) DEFAULT '' NOT NULL";
+		$fields['anchor_id']	= "MEDIUMINT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['image_name']           = "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['image_size']           = "INT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
@@ -837,6 +840,7 @@ Class Images {
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 	= "(id)";
 		$indexes['INDEX anchor']	= "(anchor)";
+		$indexes['INDEX anchor_typeid'] = "(anchor_type, anchor_id)";
 		$indexes['INDEX title'] 	= "(title(255))";
 		$indexes['FULLTEXT INDEX']	= "full_text(title, source, description)";
 

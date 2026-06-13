@@ -1076,8 +1076,7 @@ Class Dates {
 			// always remember the date
 			$query = "INSERT INTO ".SQL::table_name('dates')." SET "
 				."anchor='".SQL::escape($fields['anchor'])."', "
-				."anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1),"
-				."anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1),"
+				.implode(', ', Anchors::get_sql_set($fields['anchor'])).","
 				."date_stamp='".SQL::escape($fields['date_stamp'])."', "
 				."edit_name='".SQL::escape($fields['edit_name'])."', "
 				."edit_id=".SQL::escape($fields['edit_id']).", "

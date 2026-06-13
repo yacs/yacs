@@ -2978,8 +2978,7 @@ Class Articles {
 
 		// fields visible to authorized member
 		$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
-		$query[] = "anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1)";
-		$query[] = "anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1)";
+		$query = array_merge($query, Anchors::get_sql_set($fields['anchor']));
 		$query[] = "title='".SQL::escape($fields['title'])."'";
 		$query[] = "source='".SQL::escape(isset($fields['source']) ? $fields['source'] : '')."'";
 		$query[] = "introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."'";
@@ -3204,8 +3203,7 @@ Class Articles {
 
 		// fields visible to authorized member
 		$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
-		$query[] = "anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1)";
-		$query[] = "anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1)";
+		$query = array_merge($query, Anchors::get_sql_set($fields['anchor']));
 		$query[] = "title='".SQL::escape($fields['title'])."'";
 		$query[] = "source='".SQL::escape(isset($fields['source']) ? $fields['source'] : '')."'";
 		$query[] = "introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."'";
@@ -3304,8 +3302,7 @@ Class Articles {
 		// anchor this page to another place
 		if(isset($fields['anchor'])) {
 			$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
-			$query[] = "anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1)";
-			$query[] = "anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1)";
+			$query = array_merge($query, Anchors::get_sql_set($fields['anchor']));
 		}
 
 		// other fields that can be modified individually
