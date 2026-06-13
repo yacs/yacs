@@ -483,7 +483,7 @@ Class Section extends Anchor {
 
 		// use overlay data, if any
 		if(!$text) {
-			$overlay = Overlay::load($this->item, 'section:'.$this->item['id']);
+			$overlay = Overlay::load($this);
 			if(is_object($overlay))
 				$text .= $overlay->get_text('list', $this->item);
 		}
