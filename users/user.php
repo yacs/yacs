@@ -190,10 +190,11 @@ Class User extends Anchor {
 	 * This function lists containers of the content tree,
 	 * from top level down to this item.
 	 *
+	 * @param array references already climbed, used to break anchoring cycles
 	 * @return array of anchor references (e.g., array('section:123', 'article:456') )
 	 */
-	function get_focus() {
-		
+	function get_focus($visited = array()) {
+
 		$focus = array();
 
 		// append this level
@@ -211,9 +212,10 @@ Class User extends Anchor {
 	 *
 	 * @return an array of $url => $label
 	 *
+	 * @param array references already climbed, used to break anchoring cycles
 	 * @see shared/anchor.php
 	 */
-	function get_path_bar() {
+	function get_path_bar($visited = array()) {
 
 		// load localized strings
 		i18n::bind('users');
