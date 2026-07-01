@@ -545,21 +545,13 @@ Class SQL {
 		if(!$connection)
 			return FALSE;
 
-		// reopen a connection if database is not reachable anymore
-		if(is_callable('mysqli_ping'))
-			$reached = mysqli_ping($connection);
-		else
-			$reached = mysql_ping($connection);
+		// check that the database is still reachable with a lightweight sentinel query
+		// (mysqli_ping() is deprecated since PHP 8.4, along with mysqli auto-reconnect)
+		$reached = (@mysqli_query($connection, 'SELECT 1') !== FALSE);
 
-		// also ping the database for users, if any
-		if(isset($context['users_connection']) && $context['users_connection'] && ($context['users_connection'] !== $connection)) {
-
-			if(is_callable('mysqli_ping'))
-				mysqli_ping($context['users_connection']);
-			else
-				mysql_ping($context['users_connection']);
-
-		}
+		// also check the database for users, if any
+		if(isset($context['users_connection']) && $context['users_connection'] && ($context['users_connection'] !== $connection))
+			@mysqli_query($context['users_connection'], 'SELECT 1');
 
 		// job done
 		return $reached;
