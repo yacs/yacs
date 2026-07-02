@@ -92,8 +92,8 @@ Class Users {
 		else
 			$recipient = Mailer::encode_recipient($user['email'], $user['nick_name']);
 
-		// post a message to this particular user
-		return Mailer::notify(Surfer::from(), $recipient, $mail['subject'], $mail['message'], isset($mail['headers'])?$mail['headers']:'',isset($mail['attachement'])?$mail['attachement']:null);
+		// post a message to this particular user --community alerts can be grouped in a digest
+		return Mailer::notify(Surfer::from(), $recipient, $mail['subject'], $mail['message'], isset($mail['headers'])?$mail['headers']:'',isset($mail['attachement'])?$mail['attachement']:null, TRUE);
 
 	}
 

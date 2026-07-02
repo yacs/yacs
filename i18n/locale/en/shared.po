@@ -746,3 +746,9 @@ msgstr "Last stacking element: %s"
 
 #~ msgid "updated"
 #~ msgstr "updated"
+
+#: shared/mailer.php
+msgid "%d new item at %s"
+msgid_plural "%d new items at %s"
+msgstr[0] "%d new item at %s"
+msgstr[1] "%d new items at %s"
