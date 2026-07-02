@@ -226,14 +226,6 @@ $context['text'] .= '[title]'.i18n::s('Static chart').' [escape][chart]...[/char
 	.'<td>[chart=320, 256]'."\n".$chart_data."\n".'[/chart]</td></tr>'
 	.Skin::table_suffix();
 
-// [execute=tools/echo.php]
-$context['text'] .= '[title]'.i18n::s('Execute a local script').' [escape][execute=tools/echo.php][/escape][/title]'
-	.Skin::table_prefix('wide')
-	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][execute=tools/echo.php][/escape]</td>'
-	.'<td>[execute=tools/echo.php]</td></tr>'
-	.Skin::table_suffix();
-
 // [redirect=tools/echo.php]
 $context['text'] .= '[title]'.i18n::s('Redirect to a local address').' [escape][redirect=tools/echo.php][/escape][/title]'
 	.Skin::table_prefix('wide')
