@@ -1647,8 +1647,9 @@ class Mailer {
 			else
 				$stamp = time() - 3600;
 
-			// leak is maximum after one hour
-			$leak = intval($context['mail_hourly_maximum'] * ( time() - $stamp ) / 3600);
+			// leak is maximum after one hour --round up, else a tick firing a few seconds
+			// short of the hour never fully drains the bucket and stalls every other run
+			$leak = (int) ceil($context['mail_hourly_maximum'] * ( time() - $stamp ) / 3600);
 
 			// preserve previous value until actual leak
 			if($leak < 1)
@@ -1672,10 +1673,20 @@ class Mailer {
 			// on refusal from the mail provider (e.g., daily quota reached), stop the whole slice
 			$stalled = FALSE;
 
+			// hold digests back until a fixed hour, if configured --this lets a full day of
+			// notifications accumulate into a single digest per recipient; legacy messages
+			// processed below are not affected and keep being delivered at any time
+			$digest_allowed = TRUE;
+			if(isset($context['mail_digest_hour']) && is_numeric($context['mail_digest_hour'])) {
+				$now = new DateTime('now', new DateTimeZone('Europe/Paris'));
+				if((int) $now->format('G') < (int) $context['mail_digest_hour'])
+					$digest_allowed = FALSE;
+			}
+
 			// group pending notifications, one digest per recipient
 			$query = "SELECT recipient, MIN(edit_date) AS oldest FROM ".SQL::table_name('messages')
 				." WHERE digest='Y' GROUP BY recipient ORDER BY oldest LIMIT 0, ".$slice;
-			if($result = SQL::query($query)) {
+			if($digest_allowed && ($result = SQL::query($query))) {
 
 				// process every digest
 				while($group = SQL::fetch($result)) {
