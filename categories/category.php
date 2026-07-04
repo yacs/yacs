@@ -139,14 +139,14 @@ Class Category extends Anchor {
 	 *
 	 * @see shared/anchor.php
 	 */
-	function get_path_bar() {
-	    	   		    
+	function get_path_bar($visited = array()) {
+
 		// no item bound
 		if(!isset($this->item['id']))
 			return NULL;		
 		
-		// standard path
-		$path = Anchor::get_path_bar();
+		// standard path -- forward visited references to break anchoring cycles
+		$path = Anchor::get_path_bar($visited);
 		
 		// add categories root
 		if(!$this->item['anchor'])		

@@ -468,16 +468,20 @@ abstract class Anchor {
 	 * This function lists containers of the content tree,
 	 * from top level down to this item.
 	 *
+	 * @param array references already climbed, used to break anchoring cycles
 	 * @return array of anchor references (e.g., array('section:123', 'article:456') )
 	 */
-	function get_focus() {
+	function get_focus($visited = array()) {
 		 // get the parent
 		if(!isset($this->anchor) && isset($this->item['anchor']))
 			$this->anchor = Anchors::get($this->item['anchor']);
 
-		// the parent level
-		if(is_object($this->anchor))
-			$focus = $this->anchor->get_focus();
+		// remember this level to detect anchoring cycles
+		$visited[] = $this->get_reference();
+
+		// the parent level -- unless it has already been visited (cyclic anchor)
+		if(is_object($this->anchor) && !in_array($this->anchor->get_reference(), $visited))
+			$focus = $this->anchor->get_focus($visited);
 		else
 			$focus = array();
 
@@ -731,9 +735,10 @@ abstract class Anchor {
 	 *
 	 * To be overloaded into derived class
 	 *
+	 * @param array references already climbed, used to break anchoring cycles
 	 * @return an array of $url => $label
 	 */
-	function get_path_bar() {
+	function get_path_bar($visited = array()) {
 		global $context;
 
 		// no item bound
@@ -744,10 +749,13 @@ abstract class Anchor {
 		if(!isset($this->anchor))
 			$this->anchor = Anchors::get($this->item['anchor']);
 
-		// the parent level
+		// remember this level to detect anchoring cycles
+		$visited[] = $this->get_reference();
+
+		// the parent level -- unless it has already been visited (cyclic anchor)
 		$parent = array();
-		if(is_object($this->anchor))
-			$parent = $this->anchor->get_path_bar();
+		if(is_object($this->anchor) && !in_array($this->anchor->get_reference(), $visited))
+			$parent = $this->anchor->get_path_bar($visited);
 
 		// this item
 		$url = $this->get_permalink();
