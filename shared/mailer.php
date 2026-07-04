@@ -1676,11 +1676,23 @@ class Mailer {
 			// hold digests back until a fixed hour, if configured --this lets a full day of
 			// notifications accumulate into a single digest per recipient; legacy messages
 			// processed below are not affected and keep being delivered at any time
+			//
+			// once the hour has been reached the gate stays open until the whole digest
+			// queue has been drained, so a busy evening keeps sending into the night
+			// instead of silently freezing until the following day's cutoff; a stricter
+			// per-calendar-day gate has been considered and rejected as unnecessary
+			// complexity for the volume actually seen on this site
 			$digest_allowed = TRUE;
-			if(isset($context['mail_digest_hour']) && is_numeric($context['mail_digest_hour'])) {
-				$now = new DateTime('now', new DateTimeZone('Europe/Paris'));
-				if((int) $now->format('G') < (int) $context['mail_digest_hour'])
-					$digest_allowed = FALSE;
+			$digest_hour_is_set = isset($context['mail_digest_hour']) && is_numeric($context['mail_digest_hour']);
+			if($digest_hour_is_set) {
+				$gate = Values::get_record('mailer.digest.gate_open', 'N');
+				if($gate['value'] != 'Y') {
+					$now = new DateTime('now', new DateTimeZone('Europe/Paris'));
+					if((int) $now->format('G') < (int) $context['mail_digest_hour'])
+						$digest_allowed = FALSE;
+					else
+						Values::set('mailer.digest.gate_open', 'Y');
+				}
 			}
 
 			// group pending notifications, one digest per recipient
@@ -1756,6 +1768,14 @@ class Mailer {
 					}
 
 				}
+			}
+
+			// close the gate again once the digest queue has been fully drained,
+			// ready to hold back the next day's notifications until the same hour
+			if($digest_hour_is_set && !$stalled) {
+				$query = "SELECT COUNT(*) as count FROM ".SQL::table_name('messages')." WHERE digest='Y'";
+				if(($stats = SQL::query_first($query)) && !$stats['count'])
+					Values::set('mailer.digest.gate_open', 'N');
 			}
 
 			// process regular messages, if any room left in the slice
