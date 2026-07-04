@@ -146,6 +146,16 @@
  * messages per hour. The default value is 50 messages per hour, which is safe
  * at most Internet service providers.
  *
+ * [*] [code]mail_digest[/code] - if set to 'Y', watcher notifications to the
+ * same recipient are grouped into a single digest message at delivery time,
+ * instead of being sent one by one. This greatly reduces the number of
+ * messages sent to rate-limited mail providers.
+ *
+ * [*] [code]mail_digest_hour[/code] - if set to an hour of the day (0-23,
+ * Paris time), digests are held back until that hour, so that a full day of
+ * notifications can be grouped into one message per recipient. Leave empty
+ * to send digests as soon as the outbound quota allows it.
+ *
  * [*] [code]debug_mail[/code] - if set to 'Y',
  * save titles and recipients of sent messages into [code]temporary/debug.txt[/code]
  *
@@ -701,6 +711,22 @@ if(!Surfer::is_associate()) {
 	$hint = i18n::s('Messages will not be queued if this is set to 0');
 	$fields[] = array($label, $input, $hint);
 
+	// group per-recipient notifications into digests
+	$label = i18n::s('Group notifications into digests');
+	$checked = '';
+	if(isset($context['mail_digest']) && ($context['mail_digest'] == 'Y'))
+		$checked = ' checked="checked" ';
+	$input = '<input type="checkbox" name="mail_digest" value="Y" '.$checked.'/> '.i18n::s('Group all pending notifications for the same recipient into a single digest message at delivery time.');
+	$fields[] = array($label, $input);
+
+	// hold digests until a fixed hour of the day
+	$label = i18n::s('Digest delivery hour');
+	if(!isset($context['mail_digest_hour']))
+		$context['mail_digest_hour'] = '';
+	$input = '<input type="text" name="mail_digest_hour" size="5" value="'.encode_field($context['mail_digest_hour']).'" maxlength="2" />';
+	$hint = i18n::s('Hour of the day (0-23, Paris time) before which digests are held back. Leave empty to send digests as soon as possible.');
+	$fields[] = array($label, $input, $hint);
+
 	// target recipients for logged events
 	$label = i18n::s('Recipients of system events');
 	if(!isset($context['mail_logger_recipient']))
@@ -821,6 +847,8 @@ if(!Surfer::is_associate()) {
 	// ensure we have default values
 	if(!isset($_REQUEST['debug_mail']))
 		$_REQUEST['debug_mail'] = 'N';
+	if(!isset($_REQUEST['mail_digest']))
+		$_REQUEST['mail_digest'] = 'N';
 
 	// masks are octal
 	if($_REQUEST['directory_mask'] < '0700')
@@ -867,6 +895,10 @@ if(!Surfer::is_associate()) {
 		$content .= '$context[\'mail_from_surfer\']=\''.addcslashes($_REQUEST['mail_from_surfer'], "\\'")."';\n";
 	if(isset($_REQUEST['mail_hourly_maximum']))
 		$content .= '$context[\'mail_hourly_maximum\']='.intval($_REQUEST['mail_hourly_maximum']).";\n";
+	if(isset($_REQUEST['mail_digest']))
+		$content .= '$context[\'mail_digest\']=\''.addcslashes($_REQUEST['mail_digest'], "\\'")."';\n";
+	if(isset($_REQUEST['mail_digest_hour']) && is_numeric($_REQUEST['mail_digest_hour']))
+		$content .= '$context[\'mail_digest_hour\']='.max(0, min(23, intval($_REQUEST['mail_digest_hour']))).";\n";
 	if(isset($_REQUEST['mail_logger_recipient']))
 		$content .= '$context[\'mail_logger_recipient\']=\''.addcslashes($_REQUEST['mail_logger_recipient'], "\\'")."';\n";
 	if(isset($_REQUEST['mail_account']))
