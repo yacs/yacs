@@ -51,6 +51,10 @@
 
 class Mailer {
 
+	// when TRUE, queue() transmits messages immediately instead of storing them
+	// -- used by tick_hook() to deliver digests through the regular assembly code of post()
+	private static $delivery_now = FALSE;
+
 	/**
 	 * prepare a multi-part message
 	 *
@@ -59,6 +63,12 @@ class Mailer {
 	 */
 	public static function build_multipart($text) {
 		global $context;
+
+		// ensure font decoration even if the skin has not been loaded (e.g., cron context)
+		if(!defined('MAIL_FONT_PREFIX'))
+			define('MAIL_FONT_PREFIX', '<font face="Helvetica, Arial, sans-serif">');
+		if(!defined('MAIL_FONT_SUFFIX'))
+			define('MAIL_FONT_SUFFIX', '</font>');
 
 		// make a full html entity --body attributes are ignored most of the time
 		$text = '<html><body>'.MAIL_FONT_PREFIX.$text.MAIL_FONT_SUFFIX.'</body></html>';
@@ -713,6 +723,7 @@ class Mailer {
 	 * @param string actual message
 	 * @param mixed to be given to Mailer::post()
 	 * @param array to be given to Mailer::post()
+	 * @param boolean TRUE to allow grouping into a per-recipient digest at delivery time
 	 * @return TRUE on success, FALSE otherwise
 	 *
 	 * @see agents/messages.php
@@ -721,7 +732,7 @@ class Mailer {
 	 * @see shared/logger.php
 	 * @see users/users.php
 	 */
-	public static function notify($from, $to, $subject, $message, $headers='', $attachments=NULL) {
+	public static function notify($from, $to, $subject, $message, $headers='', $attachments=NULL, $digest=FALSE) {
 		global $context;
 
 		// email services have to be activated
@@ -731,6 +742,11 @@ class Mailer {
 		// use surfer's address only if this has been explicitly allowed
 		if(!isset($context['mail_from_surfer']) || ($context['mail_from_surfer'] != 'Y'))
 			$from = NULL;
+
+		// defer the wrapping and the MIME assembly, so that pending notifications
+		// to the same recipient can be grouped into a single digest at delivery time
+		if($digest && !$attachments && Mailer::queue_digest($to, $subject, $message))
+			return TRUE;
 
 		// ensure we have a sender
 		if(!$from)
@@ -1165,9 +1181,9 @@ class Mailer {
 			} else
 				$context['mailer_recipients'][] = $recipient;
 
-			// queue the message
-			Mailer::queue($recipient, $subject, $body, $headers);
-			$posts++;
+			// queue the message --count only messages actually queued or transmitted
+			if(Mailer::queue($recipient, $subject, $body, $headers))
+				$posts++;
 		}
 
 		// track last submission
@@ -1377,6 +1393,10 @@ class Mailer {
 	private static function queue($recipient, $subject, $message, $headers='') {
 		global $context;
 
+		// digest delivery is under way --transmit the assembled message immediately
+		if(Mailer::$delivery_now)
+			return Mailer::process($recipient, $subject, $message, $headers);
+
 		// we don't have to rate messages
 		if(!isset($context['mail_hourly_maximum']) || ($context['mail_hourly_maximum'] < 1))
 			return Mailer::process($recipient, $subject, $message, $headers);
@@ -1386,6 +1406,8 @@ class Mailer {
 		$query[] = "edit_date='".SQL::escape(gmdate('Y-m-d H:i:s'))."'";
 		$query[] = "headers='".SQL::escape($headers)."'";
 		$query[] = "message='".SQL::escape($message)."'";
+		$query[] = "content=''";
+		$query[] = "digest='N'";
 		$query[] = "recipient='".SQL::escape($recipient)."'";
 		$query[] = "subject='".SQL::escape($subject)."'";
 
@@ -1394,6 +1416,114 @@ class Mailer {
 		if(SQL::query($query) === FALSE)
 			return 0;
 		return 1;
+	}
+
+	/**
+	 * queue the bare content of one notification, for a deferred grouped delivery
+	 *
+	 * Where regular queueing stores a fully assembled MIME message, this function
+	 * only stores the bare HTML content. On background ticks, all pending
+	 * notifications to the same recipient are grouped and sent as a single digest
+	 * message, which is a very efficient way to preserve the sending quota of
+	 * rate-limited mail providers.
+	 *
+	 * This applies only if the parameter 'mail_digest' has been set to 'Y', and
+	 * if messages are actually queued (i.e., 'mail_hourly_maximum' is positive).
+	 *
+	 * @param string the target address
+	 * @param string message subject, kept unencoded to label the item in the digest
+	 * @param string bare message content (HTML)
+	 * @return int 1 if the notification has been queued, 0 otherwise
+	 */
+	private static function queue_digest($recipient, $subject, $content) {
+		global $context;
+
+		// digest has to be explicitly activated
+		if(!isset($context['mail_digest']) || ($context['mail_digest'] != 'Y'))
+			return 0;
+
+		// digest requires asynchronous processing
+		if(!isset($context['mail_hourly_maximum']) || ($context['mail_hourly_maximum'] < 1))
+			return 0;
+
+		// sanity check
+		if(!$recipient || !$subject || !$content)
+			return 0;
+
+		// strip any notification trail, one trail will be appended to the digest
+		$content = Mailer::strip_notification_trail($content);
+
+		// transaction attributes
+		$query = array();
+		$query[] = "edit_date='".SQL::escape(gmdate('Y-m-d H:i:s'))."'";
+		$query[] = "headers=''";
+		$query[] = "message=''";
+		$query[] = "content='".SQL::escape($content)."'";
+		$query[] = "digest='Y'";
+		$query[] = "recipient='".SQL::escape($recipient)."'";
+		$query[] = "subject='".SQL::escape($subject)."'";
+
+		// insert a new record
+		$query = "INSERT INTO ".SQL::table_name('messages')." SET ".implode(', ', $query);
+		if(SQL::query($query) === FALSE)
+			return 0;
+		return 1;
+	}
+
+	/**
+	 * remove the trail appended by build_notification(), if any
+	 *
+	 * Digest items are stored without their trail, and one single trail is
+	 * appended to the assembled digest at delivery time.
+	 *
+	 * @param string notification content (HTML)
+	 * @return string the same content, without trail
+	 */
+	private static function strip_notification_trail($text) {
+		global $context;
+
+		// the exact strings appended by build_notification(), for each reason
+		$trails = array();
+
+		// reason 1 - you are watching some container
+		$trails[] = '<p>&nbsp;</p><p>'.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop some notifications please review watched elements listed in your user profile.'), $context['site_name']).'</p>';
+
+		// reason 2 - you are watching the poster
+		$trails[] = '<p>&nbsp;</p><p>'.sprintf(i18n::c('This message has been generated automatically by %s since you are following the person who posted the new item. If you wish to stop these automatic alerts please visit the user profile below and click on Stop notifications.'), $context['site_name']).'</p>'
+			.'<p>'.Surfer::get_link().'</p>';
+
+		return str_replace($trails, '', $text);
+	}
+
+	/**
+	 * transmit one assembled digest immediately
+	 *
+	 * This benefits from all the assembly work done in post() (subject encoding,
+	 * headers, MIME parts), while the actual transmission is done right away
+	 * instead of being queued again.
+	 *
+	 * @param string sender address
+	 * @param string recipient address
+	 * @param string subject
+	 * @param array message parts, as provided by build_multipart()
+	 * @return int the number of transmitted messages, or 0 on error
+	 */
+	private static function post_now($from, $to, $subject, $message) {
+		global $context;
+
+		// bypass the dedup list of post() --delivery has been decided at queueing time
+		$saved_recipients = isset($context['mailer_recipients'])?$context['mailer_recipients']:array();
+		$context['mailer_recipients'] = array();
+
+		// ask queue() to transmit instead of storing
+		Mailer::$delivery_now = TRUE;
+		$posts = Mailer::post($from, $to, $subject, $message);
+		Mailer::$delivery_now = FALSE;
+
+		// restore the dedup list
+		$context['mailer_recipients'] = $saved_recipients;
+
+		return $posts;
 	}
 
 	/**
@@ -1427,6 +1557,8 @@ class Mailer {
 
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT"; 			// up to 16m items
+		$fields['content']		= "MEDIUMTEXT NOT NULL";									// bare content, to be grouped in a digest
+		$fields['digest']		= "ENUM('Y','N') DEFAULT 'N' NOT NULL";						// 'Y' allows grouping per recipient
 		$fields['edit_date']	= "DATETIME";
 		$fields['headers']		= "TEXT NOT NULL";											// up to 64k chars
 		$fields['message']		= "MEDIUMTEXT NOT NULL";									// up to 16M chars
@@ -1436,6 +1568,7 @@ class Mailer {
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 		= "(id)";
 		$indexes['INDEX edit_date'] 	= "(edit_date)";
+		$indexes['INDEX digest'] 		= "(digest)";
 
 		return SQL::setup_table('messages', $fields, $indexes);
 
@@ -1514,8 +1647,9 @@ class Mailer {
 			else
 				$stamp = time() - 3600;
 
-			// leak is maximum after one hour
-			$leak = intval($context['mail_hourly_maximum'] * ( time() - $stamp ) / 3600);
+			// leak is maximum after one hour --round up, else a tick firing a few seconds
+			// short of the hour never fully drains the bucket and stalls every other run
+			$leak = (int) ceil($context['mail_hourly_maximum'] * ( time() - $stamp ) / 3600);
 
 			// preserve previous value until actual leak
 			if($leak < 1)
@@ -1536,21 +1670,92 @@ class Mailer {
 			else
 				$slice = intval($context['mail_hourly_maximum']);
 
-			// get some messages, if any
-			$query = "SELECT * FROM ".SQL::table_name('messages')
-				." ORDER BY edit_date LIMIT 0, ".$slice;
-			if($result = SQL::query($query)) {
+			// on refusal from the mail provider (e.g., daily quota reached), stop the whole slice
+			$stalled = FALSE;
 
-				// process every message
-				while($item = SQL::fetch($result)) {
+			// hold digests back until a fixed hour, if configured --this lets a full day of
+			// notifications accumulate into a single digest per recipient; legacy messages
+			// processed below are not affected and keep being delivered at any time
+			//
+			// once the hour has been reached the gate stays open until the whole digest
+			// queue has been drained, so a busy evening keeps sending into the night
+			// instead of silently freezing until the following day's cutoff; a stricter
+			// per-calendar-day gate has been considered and rejected as unnecessary
+			// complexity for the volume actually seen on this site
+			$digest_allowed = TRUE;
+			$digest_hour_is_set = isset($context['mail_digest_hour']) && is_numeric($context['mail_digest_hour']);
+			if($digest_hour_is_set) {
+				$gate = Values::get_record('mailer.digest.gate_open', 'N');
+				if($gate['value'] != 'Y') {
+					$now = new DateTime('now', new DateTimeZone('Europe/Paris'));
+					if((int) $now->format('G') < (int) $context['mail_digest_hour'])
+						$digest_allowed = FALSE;
+					else
+						Values::set('mailer.digest.gate_open', 'Y');
+				}
+			}
 
-					Mailer::process($item['recipient'], $item['subject'], $item['message'], $item['headers']);
+			// group pending notifications, one digest per recipient
+			$query = "SELECT recipient, MIN(edit_date) AS oldest FROM ".SQL::table_name('messages')
+				." WHERE digest='Y' GROUP BY recipient ORDER BY oldest LIMIT 0, ".$slice;
+			if($digest_allowed && ($result = SQL::query($query))) {
+
+				// process every digest
+				while($group = SQL::fetch($result)) {
+
+					// all pending notifications for this recipient, in chronological order
+					$query = "SELECT * FROM ".SQL::table_name('messages')
+						." WHERE digest='Y' AND recipient='".SQL::escape($group['recipient'])."'"
+						." ORDER BY edit_date, id";
+					if(!$items = SQL::query($query))
+						continue;
+
+					$ids = array();
+					$titles = array();
+					$contents = array();
+					while($item = SQL::fetch($items)) {
+						$ids[] = $item['id'];
+						$titles[] = $item['subject'];
+						$contents[] = $item['content'];
+					}
+					if(!count($ids))
+						continue;
+
+					// a single notification is delivered as usual
+					if(count($ids) == 1) {
+						$subject = $titles[0].' ['.$context['site_name'].']';
+						$text = $contents[0];
+
+					// several notifications are grouped into one digest
+					} else {
+						$subject = sprintf(i18n::nc('%d new item at %s', '%d new items at %s', count($ids)), count($ids), $context['site_name']);
+						$text = '';
+						foreach($contents as $index => $content)
+							$text .= '<h2>'.$titles[$index].'</h2>'.$content.'<p>&nbsp;</p>';
+					}
+
+					// append one single trail
+					$text = Mailer::build_notification($text, 1);
+
+					// wrap the content in the mail template
+					if(is_callable(array('Skin', 'build_mail_message')))
+						$text = Skin::build_mail_message($text);
+					else
+						$text = Mailer::build_mail_message($text);
+
+					// transmit it now, through the regular assembly code
+					if(Mailer::post_now(NULL, $group['recipient'], $subject, Mailer::build_multipart($text)) < 1) {
+
+						// keep everything in the queue for a future tick
+						$stalled = TRUE;
+						break;
+					}
 
 					// purge the queue
-					$query = 'DELETE FROM '.SQL::table_name('messages').' WHERE id = '.$item['id'];
+					$query = 'DELETE FROM '.SQL::table_name('messages').' WHERE id IN ('.implode(', ', $ids).')';
 					SQL::query($query);
 
-					// fill the bucket
+					// fill the bucket --one digest is one single message
 					$bucket['value'] += 1;
 					$count++;
 
@@ -1563,10 +1768,53 @@ class Mailer {
 					}
 
 				}
-
-				// close connection
-				Mailer::close();
 			}
+
+			// close the gate again once the digest queue has been fully drained,
+			// ready to hold back the next day's notifications until the same hour
+			if($digest_hour_is_set && !$stalled) {
+				$query = "SELECT COUNT(*) as count FROM ".SQL::table_name('messages')." WHERE digest='Y'";
+				if(($stats = SQL::query_first($query)) && !$stats['count'])
+					Values::set('mailer.digest.gate_open', 'N');
+			}
+
+			// process regular messages, if any room left in the slice
+			if(!$stalled && ($count < $slice)) {
+
+				// get some messages, if any
+				$query = "SELECT * FROM ".SQL::table_name('messages')." WHERE digest='N'"
+					." ORDER BY edit_date LIMIT 0, ".($slice - $count);
+				if($result = SQL::query($query)) {
+
+					// process every message
+					while($item = SQL::fetch($result)) {
+
+						// purge the queue only on success --else keep the message for a future tick
+						if(Mailer::process($item['recipient'], $item['subject'], $item['message'], $item['headers']) < 1)
+							break;
+
+						// purge the queue
+						$query = 'DELETE FROM '.SQL::table_name('messages').' WHERE id = '.$item['id'];
+						SQL::query($query);
+
+						// fill the bucket
+						$bucket['value'] += 1;
+						$count++;
+
+						// take care of time
+						if(!($count%50)) {
+
+							// ensure enough execution time
+							Safe::set_time_limit(30);
+
+						}
+
+					}
+				}
+			}
+
+			// close connection
+			Mailer::close();
 		}
 
 		// remember new state of the bucket
