@@ -5655,6 +5655,8 @@ Class Skin_Skeleton {
 			// column headers are clickable links
 			$index = 0;
 			foreach($cells as $cell) {
+				// PHP 8.4: preg_match() no longer accepts null
+				$cell = (string)$cell;
 
 				// take care of cell alignment
 				$prefix = '';
@@ -5710,6 +5712,8 @@ Class Skin_Skeleton {
 		$text = '';
 		$count = 1;
 		foreach($cells as $cell) {
+			// PHP 8.4: preg_match() no longer accepts null
+			$cell = (string)$cell;
 			// west=...
 			if(preg_match('/^west=(.*)$/is', $cell, $matches))
 				$text .= $cell_opened.' class="west">'.$matches[1].$cell_suffix;
