@@ -590,8 +590,16 @@ Class Codes {
                         $patterns_map['|</h(\d)>\n+|i']                                             = '</h$1>'                  ;  // strip \n after title
                         $patterns_map['/\n[ \t]*(From|To|cc|bcc|Subject|Date):(\s*)/i']             = BR.'$1:$2'                ;  // common message headers
                         $patterns_map['/\[escape\](.*?)\[\/escape\]/is']                            = 'Codes::render_escaped'   ;  // [escape]...[/escape] (before everything)
-                        $patterns_map['/\[php\](.*?)\[\/php\]/is']                                  = 'Codes::render_pre_php'   ;  // [php]...[/php]
-                        $patterns_map['/\[snippet\](.*?)\[\/snippet\]/is']                          = 'Codes::render_pre'       ;  // [snippet]...[/snippet]
+                        // [php]/[snippet] live in the movable extension codes/code_pre.php but
+                        // MUST run early (right after [escape]) to protect displayed code from
+                        // the other codes -- so load it here, not through the generic scan below.
+                        // Move code_pre.php to codes/unused/ (and delete patterns.auto.php) to disable.
+                        if(Safe::filesize('codes/code_pre.php')) {
+                                include_once $context['path_to_root'].'codes/code_pre.php';
+                                $pre = new code_pre();
+                                $pre->get_pattern($patterns_map);
+                                unset($pre);
+                        }
                         $patterns_map['/(\[page\].*)$/is']                                          = ''                        ;  // [page] (provide only the first one)
                         $patterns_map['/\[(associate|member|anonymous|hidden|restricted|authenticated)\](.*?)\[\/\1\]/is']  = 'Codes::render_hidden'    ;  // [associate]...[/associate] 
                         $patterns_map['/\[redirect=([^\]]+?)\]/is']                                 = 'Codes::render_redirect'  ;  // [redirect=<link>]
@@ -670,9 +678,14 @@ Class Codes {
 				  //get file only begining with code_
 				  if (!(substr($file,0,5)==='code_'))
 					continue;
-                                  
+
                                   // skip .bak files
                                   if (substr($file,-4)==='.bak')
+                                        continue;
+
+                                  // code_pre is loaded early (see above) to keep [php]/[snippet]
+                                  // ahead of the other codes -- do not register it a second time
+                                  if ($file === 'code_pre.php')
                                         continue;
 
 				  include_once($dir.$file);
@@ -1718,16 +1731,6 @@ Class Codes {
 		return $output;
 
 	}
-        
-        /**
-         * render [php]...[php] code
-         * 
-         * @param string $text
-         * @return string the formatted block
-         */
-        public static function render_pre_php($text) {
-            return Codes::render_pre($text,'php');
-        }
 
 	/**
 	 * render a compact list of recent publications
