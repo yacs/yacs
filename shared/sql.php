@@ -256,6 +256,66 @@ Class SQL {
 	}
 
 	/**
+	 * build a safe pattern for a fulltext search in boolean mode
+	 *
+	 * Characters '+', '-', '<', '>', '(', ')', '~', '*', '"' and '@' are operators of the
+	 * boolean fulltext parser. When one of them shows up inside a word -- e.g., the '@' of
+	 * an e-mail address -- the parser stops on a syntax error, and the database rejects the
+	 * whole query. Therefore we keep the operator explicitly typed at the beginning of a
+	 * token, if any, and we turn every other operator into a token separator.
+	 *
+	 * A trailing wildcard is appended to the resulting pattern, to allow for auto-completion.
+	 *
+	 * @param string the search string, as typed by the surfer
+	 * @param int the minimum size of tokens to consider, if any
+	 * @return string a pattern suitable for IN BOOLEAN MODE, or an empty string
+	 */
+	public static function boolean_pattern($text, $minimum_token_size=0) {
+
+		// sanity check
+		if(!is_string($text) || !$text = trim($text))
+			return '';
+
+		// operators of the boolean fulltext parser
+		$operators = '/['.preg_quote('+-<>()~*"@', '/').']+/';
+
+		$pattern = '';
+		foreach(preg_split('/[\s,]+/', $text, -1, PREG_SPLIT_NO_EMPTY) as $token) {
+
+			// preserve the operator explicitly typed by the surfer, if any
+			$operator = '+';
+			if(strpos('+-~', $token[0]) !== FALSE) {
+				$operator = $token[0];
+				$token = substr($token, 1);
+			}
+
+			// remaining operators are separators, and one token may yield several words
+			$token = preg_replace($operators, ' ', $token);
+
+			foreach(preg_split('/\s+/', $token, -1, PREG_SPLIT_NO_EMPTY) as $word) {
+
+				// too short to be indexed
+				if(strlen(preg_replace('/&.+?;/', 'x', $word)) < $minimum_token_size)
+					continue;
+
+				// already here (repeated word)
+				if(strpos($pattern, $word) !== FALSE)
+					continue;
+
+				// keep this word
+				$pattern .= $operator.$word.' ';
+			}
+		}
+
+		// no word has survived
+		if(!$pattern = trim($pattern))
+			return '';
+
+		// allow for auto-completion
+		return $pattern.'*';
+	}
+
+	/**
 	 * fetch next result as an associative array
 	 *
 	 * @param resource set of rows or standard array
