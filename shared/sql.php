@@ -49,6 +49,12 @@ Class SQL {
 		// no resource yet
 		$handle = FALSE;
 
+		// since PHP 8.1 mysqli reports errors as exceptions, and the '@' operator does not
+		// suppress them -- yet this library checks return values and SQL::errno() instead,
+		// therefore we restore the historical behaviour of the driver
+		if(is_callable('mysqli_report'))
+			mysqli_report(MYSQLI_REPORT_OFF);
+
 		// regular connection --mask warning that popups in safe mode
 		if(is_callable('mysqli_connect'))
 			$handle = @mysqli_connect($host, $user, $password, $database);
