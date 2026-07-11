@@ -86,8 +86,16 @@ else {
 	// protect from spammers and robots
 	$content = preg_replace('/\[email\].+\[\/email\]/i', '', $content);
 
-	// highlight php code
-	$context['text'] .= "\n".Codes::render_pre($content);
+	// highlight php code -- rendering lives in the movable extension codes/code_pre.php
+	if(Safe::filesize('codes/code_pre.php')) {
+		include_once $context['path_to_root'].'codes/code_pre.php';
+		$code = new code_pre();
+		$context['text'] .= "\n".$code->render(array('snippet', $content));
+		unset($code);
+
+	// the extension has been disabled -- display the script verbatim
+	} else
+		$context['text'] .= "\n".'<pre>'.str_replace('<', '&lt;', $content).'</pre>';
 
 	// menu bar for reference scripts
 	if($content && ($store == 'reference')) {
