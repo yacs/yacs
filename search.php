@@ -76,33 +76,8 @@ if(!defined('MINIMUM_TOKEN_SIZE'))
 	define('MINIMUM_TOKEN_SIZE', 4);
 
 // kill short and redundant tokens; adapt to boolean search
-$boolean_search = '';
-$tokens = preg_split('/[\s,]+/', $search);
-if(@count($tokens)) {
-	foreach($tokens as $token) {
-
-		// too short
-		if(strlen(preg_replace('/&.+?;/', 'x', $token)) < MINIMUM_TOKEN_SIZE)
-			continue;
-
-		// already here (repeated word)
-		if(strpos($boolean_search, $token) !== FALSE)
-			continue;
-
-		// re-enforce boolean mode
-		if(($token[0] != '+') && ($token[0] != '+') && ($token[0] != '~'))
-			$token = '+'.$token;
-
-		// keep this token
-		$boolean_search .= $token.' ';
-	}
-	if(!empty($boolean_search)) {
-		$boolean_search = trim($boolean_search).'*';
-	} else {
-		// Si aucun terme valide, on ne fait pas de recherche FULLTEXT
-		$boolean_search = '';
-	}
-}
+// an empty string means that no fulltext search will take place
+$boolean_search = SQL::boolean_pattern($search, MINIMUM_TOKEN_SIZE);
 
 // load localized strings
 i18n::bind('root');
