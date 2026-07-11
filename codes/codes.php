@@ -1673,66 +1673,6 @@ Class Codes {
 	}
 
 	/**
-	 * render a block of code
-	 *
-	 * @param string the text
-	 * @return string the rendered text
-	**/
-	public static function render_pre($text, $variant='snippet') {
-            
-                $text = Codes::fix_tags($text);
-
-		// change new lines
-		$text = trim(str_replace("\r", '', str_replace(array("<br>\n", "<br/>\n", "<br />\n", '<br>', '<br/>', '<br />'), "\n", $text)));
-
-		// caught from tinymce
-		if(preg_match('/<p>(.*)<\/p>$/s', $text, $matches)) {
-			$text = $matches[1];
-			$text = str_replace(array('&amp;', '<p>', '</p>'), array('&', '', "\n"), $text);
-		}
-
-		// match some php code
-		$explicit = FALSE;
-		if(preg_match('/<\?php\s/', $text))
-			$variant = 'php';
-		elseif(($variant == 'php') && !preg_match('/<\?'.'php.+'.'\?'.'>/', $text)) {
-			$text = '<?'.'php'."\n".$text."\n".'?'.'>';
-			$explicit = TRUE;
-		}
-
-		// highlight php code, if any
-		if($variant == 'php') {
-
-			// fix some chars set by wysiwig editors
-			$text = str_replace(array('&lt;', '&gt;', '&nbsp;', '&quot;'), array('<', '>', ' ', '"'), $text);
-
-			// wrap long lines if necessary
-// 			$lines = explode("\n", $text);
-// 			$text = '';
-// 			foreach($lines as $line)
-// 				$text .= wordwrap($line, 100, " \n", 0)."\n";
-
-			// handle newlines and indentations properly
-			$text = str_replace(array("\n<span", "\n</code", "\n</pre", "\n</span"), array('<span', '</code', '</pre', '</span'), Safe::highlight_string($text));
-
-			// remove explicit php prefix and suffix -- dependant of highlight_string() evolution
-			if($explicit)
-				$text = preg_replace(array('/&lt;\?php<br\s*\/>/', '/\?&gt;/'), '', $text);
-
-		// or prevent html rendering
-		} else
-			$text = str_replace(array('<', "\n"), array('&lt;', '<br/>'), $text);
-
-		// prevent additional transformations
-		$search = array(	'[',		']',		':',		'//',			'##',			'**',			'++',			'--',			'__');
-		$replace = array(	'&#91;',	'&#93;',	'&#58;',	'&#47;&#47;',	'&#35;&#35;',	'&#42;&#42;',	'&#43;&#43;',	'&#45;&#45;',	'&#95;&#95;');
-		$output = '<pre>'.str_replace($search, $replace, $text).'</pre>';
-
-		return $output;
-
-	}
-
-	/**
 	 * render a compact list of recent publications
 	 *
 	 * The provided anchor can reference:
