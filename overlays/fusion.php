@@ -334,7 +334,8 @@ Class Fusion extends Overlay {
 	 */
 	function get_live_description($host=NULL) {
                 
-                $text = $this->fusion_pipe_method('get_live_description', 'description', $host['description']);
+                $description = (is_array($host) && isset($host['description'])) ? $host['description'] : '';
+                $text = $this->fusion_pipe_method('get_live_description', 'description', $description);
 		return $text;
 	}
 
@@ -348,7 +349,8 @@ Class Fusion extends Overlay {
 	 */
 	function get_live_introduction($host=NULL) {
                 
-                $text = $this->fusion_pipe_method('get_live_introduction', 'introduction', $host['introduction']);
+                $introduction = (is_array($host) && isset($host['introduction'])) ? $host['introduction'] : '';
+                $text = $this->fusion_pipe_method('get_live_introduction', 'introduction', $introduction);
 		return $text;
 	}
 
