@@ -92,8 +92,8 @@ Class Users {
 		else
 			$recipient = Mailer::encode_recipient($user['email'], $user['nick_name']);
 
-		// post a message to this particular user
-		return Mailer::notify(Surfer::from(), $recipient, $mail['subject'], $mail['message'], isset($mail['headers'])?$mail['headers']:'',isset($mail['attachement'])?$mail['attachement']:null);
+		// post a message to this particular user --community alerts can be grouped in a digest
+		return Mailer::notify(Surfer::from(), $recipient, $mail['subject'], $mail['message'], isset($mail['headers'])?$mail['headers']:'',isset($mail['attachement'])?$mail['attachement']:null, TRUE);
 
 	}
 
@@ -2335,27 +2335,14 @@ Class Users {
 			return $output;
 		}
 
-		// make it a proper boolean search
-		if($pattern[0] != '+') {
+		// make it a proper boolean search, if it has not been prepared already
+		if($pattern[0] != '+')
+			$pattern = SQL::boolean_pattern($pattern);
 
-			$tokens = preg_split('/[\s,]+/', $pattern);
-			if(@count($tokens)) {
-				$pattern = '';
-				foreach($tokens as $token) {
-
-					// already here (repeated word)
-					if(strpos($pattern, $token) !== FALSE)
-						continue;
-
-					// re-enforce boolean mode
-					if(($token[0] != '+') && ($token[0] != '+') && ($token[0] != '~'))
-						$token = '+'.$token;
-
-					// keep this token
-					$pattern .= $token.' ';
-				}
-				$pattern = trim($pattern).'*';
-			}
+		// no word can be searched for
+		if(!$pattern) {
+			$output = NULL;
+			return $output;
 		}
 
 		// limit the scope of the request

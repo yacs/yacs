@@ -751,3 +751,9 @@ msgstr "Dernier élément de pile : %s"
 
 #~ msgid "updated"
 #~ msgstr "mis à jour"
+
+#: shared/mailer.php
+msgid "%d new item at %s"
+msgid_plural "%d new items at %s"
+msgstr[0] "%d nouveauté sur %s"
+msgstr[1] "%d nouveautés sur %s"

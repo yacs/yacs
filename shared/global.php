@@ -383,12 +383,14 @@ $context['url_to_master'] = 'http' . (($is_https)?'s':'') . '://' . $context['ma
 
 // the url to reference ourself, including query string -- copy of the reference submitted by user agent (i.e., before rewritting)
 $context['self_url'] = '';
-if(isset($_SERVER['SCRIPT_URI']) && isset($_SERVER['QUERY_STRING']))
+// REQUEST_URI is always the original, un-rewritten request -- prefer it over SCRIPT_URI, which
+// some hosts (e.g. OVH) populate with the internally-rewritten target and would break canonical URL checks
+if(isset($_SERVER['REQUEST_URI'])) // this includes the query string
+	$context['self_url'] = $context['url_to_home'].$_SERVER['REQUEST_URI'];
+elseif(isset($_SERVER['SCRIPT_URI']) && isset($_SERVER['QUERY_STRING']))
 	$context['self_url'] = $_SERVER['SCRIPT_URI'].'?'.$_SERVER['QUERY_STRING'];
 elseif(isset($_SERVER['SCRIPT_URI']))
 	$context['self_url'] = $_SERVER['SCRIPT_URI'];
-elseif(isset($_SERVER['REQUEST_URI'])) // this includes query string
-	$context['self_url'] = $context['url_to_home'].$_SERVER['REQUEST_URI'];
 
 // recombine the self_url (to keep only the essencial)
 $scheme = parse_url($context['self_url'], PHP_URL_SCHEME);
