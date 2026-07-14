@@ -1836,7 +1836,7 @@ class Event extends Overlay {
 
 		// should we display all dates, or not?
 		$with_past_dates = FALSE;
-		if(preg_match('/\bwith_past_dates\b/i', $this->attributes['overlay_parameters']))
+		if($this->has_parameter('with_past_dates'))
 			$with_past_dates = TRUE;
 
 		// menu to be displayed at the top
@@ -1882,7 +1882,7 @@ class Event extends Overlay {
 		$text = Skin::finalize_list($menu, 'menu_bar');
 
 		// build a list of events
-		if(preg_match('/\blayout_as_list\b/i', $this->attributes['overlay_parameters'])) {
+		if($this->has_parameter('layout_as_list')) {
 
 			// list all dates
 			if($with_past_dates) {
@@ -1952,7 +1952,7 @@ class Event extends Overlay {
 		include_once $context['path_to_root'].'dates/dates.php';
 
 		// list past dates as well
-		if(preg_match('/\bwith_past_dates\b/i', $this->attributes['overlay_parameters']))
+		if($this->has_parameter('with_past_dates'))
 			$items = Dates::list_for_anchor($anchor, 0, $count, 'compact');
 
 		// list only future dates

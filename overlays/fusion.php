@@ -5,7 +5,16 @@
  * Merge overlays are provided as parameters (section's page options)
  * 
  * "fusion overlay1 overlay2 overlay3..."
- * 
+ *
+ * Parameters may be provided to a sub-overlay within parenthesis :
+ *
+ * "fusion (overlay1 param1) overlay2..."
+ *
+ * Option flags for the fusion itself may be added to the list, like "no_render"
+ * to prevent the fusion from replacing the regular layout of a section :
+ *
+ * "fusion no_render overlay1 overlay2..."
+ *
  * Please be carefull with what you do and check the behaviour of
  * the fusion for the methods you have overrideen in merged overlays.
  * 
@@ -156,7 +165,7 @@ Class Fusion extends Overlay {
             // stop if already done before
             if($this->loaded) return;
             
-            if($parameters = $this->attributes['overlay_parameters']) {
+            if(isset($this->attributes['overlay_parameters']) && ($parameters = $this->attributes['overlay_parameters'])) {
                 
                 // separate parameters, 
                 // may use parenthesis to provide parameters to sub-overlay
@@ -164,18 +173,28 @@ Class Fusion extends Overlay {
                 preg_match_all('/\w+|\([^)]*\)/', $parameters, $matches);
                 $parameters = $matches[0];
                 
+                // option flags aimed at the fusion itself, not names of overlays to merge
+                $flags = array('no_render');
+
                 foreach($parameters as $param) {
-                    
+
                     // strip parenthesis if any
                     $param = str_replace(array( '(', ')' ), '', $param);
-                    
+
+                    // skip option flags, they are checked through has_parameter()
+                    if(in_array($param, $flags)) continue;
+
                     $overlay = Overlay::bind($param);
-                    
+
                     if(is_object($overlay)) {
-                        
+
+                        // attributes are stored under the sole overlay type,
+                        // even when parameters are provided within parenthesis
+                        $type = strtok($param, ' ');
+
                         // provide its attributes if any
-                        if(isset($this->attributes[$param])) {
-                            $overlay->attributes = $this->attributes[$param];
+                        if(isset($this->attributes[$type])) {
+                            $overlay->attributes = $this->attributes[$type];
                         }
                         
                         // provide a link to anchor
@@ -539,9 +558,13 @@ Class Fusion extends Overlay {
 	 * @return mixed some text, or NULL
 	 */
 	function render($type, $reference, $page=1) {
-            
+
+                // rendering may be disabled by parameter, like in event overlay
+                if($this->has_parameter('no_render'))
+                    return NULL;
+
                 $text = $this->fusion_first_reply('render', array($type, $reference, $page));
-            
+
 		return $text;
 	}
         
