@@ -123,8 +123,10 @@ elseif(isset($context['arguments'][1]) && isset($context['arguments'][2])) {
 	$zoom_index = $context['arguments'][2];
 }
 
-// sanity check
-if(!is_int($zoom_index) || $zoom_index < 1)
+// sanity check -- $zoom_index comes as a string ('2') from the URL or $_REQUEST,
+// so is_int() was always false and every page was reset to 1; cast before testing
+$zoom_index = intval($zoom_index);
+if($zoom_index < 1)
 	$zoom_index = 1;
 
 // get the item from the database
