@@ -418,20 +418,23 @@ Class Fusion extends Overlay {
 	 * @return some HTML to be inserted into the resulting page
 	 */
 	function get_text($variant='view', $host=NULL) {
-            
-            // standard behaviour
-            $text = parent::get_text($variant, $host);
-            
-            // try something else if nothing founded
-            if($text === null) {
-                
-                // look for specific function get_<variant>_text
-                $text = $this->fusion_first_reply('get_'.$variant.'_text', array($host));
-                
+
+            // native variants, or a function defined by the fusion itself
+            $func = 'get_'.$variant.'_text';
+            if(in_array($variant, array('description', 'introduction', 'title')) || is_callable(array($this, $func))) {
+                $text = parent::get_text($variant, $host);
+                return $text;
             }
-            
+
+            // else look for the specific function within merged overlays
+            $text = $this->fusion_first_reply($func, array($host));
+
+            // complain only when no merged overlay replied
+            if($text === null)
+                Logger::error(sprintf(i18n::s('function %s not found for overlay %s'), $func, get_class($this)));
+
             return $text;
-            
+
         }
         
         /**
