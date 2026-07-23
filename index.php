@@ -235,6 +235,23 @@ if( (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] !
 	elseif($anchor = Sections::lookup('covers'))
 		$cover_page = Articles::get_newest_for_anchor($anchor);
 
+	// a page named 'cover' is fetched as-is, while Articles::get_newest_for_anchor()
+	// does filter on publication and expiry dates. Apply the very same rules here, so
+	// that both ways of providing a cover page behave alike.
+	if(isset($cover_page['id'])) {
+
+		// not published yet, or still a draft
+		if(!isset($cover_page['publish_date']) || ($cover_page['publish_date'] <= NULL_DATE)
+			|| ($cover_page['publish_date'] > $context['now']))
+			$cover_page = NULL;
+
+		// past its expiry date
+		elseif(isset($cover_page['expiry_date']) && ($cover_page['expiry_date'] > NULL_DATE)
+			&& ($cover_page['expiry_date'] <= $context['now']))
+			$cover_page = NULL;
+
+	}
+
 	// compute page title -- $context['page_title']
 	if(isset($cover_page['title']) && (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] == 'full')))
 		$context['page_title'] = $cover_page['title'];
