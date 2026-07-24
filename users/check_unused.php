@@ -37,8 +37,9 @@ if(Surfer::is_crawler()) {
 	die(i18n::s('You are not allowed to perform this operation.'));
 }
 
-// we return some text
-$output = '';
+// we return a JSON object -- must be an array, writing string offsets
+// like $output['can'] on a string is a fatal error since PHP 8.0
+$output = array();
 
 // check syntax
 $syntax = TRUE;
@@ -63,7 +64,7 @@ if($syntax) {
     }
 
     $query = "SELECT id FROM ".SQL::table_name('users')." WHERE ".$searchin
-            ." = '".$searchfor."'";
+            ." = '".SQL::escape($searchfor)."'";
 
     $found = SQL::query_first($query);
 
