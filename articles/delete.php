@@ -142,8 +142,8 @@ else {
 	$menu = array();
         
         $class_submit   = ( $render_overlaid )?'submit-overlaid':'button';
-        if(is_object($overlay))
-             $delete_text    = mb_strtolower($overlay->get_label('delete_command'));
+        if(is_object($overlay) && ($delete_text = $overlay->get_label('delete_command')))
+             $delete_text = mb_strtolower($delete_text);
   
         if(!isset($delete_text)) $delete_text = i18n::s('delete this page');
 
