@@ -738,22 +738,19 @@ Class Sections {
 	/**
 	 * count records for some anchor
 	 *
-	 * Only sections matching following criteria are counted:
-	 * - section is visible (active='Y')
-	 * - section is restricted (active='R'), but surfer is a logged user
-	 * - section is hidden (active='N'), but surfer is an associate
+	 * Counted sections are those that Sections::list_for_anchor_by() would
+	 * list for the same anchor, so that a count and the listing it introduces
+	 * cannot disagree. Scope is set by Sections::get_sql_where(), and
+	 * non-activated and expired sections are counted for associates only.
 	 *
-	 * Non-activated and expired sections are counted as well.
+	 * Pass a NULL anchor to count sections of the top level.
 	 *
-	 * @param string the selected anchor (e.g., 'section:12')
+	 * @param string the selected anchor (e.g., 'section:12'), or NULL for the top level
+	 * @param boolean TRUE to count only sections that are part of index maps
 	 * @return int resulting count, or NULL on error
 	 */
-	public static function count_for_anchor($anchor) {
+	public static function count_for_anchor($anchor, $with_index_map=FALSE) {
 		global $context;
-
-		// sanity check
-		if(!$anchor)
-			return NULL;
 
 		// limit the query to one level
 		if($anchor)
@@ -761,27 +758,15 @@ Class Sections {
 		else
 			$where = "(sections.anchor='' OR sections.anchor is NULL)";
 
-		// display active and restricted items
-		$where .= " AND (sections.active='Y'";
+		// limit the scope of the request
+		$where .= " AND ".Sections::get_sql_where();
 
-		// list restricted sections to authenticated surfers
-		if(Surfer::is_logged())
-			$where .= " OR sections.active='R'";
-
-		// list hidden sections to associates, editors and readers
-		if(Surfer::is_empowered('S'))
-			$where .= " OR sections.active='N'";
-
-		// include managed sections
-		if($my_sections = Surfer::assigned_sections()) {
-			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
-			$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-		}
-
-		$where .= ")";
+		// hide sections removed from index maps
+		if($with_index_map)
+			$where .= " AND (sections.index_map = 'Y')";
 
 		// non-associates will have only live sections
-		if($anchor && !Surfer::is_empowered()) {
+		if(!Surfer::is_associate()) {
 			$where .= " AND ((sections.activation_date is NULL)"
 				."	OR (sections.activation_date <= '".$context['now']."'))"
 				." AND ((sections.expiry_date is NULL)"

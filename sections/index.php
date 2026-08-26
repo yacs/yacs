@@ -51,9 +51,9 @@
  * Use this hook to include any text right after the main content.
  *
  * Accept following invocations:
- * - index.php (view the 20 top sections)
- * - index.php/2 (view sections 41 to 60)
- * - index.php?page=2 (view sections 41 to 60)
+ * - index.php (view the 50 top sections)
+ * - index.php/2 (view sections 51 to 100)
+ * - index.php?page=2 (view sections 51 to 100)
  *
  * @author Bernard Paques
  * @author GnapZ
@@ -74,10 +74,6 @@ else
 	$page = 1;
 $page = max(1,intval($page));
 
-// sanity check
-if($page < 1)
-	$page = 1;
-
 // load the skin
 load_skin('site_map');
 
@@ -87,8 +83,8 @@ $items_per_page = 50;
 // the title of the page
 $context['page_title'] = i18n::s('Site map');
 
-// count public root sections in the database
-$count = Sections::count_for_anchor(NULL);
+// count root sections that are listed below
+$count = Sections::count_for_anchor(NULL, TRUE);
 
 // a meta link to our blogging interface
 $context['page_header'] .= "\n".'<link rel="EditURI" href="'.$context['url_to_home'].$context['url_to_root'].'services/describe.php" title="RSD" type="application/rsd+xml" />';
@@ -98,14 +94,17 @@ if(is_callable(array('Hooks', 'include_scripts')))
 	$context['text'] .= Hooks::include_scripts('sections/index.php#prefix');
 
 // stop hackers
-if($page > 10) {
+if(($page > 1) && (($page - 1) * $items_per_page > $count)) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 } else {
 
-	// page main content
+	// page main content -- the listing below is extended to sections managed
+	// by this surfer, which Cache::put() does not discriminate on its own
 	$cache_id = 'sections/index.php#text#'.$page;
+	if($signature = Surfer::get_assignment_signature(FALSE))
+		$cache_id .= '#'.$signature;
 	if(!$text = Cache::get($cache_id)) {
 
 		// load the layout to use
@@ -122,7 +121,7 @@ if($page > 10) {
 			$items = Skin::build_list($items, '2-columns');
 
 		// navigation commands for sections, if necessary
-		if($count > 20) {
+		if($count > $items_per_page) {
 
 			$menu = array('_count' => Skin::build_number($count, i18n::s('sections')));
 
