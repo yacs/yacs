@@ -485,7 +485,7 @@ if(!$text = Cache::get($cache_id)) {
 
 		// the category used to assign featured pages
 		$anchor = Categories::get(i18n::c('featured'));
-		if($anchor['id'] && ($items = Members::list_articles_by_date_for_anchor('category:'.$anchor['id'], 0, ($context['root_featured_count']+1), 'news'))) {
+		if($anchor && $anchor['id'] && ($items = Members::list_articles_by_date_for_anchor('category:'.$anchor['id'], 0, ($context['root_featured_count']+1), 'news'))) {
 
 			// link to the category page from the box title
 			$title = Skin::build_box_title($anchor['title'], Categories::get_permalink($anchor), i18n::s('Featured pages'));
