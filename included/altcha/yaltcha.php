@@ -114,7 +114,14 @@ Class yaltcha {
         }
         
         $altcha     = new \AltchaOrg\Altcha\Altcha(HMACK);
-        
+
+        // Altcha::verifySolution() is typed array|string, not nullable: a POST
+        // that carries no altcha field (no-JS submission, or a bot posting
+        // straight to the form action) leaves $payload NULL and triggers a fatal
+        // TypeError instead of a plain rejection. Reject such a request quietly.
+        if($payload === NULL)
+            return false;
+
         return $altcha->verifySolution($payload);
     }
     
