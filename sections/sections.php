@@ -1166,8 +1166,8 @@ Class Sections {
 		if(Surfer::is_logged() || Surfer::is_teased())
 			$active .= " OR sections.active='R'";
 
-		// include hidden sections for associates, or if teasers are allowed
-		if(Surfer::is_associate() || Surfer::is_teased())
+		// include hidden sections for associates
+		if(Surfer::is_associate())
 			$active .= " OR sections.active='N'";
 
 		// end of filter on active field
@@ -1705,8 +1705,8 @@ Class Sections {
 		if(Surfer::is_logged() || Surfer::is_trusted() || Surfer::is_teased())
 			$where .= " OR sections.active='R'";
 
-		// include hidden items for associates and for trusted hosts, or if teasers are allowed
-		if(Surfer::is_associate() || Surfer::is_trusted() || Surfer::is_teased())
+		// include hidden items for associates and for trusted hosts
+		if(Surfer::is_associate() || Surfer::is_trusted())
 			$where .= " OR sections.active='N'";
 
 		// include private items that the surfer can access
