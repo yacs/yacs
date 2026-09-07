@@ -92,8 +92,11 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 		$context['page_menu'] += Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page);
 	}
 
-	// page main content
+	// page main content -- the listing below is extended to pages managed by
+	// this surfer, which Cache::put() does not discriminate on its own
 	$cache_id = 'articles/index.php#text#'.$page;
+	if($signature = Surfer::get_assignment_signature())
+		$cache_id .= '#'.$signature;
 	if(!$text = Cache::get($cache_id)) {
 
 		// query the database and layout that stuff

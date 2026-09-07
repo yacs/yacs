@@ -64,6 +64,49 @@ Class Surfer {
 	}
 
 	/**
+	 * signature of the private scope of this surfer
+	 *
+	 * Listings are restricted by functions such as Articles::get_sql_where(),
+	 * which extend their scope to items this surfer has been assigned to.
+	 * These items differ from one surfer to the next, while Cache::put() only
+	 * splits its entries per capability, per language and per time offset.
+	 *
+	 * Therefore this signature has to be appended to the cache id of any
+	 * listing that goes through such a filter. Surfers that share the same
+	 * assignments, including all those that have none, do share cached items.
+	 *
+	 * Pass FALSE to skip assigned articles, for listings such as the site map
+	 * that are widened by assigned sections only. This keeps the number of
+	 * cached variants down to the number of distinct section assignments.
+	 *
+	 * @param boolean TRUE to also consider articles assigned to this surfer
+	 * @return string a token, or an empty string for surfers without assignment
+	 */
+	public static function get_assignment_signature($with_articles=TRUE) {
+
+		// anonymous surfers have no assignment
+		if(!Surfer::get_id())
+			return '';
+
+		// the private scope of this surfer -- prefixes keep ids of both tables apart
+		$items = array();
+		foreach(Surfer::assigned_sections() as $id)
+			$items[] = 's'.$id;
+		if($with_articles)
+			foreach(Surfer::assigned_articles() as $id)
+				$items[] = 'a'.$id;
+
+		if(!$items)
+			return '';
+
+		// a stable token for a stable set
+		$items = array_unique($items);
+		sort($items);
+
+		return md5(join(',', $items));
+	}
+
+	/**
 	 * list articles assigned to this surfer
 	 *
 	 * If a member is acting as a managing editor for some articles,
