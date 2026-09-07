@@ -1755,7 +1755,8 @@ function finalize_page($no_return=FALSE) {
  * This handler is able:
  * - to transcode data to another character set
  * - to compress data, if asked for it
- * - to set the Content-Length HTTP header
+ * - to set the Content-Length HTTP header, but only when it does compress the
+ *   data itself, since it is then the last stage to change the body
  *
  * We have it because the standard 'ob_gzhandler' does not set the Content-Length header properly.
  * Also, this function transcodes char to valid Unicode if necessary.
@@ -1825,12 +1826,14 @@ function yacs_handler($content) {
 	else
 		$compress = TRUE;
 
-	// send plain data
-	if(!$compress) {
-		if(!headers_sent())
-			Safe::header('Content-Length: '.strlen($content));
+	// send plain data -- do not set Content-Length here: a downstream filter
+	// (mod_deflate, mod_brotli, a caching proxy) may compress or transform the
+	// body afterwards, while this header would survive untouched and announce
+	// the uncompressed size. The user agent then waits for bytes that never
+	// come, until the stream is reset. Without the header the web server falls
+	// back to chunked encoding or to a connection close, both of them correct.
+	if(!$compress)
 		return $content;
-	}
 
 	// compress data
 	$data = gzcompress($content, 5);
