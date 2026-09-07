@@ -19,7 +19,8 @@ Class fa {
      * 
      * examples :
      * fa::_('camera-retro', '3x')
-     * fa::_('circle-o-notch', '3x spin', 'Loading...', true);
+     * fa::_('circle-notch', '3x spin', 'Loading...', true);
+     * fa::_('square', 'regular')            // outline variant, .far
      * 
      * @param string $icon choosen to be displayed. You must at least provide that.
      * @see http://fontawesome.io/icons/ for a list
@@ -44,6 +45,15 @@ Class fa {
             $main_prefix .= 'b';
             $options = str_replace('brand', '', $options);
             
+        }
+        
+        // if we have regular option, use .far and remove regular from option
+        // since FontAwesome 5 the family is carried by the prefix : .fa (alias
+        // of .fas) is solid, .far is the outline variant. Without this, outline
+        // icons such as the former fa4 'square-o' cannot be expressed at all.
+        elseif(str_contains($options, 'regular')) {
+            $main_prefix .= 'r';
+            $options = str_replace('regular', '', $options);
         }
         
         // case icon name begin with "fa"

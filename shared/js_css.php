@@ -156,6 +156,7 @@ Class Js_Css {
             if($knacss)         $import .= '@import "knacss.scss";';
             if($fontawesome)    $import .= '@import "fontawesome.scss";';
             if($fontawesome)    $import .= '@import "solid.scss";';             // fontawesome solid icon set
+            if($fontawesome)    $import .= '@import "regular.scss";';           // fontawesome outline icon set (.far)
             if($yacss)          $import .= '@import "variables.scss";';
             if($yacss)          $import .= '@import "yacss.scss";';
  
