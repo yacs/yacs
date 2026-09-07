@@ -1546,8 +1546,8 @@ Class Files {
 		if(Surfer::is_logged() || Surfer::is_trusted() || Surfer::is_teased())
 			$where .= " OR files.active='R'";
 
-		// include hidden items for associates and for trusted hosts, or if teasers are allowed
-		if(Surfer::is_empowered('S') || Surfer::is_trusted() || Surfer::is_teased())
+		// include hidden items for associates and for trusted hosts
+		if(Surfer::is_empowered('S') || Surfer::is_trusted())
 			$where .= " OR files.active='N'";
 
 		// end of active filter
@@ -2905,7 +2905,7 @@ Class Files {
 		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR active='R'";
 
-		if(Surfer::is_associate() || Surfer::is_teased())
+		if(Surfer::is_associate())
 			$where .= " OR active='N'";
 
 		else {

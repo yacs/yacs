@@ -2032,7 +2032,7 @@ Class Categories {
 		$where = "categories.active='Y'";
 		if(Surfer::is_member() || Surfer::is_teased())
 			$where .= " OR categories.active='R'";
-		if(Surfer::is_associate() || Surfer::is_teased())
+		if(Surfer::is_associate())
 			$where .= " OR categories.active='N'";
 		$where = '('.$where.')';
 
