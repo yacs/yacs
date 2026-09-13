@@ -172,10 +172,10 @@ Class Users {
                         return TRUE;
                         
                     case 'N':
-                        return Surfer::is_member();
-                        
+                        return FALSE;   // owner + associates already returned TRUE above
+
                     case 'R':
-                        return FALSE;
+                        return Surfer::is_member();
                     
                 }
             }
