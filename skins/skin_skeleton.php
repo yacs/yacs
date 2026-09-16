@@ -4597,7 +4597,7 @@ Class Skin_Skeleton {
 
                 if(!defined('PRIVATE_FLAG'))
 			define('PRIVATE_FLAG', tag::_span(
-                                fa::_('square-o','stack-2x /private')
+                                fa::_('square','stack-2x regular /private')
                                 .fa::_('eye','stack-1x /private', (is_callable(array('i18n', 's')))? i18n::s('private') : 'private' )
                                 ,'/fa-stack /flag'));
 
@@ -4611,7 +4611,7 @@ Class Skin_Skeleton {
 		// the bullet used to signal restricted pages
 		if(!defined('RESTRICTED_FLAG'))
 			define('RESTRICTED_FLAG', tag::_span(
-                                fa::_('square-o','stack-2x /restricted')
+                                fa::_('square','stack-2x regular /restricted')
                                 .fa::_('eye','stack-1x /restricted', (is_callable(array('i18n', 's')))? i18n::s('restricted') : 'restricted' )
                                 ,'/fa-stack /flag'));
 
@@ -4633,7 +4633,7 @@ Class Skin_Skeleton {
 
 		// the HTML used to signal sticky pages
 		if(!defined('STICKY_FLAG'))
-			define('STICKY_FLAG', fa::_('thumb-tack','/sticky /flag'));
+			define('STICKY_FLAG', fa::_('thumbtack','/sticky /flag'));
 
 		// the HTML string appended to each item of the site bar
 		if(!defined('TABS_ITEM_SUFFIX'))
@@ -4668,7 +4668,7 @@ Class Skin_Skeleton {
 
 		// the bullet used to signal updated pages
                 if(!defined('UPDATED_FLAG'))
-			define('UPDATED_FLAG', '&nbsp;'.fa::_('refresh','/updated /flag', (is_callable(array('i18n', 's')))? i18n::s('updated') : 'updated' ));
+			define('UPDATED_FLAG', '&nbsp;'.fa::_('sync','/updated /flag', (is_callable(array('i18n', 's')))? i18n::s('updated') : 'updated' ));
 
 		// the maximum number of users attached to an anchor -- see sections/select.php
 		if(!defined('USERS_LIST_SIZE'))
