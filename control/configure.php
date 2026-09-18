@@ -1007,7 +1007,7 @@ if(!Surfer::is_associate()) {
         if(isset($_REQUEST['with_debug']) && $_REQUEST['with_debug'] === 'N' && Js_css::check_production_libs()) {
             
             
-            $context['text'] .= tag::_('p','',fa::_('warning').'&nbsp;'.i18n::s('You are in production mode and Yacs detected that compressed javascript libs do not exist or are out of date'));
+            $context['text'] .= tag::_('p','',fa::_('exclamation-triangle').'&nbsp;'.i18n::s('You are in production mode and Yacs detected that compressed javascript libs do not exist or are out of date'));
             
             // route to /tools/jsmin.php
             $context['followup_link']   = 'tools/jsmin.php';

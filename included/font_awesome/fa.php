@@ -19,7 +19,7 @@ Class fa {
      * 
      * examples :
      * fa::_('camera-retro', '3x')
-     * fa::_('circle-o-notch', '3x spin', 'Loading...', true);
+     * fa::_('circle-notch', '3x spin', 'Loading...', true);
      * 
      * @param string $icon choosen to be displayed. You must at least provide that.
      * @see http://fontawesome.io/icons/ for a list

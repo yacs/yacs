@@ -155,7 +155,6 @@ Class Js_Css {
             if($tune)           $import .= '@import "tune.scss";';
             if($knacss)         $import .= '@import "knacss.scss";';
             if($fontawesome)    $import .= '@import "fontawesome.scss";';
-            if($fontawesome)    $import .= '@import "solid.scss";';             // fontawesome solid icon set
             if($yacss)          $import .= '@import "variables.scss";';
             if($yacss)          $import .= '@import "yacss.scss";';
  
