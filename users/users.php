@@ -571,7 +571,10 @@ Class Users {
         public static function get_fields_list(){
             global $context;
             
-            $query = "SELECT column_name FROM information_schema.columns "
+            // force the result column name to lowercase: MySQL 8 returns it as
+            // COLUMN_NAME (the data dictionary's own case) when unaliased, while
+            // MariaDB already returns column_name -- an explicit alias works on both
+            $query = "SELECT column_name AS column_name FROM information_schema.columns "
                     . "WHERE table_name = '".SQL::table_name('users')."' "
                     . "AND table_schema = '".$context['database']."'";
             
