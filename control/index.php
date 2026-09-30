@@ -790,8 +790,10 @@ if(!file_exists('../parameters/control.include.php')) {
 			//
 			$text = '';
 
-			// display a system overview if not a crawler
-			if(!Surfer::is_crawler()) {
+			// display a system overview to associates only -- software versions,
+			// and the build footprint (date, server name, author) from a smartpatch,
+			// are fingerprinting information that must not reach anonymous visitors
+			if(Surfer::is_associate()) {
 
 				// use a neat table for the layout
 				$box = Skin::table_prefix('wide');
