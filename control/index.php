@@ -288,8 +288,12 @@ if(!file_exists('../parameters/control.include.php')) {
 			}
 
 			//
-			// overview tab
+			// the Overview tab is reserved to associates -- exact row counts and
+			// date ranges for every table (users, comments, visits, files...) are
+			// not meant for anonymous visitors
 			//
+			if(Surfer::is_associate()) {
+
 			$text = '<p>'.i18n::s('The following table reports on current content of this server. Click on any link to get more details.').'</p>';
 
 			// use a neat table for the layout
@@ -628,6 +632,7 @@ if(!file_exists('../parameters/control.include.php')) {
 
 			// build another tab
 			$all_tabs = array_merge($all_tabs, array(array('overview', i18n::s('Overview'), 'overview_panel', $text)));
+			}
 
 			//
 			// Content Management tab
