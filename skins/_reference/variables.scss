@@ -17,7 +17,8 @@
 $color-link               : steelblue !default;                     // color of all links
 $color-shadower           : rgba(0,0,0,.3) !default;                // color of effect
 $color-enlighter          : rgba(255,255,150,.5) !default;          // color of effect
-$color-lesser             : #888 !default;                          // color of effect    
+$color-lesser             : #666 !default;                          // color of discreet texts (5.7:1 on white)
+$command-opacity          : .7 !default;                            // opacity of commands and tabs, 1 for full contrast
 
 // content tabs
 $color-tabs-borders       : #c0c0c0 !default;
