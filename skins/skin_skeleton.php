@@ -1195,6 +1195,52 @@ Class Skin_Skeleton {
 		return $text;
 	}
         
+        /**
+         * find the field that a label can be bound to
+         *
+         * Buttons and hidden fields are ignored. If the row holds exactly one field,
+         * its id is returned, after having given it one if it had none (and a name).
+         * Rows with several fields (e.g., radio buttons) or none return an empty string.
+         *
+         * @param string the HTML of the input cell, updated if an id has been added
+         * @return string the id of the field, or ''
+         */
+        public static function get_form_field_id(&$input) {
+
+            if(!is_string($input) || !preg_match_all('/<(?:input|select|textarea)\b[^>]*>/i', $input, $matches))
+                return '';
+
+            // ignore hidden fields and buttons
+            $fields = array();
+            foreach($matches[0] as $tag) {
+                if(preg_match('/\btype\s*=\s*(["\']?)(hidden|submit|button|image|reset)\1/i', $tag))
+                    continue;
+                $fields[] = $tag;
+            }
+
+            // only one field can be labelled
+            if(count($fields) != 1)
+                return '';
+            $tag = $fields[0];
+
+            // use the existing id
+            if(preg_match('/(?<![\w-])id\s*=\s*(["\'])([^"\']+)\1/i', $tag, $id))
+                return $id[2];
+
+            // else derive an id from the name
+            if(!preg_match('/(?<![\w-])name\s*=\s*(["\'])([^"\']+)\1/i', $tag, $name))
+                return '';
+            $id = 'field_'.trim(preg_replace('/[^a-zA-Z0-9_-]+/', '_', $name[2]), '_');
+
+            // do not duplicate an id that exists elsewhere in the cell
+            if(preg_match('/(?<![\w-])id\s*=\s*(["\'])'.preg_quote($id, '/').'\1/i', $input))
+                return '';
+
+            $labelled = preg_replace('/^<(\w+)/', '<$1 id="'.$id.'"', $tag);
+            $input = substr_replace($input, $labelled, strpos($input, $tag), strlen($tag));
+            return $id;
+        }
+
         public static function build_form_row ($label, $input, $line_nb, $variant="2-columns") {
             
             // we return text
@@ -1206,10 +1252,14 @@ Class Skin_Skeleton {
             // start row
             $row  .= '<div '.tag::_class('form-row '.'/'.$parity).'>'."\n";
             
-            // label
+            // label, bound to the field if there is only one
             if($label) {
                 $moreclass = ($variant === "2-columns")? 'west' : '';
-                $row .= '<div '.tag::_class('form-label '.'/'.$moreclass).'>'.ucfirst($label).'</div>'."\n";
+                $for = Skin::get_form_field_id($input);
+                if($for)
+                    $row .= '<label for="'.$for.'" '.tag::_class('form-label '.'/'.$moreclass).'>'.ucfirst($label).'</label>'."\n";
+                else
+                    $row .= '<div '.tag::_class('form-label '.'/'.$moreclass).'>'.ucfirst($label).'</div>'."\n";
             }
             // input
             if($input) {
