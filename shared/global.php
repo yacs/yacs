@@ -1313,9 +1313,6 @@ function render_skin($with_last_modified=TRUE) {
 	    // no Microsoft irruption in our pages
 	    $metas[] = '<meta name="MSSmartTagsPreventParsing" content="TRUE" />';
 
-	    // suppress awful hovering toolbar on images in IE
-	    $metas[] = '<meta http-equiv="imagetoolbar" content="no" />';
-
 	    // lead robots
 	    $metas[] = '<meta name="robots" content="'.$context->gs('robots','index,follow').'" />';
             

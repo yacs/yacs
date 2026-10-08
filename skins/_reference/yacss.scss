@@ -768,6 +768,11 @@ figure {max-width: 100%;}
     }
 }
 
+// a list of details has one item per line, with its own prefix
+ul.#{$yacs-namespace}details {
+    list-style: none;
+}
+
 ////////////////////
 //
 // Crumbs

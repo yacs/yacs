@@ -136,11 +136,8 @@ echo '</nav>'."\n";
 // main content
 echo '<div id="main_panel" role="main" class="col w60 medium-w75 tiny-inbl mod item">'."\n";
 
-//  anchor to main content accesskey = 1
-echo '<a name="main_panel"></a>'."\n";
-
-// display main content
-Page::content();
+// display main content --the container is the target of the skip link, no anchor needed
+Page::content(NULL, true, false);
 
 // end of main div
 echo '</div>'."\n";
