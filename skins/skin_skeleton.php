@@ -2463,6 +2463,10 @@ Class Skin_Skeleton {
 				if(!$title)
 					$title = i18n::s('View the page');
 				$icon = Skin::build_link($url, $icon, 'basic', $title, $new_window);
+
+				// a decorative image only duplicates the link of the label: hide it from assistive technologies and from the keyboard
+				if(preg_match('/<img\b[^>]*\balt=""/i', $icon) && !preg_match('/<img\b[^>]*\balt="[^"]/i', $icon))
+					$icon = preg_replace('/^<a\b/', '<a aria-hidden="true" tabindex="-1"', $icon);
 			}
 
 			// append to the list
@@ -4088,7 +4092,7 @@ Class Skin_Skeleton {
 					$text .= '<td class="image" style="text-align: center">'.$icon.'</td><td class="content">'.$label.'</td></tr>'."\n";
 				}
 
-				$text = '<table class="decorated"'.$id.'>'."\n".$text.'</table>'."\n";
+				$text = '<table class="decorated"'.$id.' role="presentation">'."\n".$text.'</table>'."\n";
 				break;
 
 			// an in-line menu to be customized through constants in skin.php
