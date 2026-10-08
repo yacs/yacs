@@ -461,18 +461,18 @@ if(Surfer::is_crawler()) {
 	// the id or email field
 	$label = i18n::s('Your nick name, or e-mail address');
 	$input = '<input type="text" name="login_name" id="login_name" size="45" maxlength="255" value="'.encode_field($name).'" />'."\n";
-	$main_column .= '<p>'.$label.BR.$input.'</p>';
+	$main_column .= '<p><label for="login_name">'.$label.'</label>'.BR.$input.'</p>';
 
 	// the password
 	$label = i18n::s('Password');
-	$input = '<input type="password" name="login_password" size="45" maxlength="255" />'."\n";
-	$main_column .= '<p>'.$label.BR.$input.'</p>';
+	$input = '<input type="password" name="login_password" id="login_password" size="45" maxlength="255" />'."\n";
+	$main_column .= '<p><label for="login_password">'.$label.'</label>'.BR.$input.'</p>';
 	
 	// remember me ?
 	if(isset($context['users_with_permanent_authentication']) && $context['users_with_permanent_authentication'] == 'U') {
 	    $label = i18n::s('Stay connected');
-	    $input = '<input type="checkbox" name="remember" value="Y" />'."\n";
-	    $main_column .= '<p>'.$input.'&nbsp;'.$label.'</p>';
+	    $input = '<input type="checkbox" name="remember" id="remember" value="Y" />'."\n";
+	    $main_column .= '<p>'.$input.'&nbsp;<label for="remember">'.$label.'</label></p>';
 	}
 
 	// bottom commands
