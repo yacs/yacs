@@ -124,6 +124,12 @@ Class Js_Css {
         $skincss    = Safe::filemtime($context['path_to_root'].$context['skin'].'/'.$skin.'.css');
         $tune       = Safe::filemtime($context['path_to_root'].$context['skin'].'/tune.scss');
         $skinstyle  = ($skinsass)?$skinsass:$skincss;
+
+        // partials imported by <skin>.scss may change alone: consider the most recent *.scss of the skin
+        if($skinsass && ($partials = Safe::glob($context['path_to_root'].$context['skin'].'/*.scss'))) {
+            foreach($partials as $partial)
+                $skinstyle = max($skinstyle, Safe::filemtime($partial));
+        }
         
         // check existence of a minified version
         $skinmin    = Safe::filemtime($context['path_to_root'].'temporary/'.$skin.'.min.css');
