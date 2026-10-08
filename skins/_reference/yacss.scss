@@ -56,11 +56,39 @@ $path : rPath() + "skins/_reference/";
 // to provide a readable text color for button according to their
 // background color
 
+// the text is white or almost black, whichever gives the best contrast (WCAG)
+// sass has no power function here: x^2.4 is x^2 * x^0.4, where x^0.4 is the fifth root of x^2,
+// found with Newton's method (the first steps are slow when starting from 1)
+
+@function x-linear-channel($c) {
+    @if $c <= 0.03928 {
+        @return $c * 0.0773993808;
+    }
+    $x: ($c + 0.055) * 0.9478672986;
+    $a: $x * $x;
+    $y: 1;
+    @for $i from 1 through 14 {
+        $y: $y - ($y * $y * $y * $y * $y - $a) / (5 * $y * $y * $y * $y);
+    }
+    @return $a * $y;
+}
+
+// relative luminance of a color, as defined by WCAG
+@function x-luminance($color) {
+    $k: 0.0039215686;   // 1/255
+    @return 0.2126 * x-linear-channel(red($color) * $k)
+          + 0.7152 * x-linear-channel(green($color) * $k)
+          + 0.0722 * x-linear-channel(blue($color) * $k);
+}
+
 @mixin x-readable-text-color($back-color) {
-    @if lightness($back-color) >= 50% {
-        color: darken(desaturate($back-color,15%),40%);
+    $dark: #1a1a1a;
+    $lum: x-luminance($back-color) + 0.05;
+    // white wins when 1.05 / $lum is greater than $lum / (luminance of $dark + 0.05)
+    @if 1.05 * (x-luminance($dark) + 0.05) >= $lum * $lum {
+        color: #fff;
     } @else {
-        color: lighten(desaturate($back-color,15%),40%);
+        color: $dark;
     }
 }
 
@@ -142,7 +170,7 @@ $path : rPath() + "skins/_reference/";
 
 // a interactive command that is emphatized when hovered
 .#{$yacs-namespace}command {
-    opacity: 0.7;
+    opacity: $command-opacity;
 
     &:hover {
         opacity:1;
@@ -150,10 +178,27 @@ $path : rPath() + "skins/_reference/";
 }
 
 // not visible to ordinary browsers -- accessibility tweak
+// shortcuts are shown when the keyboard reaches one of them
 .#{$yacs-namespace}away { 
 	position: absolute;
 	left: -999px;
 	width: 990px;
+
+	&:focus-within {
+		left: 0;
+		top: 0;
+		width: auto;
+		z-index: 1000;
+		padding: .5em 1em;
+		background: #fff;
+		color: #1a1a1a;
+		outline: 2px solid #1a1a1a;
+
+		a, a:visited {
+			color: #1a1a1a;
+			text-decoration: underline;
+		}
+	}
 }
 
 
@@ -764,7 +809,7 @@ figure {max-width: 100%;}
     color : $color-lesser;
     
     a {
-        color : grey !important;
+        color : $color-lesser !important;
     }
 }
 
@@ -778,7 +823,7 @@ figure {max-width: 100%;}
     display : flex;
     flex-wrap : wrap;
     font-size : 0.9em;
-    color:grey;
+    color:$color-lesser;
     
     span {
         // space between crumb
@@ -902,7 +947,7 @@ figure {max-width: 100%;}
 
 .flag {
     font-size: .8em;
-    color : slategray;
+    color : $color-lesser;
     
     & .private {
         color : indianred;
