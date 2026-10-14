@@ -832,6 +832,7 @@ figure {max-width: 100%;}
 }
 
 .#{$yacs-namespace}form-label {
+    display: block;
     font-style: italic;
     color : $color-lesser;
 }
