@@ -240,9 +240,11 @@ Class Layout_as_columns extends Layout_interface {
                     
                     // layout details
                     if(count($details)) {
+                         $suffix .= '<ul '.tag::_class('details').'>';
                          foreach($details as $line) {
-                             $suffix .= '<ul '.tag::_class('details').'>'.YAHOO_ITEM_PREFIX.$line.YAHOO_ITEM_SUFFIX.'</ul>';
+                             $suffix .= '<li>'.YAHOO_ITEM_PREFIX.$line.YAHOO_ITEM_SUFFIX.'</li>';
                          }
+                         $suffix .= '</ul>';
                     }
                     
                     // display all tags

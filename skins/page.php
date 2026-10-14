@@ -218,7 +218,7 @@
                 
                 // anchor from <p class=away
                 if($with_anchor)
-                        echo tag::_a('','',tag::_attr('name', 'main_panel'));
+                        echo tag::_a('','',tag::_attr('id', 'main_panel'));
 
 		// display the prefix, if any
 		if(isset($context['prefix']) && $context['prefix'])
