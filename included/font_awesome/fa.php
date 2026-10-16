@@ -71,8 +71,9 @@ Class fa {
             $more .= tag::_attr('aria-hidden', 'true');
         }
         
-        // build the tag
-        $fa = tag::_('i', tag::_class($options).$more);
+        // build the tag -- with a space inside, since an empty <i> is turned into <i/>
+        // by DOMDocument::saveXML(), which HTML5 parsers read as an unclosed tag
+        $fa = tag::_('i', tag::_class($options).$more, ' ');
         
         // provide a span replacement for accessibility if needed
         if($aria_hide && $title) {
