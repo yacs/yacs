@@ -268,7 +268,7 @@ if(Surfer::is_crawler()) {
 	$text = '';
 
 	// compute the summary
-	$summary = '<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'
+	$summary = '<a href="'.absolute_url($anchor->get_url()).'">'
 		."\n".$anchor->get_title()."\n".'</a>';
 	if(is_object($anchor) && ($excerpt = $anchor->get_teaser('basic')))
 		$summary .= ' &mdash; '.$excerpt;
@@ -279,7 +279,7 @@ if(Surfer::is_crawler()) {
 
 	// permalink
 	$label = i18n::s('Permanent address (permalink):');
-	$value = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+	$value = absolute_url($anchor->get_url());
 	$text .= '<p>'.$label.BR.'<code>'.$value.'</code></p>'."\n";
 
 	// other links

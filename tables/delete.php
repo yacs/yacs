@@ -87,7 +87,7 @@ if(!isset($item['id'])) {
 	if(Tables::delete($item['id'])) {
 		Tables::clear($item);
 		if(is_object($anchor))
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
+			Safe::redirect(absolute_url($anchor->get_url()));
 		else
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].'articles/');
 	}

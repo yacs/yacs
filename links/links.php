@@ -931,7 +931,7 @@ Class Links {
 		}
 
 		// build an absolute URL for the source
-		$source = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+		$source = absolute_url($anchor->get_url());
 
 		// process each link
 		if(@count($pages)) {

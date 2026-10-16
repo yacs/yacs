@@ -369,7 +369,7 @@ if(Surfer::is_crawler()) {
 		else
 			$description = sprintf(i18n::s('Sent by %s'), Surfer::get_name());
 
-                $link = $context['url_to_home'].$context['url_to_root'].$section->get_url();
+                $link = $section->get_permalink();
                 $description .= "\n\n".$section->get_teaser('basic')
 			."\n\n".'<a href="'.$link.'">'.$link.'</a>';
 		Logger::notify('sections/edit.php: '.$label, $description);

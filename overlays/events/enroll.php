@@ -87,7 +87,7 @@ else {
 				// headline
 				$headline = sprintf(i18n::c('%s has cancelled your participation to %s'),
 					Surfer::get_link(),
-					'<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'.$anchor->get_title().'</a>');
+					'<a href="'.absolute_url($anchor->get_url()).'">'.$anchor->get_title().'</a>');
 
 				// message confirmation
 				$message = $overlay->get_invite_default_message('CANCEL');
@@ -99,7 +99,7 @@ else {
 				$menu = array();
 
 				// call for action
-				$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+				$link = absolute_url($anchor->get_url());
 				$menu[] = Skin::build_mail_button($link, $anchor->get_title(), TRUE);
 
 				// finalize links
@@ -156,7 +156,7 @@ else {
 				// headline
 				$headline = sprintf(i18n::c('%s has confirmed your participation to %s'),
 					Surfer::get_link(),
-					'<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'.$anchor->get_title().'</a>');
+					'<a href="'.absolute_url($anchor->get_url()).'">'.$anchor->get_title().'</a>');
 
 				// message confirmation
 				$message = $overlay->get_invite_default_message('PUBLISH');
@@ -168,7 +168,7 @@ else {
 				$menu = array();
 
 				// call for action
-				$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+				$link = absolute_url($anchor->get_url());
 				$menu[] = Skin::build_mail_button($link, $anchor->get_title(), TRUE);
 
 				// finalize links

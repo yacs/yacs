@@ -732,6 +732,27 @@ function full_link($link) {
     return $link;
 }
 
+/**
+ * Ensure that a link to this site is absolute
+ *
+ * Some get_url() calls return an absolute permalink (articles, sections,
+ * users, categories), while others return a link relative to the root of
+ * the site (files, comments...). This function prepends the site address
+ * only when it is missing, so that the host is never doubled.
+ *
+ * @param string a link returned by get_url() or get_permalink()
+ * @return string an absolute link
+ */
+function absolute_url($link) {
+	global $context;
+
+	// already absolute, or protocol-relative
+	if(preg_match('/^(?:[a-z][a-z0-9+.-]*:)?\/\//i', $link))
+		return $link;
+
+	return $context['url_to_home'].$context['url_to_root'].$link;
+}
+
 //
 // Localization and internationalization
 //

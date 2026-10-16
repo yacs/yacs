@@ -112,7 +112,7 @@ if(!$permitted) {
 		$values['channel'] = array();
 		if(is_object($anchor)) {
 			$values['channel']['title'] = sprintf(i18n::s('Comments for: %s'), $anchor->get_title());
-			$values['channel']['link'] = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+			$values['channel']['link'] = absolute_url($anchor->get_url());
 			$values['channel']['description'] = $anchor->get_teaser('quote');
 		} else {
 			$values['channel']['title'] = sprintf(i18n::s('Recent comments at %s'), $context['site_name']);

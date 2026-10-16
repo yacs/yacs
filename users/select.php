@@ -176,7 +176,7 @@ elseif(!$permitted) {
 
 				// headline
 				$headline = sprintf(i18n::c('%s is following you'),
-					'<a href="'.$context['url_to_home'].$context['url_to_root'].$follower->get_url().'">'.$follower->get_title().'</a>');
+					'<a href="'.absolute_url($follower->get_url()).'">'.$follower->get_title().'</a>');
 
 				// information
 				$message = '<p>'.sprintf(i18n::c('%s will receive notifications when you will update your followers at %s'), $follower->get_title(), $context['site_name']).'</p>';
@@ -188,7 +188,7 @@ elseif(!$permitted) {
 				$menu = array();
 
 				// call for action
-				$link = $context['url_to_home'].$context['url_to_root'].$follower->get_url();
+				$link = absolute_url($follower->get_url());
 				$menu[] = Skin::build_mail_button($link, $follower->get_title(), TRUE);
 
 				// finalize links

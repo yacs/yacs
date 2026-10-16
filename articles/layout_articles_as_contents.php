@@ -113,7 +113,7 @@ Class Layout_articles_as_contents extends Layout_interface {
 				$extensions[] = '<georss:point>'.str_replace(',', ' ', $location).'</georss:point>';
 
 			// url for comments
-			$extensions[] = '<comments>'.encode_link($context['url_to_home'].$context['url_to_root'].$anchor->get_url('comments')).'</comments>';
+			$extensions[] = '<comments>'.encode_link(absolute_url($anchor->get_url('comments'))).'</comments>';
 
 			// count comments
 			$comment_count = Comments::count_for_anchor('article:'.$item['id']);

@@ -128,7 +128,7 @@ if(Surfer::is_crawler()) {
 
 	// link to the container
 	if(is_object($anchor)) {
-		$link = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+		$link = absolute_url($anchor->get_url());
 		$menu[] = Skin::build_mail_button($link, $anchor->get_title(), FALSE);
 	}
 
