@@ -146,7 +146,7 @@ if(!isset($item['id'])) {
 		// title and link
 		if($title = $section->get_title())
 			$description .= $title."\n";
-		$link = $context['url_to_home'].$context['url_to_root'].$section->get_url();
+		$link = $section->get_permalink();
                 $description = '<a href="'.$link.'">'.$link.'</a>'."\n\n";
 
 		// notify sysops

@@ -1402,7 +1402,7 @@ class Messages {
 					$splash = i18n::s("The page received by e-mail has been posted. Don't forget to read it online. Then click on the Publish command to make it publicly available.");
 
 				$message = '<p>'.$splash.'</p>'
-					.'<p><a href="'.$context['url_to_home'].$context['url_to_root'].$article->get_url().'">'.$article->get_title().'</a></p>'
+					.'<p><a href="'.absolute_url($article->get_url()).'">'.$article->get_title().'</a></p>'
 					.'<div>'.$article->get_teaser('basic').'</div>'
 					.'<p>'.i18n::c('Thank you for your contribution').'</p>';
 

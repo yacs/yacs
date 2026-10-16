@@ -90,7 +90,7 @@ elseif(!Surfer::get_id()) {
 	// there is already some enrolment record --redirect to the meeting page
 	$query = "SELECT id FROM ".SQL::table_name('enrolments')." WHERE (anchor LIKE '".$anchor->get_reference()."') AND ".$where;
 	if(SQL::query_count($query))
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
+		Safe::redirect(absolute_url($anchor->get_url()));
 
 	// fields to save
 	$query = array();
@@ -131,13 +131,13 @@ elseif(!Surfer::get_id()) {
 		if($overlay->get_value('enrolment') == 'none')
 			$headline = sprintf(i18n::c('%s has confirmed participation to %s'),
 				Surfer::get_link(),
-				'<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'.$anchor->get_title().'</a>');
+				'<a href="'.absolute_url($anchor->get_url()).'">'.$anchor->get_title().'</a>');
 
 		// user is asking for an invitation
 		else
 			$headline = sprintf(i18n::c('%s would like to be enrolled to %s'),
 				Surfer::get_link(),
-				'<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'.$anchor->get_title().'</a>');
+				'<a href="'.absolute_url($anchor->get_url()).'">'.$anchor->get_title().'</a>');
 
 		// help the chairman
 		$message = Skin::build_mail_content($headline,

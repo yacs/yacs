@@ -235,7 +235,7 @@ if(Surfer::is_crawler()) {
 		// log the query submission
 		if(is_object($article)) {
 			$label = sprintf(i18n::c('New query: %s'), strip_tags($article->get_title()));
-			$link = $context['url_to_home'].$context['url_to_root'].$article->get_url();
+			$link = absolute_url($article->get_url());
                         $description = '<a href="'.$link.'">'.$link.'</a>'
 				."\n\n".$article->get_teaser('basic');
 			Logger::notify('query.php: '.$label, $description);
