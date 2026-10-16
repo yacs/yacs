@@ -623,44 +623,14 @@ abstract class Anchor {
             $og[] = '<meta property="og:title" content="'.encode_field($title).'" />';
             
             // description
-            $ogdesc = '';
-            if($intro = $this->get_introduction())
-                    $ogdesc .= $intro;                                          // use intro
-            elseif($desc = $this->get_value('description'))
-                    $ogdesc .= Skin::strip($desc, 30);                          // use part of description
-            elseif($defdesc = $context['site_description'])
-                    $ogdesc .= $defdesc;                                        // use site description
-            
-            if($ogdesc)
-                $og[] = '<meta property="og:description" content="'
-                        .encode_field(
-                                Codes::strip(                                                           // suppress yacs control code
-                                        Codes::beautify_meta_desc(                                      // except lang version
-                                                strip_tags(                                             // suppress html
-                                                        str_replace(array("\n", "\r"), ' ', $ogdesc)    // suppress linefeed
-                                                        )
-                                                )
-                                        )
-                                )
-                        .'" />';
+            if($ogdesc = $this->get_share_description())
+                $og[] = '<meta property="og:description" content="'.encode_field($ogdesc).'" />';
             
             // image
-            $imageref = '';
-            if($icon = $this->get_icon_url())
-                $imageref = $icon;
-            elseif($newest = Images::get_newest_for_anchor($this->get_reference())) 
-                $imageref = Files::get_path($newest['anchor'], 'images').'/'.$newest['image_name'];
-            
-            if($imageref) {
-                $image_width = $image_height = null;
-                if(!preg_match('/^https?:\/\//',$imageref)) {
-                        // get size of local image
-                        list($image_width, $image_height) = Safe::GetImageSize(Safe::cut_root($imageref));
-                        // make absolute ref
-                        $imageref = $context['url_to_master'].$imageref;
-                }
+            if($image = $this->get_share_image()) {
+                list($imageref, $image_width, $image_height) = $image;
                 $og[] = '<meta property="og:image" content="'.encode_field($imageref).'" />';
-                
+
                 // width & height
                 if($image_width && $image_height) {
                     $og[] = '<meta property="og:image:width" content="'.encode_field($image_width).'" />';
@@ -668,6 +638,9 @@ abstract class Anchor {
                 }
                 // alt ?
             }
+
+            // large card only when the page has an image of its own, not the default one of the skin
+            $og[] = '<meta name="twitter:card" content="'.(($image && $image[3]) ? 'summary_large_image' : 'summary').'" />';
             
             // type
             // (@see article & user)
@@ -688,9 +661,174 @@ abstract class Anchor {
         // More opengraph info depending of displayed object
         // to be overloaded by child class
         function set_opengraph_type(array &$og) {
-            
+
             // nothing here
             return;
+        }
+
+        /**
+         * Get the plain-text description used to share this page
+         *
+         * @see get_opengraph(), get_structured_data()
+         *
+         * @return string, possibly empty
+         */
+        function get_share_description() {
+            global $context;
+
+            $desc = '';
+            if($intro = $this->get_introduction())
+                    $desc = $intro;                                             // use intro
+            elseif($description = $this->get_value('description'))
+                    $desc = Skin::strip($description, 30);                      // use part of description
+            elseif(isset($context['site_description']) && $context['site_description'])
+                    $desc = $context['site_description'];                       // use site description
+
+            if(!$desc)
+                return '';
+
+            return Codes::strip(                                                // suppress yacs control code
+                        Codes::beautify_meta_desc(                              // except lang version
+                                strip_tags(                                     // suppress html
+                                        str_replace(array("\n", "\r"), ' ', $desc)  // suppress linefeed
+                                        )
+                                )
+                        );
+        }
+
+        /**
+         * Get the image used to share this page, if any
+         *
+         * The page's own image comes first: its icon, else its newest image. Failing that, the
+         * skin may provide a default one -- og-default.jpg or og-default.png, else the usual
+         * logo.png or logo.jpg at the root of the skin directory.
+         *
+         * @see get_opengraph(), get_structured_data()
+         *
+         * @return array ($absolute_url, $width, $height, $is_own_image), or NULL
+         */
+        function get_share_image() {
+            global $context;
+
+            $own = TRUE;
+            $path = '';
+            if($icon = $this->get_icon_url())
+                $path = $icon;
+            elseif($newest = Images::get_newest_for_anchor($this->get_reference()))
+                $path = Files::get_path($newest['anchor'], 'images').'/'.$newest['image_name'];
+
+            // fall back to a default image provided by the skin
+            if(!$path && isset($context['skin']) && $context['skin']) {
+                $own = FALSE;
+                foreach(array('og-default.jpg', 'og-default.png', 'logo.png', 'logo.jpg') as $name) {
+                    if(file_exists($context['path_to_root'].$context['skin'].'/'.$name)) {
+                        $path = $context['skin'].'/'.$name;
+                        break;
+                    }
+                }
+            }
+
+            if(!$path)
+                return NULL;
+
+            // remote image
+            if(preg_match('/^https?:\/\//', $path))
+                return array($path, NULL, NULL, $own);
+
+            // local image -- the path may come with or without the leading url_to_root
+            $path = Safe::cut_root($path);
+            $width = $height = NULL;
+            if($size = Safe::GetImageSize($path))
+                list($width, $height) = $size;
+
+            return array($context['url_to_master'].$context['url_to_root'].$path, $width, $height, $own);
+        }
+
+        /**
+         * Build structured data (JSON-LD) for search engines
+         *
+         * A BreadcrumbList is built from the path bar, then derived classes may add a node
+         * describing the page itself -- see set_structured_data_type().
+         *
+         * @see https://developers.google.com/search/docs/appearance/structured-data
+         * @see global.php render_skin()
+         *
+         * @return array of strings to be inserted in the head of the page
+         */
+        function get_structured_data() {
+            global $context;
+
+            // sanity check
+            if(!$this->item || !count($this->item))
+                return array();
+
+            $graph = array();
+
+            // breadcrumb, only if there is something above this page
+            if(($path = $this->get_path_bar()) && (count($path) > 1)) {
+                $elements = array();
+                foreach($path as $url => $label) {
+                    if(!$url)
+                        continue;
+                    $elements[] = array(
+                        '@type' => 'ListItem',
+                        'position' => count($elements) + 1,
+                        'name' => $this->clean_share_text($label),
+                        'item' => $this->clean_share_url($url));
+                }
+                if(count($elements) > 1)
+                    $graph[] = array('@type' => 'BreadcrumbList', 'itemListElement' => $elements);
+            }
+
+            // more structured data depending on the displayed object
+            $this->set_structured_data_type($graph);
+
+            if(!$graph)
+                return array();
+
+            // JSON_HEX_TAG keeps any '</script>' in the data from closing the element, and
+            // JSON_HEX_AMP writes '&' as \u0026, out of reach of yacs_handler(), which turns any
+            // standalone '&' of the page into '&amp;' -- not decoded inside a script element
+            return array('<script type="application/ld+json">'
+                .json_encode(array('@context' => 'https://schema.org', '@graph' => $graph),
+                    JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP)
+                .'</script>');
+        }
+
+        // More structured data depending of displayed object
+        // to be overloaded by child class
+        function set_structured_data_type(array &$graph) {
+
+            // nothing here
+            return;
+        }
+
+        /**
+         * Turn a title or a label into plain text, for structured data
+         *
+         * @param string HTML or text
+         * @return string plain text
+         */
+        function clean_share_text($text) {
+            return trim(preg_replace('/\s\s+/', ' ', html_entity_decode(strip_tags($text), ENT_QUOTES, 'UTF-8')));
+        }
+
+        /**
+         * Turn a link into an absolute, unescaped URL, for structured data
+         *
+         * Permalinks may come HTML-escaped ('&amp;'), and some links are relative to the
+         * installation path.
+         *
+         * @param string link
+         * @return string absolute URL
+         */
+        function clean_share_url($url) {
+            global $context;
+
+            $url = html_entity_decode($url, ENT_QUOTES, 'UTF-8');
+            if(!preg_match('/^https?:\/\//', $url))
+                $url = $context['url_to_master'].$context['url_to_root'].Safe::cut_root($url);
+            return $url;
         }
 
 	/**

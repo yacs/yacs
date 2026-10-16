@@ -670,7 +670,47 @@ Class Article extends Anchor {
             // expiration ?
             // tags
             if($tags = $this->get_value('tags'))
-                   $og[] = '<meta property="og:article:tag" content="'. encode_field($tags) .'" />'; 
+                   $og[] = '<meta property="og:article:tag" content="'. encode_field($tags) .'" />';
+        }
+
+        /**
+         * Describe a published article for search engines (schema.org Article)
+         *
+         * @see shared/anchor.php get_structured_data()
+         */
+        function set_structured_data_type(array &$graph) {
+            global $context;
+
+            // sanity check
+            if(!$this->is_published()) return;
+
+            $article = array(
+                '@type' => 'Article',
+                'headline' => mb_substr($this->clean_share_text($this->get_title()), 0, 110),
+                'mainEntityOfPage' => $this->clean_share_url($this->get_permalink()),
+                // dates are stored in GMT -- Skin::build_date() would read them as server time
+                'datePublished' => gmdate('c', strtotime($this->get_value('publish_date').' UTC')));
+
+            if(($edited = $this->get_value('edit_date')) && ($edited > NULL_DATE))
+                $article['dateModified'] = gmdate('c', strtotime($edited.' UTC'));
+
+            if($description = $this->get_share_description())
+                $article['description'] = $description;
+
+            if($author = $this->get_value('create_name'))
+                $article['author'] = array('@type' => 'Person', 'name' => $author);
+
+            if(isset($context['site_name']) && $context['site_name'])
+                $article['publisher'] = array('@type' => 'Organization', 'name' => $context['site_name'],
+                    'url' => $context['url_to_master'].$context['url_to_root']);
+
+            if($image = $this->get_share_image())
+                $article['image'] = $image[0];
+
+            if($language = $this->get_value('language'))
+                $article['inLanguage'] = $language;
+
+            $graph[] = $article;
         }
 
 	/**

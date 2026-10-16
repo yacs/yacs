@@ -1296,10 +1296,11 @@ function render_skin($with_last_modified=TRUE) {
 		    $metas[] = '<meta name="keywords" content="'.encode_field($context['site_keywords']).'" />';    
 	    }
             
-            // opengraph metadata
-            if($context['current_item'] && $context['current_action'] === 'view') {
-                $entity = Anchors::get($context['current_item']);
+            // opengraph metadata, and structured data for search engines
+            if($context['current_item'] && $context['current_action'] === 'view'
+                && is_object($entity = Anchors::get($context['current_item']))) {
                 $metas = array_merge($metas, $entity->get_opengraph());
+                $metas = array_merge($metas, $entity->get_structured_data());
             }
 
 	    // revisit-after
