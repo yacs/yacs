@@ -64,6 +64,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once 'sections.php';
 
 // which page should be displayed
 if(isset($_REQUEST['page']))
