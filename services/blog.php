@@ -969,7 +969,7 @@ else {
 				if($section = Anchors::get('section:'.$default_id)) {
 					$response[] = array(
 						'isAdmin' => '<boolean>0</boolean>',
-						'url' => '<string>'.$codec->encode($context['url_to_home'].$context['url_to_root'].$section->get_url(), 'string').'</string>',
+						'url' => '<string>'.$codec->encode(absolute_url($section->get_url()), 'string').'</string>',
 						'blogid' => '<string>'.(string)$default_id.'</string>',
 						'blogName' => $codec->encode(strip_tags($section->get_title()), 'string')
 					);

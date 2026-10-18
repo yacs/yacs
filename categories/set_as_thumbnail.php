@@ -82,7 +82,7 @@ if(Surfer::is_crawler()) {
 	if(!($error = $anchor->touch('image:set_as_thumbnail', $item['thumbnail_url']))) {
 
 		// back to the anchor page
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
+		Safe::redirect(absolute_url($anchor->get_url()));
 	}
 	Logger::error($error);
 }

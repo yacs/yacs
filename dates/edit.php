@@ -107,7 +107,7 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// the follow-up page
-	$next = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
+	$next = absolute_url($anchor->get_url());
 
 	// display the form on error
 	if(!$_REQUEST['id'] = Dates::post($_REQUEST)) {

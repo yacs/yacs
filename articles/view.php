@@ -437,7 +437,7 @@ if(!isset($item['id'])) {
 
 	    // a meta link to the section front page
 	    if(is_object($anchor))
-		    $context['page_header'] .= "\n".'<link rel="contents" href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'" title="'.encode_field($anchor->get_title()).'" type="text/html" />';
+		    $context['page_header'] .= "\n".'<link rel="contents" href="'.absolute_url($anchor->get_url()).'" title="'.encode_field($anchor->get_title()).'" type="text/html" />';
 
 	    // a meta link to a description page (actually, rdf)
 	    $context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml" />';
