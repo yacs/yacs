@@ -1970,9 +1970,11 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 	if(isset($name))
 		$name = strtolower(utf8::to_ascii(trim($name), URL_SAFE_ALPHABET));
 
-	// do not fool rewriting, just in case alternate name would be put in title
+	// do not fool rewriting, just in case alternate name would be put in title -- a name ending
+	// with 'article-12' could be caught by unanchored rewriting rules (before 2010). Only strip
+	// such a module reference: any other word followed by a number, e.g. '...-2026', is kept
 	if(isset($name))
-		$name = preg_replace('/([a-z_]+)-([0-9]+)$/', '', $name);
+		$name = preg_replace('/(^|-)(article|category|comment|date|file|image|location|section|server|table|user|version)-[0-9]+$/', '', $name);
 
 	// remove dashes at both ends
 	if(isset($name))
