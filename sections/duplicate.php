@@ -143,11 +143,8 @@ if(!isset($item['id'])) {
 		else
 			$description = sprintf(i18n::c('Sent by %s'), Surfer::get_name());
 
-		// title and link
-		if($title = $section->get_title())
-			$description .= $title."\n";
-		$link = $section->get_permalink();
-                $description = '<a href="'.$link.'">'.$link.'</a>'."\n\n";
+		// link to the new section
+		$description .= "\n\n".'<a href="'.$section->get_permalink().'">'.$section->get_title().'</a>';
 
 		// notify sysops
 		Logger::notify('sections/duplicate.php: '.$label, $description);
