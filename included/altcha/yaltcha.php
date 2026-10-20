@@ -43,7 +43,6 @@ spl_autoload_register(function ($class) {
 
 
 define('CHALLENGEURL','included/altcha/getchallenge.ajax.php');
-define('HMACK','Please custom your key');
 define('INPUTNAME','altcha');
 
 Class yaltcha {
@@ -59,7 +58,7 @@ Class yaltcha {
             expires: (new \DateTimeImmutable())->add(new \DateInterval('PT3600S')),
         );
         
-        $altcha     = new \AltchaOrg\Altcha\Altcha(HMACK);
+        $altcha     = new \AltchaOrg\Altcha\Altcha(get_secret_key('altcha'));
         $challenge  = $altcha->createChallenge($options);
         
         return json_encode($challenge);
@@ -113,7 +112,7 @@ Class yaltcha {
             $payload = $_REQUEST[INPUTNAME];
         }
         
-        $altcha     = new \AltchaOrg\Altcha\Altcha(HMACK);
+        $altcha     = new \AltchaOrg\Altcha\Altcha(get_secret_key('altcha'));
 
         // Altcha::verifySolution() is typed array|string, not nullable: a POST
         // that carries no altcha field (no-JS submission, or a bot posting
