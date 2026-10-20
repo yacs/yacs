@@ -165,10 +165,8 @@ if(!isset($item['id'])) {
 		else
 			$description = sprintf(i18n::c('Sent by %s'), Surfer::get_name());
 
-		// title and link
-		if($title = $article->get_title())
-			$description .= $title."\n";
-		$description = '<a href="'.absolute_url($article->get_url()).'">'.$article->get_title().'</a>';
+		// link to the new page
+		$description .= "\n\n".'<a href="'.absolute_url($article->get_url()).'">'.$article->get_title().'</a>';
 
 		// notify sysops
 		Logger::notify('articles/duplicate.php: '.$label, $description);
