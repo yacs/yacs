@@ -1331,6 +1331,37 @@ Class Users {
 	}
 
 	/**
+	 * should the current password be provided to change a password?
+	 *
+	 * Surfers changing their own password have to provide the current one, so that
+	 * a forged request cannot take over an account. This is not required after
+	 * authentication through the link sent by e-mail (lost password), nor when
+	 * no password has been set yet.
+	 *
+	 * @see users/password.php
+	 * @see users/login.php
+	 *
+	 * @param array the user profile
+	 * @return boolean TRUE if the current password is required
+	 */
+	public static function needs_current_password($item) {
+
+		// changing the password of somebody else
+		if(!isset($item['id']) || ($item['id'] != Surfer::get_id()))
+			return FALSE;
+
+		// no password yet
+		if(!isset($item['password']) || !is_string($item['password']) || ($item['password'] === ''))
+			return FALSE;
+
+		// authenticated through the link sent by e-mail
+		if(isset($_SESSION['password_reset_for']) && ($_SESSION['password_reset_for'] == $item['id']))
+			return FALSE;
+
+		return TRUE;
+	}
+
+	/**
 	 * verify a submitted password against a stored hash
 	 *
 	 * Supports modern hashes (password_hash) and legacy 32-character MD5 hashes,

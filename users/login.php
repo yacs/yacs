@@ -229,6 +229,9 @@ if(Surfer::is_crawler()) {
 			// save surfer profile in session context
 			Surfer::set($user, $update_flag);
 
+			// allow for a new password without the current one -- see users/password.php
+			$_SESSION['password_reset_for'] = $user['id'];
+
 			// the user icon, if any
 			if(isset($user['avatar_url']) && $user['avatar_url'])
 				$context['page_image'] = $user['avatar_url'];

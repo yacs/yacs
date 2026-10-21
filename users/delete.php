@@ -86,12 +86,12 @@ if(!isset($item['id'])) {
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // no deletion in demo mode
-} elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes') && file_exists($context['path_to_root'].'parameters/demo.flag')) {
+} elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes') && isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && file_exists($context['path_to_root'].'parameters/demo.flag')) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
 // deletion is confirmed
-} elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes')) {
+} elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes') && isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
     
 	// close the session on self-deletion
 	if(Surfer::get_id() == $item['id'])

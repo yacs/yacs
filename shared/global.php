@@ -417,7 +417,29 @@ if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == '')) {
 		$domain = $parent_domain;
 
 	// set the cookie to parent domain, to allow for sub-domains
-	session_set_cookie_params(0, '/', $domain);
+	// SameSite=Lax stops the session cookie on cross-site POST and sub-requests (CSRF),
+	// except when a virtual domain is another site, since cross-domain login relies on cross-site XHR
+	$samesite = 'Lax';
+	if(isset($context['virtual_domains']) && is_array($context['virtual_domains'])) {
+		$current_host = strtolower(preg_replace('/:\d+$/', '', $context['host_name']));
+		$parent = strtolower(preg_replace('/:\d+$/', '', $domain));
+		foreach($context['virtual_domains'] as $virtual) {
+			$virtual = strtolower(preg_replace('/:\d+$/', '', trim($virtual)));
+			if(($virtual == $current_host) || (($parent[0] == '.') && (substr('.'.$virtual, -strlen($parent)) == $parent)))
+				continue;
+			$samesite = $is_https ? 'None' : '';
+			break;
+		}
+	}
+	$cookie_params = array(
+		'lifetime' => 0,
+		'path' => '/',
+		'domain' => $domain,
+		'secure' => $is_https,
+		'httponly' => TRUE);
+	if($samesite)
+		$cookie_params['samesite'] = $samesite;
+	session_set_cookie_params($cookie_params);
 
 	// set or use the PHPSESSID cookie
 	session_start();
@@ -880,6 +902,37 @@ if(!defined('NO_CONTROLLER_PRELOAD'))
 
 // our knowledge about current surfer -- after the definition of path_to_root parameter, and after the loading of user parameters
 include_once $context['path_to_root'].'shared/surfer.php';
+
+//
+// Cross-site request forgery (CSRF)
+//
+
+// reject a POST submitted on behalf of an authenticated surfer from another web site
+// Origin is checked first, then Referer; requests with none of them are accepted
+if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && Surfer::is_logged()) {
+
+	$source = '';
+	if(isset($_SERVER['HTTP_ORIGIN']) && $_SERVER['HTTP_ORIGIN'] && ($_SERVER['HTTP_ORIGIN'] != 'null'))
+		$source = $_SERVER['HTTP_ORIGIN'];
+	elseif(isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'])
+		$source = $_SERVER['HTTP_REFERER'];
+
+	if($source) {
+
+		// hosts that belong to this server
+		$hosts = array($context['host_name'], $context['master_host']);
+		if(isset($context['virtual_domains']) && is_array($context['virtual_domains']))
+			$hosts = array_merge($hosts, $context['virtual_domains']);
+		foreach($hosts as $index => $host)
+			$hosts[$index] = strtolower(preg_replace('/:\d+$/', '', trim($host)));
+
+		$source_host = strtolower((string)parse_url($source, PHP_URL_HOST));
+		if(!$source_host || !in_array($source_host, $hosts, TRUE)) {
+			Safe::header('Status: 403 Forbidden', TRUE, 403);
+			exit(is_callable(array('i18n', 's')) ? i18n::s('You are not allowed to perform this operation.') : 'You are not allowed to perform this operation.');
+		}
+	}
+}
 
 //
 // Switch management
