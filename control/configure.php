@@ -1016,6 +1016,20 @@ if(!Surfer::is_associate()) {
             
         }
 
+        // style sheets are not rebuilt while pages are served in production mode
+        if(isset($_REQUEST['with_debug']) && $_REQUEST['with_debug'] === 'N' && Js_css::check_production_styles()) {
+
+            $context['text'] .= tag::_('p','',fa::_('exclamation-triangle').'&nbsp;'.i18n::s('You are in production mode and Yacs detected that style sheets have been changed since they were built'));
+
+            // route to /tools/build_css.php, unless javascript has to be minified first
+            if(!isset($context['followup_link'])) {
+                $context['followup_link']   = 'tools/build_css.php';
+                $context['followup_label']  = i18n::s('Go to style sheets building tool');
+            } else
+                $context['text'] .= tag::_('p','',Skin::build_link('tools/build_css.php', i18n::s('Go to style sheets building tool')));
+
+        }
+
 	// first installation
 	if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off')) {
 
