@@ -23,8 +23,6 @@
  *
  * Accept following invocations:
  * - search.php?search=&lt;keywords&gt;
- * - search.php?search=&lt;keywords&gt;&page=1
- * - search.php?search=&lt;keywords&gt;&anchor=section:12
  *
  * @author Bernard Paques
  * @author GnapZ
@@ -89,12 +87,11 @@ if($search)
 else
 	$context['page_title'] = i18n::s('Search');
 
-// a search form for users
-if(!$search)
-	$search = i18n::s('Look for some user');
+// a search form for users, with a hint if nothing is searched yet
+$value = $search ? $search : i18n::s('Look for some user');
 $context['text'] .= '<form method="get" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form">'
 	.'<p>'
-	.'<input type="text" name="search" size="40" value="'.encode_field($search).'" onfocus="this.value=\'\'" maxlength="128" />'
+	.'<input type="text" name="search" size="40" value="'.encode_field($value).'" onfocus="this.value=\'\'" maxlength="128" />'
 	.' '.Skin::build_submit_button(i18n::s('Go'))
 	.'</p>'
 	."</form>\n";
@@ -125,7 +122,8 @@ $box = array();
 $box['title'] = '';
 $box['text'] = '';
 $cap = 0;
-if($items = Users::search($search, 1.0, USERS_PER_PAGE + 1, 'full')) {
+$items = NULL;
+if($search && ($items = Users::search($search, 1.0, USERS_PER_PAGE + 1, 'full'))) {
 
 	// link to next page if greater than USERS_PER_PAGE
 	$cap = count($items);
@@ -137,13 +135,11 @@ if($items = Users::search($search, 1.0, USERS_PER_PAGE + 1, 'full')) {
 
 }
 
-// we have found some articles
-if($cap || ($page > 1))
+// we have found some users
+if($cap)
 	$no_result = FALSE;
 
 // actually render the html
-if(@count($box['bar']))
-	$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 if(is_array($items))
 	$box['text'] .= Skin::build_list($items, 'decorated');
 elseif(is_string($items))
