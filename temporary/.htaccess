@@ -1,0 +1,10 @@
+# Do not serve backups nor logs left in this directory -- see control/backup.php
+<FilesMatch "^(backup_.*\.zip|.*\.sql|.*\.sql\.gz|.*\.txt|.*\.log)$">
+	<IfModule mod_authz_core.c>
+		Require all denied
+	</IfModule>
+	<IfModule !mod_authz_core.c>
+		Order allow,deny
+		Deny from all
+	</IfModule>
+</FilesMatch>
