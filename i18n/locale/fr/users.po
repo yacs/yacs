@@ -858,6 +858,10 @@ msgstr "De préférence au moins 4 chiffres, 2 lettres et 1 signe de ponctuation
 msgid "Password confirmation"
 msgstr "Confirmation du mot de passe"
 
+#: users/password.php
+msgid "Current password"
+msgstr "Mot de passe actuel"
+
 #: users/edit.php:439
 msgid "Title"
 msgstr "Titre"

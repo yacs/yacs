@@ -38,12 +38,17 @@ elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
 $id = strip_tags($id);
 
+// deletion has to be confirmed by a POST request, to prevent cross-site request forgery
+$confirmed = isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST');
+
 // case of strait ajax deletion
 if(isset($_REQUEST['strait'])) {
     // ensure browser always look for fresh data
     http::expire(0);
-    // auto-confirm
+    // auto-confirm -- a plain link cannot set the X-Requested-With header
     $_REQUEST['confirm'] = 'yes';
+    if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && (strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
+        $confirmed = TRUE;
     // prepare output
     $output = array('success' => false);
 }
@@ -112,7 +117,7 @@ if(!isset($item['id'])) {
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // deletion is confirmed
-} elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes')) {
+} elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes') && $confirmed) {
 
 	// touch the related anchor before actual deletion, since the image has to be accessible at that time
 	if(is_object($anchor))

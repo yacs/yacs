@@ -105,7 +105,7 @@ if(!isset($item['id'])) {
 	$context['text'] .= Skin::build_block(Skin::finalize_list($menu, 'menu_bar'), 'bottom');
 
 // deletion is confirmed
-} elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes')) {
+} elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes') && isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// touch the related anchor before actual deletion, since the file has to be accessible at that time
 	if(is_object($anchor))

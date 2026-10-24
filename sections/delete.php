@@ -99,7 +99,7 @@ if(!isset($item['id'])) {
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // deletion is confirmed
-} elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes')) {
+} elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes') && isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// touch the related anchor before actual deletion, since the image has to be accessible at that time
 	if(is_object($anchor))

@@ -150,8 +150,8 @@ if(Surfer::is_crawler()) {
 } elseif($origin) {
 	Logger::error(sprintf(i18n::s('We are only keeping a shadow record for this profile. Please handle this account at %s'), Skin::build_link('http://'.$origin, $origin, 'external')));
 
-// password is changing
-} elseif(isset($_REQUEST['confirm'])) {
+// password is changing -- only through the form, to prevent cross-site request forgery
+} elseif(isset($_REQUEST['confirm']) && isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// restrictions: anyone can modify its own profile; associates can modify everything
 	if(($item['id'] != Surfer::get_id()) && !Surfer::is_associate()) {
@@ -161,6 +161,12 @@ if(Surfer::is_crawler()) {
 	// passwords have to be confirmed
 	} elseif(!isset($_REQUEST['password']) || !$_REQUEST['password'] || strcmp($_REQUEST['confirm'], $_REQUEST['password'])) {
 		Logger::error(i18n::s('Please confirm your new password.'));
+		$with_form = TRUE;
+
+	// the current password is required to change one's own password,
+	// except after authentication through a link sent by e-mail (lost password) -- see users/login.php
+	} elseif(Users::needs_current_password($item) && (!isset($_REQUEST['current_password']) || !Users::verify_password($_REQUEST['current_password'], $item['password']))) {
+		Logger::error(i18n::s('Failed authentication'));
 		$with_form = TRUE;
 
 	// stop robots and replay attacks
@@ -173,11 +179,15 @@ if(Surfer::is_crawler()) {
 		$with_form = TRUE;
 
 	// save one click to associates
-	} elseif(Surfer::is_associate())
+	} elseif(Surfer::is_associate()) {
+		unset($_SESSION['password_reset_for']);
 		Safe::redirect(Users::get_permalink($item));
 
 	// follow-up
-	else {
+	} else {
+
+		// the link sent by e-mail does not exempt anymore from the current password
+		unset($_SESSION['password_reset_for']);
 
 		// splash message
 		$context['text'] .= '<p>'.i18n::s('Password has been changed.').'</p>';
@@ -230,6 +240,13 @@ if($with_form) {
 	// surfer is changing password
 	if(Surfer::is_logged()) {
 
+		// the current password, to change one's own password
+		if(Users::needs_current_password($item)) {
+			$label = i18n::s('Current password');
+			$input = '<input type="password" name="current_password" id="current_password" size="20" autocomplete="current-password" />';
+			$fields[] = array($label, $input);
+		}
+
 		// the password
 		$label = i18n::s('New password');
 		$input = '<input type="password" name="password" id="password" size="20" value="'.encode_field(isset($_REQUEST['password']) ? $_REQUEST['password'] : '').'" />';
@@ -241,7 +258,10 @@ if($with_form) {
 		$fields[] = array($label, $input);
 
 		// append the script used for data checking on the browser
-		Page::insert_script('$("#password").focus();');
+		if(Users::needs_current_password($item))
+			Page::insert_script('$("#current_password").focus();');
+		else
+			Page::insert_script('$("#password").focus();');
 
 	}
 

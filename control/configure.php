@@ -248,6 +248,24 @@ if(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
+// one parameter to change through a link: ask for confirmation, since only a POST may update the configuration
+} elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'POST') && isset($_REQUEST['parameter']) && isset($_REQUEST['value'])) {
+
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>'."\n"
+		.'<input type="hidden" name="parameter" value="'.encode_field($_REQUEST['parameter']).'" />'."\n"
+		.'<input type="hidden" name="value" value="'.encode_field($_REQUEST['value']).'" />'."\n"
+		.'<p>'.sprintf(i18n::s('%s: %s'), encode_field($_REQUEST['parameter']), encode_field($_REQUEST['value'])).'</p>'."\n";
+
+	$menu = array();
+	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+	if($_REQUEST['parameter'] == 'skin')
+		$menu[] = Skin::build_link('skins/', i18n::s('Cancel'), 'span');
+	else
+		$menu[] = Skin::build_link('control/', i18n::s('Cancel'), 'span');
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+
+	$context['text'] .= '</div></form>';
+
 // display the input form, except if there is only one parameter to change
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'POST') && (!isset($_REQUEST['parameter']) || !isset($_REQUEST['value'])) ) {
 
