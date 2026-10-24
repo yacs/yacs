@@ -98,7 +98,7 @@ if(Surfer::is_crawler()) {
 		$fields = array();
 		$fields['nick_name'] = 'groups';
 		$fields['articles_layout'] = 'none';
-		$fields['articles_templates'] = 'information_template, question_template, chat_template, event_template, wiki_template';
+		$fields['articles_templates'] = 'information_template, question_template, event_template, wiki_template';
 		$fields['create_date'] = gmdate('Y-m-d H:i:s', time());
 		$fields['edit_date'] = gmdate('Y-m-d H:i:s', time());
 		$fields['index_map'] = 'N'; // not mentioned at the home page

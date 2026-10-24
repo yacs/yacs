@@ -476,7 +476,6 @@ if(Surfer::is_crawler()) {
 		$fields['description'] = i18n::c('Every page in this section supports interactive discussion and file sharing.');
 		$fields['index_map'] = 'N'; // special processing at the front page -- see index.php
 		$fields['content_overlay'] = 'event layout_as_list'; // list threads appropriately
-		$fields['articles_templates'] = 'chat_template';
 		$fields['maximum_items'] = 1000; // limit the overall number of threads
 		if(Sections::post($fields, FALSE))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
@@ -730,7 +729,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Project private area');
 		$fields['active_set'] = 'N'; // for editors only
 		$fields['articles_layout'] = 'yabb'; // list threads appropriately
-		$fields['articles_templates'] = 'information_template, question_template, chat_template';
+		$fields['articles_templates'] = 'information_template, question_template';
 		$fields['content_options'] = 'with_extra_profile'; // put poster profile aside
 		$fields['index_map'] = 'N'; // special processing at the front page -- see index.php
 		$fields['introduction'] = i18n::c('For project members only');
