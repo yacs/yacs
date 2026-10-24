@@ -24,7 +24,10 @@
  *
  * Backup statements are placed in a temporary file in the directory
  * ##temporary##, and YACS require adequate permissions there
- * to have this work properly.
+ * to have this work properly. This file, like the zip archives built by this
+ * script, has a random name and is deleted once it has been sent.
+ *
+ * Backups are only made on POST requests, from the forms of this page.
  *
  * This script is also able to process uploaded SQL statements, separated with the character ';' (semicolon).
  * Comment lines starting with the character '#' are also supported.
@@ -91,6 +94,47 @@ i18n::bind('control');
 // load the skin
 load_skin('control');
 
+/**
+ * get the path of a new backup file in the temporary directory
+ *
+ * The name cannot be guessed, and the file is deleted at the end of the script,
+ * including when the download is interrupted.
+ *
+ * @param string extension of the file
+ * @return string path to the file
+ */
+function backup_temporary_file($extension) {
+	global $context;
+
+	$file = $context['path_to_root'].'temporary/backup_'.bin2hex(random_bytes(16)).'.'.$extension;
+	register_shutdown_function(function() use($file) {
+		if(file_exists($file))
+			@unlink($file);
+	});
+	return $file;
+}
+
+/**
+ * send a backup file to the surfer, then delete it
+ *
+ * @param string path to the file
+ * @param string file name suggested to the browser
+ * @param string media type
+ */
+function backup_send_file($file, $name, $type) {
+
+	Safe::header('Content-Type: '.$type);
+	Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $name).'"');
+	Safe::header('Content-Transfer-Encoding: binary');
+	Safe::header('Content-Length: '.(int)Safe::filesize($file));
+
+	// an empty zip archive is not written at all
+	if(file_exists($file)) {
+		readfile($file);
+		@unlink($file);
+	}
+}
+
 // do not index this page
 $context->sif('robots','noindex');
 
@@ -99,6 +143,11 @@ $context['path_bar'] = array( 'control/' => i18n::s('Control Panel') );
 
 // the title of the page
 $context['page_title'] = i18n::s('Backup/Restore');
+
+// actions are only taken from the forms of this page, not from links
+$action = '';
+if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_REQUEST['action']))
+	$action = $_REQUEST['action'];
 
 // the user table should be empty, or the surfer has to be an associate, or the switch file has been deleted
 $query = "SELECT count(*) FROM ".SQL::table_name('users');
@@ -114,7 +163,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // backup the database
-} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'backup')) {
+} elseif($action == 'backup') {
 
 	// save in a temporary file
 	$statements = 'statements.sql';
@@ -122,9 +171,9 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$statements = $context['host_name'].'_'.$context['database'].'.sql';
 
 	// put all statements in a file
-	if(is_callable('gzopen') && ($handle = gzopen($context['path_to_root'].'temporary/'.$statements.'.gz', 'wb9')))
+	if(is_callable('gzopen') && ($handle = gzopen($file = backup_temporary_file('sql.gz'), 'wb9')))
 		$compressed = TRUE;
-	elseif($handle = Safe::fopen('temporary/'.$statements, 'wb'))
+	elseif($handle = Safe::fopen($file = backup_temporary_file('sql'), 'wb'))
 		$compressed = FALSE;
 	else {
 		Safe::header('Status: 500 Internal Error', TRUE, 500);
@@ -307,30 +356,11 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	else
 		fclose($handle);
 
-	// if possible, make a gzip file
-	if($compressed) {
-
-		// suggest a download
-		Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $statements).'.gz"');
-
-		// send gzip file
-		Safe::header('Content-Type: application/x-gzip');
-		Safe::header('Content-Length: '.filesize($context['path_to_root'].'temporary/'.$statements.'.gz'));
-		Safe::header('Content-Transfer-Encoding: binary'); // already encoded
-		$result = readfile($context['path_to_root'].'temporary/'.$statements.'.gz');
-
-	// else send an ascii file
-	} else {
-
-		// suggest a download
-		Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $statements).'"');
-
-		// send sql statements as-is
-		Safe::header('Content-Type: application/octet-stream');
-		Safe::header('Content-Length: '.filesize($context['path_to_root'].'temporary/'.$statements));
-		$result = readfile($context['path_to_root'].'temporary/'.$statements);
-
-	}
+	// send the file, then delete it
+	if($compressed)
+		backup_send_file($file, $statements.'.gz', 'application/x-gzip');
+	else
+		backup_send_file($file, $statements, 'application/octet-stream');
 
 	// remember this in log as well
 	Logger::remember('control/backup.php: The database has been saved');
@@ -374,7 +404,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	}
 
 // restore the database
-} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'restore')) {
+} elseif($action == 'restore') {
 
 	// restoring the database
 	$context['text'] .= '<p>'.i18n::s('Updating the database...')."</p>\n";
@@ -482,7 +512,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	}
 
 // update the database
-} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'update')) {
+} elseif($action == 'update') {
 
 	// updating the database
 	$context['text'] .= '<p>'.i18n::s('Updating the database...')."</p>\n";
@@ -586,7 +616,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	}
 
 // backup user files
-} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'files')) {
+} elseif($action == 'files') {
 
 	// list files
 	$context['text'] .= '<p>'.i18n::s('Listing files...').BR."\n";
@@ -605,7 +635,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 		// build a zip archive
 		$zipfile = new ZipArchive();
-                $zipfile->open(Safe::realpath('temporary/backup_files.zip'), ZipArchive::CREATE);
+                $zipfile->open($archive = backup_temporary_file('zip'), ZipArchive::CREATE);
                 
 		// process every files/ file
 		$index = 0;
@@ -632,14 +662,8 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
                 
                 $zipfile->close();
 
-		// suggest a download
-		Safe::header('Content-Type: application/zip');
-		Safe::header('Content-Disposition: attachment; filename="backup_files.zip"');
-                Safe::header('Content-Transfer-Encoding: binary');
-                Safe::header('Content-Length: ' . Safe::filesize('temporary/backup_files.zip'));
-
-		// send the archive content
-                readfile(Safe::realpath('temporary/backup_files.zip'));
+		// send the archive, then delete it
+		backup_send_file($archive, 'backup_files.zip', 'application/zip');
 
 		// do not allow for regular rendering
 		return;
@@ -649,7 +673,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$context['text'] .= BR.i18n::s('No file have been found.').'</p>'."\n";
 
 // backup user images
-} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'images')) {
+} elseif($action == 'images') {
 
 	// list images
 	$context['text'] .= '<p>'.i18n::s('Listing images...').BR."\n";
@@ -668,7 +692,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 		// build a zip archive
 		$zipfile = new ZipArchive();
-                $zipfile->open(Safe::realpath('temporary/backup_images.zip'), ZipArchive::CREATE);
+                $zipfile->open($archive = backup_temporary_file('zip'), ZipArchive::CREATE);
 
 		// process every images/ file
 		$index = 0;
@@ -690,14 +714,8 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
                 
                 $zipfile->close();
 
-		// suggest a download
-		Safe::header('Content-Type: application/zip');
-		Safe::header('Content-Disposition: attachment; filename="backup_images.zip"');
-                Safe::header('Content-Transfer-Encoding: binary');
-                Safe::header('Content-Length: ' . Safe::filesize('temporary/backup_images.zip'));
-
-		// send the archive content
-		readfile(Safe::realpath('temporary/backup_images.zip'));
+		// send the archive, then delete it
+		backup_send_file($archive, 'backup_images.zip', 'application/zip');
 
 		// do not allow for regular rendering
 		return;
@@ -707,14 +725,14 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$context['text'] .= BR.i18n::s('No image have been found.').'</p>'."\n";
 
 // backup parameter files
-} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'parameters')) {
+} elseif($action == 'parameters') {
 
 	// splash message
 	$context['text'] .= '<p>'.i18n::s('On-going archive preparation...').'</p>'."\n";
 
 	// build a zip archive
 	$zipfile = new ZipArchive();
-        $zipfile->open(Safe::realpath('temporary/backup_parameters.zip'), ZipArchive::CREATE);
+        $zipfile->open($archive = backup_temporary_file('zip'), ZipArchive::CREATE);
 
 	// list parameter files
 	if(($files = Safe::glob($context['path_to_root'].'parameters/*.include.php')) !== FALSE) {
@@ -731,20 +749,14 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
         
         $zipfile->close();
 
-	// suggest a download
-	Safe::header('Content-Type: application/zip');
-	Safe::header('Content-Disposition: attachment; filename="backup_parameters.zip"');
-        Safe::header('Content-Transfer-Encoding: binary');
-        Safe::header('Content-Length: ' . Safe::filesize('temporary/backup_parameters.zip'));
-
-	// send the archive content
-	readfile(Safe::realpath('temporary/backup_parameters.zip'));
+	// send the archive, then delete it
+	backup_send_file($archive, 'backup_parameters.zip', 'application/zip');
 
 	// do not allow for regular rendering
 	return;
 
 // backup current skin
-} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'skin')) {
+} elseif($action == 'skin') {
 
 	// list files
 	$context['text'] .= '<p>'.i18n::s('Listing files...').BR."\n";
@@ -764,7 +776,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 		// build a zip archive
 		$zipfile = new ZipArchive();
-                $zipfile->open(Safe::realpath('temporary/backup_'.$active_skin.'.zip'), ZipArchive::CREATE);
+                $zipfile->open($archive = backup_temporary_file('zip'), ZipArchive::CREATE);
 
 		// process every skin/current_skin/ file
 		$index = 0;
@@ -783,14 +795,8 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
                 
                 $zipfile->close();
 
-		// suggest a download
-		Safe::header('Content-Type: application/zip');
-		Safe::header('Content-Disposition: attachment; filename="backup_'.$active_skin.'.zip"');
-                Safe::header('Content-Transfer-Encoding: binary');
-                Safe::header('Content-Length: ' . Safe::filesize('temporary/backup_'.$active_skin.'.zip'));
-
-		// send the archive content
-		readfile(Safe::realpath('temporary/backup_'.$active_skin.'.zip'));
+		// send the archive, then delete it
+		backup_send_file($archive, 'backup_'.$active_skin.'.zip', 'application/zip');
 
 		// do not allow for regular rendering
 		return;
