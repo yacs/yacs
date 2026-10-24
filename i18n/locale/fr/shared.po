@@ -444,6 +444,14 @@ msgstr "Erreur XML : %s à la ligne %d"
 msgid "Last stacking element: %s"
 msgstr "Dernier élément de pile : %s"
 
+#: shared/js_css.php
+msgid "Style sheets have been changed, %s to apply changes."
+msgstr "Les feuilles de style ont été modifiées, %s pour appliquer les changements."
+
+#: shared/js_css.php
+msgid "rebuild them"
+msgstr "reconstruisez-les"
+
 #~ msgid "Impossible to extract files."
 #~ msgstr "Impossible d'extraire les fichiers."
 

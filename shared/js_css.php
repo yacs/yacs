@@ -91,190 +91,445 @@ Class Js_Css {
     }
     
     /**
-     * Build the main css file (may do some less compilation)
-     * and provide a link to it.
-     * skin.php can specifie what is to load.
-     * output is always minified, the standard content is :
-     * - knacss css as a reset and framework
-     * - yacss, general styles for the system
-     * - the specific style of you skin
-     * 
-     * return string 
+     * Provide a link to the main css file of the active skin
+     *
+     * The sheet is built in temporary/<skin>.min.css by build_skin_css().
+     * In production mode (with_debug = 'N') it is only built if it does not
+     * exist yet: rebuild it with tools/build_css.php after a change.
+     * In development mode it is rebuilt each time a source is newer.
+     *
+     * @see tools/build_css.php
+     *
+     * return string
      */
     public static function call_skin_css() {
         global $context;
-        
+
         // we need a skin
         if(!isset($context['skin'])) return '';
-        
+
         // retrieve base name of the skin (remove "skins/")
         $skin = substr($context['skin'],6);
-        
-        // check constant NO_KNACSS and NO_YACSS (may be define by skin.php of a skin)
-        // check lib existance and last modification date at the same time
-        $knacss        = (defined('NO_KNACSS') && NO_KNACSS == true)? false : Safe::filemtime($context['path_to_root'].'included/knacss/knacss.scss');
-        $yacss         = (defined('NO_YACSS') && NO_YACSS == true)? false : Safe::filemtime($context['path_to_root'].'skins/_reference/yacss.scss');
-        // font awesome lib for a whole set of icons as a webfont
-        $fontawesome   = (defined('NO_FONTAWESOME') && NO_FONTAWESOME == true)? false : Safe::filemtime($context['path_to_root'].'included/font_awesome/scss/fontawesome.scss');
-        
-        
-        // check existence of <skin>.scss or <skin>.css
-        // less version is priority
-        $skinsass   = Safe::filemtime($context['path_to_root'].$context['skin'].'/'.$skin.'.scss');
-        $skincss    = Safe::filemtime($context['path_to_root'].$context['skin'].'/'.$skin.'.css');
-        $tune       = Safe::filemtime($context['path_to_root'].$context['skin'].'/tune.scss');
-        $skinstyle  = ($skinsass)?$skinsass:$skincss;
 
-        // partials imported by <skin>.scss may change alone: consider the most recent *.scss of the skin
-        if($skinsass && ($partials = Safe::glob($context['path_to_root'].$context['skin'].'/*.scss'))) {
-            foreach($partials as $partial)
-                $skinstyle = max($skinstyle, Safe::filemtime($partial));
-        }
-        
-        // check existence of a minified version
-        $skinmin    = Safe::filemtime($context['path_to_root'].'temporary/'.$skin.'.min.css');
-        
-        // check files datation, do we need a compilation ?
-        $need_compile = !$skinmin 
-                        || ($skinstyle && ($skinmin < $skinstyle) ) 
-                        || ($knacss && ($skinmin < $knacss) ) 
-                        || ($yacss && ($skinmin < $yacss) 
-                        || ($tune) && ($skinmin < $tune)
-                        || ($fontawesome && ($skinmin < $fontawesome)));
-        
-        if($need_compile) {
-            
-            // load scssphp
-            $scss = js_css::prepare_scss_compiler();
+        // the main sheet, as built
+        $output = 'temporary/'.$skin.'.min.css';
+        $built  = Safe::filemtime($context['path_to_root'].$output);
 
-            // set import directories
-            $scss->setImportPaths(
-                  array(
-                      $context['path_to_root'].'included/knacss/', 
-                      $context['path_to_root'].'skins/_reference/',
-                      $context['path_to_root'].'included/font_awesome/scss', 
-                      $context['path_to_root'].$context['skin'].'/',
-                      ));
-            
-            // build import directives
-            $import = '';
-            if($tune)           $import .= '@import "tune.scss";';
-            if($knacss)         $import .= '@import "knacss.scss";';
-            if($fontawesome)    $import .= '@import "fontawesome.scss";';
-            if($yacss)          $import .= '@import "variables.scss";';
-            if($yacss)          $import .= '@import "yacss.scss";';
- 
-            if($skinsass) {
-                $import   .= '@import "'.$skin.'.scss";';
-            } elseif($skincss) {
-                // append pure css
-                $import   .= Safe::file_get_contents($context['path_to_root'].$context['skin'].'/'.$skin.'.css');
-            }
+        // nothing to serve yet, or development mode with newer sources
+        if(!$built || (($context['with_debug'] == 'Y') && ($built < Js_css::skin_css_stamp()))) {
 
-            // compile into a css file, catch errors
-            try {
-                $compilation = $scss->compile($import);
-            } catch (exception $e) {
-                logger::debug("fatal error: " . $e->getMessage(), 'SCSS compilation');
+            if(Js_css::build_skin_css() !== true)
                 return Js_Css::link_exit(false, 'skin main style sheet' , 'now');
-            }
-            
-            
-            if($compilation) {
-                // write into a temporary file next to source
-                $compiled = $context['path_to_root'].$context['skin'].'/'.$skin.'.compiled.css';
-                Safe::file_put_contents($compiled, $compilation);
-                
-                // load a minifier and provide compiled file
-                $minifier = js_css::prepare_minifier('css');
-                $minifier->add($compiled);
-                
-                // prepare target file
-                $output = $context['path_to_root'].'temporary/'.$skin.'.min.css';
-                Safe::unlink($output);
-                
-                // execute minification
-                $minifier->minify($output);
-                
-                // suppress temporary compiled fule
-                Safe::unlink($compiled);
-                
-                
-            }
-            
-        }
-        
+
+        // production mode: only tell associates that sources have changed
+        } elseif(($context['with_debug'] != 'Y') && Js_css::is_associate() && ($built < Js_css::skin_css_stamp()))
+            Js_css::warn_outdated_styles();
+
         // build declaration
-        return Js_css::link_file('temporary/'.$skin.'.min.css','now');
+        return Js_css::link_file($output,'now');
     }
-    
+
     /**
-     * Compile scss file if needed
-     * (if scss file is newer than css file)
-     * 
+     * Compile and minify the main css file of the active skin
+     *
+     * Content is, depending on constants set by skin.php:
+     * - knacss as a reset and framework
+     * - fontawesome
+     * - yacss, general styles for the system
+     * - the specific style of the skin, <skin>.scss or <skin>.css,
+     *   with variables of tune.scss
+     *
+     * The result is written in temporary/<skin>.min.css
+     *
+     * @return mixed true on success, or an error message
+     */
+    public static function build_skin_css() {
+        global $context;
+
+        // we need a skin
+        if(!isset($context['skin']))
+            return 'no skin';
+
+        // retrieve base name of the skin (remove "skins/")
+        $skin = substr($context['skin'],6);
+
+        // load scssphp
+        $scss = js_css::prepare_scss_compiler();
+
+        // set import directories
+        $scss->setImportPaths(
+              array(
+                  $context['path_to_root'].'included/knacss/',
+                  $context['path_to_root'].'skins/_reference/',
+                  $context['path_to_root'].'included/font_awesome/scss',
+                  $context['path_to_root'].$context['skin'].'/',
+                  ));
+
+        // build import directives
+        $import = '';
+        if(file_exists($context['path_to_root'].$context['skin'].'/tune.scss'))
+            $import .= '@import "tune.scss";';
+        if(Js_css::with_lib('knacss'))
+            $import .= '@import "knacss.scss";';
+        if(Js_css::with_lib('fontawesome'))
+            $import .= '@import "fontawesome.scss";';
+        if(Js_css::with_lib('yacss'))
+            $import .= '@import "variables.scss";@import "yacss.scss";';
+
+        if(file_exists($context['path_to_root'].$context['skin'].'/'.$skin.'.scss')) {
+            $import   .= '@import "'.$skin.'.scss";';
+        } elseif(file_exists($context['path_to_root'].$context['skin'].'/'.$skin.'.css')) {
+            // append pure css
+            $import   .= Safe::file_get_contents($context['path_to_root'].$context['skin'].'/'.$skin.'.css');
+        }
+
+        // write next to the source, so that relative paths are updated by the minifier
+        return Js_css::compile_and_minify($scss, $import,
+            $context['path_to_root'].$context['skin'].'/'.$skin.'.compiled.css',
+            $context['path_to_root'].'temporary/'.$skin.'.min.css');
+    }
+
+    /**
+     * Compile and minify a scss file of a layout, of an overlay, or of the skin
+     *
+     * Variables of tune.scss, of yacss and of knacss are available to the file.
+     *
      * @param string $inputFile path to scss file
      * @param string $outputFile path to css file
+     * @return mixed true on success, or an error message
+     */
+    public static function build_scss($inputFile, $outputFile) {
+        global $context;
+
+        // load scssphp
+        $scss        = js_css::prepare_scss_compiler();
+
+        // load variables from skin if any
+        $to_compile  = Safe::file_get_contents($context['path_to_root'].$context['skin'].'/tune.scss');
+
+        // load variables from reference
+        if(Js_css::with_lib('yacss'))
+            $to_compile .= Safe::file_get_contents($context['path_to_root'].'skins/_reference/variables.scss');
+
+        // load variables from knacss
+        if(Js_css::with_lib('knacss'))
+            $to_compile .= Safe::file_get_contents($context['path_to_root'].'included/knacss/_config/_variables.scss');
+
+        // load input file
+        $to_compile .= Safe::file_get_contents($inputFile);
+
+        // write next to the source, so that relative paths are updated by the minifier
+        return Js_css::compile_and_minify($scss, $to_compile, $inputFile.'comp', $outputFile);
+    }
+
+    /**
+     * Compile scss file if needed
+     *
+     * In production mode (with_debug = 'N') the file is only compiled if
+     * the css file does not exist yet: rebuild it with tools/build_css.php
+     * after a change.
+     * In development mode it is compiled each time a source is newer.
+     *
+     * @see tools/build_css.php
+     *
+     * @param string $inputFile path to scss file
+     * @param string $outputFile path to css file
+     * @return boolean false if the css file could not be built
      */
     public static function check_compile($inputFile, $outputFile) {
         global $context;
-    
-        $input_stamp = Safe::filemtime($inputFile);
-        $ouput_stamp = Safe::filemtime($outputFile);
-        
-        if( $ouput_stamp < $input_stamp ) {
-            
-            $to_compile = '';
-            
-            // load scssphp
-            $scss        = js_css::prepare_scss_compiler();
-            
-            // load variables from skin if any
-            $to_compile .= Safe::file_get_contents($context['path_to_root'].$context['skin'].'/tune.scss');
-        
-            // load variables from reference
-            if(!defined('NO_YACSS') || NO_YACSS !== true)
-                $to_compile .= Safe::file_get_contents($context['path_to_root'].'skins/_reference/variables.scss');
-            
-            // load variables from knacss
-            if(!defined('NO_KNACSS') || NO_KNACSS !== true)
-                $to_compile .= Safe::file_get_contents($context['path_to_root'].'included/knacss/_config/_variables.scss');
-            
-            // load input file
-            $to_compile .= Safe::file_get_contents($inputFile);
-            
-            // compile into a css file, catch errors
-            $compilation = false;
-            try {
-                $compilation = $scss->compile($to_compile);
-            } catch (exception $e) {
-                logger::debug("fatal error: " . $e->getMessage(), 'SCSS compilation');
-            }
-            
-            if($compilation) {
-                // write into a temporary file next to source
-                $compiled = $inputFile.'comp';
-                Safe::file_put_contents($compiled, $compilation);
-                
-                // load a minifier and provide compiled file
-                $minifier = js_css::prepare_minifier('css');
-                $minifier->add($compiled);
-                
-                // prepare target file
-                Safe::unlink($outputFile);
-                
-                // execute minification
-                $minifier->minify($outputFile);
-                
-                // suppress temporary compiled fule
-                Safe::unlink($compiled);
-                
-                
+
+        $built = Safe::filemtime($outputFile);
+
+        // nothing to serve yet, or development mode with newer sources
+        if(!$built || (($context['with_debug'] == 'Y') && ($built < Js_css::scss_stamp($inputFile))))
+            return (Js_css::build_scss($inputFile, $outputFile) === true);
+
+        // production mode: only tell associates that sources have changed
+        if(($context['with_debug'] != 'Y') && Js_css::is_associate() && ($built < Js_css::scss_stamp($inputFile)))
+            Js_css::warn_outdated_styles();
+
+        return true;
+    }
+
+    /**
+     * Check if style sheets have to be rebuilt for the use of yacs in
+     * production mode
+     *
+     * Style sheets are the main sheet of the active skin, and the
+     * scss and css files of layouts and overlays.
+     *
+     * @see tools/build_css.php
+     *
+     * @return boolean is a rebuild needed
+     */
+    public static function check_production_styles() {
+        global $context;
+
+        foreach(Js_css::list_styles() as $source => $output) {
+            if(Safe::filemtime($output) < Js_css::source_stamp($source))
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Build a style sheet listed by list_styles()
+     *
+     * @param string $source path to the source, or 'skin' for the main sheet of the skin
+     * @param string $output path to the built file
+     * @return mixed true on success, or an error message
+     */
+    public static function build_style($source, $output) {
+
+        if($source == 'skin')
+            return Js_css::build_skin_css();
+        if(substr($source, -5) == '.scss')
+            return Js_css::build_scss($source, $output);
+        return Js_css::build_css($source, $output);
+    }
+
+    /**
+     * Most recent modification of the sources of a style sheet listed by list_styles()
+     *
+     * @param string $source path to the source, or 'skin' for the main sheet of the skin
+     * @return int timestamp
+     */
+    public static function source_stamp($source) {
+
+        if($source == 'skin')
+            return Js_css::skin_css_stamp();
+        if(substr($source, -5) == '.scss')
+            return Js_css::scss_stamp($source);
+        return (int)Safe::filemtime($source);
+    }
+
+    /**
+     * List style sheets to build for the active skin
+     *
+     * Keys are paths to sources, and values paths to built files.
+     * The main sheet of the skin has the key 'skin'.
+     * Other scss files of the skin are listed only if they have been built
+     * once, because most of them are partials of the main sheet.
+     * Css files that are already minified (*.min.css) are skipped.
+     *
+     * @return array source => output
+     */
+    public static function list_styles() {
+        global $context;
+
+        $styles = array();
+
+        // we need a skin
+        if(!isset($context['skin']))
+            return $styles;
+
+        // retrieve base name of the skin (remove "skins/")
+        $skin = substr($context['skin'],6);
+
+        // the main sheet of the skin
+        $styles['skin'] = $context['path_to_root'].'temporary/'.$skin.'.min.css';
+
+        // scss and css files of layouts and overlays
+        foreach(array('layouts', 'overlays') as $folder) {
+            foreach(array('scss', 'css') as $ext) {
+                if($files = Safe::glob($context['path_to_root'].$folder.'/*/*.'.$ext)) {
+                    foreach($files as $file) {
+                        if(preg_match('/\.min$/', pathinfo($file, PATHINFO_FILENAME)))
+                            continue;
+                        $styles[$file] = $context['path_to_root'].'temporary/'.pathinfo($file, PATHINFO_FILENAME).'.min.css';
+                    }
+                }
             }
         }
-        
-        
+
+        // other style sheets of the skin -- scss files only if they have been built once
+        foreach(array('scss', 'css') as $ext) {
+            if($files = Safe::glob($context['path_to_root'].$context['skin'].'/*.'.$ext)) {
+                foreach($files as $file) {
+                    $name = pathinfo($file, PATHINFO_FILENAME);
+                    if(($name == $skin) || preg_match('/\.min$/', $name))
+                        continue;
+                    $output = $context['path_to_root'].'temporary/'.$name.'.min.css';
+                    if(($ext == 'css') || file_exists($output))
+                        $styles[$file] = $output;
+                }
+            }
+        }
+
+        return $styles;
+    }
+
+    /**
+     * Most recent modification of sources of the main sheet of the skin
+     *
+     * @return int timestamp
+     */
+    private static function skin_css_stamp() {
+        global $context;
+
+        // retrieve base name of the skin (remove "skins/")
+        $skin = substr($context['skin'],6);
+
+        $sources = array();
+        if(Js_css::with_lib('knacss'))
+            $sources[] = 'included/knacss/knacss.scss';
+        if(Js_css::with_lib('fontawesome'))
+            $sources[] = 'included/font_awesome/scss/fontawesome.scss';
+        if(Js_css::with_lib('yacss')) {
+            $sources[] = 'skins/_reference/variables.scss';
+            $sources[] = 'skins/_reference/yacss.scss';
+        }
+        $sources[] = $context['skin'].'/'.$skin.'.css';
+
+        $stamp = 0;
+        foreach($sources as $source)
+            $stamp = max($stamp, (int)Safe::filemtime($context['path_to_root'].$source));
+
+        // tune.scss and partials imported by <skin>.scss may change alone: consider all *.scss of the skin
+        if($partials = Safe::glob($context['path_to_root'].$context['skin'].'/*.scss')) {
+            foreach($partials as $partial)
+                $stamp = max($stamp, (int)Safe::filemtime($partial));
+        }
+
+        return $stamp;
+    }
+
+    /**
+     * Most recent modification of a scss file and of the variables it receives
+     *
+     * @param string $inputFile path to scss file
+     * @return int timestamp
+     */
+    private static function scss_stamp($inputFile) {
+        global $context;
+
+        $stamp = max((int)Safe::filemtime($inputFile), (int)Safe::filemtime($context['path_to_root'].$context['skin'].'/tune.scss'));
+        if(Js_css::with_lib('yacss'))
+            $stamp = max($stamp, (int)Safe::filemtime($context['path_to_root'].'skins/_reference/variables.scss'));
+        if(Js_css::with_lib('knacss'))
+            $stamp = max($stamp, (int)Safe::filemtime($context['path_to_root'].'included/knacss/_config/_variables.scss'));
+
+        return $stamp;
+    }
+
+    /**
+     * Is a library part of the main sheet?
+     *
+     * Constants NO_KNACSS, NO_YACSS and NO_FONTAWESOME may be defined by skin.php
+     *
+     * @param string $lib 'knacss', 'yacss' or 'fontawesome'
+     * @return boolean
+     */
+    private static function with_lib($lib) {
+        global $context;
+
+        switch($lib) {
+            case 'knacss':
+                return !(defined('NO_KNACSS') && NO_KNACSS == true)
+                    && file_exists($context['path_to_root'].'included/knacss/knacss.scss');
+            case 'yacss':
+                return !(defined('NO_YACSS') && NO_YACSS == true)
+                    && file_exists($context['path_to_root'].'skins/_reference/yacss.scss');
+            case 'fontawesome':
+                return !(defined('NO_FONTAWESOME') && NO_FONTAWESOME == true)
+                    && file_exists($context['path_to_root'].'included/font_awesome/scss/fontawesome.scss');
+        }
+        return false;
+    }
+
+    /**
+     * Compile scss, minify the result and write it to its final place
+     *
+     * @param object $scss the prepared compiler
+     * @param string $source scss to compile
+     * @param string $compiled path to an intermediate css file, next to the source
+     * @param string $output path to the final css file
+     * @return mixed true on success, or an error message
+     */
+    private static function compile_and_minify($scss, $source, $compiled, $output) {
+
+        // compile into a css file, catch errors
+        try {
+            $compilation = $scss->compile($source);
+        } catch (Exception $e) {
+            logger::debug("fatal error: " . $e->getMessage(), 'SCSS compilation');
+            return $e->getMessage();
+        }
+
+        if(!$compilation)
+            return 'empty compilation';
+
+        // write into a temporary file next to source
+        if(!Safe::file_put_contents($compiled, $compilation))
+            return 'cannot write '.$compiled;
+
+        // minify next to the target
+        $written = Js_css::build_css($compiled, $output);
+
+        // suppress temporary compiled file
+        Safe::unlink($compiled);
+
+        return $written;
+    }
+
+    /**
+     * Minify a css file and write it to its final place
+     *
+     * The final file is replaced in one step, so that it is never missing
+     * for pages served at the same time.
+     *
+     * @param string $inputFile path to css file
+     * @param string $outputFile path to minified file
+     * @return mixed true on success, or an error message
+     */
+    public static function build_css($inputFile, $outputFile) {
+
+        // load a minifier and provide the file
+        $minifier = js_css::prepare_minifier('css');
+        $minifier->add($inputFile);
+
+        // execute minification next to the target
+        $minified = $outputFile.'.'.getmypid().'.tmp';
+        $minifier->minify($minified);
+
+        // replace the target in one step
+        if(!file_exists($minified))
+            return 'cannot write '.$minified;
+        if(!rename($minified, $outputFile)) {
+            Safe::unlink($outputFile);
+            if(!rename($minified, $outputFile)) {
+                Safe::unlink($minified);
+                return 'cannot write '.$outputFile;
+            }
+        }
+
         return true;
-        
+    }
+
+    /**
+     * Is the surfer an associate?
+     *
+     * @return boolean
+     */
+    private static function is_associate() {
+        return is_callable(array('Surfer', 'is_associate')) && Surfer::is_associate();
+    }
+
+    /**
+     * Tell associates, once per page, that style sheets have to be rebuilt
+     */
+    private static function warn_outdated_styles() {
+        global $context;
+        static $warned = false;
+
+        if($warned)
+            return;
+        $warned = true;
+
+        Logger::error(sprintf(i18n::s('Style sheets have been changed, %s to apply changes.'),
+            '<a href="'.$context['url_to_root'].'tools/build_css.php">'.i18n::s('rebuild them').'</a>'));
     }
     
     /**
@@ -622,7 +877,10 @@ Class Js_Css {
                 
                 // compare minified file last update to original src file
 		if($date_src < $date_min) {
-                    $path = $min_v; 
+                    $path = $min_v;
+                } elseif($ext === 'css') {
+                    // css files are minified on demand by tools/build_css.php
+                    ;
                 } else {
                     // need minification for next time, but launch it as a background process
                     Defer::queue('tools/minifier.php?script='.Safe::realpath($path));
