@@ -1000,6 +1000,50 @@ msgstr "exemple \"/yacs/\" ou \"/\" ou \"/my_repo/yacs/\""
 msgid "This will be replaced by current URL"
 msgstr "Cette chaîne sera remplacée par l'URL en cours"
 
+#: tools/build_css.php
+msgid "Build style sheets"
+msgstr "Construire les feuilles de style"
+
+#: tools/build_css.php
+msgid "main style sheet"
+msgstr "feuille de style principale"
+
+#: tools/build_css.php
+msgid "up to date"
+msgstr "à jour"
+
+#: tools/build_css.php
+msgid "built"
+msgstr "construite"
+
+#: tools/build_css.php
+msgid "error"
+msgstr "erreur"
+
+#: tools/build_css.php
+msgid "%d style sheets have been built."
+msgstr "%d feuilles de style ont été construites."
+
+#: tools/build_css.php
+msgid "%d style sheets could not be built."
+msgstr "%d feuilles de style n'ont pas pu être construites."
+
+#: tools/build_css.php
+msgid "You are about to compile and minify the style sheets of the active skin, of layouts and of overlays. Are you sure?"
+msgstr "Vous êtes sur le point de compiler et de compresser les feuilles de style du thème actif, des mises en page et des extensions. Êtes-vous sûr ?"
+
+#: tools/build_css.php
+msgid "Rebuild all style sheets, even those that are up to date"
+msgstr "Reconstruire toutes les feuilles de style, même celles qui sont à jour"
+
+#: tools/build_css.php
+msgid "Yes, I do want to build style sheets"
+msgstr "Oui, je veux construire les feuilles de style"
+
+#: tools/build_css.php
+msgid "Some style sheets have been changed since they were built."
+msgstr "Des feuilles de style ont été modifiées depuis leur dernière construction."
+
 #~ msgid "Hover me to access tools"
 #~ msgstr "Survolez moi pour accèder aux outils"
 

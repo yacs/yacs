@@ -3137,6 +3137,14 @@ msgstr ""
 msgid "The default handler will be set to index.php."
 msgstr "Par défaut, le traitement sera confié à index.php."
 
+#: control/configure.php
+msgid "You are in production mode and Yacs detected that style sheets have been changed since they were built"
+msgstr "Vous êtes en mode production et Yacs a détecté que des feuilles de style ont été modifiées depuis leur dernière construction"
+
+#: control/configure.php
+msgid "Go to style sheets building tool"
+msgstr "Aller à l'outil de construction des feuilles de style"
+
 #~ msgid "%s - to share and stream existing directories and files"
 #~ msgstr "%s - pour partager des répertoires existants"
 
