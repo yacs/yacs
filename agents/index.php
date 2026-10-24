@@ -84,7 +84,7 @@ elseif(!Surfer::is_associate()) {
 
 		// splash message
 		$events .= '<p>'.i18n::s('You can sort the table below by clicking on column headers.')
-			.' '.sprintf(i18n::s('To get the full list of events, please download %s.'), Skin::build_link('temporary/log.txt', 'temporary/log.txt', 'shortcut'))."</p>\n";
+			.' '.sprintf(i18n::s('To get the full list of events, please download %s.'), Skin::build_link('control/logs.php', 'temporary/log.txt', 'shortcut'))."</p>\n";
 
 		// the actual list of events
 		$headers = array(i18n::s('What?'), i18n::s('When?'), i18n::s('Where?'), i18n::s('Who?'));

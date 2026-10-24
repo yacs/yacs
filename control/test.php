@@ -38,6 +38,10 @@
  *
  * @link http://www.olate.com/articles/254 Use PHP and JavaScript to Display Local Time
  *
+ * This page is restricted to associates and to trusted hosts (see users/configure.php).
+ * It remains open while the server is being installed, that is, until a switch file
+ * ([code]parameters/switch.on[/code] or [code]parameters/switch.off[/code]) has been created.
+ *
  * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode, and does not provide the content
  * of [code]$_SERVER[/code].
@@ -64,6 +68,13 @@ i18n::bind('control');
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	return i18n::s('You are not allowed to perform this operation.');
+}
+
+// only associates and trusted hosts, except while the server is being installed
+if(!Surfer::is_associate() && !Surfer::is_trusted()
+	&& (file_exists($context['path_to_root'].'parameters/switch.on') || file_exists($context['path_to_root'].'parameters/switch.off'))) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	exit(i18n::s('You are not allowed to perform this operation.'));
 }
 
 // no skin for this page
@@ -120,7 +131,7 @@ echo '<p>'.sprintf(i18n::s('Session variables are stored correctly if the counte
 if(@count($_REQUEST)) {
 	echo '<p>'.i18n::s('Submitted request:').BR."\n";
 	foreach($_REQUEST as $name => $value)
-		echo '$_REQUEST[\''.strip_tags($name).'\']='.strip_tags($value).BR."\n";
+		echo '$_REQUEST[\''.encode_field($name).'\']='.encode_field($value).BR."\n";
 	echo "</p>\n";
 }
 
@@ -128,7 +139,7 @@ if(@count($_REQUEST)) {
 if(@count($context['arguments'])) {
 	echo '<p>'.i18n::s('Script args:').BR."\n";
 	for($index = 0; $index < count($context['arguments']); $index++)
-		echo '$context[\'arguments\']['.$index.']='.strip_tags($context['arguments'][$index]).BR."\n";
+		echo '$context[\'arguments\']['.$index.']='.encode_field($context['arguments'][$index]).BR."\n";
 	echo "</p>\n";
 }
 
@@ -136,7 +147,7 @@ if(@count($context['arguments'])) {
 if(@count($_COOKIE)) {
 	echo '<p>'.i18n::s('Cookies sent by the browser:').BR."\n";
 	foreach($_COOKIE as $name => $value)
-		echo '$_COOKIE[\''.strip_tags($name).'\']='.strip_tags($value).BR."\n";
+		echo '$_COOKIE[\''.encode_field($name).'\']='.encode_field($value).BR."\n";
 	echo "</p>\n";
 }
 
@@ -145,7 +156,7 @@ if(@count($_SESSION)) {
 	echo '<p>'.i18n::s('Session data:').BR."\n";
 	foreach($_SESSION as $name => $value) {
 		if(!is_array($value))
-			echo '$_SESSION[\''.$name.'\']='.$value.BR."\n";
+			echo '$_SESSION[\''.encode_field($name).'\']='.encode_field($value).BR."\n";
 	}
 	echo "</p>\n";
 }
@@ -162,27 +173,27 @@ if(isset($generation['version'])) {
 // YACS variables
 echo '<p>'.i18n::s('Global YACS variables:').BR."\n";
 if(isset($context['continent']))
-	echo '$context[\'continent\']='.$context['continent'].BR."\n";
+	echo '$context[\'continent\']='.encode_field($context['continent']).BR."\n";
 if(isset($context['continent_code']))
-	echo '$context[\'continent_code\']='.$context['continent_code'].BR."\n";
+	echo '$context[\'continent_code\']='.encode_field($context['continent_code']).BR."\n";
 if(isset($context['country']))
-	echo '$context[\'country\']='.$context['country'].BR."\n";
+	echo '$context[\'country\']='.encode_field($context['country']).BR."\n";
 if(isset($context['country_code']))
-	echo '$context[\'country_code\']='.$context['country_code'].BR."\n";
+	echo '$context[\'country_code\']='.encode_field($context['country_code']).BR."\n";
 if(isset($context['city']))
-	echo '$context[\'city\']='.$context['city'].BR."\n";
+	echo '$context[\'city\']='.encode_field($context['city']).BR."\n";
 if(isset($context['latitude']))
-	echo '$context[\'latitude\']='.$context['latitude'].BR."\n";
+	echo '$context[\'latitude\']='.encode_field($context['latitude']).BR."\n";
 if(isset($context['longitude']))
-	echo '$context[\'longitude\']='.$context['longitude'].BR."\n";
+	echo '$context[\'longitude\']='.encode_field($context['longitude']).BR."\n";
 echo '$context[\'language\']='.$context['language'].BR."\n"
-	.'$context[\'host_name\']='.$context['host_name'].BR."\n"
-	.'$context[\'url_to_home\']='.$context['url_to_home'].BR."\n"
-        .'$context[\'url_to_master\']='.$context['url_to_master'].BR."\n"
-	.'$context[\'url_to_root\']='.$context['url_to_root'].BR."\n"
-	.'$context[\'script_url\']='.$context['script_url'].BR."\n"
-	.'$context[\'self_url\']='.$context['self_url'].BR."\n"
-	.'$context[\'self_script\']='.$context['self_script'].BR."\n";
+	.'$context[\'host_name\']='.encode_field($context['host_name']).BR."\n"
+	.'$context[\'url_to_home\']='.encode_field($context['url_to_home']).BR."\n"
+        .'$context[\'url_to_master\']='.encode_field($context['url_to_master']).BR."\n"
+	.'$context[\'url_to_root\']='.encode_field($context['url_to_root']).BR."\n"
+	.'$context[\'script_url\']='.encode_field($context['script_url']).BR."\n"
+	.'$context[\'self_url\']='.encode_field($context['self_url']).BR."\n"
+	.'$context[\'self_script\']='.encode_field($context['self_script']).BR."\n";
 
 if(Surfer::is_associate()) {
 	echo '$context[\'path_to_root\']='.$context['path_to_root'].BR."\n";
@@ -204,7 +215,7 @@ if(@count($_SERVER) && !file_exists($context['path_to_root'].'parameters/demo.fl
 		if(!Surfer::is_associate() && !preg_match('/^(HTTP_|PATH_INFO|QUERY_STRING|REMOTE_|REQUEST_|SERVER_|STATUS)/', $name))
 			continue;
 
-		echo '$_SERVER[\''.$name.'\']='.$value.BR."\n";
+		echo '$_SERVER[\''.encode_field($name).'\']='.encode_field($value).BR."\n";
 	}
 	echo "</p>\n";
 }
