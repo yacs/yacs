@@ -5,9 +5,12 @@
  * This script behaves as follows:
  * - the script aborts if the user is not an associate
  * - else if this is a GET, a confirmation button is displayed
- * - else most reference scripts are included
+ * - else the syntax of reference scripts is checked, and they are also included on request
  *
- * This script includes reference scripts, in order to detect any syntax error.
+ * The syntax check parses each script without running it, so it has no side effect.
+ * Inclusion also reports warnings raised at run time, but it runs scripts: some of them
+ * redirect and stop the process, others may change the database. An error thrown
+ * by one included script is reported, and the process goes on.
  *
  * @author Bernard Paques
  * @author GnapZ
@@ -60,6 +63,7 @@ function send_body() {
 
 		// the submit button
 		echo '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'
+			.'<input type="checkbox" name="include" id="include" value="Y" /> <label for="include">'.i18n::s('Also include scripts, to report warnings raised at run time. Some scripts stop the process or change the database.').'</label>'.BR
 			.Skin::build_submit_button(i18n::s('Yes, I want to validate scripts'), NULL, NULL, 'confirmed')
 			.'</p></form>';
 
@@ -72,8 +76,14 @@ function send_body() {
 	// just do it
 	} else {
 
+		// scripts are included only on request, since this runs them
+		$with_inclusion = isset($_REQUEST['include']) && ($_REQUEST['include'] == 'Y');
+
 		// the splash message
-		echo '<p>'.i18n::s('All reference scripts are included, to show evidence of possible syntax errors.')."</p>\n";
+		if($with_inclusion)
+			echo '<p>'.i18n::s('All reference scripts are included, to show evidence of possible syntax errors.')."</p>\n";
+		else
+			echo '<p>'.i18n::s('The syntax of all reference scripts is checked, without running them.')."</p>\n";
 
 		// list running scripts
 		echo '<p>'.i18n::s('Listing files...').BR."\n";
@@ -86,9 +96,46 @@ function send_body() {
 		}
 		echo "</p>\n";
 
-		// including scripts
-		echo '<p>'.i18n::s('Including reference scripts...').BR."\n";
+		// parse each reference script without running it
+		echo '<p>'.i18n::s('Checking reference scripts...').BR."\n";
+		$references = array();
+		$syntax_errors = 0;
+		foreach($scripts as $file) {
 
+			// skip run once scripts
+			if(strpos($file, 'run_once/'))
+				continue;
+
+			// don't include ourself
+			if($file == 'scripts/validate.php')
+				continue;
+
+			// process only reference scripts
+			if(!Scripts::hash($file))
+				continue;
+			$references[] = $file;
+
+			try {
+				token_get_all(Safe::file_get_contents($file), TOKEN_PARSE);
+			} catch(ParseError $e) {
+				$syntax_errors += 1;
+				echo sprintf(i18n::s('%s: %s at line %d'), $file, $e->getMessage(), $e->getLine()).BR."\n";
+			}
+		}
+
+		// report of checked files, before any inclusion
+		echo sprintf(i18n::s('%d scripts have been checked.'), count($references)).' ';
+		if($syntax_errors)
+			echo sprintf(i18n::ns('%d syntax error has been found.', '%d syntax errors have been found.', $syntax_errors), $syntax_errors);
+		else
+			echo i18n::s('No syntax error has been found.');
+		echo '</p>'."\n";
+
+		// including scripts
+		if($with_inclusion)
+			echo '<p>'.i18n::s('Including reference scripts...').BR."\n";
+		else
+			$references = array();
 
 		// strip as much output as possible
 		$_SERVER['REQUEST_METHOD'] = 'HEAD';
@@ -105,22 +152,10 @@ function send_body() {
 		// analyse each script
 		$included_files = 0;
 		$links_to_be_checked_manually = array();
-		foreach($scripts as $file) {
+		foreach($references as $file) {
 
 			// ensure we have enough time to process this script
 			Safe::set_time_limit(30);
-
-			// skip run once scripts
-			if(strpos($file, 'run_once/'))
-				continue;
-
-			// don't include ourself
-			if($file == 'scripts/validate.php')
-				continue;
-
-			// process only reference scripts
-			if(!Scripts::hash($file))
-				continue;
 
 			// check file content
 			if(!$handle = Safe::fopen($file, 'rb')) {
@@ -158,7 +193,13 @@ function send_body() {
 			$validate_stamp = time();
 			echo sprintf(i18n::s('inclusion of %s'), $file)."\n";
 			Safe::chdir($context['path_to_root'].dirname($file));
-			include_once $context['path_to_root'].$file;
+
+			// a fatal error in one script does not stop the process
+			try {
+				include_once $context['path_to_root'].$file;
+			} catch(Throwable $e) {
+				echo BR.sprintf(i18n::s('%s: %s at line %d'), str_replace($context['path_to_root'], '', $e->getFile()), get_class($e).': '.$e->getMessage(), $e->getLine());
+			}
 			$duration = time() - $validate_stamp;
 			if($duration)
 				echo ' ('.$duration.'s.)';
@@ -208,7 +249,7 @@ function send_body() {
 		$context['page_footer'] = '';
 		$context['page_menu'] = array();
 		$context['page_tags'] = '';
-		$context['page_tools'] = '';
+		$context['page_tools'] = array();
 
 		// now we will finalize this page
 		global $finalizing_fuse;

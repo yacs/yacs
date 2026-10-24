@@ -3145,6 +3145,14 @@ msgstr "Vous êtes en mode production et Yacs a détecté que des feuilles de st
 msgid "Go to style sheets building tool"
 msgstr "Aller à l'outil de construction des feuilles de style"
 
+#: control/populate.php
+msgid "This script creates the default sections, categories and pages that are missing in the database, as on first installation."
+msgstr "Ce script crée les sections, catégories et pages par défaut qui manquent dans la base de données, comme lors de la première installation."
+
+#: control/populate.php
+msgid "Yes, I want to create missing default items"
+msgstr "Oui, je veux créer les éléments par défaut manquants"
+
 #~ msgid "%s - to share and stream existing directories and files"
 #~ msgstr "%s - pour partager des répertoires existants"
 

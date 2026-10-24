@@ -65,6 +65,10 @@
  * Only associates can use this script, except if no switch file is present.
  * Invocations are also accepted if the user table is missing or empty.
  *
+ * On a running server, records are created only on a POST with the 'confirm'
+ * action (or 'build', when included from [script]help/populate.php[/script]).
+ * Other requests just display a confirmation button.
+ *
  * If an associate user profile is created, apply it to the current surfing session.
  *
  * @author Bernard Paques
@@ -191,6 +195,25 @@ if(!$permitted) {
 		// set the focus on first form field
 		.'$("#nick_name").focus();'."\n"
 		);
+
+	// this may take some time
+	$context['text'] .= '<p>'.i18n::s('When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.')."</p>\n";
+
+// on a running server, data is created only on a confirmed POST
+} elseif((file_exists('../parameters/switch.on') || file_exists('../parameters/switch.off'))
+	&& (!isset($_SERVER['REQUEST_METHOD']) || ($_SERVER['REQUEST_METHOD'] != 'POST') || !isset($_REQUEST['action']) || !in_array($_REQUEST['action'], array('confirm', 'build')))) {
+
+	// help/populate.php includes this script for its 'build' action
+	$confirm_action = (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'build')) ? 'build' : 'confirm';
+
+	// splash message
+	$context['text'] .= '<p>'.i18n::s('This script creates the default sections, categories and pages that are missing in the database, as on first installation.').'</p>'."\n";
+
+	// the confirmation form, posted back to the calling script
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'"><p class="assistant_bar">'
+		.Skin::build_submit_button(i18n::s('Yes, I want to create missing default items'))
+		.'<input type="hidden" name="action" value="'.$confirm_action.'" />'
+		.'</p></form>'."\n";
 
 	// this may take some time
 	$context['text'] .= '<p>'.i18n::s('When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.')."</p>\n";
