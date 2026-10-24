@@ -65,8 +65,6 @@
  *
  * This means that scripts triggered on tick should make no assumption regarding delays between invocations.
  *
- * With no additional configuration this hook calls [code]Feeds::tick()[/code] to read XML news from feeders.
- *
  * [title]How to use hooks?[/title]
  * As a wise programmer, you want to open your software to others. Cool! Hooks are perfectly suited for that.
  *
@@ -778,12 +776,6 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 			."\t\t".'global $local, $context;'."\n\n"
 			."\t\t".'$text = \'\';'."\n\n"
 			."\t\t".'switch($id) {'."\n\n";
-
-		// default cron (or 'tick') hook calls for news update
-		$included_items['tick'] .= "\n"
-			."\t\t\t".'include_once $context[\'path_to_root\'].\'feeds/feeds.php\';'."\n"
-			."\t\t\t".'$text .= Feeds::tick_hook($parameters);'."\n";
-		$context['text'] .= sprintf(i18n::s('Including hook %s for %s'), 'news', 'tick').BR."\n";
 
 		// one including item per id
 		if(count($included_items))

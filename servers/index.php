@@ -9,13 +9,6 @@
  *
  * You will create a server profile each time you will need to link your YACS server to another web site.
  *
- * [*] inbound news feeding - create one profile per news source.
- *
- * You can try following links to validate your installation:
- * - [link]http://www.xmlhack.com/rss.php[/link] (rss)
- * - [link]http://www.circle.ch/RSS/[/link] (rss)
- * - [link]http://slashdot.org/slashdot.xml[/link] (slashdot)
- *
  *
  * The main menu has navigation links to browse servers by page, for sites that are linked to numerous servers.
  * Commands are available to either create a new server entry, to ping the cloud, or to populate the database with default entries.

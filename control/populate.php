@@ -20,7 +20,6 @@
  *
  * Moreover, some sections may be created by other scripts, namely:
  * - 'clicks' - to put orphan links when clicked - created automatically in [script]links/links.php[/script]
- * - 'external_news' - for links gathered from feeding servers in [script]feeds/feeds.php[/script] and [script]servers/edit.php[/script]
  * - 'letters' - pages sent by e-mail to subscribers - created automatically in [script]letters/new.php[/script]
  *
  * @see letters/new.php

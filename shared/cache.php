@@ -359,12 +359,6 @@ Class Cache {
 			foreach($items as $name)
 				Safe::unlink($name);
 		}
-
-		// also delete files cached by SimplePie
-		if($items=Safe::glob($context['path_to_root'].'temporary/*.spc')) {
-			foreach($items as $name)
-				Safe::unlink($name);
-		}
 	}
 
 	/**

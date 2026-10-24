@@ -97,8 +97,6 @@ else {
 	$fields['title'] = 'blo.gs';
 	$fields['description'] = i18n::c('Another famous blogs aggregator');
 	$fields['main_url'] = 'http://blo.gs/';
-	$fields['submit_feed'] = 'N';
-	$fields['feed_url'] = '';
 	$fields['submit_ping'] = 'Y';
 	$fields['ping_url'] = 'http://ping.blo.gs/';
 	$fields['submit_search'] = 'N';
@@ -120,8 +118,6 @@ else {
 	$fields['title'] = 'Moreover';
 	$fields['description'] = i18n::c('Another famous blogs aggregator');
 	$fields['main_url'] = 'http://w.moreover.com/';
-	$fields['submit_feed'] = 'N';
-	$fields['feed_url'] = '';
 	$fields['submit_ping'] = 'Y';
 	$fields['ping_url'] = 'http://api.moreover.com/RPC2';
 	$fields['submit_search'] = 'N';
@@ -143,8 +139,6 @@ else {
 	$fields['title'] = 'ping-o-matic';
 	$fields['description'] = i18n::c('The famous pinging gateway');
 	$fields['main_url'] = 'http://pingomatic.com/';
-	$fields['submit_feed'] = 'N';
-	$fields['feed_url'] = '';
 	$fields['submit_ping'] = 'Y';
 	$fields['ping_url'] = 'http://rpc.pingomatic.com/';
 	$fields['submit_search'] = 'N';
@@ -165,8 +159,6 @@ if(Servers::get($fields['host_name']))
 else {
 	$fields['title'] = 'Technorati';
 	$fields['main_url'] = 'http://www.technorati.com/';
-	$fields['submit_feed'] = 'N';
-	$fields['feed_url'] = '';
 	$fields['submit_ping'] = 'Y';
 	$fields['ping_url'] = 'http://rpc.technorati.com/rpc/ping';
 	$fields['submit_search'] = 'N';
@@ -188,8 +180,6 @@ else {
 	$fields['title'] = 'yahoo';
 	$fields['description'] = i18n::c('Do you Yahoo?');
 	$fields['main_url'] = 'http://www.yahoo.com/';
-	$fields['submit_feed'] = 'N';
-	$fields['feed_url'] = '';
 	$fields['submit_ping'] = 'Y';
 	$fields['ping_url'] = 'http://api.my.yahoo.com/RPC2';
 	$fields['submit_search'] = 'N';
@@ -211,8 +201,6 @@ else {
 	$fields['title'] = 'yacs';
 	$fields['description'] = i18n::c('The origin server for the YACS system');
 	$fields['main_url'] = 'http://www.yacs.fr/';
-	$fields['submit_feed'] = 'Y';
-	$fields['feed_url'] = 'http://www.yacs.fr/feeds/rss.php';
 	$fields['submit_ping'] = 'Y';
 	$fields['ping_url'] = 'http://www.yacs.fr/services/ping.php';
 	$fields['submit_search'] = 'N';

@@ -25,22 +25,6 @@
  * You can also build a feed on particular keywords, at [script]services/search.php[/script].
  *
  *
- * Use this script also to modify parameters related to news aggregation, such as:
- *
- * - [code]minutes between feeds[/code] - the feeding period.
- *
- * - [code]maximum_news[/code] - the maximum number of news links to be kept in the database.
- * If the limit is reached, oldest entries will be deleted.
- *
- * - [code]debug_feeds[/code] - if set to '[code]Y[/code]',
- * save into [code]temporary/debug.txt[/code] data sent and received during feeding session.
- * Quite useful to understand why the last URL added to your system screw up everything...
- *
- * To declare inbound feeds you will have to create server profiles.
- * See [script]servers/index.php[/script].
- *
- * @see servers/index.php
- *
  * Configuration information is saved into [code]parameters/feeds.include.php[/code].
  * If YACS is prevented to write to the file, it displays parameters to allow for a manual update.
  *
@@ -143,48 +127,11 @@ elseif(!Surfer::is_associate()) {
 	$outbound .= Skin::build_form($fields);
 	$fields = array();
 
-	// inbound feeding
-	//
-	$inbound = '';
-
-	// the splash message
-	$inbound .= '<p>'.sprintf(i18n::s('To extend the list of feeders add adequate %s.'), Skin::build_link('servers/', i18n::s('server profiles'), 'shortcut'))."</p>\n";
-
-	// feeding period
-	if(!isset($context['minutes_between_feeds']) || !$context['minutes_between_feeds'])
-		$context['minutes_between_feeds'] = 60;
-	$label = i18n::s('Feeding period');
-	$input = '<input type="text" name="minutes_between_feeds" size="10" value="'.encode_field($context['minutes_between_feeds']).'" maxlength="5" />';
-	$hint = i18n::s('In minutes. 60 means one hour, etc. Minimum value is 5 minutes');
-	$fields[] = array($label, $input, $hint);
-
-	// maximum_news
-	if(!isset($context['maximum_news']) || !$context['maximum_news'])
-		$context['maximum_news'] = 1000;
-	$label = i18n::s('Maximum news');
-	$input = '<input type="text" name="maximum_news" size="10" value="'.encode_field($context['maximum_news']).'" maxlength="5" />';
-	$hint = i18n::s('Oldest news entries will be deleted');
-	$fields[] = array($label, $input, $hint);
-
-	// debug_feeds
-	$label = i18n::s('Debug feeds');
-	$checked = '';
-	if(isset($context['debug_feeds']) && ($context['debug_feeds'] == 'Y'))
-		$checked = 'checked="checked" ';
-	$input = '<input type="checkbox" name="debug_feeds" value="Y" '.$checked.'/> '.i18n::s('Save data sent and received in temporary/debug.txt');
-	$hint = i18n::s('Use this option only for troubleshooting');
-	$fields[] = array($label, $input, $hint);
-
-	// build the form
-	$inbound .= Skin::build_form($fields);
-	$fields = array();
-
 	//
 	// assemble all tabs
 	//
 	$all_tabs = array(
-		array('outbound', i18n::s('Outbound'), 'outbound_panel', $outbound),
-		array('inbound', i18n::s('Inbound'), 'inbound_panel', $inbound)
+		array('outbound', i18n::s('Outbound'), 'outbound_panel', $outbound)
 		);
 
 	// let YACS do the hard job
@@ -231,20 +178,10 @@ elseif(!Surfer::is_associate()) {
 	Safe::unlink($context['path_to_root'].'parameters/feeds.include.php.bak');
 	Safe::rename($context['path_to_root'].'parameters/feeds.include.php', $context['path_to_root'].'parameters/feeds.include.php.bak');
 
-	// minimum values
-	if($_REQUEST['minutes_between_feeds'] < 5)
-		$_REQUEST['minutes_between_feeds'] = 5;
-
 	// build the new configuration file
 	$content = '<?php'."\n"
 		.'// This file has been created by the configuration script feeds/configure.php'."\n"
 		.'// on '.gmdate("F j, Y, g:i a").' GMT, for '.Surfer::get_name().'. Please do not modify it manually.'."\n";
-	if(isset($_REQUEST['debug_feeds']))
-		$content .= '$context[\'debug_feeds\']=\''.addcslashes($_REQUEST['debug_feeds'], "\\'")."';\n";
-	if(isset($_REQUEST['maximum_news']))
-		$content .= '$context[\'maximum_news\']=\''.addcslashes($_REQUEST['maximum_news'], "\\'")."';\n";
-	if(isset($_REQUEST['minutes_between_feeds']))
-		$content .= '$context[\'minutes_between_feeds\']=\''.addcslashes($_REQUEST['minutes_between_feeds'], "\\'")."';\n";
 	if(isset($_REQUEST['powered_by_image']))
 		$content .= '$context[\'powered_by_image\']=\''.addcslashes($_REQUEST['powered_by_image'], "\\'")."';\n";
 	if(isset($_REQUEST['channel_title']))

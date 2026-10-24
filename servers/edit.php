@@ -169,46 +169,9 @@ if($with_form) {
 	// access remote services
 	$context['text'] .= Skin::build_block(i18n::s('Web services used from this server'), 'subtitle');
 
-	// do we have to be feeded by this server?
-	$label = i18n::s('Feed');
-	$input = '<input type="radio" name="submit_feed" value="N"';
-	if(!isset($item['submit_feed']) || ($item['submit_feed'] == 'N'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not read news from this server')
-		.BR.'<input type="radio" name="submit_feed" value="Y"';
-	if(isset($item['submit_feed']) && ($item['submit_feed'] == 'Y'))
-		$input .= ' checked="checked"';
-	if(!isset($item['feed_url']) || !$item['feed_url'])
-		$item['feed_url'] = 'http://'.(isset($item['host_name'])?$item['host_name']:'__server__').'/feeds/rss.php';
-	$input .= '/> '.sprintf(i18n::s('Aggregate news from this server by reading the XML feed at %s'), '<input type="text" name="feed_url" size="50" value="'.encode_field($item['feed_url']).'" />');
-
-	// set a default anchor
-	if(!isset($item['anchor']) || !$item['anchor']) {
-
-		// create a default section if necessary
-		if(!($anchor = Sections::lookup('external_news'))) {
-			$fields = array();
-			$fields['nick_name'] = 'external_news';
-			$fields['create_date'] = gmdate('Y-m-d H:i:s', time());
-			$fields['edit_date'] = gmdate('Y-m-d H:i:s', time());
-			$fields['locked'] = 'Y'; // no direct contributions
-			$fields['index_map'] = 'N'; // in a side box at the front page
-			$fields['rank'] = 40000; // at the end of the list
-			$fields['title'] = i18n::c('External News');
-			$fields['description'] = i18n::s('Received from feeding servers');
-			if($fields['id'] = Sections::post($fields, FALSE))
-				$anchor = 'section:'.$fields['id'];
-			$fields = array();
-		}
-
-		$item['anchor'] = $anchor;
-	}
-
-	if($item['anchor'])
-		$to_select = $item['anchor'];
-
-	$input .= BR.sprintf(i18n::s('and store data in section %s'), '<select name="anchor">'.Sections::get_options($to_select).'</select>');
-	$fields[] = array($label, $input);
+	// keep the related anchor, if any
+	if(isset($item['anchor']) && $item['anchor'])
+		$context['text'] .= '<input type="hidden" name="anchor" value="'.encode_field($item['anchor']).'" />';
 
 	// do we have to ping this server?
 	$label = i18n::s('Ping');

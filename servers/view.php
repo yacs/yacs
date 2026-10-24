@@ -135,16 +135,6 @@ if(!$item['id']) {
 	// a section for remote services
 	$text .= Skin::build_block(i18n::s('Services accessed remotely'), 'subtitle');
 
-	// feed submission
-	if($item['submit_feed'] == 'Y') {
-		$menu = array(Servers::get_url($item['id'], 'test') => i18n::s('Test feed') );
-		$label = sprintf(i18n::s('News published at this server at %s - %s are fetched periodically'), Skin::build_link($item['feed_url'], NULL, 'external'), Skin::build_list($menu, 'menu'));
-		if(is_object($anchor))
-			$label .= BR.sprintf(i18n::s('and aggregated locally at %s'), Skin::build_link($anchor->get_url(), $anchor->get_title(), 'section'));
-	} else
-		$label = i18n::s('Do not check news from this server.');
-	$text .= '<p>'.$label."</p>\n";
-
 	// ping submission
 	if($item['submit_ping'] == 'Y')
 		$label = sprintf(i18n::s('This server has to be pinged on updates, by using XML-RPC calls <code>weblogUpdates.ping</code> at %s'), Skin::build_link($item['ping_url']));
@@ -205,10 +195,6 @@ if(!$item['id']) {
 	// insert anchor suffix
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_suffix();
-
-	// test links
-	if($item['submit_feed'] == 'Y')
-		$context['page_tools'][] = Skin::build_link(Servers::get_url($id, 'test'), i18n::s('Test feed'));
 
 	// commands for associates
 	if(Surfer::is_associate()) {
