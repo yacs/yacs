@@ -121,7 +121,7 @@ Class Files {
 		if(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
 			return TRUE;
 
-		// the anchor or overlay-in-anchor allows for file download --see overlays/bbb_meeting.php for example
+		// the anchor or overlay-in-anchor allows for file download
 		if(is_object($anchor) && is_callable(array($anchor, 'allows')) && $anchor->allows('fetch','file'))
 			return TRUE;
 

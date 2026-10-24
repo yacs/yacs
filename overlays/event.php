@@ -48,10 +48,6 @@
  * - 'start' to actually initiate the meeting, and to let attendees participate to it
  * - 'stop' to stop the meeting
  *
- * @see overlays/bbb_meeting.php
- * @see overlays/chat_meeting.php
- * @see overlays/dimdim_meeting.php
- * @see overlays/meeting.php
  *
  * When configured as being the overlay of pages in a section, this overlay formats events as
  * a dynamic calendar. Following parameters can be used to change the default behavior:
