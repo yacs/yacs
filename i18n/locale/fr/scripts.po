@@ -958,6 +958,36 @@ msgstr "Le script n'existe pas"
 msgid "Browse the source of this script"
 msgstr "Visualiser ce script"
 
+#: scripts/validate.php
+msgid "Also include scripts, to report warnings raised at run time. Some scripts stop the process or change the database."
+msgstr "Inclure aussi les scripts, pour signaler les avertissements levés à l'exécution. Certains scripts arrêtent le traitement ou modifient la base de données."
+
+#: scripts/validate.php
+msgid "The syntax of all reference scripts is checked, without running them."
+msgstr "La syntaxe de tous les scripts de référence est vérifiée, sans les exécuter."
+
+#: scripts/validate.php
+msgid "Checking reference scripts..."
+msgstr "Vérification des scripts de référence..."
+
+#: scripts/validate.php
+msgid "%s: %s at line %d"
+msgstr "%s : %s à la ligne %d"
+
+#: scripts/validate.php
+msgid "%d scripts have been checked."
+msgstr "%d scripts ont été vérifiés."
+
+#: scripts/validate.php
+msgid "%d syntax error has been found."
+msgid_plural "%d syntax errors have been found."
+msgstr[0] "%d erreur de syntaxe a été trouvée."
+msgstr[1] "%d erreurs de syntaxe ont été trouvées."
+
+#: scripts/validate.php
+msgid "No syntax error has been found."
+msgstr "Aucune erreur de syntaxe n'a été trouvée."
+
 #~ msgid "lines"
 #~ msgstr "lignes"
 
