@@ -3,7 +3,6 @@
  * examples of widgets
  *
  * Following codes are documented on this page:
- * - &#91;newsfeed=url] - integrate a newsfeed dynamically
  * - &#91;twitter=id] - twitter updates of one person
  * - &#91;tsearch=token] - twitter search on a given topic
  * - &#91;iframe=&lt;width&gt;, &lt;height&gt;]&lt;url&gt;[/iframe] - include some external page
@@ -50,22 +49,6 @@ $context['text'] .= '<p>'.i18n::s('On this page we are introducing codes related
 
 // add a toc
 $context['text'] .= "\n".'[toc]'."\n";
-
-// [newsfeed]
-$context['text'] .= '[title]'.i18n::s('Newsfeed').' [escape][newsfeed=&lt;url&gt;][/escape][/title]'
-	.Skin::table_prefix('wide')
-	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][newsfeed=http://www.yacs.fr/feeds/rss.php][/escape]</td>'
-	.'<td>[newsfeed=http://www.yacs.fr/feeds/rss.php]</td></tr>'
-	.Skin::table_suffix();
-
-// [newsfeed.embed]
-$context['text'] .= '[title]'.i18n::s('Newsfeed').' [escape][newsfeed.embed=&lt;url&gt;][/escape][/title]'
-	.Skin::table_prefix('wide')
-	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][newsfeed.embed=http://www.yacs.fr/feeds/rss.php][/escape]</td>'
-	.'<td>[newsfeed.embed=http://www.yacs.fr/feeds/rss.php]</td></tr>'
-	.Skin::table_suffix();
 
 // [twitter]
 $context['text'] .= '[title]'.i18n::s('Twitter profile').' [escape][twitter=&lt;id&gt;][/escape][/title]'

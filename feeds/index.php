@@ -4,9 +4,8 @@
  *
  * Configuring feeding channels between servers is the very first mean to expand a YACS community.
  *
- * The patterns that are supported at the moment are quite straightforward, as usual:
+ * The pattern that is supported at the moment is quite straightforward, as usual:
  * - outbound feeding pattern
- * - inbound feeding pattern
  *
  * The outbound feeding pattern provides the newest articles to other polling servers.
  * You only have to configure some descriptive information (into [code]parameters/feeds.include.php[/code]) that will be embedded into
@@ -30,13 +29,6 @@
  * Associates can benefit from another specific feed to monitor the event log, at [script]agents/feed.php[/script].
  *
  * Moreover, this page also features links to add the main RSS feed either to Yahoo! or to NewsGator, in an extra box.
- *
- * The inbound feeding pattern is used to fetch fresh information from targeted servers.
- * Once the list of feeding servers has been configured (into parameters/feeds.include.php), everything
- * happens automatically.
- * Feeders are polled periodically (see [script]feeds/configure.php[/script])
- * and items are put in the database as news links.
- * Items may be listed into any part of your server using the Feeds class.
  *
  * @link http://www.atomenabled.org/developers/syndication/atom-format-spec.php The Atom Syndication Format 0.3 (PRE-DRAFT)
  * @link http://blogs.law.harvard.edu/tech/rss RSS 2.0 Specification
@@ -131,43 +123,6 @@ if(!$text = Cache::get($cache_id)) {
 	// display in a separate panel
 	if(trim($outbound))
 		$panels[] = array('outbound', i18n::s('Outbound feeds'), 'outbound_panel', $outbound);
-
-	// inbound feeds, but only to associates
-	//
-	if(Surfer::is_associate()) {
-
-		$inbound = '';
-
-		// list existing feeders
-		include_once $context['path_to_root'].'servers/servers.php';
-		if($items = Servers::list_for_feed(0, COMPACT_LIST_SIZE, 'full')) {
-
-			// link to the index of server profiles
-			$inbound .= '<p>'.sprintf(i18n::s('To extend the list of feeders add adequate %s.'), Skin::build_link('servers/', i18n::s('server profiles'), 'shortcut'))."</p>\n";
-
-			// list of profiles used as news feeders
-			$inbound .= Skin::build_list($items, 'decorated');
-
-		// no feeder defined
-		} else
-			$inbound .= sprintf(i18n::s('No feeder has been defined. If you need to integrate some external RSS %s.'), Skin::build_link('servers/edit.php', i18n::s('add a server profile')));
-
-		// get news from remote feeders
-		include_once 'feeds.php';
-		$news = Feeds::get_remote_news();
-		if(is_array($news)) {
-			$inbound .= Skin::build_block(i18n::s('Most recent external news'), 'title');
-
-			// list of profiles used as news feeders
-			$inbound .= Skin::build_list($news, 'compact');
-
-		}
-
-		// display in a separate panel
-		if(trim($inbound))
-			$panels[] = array('inbound', i18n::s('Inbound feeds'), 'inbound_panel', $inbound);
-
-	}
 
 	// assemble all tabs
 	//

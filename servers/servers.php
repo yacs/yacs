@@ -152,8 +152,6 @@ Class Servers {
 	 * @return a string to be used in [code]preg_match()[/code]
 	 *
 	 * @see agents/referrals.php
-	 * @see feeds/feeds.php
-	 * @see servers/test.php
 	 */
 	public static function get_banned_pattern() {
 		global $context;
@@ -261,34 +259,6 @@ Class Servers {
 	}
 
 	/**
-	 * list servers that will feed us
-	 *
-	 * This script is used internally to locate servers to be polled at feeding times.
-	 * Profiles that have not been polled for a long time are returned first.
-	 *
-	 * All entries are seeked, and the active field is not taken into account.
-	 *
-	 * @see feeders/feeders.php
-	 *
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon)
-	 */
-	public static function list_for_feed($offset=0, $count=10, $variant='feed') {
-		global $context;
-
-		// limit the scope of the request
-		$query = 'SELECT * FROM '.SQL::table_name('servers')
-			." WHERE (submit_feed = 'Y')"
-			.' ORDER BY stamp_date, edit_date DESC, title LIMIT '.$offset.','.$count;
-
-		// the list of servers
-		$output = Servers::list_selected(SQL::query($query), $variant);
-		return $output;
-	}
-
-	/**
 	 * list servers to be pinged
 	 *
 	 * This script is used internally to locate servers to be pinged on content change.
@@ -382,21 +352,6 @@ Class Servers {
 			$layout = new Layout_servers_as_dates();
 			$output = $layout->layout($result);
 			return $output;
-
-		case 'feed':
-			$items = array();
-			while($item = SQL::fetch($result)) {
-
-				// stamp of last feed
-				$stamp = NULL_DATE;
-				if($item['stamp_date'] > NULL_DATE)
-					$stamp = $item['stamp_date'];
-
-				// prepare for feed
-				if($item['feed_url'])
-					$items[$item['id']] = array($item['feed_url'], strip_tags($item['title']), $item['anchor'], $stamp);
-			}
-			return $items;
 
 		case 'ping':
 			$items = array();
@@ -554,8 +509,6 @@ Class Servers {
 		// protect from hackers
 		if(isset($fields['main_url']))
 			$fields['main_url'] = encode_link($fields['main_url']);
-		if(isset($fields['feed_url']))
-			$fields['feed_url'] = encode_link($fields['feed_url']);
 		if(isset($fields['ping_url']))
 			$fields['ping_url'] = encode_link($fields['ping_url']);
 		if(isset($fields['search_url']))
@@ -568,10 +521,6 @@ Class Servers {
 			$fields['host_name'] = '';
 		if(!$fields['host_name']) {
 			if(($parts = parse_url($fields['main_url'])) && isset($parts['host']))
-				$fields['host_name'] = $parts['host'];
-		}
-		if(!$fields['host_name']) {
-			if(($parts = parse_url($fields['feed_url'])) && isset($parts['host']))
 				$fields['host_name'] = $parts['host'];
 		}
 		if(!$fields['host_name']) {
@@ -614,9 +563,6 @@ Class Servers {
 				."main_url='".SQL::escape($fields['main_url'])."', "
 				."anchor='".SQL::escape(isset($fields['anchor']) ? $fields['anchor'] : '')."', "
 
-				."submit_feed='".SQL::escape(($fields['submit_feed'] == 'Y') ? 'Y' : 'N')."', "
-				."feed_url='".SQL::escape($fields['feed_url'])."', "
-
 				."submit_ping='".SQL::escape(($fields['submit_ping'] == 'Y') ? 'Y' : 'N')."', "
 				."ping_url='".SQL::escape($fields['ping_url'])."', "
 				."process_ping='".SQL::escape(($fields['process_ping'] == 'Y') ? 'Y' : 'N')."', "
@@ -658,9 +604,6 @@ Class Servers {
 				."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."', "
 				."main_url='".SQL::escape($fields['main_url'])."', "
 				."anchor='".SQL::escape(isset($fields['anchor']) ? $fields['anchor'] : 'category:1')."', "
-
-				."submit_feed='".SQL::escape(($fields['submit_feed'] == 'Y') ? 'Y' : 'N')."', "
-				."feed_url='".SQL::escape($fields['feed_url'])."', "
 
 				."submit_ping='".SQL::escape(($fields['submit_ping'] == 'Y') ? 'Y' : 'N')."', "
 				."ping_url='".SQL::escape($fields['ping_url'])."', "
@@ -743,30 +686,6 @@ Class Servers {
 		$indexes['FULLTEXT INDEX']	= "full_text(title, description)";
 
 		return SQL::setup_table('servers', $fields, $indexes);
-	}
-
-	/**
-	 * stamp one server profile
-	 *
-	 * This is used to remember the date of last feed.
-	 *
-	 * $param int the id of the server to update
-	 */
-	public static function stamp($id) {
-		global $context;
-
-		// sanity check
-		if(!isset($id) || !$id)
-			return;
-
-		// update the record of authenticated user
-		$query = "UPDATE ".SQL::table_name('servers')
-			." SET stamp_date='".gmdate('Y-m-d H:i:s')."'"
-			." WHERE id = ".SQL::escape($id);
-
-		// do not report on error
-		SQL::query($query, TRUE);
-
 	}
 
 	/**

@@ -112,22 +112,12 @@ if($item['id'] && Surfer::is_associate()) {
 	if($item['main_url'])
 		$context['text'] .= '<p>'.sprintf(i18n::s('Main URL: %s'), Skin::build_link($item['main_url'], NULL, 'external'))."</p>\n";
 
-	// feed url
-	if($item['feed_url'])
-		$context['text'] .= '<p>'.sprintf(i18n::s('Feed URL: %s'), Skin::build_link($item['feed_url'], NULL, 'external'))."</p>\n";
-
 	// the related anchor
 	if(is_object($anchor))
 		$context['text'] .= '<p>'.sprintf(i18n::s('Related to %s'), Skin::build_link($anchor->get_url(), $anchor->get_title(), 'category'))."</p>\n";
 
 	// a section for remote services
 	$context['text'] .= Skin::build_block(i18n::s('Services accessed remotely'), 'subtitle');
-
-	// feed submission
-	if($item['submit_feed'] == 'Y')
-		$context['text'] .= '<p>'.sprintf(i18n::s('News published at this server will be fetched periodically from %s'), $item['feed_url'])."</p>\n";
-	else
-		$context['text'] .= '<p>'.i18n::s('Do not check news from this server.')."</p>\n";
 
 	// ping submission
 	if($item['submit_ping'] == 'Y')
