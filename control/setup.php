@@ -60,8 +60,10 @@
  *
  * @link http://dev.mysql.com/doc/mysql/en/OPTIMIZE_TABLE.html OPTIMIZE TABLE Syntax
  *
- * Access to this script is restricted to associates, except if no user profile exists in the database.
- * In this case, which is likely to happen on first installation, the current surfer is flagged as being an associate.
+ * Access to this script is restricted to associates, except on first installation.
+ * In this case the current surfer is flagged as being an associate.
+ *
+ * @see is_installing()
  *
  * Also, this script executes normally even in demonstration mode.
  *
@@ -110,9 +112,8 @@ $context['page_title'] = i18n::s('Database maintenance');
 function send_body() {
 	global $context, $action;
 
-	// check that the user is an admin, but only if there is at least one user record
-	$query = "SELECT count(*) FROM ".SQL::table_name('users');
-	if(!Surfer::is_associate() && (SQL::query($query) !== FALSE)) {
+	// check that the user is an admin, except on first installation
+	if(!Surfer::is_associate() && !is_installing()) {
 		Safe::header('Status: 401 Unauthorized', TRUE, 401);
 		echo '<p>'.i18n::s('You are not allowed to perform this operation.')."</p>\n";
 		return;

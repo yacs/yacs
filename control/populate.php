@@ -49,15 +49,17 @@
  * This is usually what happen on first installation.
  *
  * This can be used also if one webmaster losts his password.
- * In this case, delete the switch file (normally, [code]parameters/switch.on[/code])
- * and trigger this script to recreate a new associate user profile.
+ * In this case, rename the switch file (normally, [code]parameters/switch.on[/code]),
+ * rename [code]parameters/install.lock[/code] to [code]parameters/install.open[/code],
+ * and trigger this script within ten minutes to recreate a new associate user profile.
  *
  * This script also invokes a hook to populate additional tables:
  * - id: 'control/populate.php'
  * - type: 'include'
  *
- * Only associates can use this script, except if no switch file is present.
- * Invocations are also accepted if the user table is missing or empty.
+ * Only associates can use this script, except on first installation.
+ *
+ * @see is_installing()
  *
  * On a running server, records are created only on a POST with the 'confirm'
  * action (or 'build', when included from [script]help/populate.php[/script]).
@@ -75,13 +77,8 @@
 // common libraries
 include_once '../shared/global.php';
 
-// force the creation of a user profile if the user table does not exists, or is empty
-$query = "SELECT count(*) FROM ".SQL::table_name('users');
-if(!SQL::query_scalar($query, FALSE, $context['users_connection']))
-	$permitted = TRUE;
-
-// force the creation of a user profile if there is no switch file
-elseif(!(file_exists('../parameters/switch.on') || file_exists('../parameters/switch.off')))
+// force the creation of a user profile on first installation
+if(is_installing())
 	$permitted = TRUE;
 
 // associates can do what they want

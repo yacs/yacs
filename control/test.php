@@ -71,8 +71,7 @@ if(Surfer::is_crawler()) {
 }
 
 // only associates and trusted hosts, except while the server is being installed
-if(!Surfer::is_associate() && !Surfer::is_trusted()
-	&& (file_exists($context['path_to_root'].'parameters/switch.on') || file_exists($context['path_to_root'].'parameters/switch.off'))) {
+if(!Surfer::is_associate() && !Surfer::is_trusted() && !is_installing()) {
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	exit(i18n::s('You are not allowed to perform this operation.'));
 }

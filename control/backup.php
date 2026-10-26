@@ -149,10 +149,8 @@ $action = '';
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_REQUEST['action']))
 	$action = $_REQUEST['action'];
 
-// the user table should be empty, or the surfer has to be an associate, or the switch file has been deleted
-$query = "SELECT count(*) FROM ".SQL::table_name('users');
-if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
-	&& (file_exists($context['path_to_root'].'parameters/switch.on') || file_exists($context['path_to_root'].'parameters/switch.off'))) {
+// the surfer has to be an associate, except on first installation
+if(!Surfer::is_associate() && !is_installing()) {
 
 	// prevent access to this script
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);

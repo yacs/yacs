@@ -217,7 +217,7 @@ global $hooks, $action;
 $scanned = array('', 'agents', 'articles', 'categories', 'control', 'feeds', 'files', 'included', 'overlays', 'parameters', 'sections', 'services', 'shared', 'tools', 'users','layouts');
 
 // ensure that the user is an associate, except on first install
-if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_exists('../parameters/switch.off'))) {
+if(!Surfer::is_associate() && !is_installing()) {
 
 	// prevent access to this script
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
