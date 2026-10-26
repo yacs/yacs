@@ -54,7 +54,7 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 	$menu = array('control/' => i18n::s('Control Panel'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
-} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'confirm')) {
+} elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_REQUEST['action']) && ($_REQUEST['action'] == 'confirm')) {
 
 
 	// list running scripts
