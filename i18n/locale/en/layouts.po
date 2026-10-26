@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-13 17:54+0200\n"
+"POT-Creation-Date: 2026-10-26 09:03+0100\n"
 "PO-Revision-Date: 2024-08-13 18:12+0200\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: none\n"
@@ -125,7 +125,7 @@ msgid "More"
 msgstr "More"
 
 #: layouts/layout_as_columns/layout_as_columns.php:238
-#: layouts/layout_as_columns/layout_as_columns.php:257
+#: layouts/layout_as_columns/layout_as_columns.php:259
 #: layouts/layout_as_hardboiled/layout_as_hardboiled.php:105
 #: layouts/layout_as_hardboiled/layout_as_hardboiled.php:157
 #: layouts/layout_as_hardboiled/layout_as_hardboiled.php:309

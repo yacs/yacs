@@ -2,18 +2,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-01 16:51+0200\n"
-"PO-Revision-Date: 2016-06-06 14:19+0100\n"
+"POT-Creation-Date: 2026-10-26 09:03+0100\n"
+"PO-Revision-Date: 2026-10-26 09:43+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
-"Language: \n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Language: French\n"
-"X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: tables/check.php:24 tables/check.php:35 tables/check.php:94
 #: tables/check.php:150 tables/delete.php:65 tables/edit.php:80
@@ -58,7 +57,7 @@ msgstr "Inutilisé : %s"
 msgid "Too many successive errors. Aborted"
 msgstr "Trop d'erreurs successives. Abandon"
 
-#: tables/check.php:91 tables/check.php:147
+#: tables/check.php:91 tables/check.php:147 tables/check.php:161
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminé en %.2f secondes."
@@ -68,19 +67,23 @@ msgstr "Script terminé en %.2f secondes."
 msgid "Orphan: %s"
 msgstr "Orphelin : %s"
 
-#: tables/check.php:157
+#: tables/check.php:167
 msgid "Please select the action to perform."
 msgstr "Merci de choisir l'opération à effectuer."
 
-#: tables/check.php:163
+#: tables/check.php:173
 msgid "Look for unused tables"
 msgstr "Détecter les tables non-utilisées"
 
-#: tables/check.php:166
+#: tables/check.php:176
 msgid "Look for orphan records"
 msgstr "Détecter les enregistrements orphelins"
 
-#: tables/check.php:169
+#: tables/check.php:179
+msgid "Check the decomposition of anchors"
+msgstr "Vérifier la décomposition des ancres"
+
+#: tables/check.php:182
 msgid "Start"
 msgstr "Commencer"
 
@@ -187,7 +190,7 @@ msgstr "Ne pas changer la date de modification de la page principale."
 
 #: tables/edit.php:261
 msgid "Please type a valid SQL query."
-msgstr "Merci d'indiquer une requête SQL valide"
+msgstr "Merci d'indiquer une requête SQL valide."
 
 #: tables/edit.php:273
 msgid ""
@@ -198,11 +201,11 @@ msgstr ""
 #: tables/edit.php:274
 #, php-format
 msgid "For more information check the %s."
-msgstr "Pour plus d'information référez-vous à %s"
+msgstr "Pour plus d'information référez-vous à %s."
 
 #: tables/edit.php:274
 msgid "MySQL reference page"
-msgstr "la page de référence MySQL"
+msgstr "La page de référence MySQL"
 
 #: tables/edit.php:275
 #, php-format
@@ -211,7 +214,7 @@ msgstr "Utilisez %s et %s pour embellir le texte."
 
 #: tables/edit.php:275
 msgid "YACS codes"
-msgstr "codes YACS"
+msgstr "Codes YACS"
 
 #: tables/edit.php:275
 msgid "smileys"
@@ -388,11 +391,11 @@ msgstr "Erreur dans la requête de la table %s"
 #: tables/tables.php:647
 #, php-format
 msgid "unknown layout called from table rendering : %s "
-msgstr "layout inconnu demandé pour le rendu de la table : %s"
+msgstr "layout inconnu demandé pour le rendu de la table : %s "
 
 #: tables/tables.php:983
 msgid "Please add some SQL query."
-msgstr "Merci d'indiquer une requête SQL valide"
+msgstr "Merci de donner une requête SQL."
 
 #: tables/tables.php:1011
 msgid "No item has the provided id."

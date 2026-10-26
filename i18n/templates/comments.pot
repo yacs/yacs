@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-13 18:19+0200\n"
+"POT-Creation-Date: 2026-10-26 10:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,20 +61,24 @@ msgstr ""
 msgid "Too many successive errors. Aborted"
 msgstr ""
 
-#: comments/check.php:86
+#: comments/check.php:86 comments/check.php:100
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr ""
 
-#: comments/check.php:96
+#: comments/check.php:106
 msgid "Please select the action to perform."
 msgstr ""
 
-#: comments/check.php:102
+#: comments/check.php:112
 msgid "Look for orphan records"
 msgstr ""
 
-#: comments/check.php:105
+#: comments/check.php:115
+msgid "Check the decomposition of anchors"
+msgstr ""
+
+#: comments/check.php:118
 msgid "Start"
 msgstr ""
 

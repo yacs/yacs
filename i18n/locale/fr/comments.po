@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-01 16:51+0200\n"
-"PO-Revision-Date: 2015-04-24 15:32+0100\n"
+"POT-Creation-Date: 2026-10-26 09:03+0100\n"
+"PO-Revision-Date: 2026-10-26 09:20+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Alexis Raimbault, Bernard Paques\n"
 "Language: fr_FR\n"
@@ -12,6 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: comments/check.php:24 comments/edit.php:172 comments/feed.php:76
 #: comments/list.php:104 comments/list.php:110 comments/list.php:181
@@ -56,20 +57,24 @@ msgstr "Orphelin : %s"
 msgid "Too many successive errors. Aborted"
 msgstr "Trop d'erreurs successives. Abandon"
 
-#: comments/check.php:86
+#: comments/check.php:86 comments/check.php:100
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminé en %.2f secondes."
 
-#: comments/check.php:96
+#: comments/check.php:106
 msgid "Please select the action to perform."
 msgstr "Merci de choisir l'opération à effectuer."
 
-#: comments/check.php:102
+#: comments/check.php:112
 msgid "Look for orphan records"
 msgstr "Détecter les enregistrements orphelins"
 
-#: comments/check.php:105
+#: comments/check.php:115
+msgid "Check the decomposition of anchors"
+msgstr "Vérifier la décomposition des ancres"
+
+#: comments/check.php:118
 msgid "Start"
 msgstr "Commencer"
 
@@ -296,7 +301,7 @@ msgstr "Votre adresse"
 #: comments/edit.php:515
 msgid "e-mail or web address; this field is optional"
 msgstr ""
-"Adresse de courrier électronique ou de serveur Internet. Champ optionnel"
+"adresse de courrier électronique ou de serveur Internet. Champ optionnel"
 
 #: comments/edit.php:527
 msgid "Your intent"
@@ -390,7 +395,7 @@ msgstr "Utilisez %s et %s pour embellir le texte."
 
 #: comments/edit.php:696
 msgid "YACS codes"
-msgstr "codes YACS"
+msgstr "Codes YACS"
 
 #: comments/edit.php:696
 msgid "smileys"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-13 18:19+0200\n"
+"POT-Creation-Date: 2026-10-26 10:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,13 +20,13 @@ msgstr ""
 
 #: codes/basic.php:55 codes/blocks.php:44 codes/index.php:24 codes/links.php:82
 #: codes/lists.php:36 codes/live.php:54 codes/misc.php:57 codes/tables.php:33
-#: codes/titles.php:45 codes/widgets.php:38
+#: codes/titles.php:45 codes/widgets.php:37
 msgid "Help index"
 msgstr ""
 
 #: codes/basic.php:56 codes/blocks.php:45 codes/links.php:83 codes/lists.php:37
 #: codes/live.php:55 codes/misc.php:58 codes/tables.php:34 codes/titles.php:46
-#: codes/widgets.php:39
+#: codes/widgets.php:38
 msgid "Formatting Codes"
 msgstr ""
 
@@ -36,7 +36,7 @@ msgstr ""
 
 #: codes/basic.php:63 codes/blocks.php:52 codes/index.php:31 codes/links.php:90
 #: codes/lists.php:44 codes/live.php:62 codes/misc.php:65 codes/tables.php:41
-#: codes/titles.php:53 codes/widgets.php:46
+#: codes/titles.php:53 codes/widgets.php:45
 #, php-format
 msgid "Edited %s"
 msgstr ""
@@ -84,19 +84,18 @@ msgstr ""
 #: codes/misc.php:76 codes/misc.php:120 codes/misc.php:128 codes/misc.php:136
 #: codes/misc.php:144 codes/misc.php:152 codes/misc.php:160 codes/misc.php:180
 #: codes/misc.php:192 codes/misc.php:203 codes/misc.php:224 codes/misc.php:232
-#: codes/misc.php:240 codes/misc.php:247 codes/misc.php:255 codes/misc.php:263
-#: codes/misc.php:271 codes/misc.php:279 codes/tables.php:54
-#: codes/tables.php:69 codes/tables.php:84 codes/tables.php:98
-#: codes/tables.php:116 codes/tables.php:134 codes/tables.php:155
-#: codes/titles.php:65 codes/titles.php:73 codes/titles.php:85
-#: codes/titles.php:97 codes/titles.php:109 codes/titles.php:121
-#: codes/titles.php:133 codes/titles.php:145 codes/titles.php:157
-#: codes/titles.php:169 codes/titles.php:181 codes/titles.php:193
-#: codes/titles.php:205 codes/titles.php:217 codes/titles.php:225
-#: codes/titles.php:233 codes/titles.php:241 codes/widgets.php:57
-#: codes/widgets.php:65 codes/widgets.php:73 codes/widgets.php:81
-#: codes/widgets.php:89 codes/widgets.php:98 codes/widgets.php:106
-#: codes/widgets.php:114
+#: codes/misc.php:239 codes/misc.php:247 codes/misc.php:255 codes/misc.php:263
+#: codes/misc.php:271 codes/tables.php:54 codes/tables.php:69
+#: codes/tables.php:84 codes/tables.php:98 codes/tables.php:116
+#: codes/tables.php:134 codes/tables.php:155 codes/titles.php:65
+#: codes/titles.php:73 codes/titles.php:85 codes/titles.php:97
+#: codes/titles.php:109 codes/titles.php:121 codes/titles.php:133
+#: codes/titles.php:145 codes/titles.php:157 codes/titles.php:169
+#: codes/titles.php:181 codes/titles.php:193 codes/titles.php:205
+#: codes/titles.php:217 codes/titles.php:225 codes/titles.php:233
+#: codes/titles.php:241 codes/widgets.php:56 codes/widgets.php:64
+#: codes/widgets.php:72 codes/widgets.php:81 codes/widgets.php:89
+#: codes/widgets.php:97
 msgid "Example"
 msgstr ""
 
@@ -132,19 +131,18 @@ msgstr ""
 #: codes/live.php:148 codes/live.php:157 codes/live.php:165 codes/live.php:173
 #: codes/misc.php:76 codes/misc.php:120 codes/misc.php:128 codes/misc.php:136
 #: codes/misc.php:144 codes/misc.php:152 codes/misc.php:160 codes/misc.php:180
-#: codes/misc.php:192 codes/misc.php:203 codes/misc.php:224 codes/misc.php:232
+#: codes/misc.php:192 codes/misc.php:203 codes/misc.php:224 codes/misc.php:239
 #: codes/misc.php:247 codes/misc.php:255 codes/misc.php:263 codes/misc.php:271
-#: codes/misc.php:279 codes/tables.php:54 codes/tables.php:69
-#: codes/tables.php:84 codes/tables.php:98 codes/tables.php:116
-#: codes/tables.php:134 codes/tables.php:155 codes/titles.php:65
-#: codes/titles.php:73 codes/titles.php:85 codes/titles.php:97
-#: codes/titles.php:109 codes/titles.php:121 codes/titles.php:133
-#: codes/titles.php:145 codes/titles.php:157 codes/titles.php:169
-#: codes/titles.php:181 codes/titles.php:193 codes/titles.php:205
-#: codes/titles.php:217 codes/titles.php:225 codes/titles.php:233
-#: codes/titles.php:241 codes/widgets.php:57 codes/widgets.php:65
-#: codes/widgets.php:73 codes/widgets.php:81 codes/widgets.php:89
-#: codes/widgets.php:98 codes/widgets.php:106 codes/widgets.php:114
+#: codes/tables.php:54 codes/tables.php:69 codes/tables.php:84
+#: codes/tables.php:98 codes/tables.php:116 codes/tables.php:134
+#: codes/tables.php:155 codes/titles.php:65 codes/titles.php:73
+#: codes/titles.php:85 codes/titles.php:97 codes/titles.php:109
+#: codes/titles.php:121 codes/titles.php:133 codes/titles.php:145
+#: codes/titles.php:157 codes/titles.php:169 codes/titles.php:181
+#: codes/titles.php:193 codes/titles.php:205 codes/titles.php:217
+#: codes/titles.php:225 codes/titles.php:233 codes/titles.php:241
+#: codes/widgets.php:56 codes/widgets.php:64 codes/widgets.php:72
+#: codes/widgets.php:81 codes/widgets.php:89 codes/widgets.php:97
 msgid "Rendering"
 msgstr ""
 
@@ -362,21 +360,21 @@ msgid ""
 msgstr ""
 
 #: codes/basic.php:292 codes/blocks.php:246 codes/links.php:366
-#: codes/lists.php:112 codes/live.php:182 codes/misc.php:288
-#: codes/tables.php:176 codes/titles.php:250 codes/widgets.php:123
+#: codes/lists.php:112 codes/live.php:182 codes/misc.php:280
+#: codes/tables.php:176 codes/titles.php:250 codes/widgets.php:106
 #, php-format
 msgid "Please note that actual rendering depends on the selected %s."
 msgstr ""
 
 #: codes/basic.php:292 codes/blocks.php:246 codes/links.php:366
-#: codes/lists.php:112 codes/live.php:182 codes/misc.php:288
-#: codes/tables.php:176 codes/titles.php:250 codes/widgets.php:123
+#: codes/lists.php:112 codes/live.php:182 codes/misc.php:280
+#: codes/tables.php:176 codes/titles.php:250 codes/widgets.php:106
 msgid "skin"
 msgstr ""
 
 #: codes/basic.php:293 codes/blocks.php:247 codes/links.php:367
-#: codes/lists.php:113 codes/live.php:183 codes/misc.php:289
-#: codes/tables.php:177 codes/titles.php:251 codes/widgets.php:124
+#: codes/lists.php:113 codes/live.php:183 codes/misc.php:281
+#: codes/tables.php:177 codes/titles.php:251 codes/widgets.php:107
 msgid "Help"
 msgstr ""
 
@@ -501,42 +499,42 @@ msgstr ""
 msgid "Play in a separate window"
 msgstr ""
 
-#: codes/codes.php:789
+#: codes/codes.php:801
 #, php-format
 msgid "%d named person has followed the link: %s"
 msgid_plural "%d named persons have followed the link: %s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: codes/codes.php:792
+#: codes/codes.php:804
 msgid "No authenticated person has used this link yet"
 msgstr ""
 
-#: codes/codes.php:1204
+#: codes/codes.php:1167
 msgid "View this comment"
 msgstr ""
 
-#: codes/codes.php:1227 codes/codes.php:1283
+#: codes/codes.php:1190 codes/codes.php:1246
 msgid "[this file has been deleted]"
 msgstr ""
 
-#: codes/codes.php:1248 codes/codes.php:1307
+#: codes/codes.php:1211 codes/codes.php:1270
 msgid "[this file has been replaced]"
 msgstr ""
 
-#: codes/codes.php:2012
+#: codes/codes.php:1905
 #, php-format
 msgid "redirection to unknown reference : %s"
 msgstr ""
 
-#: codes/codes.php:2244
+#: codes/codes.php:2137
 #, php-format
 msgid "%d active now"
 msgid_plural "%d active now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: codes/codes.php:2316
+#: codes/codes.php:2209
 #, php-format
 msgid ""
 "ERROR: Impossible to write to the file %s. The configuration has not been "
@@ -1083,30 +1081,26 @@ msgid "Static chart"
 msgstr ""
 
 #: codes/misc.php:230
-msgid "Execute a local script"
-msgstr ""
-
-#: codes/misc.php:238
 msgid "Redirect to a local address"
 msgstr ""
 
-#: codes/misc.php:245
+#: codes/misc.php:237
 msgid "Display some parameter"
 msgstr ""
 
-#: codes/misc.php:253
+#: codes/misc.php:245
 msgid "Prevent code interpretation"
 msgstr ""
 
-#: codes/misc.php:261 codes/misc.php:264 codes/misc.php:265
+#: codes/misc.php:253 codes/misc.php:256 codes/misc.php:257
 msgid "Displayed only to anonymous surfers"
 msgstr ""
 
-#: codes/misc.php:269 codes/misc.php:272 codes/misc.php:273
+#: codes/misc.php:261 codes/misc.php:264 codes/misc.php:265
 msgid "Displayed only to authenticated surfers"
 msgstr ""
 
-#: codes/misc.php:277 codes/misc.php:280 codes/misc.php:281
+#: codes/misc.php:269 codes/misc.php:272 codes/misc.php:273
 msgid "Displayed only to associates"
 msgstr ""
 
@@ -1304,42 +1298,38 @@ msgstr ""
 msgid "I do not know, but it depends also on the turtle speed..."
 msgstr ""
 
-#: codes/widgets.php:42
+#: codes/widgets.php:41
 msgid "Widgets"
 msgstr ""
 
-#: codes/widgets.php:49
+#: codes/widgets.php:48
 msgid "On this page we are introducing codes related to widgets and badges."
 msgstr ""
 
-#: codes/widgets.php:55 codes/widgets.php:63
-msgid "Newsfeed"
-msgstr ""
-
-#: codes/widgets.php:71
+#: codes/widgets.php:54
 msgid "Twitter profile"
 msgstr ""
 
-#: codes/widgets.php:79
+#: codes/widgets.php:62
 msgid "Twitter search"
 msgstr ""
 
-#: codes/widgets.php:87
+#: codes/widgets.php:70
 msgid "External page"
 msgstr ""
 
-#: codes/widgets.php:95
+#: codes/widgets.php:78
 msgid "Cloud of tags"
 msgstr ""
 
-#: codes/widgets.php:96
+#: codes/widgets.php:79
 msgid "Use the parameter to adjust the number of tags listed."
 msgstr ""
 
-#: codes/widgets.php:104
+#: codes/widgets.php:87
 msgid "Events"
 msgstr ""
 
-#: codes/widgets.php:112
+#: codes/widgets.php:95
 msgid "Direct location"
 msgstr ""

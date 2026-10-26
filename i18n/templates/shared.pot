@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-13 18:19+0200\n"
+"POT-Creation-Date: 2026-10-26 10:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,181 +18,214 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: shared/anchors.php:398
+#: shared/anchors.php:164
+msgid "OK"
+msgstr ""
+
+#: shared/anchors.php:164
+msgid "to be fixed"
+msgstr ""
+
+#: shared/anchors.php:172 shared/anchors.php:730
+msgid "Table"
+msgstr ""
+
+#: shared/anchors.php:172
+msgid "Anchored rows not decomposed"
+msgstr ""
+
+#: shared/anchors.php:173
+msgid "Columns not mirroring the anchor"
+msgstr ""
+
+#: shared/anchors.php:173
+msgid "Status"
+msgstr ""
+
+#: shared/anchors.php:443
 msgid "imported"
 msgstr ""
 
-#: shared/anchors.php:402
+#: shared/anchors.php:447
 msgid "published"
 msgstr ""
 
-#: shared/anchors.php:405
+#: shared/anchors.php:450
 msgid "created"
 msgstr ""
 
-#: shared/anchors.php:408 shared/anchors.php:423 shared/anchors.php:478
+#: shared/anchors.php:453 shared/anchors.php:468 shared/anchors.php:523
 msgid "edited"
 msgstr ""
 
-#: shared/anchors.php:411
+#: shared/anchors.php:456
 msgid "reviewed"
 msgstr ""
 
-#: shared/anchors.php:414
+#: shared/anchors.php:459
 msgid "section created"
 msgstr ""
 
-#: shared/anchors.php:417
+#: shared/anchors.php:462
 msgid "section updated"
 msgstr ""
 
-#: shared/anchors.php:420
+#: shared/anchors.php:465
 msgid "commented"
 msgstr ""
 
-#: shared/anchors.php:426
+#: shared/anchors.php:471
 msgid "file uploaded"
 msgstr ""
 
-#: shared/anchors.php:429
+#: shared/anchors.php:474
 msgid "file updated"
 msgstr ""
 
-#: shared/anchors.php:432
+#: shared/anchors.php:477
 msgid "file released"
 msgstr ""
 
-#: shared/anchors.php:435
+#: shared/anchors.php:480
 msgid "file reserved"
 msgstr ""
 
-#: shared/anchors.php:438
+#: shared/anchors.php:483
 msgid "image uploaded"
 msgstr ""
 
-#: shared/anchors.php:441
+#: shared/anchors.php:486
 msgid "image updated"
 msgstr ""
 
-#: shared/anchors.php:444
+#: shared/anchors.php:489
 msgid "icon set"
 msgstr ""
 
-#: shared/anchors.php:448
+#: shared/anchors.php:493
 msgid "link posted"
 msgstr ""
 
-#: shared/anchors.php:451
+#: shared/anchors.php:496
 msgid "link updated"
 msgstr ""
 
-#: shared/anchors.php:454
+#: shared/anchors.php:499
 msgid "page updated"
 msgstr ""
 
-#: shared/anchors.php:457
+#: shared/anchors.php:502
 msgid "location created"
 msgstr ""
 
-#: shared/anchors.php:460
+#: shared/anchors.php:505
 msgid "location updated"
 msgstr ""
 
-#: shared/anchors.php:463
+#: shared/anchors.php:508
 msgid "table posted"
 msgstr ""
 
-#: shared/anchors.php:466
+#: shared/anchors.php:511
 msgid "table updated"
 msgstr ""
 
-#: shared/anchors.php:469
+#: shared/anchors.php:514
 msgid "new message"
 msgstr ""
 
-#: shared/anchors.php:472
+#: shared/anchors.php:517
 msgid "new user"
 msgstr ""
 
-#: shared/anchors.php:475
+#: shared/anchors.php:520
 msgid "profile updated"
 msgstr ""
 
-#: shared/anchors.php:503
+#: shared/anchors.php:601
 msgid "Categories"
 msgstr ""
 
-#: shared/anchors.php:515
+#: shared/anchors.php:613
 msgid "Sections"
 msgstr ""
 
-#: shared/anchors.php:527
+#: shared/anchors.php:625
 msgid "Pages"
 msgstr ""
 
-#: shared/anchors.php:539
+#: shared/anchors.php:637
 msgid "Images"
 msgstr ""
 
-#: shared/anchors.php:550
+#: shared/anchors.php:648
 msgid "Locations"
 msgstr ""
 
-#: shared/anchors.php:561
+#: shared/anchors.php:659
 msgid "Tables"
 msgstr ""
 
-#: shared/anchors.php:571
+#: shared/anchors.php:669
 msgid "Files"
 msgstr ""
 
-#: shared/anchors.php:582
+#: shared/anchors.php:680
 msgid "Dates"
 msgstr ""
 
-#: shared/anchors.php:593
+#: shared/anchors.php:691
 msgid "Comments"
 msgstr ""
 
-#: shared/anchors.php:604
+#: shared/anchors.php:702
 msgid "Links"
 msgstr ""
 
-#: shared/anchors.php:615
+#: shared/anchors.php:713
 msgid "Versions"
 msgstr ""
 
-#: shared/anchors.php:624
+#: shared/anchors.php:722
 msgid ""
 "Following items are attached to this record and will be impacted as well."
 msgstr ""
 
-#: shared/anchors.php:632
-msgid "Table"
-msgstr ""
-
-#: shared/anchors.php:632
+#: shared/anchors.php:730
 msgid "Records"
 msgstr ""
 
-#: shared/anchors.php:632
+#: shared/anchors.php:730
 msgid "Creation date"
 msgstr ""
 
-#: shared/anchors.php:632
+#: shared/anchors.php:730
 msgid "Last edition"
 msgstr ""
 
-#: shared/anchors.php:637
+#: shared/anchors.php:735
 msgid "Related items"
 msgstr ""
 
-#: shared/global.php:1085
+#: shared/global.php:932
+msgid "You are not allowed to perform this operation."
+msgstr ""
+
+#: shared/global.php:1215
 msgid "View the category"
 msgstr ""
 
-#: shared/global.php:1443
+#: shared/global.php:1594
 msgid "ACCEPT COOKIES"
+msgstr ""
+
+#: shared/js_css.php:531
+#, php-format
+msgid "Style sheets have been changed, %s to apply changes."
+msgstr ""
+
+#: shared/js_css.php:532
+msgid "rebuild them"
 msgstr ""
 
 #: shared/logger.php:205
@@ -207,7 +240,7 @@ msgstr ""
 msgid "System parameters"
 msgstr ""
 
-#: shared/mailer.php:193
+#: shared/mailer.php:203 shared/mailer.php:1489
 #, php-format
 msgid ""
 "This message has been generated automatically by %s since the new item has "
@@ -216,7 +249,7 @@ msgid ""
 "profile."
 msgstr ""
 
-#: shared/mailer.php:197
+#: shared/mailer.php:207 shared/mailer.php:1492
 #, php-format
 msgid ""
 "This message has been generated automatically by %s since you are following "
@@ -224,57 +257,64 @@ msgid ""
 "alerts please visit the user profile below and click on Stop notifications."
 msgstr ""
 
-#: shared/mailer.php:224
+#: shared/mailer.php:234
 #, php-format
 msgid "%d person has been notified"
 msgid_plural "%d persons have been notified"
 msgstr[0] ""
 msgstr[1] ""
 
-#: shared/mailer.php:243
+#: shared/mailer.php:253
 #, php-format
 msgid "and %d other persons"
 msgstr ""
 
-#: shared/mailer.php:326 shared/mailer.php:882 shared/mailer.php:1197
-#: shared/mailer.php:1350
+#: shared/mailer.php:336 shared/mailer.php:898 shared/mailer.php:1213
+#: shared/mailer.php:1366
 msgid "E-mail has not been enabled on this system."
 msgstr ""
 
-#: shared/mailer.php:887
+#: shared/mailer.php:903
 msgid "Empty sender address"
 msgstr ""
 
-#: shared/mailer.php:892 shared/mailer.php:1202
+#: shared/mailer.php:908 shared/mailer.php:1218
 msgid "Empty recipient address"
 msgstr ""
 
-#: shared/mailer.php:897 shared/mailer.php:1207
+#: shared/mailer.php:913 shared/mailer.php:1223
 msgid "No subject"
 msgstr ""
 
-#: shared/mailer.php:902 shared/mailer.php:1212
+#: shared/mailer.php:918 shared/mailer.php:1228
 msgid "No message"
 msgstr ""
 
-#: shared/mailer.php:1342 shared/mailer.php:1344
+#: shared/mailer.php:1358 shared/mailer.php:1360
 #, php-format
 msgid "Error while sending the message to %s"
 msgstr ""
 
-#: shared/members.php:93 shared/members.php:436 shared/members.php:1606
+#: shared/mailer.php:1731
+#, php-format
+msgid "%d new item at %s"
+msgid_plural "%d new items at %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: shared/members.php:93 shared/members.php:439 shared/members.php:1612
 msgid "An anchor is required for this operation."
 msgstr ""
 
-#: shared/members.php:99 shared/members.php:442 shared/members.php:1610
+#: shared/members.php:99 shared/members.php:445 shared/members.php:1616
 msgid "A member is required for this operation."
 msgstr ""
 
-#: shared/members.php:800 shared/members.php:862
+#: shared/members.php:803 shared/members.php:865
 msgid "weekly"
 msgstr ""
 
-#: shared/members.php:801 shared/members.php:863
+#: shared/members.php:804 shared/members.php:866
 msgid "monthly"
 msgstr ""
 
@@ -287,136 +327,132 @@ msgstr ""
 msgid "Redirecting to %s"
 msgstr ""
 
-#: shared/sql.php:446
+#: shared/sql.php:512
 #, php-format
 msgid "Impossible to connect to %s."
 msgstr ""
 
-#: shared/sql.php:582
+#: shared/sql.php:640
 #, php-format
 msgid "Impossible to read %s."
 msgstr ""
 
-#: shared/sql.php:755 shared/sql.php:757
+#: shared/sql.php:813 shared/sql.php:815
 msgid "Connection to the database has been lost"
 msgstr ""
 
-#: shared/sql.php:1028
+#: shared/sql.php:1086
 msgid "The table"
 msgstr ""
 
-#: shared/sql.php:1032
+#: shared/sql.php:1090
 msgid "has been created"
 msgstr ""
 
-#: shared/sql.php:1034
+#: shared/sql.php:1092
 msgid "has been updated"
 msgstr ""
 
-#: shared/sql.php:1047
+#: shared/sql.php:1105
 msgid "and analyzed"
 msgstr ""
 
-#: shared/sql.php:1058
+#: shared/sql.php:1116
 msgid "and optimized"
 msgstr ""
 
-#: shared/sql.php:1071 shared/sql.php:1082
+#: shared/sql.php:1129 shared/sql.php:1140
 #, php-format
 msgid "ERROR for the table %s"
 msgstr ""
 
-#: shared/surfer.php:304
+#: shared/surfer.php:347
 msgid "My profile"
 msgstr ""
 
-#: shared/surfer.php:304
+#: shared/surfer.php:347
 msgid "View all data this site knows about you"
 msgstr ""
 
-#: shared/surfer.php:307
+#: shared/surfer.php:350
 msgid "Review queue"
 msgstr ""
 
-#: shared/surfer.php:307
+#: shared/surfer.php:350
 msgid "Check requests, publish submitted articles, review old pages"
 msgstr ""
 
-#: shared/surfer.php:310
+#: shared/surfer.php:353
 msgid "Control Panel"
 msgstr ""
 
-#: shared/surfer.php:310
+#: shared/surfer.php:353
 msgid "System commands, configuration panels, content overview"
 msgstr ""
 
-#: shared/surfer.php:312
+#: shared/surfer.php:355
 msgid "Logout"
 msgstr ""
 
-#: shared/surfer.php:312
+#: shared/surfer.php:355
 msgid "You will be considered as an anonymous surfer"
 msgstr ""
 
-#: shared/surfer.php:329
+#: shared/surfer.php:372
 msgid "User"
 msgstr ""
 
-#: shared/surfer.php:332
+#: shared/surfer.php:375
 msgid "Password"
 msgstr ""
 
-#: shared/surfer.php:336
+#: shared/surfer.php:379
 msgid "Stay connected"
 msgstr ""
 
-#: shared/surfer.php:339
+#: shared/surfer.php:382
 msgid "Login"
 msgstr ""
 
-#: shared/surfer.php:349
+#: shared/surfer.php:392
 msgid "Register"
 msgstr ""
 
-#: shared/surfer.php:349
+#: shared/surfer.php:392
 msgid "Share your profile in this community"
 msgstr ""
 
-#: shared/surfer.php:351
+#: shared/surfer.php:394
 msgid "Lost password"
 msgstr ""
 
-#: shared/surfer.php:351
+#: shared/surfer.php:394
 msgid "Prove who you are"
 msgstr ""
 
-#: shared/surfer.php:617
+#: shared/surfer.php:660
 msgid "You are allowed to post any XHTML."
 msgstr ""
 
-#: shared/surfer.php:619
+#: shared/surfer.php:662
 #, php-format
 msgid "Following XHTML tags are allowed: %s"
 msgstr ""
 
-#: shared/surfer.php:730
+#: shared/surfer.php:773
 msgid "anonymous"
 msgstr ""
 
-#: shared/surfer.php:753
+#: shared/surfer.php:796
 msgid "My pages"
 msgstr ""
 
-#: shared/surfer.php:757
+#: shared/surfer.php:800
 msgid "All pages"
 msgstr ""
 
-#: shared/surfer.php:833
+#: shared/surfer.php:877
 msgid "Robot stopper"
-msgstr ""
-
-#: shared/surfer.php:845
-msgid "Update image"
 msgstr ""
 
 #: shared/xml.php:263

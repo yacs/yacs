@@ -2,18 +2,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-13 17:54+0200\n"
-"PO-Revision-Date: 2010-08-11 17:31+0100\n"
+"POT-Creation-Date: 2026-10-26 09:03+0100\n"
+"PO-Revision-Date: 2026-10-26 09:30+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
-"Language: \n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Language: French\n"
-"X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: links/check.php:59 links/check.php:70 links/check.php:163
 #: links/check.php:270 links/check.php:379 links/check.php:435
@@ -56,7 +55,7 @@ msgid "No broken link has been found."
 msgstr "Aucun lien cassé n'a été trouvé."
 
 #: links/check.php:160 links/check.php:267 links/check.php:376
-#: links/check.php:432
+#: links/check.php:432 links/check.php:446
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminé en %.2f secondes."
@@ -105,11 +104,11 @@ msgstr "Trop d'erreurs successives. Abandon"
 msgid "%d records have been processed"
 msgstr "%d enregistrements ont été traités"
 
-#: links/check.php:441
+#: links/check.php:451
 msgid "Please select the action to perform."
 msgstr "Merci de choisir l'opération à effectuer."
 
-#: links/check.php:447
+#: links/check.php:457
 msgid ""
 "Check links through the Internet. If you click on the button above, the "
 "database will be scanned, and the server will attempt to open each link "
@@ -123,7 +122,7 @@ msgstr ""
 "signalés pour traitement par vos soins. Le programme s'arrêtera de lui-même "
 "si trop de liens cassés sont identifiés."
 
-#: links/check.php:450
+#: links/check.php:460
 msgid ""
 "Check referrals through the Internet. If you click on the button above, "
 "referrals will be checked through the network. Note that the program will "
@@ -133,7 +132,7 @@ msgstr ""
 "bouton ci-dessous, les références vont être vérifiées à travers le réseau. "
 "Le programme s'arrêtera de lui-même si trop de liens cassés sont identifiés."
 
-#: links/check.php:453
+#: links/check.php:463
 msgid ""
 "Normalize referrals. Referrals from search engines will be simplified as "
 "much as possible. Also, keywords are extracted for further use."
@@ -142,15 +141,19 @@ msgstr ""
 "de recherche seront simplifiées autant que possible. De plus, les mots-clés "
 "seront extraits pour usage ultérieur."
 
-#: links/check.php:456
+#: links/check.php:466
 msgid "Look for orphan records"
 msgstr "Détecter les enregistrements orphelins"
 
-#: links/check.php:459
+#: links/check.php:469
+msgid "Check the decomposition of anchors"
+msgstr "Vérifier la décomposition des ancres"
+
+#: links/check.php:472
 msgid "Start"
 msgstr "Commencer"
 
-#: links/click.php:101 links/links.php:1133 links/links.php:1242
+#: links/click.php:101 links/links.php:1133 links/links.php:1241
 msgid "No link URL has been provided."
 msgstr "Aucun lien URL n'a été fourni."
 
@@ -192,7 +195,7 @@ msgstr "Modifier un lien"
 msgid "Add a link"
 msgstr "Ajouter un lien"
 
-#: links/edit.php:283 links/links.php:1139 links/links.php:1248
+#: links/edit.php:283 links/links.php:1139 links/links.php:1247
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
@@ -206,7 +209,7 @@ msgstr "Merci de votre contribution"
 
 #: links/edit.php:317
 msgid "The link has been successfully recorded."
-msgstr "Le lien a été enregistré"
+msgstr "Le lien a été enregistré avec succès."
 
 #: links/edit.php:323
 msgid "What do you want to do now?"
@@ -336,7 +339,7 @@ msgstr "Ne pas changer la date de modification de la page principale."
 
 #: links/edit.php:521 links/trackback.php:357
 msgid "Please type a valid link."
-msgstr "Merci de fournir une adresse valide"
+msgstr "Merci de fournir une adresse valide."
 
 #: links/edit.php:554
 #, php-format
@@ -367,7 +370,7 @@ msgstr "Utilisez %s et %s pour embellir le texte."
 
 #: links/edit.php:557
 msgid "YACS codes"
-msgstr "codes YACS"
+msgstr "Codes YACS"
 
 #: links/edit.php:557
 msgid "smileys"
@@ -440,7 +443,7 @@ msgstr ""
 "Vous avez ainsi ci-dessous une bonne visibilité des sites externes accèdés à "
 "travers votre site."
 
-#: links/links.php:1236
+#: links/links.php:1235
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 

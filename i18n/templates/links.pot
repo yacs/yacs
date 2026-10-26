@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-13 18:19+0200\n"
+"POT-Creation-Date: 2026-10-26 10:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,7 +59,7 @@ msgid "No broken link has been found."
 msgstr ""
 
 #: links/check.php:160 links/check.php:267 links/check.php:376
-#: links/check.php:432
+#: links/check.php:432 links/check.php:446
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr ""
@@ -108,11 +108,11 @@ msgstr ""
 msgid "%d records have been processed"
 msgstr ""
 
-#: links/check.php:441
+#: links/check.php:451
 msgid "Please select the action to perform."
 msgstr ""
 
-#: links/check.php:447
+#: links/check.php:457
 msgid ""
 "Check links through the Internet. If you click on the button above, the "
 "database will be scanned, and the server will attempt to open each link "
@@ -121,28 +121,32 @@ msgid ""
 "broken links are found."
 msgstr ""
 
-#: links/check.php:450
+#: links/check.php:460
 msgid ""
 "Check referrals through the Internet. If you click on the button above, "
 "referrals will be checked through the network. Note that the program will "
 "stop automatically if too many broken links are found."
 msgstr ""
 
-#: links/check.php:453
+#: links/check.php:463
 msgid ""
 "Normalize referrals. Referrals from search engines will be simplified as "
 "much as possible. Also, keywords are extracted for further use."
 msgstr ""
 
-#: links/check.php:456
+#: links/check.php:466
 msgid "Look for orphan records"
 msgstr ""
 
-#: links/check.php:459
+#: links/check.php:469
+msgid "Check the decomposition of anchors"
+msgstr ""
+
+#: links/check.php:472
 msgid "Start"
 msgstr ""
 
-#: links/click.php:101 links/links.php:1133 links/links.php:1242
+#: links/click.php:101 links/links.php:1133 links/links.php:1241
 msgid "No link URL has been provided."
 msgstr ""
 
@@ -184,7 +188,7 @@ msgstr ""
 msgid "Add a link"
 msgstr ""
 
-#: links/edit.php:283 links/links.php:1139 links/links.php:1248
+#: links/edit.php:283 links/links.php:1139 links/links.php:1247
 msgid "No anchor has been found."
 msgstr ""
 
@@ -415,7 +419,7 @@ msgid ""
 "through your site."
 msgstr ""
 
-#: links/links.php:1236
+#: links/links.php:1235
 msgid "No item has the provided id."
 msgstr ""
 

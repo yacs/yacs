@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-13 17:54+0200\n"
-"PO-Revision-Date: 2022-07-01 16:57+0200\n"
+"POT-Creation-Date: 2026-10-26 09:03+0100\n"
+"PO-Revision-Date: 2026-10-26 09:28+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
 "Language: fr_FR\n"
@@ -12,10 +12,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: images/check.php:26 images/check.php:37 images/check.php:110
-#: images/check.php:166 images/check.php:217 images/delete.php:97
+#: images/check.php:166 images/check.php:217 images/delete.php:102
 #: images/edit.php:141 images/index.php:62 images/view.php:100
 msgid "Images"
 msgstr "Images"
@@ -24,14 +24,14 @@ msgstr "Images"
 msgid "Maintenance"
 msgstr "Maintenance"
 
-#: images/check.php:34 images/delete.php:112 images/edit.php:152
+#: images/check.php:34 images/delete.php:117 images/edit.php:152
 #: images/edit.php:177 images/index.php:67 images/set_as_icon.php:68
 #: images/set_as_icon.php:83 images/set_as_thumbnail.php:66
 #: images/set_as_thumbnail.php:81 images/view.php:121
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à faire cette opération."
 
-#: images/check.php:44 images/images.php:798 images/index.php:96
+#: images/check.php:44 images/images.php:799 images/index.php:96
 msgid "No image has been added."
 msgstr "Aucune image n'a été ajoutée."
 
@@ -56,6 +56,7 @@ msgid "Too many successive errors. Aborted"
 msgstr "Trop d'erreurs successives. Abandon"
 
 #: images/check.php:107 images/check.php:163 images/check.php:214
+#: images/check.php:228
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminé en %.2f secondes."
@@ -79,57 +80,61 @@ msgstr "dans"
 msgid "%d missing files"
 msgstr "%d fichiers manquant"
 
-#: images/check.php:224
+#: images/check.php:234
 msgid "Please select the action to perform."
 msgstr "Merci de choisir l'opération à effectuer."
 
-#: images/check.php:230
+#: images/check.php:240
 msgid "List biggest images"
 msgstr "Lister les plus grosses images"
 
-#: images/check.php:233
+#: images/check.php:243
 msgid "Look for unused images"
 msgstr "Détecter les images non utilisées"
 
-#: images/check.php:236
+#: images/check.php:246
 msgid "Look for orphan records"
 msgstr "Détecter les enregistrements orphelins"
 
-#: images/check.php:239
+#: images/check.php:249
 msgid "Look for missing files"
-msgstr "recherche des fichiers manquants"
+msgstr "Recherche des fichiers manquants"
 
-#: images/check.php:242
+#: images/check.php:252
+msgid "Check the decomposition of anchors"
+msgstr "Vérifier la décomposition des ancres"
+
+#: images/check.php:255
 msgid "Start"
 msgstr "Commencer"
 
-#: images/delete.php:100
+#: images/delete.php:105
 msgid "Delete an image"
 msgstr "Supprimer une image"
 
-#: images/delete.php:143
+#: images/delete.php:148
 msgid "The action has not been confirmed."
 msgstr "L'action n'a pas été confirmée."
 
-#: images/delete.php:155
+#: images/delete.php:160
 msgid "Yes, I want to delete this image"
 msgstr "Oui, je veux supprimer cette image"
 
-#: images/delete.php:158 images/delete.php:160 images/edit.php:615
+#: images/delete.php:163 images/delete.php:165 images/edit.php:615
 msgid "Cancel"
 msgstr "Annuler"
 
-#: images/delete.php:202 images/edit.php:482 images/edit.php:494
+#: images/delete.php:207 images/edit.php:482 images/edit.php:494
 #: images/layout_images.php:99
 msgid "bytes"
 msgstr "octets"
 
-#: images/delete.php:206 images/layout_images.php:103 images/view.php:225
+#: images/delete.php:211 images/layout_images.php:103 images/view.php:225
 #, php-format
 msgid "edited by %s %s"
 msgstr "modifié par %s %s"
 
-#: images/delete.php:223 images/view.php:212
+#: images/delete.php:228 images/view.php:212
 #, php-format
 msgid "Source: %s"
 msgstr "Source : %s"
@@ -350,7 +355,7 @@ msgstr "Utilisez %s et %s pour embellir le texte."
 
 #: images/edit.php:638
 msgid "YACS codes"
-msgstr "codes YACS"
+msgstr "Codes YACS"
 
 #: images/edit.php:638
 msgid "smileys"
@@ -368,47 +373,47 @@ msgstr ""
 msgid "Help"
 msgstr "Aide"
 
-#: images/image.php:105
+#: images/image.php:110
 #, php-format
 msgid "Impossible to adjust image %s."
 msgstr "Impossible d'ajuster l'image %s."
 
-#: images/image.php:122
+#: images/image.php:127
 #, php-format
 msgid "Cannot write adjusted image to %s."
 msgstr "Impossible d'écrire l'image ajustée %s."
 
-#: images/image.php:240
+#: images/image.php:245
 #, php-format
 msgid "No image information in %s."
-msgstr "Aucune image valide dans %s"
+msgstr "Aucune image valide dans %s."
 
-#: images/image.php:263
+#: images/image.php:268
 #, php-format
 msgid "No GD support, or unknown image type in %s."
 msgstr "Pas de support GD ou type d'image inconnu dans %s."
 
-#: images/image.php:350
+#: images/image.php:355
 #, php-format
 msgid "Cannot copy image to %s"
 msgstr "Impossible de copier vers %s"
 
-#: images/image.php:378
+#: images/image.php:388
 #, php-format
 msgid "Impossible to skrink image %s"
 msgstr "Impossible de réduire l'image %s"
 
-#: images/image.php:395
+#: images/image.php:405
 #, php-format
 msgid "Impossible to write to %s."
 msgstr "Impossible d'écrire dans %s."
 
-#: images/image.php:427
+#: images/image.php:437
 #, php-format
 msgid "No image information in %s"
 msgstr "Aucune image valide dans %s"
 
-#: images/image.php:437
+#: images/image.php:447
 #, php-format
 msgid "Rejected file type %s"
 msgstr "Type de fichier invalide %s"
@@ -432,9 +437,9 @@ msgstr "Impossible de copier le fichier %s."
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 
-#: images/images.php:933
+#: images/images.php:937
 msgid "Following image has been added:"
-msgstr "L'image suivante à été ajoutée"
+msgstr "L'image suivante à été ajoutée :"
 
 #: images/index.php:75
 #, php-format
@@ -482,7 +487,7 @@ msgstr "Utiliser une image"
 
 #: images/set_as_icon.php:96 images/set_as_thumbnail.php:94
 msgid "Operation has failed."
-msgstr "Impossible de mener l'opération à son terme"
+msgstr "Impossible de mener l'opération à son terme."
 
 #: images/view.php:221
 #, php-format

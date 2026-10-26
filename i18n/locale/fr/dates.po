@@ -2,23 +2,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-01 16:51+0200\n"
-"PO-Revision-Date: 2010-08-11 17:30+0100\n"
+"POT-Creation-Date: 2026-10-26 09:03+0100\n"
+"PO-Revision-Date: 2026-10-26 09:26+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Alexis Raimbault, Bernard Paques\n"
-"Language: \n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Language: French\n"
-"X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 3.0.1\n"
 
-#: dates/check.php:24 dates/check.php:35 dates/check.php:93
-#: dates/check.php:149 dates/delete.php:73 dates/edit.php:67
-#: dates/fetch_ics.php:27 dates/fetch_ics.php:30 dates/index.php:43
-#: dates/view.php:55
+#: dates/check.php:24 dates/check.php:35 dates/check.php:93 dates/check.php:149
+#: dates/delete.php:73 dates/edit.php:67 dates/fetch_ics.php:27
+#: dates/fetch_ics.php:30 dates/index.php:43 dates/view.php:55
 msgid "Dates"
 msgstr "Dates"
 
@@ -52,7 +50,7 @@ msgstr "Inutilisé : %s"
 msgid "Too many successive errors. Aborted"
 msgstr "Trop d'erreurs successives. Abandon"
 
-#: dates/check.php:90 dates/check.php:146
+#: dates/check.php:90 dates/check.php:146 dates/check.php:160
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminé en %.2f secondes."
@@ -62,19 +60,23 @@ msgstr "Script terminé en %.2f secondes."
 msgid "Orphan: %s"
 msgstr "Orphelin : %s"
 
-#: dates/check.php:156
+#: dates/check.php:166
 msgid "Please select the action to perform."
 msgstr "Merci de choisir l'opération à effectuer."
 
-#: dates/check.php:162
+#: dates/check.php:172
 msgid "Look for unused dates"
 msgstr "Détecter les dates non-utilisées"
 
-#: dates/check.php:165
+#: dates/check.php:175
 msgid "Look for orphan records"
 msgstr "Détecter les enregistrements orphelins"
 
-#: dates/check.php:168
+#: dates/check.php:178
+msgid "Check the decomposition of anchors"
+msgstr "Vérifier la décomposition des ancres"
+
+#: dates/check.php:181
 msgid "Start"
 msgstr "Commencer"
 
@@ -195,8 +197,7 @@ msgstr "Annuler"
 msgid "%s: %s"
 msgstr "%s : %s"
 
-#: dates/delete.php:127 dates/edit.php:127 dates/edit.php:196
-#: dates/view.php:76
+#: dates/delete.php:127 dates/edit.php:127 dates/edit.php:196 dates/view.php:76
 msgid "Target date"
 msgstr "Date cible"
 
@@ -265,7 +266,7 @@ msgstr "Utilisez %s et %s pour embellir le texte."
 
 #: dates/edit.php:240
 msgid "YACS codes"
-msgstr "codes YACS"
+msgstr "Codes YACS"
 
 #: dates/edit.php:240
 msgid "smileys"

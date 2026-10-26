@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-13 17:54+0200\n"
-"PO-Revision-Date: 2016-06-06 13:46+0100\n"
+"POT-Creation-Date: 2026-10-26 09:03+0100\n"
+"PO-Revision-Date: 2026-10-26 09:36+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
 "Language: fr_FR\n"
@@ -12,10 +12,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: sections/check.php:23 sections/check.php:34 sections/check.php:82
 #: sections/check.php:135 sections/delete.php:83 sections/edit.php:116
-#: sections/feed.php:88 sections/index.php:88 sections/lock.php:53
+#: sections/feed.php:88 sections/index.php:85 sections/lock.php:53
 #: sections/mail.php:65 sections/manage.php:192 sections/new.php:66
 #: sections/own.php:59 sections/select.php:49
 msgid "Site map"
@@ -28,7 +29,7 @@ msgstr "Maintenance"
 #: sections/check.php:31 sections/delete.php:99 sections/describe.php:68
 #: sections/describe.php:90 sections/duplicate.php:70 sections/edit.php:137
 #: sections/edit.php:157 sections/export.php:65 sections/feed.php:108
-#: sections/index.php:103 sections/invite.php:107 sections/invite.php:127
+#: sections/index.php:100 sections/invite.php:107 sections/invite.php:127
 #: sections/lock.php:63 sections/lock.php:78 sections/mail.php:76
 #: sections/mail.php:96 sections/manage.php:205 sections/manage.php:220
 #: sections/new.php:74 sections/new.php:85 sections/own.php:70
@@ -52,7 +53,7 @@ msgstr "Identifiant : %s"
 msgid "%d records have been processed"
 msgstr "%d enregistrements ont été traités"
 
-#: sections/check.php:79 sections/check.php:132
+#: sections/check.php:79 sections/check.php:132 sections/check.php:146
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminé en %.2f secondes."
@@ -66,25 +67,29 @@ msgstr "Orphelin : %s"
 msgid "Too many successive errors. Aborted"
 msgstr "Trop d'erreurs successives. Abandon"
 
-#: sections/check.php:142
+#: sections/check.php:152
 msgid "Please select the action to perform."
 msgstr "Merci de choisir l'opération à effectuer."
 
-#: sections/check.php:148
+#: sections/check.php:158
 msgid "Look for orphan records"
 msgstr "Détecter les enregistrements orphelins"
 
-#: sections/check.php:151
+#: sections/check.php:161
 msgid "Ensure that each item has a unique handle"
 msgstr "Vérifier que chaque élément à un identifiant unique"
 
-#: sections/check.php:154
+#: sections/check.php:164
+msgid "Check the decomposition of anchors"
+msgstr "Vérifier la décomposition des ancres"
+
+#: sections/check.php:167
 msgid "Start"
 msgstr "Commencer"
 
 #: sections/delete.php:90 sections/duplicate.php:61 sections/edit.php:245
-#: sections/edit.php:288 sections/edit.php:313 sections/view.php:369
-#: sections/view.php:581 sections/view.php:585 sections/view.php:589
+#: sections/edit.php:288 sections/edit.php:313 sections/view.php:371
+#: sections/view.php:583 sections/view.php:587 sections/view.php:591
 #, php-format
 msgid "%s: %s"
 msgstr "%s : %s"
@@ -99,7 +104,7 @@ msgstr "Supprimer"
 msgid "Deletion: %s"
 msgstr "Suppression : %s"
 
-#: sections/delete.php:130 sections/duplicate.php:159
+#: sections/delete.php:130 sections/duplicate.php:156
 msgid "The action has not been confirmed."
 msgstr "L'action n'a pas été confirmée."
 
@@ -111,20 +116,20 @@ msgstr "Attention : une ou plusieurs pages vont également être détruites."
 msgid "Yes, I want to delete this section"
 msgstr "Oui, je veux supprimer cette section"
 
-#: sections/delete.php:150 sections/duplicate.php:173 sections/edit.php:1107
+#: sections/delete.php:150 sections/duplicate.php:170 sections/edit.php:1107
 #: sections/edit.php:1109 sections/invite.php:424 sections/mail.php:247
 #: sections/manage.php:1134 sections/manage.php:1238
 msgid "Cancel"
 msgstr "Annuler"
 
-#: sections/delete.php:178 sections/duplicate.php:200
+#: sections/delete.php:178 sections/duplicate.php:197
 #, php-format
 msgid "edited by %s %s"
 msgstr "modifié par %s %s"
 
-#: sections/delete.php:182 sections/duplicate.php:204
+#: sections/delete.php:182 sections/duplicate.php:201
 #: sections/layout_sections_as_manage.php:173 sections/view_as_tabs.php:91
-#: sections/view.php:605
+#: sections/view.php:607
 msgid "hits"
 msgstr "lectures"
 
@@ -181,7 +186,7 @@ msgid "View the section"
 msgstr "Voir la section"
 
 #: sections/duplicate.php:133 sections/view_as_tabs.php:827
-#: sections/view.php:1513
+#: sections/view.php:1515
 msgid "Edit this section"
 msgstr "Modifier cette section"
 
@@ -200,11 +205,11 @@ msgstr "Envoyé par %s dans %s"
 msgid "Sent by %s"
 msgstr "Envoyé par %s"
 
-#: sections/duplicate.php:171
+#: sections/duplicate.php:168
 msgid "Yes, I want to duplicate this section"
 msgstr "Oui, je veux dupliquer cette section"
 
-#: sections/duplicate.php:211
+#: sections/duplicate.php:208
 msgid ""
 "Following items are attached to this record and will be duplicated as well."
 msgstr ""
@@ -218,7 +223,7 @@ msgstr "Modifier : %s"
 
 #: sections/edit.php:126 sections/index.php:180
 #: sections/layout_sections_as_tabs.php:213 sections/view_as_tabs.php:443
-#: sections/view_as_tabs.php:794 sections/view.php:1385 sections/view.php:1543
+#: sections/view_as_tabs.php:794 sections/view.php:1387 sections/view.php:1545
 msgid "Add a section"
 msgstr "Ajouter une section"
 
@@ -232,7 +237,7 @@ msgstr "La section a été mise à jour."
 
 #: sections/edit.php:283 sections/edit.php:356 sections/edit.php:704
 #: sections/new.php:285 sections/view_as_tabs.php:577
-#: sections/view_as_tabs.php:806 sections/view.php:1211 sections/view.php:1527
+#: sections/view_as_tabs.php:806 sections/view.php:1213 sections/view.php:1529
 msgid "Add a file"
 msgstr "Ajouter un fichier"
 
@@ -248,12 +253,12 @@ msgstr ""
 
 #: sections/edit.php:354 sections/edit.php:620 sections/edit.php:693
 #: sections/edit.php:851 sections/new.php:283 sections/view_as_tabs.php:818
-#: sections/view.php:1521
+#: sections/view.php:1523
 msgid "Add an image"
 msgstr "Ajouter une image"
 
 #: sections/edit.php:358 sections/new.php:287 sections/view_as_tabs.php:626
-#: sections/view_as_tabs.php:812 sections/view.php:1339 sections/view.php:1533
+#: sections/view_as_tabs.php:812 sections/view.php:1341 sections/view.php:1535
 msgid "Add a link"
 msgstr "Ajouter un lien"
 
@@ -437,7 +442,7 @@ msgid "To be inserted at the bottom of related pages."
 msgstr "Inséré vers le bas des pages associées."
 
 #: sections/edit.php:574 sections/manage.php:1158 sections/view_as_tabs.php:199
-#: sections/view.php:951
+#: sections/view.php:953
 msgid "Pages"
 msgstr "Articles"
 
@@ -524,7 +529,7 @@ msgid "Images"
 msgstr "Images"
 
 #: sections/edit.php:710 sections/print.php:213 sections/sections.php:650
-#: sections/view_as_tabs.php:586 sections/view.php:1224
+#: sections/view_as_tabs.php:586 sections/view.php:1226
 msgid "Files"
 msgstr "Fichiers"
 
@@ -549,7 +554,7 @@ msgid "Resources"
 msgstr "Ressources"
 
 #: sections/edit.php:750 sections/layout_sections_as_rights.php:171
-#: sections/view_as_tabs.php:735 sections/view.php:581
+#: sections/view_as_tabs.php:735 sections/view.php:583
 msgid "Owner"
 msgstr "Propriétaire"
 
@@ -851,7 +856,7 @@ msgstr "Utilisez %s et %s pour embellir le texte."
 
 #: sections/edit.php:1177
 msgid "YACS codes"
-msgstr "codes YACS"
+msgstr "Codes YACS"
 
 #: sections/edit.php:1177
 msgid "smileys"
@@ -886,8 +891,8 @@ msgstr "Aucune section ordinaire n'a été créée."
 msgid "sections"
 msgstr "sections"
 
-#: sections/index.php:162 sections/sections.php:1373
-#: sections/view_as_tabs.php:498 sections/view.php:1455
+#: sections/index.php:162 sections/sections.php:1358
+#: sections/view_as_tabs.php:498 sections/view.php:1457
 msgid "Other sections"
 msgstr "Autres sections"
 
@@ -907,7 +912,7 @@ msgstr "Index de l'aide"
 msgid "Contact"
 msgstr "Contact"
 
-#: sections/index.php:195 sections/view.php:814
+#: sections/index.php:195 sections/view.php:816
 msgid "See also"
 msgstr "Voir aussi"
 
@@ -920,7 +925,7 @@ msgid "View the category"
 msgstr "Voir la catégorie"
 
 #: sections/invite.php:102 sections/invite.php:331
-#: sections/view_as_tabs.php:714 sections/view.php:687
+#: sections/view_as_tabs.php:714 sections/view.php:689
 msgid "Invite participants"
 msgstr "Inviter des participants"
 
@@ -1067,7 +1072,7 @@ msgstr ""
 #: sections/layout_sections_as_simple.php:87
 #: sections/layout_sections_as_tabs.php:169 sections/layout_sections.php:96
 #: sections/manage.php:1143 sections/sections.php:635 sections/select.php:162
-#: sections/view_as_tabs.php:288 sections/view.php:1050
+#: sections/view_as_tabs.php:288 sections/view.php:1052
 #, php-format
 msgid "%d page"
 msgid_plural "%d pages"
@@ -1082,7 +1087,7 @@ msgstr[1] "%d pages"
 #: sections/layout_sections_as_simple.php:91
 #: sections/layout_sections_as_slashdot.php:156
 #: sections/layout_sections.php:122 sections/sections.php:653
-#: sections/select.php:166 sections/view_as_tabs.php:551 sections/view.php:1174
+#: sections/select.php:166 sections/view_as_tabs.php:551 sections/view.php:1176
 #, php-format
 msgid "%d file"
 msgid_plural "%d files"
@@ -1109,7 +1114,7 @@ msgstr[1] "%d commentaires"
 #: sections/layout_sections_as_select.php:137
 #: sections/layout_sections_as_simple.php:95 sections/layout_sections.php:144
 #: sections/sections.php:659 sections/select.php:170
-#: sections/view_as_tabs.php:600 sections/view.php:1314
+#: sections/view_as_tabs.php:600 sections/view.php:1316
 #, php-format
 msgid "%d link"
 msgid_plural "%d links"
@@ -1123,7 +1128,7 @@ msgstr[1] "%d liens"
 #: sections/layout_sections_as_simple.php:83
 #: sections/layout_sections_as_tabs.php:236 sections/layout_sections.php:170
 #: sections/manage.php:1247 sections/sections.php:631 sections/select.php:158
-#: sections/view_as_tabs.php:466 sections/view.php:1419
+#: sections/view_as_tabs.php:466 sections/view.php:1421
 #, php-format
 msgid "%d section"
 msgid_plural "%d sections"
@@ -1207,12 +1212,12 @@ msgid "Discuss"
 msgstr "Commenter"
 
 #: sections/layout_sections_as_tabs.php:132 sections/view_as_tabs.php:255
-#: sections/view_as_tabs.php:779 sections/view.php:1013 sections/view.php:1496
+#: sections/view_as_tabs.php:779 sections/view.php:1015 sections/view.php:1498
 msgid "Add a page"
 msgstr "Ajouter une page"
 
 #: sections/layout_sections_as_tabs.php:144 sections/view_as_tabs.php:264
-#: sections/view.php:1025
+#: sections/view.php:1027
 msgid "Draft pages"
 msgstr "Pages en cours de préparation"
 
@@ -1225,7 +1230,7 @@ msgid "Edit this sub-section"
 msgstr "Modifier cette sous-section"
 
 #: sections/lock.php:58 sections/manage.php:1109 sections/manage.php:1213
-#: sections/view_as_tabs.php:844 sections/view.php:1560
+#: sections/view_as_tabs.php:844 sections/view.php:1562
 msgid "Lock"
 msgstr "Verrouiller"
 
@@ -1233,7 +1238,7 @@ msgstr "Verrouiller"
 msgid "Operation has failed."
 msgstr "L'opération a échoué."
 
-#: sections/mail.php:71 sections/view_as_tabs.php:720 sections/view.php:692
+#: sections/mail.php:71 sections/view_as_tabs.php:720 sections/view.php:694
 msgid "Notify participants"
 msgstr "Notifier les participants"
 
@@ -1473,7 +1478,7 @@ msgid "Draft"
 msgstr "Brouillon"
 
 #: sections/manage.php:1112 sections/manage.php:1216
-#: sections/view_as_tabs.php:847 sections/view.php:1562
+#: sections/view_as_tabs.php:847 sections/view.php:1564
 msgid "Unlock"
 msgstr "Déverrouiller"
 
@@ -1505,7 +1510,7 @@ msgstr "Groupes"
 msgid "This is the right place to describe ways of working in this group."
 msgstr ""
 "Cette page est l'endroit idéal pour exposer les principes de fonctionnement "
-"de ce groupe. "
+"de ce groupe."
 
 #: sections/new.php:183
 msgid "Group policy"
@@ -1516,7 +1521,7 @@ msgstr "Règles de fonctionnement"
 msgid "Welcome to \"%s\""
 msgstr "Bienvenue dans \"%s\""
 
-#: sections/new.php:209 sections/print.php:198 sections/view.php:1110
+#: sections/new.php:209 sections/print.php:198 sections/view.php:1112
 msgid "What is new?"
 msgstr "Quoi de neuf ?"
 
@@ -1604,12 +1609,12 @@ msgid "Public - Everybody, including anonymous surfers"
 msgstr "Public - Tout le monde, y compris les surfeurs anonymes"
 
 #: sections/new.php:358 sections/print.php:84 sections/view_as_tabs.php:47
-#: sections/view.php:544
+#: sections/view.php:546
 msgid "Community - Access is granted to any identified surfer"
 msgstr "Communauté - Accès autorisé à toute personne identifiée"
 
 #: sections/new.php:362 sections/print.php:88 sections/view_as_tabs.php:51
-#: sections/view.php:548
+#: sections/view.php:550
 msgid "Private - Access is restricted to selected persons"
 msgstr "Privé - Accès limité à quelques personnes"
 
@@ -1640,17 +1645,17 @@ msgstr ""
 msgid "Rank: %s"
 msgstr "Rang : %s"
 
-#: sections/print.php:96 sections/view_as_tabs.php:73 sections/view.php:570
+#: sections/print.php:96 sections/view_as_tabs.php:73 sections/view.php:572
 #, php-format
 msgid "Section will be activated %s"
 msgstr "Cette section sera activé %s"
 
-#: sections/print.php:100 sections/view_as_tabs.php:77 sections/view.php:574
+#: sections/print.php:100 sections/view_as_tabs.php:77 sections/view.php:576
 #, php-format
 msgid "Section has expired %s"
 msgstr "Cette section a expiré %s"
 
-#: sections/print.php:257 sections/view_as_tabs.php:635 sections/view.php:1348
+#: sections/print.php:257 sections/view_as_tabs.php:635 sections/view.php:1350
 msgid "Links"
 msgstr "Liens"
 
@@ -1663,7 +1668,7 @@ msgid "Notes"
 msgstr "Annotations"
 
 #: sections/section.php:111 sections/section.php:119
-#: sections/view_as_tabs.php:352 sections/view.php:1240
+#: sections/view_as_tabs.php:352 sections/view.php:1242
 msgid "Comments"
 msgstr "Commentaires"
 
@@ -1763,7 +1768,7 @@ msgid "Annotate this page"
 msgstr "Annoter cette page"
 
 #: sections/section.php:187 sections/section.php:195
-#: sections/view_as_tabs.php:800 sections/view.php:1538
+#: sections/view_as_tabs.php:800 sections/view.php:1540
 msgid "Post a comment"
 msgstr "Ajouter un commentaire"
 
@@ -1861,17 +1866,17 @@ msgstr "Inviter %s à participer"
 msgid "View the profile of %s"
 msgstr "Voir le profil de %s"
 
-#: sections/sections.php:888 sections/sections.php:2641
-#: sections/sections.php:2957 sections/sections.php:3118
-#: sections/sections.php:3280 sections/sections.php:3284
+#: sections/sections.php:873 sections/sections.php:2622
+#: sections/sections.php:2939 sections/sections.php:3102
+#: sections/sections.php:3266 sections/sections.php:3270
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 
-#: sections/sections.php:1602
+#: sections/sections.php:1587
 msgid "Top of the content tree"
 msgstr "Sommet de l'arbre de contenu"
 
-#: sections/sections.php:2751 sections/sections.php:2963
+#: sections/sections.php:2732 sections/sections.php:2945
 msgid "No title has been provided."
 msgstr "Aucun titre n'a été fourni."
 
@@ -1903,7 +1908,7 @@ msgstr "propriétaire"
 msgid "unassign"
 msgstr "retirer"
 
-#: sections/view_as_tabs.php:61 sections/view.php:558
+#: sections/view_as_tabs.php:61 sections/view.php:560
 msgid ""
 "Content does not flow to parent section. Is listed with special sections, "
 "but only to associates."
@@ -1911,38 +1916,38 @@ msgstr ""
 "Le contenu n'apparait pas sur la section parent. Est listée avec les "
 "sections spéciales."
 
-#: sections/view_as_tabs.php:65 sections/view.php:562
+#: sections/view_as_tabs.php:65 sections/view.php:564
 msgid ""
 "Is not publicly listed at the Site Map. Is listed with special sections, but "
 "only to associates."
 msgstr ""
 "N'apparaît pas sur la carte du site, sauf pour les associés avec les autres "
-"sections spéciales"
+"sections spéciales."
 
-#: sections/view_as_tabs.php:99 sections/view.php:613
+#: sections/view_as_tabs.php:99 sections/view.php:615
 msgid "page is locked."
 msgstr "la page est verrouillée."
 
-#: sections/view_as_tabs.php:109 sections/view.php:623
+#: sections/view_as_tabs.php:109 sections/view.php:625
 #, php-format
 msgid "Code to reference this page: %s"
 msgstr "Code pour référencer cette page : %s"
 
-#: sections/view_as_tabs.php:113 sections/view.php:627
+#: sections/view_as_tabs.php:113 sections/view.php:629
 #, php-format
 msgid "Name: %s"
 msgstr "Nom : %s"
 
-#: sections/view_as_tabs.php:117 sections/view.php:631
+#: sections/view_as_tabs.php:117 sections/view.php:633
 #, php-format
 msgid "Shortcut: %s"
 msgstr "Raccourci : %s"
 
-#: sections/view_as_tabs.php:344 sections/view.php:1150
+#: sections/view_as_tabs.php:344 sections/view.php:1152
 msgid "Hidden pages"
 msgstr "Pages masquées"
 
-#: sections/view_as_tabs.php:378 sections/view.php:1268
+#: sections/view_as_tabs.php:378 sections/view.php:1270
 #, php-format
 msgid "%d comments"
 msgstr "%d commentaires"
@@ -1962,15 +1967,15 @@ msgid_plural "%d participants"
 msgstr[0] "%d participant"
 msgstr[1] "%d participants"
 
-#: sections/view_as_tabs.php:708 sections/view.php:725
+#: sections/view_as_tabs.php:708 sections/view.php:727
 msgid "Watch this section"
 msgstr "Surveiller cette section"
 
-#: sections/view_as_tabs.php:726 sections/view.php:697
+#: sections/view_as_tabs.php:726 sections/view.php:699
 msgid "Manage participants"
 msgstr "Gérer les participants"
 
-#: sections/view_as_tabs.php:731 sections/view.php:734
+#: sections/view_as_tabs.php:731 sections/view.php:736
 msgid "Leave this section"
 msgstr "Quitter cette section"
 
@@ -1983,64 +1988,64 @@ msgid "Persons"
 msgstr "Personnes"
 
 #: sections/view_as_tabs.php:780 sections/view_as_tabs.php:787
-#: sections/view.php:1497 sections/view.php:1503
+#: sections/view.php:1499 sections/view.php:1505
 msgid "Add new content to this section"
 msgstr "Ajouter du contenu à cette section"
 
-#: sections/view_as_tabs.php:787 sections/view.php:1503
+#: sections/view_as_tabs.php:787 sections/view.php:1505
 msgid "Add a poll"
 msgstr "Ajouter un sondage"
 
-#: sections/view_as_tabs.php:800 sections/view.php:1538
+#: sections/view_as_tabs.php:800 sections/view.php:1540
 msgid "Express yourself, and say what you think."
 msgstr "Exprimez-vous, et partagez votre pensée."
 
-#: sections/view_as_tabs.php:806 sections/view.php:1527 sections/view.php:1528
+#: sections/view_as_tabs.php:806 sections/view.php:1529 sections/view.php:1530
 msgid "Attach related files."
 msgstr "Attacher les fichiers en rapport avec cette page."
 
-#: sections/view_as_tabs.php:812 sections/view.php:1533
+#: sections/view_as_tabs.php:812 sections/view.php:1535
 msgid "Contribute to the web and link to relevant pages."
 msgstr ""
 "Participez à l'extension du web et indiquez les autres pages pertinentes."
 
-#: sections/view_as_tabs.php:818 sections/view.php:1521 sections/view.php:1522
+#: sections/view_as_tabs.php:818 sections/view.php:1523 sections/view.php:1524
 msgid "You can upload a camera shot, a drawing, or another image file."
 msgstr "Vous pouvez télécharger une photo, un dessin ou une image."
 
-#: sections/view_as_tabs.php:828 sections/view.php:1514 sections/view.php:1515
+#: sections/view_as_tabs.php:828 sections/view.php:1516 sections/view.php:1517
 msgid "Press [e] to edit"
 msgstr "Appuyer sur [e] pour modifier"
 
-#: sections/view_as_tabs.php:838 sections/view.php:1555
+#: sections/view_as_tabs.php:838 sections/view.php:1557
 msgid "Versions"
 msgstr "Versions"
 
-#: sections/view_as_tabs.php:838 sections/view.php:1555
+#: sections/view_as_tabs.php:838 sections/view.php:1557
 msgid "Restore a previous version if necessary"
 msgstr "Restaurer une version précédente si nécessaire"
 
-#: sections/view_as_tabs.php:852 sections/view.php:1568
+#: sections/view_as_tabs.php:852 sections/view.php:1570
 msgid "Delete this section"
 msgstr "Supprimer cette section"
 
-#: sections/view_as_tabs.php:857 sections/view.php:1574
+#: sections/view_as_tabs.php:857 sections/view.php:1576
 msgid "Manage content"
 msgstr "Gérer le contenu"
 
-#: sections/view_as_tabs.php:857 sections/view.php:1574
+#: sections/view_as_tabs.php:857 sections/view.php:1576
 msgid "Bulk operations"
 msgstr "Opérations de masse"
 
-#: sections/view_as_tabs.php:862 sections/view.php:1579
+#: sections/view_as_tabs.php:862 sections/view.php:1581
 msgid "Duplicate this section"
 msgstr "Dupliquer cette section"
 
-#: sections/view.php:369
+#: sections/view.php:371
 msgid "Request"
 msgstr "Requête"
 
-#: sections/view.php:381
+#: sections/view.php:383
 #, php-format
 msgid ""
 "Your request has been transmitted to %s. Check your mailbox for feed-back."
@@ -2048,133 +2053,133 @@ msgstr ""
 "Votre requête a été transmise à %s, qui vous répondra par courrier "
 "électronique."
 
-#: sections/view.php:387
+#: sections/view.php:389
 msgid "Where do you want to go now?"
 msgstr "Où voulez-vous aller à présent ?"
 
-#: sections/view.php:389
+#: sections/view.php:391
 msgid "Front page"
 msgstr "Page d'accueil"
 
-#: sections/view.php:390
+#: sections/view.php:392
 msgid "My profile"
 msgstr "Mon profil"
 
-#: sections/view.php:397
+#: sections/view.php:399
 msgid "You are not allowed to access this page."
 msgstr "Vous n'êtes pas autorisé à voir cette page."
 
-#: sections/view.php:418
+#: sections/view.php:420
 msgid "Following person is entitled to invite you to participate:"
 msgid_plural "Following persons are entitled to invite you to participate:"
 msgstr[0] "La personne suivante peut vous inviter à participer :"
 msgstr[1] "Les personnes suivantes peuvent vous inviter à participer :"
 
-#: sections/view.php:423
+#: sections/view.php:425
 msgid "Submit a request to get access"
 msgstr "Demander l'accès"
 
-#: sections/view.php:585
+#: sections/view.php:587
 msgid "Editors"
 msgstr "Editeurs"
 
-#: sections/view.php:589
+#: sections/view.php:591
 msgid "Watchers"
 msgstr "Observateurs"
 
-#: sections/view.php:673
+#: sections/view.php:675
 msgid "Post to Facebook"
 msgstr "Partager sur Facebook"
 
-#: sections/view.php:673 sections/view.php:677 sections/view.php:681
+#: sections/view.php:675 sections/view.php:679 sections/view.php:683
 msgid "Spread the word"
 msgstr "Diffuser l'information"
 
-#: sections/view.php:677
+#: sections/view.php:679
 msgid "Tweet this"
 msgstr "Poster sur Twitter"
 
-#: sections/view.php:681
+#: sections/view.php:683
 msgid "Share at LinkedIn"
 msgstr "Partager sur LinkedIn"
 
-#: sections/view.php:702
+#: sections/view.php:704
 msgid "Reference this page"
 msgstr "Référencer cette page"
 
-#: sections/view.php:702
+#: sections/view.php:704
 msgid "Various means to link to this page"
 msgstr "Différents moyens de lier cette page"
 
-#: sections/view.php:707
+#: sections/view.php:709
 msgid "Print this page"
 msgstr "Imprimer cette page"
 
-#: sections/view.php:707
+#: sections/view.php:709
 msgid "Get a paper copy of this page."
 msgstr "Obtenir une copie papier de cette page."
 
-#: sections/view.php:712
+#: sections/view.php:714
 msgid "Share"
 msgstr "Partager"
 
-#: sections/view.php:723
+#: sections/view.php:725
 msgid "Stop notifications"
 msgstr "Arrêter les notifications"
 
-#: sections/view.php:728
+#: sections/view.php:730
 msgid "Manage your watch list"
 msgstr "Gérer votre liste de surveillance"
 
-#: sections/view.php:740
+#: sections/view.php:742
 msgid "Recent pages"
 msgstr "Pages récentes"
 
-#: sections/view.php:742
+#: sections/view.php:744
 msgid "Recent files"
 msgstr "Fichiers récents"
 
-#: sections/view.php:746
+#: sections/view.php:748
 msgid "Recent comments"
 msgstr "Commentaires récents"
 
-#: sections/view.php:753
+#: sections/view.php:755
 msgid "Monitor"
 msgstr "Surveiller"
 
-#: sections/view.php:768
+#: sections/view.php:770
 msgid "Related"
 msgstr "Voir aussi"
 
-#: sections/view.php:784
+#: sections/view.php:786
 msgid "Navigation"
 msgstr "Navigation"
 
-#: sections/view.php:806
+#: sections/view.php:808
 msgid "Assign categories"
 msgstr "Associer des catégories"
 
-#: sections/view.php:835
+#: sections/view.php:837
 #, php-format
 msgid "Blog at %s"
 msgstr "Blog à %s"
 
-#: sections/view.php:854
+#: sections/view.php:856
 #, php-format
 msgid "Bookmark at %s"
 msgstr "Enregistrer le lien à %s"
 
-#: sections/view.php:859
+#: sections/view.php:861
 msgid "Bookmark following link to contribute here:"
 msgid_plural "Bookmark following links to contribute here:"
 msgstr[0] "Vous pouvez mémoriser le lien suivant pour contribuer ici :"
 msgstr[1] "Vous pouvez mémoriser les liens suivants pour contribuer ici :"
 
-#: sections/view.php:861
+#: sections/view.php:863
 msgid "Bookmarklets to contribute"
 msgstr "Signets pour contribuer"
 
-#: sections/view.php:1586
+#: sections/view.php:1588
 msgid "Export this section"
 msgstr "Exporter cette section"
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-01 16:51+0200\n"
-"PO-Revision-Date: 2015-04-24 15:32+0100\n"
+"POT-Creation-Date: 2026-10-26 09:03+0100\n"
+"PO-Revision-Date: 2026-10-26 09:21+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
 "Language: en_GB\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: comments/check.php:24 comments/edit.php:172 comments/feed.php:76
 #: comments/list.php:104 comments/list.php:110 comments/list.php:181
@@ -61,20 +62,24 @@ msgstr "Orphan: %s"
 msgid "Too many successive errors. Aborted"
 msgstr "Too many successive errors. Aborted"
 
-#: comments/check.php:86
+#: comments/check.php:86 comments/check.php:100
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminated in %.2f seconds."
 
-#: comments/check.php:96
+#: comments/check.php:106
 msgid "Please select the action to perform."
 msgstr "Please select the action to perform."
 
-#: comments/check.php:102
+#: comments/check.php:112
 msgid "Look for orphan records"
 msgstr "Look for orphan records"
 
-#: comments/check.php:105
+#: comments/check.php:115
+msgid "Check the decomposition of anchors"
+msgstr "Check the decomposition of anchors"
+
+#: comments/check.php:118
 msgid "Start"
 msgstr "Start"
 

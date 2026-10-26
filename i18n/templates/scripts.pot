@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-13 18:19+0200\n"
+"POT-Creation-Date: 2026-10-26 10:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr ""
 #: scripts/stage.php:239 scripts/stage.php:258 scripts/stage.php:344
 #: scripts/stage.php:353 scripts/update.php:54 scripts/update.php:73
 #: scripts/update.php:210 scripts/update.php:383 scripts/upload.php:30
-#: scripts/upload.php:118 scripts/validate.php:29 scripts/validate.php:52
+#: scripts/upload.php:118 scripts/validate.php:32 scripts/validate.php:55
 #: scripts/view.php:56 scripts/view.php:102
 msgid "Server software"
 msgstr ""
@@ -53,11 +53,11 @@ msgstr ""
 msgid "Script does not exist."
 msgstr ""
 
-#: scripts/browse.php:96
+#: scripts/browse.php:104
 msgid "View the documentation page"
 msgstr ""
 
-#: scripts/browse.php:100 scripts/view.php:98
+#: scripts/browse.php:108 scripts/view.php:98
 msgid "Fetch the script file"
 msgstr ""
 
@@ -67,7 +67,7 @@ msgstr ""
 
 #: scripts/build.php:95 scripts/check.php:44 scripts/compare.php:51
 #: scripts/configure.php:52 scripts/run_once.php:101 scripts/stage.php:128
-#: scripts/update.php:66 scripts/upload.php:42 scripts/validate.php:49
+#: scripts/update.php:66 scripts/upload.php:42 scripts/validate.php:52
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
@@ -89,8 +89,8 @@ msgstr ""
 msgid "Enable remote servers to update from this reference store."
 msgstr ""
 
-#: scripts/build.php:126 scripts/update.php:239 scripts/validate.php:70
-#: scripts/validate.php:199
+#: scripts/build.php:126 scripts/update.php:239 scripts/validate.php:74
+#: scripts/validate.php:240
 msgid ""
 "When you will click on the button the server will be immediately requested "
 "to proceed. However, because of the so many things to do on the back-end, "
@@ -116,11 +116,11 @@ msgstr ""
 msgid "Suppressing the footprints file to disable remote updates..."
 msgstr ""
 
-#: scripts/build.php:148 scripts/build.php:221 scripts/validate.php:79
+#: scripts/build.php:148 scripts/build.php:221 scripts/validate.php:89
 msgid "Listing files..."
 msgstr ""
 
-#: scripts/build.php:153 scripts/validate.php:84
+#: scripts/build.php:153 scripts/validate.php:94
 #, php-format
 msgid "%d scripts have been found."
 msgstr ""
@@ -194,7 +194,7 @@ msgstr ""
 msgid "On-going archive preparation..."
 msgstr ""
 
-#: scripts/build.php:402 scripts/run_once.php:203 scripts/validate.php:191
+#: scripts/build.php:402 scripts/run_once.php:203 scripts/validate.php:232
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr ""
@@ -423,7 +423,7 @@ msgstr ""
 msgid "Run once"
 msgstr ""
 
-#: scripts/index.php:180 scripts/validate.php:32
+#: scripts/index.php:180 scripts/validate.php:35
 msgid "Validate PHP syntax"
 msgstr ""
 
@@ -812,51 +812,86 @@ msgid ""
 "carefully select a patch adapted to your current situation."
 msgstr ""
 
-#: scripts/validate.php:59
+#: scripts/validate.php:62
 msgid ""
 "This tool will include most of the running reference PHP scripts. Any syntax "
 "error should be spotted easily."
 msgstr ""
 
-#: scripts/validate.php:63
+#: scripts/validate.php:66
+msgid ""
+"Also include scripts, to report warnings raised at run time. Some scripts "
+"stop the process or change the database."
+msgstr ""
+
+#: scripts/validate.php:67
 msgid "Yes, I want to validate scripts"
 msgstr ""
 
-#: scripts/validate.php:76
+#: scripts/validate.php:84
 msgid ""
 "All reference scripts are included, to show evidence of possible syntax "
 "errors."
 msgstr ""
 
-#: scripts/validate.php:90
+#: scripts/validate.php:86
+msgid "The syntax of all reference scripts is checked, without running them."
+msgstr ""
+
+#: scripts/validate.php:100
+msgid "Checking reference scripts..."
+msgstr ""
+
+#: scripts/validate.php:122 scripts/validate.php:201
+#, php-format
+msgid "%s: %s at line %d"
+msgstr ""
+
+#: scripts/validate.php:127
+#, php-format
+msgid "%d scripts have been checked."
+msgstr ""
+
+#: scripts/validate.php:129
+#, php-format
+msgid "%d syntax error has been found."
+msgid_plural "%d syntax errors have been found."
+msgstr[0] ""
+msgstr[1] ""
+
+#: scripts/validate.php:131
+msgid "No syntax error has been found."
+msgstr ""
+
+#: scripts/validate.php:136
 msgid "Including reference scripts..."
 msgstr ""
 
-#: scripts/validate.php:127 scripts/validate.php:133
+#: scripts/validate.php:162 scripts/validate.php:168
 #, php-format
 msgid "%s has no readable content."
 msgstr ""
 
-#: scripts/validate.php:159
+#: scripts/validate.php:194
 #, php-format
 msgid "inclusion of %s"
 msgstr ""
 
-#: scripts/validate.php:176
+#: scripts/validate.php:217
 #, php-format
 msgid "%d files have been included."
 msgstr ""
 
-#: scripts/validate.php:180
+#: scripts/validate.php:221
 msgid "Following scripts have to be included separately:"
 msgstr ""
 
-#: scripts/validate.php:186
+#: scripts/validate.php:227
 #, php-format
 msgid "%d files to be checked manually."
 msgstr ""
 
-#: scripts/validate.php:195
+#: scripts/validate.php:236
 msgid "If no error has popped up, build the reference set >>"
 msgstr ""
 

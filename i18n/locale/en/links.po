@@ -7,18 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-13 17:54+0200\n"
-"PO-Revision-Date: 2010-08-11 17:28+0100\n"
+"POT-Creation-Date: 2026-10-26 09:03+0100\n"
+"PO-Revision-Date: 2026-10-26 09:31+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
-"Language: \n"
+"Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Language: English\n"
-"X-Poedit-Country: UNITED KINGDOM\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: links/check.php:59 links/check.php:70 links/check.php:163
 #: links/check.php:270 links/check.php:379 links/check.php:435
@@ -61,7 +60,7 @@ msgid "No broken link has been found."
 msgstr "No broken link has been found."
 
 #: links/check.php:160 links/check.php:267 links/check.php:376
-#: links/check.php:432
+#: links/check.php:432 links/check.php:446
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminated in %.2f seconds."
@@ -110,11 +109,11 @@ msgstr "Too many successive errors. Aborted"
 msgid "%d records have been processed"
 msgstr "%d records have been processed"
 
-#: links/check.php:441
+#: links/check.php:451
 msgid "Please select the action to perform."
 msgstr "Please select the action to perform."
 
-#: links/check.php:447
+#: links/check.php:457
 msgid ""
 "Check links through the Internet. If you click on the button above, the "
 "database will be scanned, and the server will attempt to open each link "
@@ -128,7 +127,7 @@ msgstr ""
 "troubleshoting. Note that the program will stop automatically if too many "
 "broken links are found."
 
-#: links/check.php:450
+#: links/check.php:460
 msgid ""
 "Check referrals through the Internet. If you click on the button above, "
 "referrals will be checked through the network. Note that the program will "
@@ -138,7 +137,7 @@ msgstr ""
 "referrals will be checked through the network. Note that the program will "
 "stop automatically if too many broken links are found."
 
-#: links/check.php:453
+#: links/check.php:463
 msgid ""
 "Normalize referrals. Referrals from search engines will be simplified as "
 "much as possible. Also, keywords are extracted for further use."
@@ -146,15 +145,19 @@ msgstr ""
 "Normalize referrals. Referrals from search engines will be simplified as "
 "much as possible. Also, keywords are extracted for further use."
 
-#: links/check.php:456
+#: links/check.php:466
 msgid "Look for orphan records"
 msgstr "Look for orphan records"
 
-#: links/check.php:459
+#: links/check.php:469
+msgid "Check the decomposition of anchors"
+msgstr "Check the decomposition of anchors"
+
+#: links/check.php:472
 msgid "Start"
 msgstr "Start"
 
-#: links/click.php:101 links/links.php:1133 links/links.php:1242
+#: links/click.php:101 links/links.php:1133 links/links.php:1241
 msgid "No link URL has been provided."
 msgstr "No link URL has been provided."
 
@@ -196,7 +199,7 @@ msgstr "Edit a link"
 msgid "Add a link"
 msgstr "Add a link"
 
-#: links/edit.php:283 links/links.php:1139 links/links.php:1248
+#: links/edit.php:283 links/links.php:1139 links/links.php:1247
 msgid "No anchor has been found."
 msgstr "No anchor has been found."
 
@@ -440,7 +443,7 @@ msgstr ""
 "you will have below a global picture of external sites that are referenced "
 "through your site."
 
-#: links/links.php:1236
+#: links/links.php:1235
 msgid "No item has the provided id."
 msgstr "No item has the provided id."
 

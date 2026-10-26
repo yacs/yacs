@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-13 18:19+0200\n"
+"POT-Creation-Date: 2026-10-26 10:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,7 +61,7 @@ msgstr ""
 msgid "Too many successive errors. Aborted"
 msgstr ""
 
-#: tables/check.php:91 tables/check.php:147
+#: tables/check.php:91 tables/check.php:147 tables/check.php:161
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr ""
@@ -71,19 +71,23 @@ msgstr ""
 msgid "Orphan: %s"
 msgstr ""
 
-#: tables/check.php:157
+#: tables/check.php:167
 msgid "Please select the action to perform."
 msgstr ""
 
-#: tables/check.php:163
+#: tables/check.php:173
 msgid "Look for unused tables"
 msgstr ""
 
-#: tables/check.php:166
+#: tables/check.php:176
 msgid "Look for orphan records"
 msgstr ""
 
-#: tables/check.php:169
+#: tables/check.php:179
+msgid "Check the decomposition of anchors"
+msgstr ""
+
+#: tables/check.php:182
 msgid "Start"
 msgstr ""
 

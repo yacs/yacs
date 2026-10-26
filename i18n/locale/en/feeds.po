@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-28 15:55+0200\n"
+"POT-Creation-Date: 2026-10-26 09:03+0100\n"
 "PO-Revision-Date: 2009-10-05 16:04+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -20,148 +20,107 @@ msgstr ""
 "X-Poedit-Country: UNITED KINGDOM\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: feeds/configure.php:68 feeds/configure.php:203 feeds/configure.php:289
+#: feeds/configure.php:52 feeds/configure.php:150 feeds/configure.php:226
 #: feeds/flash/configure.php:53 feeds/flash/configure.php:158
 #: feeds/flash/configure.php:246
 msgid "Control Panel"
 msgstr "Control Panel"
 
-#: feeds/configure.php:71 feeds/flash/configure.php:56
+#: feeds/configure.php:55 feeds/flash/configure.php:56
 #, php-format
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: feeds/configure.php:71 feeds/index.php:187 feeds/flash/configure.php:56
+#: feeds/configure.php:55 feeds/index.php:142 feeds/flash/configure.php:56
 msgid "Configure"
 msgstr "Configure"
 
-#: feeds/configure.php:71 feeds/configure.php:207 feeds/configure.php:288
-#: feeds/index.php:58 feeds/flash/configure.php:166
+#: feeds/configure.php:55 feeds/configure.php:154 feeds/configure.php:225
+#: feeds/index.php:50 feeds/flash/configure.php:166
 #: feeds/flash/configure.php:245
 msgid "Information channels"
 msgstr "Information channels"
 
-#: feeds/configure.php:80 feeds/flash/configure.php:65
+#: feeds/configure.php:64 feeds/flash/configure.php:65
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
 
-#: feeds/configure.php:96
+#: feeds/configure.php:80
 msgid ""
 "Type below information that will be spread everywhere through news feeding."
 msgstr ""
 "Type below information that will be spread everywhere through news feeding."
 
-#: feeds/configure.php:101
+#: feeds/configure.php:85
 msgid "Channel title"
 msgstr "Channel title"
 
-#: feeds/configure.php:103
+#: feeds/configure.php:87
 msgid "Short and meaningful label"
 msgstr "Short and meaningful label"
 
-#: feeds/configure.php:109
+#: feeds/configure.php:93
 msgid "Channel description"
 msgstr "Channel description"
 
-#: feeds/configure.php:111
+#: feeds/configure.php:95
 msgid "Up to two lines of text"
 msgstr "Up to two lines of text"
 
-#: feeds/configure.php:117
+#: feeds/configure.php:101
 msgid "Webmaster mail address"
 msgstr "Webmaster mail address"
 
-#: feeds/configure.php:119
+#: feeds/configure.php:103
 msgid "May be subject to spam attacks"
 msgstr "May be subject to spam attacks"
 
-#: feeds/configure.php:129
+#: feeds/configure.php:113
 msgid "Channel image"
 msgstr "Channel image"
 
-#: feeds/configure.php:131
+#: feeds/configure.php:115
 msgid "Relative to YACS installation path"
 msgstr "Relative to YACS installation path"
 
-#: feeds/configure.php:137
+#: feeds/configure.php:121
 msgid "Time to live"
 msgstr "Time to live"
 
-#: feeds/configure.php:139
+#: feeds/configure.php:123
 msgid "The suggested amount of time before fetching a feed again"
 msgstr "The suggested amount of time before fetching a feed again"
 
-#: feeds/configure.php:151 feeds/index.php:146
-#, php-format
-msgid "To extend the list of feeders add adequate %s."
-msgstr "To extend the list of feeders add adequate %s."
-
-#: feeds/configure.php:151 feeds/index.php:146
-msgid "server profiles"
-msgstr "server profiles"
-
-#: feeds/configure.php:156
-msgid "Feeding period"
-msgstr "Feeding period"
-
-#: feeds/configure.php:158
-msgid "In minutes. 60 means one hour, etc. Minimum value is 5 minutes"
-msgstr "In minutes. 60 means one hour, etc. Minimum value is 5 minutes"
-
-#: feeds/configure.php:164
-msgid "Maximum news"
-msgstr "Maximum news"
-
-#: feeds/configure.php:166
-msgid "Oldest news entries will be deleted"
-msgstr "Oldest news entries will be deleted"
-
-#: feeds/configure.php:170
-msgid "Debug feeds"
-msgstr "Debug feeds"
-
-#: feeds/configure.php:174
-msgid "Save data sent and received in temporary/debug.txt"
-msgstr "Save data sent and received in temporary/debug.txt"
-
-#: feeds/configure.php:175
-msgid "Use this option only for troubleshooting"
-msgstr "Use this option only for troubleshooting"
-
-#: feeds/configure.php:186
+#: feeds/configure.php:134
 msgid "Outbound"
 msgstr "Outbound"
 
-#: feeds/configure.php:187
-msgid "Inbound"
-msgstr "Inbound"
-
-#: feeds/configure.php:199 feeds/flash/configure.php:154
+#: feeds/configure.php:146 feeds/flash/configure.php:154
 msgid "Submit"
 msgstr "Submit"
 
-#: feeds/configure.php:199 feeds/flash/configure.php:154
+#: feeds/configure.php:146 feeds/flash/configure.php:154
 msgid "Press [s] to submit data"
 msgstr "Press [s] to submit data"
 
-#: feeds/configure.php:219
+#: feeds/configure.php:166
 #, php-format
 msgid "To ban some hosts or domains, go to the %s."
 msgstr "To ban some hosts or domains, go to the %s."
 
-#: feeds/configure.php:219
+#: feeds/configure.php:166
 msgid "configuration panel for servers"
 msgstr "configuration panel for servers"
 
-#: feeds/configure.php:220 feeds/flash/configure.php:179
+#: feeds/configure.php:167 feeds/flash/configure.php:179
 msgid "Help"
 msgstr "Help"
 
-#: feeds/configure.php:225 feeds/flash/configure.php:184
+#: feeds/configure.php:172 feeds/flash/configure.php:184
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr "You are not allowed to perform this operation in demonstration mode."
 
-#: feeds/configure.php:263 feeds/flash/configure.php:222
+#: feeds/configure.php:200 feeds/flash/configure.php:222
 #, php-format
 msgid ""
 "ERROR: Impossible to write to the file %s. The configuration has not been "
@@ -170,7 +129,7 @@ msgstr ""
 "ERROR: Impossible to write to the file %s. The configuration has not been "
 "saved."
 
-#: feeds/configure.php:266 feeds/flash/configure.php:225
+#: feeds/configure.php:203 feeds/flash/configure.php:225
 #, php-format
 msgid ""
 "To actually change the configuration, please copy and paste following lines "
@@ -179,25 +138,25 @@ msgstr ""
 "To actually change the configuration, please copy and paste following lines "
 "by yourself in file %s."
 
-#: feeds/configure.php:271 feeds/flash/configure.php:230
+#: feeds/configure.php:208 feeds/flash/configure.php:230
 #, php-format
 msgid "The following configuration has been saved into the file %s."
 msgstr "The following configuration has been saved into the file %s."
 
-#: feeds/configure.php:277 feeds/flash/configure.php:233
+#: feeds/configure.php:214 feeds/flash/configure.php:233
 #, php-format
 msgid "%s has been updated"
 msgstr "%s has been updated"
 
-#: feeds/configure.php:283 feeds/flash/configure.php:239
+#: feeds/configure.php:220 feeds/flash/configure.php:239
 msgid "Configuration parameters"
 msgstr "Configuration parameters"
 
-#: feeds/configure.php:286 feeds/flash/configure.php:242
+#: feeds/configure.php:223 feeds/flash/configure.php:242
 msgid "Where do you want to go now?"
 msgstr "Where do you want to go now?"
 
-#: feeds/configure.php:290 feeds/flash/configure.php:247
+#: feeds/configure.php:227 feeds/flash/configure.php:247
 msgid "Configure again"
 msgstr "Configure again"
 
@@ -213,15 +172,7 @@ msgstr "Comments"
 msgid "Files and podcasts"
 msgstr "Files and podcasts"
 
-#: feeds/feeds.php:316
-msgid "External News"
-msgstr "External News"
-
-#: feeds/feeds.php:317
-msgid "Received from feeding servers"
-msgstr "Received from feeding servers"
-
-#: feeds/index.php:72
+#: feeds/index.php:64
 #, php-format
 msgid ""
 "If you are unfamiliar with news feeds, they are easy to use. First, download "
@@ -234,31 +185,31 @@ msgstr ""
 "news feed below into the application subscribe dialogue. See Google for more "
 "about %s."
 
-#: feeds/index.php:72
+#: feeds/index.php:64
 msgid "http://www.rssbandit.org/"
 msgstr "http://www.rssbandit.org/"
 
-#: feeds/index.php:72
+#: feeds/index.php:64
 msgid "Rss Bandit"
 msgstr "Rss Bandit"
 
-#: feeds/index.php:72
+#: feeds/index.php:64
 msgid "http://www.feedreader.com/"
 msgstr "http://www.feedreader.com/"
 
-#: feeds/index.php:72
+#: feeds/index.php:64
 msgid "FeedReader"
 msgstr "FeedReader"
 
-#: feeds/index.php:72
+#: feeds/index.php:64
 msgid "http://www.google.com/search?q=RSS+newsreaders"
 msgstr "http://www.google.com/search?q=RSS+newsreaders"
 
-#: feeds/index.php:72
+#: feeds/index.php:64
 msgid "RSS newsreaders"
 msgstr "RSS newsreaders"
 
-#: feeds/index.php:75
+#: feeds/index.php:67
 msgid ""
 "Regular individuals will feed their preferred news reader with one of the "
 "links below:"
@@ -266,53 +217,53 @@ msgstr ""
 "Regular individuals will feed their preferred news reader with one of the "
 "links below:"
 
-#: feeds/index.php:78
+#: feeds/index.php:70
 msgid "RSS format"
 msgstr "RSS format"
 
-#: feeds/index.php:79
+#: feeds/index.php:71
 msgid "ATOM format"
 msgstr "ATOM format"
 
-#: feeds/index.php:80
+#: feeds/index.php:72
 msgid "RDF/RSS format"
 msgstr "RDF/RSS format"
 
-#: feeds/index.php:81
+#: feeds/index.php:73
 msgid "Index of main channels in OPML format"
 msgstr "Index of main channels in OPML format"
 
-#: feeds/index.php:87
+#: feeds/index.php:79
 msgid "Advanced bloggers can also use heavy feeds:"
 msgstr "Advanced bloggers can also use heavy feeds:"
 
-#: feeds/index.php:90
+#: feeds/index.php:82
 msgid "recent articles, integral version"
 msgstr "recent articles, integral version"
 
-#: feeds/index.php:91 feeds/index.php:98
+#: feeds/index.php:83 feeds/index.php:90
 msgid "recent files"
 msgstr "recent files"
 
-#: feeds/index.php:92
+#: feeds/index.php:84
 msgid "recent comments"
 msgstr "recent comments"
 
-#: feeds/index.php:98
+#: feeds/index.php:90
 #, php-format
 msgid "YACS enables automatic downloads and %s through a feed dedicated to %s."
 msgstr ""
 "YACS enables automatic downloads and %s through a feed dedicated to %s."
 
-#: feeds/index.php:98
+#: feeds/index.php:90
 msgid "http://en.wikipedia.org/wiki/Podcasting"
 msgstr "http://en.wikipedia.org/wiki/Podcasting"
 
-#: feeds/index.php:98
+#: feeds/index.php:90
 msgid "podcasting"
 msgstr "podcasting"
 
-#: feeds/index.php:101
+#: feeds/index.php:93
 msgid ""
 "More specific outbound feeds are also available. Look for the XML button at "
 "other places:"
@@ -320,101 +271,82 @@ msgstr ""
 "More specific outbound feeds are also available. Look for the XML button at "
 "other places:"
 
-#: feeds/index.php:102
+#: feeds/index.php:94
 #, php-format
 msgid "Browse the %s; each section has its own feed."
 msgstr "Browse the %s; each section has its own feed."
 
-#: feeds/index.php:102
+#: feeds/index.php:94
 msgid "site map"
 msgstr "site map"
 
-#: feeds/index.php:103
+#: feeds/index.php:95
 #, php-format
 msgid "Or browse %s to get a more focused feed."
 msgstr "Or browse %s to get a more focused feed."
 
-#: feeds/index.php:103
+#: feeds/index.php:95
 msgid "categories"
 msgstr "categories"
 
-#: feeds/index.php:104
+#: feeds/index.php:96
 #, php-format
 msgid "Visit %s, each one has a feed to monitor contributions from one person."
 msgstr ""
 "Visit %s, each one has a feed to monitor contributions from one person."
 
-#: feeds/index.php:104
+#: feeds/index.php:96
 msgid "user profiles"
 msgstr "user profiles"
 
-#: feeds/index.php:105
+#: feeds/index.php:97
 #, php-format
 msgid "You can even use our %s to build one customised feed."
 msgstr "You can even use our %s to build one customised feed."
 
-#: feeds/index.php:105
+#: feeds/index.php:97
 msgid "search engine"
 msgstr "search engine"
 
-#: feeds/index.php:109
+#: feeds/index.php:101
 #, php-format
 msgid "To help %s we also maintain a %s to be indexed."
 msgstr "To help %s we also maintain a %s to be indexed."
 
-#: feeds/index.php:109
+#: feeds/index.php:101
 msgid "https://www.google.com/webmasters/sitemaps/"
 msgstr "https://www.google.com/webmasters/sitemaps/"
 
-#: feeds/index.php:109
+#: feeds/index.php:101
 msgid "Google"
 msgstr "Google"
 
-#: feeds/index.php:109
+#: feeds/index.php:101
 msgid "Sitemap list of important pages"
 msgstr "Sitemap list of important pages"
 
-#: feeds/index.php:113
+#: feeds/index.php:105
 #, php-format
 msgid "As a an associate, you can also access the %s."
 msgstr "As a an associate, you can also access the %s."
 
-#: feeds/index.php:113
+#: feeds/index.php:105
 msgid "event log"
 msgstr "event log"
 
-#: feeds/index.php:122
+#: feeds/index.php:114
 msgid "Current local news"
 msgstr "Current local news"
 
-#: feeds/index.php:133
+#: feeds/index.php:125
 msgid "Outbound feeds"
 msgstr "Outbound feeds"
 
-#: feeds/index.php:153
-#, php-format
-msgid ""
-"No feeder has been defined. If you need to integrate some external RSS %s."
-msgstr ""
-"No feeder has been defined. If you need to integrate some external RSS %s."
-
-#: feeds/index.php:153
-msgid "add a server profile"
-msgstr "add a server profile"
-
 #: feeds/index.php:159
-msgid "Most recent external news"
-msgstr "Most recent external news"
-
-#: feeds/index.php:168
-msgid "Inbound feeds"
-msgstr "Inbound feeds"
-
-#: feeds/index.php:204
 msgid "Pick a feed"
 msgstr "Pick a feed"
 
-#: feeds/index.php:209
+#: feeds/index.php:164
 msgid "Aggregate this site"
 msgstr "Aggregate this site"
 
@@ -495,6 +427,56 @@ msgstr "Front page"
 #: feeds/flash/configure.php:178
 msgid "Do not set any background color to achieve a transparent object."
 msgstr "Do not set any background color to achieve a transparent object."
+
+#~ msgid "To extend the list of feeders add adequate %s."
+#~ msgstr "To extend the list of feeders add adequate %s."
+
+#~ msgid "server profiles"
+#~ msgstr "server profiles"
+
+#~ msgid "Feeding period"
+#~ msgstr "Feeding period"
+
+#~ msgid "In minutes. 60 means one hour, etc. Minimum value is 5 minutes"
+#~ msgstr "In minutes. 60 means one hour, etc. Minimum value is 5 minutes"
+
+#~ msgid "Maximum news"
+#~ msgstr "Maximum news"
+
+#~ msgid "Oldest news entries will be deleted"
+#~ msgstr "Oldest news entries will be deleted"
+
+#~ msgid "Debug feeds"
+#~ msgstr "Debug feeds"
+
+#~ msgid "Save data sent and received in temporary/debug.txt"
+#~ msgstr "Save data sent and received in temporary/debug.txt"
+
+#~ msgid "Use this option only for troubleshooting"
+#~ msgstr "Use this option only for troubleshooting"
+
+#~ msgid "Inbound"
+#~ msgstr "Inbound"
+
+#~ msgid "External News"
+#~ msgstr "External News"
+
+#~ msgid "Received from feeding servers"
+#~ msgstr "Received from feeding servers"
+
+#~ msgid ""
+#~ "No feeder has been defined. If you need to integrate some external RSS %s."
+#~ msgstr ""
+#~ "No feeder has been defined. If you need to integrate some external RSS %s."
+
+#~ msgid "add a server profile"
+#~ msgstr "add a server profile"
+
+#~ msgid "Most recent external news"
+#~ msgstr "Most recent external news"
+
+#~ msgid "Inbound feeds"
+#~ msgstr "Inbound feeds"
 
 #~ msgid "RSS 0.92 format"
 #~ msgstr "RSS 0.92 format"
