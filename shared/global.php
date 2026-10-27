@@ -1653,10 +1653,12 @@ function render_skin($with_last_modified=TRUE) {
             Page::defer_script('included/cookie_cuttr/jquery.cookie.js');
             Page::defer_script('included/cookie_cuttr/jquery.cookiecuttr.js');
             
-            $options = "{cookieAnalytics:false, cookieAcceptButtonText:'".i18n::s('ACCEPT COOKIES')."'";
+            // json_encode() escapes quotes, new lines and closing tags of the javascript string
+            $flags = JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_INVALID_UTF8_SUBSTITUTE;
+            $options = "{cookieAnalytics:false, cookieAcceptButtonText:".json_encode(i18n::s('ACCEPT COOKIES'), $flags);
             $message = (isset($context['cookie_message']))?Codes::beautify($context['cookie_message']):'';
             if($message)
-                $options .= ", cookieMessage:'".  htmlentities($message)."'";
+                $options .= ", cookieMessage:".json_encode($message, $flags);
             
             $options .= '}';
             

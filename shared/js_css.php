@@ -533,6 +533,34 @@ Class Js_Css {
     }
     
     /**
+     * Tell associates, once per page, that javascript libraries have to be rebuilt
+     */
+    private static function warn_outdated_scripts() {
+        global $context;
+        static $warned = false;
+
+        if($warned)
+            return;
+        $warned = true;
+
+        Logger::error(sprintf(i18n::s('Javascript libraries have been changed, %s to apply changes.'),
+            '<a href="'.$context['url_to_root'].'tools/jsmin.php">'.i18n::s('rebuild them').'</a>'));
+    }
+
+    /**
+     * Check javascript libraries at most once per request
+     *
+     * @return boolean TRUE if libraries have to be compressed again
+     */
+    private static function production_libs_are_outdated() {
+        static $outdated = null;
+
+        if($outdated === null)
+            $outdated = Js_css::check_production_libs();
+        return $outdated;
+    }
+
+    /**
      * Check if javascript libs need to be compressed for the use of
      * yacs in production mode
      * 
@@ -594,9 +622,9 @@ Class Js_Css {
             }
         }
         
-        // check /shared/yacs.js
+        // check /shared/yacs.js, which is part of the endpage library
         $yacs_js        = Safe::filemtime($context['path_to_root'].'shared/yacs.js');
-        if( $stamp_endpage > $yacs_js) return true;
+        if( $yacs_js > $lib_endp) return true;
         
         // ready to run in prod
         return false;
@@ -654,6 +682,10 @@ Class Js_Css {
 	    if($context['with_debug']=='N') {
 		    $path = 'temporary/library_'.$folder.'.min.js';
 		    if(file_exists($context['path_to_root'].$path)) {
+
+                            // tell associates when the library is older than its sources
+                            if(Js_css::is_associate() && Js_css::production_libs_are_outdated())
+                                Js_css::warn_outdated_scripts();
 
                             Js_css::set_revision($context['path_to_root'].$path, $path);
 
