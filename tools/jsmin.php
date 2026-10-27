@@ -45,8 +45,8 @@ $context['page_title'] = i18n::s('Finalize Javascript libraries');
 if(!Surfer::is_logged())
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('included/browser/build.php'));
 
-// only associates can proceed when a switch file exists
-elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parameters/switch.on') || file_exists($context['path_to_root'].'parameters/switch.off'))) {
+// only associates can proceed, except on first installation
+elseif(!Surfer::is_associate() && !is_installing()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 

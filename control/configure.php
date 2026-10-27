@@ -9,6 +9,9 @@
  * - there is no configuration file and no switch file
  * - there is no connection to the database and no switch file
  *
+ * In both cases the installation has to be opened by the webmaster.
+ * @see is_installing()
+ *
  * Configuration information is saved into [code]parameters/control.include.php[/code].
  * If YACS is prevented to write to the file, it displays parameters to allow for a manual update.
  *
@@ -217,7 +220,7 @@ if(!defined('EOT'))
 if(!file_exists('../parameters/control.include.php') || !isset($context['connection']) || !$context['connection'] ) {
 
 	// consider the current surfer as an associate, but only on first installation
-	if(!Surfer::is_associate() && !file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off')) {
+	if(!Surfer::is_associate() && is_installing()) {
 		$fields = array();
 		$fields['id'] = 1;
 		$fields['nick_name'] = 'admin';

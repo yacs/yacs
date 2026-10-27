@@ -20,8 +20,9 @@ i18n/locale/*/*.mo.php
 nbproject/
 
 # ignore parameter files
-parameters/
+parameters/*
 !parameters/index.php
+!parameters/install.lock
 
 # ignore temporary files
 temporary/

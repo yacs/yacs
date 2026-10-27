@@ -35,12 +35,19 @@
  * @see control/populate.php
  * @see scripts/configure.php
  *
+ * The installation is locked by the file [code]parameters/install.lock[/code], provided in the archive.
+ * The webmaster opens it by renaming this file to [code]parameters/install.open[/code], then has ten
+ * minutes to start the installation from a browser. Only this browser session can complete it.
+ * At the end of the installation, the file is renamed back to [code]parameters/install.lock[/code].
+ *
+ * @see is_installing()
+ *
  * If at least one file is missing, the script assumes there is an on-going installation,
  * and proposes to jump to the control panel at [script]control/index.php[/script].
  * In this case the control panel will redirect to the adequate script depending of the missing element.
  *
  * If all files are present, but there is no [code]parameters/switch.on[/code] nor [code]parameters/switch.off[/code] file, the script
- * assumes the installation ends correctly, creates [code]parameters/switch.on[/code], and offers to jump to the
+ * assumes the installation ends correctly, creates [code]parameters/switch.on[/code], locks the installation again, and offers to jump to the
  * control panel at [script]control/index.php[/script].
  * Also, if there is no index page at the upper directory level, the script will silently attempt
  * to duplicate index.php there.
@@ -244,8 +251,23 @@ if(Surfer::is_crawler()) {
 	// link to the readme file
 	$context['text'] .= '<p>'.sprintf(i18n::s('Check the provided %s file to ensure prerequisites are fulfilled.'), '<a href="'.i18n::s('readme.txt').'">'.i18n::s('readme.txt').'</a>')."</p>\n";
 
+	// only somebody with access to files can start the installation
+	if(!count($context['error']) && !is_installing()) {
+
+		$context['text'] .= '<h2>'.i18n::s('The installation is locked').'</h2>';
+
+		// a window has been opened, but it is not available to this session
+		if(file_exists('parameters/install.open'))
+			$context['text'] .= '<p>'.sprintf(i18n::s('The installation has been started from another browser session, or has been left for more than ten minutes. To start again, rename or upload the file %s again, then reload this page.'), '<code>parameters/install.open</code>').'</p>'."\n";
+
+		// the webmaster has to open the installation
+		else
+			$context['text'] .= '<p>'.sprintf(i18n::s('To protect your server, only somebody with access to its files can install it. Rename the file %s to %s, then reload this page within ten minutes.'), '<code>parameters/install.lock</code>', '<code>parameters/install.open</code>').'</p>'."\n";
+
+		$context['text'] .= '<p '.tag::_class('details').'><a href="setup.php">'.i18n::s('Check again whether the installation is open')."</a></p>\n";
+
 	// link to the configuration page
-	if(!count($context['error'])) {
+	} elseif(!count($context['error'])) {
 
 		// report on checks
 		$context['text'] .= '<h2>'.i18n::s('Ready to start the installation').'</h2>';
@@ -308,6 +330,11 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<pre>'.$content."</pre>\n";
 
 	}
+
+	// lock the installation again
+	Safe::unlink('parameters/install.owner');
+	if(!Safe::rename('parameters/install.open', 'parameters/install.lock'))
+		Safe::unlink('parameters/install.open');
 
 	// if there is no index at the upper level
 	if(!file_exists($context['path_to_root'].'../index.php') && ($content = Safe::file_get_contents($context['path_to_root'].'index.php'))) {

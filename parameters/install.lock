@@ -1,0 +1,10 @@
+---------------------------------------------
+The installation of YACS is locked.
+
+To install the server, rename this file to install.open, then visit setup.php
+within ten minutes. The installation remains open as long as you keep working
+on it, and closes after ten minutes of inactivity.
+
+The installation can be completed only from the browser session that started
+it. To start again, rename or upload install.open again.
+---------------------------------------------

@@ -827,6 +827,68 @@ function get_secret_key($usage) {
 	return hash_hmac('sha256', 'yacs:'.$usage, $master);
 }
 
+/**
+ * Tell whether the current surfer may run the installation scripts
+ *
+ * While neither parameters/switch.on nor parameters/switch.off exists, the
+ * installation scripts let a surfer configure the server without being
+ * authenticated. To prevent anybody else from completing an abandoned
+ * installation, the archive provides parameters/install.lock, and the
+ * webmaster has to rename it to parameters/install.open (or to upload an
+ * empty file with this name). This opens the installation for ten minutes,
+ * counted from the last change of this file on disk -- only somebody with
+ * access to the file system can do this.
+ *
+ * The first session that comes within these ten minutes becomes the owner of
+ * the installation, recorded in parameters/install.owner. Other sessions are
+ * rejected, and the window closes after ten minutes of inactivity of the owner.
+ * Renaming or uploading parameters/install.open again opens a new window.
+ *
+ * @return boolean TRUE if the current surfer is installing the server
+ */
+function is_installing() {
+	global $context;
+
+	$path = $context['path_to_root'].'parameters/';
+	clearstatcache();
+
+	// the installation is over
+	if(file_exists($path.'switch.on') || file_exists($path.'switch.off'))
+		return FALSE;
+
+	// the webmaster has not opened the installation
+	if(!file_exists($path.'install.open') || !($opened = filectime($path.'install.open')))
+		return FALSE;
+
+	// a session has taken the installation since it has been opened
+	$owner = $path.'install.owner';
+	if(file_exists($owner) && (filectime($owner) >= $opened)) {
+
+		// only this session can proceed
+		if(empty($_SESSION['install_token']) || !hash_equals(trim(Safe::file_get_contents($owner)), hash('sha256', $_SESSION['install_token'])))
+			return FALSE;
+
+		// the installation has been left for too long
+		if(time() - filectime($owner) > 600)
+			return FALSE;
+
+		// extend the window while the owner is working
+		Safe::touch($owner);
+		return TRUE;
+	}
+
+	// the window has been closed
+	if(time() - $opened > 600)
+		return FALSE;
+
+	// take the installation for this session
+	$token = bin2hex(random_bytes(16));
+	if(!Safe::file_put_contents($owner, hash('sha256', $token)))
+		return FALSE;
+	$_SESSION['install_token'] = $token;
+	return TRUE;
+}
+
 //
 // Localization and internationalization
 //
