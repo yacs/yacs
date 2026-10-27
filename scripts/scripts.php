@@ -711,6 +711,53 @@ class Scripts {
 	}
 
 	/**
+	 * check that a path coming from the staging store stays inside the server
+	 *
+	 * @param string a relative path, e.g., 'shared/global.php'
+	 * @return boolean TRUE if the path can be written by an update
+	 */
+	public static function is_safe_path($file) {
+
+		// no absolute path, no drive letter, no stream wrapper
+		if(!$file || ($file[0] == '/') || ($file[0] == '\\') || strpos($file, ':') !== FALSE)
+			return FALSE;
+
+		// no way to go up the tree
+		if(preg_match('/(^|[\/\\\\])\.\.([\/\\\\]|$)/', $file))
+			return FALSE;
+
+		// parameters are managed on each server, not by updates
+		if(!strncmp($file, 'parameters/', 11))
+			return FALSE;
+
+		return TRUE;
+	}
+
+	/**
+	 * list files to delete, as provided in scripts/staging/deleted.list
+	 *
+	 * Empty lines are skipped, and unsafe paths are ignored.
+	 *
+	 * @return array of relative paths
+	 */
+	public static function list_deleted_files() {
+		global $context;
+
+		$files = array();
+		if(!$lines = Safe::file($context['path_to_root'].'scripts/staging/deleted.list'))
+			return $files;
+
+		foreach($lines as $line) {
+			if(!$line = trim($line))
+				continue;
+			if(Scripts::is_safe_path($line))
+				$files[] = $line;
+		}
+
+		return $files;
+	}
+
+	/**
 	 * flag all scripts in scripts/run_once
 	 *
 	 */

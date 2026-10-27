@@ -95,6 +95,9 @@ elseif(!Surfer::is_associate() && !is_installing()) {
 	$time = round(get_micro_time() - $context['start_time'], 2);
 	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
 
+	// in the middle of an update, go on with javascript libraries
+	$context['text'] .= Update_steps::next('build_css');
+
 // confirmation is required
 } else {
 

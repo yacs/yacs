@@ -661,6 +661,9 @@ function core_autoload($class) {
         case 'defer':
             include_once $context['path_to_root'].'shared/defer.php';
             break;
+        case 'update_steps':
+            include_once $context['path_to_root'].'shared/update_steps.php';
+            break;
 	default :
 	    // this is default architecture of Yacs
 	    if(is_readable($context['path_to_root'].$class.'/'.$class.'.php')) {

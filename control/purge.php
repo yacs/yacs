@@ -387,6 +387,9 @@ if(!Surfer::is_associate()) {
 	$time = round($time_end - $context['start_time'], 2);
 	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
 
+	// at the end of an update, switch the server on
+	$context['text'] .= Update_steps::next('staging');
+
 	// forward to the control panel
 	$menu = array('control/' => i18n::s('Control Panel'), 'control/purge.php' => i18n::s('Purge again'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');

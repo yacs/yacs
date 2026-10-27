@@ -78,8 +78,8 @@ elseif(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
-// actual update
-} elseif($action == 'confirmed') {
+// actual update, on a form submission only
+} elseif(($action == 'confirmed') && isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// the splash message
 	$context['text'] .= '<p>'.i18n::s('Scripts of your server are now updated from the staging store. Please do not close your browser until the end of this process').'</p>';
@@ -103,6 +103,13 @@ elseif(!Surfer::is_associate()) {
 	$missing_files  = 0;
 	$failures       = 0;
 	foreach($footprints as $file => $attributes) {
+
+		// never write outside the server, nor in parameters/
+		if(!Scripts::is_safe_path($file)) {
+			$context['text'] .= FAILURE_PREFIX.sprintf(i18n::s('Impossible to write to %s.'), $file).FAILURE_SUFFIX.BR."\n";
+			$failures++;
+			continue;
+		}
 
 		// if the target script has been terminated by run_once.php, skip the update
 		if(is_readable($context['path_to_root'].$file.'.done'))
@@ -179,27 +186,16 @@ elseif(!Surfer::is_associate()) {
 
 	}
         
-        // Prune files from deleted.list
+        // prune files from deleted.list -- the old version is kept as .bak, until control/purge.php
         $deleted_files  = 0;
-        if(file_exists($context['path_to_root'].'scripts/staging/deleted.list')) {
-            
-            // open and parse list of files to delete
-            $handle = Safe::fopen($context['path_to_root'].'scripts/staging/deleted.list', 'r');
-            if($handle) {
-                while($to_delete = trim(fgets($handle))) {
-                    if(file_exists($context['path_to_root'].$to_delete)) {
-                        // backup the old version
-                        Safe::unlink($context['path_to_root'].$to_delete.'.bak');
-                        Safe::rename($context['path_to_root'].$to_delete, $context['path_to_root'].$to_delete.'.bak');
-                        // suppression
-                        Safe::unlink($context['path_to_root'].$to_delete);
-                        $context['text'] .= sprintf(i18n::s('%s has been deleted'), $to_delete).BR."\n";;
-                        $deleted_files++;
-                    }
-                }
-                fclose($handle);
-            }            
-        }  
+        foreach(Scripts::list_deleted_files() as $to_delete) {
+            if(file_exists($context['path_to_root'].$to_delete)) {
+                Safe::unlink($context['path_to_root'].$to_delete.'.bak');
+                Safe::rename($context['path_to_root'].$to_delete, $context['path_to_root'].$to_delete.'.bak');
+                $context['text'] .= sprintf(i18n::s('%s has been deleted'), $to_delete).BR."\n";
+                $deleted_files++;
+            }
+        }
         
 
 	// server is up to date
@@ -277,10 +273,18 @@ elseif(!Surfer::is_associate()) {
 	// use footprints of reference files to locate updates
 	$staging_files = 0;
 	$missing_files = 0;
-	$box = array('new' => array(), 'update' => array(),'delete'=> array(),'errors'=>array());
+	$box = array('new' => array(), 'update' => array(), 'local' => array(), 'delete'=> array(),'errors'=>array());
 	foreach($footprints as $file => $attributes) {
             
                 $is_new = FALSE;
+                $is_local = FALSE;
+
+		// never write outside the server, nor in parameters/
+		if(!Scripts::is_safe_path($file)) {
+			$box['errors'][] = sprintf(i18n::s('ERROR: File %s is missing or corrupted.'), $file).BR."\n";
+			$missing_files++;
+			continue;
+		}
 
 		// maybe the script has already been executed -- never expect an exact copy
 		if(is_readable($context['path_to_root'].$file.'.done'))
@@ -292,6 +296,10 @@ elseif(!Surfer::is_associate()) {
 			// double check
 			if($attributes[1] == $result[1])
 				continue;
+
+			// the patch knows the version it has been built from, and the running file is another one
+			if(isset($attributes[2]) && ($attributes[2] != $result[1]))
+				$is_local = TRUE;
 
 		} else {
                     $is_new = TRUE;
@@ -325,7 +333,7 @@ elseif(!Surfer::is_associate()) {
                 } else {
                     $context['file_bar'] = array( 'scripts/browse.php?script='.$file.'&store=staging' => i18n::s('Review'),
 			 'scripts/compare.php?original='.$file.'&updated=scripts/staging/'.$file.'&format=gdiff' => i18n::s('Diff') );
-                    $box['update'][] = $file.' ('.files::format_bytes($attributes[0]).') '.Skin::build_list($context['file_bar'], 'menu');
+                    $box[$is_local ? 'local' : 'update'][] = $file.' ('.files::format_bytes($attributes[0]).') '.Skin::build_list($context['file_bar'], 'menu');
 		
                 }
                 $staging_files++;
@@ -336,26 +344,24 @@ elseif(!Surfer::is_associate()) {
 	}             
                 
         // check for files to delete
-        if(file_exists($context['path_to_root'].'scripts/staging/deleted.list')) {
-            
-            // open and parse list of files to delete
-            $handle = Safe::fopen($context['path_to_root'].'scripts/staging/deleted.list', 'r');
-            if($handle) {
-                while($to_delete = trim(fgets($handle))) {
-                    if(file_exists($context['path_to_root'].$to_delete)) {
-                        $box['delete'][] = $to_delete;
-                        $staging_files++;
-                    }
-                }
-                fclose($handle);
-            }            
-        }      
+        foreach(Scripts::list_deleted_files() as $to_delete) {
+            if(file_exists($context['path_to_root'].$to_delete)) {
+                $box['delete'][] = $to_delete;
+                $staging_files++;
+            }
+        }
         
         // make folded boxes
 	if($staging_files) {
             
                 if(count($box['errors']))
                     $context['text'] .= Skin::build_box(i18n::s('Errors'), implode(BR."\n", $box['errors']), 'unfolded');
+
+                // changes made on this server will be lost, so show them first
+                if(count($box['local']))
+                    $context['text'] .= Skin::build_box(i18n::s('Locally modified files'),
+                        '<p>'.i18n::s('These files are not the version this update has been built from: they have been changed on this server, or the server was not at the expected version. The update replaces them, and keeps the current version with the .bak extension.').'</p>'
+                        .implode(BR."\n", $box['local']), 'unfolded');
             
                 if(count($box['new']))
                    $context['text'] .= Skin::build_box(i18n::s('New files'), implode(BR."\n", $box['new']), 'folded'); 
