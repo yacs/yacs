@@ -185,6 +185,9 @@ elseif(!Surfer::is_associate() && !is_installing()) {
 	$time = round(get_micro_time() - $context['start_time'], 2);
 	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
 
+	// in the middle of an update, delete staged files, then switch the server on
+	$context['text'] .= Update_steps::next('jsmin');
+
 // confirmation is required
 } else {
 

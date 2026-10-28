@@ -85,7 +85,7 @@ fi
 
 # check for deleted file since reference argument
 
-deleted="$(git diff --name-only --diff-filter=D $1 )"
+deleted="$(git diff --name-only --diff-filter=D $1 HEAD)"
 
 if [ -n "$deleted" ] 
 then
@@ -93,7 +93,7 @@ echo "===> file(s) deletion detected"
 echo "[[ LIST OF DELETED FILES ]]"
 echo $deleted | tr " " "\n"
 # add a deleted list of deleted file into the archive zip
-echo $deleted | tr " " "\n" >> "deleted.list"
+echo $deleted | tr " " "\n" > "deleted.list"
 zip -ur "temporary/$arch" "deleted.list" > /dev/null
     if [ $? -eq 0 ]
 	then
@@ -111,12 +111,19 @@ echo 'if(!isset($footprints)) $footprints=array();' >> "footprints.php"
 # transform list of updated files into array
 staging=(${updatedornew})
 total_size=0
-# a line per file
+# a line per file: size, hash, and hash of the version the patch is built from, if any
+# (scripts/update.php uses the last one to spot files that have been changed on the server)
 for file in "${staging[@]}"; do
 	size=$(wc -c < $file)
 	let "total_size+=size"
 	hashmd5=$($md5com $file | awk '{ print $1 }')
-	echo '$footprints['"'$file'"']=array('"$size,'$hashmd5'"');' >> "footprints.php"
+	if git cat-file -e "$1:$file" 2> /dev/null
+	then
+		previous=$(git show "$1:$file" | $md5com | awk '{ print $1 }')
+		echo '$footprints['"'$file'"']=array('"$size,'$hashmd5','$previous'"');' >> "footprints.php"
+	else
+		echo '$footprints['"'$file'"']=array('"$size,'$hashmd5'"');' >> "footprints.php"
+	fi
 done
 #generation information
 echo 'global $generation;' >> "footprints.php"

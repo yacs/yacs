@@ -128,9 +128,9 @@ else {
 	// close the directory
 	Safe::closedir($dir);
 
-	// no script has been found; if the server has been switched off, go silently to the control panel
-	if(!@count($scripts) && file_exists('../parameters/switch.off'))
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'control/');
+	// no script has been found; if the server has been switched off, go silently to the next step of the update
+	if(!@count($scripts) && Update_steps::is_running())
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].Update_steps::script_after('run_once'));
 
 }
 
@@ -202,11 +202,9 @@ function send_body() {
 	if($time > 30)
 		echo '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
 
-	// if the server has been switched off, go back to the control panel
-	if(file_exists('../parameters/switch.off')) {
-		echo '<form method="get" action="'.$context['url_to_root'].'control/">'."\n"
-			.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Control Panel')).'</p>'."\n"
-			.'</form>'."\n";
+	// if the server has been switched off, the update goes on with style sheets
+	if(Update_steps::is_running()) {
+		echo Update_steps::next('run_once');
 
 	// else back to the control panel as well, but without a button
 	} else {
