@@ -191,6 +191,11 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 Class Sections {
+
+	/**
+	 * a layout name, optionally followed by a space and call parameters
+	 */
+	const LAYOUT_PATTERN = '/^[a-zA-Z0-9_-]+( |$)/';
     
         /**
 	 * set SQL order
@@ -2770,7 +2775,7 @@ Class Sections {
 			$fields['rank'] = 10000;
 
 		// set layout for sections
-		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/^(accordion|carrousel|compact|custom|decorated|directory|folded|inline|jive|map|slashdot|tabs|titles|yabb|none)$/', $fields['sections_layout']))
+		if(!isset($fields['sections_layout']) || !$fields['sections_layout'])
 			$fields['sections_layout'] = 'compact';
 		elseif($fields['sections_layout'] == 'custom') {
 			if(isset($fields['sections_custom_layout']) && $fields['sections_custom_layout'])
@@ -2778,9 +2783,11 @@ Class Sections {
 			else
 				$fields['sections_layout'] = 'none';
 		}
+		if(!preg_match(Sections::LAYOUT_PATTERN, $fields['sections_layout']))
+			$fields['sections_layout'] = 'compact';
 
 		// set layout for articles
-		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/^(accordion|alistapart|carrousel|custom|compact|daily|decorated|digg|directory|hardboiled|jive|map|newspaper|none|simile|slashdot|table|tabs|tagged|threads|titles|yabb)$/', $fields['articles_layout']))
+		if(!isset($fields['articles_layout']) || !$fields['articles_layout'])
 			$fields['articles_layout'] = 'decorated';
 		elseif($fields['articles_layout'] == 'custom') {
 			if(isset($fields['articles_custom_layout']) && $fields['articles_custom_layout'])
@@ -2788,6 +2795,8 @@ Class Sections {
 			else
 				$fields['articles_layout'] = 'decorated';
 		}
+		if(!preg_match(Sections::LAYOUT_PATTERN, $fields['articles_layout']))
+			$fields['articles_layout'] = 'decorated';
 
 
 		// set canvas for articles
@@ -2989,6 +2998,8 @@ Class Sections {
 			else
 				$fields['sections_layout'] = 'map';
 		}
+		if(!preg_match(Sections::LAYOUT_PATTERN, $fields['sections_layout']))
+			$fields['sections_layout'] = 'map';
 
 		// set layout for articles
 		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] )
@@ -2999,6 +3010,8 @@ Class Sections {
 			else
 				$fields['articles_layout'] = 'decorated';
 		}
+		if(!preg_match(Sections::LAYOUT_PATTERN, $fields['articles_layout']))
+			$fields['articles_layout'] = 'decorated';
 
 		// set canvas for articles
 		if(!isset($fields['articles_canvas']) || !$fields['articles_canvas'])
