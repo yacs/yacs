@@ -321,27 +321,48 @@ Class Users {
 	/**
 	 * check encoded credentials
 	 *
+	 * @see users/users.php#get_login_url
+	 *
 	 * @param array credentials received from surfer
-	 * @param string secret salted string
-	 * @return boolen TRUE if credentials are ok, FALSE otherwise
+	 * @param string secret handle of the target, as used to sign the link
+	 * @return boolean TRUE if credentials are ok, FALSE otherwise
 	 */
 	public static function check_credentials($credentials, $salt) {
-		global $context;
 
-		// not enough args
-		if(!isset($credentials[3]))
+		// command, reference, name, expiry date and signature
+		if(!is_array($credentials) || (array_keys($credentials) !== range(0, 4)) || !$salt)
 			return FALSE;
-
-		// the full string
-		$computed = sprintf('%u', crc32($credentials[0].':'.$credentials[1].':'.$credentials[2].':'.$salt));
+		foreach($credentials as $value) {
+			if(!is_string($value) && !is_int($value))
+				return FALSE;
+		}
 
 		// args have not been modified
-		if(!strcmp($credentials[3], $computed))
-			return TRUE;
+		$computed = Users::sign_credentials($credentials[0], $credentials[1], $credentials[2], $credentials[3], $salt);
+		if(!hash_equals($computed, (string)$credentials[4]))
+			return FALSE;
 
-		// sorry
-		return FALSE;
+		// the link has expired
+		if(Users::credentials_have_expired($credentials))
+			return FALSE;
 
+		return TRUE;
+
+	}
+
+	/**
+	 * check the expiry date of encoded credentials
+	 *
+	 * @param array credentials received from surfer
+	 * @return boolean TRUE if an expiry date is set and has passed, FALSE otherwise
+	 */
+	public static function credentials_have_expired($credentials) {
+
+		// 0 means no expiry date
+		if(!is_array($credentials) || !isset($credentials[3]) || !is_numeric($credentials[3]) || !intval($credentials[3]))
+			return FALSE;
+
+		return (intval($credentials[3]) < time());
 	}
 
 	/**
@@ -683,28 +704,33 @@ Class Users {
 	/**
 	 * package credentials to be passed in a link
 	 *
+	 * The link is signed with a key derived from the secret key of the server,
+	 * and with the secret handle of the target: changing the handle revokes
+	 * all links sent previously. Invitations expire after 30 days, while the other
+	 * links stay valid as long as the handle does not change.
+	 *
 	 * @param string action (e.g., 'visit', see users/login.php)
 	 * @param string reference to target (e.g., 'section:123')
 	 * @param string name or e-mail address
-	 * @param string salt to be used for the hash
+	 * @param string secret handle of the target
 	 * @return string the link to be authenticated
 	 */
 	public static function get_login_url($command, $reference, $name, $salt) {
 		global $context;
 
-		// build a signed
-		$credentials = array();
-		$credentials[0] = $command;
-		$credentials[1] = $reference;
-		$credentials[2] = $name;
-		$credentials[3] = sprintf('%u', crc32($command.':'.$reference.':'.$name.':'.$salt));
+		// invitations are sent to people who may not have an account
+		$expiry = ($command == 'visit') ? time() + 30*24*60*60 : 0;
 
-		// we prefer JSON over PHP serialization
-		if(!$serialized = Safe::json_encode($credentials))
-			$serialized = serialize($credentials);
+		// build a signed array
+		$credentials = array();
+		$credentials[0] = (string)$command;
+		$credentials[1] = (string)$reference;
+		$credentials[2] = (string)$name;
+		$credentials[3] = $expiry;
+		$credentials[4] = Users::sign_credentials($credentials[0], $credentials[1], $credentials[2], $expiry, $salt);
 
 		// finalize the snippet
-		$id = base64_encode($serialized);
+		$id = base64_encode(Safe::json_encode($credentials));
 
 		// be cool with search engines
 		if($context['with_friendly_urls'] == 'Y')
@@ -714,6 +740,21 @@ Class Users {
 		else
 			return 'users/login.php?credentials='.urlencode($id);
 
+	}
+
+	/**
+	 * sign credentials passed in a link
+	 *
+	 * @param string action
+	 * @param string reference to target
+	 * @param string name or e-mail address
+	 * @param int expiry date, or 0
+	 * @param string secret handle of the target
+	 * @return string the signature
+	 */
+	private static function sign_credentials($command, $reference, $name, $expiry, $salt) {
+		// json is unambiguous, while ':' may appear in references and names
+		return hash_hmac('sha256', json_encode(array((string)$command, (string)$reference, (string)$name, intval($expiry), (string)$salt)), get_secret_key('credentials'));
 	}
 
 	/**

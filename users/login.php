@@ -39,18 +39,17 @@
  * The link used for one-click authentication references the target user profile,
  * and a salted secret.
  *
- * This is done through a base64-encoded snippet made of serialization of
+ * This is done through a base64-encoded snippet made of the JSON encoding of
  * following array:
  * - the string 'login'
  * - user id
  * - random string
- * - salted secret (see below)
+ * - expiry date as a time stamp, or 0 for no expiry
+ * - signature (see below)
  *
- * The salted secret is computed as follows:
- * - consider the three first args
- * - consider the secret handle of the user profile
- * - concatenate the four args, separated by ':'
- * - compute CRC32 in decimal
+ * The signature is a HMAC-SHA256 of the four first args and of the secret
+ * handle of the user profile, with a key derived from the secret key of the server.
+ * Changing the handle revokes all links sent previously.
  *
  * [title]one-click modification[/title]
  *
@@ -61,18 +60,17 @@
  * The link used for one-click authentication has to reference the target page,
  * and a salted secret.
  *
- * This is done through a base64-encoded snippet made of serialization of
+ * This is done through a base64-encoded snippet made of the JSON encoding of
  * following array:
  * - the string 'edit'
  * - target anchor (e.g., 'article:123')
  * - unused string
- * - salted secret (see below)
+ * - expiry date as a time stamp, or 0 for no expiry
+ * - signature (see below)
  *
- * The salted secret is computed as follows:
- * - consider the three first args
- * - consider the secret handle of the target page
- * - concatenate the four args, separated by ':'
- * - compute CRC32 in decimal
+ * The signature is a HMAC-SHA256 of the four first args and of the secret
+ * handle of the target page, with a key derived from the secret key of the server.
+ * Changing the handle revokes all links sent previously.
  *
  * [title]visitor authentication[/title]
  *
@@ -88,18 +86,17 @@
  * The link used for visitor authentication has to reference the target page,
  * and to mention end-user credentials.
  *
- * This is done through a base64-encoded snippet made of serialization of
+ * This is done through a base64-encoded snippet made of the JSON encoding of
  * following array:
  * - the string 'visit'
  * - target anchor (e.g., 'article:123')
  * - user identifier or name (e.g., '47', or 'tom@foo.bar', or 'Tom &lt;tom@foo.bar&gt;')
- * - salted secret (see below)
+ * - expiry date as a time stamp, 30 days after the invitation
+ * - signature (see below)
  *
- * The salted secret is computed as follows:
- * - consider the three first args
- * - consider the secret handle of the target page
- * - concatenate the four args, separated by ':'
- * - compute CRC32 in decimal
+ * The signature is a HMAC-SHA256 of the four first args and of the secret
+ * handle of the target page, with a key derived from the secret key of the server.
+ * Changing the handle revokes all links sent previously.
  *
  * [title]script invocation[/title]
  *
@@ -135,14 +132,11 @@ if($credentials)
 if($credentials && ($position = strpos($credentials, '-')))
 	$credentials = substr($credentials, 0, $position);
 
-// data has been serialized, then base64 encoded
-if($credentials && ($credentials = base64_decode($credentials))) {
-
-	// json is more efficient, but we may have to fall-back to php serialization
-	if(!$credentials = Safe::json_decode($credentials))
-		$credentials = Safe::unserialize($credentials);
-
-}
+// data has been encoded in json, then in base64 --see Users::get_login_url()
+if($credentials && ($credentials = base64_decode($credentials, TRUE)))
+	$credentials = Safe::json_decode($credentials);
+if(!is_array($credentials) || (array_keys($credentials) !== range(0, count($credentials) - 1)) || (count(array_filter($credentials, 'is_scalar')) != count($credentials)))
+	$credentials = NULL;
 
 // load localized strings
 if(is_callable(array('i18n', 'bind')))
@@ -183,7 +177,11 @@ if(Surfer::is_crawler()) {
 		elseif(!isset($credentials[2]))
 			Logger::error(i18n::s('Request is invalid.'));
 
-		// check salted hash
+		// the link is too old
+		elseif(Users::credentials_have_expired($credentials))
+			Logger::error(i18n::s('This link has expired.'));
+
+		// check the signature
 		elseif(!Users::check_credentials($credentials, $anchor->get_handle()))
 			Logger::error(i18n::s('Request is invalid.'));
 
@@ -214,7 +212,11 @@ if(Surfer::is_crawler()) {
 		elseif(!isset($credentials[2]) || !$credentials[2])
 			Logger::error(i18n::s('Request is invalid.'));
 
-		// check salted hash
+		// the link is too old
+		elseif(Users::credentials_have_expired($credentials))
+			Logger::error(i18n::s('This link has expired.'));
+
+		// check the signature
 		elseif(!Users::check_credentials($credentials, $user['handle']))
 			Logger::error(i18n::s('Request is invalid.'));
 
@@ -261,7 +263,11 @@ if(Surfer::is_crawler()) {
 		elseif(!isset($credentials[2]) || !$credentials[2])
 			Logger::error(i18n::s('Request is invalid.'));
 
-		// check salted hash
+		// the link is too old
+		elseif(Users::credentials_have_expired($credentials))
+			Logger::error(i18n::s('This link has expired.'));
+
+		// check the signature
 		elseif(!Users::check_credentials($credentials, $anchor->get_handle()))
 			Logger::error(i18n::s('Request is invalid.'));
 
