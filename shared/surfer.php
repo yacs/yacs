@@ -728,6 +728,57 @@ Class Surfer {
 	}
 
 	/**
+	 * get the token to be submitted with forms posted by this surfer
+	 *
+	 * The token is signed with a key dedicated to this usage, and bound to the surfer id,
+	 * so that it cannot be used on behalf of another account. It expires after one day.
+	 *
+	 * The session id is not part of it, since a surfer authenticated again
+	 * by the 'screening' cookie gets a new session while a form is still open.
+	 *
+	 * @see Surfer::check_form_token()
+	 * @see yacs_handler() in shared/global.php
+	 *
+	 * @return string the token
+	 */
+	public static function get_form_token() {
+		$expiry = time() + 24*60*60;
+		return $expiry.'-'.Surfer::sign_form_token(Surfer::get_id(), $expiry);
+	}
+
+	/**
+	 * check a token submitted with a form
+	 *
+	 * @see Surfer::get_form_token()
+	 *
+	 * @param string the submitted token
+	 * @return boolean TRUE if the token has been issued to this surfer, and is still valid
+	 */
+	public static function check_form_token($token) {
+
+		// expiry date and signature
+		if(!is_string($token) || !preg_match('/^(\d{1,12})-([0-9a-f]{64})$/', $token, $matches))
+			return FALSE;
+
+		// the token has expired
+		if(intval($matches[1]) < time())
+			return FALSE;
+
+		return hash_equals(Surfer::sign_form_token(Surfer::get_id(), $matches[1]), $matches[2]);
+	}
+
+	/**
+	 * sign a form token
+	 *
+	 * @param int the surfer id
+	 * @param int the expiry date
+	 * @return string the signature
+	 */
+	private static function sign_form_token($id, $expiry) {
+		return hash_hmac('sha256', json_encode(array((string)$id, intval($expiry))), get_secret_key('csrf'));
+	}
+
+	/**
 	 * build a pretty link to the profile page of this surfer
 	 *
 	 * This function is a proxy for Users::get_link(), limited to current surfer.
