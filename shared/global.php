@@ -984,17 +984,27 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') &
 
 	if($source) {
 
-		// hosts that belong to this server
-		$hosts = array($context['host_name'], $context['master_host']);
-		if(isset($context['virtual_domains']) && is_array($context['virtual_domains']))
-			$hosts = array_merge($hosts, $context['virtual_domains']);
-		foreach($hosts as $index => $host)
-			$hosts[$index] = strtolower(preg_replace('/:\d+$/', '', trim($host)));
-
 		$source_host = strtolower((string)parse_url($source, PHP_URL_HOST));
-		if(!$source_host || !in_array($source_host, $hosts, TRUE)) {
+		if(!$source_host || !in_array($source_host, get_server_hosts(), TRUE)) {
 			Safe::header('Status: 403 Forbidden', TRUE, 403);
 			exit(is_callable(array('i18n', 's')) ? i18n::s('You are not allowed to perform this operation.') : 'You are not allowed to perform this operation.');
+		}
+	}
+
+	// a valid token is required as well -- see yacs_handler() and shared/yacs.js
+	// web services and agents do not rely on forms rendered by this server
+	if(!preg_match('/\/(agents|services)\//', $context['script_url'])) {
+
+		$token = '';
+		if(isset($_POST['csrf_token']))
+			$token = $_POST['csrf_token'];
+		elseif(isset($_SERVER['HTTP_X_CSRF_TOKEN']))
+			$token = $_SERVER['HTTP_X_CSRF_TOKEN'];
+
+		if(!Surfer::check_form_token($token)) {
+			Logger::remember('shared/global.php: form token is missing or invalid', $context['script_url']);
+			Safe::header('Status: 403 Forbidden', TRUE, 403);
+			exit(is_callable(array('i18n', 's')) ? i18n::s('This form has expired. Please reload the page, then submit it again.') : 'This form has expired. Please reload the page, then submit it again.');
 		}
 	}
 }
@@ -1889,6 +1899,77 @@ function render_raw($type=NULL) {
 }
 
 /**
+ * list host names that belong to this server
+ *
+ * @return array lower-case host names, without port
+ */
+function get_server_hosts() {
+	global $context;
+
+	$hosts = array($context['host_name'], $context['master_host']);
+	if(isset($context['virtual_domains']) && is_array($context['virtual_domains']))
+		$hosts = array_merge($hosts, $context['virtual_domains']);
+	foreach($hosts as $index => $host)
+		$hosts[$index] = strtolower(preg_replace('/:\d+$/', '', trim($host)));
+	return $hosts;
+}
+
+/**
+ * add the form token of the current surfer to a page
+ *
+ * A hidden field is inserted in every form posted to this server, and the token
+ * is exposed in a meta tag for scripts that post data by themselves -- see shared/yacs.js
+ *
+ * Scripts and comments are left untouched.
+ *
+ * @see Surfer::get_form_token()
+ *
+ * @param string the page, or a fragment of it
+ * @return string the updated page
+ */
+function insert_form_tokens($content) {
+
+	// cheap test first
+	if((stripos($content, '<form') === FALSE) && (stripos($content, '</head>') === FALSE))
+		return $content;
+
+	$token = Surfer::get_form_token();
+
+	$areas = preg_split('/(<script\b.*?<\/script>|<!--.*?-->)/is', $content, -1, PREG_SPLIT_DELIM_CAPTURE);
+	$content = '';
+	foreach($areas as $index => $area) {
+
+		// area to be preserved
+		if($index%2) {
+			$content .= $area;
+			continue;
+		}
+
+		// forms posted to this server
+		$area = preg_replace_callback('/<form\b[^>]*>/i', function($matches) use($token) {
+
+			if(!preg_match('/\smethod\s*=\s*["\']?post\b/i', $matches[0]))
+				return $matches[0];
+
+			if(preg_match('/\saction\s*=\s*(["\'])(.*?)\1/is', $matches[0], $action) && preg_match('/^([a-z][a-z0-9+.-]*:|\/\/)/i', trim($action[2]))) {
+				$host = strtolower((string)parse_url(trim($action[2]), PHP_URL_HOST));
+				if(!$host || !in_array($host, get_server_hosts(), TRUE))
+					return $matches[0];
+			}
+
+			return $matches[0].'<input type="hidden" name="csrf_token" value="'.$token.'" />';
+		}, $area);
+
+		// for scripts
+		$area = preg_replace('/<\/head>/i', '<meta name="csrf-token" content="'.$token.'" />'."\n".'</head>', $area, 1);
+
+		$content .= $area;
+	}
+
+	return $content;
+}
+
+/**
  * finalize page rendering
  *
  * This function is equivalent to what is done during regular page rendering
@@ -1962,6 +2043,10 @@ function yacs_handler($content) {
 
 	// transform standalone & to &amp; -- do not transform javascript operator &&
 	if(($context['content_type'] == 'text/html') || ($context['content_type'] == 'application/xhtml+xml')) {
+
+		// protect forms of authenticated surfers against cross-site request forgery
+		if(is_callable(array('Surfer', 'is_logged')) && Surfer::is_logged())
+			$content = insert_form_tokens($content);
 
 		// do not transform CDATA
 		$areas = preg_split('/(<!\[CDATA\[.*?]]>)/is', trim($content), -1, PREG_SPLIT_DELIM_CAPTURE);

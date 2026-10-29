@@ -2895,6 +2895,8 @@ var Yacs = {
 
 	    // send data
 	    request.open('POST', url_to_root+ Yacs.urlUploadFile);
+	    if(Yacs.getFormToken())
+		request.setRequestHeader('X-CSRF-Token', Yacs.getFormToken());
 	    request.send(data);
 
 	},
@@ -3068,6 +3070,33 @@ function pfx(classes) {
     
     return classes;
 }
+
+/**
+ * get the form token of the authenticated surfer, if any
+ *
+ * @see insert_form_tokens() in shared/global.php
+ *
+ * @return {string} the token, or an empty string
+ */
+Yacs.getFormToken = function() {
+	return $('meta[name="csrf-token"]').attr('content') || '';
+};
+
+// send the form token along data posted by scripts to this server
+$.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+	if(!options.crossDomain && !/^(GET|HEAD|OPTIONS)$/i.test(options.type) && Yacs.getFormToken())
+		jqXHR.setRequestHeader('X-CSRF-Token', Yacs.getFormToken());
+});
+
+// add the form token to forms built by scripts
+$(document).on('submit', 'form', function() {
+	var token = Yacs.getFormToken();
+	if(!token || !/^post$/i.test(this.getAttribute('method') || '') || $(this).find('input[name="csrf_token"]').length)
+		return;
+	if(this.action && (this.action.indexOf(window.location.protocol + '//' + window.location.host + '/') !== 0))
+		return;
+	$('<input type="hidden" name="csrf_token" />').val(token).appendTo(this);
+});
 
 // initialize yacs
 $(document).ready(Yacs.onWindowLoad);
