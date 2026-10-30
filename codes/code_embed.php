@@ -2,7 +2,7 @@
 
 /**
  * render files using interactive interface
- * (video, audio, mindmap...)
+ * (video, audio)
  * 
  * @author Bernard Paques (rendering)
  * @author Alexis Raimbault (factoring)
@@ -12,25 +12,21 @@
 Class Code_embed extends Code {
     
     var $patterns = array(
-        // [embed=<id>, <width>, <height>, <params>] or [embed=<id>, window]
-        // [flash=<id>, <width>, <height>, <params>] or [flash=<id>, window]
+        // [embed=<id>] or [embed=<id>, window, <label>]
         // [sound=<id>]
+        // [flash=<id>] is a legacy alias of [embed=<id>]
         '/\[(embed|flash|sound)=([^\]]+?)\]/i'
     );
     
     public function render($matches) {
-        $text = '';
-        
-
-        $text = self::render_embed(codes::fix_tags($matches[1]));
-               
+        return self::render_embed(codes::fix_tags($matches[1]));
     }
     
     /**
     * embed an interactive object
     *
     * The id designates the target file.
-    * It can also include width and height of the target canvas, as in: '12, 100%, 250px'
+    * Add 'window' to play it in a separate window, as in: '12, window, <label>'
     *
     * @param string id of the target file
     * @return string the rendered string
@@ -57,20 +53,7 @@ Class Code_embed extends Code {
            }
 
            // file extension
-           $extension = strtolower(substr($item['file_name'], -3));
-
-           // set a default size
-           if(!isset($attributes[1]))
-                   $attributes[1] = 480;
-           if(!isset($attributes[2]))
-                   $attributes[2] = 360;
-
-           // object attributes
-           $width = $attributes[1];
-           $height = $attributes[2];
-           $flashvars = '';
-           if(isset($attributes[3]))
-                   $flashvars = $attributes[3];
+           $extension = strtolower(pathinfo($item['file_name'], PATHINFO_EXTENSION));
 
            // rendering depends on file extension
            switch($extension) {
@@ -82,13 +65,11 @@ Class Code_embed extends Code {
             case 'oga': 
             case 'webma':
             case 'wav':
-            case 'fla':
             case 'mp4':
             case 'm4v':
             case 'ogv':
             case 'webm':
             case 'webmv':
-            case 'flv':     
 
                    include_once $context['path_to_root'].'/included/jplayer/jplayer.php';
                 
@@ -96,9 +77,9 @@ Class Code_embed extends Code {
                    if(isset($item['file_href']) && $item['file_href'])
                            $url = $item['file_href'];
 
-                   // prevent leeching (the flv player will provide session cookie, etc)
+                   // jplayer picks its player from the extension of the url, as in Files::interact()
                    else
-                           $url = $context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
+                           $url = $context['url_to_master'].$context['url_to_root'].Files::get_url($item['id'], 'direct', $item['file_name']);
 
 
                    $output = jplayer::play($url);
