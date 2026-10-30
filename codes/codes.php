@@ -975,7 +975,6 @@ Class Codes {
 	 * - comment - link to a comment page
 	 * - download - link to a download page
 	 * - file - link to a file page
-	 * - flash - display a file as a native flash object, or play a flash video
 	 * - go
 	 * - image - display an in-line image
 	 * - next - link to an article page
