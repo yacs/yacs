@@ -78,10 +78,6 @@ if(!defined('JS_PREFIX'))
 if(!defined('JS_SUFFIX'))
 	define('JS_SUFFIX', '// ]]></script>'."\n");
 
-// PHP5 could complain about not settings TZ correctly
-if(function_exists("date_default_timezone_set") and function_exists("date_default_timezone_get"))
-	date_default_timezone_set(date_default_timezone_get());
-
 include_once 'context.php';
 
 // store attributes for this request, including global parameters and request-specific variables
@@ -312,11 +308,7 @@ Safe::load('parameters/control.include.php');
 if($context['with_debug'] == 'Y') {
 	Safe::ini_set('display_errors','1');
 	Safe::ini_set('display_startup_errors','1');
-	Safe::ini_set('allow_call_time_pass_reference','0');
- 	if(defined('E_STRICT'))
- 		$level = E_ALL;	// E_STRICT is folded into E_ALL and the constant is deprecated since PHP 8.4
- 	else
-		$level = E_ALL;
+	$level = E_ALL;
 } else
 	$level = E_ALL ^ (E_NOTICE | E_USER_NOTICE | E_WARNING);
 Safe::error_reporting($level);
@@ -370,7 +362,7 @@ if(!isset($context['site_name']) || !trim($context['site_name']))
 
 // check https, several possiblities depending on web hosting
 $is_https = FALSE;
-if( (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] === 443) ||                                  //
+if( (isset($_SERVER['SERVER_PORT']) && ((int)$_SERVER['SERVER_PORT'] === 443)) ||                           //
     (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ||                                             // auto-
     (isset($_SERVER['REQUEST_SCHEME']) && $_SERVER['REQUEST_SCHEME'] === 'https') ||                         // detect
     (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' )) {        //
