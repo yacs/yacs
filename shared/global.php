@@ -417,41 +417,17 @@ if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == '')) {
 		$domain = $parent_domain;
 
 	// set the cookie to parent domain, to allow for sub-domains
-	// SameSite=Lax stops the session cookie on cross-site POST and sub-requests (CSRF),
-	// except when a virtual domain is another site, since cross-domain login relies on cross-site XHR
-	$samesite = 'Lax';
-	if(isset($context['virtual_domains']) && is_array($context['virtual_domains'])) {
-		$current_host = strtolower(preg_replace('/:\d+$/', '', $context['host_name']));
-		$parent = strtolower(preg_replace('/:\d+$/', '', $domain));
-		foreach($context['virtual_domains'] as $virtual) {
-			$virtual = strtolower(preg_replace('/:\d+$/', '', trim($virtual)));
-			if(($virtual == $current_host) || (($parent[0] == '.') && (substr('.'.$virtual, -strlen($parent)) == $parent)))
-				continue;
-			$samesite = $is_https ? 'None' : '';
-			break;
-		}
-	}
-	$cookie_params = array(
+	// SameSite=Lax stops the session cookie on cross-site POST and sub-requests (CSRF)
+	session_set_cookie_params(array(
 		'lifetime' => 0,
 		'path' => '/',
 		'domain' => $domain,
 		'secure' => $is_https,
-		'httponly' => TRUE);
-	if($samesite)
-		$cookie_params['samesite'] = $samesite;
-	session_set_cookie_params($cookie_params);
+		'httponly' => TRUE,
+		'samesite' => 'Lax'));
 
 	// set or use the PHPSESSID cookie
 	session_start();
-
-	// if several hosts or domains have been defined for this server, ensure all use same session data
-	// @see tools/check_multi_login.php
-	// @see Yacs.muliDomainLogin() /shared/yacs.js
-	if(!isset($_COOKIE['PHPSESSID']) && isset($context['virtual_domains']) && count($context['virtual_domains'])) {
-
-		$_SESSION['cross_domain_login_required'] = true;
-
-	}
 
 }
 
