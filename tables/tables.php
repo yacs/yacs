@@ -200,7 +200,7 @@ Class Tables {
 					elseif(preg_match('/^(true|false)$/i', $value))
 						$value = intval($value);
 
-					// ensure we have some label for SIMILE Exhibit
+					// ensure we have some label
 					if(!$label)
 						$label = $value;
 
@@ -221,85 +221,6 @@ Class Tables {
 			}
 
 			$text .= Safe::json_encode($data);
-			return $text;
-
-		// list of facets for SIMILE Exhibit
-		case 'json-facets':
-
-			// columns are actual facets
-			$facets = array();
-			$index = 0;
-			while($field = SQL::fetch_field($rows)) {
-				$index++;
-
-				// first column is only a link
-				if(($index == 1) && ($table['with_zoom'] == 'Y'))
-					continue;
-
-				// first column has a link
-				if(($index == 2) && ($table['with_zoom'] == 'Y'))
-					continue;
-
-				// column is a facet
-				$label = '.'.trim(preg_replace('/[^\w]+/', '', ucfirst($field->name)));
-				$title = trim(str_replace(',', '', ucfirst($field->name)));
-				$facets[] = '<div ex:role="facet" ex:expression="'.$label.'" ex:facetLabel="'.$title.'"></div>';
-
-				// only last columns can be faceted
-				if(count($facets) > 7)
-					array_shift($facets);
-			}
-
-			// reverse facet order
-			$facets = array_reverse($facets);
-
-			// job done
-			$text = join("\n", $facets);
-			return $text;
-
-		// list of columns for SIMILE Exhibit
-		case 'json-labels':
-
-			// get header labels
-			$labels = array();
-			$index = 0;
-			while($field = SQL::fetch_field($rows)) {
-				$index++;
-
-				// first column is only a link
-				if(($index == 1) && ($table['with_zoom'] == 'Y'))
-					continue;
-
-				// column id
-				$labels[] = '.'.trim(preg_replace('/[^\w]+/', '', ucfirst($field->name)));
-
-				// limit the number of columns put on screen
-				if(count($labels) >= 7)
-					break;
-			}
-
-			// job done
-			$text = join(', ', $labels);
-			return $text;
-
-		// titles of columns for SIMILE Exhibit
-		case 'json-titles':
-
-			// get header labels
-			$labels = array();
-			$index = 0;
-			while($field = SQL::fetch_field($rows)) {
-				$index++;
-
-				// first column is only a link
-				if(($index == 1) && ($table['with_zoom'] == 'Y'))
-					continue;
-
-				// column header
-				$labels[] = trim(str_replace(',', '', ucfirst($field->name)));
-			}
-
-			$text = join(', ', $labels);
 			return $text;
 
 		// produce an HTML table

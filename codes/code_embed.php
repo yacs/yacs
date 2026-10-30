@@ -60,20 +60,10 @@ Class Code_embed extends Code {
            $extension = strtolower(substr($item['file_name'], -3));
 
            // set a default size
-           if(!isset($attributes[1])) {
-                   if(!strcmp($extension, 'gan'))
-                           $attributes[1] = '98%';
-     
-                   else
-                           $attributes[1] = 480;
-           }
-           if(!isset($attributes[2])) {
-                   if(!strcmp($extension, 'gan'))
-                           $attributes[2] = '300px';
-                   
-                   else
-                           $attributes[2] = 360;
-           }
+           if(!isset($attributes[1]))
+                   $attributes[1] = 480;
+           if(!isset($attributes[2]))
+                   $attributes[2] = 360;
 
            // object attributes
            $width = $attributes[1];
@@ -116,94 +106,6 @@ Class Code_embed extends Code {
                    // job done
                    return $output;
 
-           // a ganttproject timeline
-           case 'gan':
-
-                   // where the file is
-                   $path = Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']);
-
-                   // we actually use a transformed version of the file
-                   $cache_id = Cache::hash($path).'.xml';
-
-                   // apply the transformation
-                   if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path_to_root'].$cache_id) < filemtime($context['path_to_root'].$path)) || (!$text = Safe::file_get_contents($context['path_to_root'].$cache_id))) {
-
-                           // transform from GanttProject to SIMILE Timeline
-                           $text = Files::transform_gan_to_simile($path);
-
-                           // put in cache
-                           Safe::file_put_contents($cache_id, $text);
-
-                   }
-
-                   // load the SIMILE Timeline javascript library in shared/global.php
-                   $context['javascript']['timeline'] = TRUE;
-
-                   // cache would kill the loading of the library
-                   cache::poison();
-
-                   // 1 week ago
-                   $now = gmdate('M d Y H:i:s', time()-7*24*60*60);
-
-                   // load the right file
-                   $output = '<div id="gantt" style="height: '.$height.'; width: '.$width.'; border: 1px solid #aaa; font-family: Trebuchet MS, Helvetica, Arial, sans serif; font-size: 8pt"></div>'."\n";
-
-                   Page::insert_script(
-                           'var simile_handle;'."\n"
-                           .'function onLoad() {'."\n"
-                           .'  var eventSource = new Timeline.DefaultEventSource();'."\n"
-                           .'	var theme = Timeline.ClassicTheme.create();'."\n"
-                           .'            theme.event.bubble.width = 350;'."\n"
-                           .'            theme.event.bubble.height = 300;'."\n"
-                           .'  var bandInfos = ['."\n"
-                           .'    Timeline.createBandInfo({'."\n"
-                           .'        eventSource:    eventSource,'."\n"
-                           .'        date:           "'.$now.'",'."\n"
-                           .'        width:          "80%",'."\n"
-                           .'        intervalUnit:   Timeline.DateTime.WEEK,'."\n"
-                           .'        intervalPixels: 200,'."\n"
-                           .'		  theme:          theme,'."\n"
-                           .'        layout:         "original"  // original, overview, detailed'."\n"
-                           .'    }),'."\n"
-                           .'    Timeline.createBandInfo({'."\n"
-                           .'        showEventText: false,'."\n"
-                           .'        trackHeight: 0.5,'."\n"
-                           .'        trackGap: 0.2,'."\n"
-                           .'        eventSource:    eventSource,'."\n"
-                           .'        date:           "'.$now.'",'."\n"
-                           .'        width:          "20%",'."\n"
-                           .'        intervalUnit:   Timeline.DateTime.MONTH,'."\n"
-                           .'        intervalPixels: 50'."\n"
-                           .'    })'."\n"
-                           .'  ];'."\n"
-                           .'  bandInfos[1].syncWith = 0;'."\n"
-                           .'  bandInfos[1].highlight = true;'."\n"
-                           .'  bandInfos[1].eventPainter.setLayout(bandInfos[0].eventPainter.getLayout());'."\n"
-                           .'  simile_handle = Timeline.create(document.getElementById("gantt"), bandInfos, Timeline.HORIZONTAL);'."\n"
-                           .'	simile_handle.showLoadingMessage();'."\n"
-                           .'  Timeline.loadXML("'.$context['url_to_home'].$context['url_to_root'].$cache_id.'", function(xml, url) { eventSource.loadXML(xml, url); });'."\n"
-                           .'	simile_handle.hideLoadingMessage();'."\n"
-                           .'}'."\n"
-                           ."\n"
-                           .'var resizeTimerID = null;'."\n"
-                           .'function onResize() {'."\n"
-                           .'    if (resizeTimerID == null) {'."\n"
-                           .'        resizeTimerID = window.setTimeout(function() {'."\n"
-                           .'            resizeTimerID = null;'."\n"
-                           .'            simile_handle.layout();'."\n"
-                           .'        }, 500);'."\n"
-                           .'    }'."\n"
-                           .'}'."\n"
-                           ."\n"
-                           .'// observe page major events'."\n"
-                           .'$(document).ready( onLoad);'."\n"
-                           .'$(window).resize(onResize);'."\n"
-                           );
-
-                   // job done
-                   return $output;
-
-          
            // link to file page
            default:
 

@@ -1595,19 +1595,6 @@ function render_skin($with_last_modified=TRUE) {
 	if(isset($context['javascript']['jscolor']))
 		Page::defer_script('included/jscolor/jscolor.min.js');
 
-	// activate SIMILE timeline, if required
-	if(isset($context['javascript']['timeline']))
-		Page::load_script('http://simile.mit.edu/timeline/api/timeline-api.js');
-
-
-	// activate SIMILE timeplot, if required
-	if(isset($context['javascript']['timeplot']))
-		Page::load_script('http://api.simile-widgets.org/timeplot/1.1/timeplot-api.js');
-
-	// activate SIMILE exhibit, if required
-	if(isset($context['javascript']['exhibit']))
-		Page::load_script('http://static.simile.mit.edu/exhibit/api-2.0/exhibit-api.js');
-
 	// activate OpenTok, if required
 	if(isset($context['javascript']['opentok']))
 		Page::load_script('http://static.opentok.com/v0.91/js/TB.min.js');
