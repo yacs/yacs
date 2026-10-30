@@ -1074,42 +1074,6 @@ var Yacs = {
 			.css('visibility', 'visible');
 	},
 
-        /**
-	 * called after page loading to perform session openning
-	 * on other virtual hosts declared on the server
-	 * perform a ajax request to get the list of virtual hosts,
-	 * then a ajax request for each host.
-	 *
-	 * Job done is memorised in session storage to avoid extra
-	 * request
-	 */
-	multiDomainLogin: function() {
-
-	   if(sessionStorage.getItem('multilogin') == 'done')
-	       return;
-
-	   // send query to ask if crossDomainLogin is required
-	   $.get( url_to_root + 'tools/check_multi_login.php')
-	   .done(function(reply){
-
-	       if(reply.login == true) {
-
-		    // start an cross-domain ajax transaction
-		    // @see https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS
-		    // @see tools/session.php
-		    $.each(reply.domains, function(i,url){
-			$.ajax({"url": url + "tools/session.php",
-				"type": "GET",
-				"data": {"id": reply.sessid,"origin": reply.origin},
-				"xhrFields": {"withCredentials": true}
-
-			});
-		    });
-	       } else
-		   sessionStorage.setItem('multilogin','done');
-	   });
-	},
-
 	wysiwygInit: function() {
             
             // find textareas to transform as wysiwyg
@@ -1371,9 +1335,6 @@ var Yacs = {
                 // knacss styling
                 $('[type=radio]').addClass('radio');
                 $('[type=checkbox]').not('.switch').addClass('checkbox');
-
-		// check for virtual host automatic login
-		Yacs.multiDomainLogin();
 
 		// check for asynchronous notifications
 		setTimeout(Yacs.subscribe, 40000);
