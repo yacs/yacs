@@ -53,6 +53,7 @@
 // include the global declarations
 include_once '../shared/global.php';
 include_once '../scripts/scripts.php';	// we handle many files
+include_once '../shared/update_steps.php';	// not left to the autoloader, global.php may be stale during an update
 
 // the place to build the reference repository
 if(!isset($context['path_to_reference']))
