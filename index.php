@@ -47,7 +47,6 @@
  * - Top icons
  * - The cover article
  * - Text produced by hooks included on id 'index.php#prefix'
- * - A dynamic Flash object listing most recent articles
  * - Gadgets boxes
  * - A list of sections. Several layouts are available?
  * - Text produced by hooks included on id 'index.php'
@@ -70,9 +69,6 @@
  * - type: 'include'
  * - parameters: none
  * Use this hook to include any text right after the cover article.
- *
- * The Flash object is a convenient way to dynamically animate the front page, based on most recent articles published.
- * This has to be explicitly activated in the parameter [code]root_flash_at_home[/code].
  *
  * Gadget boxes are used either to display information that is not part of the
  * regular stream of new content, or to specifically focus on special pages.
@@ -265,10 +261,6 @@ if( (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] !
 // the prefix hook
 if(is_callable(array('Hooks', 'include_scripts')))
 	$context['text'] .= Hooks::include_scripts('index.php#prefix');
-
-// most recent articles listed in flash, if ming module is available
-if(isset($context['root_flash_at_home']) && ($context['root_flash_at_home'] == 'Y'))
-	$context['text'] .= Codes::beautify('[news=flash]');
 
 // gadget boxes
 if((!isset($context['root_gadget_boxes_at_home']) || ($context['root_gadget_boxes_at_home'] == 'Y'))) {

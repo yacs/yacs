@@ -21,8 +21,6 @@
  * By default YACS lists top sections as a menu bar.
  * Use 'map' to reflect the site map at the front page.
  *
- * [*] [code]root_flash_at_home[/code] - Insert a Flash object to animate recent titles
- *
  * [*] [code]root_gadget_boxes_at_home[/code] - Display gadget boxes at the front page.
  * Due to the special layout used for gadget boxes, there is a fixed maximum of 6 gadget boxes.
  *
@@ -152,20 +150,6 @@ elseif(!Surfer::is_associate()) {
 		$context['root_sections_layout'] = 'map';
 	
         $input   .= Skin::build_layouts_selector('section', $context['root_sections_layout']);
-	$fields[] = array($label, $input);
-
-	// use flash to animate recent pages
-	$label = i18n::s('Flash');
-	$input = '<input type="radio" name="root_flash_at_home" value="N"';
-	if(!isset($context['root_flash_at_home']) || ($context['root_flash_at_home'] != 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not list recent pages in an animated Flash object.');
-	$input .= BR.'<input type="radio" name="root_flash_at_home" value="Y"';
-	if(isset($context['root_flash_at_home']) && ($context['root_flash_at_home'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('List most recent pages in a dynamic and clickable Flash panel. Check this option only if the %s module has been installed. This is the case if you have some text displayed %s.'),
-		Skin::build_link('http://ming.sourceforge.net/', 'Ming', 'external'),
-		'<a href="'.$context['url_to_root'].'feeds/flash/slashdot.php">'.i18n::s('here').'</a>');
 	$fields[] = array($label, $input);
 
 	// gadget boxes
@@ -330,8 +314,6 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'root_articles_count_at_home\']=\''.intval($_REQUEST['root_articles_count_at_home'])."';\n";
 	if(isset($_REQUEST['root_cover_at_home']))
 		$content .= '$context[\'root_cover_at_home\']=\''.addcslashes($_REQUEST['root_cover_at_home'], "\\'")."';\n";
-	if(isset($_REQUEST['root_flash_at_home']))
-		$content .= '$context[\'root_flash_at_home\']=\''.addcslashes($_REQUEST['root_flash_at_home'], "\\'")."';\n";
 	if(isset($_REQUEST['root_gadget_boxes_at_home']))
 		$content .= '$context[\'root_gadget_boxes_at_home\']=\''.addcslashes($_REQUEST['root_gadget_boxes_at_home'], "\\'")."';\n";
 	if(isset($_REQUEST['root_featured_layout']))
