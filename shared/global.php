@@ -626,9 +626,6 @@ function core_autoload($class) {
         case 'values':
             include_once $context['path_to_root'].'shared/values.php';
             break;
-        case 'defer':
-            include_once $context['path_to_root'].'shared/defer.php';
-            break;
         case 'update_steps':
             include_once $context['path_to_root'].'shared/update_steps.php';
             break;
