@@ -966,7 +966,15 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') &
 		elseif(isset($_SERVER['HTTP_X_CSRF_TOKEN']))
 			$token = $_SERVER['HTTP_X_CSRF_TOKEN'];
 
-		if(!Surfer::check_form_token($token)) {
+		// right after an update, the button that leads to control/scan.php has been rendered by the
+		// former scripts, which may not add any token -- display the page again instead of refusing it,
+		// so that the next submission carries a valid token; nothing is processed without a token
+		if(!$token && ($context['script_url'] == $context['url_to_root'].'control/scan.php')) {
+			$_SERVER['REQUEST_METHOD'] = 'GET';
+			$_REQUEST = $_POST = $_GET = array();
+			$context['arguments'] = array();
+
+		} elseif(!Surfer::check_form_token($token)) {
 			Logger::remember('shared/global.php: form token is missing or invalid', $context['script_url']);
 			Safe::header('Status: 403 Forbidden', TRUE, 403);
 			exit(is_callable(array('i18n', 's')) ? i18n::s('This form has expired. Please reload the page, then submit it again.') : 'This form has expired. Please reload the page, then submit it again.');
