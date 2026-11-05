@@ -1,16 +1,16 @@
 <?php
 /**
- * locate several items on Google Maps
+ * locate several items on Google Maps -- kept for old links only
  *
- * This script integrates with Google Map to achieve a nice localized rendering.
+ * The mapping engine is no longer chosen by the page but by Locations::map(),
+ * through the MAP_PROVIDER constant. The page itself has been renamed to
+ * map.php, which is what Locations::get_url() now builds its links on.
  *
- * Accepted calls:
- * - map_on_google.php/&lt;section&gt;/&lt;id&gt;
- * - map_on_google.php?anchor=&lt;section:id&gt;
- * - map_on_google.php/all
- * - map_on_google.php?id=all
- * - map_on_google.php/users
- * - map_on_google.php?id=users
+ * This script only forwards to it, so that bookmarks, search engines and
+ * pages published before the OpenStreetMap integration keep working.
+ *
+ * @see locations/map.php
+ * @see locations/locations.php
  *
  * @author Bernard Paques
  * @reference
@@ -19,82 +19,20 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once 'locations.php';
 
-// look for the id
-$id = NULL;
-if(isset($_REQUEST['anchor']))
-	$id = $_REQUEST['anchor'];
-elseif(isset($_REQUEST['id']))
-	$id = $_REQUEST['id'];
-elseif(isset($context['arguments'][1]))
-	$id = $context['arguments'][0].':'.$context['arguments'][1];
-elseif(isset($context['arguments'][0]))
-	$id = $context['arguments'][0];
-$id = strip_tags($id);
+// forward the call, path arguments included -- e.g. map_on_google.php/section/12
+$target = 'locations/map.php';
+if(isset($context['arguments']) && $context['arguments'])
+	$target .= '/'.implode('/', array_map('rawurlencode', $context['arguments']));
 
-// get the related anchor, if any
-$anchor = Anchors::get($id);
-
-// the anchor has to be viewable by this surfer
-if(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
-else
-	$permitted = TRUE;
-
-// load the skin
-load_skin('locations');
-
-// the path to this page
-if(is_object($anchor))
-	$context['path_bar'] = $anchor->get_path_bar();
-else
-	$context['path_bar'] = array( 'locations/' => i18n::s('Locations') );
-
-// the title of the page
-if(is_object($anchor))
-	$context['page_title'] = sprintf(i18n::s('Locations related to %s'), $anchor->get_title());
-elseif($id == 'users')
-	$context['page_title'] = i18n::s('Locations related to community members');
-
-// not found
-if(!is_object($anchor) && ($id != 'all') && ($id != 'users'))
-	Logger::error(i18n::s('Reference a valid anchor, or all users.'));
-
-// no capability to create an image -- the Google engine requires an API key
-elseif((MAP_PROVIDER === 'google') && (!isset($context['google_api_key']) || !$context['google_api_key']))
-	Logger::error(i18n::s('Use the configuration panel for web services to enter your Google API key.'));
-
-// display the map
-else {
-
-	// insert anchor prefix
-	if(is_object($anchor))
-		$context['text'] .= $anchor->get_prefix();
-
-	// get markers
-	$items = array();
-	switch($id) {
-	case 'all':
-	default:
-		$items = Locations::list_by_date(0, 100, 'raw');
-		break;
-
-	case 'users':
-		$items = Locations::list_users_by_date(0, 100, 'raw');
-		break;
-
-	}
-
-	$context['text'] .= Locations::map($items, 2);
-
-	// insert anchor suffix
-	if(is_object($anchor))
-		$context['text'] .= $anchor->get_suffix();
-
+// keep the query string, if any
+$query = array();
+foreach(array('anchor', 'id') as $name) {
+	if(isset($_REQUEST[$name]) && $_REQUEST[$name])
+		$query[] = $name.'='.urlencode(strip_tags($_REQUEST[$name]));
 }
+// a plain ampersand: the string goes to a Location header, not to HTML
+if($query)
+	$target .= '?'.implode('&', $query);
 
-// render the skin
-render_skin();
-
-?>
+Safe::redirect($context['url_to_home'].$context['url_to_root'].$target);

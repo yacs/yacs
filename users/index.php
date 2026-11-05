@@ -165,7 +165,7 @@ elseif(Surfer::get_id())
 else
 	$context['page_tools'][] = Skin::build_link('users/edit.php', i18n::s('Register'));
 if(isset($context['google_api_key']) && $context['google_api_key'])
-	$context['page_tools'][] = Skin::build_link(Locations::get_url('users', 'map_on_google'), i18n::s('Google map'));
+	$context['page_tools'][] = Skin::build_link(Locations::get_url('users', 'map'), i18n::s('Google map'));
 $context['page_tools'][] = Skin::build_link('users/review.php', i18n::s('Review profiles'));
 
 // side bar with the list of present users --don't cache, this will change on each request anyway
