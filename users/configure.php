@@ -61,6 +61,11 @@
  * Else, and this is the default behaviour, e-mail addresses are made optional.
  * Change this parameter to improve on e-mail reliability.
  *
+ * [*] [code]users_with_newsletters[/code] - When explicitly set to 'Y', members
+ * may subscribe to newsletters in their profile. By default the checkbox is
+ * displayed only to members who have already subscribed, so that they can
+ * unsubscribe.
+ *
  * [*] [code]users_without_archiving[/code] - By default YACS archives published
  * articles in weekly and monthly categories. This is great for live sites, but
  * can be irrelevant for application-like sites.
@@ -195,6 +200,18 @@ elseif(!Surfer::is_associate()) {
 	if(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Registrants become members after validation of their e-mail. When this option is activated, associates cannot validate membership anymore.');
+	$fields[] = array($label, $input);
+
+	// newsletters control
+	$label = i18n::s('Newsletters');
+	$input = '<input type="radio" name="users_with_newsletters" value="N"';
+	if(!isset($context['users_with_newsletters']) || ($context['users_with_newsletters'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Newsletters are not offered to members.');
+	$input .= BR.'<input type="radio" name="users_with_newsletters" value="Y"';
+	if(isset($context['users_with_newsletters']) && ($context['users_with_newsletters'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Members may subscribe to newsletters in their profile.');
 	$fields[] = array($label, $input);
 
 	// membership control
@@ -641,6 +658,8 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'users_with_anonymous_comments\']=\''.addcslashes($_REQUEST['users_with_anonymous_comments'], "\\'")."';\n";
 	if(isset($_REQUEST['users_with_approved_members']))
 		$content .= '$context[\'users_with_approved_members\']=\''.addcslashes($_REQUEST['users_with_approved_members'], "\\'")."';\n";
+	if(isset($_REQUEST['users_with_newsletters']))
+		$content .= '$context[\'users_with_newsletters\']=\''.addcslashes($_REQUEST['users_with_newsletters'], "\\'")."';\n";
 	if(isset($_REQUEST['users_default_active']))
 		$content .= '$context[\'users_default_active\']=\''.addcslashes($_REQUEST['users_default_active'], "\\'")."';\n";
 	if(isset($_REQUEST['users_with_auto_publish']))

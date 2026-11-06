@@ -1578,7 +1578,7 @@ Class Users {
 			$fields['nick_name'] = $name;
 			$fields['description'] = i18n::s('Authenticated externally.');
 			$fields['password'] = 'shadow';
-			$fields['with_newsletters'] = 'Y';
+			$fields['with_newsletters'] = 'N';
 			$fields['without_alerts'] = 'N';
 			$fields['without_confirmations'] = 'N';
 			$fields['authenticate_date'] = gmdate('Y-m-d H:i:s');
@@ -1942,7 +1942,7 @@ Class Users {
 		$query[] = "vcard_title='".SQL::escape(isset($fields['vcard_title']) ? $fields['vcard_title'] : '')."'";
 		$query[] = "web_address='".SQL::escape(isset($fields['web_address']) ? $fields['web_address'] : '')."'";
 
-		if(!isset($fields['with_newsletters']) || ($fields['with_newsletters'] != 'N'))
+		if(!isset($fields['with_newsletters']) || ($fields['with_newsletters'] != 'Y'))
 			$fields['with_newsletters'] = 'N';
 		$query[] = "with_newsletters='".$fields['with_newsletters']."'";
 
@@ -2043,6 +2043,33 @@ Class Users {
 
 		// return the id of the new item
 		return $fields['id'];
+	}
+
+	/**
+	 * should the subscription to newsletters be displayed?
+	 *
+	 * Newsletters are offered only if parameter 'users_with_newsletters' is
+	 * explicitly set to 'Y'. A profile that has already subscribed always gets
+	 * the checkbox, so that the member can unsubscribe.
+	 *
+	 * @param array the user profile, or NULL for a new registrant
+	 * @return boolean TRUE if the checkbox should be displayed
+	 *
+	 * @see users/edit.php
+	 * @see users/view.php
+	**/
+	public static function offer_newsletters($item=NULL) {
+		global $context;
+
+		// newsletters are offered at this site
+		if(isset($context['users_with_newsletters']) && ($context['users_with_newsletters'] == 'Y'))
+			return TRUE;
+
+		// a subscriber can always unsubscribe
+		if(isset($item['with_newsletters']) && ($item['with_newsletters'] == 'Y'))
+			return TRUE;
+
+		return FALSE;
 	}
 
 	/**
