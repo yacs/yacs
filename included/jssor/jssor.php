@@ -133,14 +133,17 @@ Class jssor {
         Foreach($slides as $slide) {
             // start slide
              $slider .= '<div>'."\n";
+            // text alternative of images, empty when unknown (decorative image)
+            $alt = isset($slide['alt']) ? encode_field($slide['alt']) : '';
+
             // main image
             if(isset($slide['image_src'])) {
-                $slider .= '<img data-u="image" src="'.$slide['image_src'].'" />'."\n";
+                $slider .= '<img data-u="image" src="'.$slide['image_src'].'" alt="'.$alt.'" />'."\n";
             }
             
             // thumb
             if(isset($slide['thumb_src']) && isset($options['thumbnails'])) {
-                $slider .= '<img data-u="thumb" src="'.$slide['thumb_src'].'" />'."\n";
+                $slider .= '<img data-u="thumb" src="'.$slide['thumb_src'].'" alt="'.$alt.'" />'."\n";
             }
             
             // HTML slide content 
