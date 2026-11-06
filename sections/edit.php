@@ -465,6 +465,8 @@ if($with_form) {
 	$keywords[] = '<a>no_comments</a> - '.i18n::s('Disallow post of new comments');
 	$keywords[] = '<a>files_by_date</a> - '.i18n::s('Sort files by date (default)');
 	$keywords[] = '<a>files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
+	$keywords[] = '<a>files_by_create_date</a> - '.i18n::s('Sort files by upload date, newest first');
+	$keywords[] = '<a>files_layout_xxx</a> - '.i18n::s('Display files with layout xxx');
 	$keywords[] = '<a>no_files</a> - '.i18n::s('Prevent the upload of new files');
 	$keywords[] = '<a>links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
 	$keywords[] = '<a>no_links</a> - '.i18n::s('Disallow post of new links');
@@ -972,6 +974,8 @@ if($with_form) {
 	$keywords[] = '<a>with_files</a> - '.i18n::s('Files can be added to the index page');
 	$keywords[] = '<a>files_by_date</a> - '.i18n::s('Sort files by date (default)');
 	$keywords[] = '<a>files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
+	$keywords[] = '<a>files_by_create_date</a> - '.i18n::s('Sort files by upload date, newest first');
+	$keywords[] = '<a>files_layout_xxx</a> - '.i18n::s('Display files with layout xxx');
 	$keywords[] = '<a>with_links</a> - '.i18n::s('Links can be added to the index page');
 	$keywords[] = '<a>links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
 	$keywords[] = '<a>with_extra_profile</a> - '.i18n::s('Display profile of section owner');

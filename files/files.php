@@ -2145,6 +2145,42 @@ Class Files {
 	}
 
 	/**
+	 * list files attached to one anchor, newest uploads first
+	 *
+	 * Unlike list_by_date_for_anchor(), the order does not change when a file
+	 * is updated. Used with option 'files_by_create_date'.
+	 *
+	 * @param string the target anchor
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param mixed the layout, if any
+	 * @param array ids of files to avoid, if any
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 *
+	 * @see articles/view.php
+	 * @see sections/view.php
+	 */
+	public static function list_by_create_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor', $avoid=NULL) {
+		global $context;
+
+		// limit the scope of the request
+		$where = Files::get_sql_where();
+
+		// ids to avoid
+		if($avoid)
+			$where .= ' AND (files.id NOT IN ('.join(',', $avoid).'))';
+
+		// list items attached directly to this anchor
+		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
+			." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND ".$where
+			." ORDER BY files.create_date DESC, files.title LIMIT ".$offset.','.$count;
+
+		// the list of files
+		$output = Files::list_selected(SQL::query($query), $variant);
+		return $output;
+	}
+
+	/**
 	 * list newest files for one author
 	 *
 	 * This function lists most recent files uploaded by a member.
