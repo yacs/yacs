@@ -826,6 +826,28 @@ class Safe {
 
 	}
 
+	/**
+	 * drop a script from the opcode cache
+	 *
+	 * Call it after a script has been replaced, so that next requests compile the new version,
+	 * whatever the opcache.validate_timestamps and opcache.revalidate_freq settings of the host.
+	 *
+	 * @param string the script that has been replaced or deleted
+	 * @return TRUE on success, FALSE on failure
+	 */
+	public static function opcache_invalidate($file) {
+
+		// translate the path
+		$file = Safe::realpath($file);
+
+		// ensure call is allowed --may be restricted by opcache.restrict_api
+		if(is_callable('opcache_invalidate'))
+			return @opcache_invalidate($file, TRUE);
+
+		// tough luck
+		return FALSE;
+
+	}
 
 	/**
 	 * prepare to read content of a directory

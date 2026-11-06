@@ -14,7 +14,6 @@
  * - [code].aiff[/code] (through a [code].m3u[/code] redirector)
  * - [code].au[/code] (through a [code].m3u[/code] redirector)
  * - [code].flv[/code] (load a flash player in full screen)
- * - [code].gan[/code] (loaded through Javascript)
  * - [code].m4v[/code] (load a flash player in full screen)
  * - [code].mka[/code] (through a [code].m3u[/code] redirector)
  * - [code].mm[/code] (load a flash player)
@@ -217,34 +216,6 @@ if(!$item['id']) {
 		$text .= Code_embed::render_embed($item['id']);
                 
                 $text .= $context['page_footer'];
-
-		// page postamble
-		$text .= '</body>'."\n"
-				.'</html>'."\n";
-
-		break;
-
-	case 'gan':
-
-		// we are using the SIMILE Timeline viewer within a regular page
-		$type = '';
-		$mime = 'text/html';
-
-		// page preamble
-		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
-			.'<html>'."\n"
-			.'<head>'."\n"
-			.'<title>'.$context['page_title'].'</title>'."\n"
-			.'<script type="text/javascript" src="http://simile.mit.edu/timeline/api/timeline-api.js"></script>'."\n"
-			.'</head>'."\n"
-			.'<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">'."\n";
-
-		// embed the object into a regular page --100% does not work
-		$text .= Code_embed::render_embed($item['id'].', 99%, 90%');
-
-		// add a link to close the window
-		$text .= '</div>'."\n"
-			.'<p style="text-align: center; margin: 0.5em 0 1em 0;"><button type="button" onclick="self.close()">'.i18n::s('Close').'</button></p>'."\n";
 
 		// page postamble
 		$text .= '</body>'."\n"

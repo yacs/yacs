@@ -9,7 +9,6 @@
  * @todo support .dia for Dia http://live.gnome.org/Dia
  * @todo support .sla for scribus http://www.scribus.net/
  * @todo support .sif for Synfig http://synfig.org/
- * @todo support .gan for Ganttproject http://ganttproject.sourceforge.net/
  * @todo support .kml and .kmz for Google Earth http://earth.google.com/kml/kml_tut.html
  * @todo add a flag to obsolete files
  *
@@ -1945,7 +1944,7 @@ Class Files {
 	 *
 	 */
 	public static function is_embeddable($name) {
-		return preg_match('/\.(flv|gan|mov|m4v|mp4|swf)$/i', $name);
+		return preg_match('/\.(flv|mov|m4v|mp4|swf)$/i', $name);
 	}
 
 	/**
@@ -1967,7 +1966,7 @@ Class Files {
 	 *
 	 */
 	public static function is_stream($name) {
-		return Files::is_audio_stream($name) || Files::is_video_stream($name) || preg_match('/\.(gan|mm|swf)$/i', $name);
+		return Files::is_audio_stream($name) || Files::is_video_stream($name) || preg_match('/\.(mm|swf)$/i', $name);
 	}
 
 	/**
@@ -3046,144 +3045,6 @@ Class Files {
 
 		$output = SQL::query_first($query);
 		return $output;
-	}
-
-	/**
-	 * adapt GanttProject file to SIMILE Timeline format
-	 *
-	 * @param string file location
-	 * @return string transformation result, or FALSE
-	 */
-	public static function transform_gan_to_simile($file_path) {
-		global $context;
-
-		// load the file
-		$content = Safe::file_get_contents($file_path);
-
-		// used by parsing functions
-		$context['gan2simile'] = array();
-		$context['gan2simile']['depth'] = 0;
-		$context['gan2simile']['tasks'] = array();
-		$context['gan2simile']['last_id'] = 0;
-		$context['gan2simile']['current_id'] = 0;
-
-		// one tag at a time
-		function g2s_startElement($parser, $name, $attrs) {
-			global $context;
-
-			// remember task basic attributes
-			if(!strcmp($name, 'TASK')) {
-
-				if($context['gan2simile']['depth'] < 5) {
-
-					// flag duration if not milestone
-					if($attrs['DURATION'] > 0)
-						$duration = TRUE;
-					else
-						$duration = FALSE;
-
-					// remember this task
-					$context['gan2simile']['tasks'][ $attrs['ID'] ] = array(
-						'title' => $attrs['NAME'],
-						'start' => $attrs['START'],
-						'duration' => $attrs['DURATION'],
-						'complete' => $attrs['COMPLETE'],
-						'isDuration' => $duration,
-						'notes' => ''
-						);
-					$context['gan2simile']['current_id'] = $attrs['ID'];
-
-					// move to children
-					if(!$context['gan2simile']['depth']) {
-						$context['gan2simile']['last_id'] = $attrs['ID'];
-					}
-
-				}
-				$context['gan2simile']['depth']++;
-
-			}
-		}
-
-		// close a tag
-		function g2s_endElement($parser, $name) {
-			global $context;
-
-			// we check only tasks
-			if(!strcmp($name, 'TASK')) {
-				$context['gan2simile']['depth']--;
-			}
-		}
-
-		// parse the GAN file
-		$xml_parser = xml_parser_create();
-		xml_set_element_handler($xml_parser, "g2s_startElement", "g2s_endElement");
-		if (!xml_parse($xml_parser, $content, TRUE)) {
-			die(sprintf("XML error: %s at line %d",
-						xml_error_string(xml_get_error_code($xml_parser)),
-						xml_get_current_line_number($xml_parser)));
-		}
-		xml_parser_free($xml_parser);
-
-		// the resulting text
-		$text = '<?xml version="1.0" encoding="'.$context['charset'].'"?>'."\n"
-						.'<data>'."\n";
-
-		// process each task
-		foreach($context['gan2simile']['tasks'] as $task) {
-
-			// transcode start date
-			$start = strtotime($task['start']);
-
-			// format start date as per SIMILE expectation
-			$task['start'] = date('M j Y G:i:s', $start).' GMT';
-
-			// which day in week?
-			$info = getdate($start);
-
-			// add two days for the first week-end
-			if(($info['wday'] > 0) && ($info['wday'] < 6) && ($info['wday'] + $task['duration'] > 6))
-				$task['duration'] += 2;
-
-			// take week-ends into consideration
-			$task['duration'] += intval($task['duration']/7)*2;
-
-			// compute and format end date date as per SIMILE expectation
-			$end = $start + ($task['duration'] * 24*60*60);
-			$task['end'] = date('M j Y G:i:s', $end).' GMT';
-
-			$earliestEnd = ' earliestEnd="'.$task['start'].'"';
-			if($task['complete'] > 0) {
-
-				// from percentage to number of days
-				$task['complete'] = intval($task['complete'] * $task['duration'] / 100);
-
-				// add two days for the first week-end
-				if(($info['wday'] > 0) && ($info['wday'] < 6) && ($info['wday'] + $task['complete'] > 6))
-					$task['complete'] += 2;
-
-				// take week-ends into consideration
-				$task['complete'] += intval($task['complete']/7)*2;
-
-				// current completion
-				$end = $start + ($task['complete'] * 24*60*60);
-				$earliestEnd = ' earliestEnd="'.date('M j Y G:i:s', $end).' GMT"';
-
-			}
-
-			// has this one several children?
-			$duration = '';
-			if($task['isDuration'])
-				$duration = ' isDuration="true"';
-
-			// one event per task
-			$text .= '	<event title="'.encode_field(str_replace(array("&nbsp;", '"'), ' ', $task['title'])).'" start="'.$task['start'].'"'.$earliestEnd.' end="'.$task['end'].'" '.$duration.'/>'."\n";
-		}
-
-		// no more events
-		$text .= '</data>';
-
-		// job done
-		return $text;
 	}
 
 	/**

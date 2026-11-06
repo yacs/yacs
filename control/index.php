@@ -249,9 +249,6 @@ if(!file_exists('../parameters/control.include.php')) {
 				if(Surfer::has_all())
 					$commands[] = sprintf(i18n::s('%s - select and test themes available at this server'), Skin::build_link('skins/', i18n::s('Themes'), 'basic'));
 
-				if(Surfer::has_all())
-					$commands[] = sprintf(i18n::s('%s - to change rendering of dynamic Flash objects'), Skin::build_link('feeds/flash/configure.php', i18n::s('Flash'), 'basic'));
-
 				$commands[] = sprintf(i18n::s('%s - enhance information provided through RSS'), Skin::build_link('feeds/configure.php', i18n::s('Information channels'), 'basic'));
 
 				if(Surfer::has_all())

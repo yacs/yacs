@@ -46,7 +46,7 @@ Class Layout_files_as_embeddable extends Layout_interface {
 			$codes = array();
 
 			// files that can be embedded
-			if(preg_match('/\.(3gp|flv|gan|m4v|mm|mov|mp4|swf)$/i', $item['file_name']))
+			if(preg_match('/\.(3gp|flv|m4v|mm|mov|mp4|swf)$/i', $item['file_name']))
 				$codes[] = '[embed='.$item['id'].']';
 
 			// link for direct download

@@ -15,7 +15,7 @@ Class Code_table extends Code {
     
     var $patterns = array(
             '/\[table(?:=([^\]]+?))?\](.*?)\[\/(table)\]/is',  // [table]...[/table] [table=variant]...[/table] ( must be declared before )
-            '/\[table(?:\.([^=\]]+?))?=([^\]]+?)\]/is'       // [table=<id>] [table.json=<id>]  [table.timeplot=<id>]
+            '/\[table(?:\.([^=\]]+?))?=([^\]]+?)\]/is'       // [table=<id>] [table.json=<id>]
         );
     
     public function render($matches) {
@@ -50,33 +50,12 @@ Class Code_table extends Code {
            // get actual content
            include_once $context['path_to_root'].'tables/tables.php';
 
-           // use SIMILE Exhibit
-           if($variant == 'filter') {
-
-                   // load the SIMILE Exhibit javascript library in shared/global.php
-                   $context['javascript']['exhibit'] = TRUE;
-
-                   // load data
-                   $context['page_header'] .= "\n".'<link href="'.$context['url_to_root'].Tables::get_url($id, 'fetch_as_json').'" type="application/json" rel="exhibit/data" />';
-
-                   // exhibit data in a table
-                   $text = '<div ex:role="exhibit-view" ex:viewClass="Exhibit.TabularView" ex:columns="'.Tables::build($id, 'json-labels').'" ex:columnLabels="'.Tables::build($id, 'json-titles').'" ex:border="0" ex:cellSpacing="0" ex:cellPadding="0" ex:showToolbox="true" ></div>'."\n";
-
-                   // allow for filtering
-                   $facets = '<div class="exhibit-facet">'
-                           .'<div class="exhibit-facet-header"><span class="exhibit-facet-header-title">'.i18n::s('Filter').'</span></div>'
-                           .'<div class="exhibit-facet-body-frame" style="margin: 0 2px 1em 0;">'
-                           .'<div ex:role="facet" ex:facetClass="TextSearch" style="display: block;"></div>'
-                           .'</div></div>';
-
-                   // facets from first columns
-                   $facets .= Tables::build($id, 'json-facets');
-
-                   // filter and facets aside
-                   $context['components']['boxes'] .= $facets;
+           // the filtered view relied on SIMILE Exhibit, which is not available anymore
+           if($variant == 'filter')
+                   $variant = 'sortable';
 
            // build sparkline
-           } elseif($variant == 'bars') {
+           if($variant == 'bars') {
                    $text = '<img border="0" align="baseline" hspace="0" src="'.$context['url_to_root'].Tables::get_url($id, 'fetch_as_png').'&order=0&gap;0.5" alt="" />';
 
            

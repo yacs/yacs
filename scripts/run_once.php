@@ -77,6 +77,7 @@
 
 // include global declarations
 include_once '../shared/global.php';
+include_once '../shared/update_steps.php';	// not left to the autoloader, global.php may be stale during an update
 
 // load localized strings
 i18n::bind('scripts');

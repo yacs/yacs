@@ -145,6 +145,7 @@ elseif(!Surfer::is_associate()) {
 		// maybe we have to update the front page
 		if(($file == 'index.php') && isset($context['home_at_root']) && ($context['home_at_root'] == 'Y')) {
 			if(Safe::copy($context['path_to_root'].'scripts/staging/index.php', $context['path_to_root'].'../index.php')) {
+				Safe::opcache_invalidate($context['path_to_root'].'../index.php');
 				$context['text'] .= sprintf(i18n::s('%s has been updated'), '../index.php').' ('.files::format_bytes($attributes[0]).')'.BR."\n";
 				$updated_files++;
 
@@ -170,6 +171,7 @@ elseif(!Surfer::is_associate()) {
 
 			// move the staging script
 			if(Safe::rename($context['path_to_root'].'scripts/staging/'.$file, $context['path_to_root'].$file)) {
+				Safe::opcache_invalidate($context['path_to_root'].$file);
 				$context['text'] .= sprintf(i18n::s('%s has been updated'), $file.' ('.files::format_bytes($attributes[0]).')').BR."\n";
 				$updated_files++;
 
@@ -192,6 +194,7 @@ elseif(!Surfer::is_associate()) {
             if(file_exists($context['path_to_root'].$to_delete)) {
                 Safe::unlink($context['path_to_root'].$to_delete.'.bak');
                 Safe::rename($context['path_to_root'].$to_delete, $context['path_to_root'].$to_delete.'.bak');
+                Safe::opcache_invalidate($context['path_to_root'].$to_delete);
                 $context['text'] .= sprintf(i18n::s('%s has been deleted'), $to_delete).BR."\n";
                 $deleted_files++;
             }

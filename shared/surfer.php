@@ -973,26 +973,6 @@ Class Surfer {
 	}
 
 	/**
-	 * detect Flash availibility in user agent
-	 *
-	 * This function combines detection on client and on server-side
-	 *
-	 * @return TRUE or FALSE
-	 *
-	 * @see skins/skin_skeleton.php
-	 */
-	public static function has_flash() {
-		global $context;
-
-		// use cookie sent by browser -- see shared/yacs.js
-		if(isset($_COOKIE['FlashIsAvailable']) && ($_COOKIE['FlashIsAvailable'] == 'yes'))
-			return TRUE;
-
-		// assume no Flash
-		return FALSE;
-	}
-
-	/**
 	 * check the id of page surfer
 	 *
 	 * To control that a surfer is the actual creator of one article, following code may be used:
@@ -1871,10 +1851,6 @@ if(isset($_SERVER['REMOTE_ADDR']) && !Surfer::is_crawler() && !headers_sent()) {
 
 	// refresh the watchdog
 	$_SESSION['watchdog'] = time();
-
-	// bare server-side flash detection
-	if(isset($_SERVER['HTTP_ACCEPT']) && preg_match('/application\/x-shockwave-flash/i', $_SERVER['HTTP_ACCEPT']))
-		$_SESSION['browser_has_flash'] = TRUE;
 
 }
 

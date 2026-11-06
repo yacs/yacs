@@ -8,7 +8,7 @@ codes       codes/*.php
 comments    comments/*.php
 control     control/*.php	control/htaccess/*.php	control/htaccess/basic/*.php	control/htaccess/options/*.php	control/htaccess/indexes/*.php
 dates       dates/*.php
-feeds       feeds/*.php       feeds/flash/*.php
+feeds       feeds/*.php
 files       files/*.php
 help        help/*.php
 i18n        i18n/*.php

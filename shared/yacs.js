@@ -359,46 +359,6 @@ var Yacs = {
 	},
 
 	/**
-	 * detect Flash on client-side
-	 *
-	 * The script used to detect Flash under Firefox, etc. This is complemented
-	 * by server-side detection for IE.
-	 *
-	 * This function also save findings in a cookie for transmission to server.
-	 *
-	 * @return 'yes' or 'no'
-	 */
-	detectFlash: function () {
-
-		var detected = Yacs.getCookie("FlashIsAvailable");
-
-		// cookie has already been set
-		if(detected) {
-			return detected;
-		}
-
-		// detect in plugins
-		if((navigator.plugins !== null) && (navigator.plugins.length > 0)) {
-			if(navigator.plugins["Shockwave Flash 2.0"] || navigator.plugins["Shockwave Flash"]) {
-				detected = 'yes';
-			}
-		} else if(navigator.userAgent.toLowerCase().indexOf("webtv") != -1) {
-			detected = 'yes';
-
-		// assume Flash is embedded in Windows
-		} else if(navigator.userAgent.toLowerCase().indexOf("windows") != -1) {
-			detected = 'yes';
-		}
-
-		// remember this in a cookie
-		Yacs.setCookie("FlashIsAvailable", detected);
-
-		// return the result, if useful
-		return detected;
-
-	},
-
-	/**
 	 * compute and record surfer time zone
 	 *
 	 * This function computes the surfer time zone, and save it in a cookie to
@@ -1201,8 +1161,6 @@ var Yacs = {
 		// compute and record surfer time zone
 		Yacs.detectTimeZone();
 
-		// detect Flash on client side
-		Yacs.detectFlash();
                 
                 Yacs.emTopFocus();
                 

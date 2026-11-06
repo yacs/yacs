@@ -626,9 +626,6 @@ function core_autoload($class) {
         case 'values':
             include_once $context['path_to_root'].'shared/values.php';
             break;
-        case 'defer':
-            include_once $context['path_to_root'].'shared/defer.php';
-            break;
         case 'update_steps':
             include_once $context['path_to_root'].'shared/update_steps.php';
             break;
@@ -1594,19 +1591,6 @@ function render_skin($with_last_modified=TRUE) {
 	// activate jscolor, if available
 	if(isset($context['javascript']['jscolor']))
 		Page::defer_script('included/jscolor/jscolor.min.js');
-
-	// activate SIMILE timeline, if required
-	if(isset($context['javascript']['timeline']))
-		Page::load_script('http://simile.mit.edu/timeline/api/timeline-api.js');
-
-
-	// activate SIMILE timeplot, if required
-	if(isset($context['javascript']['timeplot']))
-		Page::load_script('http://api.simile-widgets.org/timeplot/1.1/timeplot-api.js');
-
-	// activate SIMILE exhibit, if required
-	if(isset($context['javascript']['exhibit']))
-		Page::load_script('http://static.simile.mit.edu/exhibit/api-2.0/exhibit-api.js');
 
 	// activate OpenTok, if required
 	if(isset($context['javascript']['opentok']))

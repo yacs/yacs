@@ -463,8 +463,6 @@ Class Utf8 {
 	 * @param string a complex string using unicode entities
 	 * @param string optional characters to accept
 	 * @return a ISO 8859 string
-	 *
-	 * @see feeds/flash/slashdot.php
 	 */
 	public static function to_iso8859($utf, $options='') {
 

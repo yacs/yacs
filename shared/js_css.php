@@ -913,9 +913,9 @@ Class Js_Css {
                 } elseif($ext === 'css') {
                     // css files are minified on demand by tools/build_css.php
                     ;
-                } else {
-                    // need minification for next time, but launch it as a background process
-                    Defer::queue('tools/minifier.php?script='.Safe::realpath($path));
+                } elseif(is_writable($context['path_to_root'].'temporary') && Js_css::minify($realpath)) {
+                    // minified once, on the first page that needs it
+                    $path = $min_v;
                 }
 
 	    }
@@ -976,13 +976,15 @@ Class Js_Css {
     }
     
     /**
-     * Minify a script using a external API service
+     * Minify a script with the bundled minifier
      * 
-     * if a path is provided, the extention is determined automatically
+     * if a path is provided, the extention is determined automatically,
+     * and the result is written to temporary/<name>.min.<ext>
      * 
      * @param string $path local to the file to minify or plain text
      * @param string &$script if we want to concat the result to
      * @param string $ext, 'js' or 'css' to provide the script type if plain text is given
+     * @return boolean true on success
      */
     public static function minify($path, &$script=null, $ext=null) {
         global $context;
@@ -1045,11 +1047,26 @@ Class Js_Css {
                 // build the path
                 $min_path = $context['path_to_root'].'temporary/'.$path_parts['filename'].'.min.'.$path_parts['extension'];
 
-                // delete previous one
-                Safe::unlink($min_path);
-                
-                // write to file
-                $minifier->minify($min_path);
+                // execute minification next to the target
+                $tmp_path = $min_path.'.'.getmypid().'.tmp';
+                try {
+                    $minifier->minify($tmp_path);
+                } catch (Throwable $e) {
+                    logger::remember('shared/js_css.php', 'cannot minify '.$path.': '.$e->getMessage());
+                    Safe::unlink($tmp_path);
+                    return false;
+                }
+
+                // replace the target in one step, so that it is never partial for pages served at the same time
+                if(!file_exists($tmp_path))
+                    return false;
+                if(!rename($tmp_path, $min_path)) {
+                    Safe::unlink($min_path);
+                    if(!rename($tmp_path, $min_path)) {
+                        Safe::unlink($tmp_path);
+                        return false;
+                    }
+                }
             }
             return true;
                
