@@ -1,6 +1,8 @@
 <?php
 /**
  * basic form
+ * 
+ * Please change extension to .php if you want to test it.
  *
  * A minimalist script based on the YACS framework.
  *

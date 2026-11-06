@@ -1,6 +1,8 @@
 <?php
 /**
  * to simulate a script generating some text
+ * 
+ * Please change extension to .php if you want to test it.
  *
  * @author Bernard Paques
  * @reference

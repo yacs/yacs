@@ -1,6 +1,8 @@
 <?php
 /**
  * demonstrate AJAX capabilities of YACS
+ * 
+ * Please change extension to .php if you want to test it.
  *
  * @author Bernard Paques
  * @reference

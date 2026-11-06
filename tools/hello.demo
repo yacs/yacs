@@ -1,6 +1,8 @@
 <?php
 /**
  * hello world
+ * 
+ * Please change extension to .php if you want to test it.
  *
  * A minimum script based on the YACS framework.
  *
