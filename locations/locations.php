@@ -534,7 +534,7 @@ Class Locations {
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
-	 * @see locations/map_on_google.php
+	 * @see locations/map.php
 	 */
 	public static function list_users_by_date($offset=0, $count=10, $variant='full') {
 		global $context;
