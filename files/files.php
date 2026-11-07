@@ -2135,9 +2135,7 @@ Class Files {
 
 		// list items attached directly to this anchor
 		} else
-			$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
-				." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND ".$where
-				." ORDER BY files.rank, edit_date DESC, files.title LIMIT ".$offset.','.$count;
+			return Files::list_for_anchor_by('date', $anchor, $offset, $count, $variant, $avoid);
 
 		// the list of files
 		$output = Files::list_selected(SQL::query($query), $variant);
@@ -2145,11 +2143,39 @@ Class Files {
 	}
 
 	/**
-	 * list files attached to one anchor, newest uploads first
+	 * get the SQL order of files attached to an anchor
 	 *
-	 * Unlike list_by_date_for_anchor(), the order does not change when a file
-	 * is updated. Used with option 'files_by_create_date'.
+	 * The rank of a file comes first, so that a manual order prevails.
+	 * An unknown order falls back to 'date'.
 	 *
+	 * @param string 'date' (default), 'title' or 'create_date', e.g., from option files_by_xxx
+	 * @return string to be put in SQL statements
+	 */
+	public static function _get_order($order) {
+
+		switch($order) {
+		case 'create_date': // newest uploads first, the update of a file does not move it
+			return 'files.rank, files.create_date DESC, files.title';
+
+		case 'title':
+			return 'files.rank, files.title, files.file_name, files.edit_date DESC';
+
+		case 'date': // most recent update first
+		default:
+			return 'files.rank, files.edit_date DESC, files.title';
+		}
+	}
+
+	/**
+	 * list files attached to one anchor, in some order
+	 *
+	 * Example:
+	 * [php]
+	 * $items = Files::list_for_anchor_by('create_date', 'section:12', 0, 10);
+	 * $context['text'] .= Skin::build_list($items, 'compact');
+	 * [/php]
+	 *
+	 * @param string the order, see Files::_get_order(), e.g., from option files_by_xxx
 	 * @param string the target anchor
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
@@ -2160,7 +2186,7 @@ Class Files {
 	 * @see articles/view.php
 	 * @see sections/view.php
 	 */
-	public static function list_by_create_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor', $avoid=NULL) {
+	public static function list_for_anchor_by($order, $anchor, $offset=0, $count=20, $variant='no_anchor', $avoid=NULL) {
 		global $context;
 
 		// limit the scope of the request
@@ -2173,7 +2199,7 @@ Class Files {
 		// list items attached directly to this anchor
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
 			." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND ".$where
-			." ORDER BY files.create_date DESC, files.title LIMIT ".$offset.','.$count;
+			." ORDER BY ".Files::_get_order($order)." LIMIT ".$offset.','.$count;
 
 		// the list of files
 		$output = Files::list_selected(SQL::query($query), $variant);
@@ -2440,9 +2466,7 @@ Class Files {
 
 		// list items attached directly to this anchor
 		} else
-			$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
-				." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND ".$where
-				." ORDER BY files.title, files.file_name, files.edit_date DESC LIMIT ".$offset.','.$count;
+			return Files::list_for_anchor_by('title', $anchor, $offset, $count, $variant, $avoid);
 
 		// the list of files
 		$output = Files::list_selected(SQL::query($query), $variant);

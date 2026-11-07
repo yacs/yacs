@@ -1074,14 +1074,10 @@ if(!isset($item['id'])) {
 				$layout = 'article:'.$item['id'];
 
 
-			// list files by date (default), by title (option files_by_title) or by upload date (option files_by_create_date)
+			// list files by date (default), or as set by option files_by_xxx, e.g., files_by_title or files_by_create_date
 			$offset = ($zoom_index - 1) * FILES_PER_PAGE;
-			if($cur_article->has_option('files_by') == 'title')
-				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 300, $layout, $embedded);
-			elseif($cur_article->has_option('files_by') == 'create_date')
-				$items = Files::list_by_create_date_for_anchor('article:'.$item['id'], 0, 300, $layout, $embedded);
-			else
-				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 300, $layout, $embedded);
+			$order = $cur_article->has_option('files_by');
+			$items = Files::list_for_anchor_by(is_string($order) ? $order : 'date', 'article:'.$item['id'], 0, 300, $layout, $embedded);
 
 			// actually render the html
 			if(is_array($items))

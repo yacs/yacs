@@ -1192,14 +1192,12 @@ if(!isset($item['id'])) {
                             $layout->set_focus('section:'.$item['id']);
                     }
 
-                    // list files by date (default), by title (option 'files_by_title') or by upload date (option 'files_by_create_date')
+                    // list files by date (default), or as set by option files_by_xxx, e.g., files_by_title or files_by_create_date
                     $offset = ($zoom_index - 1) * FILES_PER_PAGE;
-                    if(preg_match('/\bfiles_by_title\b/i', $item['options']))
-                            $items = Files::list_by_title_for_anchor('section:'.$item['id'], $offset, FILES_PER_PAGE, $layout, $embedded);
-                    elseif(preg_match('/\bfiles_by_create_date\b/i', $item['options']))
-                            $items = Files::list_by_create_date_for_anchor('section:'.$item['id'], $offset, FILES_PER_PAGE, $layout, $embedded);
-                    else
-                            $items = Files::list_by_date_for_anchor('section:'.$item['id'], $offset, FILES_PER_PAGE, $layout, $embedded);
+                    $order = 'date';
+                    if(preg_match('/\bfiles_by_(\w+)/i', $item['options'], $matches))
+                            $order = strtolower($matches[1]);
+                    $items = Files::list_for_anchor_by($order, 'section:'.$item['id'], $offset, FILES_PER_PAGE, $layout, $embedded);
 
                     // actually render the html
                     if(is_array($items))
