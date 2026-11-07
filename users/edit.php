@@ -671,13 +671,16 @@ if($with_form) {
                     $input .= ' checked="checked"';
             $input .= ' /> '.i18n::s('Allow other members to contact me.')."\n";
 
-            // explicit newsletter subscription
-            $input .= BR.'<input type="checkbox" name="with_newsletters" value="Y"';
-            if(!isset($item['id']) || !isset($item['with_newsletters']) || ($item['with_newsletters'] == 'Y'))
-                    $input .= ' checked="checked"';
-            $input .= ' /> '.i18n::s('Send me periodical newsletters.')."\n";
+            // explicit newsletter subscription, never checked by default
+            $hint = '';
+            if(Users::offer_newsletters($item)) {
+                    $input .= BR.'<input type="checkbox" name="with_newsletters" value="Y"';
+                    if(isset($item['with_newsletters']) && ($item['with_newsletters'] == 'Y'))
+                            $input .= ' checked="checked"';
+                    $input .= ' /> '.i18n::s('Send me periodical newsletters.')."\n";
 
-            $hint = i18n::s('Your explicit approval is a pre-requisite for us to use your e-mail address.');
+                    $hint = i18n::s('Your explicit approval is a pre-requisite for us to use your e-mail address.');
+            }
             $fields[] = array($label, $input, $hint);
 
             // editor

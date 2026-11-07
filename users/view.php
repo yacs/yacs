@@ -651,7 +651,9 @@ if(!isset($item['id'])) {
                                         $items[] = i18n::s("Don't allow other members to contact me.");
 
 				// explicit newsletter subscription
-				if(!isset($item['id']) || !isset($item['with_newsletters']) || ($item['with_newsletters'] == 'Y'))
+				if(!Users::offer_newsletters($item))
+					;
+				elseif(isset($item['with_newsletters']) && ($item['with_newsletters'] == 'Y'))
 					$items[] = i18n::s('Send me periodical newsletters.');
                                 else
                                         $items[] = i18n::s("Don't send me periodical newsletters.");
