@@ -140,6 +140,8 @@ Class jssor_gallery extends Overlay {
             foreach($this->images as $image) {
                 $slide = array();
                 $slide['image_src'] = $path.'/'.$image['image_name'];
+                // the title of the image is its text alternative
+                $slide['alt'] = isset($image['title']) ? trim(strip_tags($image['title'])) : '';
                 if($desc = $image['description']) {
                     $slide['caption'] = $desc;
                 }
