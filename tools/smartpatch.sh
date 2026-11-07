@@ -69,31 +69,52 @@ if [ -f "temporary/$arch" ]
 then rm "temporary/$arch";
 fi
 
+# read a NUL-separated list of paths from git into an array
+# (-z keeps paths with spaces, quotes or non-ASCII characters intact)
+read_paths() {
+	local path
+	paths=()
+	while IFS= read -r -d '' path; do
+		paths+=("$path")
+	done < <(git diff -z --name-only --diff-filter="$1" "$2" HEAD)
+}
+
+# escape a path for a single-quoted PHP string
+php_quote() {
+	printf '%s' "$1" | sed -e 's/\\/\\\\/g' -e "s/'/\\\\'/g"
+}
+
 # generate archive tree, using a git diff as parameter for git archive
 # a filter is provided to not take deleted file into account
-updatedornew=$(git diff --name-only --diff-filter=ACMRT $1 HEAD)
+read_paths ACMRT "$1"
+updatedornew=("${paths[@]}")
 echo "[[ LIST OF ADDED/UPDATED FILES ]]"
-echo $updatedornew | tr " " "\n"
-# make the archive
-git archive -o temporary/$arch HEAD $updatedornew
+# make the archive -- without any path, git archive would take the whole tree
+if [ ${#updatedornew[@]} -gt 0 ]
+then
+	printf '%s\n' "${updatedornew[@]}"
+	git archive -o "temporary/$arch" HEAD -- "${updatedornew[@]}"
 
-# check if archive is created
-if [ -f "temporary/$arch" ]
-then echo "===> temporary/$arch created !"
-else echo "Sorry, patch generation failed"; exit 1;
-fi 
+	# check if archive is created
+	if [ -f "temporary/$arch" ]
+	then echo "===> temporary/$arch created !"
+	else echo "Sorry, patch generation failed"; exit 1;
+	fi
+else
+	echo "(none)"
+fi
 
 # check for deleted file since reference argument
+read_paths D "$1"
+deleted=("${paths[@]}")
 
-deleted="$(git diff --name-only --diff-filter=D $1 HEAD)"
-
-if [ -n "$deleted" ] 
+if [ ${#deleted[@]} -gt 0 ]
 then
 echo "===> file(s) deletion detected"
 echo "[[ LIST OF DELETED FILES ]]"
-echo $deleted | tr " " "\n"
-# add a deleted list of deleted file into the archive zip
-echo $deleted | tr " " "\n" > "deleted.list"
+printf '%s\n' "${deleted[@]}"
+# add a deleted list of deleted file into the archive zip, one path per line
+printf '%s\n' "${deleted[@]}" > "deleted.list"
 zip -ur "temporary/$arch" "deleted.list" > /dev/null
     if [ $? -eq 0 ]
 	then
@@ -104,25 +125,29 @@ zip -ur "temporary/$arch" "deleted.list" > /dev/null
     fi
 fi
 
+# nothing to patch
+if [ ! -f "temporary/$arch" ]
+then echo "No difference between $1 and HEAD, no patch generated"; exit 0;
+fi
+
 ## Prepare footprints of the patch
 echo '<?php' > "footprints.php"
 echo 'global $footprints;' >> "footprints.php"
 echo 'if(!isset($footprints)) $footprints=array();' >> "footprints.php"
-# transform list of updated files into array
-staging=(${updatedornew})
 total_size=0
 # a line per file: size, hash, and hash of the version the patch is built from, if any
 # (scripts/update.php uses the last one to spot files that have been changed on the server)
-for file in "${staging[@]}"; do
-	size=$(wc -c < $file)
+for file in "${updatedornew[@]}"; do
+	size=$(wc -c < "$file")
 	let "total_size+=size"
-	hashmd5=$($md5com $file | awk '{ print $1 }')
+	hashmd5=$($md5com < "$file" | awk '{ print $1 }')
+	key=$(php_quote "$file")
 	if git cat-file -e "$1:$file" 2> /dev/null
 	then
 		previous=$(git show "$1:$file" | $md5com | awk '{ print $1 }')
-		echo '$footprints['"'$file'"']=array('"$size,'$hashmd5','$previous'"');' >> "footprints.php"
+		echo '$footprints['"'$key'"']=array('"$size,'$hashmd5','$previous'"');' >> "footprints.php"
 	else
-		echo '$footprints['"'$file'"']=array('"$size,'$hashmd5'"');' >> "footprints.php"
+		echo '$footprints['"'$key'"']=array('"$size,'$hashmd5'"');' >> "footprints.php"
 	fi
 done
 #generation information
@@ -133,9 +158,9 @@ echo '$generation'"['version']='$rev';" >> "footprints.php"
 echo '$generation'"['date']='$(date +%Y-%m-%dT%H:%M:%S%z)';" >> "footprints.php"
 echo '$generation'"['server']='$(hostname)';" >> "footprints.php"
 echo '$generation'"['author']='$(git config --global user.name)';" >> "footprints.php"
-echo '$generation'"['scripts']=$(wc -w <<< $updatedornew);" >> "footprints.php"
+echo '$generation'"['scripts']=${#updatedornew[@]};" >> "footprints.php"
 echo '$generation'"['size']=$total_size;" >> "footprints.php" 
-echo '$generation'"['deleted']=$(wc -w <<< $deleted);" >> "footprints.php"
+echo '$generation'"['deleted']=${#deleted[@]};" >> "footprints.php"
 
 #add footprints to archive
 zip -ur "temporary/$arch" "footprints.php" > /dev/null
