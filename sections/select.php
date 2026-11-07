@@ -31,6 +31,25 @@ include_once '../shared/global.php';
 include_once '../comments/comments.php';
 include_once '../links/links.php';
 
+/**
+ * build a small form that changes one assignment
+ *
+ * Assignments are changed only when such a form is posted, with its token,
+ * so that a link followed from another site cannot change them.
+ *
+ * @param array hidden fields of the form, as name => value
+ * @param string the control that submits the form, e.g., a checkbox or a button
+ * @return string the form
+ */
+function sections_select_form($fields, $control) {
+	global $context;
+
+	$text = '<form method="post" action="'.$context['script_url'].'" style="display: inline">';
+	foreach($fields as $name => $value)
+		$text .= '<input type="hidden" name="'.$name.'" value="'.encode_field($value).'" />';
+	return $text.$control.'</form>';
+}
+
 // find the target anchor in path args (e.g., http:.../sections/select.php?anchor=article:15)
 $anchor = NULL;
 if(isset($_REQUEST['anchor']))
@@ -70,8 +89,12 @@ if(Surfer::is_crawler()) {
 // build a form to assign some sections to this item
 } else {
 
+	// assignments are changed only by posting a form, with its token
+	if($_SERVER['REQUEST_METHOD'] != 'POST')
+		;
+
 	// assign a section, and add it to the watch list
-	if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set') && isset($_REQUEST['member'])) {
+	elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set') && isset($_REQUEST['member'])) {
 		Members::assign($_REQUEST['anchor'], $_REQUEST['member']);
 		if(preg_match('/^user:/', $_REQUEST['anchor']))
 			Members::assign($_REQUEST['member'], $_REQUEST['anchor']);
@@ -183,8 +206,8 @@ if(Surfer::is_crawler()) {
 
 			// build a unlink button for this section
 			elseif(Surfer::is_associate()) {
-				$link = $context['script_url'].'?anchor='.urlencode($anchor->get_reference()).'&amp;member=section:'.$section['id'].'&amp;action=reset';
-				$suffix .= ' - <span '.tag::_class('details').'>'.Skin::build_link($link, i18n::s('unassign'), 'basic').'</span>';
+				$suffix .= ' - <span '.tag::_class('details').'>'.sections_select_form(array('anchor' => $anchor->get_reference(), 'member' => 'section:'.$section['id'], 'action' => 'reset'),
+					'<input type="submit" value="'.encode_field(i18n::s('unassign')).'" />').'</span>';
 			}
 
 			// format the item

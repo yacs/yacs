@@ -20,6 +20,25 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 
+/**
+ * build a small form that changes one assignment
+ *
+ * Assignments are changed only when such a form is posted, with its token,
+ * so that a link followed from another site cannot change them.
+ *
+ * @param array hidden fields of the form, as name => value
+ * @param string the control that submits the form, e.g., a checkbox or a button
+ * @return string the form
+ */
+function users_select_form($fields, $control) {
+	global $context;
+
+	$text = '<form method="post" action="'.$context['script_url'].'" style="display: inline">';
+	foreach($fields as $name => $value)
+		$text .= '<input type="hidden" name="'.$name.'" value="'.encode_field($value).'" />';
+	return $text.$control.'</form>';
+}
+
 // users are assigned to this anchor, passed as member
 $anchor = NULL;
 if(isset($_REQUEST['member']))
@@ -152,8 +171,12 @@ elseif(!$permitted) {
 	if(isset($_REQUEST['assigned_name']) && ($user = Users::get($_REQUEST['assigned_name'])))
 		$_REQUEST['anchor'] = 'user:'.$user['id'];
 
+	// assignments are changed only by posting a form, with its token
+	if($_SERVER['REQUEST_METHOD'] != 'POST')
+		;
+
 	// sanity check --we won't loops
-	if(isset($_REQUEST['anchor']) && ($_REQUEST['anchor'] == $_REQUEST['member']))
+	elseif(isset($_REQUEST['anchor']) && ($_REQUEST['anchor'] == $_REQUEST['member']))
 		;
 
 	// set a new assignment
@@ -330,8 +353,8 @@ elseif(!$permitted) {
 
 				// add a link to unselect the user
 				else {
-					$link = $context['script_url'].'?anchor=user:'.$id.'&amp;member='.urlencode($anchor->get_reference()).'&amp;action=reset';
-					$suffix .= ' - <span '.tag::_class('details').'>'.Skin::build_link($link, i18n::s('unassign'), 'basic').'</span>';
+					$suffix .= ' - <span '.tag::_class('details').'>'.users_select_form(array('anchor' => 'user:'.$id, 'member' => $anchor->get_reference(), 'action' => 'reset'),
+						'<input type="submit" value="'.encode_field(i18n::s('unassign')).'" />').'</span>';
 				}
 
 				// format the item
@@ -370,8 +393,8 @@ elseif(!$permitted) {
 
 				// add a link to unselect the user
 				else {
-					$link = $context['script_url'].'?anchor=user:'.$id.'&amp;member='.urlencode($anchor->get_reference()).'&amp;action=reset';
-					$suffix .= ' - <span '.tag::_class('details').'>'.Skin::build_link($link, i18n::s('unassign'), 'basic').'</span>';
+					$suffix .= ' - <span '.tag::_class('details').'>'.users_select_form(array('anchor' => 'user:'.$id, 'member' => $anchor->get_reference(), 'action' => 'reset'),
+						'<input type="submit" value="'.encode_field(i18n::s('unassign')).'" />').'</span>';
 				}
 
 				// format the item
@@ -417,20 +440,20 @@ elseif(!$permitted) {
 
 			// toggle from watching list
 			if($user['watcher']) {
-				$link = $context['script_url'].'?member='.urlencode($anchor->get_reference()).'&amp;watcher=user:'.$id.'&amp;action=reset';
-				$details[] = '<input type="checkbox"'.$disabled.' checked="checked" onclick="Yacs.startWorking();window.location=\''.$link.'\'" />'.i18n::s('watcher');
+				$details[] = users_select_form(array('member' => $anchor->get_reference(), 'watcher' => 'user:'.$id, 'action' => 'reset'),
+					'<input type="checkbox"'.$disabled.' checked="checked" onclick="Yacs.startWorking();this.form.submit()" />').i18n::s('watcher');
 			} else {
-				$link = $context['script_url'].'?member='.urlencode($anchor->get_reference()).'&amp;watcher=user:'.$id.'&amp;action=set';
-				$details[] = '<input type="checkbox"'.$disabled.' onclick="Yacs.startWorking();window.location=\''.$link.'\'" />'.i18n::s('watcher');
+				$details[] = users_select_form(array('member' => $anchor->get_reference(), 'watcher' => 'user:'.$id, 'action' => 'set'),
+					'<input type="checkbox"'.$disabled.' onclick="Yacs.startWorking();this.form.submit()" />').i18n::s('watcher');
 			}
 
 			// toggle from editors
 			if($user['editor']) {
-				$link = $context['script_url'].'?member='.urlencode($anchor->get_reference()).'&amp;editor=user:'.$id.'&amp;action=reset';
-				$details[] = '<input type="checkbox"'.$disabled.' checked="checked" onclick="Yacs.startWorking();window.location=\''.$link.'\'" />'.i18n::s('editor');
+				$details[] = users_select_form(array('member' => $anchor->get_reference(), 'editor' => 'user:'.$id, 'action' => 'reset'),
+					'<input type="checkbox"'.$disabled.' checked="checked" onclick="Yacs.startWorking();this.form.submit()" />').i18n::s('editor');
 			} else {
-				$link = $context['script_url'].'?member='.urlencode($anchor->get_reference()).'&amp;editor=user:'.$id.'&amp;action=set';
-				$details[] = '<input type="checkbox"'.$disabled.' onclick="Yacs.startWorking();window.location=\''.$link.'\'" />'.i18n::s('editor');
+				$details[] = users_select_form(array('member' => $anchor->get_reference(), 'editor' => 'user:'.$id, 'action' => 'set'),
+					'<input type="checkbox"'.$disabled.' onclick="Yacs.startWorking();this.form.submit()" />').i18n::s('editor');
 			}
 
 			if($details)
@@ -490,20 +513,20 @@ elseif(!$permitted) {
 
 					// watcher?
 					elseif($user['watcher']) {
-						$link = $context['script_url'].'?member='.urlencode($parent->get_reference()).'&amp;watcher=user:'.$id.'&amp;action=reset';
-						$details[] = '<input type="checkbox"'.$disabled.' checked="checked" onclick="Yacs.startWorking();window.location=\''.$link.'\'" />'.i18n::s('watcher');
+						$details[] = users_select_form(array('member' => $parent->get_reference(), 'watcher' => 'user:'.$id, 'action' => 'reset'),
+							'<input type="checkbox"'.$disabled.' checked="checked" onclick="Yacs.startWorking();this.form.submit()" />').i18n::s('watcher');
 					} else {
-						$link = $context['script_url'].'?member='.urlencode($parent->get_reference()).'&amp;watcher=user:'.$id.'&amp;action=set';
-						$details[] = '<input type="checkbox"'.$disabled.' onclick="Yacs.startWorking();window.location=\''.$link.'\'" />'.i18n::s('watcher');
+						$details[] = users_select_form(array('member' => $parent->get_reference(), 'watcher' => 'user:'.$id, 'action' => 'set'),
+							'<input type="checkbox"'.$disabled.' onclick="Yacs.startWorking();this.form.submit()" />').i18n::s('watcher');
 					}
 
 					// editor?
 					if($user['editor']) {
-						$link = $context['script_url'].'?member='.urlencode($parent->get_reference()).'&amp;editor=user:'.$id.'&amp;action=reset';
-						$details[] = '<input type="checkbox"'.$disabled.' checked="checked" onclick="Yacs.startWorking();window.location=\''.$link.'\'" />'.i18n::s('editor');
+						$details[] = users_select_form(array('member' => $parent->get_reference(), 'editor' => 'user:'.$id, 'action' => 'reset'),
+							'<input type="checkbox"'.$disabled.' checked="checked" onclick="Yacs.startWorking();this.form.submit()" />').i18n::s('editor');
 					} else {
-						$link = $context['script_url'].'?member='.urlencode($parent->get_reference()).'&amp;editor=user:'.$id.'&amp;action=set';
-						$details[] = '<input type="checkbox"'.$disabled.' onclick="Yacs.startWorking();window.location=\''.$link.'\'" />'.i18n::s('editor');
+						$details[] = users_select_form(array('member' => $parent->get_reference(), 'editor' => 'user:'.$id, 'action' => 'set'),
+							'<input type="checkbox"'.$disabled.' onclick="Yacs.startWorking();this.form.submit()" />').i18n::s('editor');
 					}
 
 					if($details)
