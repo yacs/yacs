@@ -17,7 +17,6 @@ var startWatch = new Date();
 var Yacs = {
 
     urlMoveFile     :  'files/move.php',
-    urlSortFile     :  'files/sort.php',
     urlUploadFile   :  'files/upload.ajax.php',
 
 	/**
