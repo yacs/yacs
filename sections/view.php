@@ -1185,12 +1185,19 @@ if(!isset($item['id'])) {
                     $box['text'] .= $overlaid;
                 } elseif($count) {
 
-                    // list files by date (default) or by title (option 'files_by_title')
+                    // a specific layout of files, e.g., option files_layout_compact for files/layout_files_as_compact.php
+                    $layout = 'section:'.$item['id'];
+                    if(preg_match('/\bfiles_layout_(\w+)/i', $item['options'], $matches)) {
+                            $layout = Layouts::new_($matches[1], 'file');
+                            $layout->set_focus('section:'.$item['id']);
+                    }
+
+                    // list files by date (default), or as set by option files_by_xxx, e.g., files_by_title or files_by_create_date
                     $offset = ($zoom_index - 1) * FILES_PER_PAGE;
-                    if(preg_match('/\bfiles_by_title\b/i', $item['options']))
-                            $items = Files::list_by_title_for_anchor('section:'.$item['id'], $offset, FILES_PER_PAGE, 'section:'.$item['id'], $embedded);
-                    else
-                            $items = Files::list_by_date_for_anchor('section:'.$item['id'], $offset, FILES_PER_PAGE, 'section:'.$item['id'], $embedded);
+                    $order = 'date';
+                    if(preg_match('/\bfiles_by_(\w+)/i', $item['options'], $matches))
+                            $order = strtolower($matches[1]);
+                    $items = Files::list_for_anchor_by($order, 'section:'.$item['id'], $offset, FILES_PER_PAGE, $layout, $embedded);
 
                     // actually render the html
                     if(is_array($items))

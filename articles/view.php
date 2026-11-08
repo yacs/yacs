@@ -1058,8 +1058,14 @@ if(!isset($item['id'])) {
 			if($count > 20)
 				$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
+			// a specific layout of files, e.g., option files_layout_compact for files/layout_files_as_compact.php
+			$compact = FALSE;
+			if(($name = Articles::has_option('files_layout', $anchor, $item)) && is_string($name)) {
+				$layout = Layouts::new_($name, 'file');
+				$layout->set_focus('article:'.$item['id']);
+
 			// compact list of files
-			if($compact = Articles::has_option('files_as_compact', $anchor, $item)) {				
+			} elseif($compact = Articles::has_option('files_as_compact', $anchor, $item)) {				
 				$layout = Layouts::new_('compact', 'file');
 				$layout->set_focus('article:'.$item['id']);
 
@@ -1068,12 +1074,10 @@ if(!isset($item['id'])) {
 				$layout = 'article:'.$item['id'];
 
 
-			// list files by date (default) or by title (option files_by_title)
+			// list files by date (default), or as set by option files_by_xxx, e.g., files_by_title or files_by_create_date
 			$offset = ($zoom_index - 1) * FILES_PER_PAGE;
-			if($cur_article->has_option('files_by') == 'title')
-				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 300, $layout, $embedded);
-			else
-				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 300, $layout, $embedded);
+			$order = $cur_article->has_option('files_by');
+			$items = Files::list_for_anchor_by(is_string($order) ? $order : 'date', 'article:'.$item['id'], 0, 300, $layout, $embedded);
 
 			// actually render the html
 			if(is_array($items))

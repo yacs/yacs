@@ -33,6 +33,11 @@
  * then a report on initial issue ('[code]2.the issue.ppt[/code]'), and a business case for the solution ('[code]3.profit_and_loss.xls[/code]').
  * By adjusting file names and titles as shown, and by setting the option [code]files_by_title[/code], you would achieve a nice and logical thing.
  *
+ * [*] [code]files_by_create_date[/code] - Order attached files by upload date, newest first.
+ *
+ * [*] [code]files_layout_xxx[/code] - Display attached files with layout 'xxx', i.e., files/layout_files_as_xxx.php
+ * or layouts/layout_as_xxx/. May also be set in the content options of the parent section.
+ *
  * [*] [code]formatted[/code] - The YACS page factory is disabled, since the description contains formatting tags.
  * Use this option if you copy the source of a HTML or of a XHTML page, and paste it into an article at your server.
  * Note that this keyword is also accepted if it is formatted as a YACS code ('[code]&#91;formatted]'[/code])
@@ -878,6 +883,8 @@ Class Articles {
 		$keywords[] = '<a>no_comments</a> - '.i18n::s('Prevent the addition of comments');
 		$keywords[] = '<a>files_by_date</a> - '.i18n::s('Sort files by date (default)');
 		$keywords[] = '<a>files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
+		$keywords[] = '<a>files_by_create_date</a> - '.i18n::s('Sort files by upload date, newest first');
+		$keywords[] = '<a>files_layout_xxx</a> - '.i18n::s('Display files with layout xxx');
 		$keywords[] = '<a>no_files</a> - '.i18n::s('Prevent the upload of new files');
 		$keywords[] = '<a>links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
 		$keywords[] = '<a>no_links</a> - '.i18n::s('Prevent the addition of related links');

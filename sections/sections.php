@@ -105,6 +105,12 @@
  * [*] [code]files_by_title[/code] - Order files by alphabetical order instead of using edition time information.
  * To be used jointly with '[code]with_files[/code]', to activate the posting of files.
  *
+ * [*] [code]files_by_create_date[/code] - Order files by upload date, newest first. Unlike the default order,
+ * a file does not move up the list when it is updated.
+ *
+ * [*] [code]files_layout_xxx[/code] - Display files with layout 'xxx', i.e., files/layout_files_as_xxx.php
+ * or layouts/layout_as_xxx/. Set it in the content options of the section to apply it to its pages as well.
+ *
  * [*] [code]links_by_title[/code] - Rank links by alphabetical order instead of using edition time information.
  * To be used jointly with '[code]with_links[/code]', to activate the posting of links.
  *
