@@ -1910,6 +1910,10 @@ Class Files {
 		if(($position = strrpos($name, '.')) === FALSE)
 			return FALSE;
 
+		// some servers run x.php.txt as a script, so an executable extension is refused at any position
+		if(preg_match('/\.(php\d*|phtml|phar|pht|pl|py|cgi|asp|aspx|jsp|sh|shtml)\./i', $name))
+			return FALSE;
+
 		// extract the extension
 		if(!$extension = substr($name, $position+1))
 			return FALSE;
