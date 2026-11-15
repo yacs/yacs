@@ -2633,6 +2633,15 @@ Class Files {
 		if(isset($fields['thumbnail_url']))
 			$fields['thumbnail_url'] = encode_link($fields['thumbnail_url']);
 
+		// a file name never carries a path
+		if(isset($fields['file_name']) && ($fields['file_name'] !== '')) {
+			$fields['file_name'] = basename(str_replace('\\', '/', $fields['file_name']));
+			if($fields['file_name'][0] == '.') {
+				Logger::error(i18n::s('This type of file is not allowed.'));
+				return FALSE;
+			}
+		}
+
 		// protect access from anonymous users
 		if(!isset($fields['active_set']))
 			$fields['active_set'] = 'Y';
