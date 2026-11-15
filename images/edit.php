@@ -191,7 +191,7 @@ if(Surfer::is_crawler()) {
 	if(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && ($_FILES['upload']['name'] != 'none')) {
 
 		// where to put uploaded items
-		$file_path = Files::get_path($_REQUEST['anchor'], 'images');
+		$file_path = Files::get_path($anchor->get_reference(), 'images');
 
 		// explode a .zip file
 		if(preg_match('/\.zip$/i', $_FILES['upload']['name'])) {

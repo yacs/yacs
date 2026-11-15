@@ -1463,7 +1463,10 @@ Class Files {
 	public static function get_path($reference, $space='files') {
 		global $context;
 
-		return $space.'/'.str_replace(':', '/', $reference ?? '');
+		// a reference is made of a type and an id, nothing else can reach the path
+		$reference = preg_replace('/[^\w:\-]/', '', (string)($reference ?? ''));
+
+		return $space.'/'.str_replace(':', '/', $reference);
 	}
 
 	/**

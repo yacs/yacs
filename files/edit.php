@@ -279,7 +279,7 @@ if(Surfer::is_crawler()) {
 
 	// a file has been uploaded
 	} elseif(Files::get_uploaded('upload','name')) {
-		$file_path = Files::get_path($_REQUEST['anchor']);
+		$file_path = Files::get_path($anchor->get_reference());
 
 		// update an existing file record
 		if(isset($item['id']))
