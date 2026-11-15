@@ -89,8 +89,9 @@ load_skin('search');
 $context->sif('robots','noindex');
 
 // the title of the page
+// the search string is escaped here: encode_field() would let numeric entities through the output handler
 if($search)
-	$context['page_title'] = sprintf(i18n::s('Search: %s'), $search);
+	$context['page_title'] = sprintf(i18n::s('Search: %s'), htmlspecialchars($search));
 else
 	$context['page_title'] = i18n::s('Search');
 
@@ -100,7 +101,7 @@ $fields = array();
 
 // a field to type keywords
 $label = i18n::s('You are searching for');
-$input = '<input type="text" name="search" size="45" value="'.encode_field($search).'" maxlength="255" />'
+$input = '<input type="text" name="search" size="45" value="'.htmlspecialchars($search).'" maxlength="255" />'
 	.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
 $hint = i18n::s('Type one or several words.');
 $fields[] = array($label, $input, $hint);
@@ -252,7 +253,7 @@ if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'
 
 	// typically, a form and a button to search at another place
 	if(isset($context['skins_search_extension']) && $context['skins_search_extension'])
-		$text .= str_replace('%s', encode_field($search), $context['skins_search_extension']);
+		$text .= str_replace('%s', htmlspecialchars($search), $context['skins_search_extension']);
 
 	// look at other search engines
 	$text .= '<p style="margin: 2em 0 0 0">'.i18n::s('Search all of the Internet').'</p><ul>';
