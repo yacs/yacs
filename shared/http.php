@@ -220,6 +220,21 @@ class http {
     }
 
     /**
+     * check that a link uses a web protocol
+     *
+     * Other schemes, such as file:// or gopher://, could reach local resources.
+     *
+     * @param string the link to check
+     * @return boolean TRUE for http:// and https:// only
+     */
+    public static function is_web_url($url) {
+        if (!is_string($url))
+            return FALSE;
+        $scheme = strtolower((string)parse_url($url, PHP_URL_SCHEME));
+        return ($scheme == 'http') || ($scheme == 'https');
+    }
+
+    /**
      * handle HTTP natively
      *
      * This function only requires the network library.
@@ -239,6 +254,10 @@ class http {
      */
     public static function proceed_natively($url, $headers = '', $data = '', $cookie = '', $limit = 3) {
         global $context;
+
+        // only web protocols are allowed, including after a redirection
+        if (!http::is_web_url($url))
+            return FALSE;
 
         // outbound web is not authorized
         if (isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y')) {
@@ -472,6 +491,10 @@ class http {
     public static function proceed_using_curl($url, $headers = '', $data = '', $cookie = '') {
         global $context;
 
+        // only web protocols are allowed
+        if (!http::is_web_url($url))
+            return FALSE;
+
         // outbound web is not authorized
         if (isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y')) {
             if ($context['with_debug'] == 'Y')
@@ -503,6 +526,10 @@ class http {
 
         // no ending NULL char
         curl_setopt($handle, CURLOPT_BINARYTRANSFER, TRUE);
+
+        // only web protocols, including after a redirection
+        curl_setopt($handle, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
+        curl_setopt($handle, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
 
         // redirect if necessary -- does not work if safe mode
         if (!ini_get("safe_mode")) {
