@@ -472,7 +472,7 @@ Class Comments {
 
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('comments')." AS comments "
-			." WHERE (comments.id = ".SQL::escape($id).")";
+			." WHERE (comments.id = ".(int)$id.")";
 
 		$output = SQL::query_first($query);
 		return $output;
