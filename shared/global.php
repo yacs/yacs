@@ -2388,15 +2388,3 @@ function normalize_shortcut($id, $with_prefix=FALSE) {
 	// job done
 	return $link;
 }
-
-/**
- * proxy some URL through the yacs server
- *
- * @param string target URL, maybe from another server
- * @return string proxied URL
- */
-function proxy($url) {
-	global $context;
-
-	return $context['url_to_home'].$context['url_to_root'].'services/proxy.php?url='.urlencode($url);
-}
