@@ -1088,8 +1088,9 @@ if(!defined('NO_MODEL_PRELOAD'))
 	include_once $context['path_to_root'].'layouts/layout.php';
 
 // skin variant is asked for explicitly
-if(isset($_REQUEST['variant']) && $_REQUEST['variant'])
-	$context['skin_variant'] = basename(preg_replace(FORBIDDEN_IN_PATHS, '_', strip_tags($_REQUEST['variant'])));
+// it becomes the id of the body element, so only plain identifiers are accepted
+if(isset($_REQUEST['variant']) && is_string($_REQUEST['variant']) && $_REQUEST['variant'])
+	$context['skin_variant'] = preg_replace('/[^A-Za-z0-9_\-]/', '', $_REQUEST['variant']);
 
 // the layout for the home page is used at several places
 if(!isset($context['root_articles_layout']) || !$context['root_articles_layout'])
