@@ -942,7 +942,7 @@ Class Tables {
 				."query='".SQL::escape($fields['query'])."',"
 				."with_zoom='".SQL::escape(isset($fields['with_zoom']) ? $fields['with_zoom'] : '')."',"
 				."edit_name='".SQL::escape($fields['edit_name'])."',"
-				."edit_id=".SQL::escape($fields['edit_id']).","
+				."edit_id=".(int)($fields['edit_id']).","
 				."edit_address='".SQL::escape($fields['edit_address'])."',"
 				."edit_date='".SQL::escape($fields['edit_date'])."'"
 				." WHERE id = ".SQL::escape($fields['id']);

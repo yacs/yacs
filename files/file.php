@@ -289,7 +289,7 @@ Class File extends Anchor {
 		// stamp the update
 		if(!$silently)
 			$query[] = "edit_name='".SQL::escape(Surfer::get_name())."',"
-				."edit_id=".SQL::escape(Surfer::get_id()).","
+				."edit_id=".(int)(Surfer::get_id()).","
 				."edit_address='".SQL::escape(Surfer::get_email_address())."',"
 				."edit_action='".SQL::escape($action)."',"
 				."edit_date='".gmdate('Y-m-d H:i:s')."'";

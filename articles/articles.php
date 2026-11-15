@@ -2995,15 +2995,15 @@ Class Articles {
 		$query[] = "locked='".SQL::escape(isset($fields['locked']) ? $fields['locked'] : 'N')."'";
 		$query[] = "overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."'";
 		$query[] = "overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."'";
-		$query[] = "owner_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']);
+		$query[] = "owner_id=".(int)(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']);
 		$query[] = "tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."'";
 		$query[] = "hits=0";
 		$query[] = "create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."'";
-		$query[] = "create_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : (isset($fields['edit_id']) ? $fields['edit_id'] : '0'));
+		$query[] = "create_id=".(int)(isset($fields['create_id']) ? $fields['create_id'] : (isset($fields['edit_id']) ? $fields['edit_id'] : '0'));
 		$query[] = "create_address='".SQL::escape(isset($fields['create_address']) ? $fields['create_address'] : $fields['edit_address'])."'";
 		$query[] = "create_date='".SQL::escape($fields['create_date'])."'";
 		$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
-		$query[] = "edit_id=".SQL::escape(isset($fields['edit_id']) ? $fields['edit_id'] : '0');
+		$query[] = "edit_id=".(int)(isset($fields['edit_id']) ? $fields['edit_id'] : '0');
 		$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
 		$query[] = "edit_action='".SQL::escape(isset($fields['edit_action']) ? $fields['edit_action'] : 'article:submit')."'";
 		$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
@@ -3018,7 +3018,7 @@ Class Articles {
 		if(isset($fields['publish_date']) && ($fields['publish_date'] > NULL_DATE)) {
 			$query[] = "publish_name='".SQL::escape(isset($fields['publish_name']) ? $fields['publish_name'] : $fields['edit_name'])."'";
 			if(isset($fields['publish_id']) || isset($fields['edit_id']))
-				$query[] = "publish_id=".SQL::escape(isset($fields['publish_id']) ? $fields['publish_id'] : $fields['edit_id']);
+				$query[] = "publish_id=".(int)(isset($fields['publish_id']) ? $fields['publish_id'] : $fields['edit_id']);
 			$query[] = "publish_address='".SQL::escape(isset($fields['publish_address']) ? $fields['publish_address'] : $fields['edit_address'])."'";
 			$query[] = "publish_date='".SQL::escape($fields['publish_date'])."'";
 		}
@@ -3224,7 +3224,7 @@ Class Articles {
 		if(isset($fields['publish_date']) && ($fields['publish_date'] > NULL_DATE)) {
 			$query[] = "publish_name='".SQL::escape(isset($fields['publish_name']) ? $fields['publish_name'] : $fields['edit_name'])."'";
 			if(isset($fields['publish_id']) || isset($fields['edit_id']))
-				$query[] = "publish_id=".SQL::escape(isset($fields['publish_id']) ? $fields['publish_id'] : $fields['edit_id']);
+				$query[] = "publish_id=".(int)(isset($fields['publish_id']) ? $fields['publish_id'] : $fields['edit_id']);
 			$query[] = "publish_address='".SQL::escape(isset($fields['publish_address']) ? $fields['publish_address'] : $fields['edit_address'])."'";
 			$query[] = "publish_date='".SQL::escape($fields['publish_date'])."'";
 		}
@@ -3232,7 +3232,7 @@ Class Articles {
 		// maybe a silent update
 		if(!isset($fields['silent']) || ($fields['silent'] != 'Y') || !Surfer::is_empowered()) {
 			$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
-			$query[] = "edit_id=".SQL::escape(isset($fields['edit_id']) ? $fields['edit_id'] : '0');
+			$query[] = "edit_id=".(int)(isset($fields['edit_id']) ? $fields['edit_id'] : '0');
 			$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
 			$query[] = "edit_action='article:update'";
 			$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
@@ -3342,10 +3342,10 @@ Class Articles {
 		if(isset($fields['overlay_id']))
 			$query[] = "overlay_id='".SQL::escape($fields['overlay_id'])."'";
 		if(isset($fields['owner_id']))
-			$query[] = "owner_id=".SQL::escape($fields['owner_id']);
+			$query[] = "owner_id=".(int)($fields['owner_id']);
 		if(isset($fields['publish_date'])) {
 			$query[] = "publish_name='".SQL::escape(isset($fields['publish_name']) ? $fields['publish_name'] : $fields['edit_name'])."'";
-			$query[] = "publish_id=".SQL::escape(isset($fields['publish_id']) ? $fields['publish_id'] : $fields['edit_id']);
+			$query[] = "publish_id=".(int)(isset($fields['publish_id']) ? $fields['publish_id'] : $fields['edit_id']);
 			$query[] = "publish_address='".SQL::escape(isset($fields['publish_address']) ? $fields['publish_address'] : $fields['edit_address'])."'";
 			$query[] = "publish_date='".SQL::escape($fields['publish_date'])."'";
 		}
@@ -3378,7 +3378,7 @@ Class Articles {
 		// maybe a silent update
 		if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
 			$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
-			$query[] = "edit_id=".SQL::escape($fields['edit_id']);
+			$query[] = "edit_id=".(int)($fields['edit_id']);
 			$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
 			$query[] = "edit_action='article:update'";
 			$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
@@ -3699,11 +3699,11 @@ Class Articles {
 
 		if($publication_stamp > 0)
 			$query[] = "publish_name='".SQL::escape(isset($publisher['name']) ? $publisher['name'] : Surfer::get_name())."',"
-				."publish_id=".SQL::escape(isset($publisher['id']) ? $publisher['id'] : Surfer::get_id()).","
+				."publish_id=".(int)(isset($publisher['id']) ? $publisher['id'] : Surfer::get_id()).","
 				."publish_address='".SQL::escape(isset($publisher['address']) ? $publisher['address'] : Surfer::get_email_address())."',"
 				."publish_date='".gmdate('Y-m-d H:i:s', $publication_stamp)."',"
 				."edit_name='".SQL::escape(isset($publisher['name']) ? $publisher['name'] : Surfer::get_name())."',"
-				."edit_id=".SQL::escape(isset($publisher['id']) ? $publisher['id'] : Surfer::get_id()).","
+				."edit_id=".(int)(isset($publisher['id']) ? $publisher['id'] : Surfer::get_id()).","
 				."edit_address='".SQL::escape(isset($publisher['address']) ? $publisher['address'] : Surfer::get_email_address())."',"
 				."edit_action='article:publish',"
 				."edit_date='".gmdate('Y-m-d H:i:s')."'";
@@ -3956,7 +3956,7 @@ Class Articles {
 			." publish_address='',"
 			." publish_date='',"
 			." edit_name='".SQL::escape($fields['edit_name'])."',"
-			." edit_id=".SQL::escape($fields['edit_id']).","
+			." edit_id=".(int)($fields['edit_id']).","
 			." edit_address='".SQL::escape($fields['edit_address'])."',"
 			." edit_action='article:update'"
 			." WHERE id = ".SQL::escape($id);

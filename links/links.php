@@ -1153,7 +1153,7 @@ Class Links {
 			."title='".SQL::escape(isset($fields['title']) ? $fields['title'] : '')."', "
 			."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."', "
 			."edit_name='".SQL::escape($fields['edit_name'])."', "
-			."edit_id=".SQL::escape($fields['edit_id']).", "
+			."edit_id=".(int)($fields['edit_id']).", "
 			."edit_address='".SQL::escape($fields['edit_address'])."', "
 			."edit_action='".SQL::escape(isset($fields['edit_action']) ? $fields['edit_action'] : 'link:create')."', "
 			."edit_date='".SQL::escape($fields['edit_date'])."', "
@@ -1265,7 +1265,7 @@ Class Links {
 		if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
 			$query .= ", "
 				."edit_name='".SQL::escape($fields['edit_name'])."', "
-				."edit_id=".SQL::escape($fields['edit_id']).", "
+				."edit_id=".(int)($fields['edit_id']).", "
 				."edit_address='".SQL::escape($fields['edit_address'])."', "
 				."edit_action='link:update', "
 				."edit_date='".SQL::escape($fields['edit_date'])."'";

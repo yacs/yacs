@@ -1631,7 +1631,7 @@ Class Comments {
 			if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
 				$query .= ", "
 					."edit_name='".SQL::escape($fields['edit_name'])."', "
-					."edit_id=".SQL::escape($fields['edit_id']).", "
+					."edit_id=".(int)($fields['edit_id']).", "
 					."edit_address='".SQL::escape($fields['edit_address'])."', "
 					."edit_action='comment:update', "
 					."edit_date='".SQL::escape($fields['edit_date'])."'";
@@ -1649,11 +1649,11 @@ Class Comments {
 				."type='".SQL::escape($fields['type'])."', "
 				."description='".SQL::escape($fields['description'])."', "
 				."create_name='".SQL::escape($fields['edit_name'])."', "
-				."create_id=".SQL::escape($fields['edit_id']).", "
+				."create_id=".(int)($fields['edit_id']).", "
 				."create_address='".SQL::escape($fields['edit_address'])."', "
 				."create_date='".SQL::escape($fields['create_date'])."', "
 				."edit_name='".SQL::escape($fields['edit_name'])."', "
-				."edit_id=".SQL::escape($fields['edit_id']).", "
+				."edit_id=".(int)($fields['edit_id']).", "
 				."edit_address='".SQL::escape($fields['edit_address'])."', "
 				."edit_action='comment:create', "
 				."edit_date='".SQL::escape($fields['edit_date'])."'";

@@ -1211,11 +1211,11 @@ class Issue extends Overlay {
 				."title='".SQL::escape($this->attributes['anchor_title'])."', \n"
 				."type='".SQL::escape(isset($this->attributes['type'])?$this->attributes['type']:'incident')."', \n"
 				."create_name='".SQL::escape(isset($this->attributes['create_name']) ? $this->attributes['create_name'] : $this->attributes['edit_name'])."', \n"
-				."create_id=".SQL::escape(isset($this->attributes['create_id']) ? $this->attributes['create_id'] : $this->attributes['edit_id']).", \n"
+				."create_id=".(int)(isset($this->attributes['create_id']) ? $this->attributes['create_id'] : $this->attributes['edit_id']).", \n"
 				."create_address='".SQL::escape(isset($this->attributes['create_address']) ? $this->attributes['create_address'] : $this->attributes['edit_address'])."', \n"
 				."create_date='".SQL::escape(isset($this->attributes['create_date']) ? $this->attributes['create_date'] : $this->attributes['edit_date'])."', \n"
 				."edit_name='".SQL::escape($this->attributes['edit_name'])."', \n"
-				."edit_id=".SQL::escape($this->attributes['edit_id']).", \n"
+				."edit_id=".(int)($this->attributes['edit_id']).", \n"
 				."edit_address='".SQL::escape($this->attributes['edit_address'])."', \n"
 				."edit_action='create', \n"
 				."edit_date='".SQL::escape($this->attributes['edit_date'])."', \n"
@@ -1275,7 +1275,7 @@ class Issue extends Overlay {
 					// case has been recorded --should not happen
 					case 'on-going:suspect':
 						$query .= "create_name='".SQL::escape($this->attributes['edit_name'])."', \n"
-							."create_id=".SQL::escape($this->attributes['edit_id']).", \n"
+							."create_id=".(int)($this->attributes['edit_id']).", \n"
 							."create_address='".SQL::escape($this->attributes['edit_address'])."', \n";
 						break;
 
@@ -1316,7 +1316,7 @@ class Issue extends Overlay {
 
 				// track the person who modifies the record
 				$query .= "edit_name='".SQL::escape($this->attributes['edit_name'])."', \n"
-					."edit_id=".SQL::escape($this->attributes['edit_id']).", \n"
+					."edit_id=".(int)($this->attributes['edit_id']).", \n"
 					."edit_address='".SQL::escape($this->attributes['edit_address'])."', \n"
 					."edit_action='update', \n"
 					."edit_date='".SQL::escape($this->attributes['edit_date'] ? $this->attributes['edit_date'] : $this->attributes['edit_date'])."' \n"
