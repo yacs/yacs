@@ -207,7 +207,11 @@ if(Surfer::is_crawler()) {
                                 // ignore subfolders
                                 if(strpos($filename, '/') !== FALSE)
                                         continue;
-                                
+
+                                // only image files are extracted, getimagesize() alone is not enough
+                                if(!preg_match('/^[^.\\\\][^\\\\]*\.(gif|jpe?g|png|webp)$/i', $filename))
+                                        continue;
+
                                 $zipfile->extractTo(Safe::realpath($file_path), $filename);
                                 
                                 $extracted = $file_path.'/'.$filename;
