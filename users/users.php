@@ -1447,7 +1447,7 @@ Class Users {
 			return;
 		$query = "UPDATE ".SQL::table_name('users')
 			." SET password='".SQL::escape(Users::hash_password($password))."'"
-			." WHERE id=".SQL::escape($id);
+			." WHERE id=".(int)($id);
 		if(isset($context['users_connection']))
 			SQL::query($query, FALSE, $context['users_connection']);
 		else
@@ -1847,9 +1847,9 @@ Class Users {
 		// fields to update
 		$query = array();
 
-		// on import
-		if(isset($fields['id']))
-			$query[] = "id=".SQL::escape($fields['id']);
+		// on import -- only an associate may choose the id, see control/import.php
+		if(isset($fields['id']) && Surfer::is_associate())
+			$query[] = "id=".(int)($fields['id']);
 
 		if(!isset($fields['active']) || !trim($fields['active']))
 			$fields['active'] = 'Y';
@@ -1926,7 +1926,7 @@ Class Users {
 			$fields['post_date'] = $fields['edit_date'];
 		$query[] = "post_date='".SQL::escape($fields['post_date'])."'";
 
-		$query[] = "posts=".SQL::escape(isset($fields['posts']) ? $fields['posts'] : '0');
+		$query[] = "posts=".(int)(isset($fields['posts']) ? $fields['posts'] : '0');
 		$query[] = "signature='".SQL::escape(isset($fields['signature']) ? $fields['signature'] : '')."'";
 		$query[] = "skype_address='".SQL::escape(isset($fields['skype_address']) ? $fields['skype_address'] : '')."'";
 

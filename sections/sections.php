@@ -2862,12 +2862,12 @@ Class Sections {
 			."family='".SQL::escape(isset($fields['family']) ? $fields['family'] : '')."',"
             ."file_overlay='".SQL::escape(isset($fields['file_overlay']) ? $fields['file_overlay'] : '')."',"
 			.$handle
-			."hits=".SQL::escape(isset($fields['hits']) ? $fields['hits'] : 0).","
+			."hits=".(int)(isset($fields['hits']) ? $fields['hits'] : 0).","
                         ."home_panel='".SQL::escape(isset($fields['home_panel']) ? $fields['home_panel'] : 'main')."',"
 			."icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."',"
 			."index_map='".SQL::escape(isset($fields['index_map']) ? $fields['index_map'] : 'Y')."',"
 			."index_news='".SQL::escape(isset($fields['index_news']) ? $fields['index_news'] : 'static')."',"
-			."index_news_count=".SQL::escape(isset($fields['index_news_count']) ? $fields['index_news_count'] : 5).","
+			."index_news_count=".(int)(isset($fields['index_news_count']) ? $fields['index_news_count'] : 5).","
 			."index_title='".SQL::escape(isset($fields['index_title']) ? $fields['index_title'] : '')."',"
 			."introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."',"
 			."language='".SQL::escape(isset($fields['language']) ? $fields['language'] : '')."',"
@@ -3054,7 +3054,7 @@ Class Sections {
 		$query[] = "icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."'";
 		$query[] = "index_map='".SQL::escape(isset($fields['index_map']) ? $fields['index_map'] : 'Y')."'";
 		$query[] = "index_news='".SQL::escape(isset($fields['index_news']) ? $fields['index_news'] : 'static')."'";
-		$query[] = "index_news_count=".SQL::escape(isset($fields['index_news_count']) ? $fields['index_news_count'] : 5);
+		$query[] = "index_news_count=".(int)(isset($fields['index_news_count']) ? $fields['index_news_count'] : 5);
 		$query[] = "index_title='".SQL::escape(isset($fields['index_title']) ? $fields['index_title'] : '')."'";
 		$query[] = "introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."'";
 		$query[] = "description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."'";

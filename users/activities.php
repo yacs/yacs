@@ -203,7 +203,7 @@ Class Activities {
 		$query = "INSERT INTO ".SQL::table_name('activities')." SET"
 			." action='".SQL::escape($action)."',"
 			." anchor='".SQL::escape($anchor)."',"
-			." count=".SQL::escape($count).","
+			." count=".(int)($count).","
 			." edit_date='".SQL::escape($context['now'])."',"
 			." edit_id='".SQL::escape(Surfer::get_id())."',"
 			." edit_name='".SQL::escape(Surfer::get_name())."'";

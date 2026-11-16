@@ -1157,7 +1157,7 @@ Class Links {
 			."edit_address='".SQL::escape($fields['edit_address'])."', "
 			."edit_action='".SQL::escape(isset($fields['edit_action']) ? $fields['edit_action'] : 'link:create')."', "
 			."edit_date='".SQL::escape($fields['edit_date'])."', "
-			."hits=".SQL::escape(isset($fields['hits']) ? $fields['hits'] : 0);
+			."hits=".(int)(isset($fields['hits']) ? $fields['hits'] : 0);
 
 		// actual update query
 		if(SQL::query($query) === FALSE)

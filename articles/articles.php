@@ -2958,9 +2958,9 @@ Class Articles {
 		// fields to update
 		$query = array();
 
-		// on import
-		if(isset($fields['id']))
-			$query[] = "id=".SQL::escape($fields['id']);
+		// on import -- only an associate may choose the id, see control/import.php
+		if(isset($fields['id']) && Surfer::is_associate())
+			$query[] = "id=".(int)($fields['id']);
 
 		// fields that are visible only to associates -- see articles/edit.php
 		if(Surfer::is_associate()) {
