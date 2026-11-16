@@ -733,14 +733,14 @@ Class Images {
 		// an image name never carries a path, and its thumbnail stays in thumbs/
 		if(isset($fields['image_name']) && ($fields['image_name'] !== '')) {
 			$fields['image_name'] = basename(str_replace('\\', '/', $fields['image_name']));
-			if($fields['image_name'][0] == '.') {
+			if(($fields['image_name'] === '') || ($fields['image_name'][0] == '.')) {
 				Logger::error(i18n::s('This type of file is not allowed.'));
 				return FALSE;
 			}
 		}
 		if(isset($fields['thumbnail_name']) && ($fields['thumbnail_name'] !== '')) {
 			$thumbnail = basename(str_replace('\\', '/', $fields['thumbnail_name']));
-			if($thumbnail[0] == '.') {
+			if(($thumbnail === '') || ($thumbnail[0] == '.')) {
 				Logger::error(i18n::s('This type of file is not allowed.'));
 				return FALSE;
 			}

@@ -209,7 +209,7 @@ if(Surfer::is_crawler()) {
                                         continue;
 
                                 // only image files are extracted, getimagesize() alone is not enough
-                                if(!preg_match('/^[^.\\\\][^\\\\]*\.(gif|jpe?g|png|webp)$/i', $filename))
+                                if(!preg_match('/^[^.\\\\][^\\\\]*\.(gif|jpe?g|png|webp)$/i', $filename) || !Files::is_authorized($filename))
                                         continue;
 
                                 $zipfile->extractTo(Safe::realpath($file_path), $filename);
