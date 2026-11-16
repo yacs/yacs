@@ -225,12 +225,17 @@ class http {
      * Other schemes, such as file:// or gopher://, could reach local resources.
      *
      * @param string the link to check
-     * @return boolean TRUE for http:// and https:// only
+     * @return boolean FALSE if the link asks for another protocol than http:// or https://
      */
     public static function is_web_url($url) {
-        if (!is_string($url))
+        if (!is_string($url) || (($items = parse_url(trim($url))) === FALSE))
             return FALSE;
-        $scheme = strtolower((string)parse_url($url, PHP_URL_SCHEME));
+
+        // no scheme at all, as in www.example.com -- curl is limited to web protocols anyway
+        if (!isset($items['scheme']))
+            return TRUE;
+
+        $scheme = strtolower($items['scheme']);
         return ($scheme == 'http') || ($scheme == 'https');
     }
 
