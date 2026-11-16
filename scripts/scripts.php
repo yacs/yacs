@@ -758,6 +758,39 @@ class Scripts {
 	}
 
 	/**
+	 * deny web access to parameters/
+	 *
+	 * Configuration files and their backups (*.bak) are read by PHP only.
+	 * A backup is not run by PHP, hence it could be served as plain text.
+	 *
+	 * The file is created here, and not shipped with other scripts, because
+	 * updates never write in parameters/. An existing file is left untouched.
+	 *
+	 * @return boolean TRUE if parameters/.htaccess exists on return, FALSE otherwise
+	 *
+	 * @see setup.php
+	 * @see scripts/run_once/261116_protect_parameters.php
+	 */
+	public static function protect_parameters() {
+		global $context;
+
+		// do not change what the webmaster has put there
+		if(file_exists($context['path_to_root'].'parameters/.htaccess'))
+			return TRUE;
+
+		$content = '# Configuration files and their backups (*.bak) are read by PHP only, never served -- see control/configure.php'."\n"
+			.'<IfModule mod_authz_core.c>'."\n"
+			."\t".'Require all denied'."\n"
+			.'</IfModule>'."\n"
+			.'<IfModule !mod_authz_core.c>'."\n"
+			."\t".'Order allow,deny'."\n"
+			."\t".'Deny from all'."\n"
+			.'</IfModule>'."\n";
+
+		return (Safe::file_put_contents('parameters/.htaccess', $content) > 0);
+	}
+
+	/**
 	 * flag all scripts in scripts/run_once
 	 *
 	 */

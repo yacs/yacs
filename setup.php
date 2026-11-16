@@ -297,6 +297,9 @@ if(Surfer::is_crawler()) {
 		include_once $context['path_to_root'].'scripts/scripts.php';
 		Scripts::purge_run_once();
 
+		// configuration files and their backups are never served
+		Scripts::protect_parameters();
+
 	}
 
 // on-going installation
