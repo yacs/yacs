@@ -83,7 +83,6 @@ Class Members {
 	 * @see categories/categories.php
 	 * @see categories/set_keyword.php
 	 * @see sections/select.php
-	 * @see services/blog.php
 	**/
 	public static function assign($anchor, $member, $father=NULL) {
 		global $context;
@@ -843,7 +842,6 @@ Class Members {
 	 * @see articles/layout_articles_as_daily.php
 	 * @see articles/layout_articles_as_slashdot.php
 	 * @see categories/select.php
-	 * @see services/blog.php
 	 */
 	public static function list_categories_by_title_for_member($member, $offset=0, $count=10, $variant='full',$focus=NULL) {
 		global $context;

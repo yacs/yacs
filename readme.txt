@@ -40,7 +40,6 @@ such as polls or cooking recipes
 - Automatic web slideshow for shared photos
 - RSS syndication
 - Easy installation
-- XML-RPC interface (implementing the Blogger API and metaWeblog API)
 - ...
 
 A more complete list of features is available at

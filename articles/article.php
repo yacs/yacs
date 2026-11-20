@@ -526,7 +526,6 @@ Class Article extends Anchor {
 	 *
 	 * @see agents/messages.php
 	 * @see agents/uploads.php
-	 * @see services/blog.php
 	 *
 	 * @param string the input text
 	 * @param array previous attributes for the page

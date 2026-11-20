@@ -3,7 +3,6 @@
  * web service encoder and decoder
  *
  * @see services/codec.php
- * @see services/xml_rpc.php
  *
  * @link http://www.xmlrpc.com/spec XML-RPC Specification
  *

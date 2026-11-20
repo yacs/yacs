@@ -430,7 +430,6 @@ Class Servers {
 	 * If the provided URL does not exist, a new server profile is created.
 	 * Else the profile is updated only if ping is still allowed for this server profile.
 	 *
-	 * @see services/ping.php
 	 *
 	 * @param string the title of the updated server
 	 * @param string the link to it

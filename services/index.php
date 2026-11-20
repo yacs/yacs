@@ -36,18 +36,6 @@ $context['page_title'] = i18n::s('Back-end services');
 // splash
 $context['text'] .= '<p>'.i18n::s('This index page lists the main services that you can use in the background. Connect your blogging software, RSS news feeder, or other web sites to this server through following Application Programming Interfaces (API).')."</p>\n";
 
-// blog.php
-$context['text'] .= Skin::build_block(i18n::s('Blogging interface'), 'title', 'blog');
-
-$context['text'] .= '<p>'.i18n::s('Support popular blogging software such as w.bloggar.').'</p>';
-
-$rows = array();
-$rows[] = array(i18n::s('URL:'), '<b>'.$context['url_to_home'].$context['url_to_root'].'services/blog.php</b>');
-$rows[] = array(i18n::s('Documentation:'), Skin::build_link('services/blog.php', NULL, 'script'));
-$rows[] = array(i18n::s('Specifications:'), Skin::build_link('http://www.xmlrpc.com/metaWeblogApi', 'metaWeblogApi Specification', 'external')
-	.', '.Skin::build_link('http://www.xmlrpc.com/spec', 'XML-RPC Specification', 'external') );
-$context['text'] .= Skin::table(NULL, $rows);
-
 // json_rpc.php
 $context['text'] .= Skin::build_block(i18n::s('Generic JSON-RPC interface'), 'title', 'json-rpc');
 
@@ -59,18 +47,6 @@ $rows[] = array(i18n::s('Documentation:'), Skin::build_link('services/json_rpc.p
 $rows[] = array(i18n::s('Specification:'), Skin::build_link('http://json-rpc.org/wiki/specification', 'JSON-RPC Specification', 'external'));
 $context['text'] .= Skin::table(NULL, $rows);
 
-// ping.php
-$context['text'] .= Skin::build_block(i18n::s('Ping interface'), 'title', 'ping');
-
-$context['text'] .= '<p>'.i18n::s('To spread updates').'</p>';
-
-$rows = array();
-$rows[] = array(i18n::s('URL:'), '<b>'.$context['url_to_home'].$context['url_to_root'].'services/ping.php</b>');
-$rows[] = array(i18n::s('Documentation:'), Skin::build_link('services/ping.php', NULL, 'script'));
-$rows[] = array(i18n::s('Specifications:'), Skin::build_link('http://www.hixie.ch/specs/pingback/pingback', 'Pingback specification', 'external')
-	.', '.Skin::build_link('http://www.xmlrpc.com/spec', 'XML-RPC Specification', 'external') );
-$context['text'] .= Skin::table(NULL, $rows);
-
 // search.php
 $context['text'] .= Skin::build_block(i18n::s('Search'), 'title', 'search');
 
@@ -80,17 +56,6 @@ $rows = array();
 $rows[] = array(i18n::s('URL:'), '<b>'.$context['url_to_home'].$context['url_to_root'].'services/search.php</b>');
 $rows[] = array(i18n::s('Documentation:'), Skin::build_link('services/search.php', NULL, 'script'));
 $rows[] = array(i18n::s('Specifications:'), Skin::build_link('http://blogs.law.harvard.edu/tech/rss', 'RSS 2.0 Specification', 'external') );
-$context['text'] .= Skin::table(NULL, $rows);
-
-// xml_rpc.php
-$context['text'] .= Skin::build_block(i18n::s('Generic XML-RPC interface'), 'title', 'xml-rpc');
-
-$context['text'] .= '<p>'.i18n::s('Bound to hooked back-end scripts').'</p>';
-
-$rows = array();
-$rows[] = array(i18n::s('URL:'), '<b>'.$context['url_to_home'].$context['url_to_root'].'services/xml_rpc.php</b>');
-$rows[] = array(i18n::s('Documentation:'), Skin::build_link('services/xml_rpc.php', NULL, 'script'));
-$rows[] = array(i18n::s('Specification:'), Skin::build_link('http://www.xmlrpc.com/spec', 'XML-RPC Specification', 'external'));
 $context['text'] .= Skin::table(NULL, $rows);
 
 // page tools

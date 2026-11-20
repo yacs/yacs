@@ -90,12 +90,6 @@
  * See also: [link]sections/index.php[/link], [link]categories/index.php[/link]
  * (you will have to be logged as an associate to view special sections and categories)
  *
- * [subtitle]Blogging[/subtitle]
- * Well, we are quite proud of it: yacs has been fully tested with w.bloggar, and the combination is really fun and handy.
- * Give it a try!
- *
- * See also: [script]services/blog.php[/script], [link]http://wbloggar.com/[/link]
- *
  * [subtitle]Localization[/subtitle]
  * What about localization? In previous developments I used to have a separate
  * file per language to store all strings for this language. While this design

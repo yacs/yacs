@@ -285,9 +285,6 @@ if(!isset($item['id'])) {
 		."\n".'</rdf:RDF>'
 		."\n".'-->';
 
-	// implement the pingback interface
-	$context['page_header'] .= "\n".'<link rel="pingback" href="'.$context['url_to_root'].'services/ping.php" />';
-
 	// set specific headers
 	if(isset($item['introduction']) && $item['introduction'])
 		$context['page_meta'] = strip_tags(Codes::beautify_introduction($item['introduction']));

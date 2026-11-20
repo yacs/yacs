@@ -111,7 +111,6 @@ Class Call {
 	 * @see control/scan.php
 	 * @see links/links.php
 	 * @see servers/servers.php
-	 * @see services/blog_test.php
 	 */
 	public static function invoke($url, $service, $parameters = NULL, $variant='XML-RPC') {
 		global $context;
