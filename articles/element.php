@@ -35,7 +35,7 @@ if(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
 elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
-$id = strip_tags($id);
+$id = strip_tags($id ?? '');
 
 // encode ISO-8859-1 argument, if any
 if(isset($_SERVER['HTTP_ACCEPT_CHARSET']) && preg_match('/^iso-8859-1/i', $_SERVER['HTTP_ACCEPT_CHARSET']))
@@ -60,7 +60,7 @@ if(isset($_REQUEST['action']))
 	$action = $_REQUEST['action'];
 elseif(isset($context['arguments'][1]))
 	$action = $context['arguments'][1];
-$action = strip_tags($action);
+$action = strip_tags($action ?? '');
 
 // maybe this anonymous surfer is allowed to handle this item
 if(isset($item['handle']) && Surfer::may_handle($item['handle']))

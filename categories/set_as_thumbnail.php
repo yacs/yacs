@@ -24,7 +24,7 @@ if(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
 elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
-$id = strip_tags($id);
+$id = strip_tags($id ?? '');
 
 // look for the anchor
 $anchor = NULL;
@@ -34,7 +34,7 @@ elseif(isset($context['arguments'][1]))
 	$anchor = $context['arguments'][1].':'.$context['arguments'][2];
 elseif(isset($_REQUEST['anchor']))
 	$anchor = $_REQUEST['anchor'];
-$anchor = strip_tags($anchor);
+$anchor = strip_tags($anchor ?? '');
 
 // get the item from the database
 $item = Categories::get($id);

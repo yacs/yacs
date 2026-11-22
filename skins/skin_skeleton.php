@@ -3773,7 +3773,7 @@ Class Skin_Skeleton {
 						$area .= BR.BR;
 
 					// we won't dedicate too much CPU cycles to parse further
-					$paragraph = strip_tags($paragraph);
+					$paragraph = strip_tags($paragraph ?? '');
 
 					// count words
 					$words = preg_split("/([\s,\.;\?!]+)/", $paragraph, -1, PREG_SPLIT_OFFSET_CAPTURE);

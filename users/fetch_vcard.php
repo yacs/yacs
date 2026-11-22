@@ -44,13 +44,13 @@ if(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
 elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
-$id = strip_tags($id);
+$id = strip_tags($id ?? '');
 
 // get the item from the database
 $item = Users::get($id);
 
 // reorder tokens of full name on comma
-if(preg_match('/^(.+),\s+(.+)$/', $item['full_name'], $matches))
+if(preg_match('/^(.+),\s+(.+)$/', $item['full_name'] ?? '', $matches))
 	$item['full_name'] = $matches[2].' '.$matches[1];
 
 // associates can do what they want

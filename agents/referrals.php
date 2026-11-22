@@ -42,7 +42,7 @@ class Referrals {
 			return;
 
 		// block pernicious attacks
-		$referer = strip_tags($referer);
+		$referer = strip_tags($referer ?? '');
 
 		// only remember external referrals
 		if(preg_match('/\b'.preg_quote(str_replace('www.', '', $context['host_name']), '/').'\b/i', $referer))

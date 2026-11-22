@@ -1520,7 +1520,7 @@ Class Articles {
 		// search by id
 		if(is_numeric($id)) {
 			$query = "SELECT ".SQL::escape($attributes)." FROM ".SQL::table_name('articles')
-				." WHERE (id = ".SQL::escape((integer)$id).")";
+				." WHERE (id = ".SQL::escape((int)$id).")";
 			// do the job
 			$output = SQL::query_first($query);
 		}

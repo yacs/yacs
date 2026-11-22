@@ -117,7 +117,7 @@ Class Files {
 			return TRUE;
 
 		// the file is anchored to the profile of this member
-		if(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
+		if(Surfer::is_member() && !strcmp($item['anchor'] ?? '', 'user:'.Surfer::get_id()))
 			return TRUE;
 
 		// the anchor or overlay-in-anchor allows for file download

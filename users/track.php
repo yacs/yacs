@@ -31,7 +31,7 @@ elseif(isset($_REQUEST['anchor']))
 	$track = $_REQUEST['anchor'];
 elseif(isset($context['arguments'][1]))
 	$track = $context['arguments'][0].':'.$context['arguments'][1];
-$track = strip_tags($track);
+$track = strip_tags($track ?? '');
 
 // get the item from the database
 $item = NULL;

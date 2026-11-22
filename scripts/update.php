@@ -39,7 +39,7 @@ if(isset($_REQUEST['action']))
 	$action = $_REQUEST['action'];
 if(!$action && isset($context['arguments'][0]))
 	$action = $context['arguments'][0];
-$action = strip_tags($action);
+$action = strip_tags($action ?? '');
 
 // load the staging index, if any
 Safe::load('scripts/staging/footprints.php');

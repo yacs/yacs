@@ -55,13 +55,13 @@ if(isset($_REQUEST['search']))
 	$search = $_REQUEST['search'];
 elseif(isset($context['arguments'][0]))
 	$search = $context['arguments'][0];
-$search = strip_tags($search);
+$search = strip_tags($search ?? '');
 
 // search type
 $type = '';
 if(isset($_REQUEST['type']))
 	$type = $_REQUEST['type'];
-$type = strip_tags($type);
+$type = strip_tags($type ?? '');
 
 // load localized strings
 i18n::bind('services');

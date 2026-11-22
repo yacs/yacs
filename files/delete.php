@@ -35,7 +35,7 @@ if(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
 elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
-$id = strip_tags($id);
+$id = strip_tags($id ?? '');
 
 // get the item from the database
 $item = Files::get($id);

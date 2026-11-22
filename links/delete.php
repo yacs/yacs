@@ -35,7 +35,7 @@ if(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
 elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
-$id = strip_tags($id);
+$id = strip_tags($id ?? '');
 
 // get the item from the database
 $item = Links::get($id);
@@ -54,7 +54,7 @@ elseif(is_object($anchor) && !$anchor->is_viewable())
 	$permitted = FALSE;
 
 // the item is anchored to the profile of this member
-elseif(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
+elseif(Surfer::is_member() && !strcmp($item['anchor'] ?? '', 'user:'.Surfer::get_id()))
 	$permitted = TRUE;
 
 // authenticated surfers may suppress their own posts --no create_id yet...

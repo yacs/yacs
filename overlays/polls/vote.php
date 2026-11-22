@@ -53,7 +53,7 @@ if(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
 elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
-$id = strip_tags($id);
+$id = strip_tags($id ?? '');
 
 // get the item from the database
 $item = Articles::get($id);
@@ -75,7 +75,7 @@ if(isset($_REQUEST['vote']))
 	$vote = $_REQUEST['vote'];
 if(isset($context['arguments'][1]))
 	$vote = $context['arguments'][1];
-$vote = strip_tags($vote);
+$vote = strip_tags($vote ?? '');
 
 // next url
 $next = '';
@@ -83,7 +83,7 @@ if(isset($_REQUEST['next']))
 	$next = $_REQUEST['next'];
 if(isset($context['arguments'][2]))
 	$next = $context['arguments'][2];
-$next = strip_tags($next);
+$next = strip_tags($next ?? '');
 
 //
 // is this surfer allowed to browse the resulting page?

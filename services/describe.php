@@ -35,7 +35,7 @@ if(isset($_REQUEST['anchor']))
 	$id = $_REQUEST['anchor'];
 elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
-$id = strip_tags($id);
+$id = strip_tags($id ?? '');
 
 // ensure we have a default section to use
 if(!$id)

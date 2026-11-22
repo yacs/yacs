@@ -739,7 +739,7 @@ Class Codes {
 		// number of items to display
 		$count = YAHOO_LIST_SIZE;
 		if(($position = strpos($anchor, ',')) !== FALSE) {
-			$count = (integer)trim(substr($anchor, $position+1));
+			$count = (int)trim(substr($anchor, $position+1));
 			if(!$count)
 				$count = YAHOO_LIST_SIZE;
 
@@ -1694,7 +1694,7 @@ Class Codes {
 		// number of items to display
 		$count = COMPACT_LIST_SIZE;
 		if($position = strrpos($anchor, ',')) {
-			$count = (integer)trim(substr($anchor, $position+1));
+			$count = (int)trim(substr($anchor, $position+1));
 			if(!$count)
 				$count = COMPACT_LIST_SIZE;
 
@@ -1958,7 +1958,7 @@ Class Codes {
 		// number of items to display
 		$count = YAHOO_LIST_SIZE;
 		if(($position = strpos($anchor, ',')) !== FALSE) {
-			$count = (integer)trim(substr($anchor, $position+1));
+			$count = (int)trim(substr($anchor, $position+1));
 			if(!$count)
 				$count = YAHOO_LIST_SIZE;
 
@@ -2019,7 +2019,7 @@ Class Codes {
 		// number of items to display
 		$count = COMPACT_LIST_SIZE;
 		if(($position = strpos($anchor, ',')) !== FALSE) {
-			$count = (integer)trim(substr($anchor, $position+1));
+			$count = (int)trim(substr($anchor, $position+1));
 			if(!$count)
 				$count = COMPACT_LIST_SIZE;
 
@@ -2120,7 +2120,7 @@ Class Codes {
 		// number of items to display
 		$count = COMPACT_LIST_SIZE;
 		if(($position = strpos($anchor, ',')) !== FALSE) {
-			$count = (integer)trim(substr($anchor, $position+1));
+			$count = (int)trim(substr($anchor, $position+1));
 			if(!$count)
 				$count = COMPACT_LIST_SIZE;
 

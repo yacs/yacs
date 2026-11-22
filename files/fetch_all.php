@@ -50,8 +50,8 @@ elseif(isset($context['arguments'][0]) && isset($context['arguments'][1])) {
 	$type = $context['arguments'][0];
 	$id = $context['arguments'][1];
 }
-$type = strip_tags($type);
-$id = strip_tags($id);
+$type = strip_tags($type ?? '');
+$id = strip_tags($id ?? '');
 
 // get the related item, if any
 $item = array();

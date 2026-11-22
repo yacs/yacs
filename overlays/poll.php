@@ -239,9 +239,9 @@ class Poll extends Overlay {
 				$text .= $label.'</dt>';
 
 				if($total > 0) {
-					$size = (integer)($count*200/$total)+2;
+					$size = (int)($count*200/$total)+2;
 					$middle = preg_replace('/width=".+?"/i', 'width="'.$size.'"', $main_img);
-					$ratio = (integer)($count*100/$total).'%';
+					$ratio = (int)($count*100/$total).'%';
 				} else {
 					$middle = '';
 					$ratio = '';
@@ -341,13 +341,13 @@ class Poll extends Overlay {
 
 			$text .= '<dd>';
 			if($total > 0)
-				$size = (integer)($count*350/$total)+2;
+				$size = (int)($count*350/$total)+2;
 			else
 				$size = 2;
 			$text .= $left_img.preg_replace('/width=".+?"/i', 'width="'.$size.'"', $main_img).$right_img
 				.' '.number_format($count);
 			if($total > 0)
-				$text .= ' / <b>'.(integer)($count*100/$total).'%</b>';
+				$text .= ' / <b>'.(int)($count*100/$total).'%</b>';
 			$text .= '<br style="clear: left;" /></dd>'."\n";
 
 		}

@@ -41,6 +41,7 @@ Class rss_Codec extends Codec {
 	var $elements_stack = array('rss_stream');
 	var $current_field	= '';
 	var $current_name_space = false;
+	var $encoding = 'ISO-8859-1';
 
 	/**
 	 * parse some news
@@ -58,9 +59,8 @@ Class rss_Codec extends Codec {
 		$parser = xml_parser_create($this->encoding);
 
 		// parser setup
-		xml_set_object($parser, $this);
-		xml_set_element_handler($parser, 'parse_start_element', 'parse_end_element');
-		xml_set_character_data_handler($parser, 'parse_cdata');
+		xml_set_element_handler($parser, array($this, 'parse_start_element'), array($this, 'parse_end_element'));
+		xml_set_character_data_handler($parser, array($this, 'parse_cdata'));
 
 		// case is meaningful
 		xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, FALSE);
@@ -84,7 +84,6 @@ Class rss_Codec extends Codec {
 			return array(FALSE, 'Parsing error: '.xml_error_string(xml_get_error_code($parser))
 				.' at line '.xml_get_current_line_number($parser));
 		}
-		xml_parser_free($parser);
 
 		// return parsing result
 		return array(TRUE, $this->items);
@@ -328,7 +327,7 @@ Class rss_Codec extends Codec {
 				$title = $attributes[1];
 				$author = $attributes[2];
 				$section = $attributes[3];
-				$image = preg_replace("/\/thumbs/", "", $attributes[4]); // CHL
+				$image = preg_replace("/\/thumbs/", "", $attributes[4] ?? ''); // CHL
 				$introduction = $attributes[5];
 				$description = $attributes[6];
 				$extensions = $attributes[7];

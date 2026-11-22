@@ -61,7 +61,7 @@ Class Code_read_vote extends Code {
            // number of items to display
            $count = COMPACT_LIST_SIZE;
            if(($position = strpos($anchor, ',')) !== FALSE) {
-                   $count = (integer)trim(substr($anchor, $position+1));
+                   $count = (int)trim(substr($anchor, $position+1));
                    if(!$count)
                            $count = COMPACT_LIST_SIZE;
 
@@ -118,7 +118,7 @@ Class Code_read_vote extends Code {
            // number of items to display
            $count = COMPACT_LIST_SIZE;
            if(($position = strpos($anchor, ',')) !== FALSE) {
-                   $count = (integer)trim(substr($anchor, $position+1));
+                   $count = (int)trim(substr($anchor, $position+1));
                    if(!$count)
                            $count = COMPACT_LIST_SIZE;
 

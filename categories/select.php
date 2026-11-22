@@ -35,7 +35,7 @@ if(isset($_REQUEST['member']))
 	$member = $_REQUEST['member'];
 elseif(isset($_REQUEST['anchor']) && isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'GET'))
 	$member = $_REQUEST['anchor'];
-$member = strip_tags($member);
+$member = strip_tags($member ?? '');
 
 // get the member object, which is supposed to be a container
 $anchor = NULL;

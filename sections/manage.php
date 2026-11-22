@@ -55,7 +55,7 @@ if(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
 elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
-$id = strip_tags($id);
+$id = strip_tags($id ?? '');
 
 // no follow-up page yet
 $zoom_type = '';
@@ -108,7 +108,7 @@ elseif(isset($_REQUEST['act_on_sections']) && ($_REQUEST['act_on_sections'][0] !
 elseif(isset($_REQUEST['action']) && $_REQUEST['action'])
 	$action = $_REQUEST['action'];
 if($action)
-    $action = strip_tags($action);
+    $action = strip_tags($action ?? '');
 
 // only owners can proceed
 if(Sections::is_owned($item, $anchor) || Surfer::is_associate()) {

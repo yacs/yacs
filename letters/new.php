@@ -54,7 +54,7 @@ if(isset($_REQUEST['action']))
 	$action = $_REQUEST['action'];
 if(!$action && isset($context['arguments'][0]))
 	$action = $context['arguments'][0];
-$action = strip_tags($action);
+$action = strip_tags($action ?? '');
 
 // load localized strings
 i18n::bind('letters');

@@ -64,14 +64,14 @@ $source = NULL;
 if(isset($_REQUEST['url']))
 	$source = $_REQUEST['url'];
 if(!empty($source))
-    $source = strip_tags($source);
+    $source = strip_tags($source ?? '');
 
 // link title
 $title = NULL;
 if(isset($_REQUEST['title']))
 	$title = $_REQUEST['title'];
 if(!empty($title))
-    $title = strip_tags($title);
+    $title = strip_tags($title ?? '');
 
 // if title is not provided, the value for url will be set as the title
 if(!$title)
@@ -82,14 +82,14 @@ $excerpt = NULL;
 if(isset($_REQUEST['excerpt']))
 	$excerpt = $_REQUEST['excerpt'];
 if(!empty($excerpt))
-    $excerpt = strip_tags($excerpt);
+    $excerpt = strip_tags($excerpt ?? '');
 
 // the blog name
 $blog_name = NULL;
 if(isset($_REQUEST['blog_name']))
 	$blog_name = $_REQUEST['blog_name'];
 if(!empty($blog_name))
-    $blog_name = strip_tags($blog_name);
+    $blog_name = strip_tags($blog_name ?? '');
 
 // look for the anchor reference
 $anchor = NULL;
@@ -100,7 +100,7 @@ elseif(isset($context['arguments'][1]))
 elseif(isset($context['arguments'][0]))
 	$anchor = 'article:'.$context['arguments'][0];
 if(!empty($anchor)) {
-    $anchor = strip_tags($anchor);
+    $anchor = strip_tags($anchor ?? '');
     // get the related anchor, if any
     $anchor = Anchors::get($anchor);
 }
@@ -199,7 +199,7 @@ if(Surfer::is_crawler()) {
 	}
 
 	// display results if we are coming from this form
-	if(strpos($_SERVER['HTTP_REFERER'], $context['script_url']) !== FALSE) {
+	if(strpos($_SERVER['HTTP_REFERER'] ?? '', $context['script_url']) !== FALSE) {
 
 		// an error has been encountered
 		if(is_array($response))

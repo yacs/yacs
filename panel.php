@@ -38,7 +38,7 @@ if(isset($_REQUEST['target']))
 	$target = $_REQUEST['target'];
 elseif(isset($context['arguments'][0]))
 	$target = $context['arguments'][0];
-$target = strip_tags($target);
+$target = strip_tags($target ?? '');
 
 // load localized strings
 i18n::bind('root');

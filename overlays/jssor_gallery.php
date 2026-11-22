@@ -165,7 +165,7 @@ Class jssor_gallery extends Overlay {
                 case 'thumbs':
                     $options['thumbnails'] = 1;
                     break;
-                case 'auto';
+                case 'auto':
                     if($this->nb_images > $this->auto_thumbs_threshold)
                         $options['thumbnails'] = 1;
                     else

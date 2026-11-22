@@ -106,7 +106,7 @@ Class Servers {
 		// search by id
 		if(is_numeric($id))
 			$query = "SELECT * FROM ".SQL::table_name('servers')." AS servers"
-				." WHERE (servers.id = ".SQL::escape((integer)$id).")";
+				." WHERE (servers.id = ".SQL::escape((int)$id).")";
 
 		// or look for given name of handle
 		else

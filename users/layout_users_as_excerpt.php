@@ -46,7 +46,7 @@ Class Layout_users_as_excerpt extends Layout_interface {
                                     $value      = "***";
                                     break;
                                 case 'overlay' :
-                                    continue;
+                                    continue 2;
                                 
                             }
                             

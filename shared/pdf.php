@@ -99,10 +99,10 @@ Class PDF extends FPDF {
 					$this->SetFont('', '');
 					break;
 
-				case 'blockquote';
+				case 'blockquote':
 					$this->Ln($height);
 					break;
-				case '/blockquote';
+				case '/blockquote':
 					$this->Ln($height);
 					break;
 

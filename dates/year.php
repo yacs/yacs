@@ -23,7 +23,7 @@ if(isset($context['arguments'][0]))
 	$year = $context['arguments'][0];
 elseif(isset($_REQUEST['year']))
 	$year = $_REQUEST['year'];
-$year = strip_tags($year);
+$year = strip_tags($year ?? '');
 if($year < 1970)
 	$year = (int)gmdate('Y');
 

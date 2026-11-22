@@ -21,7 +21,7 @@ if(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
 elseif(isset($context['arguments'][0]) && isset($context['arguments'][1]))
 	$id = $context['arguments'][0].':'.$context['arguments'][1];
-$id = strip_tags($id);
+$id = strip_tags($id ?? '');
 
 // get the anchor
 $anchor = Anchors::get($id);

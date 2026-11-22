@@ -25,7 +25,7 @@ if(isset($context['arguments'][1]))
 	$target = $context['arguments'][0].'/'.$context['arguments'][1];
 elseif(isset($_REQUEST['month']))
 	$target = $_REQUEST['month'];
-$target = strip_tags($target);
+$target = strip_tags($target ?? '');
 if($target < '1970')
 	$target = gmdate('Y/m');
 

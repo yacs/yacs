@@ -1033,7 +1033,7 @@ Class Sections {
 		// search by id
 		if(is_numeric($id)) {
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
-				." WHERE (sections.id = ".SQL::escape((integer)$id).")";
+				." WHERE (sections.id = ".SQL::escape((int)$id).")";
                         
                         $output = SQL::query_first($query);
 
@@ -1280,7 +1280,7 @@ Class Sections {
 
 		// search by id or nick name
 		$query = "SELECT handle FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE (sections.id = ".SQL::escape((integer)$id).") OR (sections.nick_name LIKE '".SQL::escape($id)."')"
+			." WHERE (sections.id = ".SQL::escape((int)$id).") OR (sections.nick_name LIKE '".SQL::escape($id)."')"
 			." ORDER BY edit_date DESC LIMIT 1";
 
 		// do the job

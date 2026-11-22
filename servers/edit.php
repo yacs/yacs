@@ -34,7 +34,7 @@ if(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
 elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
-$id = strip_tags($id);
+$id = strip_tags($id ?? '');
 
 // get the item from the database
 $item = Servers::get($id);
@@ -64,7 +64,7 @@ if(Surfer::is_crawler()) {
 
 // anonymous users are invited to log in or to register
 } elseif(!Surfer::is_logged())
-	Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Servers::get_url($id, 'edit')));
+	Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode($id ? Servers::get_url($id, 'edit') : 'servers/edit.php'));
 
 // associates only
 elseif(!Surfer::is_associate()) {

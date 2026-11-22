@@ -56,7 +56,7 @@ if(!$anchor) {
 		$id = $_REQUEST['id'];
 	elseif(isset($context['arguments'][0]))
 		$id = $context['arguments'][0];
-	$id = strip_tags($id);
+	$id = strip_tags($id ?? '');
 	$anchor = Anchors::get('article:'.$id);
 }
 

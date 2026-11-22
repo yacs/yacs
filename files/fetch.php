@@ -64,7 +64,7 @@ if(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
 elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
-$id = strip_tags($id);
+$id = strip_tags($id ?? '');
 
 // additional action, if any
 $action = NULL;
@@ -72,7 +72,7 @@ if(isset($_REQUEST['action']))
 	$action = $_REQUEST['action'];
 elseif(isset($context['arguments'][1]))
 	$action = $context['arguments'][1];
-$action = strip_tags($action);
+$action = strip_tags($action ?? '');
 
 // get the item from the database
 $item = Files::get($id);
@@ -117,7 +117,7 @@ else
 if($item['title'])
 	$context['page_title'] = $item['title'];
 else
-	$context['page_title'] = str_replace('_', ' ', $item['file_name']);
+	$context['page_title'] = str_replace('_', ' ', $item['file_name'] ?? '');
 
 // change default behavior
 if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('files/fetch.php', 'file:'.$item['id']))

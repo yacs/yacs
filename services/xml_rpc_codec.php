@@ -55,9 +55,8 @@ Class XML_RPC_Codec extends Codec {
 
 		// create a parser
 		$parser = xml_parser_create();
-		xml_set_object($parser, $this);
-		xml_set_element_handler($parser, 'parse_tag_open', 'parse_tag_close');
-		xml_set_character_data_handler($parser, 'parse_cdata');
+		xml_set_element_handler($parser, array($this, 'parse_tag_open'), array($this, 'parse_tag_close'));
+		xml_set_character_data_handler($parser, array($this, 'parse_cdata'));
 
 		// case is meaningful
 		xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, FALSE);
@@ -73,7 +72,6 @@ Class XML_RPC_Codec extends Codec {
 			return array(FALSE, 'Parsing error: '.xml_error_string(xml_get_error_code($parser))
 				.' at line '.xml_get_current_line_number($parser));
 		}
-		xml_parser_free($parser);
 
 		// return parsing result
 		return array(TRUE, $this->result);
@@ -442,7 +440,7 @@ Class XML_RPC_Codec extends Codec {
 			$this->cdata = mktime($hour, $minute, $second, $month, $day, $year );
 			return;
 		case 'double':
-			$this->cdata = (double)$this->cdata;
+			$this->cdata = (float)$this->cdata;
 			return;
 		case 'i4':
 		case 'int':
