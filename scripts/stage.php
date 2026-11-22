@@ -2,43 +2,21 @@
 /**
  * stage updated files
  *
- * As explained into [script]scripts/index.php[/script], the local staging store is built after a reference store.
- *
- * @see scripts/index.php
- *
- * The reference store can be a remote server, usually, www.yacs.fr.
- * Server name can be changed from the configuration panel for scripts.
- *
- * Or staging files can be provided in a local archive containing all files of some YACS release.
- * The archive may be uploaded unattended, or it can have been put in the directory inbox/yacs.
- *
- * Lastly, the staging store can be populated manually, through FTP for example.
- * In this case just use the link at the bottom of the page to start the update process.
+ * The staging store [code]scripts/staging[/code] is populated from an archive
+ * containing the updated files, for example a patch built by [code]tools/smartpatch.sh[/code].
  *
  * Content of the staging store is built as follows:
  * - if a file has been uploaded, its content is used
  * - else if a reference to a local archive has been provided, its content is used
- * - else if it is a POST, some remote server is contacted
  *
- * To achieve staging, the signature file [code]footprints.php[/code] is extracted from the reference store
- * and put in the [code]scripts/staging[/code] directory.
+ * The archive may be uploaded through the form of this page,
+ * or it can have been put in the directory inbox/yacs, for example with FTP.
  *
- * Then every running script on the local server is checked against the signature file, and if a difference occurs
- * the related reference script is extracted from the reference store and saved in the [code]scripts/staging[/code] directory.
- *
- * Note that scripts that have to be executed only once will be transferred also only once.
- * Because the script [script]scripts/run_once.php[/script] adds the extension '.done' to executed scripts,
- * an additional step has been added to the staging process.
- *
- * @see scripts/run_once.php
- *
- * Therefore, the algorithm used to transfer run once files to the staging repository involves following steps:
- * - ran script - if the script appears in the signature file, and if a local file has the same name plus the extension '.done', then skip the update
- * - new script - if the script appears in the signature file, but not in the running environment, it has to be transferred
- * - updated script - if the running script has a different signature, the reference script has to be transferred
+ * Lastly, the staging store can be populated manually, through FTP for example.
+ * In this case just use the link at the bottom of the page to start the update process.
  *
  * At the end of the staging process a link is displayed to launch [script]scripts/update.php[/script], that will
- * actually move the staging files to running directories. But this is another story.
+ * actually move the staging files to running directories.
  *
  * @see scripts/update.php
  *
@@ -52,13 +30,6 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once 'scripts.php';
-
-// parameters for scripts
-Safe::load('parameters/scripts.include.php');
-
-// ensure we have a default reference server
-if(!isset($context['reference_server']) || !$context['reference_server'])
-	$context['reference_server'] = i18n::s('www.yacs.fr');
 
 // no local file at the moment
 $id = NULL;
@@ -78,45 +49,6 @@ $context['path_bar'] = array( 'scripts/' => i18n::s('Server software') );
 
 // the title of the page
 $context['page_title'] = i18n::s('Stage updated scripts');
-
-/**
- * delete a directory and all of its content
- *
- * @param string the directory to delete
- */
-function delete_all($path) {
-	global $context;
-
-	$path_translated = str_replace('//', '/', $context['path_to_root'].'/'.$path);
-	if($handle = Safe::opendir($path_translated)) {
-
-		while(($node = Safe::readdir($handle)) !== FALSE) {
-
-			if($node[0] == '.')
-				continue;
-
-			// make a real name
-			$target = str_replace('//', '/', $path.'/'.$node);
-			$target_translated = str_replace('//', '/', $path_translated.'/'.$node);
-
-			// delete a sub directory
-			if(is_dir($target_translated)) {
-				delete_all($path.'/'.$node);
-				Safe::rmdir($target_translated);
-
-			// delete the node
-			} else
-				Safe::unlink($target_translated);
-
-			// statistics
-			global $deleted_nodes;
-			$deleted_nodes++;
-
-		}
-		Safe::closedir($handle);
-	}
-
-}
 
 // anonymous users are invited to log in or to register
 if(!Surfer::is_logged())
@@ -148,7 +80,9 @@ elseif(!Surfer::is_associate()) {
 		elseif(!Safe::is_uploaded_file($id))
 			Logger::error(i18n::s('Possible file attack.'));
 
-	}
+	// no file has been uploaded
+	} else
+		Logger::error(i18n::s('Nothing has been received.'));
 
 // look in archives available locally
 } else {
@@ -217,153 +151,6 @@ if($id) {
 			.'<p>'.Skin::build_submit_button(i18n::s('Review staged scripts before the update')).'</p>'."\n"
 			.'</form>'."\n";
 
-	}
-
-// contact remote server
-} elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
-
-	// purge the staging directory
-	$context['text'] .= '<p>'.i18n::s('Purging old staging files...').BR."\n";
-	delete_all('scripts/staging');
-	global $deleted_nodes;
-	if($deleted_nodes)
-		$context['text'] .= sprintf(i18n::s('%d items have been purged'), $deleted_nodes);
-	$context['text'] .= "</p>\n";
-
-	// get the reference footprints -- reference server have to be installed at the root
-	$url = 'http://'.$context['reference_server'].'/scripts/fetch.php?script=footprints.php';
-	if(($content = http::proceed($url)) === FALSE) {
-		$context['text'] .= '<p>'.sprintf(i18n::s('Impossible to get %s. Please %s again.'), $url, '<a href="configure.php">'.i18n::s('configure').'</a>')."</p>\n";
-
-		// forward to the index page
-		$menu = array('scripts/' => i18n::s('Server software'));
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
-
-	// save the reference footprints in the cache
-	} elseif(!Safe::file_put_contents('scripts/staging/footprints.php', $content))
-		$context['text'] .= '<p>'.sprintf(i18n::s('Impossible to write to %s.'), 'scripts/staging/footprints.php')."</p>\n";
-
-	// look for updated scripts and stage them
-	else {
-		$context['text'] .= '<p>'.i18n::s('Footprints of reference scripts have been saved in file scripts/staging/footprints.php.').BR."\n";
-
-		// load the reference footprints
-		include_once 'staging/footprints.php';
-
-		// file is invalid
-		if(!$generation['date'] || !$generation['server'] || !is_array($footprints)) {
-			$context['text'] .= i18n::s('Invalid reference index. Staging has been cancelled.')."</p>\n";
-
-			// forward to the index page
-			$menu = array('scripts/' => i18n::s('Server software'));
-			$context['text'] .= Skin::build_list($menu, 'menu_bar');
-
-		// print date of reference build
-		} else {
-			$context['text'] .= sprintf(i18n::s('Reference set of %d files built on %s on server %s'), count($footprints), $generation['date'], $generation['server'])."</p>\n";
-
-			// splash message
-			$context['text'] .= '<p>'.i18n::s('Download of updated scripts. Please wait...').BR."\n";
-
-			// sort the array by alphabetical order
-			ksort($footprints);
-			reset($footprints);
-
-			// display one link per script to view it
-			$staging_files = 0;
-			$errors = 0;
-			foreach($footprints as $file => $attributes) {
-
-				// only consider php scripts at the moment
-				if(!preg_match('/\.php$/', $file))
-					continue;
-
-				// never update run-once scripts
-				if(file_exists($context['path_to_root'].$file.'.done'))
-					continue;
-
-				// is the current file version ok?
-				if(is_readable($context['path_to_root'].$file) && ($result = Scripts::hash($file))) {
-
-					// check that hashes are equal
-					if($attributes[1] == $result[1])
-						continue;
-
-				}
-
-				// do we have a suitable copy in staging repository?
-				$staged = 'scripts/staging/'.$file;
-				if(is_readable($context['path_to_root'].$staged) && ($result = Scripts::hash($staged))) {
-
-					// used staged file
-					$context['text'] .= sprintf(i18n::s('Using staged file %s'), $file).BR."\n";
-
-					$staging_files++;
-					continue;
-				}
-
-				// download the updated script from the reference server
-				$context['text'] .= sprintf(i18n::s('Staging %s'), $file).BR."\n";
-
-				// get the file -- reference server have to be installed at the root
-				$url = 'http://'.$context['reference_server'].'/scripts/fetch.php?script='.$file;
-				if(!$content = http::proceed($url)) {
-					$context['text'] .= sprintf(i18n::s('Impossible to read %s.'), $url).BR."\n";
-					$errors++;
-					continue;
-				}
-
-				// ensure enough execution time
-				Safe::set_time_limit(30);
-
-				// save it in the staging store
-				if(!Safe::file_put_contents('scripts/staging/'.$file, $content)) {
-					$context['text'] .= '<p>'.sprintf(i18n::s('Impossible to write to %s.'), 'scripts/staging/'.$file)."</p>\n";
-					$errors++;
-					continue;
-				}
-
-				// ensure we have an exact copy by comparing hashes
-				$staging_hash = Scripts::hash('scripts/staging/'.$file);
-				if($attributes[1] != $staging_hash[1]) {
-					$context['text'] .= i18n::s('File has been corrupted!').BR."\n";
-					$errors++;
-					continue;
-				}
-
-				// update statistics
-				$staging_files++;
-
-			}
-
-			// errors have been encountered
-			if($errors) {
-				$context['text'] .= i18n::s('Errors have been encountered, and you cannot proceed with the network update.')."</p>\n";
-
-				// forward to the index page
-				$menu = array('scripts/' => i18n::s('Server software'));
-				$context['text'] .= Skin::build_list($menu, 'menu_bar');
-
-
-			// server is up to date
-			} elseif(!$staging_files) {
-				$context['text'] .= i18n::s('No file has been staged. Scripts on your server are exact copies of the reference set.')."</p>\n";
-
-				// forward to the index page
-				$menu = array('scripts/' => i18n::s('Server software'));
-				$context['text'] .= Skin::build_list($menu, 'menu_bar');
-
-			// scripts are ready for update
-			} else {
-				$context['text'] .= sprintf(i18n::ns('%d file has been downloaded from the reference server.', '%d files have been downloaded from the reference server.', $staging_files), $staging_files)."</p>\n";
-
-				// forward to the update script
-				$context['text'] .= '<form method="get" action="'.$context['url_to_root'].'scripts/update.php">'."\n"
-					.'<p>'.Skin::build_submit_button(i18n::s('Review staged scripts before the update')).'</p>'."\n"
-					.'</form>'."\n";
-
-			}
-		}
 	}
 
 // ask for something to process, except on error
