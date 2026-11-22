@@ -150,6 +150,9 @@ class PhpDoc {
 	// the licenses list
 	var $licenses;
 
+	// the title of each script
+	var $titles;
+
 	/**
 	 * process one comment block (internal use)
 	 *

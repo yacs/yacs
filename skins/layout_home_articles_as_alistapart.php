@@ -10,6 +10,9 @@
  */
 Class Layout_home_articles_as_alistapart extends Layout_interface {
 
+	// links displayed at page bottom
+	var $menu = array();
+
 	/**
 	 * the preferred order for items
 	 *
