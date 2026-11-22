@@ -39,7 +39,7 @@ if(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
 elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
-$id = strip_tags($id);
+$id = strip_tags($id ?? '');
 
 // get the item from the database
 $item = Articles::get($id);
@@ -55,7 +55,7 @@ if(isset($_REQUEST['rating']))
 	$rating = $_REQUEST['rating'];
 if(isset($context['arguments'][1]))
 	$rating = $context['arguments'][1];
-$rating = strip_tags($rating);
+$rating = strip_tags($rating ?? '');
 
 //
 // is this surfer allowed to browse the resulting page?

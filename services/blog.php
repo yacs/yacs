@@ -489,7 +489,7 @@ if(isset($_REQUEST['id']))
 	$main_id = $_REQUEST['id'];
 elseif(isset($context['arguments'][0]))
 	$main_id = $context['arguments'][0];
-$main_id = strip_tags($main_id);
+$main_id = strip_tags($main_id ?? '');
 
 // at the moment, do not send utf-8 to w.bloggar -- keep unicode entities as-is
 if(isset($_SERVER['HTTP_USER_AGENT']) && preg_match('/w\.bloggar/', $_SERVER['HTTP_USER_AGENT']))

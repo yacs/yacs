@@ -98,7 +98,7 @@ elseif(isset($context['arguments'][1]))
 	$anchor = $context['arguments'][0].':'.$context['arguments'][1];
 elseif(isset($context['arguments'][0]))
 	$anchor = 'article:'.$context['arguments'][0];
-$anchor = strip_tags($anchor);
+$anchor = strip_tags($anchor ?? '');
 
 // get the related anchor, if any
 if($anchor)

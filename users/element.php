@@ -39,7 +39,7 @@ elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
 elseif(Surfer::is_logged())
 	$id = Surfer::get_id();
-$id = strip_tags($id);
+$id = strip_tags($id ?? '');
 
 // encode ISO-8859-1 argument, if any
 if(isset($_SERVER['HTTP_ACCEPT_CHARSET']) && preg_match('/^iso-8859-1/i', $_SERVER['HTTP_ACCEPT_CHARSET']))
@@ -59,7 +59,7 @@ if(isset($_REQUEST['action']))
 	$action = $_REQUEST['action'];
 elseif(isset($context['arguments'][1]))
 	$action = $context['arguments'][1];
-$action = strip_tags($action);
+$action = strip_tags($action ?? '');
 
 // actual capability of current surfer
 if(isset($item['id']) && Surfer::get_id() && ($item['id'] == Surfer::get_id()) && ($item['capability'] != '?'))

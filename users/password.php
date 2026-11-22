@@ -31,7 +31,7 @@ elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
 elseif(Surfer::is_logged())
 	$id = Surfer::get_id();
-$id = strip_tags($id);
+$id = strip_tags($id ?? '');
 
 // get existing user data, if any
 $item = Users::get($id);

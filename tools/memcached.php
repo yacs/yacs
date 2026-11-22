@@ -19,7 +19,7 @@ if(isset($_REQUEST['action']))
 	$action = $_REQUEST['action'];
 if(!$action && isset($context['arguments'][0]))
 	$action = $context['arguments'][0];
-$action = strip_tags($action);
+$action = strip_tags($action ?? '');
 
 // associates can do what they want
 if(Surfer::is_associate())

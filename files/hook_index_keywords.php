@@ -34,7 +34,7 @@ class Hook {
 				Safe::set_time_limit(30);
 
 				// strip html-like things
-				$buffer = strip_tags($buffer);
+				$buffer = strip_tags($buffer ?? '');
 				$buffer = preg_replace('/&\w;/m', '', $buffer);
 
 				// ensure enough execution time

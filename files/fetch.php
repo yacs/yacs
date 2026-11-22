@@ -64,7 +64,7 @@ if(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
 elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
-$id = strip_tags($id);
+$id = strip_tags($id ?? '');
 
 // additional action, if any
 $action = NULL;
@@ -72,7 +72,7 @@ if(isset($_REQUEST['action']))
 	$action = $_REQUEST['action'];
 elseif(isset($context['arguments'][1]))
 	$action = $context['arguments'][1];
-$action = strip_tags($action);
+$action = strip_tags($action ?? '');
 
 // get the item from the database
 $item = Files::get($id);

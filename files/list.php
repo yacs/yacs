@@ -30,7 +30,7 @@ elseif(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
 if(strpos($id, ':') === FALSE)
 	$id = 'article:'.$id;
-$id = strip_tags($id);
+$id = strip_tags($id ?? '');
 
 // get the anchor
 $anchor = NULL;

@@ -58,7 +58,7 @@ if(isset($_REQUEST['anchor']))
 	$target_anchor = $_REQUEST['anchor'];
 elseif(isset($context['arguments'][1]))
 	$target_anchor = $context['arguments'][0].':'.$context['arguments'][1];
-$target_anchor = strip_tags($target_anchor);
+$target_anchor = strip_tags($target_anchor ?? '');
 
 // get the related anchor, if any
 $anchor = NULL;

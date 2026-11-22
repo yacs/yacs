@@ -30,7 +30,7 @@ if(isset($_REQUEST['error']))
 	$error = $_REQUEST['error'];
 elseif(isset($context['arguments'][0]))
 	$error = $context['arguments'][0];
-$error = strip_tags($error);
+$error = strip_tags($error ?? '');
 
 // protect from hackers
 $error = htmlspecialchars($error);

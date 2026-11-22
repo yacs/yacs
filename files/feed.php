@@ -81,7 +81,7 @@ if(!$anchor) {
 		$id = $_REQUEST['section'];
 	elseif(isset($context['arguments'][0]))
 		$id = $context['arguments'][0];
-	$id = strip_tags($id);
+	$id = strip_tags($id ?? '');
 	$anchor = Anchors::get('section:'.$id);
 }
 

@@ -57,7 +57,7 @@ if(preg_match('/^(chercher|search)/i', $search))
 $section_id = '';
 if(isset($_REQUEST['anchor']) && (strpos($_REQUEST['anchor'], 'section:') === 0))
 	$section_id = str_replace('section:', '', $_REQUEST['anchor']);
-$section_id = strip_tags($section_id);
+$section_id = strip_tags($section_id ?? '');
 
 // offset, to navigate in result set
 $offset = 1.0;

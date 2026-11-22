@@ -38,7 +38,7 @@ elseif(isset($context['arguments'][1]))
 	$id = $context['arguments'][0].':'.$context['arguments'][1];
 elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
-$id = strip_tags($id);
+$id = strip_tags($id ?? '');
 
 // get the related anchor, if any
 $anchor = Anchors::get($id);
