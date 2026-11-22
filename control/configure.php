@@ -871,11 +871,22 @@ if(!Surfer::is_associate()) {
 	if(!isset($_REQUEST['mail_digest']))
 		$_REQUEST['mail_digest'] = 'N';
 
-	// masks are octal
-	if($_REQUEST['directory_mask'] < '0700')
-		$_REQUEST['directory_mask'] = '0755';
-	if($_REQUEST['file_mask'] < '0600')
-		$_REQUEST['file_mask'] = '0644';
+	// masks are written unquoted in the configuration file, so accept only octal digits
+	$masks = array('directory_mask' => array('755', 0700), 'file_mask' => array('644', 0600));
+	foreach($masks as $name => list($default, $minimum)) {
+		$mask = isset($_REQUEST[$name]) ? $_REQUEST[$name] : '';
+
+		// a value taken from $context is already a number
+		if(is_int($mask))
+			$mask = sprintf('%o', $mask);
+
+		// three or four octal digits, without leading zeros
+		$mask = ltrim(trim((string)$mask), '0');
+		if(!preg_match('/^[0-7]{3,4}$/', $mask) || (octdec($mask) < $minimum))
+			$mask = $default;
+
+		$_REQUEST[$name] = '0'.$mask;
+	}
 
 	// build the new configuration file
 	$content = '<?php'."\n"
