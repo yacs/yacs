@@ -424,12 +424,12 @@ if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == '')) {
 }
 
 
-// redirect to given host name, if required to do so
-if(isset($context['with_given_host']) && ($context['with_given_host'] == 'Y') && isset($context['main_host']) && ($context['main_host'] != $context['host_name']))
+// redirect to given host name, if required to do so --web requests only, as cron.php in CLI has no host to redirect
+if(isset($_SERVER['REMOTE_ADDR']) && isset($context['with_given_host']) && ($context['with_given_host'] == 'Y') && isset($context['main_host']) && ($context['main_host'] != $context['host_name']))
 	Safe::redirect(str_replace($context['host_name'], $context['main_host'], $context['self_url']));
 
-// ensure protocol is secured
-if(isset($context['with_https']) && ($context['with_https'] == 'Y') && !isset($_SERVER['HTTPS']) && ($_SERVER['SERVER_PORT'] != 443))
+// ensure protocol is secured --web requests only, else cron.php in CLI would exit here before any tick
+if(isset($_SERVER['REMOTE_ADDR']) && isset($context['with_https']) && ($context['with_https'] == 'Y') && !isset($_SERVER['HTTPS']) && ($_SERVER['SERVER_PORT'] != 443))
 	Safe::redirect(str_replace('http:', 'https:', $context['self_url']));
 
 // web reference to yacs root-level scripts
