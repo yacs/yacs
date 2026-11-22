@@ -320,7 +320,6 @@ elseif(!Surfer::is_associate()) {
 				$context['text'] .= '<ul>'.$parsing_report.'</ul>';
 
 			}
-			xml_parser_free($parser);
 
 		}
 

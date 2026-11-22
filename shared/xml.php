@@ -273,9 +273,6 @@ class xml {
 				$text .= sprintf(i18n::s('Last stacking element: %s'), $element);
 		}
 
-		// clear resources
-		xml_parser_free($xml_parser);
-
 		// return parsing result
 		if($text) {
 			Logger::error($text);
