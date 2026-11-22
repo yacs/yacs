@@ -168,7 +168,7 @@ if(Surfer::is_crawler()) {
 		$order = $matches[1];
 	else
 		$order = 'edition';
-	$items = Articles::list_for_anchor_by($order, 'section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
+	$items = Articles::list_for_anchor_by($order, 'section:'.$item['id'], 0, $items_per_page, 'compact');
 
 	// actually render the html
 	$box['text'] = '';
