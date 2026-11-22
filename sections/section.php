@@ -676,7 +676,7 @@ Class Section extends Anchor {
 		switch($variant) {
 
 		// at the beginning of the page
-		case 'prefix';
+		case 'prefix':
 
 			// ensure the section has been configured for that
 			if($this->has_option('with_prefix_profile'))
