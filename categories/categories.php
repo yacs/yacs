@@ -331,7 +331,7 @@ Class Categories {
 		// search by id
 		if(is_numeric($id))
 			$query = "SELECT * FROM ".SQL::table_name('categories')." AS categories"
-				." WHERE (categories.id = ".SQL::escape((integer)$id).")";
+				." WHERE (categories.id = ".SQL::escape((int)$id).")";
 
 		// or look for given name of handle
 		else

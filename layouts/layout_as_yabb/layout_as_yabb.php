@@ -223,7 +223,7 @@ Class Layout_as_yabb extends Layout_interface {
                         } else { // article
                             
                             // shortcuts to comments pages
-                            if(isset($item['comments_count']) && ($pages = (integer)ceil($item['comments_count'] / $layout->items_per_page())) && ($pages > 1)) {
+                            if(isset($item['comments_count']) && ($pages = (int)ceil($item['comments_count'] / $layout->items_per_page())) && ($pages > 1)) {
                                     $suffix .= '<p '.tag::_class('details').'>Pages ';
                                     for($index = 1; $index <= $pages; $index++)
                                             $suffix .= Skin::build_link('comments/list.php?id=article:'.$item['id'].'&amp;page='.$index, $index, 'basic', i18n::s('One page of comments')).' ';

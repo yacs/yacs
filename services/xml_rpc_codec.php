@@ -442,7 +442,7 @@ Class XML_RPC_Codec extends Codec {
 			$this->cdata = mktime($hour, $minute, $second, $month, $day, $year );
 			return;
 		case 'double':
-			$this->cdata = (double)$this->cdata;
+			$this->cdata = (float)$this->cdata;
 			return;
 		case 'i4':
 		case 'int':

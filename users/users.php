@@ -641,7 +641,7 @@ Class Users {
 
 		// search by id or nick name
 		$query = "SELECT handle FROM ".SQL::table_name('users')." AS users"
-			." WHERE (users.id = ".SQL::escape((integer)$id).") OR (users.nick_name LIKE '".SQL::escape($id)."')"
+			." WHERE (users.id = ".SQL::escape((int)$id).") OR (users.nick_name LIKE '".SQL::escape($id)."')"
 			." ORDER BY edit_date DESC LIMIT 1";
 
 		// do the job

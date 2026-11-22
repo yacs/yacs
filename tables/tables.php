@@ -732,7 +732,7 @@ Class Tables {
 		// search by id
 		if(is_numeric($id))
 			$query = "SELECT * FROM ".SQL::table_name('tables')." AS tables"
-				." WHERE (tables.id = ".SQL::escape((integer)$id).")";
+				." WHERE (tables.id = ".SQL::escape((int)$id).")";
 
 		// or look for given name of handle
 		else

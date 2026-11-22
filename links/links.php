@@ -432,7 +432,7 @@ Class Links {
 		// search by id
 		if(is_numeric($id))
 			$query = "SELECT * FROM ".SQL::table_name('links')." AS links"
-				." WHERE (links.id = ".SQL::escape((integer)$id).")";
+				." WHERE (links.id = ".SQL::escape((int)$id).")";
 
 		// or look for given name of handle
 		else
