@@ -69,7 +69,7 @@ Class Js_Css {
      */
     public static function build_css_declaration($path,$media="all") {
 
-	    $type = (SKIN_HTML5)?'':' type="text/css" ';
+	    $type = (!defined('SKIN_HTML5') || SKIN_HTML5)?'':' type="text/css" ';
 
 	    $html = '<link rel="stylesheet" href="'.$path.'"'.$type.' media="'.$media.'" />'."\n";
 	    return $html;
@@ -84,7 +84,7 @@ Class Js_Css {
      */
     public static function build_js_declaration($path) {
 
-	$type = (SKIN_HTML5)?'':' type="text/javascript" ';
+	$type = (!defined('SKIN_HTML5') || SKIN_HTML5)?'':' type="text/javascript" ';
 
 	$html = '<script'.$type.' src="'.$path.'"></script>'."\n";
 	return $html;
@@ -792,7 +792,7 @@ Class Js_Css {
 		break;
 	    case 'js' :
 
-		$type = (SKIN_HTML5)?'':' type="text/javascript" ';
+		$type = (!defined('SKIN_HTML5') || SKIN_HTML5)?'':' type="text/javascript" ';
 
 		Js_css::add_js('<script'.$type.'> '.$script.'</script>', $target);
 
