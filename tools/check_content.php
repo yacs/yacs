@@ -82,12 +82,14 @@ $patterns = array(
 	),
 	'text' => array(
 		array('fix', i18n::s('Script'), '/<\s*\/?\s*script\b/i'),
-		array('fix', i18n::s('Event handler (on...=)'), '/<[^>]*?[\s\/"\']on[a-z]+\s*=/i'),
+		// the handler that opens external links in a new window is written by Skin::build_link() itself
+		array('fix', i18n::s('Event handler (on...=)'), '/<[^>]*?[\s\/"\']on[a-z]+\s*=(?!\s*(["\'])window\.open\(this\.href\); return false;\1)/i'),
 		array('fix', i18n::s('Link to javascript: or vbscript:'), '/(?:href|src|action|formaction|xlink:href|data)\s*=\s*["\']?\s*(?:javascript|vbscript)\s*:/i'),
-		array('fix', i18n::s('Script in a style'), '/expression\s*\(|url\s*\(\s*["\']?\s*(?:javascript|vbscript)\s*:/i'),
+		array('fix', i18n::s('Script in a style'), '/(?:style\s*=\s*["\'][^"\']*|<style\b[^>]*>[^<]*)(?:expression\s*\(|url\s*\(\s*["\']?\s*(?:javascript|vbscript)\s*:)/i'),
 		array('fix', i18n::s('Tag encoded as an entity'), '/(?:&#0*60;?|&#x0*3c;?)\s*\/?\s*[a-z!]/i'),
 		array('review', i18n::s('Link to data:'), '/(?:href|src)\s*=\s*["\']?\s*data\s*:(?!image\/(?:png|gif|jpe?g|webp)[;,])/i'),
-		array('review', i18n::s('Embedded object (iframe, object, embed...)'), '/<\s*(?:iframe|object|embed|applet|base|meta|link|form)\b/i'),
+		array('fix', i18n::s('Meta tag with http-equiv'), '/<\s*meta\b[^>]*\bhttp-equiv\s*=/i'),
+		array('review', i18n::s('Embedded object (iframe, object, embed...)'), '/<\s*(?:iframe|object|embed|applet|base|link|form)\b/i'),
 	),
 	'url' => array(
 		array('fix', i18n::s('Address to javascript: or vbscript:'), '/^\s*(?:javascript|vbscript)\s*:/i'),
