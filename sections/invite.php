@@ -94,7 +94,10 @@ if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
 // path to this page
+// get_path_bar() returns NULL to anonymous surfers when the parent is not viewable
 $context['path_bar'] = Surfer::get_path_bar($anchor, FALSE);
+if(!is_array($context['path_bar']))
+	$context['path_bar'] = array();
 if(isset($item['id']))
 	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_permalink($item) => $item['title']));
 

@@ -76,7 +76,7 @@ if( $anchor === null && Surfer::is_associate())
         $permitted = TRUE;
 
 // we are allowed to add a new section
-elseif(!isset($item['id']) && $anchor->allows('creation','section'))
+elseif(!isset($item['id']) && is_object($anchor) && $anchor->allows('creation','section'))
 	$permitted = TRUE;
 
 // we are allowed to modify an existing section
