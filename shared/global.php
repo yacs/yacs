@@ -934,6 +934,91 @@ if(!defined('NO_CONTROLLER_PRELOAD'))
 include_once $context['path_to_root'].'shared/surfer.php';
 
 //
+// Surfer session -- see shared/surfer.php
+//
+
+// we don't want to use url rewriting, but only cookies (exclusive with 'use.cookies' and 'use_trans_sid')
+if(isset($_SERVER['REMOTE_ADDR'])) {
+	Safe::ini_set('session.use_cookies', '1');
+	Safe::ini_set('session.use_only_cookies', '1');
+	//Safe::ini_set('session.use_trans_sid', '0'); -- don't uncomment !!!
+	Safe::ini_set('url_rewriter.tags', '');
+}
+
+// set the permanent cookie on the transaction that follows the login, in case a redirection would have happened
+if(isset($_SESSION['surfer_token'])) {
+
+	// set it
+	Surfer::set_cookie('screening', $_SESSION['surfer_token']);
+
+	// don't do that again
+	unset($_SESSION['surfer_token']);
+}
+
+// retrieve session data, but not if run from the command line, and not from robot nor spider
+if(isset($_SERVER['REMOTE_ADDR']) && !Surfer::is_crawler() && !headers_sent()) {
+
+	// permanent identification has been selected
+	if(isset($context['users_with_permanent_authentication']) && ($context['users_with_permanent_authentication'] != 'N')) {
+
+
+		// use cookie to identify user -- user id, time of login, gmt offset, salt
+		if(!Surfer::is_logged() && isset($_COOKIE['screening']) && ($nouns = explode('|', $_COOKIE['screening'], 4)) && (count($nouns) == 4)) {
+
+			// get user by id
+			if(!$user = Users::get($nouns[0]))
+				;
+
+			// ensure we have the target user profile
+			elseif(!isset($user['id']) || ($user['id'] != $nouns[0]))
+				;
+
+			// salted stamp has to match
+			elseif(!isset($user['handle']) || strcmp($nouns[3], md5($nouns[1].'|'.$user['handle'])))
+				;
+
+			// save surfer profile in session context, and remind date of last login
+			else
+				Surfer::set($user, TRUE);
+
+		}
+
+	// allow no more than one hour of inactivity
+	} elseif(isset($_SESSION['watchdog']) && (time() > ($_SESSION['watchdog'] + 3600)))
+		Surfer::reset();
+
+	// refresh the watchdog
+	$_SESSION['watchdog'] = time();
+
+}
+
+// do not leave the profile read from the cookie in the global scope of every script
+unset($user, $nouns);
+
+// filter HTML tags of submitted material
+if(@count($_REQUEST) && (!isset($context['allow_html_input']) || ($context['allow_html_input'] != 'Y'))) {
+
+	// from an associate
+	if(Surfer::is_associate())
+		;
+
+	// from tinymce
+	elseif(isset($_REQUEST['editor']) && ($_REQUEST['editor'] == 'tinymce'))
+		;
+
+	// strip most tags, except those that have been explicitly allowed
+	else {
+		if(!isset($context['users_allowed_tags']))
+			$context['users_allowed_tags'] = '';
+		$_REQUEST = Surfer::strip_tags($_REQUEST, $context['users_allowed_tags']);
+	}
+}
+
+// remember editor setting
+if(isset($_COOKIE['surfer_editor']))
+	$_SESSION['surfer_editor'] = $_COOKIE['surfer_editor'];
+
+//
 // Cross-site request forgery (CSRF)
 //
 
