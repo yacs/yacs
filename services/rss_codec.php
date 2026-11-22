@@ -328,7 +328,7 @@ Class rss_Codec extends Codec {
 				$title = $attributes[1];
 				$author = $attributes[2];
 				$section = $attributes[3];
-				$image = preg_replace("/\/thumbs/", "", $attributes[4]); // CHL
+				$image = preg_replace("/\/thumbs/", "", $attributes[4] ?? ''); // CHL
 				$introduction = $attributes[5];
 				$description = $attributes[6];
 				$extensions = $attributes[7];

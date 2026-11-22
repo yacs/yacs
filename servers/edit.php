@@ -64,7 +64,7 @@ if(Surfer::is_crawler()) {
 
 // anonymous users are invited to log in or to register
 } elseif(!Surfer::is_logged())
-	Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Servers::get_url($id, 'edit')));
+	Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode($id ? Servers::get_url($id, 'edit') : 'servers/edit.php'));
 
 // associates only
 elseif(!Surfer::is_associate()) {

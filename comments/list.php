@@ -61,7 +61,7 @@ elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
 elseif(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
-if(strpos($id, ':') === FALSE)
+if(strpos($id ?? '', ':') === FALSE)
 	$id = 'article:'.$id;
 $id = strip_tags($id ?? '');
 

@@ -199,7 +199,7 @@ if(Surfer::is_crawler()) {
 	}
 
 	// display results if we are coming from this form
-	if(strpos($_SERVER['HTTP_REFERER'], $context['script_url']) !== FALSE) {
+	if(strpos($_SERVER['HTTP_REFERER'] ?? '', $context['script_url']) !== FALSE) {
 
 		// an error has been encountered
 		if(is_array($response))

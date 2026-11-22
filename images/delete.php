@@ -74,7 +74,7 @@ elseif(is_object($anchor) && !$anchor->is_viewable())
 	$permitted = FALSE;
 
 // the item is anchored to the profile of this member
-elseif(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
+elseif(Surfer::is_member() && !strcmp($item['anchor'] ?? '', 'user:'.Surfer::get_id()))
 	$permitted = TRUE;
 
 // authenticated surfers may suppress their own posts --no create_id yet...

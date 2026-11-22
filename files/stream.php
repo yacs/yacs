@@ -117,7 +117,7 @@ else
 if($item['title'])
 	$context['page_title'] = $item['title'];
 else
-	$context['page_title'] = str_replace('_', ' ', $item['file_name']);
+	$context['page_title'] = str_replace('_', ' ', $item['file_name'] ?? '');
 
 // change default behavior
 if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('files/stream.php', 'file:'.$item['id']))
