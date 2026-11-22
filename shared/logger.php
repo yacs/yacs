@@ -117,6 +117,7 @@ class Logger {
 		fseek($handle, -$chunk, SEEK_END);
 
 		// read the tail
+		$events = array();
 		if($tail = fread($handle, $chunk)) {
 
 			// split lines
@@ -137,30 +138,21 @@ class Logger {
 		if(@count($events))
 			$events = array_slice($events, 0, $count);
 
-		// parse each event
+		// parse each event -- remember() writes: stamp, surfer, label, description
+		$result = array();
 		foreach($events as $event) {
 			$attributes = explode("\t", $event);
 			$stamp = $attributes[0];
+			$surfer = isset($attributes[1]) ? $attributes[1] : '';
+			$label = isset($attributes[2]) ? $attributes[2] : '';
+			$description = isset($attributes[3]) ? $attributes[3] : '';
 
-			if(isset($attributes[1]))
-				$surfer = $attributes[1];
-			else
-				$surfer = '';
-
-			if(isset($attributes[2]))
-				$script = $attributes[2];
-			else
-				$script = '';
-
-			if(isset($attributes[3]))
-				$label = $attributes[3];
-			else
-				$label = '';
-
-			if(isset($attributes[4]))
-				$description = $attributes[4];
-			else
-				$description = '';
+			// the script is the prefix of the label, e.g., 'articles/edit.php: ...'
+			$script = '';
+			if(preg_match('/^([\w\/.-]+\.php):\s*(.*)$/s', $label, $matches)) {
+				$script = $matches[1];
+				$label = $matches[2];
+			}
 
 			// decode new lines
 			$label = str_replace('\n', "\n", $label);
@@ -171,7 +163,7 @@ class Logger {
 		}
 
 		// return the list of last events
-		return $result;
+		return count($result) ? $result : NULL;
 	}
 
 	/**
