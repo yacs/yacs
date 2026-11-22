@@ -11,6 +11,20 @@
  */
 class sparkline {
 
+	// drawing settings, set by build()
+	var $aa;
+	var $bg;
+	var $fill;
+	var $fudge;
+	var $gap;
+	var $h;
+	var $line;
+	var $lower;
+	var $order;
+	var $style;
+	var $tint;
+	var $upper;
+
 	function ParseColorValue($col) {
 		sscanf($col, "%6x", $val); // read the raw number
 
@@ -159,9 +173,9 @@ class sparkline {
 
 		$this->fudge = 0;
 
-		$zero = $this->ScaleForBitmap($zero);
+		$zero = $this->ScaleForBitmap(0);
 
-		if (!($zero & 1) && $this->aa)
+		if (!((int)$zero & 1) && $this->aa)
 		{
 			$this->fudge = 1;
 			$zero ++;
@@ -185,21 +199,24 @@ class sparkline {
 			if ($this->order == 2) // quadratic?
 			{
 				$x = $i * (count($series)-2) / $w;
-				$f = $x - (int)$x;
-				$y = ($series[$x] * (1-($f*0.5+0.5)) + $series[$x+1] * ($f*0.5+0.5)) * (1-$f) +
-				($series[$x+1] * (1-$f*0.5) + $series[$x+2] * $f*0.5) * $f;
+				$k = (int)$x;
+				$f = $x - $k;
+				$y = ($series[$k] * (1-($f*0.5+0.5)) + $series[$k+1] * ($f*0.5+0.5)) * (1-$f) +
+				($series[$k+1] * (1-$f*0.5) + $series[$k+2] * $f*0.5) * $f;
 			}
 			else if ($this->order == 1) // linear?
 			{
 				$x = $i * (count($series)-1) / $w;
-				$f = $x - (int)$x;
-				$y = $series[$x] * (1-$f) + $series[$x+1] * $f;
+				$k = (int)$x;
+				$f = $x - $k;
+				$y = $series[$k] * (1-$f) + $series[$k+1] * $f;
 			}
 			else // bar
 			{
 				$x = $i * count($series) / $w;
-				$f = $x - (int)$x;
-				$y = $series[$x];
+				$k = (int)$x;
+				$f = $x - $k;
+				$y = $series[$k];
 			}
 
 			if ($this->gap && ($f < $this->gap || $f > 1-$this->gap)) // per sample gap
@@ -231,7 +248,7 @@ class sparkline {
 					$y1 = $zero+1;
 				}
 
-				imagefilledrectangle($im, $i, $y1, $i, $y2, $this->fill);
+				imagefilledrectangle($im, $i, (int)$y1, $i, (int)$y2, $this->fill);
 			}
 
 			if (($this->style & 1) || !$this->style) // line?
@@ -240,14 +257,14 @@ class sparkline {
 				{
 					if ($this->order) // continuous plot
 					{
-						imageline($im, $i-1, $last, $i, $v, $this->line);
+						imageline($im, $i-1, (int)$last, $i, (int)$v, $this->line);
 						//imageline($im, $i-1, $last+1, $i, $y+1, $this->line);
-						imageline($im, $i, $last, $i+1, $v, $this->line);
+						imageline($im, $i, (int)$last, $i+1, (int)$v, $this->line);
 					}
 					else // square trace
 					{
-						imageline($im, $i-1, $last, $i-1, $v, $this->line);
-						imageline($im, $i-1, $v, $i, $v, $this->line);
+						imageline($im, $i-1, (int)$last, $i-1, (int)$v, $this->line);
+						imageline($im, $i-1, (int)$v, $i, (int)$v, $this->line);
 					}
 				}
 			$last = $v;
@@ -259,7 +276,6 @@ class sparkline {
 			$im2 = @imagecreatetruecolor(intval($w*0.5), intval($this->h*0.5))
 			or die("Couldn't initialize new GD image stream");
 			imagecopyresampled($im2, $im, 0, 0, 0, 0, imagesx($im2), imagesy($im2), imagesx($im), imagesy($im));
-			imagedestroy($im);
 			$im = $im2;
 		}
 
@@ -275,8 +291,6 @@ class sparkline {
 			Safe::header("Content-type: image/png");
 
 			imagepng($im);
-
-			imagedestroy($im);
 
 		}
 	}
