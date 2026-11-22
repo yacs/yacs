@@ -85,6 +85,10 @@
 	public static function bread_crumbs($start_level=1, $with_slogan=FALSE) {
 		global $context;
 
+		// a script may have set the path bar to NULL
+		if(!isset($context['path_bar']) || !is_array($context['path_bar']))
+			$context['path_bar'] = array();
+
 		// add a link to the front page
 		if(!$start_level && count($context['path_bar']) && is_callable(array('i18n', 's'))) {
 			$context['path_bar'] = array_merge(array($context['url_to_root'] => i18n::s('Home')), $context['path_bar']);
