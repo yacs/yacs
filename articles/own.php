@@ -76,12 +76,17 @@ if(Surfer::is_crawler()) {
 // do the job
 } elseif(!count($context['error'])) {
 
-	// look for the user through his nick name
-	if(isset($_REQUEST['assigned_name']) && ($user = Users::get($_REQUEST['assigned_name'])))
+	// look for the user through his nick name, or through the reference user:<id>
+	$user = NULL;
+	if(isset($_REQUEST['assigned_name']) && $_REQUEST['assigned_name'])
+		$user = Users::get($_REQUEST['assigned_name']);
+	elseif(isset($_REQUEST['anchor']) && preg_match('/^user:(\d+)$/', $_REQUEST['anchor'], $matches))
+		$user = Users::get($matches[1]);
+	if(isset($user['id']))
 		$_REQUEST['anchor'] = 'user:'.$user['id'];
 
-	// transfer ownership
-	if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set') && isset($_REQUEST['anchor'])) {
+	// transfer ownership, only on POST, which carries the form token
+	if(is_post_request() && isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set') && isset($user['id'])) {
 
 		// assign a user, and also update his watch list
 		$attributes = array( 'id' => $item['id'], 'owner_id' => $user['id'] );

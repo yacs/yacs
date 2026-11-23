@@ -56,8 +56,8 @@ if(!Surfer::is_associate()) {
 } elseif(count($context['error']))
 	;
 
-// do the job
-elseif(isset($_REQUEST['assigned_name']) && ($user = Users::get($_REQUEST['assigned_name']))) {
+// do the job, only on POST, which carries the form token
+elseif(is_post_request() && isset($_REQUEST['assigned_name']) && ($user = Users::get($_REQUEST['assigned_name']))) {
 
 		$context['text'] .= '<p>'.sprintf(i18n::s('Changing ownership to %s'), $user['nick_name']).'...';
 
