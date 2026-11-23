@@ -1529,30 +1529,30 @@ Class Categories {
 			."articles_layout='".SQL::escape($fields['articles_layout'])."',"
 			."background_color='".SQL::escape(isset($fields['background_color'])?$fields['background_color']:'')."',"
                         ."behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."',"
-			."categories_count=".SQL::escape(isset($fields['categories_count'])?$fields['categories_count']:5).","
+			."categories_count=".(int)(isset($fields['categories_count'])?$fields['categories_count']:5).","
 			."categories_layout='".SQL::escape($fields['categories_layout'])."',"
 			."categories_overlay='".SQL::escape(isset($fields['categories_overlay']) ? $fields['categories_overlay'] : '')."',"
 			."create_address='".SQL::escape(isset($fields['create_address']) ? $fields['create_address'] : $fields['edit_address'])."',"
 			."create_date='".SQL::escape($fields['create_date'])."',"
-			."create_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']).","
+			."create_id=".(int)(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']).","
 			."create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."',"
 			."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."',"
 			."display='".SQL::escape(isset($fields['display']) ? $fields['display'] : '')."',"
 			."edit_action='".SQL::escape(isset($fields['edit_action']) ? $fields['edit_action'] : 'category:create')."',"
 			."edit_address='".SQL::escape($fields['edit_address'])."',"
 			."edit_date='".SQL::escape($fields['edit_date'])."',"
-			."edit_id=".SQL::escape($fields['edit_id']).","
+			."edit_id=".(int)($fields['edit_id']).","
 			."edit_name='".SQL::escape($fields['edit_name'])."',"
 			."expiry_date='".SQL::escape($fields['expiry_date'])."',"
 			."extra='".SQL::escape(isset($fields['extra']) ? $fields['extra'] : '')."',"
-			."hits=".SQL::escape(isset($fields['hits']) ? $fields['hits'] : 0).","
+			."hits=".(int)(isset($fields['hits']) ? $fields['hits'] : 0).","
 			."icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."',"
 			."introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."',"
 			."keywords='".SQL::escape(isset($fields['keywords']) ? $fields['keywords'] : '')."',"
 			."options='".SQL::escape(isset($fields['options']) ? $fields['options'] : '')."',"
 			."overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."',"
 			."overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."',"
-			."owner_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']).", "
+			."owner_id=".(int)(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']).", "
 			."path='".SQL::escape($path)."',"
 			."prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."',"
 			."`rank`='".SQL::escape($fields['rank'])."',"
@@ -1709,7 +1709,7 @@ Class Categories {
 		if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
 			$query .= ",\n"
 				."edit_name='".SQL::escape($fields['edit_name'])."',\n"
-				."edit_id=".SQL::escape($fields['edit_id']).",\n"
+				."edit_id=".(int)($fields['edit_id']).",\n"
 				."edit_address='".SQL::escape($fields['edit_address'])."',\n"
 				."edit_action='category:update',\n"
 				."edit_date='".SQL::escape($fields['edit_date'])."'";
@@ -1822,7 +1822,7 @@ Class Categories {
 		// maybe a silent update
 		if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
 			$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
-			$query[] = "edit_id=".SQL::escape($fields['edit_id']);
+			$query[] = "edit_id=".(int)($fields['edit_id']);
 			$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
 			$query[] = "edit_action='category:update'";
 			$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";

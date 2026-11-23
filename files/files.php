@@ -2671,12 +2671,12 @@ Class Files {
 				$query[] = "assign_name=''";
 				$query[] = "create_address='".SQL::escape($fields['edit_address'])."'";
 				$query[] = "create_date='".SQL::escape($fields['edit_date'])."'";
-				$query[] = "create_id=".SQL::escape($fields['edit_id']);
+				$query[] = "create_id=".(int)($fields['edit_id']);
 				$query[] = "create_name='".SQL::escape($fields['edit_name'])."'";
 				$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
 				$query[] = "edit_action='file:update'";
 				$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
-				$query[] = "edit_id=".SQL::escape($fields['edit_id']);
+				$query[] = "edit_id=".(int)($fields['edit_id']);
 				$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
 				$query[] = "file_name='".SQL::escape($fields['file_name'])."'";
 				$query[] = "file_size='".SQL::escape($fields['file_size'])."'";
@@ -2720,12 +2720,12 @@ Class Files {
 			$query = array_merge($query, Anchors::get_sql_set($fields['anchor']));
 			$query[] = "behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."'";
 			$query[] = "create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."'";
-			$query[] = "create_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']);
+			$query[] = "create_id=".(int)(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']);
 			$query[] = "create_address='".SQL::escape(isset($fields['create_address']) ? $fields['create_address'] : $fields['edit_address'])."'";
 			$query[] = "create_date='".SQL::escape($fields['create_date'])."'";
 			$query[] = "description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."'";
 			$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
-			$query[] = "edit_id=".SQL::escape($fields['edit_id']);
+			$query[] = "edit_id=".(int)($fields['edit_id']);
 			$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
 			$query[] = "edit_action='file:create'";
 			$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
@@ -2853,7 +2853,7 @@ Class Files {
 		// maybe a silent update
 		if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
 			$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
-			$query[] = "edit_id=".SQL::escape($fields['edit_id']);
+			$query[] = "edit_id=".(int)($fields['edit_id']);
 			$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
 			$query[] = "edit_action='article:update'";
 			$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";

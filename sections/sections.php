@@ -2849,25 +2849,25 @@ Class Sections {
 			."content_overlay='".SQL::escape(isset($fields['content_overlay']) ? $fields['content_overlay'] : '')."',"
 			."create_address='".SQL::escape(isset($fields['create_address']) ? $fields['create_address'] : $fields['edit_address'])."', "
 			."create_date='".SQL::escape($fields['create_date'])."',"
-			."create_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']).", "
+			."create_id=".(int)(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']).", "
 			."create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."', "
 			."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."',"
 			."edit_action='".SQL::escape(isset($fields['edit_action']) ? $fields['edit_action'] : 'section:create')."', "
 			."edit_address='".SQL::escape($fields['edit_address'])."', "
 			."edit_date='".SQL::escape($fields['edit_date'])."',"
-			."edit_id=".SQL::escape($fields['edit_id']).", "
+			."edit_id=".(int)($fields['edit_id']).", "
 			."edit_name='".SQL::escape($fields['edit_name'])."', "
 			."expiry_date='".SQL::escape($fields['expiry_date'])."',"
 			."extra='".SQL::escape(isset($fields['extra']) ? $fields['extra'] : '')."',"
 			."family='".SQL::escape(isset($fields['family']) ? $fields['family'] : '')."',"
             ."file_overlay='".SQL::escape(isset($fields['file_overlay']) ? $fields['file_overlay'] : '')."',"
 			.$handle
-			."hits=".SQL::escape(isset($fields['hits']) ? $fields['hits'] : 0).","
+			."hits=".(int)(isset($fields['hits']) ? $fields['hits'] : 0).","
                         ."home_panel='".SQL::escape(isset($fields['home_panel']) ? $fields['home_panel'] : 'main')."',"
 			."icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."',"
 			."index_map='".SQL::escape(isset($fields['index_map']) ? $fields['index_map'] : 'Y')."',"
 			."index_news='".SQL::escape(isset($fields['index_news']) ? $fields['index_news'] : 'static')."',"
-			."index_news_count=".SQL::escape(isset($fields['index_news_count']) ? $fields['index_news_count'] : 5).","
+			."index_news_count=".(int)(isset($fields['index_news_count']) ? $fields['index_news_count'] : 5).","
 			."index_title='".SQL::escape(isset($fields['index_title']) ? $fields['index_title'] : '')."',"
 			."introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."',"
 			."language='".SQL::escape(isset($fields['language']) ? $fields['language'] : '')."',"
@@ -2877,7 +2877,7 @@ Class Sections {
 			."options='".SQL::escape(isset($fields['options']) ? $fields['options'] : '')."',"
 			."overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."',"
 			."overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."',"
-			."owner_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']).", "
+			."owner_id=".(int)(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']).", "
 			."prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."',"
 			."`rank`='".SQL::escape(isset($fields['rank']) ? $fields['rank'] : 10000)."',"
 			."sections_overlay='".SQL::escape(isset($fields['sections_overlay']) ? $fields['sections_overlay'] : '')."',"
@@ -3054,7 +3054,7 @@ Class Sections {
 		$query[] = "icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."'";
 		$query[] = "index_map='".SQL::escape(isset($fields['index_map']) ? $fields['index_map'] : 'Y')."'";
 		$query[] = "index_news='".SQL::escape(isset($fields['index_news']) ? $fields['index_news'] : 'static')."'";
-		$query[] = "index_news_count=".SQL::escape(isset($fields['index_news_count']) ? $fields['index_news_count'] : 5);
+		$query[] = "index_news_count=".(int)(isset($fields['index_news_count']) ? $fields['index_news_count'] : 5);
 		$query[] = "index_title='".SQL::escape(isset($fields['index_title']) ? $fields['index_title'] : '')."'";
 		$query[] = "introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."'";
 		$query[] = "description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."'";
@@ -3086,7 +3086,7 @@ Class Sections {
 		// don't stamp silent updates
 		if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
 			$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
-			$query[] = "edit_id=".SQL::escape($fields['edit_id'])."";
+			$query[] = "edit_id=".(int)($fields['edit_id'])."";
 			$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
 			$query[] = "edit_action='section:update'";
 			$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
@@ -3206,7 +3206,7 @@ Class Sections {
 		if(isset($fields['overlay_id']))
 			$query[] = "overlay_id='".SQL::escape($fields['overlay_id'])."'";
 		if(isset($fields['owner_id']))
-			$query[] = "owner_id=".SQL::escape($fields['owner_id']);
+			$query[] = "owner_id=".(int)($fields['owner_id']);
 		if(isset($fields['prefix']) && Surfer::is_associate())
 			$query[] = "prefix='".SQL::escape($fields['prefix'])."'";
 		if(isset($fields['rank']))
@@ -3235,7 +3235,7 @@ Class Sections {
 		// maybe a silent update
 		if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
 			$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
-			$query[] = "edit_id=".SQL::escape($fields['edit_id']);
+			$query[] = "edit_id=".(int)($fields['edit_id']);
 			$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
 			$query[] = "edit_action='article:update'";
 			$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
@@ -3309,7 +3309,7 @@ Class Sections {
 			."template='".SQL::escape($template)."',\n"
 			."options='".SQL::escape($options)."',\n"
 			."edit_name='".SQL::escape($fields['edit_name'])."',\n"
-			."edit_id=".SQL::escape($fields['edit_id']).",\n"
+			."edit_id=".(int)($fields['edit_id']).",\n"
 			."edit_address='".SQL::escape($fields['edit_address'])."',\n"
 			."edit_action='section:update',\n"
 			."edit_date='".SQL::escape($fields['edit_date'])."'\n"

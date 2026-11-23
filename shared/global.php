@@ -560,6 +560,10 @@ if(isset($_REQUEST['text']) && $_REQUEST['text']) {
 
 }
 
+// authorship is never taken from the request: scripts that need these fields set them in code
+foreach(array('edit_id', 'create_id', 'publish_id', 'owner_id') as $name)
+	unset($_REQUEST[$name], $_POST[$name], $_GET[$name]);
+
 //
 // Overlaid displaying
 //

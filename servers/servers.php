@@ -582,7 +582,7 @@ Class Servers {
 			if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
 				$query .= ", "
 				."edit_name='".SQL::escape($fields['edit_name'])."', "
-				."edit_id=".SQL::escape($fields['edit_id']).", "
+				."edit_id=".(int)($fields['edit_id']).", "
 				."edit_address='".SQL::escape($fields['edit_address'])."', "
 				."edit_date='".SQL::escape($fields['edit_date'])."'";
 			}
@@ -619,7 +619,7 @@ Class Servers {
 
 				."active='".SQL::escape($fields['active'])."', "
 				."edit_name='".SQL::escape($fields['edit_name'])."', "
-				."edit_id=".SQL::escape($fields['edit_id']).", "
+				."edit_id=".(int)($fields['edit_id']).", "
 				."edit_address='".SQL::escape($fields['edit_address'])."', "
 				."edit_date='".SQL::escape($fields['edit_date'])."'";
 

@@ -450,6 +450,9 @@ Class Surfer {
 
 		}
 
+		// the editor id is always an integer, whatever its origin
+		$fields['edit_id'] = (int)$fields['edit_id'];
+
 		// default value for edition date (GMT)
 		if(!isset($fields['edit_date']) || ($fields['edit_date'] <= NULL_DATE))
 			$fields['edit_date'] = gmdate('Y-m-d H:i:s');

@@ -748,7 +748,7 @@ Class Images {
 					."thumbnail_name='".SQL::escape($fields['thumbnail_name'])."',"
 					."image_size='".SQL::escape($fields['image_size'])."',"
 					."edit_name='".SQL::escape($fields['edit_name'])."',"
-					."edit_id=".SQL::escape($fields['edit_id']).","
+					."edit_id=".(int)($fields['edit_id']).","
 					."edit_address='".SQL::escape($fields['edit_address'])."',"
 					."edit_date='".SQL::escape($fields['edit_date'])."',";
 			}
@@ -782,7 +782,7 @@ Class Images {
 				."thumbnail_name='".SQL::escape(isset($fields['thumbnail_name']) ? $fields['thumbnail_name'] : '')."',"
 				."link_url='".SQL::escape(isset($fields['link_url']) ? $fields['link_url'] : '')."',"
 				."edit_name='".SQL::escape($fields['edit_name'])."',"
-				."edit_id=".SQL::escape($fields['edit_id']).","
+				."edit_id=".(int)($fields['edit_id']).","
 				."edit_address='".SQL::escape($fields['edit_address'])."',"
 				."edit_date='".SQL::escape($fields['edit_date'])."',"
                                 ."tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."'";

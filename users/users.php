@@ -1447,7 +1447,7 @@ Class Users {
 			return;
 		$query = "UPDATE ".SQL::table_name('users')
 			." SET password='".SQL::escape(Users::hash_password($password))."'"
-			." WHERE id=".SQL::escape($id);
+			." WHERE id=".(int)($id);
 		if(isset($context['users_connection']))
 			SQL::query($query, FALSE, $context['users_connection']);
 		else
@@ -1847,9 +1847,9 @@ Class Users {
 		// fields to update
 		$query = array();
 
-		// on import
-		if(isset($fields['id']))
-			$query[] = "id=".SQL::escape($fields['id']);
+		// on import -- only an associate may choose the id, see control/import.php
+		if(isset($fields['id']) && Surfer::is_associate())
+			$query[] = "id=".(int)($fields['id']);
 
 		if(!isset($fields['active']) || !trim($fields['active']))
 			$fields['active'] = 'Y';
@@ -1872,7 +1872,7 @@ Class Users {
 		$query[] = "create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."'";
 
 		if(isset($fields['create_id']) || $fields['edit_id'])
-			$query[] = "create_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']);
+			$query[] = "create_id=".(int)(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']);
 
 		$query[] = "create_address='".SQL::escape(isset($fields['create_address']) ? $fields['create_address'] : $fields['edit_address'])."'";
 
@@ -1881,7 +1881,7 @@ Class Users {
 		$query[] = "create_date='".SQL::escape($fields['create_date'])."'";
 		$query[] = "description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."'";
 		$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
-		$query[] = "edit_id=".SQL::escape($fields['edit_id']);
+		$query[] = "edit_id=".(int)($fields['edit_id']);
 		$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
 		$query[] = "edit_action='".SQL::escape(isset($fields['edit_action']) ? $fields['edit_action'] : 'new')."'";
 		$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
@@ -1926,7 +1926,7 @@ Class Users {
 			$fields['post_date'] = $fields['edit_date'];
 		$query[] = "post_date='".SQL::escape($fields['post_date'])."'";
 
-		$query[] = "posts=".SQL::escape(isset($fields['posts']) ? $fields['posts'] : '0');
+		$query[] = "posts=".(int)(isset($fields['posts']) ? $fields['posts'] : '0');
 		$query[] = "signature='".SQL::escape(isset($fields['signature']) ? $fields['signature'] : '')."'";
 		$query[] = "skype_address='".SQL::escape(isset($fields['skype_address']) ? $fields['skype_address'] : '')."'";
 
@@ -2240,7 +2240,7 @@ Class Users {
 		if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
 			$query .= ", "
 				."edit_name='".SQL::escape($fields['edit_name'])."', "
-				."edit_id=".SQL::escape($fields['edit_id']).", "
+				."edit_id=".(int)($fields['edit_id']).", "
 				."edit_address='".SQL::escape($fields['edit_address'])."', "
 				."edit_action='user:update', "
 				."edit_date='".SQL::escape($fields['edit_date'])."'";
