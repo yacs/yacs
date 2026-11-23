@@ -57,10 +57,11 @@
  * Else authenticated users can send an email, but the address is not shown; that's the default behaviour.
  * You should depart from the default mode only if you are on an intranet and want to leverage information placed into your server, or if you trust members enough to not spam others..
  *
- * [*] [code]users_with_email_validation[/code] - When explicitly set to 'Y', this parameter
- * asks for explicit validation of e-mail addresses mentioned during the registration process.
- * Else, and this is the default behaviour, e-mail addresses are made optional.
- * Change this parameter to improve on e-mail reliability.
+ * [*] [code]users_with_email_validation[/code] - When set to 'Y', this parameter
+ * asks for explicit validation of e-mail addresses mentioned during the registration process,
+ * and registrants stay subscribers until then. When set to 'N', e-mail addresses are optional,
+ * and registrants become members at once. When not set, addresses are validated if the server
+ * sends messages (see Users::with_email_validation()).
  *
  * [*] [code]users_with_newsletters[/code] - When explicitly set to 'Y', members
  * may subscribe to newsletters in their profile. By default the checkbox is
@@ -194,11 +195,11 @@ elseif(!Surfer::is_associate()) {
 	// e-mail control
 	$label = i18n::s('E-mail');
 	$input = '<input type="radio" name="users_with_email_validation" value="N"';
-	if(!isset($context['users_with_email_validation']) || ($context['users_with_email_validation'] != 'Y'))
+	if(!Users::with_email_validation())
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('New users are free to provide an e-mail address or not.');
 	$input .= BR.'<input type="radio" name="users_with_email_validation" value="Y"';
-	if(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
+	if(Users::with_email_validation())
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Registrants become members after validation of their e-mail. When this option is activated, associates cannot validate membership anymore.');
 	$fields[] = array($label, $input);

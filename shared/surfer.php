@@ -1642,7 +1642,7 @@ Class Surfer {
 			$default_capability = 'S';
 
 		// email addresses have to be validated
-		elseif(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
+		elseif(Users::with_email_validation())
 			$default_capability = 'S';
 
 		// open community, accept subscribers and members

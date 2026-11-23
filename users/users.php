@@ -1925,7 +1925,7 @@ Class Users {
 				$fields['capability'] = 'S';
 
 			// email addresses have to be validated
-			elseif(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
+			elseif(Users::with_email_validation())
 				$fields['capability'] = 'S';
 
 		}
@@ -2119,7 +2119,7 @@ Class Users {
 			$message .= '<p>'.i18n::s('Caution: This hyperlink contains your login credentials encrypted. Please be aware anyone who uses this link will have full access to your account.').'</p>';
 
 			// confirmation link
-			if(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y')) {
+			if(Users::with_email_validation()) {
 				$message .= '<p>'.i18n::s('Click on the link below to activate your new account.').'</p>';
 
 				// use the secret handle
@@ -2744,6 +2744,29 @@ Class Users {
 
 		$output = SQL::query_first($query, FALSE, $context['users_connection']);
 		return $output;
+	}
+
+	/**
+	 * check if new registrants have to validate their e-mail address
+	 *
+	 * An explicit 'Y' or 'N' in users_with_email_validation decides. When the parameter is not set,
+	 * for instance because the configuration panel for users has never been saved, addresses are
+	 * validated as soon as this server sends messages: else a registrant would become a member
+	 * at once, without any proof that the address is his own.
+	 *
+	 * @return boolean TRUE if a registrant stays a subscriber until his address is validated
+	 *
+	 * @see users/configure.php
+	 */
+	public static function with_email_validation() {
+		global $context;
+
+		// explicit setting
+		if(isset($context['users_with_email_validation']) && in_array($context['users_with_email_validation'], array('Y', 'N'), TRUE))
+			return ($context['users_with_email_validation'] == 'Y');
+
+		// no setting: validate only if the validation message can be sent
+		return isset($context['with_email']) && ($context['with_email'] == 'Y');
 	}
 
 	/**
