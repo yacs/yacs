@@ -1598,6 +1598,12 @@ Class Surfer {
 	public static function set($fields, $update_flag = FALSE) {
 		global $context;
 
+		// a new session id when another account is used, so that an id known before the login is useless
+		$id = isset($fields['id']) ? (string)$fields['id'] : '';
+		if((session_status() == PHP_SESSION_ACTIVE) && !headers_sent()
+			&& ($id !== (isset($_SESSION['surfer_id']) ? (string)$_SESSION['surfer_id'] : '')))
+			session_regenerate_id(TRUE);
+
 		// save session attributes
 		$_SESSION['surfer_id'] = isset($fields['id'])?$fields['id']:'';
 
