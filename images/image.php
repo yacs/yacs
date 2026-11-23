@@ -91,8 +91,9 @@ Class Image extends Anchor {
                 if(Image::use_magic()) {
                     $adjusted = $image->resizeImage($adjust_width, $adjust_height, Imagick::FILTER_POINT, 1);
                 } else {
-                    if(($image_information[2] == 2 || $image_information[2] == 3) && is_callable('ImageCreateTrueColor') && ($adjusted = ImageCreateTrueColor($adjust_width, $adjust_height))) {
-                            if($image_information[2] == 3) {
+                    // true colors for JPEG, PNG and WebP (type 18), and transparency for PNG and WebP
+                    if(($image_information[2] == 2 || $image_information[2] == 3 || $image_information[2] == 18) && is_callable('ImageCreateTrueColor') && ($adjusted = ImageCreateTrueColor($adjust_width, $adjust_height))) {
+                            if(($image_information[2] == 3) || ($image_information[2] == 18)) {
                                 imagealphablending($adjusted, FALSE);
                                 imagesavealpha($adjusted, TRUE);
                                 imagefill($adjusted, 0, 0, imagecolorallocatealpha($adjusted, 0, 0, 0, 127));
@@ -120,11 +121,13 @@ Class Image extends Anchor {
                             ImageGIF($adjusted, $original);
                     elseif(($image_information[2] == 2) && is_callable('ImageJPEG'))
                             ImageJPEG($adjusted, $original, IMG_JPEG_QUALITY);
+                    elseif(($image_information[2] == 18) && is_callable('imagewebp'))
+                            imagewebp($adjusted, $original);
                     elseif((($image_information[2] == 1) || ($image_information[2] == 3)) && is_callable('ImagePNG'))
                             ImagePNG($adjusted, $original);
                     else {
                             if($verbose)
-                                    Logger::error(sprintf(i18n::s('Cannot write adjusted image to %s.'), $target));
+                                    Logger::error(sprintf(i18n::s('Cannot write adjusted image to %s.'), $original));
                             return FALSE;
                     }
                 }
@@ -369,8 +372,9 @@ Class Image extends Anchor {
                 if(Image::use_magic()) {
                     $thumbnail = $image->resizeImage($thumbnail_width, $thumbnail_height, Imagick::FILTER_POINT, 1);
                 } else {
-                    if(($image_information[2] == 2 || $image_information[2] == 3) && is_callable('ImageCreateTrueColor') && ($thumbnail = ImageCreateTrueColor($thumbnail_width, $thumbnail_height))) {
-                            if($image_information[2] == 3) {
+                    // true colors for JPEG, PNG and WebP (type 18), and transparency for PNG and WebP
+                    if(($image_information[2] == 2 || $image_information[2] == 3 || $image_information[2] == 18) && is_callable('ImageCreateTrueColor') && ($thumbnail = ImageCreateTrueColor($thumbnail_width, $thumbnail_height))) {
+                            if(($image_information[2] == 3) || ($image_information[2] == 18)) {
                                 imagealphablending($thumbnail, FALSE);
                                 imagesavealpha($thumbnail, TRUE);
                                 imagefill($thumbnail, 0, 0, imagecolorallocatealpha($thumbnail, 0, 0, 0, 127));
@@ -398,6 +402,8 @@ Class Image extends Anchor {
                             ImageGIF($thumbnail, $target);
                     elseif(($image_information[2] == 2) && is_callable('ImageJPEG'))
                             ImageJPEG($thumbnail, $target, IMG_JPEG_QUALITY);
+                    elseif(($image_information[2] == 18) && is_callable('imagewebp'))
+                            imagewebp($thumbnail, $target);
                     elseif((($image_information[2] == 1) || ($image_information[2] == 3)) && is_callable('ImagePNG'))
                             ImagePNG($thumbnail, $target);
                     else {
