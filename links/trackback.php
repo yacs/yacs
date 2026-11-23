@@ -134,72 +134,71 @@ if(Surfer::is_crawler()) {
 	if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
 		Logger::remember('links/trackback.php: trackback request', $_REQUEST, 'debug');
 
-	// do we have a valid target to track?
-	if(!$anchor || !is_object($anchor))
+	// is the request coming from the form of this script, or from some remote weblog?
+	$from_form = isset($_SERVER['HTTP_REFERER']) && (strpos($_SERVER['HTTP_REFERER'], $context['script_url']) !== FALSE);
+
+	// the host of the source page
+	$source_host = '';
+	if($source && ($items = @parse_url($source)) && isset($items['host']))
+		$source_host = $items['host'];
+
+	// network address of the caller, IPv4 or IPv6
+	$caller = '';
+	if(isset($_SERVER['REMOTE_ADDR']) && filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP))
+		$caller = inet_pton($_SERVER['REMOTE_ADDR']);
+
+	// do we have a valid target to track? -- hidden pages are not disclosed
+	if(!$anchor || !is_object($anchor) || !$anchor->is_viewable())
 		$response = array('faultCode' => 1, 'faultString' => 'Nothing to track');
 
 	// check the source has not already been registered
 	elseif(Links::have($source, $anchor->get_reference()))
 		$response = array('faultCode' => 1, 'faultString' => 'The source has already been registered');
 
+	// the caller is checked before any request is sent to the source
+
+	// we are coming from this form -- stop robots
+	elseif($from_form && Surfer::may_be_a_robot())
+		$response = array('faultCode' => 1, 'faultString' => 'Please prove you are not a robot');
+
+	// remote call -- we need the host of the referencing page www.foo.bar, and the address of the caller
+	elseif(!$from_form && (!$source_host || !$caller))
+		$response = array('faultCode' => 1, 'faultString' => 'Invalid request');
+
+	// remote call -- only accepted from referenced server (by network address or by name)
+	elseif(!$from_form && !in_array($caller, array_map('inet_pton', http::get_addresses($source_host)), TRUE))
+		$response = array('faultCode' => 1, 'faultString' => 'Invalid request');
+
 	// read the source file
 	elseif(($content = http::proceed($source)) === FALSE)
 		$response = array('faultCode' => 1, 'faultString' => 'Cannot read source address '.$source);
 
-	// we have to find a reference to the target here
+	// look for a reference to us in the target page
+	elseif(strpos($content, $anchor->get_url()) === FALSE)
+		$response = array('faultCode' => 17, 'faultString' => 'No reference found in the source to the target address '.$anchor->get_url());
+
+	// register the source link back from the target page
 	else {
 
-		// ensure enough execution time
-		Safe::set_time_limit(30);
+		// link title
+		$fields['title'] = $title;
 
-		// we are coming from this form -- stop robots
-		if(strpos($_SERVER['HTTP_REFERER'], $context['script_url']) !== FALSE) {
-			if(Surfer::may_be_a_robot())
-				$response = array('faultCode' => 1, 'faultString' => 'Please prove you are not a robot');
+		// link description (the excerpt combined with the blog name)
+		$fields['description'] = $excerpt;
+		if($blog_name)
+			$fields['description'] .= ' ('.$blog_name.')';
 
-		// remote call -- get network address a.b.c.d of caller
-		} elseif(!isset($_SERVER['REMOTE_ADDR']) || (!$ip = preg_replace('/[^0-9.]/', '', $_SERVER['REMOTE_ADDR'])))
-			$response = array('faultCode' => 1, 'faultString' => 'Invalid request');
-
-		// remote call -- get host name for referencing page www.foo.bar
-		elseif((!$items = @parse_url($source)) || !isset($items['host']))
-			$response = array('faultCode' => 1, 'faultString' => 'Invalid request');
-
-		// remote call -- only accepted from referenced server (by network address or by name)
-		elseif(($items['host'] != $ip) && is_callable('gethostbyname') && (gethostbyname($items['host']) != $ip))
-			$response = array('faultCode' => 1, 'faultString' => 'Invalid request');
-
-		// we already have an error
-		if(isset($response))
-			;
-
-		// look for a reference to us in the target page
-		elseif(($position = strpos($content, $anchor->get_url())) === FALSE)
-			$response = array('faultCode' => 17, 'faultString' => 'No reference found in the source to the target address '.$target);
-
-		// register the source link back from the target page
-		else {
-
-			// link title
-			$fields['title'] = $title;
-
-			// link description (the excerpt combined with the blog name)
-			$fields['description'] = $excerpt;
-			if($blog_name)
-				$fields['description'] .= ' ('.$blog_name.')';
-
-			// save in the database
-			$fields['anchor'] = $anchor->get_reference();
-			$fields['link_url'] = $source;
-			if(!$fields['id'] = Links::post($fields))
-				$response = array('faultCode' => 1, 'faultString' => Logger::error_pop());
-			else
-				Links::clear($fields);
-		}
+		// save in the database
+		$fields['anchor'] = $anchor->get_reference();
+		$fields['link_url'] = $source;
+		if(!$fields['id'] = Links::post($fields))
+			$response = array('faultCode' => 1, 'faultString' => Logger::error_pop());
+		else
+			Links::clear($fields);
 	}
 
 	// display results if we are coming from this form
-	if(strpos($_SERVER['HTTP_REFERER'] ?? '', $context['script_url']) !== FALSE) {
+	if($from_form) {
 
 		// an error has been encountered
 		if(is_array($response))
