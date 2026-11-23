@@ -17,6 +17,9 @@
  * - virtual.php/virtual_host_name/view
  * - virtual.php?id=virtual_host_name&action=view
  *
+ * Files are created, saved or deleted only on POST, which is protected by the form token.
+ * On GET, the actions delete and new display the configuration file instead.
+ *
  * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -42,6 +45,11 @@ if(isset($context['arguments'][1]))
 
 // avoid potential attacks
 if(!preg_match('/^(delete|edit|new|view)$/', $action))
+	$action = 'view';
+
+// files are written or deleted only on POST, which is protected by the form token
+$is_post = isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST');
+if(!$is_post && (($action == 'delete') || ($action == 'new')))
 	$action = 'view';
 
 // load localized strings
@@ -99,7 +107,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 // save the content of an updated file
-} elseif($id && isset($_REQUEST['content']) && $_REQUEST['content']) {
+} elseif($id && $is_post && isset($_REQUEST['content']) && $_REQUEST['content']) {
 
 	// backup the old version, if any
 	Safe::unlink($context['path_to_root'].'parameters/virtual_'.$id.'.include.php.bak');
@@ -270,7 +278,11 @@ elseif(!Surfer::is_associate()) {
 				$menu = array();
 				$menu[] = '<a href="'.$context['url_to_root'].$link.'">'.i18n::s('view').'</a>';
 				$menu[] = '<a href="'.$context['url_to_root'].$link.'&action=edit">'.i18n::s('edit').'</a>';
-				$menu[] = '<a href="'.$context['url_to_root'].$link.'&action=delete">'.i18n::s('delete').'</a>';
+				$menu[] = '<form method="post" action="'.$context['script_url'].'" style="display: inline"><div style="display: inline">'
+					.'<input type="hidden" name="id" value="'.encode_field($matches[1]).'" />'
+					.'<input type="hidden" name="action" value="delete" />'
+					.'<button type="submit" class="button" aria-label="'.i18n::s('delete').' '.encode_field($matches[1]).'">'.i18n::s('delete').'</button>'
+					.'</div></form>';
 				$rows[] = array($matches[1],
 					'<a href="'.$context['url_to_root'].$link.'">'.$matches[0].'</a>',
 					Skin::build_list($menu, 'menu')	);

@@ -75,7 +75,8 @@ elseif(!Surfer::is_associate()) {
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // save the content of an updated file
-} elseif(isset($_REQUEST['content']) && $_REQUEST['content']) {
+// the file is written only on POST, which is protected by the form token
+} elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_REQUEST['content']) && $_REQUEST['content']) {
 
 	// warning if modification of some reference skin
 	if(isset($_REQUEST['content']) && $_REQUEST['content'] && preg_match('/^(boxesandarrows|digital|joi|skeleton)$/', $skin))
