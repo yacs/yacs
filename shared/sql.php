@@ -857,10 +857,20 @@ Class SQL {
 
 			// display some error message
 			if(!$silent) {
-				if(is_callable(array('Skin', 'error')))
-					Logger::error($query.'<br />'.SQL::error($connection));
+
+				// the query and the server message are shown only to associates, or in debug mode
+				if((isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+					|| (is_callable(array('Surfer', 'is_associate')) && Surfer::is_associate()))
+					$message = htmlspecialchars($query.' -- '.SQL::error($connection), ENT_QUOTES);
+				elseif(is_callable(array('i18n', 's')))
+					$message = i18n::s('A database error has occurred.');
 				else
-					die($query.'<br />'.SQL::error($connection));
+					$message = 'A database error has occurred.';
+
+				if(is_callable(array('Skin', 'error')))
+					Logger::error($message);
+				else
+					die($message);
 			}
 
 			// log the error at development host

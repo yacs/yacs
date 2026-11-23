@@ -306,7 +306,7 @@ Class Locations {
 
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('locations')." AS locations "
-			." WHERE (locations.id = ".SQL::escape($id).")";
+			." WHERE (locations.id = ".(int)$id.")";
 
 		$output = SQL::query_first($query);
 		return $output;

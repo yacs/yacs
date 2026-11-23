@@ -913,7 +913,7 @@ Class Files {
 
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files"
-			." WHERE (files.id = ".SQL::escape($id).")";
+			." WHERE (files.id = ".(int)$id.")";
 		$output = SQL::query_first($query);
 
 		// save in cache

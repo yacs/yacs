@@ -446,7 +446,7 @@ Class Dates {
 
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('dates')." as dates "
-			." WHERE (dates.id = ".SQL::escape($id).")";
+			." WHERE (dates.id = ".(int)$id.")";
 
 		$output = SQL::query_first($query);
 		return $output;
