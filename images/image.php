@@ -133,11 +133,9 @@ Class Image extends Anchor {
                 }
 
 		// job done
-                if(Image::use_magic()) {
+                // GD images are freed by PHP when the function returns
+                if(Image::use_magic())
                     $image->destroy();
-                } else {
-                    ImageDestroy($adjusted);
-                }
 		return TRUE;
 
 	}
@@ -417,11 +415,9 @@ Class Image extends Anchor {
 		Safe::chmod($target, $context['file_mask']);
 
 		// job done
-                if(Image::use_magic()) {
+                // GD images are freed by PHP when the function returns
+                if(Image::use_magic())
                     $image->destroy();
-                } else {
-                    ImageDestroy($thumbnail);
-                }
 		return TRUE;
 
 	}
