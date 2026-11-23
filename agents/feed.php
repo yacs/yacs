@@ -119,68 +119,21 @@ if(!Surfer::is_logged()) {
 		foreach($events as $event) {
 			list($stamp, $surfer, $script, $label, $description) = $event;
 
-		// formatting patterns
-		$search = array(
-			"|\r\n|",
-			"|<br\s*/>\n+|i",		/* don't insert additional \n after <br /> */
-			"|\n\n+[ \t]*-\s+|i",	/* hard-coded lists with - */
-			"|\n[ \t]*-\s+|i",
-			"|\n\n+[ \t]*\.\s+|i",	/* hard-coded lists with . */
-			"|\n[ \t]*\.\s+|i",
-			"|\n\n+[ \t]*\*\s+|i",	/* hard-coded lists with * */
-			"|\n[ \t]*\*\s+|i",
-			"|\n\n+[ \t]*�\s+|i",	/* hard-coded lists with � */
-			"|\n[ \t]*�\s+|i",
-			"|\n\n+[ \t]*\�\s+|i",	/* hard-coded lists with � */
-			"|\n[ \t]*\�\s+|i",
-			"/\n[ \t]*(From|To|cc|bcc|Subject|Date):(\s*)/i",	/* common message headers */
-			"|\n[ \t]*>(\s*)|i",		/* quoted by >*/
-			"|\n[ \t]*\|(\s*)|i",		/* quoted by | */
-			"#([\n\t ])([a-z]+?)://([^, <>{}\n\r]+)#is", /* make URL clickable */
-			"#^([a-z]+?)://([^, <>{}\n\r]+)#is",
-			"#([\n\t ])www\.([a-z0-9\-]+)\.([a-z0-9\-.\~]+)((?:/[^,< \n\r]*)?)#is",
-			"#([\n\t ])([a-z0-9\-_.]+?)@([^,< \.\n\r]+\.[^,< \n\r]+)#is",
-			"|\n\n|i"				/* force an html space between paragraphs */
-			);
-
-		$replace = array(
-			"\n",
-			BR,
-			BR.BR."- ",
-			BR."- ",
-			BR.BR."- ",
-			BR."- ",
-			BR.BR."- ",
-			BR."- ",
-			BR.BR."- ",
-			BR."- ",
-			BR.BR."� ",
-			BR."� ",
-			BR."$1:$2",
-			BR.">$1",
-			BR."|$1",
-			"$1<a href=\"$2://$3\">$2://$3</a>",
-			"<a href=\"$1://$2\">$1://$2</a>",
-			"$1<a href=\"http://www.$2.$3$4\">http://www.$2.$3$4</a>",
-			"$1<a href=\"mailto:$2@$3\">$2@$3</a>",
-			BR.BR
-			);
-
-			// build an extensive description field
-			$description = nl2br(preg_replace($search, $replace, $description))
-				.'<p>'.$script.((strlen($surfer) > 1)?' for '.$surfer:'').' on '.$stamp."</p>";
+			// logged text is displayed as text, never as markup -- no link is built from it
+			$description = Logger::to_html($description)
+				.'<p>'.Logger::to_html($script.((strlen($surfer) > 1)?' for '.$surfer:'').' on '.$stamp).'</p>';
 
 			// build a unique id
 			$id = md5($label.$description.$stamp.$script.$surfer);
 
 			// output one story
 			$text .= "\n".' <item>'."\n"
-				.'		<title>'.encode_field(strip_tags($label))."</title>\n"
+				.'		<title>'.Logger::to_html($label, FALSE)."</title>\n"
 				.'		<description><![CDATA[ '.$description." ]]></description>\n"
 				.'		<pubDate>'.gmdate('D, d M Y H:i:s', SQL::strtotime($stamp))." GMT</pubDate>\n"
 				.'		<link>'.$context['url_to_home'].$context['url_to_root'].'agents/?subject=events&amp;id='.$id."</link>\n"
 				.'		<guid isPermaLink="false">'.$id."</guid>\n"
-				.'		<category>'.encode_field($script)."</category>\n"
+				.'		<category>'.Logger::to_html($script, FALSE)."</category>\n"
 				."	</item>\n";
 
 		}

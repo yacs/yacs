@@ -91,8 +91,10 @@ elseif(!Surfer::is_associate()) {
 		$rows = array();
 		foreach($items as $event) {
 			list($stamp, $surfer, $script, $label, $description) = $event;
-			$label = implode(BR, array($label, $description));
-			$rows[] = array('left='.$label, 'left='.$stamp, 'left='.$script, 'left='.$surfer);
+
+			// logged text is displayed as text, never as markup
+			$label = implode(BR, array(Logger::to_html($label), Logger::to_html($description)));
+			$rows[] = array('left='.$label, 'left='.Logger::to_html($stamp), 'left='.Logger::to_html($script), 'left='.Logger::to_html($surfer));
 		}
 		$events .= Skin::table($headers, $rows);
 

@@ -282,6 +282,22 @@ class Logger {
 	}
 
 	/**
+	 * show some logged text in a web page
+	 *
+	 * Logged events are plain text, and parts of them come from surfers. They are displayed
+	 * as such: tags are removed, and every special char is encoded, including entities, which
+	 * would be decoded otherwise by the output handler.
+	 *
+	 * @param string some logged text
+	 * @param boolean TRUE to turn new lines into breaks, FALSE for a single line, e.g., in XML
+	 * @return string HTML without any tag but breaks
+	 */
+	public static function to_html($text, $breaks=TRUE) {
+		$text = htmlspecialchars(strip_tags((string)$text), ENT_QUOTES, 'UTF-8');
+		return $breaks ? nl2br($text) : preg_replace('/\s+/', ' ', $text);
+	}
+
+	/**
 	 * make a string out of something
 	 *
 	 * @param mixed something to be printed
