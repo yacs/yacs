@@ -2184,9 +2184,10 @@ Class Users {
 		// update an existing record
 		$query = "UPDATE ".SQL::table_name('users')." SET ";
 
-		// change only the password
+		// change only the password -- a new handle voids login links sent with the former password
 		if(isset($fields['password']))
-			$query .= "password='".SQL::escape($fields['password'])."'";
+			$query .= "password='".SQL::escape($fields['password'])."'"
+				.", handle='".bin2hex(random_bytes(16))."'";
 
 		// change all fields, except the password
 		else {
@@ -2268,8 +2269,7 @@ Class Users {
 			// message body
 			$message = '<p>'.sprintf(i18n::s('This message has been automatically sent to you to confirm a change of your profile at %s.'),
 					'<a href="'.$context['url_to_master'].$context['url_to_root'].'">'.strip_tags($context['site_name']).'</a>').'</p>'
-				.'<p>'.sprintf(i18n::s('Your nick name is %s'), $item['nick_name'])
-				.BR.sprintf(i18n::s('Authenticate with password %s'), $fields['confirm']).'</p>' 	// $fields['password'] has been hashed
+				.'<p>'.sprintf(i18n::s('Your nick name is %s'), $item['nick_name']).'</p>'
 				.'<p>'.sprintf(i18n::s('On-line help is available at %s'),
 						'<a href="'.$context['url_to_home'].$context['url_to_root'].'help/'.'">'.$context['url_to_home'].$context['url_to_root'].'help/'.'</a>').'</p>'
 				.'<p>'.sprintf(i18n::s('Thank you for your interest into %s.'),
