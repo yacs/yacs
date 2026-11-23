@@ -281,7 +281,7 @@ elseif(!Surfer::is_associate()) {
 				$menu[] = '<form method="post" action="'.$context['script_url'].'" style="display: inline"><div style="display: inline">'
 					.'<input type="hidden" name="id" value="'.encode_field($matches[1]).'" />'
 					.'<input type="hidden" name="action" value="delete" />'
-					.'<button type="submit" class="button">'.i18n::s('delete').'</button>'
+					.'<button type="submit" class="button" aria-label="'.i18n::s('delete').' '.encode_field($matches[1]).'">'.i18n::s('delete').'</button>'
 					.'</div></form>';
 				$rows[] = array($matches[1],
 					'<a href="'.$context['url_to_root'].$link.'">'.$matches[0].'</a>',
