@@ -21,10 +21,6 @@
  *
  * @link http://getid3.sourceforge.net/ getID3() the PHP media file parser
  *
- * In-place edition is provided through minimal WebDAV implementation.
- *
- * @link http://support.microsoft.com/kb/838028 How documents are opened from a Web site in Office 2003
- *
  * For authentication on protected page this script use basic HTTP authentication.
  * This means that the anonymous surfer will have either to use the regular
  * login page, or to provide name and password on a per-request basis.
@@ -145,88 +141,6 @@ if(!isset($item['id']) || !$item['id']) {
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
-
-// enable remote updates through webDAV
-} elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')) {
-
-	// file has to be mapped locally
-	if(isset($item['file_href']) && $item['file_href']) {
-		Safe::header('412 Precondition Failed');
-		Logger::error('Cannot read file locally');
-
-	// describe our capabilities
-	} else {
-
-		// WebDAV compliance -- either "1", or "1, 2", if locking is supported
-		Safe::header('DAV: 1');
-
-		// methods allowed --look at the switch above
-		Safe::header('Allow: GET,HEAD,OPTIONS,PUT');
-
-		// drive Microsoft clients to WebDAV instead of Frontpage protocol
-		Safe::header('MS-Author-Via: DAV');
-
-	}
-
-// remote updates through webDAV
-} elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'PUT')) {
-
-	// file has to be mapped locally
-	if(isset($item['file_href']) && $item['file_href']) {
-		Safe::header('412 Precondition Failed');
-		Logger::error('Cannot read file locally');
-
-	// no content
-	} elseif(!$input_handle = Safe::fopen("php://input", "rb")) {
-		Safe::header('400 Client Error');
-		Logger::error('Nothing to process');
-
-	// ensure same MIME type
-	} elseif(isset($_SERVER["CONTENT_TYPE"]) && ($_SERVER["CONTENT_TYPE"] != Files::get_mime_type($item['file_name']))) {
-		Safe::header('409 Conflict');
-		Logger::error('Unexpected Content-Type');
-
-	// not allowed to write
-	} elseif(!$output_handle = Safe::fopen($context['path_to_root'].Files::get_path($item['anchor']).'/'.rawurlencode($item['file_name']), "wb")) {
-		Safe::header('500 Internal Server Error');
-		Logger::error('Not allowed to write to local file');
-
-	// do the write
-	} else {
-
-		// count every byte
-		$new_size = 0;
-
-		// process all the input stream
-		while(!feof($input_handle)) {
-
-			// read one chunk
-			$buffer = fread($input_handle, 65536);
-			$new_size += strlen($buffer);
-
-			// write it
-			if(!fwrite($output_handle, $buffer)) {
-				Safe::header('500 Internal Server Error');
-				Logger::error('Impossible to write to local file');
-				break;
-			}
-
-		}
-		fclose($output_handle);
-
-		// also update the database
-		$item['file_size'] = $new_size;
-		$item['edit_name'] = $user['nick_name'];
-		$item['edit_id'] = $user['id'];
-		$item['edit_address'] = $user['email'];
-		if(!$item['id'] = Files::post($item, 'A'))
-			Safe::header('500 Internal Server Error');
-		else {
-			Files::clear($item);
-			Safe::header('200 OK');
-		}
-
-	}
 
 // clear assignment information, if any
 } elseif(($action == 'release') && ($anchor->is_assigned() || (isset($item['assign_id']) && Surfer::is($item['assign_id'])))) {

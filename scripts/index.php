@@ -9,24 +9,17 @@
  * - to derive on-line documentation from php comments
  * - to list reference scripts that are shared on a server
  * - to visualize differences between reference and running scripts
- * - to suggest on software updates from a reference server
+ * - to update the software from an archive of updated files
  *
- * This module is based on several simple patterns:
- * - the remote reference pattern is used to synchronize one server with one reference server
+ * This module is based on two simple patterns:
+ * - the staging pattern is used to update one server from an archive
  * - the local reference pattern is used to build the documentation and to publish shared scripts
  *
- * [title]Update your scripts from a remote reference repository[/title]
+ * [title]Update your scripts from an archive[/title]
  *
- * The remote reference pattern consists of scanning a remote server to build a set of staging files.
- * After having setup the address of the reference server (through [script]scripts/configure.php[/script]), the webmaster
- * will have to activate the staging script ([script]scripts/stage.php[/script]).
- * The script will fetch the index of reference scripts (in [code]footprints.php[/code]), and compare its content
- * to the actual set of running scripts.
- * For each running script having a diverging md5 signature, the script will cache the reference version
- * into [code]scripts/staging[/code].
- * As a result, at the end of the staging process:
- * - all running scripts will have been compared to the reference scripts
- * - for each non-matching file, a staging version will have been prepared
+ * The staging script ([script]scripts/stage.php[/script]) explodes an archive of updated files,
+ * for example a patch built by [code]tools/smartpatch.sh[/code], into [code]scripts/staging[/code].
+ * The archive is uploaded through the form of this script, or put in the directory [code]inbox/yacs[/code].
  *
  * After the staging step the update itself can take place by launching [script]scripts/update.php[/script].
  * First of all, this script displays the list of staging files, and offer the opportunity to read the new version
@@ -37,7 +30,7 @@
  *
  * Aside from the new scripts other updates will take place thanks to following steps:
  * - [script]scripts/update.php[/script] also switches the server off
- * - [script]control/scan.php[/script] will rebuild all hooks, to possibly take into account new hooks downloaded from the reference server
+ * - [script]control/scan.php[/script] will rebuild all hooks, to possibly take into account new hooks brought by the update
  * - [script]control/setup.php[/script] will check the database structure, and create it if necessary
  * - [script]scripts/run_once.php[/script] is launched, to possibly apply big changes to an existing database
  * - [script]control/index.php[/script] displays the control panel and gives the opportunity to switch the server on again.
@@ -69,12 +62,7 @@
  * - Standalone servers will benefit from the building script to at least generate and update a (tiny?) set
  * of useful pages to document the software. Note that these pages are fully indexed to enable free-text searches.
  *
- * - Servers connected to the Internet will have the opportunity to track YACS enhancements quite easily, simply by
- * checking from time to time one the public reference servers.
- *
- * - Groups of servers managed by a single webmasters may be linked to a single private reference server. It is likely
- * that various organizations will develop additional scripts on the YACS platform. They may use the remote reference
- * pattern to distribute these scripts internally to slave servers.
+ * - Every server can be updated with an archive of the files that have changed since its last update.
  *
  * @author Bernard Paques
  * @author GnapZ
@@ -109,10 +97,6 @@ if(Surfer::is_associate() && !file_exists('reference/footprints.php')) {
 	if(isset($generation['date']) && $generation['date'])
 		$context['text'] .= '<p>'.sprintf(i18n::s('Last update took place on %s'), $generation['date']).'</p>'."\n";
 	unset($generation);
-
-	// ensure we have a reference server
-	if(!isset($context['reference_server']) || !$context['reference_server'])
-		$context['reference_server'] = i18n::s('www.yacs.fr');
 
 	// offer to upgrade
 	$context['text'] .= '<p>'.Skin::build_link('scripts/stage.php', i18n::s('Update the software'))."</p>\n";
@@ -167,7 +151,7 @@ if(Surfer::is_associate()) {
 	if(Safe::glob($context['path_to_root'].'scripts/run_once/*.php') !== FALSE)
 		$context['page_tools'][] = Skin::build_link('scripts/run_once.php', i18n::s('Run once'), 'basic');
 
-	// stage from reference server
+	// stage an archive of updated files
 	$context['page_tools'][] = Skin::build_link('scripts/stage.php', i18n::s('Update the software'), 'basic');
 
 	// set the reference server
