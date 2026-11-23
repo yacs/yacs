@@ -70,7 +70,8 @@ if(!isset($item['id'])) {
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // action is confirmed
-} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'duplicate')) {
+// duplication is applied only on POST, which carries the form token
+} elseif(is_post_request() && isset($_REQUEST['action']) && ($_REQUEST['action'] == 'duplicate')) {
 
 	// to duplicate related items
 	$original_anchor = 'section:'.$item['id'];

@@ -78,8 +78,12 @@ if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
+// a link has been followed -- ask for confirmation, the change is applied on POST
+} elseif(!is_post_request())
+	$context['text'] .= Skin::build_post_confirmation(i18n::s('Draft'));
+
 // update the database
-} elseif($error = Articles::unpublish($item['id']))
+elseif($error = Articles::unpublish($item['id']))
 	$context['text'] .= $error;
 
 // then jump to the target page

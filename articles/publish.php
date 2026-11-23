@@ -125,7 +125,8 @@ if(Surfer::is_crawler()) {
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // publication is confirmed
-} elseif(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
+// the page is published only on POST, which carries the form token
+} elseif(is_post_request() && isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
 
 	// convert dates from surfer time zone to UTC time zone
  	$_REQUEST['publish_date'] = Surfer::to_GMT($_REQUEST['publish_date']);

@@ -62,6 +62,10 @@ if(Surfer::is_crawler()) {
 } elseif(count($context['error']))
 	;
 
+// a link has been followed -- ask for confirmation, the change is applied on POST
+elseif(!is_post_request())
+	$context['text'] .= Skin::build_post_confirmation(($item['locked'] == 'Y') ? i18n::s('Unlock') : i18n::s('Lock'));
+
 // do the toggle
 elseif(Articles::lock($item['id'], $item['locked'])) {
 
@@ -70,7 +74,10 @@ elseif(Articles::lock($item['id'], $item['locked'])) {
 
 	// redirect to the page
 	Safe::redirect(Articles::get_permalink($item));
-}
+
+// failed operation
+} else
+	$context['text'] .= '<p>'.i18n::s('Operation has failed.').'</p>';
 
 // clear the tab we are in, if any
 if(is_object($anchor))
@@ -83,9 +90,6 @@ if(isset($item['id']) && isset($item['title']))
 
 // page title
 $context['page_title'] = i18n::s('Lock');
-
-// failed operation
-$context['text'] .= '<p>'.i18n::s('Operation has failed.').'</p>';
 
 // render the skin
 render_skin();
