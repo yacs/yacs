@@ -941,6 +941,40 @@ class Safe {
 	 *
 	 * @param string the target full web address
 	 */
+	/**
+	 * check that a link stays on this server
+	 *
+	 * Use it before redirecting to a link received with the request, such as a
+	 * forward address, so that the site cannot be used to send visitors elsewhere.
+	 *
+	 * @param string the link to check
+	 * @return boolean TRUE for a relative path, or for a web link to one of the hosts of this server
+	 */
+	public static function is_local_url($url) {
+
+		if(!is_string($url) || (($url = trim($url)) === ''))
+			return FALSE;
+
+		// no control character, and no backslash, which browsers read as a slash
+		if(preg_match('/[\x00-\x1f\x7f\\\\]/', $url))
+			return FALSE;
+
+		// a path on this server, but not //another.host
+		if($url[0] == '/')
+			return !isset($url[1]) || ($url[1] != '/');
+
+		// a relative path, without any scheme such as javascript:
+		if(!preg_match('/^[a-z][a-z0-9+.-]*:/i', $url))
+			return (strpos($url, '//') !== 0);
+
+		// a web link to one of the hosts of this server
+		if((!$items = @parse_url($url)) || !isset($items['scheme']) || !isset($items['host']))
+			return FALSE;
+		if(!in_array(strtolower($items['scheme']), array('http', 'https'), TRUE))
+			return FALSE;
+		return in_array(strtolower($items['host']), get_server_hosts(), TRUE);
+	}
+
 	public static function redirect($reference) {
 		global $render_overlaid;
                 
@@ -962,6 +996,7 @@ class Safe {
 		// a message for human beings
 		if(!is_callable(array('i18n', 's')))
 			exit();
+		$reference = htmlspecialchars($reference, ENT_QUOTES);
 		exit(sprintf(i18n::s('Redirecting to %s'), '<a href="'.$reference.'">'.$reference.'</a>'));
 
 	}

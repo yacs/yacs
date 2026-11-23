@@ -223,8 +223,8 @@ switch($_REQUEST['action']) {
 	if(!isset($_REQUEST['anchor']) || !$_REQUEST['anchor'])
 	    die_on_invalid ();
 	
-	// get the obj interface
-	if(!$anchor = Anchors::get($_REQUEST['anchor'])) {
+	// get the obj interface -- nothing is said of a container that this surfer cannot see
+	if((!$anchor = Anchors::get($_REQUEST['anchor'])) || !$anchor->is_viewable()) {
 	    $output['success'] = false;
 	    break;
 	}

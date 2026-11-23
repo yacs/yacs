@@ -206,6 +206,9 @@ if(Surfer::is_crawler()) {
 	if(!$name)
 		$name = 'anonymous';
 
+	// no error so far
+	$response = NULL;
+
 	// anonymous comments are not allowed
 	if(($name == 'anonymous') && (!isset($context['users_with_anonymous_comments']) || ($context['users_with_anonymous_comments'] != 'Y')))
 		$response = array('faultCode' => 49, 'faultString' => 'Anonymous posts are not allowed');
@@ -218,8 +221,26 @@ if(Surfer::is_crawler()) {
 	elseif(!$anchor || !is_object($anchor))
 		$response = array('faultCode' => 33, 'faultString' => 'Nothing to comment');
 
-	// save the comment
+	// a name with a password has to match an account -- a name alone is never bound to an account
+	elseif($password && (!$user = Users::login($name, $password)))
+		$response = array('faultCode' => 49, 'faultString' => 'Invalid user name and password');
+
+	// the same checks as in comments/edit.php, for the authenticated poster, or for an anonymous surfer
 	else {
+
+		// rights of the poster
+		if($password)
+			Surfer::set($user);
+		else
+			$user = array();
+
+		// the page has to be visible, and to accept comments
+		if(!$anchor->is_viewable() || !Comments::allow_creation($anchor))
+			$response = array('faultCode' => 33, 'faultString' => 'Nothing to comment');
+	}
+
+	// save the comment
+	if(!isset($response)) {
 
 		// prepare a new comment record
 		$fields = array();
@@ -230,49 +251,37 @@ if(Surfer::is_crawler()) {
 		$fields['edit_name'] = $name;
 		$fields['edit_address'] = $source;
 
-		// if user name and/or password are provided, authentication has to be correct
-		$user = array();
-		if($name && !$password && (!$user = Users::get($name)))
-			$response = array('faultCode' => 49, 'faultString' => 'Unknown user name');
+		// reference user profile if any
+		if(isset($user['id']) && $user['id']) {
+			$fields['create_id'] = $user['id'];
+			$fields['create_name'] = $user['nick_name'];
+			$fields['create_address'] = $user['email'];
+			$fields['edit_id'] = $user['id'];
+			$fields['edit_name'] = $user['nick_name'];
+			$fields['edit_address'] = $user['email'];
+		}
 
-		elseif($name && $password && (!$user = Users::login($name, $password)))
-			$response = array('faultCode' => 49, 'faultString' => 'Invalid user name and password');
+		// save the request if debug mode
+		if(isset($context['debug_comment']) && ($context['debug_comment'] == 'Y'))
+			Logger::remember('comments/post.php: comments post item', $fields, 'debug');
 
-		// ok, post this comment
+		// save in the database
+		if(!$fields['id'] = Comments::post($fields))
+			$response = array('faultCode' => 1, 'faultString' => Logger::error_pop());
+
+		// post-processing
 		else {
 
-			// reference user profile if any
-			if($user['id']) {
-				$fields['create_id'] = $user['id'];
-				$fields['create_name'] = $user['nick_name'];
-				$fields['create_address'] = $user['email'];
-				$fields['edit_id'] = $user['id'];
-				$fields['edit_name'] = $user['nick_name'];
-				$fields['edit_address'] = $user['email'];
-			}
+			// touch the related anchor
+			$anchor->touch('comment:create', $fields['id']);
 
-			// save the request if debug mode
-			if($context['debug_comment'] == 'Y')
-				Logger::remember('comments/post.php: comments post item', $fields, 'debug');
+			// clear cache
+			Comments::clear($fields);
 
-			// save in the database
-			if(!$fields['id'] = Comments::post($fields))
-				$response = array('faultCode' => 1, 'faultString' => Logger::error_pop());
+			// increment the post counter of the surfer
+			if(isset($user['id']) && $user['id'])
+				Users::increment_posts($user['id']);
 
-			// post-processing
-			else {
-
-				// touch the related anchor
-				$anchor->touch('comment:create', $fields['id']);
-
-				// clear cache
-				Comments::clear($fields);
-
-				// increment the post counter of the surfer
-				if($user['id'])
-					Users::increment_posts($user['id']);
-
-			}
 		}
 	}
 
@@ -296,7 +305,7 @@ if(Surfer::is_crawler()) {
 	}
 
 	// save the response if debug mode
-	if($context['debug_comment'] == 'Y')
+	if(isset($context['debug_comment']) && ($context['debug_comment'] == 'Y'))
 		Logger::remember('comments/post.php: comments post response', $response, 'debug');
 
 	// send the response

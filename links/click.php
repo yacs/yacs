@@ -97,17 +97,23 @@ if(Surfer::is_crawler()) {
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // do we have something?
-} elseif(!$url)
+} elseif(!$url) {
 	Logger::error(i18n::s('No link URL has been provided.'));
 
+// only a link recorded in a page that this surfer can see, or a link to this server
+} elseif((!isset($item['id']) || !$permitted) && !Safe::is_local_url($url)) {
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
+
 // do not record click not coming from this site
-elseif(!isset($_SERVER['HTTP_REFERER']) || !preg_match('/^'.preg_quote($context['url_to_home'], '/').'\b/', $_SERVER['HTTP_REFERER']))
+} elseif(!isset($_SERVER['HTTP_REFERER']) || !preg_match('/^'.preg_quote($context['url_to_home'], '/').'\b/', $_SERVER['HTTP_REFERER'])) {
 	Safe::redirect($url);
 
 // increment hits for this link and redirect if no error
-else if($error = Links::click($url))
+} elseif($error = Links::click($url)) {
 	Logger::error($error);
-else
+
+} else
 	Safe::redirect($url);
 
 // failed operation
