@@ -144,6 +144,18 @@ function send_body() {
 
 	// include every script that has to be run once
 	global $scripts, $scripts_count;
+
+	// once installed, scripts are executed only on POST, which carries the form token -- a link asks for confirmation
+	// helpers of shared/global.php are not used here, since this file may be stale during an update
+	if(@count($scripts) && (!isset($_SERVER['REQUEST_METHOD']) || ($_SERVER['REQUEST_METHOD'] != 'POST')) && (file_exists('../parameters/switch.on') || file_exists('../parameters/switch.off'))) {
+		sort($scripts);
+		echo Skin::finalize_list($scripts, 'compact');
+		echo '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'
+			.Skin::build_submit_button(i18n::s('Run one-time scripts'), NULL, NULL, 'confirmed')
+			.'</p></form>'."\n";
+		return;
+	}
+
 	if(@count($scripts)) {
 
 		// the alphabetical order may be used to control script execution order

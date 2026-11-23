@@ -89,6 +89,11 @@ if(!$action && isset($context['arguments'][0]))
 	$action = $context['arguments'][0];
 $action = strip_tags($action ?? '');
 
+// once installed, the database is changed only on POST, which carries the form token -- a link asks for confirmation
+// helpers of shared/global.php are not used here, since this file may be stale during an update
+if((!isset($_SERVER['REQUEST_METHOD']) || ($_SERVER['REQUEST_METHOD'] != 'POST')) && (file_exists('../parameters/switch.on') || file_exists('../parameters/switch.off')))
+	$action = '';
+
 // load localized strings
 i18n::bind('control');
 
@@ -245,7 +250,7 @@ function send_body() {
 
 		// in the middle of an update
 		if(file_exists('../parameters/switch.off')) {
-			echo Skin::build_block('<form method="get" action="../scripts/run_once.php">'."\n"
+			echo Skin::build_block('<form method="post" action="../scripts/run_once.php">'."\n"
 				.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Run one-time scripts and go to the Control Panel')).'</p>'."\n"
 				.'</form>', 'bottom');
 

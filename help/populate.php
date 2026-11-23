@@ -63,6 +63,14 @@ else
 // load localized strings
 i18n::bind('help');
 
+// content is created only on POST, which carries the form token -- a link only selects the panel
+if(!is_post_request()) {
+	foreach(array_keys($_REQUEST) as $name) {
+		if($name != 'action')
+			unset($_REQUEST[$name]);
+	}
+}
+
 // load the skin
 load_skin('help');
 
@@ -385,8 +393,13 @@ if(!$permitted) {
 // initialize the database with sample data
 } elseif($action == 'build') {
 
+	// a link has been followed -- ask for confirmation, content is created on POST
+	if(!is_post_request())
+		$context['text'] .= Skin::build_post_confirmation(i18n::s('Start'));
+
 	// redo the basic steps of data creation
-	include_once '../control/populate.php';
+	else
+		include_once '../control/populate.php';
 
 // create a forum
 } elseif($action == 'forum') {

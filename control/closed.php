@@ -33,11 +33,17 @@ define('NO_CONTROLLER_PRELOAD', TRUE);
 // no need for access to the database
 define('NO_MODEL_PRELOAD', TRUE);
 
-// load switch parameters, if any
-@include_once '../parameters/switch.include.php';
-
 // common definitions and initial processing
 include_once '../shared/global.php';
+
+// load switch parameters, if any -- after global.php, which sets the context
+Safe::load('parameters/switch.include.php');
+
+// these values are written in the page
+if(isset($context['switch_target']))
+	$context['switch_target'] = encode_field($context['switch_target']);
+if(isset($context['switch_contact']))
+	$context['switch_contact'] = encode_field($context['switch_contact']);
 
 // load the skin
 load_skin('closed');

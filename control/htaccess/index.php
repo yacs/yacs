@@ -14,6 +14,10 @@
 // common definitions and initial processing
 include_once '../../shared/global.php';
 
+// the file is built only on POST, which carries the form token -- a link displays the form
+if(!is_post_request())
+	unset($_REQUEST['build']);
+
 // load localized strings
 i18n::bind('control');
 

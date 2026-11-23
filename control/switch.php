@@ -30,6 +30,10 @@
 // include the global declarations
 include_once '../shared/global.php';
 
+// actions are applied only on POST, which carries the form token -- a link displays the form
+if(!is_post_request())
+	unset($_REQUEST['action']);
+
 // load localized strings
 i18n::bind('control');
 
@@ -96,7 +100,7 @@ if(!Surfer::is_associate()) {
 	// build the new configuration file
 	$content = '<?php'."\n"
 		.'// This file has been created by the configuration script control/switch.php'."\n"
-		.'// on '.gmdate("F j, Y, g:i a").' GMT, for '.Surfer::get_name().'. Please do not modify it manually.'."\n"
+		.'// on '.gmdate("F j, Y, g:i a").' GMT, for '.preg_replace('/[\r\n]+/', ' ', Surfer::get_name()).'. Please do not modify it manually.'."\n"
 		.'global $context;'."\n";
 	if(isset($_REQUEST['switch_target']))
 		$content .= '$context[\'switch_target\']=\''.addcslashes($_REQUEST['switch_target'], "\\'")."';\n";

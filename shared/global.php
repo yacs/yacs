@@ -1046,8 +1046,9 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') &
 	}
 
 	// a valid token is required as well -- see yacs_handler() and shared/yacs.js
-	// web services and agents do not rely on forms rendered by this server
-	if(!preg_match('/\/(agents|services)\//', $context['script_url'])) {
+	// agents do not rely on forms rendered by this server; web services do not need an exception,
+	// since remote clients have no session here, and scripts of this server send the token
+	if(!preg_match('/\/agents\//', $context['script_url'])) {
 
 		$token = '';
 		if(isset($_POST['csrf_token']))

@@ -157,6 +157,11 @@ if(!$action && isset($context['arguments'][0]))
 	$action = $context['arguments'][0];
 $action = strip_tags($action ?? '');
 
+// once installed, hooks are scanned only on POST, which carries the form token -- a link asks for confirmation
+// helpers of shared/global.php are not used here, since this file may be stale during an update
+if((!isset($_SERVER['REQUEST_METHOD']) || ($_SERVER['REQUEST_METHOD'] != 'POST')) && (file_exists('../parameters/switch.on') || file_exists('../parameters/switch.off')))
+	$action = '';
+
 // load localized strings
 i18n::bind('control');
 
