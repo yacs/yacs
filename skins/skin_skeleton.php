@@ -3252,8 +3252,9 @@ Class Skin_Skeleton {
 
 		$target = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $context['script_url'];
 
-		return '<form method="post" action="'.encode_field($target).'" id="main_form"><p>'
-			.Skin::build_submit_button($label, NULL, NULL, 'confirmed')
+		// no id, since the page may have other forms
+		return '<form method="post" action="'.encode_field($target).'"><p>'
+			.Skin::build_submit_button($label)
 			.'</p></form>'."\n";
 	}
 

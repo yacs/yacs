@@ -395,7 +395,7 @@ if(!$permitted) {
 
 	// a link has been followed -- ask for confirmation, content is created on POST
 	if(!is_post_request())
-		$context['text'] .= Skin::build_post_confirmation(i18n::s('Submit'));
+		$context['text'] .= Skin::build_post_confirmation(i18n::s('Start'));
 
 	// redo the basic steps of data creation
 	else
