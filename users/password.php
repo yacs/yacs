@@ -250,7 +250,10 @@ if($with_form) {
 		// the password
 		$label = i18n::s('New password');
 		$input = '<input type="password" name="password" id="password" size="20" value="'.encode_field(isset($_REQUEST['password']) ? $_REQUEST['password'] : '').'" />';
-		$fields[] = array($label, $input);
+		if($min = Users::password_min_length())
+			$fields[] = array($label, $input, sprintf(i18n::s('The password must have at least %d characters.'), $min));
+		else
+			$fields[] = array($label, $input);
 
 		// the password has to be repeated for confirmation
 		$label = i18n::s('Password confirmation');

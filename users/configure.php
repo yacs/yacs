@@ -22,6 +22,10 @@
  * sections that one member can create on his own. The default value is 0, which
  * means that users are prevented to extend their web space.
  *
+ * [*] [code]users_password_min_length[/code] - Minimum number of characters of a password typed by
+ * somebody, on registration or on change, for every account including associates. Not set or 0,
+ * and this is the default behaviour, passwords are not checked.
+ *
  * [*] [code]users_trusted_hosts[/code] - Private content is exposed to requests
  * coming from these network addresses. This can be used for intranet servers
  * either to index full content from crawling engine, or to allow auditors to
@@ -226,6 +230,13 @@ elseif(!Surfer::is_associate()) {
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Associates have to validate membership (closed community).');
 	$fields[] = array($label, $input);
+
+	// password length
+	$label = i18n::s('Minimum password length');
+	$value = Users::password_min_length() ? Users::password_min_length() : '';
+	$input = '<input type="number" name="users_password_min_length" id="users_password_min_length" min="0" max="64" size="4" value="'.$value.'" />';
+	$hint = i18n::s('Number of characters required for every account, associates included. Leave empty for no check.');
+	$fields[] = array($label, $input, $hint);
 
 	// User access control
 	$label = i18n::s('Visibility');
@@ -672,6 +683,9 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'users_with_auto_publish\']=\''.addcslashes($_REQUEST['users_with_auto_publish'], "\\'")."';\n";
 	if(isset($_REQUEST['users_with_email_display']))
 		$content .= '$context[\'users_with_email_display\']=\''.addcslashes($_REQUEST['users_with_email_display'], "\\'")."';\n";
+	// a number only, written unquoted
+	if(isset($_REQUEST['users_password_min_length']) && ((int)$_REQUEST['users_password_min_length'] > 0))
+		$content .= '$context[\'users_password_min_length\']='.min(64, (int)$_REQUEST['users_password_min_length']).";\n";
 	if(isset($_REQUEST['users_with_email_validation']))
 		$content .= '$context[\'users_with_email_validation\']=\''.addcslashes($_REQUEST['users_with_email_validation'], "\\'")."';\n";
 	if(isset($_REQUEST['users_with_permanent_authentication']))

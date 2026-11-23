@@ -1431,6 +1431,38 @@ Class Users {
 	}
 
 	/**
+	 * the minimum length of passwords, as set in the configuration panel for users
+	 *
+	 * @return int number of characters, 0 when passwords are not checked
+	 *
+	 * @see users/configure.php
+	 */
+	public static function password_min_length() {
+		global $context;
+		if(!isset($context['users_password_min_length']))
+			return 0;
+		return max(0, (int)$context['users_password_min_length']);
+	}
+
+	/**
+	 * check that a password typed by somebody is long enough
+	 *
+	 * The rule applies to every account, associates included. This function populates
+	 * the error context, where applicable.
+	 *
+	 * @param string the clear-text password
+	 * @return boolean TRUE if the password can be used, FALSE otherwise
+	 */
+	public static function check_password_length($password) {
+		$min = Users::password_min_length();
+		if($min && (mb_strlen((string)$password, 'UTF-8') < $min)) {
+			Logger::error(sprintf(i18n::s('The password must have at least %d characters.'), $min));
+			return FALSE;
+		}
+		return TRUE;
+	}
+
+	/**
 	 * persist a fresh password hash for one user
 	 *
 	 * Used to transparently upgrade a legacy hash to the current algorithm
@@ -1909,6 +1941,10 @@ Class Users {
 			return FALSE;
 		}
 
+		// a password typed in a form has to be long enough
+		if(isset($fields['confirm']) && !Users::check_password_length($fields['password']))
+			return FALSE;
+
 		// hash password if coming from a human facing a form
 		if(isset($fields['confirm']))
 			$fields['password'] = Users::hash_password($fields['password']);
@@ -2211,6 +2247,10 @@ Class Users {
 				Logger::error(i18n::s('New password has to be confirmed.'));
 				return FALSE;
 			}
+
+			// and that it is long enough
+			if(!Users::check_password_length($fields['password']))
+				return FALSE;
 
 			// hash password, we are coming from an interactive form
 			$fields['password'] = Users::hash_password($fields['password']);
