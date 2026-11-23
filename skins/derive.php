@@ -73,7 +73,8 @@ elseif(!Surfer::is_associate()) {
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // do the job
-} elseif(isset($_REQUEST['directory']) && $_REQUEST['directory']) {
+// the new skin is written only on POST, which carries the form token
+} elseif(is_post_request() && isset($_REQUEST['directory']) && $_REQUEST['directory']) {
 
 	// ensure a safe skin name
 	$directory = preg_replace('/[^a-zA-Z_0-9]/', '', $_REQUEST['directory']);
@@ -236,7 +237,7 @@ elseif(!Surfer::is_associate()) {
 } else {
 
 	// start of the form
-	$context['text'] .= '<form method="get" action="'.$context['script_url'].'"><div>';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'"><div>';
 
 	// step 1 - select an available skin
 	$box = array();
