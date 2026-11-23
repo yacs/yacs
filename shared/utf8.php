@@ -89,8 +89,13 @@ Class Utf8 {
 				// get the integer value
 				$unicode = intval($area);
 
+				// never restore the characters that are significant in HTML: " & ' < >
+				if(in_array($unicode, array(34, 38, 39, 60, 62), TRUE)) {
+
+					$output .= '&#'.$unicode.';';
+
 				// one byte
-				if($unicode < 0x7F) {
+				} elseif($unicode < 0x7F) {
 
 					$output .= chr($unicode);
 

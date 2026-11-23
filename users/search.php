@@ -82,8 +82,9 @@ if(!defined('USERS_PER_PAGE'))
 	define('USERS_PER_PAGE', 50);
 
 // the title of the page
+// the search string is escaped here: encode_field() would let numeric entities through the output handler
 if($search)
-	$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Search'), $search);
+	$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Search'), htmlspecialchars($search));
 else
 	$context['page_title'] = i18n::s('Search');
 
@@ -91,7 +92,7 @@ else
 $value = $search ? $search : i18n::s('Look for some user');
 $context['text'] .= '<form method="get" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form">'
 	.'<p>'
-	.'<input type="text" name="search" size="40" value="'.encode_field($value).'" onfocus="this.value=\'\'" maxlength="128" />'
+	.'<input type="text" name="search" size="40" value="'.htmlspecialchars($value).'" onfocus="this.value=\'\'" maxlength="128" />'
 	.' '.Skin::build_submit_button(i18n::s('Go'))
 	.'</p>'
 	."</form>\n";
