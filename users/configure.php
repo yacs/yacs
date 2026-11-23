@@ -6,7 +6,8 @@
  *
  * This script will let you modify following parameters:
  *
- * [*] [code]users_allowed_tags[/code] - HTML tags allowed on posts from non-associates.
+ * [*] [code]users_allowed_tags[/code] - Optional restriction of HTML tags allowed on posts from non-associates.
+ * Empty by default, which keeps every tag of ALLOWED_IN_TEXT. It can only remove tags from this list.
  *
  * [*] [code]users_authenticator[/code] - By default YACS authenticates users
  * locally. If set to some textual value, YACS will load and use the related
@@ -488,9 +489,14 @@ elseif(!Surfer::is_associate()) {
 	$submission = '';
 
 	// allowed tags
-	$label = i18n::s('Allowed Tags');
-	$input = '<input type="text" name="users_allowed_tags" size="65" value="'.encode_field($context['users_allowed_tags']).'" maxlength="255" />';
-	$hint = i18n::s('List HTML tags allowed to members.').BR.'&lt;a&gt;&lt;abbr&gt;&lt;acronym&gt;&lt;b&gt;&lt;big&gt;&lt;br&gt;&lt;code&gt;&lt;dd&gt;&lt;del&gt;&lt;dfn&gt;&lt;dl&gt;&lt;dt&gt;&lt;em&gt;&lt;i&gt;&lt;img&gt;&lt;ins&gt;&lt;li&gt;&lt;ol&gt;&lt;p&gt;&lt;q&gt;&lt;small&gt;&lt;span&gt;&lt;strong&gt;&lt;sub&gt;&lt;sup&gt;&lt;tt&gt;&lt;u&gt;&lt;ul&gt;';
+	// the setting can only narrow ALLOWED_IN_TEXT, listed in the hint
+	$label = i18n::s('Restrict allowed tags');
+	$all_tags = '<'.implode('><', array_keys(ALLOWED_IN_TEXT)).'>';
+
+	// show an empty field when nothing is restricted, e.g., with the former default list
+	$value = (Surfer::get_allowed_tags() === $all_tags) ? '' : $context['users_allowed_tags'];
+	$input = '<input type="text" name="users_allowed_tags" size="65" value="'.encode_field($value).'" maxlength="255" />';
+	$hint = i18n::s('Members may use the tags below. To restrict them, enter only the tags to keep, in the same form; leave empty to keep them all. A tag missing from this list cannot be allowed.').BR.encode_field($all_tags);
 	$fields[] = array($label, $input, $hint);
 
 	// submission control

@@ -43,6 +43,16 @@
 Class Surfer {
 
 	/**
+	 * the former default value of $context['users_allowed_tags'], saved by most sites
+	 */
+	const LEGACY_ALLOWED_TAGS = '<a><abbr><acronym><b><big><br><code><dd><del><dfn><dl><dt><em><i><img><ins><li><ol><p><q><small><span><strong><sub><sup><tt><u><ul>';
+
+	/**
+	 * what Surfer::sanitize_html() removed during this request, as field => list of items
+	 */
+	public static $sanitized = array();
+
+	/**
 	 * extend surfer capability
 	 *
 	 * This function is used to record additional anchors in session space.
@@ -664,7 +674,7 @@ Class Surfer {
 			if(Surfer::is_associate())
 				$hint = i18n::s('You are allowed to post any XHTML.');
 			else
-				$hint = sprintf(i18n::s('Following XHTML tags are allowed: %s'), trim(str_replace('><', ', ', $context['users_allowed_tags']), '<>'));
+				$hint = sprintf(i18n::s('Following XHTML tags are allowed: %s'), trim(str_replace('><', ', ', Surfer::get_allowed_tags()), '<>'));
 			$text .= '<span class="tiny">'.$hint.'</span>';
 
 		}
@@ -1742,6 +1752,227 @@ Class Surfer {
 		if(isset($fields['edit_address']))
 			$_SESSION['surfer_email_address'] = $fields['edit_address'];
 
+	}
+
+	/**
+	 * list tags that non-associates may submit
+	 *
+	 * This is ALLOWED_IN_TEXT, narrowed by $context['users_allowed_tags'] when a site has
+	 * set it. An empty setting, or the former default list (even truncated by the form),
+	 * puts no restriction.
+	 *
+	 * @return string tag names, as '<a><b><p>'
+	 */
+	public static function get_allowed_tags() {
+		global $context;
+
+		$tags = array_keys(ALLOWED_IN_TEXT);
+
+		// the setting can only narrow the list
+		if(isset($context['users_allowed_tags']) && ($setting = trim($context['users_allowed_tags'])) && strncmp(Surfer::LEGACY_ALLOWED_TAGS, $setting, strlen($setting))) {
+			preg_match_all('/<([a-zA-Z0-9]+)>/', $setting, $matches);
+			$tags = array_intersect($tags, array_map('strtolower', $matches[1]));
+		}
+
+		return $tags ? '<'.implode('><', $tags).'>' : '';
+	}
+
+	/**
+	 * keep only allowed HTML in data submitted by a non-associate
+	 *
+	 * Tags and attributes come from ALLOWED_IN_TEXT, narrowed by the list of tag names
+	 * in $allowed_tags (e.g., $context['users_allowed_tags']). Unknown tags are removed
+	 * but their text is kept, dangerous elements are removed with their content, and every
+	 * attribute value is checked (link schemes, classes, styles, numbers).
+	 *
+	 * Fields named 'name' or '*_name' never keep any tag.
+	 *
+	 * What has been removed is listed in Surfer::$sanitized, by field.
+	 *
+	 * @param mixed a string or an array, e.g., $_REQUEST
+	 * @param string allowed tag names, as '<a><b><p>'; NULL for the full ALLOWED_IN_TEXT list
+	 * @param string the name of the field, for the report
+	 * @return mixed the clean string or array
+	 */
+	public static function sanitize_html($input, $allowed_tags=NULL, $field='') {
+
+		// do it recursively, names never keep any tag
+		if(is_array($input)) {
+			foreach($input as $name => $value)
+				$input[$name] = Surfer::sanitize_html($value, (is_string($name) && preg_match('/(^|_)name$/', $name)) ? '' : $allowed_tags, ($field === '') ? $name : $field.'['.$name.']');
+			return $input;
+		}
+
+		// only strings that the browser could read as markup
+		if(!is_string($input) || !preg_match('/<[a-zA-Z!\/?]/', $input))
+			return $input;
+
+		// the allowed tags and their attributes
+		$allowed = ALLOWED_IN_TEXT;
+		if(is_string($allowed_tags)) {
+			preg_match_all('/<([a-zA-Z0-9]+)>/', $allowed_tags, $matches);
+			$allowed = array_intersect_key($allowed, array_flip(array_map('strtolower', $matches[1])));
+		}
+
+		// no parser, or no tag allowed: plain text
+		if(!$allowed || !class_exists('DOMDocument')) {
+			$output = strip_tags($input);
+			if($output !== $input)
+				Surfer::$sanitized[$field][] = 'all tags';
+			return $output;
+		}
+
+		// a '<' that cannot start a tag is text for browsers, but libxml drops it and what follows, e.g., 'if a < b'
+		$input = preg_replace('/<(?![a-zA-Z!\/?])/', '&lt;', $input);
+
+		// parse the fragment as UTF-8, inside a wrapper
+		$document = new DOMDocument();
+		$errors = libxml_use_internal_errors(TRUE);
+		$loaded = $document->loadHTML('<?xml encoding="utf-8"?><div>'.$input.'</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NONET);
+		libxml_clear_errors();
+		libxml_use_internal_errors($errors);
+		if(!$loaded || !($wrapper = $document->getElementsByTagName('div')->item(0)))
+			return strip_tags($input);
+
+		// clean the tree
+		$removed = array();
+		Surfer::sanitize_node($wrapper, $allowed, $removed);
+		if($removed)
+			Surfer::$sanitized[$field] = array_merge(isset(Surfer::$sanitized[$field]) ? Surfer::$sanitized[$field] : array(), $removed);
+
+		// serialize what remains
+		$output = '';
+		foreach($wrapper->childNodes as $node)
+			$output .= $document->saveHTML($node);
+		return $output;
+	}
+
+	/**
+	 * clean one DOM node and its descendants -- see Surfer::sanitize_html()
+	 *
+	 * @param DOMNode the node to clean
+	 * @param array allowed tags and attributes
+	 * @param array what has been removed, updated
+	 */
+	private static function sanitize_node($node, $allowed, &$removed) {
+
+		// elements removed with all their content
+		static $dangerous = array('applet', 'base', 'button', 'embed', 'form', 'frame', 'frameset', 'head', 'iframe',
+			'input', 'link', 'math', 'meta', 'noscript', 'object', 'script', 'select', 'style', 'svg', 'template',
+			'textarea', 'title');
+
+		for($child = $node->firstChild; $child; $child = $next) {
+			$next = $child->nextSibling;
+
+			// keep text as it is, it will be escaped on output
+			if($child->nodeType == XML_TEXT_NODE)
+				continue;
+
+			// drop comments, processing instructions, CDATA sections, etc.
+			if($child->nodeType != XML_ELEMENT_NODE) {
+				$removed[] = ($child->nodeType == XML_COMMENT_NODE) ? 'comment' : 'node '.$child->nodeName;
+				$node->removeChild($child);
+				continue;
+			}
+
+			$tag = strtolower($child->nodeName);
+			if(in_array($tag, $dangerous)) {
+				$removed[] = $tag.' "'.mb_substr(trim($child->textContent), 0, 60).'"';
+				$node->removeChild($child);
+				continue;
+			}
+
+			// clean descendants first
+			Surfer::sanitize_node($child, $allowed, $removed);
+
+			// unknown tag: keep its content only
+			if(!isset($allowed[$tag])) {
+				$removed[] = $tag.' (text kept)';
+				while($child->firstChild)
+					$node->insertBefore($child->firstChild, $child);
+				$node->removeChild($child);
+				continue;
+			}
+
+			// check every attribute
+			for($index = $child->attributes->length - 1; $index >= 0; $index--) {
+				$attribute = $child->attributes->item($index);
+				$value = Surfer::sanitize_attribute(strtolower($attribute->name), $attribute->value, $allowed[$tag]);
+				if($value === NULL) {
+					$removed[] = $tag.' '.$attribute->name.'="'.mb_substr($attribute->value, 0, 60).'"';
+					$child->removeAttribute($attribute->name);
+				}
+				elseif($value !== $attribute->value)
+					$child->setAttribute($attribute->name, $value);
+			}
+
+			// a new window cannot drive this page
+			if(($tag == 'a') && $child->hasAttribute('target'))
+				$child->setAttribute('rel', trim($child->getAttribute('rel').' noopener'));
+		}
+	}
+
+	/**
+	 * check one attribute value -- see Surfer::sanitize_html()
+	 *
+	 * @param string attribute name, in lower case
+	 * @param string attribute value, with entities already decoded
+	 * @param array the attributes allowed for this tag
+	 * @return string the value to keep, or NULL to remove the attribute
+	 */
+	private static function sanitize_attribute($name, $value, $attributes) {
+
+		// classes only select styles of the skin, they are allowed everywhere
+		if(!in_array($name, $attributes) && ($name != 'class'))
+			return NULL;
+
+		switch($name) {
+
+		// web links, mails and phones; relative links
+		case 'href':
+		case 'src':
+			$address = strtolower(preg_replace('/[\x00-\x20]+/', '', $value));
+			$schemes = ($name == 'src') ? array('http', 'https') : array('http', 'https', 'ftp', 'mailto', 'tel');
+			if(preg_match('/^([a-z][a-z0-9+.\-]*):/', $address, $matches) && !in_array($matches[1], $schemes))
+				return NULL;
+			return $value;
+
+		// classes of the skin only, no other character
+		case 'class':
+			return preg_match('/^[\w \-]*$/', $value) ? $value : NULL;
+
+		// alignment and colors set by the wysiwyg editor, nothing else
+		case 'style':
+			$color = '(#[0-9a-f]{3,8}|rgba?\(\s*\d{1,3}%?\s*,\s*\d{1,3}%?\s*,\s*\d{1,3}%?\s*(,\s*[\d.]+\s*)?\)|[a-z]{3,20})';
+			$kept = array();
+			foreach(explode(';', $value) as $declaration) {
+				if(preg_match('/^\s*text-align\s*:\s*(left|right|center|justify)\s*$/i', $declaration, $matches))
+					$kept[] = 'text-align: '.strtolower($matches[1]);
+				elseif(preg_match('/^\s*(color|background-color)\s*:\s*'.$color.'\s*(!important\s*)?$/i', $declaration, $matches))
+					$kept[] = strtolower($matches[1]).': '.strtolower($matches[2]);
+			}
+			return $kept ? implode('; ', $kept) : NULL;
+
+		case 'target':
+			return in_array($value, array('_blank', '_self')) ? $value : NULL;
+
+		case 'rel':
+			$tokens = array_intersect(preg_split('/\s+/', strtolower($value)), array('nofollow', 'noopener', 'noreferrer'));
+			return $tokens ? implode(' ', $tokens) : NULL;
+
+		case 'scope':
+			return in_array($value, array('row', 'col', 'rowgroup', 'colgroup')) ? $value : NULL;
+
+		case 'width':
+		case 'height':
+		case 'colspan':
+		case 'rowspan':
+			return preg_match('/^\d{1,4}%?$/', $value) ? $value : NULL;
+
+		// plain text, escaped on output
+		default:
+			return $value;
+		}
 	}
 
 	/**

@@ -79,6 +79,13 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['edit_address']))
 		$_REQUEST['edit_address'] = encode_link($_REQUEST['edit_address']);
 
+	// fields are typed as plain text, and are read by associates: no tag at all from others
+	if(!Surfer::is_associate()) {
+		foreach(array('title', 'description') as $name)
+			if(isset($_REQUEST[$name]) && is_string($_REQUEST[$name]))
+				$_REQUEST[$name] = strip_tags($_REQUEST[$name]);
+	}
+
 	// track anonymous surfers
 	Surfer::track($_REQUEST);
 
@@ -330,7 +337,7 @@ if($with_form) {
 	if(Surfer::is_associate())
 		$text .= '<p>'.i18n::s('If you paste some existing HTML content and want to avoid the implicit formatting insert the code <code>[formatted]</code> at the very beginning of the description field.');
 	else
-		$text .= '<p>'.i18n::s('Most HTML tags are removed.');
+		$text .= '<p>'.i18n::s('HTML tags are removed.');
 	$text .= ' '.sprintf(i18n::s('You can use %s to beautify your post'), Skin::build_link('codes/', i18n::s('YACS codes'), 'open')).'.</p>';
 
 	// locate mandatory fields

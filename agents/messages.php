@@ -1222,7 +1222,7 @@ class Messages {
 		$text = preg_replace('/\s*<(br|div|h|p)/is', "\n\n<$1", $text);
 
 		// suppress dangerous html tags
-		$text = strip_tags($text, $context['users_allowed_tags']);
+		$text = Surfer::sanitize_html($text, Surfer::get_allowed_tags());
 
 		// trim white spaces
 		while(TRUE) {

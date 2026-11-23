@@ -1860,6 +1860,10 @@ Class Skin_Skeleton {
 		if(!$url || !is_string($url) || (strpos($url, '_') === 0))
 			return $label;
 
+		// never link to a script, e.g., [link]javascript:...[/link] -- browsers ignore spaces and decode entities
+		if(preg_match('/^(javascript|vbscript|data):/i', preg_replace('/[\x00-\x20]+/', '', html_entity_decode($url, ENT_QUOTES | ENT_HTML5, 'UTF-8'))))
+			return $label ? $label : encode_field($url);
+
 		// be sure to have a label
 		if(!$label)
 			$label = $url;

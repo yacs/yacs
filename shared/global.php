@@ -78,6 +78,32 @@ if(!defined('JS_PREFIX'))
 if(!defined('JS_SUFFIX'))
 	define('JS_SUFFIX', '// ]]></script>'."\n");
 
+// tags and attributes that non-associates may submit, at most -- see Surfer::sanitize_html()
+// 'class' is allowed on every tag; $context['users_allowed_tags'] can only narrow this list
+if(!defined('ALLOWED_IN_TEXT'))
+	define('ALLOWED_IN_TEXT', array(
+		// inline
+		'a' => array('href', 'title', 'target', 'rel'),
+		'abbr' => array('title'),
+		'acronym' => array('title'),
+		'b' => array(), 'big' => array(), 'br' => array(), 'code' => array(), 'del' => array(),
+		'dfn' => array(), 'em' => array(), 'i' => array(), 'ins' => array(), 'q' => array(),
+		'small' => array(), 'span' => array('style'), 'strong' => array(), 'sub' => array(),
+		'sup' => array(), 'tt' => array(), 'u' => array(),
+		'img' => array('src', 'alt', 'title', 'width', 'height'),
+		// blocks, as produced by the wysiwyg editor (Trumbowyg buttons and plugins)
+		'p' => array('style'), 'div' => array('style'),
+		'h1' => array('style'), 'h2' => array('style'), 'h3' => array('style'), 'h4' => array('style'),
+		'blockquote' => array('style'), 'hr' => array(), 'pre' => array(),
+		// lists
+		'ul' => array(), 'ol' => array(), 'li' => array('style'),
+		'dl' => array(), 'dt' => array(), 'dd' => array(),
+		// tables
+		'table' => array(), 'caption' => array(), 'thead' => array(), 'tbody' => array(), 'tr' => array(),
+		'th' => array('style', 'scope', 'colspan', 'rowspan'),
+		'td' => array('style', 'colspan', 'rowspan'),
+	));
+
 include_once 'context.php';
 
 // store attributes for this request, including global parameters and request-specific variables
@@ -257,8 +283,8 @@ $context['start_time'] = get_micro_time();
 // page main content
 $context['text'] = '';
 
-// default value for allowed tags -- see users/configure.php
-$context['users_allowed_tags']	= '<a><abbr><acronym><b><big><br><code><dd><del><dfn><dl><dt><em><i><img><ins><li><ol><p><q><small><span><strong><sub><sup><tt><u><ul>';
+// no restriction of ALLOWED_IN_TEXT by default -- see users/configure.php and Surfer::get_allowed_tags()
+$context['users_allowed_tags']	= '';
 
 // default editor -- see users/configure.php
 $context['users_default_editor'] = 'tinymce';
@@ -1006,15 +1032,19 @@ if(@count($_REQUEST) && (!isset($context['allow_html_input']) || ($context['allo
 	if(Surfer::is_associate())
 		;
 
-	// from tinymce
-	elseif(isset($_REQUEST['editor']) && ($_REQUEST['editor'] == 'tinymce'))
-		;
-
-	// strip most tags, except those that have been explicitly allowed
+	// keep only allowed tags and attributes, including from the wysiwyg editor
 	else {
-		if(!isset($context['users_allowed_tags']))
-			$context['users_allowed_tags'] = '';
-		$_REQUEST = Surfer::strip_tags($_REQUEST, $context['users_allowed_tags']);
+		$_REQUEST = Surfer::sanitize_html($_REQUEST, Surfer::get_allowed_tags());
+
+		// keep a trace of what has been removed, as plain text without any angle bracket,
+		// else Logger::remember() would strip it -- e.g., img onerror="alert(1)"
+		if(Surfer::$sanitized) {
+			$items = array();
+			foreach(Surfer::$sanitized as $field => $removed)
+				$items[] = $field.': '.implode(', ', array_unique($removed));
+			Logger::remember('shared/global.php: HTML removed from '.(isset($context['script_url']) ? $context['script_url'] : '?'),
+				str_replace(array('<', '>'), array('‹', '›'), implode(' | ', $items)));
+		}
 	}
 }
 
