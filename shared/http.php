@@ -240,6 +240,182 @@ class http {
     }
 
     /**
+     * list network addresses of a host
+     *
+     * @param string the host name, or an IPv4 or IPv6 address
+     * @return array IPv4 and IPv6 addresses, empty if the host is unknown
+     */
+    public static function get_addresses($host) {
+
+        // [::1] in a link is ::1 for the network
+        $host = trim((string)$host, '[]');
+        if (!$host)
+            return array();
+
+        // already an address
+        if (filter_var($host, FILTER_VALIDATE_IP))
+            return array($host);
+
+        // IPv4 addresses, including alternate forms such as 2130706433 or 127.1
+        $addresses = array();
+        if (is_callable('gethostbynamel') && ($items = @gethostbynamel($host)))
+            $addresses = $items;
+
+        // IPv6 addresses
+        if (is_callable('dns_get_record') && ($records = @dns_get_record($host, DNS_AAAA))) {
+            foreach ($records as $record) {
+                if (isset($record['ipv6']) && filter_var($record['ipv6'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV6))
+                    $addresses[] = $record['ipv6'];
+            }
+        }
+
+        return array_values(array_unique($addresses));
+    }
+
+    /**
+     * check that a network address is routed on the public Internet
+     *
+     * Loopback, private, link-local, shared, multicast and reserved ranges are refused,
+     * as well as IPv6 forms that carry such an IPv4 address.
+     *
+     * @param string an IPv4 or IPv6 address
+     * @return boolean TRUE if the address is public, FALSE otherwise
+     */
+    public static function is_public_address($address) {
+
+        if (!filter_var($address, FILTER_VALIDATE_IP) || (($packed = @inet_pton($address)) === FALSE))
+            return FALSE;
+
+        // IPv4-mapped (::ffff:a.b.c.d) and NAT64 (64:ff9b::a.b.c.d) addresses carry an IPv4 address
+        if (strlen($packed) == 16) {
+            $prefix = substr($packed, 0, 12);
+            if (($prefix === str_repeat("\0", 10) . "\xff\xff") || ($prefix === "\x00\x64\xff\x9b" . str_repeat("\0", 8)))
+                return http::is_public_address(inet_ntop(substr($packed, 12)));
+        }
+
+        // ranges that are not reachable from the Internet, or that should not be asked for
+        static $ranges = array(
+            '0.0.0.0/8', '10.0.0.0/8', '100.64.0.0/10', '127.0.0.0/8', '169.254.0.0/16', '172.16.0.0/12',
+            '192.0.0.0/24', '192.0.2.0/24', '192.168.0.0/16', '198.18.0.0/15', '198.51.100.0/24',
+            '203.0.113.0/24', '224.0.0.0/4', '240.0.0.0/4',
+            '::/96', '2001:db8::/32', '2002::/16', 'fc00::/7', 'fe80::/10', 'fec0::/10', 'ff00::/8');
+
+        foreach ($ranges as $range) {
+            list($network, $bits) = explode('/', $range);
+            $network = inet_pton($network);
+            if (strlen($network) != strlen($packed))
+                continue;
+
+            // compare whole bytes, then the remaining bits
+            $bytes = intdiv((int)$bits, 8);
+            if (substr($packed, 0, $bytes) !== substr($network, 0, $bytes))
+                continue;
+            if ($rest = (int)$bits % 8) {
+                $mask = (0xff << (8 - $rest)) & 0xff;
+                if ((ord($packed[$bytes]) & $mask) != (ord($network[$bytes]) & $mask))
+                    continue;
+            }
+            return FALSE;
+        }
+
+        return TRUE;
+    }
+
+    /**
+     * check the target of an outbound request
+     *
+     * Requests are sent only to hosts that resolve to public addresses, so that a link
+     * provided by a visitor cannot reach the server itself or the local network.
+     * The returned address has to be used for the connection, else another name
+     * resolution could lead somewhere else.
+     *
+     * @param string the host to connect to
+     * @return string the address to connect to, or FALSE if the host is not allowed
+     */
+    public static function get_public_address($host) {
+        global $http_internal_error;
+
+        // every address has to be public, since any of them could be used
+        $addresses = http::get_addresses($host);
+        foreach ($addresses as $address) {
+            if (!http::is_public_address($address)) {
+                $http_internal_error = 'Address ' . $address . ' of ' . $host . ' is not allowed';
+                return FALSE;
+            }
+        }
+
+        if (!$addresses) {
+            $http_internal_error = 'Unknown host ' . $host;
+            return FALSE;
+        }
+
+        // prefer IPv4, which every server can reach
+        foreach ($addresses as $address) {
+            if (filter_var($address, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4))
+                return $address;
+        }
+        return $addresses[0];
+    }
+
+    /**
+     * build an absolute link from a Location header
+     *
+     * @param string the link that has been fetched
+     * @param string the value of the Location header
+     * @return string an absolute link
+     */
+    public static function resolve_location($url, $location) {
+
+        $location = trim($location);
+
+        // already an absolute link
+        if (preg_match('/^[a-z][a-z0-9+.-]*:/i', $location))
+            return $location;
+
+        $items = parse_url($url);
+        $scheme = isset($items['scheme']) ? $items['scheme'] : 'http';
+
+        // same scheme, another host
+        if (strncmp($location, '//', 2) == 0)
+            return $scheme . ':' . $location;
+
+        $base = $scheme . '://' . $items['host'] . (isset($items['port']) ? ':' . $items['port'] : '');
+
+        // same host, absolute path
+        if (strncmp($location, '/', 1) == 0)
+            return $base . $location;
+
+        // same host, relative path
+        $path = isset($items['path']) ? $items['path'] : '/';
+        return $base . substr($path, 0, strrpos($path, '/') + 1) . $location;
+    }
+
+    /**
+     * add the missing scheme to a link
+     *
+     * Links are often saved without a scheme, as in www.example.com.
+     * A path alone, as in /index.php, designates this server.
+     *
+     * @param string the link to fetch
+     * @return string a link that starts with http:// or https://
+     */
+    public static function with_scheme($url) {
+        global $context;
+
+        $url = trim($url);
+        if (preg_match('/^https?:\/\//i', $url))
+            return $url;
+
+        if (strncmp($url, '//', 2) == 0)
+            return 'http:' . $url;
+
+        if (strncmp($url, '/', 1) == 0)
+            return 'http://' . $context['host_name'] . $url;
+
+        return 'http://' . $url;
+    }
+
+    /**
      * handle HTTP natively
      *
      * This function only requires the network library.
@@ -261,8 +437,10 @@ class http {
         global $context;
 
         // only web protocols are allowed, including after a redirection
-        if (!http::is_web_url($url))
+        if (!http::is_web_url($url)) {
+            $GLOBALS['http_internal_error'] = 'Only http:// and https:// links are allowed';
             return FALSE;
+        }
 
         // outbound web is not authorized
         if (isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y')) {
@@ -280,14 +458,25 @@ class http {
         $http_internal_error = '';
 
         // parse this url
-        $items = parse_url($url);
-
-        // no host, assume it's us
-        if (!$host = $items['host'])
-            $host = $context['host_name'];
+        $url = http::with_scheme($url);
+        if ((!$items = parse_url($url)) || empty($items['host'])) {
+            $http_internal_error = 'Invalid link ' . $url;
+            return FALSE;
+        }
+        $scheme = strtolower($items['scheme']);
 
         // sometime parse_url() adds a '_'
-        $host = rtrim($host, '_');
+        $host = rtrim($items['host'], '_');
+
+        // only public addresses, and the very one that has been checked
+        if (!$address = http::get_public_address($host)) {
+            if ($context['with_debug'] == 'Y')
+                Logger::remember('shared/http.php: ' . $http_internal_error, $url, 'debug');
+            return FALSE;
+        }
+
+        // headers of the caller, to be sent again after a redirection
+        $caller_headers = $headers;
 
         if (is_array($headers))
             $headers = implode(CRLF, $headers) . CRLF;
@@ -296,10 +485,6 @@ class http {
         if (strpos($headers, 'Host: ') === FALSE)
             $headers .= 'Host: ' . $host . CRLF;
 
-        // ask fsockopen to open a TLS/SSL connection
-        if ($items['scheme'] == 'https')
-            $host = 'ssl://' . $host;
-
         // set user agent
         if (strpos($headers, 'User-Agent: ') === FALSE)
             $headers .= 'User-Agent: yacs' . CRLF;
@@ -307,7 +492,7 @@ class http {
         // no port, assume the standard
         if (isset($items['port']) && $items['port'])
             $port = $items['port'];
-        elseif ($items['scheme'] == 'https')
+        elseif ($scheme == 'https')
             $port = 443;
         else
             $port = 80;
@@ -357,21 +542,35 @@ class http {
         $handle = NULL;
 
         // reuse an existing connection to this server socket
-        if (isset($handles[$host][$port]) && $handles[$host][$port]) {
-            $handle = $handles[$host][$port];
+        $pool = $scheme . '://' . $host;
+        if (isset($handles[$pool][$port]) && $handles[$pool][$port]) {
+            $handle = $handles[$pool][$port];
 
             // drop the connection if closed
             if (!$status = stream_get_meta_data($handle))
-                $handle = $handles[$host][$port] = NULL;
+                $handle = $handles[$pool][$port] = NULL;
             elseif ((isset($status['timedout']) && $status['timedout']) || (isset($status['eof']) && $status['eof']))
-                $handle = $handles[$host][$port] = NULL;
+                $handle = $handles[$pool][$port] = NULL;
         }
 
-        // open a network connection -- wait for up to 10 seconds for the TCP connection
-        if (!$handle && (!$handle = Safe::fsockopen($host, $port, $errno, $errstr, 10))) {
-            if ($context['with_debug'] == 'Y')
-                Logger::remember('shared/http.php: ' . sprintf('Impossible to connect to %s.', $host . ':' . $port), '', 'debug');
-            return FALSE;
+        // open a network connection to the checked address -- wait for up to 10 seconds for the TCP connection
+        if (!$handle) {
+            $target = (strpos($address, ':') !== FALSE) ? '[' . $address . ']' : $address;
+            $target = (($scheme == 'https') ? 'ssl://' : 'tcp://') . $target . ':' . $port;
+
+            // the certificate is checked against the host name, not against the address
+            $options = array('ssl' => array('peer_name' => $host, 'verify_peer' => TRUE, 'verify_peer_name' => TRUE));
+
+            if (!is_callable('stream_socket_client')
+                || (!$handle = @stream_socket_client($target, $errno, $errstr, 10, STREAM_CLIENT_CONNECT, stream_context_create($options)))) {
+                $http_internal_error = sprintf('Impossible to connect to %s.', $host . ':' . $port);
+                if ($context['with_debug'] == 'Y')
+                    Logger::remember('shared/http.php: ' . $http_internal_error, '', 'debug');
+                return FALSE;
+            }
+
+            // stop network transfers on 7 second time-out
+            stream_set_timeout($handle, 7);
         }
 
         // ensure enough execution time
@@ -409,6 +608,7 @@ class http {
             $http_internal_error = 'Unexpected HTTP status "' . $status . '" from ' . $url;
             return FALSE;
         }
+        $status_code = (int)$matches[1];
 
         // read response headers, up to 5120k
         $r_headers = '';
@@ -429,17 +629,26 @@ class http {
             $r_headers .= $header;
         }
 
-        // redirect to another place
-        if (preg_match('/^Location: (.+)$/m', $r_headers, $matches)) {
+        // redirect to another place -- the new link is checked as the first one
+        if (($status_code >= 300) && ($status_code < 400) && preg_match('/^Location:\s*(.+)$/mi', $r_headers, $matches)) {
+
+            // the response body is not read, so the connection cannot be reused
+            fclose($handle);
+            $handles[$pool][$port] = NULL;
 
             if (--$limit <= 0) {
                 $http_internal_error = 'Too many redirections';
                 return FALSE;
             }
 
+            // as browsers do, a form is not posted again after 301, 302 or 303
+            if (($status_code != 307) && ($status_code != 308))
+                $data = '';
+
+            $location = http::resolve_location($url, $matches[1]);
             if ($context['with_debug'] == 'Y')
-                Logger::remember('shared/http.php: redirecting to ' . $matches[1], '', 'debug');
-            return http::proceed_natively($matches[1], $headers, $data, $cookie, $limit);
+                Logger::remember('shared/http.php: redirecting to ' . $location, '', 'debug');
+            return http::proceed_natively($location, $caller_headers, $data, $cookie, $limit);
         }
 
         // get content length, if provided in header --maximum is 5120k
@@ -470,7 +679,7 @@ class http {
 
         // put in pool for future use
         else
-            $handles[$host][$port] = $handle;
+            $handles[$pool][$port] = $handle;
 
         // log the response
         if ($context['with_debug'] == 'Y')
@@ -491,14 +700,17 @@ class http {
      * @param array of strings optional headers (eg, 'array("Content-Type: text/xml")')
      * @param string optional data to send
      * @param string cookie, if any
+     * @param int to manage a maximum number of redirections
      * @return the actual content, of FALSE on error
      */
-    public static function proceed_using_curl($url, $headers = '', $data = '', $cookie = '') {
+    public static function proceed_using_curl($url, $headers = '', $data = '', $cookie = '', $limit = 3) {
         global $context;
 
-        // only web protocols are allowed
-        if (!http::is_web_url($url))
+        // only web protocols are allowed, including after a redirection
+        if (!http::is_web_url($url)) {
+            $GLOBALS['http_internal_error'] = 'Only http:// and https:// links are allowed';
             return FALSE;
+        }
 
         // outbound web is not authorized
         if (isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y')) {
@@ -518,29 +730,39 @@ class http {
         global $http_fetch_headers;
         $http_fetch_headers = array();
 
-        // create a new curl resource
-        $handle = curl_init();
+        // remember errors, if any
+        global $http_internal_error;
+        $http_internal_error = '';
 
-        // sanity check
-        $items = @parse_url($url);
+        // parse this url
+        $url = http::with_scheme($url);
+        if ((!$items = parse_url($url)) || empty($items['host'])) {
+            $http_internal_error = 'Invalid link ' . $url;
+            return FALSE;
+        }
         if (!isset($items['path']) || !$items['path'])
             $url .= '/';
 
+        // only public addresses, and the very one that has been checked
+        $host = rtrim($items['host'], '_');
+        if (!$address = http::get_public_address($host)) {
+            if ($context['with_debug'] == 'Y')
+                Logger::remember('shared/http.php: ' . $http_internal_error, $url, 'debug');
+            return FALSE;
+        }
+
+        // create a new curl resource
+        $handle = curl_init();
+
         // set URL and other appropriate options
         curl_setopt($handle, CURLOPT_URL, $url);
-
-        // no ending NULL char
-        curl_setopt($handle, CURLOPT_BINARYTRANSFER, TRUE);
 
         // only web protocols, including after a redirection
         curl_setopt($handle, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
         curl_setopt($handle, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
 
-        // redirect if necessary -- does not work if safe mode
-        if (!ini_get("safe_mode")) {
-            curl_setopt($handle, CURLOPT_FOLLOWLOCATION, TRUE);
-            curl_setopt($handle, CURLOPT_MAXREDIRS, 3);
-        }
+        // redirections are followed below, so that each new link is checked as the first one
+        curl_setopt($handle, CURLOPT_FOLLOWLOCATION, FALSE);
 
         // set timeouts
         curl_setopt($handle, CURLOPT_CONNECTTIMEOUT, 10);
@@ -553,13 +775,25 @@ class http {
             if (isset($context['proxy_user']) && $context['proxy_user']) {
                 curl_setopt($handle, CURLOPT_PROXYUSERPWD, $context['proxy_user'] . ':' . $context['proxy_password']);
             }
+
+        // connect to the checked address, without another name resolution
+        } else {
+            if (isset($items['port']) && $items['port'])
+                $port = $items['port'];
+            elseif (strtolower($items['scheme']) == 'https')
+                $port = 443;
+            else
+                $port = 80;
+            $pinned = (strpos($address, ':') !== FALSE) ? '[' . $address . ']' : $address;
+            curl_setopt($handle, CURLOPT_RESOLVE, array($host . ':' . $port . ':' . $pinned));
         }
 
         // let CURL adapt to the encoding
         curl_setopt($handle, CURLOPT_ENCODING, '');
 
-        // be cool over SSL/TLS
-        curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, FALSE);
+        // check the certificate of the server, and its name
+        curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, TRUE);
+        curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, 2);
 
         // parse the returned error code as well
         curl_setopt($handle, CURLOPT_FAILONERROR, TRUE);
@@ -598,15 +832,33 @@ class http {
         $response = curl_exec($handle);
 
         // remember errors, if any
-        global $http_internal_error;
-        $http_internal_error = '';
         if (curl_errno($handle) == 22)
             $http_internal_error = 'HTTP server returns an error code that is >= 400';
         elseif (curl_error($handle))
             $http_internal_error = curl_error($handle) . ' ' . curl_errno($handle);
 
+        // a redirection to follow
+        $status_code = (int)curl_getinfo($handle, CURLINFO_HTTP_CODE);
+        $location = ($status_code >= 300) && ($status_code < 400) ? curl_getinfo($handle, CURLINFO_REDIRECT_URL) : '';
+
         // close curl resource, and free up system resources
         curl_close($handle);
+
+        // follow the redirection -- the new link is checked as the first one
+        if ($location) {
+            if (--$limit <= 0) {
+                $http_internal_error = 'Too many redirections';
+                return FALSE;
+            }
+
+            // as browsers do, a form is not posted again after 301, 302 or 303
+            if (($status_code != 307) && ($status_code != 308))
+                $data = '';
+
+            if ($context['with_debug'] == 'Y')
+                Logger::remember('shared/http.php: redirecting to ' . $location, '', 'debug');
+            return http::proceed_using_curl($location, $headers, $data, $cookie, $limit);
+        }
 
         // return the entire reply
         return $response;
