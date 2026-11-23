@@ -80,7 +80,8 @@ if(Surfer::is_crawler()) {
 
 // a link has been followed -- ask for confirmation, the change is applied on POST
 } elseif(!is_post_request())
-	$context['text'] .= Skin::build_post_confirmation(i18n::s('Draft'));
+	$context['text'] .= '<p>'.Skin::build_link(Articles::get_permalink($item), $item['title'], 'article').'</p>'."\n"
+		.Skin::build_post_confirmation(i18n::s('Draft'));
 
 // update the database
 elseif($error = Articles::unpublish($item['id']))

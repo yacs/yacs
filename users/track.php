@@ -68,12 +68,16 @@ if(!$item['id']) {
 } elseif(!is_post_request()) {
 	if(is_object($anchor) && $anchor->is_viewable())
 		$context['text'] .= '<p>'.Skin::build_link($anchor->get_url(), $anchor->get_title())."</p>\n";
+	i18n::bind('articles');
+	i18n::bind('sections');
 	if(Members::check($track, 'user:'.Surfer::get_id()))
 		$label = i18n::s('Stop notifications');
 	elseif(!strncmp($track, 'user:', 5) && is_object($anchor))
 		$label = sprintf(i18n::s('Follow %s'), $anchor->get_title());
+	elseif(!strncmp($track, 'section:', 8))
+		$label = i18n::s('Watch this section');
 	else
-		$label = i18n::s('Submit');
+		$label = i18n::s('Watch this page');
 	$context['text'] .= Skin::build_post_confirmation($label);
 
 // toggle membership status

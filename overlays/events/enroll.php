@@ -243,8 +243,13 @@ else {
 				$line .= Skin::build_link($url, $label, 'user');
 
 			// we only have some e-mail address
-			} else
-				$line .= $item['user_email'];
+			} else {
+				$label = $item['user_email'];
+				$line .= encode_field($label);
+			}
+
+			// buttons are repeated on each line: their name tells which person they are about
+			$who = encode_field($label);
 
 			// application has not been validated yet
 			if($item['approved'] != 'Y') {
@@ -252,7 +257,7 @@ else {
 					.'<input type="hidden" name="id" value="'.encode_field($anchor->get_reference()).'" />'
 					.'<input type="hidden" name="target" value="'.(int)$item['id'].'" />'
 					.'<input type="hidden" name="action" value="validate" />'
-					.'<button type="submit" class="button">'.i18n::s('validate').'</button></span></form>';
+					.'<button type="submit" class="button" aria-label="'.i18n::s('validate').' '.$who.'">'.i18n::s('validate').'</button></span></form>';
 			}
 
 			// allow to kill some registration
@@ -260,7 +265,7 @@ else {
 				.'<input type="hidden" name="id" value="'.encode_field($anchor->get_reference()).'" />'
 				.'<input type="hidden" name="target" value="'.(int)$item['id'].'" />'
 				.'<input type="hidden" name="action" value="drop" />'
-				.'<button type="submit" class="button">'.i18n::s('drop').'</button></span></form>';
+				.'<button type="submit" class="button" aria-label="'.i18n::s('drop').' '.$who.'">'.i18n::s('drop').'</button></span></form>';
 
 			// next item
 			$items[] = $line;

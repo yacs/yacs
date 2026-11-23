@@ -93,8 +93,8 @@ elseif(!isset($item['id'])) {
 
 // a link has been followed -- ask for confirmation, the change is applied on POST
 } elseif(isset($_REQUEST['avatar']) && !is_post_request()) {
-	$context['text'] .= '<p><img src="'.encode_field($_REQUEST['avatar']).'" alt="" /></p>'."\n"
-		.Skin::build_post_confirmation(i18n::s('Submit'));
+	$context['text'] .= '<p><img src="'.encode_field($_REQUEST['avatar']).'" alt="'.encode_field(basename(parse_url($_REQUEST['avatar'], PHP_URL_PATH) ?? '')).'" /></p>'."\n"
+		.Skin::build_post_confirmation(i18n::s('Change picture'));
 
 // the avatar has been changed
 } elseif(isset($_REQUEST['avatar'])) {
