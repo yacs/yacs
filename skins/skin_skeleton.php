@@ -3237,6 +3237,27 @@ Class Skin_Skeleton {
 	}
 
 	/**
+	 * ask for the confirmation of an action requested by a link
+	 *
+	 * The form posts the very same address, path arguments and query included,
+	 * so that the script applies the change on POST, with the form token.
+	 *
+	 * @see is_post_request()
+	 *
+	 * @param string the label of the button, such as the name of the action
+	 * @return string the form to be inserted in the page
+	 */
+	public static function build_post_confirmation($label) {
+		global $context;
+
+		$target = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $context['script_url'];
+
+		return '<form method="post" action="'.encode_field($target).'" id="main_form"><p>'
+			.Skin::build_submit_button($label, NULL, NULL, 'confirmed')
+			.'</p></form>'."\n";
+	}
+
+	/**
 	 * build a submit button
 	 *
 	 * @param string button label
