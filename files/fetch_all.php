@@ -118,10 +118,12 @@ if(!isset($item['id'])) {
 // package the files
 } else {
 
-	// build a zip archive
+	// build a zip archive -- the title is only the name suggested to the browser,
+	// the archive itself gets a random name, and is deleted once sent
 	$zipfile    = new ZipArchive();
         $archname   = utf8::to_ascii($item['title']).'.zip';
-        $zipfile->open(Safe::realpath('temporary/'.$archname), ZipArchive::CREATE);
+        $archive    = 'temporary/fetch_all_'.bin2hex(random_bytes(16)).'.zip';
+        $zipfile->open(Safe::realpath($archive), ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
 	// get related files from the database
 	$items      = array();
@@ -136,7 +138,13 @@ if(!isset($item['id'])) {
             
 	}
         
-        $zipfile->close();
+        // nothing to send
+        if(!$zipfile->close() || !file_exists(Safe::realpath($archive))) {
+                Safe::unlink($archive);
+                Logger::error(i18n::s('Operation has failed.'));
+                render_skin();
+                return;
+        }
 
 	//
 	// transfer to the user agent
@@ -151,7 +159,7 @@ if(!isset($item['id'])) {
         Safe::header('Content-Disposition: attachment; filename="'.str_replace('"', '', $archname).'"');
 
         // file size
-        Safe::header('Content-Length: '.Safe::filesize('temporary/'.$archname));
+        Safe::header('Content-Length: '.Safe::filesize($archive));
 
         // already encoded
         Safe::header('Content-Transfer-Encoding: binary');
@@ -161,7 +169,10 @@ if(!isset($item['id'])) {
 
         // actual transmission except on a HEAD request
         if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
-                readfile(safe::realpath('temporary/'.$archname));
+                readfile(Safe::realpath($archive));
+
+        // the archive is not kept on the server
+        Safe::unlink($archive);
 
         // the post-processing hook, then exit
         finalize_page(TRUE);
