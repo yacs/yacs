@@ -8,3 +8,14 @@
 		Deny from all
 	</IfModule>
 </FilesMatch>
+
+# Do not serve uploaded files that a browser would run as a page or as a script -- see files/upload.ajax.php
+<FilesMatch "(?i)\.(html?|shtml|xhtml?|xml|xsl|svgz?|swf|phtml|php\d*|phar)(\.|$)">
+	<IfModule mod_authz_core.c>
+		Require all denied
+	</IfModule>
+	<IfModule !mod_authz_core.c>
+		Order allow,deny
+		Deny from all
+	</IfModule>
+</FilesMatch>

@@ -86,8 +86,12 @@ if(isset($_FILES[$name]) && count($_FILES[$name])) {
         // remove awkward charaters
         $clean_name = preg_replace( '/['.preg_quote(FILENAME_SAFE_ALPHABET).']/', '_', $_FILES[$name]['name']);
 
-        $path = $context['path_to_root'].UPLOAD_PATH . $clean_name;
-        
+        // a prefix proper to this session, so that a surfer never replaces the upload of another one
+        if(!isset($_SESSION['upload_prefix']) || !preg_match('/^[0-9a-f]{16}$/', $_SESSION['upload_prefix']))
+            $_SESSION['upload_prefix'] = bin2hex(random_bytes(8));
+
+        $path = $context['path_to_root'].UPLOAD_PATH . $_SESSION['upload_prefix'].'-'.$clean_name;
+
         // Check if the file exists, delete it if the case
         if(file_exists($path)){
             Safe::unlink($path);

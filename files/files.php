@@ -1913,6 +1913,10 @@ Class Files {
 		if(($position = strrpos($name, '.')) === FALSE)
 			return FALSE;
 
+		// some servers run x.php.txt as a script, so an executable extension is refused at any position
+		if(preg_match('/\.(php\d*|phtml|phar|pht|pl|py|cgi|asp|aspx|jsp|sh|shtml)\./i', $name))
+			return FALSE;
+
 		// extract the extension
 		if(!$extension = substr($name, $position+1))
 			return FALSE;
@@ -2898,10 +2902,13 @@ Class Files {
             
             // get file ext.
             $ext       = pathinfo($url, PATHINFO_EXTENSION);
-            $basename  = basename($url);  
-            
+            $basename  = basename($url);
+
+            // the name shown, without the prefix set by files/upload.ajax.php
+            $label     = preg_replace('/^[0-9a-f]{16}-/', '', $basename);
+
             // at least show file's name
-            $preview = $basename;
+            $preview = $label;
             // destroy link, put it where you want
             $destroy = '<a class="yc-upload-destroy" data-del="'.$input_name.'" href="javascript:void(0);" title="'.i18n::s('Delete').'" onclick="Yacs.uploadDestroy($(this).data(\'del\'),$(this))" >x</a>'."\n";
             
@@ -2917,7 +2924,7 @@ Class Files {
                 Image::shrink($url, $thumbpath, true);
                 
                 // build image
-                $preview = Skin::build_image('left', $thumburl, '').'<span style="line-height:34px"> '.$basename.'</span>'."\n".$destroy;
+                $preview = Skin::build_image('left', $thumburl, '').'<span style="line-height:34px"> '.$label.'</span>'."\n".$destroy;
                 
             } else {
             
@@ -2933,7 +2940,7 @@ Class Files {
                         $preview   .= $destroy.BR.Skin::build_audioplayer($audio_url);
                         break;
                     default:
-                        $icon       = Skin::build_image('inline', $context['url_to_master'].$context['url_to_root'].Files::get_icon_url($basename), $basename);
+                        $icon       = Skin::build_image('inline', $context['url_to_master'].$context['url_to_root'].Files::get_icon_url($basename), $label);
                         $preview    = $icon.$preview.'&nbsp;'.$destroy;
                         break;
                 }
