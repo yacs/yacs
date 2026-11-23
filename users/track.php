@@ -64,6 +64,18 @@ if(!$item['id']) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
+// a link has been followed -- ask for confirmation, the change is applied on POST
+} elseif(!is_post_request()) {
+	if(is_object($anchor) && $anchor->is_viewable())
+		$context['text'] .= '<p>'.Skin::build_link($anchor->get_url(), $anchor->get_title())."</p>\n";
+	if(Members::check($track, 'user:'.Surfer::get_id()))
+		$label = i18n::s('Stop notifications');
+	elseif(!strncmp($track, 'user:', 5) && is_object($anchor))
+		$label = sprintf(i18n::s('Follow %s'), $anchor->get_title());
+	else
+		$label = i18n::s('Submit');
+	$context['text'] .= Skin::build_post_confirmation($label);
+
 // toggle membership status
 } elseif($error = Members::toggle($track, 'user:'.Surfer::get_id())) {
 	Logger::error($error);

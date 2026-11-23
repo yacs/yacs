@@ -62,8 +62,8 @@ elseif(count($context['error']))
 // display the enrolment list
 else {
 
-	// the enrolment to drop or to validate, among those of this event only
-	$target = isset($_REQUEST['target']) ? (int)$_REQUEST['target'] : 0;
+	// the enrolment to drop or to validate, among those of this event only -- only on POST, which carries the form token
+	$target = (is_post_request() && isset($_REQUEST['target'])) ? (int)$_REQUEST['target'] : 0;
 	$of_this_event = " AND anchor = '".SQL::escape($anchor->get_reference())."'";
 
 	// enrolled persons
@@ -248,13 +248,19 @@ else {
 
 			// application has not been validated yet
 			if($item['approved'] != 'Y') {
-				$link = $context['script_url'].'?id='.$anchor->get_reference().'&amp;target='.$item['id'].'&amp;action=validate';
-				$line .= ' - '.Skin::build_link($link, i18n::s('validate'), 'basic');
+				$line .= ' - <form method="post" action="'.$context['script_url'].'" style="display: inline"><span>'
+					.'<input type="hidden" name="id" value="'.encode_field($anchor->get_reference()).'" />'
+					.'<input type="hidden" name="target" value="'.(int)$item['id'].'" />'
+					.'<input type="hidden" name="action" value="validate" />'
+					.'<button type="submit" class="button">'.i18n::s('validate').'</button></span></form>';
 			}
 
 			// allow to kill some registration
-			$link = $context['script_url'].'?id='.$anchor->get_reference().'&amp;target='.$item['id'].'&amp;action=drop';
-			$line .= ' - <span '.tag::_class('details').'>'.Skin::build_link($link, i18n::s('drop'), 'basic').'</span>';
+			$line .= ' - <form method="post" action="'.$context['script_url'].'" style="display: inline"><span '.tag::_class('details').'>'
+				.'<input type="hidden" name="id" value="'.encode_field($anchor->get_reference()).'" />'
+				.'<input type="hidden" name="target" value="'.(int)$item['id'].'" />'
+				.'<input type="hidden" name="action" value="drop" />'
+				.'<button type="submit" class="button">'.i18n::s('drop').'</button></span></form>';
 
 			// next item
 			$items[] = $line;
