@@ -117,8 +117,14 @@ if(!isset($item['id'])) {
 	// the post-processing hook, then exit
 	finalize_page(TRUE);
 
-// update some attributes
+// attributes are updated only on POST, which carries the form token
+} elseif(!is_post_request()) {
+	Safe::header('Status: 400 Bad Request', TRUE, 400);
+	die(i18n::s('Request is invalid.'));
+
+// update some attributes of the page that has been checked
 } else {
+	$_REQUEST['id'] = $item['id'];
 	if(Articles::put_attributes($_REQUEST))
 		die('OK');
 

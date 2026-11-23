@@ -110,6 +110,10 @@ elseif(isset($_REQUEST['action']) && $_REQUEST['action'])
 if($action)
     $action = strip_tags($action ?? '');
 
+// actions come only from the forms of this page, posted with the form token -- a link only displays the page
+if(!is_post_request())
+	$action = NULL;
+
 // only owners can proceed
 if(Sections::is_owned($item, $anchor) || Surfer::is_associate()) {
 	Surfer::empower();
