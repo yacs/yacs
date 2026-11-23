@@ -7,15 +7,8 @@
  * - [code]debug_call[/code] - if set to '[code]Y[/code]',
  * save into [code]temporary/debug.txt[/code] data sent and received in [script]services/call.php[/script].
  *
- * - [code]debug_comment[/code] - if set to '[code]Y[/code]',
- * save into [code]temporary/debug.txt[/code] data sent and received in [script]comments/post.php[/script].
- *
  * - [code]debug_rpc[/code] - if set to '[code]Y[/code]',
  * save into [code]temporary/debug.txt[/code] data sent and received in [script]services/json_rpc.php[/script].
- *
- * - [code]debug_trackback[/code] - if set to '[code]Y[/code]',
- * save into [code]temporary/debug.txt[/code] data sent and received in [script]links/trackback.php[/script].
- * Also save data sent as trackback client in [script]links/links.php[/script].
  *
  * - [code]google_api_key[/code] - according to your registration to
  * Google web services.
@@ -150,15 +143,6 @@ elseif(!Surfer::is_associate()) {
 	$fields = array();
 	$panels[] = array('providers', i18n::s('Providers'), 'providers', $text);
 
-	// debug_comment
-	$label = i18n::s('Debug commenting services');
-	$checked = '';
-	if(isset($context['debug_comment'])&& ($context['debug_comment'] == 'Y'))
-		$checked = 'checked="checked"';
-	$input = '<input type="checkbox" name="debug_comment" value="Y" '.$checked.'/> '.i18n::s('Copy network packets sent and received by comments/post.php in temporary/debug.txt');
-	$hint = i18n::s('Use this option only for troubleshooting');
-	$fields[] = array($label, $input, $hint);
-
 	// debug_call
 	$label = i18n::s('Debug calls of web services');
 	$checked = '';
@@ -174,15 +158,6 @@ elseif(!Surfer::is_associate()) {
 	if(isset($context['debug_rpc'])&& ($context['debug_rpc'] == 'Y'))
 		$checked = 'checked="checked"';
 	$input = '<input type="checkbox" name="debug_rpc" value="Y" '.$checked.'/> '.i18n::s('Copy network packets sent and received by services/json_rpc.php and by services/xml_rpc.php in temporary/debug.txt');
-	$hint = i18n::s('Use this option only for troubleshooting');
-	$fields[] = array($label, $input, $hint);
-
-	// debug_trackback
-	$label = i18n::s('Debug pingback and trackback services');
-	$checked = '';
-	if(isset($context['debug_trackback'])&& ($context['debug_trackback'] == 'Y'))
-		$checked = 'checked="checked"';
-	$input = '<input type="checkbox" name="debug_trackback" value="Y" '.$checked.'/> '.i18n::s('Copy network packets sent and received by links/trackback.php in temporary/debug.txt');
 	$hint = i18n::s('Use this option only for troubleshooting');
 	$fields[] = array($label, $input, $hint);
 
@@ -234,12 +209,8 @@ elseif(!Surfer::is_associate()) {
 		.'// on '.gmdate("F j, Y, g:i a").' GMT, for '.Surfer::get_name().'. Please do not modify it manually.'."\n";
 	if(isset($_REQUEST['debug_call']))
 		$content .= '$context[\'debug_call\']=\''.addcslashes($_REQUEST['debug_call'], "\\'")."';\n";
-	if(isset($_REQUEST['debug_comment']))
-		$content .= '$context[\'debug_comment\']=\''.addcslashes($_REQUEST['debug_comment'], "\\'")."';\n";
 	if(isset($_REQUEST['debug_rpc']))
 		$content .= '$context[\'debug_rpc\']=\''.addcslashes($_REQUEST['debug_rpc'], "\\'")."';\n";
-	if(isset($_REQUEST['debug_trackback']))
-		$content .= '$context[\'debug_trackback\']=\''.addcslashes($_REQUEST['debug_trackback'], "\\'")."';\n";
 	if(isset($_REQUEST['google_api_key']))
 		$content .= '$context[\'google_api_key\']=\''.addcslashes($_REQUEST['google_api_key'], "\\'")."';\n";
 	if(isset($_REQUEST['google_analytics_account']))

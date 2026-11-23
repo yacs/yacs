@@ -24,8 +24,6 @@
  * to help advanced web usage. This includes:
  * - a link to a RDF description of this page (e.g., '&lt;link rel="alternate" href="http://127.0.0.1/yacs/sections/describe.php/4310" title="rdf" type="application/rdf+xml" /&gt;')
  * - a link to a RSS feed for this category (e.g., '&lt;link rel="alternate" href="http://127.0.0.1/yacs/categories/feed.php/4038" title="RSS" type="application/rss+xml" /&gt;')
- * - a rdf section implementing the [link=trackback]http://www.movabletype.org/docs/mttrackback.html[/link] interface
- * - a [link=pingback]http://www.hixie.ch/specs/pingback/pingback[/link] link (e.g., '&lt;link rel="pingback" href="http://here/yacs/services/pingback.php" /&gt;')
  *
  * If the item is not public, a meta attribute is added to prevent search engines from presenting
  * cached versions of the page to end users.
@@ -53,8 +51,6 @@
  * - view.php/12/links/1 (view the page 1 of the list of related links)
  * - view.php?id=12&links=1 (view the page 1 of the list of related links)
  *
- * @link http://www.movabletype.org/docs/mttrackback.html TrackBack Technical Specification
- * @link http://www.hixie.ch/specs/pingback/pingback Pingback specification
  *
  * @author Bernard Paques
  * @author GnapZ
@@ -270,20 +266,6 @@ if(!isset($item['id'])) {
 
 	// a meta link to a description page (actually, rdf)
 	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Categories::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml" />';
-
-	// implement the trackback interface
-	$permanent_link = Categories::get_permalink($item);
-	$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=category:'.$item['id'];
-	$context['page_header'] .= "\n".'<!--'
-		."\n".'<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'
-		."\n".' 		xmlns:dc="http://purl.org/dc/elements/1.1/"'
-		."\n".' 		xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">'
-		."\n".'<rdf:Description'
-		."\n".' trackback:ping="'.$trackback_link.'"'
-		."\n".' dc:identifier="'.$permanent_link.'"'
-		."\n".' rdf:about="'.$permanent_link.'" />'
-		."\n".'</rdf:RDF>'
-		."\n".'-->';
 
 	// set specific headers
 	if(isset($item['introduction']) && $item['introduction'])
@@ -915,11 +897,6 @@ if(!isset($item['id'])) {
 	// 'Share' box
 	//
 	$lines = array();
-
-	// the command to track back
-	if(Links::allow_trackback()) {
-		$lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('category:'.$item['id']), fa::_("share-alt").' '.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
-	}
 
 	// print this page
 	if(Surfer::is_logged()) {

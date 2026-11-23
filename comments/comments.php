@@ -997,7 +997,6 @@ Class Comments {
 	 * - 'promote' - a form to turn a comment to an article
 	 * - 'quote' - use an existing comment in yours
 	 * - 'reply' - chain a comment to an existing one
-	 * - 'service.comment' - a service to add a new comment to something - id has to reference an anchor (e.g., 'article:123')
 	 * - 'thread' - a service to manage threads - id has to reference an anchor (e.g., 'article:123')
 	 * - 'view' - a page to zoom on one comment
 	 *
@@ -1085,16 +1084,6 @@ Class Comments {
 				return 'comments/edit.php/reply/'.rawurlencode($id);
 			else
 				return 'comments/edit.php?reply='.urlencode($id);
-		}
-
-		// add a comment, the service -- the id has to be an anchor (e.g., 'article:15')
-		if($action == 'service.comment') {
-			if($context['with_friendly_urls'] == 'Y')
-				return 'comments/post.php/'.str_replace(':', '/', $id);
-			elseif($context['with_friendly_urls'] == 'R')
-				return 'comments/post.php/'.str_replace(':', '/', $id);
-			else
-				return 'comments/post.php?anchor='.urlencode($id);
 		}
 
 		// check the target action
@@ -1572,7 +1561,6 @@ Class Comments {
 	 *
 	 * @see agents/messages.php
 	 * @see comments/edit.php
-	 * @see comments/post.php
 	**/
 	public static function post(&$fields) {
 		global $context;

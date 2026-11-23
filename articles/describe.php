@@ -30,8 +30,6 @@
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
- *
- * @link http://www.movabletype.org/docs/mttrackback.html TrackBack Technical Specification
  */
 
 // common definitions and initial processing
@@ -94,9 +92,6 @@ if(!isset($item['id'])) {
 	// compute the url for this article
 	$permanent_link = Articles::get_permalink($item);
 
-	// the trackback link
-	$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=article:'.$item['id'];
-
 	// get a description -- render codes
 	if(isset($item['introduction']) && $item['introduction'])
 		$description = Codes::beautify($item['introduction'], $item['options']);
@@ -106,10 +101,8 @@ if(!isset($item['id'])) {
 	// prepare the response
 	$text = '<?xml version="1.0" encoding="'.$context['charset'].'"?>'."\n"
 		.'<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'."\n"
-		.'		   xmlns:dc="http://purl.org/dc/elements/1.1/"'."\n"
-		.'		   xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">'."\n"
+		.'		   xmlns:dc="http://purl.org/dc/elements/1.1/">'."\n"
 		.'	<rdf:Description'."\n"
-		.'		trackback:ping="'.$trackback_link.'"'."\n"
 		.'		dc:identifier="'.$permanent_link.'"'."\n"
 		.'		rdf:about="'.$permanent_link.'">'."\n"
 		.'		<dc:title>'.encode_field($item['title']).'</dc:title>'."\n"
