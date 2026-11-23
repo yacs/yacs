@@ -20,7 +20,7 @@ load_skin('feeds');
 $cache_id = Cache::hash('feeds/atom').'.xml';
 
 // save for 5 minutes
-if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path_to_root'].$cache_id)+300 < time()) || (!$text = Safe::file_get_contents($context['path_to_root'].$cache_id))) {
+if(Surfer::is_logged() || !file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path_to_root'].$cache_id)+300 < time()) || (!$text = Safe::file_get_contents($context['path_to_root'].$cache_id))) {
 	$text = '';
 
 	// loads feeding parameters
@@ -117,7 +117,9 @@ if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path
 	$text .= "\n".'</feed>';
 
 	// put in cache
-	Safe::file_put_contents($cache_id, $text);
+	// only the version for anonymous surfers is shared, since lists depend on access rights
+	if(!Surfer::is_logged())
+		Safe::file_put_contents($cache_id, $text);
 
 }
 
