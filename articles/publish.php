@@ -8,8 +8,6 @@
  * Various publishing options can be set as well.
  * Then the actual publication takes place on confirmation.
  *
- * One option is to trackback links embedded into the article. Links are also extracted and inserted in the database separately.
- *
  * This script explicitly pings server profiles that have been configured for this purpose,
  * but only on following conditions:
  * - the section is public (see [script]sections/sections.php[/script])
@@ -196,24 +194,10 @@ if($with_form) {
 
 	// advertise public pages
 	$ping_option = FALSE;
-	$trackback_option = FALSE;
 	if($anchor->is_public()
 			&& (isset($item['active']) && ($item['active'] == 'Y')) ) {
 		$ping_option = TRUE;
-		$trackback_option = TRUE;
 	}
-
-	// trackback option
-	$label = i18n::s('Trackback');
-	$input = '<input type="radio" name="trackback_option" value="N"';
-	if(!$trackback_option)
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not contact referenced servers')
-		.BR.'<input type="radio" name="trackback_option" value="Y"';
-	if($trackback_option)
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Parse links and trackback referenced pages');
-	$fields[] = array($label, $input);
 
 	// ping option
 	$label = i18n::s('Ping');

@@ -31,7 +31,7 @@
  *
  * The links section is displayed only if some link has already been attached to this page.
  * Else a command to add a link is displayed in the main menu bar, and a command
- * to trackback is added to the bottom menu bar.
+ * to share is added to the bottom menu bar.
  *
  * An extended menu is featured at page bottom, which content depends on
  * items attached to this page.
@@ -50,8 +50,6 @@
  * to help advanced web usage. This includes:
  * - a link to the section page (e.g., '&lt;link rel="contents" href="http://127.0.0.1/yacs/sections/view.php/4038" title="Ma cat&eacute;gorie" type="text/html" /&gt;')
  * - a link to a RDF description of this page (e.g., '&lt;link rel="meta" href="http://127.0.0.1/yacs/articles/describe.php/4310" title="rdf" type="application/rdf+xml" /&gt;')
- * - a rdf section implementing the [link=trackback]http://www.movabletype.org/docs/mttrackback.html[/link] interface
- * - a [link=pingback]http://www.hixie.ch/specs/pingback/pingback[/link] link (e.g., '&lt;link rel="pingback" href="http://here/yacs/services/pingback.php" /&gt;')
  * - a link to the [link=Comment API]http://wellformedweb.org/CommentAPI/[/link] for this page
  * - a link to the next page, if neighbours have been defined, enabling pre-fetching
  *
@@ -87,8 +85,6 @@
  * - view.php/12/links/1 (view the page 1 of the list of related links)
  * - view.php?id=12&links=1 (view the page 1 of the list of related links)
  *
- * @link http://www.movabletype.org/docs/mttrackback.html TrackBack Technical Specification
- * @link http://www.hixie.ch/specs/pingback/pingback Pingback specification
  *
  * If this article, or one of its anchor, specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
@@ -442,20 +438,6 @@ if(!isset($item['id'])) {
 	    // a meta link to a description page (actually, rdf)
 	    $context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml" />';
 
-	    // implement the trackback interface
-	    $permanent_link = Articles::get_permalink($item);
-	    $trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=article:'.$item['id'];
-	    $context['page_header'] .= "\n".'<!--'
-		    ."\n".'<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'
-		    ."\n".' 		xmlns:dc="http://purl.org/dc/elements/1.1/"'
-		    ."\n".' 		xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">'
-		    ."\n".'<rdf:Description'
-		    ."\n".' trackback:ping="'.$trackback_link.'"'
-		    ."\n".' dc:identifier="'.$permanent_link.'"'
-		    ."\n".' rdf:about="'.$permanent_link.'" />'
-		    ."\n".'</rdf:RDF>'
-		    ."\n".'-->';
-
 	    // implement the Comment API interface
 	    $context['page_header'] .= "\n".'<link rel="service.comment" href="'.$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'service.comment').'" title="Comment Interface" type="text/xml" />';
 
@@ -662,11 +644,6 @@ if(!isset($item['id'])) {
 	    // manage editors
 	    if($cur_article->is_owned() || Surfer::is_associate()) {
 		    $lines[] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), fa::_("users").' '.i18n::s('Manage participants'));
-	    }
-
-	    // the command to track back
-	    if(Links::allow_trackback()) {
-		    $lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('article:'.$item['id']), fa::_("share-alt").' '.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
 	    }
 
 	    // more tools

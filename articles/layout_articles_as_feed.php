@@ -123,9 +123,6 @@ Class Layout_articles_as_feed extends Layout_interface {
 			// the comment Rss url
 			$extensions[] = '<wfw:commentRss>'.encode_link($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'))."</wfw:commentRss>";
 
-			// the trackback url
-			$extensions[] = '<trackback:ping>'.encode_link($context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor='.urlencode('article:'.$item['id']))."</trackback:ping>"; // no trackback:about;
-
 			// list all components for this item
 			$items[$url] = array($time, $title, $author, $section, $icon, $introduction, $description, $extensions);
 

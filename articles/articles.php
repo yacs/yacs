@@ -1206,7 +1206,6 @@ Class Articles {
 	 * - logs the publication
 	 * - sends notification to watchers and to followers
 	 * - "touches" the container of the page,
-	 * - ping referred pages remotely (via the pingback protocol)
 	 * - ping selected servers, if any
 	 * - and triggers the hook 'publish'.
 	 *
@@ -1260,19 +1259,6 @@ Class Articles {
 
 		// advertise public pages
 		if(isset($item['active']) && ($item['active'] == 'Y')) {
-
-			// expose links within the page
-			$raw = '';
-			if(isset($item['introduction']))
-				$raw .= $item['introduction'];
-			if(isset($item['source']))
-				$raw .= ' '.$item['source'];
-			if(isset($item['description']))
-				$raw .= ' '.$item['description'];
-
-			// pingback to referred links, if any
-			include_once $context['path_to_root'].'links/links.php';
-			Links::ping($raw, 'article:'.$item['id']);
 
 			// ping servers, if any
 			Servers::notify($anchor->get_url());
@@ -1375,7 +1361,6 @@ Class Articles {
 	 * - logs the update
 	 * - sends notification to watchers and to followers
 	 * - "touches" the container of the page,
-	 * - ping referred pages remotely (via the pingback protocol)
 	 * - ping selected servers, if any
 	 * - and triggers the hook 'update'.
 	 *
@@ -1435,19 +1420,6 @@ Class Articles {
 
 			// advertise public pages
 			if(isset($item['active']) && ($item['active'] == 'Y')) {
-
-				// expose links within the page
-				$raw = '';
-				if(isset($item['introduction']))
-					$raw .= $item['introduction'];
-				if(isset($item['source']))
-					$raw .= ' '.$item['source'];
-				if(isset($item['description']))
-					$raw .= ' '.$item['description'];
-
-				// pingback to referred links, if any
-				include_once $context['path_to_root'].'links/links.php';
-				Links::ping($raw, 'article:'.$item['id']);
 
 				// ping servers, if any
 				Servers::notify($anchor->get_url());

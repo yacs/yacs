@@ -16,7 +16,6 @@
  * Largely inspired by [link]http://joi.ito.com/[/link].
  *
  * @link http://joi.ito.com/
- * @link http://www.movabletype.org/docs/mttrackback.html TrackBack Technical Specification
  *
  * @author Bernard Paques
  * @author GnapZ
@@ -194,10 +193,6 @@ Class Layout_as_daily extends Layout_interface {
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
 				$menu[] = Skin::build_link($url.'#_attachments', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'span');
-
-			// trackback
-			if(Links::allow_trackback())
-				$menu[] = Skin::build_link('links/trackback.php?anchor='.urlencode('article:'.$item['id']), i18n::s('Reference this page'), 'span');
 
 			// a menu bar
 			if(count($menu))

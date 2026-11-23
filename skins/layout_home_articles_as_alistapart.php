@@ -2,7 +2,6 @@
 /**
  * layout articles as alistapart do
  *
- * @link http://www.movabletype.org/docs/mttrackback.html TrackBack Technical Specification
  *
  * @author Bernard Paques
  * @reference
@@ -323,8 +322,6 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			$this->menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'span');
 
 		// new links are accepted at the index page and at the article level
-		if(Links::allow_trackback())
-			$this->menu[] = Skin::build_link('links/trackback.php?anchor='.urlencode('article:'.$item['id']), i18n::s('Reference this page'), 'span');
 
 		// info on related links
 		if($count = Links::count_for_anchor('article:'.$item['id']))

@@ -173,10 +173,6 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
 				$menu = array_merge($menu, array( $url.'#_attachments' => sprintf(i18n::ns('%d link', '%d links', $count), $count) ));
 
-			// trackback
-			if(Links::allow_trackback())
-				$menu = array_merge($menu, array( 'links/trackback.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Reference this page') ));
-
 			// link to the anchor page
 			if(is_object($anchor))
 				$menu = array_merge($menu, array( $anchor->get_url() => $anchor->get_title() ));

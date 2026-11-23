@@ -13,10 +13,6 @@
  * - [code]debug_rpc[/code] - if set to '[code]Y[/code]',
  * save into [code]temporary/debug.txt[/code] data sent and received in [script]services/json_rpc.php[/script].
  *
- * - [code]debug_trackback[/code] - if set to '[code]Y[/code]',
- * save into [code]temporary/debug.txt[/code] data sent and received in [script]links/trackback.php[/script].
- * Also save data sent as trackback client in [script]links/links.php[/script].
- *
  * - [code]google_api_key[/code] - according to your registration to
  * Google web services.
  *
@@ -177,15 +173,6 @@ elseif(!Surfer::is_associate()) {
 	$hint = i18n::s('Use this option only for troubleshooting');
 	$fields[] = array($label, $input, $hint);
 
-	// debug_trackback
-	$label = i18n::s('Debug pingback and trackback services');
-	$checked = '';
-	if(isset($context['debug_trackback'])&& ($context['debug_trackback'] == 'Y'))
-		$checked = 'checked="checked"';
-	$input = '<input type="checkbox" name="debug_trackback" value="Y" '.$checked.'/> '.i18n::s('Copy network packets sent and received by links/trackback.php in temporary/debug.txt');
-	$hint = i18n::s('Use this option only for troubleshooting');
-	$fields[] = array($label, $input, $hint);
-
 	// panel for debugging
 	$text = Skin::build_form($fields);
 	$fields = array();
@@ -238,8 +225,6 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'debug_comment\']=\''.addcslashes($_REQUEST['debug_comment'], "\\'")."';\n";
 	if(isset($_REQUEST['debug_rpc']))
 		$content .= '$context[\'debug_rpc\']=\''.addcslashes($_REQUEST['debug_rpc'], "\\'")."';\n";
-	if(isset($_REQUEST['debug_trackback']))
-		$content .= '$context[\'debug_trackback\']=\''.addcslashes($_REQUEST['debug_trackback'], "\\'")."';\n";
 	if(isset($_REQUEST['google_api_key']))
 		$content .= '$context[\'google_api_key\']=\''.addcslashes($_REQUEST['google_api_key'], "\\'")."';\n";
 	if(isset($_REQUEST['google_analytics_account']))
