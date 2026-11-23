@@ -4,25 +4,18 @@
  *
  * Use this script to modify following parameters:
  *
- * - [code]debug_blog[/code] - if set to '[code]Y[/code]',
- * save into [code]temporary/debug.txt[/code] data sent and received in [script]services/blog.php[/script].
- *
  * - [code]debug_call[/code] - if set to '[code]Y[/code]',
  * save into [code]temporary/debug.txt[/code] data sent and received in [script]services/call.php[/script].
  *
  * - [code]debug_comment[/code] - if set to '[code]Y[/code]',
  * save into [code]temporary/debug.txt[/code] data sent and received in [script]comments/post.php[/script].
  *
- * - [code]debug_ping[/code] - if set to '[code]Y[/code]',
- * save into [code]temporary/debug.txt[/code] data sent and received in [script]services/ping.php[/script].
- *
  * - [code]debug_rpc[/code] - if set to '[code]Y[/code]',
- * save into [code]temporary/debug.txt[/code] data sent and received in [script]services/json_rpc.php[/script] and in [script]services/xml_rpc.php[/script].
+ * save into [code]temporary/debug.txt[/code] data sent and received in [script]services/json_rpc.php[/script].
  *
  * - [code]debug_trackback[/code] - if set to '[code]Y[/code]',
  * save into [code]temporary/debug.txt[/code] data sent and received in [script]links/trackback.php[/script].
  * Also save data sent as trackback client in [script]links/links.php[/script].
- * Also save pingback data sent and receive in [script]services/ping.php[/script].
  *
  * - [code]google_api_key[/code] - according to your registration to
  * Google web services.
@@ -157,15 +150,6 @@ elseif(!Surfer::is_associate()) {
 	$fields = array();
 	$panels[] = array('providers', i18n::s('Providers'), 'providers', $text);
 
-	// debug_blog
-	$label = i18n::s('Debug blog services');
-	$checked = '';
-	if(isset($context['debug_blog'])&& ($context['debug_blog'] == 'Y'))
-		$checked = 'checked="checked"';
-	$input = '<input type="checkbox" name="debug_blog" value="Y" '.$checked.'/> '.i18n::s('Copy network packets sent and received by services/blog.php in temporary/debug.txt');
-	$hint = i18n::s('Use this option only for troubleshooting');
-	$fields[] = array($label, $input, $hint);
-
 	// debug_comment
 	$label = i18n::s('Debug commenting services');
 	$checked = '';
@@ -181,15 +165,6 @@ elseif(!Surfer::is_associate()) {
 	if(isset($context['debug_call'])&& ($context['debug_call'] == 'Y'))
 		$checked = 'checked="checked"';
 	$input = '<input type="checkbox" name="debug_call" value="Y" '.$checked.'/> '.i18n::s('Copy network packets sent and received by services/call.php in temporary/debug.txt');
-	$hint = i18n::s('Use this option only for troubleshooting');
-	$fields[] = array($label, $input, $hint);
-
-	// debug_ping
-	$label = i18n::s('Debug ping services');
-	$checked = '';
-	if(isset($context['debug_ping'])&& ($context['debug_ping'] == 'Y'))
-		$checked = 'checked="checked"';
-	$input = '<input type="checkbox" name="debug_ping" value="Y" '.$checked.'/> '.i18n::s('Copy network packets sent and received by services/ping.php in temporary/debug.txt');
 	$hint = i18n::s('Use this option only for troubleshooting');
 	$fields[] = array($label, $input, $hint);
 
@@ -257,14 +232,10 @@ elseif(!Surfer::is_associate()) {
 	$content = '<?php'."\n"
 		.'// This file has been created by the configuration script services/configure.php'."\n"
 		.'// on '.gmdate("F j, Y, g:i a").' GMT, for '.Surfer::get_name().'. Please do not modify it manually.'."\n";
-	if(isset($_REQUEST['debug_blog']))
-		$content .= '$context[\'debug_blog\']=\''.addcslashes($_REQUEST['debug_blog'], "\\'")."';\n";
 	if(isset($_REQUEST['debug_call']))
 		$content .= '$context[\'debug_call\']=\''.addcslashes($_REQUEST['debug_call'], "\\'")."';\n";
 	if(isset($_REQUEST['debug_comment']))
 		$content .= '$context[\'debug_comment\']=\''.addcslashes($_REQUEST['debug_comment'], "\\'")."';\n";
-	if(isset($_REQUEST['debug_ping']))
-		$content .= '$context[\'debug_ping\']=\''.addcslashes($_REQUEST['debug_ping'], "\\'")."';\n";
 	if(isset($_REQUEST['debug_rpc']))
 		$content .= '$context[\'debug_rpc\']=\''.addcslashes($_REQUEST['debug_rpc'], "\\'")."';\n";
 	if(isset($_REQUEST['debug_trackback']))

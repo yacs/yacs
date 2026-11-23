@@ -1039,7 +1039,6 @@ Class Categories {
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 * @see services/blog.php
 	 */
 	public static function list_by_path($offset=0, $count=10, $variant='full') {
 		global $context;
@@ -1863,7 +1862,6 @@ Class Categories {
 	 *
 	 * @see articles/articles.php
 	 * @see categories/check.php
-	 * @see services/blog.php
 	 */
 	public static function remember($reference, $stamp=NULL, $tags=NULL, $oldtags=NULL) {
 		global $context;

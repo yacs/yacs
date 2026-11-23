@@ -1839,16 +1839,6 @@ Class Sections {
 				return 'services/check.php?id='.urlencode('section:'.$id);
 		}
 
-		// the RSD link
-		if($action == 'EditURI') {
-			if($context['with_friendly_urls'] == 'Y')
-				return 'services/describe.php/'.rawurlencode($id);
-			elseif($context['with_friendly_urls'] == 'R')
-				return 'services/describe.php/'.rawurlencode($id);
-			else
-				return 'services/describe.php?anchor='.urlencode($id);
-		}
-
 		// the rss feed for files --deprecated to files::get_url()
 		if($action == 'files') {
 			if($context['with_friendly_urls'] == 'Y')
@@ -3274,7 +3264,6 @@ Class Sections {
 	 * @param string the new or updated template
 	 * @return string either a null string, or some text describing an error to be inserted into the html response
 	 *
-	 * @see services/blog.php
 	 * @see skins/import.php
 	**/
 	public static function put_template($id, $template, $directory=NULL) {

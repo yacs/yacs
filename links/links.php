@@ -474,7 +474,6 @@ Class Links {
 	 *
 	 * @see feeds/feeds.php
 	 * @see links/trackback.php
-	 * @see services/ping.php
 	 */
 	public static function have($url, $anchor=NULL, $attributes=NULL) {
 		global $context;
@@ -814,7 +813,6 @@ Class Links {
 	 * [script]services/blog.php[/script], [script]agents/messages.php[/script] or [script]agents/uploads.php[/script].
 	 *
 	 * @see articles/publish.php
-	 * @see services/blog.php
 	 * @see agents/messages.php
 	 * @see agents/uploads.php
 	 *
@@ -840,7 +838,6 @@ Class Links {
 	 * Note that YACS also implements the server part of the pingback specification in [script]services/ping.php[/script],
 	 * which supports XML-RPC calls.
 	 *
-	 * @see services/ping.php
 	 *
 	 * This function transforms every YACS codes into HTML before extracting links,
 	 * and before submitting the excerpt to remote site.
@@ -1120,7 +1117,6 @@ Class Links {
 	 * @see feeds/feeds.php
 	 * @see links/edit.php
 	 * @see links/trackback.php
-	 * @see services/ping.php
 	**/
 	public static function post(&$fields) {
 		global $context;

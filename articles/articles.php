@@ -1076,7 +1076,6 @@ Class Articles {
 	 * @return boolean TRUE on success, FALSE otherwise
 	 *
 	 * @see articles/delete.php
-	 * @see services/blog.php
 	 */
 	public static function delete($id) {
 		global $context;
@@ -3129,7 +3128,6 @@ Class Articles {
 	 * @return TRUE on success, or FALSE on error
 	 *
 	 * @see articles/edit.php
-	 * @see services/blog.php
 	**/
 	public static function put(&$fields) {
 		global $context;

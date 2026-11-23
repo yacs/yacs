@@ -8,7 +8,6 @@
  *
  * @see services/call.php
  * @see services/json_rpc.php
- * @see services/xml_rpc.php
  *
  * @author Bernard Paques
  * @reference

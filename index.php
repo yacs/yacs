@@ -151,10 +151,6 @@
  * A feeding link has been included, in order to let robots browse this resource when necessary.
  * See [script]feeds/rss.php[/script] for more information.
  *
- * Simlarly, a meta-link to our blogging API is added, to allow for easy
- * auto-discovery of server capability.
- * See [script]services/describe.php[/script] for more information.
- *
  * If geographical information has been set in [script]skins/configure.php[/script], it is included
  * in meta data.
  * See either [link=GeoTags Search Engine]http://geotags.com/[/link]
@@ -551,9 +547,6 @@ if(Surfer::is_associate() || (isset($context['with_referrals']) && ($context['wi
 
 // a meta link to a feeding page
 $context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_root'].Feeds::get_url('rss').'" title="RSS" type="application/rss+xml" />';
-
-// a meta link to our blogging interface
-$context['page_header'] .= "\n".'<link rel="EditURI" href="'.$context['url_to_home'].$context['url_to_root'].'services/describe.php" title="RSD" type="application/rsd+xml" />';
 
 // render the skin
 render_skin();

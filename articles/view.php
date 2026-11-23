@@ -456,9 +456,6 @@ if(!isset($item['id'])) {
 		    ."\n".'</rdf:RDF>'
 		    ."\n".'-->';
 
-	    // implement the pingback interface
-	    $context['page_header'] .= "\n".'<link rel="pingback" href="'.$context['url_to_root'].'services/ping.php" title="Pingback Interface" />';
-
 	    // implement the Comment API interface
 	    $context['page_header'] .= "\n".'<link rel="service.comment" href="'.$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'service.comment').'" title="Comment Interface" type="text/xml" />';
 

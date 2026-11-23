@@ -430,7 +430,6 @@ Class Users {
 	 * @see agents/messages/php
 	 * @see articles/view.php
 	 * @see links/edit.php
-	 * @see services/blog.php
 	 * @see shared/codes.php
 	 * @see users/delete.php
 	 * @see users/edit.php
@@ -961,7 +960,6 @@ Class Users {
 	 * @see locations/edit.php
 	 * @see sections/edit.php
 	 * @see servers/edit.php
-	 * @see services/blog.php
 	 * @see tables/edit.php
 	 */
 	public static function increment_posts($id) {
@@ -1591,7 +1589,6 @@ Class Users {
 	 * @return the record of the authenticated surfer, or NULL
 	 *
 	 * @see users/login.php
-	 * @see services/blog.php
 	 */
 	public static function login($name, $password) {
 		global $context;

@@ -87,9 +87,6 @@ $context['page_title'] = i18n::s('Site map');
 // count root sections that are listed below
 $count = Sections::count_for_anchor(NULL, TRUE);
 
-// a meta link to our blogging interface
-$context['page_header'] .= "\n".'<link rel="EditURI" href="'.$context['url_to_home'].$context['url_to_root'].'services/describe.php" title="RSD" type="application/rsd+xml" />';
-
 // the prefix hook for the site map page
 if(is_callable(array('Hooks', 'include_scripts')))
 	$context['text'] .= Hooks::include_scripts('sections/index.php#prefix');
