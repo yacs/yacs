@@ -52,6 +52,10 @@
 
 // include the global declarations
 include_once '../shared/global.php';
+
+// actions are applied only on POST, which carries the form token -- a link displays the form
+if(!is_post_request())
+	unset($_REQUEST['action']);
 include_once '../scripts/scripts.php';	// we handle many files
 include_once '../shared/update_steps.php';	// not left to the autoloader, global.php may be stale during an update
 
