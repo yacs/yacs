@@ -81,8 +81,12 @@ elseif(Users::validate($item['id'])) {
 	$follow_up .= Skin::build_list($menu, 'menu_bar');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
+// in a closed community, associates approve new members
+} elseif(isset($context['users_with_approved_members']) && ($context['users_with_approved_members'] == 'Y'))
+	$context['text'] .= '<p>'.i18n::s('Associates have to validate membership (closed community).')."</p>\n";
+
 // failed operation
-} else
+else
 	$context['text'] .= '<p>'.i18n::s('Your e-mail address has not been validated.')."</p>\n";
 
 // render the skin
