@@ -50,7 +50,6 @@
  * to help advanced web usage. This includes:
  * - a link to the section page (e.g., '&lt;link rel="contents" href="http://127.0.0.1/yacs/sections/view.php/4038" title="Ma cat&eacute;gorie" type="text/html" /&gt;')
  * - a link to a RDF description of this page (e.g., '&lt;link rel="meta" href="http://127.0.0.1/yacs/articles/describe.php/4310" title="rdf" type="application/rdf+xml" /&gt;')
- * - a link to the [link=Comment API]http://wellformedweb.org/CommentAPI/[/link] for this page
  * - a link to the next page, if neighbours have been defined, enabling pre-fetching
  *
  * @link http://www.mozilla.org/projects/netlib/Link_Prefetching_FAQ.html Link Prefetching FAQ
@@ -438,8 +437,6 @@ if(!isset($item['id'])) {
 	    // a meta link to a description page (actually, rdf)
 	    $context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml" />';
 
-	    // implement the Comment API interface
-	    $context['page_header'] .= "\n".'<link rel="service.comment" href="'.$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'service.comment').'" title="Comment Interface" type="text/xml" />';
 
 	    // set specific headers
 		if(is_object($overlay) && is_callable(array($overlay,'get_meta_introduction_text')) && ($more = $overlay->get_text('meta_introduction', $item))) {

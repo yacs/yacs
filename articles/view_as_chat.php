@@ -29,7 +29,6 @@
  * to help advanced web usage. This includes:
  * - a link to the section page (e.g., '&lt;link rel="contents" href="http://127.0.0.1/yacs/sections/view.php/4038" title="Ma cat&eacute;gorie" type="text/html" /&gt;')
  * - a link to a RDF description of this page (e.g., '&lt;link rel="meta" href="http://127.0.0.1/yacs/articles/describe.php/4310" title="rdf" type="application/rdf+xml" /&gt;')
- * - a link to the [link=Comment API]http://wellformedweb.org/CommentAPI/[/link] for this page
  *
  * Meta information also includes:
  * - page description, which is a copy of the introduction, if any, or the default general description parameter

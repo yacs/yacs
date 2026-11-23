@@ -117,8 +117,6 @@ Class Layout_articles_as_feed extends Layout_interface {
 			$comment_count = Comments::count_for_anchor('article:'.$item['id']);
 			$extensions[] = '<slash:comments>'.$comment_count."</slash:comments>";
 
-			// the comment post url
-			$extensions[] = '<wfw:comment>'.encode_link($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'service.comment'))."</wfw:comment>";
 
 			// the comment Rss url
 			$extensions[] = '<wfw:commentRss>'.encode_link($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'))."</wfw:commentRss>";

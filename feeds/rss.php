@@ -17,15 +17,11 @@
  * @link http://www.disobey.com/detergent/2002/extendingrss2/ Extending RSS 2.0 With Namespaces
  * @link http://feeds.archive.org/validator/ FEED Validator for Atom and RSS
  *
- * Also, several meta-links are provided to help client software to do its job correclty:
- * - wfw:comment - absolute url to post a new comment
+ * Also, a meta-link is provided to help client software to do its job correclty:
  * - wfw:commentRss - absolute url to expose related comments as RSS feed
- *
- * Basically, these meta-links mean that YACS fully support trackback and Comment API specifications.
  *
  * @link http://purl.org/rss/1.0/modules/content/ xmlns:content
  * @link http://wellformedweb.org/CommentAPI/ xmlns:wfw
- * @link http://wellformedweb.org/story/9 The Comment API
  *
  * If the geographical position of the server has been set through the configuration panel for skins,
  * it is included into the feed as well.
