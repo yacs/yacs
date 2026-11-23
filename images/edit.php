@@ -191,7 +191,7 @@ if(Surfer::is_crawler()) {
 	if(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && ($_FILES['upload']['name'] != 'none')) {
 
 		// where to put uploaded items
-		$file_path = Files::get_path($_REQUEST['anchor'], 'images');
+		$file_path = Files::get_path($anchor->get_reference(), 'images');
 
 		// explode a .zip file
 		if(preg_match('/\.zip$/i', $_FILES['upload']['name'])) {
@@ -207,7 +207,11 @@ if(Surfer::is_crawler()) {
                                 // ignore subfolders
                                 if(strpos($filename, '/') !== FALSE)
                                         continue;
-                                
+
+                                // only image files are extracted, getimagesize() alone is not enough
+                                if(!preg_match('/^[^.\\\\][^\\\\]*\.(gif|jpe?g|png|webp)$/i', $filename) || !Files::is_authorized($filename))
+                                        continue;
+
                                 $zipfile->extractTo(Safe::realpath($file_path), $filename);
                                 
                                 $extracted = $file_path.'/'.$filename;

@@ -1457,8 +1457,12 @@ else {
 			// get a safe file name
 			$file_name = utf8::to_ascii(basename($content['name']));
 
+			// only authorized file types, and no hidden file
+			if(!$file_name || ($file_name[0] == '.') || !Files::is_authorized($file_name))
+				$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('This type of file is not allowed.') );
+
 			// save file content
-			if(!Safe::file_put_contents($file_path.'/'.$file_name, $content['bits']))
+			elseif(!Safe::file_put_contents($file_path.'/'.$file_name, $content['bits']))
 				$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Impossible to save content of file %s'), $file_name) );
 
 			// also add some file entry

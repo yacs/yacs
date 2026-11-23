@@ -730,6 +730,23 @@ Class Images {
 		if(!isset($fields['use_thumbnail']) || !Surfer::get_id())
 			$fields['use_thumbnail'] = 'Y'; 	// only authenticated users can select to not moderate image sizes
 
+		// an image name never carries a path, and its thumbnail stays in thumbs/
+		if(isset($fields['image_name']) && ($fields['image_name'] !== '')) {
+			$fields['image_name'] = basename(str_replace('\\', '/', $fields['image_name']));
+			if(($fields['image_name'] === '') || ($fields['image_name'][0] == '.')) {
+				Logger::error(i18n::s('This type of file is not allowed.'));
+				return FALSE;
+			}
+		}
+		if(isset($fields['thumbnail_name']) && ($fields['thumbnail_name'] !== '')) {
+			$thumbnail = basename(str_replace('\\', '/', $fields['thumbnail_name']));
+			if(($thumbnail === '') || ($thumbnail[0] == '.')) {
+				Logger::error(i18n::s('This type of file is not allowed.'));
+				return FALSE;
+			}
+			$fields['thumbnail_name'] = (strncmp($fields['thumbnail_name'], 'thumbs/', 7) ? '' : 'thumbs/').$thumbnail;
+		}
+
 		// set default values for this editor
 		Surfer::check_default_editor($fields);
 

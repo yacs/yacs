@@ -1463,7 +1463,10 @@ Class Files {
 	public static function get_path($reference, $space='files') {
 		global $context;
 
-		return $space.'/'.str_replace(':', '/', $reference ?? '');
+		// a reference is made of a type and an id, nothing else can reach the path
+		$reference = preg_replace('/[^\w:\-]/', '', (string)($reference ?? ''));
+
+		return $space.'/'.str_replace(':', '/', $reference);
 	}
 
 	/**
@@ -2632,6 +2635,15 @@ Class Files {
 			$fields['icon_url'] = encode_link($fields['icon_url']);
 		if(isset($fields['thumbnail_url']))
 			$fields['thumbnail_url'] = encode_link($fields['thumbnail_url']);
+
+		// a file name never carries a path
+		if(isset($fields['file_name']) && ($fields['file_name'] !== '')) {
+			$fields['file_name'] = basename(str_replace('\\', '/', $fields['file_name']));
+			if(($fields['file_name'] === '') || ($fields['file_name'][0] == '.')) {
+				Logger::error(i18n::s('This type of file is not allowed.'));
+				return FALSE;
+			}
+		}
 
 		// protect access from anonymous users
 		if(!isset($fields['active_set']))
