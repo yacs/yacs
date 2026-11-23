@@ -95,9 +95,8 @@ $context['page_title'] = i18n::s('Run one-time scripts');
 global $scripts;
 $scripts= array();
 
-// if the user table exists, check that the user is an admin
-$query = "SELECT count(*) FROM ".SQL::table_name('users');
-if((SQL::query($query) !== FALSE) && !Surfer::is_associate()) {
+// only associates, or the installer, can run these scripts
+if(!Surfer::is_associate() && !is_installing()) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 

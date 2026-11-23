@@ -46,8 +46,8 @@
  * and proposes to jump to the control panel at [script]control/index.php[/script].
  * In this case the control panel will redirect to the adequate script depending of the missing element.
  *
- * If all files are present, but there is no [code]parameters/switch.on[/code] nor [code]parameters/switch.off[/code] file, the script
- * assumes the installation ends correctly, creates [code]parameters/switch.on[/code], locks the installation again, and offers to jump to the
+ * If all files are present, but there is no [code]parameters/switch.on[/code] nor [code]parameters/switch.off[/code] file, and if
+ * the surfer is the installer or an associate, the script assumes the installation ends correctly, creates [code]parameters/switch.on[/code], locks the installation again, and offers to jump to the
  * control panel at [script]control/index.php[/script].
  * Also, if there is no index page at the upper directory level, the script will silently attempt
  * to duplicate index.php there.
@@ -307,6 +307,11 @@ if(Surfer::is_crawler()) {
 
 	// to the control panel
 	$context['text'] .= '<p><a href="control/">'.i18n::s('Control Panel')."</a></p>\n";
+
+// only the installer, or an associate, can end the installation
+} elseif(!file_exists('parameters/switch.on') && !file_exists('parameters/switch.off') && !Surfer::is_associate() && !is_installing()) {
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // end of the installation
 } elseif(!file_exists('parameters/switch.on') && !file_exists('parameters/switch.off')) {
