@@ -1455,6 +1455,93 @@ Class Users {
 	}
 
 	/**
+	 * count recent attempts of some kind
+	 *
+	 * Attempts are remembered in the table of values, during one hour.
+	 *
+	 * @see Users::add_attempt()
+	 *
+	 * @param string the kind of attempt, such as 'login'
+	 * @param string who is trying, such as a network address and an account
+	 * @return int the number of attempts during previous hour
+	 */
+	public static function count_attempts($kind, $who) {
+		global $context;
+
+		include_once $context['path_to_root'].'shared/values.php';
+		if(!$item = Values::get_record(Users::get_attempts_id($kind, $who)))
+			return 0;
+
+		// value is: number of attempts, then time of the first one
+		list($count, $since) = array_pad(explode('|', (string)$item['value']), 2, 0);
+		if((int)$since < time() - 3600)
+			return 0;
+
+		return (int)$count;
+	}
+
+	/**
+	 * remember one attempt of some kind
+	 *
+	 * @param string the kind of attempt, such as 'login'
+	 * @param string who is trying, such as a network address and an account
+	 * @return int the number of attempts during previous hour, including this one
+	 */
+	public static function add_attempt($kind, $who) {
+		global $context;
+
+		include_once $context['path_to_root'].'shared/values.php';
+		$id = Users::get_attempts_id($kind, $who);
+
+		// a new period starts after one hour
+		$count = 0;
+		$since = time();
+		if(($item = Values::get_record($id)) && ($items = explode('|', (string)$item['value'])) && (count($items) == 2) && ((int)$items[1] >= time() - 3600)) {
+			$count = (int)$items[0];
+			$since = (int)$items[1];
+		}
+
+		$count++;
+		Values::set($id, $count.'|'.$since);
+
+		// forget old attempts from time to time
+		if(mt_rand(1, 50) == 1) {
+			$query = "DELETE FROM ".SQL::table_name('values')
+				." WHERE (id LIKE 'attempts.%') AND (edit_date < '".gmdate('Y-m-d H:i:s', time() - 3600)."')";
+			SQL::query($query, TRUE);
+		}
+
+		return $count;
+	}
+
+	/**
+	 * forget attempts of some kind
+	 *
+	 * @param string the kind of attempt, such as 'login'
+	 * @param string who was trying
+	 */
+	public static function clear_attempts($kind, $who) {
+		global $context;
+
+		include_once $context['path_to_root'].'shared/values.php';
+		Values::delete(Users::get_attempts_id($kind, $who));
+	}
+
+	/**
+	 * build the name of a counter of attempts
+	 *
+	 * The name is hashed, so that addresses are not stored as such,
+	 * and has no character that would be special in a LIKE clause.
+	 *
+	 * @param string the kind of attempt
+	 * @param string who is trying
+	 * @return string the id of the related value
+	 */
+	private static function get_attempts_id($kind, $who) {
+		return 'attempts.'.preg_replace('/[^a-z]/', '', strtolower($kind)).'.'.sha1((string)$who);
+	}
+
+	/**
 	 * login
 	 *
 	 * The script checks provided name and password against the local database.
@@ -1509,6 +1596,9 @@ Class Users {
 	public static function login($name, $password) {
 		global $context;
 
+		// failed authentications are counted for this caller, and for the account as a whole
+		$caller = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
+
 		// using the last resort password
 		if(isset($context['last_resort_password']) && (strlen(trim($context['last_resort_password'])) >= 1) && ($password == $context['last_resort_password'])) {
 
@@ -1538,8 +1628,14 @@ Class Users {
 			if($item['capability'] == '?')
 				return NULL;
 
-			// more than three failed authentications during previous hour
-			elseif(($item['authenticate_failures'] >= 3) && ($item['authenticate_date'] > gmdate('Y-m-d H:i:s', time()-3600))) {
+			// more than three failed authentications from this caller during previous hour
+			// another caller, such as the actual owner of the account, is not blocked
+			elseif(Users::count_attempts('login', $caller.'|'.$item['id']) >= 3) {
+				Logger::error(i18n::s('Wait for one hour to recover from too many failed authentications.'));
+				return NULL;
+
+			// too many failed authentications from everywhere during previous hour
+			} elseif(($item['authenticate_failures'] >= 20) && ($item['authenticate_date'] > gmdate('Y-m-d H:i:s', time()-3600))) {
 				Logger::error(i18n::s('Wait for one hour to recover from too many failed authentications.'));
 				return NULL;
 
@@ -1595,17 +1691,21 @@ Class Users {
 		// bad credentials
 		if(!$authenticated && isset($item['id'])) {
 
-			// increment failing authentications during last hour
+			// one more failure for this caller
+			$failures = Users::add_attempt('login', $caller.'|'.$item['id']);
+			if($failures >= 3)
+				Logger::error(i18n::s('Wait for one hour to recover from too many failed authentications.'));
+			elseif($failures == 2)
+				Logger::error(i18n::s('You have 1 grace authentication attempt.'));
+			else
+				Logger::error(i18n::s('You have 2 grace authentication attempts.'));
+
+			// increment failing authentications of the account during last hour
 			if(isset($item['authenticate_date']) && ($item['authenticate_date'] >= gmdate('Y-m-d H:i:s', time()-3600))) {
 
 				$query = "UPDATE ".SQL::table_name('users')
 					." SET authenticate_failures=authenticate_failures+1"
 					." WHERE id = ".$item['id'];
-
-				if($item['authenticate_failures'] >= 2)
-					Logger::error(i18n::s('Wait for one hour to recover from too many failed authentications.'));
-				elseif($item['authenticate_failures'] == 1)
-					Logger::error(i18n::s('You have 1 grace authentication attempt.'));
 
 			// first failure in a row
 			} else {
@@ -1613,8 +1713,6 @@ Class Users {
 					." SET authenticate_date = '".gmdate('Y-m-d H:i:s')."'"
 					.", authenticate_failures=1"
 					." WHERE id = ".$item['id'];
-
-				Logger::error(i18n::s('You have 2 grace authentication attempts.'));
 			}
 
 			// update target record
@@ -1634,6 +1732,9 @@ Class Users {
 			$item['handle'] = bin2hex(random_bytes(16));
 			$handle = ", handle='".$item['handle']."' ";
 		}
+
+		// failures of this caller are forgotten
+		Users::clear_attempts('login', $caller.'|'.$item['id']);
 
 		// remember silently the date of the last login, and reset authentication counter
 		$query = "UPDATE ".SQL::table_name('users')

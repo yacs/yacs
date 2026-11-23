@@ -37,6 +37,13 @@ if(Surfer::is_crawler()) {
 	die(i18n::s('You are not allowed to perform this operation.'));
 }
 
+// e-mail addresses cannot be checked one after the other -- limited to 30 per hour from one address
+if(isset($_REQUEST['email']) && !isset($_REQUEST['nick_name'])
+	&& (Users::add_attempt('check', isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '') > 30)) {
+	Safe::header('Status: 429 Too Many Requests', TRUE, 429);
+	die(i18n::s('You are not allowed to perform this operation.'));
+}
+
 // we return a JSON object -- must be an array, writing string offsets
 // like $output['can'] on a string is a fatal error since PHP 8.0
 $output = array();
