@@ -1500,6 +1500,10 @@ Class Articles {
 			return $output;
 		}
 
+		// only * or a list of column names -- the list is placed as such in the query
+		if(!is_string($attributes) || !preg_match('/^\s*(\*|[a-z_][a-z0-9_]*(\s*,\s*[a-z_][a-z0-9_]*)*)\s*$/i', $attributes))
+			return $output;
+
 		// ensure proper unicode encoding
 		$id = (string)$id;
 		$id = utf8::encode($id);
