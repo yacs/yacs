@@ -174,7 +174,7 @@ if(Surfer::is_crawler()) {
 	if(!headers_sent()) {
 
 		// go back to page referring to here
-		if(isset($_REQUEST['referer']))
+		if(isset($_REQUEST['referer']) && Safe::is_local_url($_REQUEST['referer']))
 			Safe::redirect($_REQUEST['referer']);
 
 		// go page to rated page

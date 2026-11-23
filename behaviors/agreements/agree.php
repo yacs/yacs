@@ -59,7 +59,7 @@ else {
 	$_SESSION['agreements'][] = $anchor->get_reference();
 
 	// revisit referer
-	if(isset($_SERVER['HTTP_REFERER']))
+	if(isset($_SERVER['HTTP_REFERER']) && Safe::is_local_url($_SERVER['HTTP_REFERER']))
 		Safe::redirect($_SERVER['HTTP_REFERER']);
 }
 

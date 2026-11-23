@@ -51,9 +51,11 @@ if(isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] && !preg_match('/
                 Safe::redirect($context['url_to_home'].$context['url_to_root']);
             }
                 
-        } else {
-            // redirect to last script
+        // redirect to last script, if it is on this server
+        } elseif(Safe::is_local_url($_SERVER['HTTP_REFERER'])) {
             Safe::redirect($_SERVER['HTTP_REFERER']);
+        } else {
+            Safe::redirect($context['url_to_home'].$context['url_to_root']);
         }
         
         

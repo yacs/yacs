@@ -327,7 +327,7 @@ if(Surfer::is_crawler()) {
 		if(isset($context['users_without_login_welcome']) && ($context['users_without_login_welcome'] == 'Y')) {
 
 			// go to the forwarded reference or to the front page
-			if(isset($_REQUEST['login_forward']))
+			if(isset($_REQUEST['login_forward']) && Safe::is_local_url($_REQUEST['login_forward']))
 				Safe::redirect($_REQUEST['login_forward']);
 			else
 				Safe::redirect($context['url_to_home'].$context['url_to_root']);
@@ -391,7 +391,7 @@ if(Surfer::is_crawler()) {
 		// follow-up commands
 		$follow_up = i18n::s('Where do you want to go now?');
 		$menu = array();
-		if(isset($_REQUEST['login_forward']))
+		if(isset($_REQUEST['login_forward']) && Safe::is_local_url($_REQUEST['login_forward']))
 			$menu[] = Skin::build_link($_REQUEST['login_forward'], i18n::s('Move forward'), 'button');
 		elseif(isset($_SERVER['HTTP_REFERER']) && !preg_match('/users\/login\.php/', $_SERVER['HTTP_REFERER']))
 			$menu[] = Skin::build_link($_SERVER['HTTP_REFERER'], i18n::s('Move forward'), 'button');

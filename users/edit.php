@@ -286,7 +286,7 @@ if(Surfer::is_crawler()) {
 					$follow_up = i18n::s('What do you want to do now?');
 
 					// just proceed
-					if(isset($_REQUEST['forward']) && $_REQUEST['forward'])
+					if(isset($_REQUEST['forward']) && Safe::is_local_url($_REQUEST['forward']))
 						$follow_up .= '<ul><li><b>'.Skin::build_link($_REQUEST['forward'], i18n::s('Proceed with what I was doing before registering')).'</a></b></li></ul>';
 
 					// select an avatar

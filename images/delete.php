@@ -135,7 +135,7 @@ if(!isset($item['id'])) {
                         $output['replace'] = Skin::build_input_file('upload'.$indice);
                     }
                     
-                }elseif(isset($_REQUEST['follow_up']))
+                }elseif(isset($_REQUEST['follow_up']) && Safe::is_local_url($_REQUEST['follow_up']))
                         Safe::redirect($_REQUEST['follow_up']);
 		elseif(is_object($anchor))
 			Safe::redirect($anchor->get_url());
