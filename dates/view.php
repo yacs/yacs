@@ -48,19 +48,24 @@ load_skin('dates', $anchor);
 if(isset($item['id']))
 	$context['current_item'] = 'date:'.$item['id'];
 
-// the path to this page
-if(is_object($anchor))
+// the path to this page -- nothing is said of a page that this surfer cannot see
+if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
 else
 	$context['path_bar'] = array( 'dates/' => i18n::s('Dates') );
 
 // the title of the page
-if(is_object($anchor))
+if(is_object($anchor) && $anchor->is_viewable())
 	$context['page_title'] = $anchor->get_title();
 
 // not found -- help web crawlers
 if(!isset($item['id'])) {
 	include '../error.php';
+
+// the date is attached to a page that this surfer cannot see
+} elseif(is_object($anchor) && !$anchor->is_viewable()) {
+	Safe::header('Status: 401 Unauthorized', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the date full size
 } else {
