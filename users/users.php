@@ -1805,8 +1805,14 @@ Class Users {
 			return FALSE;
 		}
 
+		// a password typed in a form has to be confirmed -- it was saved without hashing otherwise
+		if(isset($fields['confirm']) && ($fields['confirm'] != $fields['password'])) {
+			Logger::error(i18n::s('New password has to be confirmed.'));
+			return FALSE;
+		}
+
 		// hash password if coming from a human facing a form
-		if(isset($fields['confirm']) && ($fields['confirm'] == $fields['password']))
+		if(isset($fields['confirm']))
 			$fields['password'] = Users::hash_password($fields['password']);
 
 		// open community, accept subscribers and members
