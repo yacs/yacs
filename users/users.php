@@ -2655,13 +2655,17 @@ Class Users {
 		global $context;
 
 		// sanity check
-		if(!$id)
+		if(!$id = (int)$id)
 			return 0;
 
-		// do the job
+		// in a closed community, associates approve new members
+		if(isset($context['users_with_approved_members']) && ($context['users_with_approved_members'] == 'Y'))
+			return 0;
+
+		// only a subscriber becomes a member -- a blocked account remains blocked
 		$query = "UPDATE ".SQL::table_name('users')
 			." SET capability='M'"
-			." WHERE (id = ".$id.") AND (capability != 'A')";
+			." WHERE (id = ".$id.") AND (capability = 'S')";
 		$result = SQL::query($query, FALSE, $context['users_connection']);
 
 		// clear the cache for users
