@@ -99,7 +99,8 @@ if(Surfer::is_crawler()) {
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // review is confirmed
-} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'review')) {
+// dates are changed only on POST, which carries the form token -- on GET, forms are displayed
+} elseif(is_post_request() && isset($_REQUEST['action']) && ($_REQUEST['action'] == 'review')) {
 
 	// update the database
 	if($error = Articles::stamp($item['id']))
@@ -128,7 +129,7 @@ if(Surfer::is_crawler()) {
 	}
 
 // new expiry date
-} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'expiry')) {
+} elseif(is_post_request() && isset($_REQUEST['action']) && ($_REQUEST['action'] == 'expiry')) {
 
 	// convert from surfer time zone to UTC time zone
 	if(isset($_REQUEST['expiry_date']) && ($_REQUEST['expiry_date'] > NULL_DATE))
@@ -164,7 +165,7 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 // new publication date
-} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'publish')) {
+} elseif(is_post_request() && isset($_REQUEST['action']) && ($_REQUEST['action'] == 'publish')) {
 
 	// convert from surfer time zone to UTC time zone
 	if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE))

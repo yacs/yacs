@@ -34,7 +34,11 @@ function die_on_invalid() {
 
 // action input is always mandatory
 if(!isset($_REQUEST['action']) || !$_REQUEST['action'])
-    die_on_invalid;
+    die_on_invalid();
+
+// changes are posted by layout_as_tree_manager.js with the form token -- only zoom is a GET
+if(($_REQUEST['action'] != 'zoom') && !is_post_request())
+    die_on_invalid();
 
 // diffrent things to do depending on "action"
 switch($_REQUEST['action']) {

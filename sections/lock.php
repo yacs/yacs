@@ -81,6 +81,11 @@ if(Surfer::is_crawler()) {
 } elseif(count($context['error']))
 	;
 
+// a link has been followed -- ask for confirmation, the change is applied on POST
+elseif(!is_post_request())
+	$context['text'] .= '<p>'.Skin::build_link(Sections::get_permalink($item), $item['title'], 'section').'</p>'."\n"
+		.Skin::build_post_confirmation(($item['locked'] == 'Y') ? i18n::s('Unlock') : i18n::s('Lock'));
+
 // do the toggle and redirect to the page
 elseif(Sections::lock($item['id'], $item['locked'])) {
 

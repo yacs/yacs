@@ -54,7 +54,8 @@ elseif(!$permitted) {
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // please suppress editor rights to this item
-} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'leave')) {
+// editor rights are dropped only on POST, which carries the form token -- on GET, confirmation is asked
+} elseif(is_post_request() && isset($_REQUEST['action']) && ($_REQUEST['action'] == 'leave')) {
 
 	// break an assignment, and also purge the watch list
 	Members::free('user:'.Surfer::get_id(), $anchor->get_reference());

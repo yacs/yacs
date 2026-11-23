@@ -1949,6 +1949,20 @@ function render_raw($type=NULL) {
 }
 
 /**
+ * tell if the current request has been posted
+ *
+ * Changes are applied only on POST, which carries the form token -- a link
+ * followed by a surfer, maybe from another site, is a GET.
+ *
+ * @see Skin_Skeleton::build_post_confirmation()
+ *
+ * @return boolean TRUE on POST, FALSE otherwise
+ */
+function is_post_request() {
+	return isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST');
+}
+
+/**
  * list host names that belong to this server
  *
  * @return array lower-case host names, without port

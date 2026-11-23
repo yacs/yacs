@@ -91,6 +91,11 @@ elseif(!isset($item['id'])) {
 	Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
+// a link has been followed -- ask for confirmation, the change is applied on POST
+} elseif(isset($_REQUEST['avatar']) && !is_post_request()) {
+	$context['text'] .= '<p><img src="'.encode_field($_REQUEST['avatar']).'" alt="'.encode_field(basename(parse_url($_REQUEST['avatar'], PHP_URL_PATH) ?? '')).'" /></p>'."\n"
+		.Skin::build_post_confirmation(i18n::s('Change picture'));
+
 // the avatar has been changed
 } elseif(isset($_REQUEST['avatar'])) {
 
@@ -106,7 +111,7 @@ elseif(!isset($item['id'])) {
 
 // the current avatar, if any
 if(isset($item['avatar_url']) && $item['avatar_url'])
-	$context['text'] .= '<p>'.sprintf(i18n::s('Current picture: %s'), BR.'<img src="'.$item['avatar_url'].'" alt="" style="avatar" />').'</p>'."\n";
+	$context['text'] .= '<p>'.sprintf(i18n::s('Current picture: %s'), BR.'<img src="'.encode_field($item['avatar_url']).'" alt="" style="avatar" />').'</p>'."\n";
 else
 	$context['text'] .= '<p>'.i18n::s('No picture has been set for this profile.').'</p>';
 
