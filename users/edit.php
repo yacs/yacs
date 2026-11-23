@@ -18,7 +18,7 @@
  *
  * By default the provision of an e-mail address is optional, but this can be changed
  * for communities relying on e-mail messages, such as education teams, etc.
- * On new application, and when the parameter [code]users_with_email_validation[/code] is set to 'Y',
+ * On new application, and when e-mail addresses are validated (see Users::with_email_validation()),
  * YACS ensures that an e-mail address is provided and saves a Subscriber profile.
  * Also, a confirmation message is sent to the e-mail address, that contains a validation feed-back web link.
  * When a subscriber clicks on this link, and if the parameter [code]users_with_approved_members[/code]
@@ -398,11 +398,11 @@ if($with_form) {
 	// the email address on registration
 	if(!isset($item['id'])) {
 		$label = i18n::s('E-mail address');
-		if(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
+		if(Users::with_email_validation())
 			$label .= ' *';
 		$input = '<input type="text" name="email" size="40" value="'.encode_field(isset($item['email'])?$item['email']:'').'" />';
 		$hint = '';
-		if(!isset($item['id']) && isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
+		if(!isset($item['id']) && Users::with_email_validation())
 			$hint = i18n::s('You will receive a message on this address to activate your membership.');
 		$hint .= ' '.i18n::s('We won\'t disclose personal information about you or your company to anyone outside this site.');
 		$fields[] = array($label, $input, $hint);
@@ -465,11 +465,11 @@ if($with_form) {
             // the email address
             if(isset($item['id'])) {
                     $label = i18n::s('E-mail address');
-                    if(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
+                    if(Users::with_email_validation())
                             $label .= ' *';
                     $input = '<input type="text" name="email" size="40" value="'.encode_field(isset($item['email'])?$item['email']:'').'" />';
                     $hint = '';
-                    if(!isset($item['id']) && isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
+                    if(!isset($item['id']) && Users::with_email_validation())
                             $hint = i18n::s('You will receive a message on this address to activate your membership.');
                     $hint .= ' '.i18n::s('We won\'t disclose personal information about you or your company to anyone outside this site.');
                     $fields[] = array($label, $input, $hint);
@@ -876,7 +876,7 @@ if($with_form) {
 			.'		return false;'."\n"
 			.'	}'."\n";
 
-	if(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y')) {
+	if(Users::with_email_validation()) {
 
 		$js_script .=
 				// email is mandatory'
