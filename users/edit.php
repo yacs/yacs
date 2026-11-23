@@ -413,6 +413,8 @@ if($with_form) {
 		$label = i18n::s('Password').' *';
 		$input = '<input type="password" name="password" size="20" value="'.encode_field(isset($item['password'])?$item['password']:'').'" required />';
 		$hint = i18n::s('We suggest at least 4 numbers, two letters, and a punctuation sign - in any order');
+		if($min = Users::password_min_length())
+			$hint = sprintf(i18n::s('The password must have at least %d characters.'), $min).' '.$hint;
 		$fields[] = array($label, $input, $hint);
 
 		// the password has to be confirmed
