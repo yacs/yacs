@@ -122,6 +122,34 @@ if(Sections::is_owned($item, $anchor) || Surfer::is_associate()) {
 // load the skin, maybe with a variant
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
 
+// only pages and sections anchored to the managed section are processed -- rights depend on this section only
+if(isset($_REQUEST['selected_articles'])) {
+	$bound = array();
+	if(isset($item['id']) && is_array($_REQUEST['selected_articles'])) {
+		foreach($_REQUEST['selected_articles'] as $selected) {
+			if(($article = Articles::get((int)$selected)) && ($article['anchor'] == 'section:'.$item['id']))
+				$bound[] = $article['id'];
+		}
+	}
+	if(count($bound))
+		$_REQUEST['selected_articles'] = $bound;
+	else
+		unset($_REQUEST['selected_articles']);
+}
+if(isset($_REQUEST['selected_sections'])) {
+	$bound = array();
+	if(isset($item['id']) && is_array($_REQUEST['selected_sections'])) {
+		foreach($_REQUEST['selected_sections'] as $selected) {
+			if(($section = Sections::get((int)$selected)) && ($section['anchor'] == 'section:'.$item['id']))
+				$bound[] = $section['id'];
+		}
+	}
+	if(count($bound))
+		$_REQUEST['selected_sections'] = $bound;
+	else
+		unset($_REQUEST['selected_sections']);
+}
+
 // do not index this page
 $context->sif('robots','noindex');
 
@@ -821,6 +849,10 @@ if(Surfer::is_crawler()) {
 	if(!isset($_REQUEST['move_to']) || (!$destination = Anchors::get($_REQUEST['move_to'])))
 		Logger::error(i18n::s('Bad request.'));
 
+	// the destination has to be a section that this surfer manages
+	elseif(($destination->get_type() != 'section') || (!Surfer::is_associate() && !$destination->is_owned() && !$destination->is_assigned()))
+		Logger::error(i18n::s('You are not allowed to perform this operation.'));
+
 	// articles
 	elseif(isset($_REQUEST['selected_articles'])) {
 
@@ -924,7 +956,9 @@ if(Surfer::is_crawler()) {
 	$count = 0;
 	foreach($_REQUEST as $name => $value) {
 
-		if(($action == 'rank_articles') && (strpos($name, 'article_rank_') === 0)) {
+		// only pages anchored to the managed section
+		if(($action == 'rank_articles') && (strpos($name, 'article_rank_') === 0)
+			&& ($article = Articles::get(intval(substr($name, 13)))) && ($article['anchor'] == 'section:'.$item['id'])) {
 			$attributes = array();
 			$attributes['id'] = intval(substr($name, 13));
 			$attributes['rank'] = intval($value);
@@ -933,7 +967,9 @@ if(Surfer::is_crawler()) {
 				$count++;
 		}
 
-		if(($action == 'rank_sections') && (strpos($name, 'section_rank_') === 0)) {
+		// only sections anchored to the managed section
+		if(($action == 'rank_sections') && (strpos($name, 'section_rank_') === 0)
+			&& ($section = Sections::get(intval(substr($name, 13)))) && ($section['anchor'] == 'section:'.$item['id'])) {
 			$attributes = array();
 			$attributes['id'] = intval(substr($name, 13));
 			$attributes['rank'] = intval($value);

@@ -62,14 +62,18 @@ elseif(count($context['error']))
 // display the enrolment list
 else {
 
+	// the enrolment to drop or to validate, among those of this event only
+	$target = isset($_REQUEST['target']) ? (int)$_REQUEST['target'] : 0;
+	$of_this_event = " AND anchor = '".SQL::escape($anchor->get_reference())."'";
+
 	// enrolled persons
 	$enrolled_names = array();
 
 	// drop a participant
-	if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'drop') && isset($_REQUEST['target']) && $_REQUEST['target']) {
+	if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'drop') && $target) {
 
 		// list enrolment for this meeting
-		$query = "SELECT * FROM ".SQL::table_name('enrolments')." WHERE id = ".SQL::escape($_REQUEST['target']);
+		$query = "SELECT * FROM ".SQL::table_name('enrolments')." WHERE id = ".$target.$of_this_event;
 		if(($result = SQL::query_first($query)) && ($user = Users::get($result['user_id']))) {
 
 			// confirm cancellation by e-mail
@@ -118,20 +122,20 @@ else {
 		}
 
 		// drop enrolment record
-		$query = "DELETE FROM ".SQL::table_name('enrolments')." WHERE id = ".SQL::escape($_REQUEST['target']);
+		$query = "DELETE FROM ".SQL::table_name('enrolments')." WHERE id = ".$target.$of_this_event;
 		SQL::query($query);
 
 	}
 
 	// validate an application
-	if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'validate') && isset($_REQUEST['target']) && $_REQUEST['target']) {
+	if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'validate') && $target) {
 
 		// update enrolment record
-		$query = "UPDATE ".SQL::table_name('enrolments')." SET approved = 'Y' WHERE id = ".SQL::escape($_REQUEST['target']);
+		$query = "UPDATE ".SQL::table_name('enrolments')." SET approved = 'Y' WHERE id = ".$target.$of_this_event;
 		SQL::query($query);
 
 		// list enrolment for this meeting
-		$query = "SELECT * FROM ".SQL::table_name('enrolments')." WHERE id = ".SQL::escape($_REQUEST['target']);
+		$query = "SELECT * FROM ".SQL::table_name('enrolments')." WHERE id = ".$target.$of_this_event;
 		if(($result = SQL::query_first($query)) && ($user = Users::get($result['user_id']))) {
 
 			// add the page to the watch list
