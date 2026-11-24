@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 10:01+0100\n"
+"POT-Creation-Date: 2026-11-24 08:15+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,124 +17,19 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: tools/ajax.php:23 tools/build_css.php:38 tools/embed.php:25
-#: tools/fat_index.php:78 tools/form.php:25 tools/hello.php:25
-#: tools/index.php:21 tools/jsmin.php:39 tools/koowy.php:36
-#: tools/memcached.php:39 tools/memcached.php:63 tools/populate.php:113
-#: tools/populate.php:135 tools/resize_thumbs.php:41 tools/resize_thumbs.php:65
-#: tools/stickies.php:25 tools/transform.php:31 tools/update_thumbs_url.php:43
+#: tools/build_css.php:39 tools/check_content.php:37 tools/index.php:21
+#: tools/jsmin.php:40 tools/memcached.php:39 tools/memcached.php:63
+#: tools/populate.php:113 tools/populate.php:135 tools/resize_thumbs.php:41
+#: tools/resize_thumbs.php:65 tools/update_thumbs_url.php:43
 #: tools/update_thumbs_url.php:67
 msgid "Tools"
 msgstr ""
 
-#: tools/ajax.php:26 tools/ajax.php:32 tools/ajax.php:37 tools/ajax.php:40
-#: tools/ajax.php:59
-msgid "AJAX demonstration"
-msgstr ""
-
-#: tools/ajax.php:29
-msgid "Working overlay"
-msgstr ""
-
-#: tools/ajax.php:29
-msgid "Click on the button, then click on the overlay to hide it"
-msgstr ""
-
-#: tools/ajax.php:34 tools/ajax.php:37 tools/ajax.php:40
-msgid "OK"
-msgstr ""
-
-#: tools/ajax.php:34
-msgid "Modal box"
-msgstr ""
-
-#: tools/ajax.php:34
-msgid "Click on the button, then handle the modal box"
-msgstr ""
-
-#: tools/ajax.php:37
-msgid "Alert box"
-msgstr ""
-
-#: tools/ajax.php:37
-msgid "Click on the button to show the alert message"
-msgstr ""
-
-#: tools/ajax.php:40
-msgid "Confirmation box"
-msgstr ""
-
-#: tools/ajax.php:40
-msgid "Click on the button to make your choice"
-msgstr ""
-
-#: tools/ajax.php:43 tools/ajax.php:45
-msgid "Alert notification"
-msgstr ""
-
-#: tools/ajax.php:46 tools/ajax.php:48
-msgid "Browse notification"
-msgstr ""
-
-#: tools/ajax.php:49 tools/ajax.php:50
-msgid "Hello notification"
-msgstr ""
-
-#: tools/ajax.php:50
-msgid "Click on buttons to process notifications"
-msgstr ""
-
-#: tools/ajax.php:53 tools/ajax.php:56
-msgid "Cisco"
-msgstr ""
-
-#: tools/ajax.php:53
-msgid "Hover the button to display a preview"
-msgstr ""
-
-#: tools/ajax.php:56 tools/ajax.php:65
-msgid "Click on the button to trigger the popup window"
-msgstr ""
-
-#: tools/ajax.php:59
-msgid "Click on the button to call a remote function"
-msgstr ""
-
-#: tools/ajax.php:62
-msgid "Click on the button to remember some on-line activity"
-msgstr ""
-
-#: tools/ajax.php:65 tools/embed.php:28 tools/hello.php:28
-#: tools/populate.php:389 tools/populate.php:1645 tools/stickies.php:28
-#: tools/transform.php:34
-msgid "Hello world"
-msgstr ""
-
-#: tools/ajax.php:65
-msgid "Close"
-msgstr ""
-
-#: tools/ajax.php:69
-msgid "Interactive filters"
-msgstr ""
-
-#: tools/ajax.php:71
-msgid "Enter an integer"
-msgstr ""
-
-#: tools/ajax.php:72
-msgid "Enter a floating number"
-msgstr ""
-
-#: tools/ajax.php:76
-msgid "autocompletion"
-msgstr ""
-
-#: tools/build_css.php:41
+#: tools/build_css.php:42
 msgid "Build style sheets"
 msgstr ""
 
-#: tools/build_css.php:50 tools/check_multi_login.php:20 tools/jsmin.php:51
+#: tools/build_css.php:51 tools/check_content.php:118 tools/jsmin.php:52
 #: tools/mail_queue_to_digest.php:39 tools/memcached.php:47
 #: tools/memcached.php:60 tools/populate.php:121 tools/populate.php:132
 #: tools/resize_thumbs.php:49 tools/resize_thumbs.php:62
@@ -142,223 +37,209 @@ msgstr ""
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
-#: tools/build_css.php:53 tools/jsmin.php:54 tools/populate.php:1688
+#: tools/build_css.php:54 tools/check_content.php:121 tools/jsmin.php:55
+#: tools/populate.php:1688
 msgid "Control Panel"
 msgstr ""
 
-#: tools/build_css.php:67
+#: tools/build_css.php:68
 msgid "main style sheet"
 msgstr ""
 
-#: tools/build_css.php:73
+#: tools/build_css.php:74
 msgid "up to date"
 msgstr ""
 
-#: tools/build_css.php:80
+#: tools/build_css.php:81
 msgid "built"
 msgstr ""
 
-#: tools/build_css.php:83
+#: tools/build_css.php:84
 msgid "error"
 msgstr ""
 
-#: tools/build_css.php:90
+#: tools/build_css.php:91
 #, php-format
 msgid "%d style sheets have been built."
 msgstr ""
 
-#: tools/build_css.php:92
+#: tools/build_css.php:93
 #, php-format
 msgid "%d style sheets could not be built."
 msgstr ""
 
-#: tools/build_css.php:96 tools/jsmin.php:186
+#: tools/build_css.php:97 tools/check_content.php:218 tools/jsmin.php:187
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr ""
 
-#: tools/build_css.php:102
+#: tools/build_css.php:106
 msgid ""
 "You are about to compile and minify the style sheets of the active skin, of "
 "layouts and of overlays. Are you sure?"
 msgstr ""
 
-#: tools/build_css.php:106
+#: tools/build_css.php:110
 msgid "Rebuild all style sheets, even those that are up to date"
 msgstr ""
 
-#: tools/build_css.php:107
+#: tools/build_css.php:111
 msgid "Yes, I do want to build style sheets"
 msgstr ""
 
-#: tools/build_css.php:113
+#: tools/build_css.php:117
 msgid "Some style sheets have been changed since they were built."
 msgstr ""
 
-#: tools/fat_index.php:70
+#: tools/check_content.php:40
+msgid "Check database content"
+msgstr ""
+
+#: tools/check_content.php:80
+msgid "Markup in a name"
+msgstr ""
+
+#: tools/check_content.php:81
+msgid "Quote in a name"
+msgstr ""
+
+#: tools/check_content.php:84
+msgid "Script"
+msgstr ""
+
+#: tools/check_content.php:86
+msgid "Event handler (on...=)"
+msgstr ""
+
+#: tools/check_content.php:87
+msgid "Link to javascript: or vbscript:"
+msgstr ""
+
+#: tools/check_content.php:88
+msgid "Script in a style"
+msgstr ""
+
+#: tools/check_content.php:89
+msgid "Tag encoded as an entity"
+msgstr ""
+
+#: tools/check_content.php:90
+msgid "Link to data:"
+msgstr ""
+
+#: tools/check_content.php:91
+msgid "Meta tag with http-equiv"
+msgstr ""
+
+#: tools/check_content.php:92
+msgid "Embedded object (iframe, object, embed...)"
+msgstr ""
+
+#: tools/check_content.php:95
+msgid "Address to javascript: or vbscript:"
+msgstr ""
+
+#: tools/check_content.php:96
+msgid "Markup in an address"
+msgstr ""
+
+#: tools/check_content.php:97
+msgid "Address to data:"
+msgstr ""
+
+#: tools/check_content.php:127
+msgid "To fix"
+msgstr ""
+
+#: tools/check_content.php:127
+msgid "To review"
+msgstr ""
+
+#: tools/check_content.php:207
+msgid "No suspicious value has been found."
+msgstr ""
+
+#: tools/check_content.php:209
 #, php-format
-msgid "error while fetching %s"
+msgid "%d suspicious values have been found."
 msgstr ""
 
-#: tools/fat_index.php:82
-msgid "Fat Index"
+#: tools/check_content.php:211
+#, php-format
+msgid "Only the first %d values are listed."
 msgstr ""
 
-#: tools/fat_index.php:85
+#: tools/check_content.php:212
+msgid "Level"
+msgstr ""
+
+#: tools/check_content.php:212
+msgid "Reason"
+msgstr ""
+
+#: tools/check_content.php:212
+msgid "Page"
+msgstr ""
+
+#: tools/check_content.php:212
+msgid "Field"
+msgstr ""
+
+#: tools/check_content.php:212
+msgid "Last change by"
+msgstr ""
+
+#: tools/check_content.php:212
+msgid "Extract"
+msgstr ""
+
+#: tools/check_content.php:222
+msgid "Check again"
+msgstr ""
+
+#: tools/check_content.php:229
 msgid ""
-"This script strips tags and white space to evaluate the amount of useful "
-"bytes. Then it computes the fat index as follows:"
+"This tool reads the database and lists the values that look suspicious: "
+"markup in a name, a script or an event handler in a page, a link to "
+"javascript:, and so on. Nothing is changed: review each value, and fix it "
+"from the page itself."
 msgstr ""
 
-#: tools/fat_index.php:86
-msgid "FAT Index = 10 log( Raw Bytes / Useful Bytes )"
+#: tools/check_content.php:232
+msgid "Start the check"
 msgstr ""
 
-#: tools/fat_index.php:91
-msgid "This script can be used only by an authenticated user of this server."
-msgstr ""
-
-#: tools/fat_index.php:101
-msgid "Computation results"
-msgstr ""
-
-#: tools/fat_index.php:105 tools/fat_index.php:164
-#, php-format
-msgid "Web Reference: %s"
-msgstr ""
-
-#: tools/fat_index.php:109
-#, php-format
-msgid "Raw Bytes: %d bytes"
-msgstr ""
-
-#: tools/fat_index.php:131
-#, php-format
-msgid "Useful Bytes: %d bytes"
-msgstr ""
-
-#: tools/fat_index.php:136
-#, php-format
-msgid "Fat Index = %d dB"
-msgstr ""
-
-#: tools/fat_index.php:138
-msgid "The Fat Index cannot be computed"
-msgstr ""
-
-#: tools/fat_index.php:148
-#, php-format
-msgid "This page has %d references to %d links:"
-msgstr ""
-
-#: tools/fat_index.php:158
-msgid "Computation parameters"
-msgstr ""
-
-#: tools/fat_index.php:167
-#, php-format
-msgid "Optional cookie string: %s"
-msgstr ""
-
-#: tools/fat_index.php:170
-msgid "or"
-msgstr ""
-
-#: tools/fat_index.php:173
-#, php-format
-msgid "Raw Input: %s"
-msgstr ""
-
-#: tools/fat_index.php:176 tools/form.php:73
-msgid "Submit"
-msgstr ""
-
-#: tools/fat_index.php:183
-msgid "Visual control of filtered data"
-msgstr ""
-
-#: tools/form.php:28
-msgid "Form"
-msgstr ""
-
-#: tools/form.php:34
-msgid "Thank you for your contribution"
-msgstr ""
-
-#: tools/form.php:37 tools/form.php:40 tools/form.php:43
-#, php-format
-msgid "%s: %s"
-msgstr ""
-
-#: tools/form.php:37 tools/form.php:52
-msgid "Your name"
-msgstr ""
-
-#: tools/form.php:40 tools/form.php:58
-msgid "Your e-mail address"
-msgstr ""
-
-#: tools/form.php:43
-msgid "Your contribution"
-msgstr ""
-
-#: tools/form.php:54
-msgid "Give us a chance to know who you are"
-msgstr ""
-
-#: tools/form.php:60
-msgid "We will use this to contact you back"
-msgstr ""
-
-#: tools/form.php:64
-msgid "Your message"
-msgstr ""
-
-#: tools/form.php:66
-msgid "Please include all elements we could need"
-msgstr ""
-
-#: tools/jsmin.php:42
+#: tools/jsmin.php:43
 msgid "Finalize Javascript libraries"
 msgstr ""
 
-#: tools/jsmin.php:61
+#: tools/jsmin.php:62
 msgid "Compressing Javascript files..."
 msgstr ""
 
-#: tools/jsmin.php:178
+#: tools/jsmin.php:179
 #, php-format
 msgid "%d files have been minified."
 msgstr ""
 
-#: tools/jsmin.php:181 tools/jsmin.php:182
+#: tools/jsmin.php:182 tools/jsmin.php:183
 msgid "bytes"
 msgstr ""
 
-#: tools/jsmin.php:192
+#: tools/jsmin.php:196
 msgid "You are about to compress and assemble Javascript files. Are you sure?"
 msgstr ""
 
-#: tools/jsmin.php:196
+#: tools/jsmin.php:200
 msgid "Yes, I do want to compress and assemble Javascript files"
 msgstr ""
 
-#: tools/jsmin.php:201
+#: tools/jsmin.php:205
 msgid ""
 "When you will click on the button the server will be immediately requested "
 "to proceed. However, because of the so many things to do on the back-end, "
 "you may have to wait for minutes before getting a response displayed. Thank "
 "you for your patience."
-msgstr ""
-
-#: tools/koowy.php:39
-#, php-format
-msgid "Video session by koowy: %s"
-msgstr ""
-
-#: tools/koowy.php:55
-#, php-format
-msgid "Share: %s"
 msgstr ""
 
 #: tools/mail_queue_to_digest.php:68
@@ -504,6 +385,10 @@ msgstr ""
 
 #: tools/populate.php:371
 msgid "Tags cloud"
+msgstr ""
+
+#: tools/populate.php:389 tools/populate.php:1645
+msgid "Hello world"
 msgstr ""
 
 #: tools/populate.php:391
@@ -960,18 +845,6 @@ msgstr ""
 msgid ""
 "This tools resizes thumbnails of images to dimensions provided in general "
 "configuration."
-msgstr ""
-
-#: tools/transform.php:37 tools/transform.php:38
-msgid "navigation"
-msgstr ""
-
-#: tools/transform.php:41 tools/transform.php:42
-msgid "extra"
-msgstr ""
-
-#: tools/transform.php:48 tools/transform.php:54
-msgid "Themes"
 msgstr ""
 
 #: tools/update_thumbs_url.php:46

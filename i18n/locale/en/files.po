@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 09:03+0100\n"
+"POT-Creation-Date: 2026-11-23 20:59+0100\n"
 "PO-Revision-Date: 2026-10-26 09:47+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
@@ -22,9 +22,9 @@ msgstr ""
 #: files/check.php:25 files/check.php:36 files/check.php:92
 #: files/configure.php:47 files/configure.php:153 files/configure.php:224
 #: files/delete.php:80 files/edit.php:151 files/feed.php:111
-#: files/fetch_all.php:99 files/fetch.php:114 files/index.php:58
+#: files/fetch_all.php:99 files/fetch.php:110 files/index.php:58
 #: files/list.php:66 files/list.php:72 files/review.php:33 files/review.php:39
-#: files/stream.php:115 files/thread.php:63 files/thread.php:66
+#: files/stream.php:114 files/thread.php:63 files/thread.php:66
 #: files/view.php:115
 msgid "Files"
 msgstr "Files"
@@ -35,10 +35,10 @@ msgstr "Maintenance"
 
 #: files/check.php:33 files/configure.php:56 files/delete.php:93
 #: files/edit.php:164 files/edit.php:194 files/feed.php:127
-#: files/fetch_all.php:116 files/fetch.php:147 files/files.php:3253
+#: files/fetch_all.php:116 files/fetch.php:143 files/files.php:3193
 #: files/index.php:68 files/list.php:88 files/list.php:93 files/move.php:25
-#: files/move.php:54 files/sort.php:25 files/stream.php:142 files/thread.php:71
-#: files/upload.ajax.php:30 files/upload.ajax.php:146 files/view.php:148
+#: files/move.php:54 files/stream.php:141 files/thread.php:71
+#: files/upload.ajax.php:30 files/upload.ajax.php:150 files/view.php:148
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
 
@@ -110,8 +110,8 @@ msgid "Control Panel"
 msgstr "Control Panel"
 
 #: files/configure.php:47 files/delete.php:84 files/edit.php:313
-#: files/edit.php:332 files/fetch.php:235 files/fetch.php:254
-#: files/files.php:566
+#: files/edit.php:332 files/fetch.php:149 files/fetch.php:168
+#: files/files.php:565
 #, php-format
 msgid "%s: %s"
 msgstr "%s: %s"
@@ -260,7 +260,7 @@ msgstr "Where do you want to go now?"
 msgid "Configure again"
 msgstr "Configure again"
 
-#: files/delete.php:84 files/files.php:2835
+#: files/delete.php:84 files/files.php:2913
 msgid "Delete"
 msgstr "Delete"
 
@@ -273,12 +273,12 @@ msgstr ""
 "This file has been reserved by %s %s, and it is likely that an updated "
 "version will be made available soon."
 
-#: files/delete.php:103 files/edit.php:203 files/fetch.php:248
-#: files/fetch.php:268
+#: files/delete.php:103 files/edit.php:203 files/fetch.php:162
+#: files/fetch.php:182
 msgid "Done"
 msgstr "Done"
 
-#: files/delete.php:104 files/fetch.php:235
+#: files/delete.php:104 files/fetch.php:149
 msgid "Release reservation"
 msgstr "Release reservation"
 
@@ -301,7 +301,7 @@ msgid "Yes, I want to %s"
 msgstr "Yes, I want to %s"
 
 #: files/delete.php:158 files/delete.php:160 files/edit.php:725
-#: files/fetch.php:279
+#: files/fetch.php:193
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -380,23 +380,23 @@ msgstr "Update: %s"
 msgid "Add a file"
 msgstr "Add a file"
 
-#: files/edit.php:169 files/edit.php:376 files/files.php:3216
-#: files/files.php:3220 files/files.php:3224
+#: files/edit.php:169 files/edit.php:376 files/files.php:3156
+#: files/files.php:3160 files/files.php:3164
 msgid "No file has been transmitted."
 msgstr "No file has been transmitted."
 
-#: files/edit.php:174 files/fetch.php:134 files/files.php:2561
-#: files/files.php:2740 files/list.php:77 files/thread.php:76
+#: files/edit.php:174 files/fetch.php:130 files/files.php:2627
+#: files/files.php:2815 files/list.php:77 files/thread.php:76
 msgid "No anchor has been found."
 msgstr "No anchor has been found."
 
-#: files/edit.php:208 files/files.php:3257
+#: files/edit.php:208 files/files.php:2647 files/files.php:3197
 msgid "This type of file is not allowed."
 msgstr "This type of file is not allowed."
 
 #: files/edit.php:250 files/edit.php:500 files/edit.php:518 files/edit.php:532
 #: files/edit.php:548 files/edit.php:568 files/edit.php:579
-#: files/files.php:3398 files/layout_files_as_search.php:104
+#: files/files.php:3338 files/layout_files_as_search.php:104
 #: files/layout_files.php:132 files/view.php:224
 msgid "bytes"
 msgstr "bytes"
@@ -473,7 +473,7 @@ msgstr "Select another file to replace the current one"
 msgid "Existing reference (ftp://, http://, ...)"
 msgstr "Existing reference (ftp://, http://, ...)"
 
-#: files/edit.php:597 files/files.php:566 files/view.php:271
+#: files/edit.php:597 files/files.php:565 files/view.php:271
 msgid "History"
 msgstr "History"
 
@@ -578,25 +578,26 @@ msgstr "Files at %s"
 msgid "Most recent public files"
 msgstr "Most recent public files"
 
-#: files/fetch_all.php:171 files/fetch.php:245 files/fetch.php:265
+#: files/fetch_all.php:144 files/fetch_all.php:182 files/fetch.php:159
+#: files/fetch.php:179
 msgid "Operation has failed."
 msgstr "Operation has failed."
 
-#: files/fetch.php:129
+#: files/fetch.php:125
 msgid "No item has been found."
 msgstr "No item has been found."
 
-#: files/fetch.php:241
+#: files/fetch.php:155
 msgid ""
 "You have released this file, and other surfers can reserve it for revision."
 msgstr ""
 "You have released this file, and other surfers can reserve it for revision."
 
-#: files/fetch.php:254
+#: files/fetch.php:168
 msgid "Reserve"
 msgstr "Reserve"
 
-#: files/fetch.php:261
+#: files/fetch.php:175
 #, php-format
 msgid ""
 "You have reserved this file, and you are encouraged to %s as soon as "
@@ -605,15 +606,15 @@ msgstr ""
 "You have reserved this file, and you are encouraged to %s as soon as "
 "possible, or to %s."
 
-#: files/fetch.php:261 files/view.php:203
+#: files/fetch.php:175 files/view.php:203
 msgid "upload an updated version"
 msgstr "upload an updated version"
 
-#: files/fetch.php:261 files/layout_files.php:167 files/view.php:203
+#: files/fetch.php:175 files/layout_files.php:167 files/view.php:203
 msgid "release reservation"
 msgstr "release reservation"
 
-#: files/fetch.php:274 files/view.php:207
+#: files/fetch.php:188 files/view.php:207
 #, php-format
 msgid ""
 "This file has been assigned to %s %s, and it is likely that an updated "
@@ -622,15 +623,15 @@ msgstr ""
 "This file has been assigned to %s %s, and it is likely that an updated "
 "version will be made available soon."
 
-#: files/fetch.php:278
+#: files/fetch.php:192
 msgid "Download this file"
 msgstr "Download this file"
 
-#: files/fetch.php:462
+#: files/fetch.php:376
 msgid "You are requesting the following file:"
 msgstr "You are requesting the following file:"
 
-#: files/fetch.php:467
+#: files/fetch.php:381
 msgid ""
 "The download should start automatically within seconds. Else hit the "
 "provided link to trigger it manually."
@@ -651,37 +652,37 @@ msgstr "Next"
 msgid "Image %d of %d"
 msgstr "Image %d of %d"
 
-#: files/files.php:88
+#: files/files.php:87
 #, php-format
 msgid "%s %s"
 msgstr "%s %s"
 
-#: files/files.php:499
+#: files/files.php:498
 #, php-format
 msgid "Several files have been added by %s"
 msgstr "Several files have been added by %s"
 
-#: files/files.php:510
+#: files/files.php:509
 #, php-format
 msgid "A file has been added by %s"
 msgstr "A file has been added by %s"
 
-#: files/files.php:680 files/files.php:2567 files/files.php:2603
-#: files/files.php:2725
+#: files/files.php:679 files/files.php:2633 files/files.php:2678
+#: files/files.php:2800
 msgid "No item has the provided id."
 msgstr "No item has the provided id."
 
-#: files/files.php:824
+#: files/files.php:823
 #, php-format
 msgid "Impossible to create path %s."
 msgstr "Impossible to create path %s."
 
-#: files/files.php:840
+#: files/files.php:839
 #, php-format
 msgid "Impossible to copy file %s."
 msgstr "Impossible to copy file %s."
 
-#: files/files.php:2698
+#: files/files.php:2773
 msgid ""
 "Nothing has been received. Ensure you are below size limits set for this "
 "server."
@@ -689,24 +690,24 @@ msgstr ""
 "Nothing has been received. Ensure you are below size limits set for this "
 "server."
 
-#: files/files.php:3208 files/files.php:3212
+#: files/files.php:3148 files/files.php:3152
 msgid "The size of this file is over limit."
 msgstr "The size of this file is over limit."
 
-#: files/files.php:3262
+#: files/files.php:3202
 msgid "Possible file attack."
 msgstr "Possible file attack."
 
-#: files/files.php:3277
+#: files/files.php:3217
 #, php-format
 msgid "Impossible to move the upload file to %s."
 msgstr "Impossible to move the upload file to %s."
 
-#: files/files.php:3293
+#: files/files.php:3233
 msgid "No virus has been found."
 msgstr "No virus has been found."
 
-#: files/files.php:3301
+#: files/files.php:3241
 msgid "This file has been infected by a virus and has been rejected!"
 msgstr "This file has been infected by a virus and has been rejected!"
 
@@ -816,8 +817,7 @@ msgstr "Share a new version of this file, or change details"
 msgid "Files: %s"
 msgstr "Files: %s"
 
-#: files/move.php:31 files/move.php:45 files/sort.php:31
-#: files/upload.ajax.php:36
+#: files/move.php:31 files/move.php:45 files/upload.ajax.php:36
 msgid "Request is invalid."
 msgstr "Request is invalid."
 
@@ -842,15 +842,7 @@ msgstr "Less downloaded files"
 msgid "%d items in the list of noise words"
 msgstr "%d items in the list of noise words"
 
-#: files/sort.php:37
-msgid "Anchor is invalid."
-msgstr "Anchor is invalid."
-
-#: files/stream.php:247
-msgid "Close"
-msgstr "Close"
-
-#: files/stream.php:292
+#: files/stream.php:263
 msgid "Do not know how to stream this file type"
 msgstr "Do not know how to stream this file type"
 
@@ -866,15 +858,15 @@ msgstr "An error ocurred when uploading."
 msgid "Unsupported filetype uploaded."
 msgstr "Unsupported filetype uploaded."
 
-#: files/upload.ajax.php:101
+#: files/upload.ajax.php:105
 msgid "Error uploading file - check destination is writeable."
 msgstr "Error uploading file - check destination is writeable."
 
-#: files/upload.ajax.php:130
+#: files/upload.ajax.php:134
 msgid "all temporary file destroyed"
 msgstr "all temporary file destroyed"
 
-#: files/upload.ajax.php:139
+#: files/upload.ajax.php:143
 #, php-format
 msgid "temporary file %s destroyed"
 msgstr "temporary file %s destroyed"
@@ -1533,6 +1525,12 @@ msgstr "Delete this file"
 #: files/view.php:731
 msgid "Navigation"
 msgstr "Navigation"
+
+#~ msgid "Anchor is invalid."
+#~ msgstr "Anchor is invalid."
+
+#~ msgid "Close"
+#~ msgstr "Close"
 
 #~ msgid "View file details"
 #~ msgstr "View file details"

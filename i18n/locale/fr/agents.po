@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-10 10:56+0100\n"
+"POT-Creation-Date: 2026-11-23 20:59+0100\n"
 "PO-Revision-Date: 2011-01-25 00:07+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -290,7 +290,7 @@ msgstr "Evénements enregistrés à %s"
 msgid "Most recent events at %s"
 msgstr "Evénements récents à %s"
 
-#: agents/index.php:86 agents/index.php:135
+#: agents/index.php:86 agents/index.php:137
 msgid "You can sort the table below by clicking on column headers."
 msgstr "Cliquez sur les en-têtes de colonnes pour trier la table."
 
@@ -315,63 +315,63 @@ msgstr "Où ?"
 msgid "Who?"
 msgstr "Qui ?"
 
-#: agents/index.php:100
+#: agents/index.php:102
 msgid "No event has been logged"
 msgstr "Aucun événement n'a été enregistré"
 
-#: agents/index.php:104
+#: agents/index.php:106
 msgid "Events"
 msgstr "Evénements"
 
-#: agents/index.php:124
+#: agents/index.php:126
 msgid "Values"
 msgstr "Valeurs"
 
-#: agents/index.php:138
+#: agents/index.php:140
 msgid "Script"
 msgstr "Script"
 
-#: agents/index.php:138
+#: agents/index.php:140
 msgid "Hits"
 msgstr "Consultations"
 
-#: agents/index.php:138
+#: agents/index.php:140
 msgid "Average time"
 msgstr "Temps moyen"
 
-#: agents/index.php:138
+#: agents/index.php:140
 msgid "Minimum time"
 msgstr "Temps minimum"
 
-#: agents/index.php:138
+#: agents/index.php:140
 msgid "Maximum time"
 msgstr "Temps maximum"
 
-#: agents/index.php:138
+#: agents/index.php:140
 msgid "Total time"
 msgstr "Temps total"
 
-#: agents/index.php:145
+#: agents/index.php:147
 msgid "Performance"
 msgstr "Performance"
 
-#: agents/index.php:156
+#: agents/index.php:158
 msgid "Domain"
 msgstr "Domaine"
 
-#: agents/index.php:156 agents/index.php:181
+#: agents/index.php:158 agents/index.php:183
 msgid "Count"
 msgstr "Nombre"
 
-#: agents/index.php:170
+#: agents/index.php:172
 msgid "Referrals"
 msgstr "Références externes"
 
-#: agents/index.php:181
+#: agents/index.php:183
 msgid "Keywords"
 msgstr "Mots-clés"
 
-#: agents/index.php:195
+#: agents/index.php:197
 msgid "Searches"
 msgstr "Recherches"
 

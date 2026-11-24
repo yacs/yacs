@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 09:03+0100\n"
+"POT-Creation-Date: 2026-11-23 20:59+0100\n"
 "PO-Revision-Date: 2026-10-26 09:53+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Bernard Paques\n"
@@ -21,8 +21,8 @@ msgstr ""
 
 #: locations/check.php:24 locations/check.php:35 locations/check.php:94
 #: locations/check.php:150 locations/delete.php:78 locations/edit.php:83
-#: locations/index.php:58 locations/map_on_earth.php:32
-#: locations/map_on_google.php:52 locations/view.php:66
+#: locations/index.php:58 locations/map_on_earth.php:32 locations/map.php:59
+#: locations/view.php:66
 msgid "Locations"
 msgstr "Locations"
 
@@ -333,20 +333,20 @@ msgstr "Not capable to generate dynamic images."
 msgid "No image to use as a map."
 msgstr "No image to use as a map."
 
-#: locations/map_on_google.php:56
+#: locations/map.php:63
 #, php-format
 msgid "Locations related to %s"
 msgstr "Locations related to %s"
 
-#: locations/map_on_google.php:58
+#: locations/map.php:65
 msgid "Locations related to community members"
 msgstr "Locations related to community members"
 
-#: locations/map_on_google.php:62
+#: locations/map.php:69
 msgid "Reference a valid anchor, or all users."
 msgstr "Reference a valid anchor, or all users."
 
-#: locations/map_on_google.php:66
+#: locations/map.php:73
 msgid ""
 "Use the configuration panel for web services to enter your Google API key."
 msgstr ""

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 09:03+0100\n"
-"PO-Revision-Date: 2026-10-26 09:41+0100\n"
+"POT-Creation-Date: 2026-11-23 20:59+0100\n"
+"PO-Revision-Date: 2026-11-24 07:56+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
 "Language: fr_FR\n"
@@ -14,125 +14,19 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: tools/ajax.php:23 tools/build_css.php:38 tools/embed.php:25
-#: tools/fat_index.php:78 tools/form.php:25 tools/hello.php:25
-#: tools/index.php:21 tools/jsmin.php:39 tools/koowy.php:36
-#: tools/memcached.php:39 tools/memcached.php:63 tools/populate.php:113
-#: tools/populate.php:135 tools/resize_thumbs.php:41 tools/resize_thumbs.php:65
-#: tools/stickies.php:25 tools/transform.php:31 tools/update_thumbs_url.php:43
+#: tools/build_css.php:39 tools/check_content.php:37 tools/index.php:21
+#: tools/jsmin.php:40 tools/memcached.php:39 tools/memcached.php:63
+#: tools/populate.php:113 tools/populate.php:135 tools/resize_thumbs.php:41
+#: tools/resize_thumbs.php:65 tools/update_thumbs_url.php:43
 #: tools/update_thumbs_url.php:67
 msgid "Tools"
 msgstr "Outils"
 
-#: tools/ajax.php:26 tools/ajax.php:32 tools/ajax.php:37 tools/ajax.php:40
-#: tools/ajax.php:59
-msgid "AJAX demonstration"
-msgstr "Démonstration AJAX"
-
-#: tools/ajax.php:29
-msgid "Working overlay"
-msgstr "Travail en cours"
-
-#: tools/ajax.php:29
-msgid "Click on the button, then click on the overlay to hide it"
-msgstr ""
-"Cliquez sur le bouton, puis cliquez sur l'écran pour masquer la surcharge"
-
-#: tools/ajax.php:34 tools/ajax.php:37 tools/ajax.php:40
-msgid "OK"
-msgstr "OK"
-
-#: tools/ajax.php:34
-msgid "Modal box"
-msgstr "Boîte modale"
-
-#: tools/ajax.php:34
-msgid "Click on the button, then handle the modal box"
-msgstr "Cliquez sur le bouton, puis manipulez la boîte modale"
-
-#: tools/ajax.php:37
-msgid "Alert box"
-msgstr "Boîte d'alerte"
-
-#: tools/ajax.php:37
-msgid "Click on the button to show the alert message"
-msgstr "Cliquez sur le bouton pour afficher le message d'alerte"
-
-#: tools/ajax.php:40
-msgid "Confirmation box"
-msgstr "Boîte de confirmation"
-
-#: tools/ajax.php:40
-msgid "Click on the button to make your choice"
-msgstr "Cliquez sur le bouton pour faire votre choix"
-
-#: tools/ajax.php:43 tools/ajax.php:45
-msgid "Alert notification"
-msgstr "Notification d'alerte"
-
-#: tools/ajax.php:46 tools/ajax.php:48
-msgid "Browse notification"
-msgstr "Notification de co-navigation"
-
-#: tools/ajax.php:49 tools/ajax.php:50
-msgid "Hello notification"
-msgstr "Notification de contact"
-
-#: tools/ajax.php:50
-msgid "Click on buttons to process notifications"
-msgstr "Cliquez sur les boutons pour traiter les notifications"
-
-#: tools/ajax.php:53 tools/ajax.php:56
-msgid "Cisco"
-msgstr "Cisco"
-
-#: tools/ajax.php:53
-msgid "Hover the button to display a preview"
-msgstr "Survolez le button pour prévisualiser la page cible"
-
-#: tools/ajax.php:56 tools/ajax.php:65
-msgid "Click on the button to trigger the popup window"
-msgstr "Cliquez sur le bouton pour ouvrir la fenêtre pop-up"
-
-#: tools/ajax.php:59
-msgid "Click on the button to call a remote function"
-msgstr "Cliquez sur le bouton pour appeler une fonction distante"
-
-#: tools/ajax.php:62
-msgid "Click on the button to remember some on-line activity"
-msgstr "Cliquez sur le bouton pour mémoriser une activité en ligne"
-
-#: tools/ajax.php:65 tools/embed.php:28 tools/hello.php:28
-#: tools/populate.php:389 tools/populate.php:1645 tools/stickies.php:28
-#: tools/transform.php:34
-msgid "Hello world"
-msgstr "Bonjour le monde"
-
-#: tools/ajax.php:65
-msgid "Close"
-msgstr "Fermer"
-
-#: tools/ajax.php:69
-msgid "Interactive filters"
-msgstr "Filtres interactifs"
-
-#: tools/ajax.php:71
-msgid "Enter an integer"
-msgstr "Entrer un nombre entier"
-
-#: tools/ajax.php:72
-msgid "Enter a floating number"
-msgstr "Entrer un nombre décimal"
-
-#: tools/ajax.php:76
-msgid "autocompletion"
-msgstr "autocompletion"
-
-#: tools/build_css.php:41
+#: tools/build_css.php:42
 msgid "Build style sheets"
 msgstr "Construire les feuilles de style"
 
-#: tools/build_css.php:50 tools/check_multi_login.php:20 tools/jsmin.php:51
+#: tools/build_css.php:51 tools/check_content.php:118 tools/jsmin.php:52
 #: tools/mail_queue_to_digest.php:39 tools/memcached.php:47
 #: tools/memcached.php:60 tools/populate.php:121 tools/populate.php:132
 #: tools/resize_thumbs.php:49 tools/resize_thumbs.php:62
@@ -140,42 +34,43 @@ msgstr "Construire les feuilles de style"
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à faire cette opération."
 
-#: tools/build_css.php:53 tools/jsmin.php:54 tools/populate.php:1688
+#: tools/build_css.php:54 tools/check_content.php:121 tools/jsmin.php:55
+#: tools/populate.php:1688
 msgid "Control Panel"
 msgstr "Panneau de contrôle"
 
-#: tools/build_css.php:67
+#: tools/build_css.php:68
 msgid "main style sheet"
 msgstr "feuille de style principale"
 
-#: tools/build_css.php:73
+#: tools/build_css.php:74
 msgid "up to date"
 msgstr "à jour"
 
-#: tools/build_css.php:80
+#: tools/build_css.php:81
 msgid "built"
 msgstr "construite"
 
-#: tools/build_css.php:83
+#: tools/build_css.php:84
 msgid "error"
 msgstr "erreur"
 
-#: tools/build_css.php:90
+#: tools/build_css.php:91
 #, php-format
 msgid "%d style sheets have been built."
 msgstr "%d feuilles de style ont été construites."
 
-#: tools/build_css.php:92
+#: tools/build_css.php:93
 #, php-format
 msgid "%d style sheets could not be built."
 msgstr "%d feuilles de style n'ont pas pu être construites."
 
-#: tools/build_css.php:96 tools/jsmin.php:186
+#: tools/build_css.php:97 tools/check_content.php:218 tools/jsmin.php:187
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminé en %.2f secondes."
 
-#: tools/build_css.php:102
+#: tools/build_css.php:106
 msgid ""
 "You are about to compile and minify the style sheets of the active skin, of "
 "layouts and of overlays. Are you sure?"
@@ -183,172 +78,169 @@ msgstr ""
 "Vous êtes sur le point de compiler et de compresser les feuilles de style du "
 "thème actif, des mises en page et des extensions. Êtes-vous sûr ?"
 
-#: tools/build_css.php:106
+#: tools/build_css.php:110
 msgid "Rebuild all style sheets, even those that are up to date"
 msgstr "Reconstruire toutes les feuilles de style, même celles qui sont à jour"
 
-#: tools/build_css.php:107
+#: tools/build_css.php:111
 msgid "Yes, I do want to build style sheets"
 msgstr "Oui, je veux construire les feuilles de style"
 
-#: tools/build_css.php:113
+#: tools/build_css.php:117
 msgid "Some style sheets have been changed since they were built."
 msgstr ""
 "Des feuilles de style ont été modifiées depuis leur dernière construction."
 
-#: tools/fat_index.php:70
+#: tools/check_content.php:40
+msgid "Check database content"
+msgstr "Vérifier le contenu de la base de données."
+
+#: tools/check_content.php:80
+msgid "Markup in a name"
+msgstr "Balisage dans un nom"
+
+#: tools/check_content.php:81
+msgid "Quote in a name"
+msgstr "Guillemet dans un nom"
+
+#: tools/check_content.php:84
+msgid "Script"
+msgstr "Script"
+
+#: tools/check_content.php:86
+msgid "Event handler (on...=)"
+msgstr "Déclencheur d'événement (on...=)"
+
+#: tools/check_content.php:87
+msgid "Link to javascript: or vbscript:"
+msgstr "Lien vers javascript: ou vbscript:"
+
+#: tools/check_content.php:88
+msgid "Script in a style"
+msgstr "Script dans un style"
+
+#: tools/check_content.php:89
+msgid "Tag encoded as an entity"
+msgstr "Balise encodée comme une entité"
+
+#: tools/check_content.php:90
+msgid "Link to data:"
+msgstr "Lien vers data:"
+
+#: tools/check_content.php:91
+msgid "Meta tag with http-equiv"
+msgstr "Balise meta avec http-equiv"
+
+#: tools/check_content.php:92
+msgid "Embedded object (iframe, object, embed...)"
+msgstr "Objet incorporé (iframe, object, embed)"
+
+#: tools/check_content.php:95
+msgid "Address to javascript: or vbscript:"
+msgstr "Adresse vers javascript: ou vbscript:"
+
+#: tools/check_content.php:96
+msgid "Markup in an address"
+msgstr "Balise dans une adresse"
+
+#: tools/check_content.php:97
+msgid "Address to data:"
+msgstr "Adresse vers data:"
+
+#: tools/check_content.php:127
+msgid "To fix"
+msgstr "À réparer"
+
+#: tools/check_content.php:127
+msgid "To review"
+msgstr "À vérifier"
+
+#: tools/check_content.php:207
+msgid "No suspicious value has been found."
+msgstr "Aucune valeur suspecte n'a été trouvée."
+
+#: tools/check_content.php:209
 #, php-format
-msgid "error while fetching %s"
-msgstr "Impossible d'accéder à %s"
+msgid "%d suspicious values have been found."
+msgstr "%d valeurs suspectes ont été découverte."
 
-#: tools/fat_index.php:82
-msgid "Fat Index"
-msgstr "Indice d'inefficacité"
+#: tools/check_content.php:211
+#, php-format
+msgid "Only the first %d values are listed."
+msgstr "Seulement les %d premières valeurs sont listées."
 
-#: tools/fat_index.php:85
+#: tools/check_content.php:212
+msgid "Level"
+msgstr "Niveau"
+
+#: tools/check_content.php:212
+msgid "Reason"
+msgstr "Raison"
+
+#: tools/check_content.php:212
+msgid "Page"
+msgstr "Page"
+
+#: tools/check_content.php:212
+msgid "Field"
+msgstr "Champ"
+
+#: tools/check_content.php:212
+msgid "Last change by"
+msgstr "Dernière modification par"
+
+#: tools/check_content.php:212
+msgid "Extract"
+msgstr "Extrait"
+
+#: tools/check_content.php:222
+msgid "Check again"
+msgstr "Vérifier à nouveau"
+
+#: tools/check_content.php:229
 msgid ""
-"This script strips tags and white space to evaluate the amount of useful "
-"bytes. Then it computes the fat index as follows:"
+"This tool reads the database and lists the values that look suspicious: "
+"markup in a name, a script or an event handler in a page, a link to "
+"javascript:, and so on. Nothing is changed: review each value, and fix it "
+"from the page itself."
 msgstr ""
-"Ce script enlève les balises HTML et les espaces pour évaluer la taille "
-"utile d'une page web. Puis il calcule l'indice d'inefficacité comme suit :"
+"Cet outil lit la base de données et liste les valeurs qui semblent "
+"suspectes: balise dans un nom, déclencheur de script ou d'événement dans la "
+"page, un lien vers javascript:, etc. Rien n'est modifié: passez en revue "
+"chaque valeur, et corrigez cela sur la page elle même."
 
-#: tools/fat_index.php:86
-msgid "FAT Index = 10 log( Raw Bytes / Useful Bytes )"
-msgstr "Indice d'inefficacité = 10 log( Taille du contenu / Taille utile )"
+#: tools/check_content.php:232
+msgid "Start the check"
+msgstr "Commencer la vérification"
 
-#: tools/fat_index.php:91
-msgid "This script can be used only by an authenticated user of this server."
-msgstr "Ce script ne peut être utilisé que par un utilisateur authentifié."
-
-#: tools/fat_index.php:101
-msgid "Computation results"
-msgstr "Résultats du calcul"
-
-#: tools/fat_index.php:105 tools/fat_index.php:164
-#, php-format
-msgid "Web Reference: %s"
-msgstr "Adresse web : %s"
-
-#: tools/fat_index.php:109
-#, php-format
-msgid "Raw Bytes: %d bytes"
-msgstr "Taille du contenu : %d octets"
-
-#: tools/fat_index.php:131
-#, php-format
-msgid "Useful Bytes: %d bytes"
-msgstr "Taille utile : %d octets"
-
-#: tools/fat_index.php:136
-#, php-format
-msgid "Fat Index = %d dB"
-msgstr "Indice d'inefficacité = %d dB"
-
-#: tools/fat_index.php:138
-msgid "The Fat Index cannot be computed"
-msgstr "L'indice d'inefficacité ne peut pas être calculé"
-
-#: tools/fat_index.php:148
-#, php-format
-msgid "This page has %d references to %d links:"
-msgstr "Cette page a %d références vers %d liens :"
-
-#: tools/fat_index.php:158
-msgid "Computation parameters"
-msgstr "Paramètres du calcul"
-
-#: tools/fat_index.php:167
-#, php-format
-msgid "Optional cookie string: %s"
-msgstr "Cookie (option) : %s"
-
-#: tools/fat_index.php:170
-msgid "or"
-msgstr "ou bien"
-
-#: tools/fat_index.php:173
-#, php-format
-msgid "Raw Input: %s"
-msgstr "Contenu analysé : %s"
-
-#: tools/fat_index.php:176 tools/form.php:73
-msgid "Submit"
-msgstr "Envoyer"
-
-#: tools/fat_index.php:183
-msgid "Visual control of filtered data"
-msgstr "Contrôle visuel des données filtrées"
-
-#: tools/form.php:28
-msgid "Form"
-msgstr "Formulaire"
-
-#: tools/form.php:34
-msgid "Thank you for your contribution"
-msgstr "Merci de votre contribution"
-
-#: tools/form.php:37 tools/form.php:40 tools/form.php:43
-#, php-format
-msgid "%s: %s"
-msgstr "%s : %s"
-
-#: tools/form.php:37 tools/form.php:52
-msgid "Your name"
-msgstr "Votre nom"
-
-#: tools/form.php:40 tools/form.php:58
-msgid "Your e-mail address"
-msgstr "Votre adresse E-mail"
-
-#: tools/form.php:43
-msgid "Your contribution"
-msgstr "Votre contribution"
-
-#: tools/form.php:54
-msgid "Give us a chance to know who you are"
-msgstr "Donnez-nous une chance de savoir qui vous êtes"
-
-#: tools/form.php:60
-msgid "We will use this to contact you back"
-msgstr "Nous l'utiliserons pour vous répondre"
-
-#: tools/form.php:64
-msgid "Your message"
-msgstr "Votre message"
-
-#: tools/form.php:66
-msgid "Please include all elements we could need"
-msgstr "Merci d'ajouter tous les éléments dont nous pourrions avoir besoin"
-
-#: tools/jsmin.php:42
+#: tools/jsmin.php:43
 msgid "Finalize Javascript libraries"
 msgstr "Préparer les librairies Javascript"
 
-#: tools/jsmin.php:61
+#: tools/jsmin.php:62
 msgid "Compressing Javascript files..."
 msgstr "Compression des fichiers Javascript ..."
 
-#: tools/jsmin.php:178
+#: tools/jsmin.php:179
 #, php-format
 msgid "%d files have been minified."
 msgstr "%d fichiers ont été compressés."
 
-#: tools/jsmin.php:181 tools/jsmin.php:182
+#: tools/jsmin.php:182 tools/jsmin.php:183
 msgid "bytes"
 msgstr "octets"
 
-#: tools/jsmin.php:192
+#: tools/jsmin.php:196
 msgid "You are about to compress and assemble Javascript files. Are you sure?"
 msgstr ""
 "Vous êtes sur le point de compresser et d'assembler les fichiers Javascript. "
 "Etes-vous sûr ?"
 
-#: tools/jsmin.php:196
+#: tools/jsmin.php:200
 msgid "Yes, I do want to compress and assemble Javascript files"
 msgstr "Oui, je veux compresser et assembler les fichiers Javascript"
 
-#: tools/jsmin.php:201
+#: tools/jsmin.php:205
 msgid ""
 "When you will click on the button the server will be immediately requested "
 "to proceed. However, because of the so many things to do on the back-end, "
@@ -359,16 +251,6 @@ msgstr ""
 "bouton. Cependant, le traitement est si important que vous pourriez avoir à "
 "attendre plusieurs minutes avant d'obtenir une réponse à l'écran. Merci de "
 "votre patience."
-
-#: tools/koowy.php:39
-#, php-format
-msgid "Video session by koowy: %s"
-msgstr "Session vidéo avec Koowy : %s"
-
-#: tools/koowy.php:55
-#, php-format
-msgid "Share: %s"
-msgstr "Partager : %s"
 
 #: tools/mail_queue_to_digest.php:68
 #, php-format
@@ -521,6 +403,10 @@ msgstr "La page \"%s\" a été créée."
 #: tools/populate.php:371
 msgid "Tags cloud"
 msgstr "Nuage d'étiquettes"
+
+#: tools/populate.php:389 tools/populate.php:1645
+msgid "Hello world"
+msgstr "Bonjour le monde"
 
 #: tools/populate.php:391
 msgid ""
@@ -1001,18 +887,6 @@ msgstr ""
 "Cet outil retaille les vignettes des images aux dimensions fournies dans la "
 "configuration générale."
 
-#: tools/transform.php:37 tools/transform.php:38
-msgid "navigation"
-msgstr "navigation"
-
-#: tools/transform.php:41 tools/transform.php:42
-msgid "extra"
-msgstr "extra"
-
-#: tools/transform.php:48 tools/transform.php:54
-msgid "Themes"
-msgstr "Thèmes"
-
 #: tools/update_thumbs_url.php:46
 msgid "Updating thumbnails url"
 msgstr "Mise à jour des liens vers les vignettes"
@@ -1065,6 +939,180 @@ msgstr "exemple \"/yacs/\" ou \"/\" ou \"/my_repo/yacs/\""
 #: tools/update_thumbs_url.php:221
 msgid "This will be replaced by current URL"
 msgstr "Cette chaîne sera remplacée par l'URL en cours"
+
+#~ msgid "AJAX demonstration"
+#~ msgstr "Démonstration AJAX"
+
+#~ msgid "Working overlay"
+#~ msgstr "Travail en cours"
+
+#~ msgid "Click on the button, then click on the overlay to hide it"
+#~ msgstr ""
+#~ "Cliquez sur le bouton, puis cliquez sur l'écran pour masquer la surcharge"
+
+#~ msgid "OK"
+#~ msgstr "OK"
+
+#~ msgid "Modal box"
+#~ msgstr "Boîte modale"
+
+#~ msgid "Click on the button, then handle the modal box"
+#~ msgstr "Cliquez sur le bouton, puis manipulez la boîte modale"
+
+#~ msgid "Alert box"
+#~ msgstr "Boîte d'alerte"
+
+#~ msgid "Click on the button to show the alert message"
+#~ msgstr "Cliquez sur le bouton pour afficher le message d'alerte"
+
+#~ msgid "Confirmation box"
+#~ msgstr "Boîte de confirmation"
+
+#~ msgid "Click on the button to make your choice"
+#~ msgstr "Cliquez sur le bouton pour faire votre choix"
+
+#~ msgid "Alert notification"
+#~ msgstr "Notification d'alerte"
+
+#~ msgid "Browse notification"
+#~ msgstr "Notification de co-navigation"
+
+#~ msgid "Hello notification"
+#~ msgstr "Notification de contact"
+
+#~ msgid "Click on buttons to process notifications"
+#~ msgstr "Cliquez sur les boutons pour traiter les notifications"
+
+#~ msgid "Cisco"
+#~ msgstr "Cisco"
+
+#~ msgid "Hover the button to display a preview"
+#~ msgstr "Survolez le button pour prévisualiser la page cible"
+
+#~ msgid "Click on the button to trigger the popup window"
+#~ msgstr "Cliquez sur le bouton pour ouvrir la fenêtre pop-up"
+
+#~ msgid "Click on the button to call a remote function"
+#~ msgstr "Cliquez sur le bouton pour appeler une fonction distante"
+
+#~ msgid "Click on the button to remember some on-line activity"
+#~ msgstr "Cliquez sur le bouton pour mémoriser une activité en ligne"
+
+#~ msgid "Close"
+#~ msgstr "Fermer"
+
+#~ msgid "Interactive filters"
+#~ msgstr "Filtres interactifs"
+
+#~ msgid "Enter an integer"
+#~ msgstr "Entrer un nombre entier"
+
+#~ msgid "Enter a floating number"
+#~ msgstr "Entrer un nombre décimal"
+
+#~ msgid "autocompletion"
+#~ msgstr "autocompletion"
+
+#~ msgid "error while fetching %s"
+#~ msgstr "Impossible d'accéder à %s"
+
+#~ msgid "Fat Index"
+#~ msgstr "Indice d'inefficacité"
+
+#~ msgid ""
+#~ "This script strips tags and white space to evaluate the amount of useful "
+#~ "bytes. Then it computes the fat index as follows:"
+#~ msgstr ""
+#~ "Ce script enlève les balises HTML et les espaces pour évaluer la taille "
+#~ "utile d'une page web. Puis il calcule l'indice d'inefficacité comme suit :"
+
+#~ msgid "FAT Index = 10 log( Raw Bytes / Useful Bytes )"
+#~ msgstr "Indice d'inefficacité = 10 log( Taille du contenu / Taille utile )"
+
+#~ msgid ""
+#~ "This script can be used only by an authenticated user of this server."
+#~ msgstr "Ce script ne peut être utilisé que par un utilisateur authentifié."
+
+#~ msgid "Computation results"
+#~ msgstr "Résultats du calcul"
+
+#~ msgid "Web Reference: %s"
+#~ msgstr "Adresse web : %s"
+
+#~ msgid "Raw Bytes: %d bytes"
+#~ msgstr "Taille du contenu : %d octets"
+
+#~ msgid "Useful Bytes: %d bytes"
+#~ msgstr "Taille utile : %d octets"
+
+#~ msgid "Fat Index = %d dB"
+#~ msgstr "Indice d'inefficacité = %d dB"
+
+#~ msgid "The Fat Index cannot be computed"
+#~ msgstr "L'indice d'inefficacité ne peut pas être calculé"
+
+#~ msgid "This page has %d references to %d links:"
+#~ msgstr "Cette page a %d références vers %d liens :"
+
+#~ msgid "Computation parameters"
+#~ msgstr "Paramètres du calcul"
+
+#~ msgid "Optional cookie string: %s"
+#~ msgstr "Cookie (option) : %s"
+
+#~ msgid "or"
+#~ msgstr "ou bien"
+
+#~ msgid "Raw Input: %s"
+#~ msgstr "Contenu analysé : %s"
+
+#~ msgid "Submit"
+#~ msgstr "Envoyer"
+
+#~ msgid "Visual control of filtered data"
+#~ msgstr "Contrôle visuel des données filtrées"
+
+#~ msgid "Form"
+#~ msgstr "Formulaire"
+
+#~ msgid "Thank you for your contribution"
+#~ msgstr "Merci de votre contribution"
+
+#~ msgid "%s: %s"
+#~ msgstr "%s : %s"
+
+#~ msgid "Your name"
+#~ msgstr "Votre nom"
+
+#~ msgid "Your e-mail address"
+#~ msgstr "Votre adresse E-mail"
+
+#~ msgid "Your contribution"
+#~ msgstr "Votre contribution"
+
+#~ msgid "Give us a chance to know who you are"
+#~ msgstr "Donnez-nous une chance de savoir qui vous êtes"
+
+#~ msgid "We will use this to contact you back"
+#~ msgstr "Nous l'utiliserons pour vous répondre"
+
+#~ msgid "Your message"
+#~ msgstr "Votre message"
+
+#~ msgid "Please include all elements we could need"
+#~ msgstr "Merci d'ajouter tous les éléments dont nous pourrions avoir besoin"
+
+#~ msgid "Video session by koowy: %s"
+#~ msgstr "Session vidéo avec Koowy : %s"
+
+#~ msgid "Share: %s"
+#~ msgstr "Partager : %s"
+
+#~ msgid "navigation"
+#~ msgstr "navigation"
+
+#~ msgid "Themes"
+#~ msgstr "Thèmes"
 
 #~ msgid "Hover me to access tools"
 #~ msgstr "Survolez moi pour accèder aux outils"

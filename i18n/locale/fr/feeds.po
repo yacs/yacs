@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 09:03+0100\n"
+"POT-Creation-Date: 2026-11-23 20:59+0100\n"
 "PO-Revision-Date: 2010-03-30 18:35+0100\n"
 "Last-Translator: Bernard Paques\n"
 "Language-Team: Agnès Rambaud, Bernard Paques\n"
@@ -16,27 +16,24 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: feeds/configure.php:52 feeds/configure.php:150 feeds/configure.php:226
-#: feeds/flash/configure.php:53 feeds/flash/configure.php:158
-#: feeds/flash/configure.php:246
 msgid "Control Panel"
 msgstr "Panneau de contrôle"
 
-#: feeds/configure.php:55 feeds/flash/configure.php:56
+#: feeds/configure.php:55
 #, php-format
 msgid "%s: %s"
 msgstr "%s : %s"
 
-#: feeds/configure.php:55 feeds/index.php:142 feeds/flash/configure.php:56
+#: feeds/configure.php:55 feeds/index.php:142
 msgid "Configure"
 msgstr "Configuration"
 
 #: feeds/configure.php:55 feeds/configure.php:154 feeds/configure.php:225
-#: feeds/index.php:50 feeds/flash/configure.php:166
-#: feeds/flash/configure.php:245
+#: feeds/index.php:50
 msgid "Information channels"
 msgstr "Fils d'information"
 
-#: feeds/configure.php:64 feeds/flash/configure.php:65
+#: feeds/configure.php:64
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à faire cette opération."
 
@@ -91,11 +88,11 @@ msgstr "L'attente conseillée entre deux requêtes successives"
 msgid "Outbound"
 msgstr "Envoi"
 
-#: feeds/configure.php:146 feeds/flash/configure.php:154
+#: feeds/configure.php:146
 msgid "Submit"
 msgstr "Enregistrer"
 
-#: feeds/configure.php:146 feeds/flash/configure.php:154
+#: feeds/configure.php:146
 msgid "Press [s] to submit data"
 msgstr "Appuyer sur [s] pour envoyer les informations"
 
@@ -108,16 +105,16 @@ msgstr "Pour interdire certains serveurs, allez au %s."
 msgid "configuration panel for servers"
 msgstr "panneau de configuration pour les serveurs"
 
-#: feeds/configure.php:167 feeds/flash/configure.php:179
+#: feeds/configure.php:167
 msgid "Help"
 msgstr "Aide"
 
-#: feeds/configure.php:172 feeds/flash/configure.php:184
+#: feeds/configure.php:172
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr ""
 "Vous n'êtes pas autorisé à faire cette opération en mode démonstration."
 
-#: feeds/configure.php:200 feeds/flash/configure.php:222
+#: feeds/configure.php:200
 #, php-format
 msgid ""
 "ERROR: Impossible to write to the file %s. The configuration has not been "
@@ -126,7 +123,7 @@ msgstr ""
 "ERREUR : Impossible d'écrire dans le fichier %s. La configuration n'a pas "
 "été sauvegardée."
 
-#: feeds/configure.php:203 feeds/flash/configure.php:225
+#: feeds/configure.php:203
 #, php-format
 msgid ""
 "To actually change the configuration, please copy and paste following lines "
@@ -135,25 +132,25 @@ msgstr ""
 "Pour changer la configuration merci de copier et de coller les lignes "
 "suivantes dans le fichier %s :"
 
-#: feeds/configure.php:208 feeds/flash/configure.php:230
+#: feeds/configure.php:208
 #, php-format
 msgid "The following configuration has been saved into the file %s."
 msgstr "La configuration suivante a été enregistrée dans le fichier %s."
 
-#: feeds/configure.php:214 feeds/flash/configure.php:233
+#: feeds/configure.php:214
 #, php-format
 msgid "%s has been updated"
 msgstr "%s a été mis à jour"
 
-#: feeds/configure.php:220 feeds/flash/configure.php:239
+#: feeds/configure.php:220
 msgid "Configuration parameters"
 msgstr "Paramètres de configuration"
 
-#: feeds/configure.php:223 feeds/flash/configure.php:242
+#: feeds/configure.php:223
 msgid "Where do you want to go now?"
 msgstr "Où voulez-vous aller à présent ?"
 
-#: feeds/configure.php:227 feeds/flash/configure.php:247
+#: feeds/configure.php:227
 msgid "Configure again"
 msgstr "Configurer de nouveau"
 
@@ -351,85 +348,66 @@ msgstr "Choisissez une source"
 msgid "Aggregate this site"
 msgstr "Agrégez les nouvelles"
 
-#: feeds/rss.php:113
+#: feeds/rss.php:106
 msgid "Latest Articles"
 msgstr "Les derniers articles parus"
 
-#: feeds/flash/configure.php:56
-msgid "Flash"
-msgstr "Flash"
+#~ msgid "Flash"
+#~ msgstr "Flash"
 
-#: feeds/flash/configure.php:77
-msgid "Font Red"
-msgstr "Rouge"
+#~ msgid "Font Red"
+#~ msgstr "Rouge"
 
-#: feeds/flash/configure.php:79 feeds/flash/configure.php:85
-#: feeds/flash/configure.php:91 feeds/flash/configure.php:97
-#: feeds/flash/configure.php:103 feeds/flash/configure.php:109
-msgid "An integer value, in decimal or hexadecimal, eg, 0x11"
-msgstr "Un nombre entier, en décimal ou en hexa, exemple : 0x11"
+#~ msgid "An integer value, in decimal or hexadecimal, eg, 0x11"
+#~ msgstr "Un nombre entier, en décimal ou en hexa, exemple : 0x11"
 
-#: feeds/flash/configure.php:83
-msgid "Font Green"
-msgstr "Vert"
+#~ msgid "Font Green"
+#~ msgstr "Vert"
 
-#: feeds/flash/configure.php:89
-msgid "Font Blue"
-msgstr "Bleu"
+#~ msgid "Font Blue"
+#~ msgstr "Bleu"
 
-#: feeds/flash/configure.php:95
-msgid "Background Red"
-msgstr "Fond rouge"
+#~ msgid "Background Red"
+#~ msgstr "Fond rouge"
 
-#: feeds/flash/configure.php:101
-msgid "Background Green"
-msgstr "Fond vert"
+#~ msgid "Background Green"
+#~ msgstr "Fond vert"
 
-#: feeds/flash/configure.php:107
-msgid "Background Blue"
-msgstr "Fond bleu"
+#~ msgid "Background Blue"
+#~ msgstr "Fond bleu"
 
-#: feeds/flash/configure.php:115
-msgid "Font file"
-msgstr "Fichier de police"
+#~ msgid "Font file"
+#~ msgstr "Fichier de police"
 
-#: feeds/flash/configure.php:117
-msgid "Ensure the file already exists and is a valid font description"
-msgstr ""
-"Assurez-vous que le fichier existe, et qu'il contient bien une description "
-"de police"
+#~ msgid "Ensure the file already exists and is a valid font description"
+#~ msgstr ""
+#~ "Assurez-vous que le fichier existe, et qu'il contient bien une "
+#~ "description de police"
 
-#: feeds/flash/configure.php:123
-msgid "Font height"
-msgstr "Hauteur des caractères"
+#~ msgid "Font height"
+#~ msgstr "Hauteur des caractères"
 
-#: feeds/flash/configure.php:125
-msgid "Compare to the internal vertical scale below"
-msgstr "A comparer à l'échelle verticale interne ci-dessous"
+#~ msgid "Compare to the internal vertical scale below"
+#~ msgstr "A comparer à l'échelle verticale interne ci-dessous"
 
-#: feeds/flash/configure.php:131
-msgid "Object width"
-msgstr "Largeur d'objet"
+#~ msgid "Object width"
+#~ msgstr "Largeur d'objet"
 
-#: feeds/flash/configure.php:133
-msgid "Internal horizontal scale"
-msgstr "facteur d'échelle horizontale interne"
+#~ msgid "Internal horizontal scale"
+#~ msgstr "facteur d'échelle horizontale interne"
 
-#: feeds/flash/configure.php:139
-msgid "Object height"
-msgstr "Hauteur d'objet"
+#~ msgid "Object height"
+#~ msgstr "Hauteur d'objet"
 
-#: feeds/flash/configure.php:141
-msgid "Internal vertical scale"
-msgstr "Facteur d'échelle verticale interne"
+#~ msgid "Internal vertical scale"
+#~ msgstr "Facteur d'échelle verticale interne"
 
-#: feeds/flash/configure.php:162 feeds/flash/configure.php:244
-msgid "Front page"
-msgstr "Page d'accueil"
+#~ msgid "Front page"
+#~ msgstr "Page d'accueil"
 
-#: feeds/flash/configure.php:178
-msgid "Do not set any background color to achieve a transparent object."
-msgstr "Ne pas indiquer de couleur de fond pour obtenir un objet transparent."
+#~ msgid "Do not set any background color to achieve a transparent object."
+#~ msgstr ""
+#~ "Ne pas indiquer de couleur de fond pour obtenir un objet transparent."
 
 #~ msgid "To extend the list of feeders add adequate %s."
 #~ msgstr ""

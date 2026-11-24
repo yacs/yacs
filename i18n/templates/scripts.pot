@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 10:01+0100\n"
+"POT-Creation-Date: 2026-11-24 08:15+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,13 +21,12 @@ msgstr ""
 #: scripts/browse.php:62 scripts/build.php:83 scripts/build.php:98
 #: scripts/build.php:405 scripts/check.php:32 scripts/check.php:51
 #: scripts/compare.php:40 scripts/configure.php:43 scripts/configure.php:101
-#: scripts/configure.php:164 scripts/fetch.php:62 scripts/index.php:99
-#: scripts/parse.php:48 scripts/parse.php:80 scripts/stage.php:77
-#: scripts/stage.php:239 scripts/stage.php:258 scripts/stage.php:344
-#: scripts/stage.php:353 scripts/update.php:54 scripts/update.php:73
-#: scripts/update.php:210 scripts/update.php:383 scripts/upload.php:30
-#: scripts/upload.php:118 scripts/validate.php:32 scripts/validate.php:55
-#: scripts/view.php:56 scripts/view.php:102
+#: scripts/configure.php:164 scripts/fetch.php:62 scripts/index.php:87
+#: scripts/parse.php:48 scripts/parse.php:80 scripts/stage.php:48
+#: scripts/update.php:54 scripts/update.php:73 scripts/update.php:209
+#: scripts/update.php:392 scripts/upload.php:30 scripts/upload.php:118
+#: scripts/validate.php:32 scripts/validate.php:55 scripts/view.php:56
+#: scripts/view.php:102
 msgid "Server software"
 msgstr ""
 
@@ -61,12 +60,12 @@ msgstr ""
 msgid "Fetch the script file"
 msgstr ""
 
-#: scripts/build.php:86 scripts/index.php:183
+#: scripts/build.php:86 scripts/index.php:167
 msgid "Build the software"
 msgstr ""
 
 #: scripts/build.php:95 scripts/check.php:44 scripts/compare.php:51
-#: scripts/configure.php:52 scripts/run_once.php:101 scripts/stage.php:128
+#: scripts/configure.php:52 scripts/run_once.php:101 scripts/stage.php:60
 #: scripts/update.php:66 scripts/upload.php:42 scripts/validate.php:52
 msgid "You are not allowed to perform this operation."
 msgstr ""
@@ -89,7 +88,7 @@ msgstr ""
 msgid "Enable remote servers to update from this reference store."
 msgstr ""
 
-#: scripts/build.php:126 scripts/update.php:239 scripts/validate.php:74
+#: scripts/build.php:126 scripts/update.php:238 scripts/validate.php:74
 #: scripts/validate.php:240
 msgid ""
 "When you will click on the button the server will be immediately requested "
@@ -134,7 +133,7 @@ msgstr ""
 msgid "%s is not a reference script"
 msgstr ""
 
-#: scripts/build.php:181 scripts/update.php:154
+#: scripts/build.php:181 scripts/update.php:162
 #, php-format
 msgid "Impossible to create path %s."
 msgstr ""
@@ -179,8 +178,8 @@ msgid ""
 "for test purpose."
 msgstr ""
 
-#: scripts/build.php:330 scripts/stage.php:244 scripts/stage.php:321
-#: scripts/update.php:146 scripts/update.php:171
+#: scripts/build.php:330 scripts/update.php:109 scripts/update.php:154
+#: scripts/update.php:180
 #, php-format
 msgid "Impossible to write to %s."
 msgstr ""
@@ -194,7 +193,7 @@ msgstr ""
 msgid "On-going archive preparation..."
 msgstr ""
 
-#: scripts/build.php:402 scripts/run_once.php:203 scripts/validate.php:232
+#: scripts/build.php:402 scripts/run_once.php:215 scripts/validate.php:232
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr ""
@@ -203,13 +202,13 @@ msgstr ""
 msgid "The reference store has been rebuilt"
 msgstr ""
 
-#: scripts/check.php:35 scripts/index.php:177
+#: scripts/check.php:35 scripts/index.php:161
 msgid "Check software integrity"
 msgstr ""
 
 #: scripts/check.php:48 scripts/check.php:95 scripts/update.php:70
-#: scripts/update.php:130 scripts/update.php:302 scripts/update.php:309
-#: scripts/update.php:317
+#: scripts/update.php:137 scripts/update.php:287 scripts/update.php:313
+#: scripts/update.php:320 scripts/update.php:328
 #, php-format
 msgid "ERROR: File %s is missing or corrupted."
 msgstr ""
@@ -277,7 +276,7 @@ msgid "Tabular"
 msgstr ""
 
 #: scripts/configure.php:40 scripts/configure.php:97 scripts/configure.php:165
-#: scripts/run_once.php:88 scripts/run_once.php:208 scripts/run_once.php:213
+#: scripts/run_once.php:89 scripts/run_once.php:223
 msgid "Control Panel"
 msgstr ""
 
@@ -286,12 +285,11 @@ msgstr ""
 msgid "%s: %s"
 msgstr ""
 
-#: scripts/configure.php:43 scripts/index.php:174
+#: scripts/configure.php:43 scripts/index.php:158
 msgid "Configure"
 msgstr ""
 
-#: scripts/configure.php:65 scripts/index.php:115 scripts/index.php:152
-#: scripts/stage.php:61
+#: scripts/configure.php:65 scripts/index.php:136
 msgid "www.yacs.fr"
 msgstr ""
 
@@ -315,11 +313,11 @@ msgid ""
 "duplicated at the upper directory as well"
 msgstr ""
 
-#: scripts/configure.php:93 scripts/stage.php:393 scripts/upload.php:144
+#: scripts/configure.php:93 scripts/stage.php:180 scripts/upload.php:144
 msgid "Submit"
 msgstr ""
 
-#: scripts/configure.php:93 scripts/stage.php:393 scripts/upload.php:144
+#: scripts/configure.php:93 scripts/stage.php:180 scripts/upload.php:144
 msgid "Press [s] to submit data"
 msgstr ""
 
@@ -346,7 +344,7 @@ msgstr ""
 msgid "The following configuration has been saved into the file %s."
 msgstr ""
 
-#: scripts/configure.php:152 scripts/update.php:141 scripts/update.php:166
+#: scripts/configure.php:152 scripts/update.php:149 scripts/update.php:175
 #, php-format
 msgid "%s has been updated"
 msgstr ""
@@ -359,8 +357,8 @@ msgstr ""
 msgid "Where do you want to go now?"
 msgstr ""
 
-#: scripts/configure.php:163 scripts/stage.php:80 scripts/update.php:260
-#: scripts/update.php:375
+#: scripts/configure.php:163 scripts/stage.php:51 scripts/update.php:259
+#: scripts/update.php:384
 msgid "Stage updated scripts"
 msgstr ""
 
@@ -372,58 +370,58 @@ msgstr ""
 msgid "Please indicate a script name."
 msgstr ""
 
-#: scripts/index.php:105
+#: scripts/index.php:93
 msgid "Incremental upgrades"
 msgstr ""
 
-#: scripts/index.php:110
+#: scripts/index.php:98
 #, php-format
 msgid "Last update took place on %s"
 msgstr ""
 
-#: scripts/index.php:118 scripts/index.php:171 scripts/update.php:57
+#: scripts/index.php:102 scripts/index.php:155 scripts/update.php:57
 msgid "Update the software"
 msgstr ""
 
-#: scripts/index.php:128
+#: scripts/index.php:112
 msgid "To do"
 msgstr ""
 
-#: scripts/index.php:131
+#: scripts/index.php:115
 msgid "Testers"
 msgstr ""
 
-#: scripts/index.php:134
+#: scripts/index.php:118
 msgid "Authors"
 msgstr ""
 
-#: scripts/index.php:137
+#: scripts/index.php:121
 msgid "Licenses"
 msgstr ""
 
-#: scripts/index.php:140
+#: scripts/index.php:124
 msgid ""
 "Click on any link below to access the documentation extracted from each "
 "script (phpDoc)."
 msgstr ""
 
-#: scripts/index.php:148
+#: scripts/index.php:132
 msgid "The complete documentation is available at the following server:"
 msgstr ""
 
-#: scripts/index.php:158
+#: scripts/index.php:142
 msgid "On-line Documentation"
 msgstr ""
 
-#: scripts/index.php:164 scripts/upload.php:33
+#: scripts/index.php:148 scripts/upload.php:33
 msgid "Apply a patch"
 msgstr ""
 
-#: scripts/index.php:168
+#: scripts/index.php:152
 msgid "Run once"
 msgstr ""
 
-#: scripts/index.php:180 scripts/validate.php:35
+#: scripts/index.php:164 scripts/validate.php:35
 msgid "Validate PHP syntax"
 msgstr ""
 
@@ -439,59 +437,59 @@ msgstr ""
 msgid "Fetch"
 msgstr ""
 
-#: scripts/phpdoc.php:304
+#: scripts/phpdoc.php:307
 msgid "See also:"
 msgstr ""
 
-#: scripts/phpdoc.php:312
+#: scripts/phpdoc.php:315
 msgid "License:"
 msgstr ""
 
-#: scripts/phpdoc.php:320
+#: scripts/phpdoc.php:323
 msgid "Authors:"
 msgstr ""
 
-#: scripts/phpdoc.php:328
+#: scripts/phpdoc.php:331
 msgid "Testers:"
 msgstr ""
 
-#: scripts/phpdoc.php:336
+#: scripts/phpdoc.php:339
 msgid "On the to-do list:"
 msgstr ""
 
-#: scripts/phpdoc.php:355
+#: scripts/phpdoc.php:358
 msgid "No comments to report on!"
 msgstr ""
 
-#: scripts/phpdoc.php:359
+#: scripts/phpdoc.php:362
 msgid "Generating script documentation, please wait..."
 msgstr ""
 
-#: scripts/phpdoc.php:562 scripts/phpdoc.php:563 scripts/run_once.php:105
+#: scripts/phpdoc.php:565 scripts/phpdoc.php:566 scripts/run_once.php:105
 #: scripts/scripts.php:174 scripts/scripts.php:180 scripts/scripts.php:212
 #: scripts/scripts.php:219 scripts/scripts.php:681 scripts/scripts.php:687
-#: scripts/stage.php:179 scripts/stage.php:311 scripts/upload.php:75
+#: scripts/stage.php:113 scripts/upload.php:75
 #, php-format
 msgid "Impossible to read %s."
 msgstr ""
 
-#: scripts/run_once.php:91
+#: scripts/run_once.php:92 scripts/run_once.php:154
 msgid "Run one-time scripts"
 msgstr ""
 
-#: scripts/run_once.php:164
+#: scripts/run_once.php:176
 #, php-format
 msgid "script %s has been executed"
 msgstr ""
 
-#: scripts/run_once.php:196
+#: scripts/run_once.php:208
 #, php-format
 msgid "%d script has been executed"
 msgid_plural "%d scripts have been executed"
 msgstr[0] ""
 msgstr[1] ""
 
-#: scripts/run_once.php:198
+#: scripts/run_once.php:210
 msgid "No script has been executed"
 msgstr ""
 
@@ -499,117 +497,49 @@ msgstr ""
 msgid "Delta"
 msgstr ""
 
-#: scripts/stage.php:145 scripts/upload.php:52 scripts/upload.php:64
+#: scripts/stage.php:77 scripts/stage.php:85 scripts/upload.php:52
+#: scripts/upload.php:64
 msgid "Nothing has been received."
 msgstr ""
 
-#: scripts/stage.php:149 scripts/upload.php:68
+#: scripts/stage.php:81 scripts/upload.php:68
 msgid "Possible file attack."
 msgstr ""
 
-#: scripts/stage.php:189 scripts/upload.php:90
+#: scripts/stage.php:123 scripts/upload.php:90
 #, php-format
 msgid "%d files have been extracted."
 msgstr ""
 
-#: scripts/stage.php:192 scripts/upload.php:93
+#: scripts/stage.php:126 scripts/upload.php:93
 #, php-format
 msgid "Nothing has been extracted from %s."
 msgstr ""
 
-#: scripts/stage.php:198 scripts/upload.php:99
+#: scripts/stage.php:132 scripts/upload.php:99
 msgid "Impossible to extract files."
 msgstr ""
 
-#: scripts/stage.php:208
+#: scripts/stage.php:142
 #, php-format
 msgid "Impossible to complete update of the staging store from %s"
 msgstr ""
 
-#: scripts/stage.php:213
+#: scripts/stage.php:147
 msgid "The staging directory has been updated."
 msgstr ""
 
-#: scripts/stage.php:217 scripts/stage.php:362
+#: scripts/stage.php:151
 msgid "Review staged scripts before the update"
 msgstr ""
 
-#: scripts/stage.php:226
-msgid "Purging old staging files..."
-msgstr ""
-
-#: scripts/stage.php:230
-#, php-format
-msgid "%d items have been purged"
-msgstr ""
-
-#: scripts/stage.php:236
-#, php-format
-msgid "Impossible to get %s. Please %s again."
-msgstr ""
-
-#: scripts/stage.php:236
-msgid "configure"
-msgstr ""
-
-#: scripts/stage.php:248
-msgid ""
-"Footprints of reference scripts have been saved in file scripts/staging/"
-"footprints.php."
-msgstr ""
-
-#: scripts/stage.php:255
-msgid "Invalid reference index. Staging has been cancelled."
-msgstr ""
-
-#: scripts/stage.php:263 scripts/update.php:271
-#, php-format
-msgid "Reference set of %d files built on %s on server %s"
-msgstr ""
-
-#: scripts/stage.php:266
-msgid "Download of updated scripts. Please wait..."
-msgstr ""
-
-#: scripts/stage.php:299
-#, php-format
-msgid "Using staged file %s"
-msgstr ""
-
-#: scripts/stage.php:306
-#, php-format
-msgid "Staging %s"
-msgstr ""
-
-#: scripts/stage.php:329
-msgid "File has been corrupted!"
-msgstr ""
-
-#: scripts/stage.php:341
-msgid ""
-"Errors have been encountered, and you cannot proceed with the network update."
-msgstr ""
-
-#: scripts/stage.php:350
-msgid ""
-"No file has been staged. Scripts on your server are exact copies of the "
-"reference set."
-msgstr ""
-
-#: scripts/stage.php:358
-#, php-format
-msgid "%d file has been downloaded from the reference server."
-msgid_plural "%d files have been downloaded from the reference server."
-msgstr[0] ""
-msgstr[1] ""
-
-#: scripts/stage.php:373
+#: scripts/stage.php:160
 msgid ""
 "This script allows you to stage new scripts that will then be used to update "
 "your YACS server."
 msgstr ""
 
-#: scripts/stage.php:377
+#: scripts/stage.php:164
 #, php-format
 msgid ""
 "Extended processing time is not allowed on this server. In case of trouble, "
@@ -618,63 +548,63 @@ msgid ""
 "completed, jump to %s to complete the software update."
 msgstr ""
 
-#: scripts/stage.php:377
+#: scripts/stage.php:164
 msgid "the update script"
 msgstr ""
 
-#: scripts/stage.php:380
+#: scripts/stage.php:167
 msgid "Direct upload"
 msgstr ""
 
-#: scripts/stage.php:383
+#: scripts/stage.php:170
 msgid "Pick-up and upload the archive file to use for the upgrade."
 msgstr ""
 
-#: scripts/stage.php:390 scripts/upload.php:141
+#: scripts/stage.php:177 scripts/upload.php:141
 msgid "bytes"
 msgstr ""
 
-#: scripts/stage.php:399
+#: scripts/stage.php:186
 msgid ""
 "The upload will start on your click. Then the archive will be exploded to "
 "stage files. You may have to wait for minutes before getting a response "
 "displayed."
 msgstr ""
 
-#: scripts/stage.php:402
+#: scripts/stage.php:189
 msgid "Indirect upload"
 msgstr ""
 
-#: scripts/stage.php:405
+#: scripts/stage.php:192
 #, php-format
 msgid ""
 "If the file is too large for the web, you can upload it by yourself, for "
 "example with FTP, in the directory %s."
 msgstr ""
 
-#: scripts/stage.php:439
+#: scripts/stage.php:226
 #, php-format
 msgid "Install release %s"
 msgstr ""
 
-#: scripts/stage.php:444
+#: scripts/stage.php:231
 msgid ""
 "Click to explode the selected archive. You may have to wait for some time "
 "before getting a response displayed."
 msgstr ""
 
-#: scripts/stage.php:449
+#: scripts/stage.php:236
 msgid "Direct staging"
 msgstr ""
 
-#: scripts/stage.php:452
+#: scripts/stage.php:239
 #, php-format
 msgid ""
 "Ultimately, you can populate the directory %s by yourself. On completion you "
 "can start the %s."
 msgstr ""
 
-#: scripts/stage.php:452
+#: scripts/stage.php:239
 msgid "update process"
 msgstr ""
 
@@ -701,88 +631,105 @@ msgstr ""
 msgid "Updating scripts..."
 msgstr ""
 
-#: scripts/update.php:196
+#: scripts/update.php:198
 #, php-format
 msgid "%s has been deleted"
 msgstr ""
 
-#: scripts/update.php:207
+#: scripts/update.php:206
 msgid "Scripts on your server are exact copies of the reference set."
 msgstr ""
 
-#: scripts/update.php:215
+#: scripts/update.php:214
 msgid "No file has been updated."
 msgstr ""
 
-#: scripts/update.php:221
+#: scripts/update.php:220
 #, php-format
 msgid "%d file has been updated."
 msgid_plural "%d files have been updated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: scripts/update.php:230
+#: scripts/update.php:229
 msgid ""
 "Now that new scripts have been copied to your server, you should update the "
 "database as well. Please click on the link below before switching your "
 "server on again."
 msgstr ""
 
-#: scripts/update.php:234
+#: scripts/update.php:233
 msgid "Install all hooks"
 msgstr ""
 
-#: scripts/update.php:253
+#: scripts/update.php:252
 msgid "Warning! Some files have not been updated."
 msgstr ""
 
-#: scripts/update.php:257 scripts/update.php:372
+#: scripts/update.php:256 scripts/update.php:381
 msgid "Some updated files are missing."
 msgstr ""
 
-#: scripts/update.php:326
+#: scripts/update.php:270
+#, php-format
+msgid "Reference set of %d files built on %s on server %s"
+msgstr ""
+
+#: scripts/update.php:337
 msgid "Review"
 msgstr ""
 
-#: scripts/update.php:327
+#: scripts/update.php:338
 msgid "Diff"
 msgstr ""
 
-#: scripts/update.php:358
+#: scripts/update.php:361
 msgid "Errors"
 msgstr ""
 
-#: scripts/update.php:361
+#: scripts/update.php:365
+msgid "Locally modified files"
+msgstr ""
+
+#: scripts/update.php:366
+msgid ""
+"These files are not the version this update has been built from: they have "
+"been changed on this server, or the server was not at the expected version. "
+"The update replaces them, and keeps the current version with the .bak "
+"extension."
+msgstr ""
+
+#: scripts/update.php:370
 msgid "New files"
 msgstr ""
 
-#: scripts/update.php:364
+#: scripts/update.php:373
 msgid "Staging files"
 msgstr ""
 
-#: scripts/update.php:367
+#: scripts/update.php:376
 msgid "Obsolete files"
 msgstr ""
 
-#: scripts/update.php:380
+#: scripts/update.php:389
 msgid "Running scripts are exact copies of the reference set."
 msgstr ""
 
-#: scripts/update.php:388
+#: scripts/update.php:397
 #, php-format
 msgid "%d script has to be updated."
 msgid_plural "%d scripts have to be updated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: scripts/update.php:391
+#: scripts/update.php:400
 msgid ""
 "Click on the button below to actually update running scripts on your server. "
 "Please note that your server will be temporarily switched off, and that you "
 "will also have to refresh the database."
 msgstr ""
 
-#: scripts/update.php:395
+#: scripts/update.php:404
 msgid ""
 "Yes, I have checked every item and want to update scripts on this server"
 msgstr ""

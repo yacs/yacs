@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 10:01+0100\n"
+"POT-Creation-Date: 2026-11-24 08:15+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -264,7 +264,7 @@ msgstr ""
 msgid "Most recent events at %s"
 msgstr ""
 
-#: agents/index.php:86 agents/index.php:135
+#: agents/index.php:86 agents/index.php:137
 msgid "You can sort the table below by clicking on column headers."
 msgstr ""
 
@@ -289,63 +289,63 @@ msgstr ""
 msgid "Who?"
 msgstr ""
 
-#: agents/index.php:100
+#: agents/index.php:102
 msgid "No event has been logged"
 msgstr ""
 
-#: agents/index.php:104
+#: agents/index.php:106
 msgid "Events"
 msgstr ""
 
-#: agents/index.php:124
+#: agents/index.php:126
 msgid "Values"
 msgstr ""
 
-#: agents/index.php:138
+#: agents/index.php:140
 msgid "Script"
 msgstr ""
 
-#: agents/index.php:138
+#: agents/index.php:140
 msgid "Hits"
 msgstr ""
 
-#: agents/index.php:138
+#: agents/index.php:140
 msgid "Average time"
 msgstr ""
 
-#: agents/index.php:138
+#: agents/index.php:140
 msgid "Minimum time"
 msgstr ""
 
-#: agents/index.php:138
+#: agents/index.php:140
 msgid "Maximum time"
 msgstr ""
 
-#: agents/index.php:138
+#: agents/index.php:140
 msgid "Total time"
 msgstr ""
 
-#: agents/index.php:145
+#: agents/index.php:147
 msgid "Performance"
 msgstr ""
 
-#: agents/index.php:156
+#: agents/index.php:158
 msgid "Domain"
 msgstr ""
 
-#: agents/index.php:156 agents/index.php:181
+#: agents/index.php:158 agents/index.php:183
 msgid "Count"
 msgstr ""
 
-#: agents/index.php:170
+#: agents/index.php:172
 msgid "Referrals"
 msgstr ""
 
-#: agents/index.php:181
+#: agents/index.php:183
 msgid "Keywords"
 msgstr ""
 
-#: agents/index.php:195
+#: agents/index.php:197
 msgid "Searches"
 msgstr ""
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 10:01+0100\n"
+"POT-Creation-Date: 2026-11-24 08:15+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,6 @@ msgstr ""
 
 #: comments/check.php:24 comments/edit.php:172 comments/feed.php:76
 #: comments/list.php:104 comments/list.php:110 comments/list.php:181
-#: comments/post.php:181
 msgid "Comments"
 msgstr ""
 
@@ -31,9 +30,9 @@ msgstr ""
 #: comments/check.php:32 comments/delete.php:81 comments/delete.php:90
 #: comments/edit.php:182 comments/edit.php:198 comments/feed.php:92
 #: comments/index.php:51 comments/list.php:128 comments/list.php:133
-#: comments/post.php:189 comments/promote.php:80 comments/promote.php:95
-#: comments/thread.php:57 comments/thread.php:67 comments/thread.php:72
-#: comments/thread.php:77 comments/view.php:92
+#: comments/promote.php:80 comments/promote.php:95 comments/thread.php:57
+#: comments/thread.php:67 comments/thread.php:72 comments/thread.php:77
+#: comments/view.php:92
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
@@ -164,16 +163,16 @@ msgstr ""
 msgid "Job has been completed"
 msgstr ""
 
-#: comments/comments.php:1586 comments/index.php:79
+#: comments/comments.php:1574 comments/index.php:79
 msgid "No comment has been transmitted."
 msgstr ""
 
-#: comments/comments.php:1592 comments/comments.php:1598 comments/edit.php:187
+#: comments/comments.php:1580 comments/comments.php:1586 comments/edit.php:187
 #: comments/list.php:117 comments/thread.php:62
 msgid "No anchor has been found."
 msgstr ""
 
-#: comments/comments.php:1616
+#: comments/comments.php:1604
 msgid "No item has the provided id."
 msgstr ""
 
@@ -479,16 +478,6 @@ msgstr ""
 
 #: comments/list.php:246 comments/list.php:248
 msgid "Done"
-msgstr ""
-
-#: comments/post.php:184
-msgid "Comment service"
-msgstr ""
-
-#: comments/post.php:312
-msgid ""
-"This script supports Comment API and Post-It updates through HTTP POST "
-"requests."
 msgstr ""
 
 #: comments/promote.php:75

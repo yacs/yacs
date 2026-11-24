@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yacs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 09:03+0100\n"
+"POT-Creation-Date: 2026-11-23 20:59+0100\n"
 "PO-Revision-Date: 2015-07-17 18:03+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Alexis Raimbault, Bernard Paques\n"
@@ -503,7 +503,7 @@ msgstr "Boîte de côté avec titre"
 msgid "Scroller"
 msgstr "Défilement"
 
-#: codes/code_embed.php:54
+#: codes/code_embed.php:50
 msgid "Play in a separate window"
 msgstr "Jouer dans une fenêtre séparée"
 
@@ -518,31 +518,31 @@ msgstr[1] "%d personnes identifiées ont suivi le lien : %s"
 msgid "No authenticated person has used this link yet"
 msgstr "Aucune personne authentifiés n'a encore utilisé ce lien"
 
-#: codes/codes.php:1167
+#: codes/codes.php:1166
 msgid "View this comment"
 msgstr "Voir ce commentaire"
 
-#: codes/codes.php:1190 codes/codes.php:1246
+#: codes/codes.php:1189 codes/codes.php:1245
 msgid "[this file has been deleted]"
 msgstr "[ce fichier à été supprimé]"
 
-#: codes/codes.php:1211 codes/codes.php:1270
+#: codes/codes.php:1210 codes/codes.php:1269
 msgid "[this file has been replaced]"
 msgstr "[ce fichier à été remplacé]"
 
-#: codes/codes.php:1905
+#: codes/codes.php:1904
 #, php-format
 msgid "redirection to unknown reference : %s"
 msgstr "redirection vers une référence inconnue : %s"
 
-#: codes/codes.php:2137
+#: codes/codes.php:2136
 #, php-format
 msgid "%d active now"
 msgid_plural "%d active now"
 msgstr[0] "%d actif maintenant"
 msgstr[1] "%d actifs maintenant"
 
-#: codes/codes.php:2209
+#: codes/codes.php:2208
 #, php-format
 msgid ""
 "ERROR: Impossible to write to the file %s. The configuration has not been "
@@ -569,10 +569,6 @@ msgstr "%d enregistrements ont été traités"
 #, php-format
 msgid "Script terminated in %.2f seconds."
 msgstr "Script terminé en %.2f secondes."
-
-#: codes/code_table.php:67
-msgid "Filter"
-msgstr "Filtre"
 
 #: codes/index.php:27
 msgid "Introduction to formatting codes"
@@ -1393,6 +1389,9 @@ msgstr "Evénements"
 #: codes/widgets.php:95
 msgid "Direct location"
 msgstr "Emplacement direct"
+
+#~ msgid "Filter"
+#~ msgstr "Filtre"
 
 #~ msgid "Execute a local script"
 #~ msgstr "Exécuter un script local"

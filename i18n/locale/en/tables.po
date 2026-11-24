@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 09:03+0100\n"
+"POT-Creation-Date: 2026-11-23 20:59+0100\n"
 "PO-Revision-Date: 2026-10-26 09:43+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
@@ -121,7 +121,7 @@ msgstr "Edit a table"
 msgid "Add a table"
 msgstr "Add a table"
 
-#: tables/edit.php:96 tables/tables.php:989 tables/tables.php:995
+#: tables/edit.php:96 tables/tables.php:910 tables/tables.php:916
 msgid "No anchor has been found."
 msgstr "No anchor has been found."
 
@@ -383,7 +383,7 @@ msgstr "Recent pages"
 msgid "details"
 msgstr "details"
 
-#: tables/layout_tables.php:110 tables/tables.php:319
+#: tables/layout_tables.php:110 tables/tables.php:240
 msgid "edit"
 msgstr "edit"
 
@@ -396,16 +396,16 @@ msgstr "delete"
 msgid "Error in table query %s"
 msgstr "Error in table query %s"
 
-#: tables/tables.php:647
+#: tables/tables.php:568
 #, php-format
 msgid "unknown layout called from table rendering : %s "
 msgstr "unknown layout called from table rendering : %s "
 
-#: tables/tables.php:983
+#: tables/tables.php:904
 msgid "Please add some SQL query."
 msgstr "Please add some SQL query."
 
-#: tables/tables.php:1011
+#: tables/tables.php:932
 msgid "No item has the provided id."
 msgstr "No item has the provided id."
 

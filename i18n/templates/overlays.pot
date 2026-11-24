@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 10:01+0100\n"
+"POT-Creation-Date: 2026-11-24 08:15+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,8 +36,8 @@ msgstr ""
 #: overlays/event.php:560 overlays/event.php:562 overlays/event.php:566
 #: overlays/event.php:688 overlays/event.php:693 overlays/event.php:695
 #: overlays/event.php:699 overlays/thread.php:93 overlays/events/apply.php:128
-#: overlays/events/apply.php:188 overlays/events/enroll.php:85
-#: overlays/events/enroll.php:154
+#: overlays/events/apply.php:188 overlays/events/enroll.php:89
+#: overlays/events/enroll.php:158
 #, php-format
 msgid "%s: %s"
 msgstr ""
@@ -319,7 +319,7 @@ msgstr ""
 msgid "%s has open enrolment to the event"
 msgstr ""
 
-#: overlays/event.php:1581 overlays/events/enroll.php:85
+#: overlays/event.php:1581 overlays/events/enroll.php:89
 msgid "Cancellation"
 msgstr ""
 
@@ -394,7 +394,7 @@ msgstr ""
 msgid "Please wait until the meeting begins"
 msgstr ""
 
-#: overlays/event.php:2257 overlays/events/enroll.php:271
+#: overlays/event.php:2257 overlays/events/enroll.php:286
 msgid "Invite participants"
 msgstr ""
 
@@ -1256,7 +1256,7 @@ msgid "Your invitation request has been recorded."
 msgstr ""
 
 #: overlays/events/apply.php:128 overlays/events/apply.php:188
-#: overlays/events/enroll.php:154
+#: overlays/events/enroll.php:158
 msgid "Meeting"
 msgstr ""
 
@@ -1284,52 +1284,52 @@ msgstr ""
 msgid "%s has confirmed his participation"
 msgstr ""
 
-#: overlays/events/apply.php:181 overlays/events/enroll.php:270
+#: overlays/events/apply.php:181 overlays/events/enroll.php:285
 msgid "Done"
 msgstr ""
 
-#: overlays/events/enroll.php:88
+#: overlays/events/enroll.php:92
 #, php-format
 msgid "%s has cancelled your participation to %s"
 msgstr ""
 
-#: overlays/events/enroll.php:157
+#: overlays/events/enroll.php:161
 #, php-format
 msgid "%s has confirmed your participation to %s"
 msgstr ""
 
-#: overlays/events/enroll.php:197
+#: overlays/events/enroll.php:201
 msgid "Following persons have been notified of their enrolment by e-mail"
 msgstr ""
 
-#: overlays/events/enroll.php:202
+#: overlays/events/enroll.php:206
 msgid ""
 "Registration is managed by page owner. You have to invite participants "
 "manually, and they will be notified by e-mail about this event."
 msgstr ""
 
-#: overlays/events/enroll.php:206
+#: overlays/events/enroll.php:210
 msgid ""
 "Enrolment has been configured to accept any visitor. You may invite some "
 "participants to draw their attention on this event."
 msgstr ""
 
-#: overlays/events/enroll.php:209
+#: overlays/events/enroll.php:213
 msgid ""
 "Visitors are entitled to ask for participation, and enrolment is confirmed "
 "by page owner. Check the list below to validate applications, and to confirm "
 "registrations by e-mail."
 msgstr ""
 
-#: overlays/events/enroll.php:218
+#: overlays/events/enroll.php:222
 msgid "Current enrolment"
 msgstr ""
 
-#: overlays/events/enroll.php:248
+#: overlays/events/enroll.php:260
 msgid "validate"
 msgstr ""
 
-#: overlays/events/enroll.php:253
+#: overlays/events/enroll.php:268
 msgid "drop"
 msgstr ""
 

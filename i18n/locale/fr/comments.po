@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 09:03+0100\n"
+"POT-Creation-Date: 2026-11-23 20:59+0100\n"
 "PO-Revision-Date: 2026-10-26 09:20+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Agnès Rambaud, Alexis Raimbault, Bernard Paques\n"
@@ -16,7 +16,6 @@ msgstr ""
 
 #: comments/check.php:24 comments/edit.php:172 comments/feed.php:76
 #: comments/list.php:104 comments/list.php:110 comments/list.php:181
-#: comments/post.php:181
 msgid "Comments"
 msgstr "Commentaires"
 
@@ -27,9 +26,9 @@ msgstr "Maintenance"
 #: comments/check.php:32 comments/delete.php:81 comments/delete.php:90
 #: comments/edit.php:182 comments/edit.php:198 comments/feed.php:92
 #: comments/index.php:51 comments/list.php:128 comments/list.php:133
-#: comments/post.php:189 comments/promote.php:80 comments/promote.php:95
-#: comments/thread.php:57 comments/thread.php:67 comments/thread.php:72
-#: comments/thread.php:77 comments/view.php:92
+#: comments/promote.php:80 comments/promote.php:95 comments/thread.php:57
+#: comments/thread.php:67 comments/thread.php:72 comments/thread.php:77
+#: comments/view.php:92
 msgid "You are not allowed to perform this operation."
 msgstr "Vous n'êtes pas autorisé à faire cette opération."
 
@@ -160,16 +159,16 @@ msgstr "Important"
 msgid "Job has been completed"
 msgstr "C'est fait"
 
-#: comments/comments.php:1586 comments/index.php:79
+#: comments/comments.php:1574 comments/index.php:79
 msgid "No comment has been transmitted."
 msgstr "Aucun commentaire n'a été transmis."
 
-#: comments/comments.php:1592 comments/comments.php:1598 comments/edit.php:187
+#: comments/comments.php:1580 comments/comments.php:1586 comments/edit.php:187
 #: comments/list.php:117 comments/thread.php:62
 msgid "No anchor has been found."
 msgstr "Aucun ancrage n'a été trouvé."
 
-#: comments/comments.php:1616
+#: comments/comments.php:1604
 msgid "No item has the provided id."
 msgstr "Identifiant inconnu."
 
@@ -489,18 +488,6 @@ msgstr "Bas de page"
 msgid "Done"
 msgstr "Terminé"
 
-#: comments/post.php:184
-msgid "Comment service"
-msgstr "Envoi de commentaire"
-
-#: comments/post.php:312
-msgid ""
-"This script supports Comment API and Post-It updates through HTTP POST "
-"requests."
-msgstr ""
-"Ce script autorise les apports de type Comment API ou Post-It par requêtes "
-"HTTP POST."
-
 #: comments/promote.php:75
 msgid "Promote a comment"
 msgstr "Promouvoir un commentaire"
@@ -545,6 +532,16 @@ msgstr "Appuyer sur [e] pour modifier"
 #: comments/view.php:230
 msgid "Promote"
 msgstr "Promouvoir"
+
+#~ msgid "Comment service"
+#~ msgstr "Envoi de commentaire"
+
+#~ msgid ""
+#~ "This script supports Comment API and Post-It updates through HTTP POST "
+#~ "requests."
+#~ msgstr ""
+#~ "Ce script autorise les apports de type Comment API ou Post-It par "
+#~ "requêtes HTTP POST."
 
 #~ msgid "Ensure this post is valid XHTML."
 #~ msgstr "Vérifier que le contenu est du XHTML valide."

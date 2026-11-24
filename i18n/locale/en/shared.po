@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YACS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 09:03+0100\n"
-"PO-Revision-Date: 2026-10-26 09:51+0100\n"
+"POT-Creation-Date: 2026-11-23 20:59+0100\n"
+"PO-Revision-Date: 2026-11-24 07:41+0100\n"
 "Last-Translator: Alexis Raimbault <rair@cybermedium.info>\n"
 "Language-Team: Bernard Paques\n"
 "Language: en_GB\n"
@@ -209,15 +209,19 @@ msgstr "Last edition"
 msgid "Related items"
 msgstr "Related items"
 
-#: shared/global.php:932
+#: shared/global.php:1074
 msgid "You are not allowed to perform this operation."
 msgstr "You are not allowed to perform this operation."
 
-#: shared/global.php:1215
+#: shared/global.php:1100
+msgid "This form has expired. Please reload the page, then submit it again."
+msgstr "This form has expired. Please reload the page, then submit it again."
+
+#: shared/global.php:1384
 msgid "View the category"
 msgstr "View the category"
 
-#: shared/global.php:1594
+#: shared/global.php:1752
 msgid "ACCEPT COOKIES"
 msgstr "ACCEPT COOKIES"
 
@@ -226,11 +230,16 @@ msgstr "ACCEPT COOKIES"
 msgid "Style sheets have been changed, %s to apply changes."
 msgstr "Style sheets have been changed, %s to apply changes."
 
-#: shared/js_css.php:532
+#: shared/js_css.php:532 shared/js_css.php:547
 msgid "rebuild them"
 msgstr "rebuild them"
 
-#: shared/logger.php:205
+#: shared/js_css.php:546
+#, php-format
+msgid "Javascript libraries have been changed, %s to apply changes."
+msgstr "Javascript libraries have been changed, %s to apply changes."
+
+#: shared/logger.php:197
 #, php-format
 msgid ""
 "This message has been generated automatically by %s. If you wish to stop "
@@ -241,7 +250,7 @@ msgstr ""
 "these automatic alerts please visit the following link and remove your "
 "address from recipients of system events."
 
-#: shared/logger.php:206
+#: shared/logger.php:198
 msgid "System parameters"
 msgstr "System parameters"
 
@@ -314,19 +323,19 @@ msgid_plural "%d new items at %s"
 msgstr[0] "%d new item at %s"
 msgstr[1] "%d new items at %s"
 
-#: shared/members.php:93 shared/members.php:439 shared/members.php:1612
+#: shared/members.php:92 shared/members.php:438 shared/members.php:1610
 msgid "An anchor is required for this operation."
 msgstr "An anchor is required for this operation."
 
-#: shared/members.php:99 shared/members.php:445 shared/members.php:1616
+#: shared/members.php:98 shared/members.php:444 shared/members.php:1614
 msgid "A member is required for this operation."
 msgstr "A member is required for this operation."
 
-#: shared/members.php:803 shared/members.php:865
+#: shared/members.php:802 shared/members.php:863
 msgid "weekly"
 msgstr "weekly"
 
-#: shared/members.php:804 shared/members.php:866
+#: shared/members.php:803 shared/members.php:864
 msgid "monthly"
 msgstr "monthly"
 
@@ -334,7 +343,7 @@ msgstr "monthly"
 msgid "PDF export created by YACS"
 msgstr "PDF export created by YACS"
 
-#: shared/safe.php:943
+#: shared/safe.php:1000
 #, php-format
 msgid "Redirecting to %s"
 msgstr "Redirecting to %s"
@@ -353,129 +362,145 @@ msgstr "Impossible to read %s."
 msgid "Connection to the database has been lost"
 msgstr "Connection to the database has been lost"
 
-#: shared/sql.php:1086
+#: shared/sql.php:866
+msgid "A database error has occurred."
+msgstr "A database error has occurred."
+
+#: shared/sql.php:1096
 msgid "The table"
 msgstr "The table"
 
-#: shared/sql.php:1090
+#: shared/sql.php:1100
 msgid "has been created"
 msgstr "has been created"
 
-#: shared/sql.php:1092
+#: shared/sql.php:1102
 msgid "has been updated"
 msgstr "has been updated"
 
-#: shared/sql.php:1105
+#: shared/sql.php:1115
 msgid "and analyzed"
 msgstr "and analyzed"
 
-#: shared/sql.php:1116
+#: shared/sql.php:1126
 msgid "and optimized"
 msgstr "and optimized"
 
-#: shared/sql.php:1129 shared/sql.php:1140
+#: shared/sql.php:1139 shared/sql.php:1150
 #, php-format
 msgid "ERROR for the table %s"
 msgstr "ERROR for the table %s"
 
-#: shared/surfer.php:347
+#: shared/surfer.php:359
 msgid "My profile"
 msgstr "My profile"
 
-#: shared/surfer.php:347
+#: shared/surfer.php:359
 msgid "View all data this site knows about you"
 msgstr "View all data this site knows about you"
 
-#: shared/surfer.php:350
+#: shared/surfer.php:362
 msgid "Review queue"
 msgstr "Review queue"
 
-#: shared/surfer.php:350
+#: shared/surfer.php:362
 msgid "Check requests, publish submitted articles, review old pages"
 msgstr "Check requests, publish submitted articles, review old pages"
 
-#: shared/surfer.php:353
+#: shared/surfer.php:365
 msgid "Control Panel"
 msgstr "Control Panel"
 
-#: shared/surfer.php:353
+#: shared/surfer.php:365
 msgid "System commands, configuration panels, content overview"
 msgstr "System commands, configuration panels, content overview"
 
-#: shared/surfer.php:355
+#: shared/surfer.php:367
 msgid "Logout"
 msgstr "Logout"
 
-#: shared/surfer.php:355
+#: shared/surfer.php:367
 msgid "You will be considered as an anonymous surfer"
 msgstr "You will be considered as an anonymous surfer"
 
-#: shared/surfer.php:372
+#: shared/surfer.php:384
 msgid "User"
 msgstr "User"
 
-#: shared/surfer.php:375
+#: shared/surfer.php:387
 msgid "Password"
 msgstr "Password"
 
-#: shared/surfer.php:379
+#: shared/surfer.php:391
 msgid "Stay connected"
 msgstr "Stay connected"
 
-#: shared/surfer.php:382
+#: shared/surfer.php:394
 msgid "Login"
 msgstr "Login"
 
-#: shared/surfer.php:392
+#: shared/surfer.php:404
 msgid "Register"
 msgstr "Register"
 
-#: shared/surfer.php:392
+#: shared/surfer.php:404
 msgid "Share your profile in this community"
 msgstr "Share your profile in this community"
 
-#: shared/surfer.php:394
+#: shared/surfer.php:406
 msgid "Lost password"
 msgstr "Lost password"
 
-#: shared/surfer.php:394
+#: shared/surfer.php:406
 msgid "Prove who you are"
 msgstr "Prove who you are"
 
-#: shared/surfer.php:660
+#: shared/surfer.php:675
 msgid "You are allowed to post any XHTML."
 msgstr "You are allowed to post any XHTML."
 
-#: shared/surfer.php:662
+#: shared/surfer.php:677
 #, php-format
 msgid "Following XHTML tags are allowed: %s"
 msgstr "Following XHTML tags are allowed: %s"
 
-#: shared/surfer.php:773
+#: shared/surfer.php:839
 msgid "anonymous"
 msgstr "anonymous"
 
-#: shared/surfer.php:796
+#: shared/surfer.php:862
 msgid "My pages"
 msgstr "My pages"
 
-#: shared/surfer.php:800
+#: shared/surfer.php:866
 msgid "All pages"
 msgstr "All pages"
 
-#: shared/surfer.php:877
+#: shared/surfer.php:943
 msgid "Robot stopper"
 msgstr "Robot stopper"
 
-#: shared/xml.php:263
-#, php-format
-msgid "XML error: %s at line %d"
-msgstr "XML error: %s at line %d"
+#: shared/update_steps.php:66
+msgid "Build style sheets"
+msgstr "Build style sheets"
 
-#: shared/xml.php:273
-#, php-format
-msgid "Last stacking element: %s"
-msgstr "Last stacking element: %s"
+#: shared/update_steps.php:70
+msgid "Compress javascript libraries"
+msgstr "Compress javascript libraries"
+
+#: shared/update_steps.php:74
+msgid "Delete staged files"
+msgstr "Delete staged files"
+
+#: shared/update_steps.php:78
+msgid "Switch the server on"
+msgstr "Switch the server on"
+
+#~ msgid "XML error: %s at line %d"
+#~ msgstr "XML error: %s at line %d"
+
+#~ msgid "Last stacking element: %s"
+#~ msgstr "Last stacking element: %s"
 
 #~ msgid "Update image"
 #~ msgstr "Update image"

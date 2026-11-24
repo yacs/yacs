@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 10:01+0100\n"
+"POT-Creation-Date: 2026-11-24 08:15+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,27 +18,24 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: feeds/configure.php:52 feeds/configure.php:150 feeds/configure.php:226
-#: feeds/flash/configure.php:53 feeds/flash/configure.php:158
-#: feeds/flash/configure.php:246
 msgid "Control Panel"
 msgstr ""
 
-#: feeds/configure.php:55 feeds/flash/configure.php:56
+#: feeds/configure.php:55
 #, php-format
 msgid "%s: %s"
 msgstr ""
 
-#: feeds/configure.php:55 feeds/index.php:142 feeds/flash/configure.php:56
+#: feeds/configure.php:55 feeds/index.php:142
 msgid "Configure"
 msgstr ""
 
 #: feeds/configure.php:55 feeds/configure.php:154 feeds/configure.php:225
-#: feeds/index.php:50 feeds/flash/configure.php:166
-#: feeds/flash/configure.php:245
+#: feeds/index.php:50
 msgid "Information channels"
 msgstr ""
 
-#: feeds/configure.php:64 feeds/flash/configure.php:65
+#: feeds/configure.php:64
 msgid "You are not allowed to perform this operation."
 msgstr ""
 
@@ -91,11 +88,11 @@ msgstr ""
 msgid "Outbound"
 msgstr ""
 
-#: feeds/configure.php:146 feeds/flash/configure.php:154
+#: feeds/configure.php:146
 msgid "Submit"
 msgstr ""
 
-#: feeds/configure.php:146 feeds/flash/configure.php:154
+#: feeds/configure.php:146
 msgid "Press [s] to submit data"
 msgstr ""
 
@@ -108,47 +105,47 @@ msgstr ""
 msgid "configuration panel for servers"
 msgstr ""
 
-#: feeds/configure.php:167 feeds/flash/configure.php:179
+#: feeds/configure.php:167
 msgid "Help"
 msgstr ""
 
-#: feeds/configure.php:172 feeds/flash/configure.php:184
+#: feeds/configure.php:172
 msgid "You are not allowed to perform this operation in demonstration mode."
 msgstr ""
 
-#: feeds/configure.php:200 feeds/flash/configure.php:222
+#: feeds/configure.php:200
 #, php-format
 msgid ""
 "ERROR: Impossible to write to the file %s. The configuration has not been "
 "saved."
 msgstr ""
 
-#: feeds/configure.php:203 feeds/flash/configure.php:225
+#: feeds/configure.php:203
 #, php-format
 msgid ""
 "To actually change the configuration, please copy and paste following lines "
 "by yourself in file %s."
 msgstr ""
 
-#: feeds/configure.php:208 feeds/flash/configure.php:230
+#: feeds/configure.php:208
 #, php-format
 msgid "The following configuration has been saved into the file %s."
 msgstr ""
 
-#: feeds/configure.php:214 feeds/flash/configure.php:233
+#: feeds/configure.php:214
 #, php-format
 msgid "%s has been updated"
 msgstr ""
 
-#: feeds/configure.php:220 feeds/flash/configure.php:239
+#: feeds/configure.php:220
 msgid "Configuration parameters"
 msgstr ""
 
-#: feeds/configure.php:223 feeds/flash/configure.php:242
+#: feeds/configure.php:223
 msgid "Where do you want to go now?"
 msgstr ""
 
-#: feeds/configure.php:227 feeds/flash/configure.php:247
+#: feeds/configure.php:227
 msgid "Configure again"
 msgstr ""
 
@@ -332,80 +329,6 @@ msgstr ""
 msgid "Aggregate this site"
 msgstr ""
 
-#: feeds/rss.php:113
+#: feeds/rss.php:106
 msgid "Latest Articles"
-msgstr ""
-
-#: feeds/flash/configure.php:56
-msgid "Flash"
-msgstr ""
-
-#: feeds/flash/configure.php:77
-msgid "Font Red"
-msgstr ""
-
-#: feeds/flash/configure.php:79 feeds/flash/configure.php:85
-#: feeds/flash/configure.php:91 feeds/flash/configure.php:97
-#: feeds/flash/configure.php:103 feeds/flash/configure.php:109
-msgid "An integer value, in decimal or hexadecimal, eg, 0x11"
-msgstr ""
-
-#: feeds/flash/configure.php:83
-msgid "Font Green"
-msgstr ""
-
-#: feeds/flash/configure.php:89
-msgid "Font Blue"
-msgstr ""
-
-#: feeds/flash/configure.php:95
-msgid "Background Red"
-msgstr ""
-
-#: feeds/flash/configure.php:101
-msgid "Background Green"
-msgstr ""
-
-#: feeds/flash/configure.php:107
-msgid "Background Blue"
-msgstr ""
-
-#: feeds/flash/configure.php:115
-msgid "Font file"
-msgstr ""
-
-#: feeds/flash/configure.php:117
-msgid "Ensure the file already exists and is a valid font description"
-msgstr ""
-
-#: feeds/flash/configure.php:123
-msgid "Font height"
-msgstr ""
-
-#: feeds/flash/configure.php:125
-msgid "Compare to the internal vertical scale below"
-msgstr ""
-
-#: feeds/flash/configure.php:131
-msgid "Object width"
-msgstr ""
-
-#: feeds/flash/configure.php:133
-msgid "Internal horizontal scale"
-msgstr ""
-
-#: feeds/flash/configure.php:139
-msgid "Object height"
-msgstr ""
-
-#: feeds/flash/configure.php:141
-msgid "Internal vertical scale"
-msgstr ""
-
-#: feeds/flash/configure.php:162 feeds/flash/configure.php:244
-msgid "Front page"
-msgstr ""
-
-#: feeds/flash/configure.php:178
-msgid "Do not set any background color to achieve a transparent object."
 msgstr ""
